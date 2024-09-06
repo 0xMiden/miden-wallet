@@ -1,0 +1,31 @@
+import React from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react';
+
+import { AddTokensScreen } from 'screens/send-tokens/AddTokens';
+
+// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
+const meta: Meta<typeof AddTokensScreen> = {
+  title: 'Screens/Send Tokens/Add Tokens',
+  component: AddTokensScreen,
+  parameters: {
+    layout: 'fullscreen',
+    controls: { exclude: ['className', 'name'] }
+  },
+  tags: ['autodocs'],
+  // More on argTypes: https://storybook.js.org/docs/api/argtypes
+  argTypes: {},
+  decorators: Story => (
+    <div className="w-[37.5rem] h-[40rem] flex mx-auto border rounded-md overflow-hidden my-8">
+      <Story />
+    </div>
+  )
+};
+
+export default meta;
+type Story = StoryObj<typeof AddTokensScreen>;
+
+// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
+export const Example: Story = {
+  args: {}
+};

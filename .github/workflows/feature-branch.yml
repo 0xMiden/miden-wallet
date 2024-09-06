@@ -1,0 +1,21 @@
+name: Build Feature & Dev Branches
+
+on:
+  push:
+    branches:
+      - 'lw-**'
+      - 'feat/**'
+      - 'dev'
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+    with:
+      environment: DEV
+    secrets: inherit
+  cd:
+    needs: [ ci ]
+    uses: ./.github/workflows/cd.yml
+    with:
+      environment: DEV
+    secrets: inherit

@@ -1,0 +1,45 @@
+import React, { FC, HTMLAttributes } from 'react';
+
+import randomColor from 'randomcolor';
+
+type ColorIdenticonProps = HTMLAttributes<HTMLDivElement> & {
+  publicKey: string;
+  size?: number;
+};
+
+const ColorIdenticon: FC<ColorIdenticonProps> = ({
+  publicKey,
+  size = 100,
+  className = 'm-auto',
+  style = {},
+  ...rest
+}) => {
+  const color = randomColor({ seed: publicKey });
+
+  return (
+    <div
+      className={className}
+      style={{
+        width: size,
+        height: size
+      }}
+    >
+      <svg width={size} height={size} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M13.0909 30.5455V17.4545V0H0V17.4545V30.5455V34.9091V48H13.0909H30.5455V34.9091H13.0909V30.5455Z"
+          fill={color}
+        />
+        <path
+          d="M43.6369 0H34.9096H17.4551V13.0909H34.9096V17.4545V21.8182V34.9091V43.6364V48H48.0005V43.6364V34.9091V21.8182V17.4545V0H43.6369Z"
+          fill={color}
+        />
+        <path
+          d="M24.0005 30.546C27.6155 30.546 30.546 27.6155 30.546 24.0005C30.546 20.3856 27.6155 17.4551 24.0005 17.4551C20.3856 17.4551 17.4551 20.3856 17.4551 24.0005C17.4551 27.6155 20.3856 30.546 24.0005 30.546Z"
+          fill={color}
+        />
+      </svg>
+    </div>
+  );
+};
+
+export default ColorIdenticon;

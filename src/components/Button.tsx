@@ -1,0 +1,115 @@
+import React from 'react';
+
+import classNames from 'clsx';
+
+import { IconName } from 'app/icons/v2';
+import { IconOrComponent } from 'utils/icon-or-component';
+
+import { Loader } from './Loader';
+
+export enum ButtonVariant {
+  Primary = 'primary',
+  Secondary = 'secondary',
+  Ghost = 'ghost',
+  Danger = 'danger'
+}
+
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: ButtonVariant;
+  title?: string;
+  iconLeft?: React.ReactNode | IconName;
+  iconRight?: React.ReactNode | IconName;
+  isLoading?: boolean;
+}
+
+const propsPerButtonVariant = {
+  [ButtonVariant.Primary]: {
+    color: 'text-white',
+    backgroundColor: 'bg-primary-500 focus:bg-primary-500',
+    hoverBackgroundColor: 'hover:bg-primary-600',
+    disabledBackgroundColor: 'bg-grey-300',
+    iconColor: 'white'
+  },
+  [ButtonVariant.Secondary]: {
+    color: 'text-black',
+    backgroundColor: 'bg-grey-50',
+    hoverBackgroundColor: 'hover:bg-grey-100',
+    disabledBackgroundColor: 'bg-grey-300',
+    iconColor: 'black'
+  },
+  [ButtonVariant.Ghost]: {
+    color: 'text-black',
+    backgroundColor: 'bg-transparent',
+    hoverBackgroundColor: 'hover:bg-grey-50',
+    disabledBackgroundColor: 'bg-grey-300',
+    iconColor: 'black'
+  },
+  [ButtonVariant.Danger]: {
+    color: 'text-white',
+    backgroundColor: 'bg-red-500',
+    hoverBackgroundColor: 'hover:bg-red-600',
+    disabledBackgroundColor: 'bg-grey-300',
+    iconColor: 'white'
+  }
+};
+
+export const Button: React.FC<ButtonProps> = ({
+  variant = ButtonVariant.Primary,
+  title = 'Button Title',
+  iconRight,
+  iconLeft,
+  disabled,
+  className,
+  isLoading,
+  children,
+  ...props
+}) => {
+  const color = propsPerButtonVariant[variant].color;
+  let backgroundColor = propsPerButtonVariant[variant].backgroundColor;
+  let hoverBackgroundColor = propsPerButtonVariant[variant].hoverBackgroundColor;
+  const iconColor = propsPerButtonVariant[variant].iconColor;
+
+  if (disabled) {
+    backgroundColor = propsPerButtonVariant[variant].disabledBackgroundColor;
+    hoverBackgroundColor = '';
+  }
+
+  const renderContent = () => {
+    if (children) {
+      return children;
+    }
+
+    return (
+      <>
+        {iconLeft && <span className="w-6">{<IconOrComponent icon={iconLeft} color={iconColor} />}</span>}
+        {isLoading ? <Loader color={iconColor} /> : <span className={`${color} font-medium text-base`}>{title}</span>}
+        {iconRight && <span className="w-6">{<IconOrComponent icon={iconRight} color={iconColor} />}</span>}
+      </>
+    );
+  };
+
+  const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.blur();
+    props.onClick?.(e);
+  };
+
+  return (
+    <button
+      className={classNames(
+        backgroundColor,
+        hoverBackgroundColor,
+        isLoading ? 'pointer-events-none' : '',
+        'flex justify-center items-center gap-x-2',
+        'py-3 px-4 rounded-md',
+        'transition duration-300 ease-in-out',
+        className
+      )}
+      disabled={disabled}
+      type="button"
+      {...props}
+      onClick={onClick}
+    >
+      {renderContent()}
+    </button>
+  );
+};

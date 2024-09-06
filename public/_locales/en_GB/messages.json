@@ -1,0 +1,3651 @@
+{
+  "appName": {
+    "message": "Aleo - Aleo Wallet"
+  },
+  "showIncomingTransactions": {
+    "message": "Show Incoming Transactions"
+  },
+  "appDesc": {
+    "message": "🔐💰 Privacy-preserving cryptocurrency wallet for Aleo blockchain using Zero Knowledge Proofs"
+  },
+  "createAccount": {
+    "message": "Create or Restore account"
+  },
+  "importAccount": {
+    "message": "Import account"
+  },
+  "faucetFileTitle": {
+    "message": "Faucet File"
+  },
+  "faucetFile": {
+    "message": "Faucet file"
+  },
+  "settings": {
+    "message": "Settings"
+  },
+  "openNewTab": {
+    "message": "Open new tab"
+  },
+  "maximiseView": {
+    "message": "Maximise view"
+  },
+  "selectFileOfFormat": {
+    "message": "Select $format$ file",
+    "placeholders": {
+      "format": {
+        "content": "$1"
+      }
+    }
+  },
+  "authorizedDApps": {
+    "message": "Authorized DApps",
+    "description": "DApps = Decentralized Applications"
+  },
+  "clickIconToResetPermissions": {
+    "message": "Click on the X icon to reset permissions."
+  },
+  "versionLabel": {
+    "message": "version: $version$",
+    "placeholders": {
+      "version": {
+        "content": "$1"
+      }
+    }
+  },
+  "madeWithLove": {
+    "message": "Made with $loveIcon$ by $companyName$",
+    "placeholders": {
+      "loveIcon": {
+        "content": "$1"
+      },
+      "companyName": {
+        "content": "$2"
+      }
+    }
+  },
+  "feeInputDescription": {
+    "message": "Base Fee for this operation is: $fee$\nAdditional - speeds up its confirmation",
+    "placeholders": {
+      "fee": {
+        "content": "$1"
+      }
+    }
+  },
+  "resetPermissionsConfirmation": {
+    "message": "Are you sure you want to reset permissions for\n$origin$?",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "protectedFormField": {
+    "message": "HIDDEN"
+  },
+  "clickToRevealOrEditField": {
+    "message": "Click to reveal or edit this field"
+  },
+  "copiedHash": {
+    "message": "Copied."
+  },
+  "copyHashToClipboard": {
+    "message": "Copy to clipboard"
+  },
+  "accounts": {
+    "message": "Accounts"
+  },
+  "logOut": {
+    "message": "Lock"
+  },
+  "importedAccount": {
+    "message": "Imported"
+  },
+  "networks": {
+    "message": "Networks"
+  },
+  "back": {
+    "message": "Back"
+  },
+  "addNewToken": {
+    "message": "Add new Token"
+  },
+  "hideSomeToken": {
+    "message": "Hide \"$tokenName$\" token",
+    "placeholders": {
+      "tokenName": {
+        "content": "$1"
+      }
+    }
+  },
+  "copySomeTokenAddress": {
+    "message": "Copy \"$tokenSymbol$\" address",
+    "placeholders": {
+      "tokenSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "copySomeTokenId": {
+    "message": "Copy \"$tokenSymbol$\" ID",
+    "placeholders": {
+      "tokenSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "originLabel": {
+    "message": "Origin: $origin$",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "networkLabel": {
+    "message": "Network: $network$",
+    "placeholders": {
+      "network": {
+        "content": "$1"
+      }
+    }
+  },
+  "pkhLabel": {
+    "message": "Account: $pkh$",
+    "placeholders": {
+      "pkh": {
+        "content": "$1"
+      }
+    }
+  },
+  "minDelegationAmountDescription": {
+    "message": "Your current balance is less than a minimal delegation amount of this baker. That means while the balance is less than $minAmount$ - there will be no payouts.",
+    "placeholders": {
+      "minAmount": {
+        "content": "$1"
+      }
+    }
+  },
+  "clickOnBakerPrompt": {
+    "message": "Click on the Baker you want to delegate funds to. This list is powered by $link$.",
+    "placeholders": {
+      "link": {
+        "content": "$1"
+      }
+    }
+  },
+  "highestIsBetter": {
+    "message": "the higher the better"
+  },
+  "unlockWalletPrompt": {
+    "message": "If you want to save something from already existing wallet - $link$ and unlock it.",
+    "placeholders": {
+      "link": {
+        "content": "$1"
+      }
+    }
+  },
+  "acceptTermsInputDescription": {
+    "message": "I have read and agree to the $termsOfUsageLink$ and $privacyPolicyLink$",
+    "placeholders": {
+      "termsOfUsageLink": {
+        "content": "$1"
+      },
+      "privacyPolicyLink": {
+        "content": "$2"
+      }
+    }
+  },
+  "copiedTokenAddress": {
+    "message": "Copied."
+  },
+  "copiedTokenId": {
+    "message": "Copied."
+  },
+  "delegatedTo": {
+    "message": "Delegated to:"
+  },
+  "delegatingMotivation": {
+    "message": "Delegating your funds to bakers is a great way of earning interest on your balance"
+  },
+  "reDelegate": {
+    "message": "Re-delegate"
+  },
+  "delegateNow": {
+    "message": "Delegate now"
+  },
+  "cancel": {
+    "message": "Cancel"
+  },
+  "save": {
+    "message": "Save"
+  },
+  "edit": {
+    "message": "Edit"
+  },
+  "useCoinSwitch": {
+    "message": "Use CoinSwitch",
+    "description": "CoinSwitch = https://coinswitch.co/"
+  },
+  "aleoFaucet": {
+    "message": "Aleo Faucet"
+  },
+  "aleoFaucetAlpha": {
+    "message": "Aleo Faucet (Alpha)"
+  },
+  "depositToWallet": {
+    "message": "Deposit to your wallet"
+  },
+  "depositToWalletDescription": {
+    "message": "Click on deposit method to get money on your wallet. Use faucet to get free coins!"
+  },
+  "addToken": {
+    "message": "Add Asset"
+  },
+  "contractNotAvailable": {
+    "message": "The contract at this address is not available. Does it exist on this network?"
+  },
+  "noTransferMethod": {
+    "message": "No transfer method"
+  },
+  "tokenDoesNotMatchStandard": {
+    "message": "Provided asset contract doesn't match $standard$ standard",
+    "placeholders": {
+      "standard": {
+        "content": "$1"
+      }
+    }
+  },
+  "error": {
+    "message": "Error"
+  },
+  "tokenType": {
+    "message": "Token type"
+  },
+  "tokenId": {
+    "message": "Token ID"
+  },
+  "tokenIdInputDescription": {
+    "message": "A non-negative integer number that identifies the asset inside FA2 contract"
+  },
+  "comingSoonComment": {
+    "message": "(coming soon)"
+  },
+  "soon": {
+    "message": "soon"
+  },
+  "required": {
+    "message": "Required"
+  },
+  "address": {
+    "message": "Address"
+  },
+  "addressOfDeployedTokenContract": {
+    "message": "Address of a deployed asset contract."
+  },
+  "tokenContractPlaceholder": {
+    "message": "e.g. KT1v9CmPy..."
+  },
+  "tokenSymbolPatternDescription": {
+    "message": "Only a-z, A-Z, 0-9 chars allowed, 2-5 length"
+  },
+  "symbol": {
+    "message": "Symbol"
+  },
+  "tokenSymbolInputDescription": {
+    "message": "Asset symbol, like 'USD' for United States Dollar."
+  },
+  "tokenSymbolInputPlaceholder": {
+    "message": "e.g. WEW, BOW, LAL etc."
+  },
+  "tokenNamePatternDescription": {
+    "message": "No special characters, 3-50 length"
+  },
+  "name": {
+    "message": "Name"
+  },
+  "tokenNameInputDescription": {
+    "message": "Asset name, like 'Bitcoin' for BTC asset."
+  },
+  "tokenNameInputPlaceholder": {
+    "message": "e.g. MySuperToken"
+  },
+  "nonNegativeIntMessage": {
+    "message": "Integer, 0 or greater"
+  },
+  "decimals": {
+    "message": "Decimals"
+  },
+  "decimalsInputDescription": {
+    "message": "A number of decimal places after point. For example: 8 for BTC, 2 for USD."
+  },
+  "orIPFSImageURL": {
+    "message": "Or IPFS image URL"
+  },
+  "validImageURL": {
+    "message": "Valid image URL"
+  },
+  "onlyHTTPS": {
+    "message": "Only HTTPS"
+  },
+  "formatsAllowed": {
+    "message": "Only .png, .jpg, .jpeg, .gif, .webp images allowed"
+  },
+  "iconURL": {
+    "message": "Icon URL"
+  },
+  "optionalComment": {
+    "message": "(optional)"
+  },
+  "iconURLInputDescription": {
+    "message": "Image URL for asset logo."
+  },
+  "invalidAddress": {
+    "message": "Invalid address"
+  },
+  "contractNotExistOnNetwork": {
+    "message": "This smart contract doesn't exist on current network"
+  },
+  "onlyKTContractAddressAllowed": {
+    "message": "Only KT... contract address allowed",
+    "description": "KT not translated"
+  },
+  "operationHash": {
+    "message": "Operation Hash"
+  },
+  "alert": {
+    "message": "Alert"
+  },
+  "accountNameInputTitle": {
+    "message": "1-16 characters, no special"
+  },
+  "defaultAccountName": {
+    "message": "Account $accountNumber$",
+    "placeholders": {
+      "accountNumber": {
+        "content": "$1"
+      }
+    }
+  },
+  "defaultManagedKTAccountName": {
+    "message": "Managed KT $accountNumber$",
+    "description": "KT not translated",
+    "placeholders": {
+      "accountNumber": {
+        "content": "$1"
+      }
+    }
+  },
+  "defaultWatchOnlyAccountName": {
+    "message": "Watch $accountNumber$",
+    "placeholders": {
+      "accountNumber": {
+        "content": "$1"
+      }
+    }
+  },
+  "accountsToRemoveConstraint": {
+    "message": "Your seed phrase will always be able to regenerate this wallet. It is impossible to delete it."
+  },
+  "doNotSharePrivateKey": {
+    "message": "<b>DO NOT share</b> this set of chars with anyone! It can be used to steal your current account."
+  },
+  "appWouldLikeToConnectToYourWallet": {
+    "message": "$origin$ would like to connect to your wallet",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "appRequestOperationToYou": {
+    "message": "$origin$ requests operations to you",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "reject": {
+    "message": "Reject"
+  },
+  "signAction": {
+    "message": "Sign"
+  },
+  "decryptAction": {
+    "message": "Decrypt"
+  },
+  "appRequestsToSign": {
+    "message": "$origin$ requests you to sign",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "appRequestsToDecrypt": {
+    "message": "$origin$ requests you to decrypt",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "alpha": {
+    "message": "Alpha"
+  },
+  "viewAccountAddressWarning": {
+    "message": "This site is requesting access to view your account address. Always make sure you trust the sites you interact with."
+  },
+  "account": {
+    "message": "Account"
+  },
+  "toBeConnectedWithDApp": {
+    "message": "to be connected with dApp."
+  },
+  "signPayload": {
+    "message": "Message to Sign"
+  },
+  "decryptPayload": {
+    "message": "Message to Decrypt"
+  },
+  "noPreview": {
+    "message": "No preview is available"
+  },
+  "requirements": {
+    "message": "<b>Requirements:</b>"
+  },
+  "atLeast8Characters": {
+    "message": "At least 8 characters"
+  },
+  "atLeast1Number": {
+    "message": "At least 1 number"
+  },
+  "atLeast1LowercaseLetter": {
+    "message": "At least 1 lowercase letter"
+  },
+  "atLeast1UppercaseLetter": {
+    "message": "At least 1 uppercase letter"
+  },
+  "mnemonicWordsAmountConstraint": {
+    "message": "12, 15, 18, 21 or 24 words in English"
+  },
+  "mnemonicSpacingConstraint": {
+    "message": "Each word separated with a single space"
+  },
+  "justValidPreGeneratedMnemonic": {
+    "message": "Just valid pre-generated mnemonic"
+  },
+  "oops": {
+    "message": "Oops!"
+  },
+  "smthWentWrongWhile": {
+    "message": "Something went wrong while $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "mayHappenBecauseYouAreOffline": {
+    "message": "This may happen because you are currently offline"
+  },
+  "tryAgain": {
+    "message": "Try again"
+  },
+  "testnetbeta": {
+    "message": "Aleo Testnet Beta",
+    "description": "Testnet Beta"
+  },
+  "leoWalletOptions": {
+    "message": "Aleo Wallet | Options"
+  },
+  "resetExtension": {
+    "message": "Reset Extension"
+  },
+  "resetExtensionConfirmation": {
+    "message": "Are you sure you want to reset the Aleo Wallet?\nAs a result, all your data will be deleted."
+  },
+  "failedToResetExtension": {
+    "message": "Failed to reset extension: $errorMessage$",
+    "placeholders": {
+      "errorMessage": {
+        "content": "$1"
+      }
+    }
+  },
+  "ledger": {
+    "message": "Ledger",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "retry": {
+    "message": "Retry"
+  },
+  "privateKeyCannotBeRevealed": {
+    "message": "Private key cannot be revealed"
+  },
+  "youCannotGetPrivateKeyFromThisAccountType": {
+    "message": "You cannot get private key from $accountType$ accounts.",
+    "placeholders": {
+      "accountType": {
+        "content": "$1"
+      }
+    }
+  },
+  "maximalAmount": {
+    "message": "Maximal: $amount$",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "amountMustBePositive": {
+    "message": "Must be positive"
+  },
+  "accountName": {
+    "message": "Account name"
+  },
+  "accountNameInputDescription": {
+    "message": "What will be the name of the new account?"
+  },
+  "createNewWallet": {
+    "message": "Create a new Wallet"
+  },
+  "createNewWalletDescription": {
+    "message": "New to Aleo Wallet? Let's set it up! This will create a new wallet and seed phrase"
+  },
+  "delegate": {
+    "message": "Delegate"
+  },
+  "explore": {
+    "message": "Explore"
+  },
+  "assetsWhileMessage": {
+    "message": "fetching assets data"
+  },
+  "receive": {
+    "message": "Receive"
+  },
+  "send": {
+    "message": "Send"
+  },
+  "baking": {
+    "message": "Baking"
+  },
+  "operations": {
+    "message": "Operations"
+  },
+  "delegationInfoWhileMessage": {
+    "message": "fetching or processing your delegation info"
+  },
+  "operationHistoryWhileMessage": {
+    "message": "fetching or processing operation history"
+  },
+  "privateKey": {
+    "message": "Private Key"
+  },
+  "mnemonic": {
+    "message": "Mnemonic"
+  },
+  "fundraiser": {
+    "message": "Fundraiser"
+  },
+  "privateKeyInputDescription": {
+    "message": "The Secret key of the Account you want to import."
+  },
+  "privateKeyInputPlaceholder": {
+    "message": "e.g. APrivateKey1zkp..."
+  },
+  "password": {
+    "message": "Password"
+  },
+  "isPrivateKeyEncrypted": {
+    "message": "Is your private key in encrypted format?"
+  },
+  "customDerivationPath": {
+    "message": "Custom derivation path"
+  },
+  "mnemonicInputLabel": {
+    "message": "Seed phrase"
+  },
+  "mnemonicInputDescription": {
+    "message": "Mnemonic. Your secret 12 - 24 words phrase."
+  },
+  "mnemonicInputPlaceholder": {
+    "message": "e.g. venue sock milk update..."
+  },
+  "passwordInputDescription": {
+    "message": "Used for additional mnemonic derivation. That is NOT a wallet password."
+  },
+  "derivation": {
+    "message": "Derivation"
+  },
+  "addDerivationPathPrompt": {
+    "message": "By default derivation isn't used. Click on 'Custom derivation path' to add it."
+  },
+  "derivationPathMustStartWithM": {
+    "message": "Must start with 'm'"
+  },
+  "derivationSeparatorMustBeSlash": {
+    "message": "Separator must be '/'"
+  },
+  "invalidPath": {
+    "message": "Invalid path"
+  },
+  "email": {
+    "message": "Email"
+  },
+  "unexpectedOrInvalidFile": {
+    "message": "Unexpected or invalid file"
+  },
+  "requestSent": {
+    "message": "$type$ request sent! Confirming...",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "success": {
+    "message": "Success"
+  },
+  "smthWentWrong": {
+    "message": "Something went wrong"
+  },
+  "faucetFileInputPrompt": {
+    "message": "Drag & drop a file or select it manually by clicking on the area below. You can download it from $link$.",
+    "placeholders": {
+      "link": {
+        "content": "$1"
+      }
+    }
+  },
+  "processing": {
+    "message": "Processing..."
+  },
+  "accountAddressLabel": {
+    "message": "Your current account address. Share it to receive funds."
+  },
+  "copiedAddress": {
+    "message": "Copied."
+  },
+  "copyAddressToClipboard": {
+    "message": "Copy Aleo Address"
+  },
+  "qrCode": {
+    "message": "QRCode"
+  },
+  "revealPrivateKey": {
+    "message": "Reveal Private Key"
+  },
+  "revealPrivateKeyDescription": {
+    "message": "Also known as \"Export Account\", reveals private key for your selected account."
+  },
+  "revealSeedPhrase": {
+    "message": "Reveal Seed Phrase"
+  },
+  "revealSeedPhraseDescription": {
+    "message": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices."
+  },
+  "dApps": {
+    "message": "DApps",
+    "description": "DApps = Decentralized Applications"
+  },
+  "dAppsDescription": {
+    "message": "In this section you can enable ability to interact with decentralized applications that support Aleo Wallet."
+  },
+  "networksDescription": {
+    "message": "In this section you can add or delete custom Aleo networks.",
+    "description": "Aleo = blockchain name (https://aleo.com/)"
+  },
+  "activateAccount": {
+    "message": "Activate Account"
+  },
+  "activateAccountDescription": {
+    "message": "It may be necessary for ICO/Fundraiser or testnet faucet accounts."
+  },
+  "removeAccount": {
+    "message": "Remove Account"
+  },
+  "removeAccountDescription": {
+    "message": "Use this section to remove your selected account. Only imported accounts can be removed."
+  },
+  "about": {
+    "message": "About"
+  },
+  "aboutDescription": {
+    "message": "Use this section to view meta info about Aleo Wallet."
+  },
+  "unlockWallet": {
+    "message": "Unlock the Wallet"
+  },
+  "toContinue": {
+    "message": "to continue"
+  },
+  "unlockPasswordInputDescription": {
+    "message": "A password is used to protect the wallet."
+  },
+  "unlockPasswordErrorDelay": {
+    "message": "You have entered the wrong password three times. Your wallet is being blocked for"
+  },
+  "unlock": {
+    "message": "Unlock"
+  },
+  "importNewAccountTitle": {
+    "message": "Restore Account? Want to sign in another?"
+  },
+  "importWalletUsingSeedPhrase": {
+    "message": "Import Wallet using Seed Phrase"
+  },
+  "connectLedger": {
+    "message": "Connect Ledger",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "importExistingWallet": {
+    "message": "Import existing Wallet"
+  },
+  "importExistingWalletDescription": {
+    "message": "Already have a wallet? Import it using your seed phrase or encrypted keystore file"
+  },
+  "links": {
+    "message": "Links"
+  },
+  "website": {
+    "message": "Website"
+  },
+  "repo": {
+    "message": "Repository"
+  },
+  "privacyPolicy": {
+    "message": "Privacy Policy"
+  },
+  "termsOfUse": {
+    "message": "Terms of Use"
+  },
+  "contact": {
+    "message": "Contact"
+  },
+  "accountAlreadyActivated": {
+    "message": "Your Account already activated."
+  },
+  "accountActivated": {
+    "message": "Your account successfully activated!"
+  },
+  "failureSecretMayBeInvalid": {
+    "message": "Failed. This may happen because provided Secret is invalid"
+  },
+  "accountToBeActivated": {
+    "message": "Account to be activated."
+  },
+  "ifYouWantToActivateAnotherAccount": {
+    "message": "If you want to activate another account - please, select it in the top-right dropdown."
+  },
+  "activateAccountSecret": {
+    "message": "Secret"
+  },
+  "activateAccountSecretDescription": {
+    "message": "'secret' field from Fundraiser Account or Faucet"
+  },
+  "activateAccountSecretPlaceholder": {
+    "message": "e.g. n4hs7sd3..."
+  },
+  "activate": {
+    "message": "Activate"
+  },
+  "minimalFeeDescription": {
+    "message": "Minimal"
+  },
+  "fastFeeDescription": {
+    "message": "Fast"
+  },
+  "rocketFeeDescription": {
+    "message": "Rocket"
+  },
+  "customFeeDescription": {
+    "message": "Custom"
+  },
+  "additionalFee": {
+    "message": "Additional Fee"
+  },
+  "asset": {
+    "message": "Asset"
+  },
+  "selectAnotherAssetPrompt": {
+    "message": "Click on area to select another asset or token."
+  },
+  "disable": {
+    "message": "disable"
+  },
+  "enable": {
+    "message": "enable"
+  },
+  "dAppsCheckmarkPrompt": {
+    "message": "Click on the checkmark to $action$ DApps interaction feature",
+    "description": "DApps = Decentralized Applications",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "dAppsInteraction": {
+    "message": "DApps interaction",
+    "description": "DApps = Decentralized Applications"
+  },
+  "enabled": {
+    "message": "Enabled"
+  },
+  "disabled": {
+    "message": "Disabled"
+  },
+  "enablePopup": {
+    "message": "Enable popup"
+  },
+  "popupEnabled": {
+    "message": "Enabled"
+  },
+  "popupDisabled": {
+    "message": "Disabled"
+  },
+  "delete": {
+    "message": "Delete"
+  },
+  "rank": {
+    "message": "Rank"
+  },
+  "fee": {
+    "message": "Fee"
+  },
+  "space": {
+    "message": "Space"
+  },
+  "delegation": {
+    "message": "Delegation"
+  },
+  "baker": {
+    "message": "Baker"
+  },
+  "bakerInputDescription": {
+    "message": "Address of a registered baker."
+  },
+  "bakerInputPlaceholder": {
+    "message": "e.g. aleo13u9kfm2..."
+  },
+  "minDelegationAmountTitle": {
+    "message": "Minimal delegation amount"
+  },
+  "unknownBakerTitle": {
+    "message": "Unknown baker"
+  },
+  "unknownBakerDescription": {
+    "message": "Provided address is not known to us as a baker! Only delegate funds to it at your own risk."
+  },
+  "delegateToRecommendedBakers": {
+    "message": "Delegate to Recommended Bakers"
+  },
+  "sortBy": {
+    "message": "Sort by"
+  },
+  "cycles_one": {
+    "message": "$amount$ cycle",
+    "description": "For plural forms",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "cycles_other": {
+    "message": "$amount$ cycles",
+    "description": "For plural forms",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "notEnoughFunds": {
+    "message": "Not enough funds"
+  },
+  "notEnoughCurrencyFunds": {
+    "message": "Not enough $currency$ funds",
+    "placeholders": {
+      "currency": {
+        "content": "$1"
+      }
+    }
+  },
+  "notAllowed": {
+    "message": "Not allowed"
+  },
+  "failed": {
+    "message": "Failed"
+  },
+  "yourBalanceIsZero": {
+    "message": "Your Balance is zero."
+  },
+  "minimalFeeGreaterThanBalance": {
+    "message": "Minimal fee for this transaction is greater than your balance."
+  },
+  "alreadyDelegatedFundsToBaker": {
+    "message": "Already delegated funds to this baker. Re-delegation is not possible."
+  },
+  "bakerNotRegistered": {
+    "message": "Specified baker is not registered."
+  },
+  "unableToPerformActionToBaker": {
+    "message": "Unable to $action$ to the provided Baker.",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "estimateDelegation": {
+    "message": "Estimate delegation"
+  },
+  "thisMayHappenBecause": {
+    "message": "This may happen because:"
+  },
+  "minimalFeeGreaterThanBalanceVerbose": {
+    "message": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 $gasTokenSymbol$ burn fee;",
+    "placeholders": {
+      "gasTokenSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "networkOrOtherIssue": {
+    "message": "Network or other technical issue."
+  },
+  "unableToDelegateToKTAddress": {
+    "message": "Unable to delegate to KT... contract address"
+  },
+  "confirmAction": {
+    "message": "Confirm $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "payloadToSign": {
+    "message": "Payload to sign"
+  },
+  "decline": {
+    "message": "Decline"
+  },
+  "confirm": {
+    "message": "Confirm"
+  },
+  "confirmDecryptionPermission": {
+    "message": "Confirm Decryption Permission"
+  },
+  "confirmDecryptionPermissionDescription": {
+    "message": "This will give permanent access to your history and cannot be revoked."
+  },
+  "confirmRisk": {
+    "message": "I understand the risk and wish to proceed."
+  },
+  "decryptPermission": {
+    "message": "Decryption Permission"
+  },
+  "NO_DECRYPT": {
+    "message": "This app cannot decrypt any record using any of your view keys."
+  },
+  "DECRYPT_UPON_REQUEST": {
+    "message": "This app can only decrypt records with your explicit approval. You will be prompted for any decryption request."
+  },
+  "AUTO_DECRYPT": {
+    "message": "This app can automatically decrypt any record it needs to without explicit permission only while your wallet is connected. It cannot see your ViewKey."
+  },
+  "network": {
+    "message": "Network"
+  },
+  "unknownNetwork": {
+    "message": "Unknown:"
+  },
+  "backupNewSeedPhrase": {
+    "message": "New Seed Phrase"
+  },
+  "attentionExclamation": {
+    "message": "Attention!"
+  },
+  "lockedWalletAlreadyExists": {
+    "message": "Locked wallet <b>already exists</b>.\nImporting a new one will <b>destroy the existing</b>."
+  },
+  "backToUnlockPage": {
+    "message": "go back to Unlock page"
+  },
+  "mustBeEqualToPasswordAbove": {
+    "message": "Must be equal to password"
+  },
+  "repeatPassword": {
+    "message": "Repeat Password"
+  },
+  "repeatPasswordInputDescription": {
+    "message": "Please enter the password again."
+  },
+  "confirmTermsError": {
+    "message": "Unable to continue without confirming Terms of Usage"
+  },
+  "confirmError": {
+    "message": "Unable to continue without confirming."
+  },
+  "acceptTerms": {
+    "message": "Accept terms"
+  },
+  "termsOfUsage": {
+    "message": "Terms of Usage"
+  },
+  "create": {
+    "message": "Create"
+  },
+  "revealNewSeedPhrase": {
+    "message": "<b>Click on area below</b> to reveal your new Seed Phrase.\nThen, write this phrase on a piece of paper and <b>store in a secure location</b>. Or you can memorize it."
+  },
+  "doNotSharePhrase": {
+    "message": "<b>DO NOT share</b> this phrase with anyone! It can be used to steal all your accounts."
+  },
+  "doSavePhrase": {
+    "message": "<b>Copy</b> this phrase on paper and store it in a secure location."
+  },
+  "youWillNeedThisSeedPhrase": {
+    "message": "If you ever switch between browsers or devices, you will need this seed phrase to access your accounts."
+  },
+  "unableToContinueWithoutConfirming": {
+    "message": "Unable to continue without confirming"
+  },
+  "backupedInputLabel": {
+    "message": "I made Seed Phrase backup"
+  },
+  "backupedInputDescription": {
+    "message": "And accept the risks that if I lose the phrase,\nmy funds may be lost."
+  },
+  "continue": {
+    "message": "Continue"
+  },
+  "noOperationsFound": {
+    "message": "No operations found"
+  },
+  "pending": {
+    "message": "pending..."
+  },
+  "backtracked": {
+    "message": "backtracked"
+  },
+  "operationSuccessfullyProcessed": {
+    "message": "$type$ successfully processed and confirmed!",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "timedOutOperationConfirmation": {
+    "message": "Timed out operation confirmation. You can either wait more time or try again later."
+  },
+  "accountToBeRemoved": {
+    "message": "Account to be removed."
+  },
+  "ifYouWantToRemoveAnotherAccount": {
+    "message": "If you want to remove another account - select it in the top-right dropdown."
+  },
+  "cannotBeRemoved": {
+    "message": "Cannot be removed"
+  },
+  "importedPlural": {
+    "message": "imported"
+  },
+  "enterPasswordToRemoveAccount": {
+    "message": "Enter password to remove the Account."
+  },
+  "remove": {
+    "message": "Remove"
+  },
+  "ifYouWantToRevealPrivateKeyFromOtherAccount": {
+    "message": "If you want to reveal a private key from another account - you should select it in the top-right dropdown."
+  },
+  "privateKeyFieldDescription": {
+    "message": "Current account key. Keep it in secret."
+  },
+  "derivationPath": {
+    "message": "Derivation path"
+  },
+  "seedPhrase": {
+    "message": "Seed Phrase"
+  },
+  "pathForHDAccounts": {
+    "message": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase.",
+    "description": "HD = Hierarchical Deterministic"
+  },
+  "derivationPathExample": {
+    "message": "m/44'/0'/<account_index>'/0'"
+  },
+  "derivationPathExample2": {
+    "message": "e.g. m/44'/1729'/..."
+  },
+  "keepSeedPhraseSecret": {
+    "message": "Keep it in secret."
+  },
+  "revealSecretPasswordInputDescription": {
+    "message": "Enter password to reveal the $secretName$.",
+    "placeholders": {
+      "secretName": {
+        "content": "$1"
+      }
+    }
+  },
+  "reveal": {
+    "message": "Reveal"
+  },
+  "transaction": {
+    "message": "Transaction"
+  },
+  "recipient": {
+    "message": "Recipient"
+  },
+  "tokensRecepientInputDescription": {
+    "message": "Address to send $assetSymbol$ funds to.",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "tokensRecepientInputDescriptionWithDomain": {
+    "message": "Address or Aleo domain to send $assetSymbol$ funds to.",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "addressInputDescription": {
+    "message": "Address of Aleo account or smart contract."
+  },
+  "addressInputDescriptionWithDomain": {
+    "message": "Address or Aleo domain of the account or smart contract."
+  },
+  "recipientInputPlaceholder": {
+    "message": "e.g. aleo13u9kfm2..."
+  },
+  "recipientInputPlaceholderWithDomain": {
+    "message": "e.g. alice.aleo or aleo13u9kfm2...",
+    "description": "alice.aleo = domain like google.com"
+  },
+  "tryingToTransferToYourself": {
+    "message": "You're trying to transfer funds to yourself.\nPlease, ensure that it's exactly what you want."
+  },
+  "amount": {
+    "message": "Amount"
+  },
+  "availableToSend": {
+    "message": "Available to send(max):"
+  },
+  "inAsset": {
+    "message": "in $assetSymbol$",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "amountPlaceholder": {
+    "message": "e.g. 123.45"
+  },
+  "sendToMyAccounts": {
+    "message": "Send to My Accounts"
+  },
+  "clickOnRecipientAccount": {
+    "message": "Click on Account you want to send funds to."
+  },
+  "unableToSendTransactionAction": {
+    "message": "Unable to send transaction to provided Recipient."
+  },
+  "unableToEstimateTransactionAction": {
+    "message": "Unable to estimate transaction to provided Recipient."
+  },
+  "makeSureToBackupSeedPhrase": {
+    "message": "Make sure to back up your seed phrase!"
+  },
+  "exploreMore": {
+    "message": "Explore more..."
+  },
+  "selfComment": {
+    "message": "(self)"
+  },
+  "deleteNetworkConfirm": {
+    "message": "Are you sure you want to delete this network?"
+  },
+  "networkNamePlaceholder": {
+    "message": "My custom network"
+  },
+  "mustBeValidURL": {
+    "message": "Must be a valid URL"
+  },
+  "rpcBaseURL": {
+    "message": "RPC base URL",
+    "description": "RPC = Remote Procedure Call (https://en.wikipedia.org/wiki/Remote_procedure_call)"
+  },
+  "mustBeUnique": {
+    "message": "Must be unique"
+  },
+  "addNetwork": {
+    "message": "Add network"
+  },
+  "currentNetworks": {
+    "message": "Current networks"
+  },
+  "deleteNetworkHint": {
+    "message": "Click on the X icon to delete the network. If you want to edit network, just delete it and add another with new params."
+  },
+  "preview": {
+    "message": "Preview"
+  },
+  "raw": {
+    "message": "Raw"
+  },
+  "fetchingConfirmationDetails": {
+    "message": "fetching confirmation details"
+  },
+  "notIdentified": {
+    "message": "Not identified"
+  },
+  "connection": {
+    "message": "Connection"
+  },
+  "connect": {
+    "message": "Connect"
+  },
+  "confirmActionOnDevice": {
+    "message": "Confirm the action on"
+  },
+  "deviceName": {
+    "message": "$device$ device",
+    "placeholders": {
+      "device": {
+        "content": "$1"
+      }
+    }
+  },
+  "ledgerNano": {
+    "message": "Ledger Nano",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "defaultLedgerName": {
+    "message": "Ledger $number$",
+    "description": "Ledger = https://www.ledger.com/",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "ledgerNameConstraint": {
+    "message": "1-16 characters, no special"
+  },
+  "ledgerNameInputDescription": {
+    "message": "What will be the name of the new Ledger account?",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "defaultDerivationPathLabel": {
+    "message": "By default $path$ derivation is used.",
+    "placeholders": {
+      "path": {
+        "content": "$1"
+      }
+    }
+  },
+  "clickOnCustomDerivationPath": {
+    "message": "Click on 'Custom derivation path' to customize it."
+  },
+  "addLedgerAccount": {
+    "message": "Add Ledger Account",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "firefoxLedgerConnectionError": {
+    "message": "$sorry$ Connection to the $device$ device via $browser$ is temporarily $unavailable$.",
+    "placeholders": {
+      "sorry": {
+        "content": "$1"
+      },
+      "device": {
+        "content": "$2"
+      },
+      "browser": {
+        "content": "$3"
+      },
+      "unavailable": {
+        "content": "$4"
+      }
+    }
+  },
+  "connectionUnavailable": {
+    "message": "Unavailable"
+  },
+  "sorry": {
+    "message": "Sorry!"
+  },
+  "upload": {
+    "message": "Upload"
+  },
+  "languageAndCountry": {
+    "message": "Language"
+  },
+  "generalSettings": {
+    "message": "General"
+  },
+  "generalSettingsDescription": {
+    "message": "Here you can manage languages preferences and display mode."
+  },
+  "swapNoun": {
+    "message": "Swap"
+  },
+  "transfers": {
+    "message": "Transfers"
+  },
+  "someUnknownToken": {
+    "message": "unknown token $token$",
+    "placeholders": {
+      "token": {
+        "content": "$1"
+      }
+    }
+  },
+  "interactionWithSomeEntrypoint": {
+    "message": "Interaction with entrypoint '$entrypoint$' of contract $contractAddress$",
+    "placeholders": {
+      "entrypoint": {
+        "content": "$1"
+      },
+      "contractAddress": {
+        "content": "$2"
+      }
+    }
+  },
+  "transactionOfSomeType": {
+    "message": "Transaction of type '$type$'",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "approveToken": {
+    "message": "Approve Token"
+  },
+  "add": {
+    "message": "Add"
+  },
+  "assets": {
+    "message": "Assets"
+  },
+  "activity": {
+    "message": "Activities"
+  },
+  "activityToolTip": {
+    "message": "Click to see full history"
+  },
+  "waitingOnAleo": {
+    "message": "Aleo currently doesn't support this functionality."
+  },
+  "manage": {
+    "message": "Manage"
+  },
+  "manageTokens": {
+    "message": "Manage Tokens"
+  },
+  "noAssetsFound": {
+    "message": "No assets found"
+  },
+  "ifYouDontSeeYourAsset": {
+    "message": "If you don't see your asset,\ntry to click $toClick$.",
+    "placeholders": {
+      "toClick": {
+        "content": "$1"
+      }
+    }
+  },
+  "addressOfTokenContract": {
+    "message": "Address of a $assetSymbol$ token contract.",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "searchAssets": {
+    "message": "Search assets..."
+  },
+  "deployNew": {
+    "message": "Deploy new"
+  },
+  "managedKTAccount": {
+    "message": "Managed KT"
+  },
+  "watchOnlyAccount": {
+    "message": "View Key"
+  },
+  "disabledForWatchOnlyAccount": {
+    "message": "Disabled for watch-only account"
+  },
+  "activationOperationType": {
+    "message": "Activation"
+  },
+  "youAreNotContractManager": {
+    "message": "You are not a contract manager"
+  },
+  "contract": {
+    "message": "Contract"
+  },
+  "contractAddressInputDescription": {
+    "message": "Address of the contract to connect."
+  },
+  "contractAddressInputPlaceholder": {
+    "message": "e.g. KT1a9w1S7hN5s..."
+  },
+  "addKnownManagedContract": {
+    "message": "Add known Managed contract"
+  },
+  "clickOnContractToImport": {
+    "message": "Click on Contract you want to import."
+  },
+  "notContractAddress": {
+    "message": "Not a contract address"
+  },
+  "contractAlreadyImported": {
+    "message": "This contract has already been imported"
+  },
+  "waitWhileContractBeingDeployed": {
+    "message": "Please don't leave this page or close window while contract is being deployed, it may take a while. The form and this alert will disappear as soon as it is successfully deployed."
+  },
+  "justAMinute": {
+    "message": "Just a minute..."
+  },
+  "referredByTokenContactAddressInvalid": {
+    "message": "Contract address $address$, which is referred by token contract to, is invalid.",
+    "placeholders": {
+      "address": {
+        "content": "$1"
+      }
+    }
+  },
+  "someNetworkIsNotCurrent": {
+    "message": "$network$ network was specified, which is not current network",
+    "placeholders": {
+      "network": {
+        "content": "$1"
+      }
+    }
+  },
+  "someNetworkWithChainIdIsNotCurrent": {
+    "message": "Chain ID $chainId$ was specified, which is not chain ID of current network",
+    "placeholders": {
+      "chainId": {
+        "content": "$1"
+      }
+    }
+  },
+  "popupSettings": {
+    "message": "Popup mode"
+  },
+  "popupSettingsDescription": {
+    "message": "Here you can configure the popup which appears on plugin's icon click in extensions panel."
+  },
+  "managedContract": {
+    "message": "Managed Contract"
+  },
+  "referredByTokenContractNotFound": {
+    "message": "Contract $address$, which is referred by token contract to, was not found.",
+    "placeholders": {
+      "address": {
+        "content": "$1"
+      }
+    }
+  },
+  "tokenContractNotFound": {
+    "message": "The contract was not found."
+  },
+  "failedToParseMetadata": {
+    "message": "Failed to parse metadata"
+  },
+  "unknownParseErrorOccurred": {
+    "message": "An unknown parsing error occurred."
+  },
+  "errorWhileFetchingUrl": {
+    "message": "Error occurred while fetching from $url$",
+    "placeholders": {
+      "url": {
+        "content": "$1"
+      }
+    }
+  },
+  "invalidManagedContract": {
+    "message": "Invalid managed contract"
+  },
+  "someMethodNotDefinedInContract": {
+    "message": "'$name$' method isn't defined in contract.",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "someMethodSignatureDoesNotMatchStandard": {
+    "message": "'$name$' method's signature doesn't match the standard.",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "failedToLoadChainID": {
+    "message": "Failed to load chain ID for this network"
+  },
+  "makeSureTokenIdIsCorrect": {
+    "message": "Please make sure that asset ID is correct."
+  },
+  "unknownErrorCheckingSomeEntrypoint": {
+    "message": "An unknown error while checking '$name$' entrypoint occurred.",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "incorrectTokenIdErrorMessage": {
+    "message": "Failed while processing asset with provided data. Please make sure that asset ID is correct."
+  },
+  "transfer": {
+    "message": "Transfer"
+  },
+  "coinbaseReward": {
+    "message": "Coinbase Reward"
+  },
+  "transferFromSmb": {
+    "message": "from $sender$",
+    "placeholders": {
+      "sender": {
+        "content": "$1"
+      }
+    }
+  },
+  "transferToSmb": {
+    "message": "to $receiver$",
+    "placeholders": {
+      "receiver": {
+        "content": "$1"
+      }
+    }
+  },
+  "interaction": {
+    "message": "Interaction"
+  },
+  "interactionWithContract": {
+    "message": "with $contract$",
+    "placeholders": {
+      "contract": {
+        "content": "$1"
+      }
+    }
+  },
+  "delegationToSmb": {
+    "message": "to $delegate$",
+    "placeholders": {
+      "delegate": {
+        "content": "$1"
+      }
+    }
+  },
+  "fa2TokenAlreadyExists": {
+    "message": "Token with address $address$ and ID $tokenId$ already exists.",
+    "placeholders": {
+      "address": {
+        "content": "$1"
+      },
+      "tokenId": {
+        "content": "$2"
+      }
+    }
+  },
+  "nonFa2TokenAlreadyExists": {
+    "message": "Token with address $address$ already exists.",
+    "placeholders": {
+      "address": {
+        "content": "$1"
+      }
+    }
+  },
+  "approveForSmb": {
+    "message": "for $spender$",
+    "placeholders": {
+      "spender": {
+        "content": "$1"
+      }
+    }
+  },
+  "undelegation": {
+    "message": "Undelegation"
+  },
+  "bytes": {
+    "message": "Bytes"
+  },
+  "clean": {
+    "message": "Clean"
+  },
+  "errorChangingAccountName": {
+    "message": "An error occurred while changing account name"
+  },
+  "ok": {
+    "message": "OK"
+  },
+  "yes": {
+    "message": "Yes"
+  },
+  "no": {
+    "message": "No"
+  },
+  "actionConfirmation": {
+    "message": "Confirm the action"
+  },
+  "domainDoesntResolveToAddress": {
+    "message": "Domain \"$value$\" doesn't resolve to an address",
+    "placeholders": {
+      "value": {
+        "content": "$1"
+      }
+    }
+  },
+  "invalidAddressOrDomain": {
+    "message": "Invalid address or domain name"
+  },
+  "resolvedAddress": {
+    "message": "Resolved address"
+  },
+  "invalidRpcCantGetChainId": {
+    "message": "Invalid RPC: Cannot get chain id",
+    "description": "RPC = Remote Procedure Call (https://en.wikipedia.org/wiki/Remote_procedure_call)"
+  },
+  "contractNotOriginated": {
+    "message": "Contract not originated"
+  },
+  "welcomeTo": {
+    "message": "Welcome to"
+  },
+  "domain": {
+    "message": "Domain"
+  },
+  "hash": {
+    "message": "Hash"
+  },
+  "defaultAccount": {
+    "message": "Default account"
+  },
+  "loadMore": {
+    "message": "Load more"
+  },
+  "submit": {
+    "message": "Submit"
+  },
+  "invalidJsonInput": {
+    "message": "Invalid JSON"
+  },
+  "notFaucetJson": {
+    "message": "Not a faucet JSON"
+  },
+  "faucetJson": {
+    "message": "Faucet JSON"
+  },
+  "faucetJsonDescription": {
+    "message": "You can paste JSON here instead of adding file"
+  },
+  "unknownErrorFromRPC": {
+    "message": "Failed to send request to $url$. Invalid request provided or RPC node is temporarily unreachable.",
+    "placeholders": {
+      "url": {
+        "content": "$1"
+      }
+    }
+  },
+  "emptyImplicitContract": {
+    "message": "Your account is empty. Deposit any aleo credits amount on this account to activate it"
+  },
+  "balanceTooLow": {
+    "message": "Gas token balance is too low"
+  },
+  "rewardsForBlocks": {
+    "message": "$reward$ for $blocksAmount$ $blocks$ $feesAmount$ fees",
+    "placeholders": {
+      "reward": {
+        "content": "$1"
+      },
+      "blocksAmount": {
+        "content": "$2"
+      },
+      "blocks": {
+        "content": "$3"
+      },
+      "feesAmount": {
+        "content": "$4"
+      }
+    }
+  },
+  "blocks_one": {
+    "message": "$amount$ block",
+    "description": "For plural forms",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "blocks_other": {
+    "message": "$amount$ blocks",
+    "description": "For plural forms",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "rewardsForSlots": {
+    "message": "$reward$ for $slotsAmount$ $slots$",
+    "placeholders": {
+      "reward": {
+        "content": "$1"
+      },
+      "slotsAmount": {
+        "content": "$2"
+      },
+      "slots": {
+        "content": "$3"
+      }
+    }
+  },
+  "slots_one": {
+    "message": "$amount$ slot",
+    "description": "For plural forms",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "slots_other": {
+    "message": "$amount$ slots",
+    "description": "For plural forms",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "swapTokenSearchInputPlaceholder": {
+    "message": "Enter name or address"
+  },
+  "selectFile": {
+    "message": "Select file"
+  },
+  "clickToRevealField": {
+    "message": "Click to reveal this field"
+  },
+  "clickToReveal": {
+    "message": "Click to reveal"
+  },
+  "lock": {
+    "message": "Lock"
+  },
+  "skip": {
+    "message": "Skip"
+  },
+  "checkNow": {
+    "message": "Check now"
+  },
+  "theLendingProtocol": {
+    "message": "The lending protocol on Aleo."
+  },
+  "alreadyLaunched": {
+    "message": "Already Launched!"
+  },
+  "borrowLandEarn": {
+    "message": "Borrow, Land and Earn on your favorite tokens!"
+  },
+  "independenceDayOfUkraine": {
+    "message": "Independence Day of Ukraine"
+  },
+  "zeroSwapCommissionTitle": {
+    "message": "Zero Swap commissions for two weeks - celebrate the  $text$  with us!",
+    "placeholders": {
+      "text": {
+        "content": "$1"
+      }
+    }
+  },
+  "zeroSwapCommissionDescription": {
+    "message": "From  $date1$  till  $date2$ , Leo users may conduct trades via our router in the  $text$  section without our dev commissions.\n\nEnjoy the most lucrative exchange rates and trade without fees in one place.",
+    "placeholders": {
+      "date1": {
+        "content": "$1"
+      },
+      "date2": {
+        "content": "$2"
+      },
+      "text": {
+        "content": "$3"
+      }
+    }
+  },
+  "okGotIt": {
+    "message": "Got it"
+  },
+  "changelogTitle": {
+    "message": "Leo Wallet updated"
+  },
+  "changelogDescription": {
+    "message": "In this update"
+  },
+  "update": {
+    "message": "Update"
+  },
+  "skipOnboarding": {
+    "message": "Skip Onboarding"
+  },
+  "advancedUser": {
+    "message": "I'm an advanced user"
+  },
+  "analytics": {
+    "message": "Analytics"
+  },
+  "analyticsCollecting": {
+    "message": "anonymous information collecting"
+  },
+  "analyticsInputDescription": {
+    "message": "I agree to the  $analyticsLink$ ",
+    "placeholders": {
+      "analyticsLink": {
+        "content": "$1"
+      }
+    }
+  },
+  "dcpDelegatingMotivation": {
+    "message": "Delegating your funds to producers is a great way of earning interest on your balance"
+  },
+  "addAsset": {
+    "message": "Add Asset"
+  },
+  "assetId": {
+    "message": "Asset ID"
+  },
+  "comingSoon": {
+    "message": "Coming soon"
+  },
+  "weakKeystorePassword": {
+    "message": "The \"keystore file\" password is too weak to use as an extension password. You need to set a new one."
+  },
+  "mustBeNonNegative": {
+    "message": "Must be non-negative"
+  },
+  "positiveIntMessage": {
+    "message": "Integer, 1 or greater"
+  },
+  "doNotShareViewKey": {
+    "message": "<b>ONLY SHARE WITH PEOPLE YOU TRUST</b> It can be used to view all of your transaction history."
+  },
+  "mixtureOfUppercaseAndLowercaseLetters": {
+    "message": "A mixture of both uppercase and lowercase letters."
+  },
+  "mixtureOfLettersAndNumbers": {
+    "message": "A mixture of letters and numbers."
+  },
+  "atLeast1SpecialCharacter": {
+    "message": "Inclusion of at least one special character, e.g., ! @ # ? ] - (optional, recommended)."
+  },
+  "seedInputNumberOfWords": {
+    "message": "My Seed phrase is $1 words"
+  },
+  "seedPasteFailedTooManyWords": {
+    "message": "Paste failed because it contained over 24 words."
+  },
+  "seedPhraseTip": {
+    "message": "You can paste your entire secret Seed phrase into any field"
+  },
+  "assetMustBeSelected": {
+    "message": "Asset must be selected"
+  },
+  "gasFeeMustBePositive": {
+    "message": "Gas fee must be positive"
+  },
+  "get": {
+    "message": "Get"
+  },
+  "exolixWarningNote": {
+    "message": "Please, deposit only  $currencyName$  transfer network  $networkName$ . Otherwise, you may lose your assets permanently.",
+    "placeholders": {
+      "currencyName": {
+        "content": "$1"
+      },
+      "networkName": {
+        "content": "$1"
+      }
+    }
+  },
+  "mnemonicInputWarning": {
+    "message": "We don't store your seed phrase. Don't lose it!"
+  },
+  "importWallet": {
+    "message": "Import Your Wallet"
+  },
+  "createWallet": {
+    "message": "Create Your Wallet"
+  },
+  "errorImportingKukaiWallet": {
+    "message": "Error while importing Kukai wallet"
+  },
+  "selectedFileFormatNotSupported": {
+    "message": "The selected file format is not supported"
+  },
+  "fileHasSyntaxError": {
+    "message": "The file has a syntax error. Make sure the file is correct."
+  },
+  "entropyDecryptionError": {
+    "message": "Failed to decrypt entropy. Make sure the password is correct"
+  },
+  "kukaiFileVersionError": {
+    "message": "Only files of version 3 can be processed"
+  },
+  "kukaiWalletTypeError": {
+    "message": "Cannot reveal seed phrase for this wallet type"
+  },
+  "revealViewKey": {
+    "message": "Reveal View Key"
+  },
+  "revealViewKeyDescription": {
+    "message": "Also known as \"Share Account History\", reveals view key for your selected account."
+  },
+  "info": {
+    "message": "Info"
+  },
+  "routingFee": {
+    "message": "Routing Fee"
+  },
+  "routingFeeTooltip": {
+    "message": "For choosing the most profitable exchange route among Aleo DEXes. \n\nDEXes commissions are not included."
+  },
+  "staking": {
+    "message": "Staking"
+  },
+  "recommended": {
+    "message": "Recommended"
+  },
+  "partnership": {
+    "message": "Partnership"
+  },
+  "delegationGuide": {
+    "message": "Full video guide"
+  },
+  "delegationGuideLink": {
+    "message": "How to Delegate XTZ"
+  },
+  "delegationComunity": {
+    "message": "In case you have any questions, write them in our communities"
+  },
+  "delegationPointsHead1": {
+    "message": "Earn 5.6% interest"
+  },
+  "delegationPointsHead2": {
+    "message": "on your Aleo"
+  },
+  "delegationPointsHead3": {
+    "message": "annualy from Baking rewards"
+  },
+  "delegationPoint1": {
+    "message": "Your first reward in Aleo will be paid approximately in 36 days."
+  },
+  "delegationPoint2": {
+    "message": "Then, you receive a reward every 3 days."
+  },
+  "delegationPoint3": {
+    "message": "Earn rate varies over time. Check the current rate in your Wallet."
+  },
+  "delegationPoint4": {
+    "message": "Your Aleo tokens are never locked. Send anytime!"
+  },
+  "producer": {
+    "message": "Producer"
+  },
+  "producerInputDescription": {
+    "message": "Address of a registered producer."
+  },
+  "bakerInputDescriptionWithDomain": {
+    "message": "Address or domain name of a registered baker."
+  },
+  "file": {
+    "message": "File"
+  },
+  "keystoreFile": {
+    "message": "Keystore File"
+  },
+  "filePassword": {
+    "message": "File Password"
+  },
+  "filePasswordInputDescription": {
+    "message": "Please enter a password for keystore file"
+  },
+  "fileInputPrompt": {
+    "message": "Choose a file or drag it here"
+  },
+  "useKeystorePassword": {
+    "message": "Use File Password as Extension password"
+  },
+  "import": {
+    "message": "Import"
+  },
+  "applied": {
+    "message": "Applied"
+  },
+  "skipped": {
+    "message": "Skipped"
+  },
+  "ifYouWantToRevealViewKeyFromOtherAccount": {
+    "message": "If you want to reveal a view key from another account - you should select it in the top-right dropdown."
+  },
+  "viewKeyFieldDescription": {
+    "message": "Current account view key. Keep it in secret. Anyone with this key can see your transaction history"
+  },
+  "derivationType": {
+    "message": "Derivation type"
+  },
+  "derivationTypeFieldDescription": {
+    "message": "The elliptical curve that the account will use."
+  },
+  "tryingToTransferToContract": {
+    "message": "You're trying to transfer funds to contract.\nPlease, ensure that it's exactly what you want."
+  },
+  "inFiat": {
+    "message": "in Fiat"
+  },
+  "fiatCurrency": {
+    "message": "Default Currency"
+  },
+  "tokens": {
+    "message": "Tokens"
+  },
+  "searchByName": {
+    "message": "Search by name..."
+  },
+  "analyticsSettings": {
+    "message": "Anonymous Analytics"
+  },
+  "analyticsSettingsDescription": {
+    "message": "Here you can configure sending of anonymous analytics that helps us to improve the product."
+  },
+  "origination": {
+    "message": "Origination"
+  },
+  "swap": {
+    "message": "Swap"
+  },
+  "accountNumber": {
+    "message": "Account number"
+  },
+  "noExchangersAvailable": {
+    "message": "Sorry, no exchangers are available for the current network."
+  },
+  "noResults": {
+    "message": "No Results"
+  },
+  "aleoApy": {
+    "message": "APY: 6%"
+  },
+  "tokenApy": {
+    "message": "APY"
+  },
+  "max": {
+    "message": "Max"
+  },
+  "balance": {
+    "message": "Balance:"
+  },
+  "from": {
+    "message": "From"
+  },
+  "toAsset": {
+    "message": "To"
+  },
+  "via": {
+    "message": "Via"
+  },
+  "swapRoute": {
+    "message": "Swap route"
+  },
+  "exchangeRate": {
+    "message": "Exchange rate"
+  },
+  "priceImpact": {
+    "message": "Price impact"
+  },
+  "slippageTolerance": {
+    "message": "Slippage tolerance"
+  },
+  "minimumReceived": {
+    "message": "Minimum received"
+  },
+  "inputOutputAssetsCannotBeSame": {
+    "message": "Input and output assets cannot be the same"
+  },
+  "amountMustBeReservedForNetworkFees": {
+    "message": "$amount$ must be reserved to pay network fees",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "helpAndCommunity": {
+    "message": "Help & Community"
+  },
+  "communityResourcesTitle": {
+    "message": "You may always find additional info about the Leo wallet or ask for help on the next resources."
+  },
+  "helpAndCommunityDescription": {
+    "message": "Use this section if you want to be a part of our community or need help."
+  },
+  "joinPrompt": {
+    "message": "Feel free to join and ask your questions 😊"
+  },
+  "blockExplorer": {
+    "message": "Blockchain explorer"
+  },
+  "specifyTokenId": {
+    "message": "Specify token ID"
+  },
+  "notWhitelistedTokenWarning": {
+    "message": "Attention! One of the tokens you’re trying to exchange is not whitelisted. You can interact with them at your own risk."
+  },
+  "tvl": {
+    "message": "TVL"
+  },
+  "promoted": {
+    "message": "Promoted"
+  },
+  "searchDApps": {
+    "message": "Search DApps"
+  },
+  "game": {
+    "message": "Game"
+  },
+  "social": {
+    "message": "Social"
+  },
+  "marketplace": {
+    "message": "Marketplace"
+  },
+  "farming": {
+    "message": "Farming"
+  },
+  "other": {
+    "message": "Other"
+  },
+  "noMatchingDAppsFound": {
+    "message": "No matching dApps were found"
+  },
+  "thousandFormat": {
+    "message": "$thousand$k",
+    "placeholders": {
+      "thousand": {
+        "content": "$1"
+      }
+    }
+  },
+  "millionFormat": {
+    "message": "$million$M",
+    "placeholders": {
+      "million": {
+        "content": "$1"
+      }
+    }
+  },
+  "billionFormat": {
+    "message": "$billion$B",
+    "placeholders": {
+      "billion": {
+        "content": "$1"
+      }
+    }
+  },
+  "gasFee": {
+    "message": "Gas fee"
+  },
+  "storageFee": {
+    "message": "Storage fee"
+  },
+  "leoWalletFeeWarning": {
+    "message": "Leo Wallet doesn't apply any fees to exchanges for now but it may apply in the future."
+  },
+  "poolExchangeFee": {
+    "message": "Pool exchange fee"
+  },
+  "PriceImpactInfo": {
+    "message": "The difference between the market price and estimated price due to trade size"
+  },
+  "selectToken": {
+    "message": "Select Token"
+  },
+  "viewAll": {
+    "message": "View all"
+  },
+  "storageFeeMax": {
+    "message": "Storage fee (max)"
+  },
+  "storageLimit": {
+    "message": "Adjust storage limit"
+  },
+  "txIsLikelyToFail": {
+    "message": "Warning! Transaction is likely to fail"
+  },
+  "copyErrorLogs": {
+    "message": "Copy Error Logs"
+  },
+  "dAppsListTvlDescription": {
+    "message": "Total Value Locked. The value in aleo credits is the total amount of aleo credits locked in dApps. The value in USD is the total amount of aleo credits and tokens locked there."
+  },
+  "noFavoriteDApps": {
+    "message": "You don't have any favorite dApps"
+  },
+  "more": {
+    "message": "more",
+    "description": "Show more"
+  },
+  "less": {
+    "message": "less",
+    "description": "Show less"
+  },
+  "recentDestinations": {
+    "message": "Recent destinations"
+  },
+  "unknownAccount": {
+    "message": "Unknown account"
+  },
+  "ledgerLiveBridgeGuide": {
+    "message": "To connect to Ledger, please activate the Ledger Live application on your device, open Aleo Wallet application and allow a WebSocket connection to your Leo account."
+  },
+  "ledgerBridgeGuide": {
+    "message": "To connect the Ledger, please activate your device and open Aleo Wallet application."
+  },
+  "noExchangerFoundForToken": {
+    "message": "No exchanger was found for token  $symbol$  ( $name$ ).",
+    "placeholders": {
+      "symbol": {
+        "content": "$1"
+      },
+      "name": {
+        "content": "$2"
+      }
+    }
+  },
+  "addressBook": {
+    "message": "Address Book"
+  },
+  "addressBookDescription": {
+    "message": "Add, remove and manage your contacts."
+  },
+  "addNewContact": {
+    "message": "New contact"
+  },
+  "addContact": {
+    "message": "Add contact"
+  },
+  "newContactPlaceholder": {
+    "message": "e.g. Alice Bob"
+  },
+  "contactWithTheSameAddressAlreadyExists": {
+    "message": "Contact with the same address already exists"
+  },
+  "currentContacts": {
+    "message": "Current contacts"
+  },
+  "updateContactDescription": {
+    "message": "To update an existing contact, just remove it\nand add a new one."
+  },
+  "deleteContactConfirm": {
+    "message": "Are you sure you want to delete this contact?"
+  },
+  "ownAccount": {
+    "message": "Own"
+  },
+  "counterErrorDescription": {
+    "message": "You can not conduct the operation at the moment!\nPlease, wait when your previous operation is applied and retry."
+  },
+  "swapDisclaimerTitle": {
+    "message": "Disclaimer. Beta version, read before using the SWAP section."
+  },
+  "swapDisclaimerContent": {
+    "message": "Leo wallet only provides an interface to interact with the Aleo Dexes. \n\nWe are not responsible for: DEX issues, displayed tokens, price, exchange rates, and user trading decisions. \n\nBefore using this Swap Section, you should review the relevant documentation to understand how the DEX(AMM) protocols work. \n\nUsing this section is solely the user's responsibility."
+  },
+  "noContactsFound": {
+    "message": "No contacts found"
+  },
+  "addThisAddressToContacts": {
+    "message": "Add this address to contacts?"
+  },
+  "verifySeedPhrase": {
+    "message": "Verify Seed Phrase"
+  },
+  "verifySeedPhraseDescription": {
+    "message": "Fill in the blank fields with the words to verify your Seed Phrase backup"
+  },
+  "word": {
+    "message": "Word  $number$ ",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "finish": {
+    "message": "Finish"
+  },
+  "welcomeToOnboarding": {
+    "message": "Welcome to Onboarding"
+  },
+  "onboarding": {
+    "message": "Onboarding"
+  },
+  "next": {
+    "message": "Next"
+  },
+  "updatingMinMax": {
+    "message": "Updating min/max..."
+  },
+  "done": {
+    "message": "Done!"
+  },
+  "standWithUkraine": {
+    "message": "Stand with Ukraine"
+  },
+  "addressBalanceDetails": {
+    "message": "Your address and balance"
+  },
+  "addressBalanceDescription": {
+    "message": "After creating an account, you’ll get a unique address — your personal identifier in the Aleo blockchain. If you would like to receive and use Aleo credits or Aleo-built tokens in Leo, you should use this address."
+  },
+  "addressBalanceHint": {
+    "message": "The balance of your Aleo credits is displayed under the public address."
+  },
+  "howToStartDetails": {
+    "message": "How to start"
+  },
+  "howToStartDescription1": {
+    "message": "To start using your wallet and interacting with the Aleo DApps ecosystem, the account balance must be positive. To do this, top up your address with Aleo Credits coins."
+  },
+  "howToStartDescription2": {
+    "message": "You can use the \"Buy\" button and top up your Aleo Credits balance, using cryptocurrencies, debit, or credit cards."
+  },
+  "howToStartHint": {
+    "message": "Also, you can copy your address and send coins to it from another wallet or Exchange. To copy the address, click on it on the main wallet screen or use “Receive”."
+  },
+  "tokensCollectibleDetails": {
+    "message": "Tokens & Collectible"
+  },
+  "tokensCollectibleDescription1": {
+    "message": "Your balances of FA1.2 and FA2 tokens are displayed on the “Tokens” tab."
+  },
+  "tokensCollectibleDescription2": {
+    "message": "You can send, check balances, or contract addresses of any token by clicking on it in this section."
+  },
+  "tokensCollectibleHint": {
+    "message": "Your Non-Fungible Tokens (NFT) are displayed on the “Collectibles” tab. Here you can also interact with your own NFTs, see their full view, ID, and contract address."
+  },
+  "profileRpcDetails": {
+    "message": "Profile & RPC"
+  },
+  "profileRpcDescription": {
+    "message": "At the top of the interface, you can see your account robo-icon. By clicking on it, you will see the parameters for interaction with accounts, the settings button, and the extension view mode."
+  },
+  "profileRpcHint1": {
+    "message": "Next, you will see the “Networks” selector, which allows you to select a node (RPC) to which your Leo extension will be connected."
+  },
+  "profileRpcHint2": {
+    "message": "If your balance is not displayed, try changing the node."
+  },
+  "profileRpcHint3": {
+    "message": "You can choose from a predefined list or add RPC manually by following these "
+  },
+  "congrats": {
+    "message": "Congrats!"
+  },
+  "instructions": {
+    "message": "instructions."
+  },
+  "start": {
+    "message": "Start"
+  },
+  "thanks": {
+    "message": "Ok thanks!"
+  },
+  "browserVersionIsOutOfDate": {
+    "message": "Your browser version is out of date, we strongly recommend updating to the newest version!"
+  },
+  "congratsDescription1": {
+    "message": "Thanks for your attention!"
+  },
+  "congratsDescription2": {
+    "message": "Now you know about the basic and most important functions of the Leo wallet."
+  },
+  "congratsDescription3": {
+    "message": "You can learn all features of the Leo from our “Educational series” on YouTube."
+  },
+  "congratsDescription4": {
+    "message": "Also, instructions and guides are available in our knowledge base."
+  },
+  "congratsDescription5": {
+    "message": "Join our communities in Telegram and Discord."
+  },
+  "congratsDescription6": {
+    "message": "PS: Good luck exploring the Aleo world!"
+  },
+  "attention": {
+    "message": "Attention"
+  },
+  "attentionDescription": {
+    "message": "Never and under any pretext share your private keys and seed phrase with third parties."
+  },
+  "attentionListTitle1": {
+    "message": "Also, remember:"
+  },
+  "attentionListItem1": {
+    "message": "Your wallet can be targeted through a browser 0days or via other malicious extension installed;"
+  },
+  "attentionListItem2": {
+    "message": "The screen can potentially be manipulated by malicious software installed in the system;"
+  },
+  "attentionListItem3": {
+    "message": "User’s host machine can be targeted by malware to steal encrypted wallet;"
+  },
+  "attentionListItem4": {
+    "message": "Choosing weak passwords can reduce the ability of a wallet to resist adversarial brute-forcing."
+  },
+  "attentionListTitle2": {
+    "message": "To keep your assets safe, we recommend:"
+  },
+  "attentionListItem5": {
+    "message": "Move your funds from “hot” wallet to “cold” as soon as possible (Leo wallet supports integration with “Ledger Nano” devices);"
+  },
+  "attentionListItem6": {
+    "message": "Use separate browsers for web-surfing and wallet’s operating;"
+  },
+  "attentionListItem7": {
+    "message": "Use one browser’s tab at a time to make transactions;"
+  },
+  "attentionListItem8": {
+    "message": "Keep the wallet locked when it is not in usage."
+  },
+  "takeCare": {
+    "message": "Take care of your safety in the crypto world!"
+  },
+  "readMore": {
+    "message": "Read more by the "
+  },
+  "deleteTokenConfirm": {
+    "message": "Are you sure you want to delete this token?"
+  },
+  "ledgerLiveSettings": {
+    "message": "Use Ledger Live"
+  },
+  "ledgerLiveSettingsDescription": {
+    "message": "The new Ledger Live bridge allows you to use your Ledger in a different way."
+  },
+  "lockUpSettings": {
+    "message": "Extension lock-up"
+  },
+  "lockUpSettingsDescription": {
+    "message": "The extension will be automatically blocked after 10 minutes of inactivity."
+  },
+  "totalBalance": {
+    "message": "Total Balance"
+  },
+  "buyButton": {
+    "message": "Buy"
+  },
+  "buyWithCrypto": {
+    "message": "Buy With Crypto"
+  },
+  "buyWithExolix": {
+    "message": "Buy With Exolix"
+  },
+  "buyWithExolixDescription": {
+    "message": "Exchange  $number$  cryptocurrencies to Aleo Credits or USDT Aleo instantly and without registration",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "buyWithMoonPay": {
+    "message": "Buy With MoonPay"
+  },
+  "buyWithMoonPayDescription": {
+    "message": "Crypto just got easy. Buy Aleo Credits in minutes using Visa, Mastercard, and all major debit and credit cards."
+  },
+  "buyWithRamp": {
+    "message": "Buy With Ramp"
+  },
+  "buyWithRampDescription": {
+    "message": "Buy Aleo Credits  using Visa, Mastercard, and all major debit and credit cards. Ramp is available in 160+ countries and territories."
+  },
+  "buyWithAliceBob": {
+    "message": "Buy Aleo Credits with Alice-Bob (UAH only)"
+  },
+  "buyWithAliceBobDescription": {
+    "message": "Fast and cost-effective exchange of UAH to Aleo Credits."
+  },
+  "buyWithUtorgDescription": {
+    "message": "Licensed fiat-to-crypto gateway. 187+ countries, AI-powered KYC, Apple Pay, Google Pay."
+  },
+  "topUpBuy": {
+    "message": "Top up  $gasTokenName$  balance",
+    "placeholders": {
+      "gasTokenName": {
+        "content": "$1"
+      }
+    }
+  },
+  "buyWithUtorg": {
+    "message": "Buy Aleo Credits with UTORG"
+  },
+  "buyWithCard": {
+    "message": "Buy with Debit/Credit Card"
+  },
+  "topUpDescription": {
+    "message": "Leo integrated third-party solutions to buy  $gasTokenName1$  with crypto or a Debit/Credit card. Choose a provider, follow guides, get  $gasTokenName2$  on your account.",
+    "placeholders": {
+      "gasTokenName1": {
+        "content": "$1"
+      },
+      "gasTokenName2": {
+        "content": "$2"
+      }
+    }
+  },
+  "enterAmount": {
+    "message": "Please enter the amount:"
+  },
+  "topUpCrypto": {
+    "message": "Crypto"
+  },
+  "topUpDebit": {
+    "message": "Debit/Credit Card"
+  },
+  "overdueTransaction": {
+    "message": "Transaction is overdue"
+  },
+  "overdueTransactionMessage": {
+    "message": "Please, create a new exchange unless \n you have sent the funds. \n If the funds have been sent, please, wait for the confirmation from the system."
+  },
+  "topUpAgain": {
+    "message": "Top Up Again"
+  },
+  "topUp": {
+    "message": "Top Up"
+  },
+  "newTopUp": {
+    "message": "New Top Up"
+  },
+  "exchangeDetails": {
+    "message": "Enter exchange details"
+  },
+  "exchangeDetailsDescription": {
+    "message": "Top up your Aleo Credits or USDT Aleo balance instantly with  $number$  cryptocurrencies",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "privacyAndPolicyLinks": {
+    "message": "By clicking  $buttonContent$  you agree with \n $termsOfUse$  and  $privacyPolicy$ ",
+    "placeholders": {
+      "buttonContent": {
+        "content": "$1"
+      },
+      "termsOfUse": {
+        "content": "$2"
+      },
+      "privacyPolicy": {
+        "content": "$3"
+      }
+    }
+  },
+  "depositAddressText": {
+    "message": "Deposit  $depositAddress$  address:",
+    "placeholders": {
+      "depositAddress": {
+        "content": "$1"
+      }
+    }
+  },
+  "support": {
+    "message": "Support"
+  },
+  "deposit": {
+    "message": "Deposit"
+  },
+  "depositDescription": {
+    "message": "Send the funds to the address below. As soon as the deposit is received, the exchange process will begin automatically"
+  },
+  "sendByOneTransaction": {
+    "message": "Send by one transaction"
+  },
+  "youGet": {
+    "message": "You get:"
+  },
+  "fixedRate": {
+    "message": "Fixed rate:"
+  },
+  "transactionId": {
+    "message": "Transaction ID:"
+  },
+  "atomDepositMemo": {
+    "message": "Atom Deposit Memo"
+  },
+  "recipientAddress": {
+    "message": "Recipient address:"
+  },
+  "recipientXtzAddress": {
+    "message": "Recipient XTZ address:"
+  },
+  "inputHash": {
+    "message": "Input hash:"
+  },
+  "youSend": {
+    "message": "You send:"
+  },
+  "sendTime": {
+    "message": "Send time:"
+  },
+  "completedDescription": {
+    "message": "Please, check your funds in your wallet.\nThe exchange process is completed."
+  },
+  "completed": {
+    "message": "Completed"
+  },
+  "youReceive": {
+    "message": "You receive:"
+  },
+  "waitMessage": {
+    "message": "Please, wait. The conversion process will take from 15 min to 2 hours."
+  },
+  "confirmation": {
+    "message": "Confirmation"
+  },
+  "exchanging": {
+    "message": "Exchanging"
+  },
+  "step": {
+    "message": "Step"
+  },
+  "collectibles": {
+    "message": "Collectibles"
+  },
+  "attentionSendAmount": {
+    "message": "You need to send the exact amount of cryptocurrency to the deposit address. Otherwise the transaction will fail and you will have to contact  $support$ ",
+    "placeholders": {
+      "support": {
+        "content": "$1"
+      }
+    }
+  },
+  "important": {
+    "message": "Important"
+  },
+  "id": {
+    "message": "ID"
+  },
+  "addCollectible": {
+    "message": "Add Collectible"
+  },
+  "manageCollectibles": {
+    "message": "Manage Collectibles"
+  },
+  "deleteCollectibleConfirm": {
+    "message": "Are you sure you want to delete this collectible?"
+  },
+  "zeroCollectibleText": {
+    "message": "You don’t have collectibles yet!\nGood time to get one of them"
+  },
+  "min": {
+    "message": "Min:"
+  },
+  "warningTopUpServiceMessage": {
+    "message": "The token exchange feature is provided by a third party. The Leo Wallet is not responsible for the work of third-party services."
+  },
+  "selectTokensToSwap": {
+    "message": "Please, select tokens to swap"
+  },
+  "enterSwapAmount": {
+    "message": "Please, enter swap amount"
+  },
+  "noQuotesAvailable": {
+    "message": "No quotes available"
+  },
+  "swapRouteLoadingHasFailed": {
+    "message": "Exchange rate data loading has failed. \nReload this page or try again later."
+  },
+  "scanQRWithLeoMobile": {
+    "message": "Scan this QR-code with yor Leo Wallet Mobile app."
+  },
+  "serviceIsUnavailable": {
+    "message": "Sorry, service is temporarily unavailable. Try again later!"
+  },
+  "buyWithChainBits": {
+    "message": "Buy with ChainBits"
+  },
+  "buyWithChainBitsDescription": {
+    "message": "Buying Crypto Was Never This Easy"
+  },
+  "permissionLabel": {
+    "message": "Decrypt Permission:  $decryptPermission$ ",
+    "placeholders": {
+      "decryptPermission": {
+        "content": "$1"
+      }
+    }
+  },
+  "NO_DECRYPT_SHORT": {
+    "message": "None"
+  },
+  "DECRYPT_UPON_REQUEST_SHORT": {
+    "message": "On request"
+  },
+  "AUTO_DECRYPT_SHORT": {
+    "message": "While connected"
+  },
+  "invalidViewKey": {
+    "message": "Invalid view key"
+  },
+  "viewKey": {
+    "message": "View Key"
+  },
+  "viewKeyInputDescription": {
+    "message": "The View key of the Account you want to import."
+  },
+  "viewKeyInputPlaceholder": {
+    "message": "e.g. AViewKey1iHE..."
+  },
+  "setPassword": {
+    "message": "Set Password"
+  },
+  "coinbaseRewardSmb": {
+    "message": "$amount$ credits from proving",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "buildForPrivacy": {
+    "message": "Built for Privacy"
+  },
+  "buildForAleo": {
+    "message": "Built for Aleo"
+  },
+  "poweredBy": {
+    "message": "Powered by  $companyName$ ",
+    "placeholders": {
+      "companyName": {
+        "content": "$1"
+      }
+    }
+  },
+  "doNotSharePrivateKey1": {
+    "message": "DO NOT share with anyone!"
+  },
+  "doNotSharePrivateKey2": {
+    "message": "It can be used to steal your current account."
+  },
+  "doNotShareViewKey1": {
+    "message": "Only share with people you trust!"
+  },
+  "doNotShareViewKey2": {
+    "message": "It can be used to view all of your transaction history."
+  },
+  "recordsAction": {
+    "message": "Share Records"
+  },
+  "downloadRecords": {
+    "message": "Download Records"
+  },
+  "transactionAction": {
+    "message": "Transaction"
+  },
+  "appRequestsRecords": {
+    "message": "$origin$ requests your records for program: $program$",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      },
+      "program": {
+        "content": "$"
+      }
+    }
+  },
+  "appRequestsTransaction": {
+    "message": "$origin$ requests a transaction",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "editAccountName": {
+    "message": "Edit Account Name"
+  },
+  "reviewAndConfirm": {
+    "message": "Review & Confirm"
+  },
+  "transactionInitiated": {
+    "message": "Transaction initiated"
+  },
+  "transactionBackground": {
+    "message": "Transaction will proceed in the background."
+  },
+  "openedNewTab": {
+    "message": "The wallet opened a new tab to speed up the transaction. That tab will auto-close."
+  },
+  "speedUpTransaction": {
+    "message": "Speed Up Transaction."
+  },
+  "generatingTransaction": {
+    "message": "Generating Transaction"
+  },
+  "generatingTransactionWarning": {
+    "message": "If you leave this page before the transaction is generated, your transaction won't finish."
+  },
+  "balancePending": {
+    "message": "Balance Pending Sync"
+  },
+  "keepTabOpenForSync": {
+    "message": "Keep this tab open for faster sync."
+  },
+  "openNewTabToSync": {
+    "message": "Open a tab for faster syncing."
+  },
+  "fullySynced": {
+    "message": "Fully Synced"
+  },
+  "synced": {
+    "message": "Synced"
+  },
+  "syncing": {
+    "message": "Syncing"
+  },
+  "fileSettings": {
+    "message": "File Settings"
+  },
+  "fileSettingsDescription": {
+    "message": "Directly add or remove files from your wallet."
+  },
+  "advancedSettings": {
+    "message": "Advanced Settings"
+  },
+  "advancedSettingsDescription": {
+    "message": "Tools to help you debug and diagnose issues with Leo Wallet."
+  },
+  "resync": {
+    "message": "Resync"
+  },
+  "resyncDescription": {
+    "message": "Reset all of your history for this account and resync with the network."
+  },
+  "noFee": {
+    "message": "No Fee"
+  },
+  "doNotSharePhrase1": {
+    "message": "DO NOT share this phrase with anyone!"
+  },
+  "doNotSharePhrase2": {
+    "message": "It can be used to steal all your accounts."
+  },
+  "changeSeedPhrase": {
+    "message": "Change Seed Phrase"
+  },
+  "feeNotRequired": {
+    "message": "There is currently no fee required."
+  },
+  "proofGenerationTab": {
+    "message": "An open tab is required to efficiently generate transaction proofs"
+  },
+  "credit": {
+    "message": "credit"
+  },
+  "credits": {
+    "message": "credits"
+  },
+  "to": {
+    "message": "To"
+  },
+  "received": {
+    "message": "Received"
+  },
+  "sent": {
+    "message": "Sent"
+  },
+  "storageUsed": {
+    "message": "Total Storage Used"
+  },
+  "uploadFile": {
+    "message": "Upload File"
+  },
+  "fileSize": {
+    "message": "File Size"
+  },
+  "downloadDefaultFiles": {
+    "message": "Download Default Files"
+  },
+  "download": {
+    "message": "Download"
+  },
+  "details": {
+    "message": "details"
+  },
+  "faucet": {
+    "message": "Faucet"
+  },
+  "aleoFaucetDescription": {
+    "message": "All distributed credits are for testing purposes and do not have value."
+  },
+  "aleoFaucetStep1": {
+    "message": "Scan the QR code with your Phone"
+  },
+  "aleoFaucetStep1Description": {
+    "message": "And click on the prompt it shows you."
+  },
+  "aleoFaucetStep2": {
+    "message": "Confirm and send the SMS"
+  },
+  "aleoFaucetStep2Description": {
+    "message": "(Message and data rates may apply)"
+  },
+  "aleoFaucetStep3": {
+    "message": "Get Aleo credits"
+  },
+  "aleoFaucetStep3Description": {
+    "message": "Aleo Faucet will send you credits."
+  },
+  "deployAction": {
+    "message": "Deploy Program"
+  },
+  "appRequestsDeploy": {
+    "message": "$origin$ requests a deployment",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "viewKeyWatchOnly": {
+    "message": "View Key (Watch-Only)"
+  },
+  "none": {
+    "message": "None"
+  },
+  "collection": {
+    "message": "Collection"
+  },
+  "source": {
+    "message": "Source"
+  },
+  "attributes": {
+    "message": "Attributes"
+  },
+  "noNFTsYet": {
+    "message": "No NFTs yet"
+  },
+  "noNFTsSubMessage": {
+    "message": "You will see your NFT here once you have one."
+  },
+  "sourceLink": {
+    "message": "Source Link"
+  },
+  "explorer": {
+    "message": "Explorer"
+  },
+  "explorerLink": {
+    "message": "Go to Explorer"
+  },
+  "noTransactionsRemaining": {
+    "message": "No remaining transactions, closing this tab"
+  },
+  "transactionsRemaining": {
+    "message": "transactions remaining"
+  },
+  "status": {
+    "message": "Status"
+  },
+  "available": {
+    "message": "Available"
+  },
+  "feeToolTip": {
+    "message": "Click to edit the fee"
+  },
+  "gpuSettings": {
+    "message": "GPU Acceleration *Experimental*"
+  },
+  "gpuSettingsDescription": {
+    "message": "Here you can turn GPU acceleration on or off to accelerate syncing and proof generation. This feature is not stable and may cause crashes."
+  },
+  "sending": {
+    "message": "Sending"
+  },
+  "executing": {
+    "message": "Executing"
+  },
+  "executed": {
+    "message": "Executed"
+  },
+  "minted": {
+    "message": "Minted"
+  },
+  "nft": {
+    "message": "NFT"
+  },
+  "convert": {
+    "message": "Convert"
+  },
+  "public": {
+    "message": "Public"
+  },
+  "private": {
+    "message": "Private"
+  },
+  "converting": {
+    "message": "Converting"
+  },
+  "customizeFee": {
+    "message": "Customize Fee"
+  },
+  "convertingPublic": {
+    "message": "Convert to Public NFT"
+  },
+  "convertingPrivate": {
+    "message": "Convert to Private NFT"
+  },
+  "switch": {
+    "message": "Switch"
+  },
+  "convertToPrivate": {
+    "message": "Convert to private"
+  },
+  "convertToPublic": {
+    "message": "Convert to public"
+  },
+  "convertPublicPrivate": {
+    "message": "Convert to Public/Private"
+  },
+  "toConvert": {
+    "message": "to convert"
+  },
+  "willGet": {
+    "message": "you will get"
+  },
+  "toPublic": {
+    "message": "to public"
+  },
+  "toPrivate": {
+    "message": "to private"
+  },
+  "ON_CHAIN_HISTORY": {
+    "message": "<b>WARNING!</b> This app is asking for your on-chain history. Make sure you really trust this app."
+  },
+  "ON_CHAIN_HISTORY_SHORT": {
+    "message": "Full access"
+  },
+  "allPrograms": {
+    "message": "all programs"
+  },
+  "canView": {
+    "message": "Can view"
+  },
+  "connectFor": {
+    "message": "Connect for"
+  },
+  "autoCloseSettings": {
+    "message": "Auto Close Generating Transaction Page"
+  },
+  "autoCloseSettingsDescription": {
+    "message": "Here you can configure auto close of the generating transaction page after the transaction is generated."
+  },
+  "feeVisibility": {
+    "message": "Fee Visibility"
+  },
+  "transactionDelegated": {
+    "message": "Transaction has been sent for proof generation."
+  },
+  "fastTransactionDescription": {
+    "message": "The transaction will automatically be broadcasted and finalized."
+  },
+  "fastTransaction": {
+    "message": "Transaction Speed"
+  },
+  "delegateProofSettings": {
+    "message": "Delegate Proof Generation"
+  },
+  "delegateProofSettingsDescription": {
+    "message": "Here you can configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
+  },
+  "mainAssetBalanceIsZero": {
+    "message": "Your aleo credits (main asset) balance is zero. Aleo credits are required for the fee."
+  },
+  "stake": {
+    "message": "Stake"
+  },
+  "unstake": {
+    "message": "Unstake"
+  },
+  "stakeAccount": {
+    "message": "Stake Account"
+  },
+  "staked": {
+    "message": "Staked"
+  },
+  "stakeEarningSymbol": {
+    "message": "Stake earning  $assetSymbol$ ",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "stakeEarnRewards": {
+    "message": "Stake tokens and earn rewards"
+  },
+  "amountMustBeGreaterThanOne": {
+    "message": "Must be greater than 1"
+  },
+  "unstaking": {
+    "message": "Unstaking"
+  },
+  "unstaked": {
+    "message": "Unstaked"
+  },
+  "validator": {
+    "message": "Validator"
+  },
+  "yourStakeIn": {
+    "message": "Your Stake in"
+  },
+  "active": {
+    "message": "Active"
+  },
+  "learnMoreHere": {
+    "message": "Learn more here"
+  },
+  "rewards": {
+    "message": "Rewards"
+  },
+  "claim": {
+    "message": "Claim"
+  },
+  "claimed": {
+    "message": "Claimed"
+  },
+  "claiming": {
+    "message": "Claiming"
+  },
+  "availableToClaim": {
+    "message": "Available to Claim"
+  },
+  "unstakingInProgress": {
+    "message": "Unstaking in Progress"
+  },
+  "mustStakeAtLeastTenAleo": {
+    "message": "Initial stake must be at least 10 ALEO"
+  },
+  "pleaseNote": {
+    "message": "Please Note"
+  },
+  "unstakingProcess": {
+    "message": "Unstaking is a two-step process. After initiating unstaking, please ensure to claim your ALEO after the  3‑hour processing period."
+  },
+  "testNetIsDown": {
+    "message": "Aleo Testnet Beta is down."
+  },
+  "checkStatus": {
+    "message": "Check status"
+  },
+  "walletBuiltForPrivacy": {
+    "message": "The wallet built for privacy",
+    "note": "Onboarding"
+  },
+  "privateTransactionsAnytimeAnywhere": {
+    "message": "Private transactions anytime, anywhere.",
+    "note": "Onboarding"
+  },
+  "createANewWallet": {
+    "message": "Create a new wallet",
+    "note": "Onboarding"
+  },
+  "iAlreadyHaveAWallet": {
+    "message": "I already have a wallet",
+    "note": "Onboarding"
+  },
+  "backUpYourWallet": {
+    "message": "Back up your wallet",
+    "note": "Onboarding"
+  },
+  "saveThese12Words": {
+    "message": "Save these 12 words to a password manager, or write down and store in a secure place. Do not share with anyone.",
+    "note": "Onboarding"
+  },
+  "show": {
+    "message": "Show",
+    "note": "Onboarding"
+  },
+  "hide": {
+    "message": "Hide",
+    "note": "Onboarding"
+  },
+  "copied": {
+    "message": "Copied",
+    "note": "Onboarding"
+  },
+  "copyToClipboard": {
+    "message": "Copy to clipboard",
+    "note": "Onboarding"
+  },
+  "createsProofsOnYourComputer": {
+    "message": "Creates proofs on your computer",
+    "note": "Onboarding"
+  },
+  "yourKeysStayPrivate": {
+    "message": "Your keys stay private",
+    "note": "Onboarding"
+  },
+  "selectTheDefaultTransactionType": {
+    "message": "Select the Default Transaction Type",
+    "note": "Onboarding"
+  },
+  "popular": {
+    "message": "Popular",
+    "note": "Onboarding"
+  },
+  "verifyMessagePrefix": {
+    "message": "Confirm you've saved your secret recovery phrase. Select word #10",
+    "note": "Onboarding"
+  },
+  "enterYourWalletSeedPhrase": {
+    "message": "Enter your wallet's 12-word Seed phrase.",
+    "note": "Onboarding"
+  },
+  "onlyAleoSeedPhrasesAreSupported": {
+    "message": "Only Aleo Seed phrases are supported.",
+    "note": "Onboarding"
+  },
+  "seedPhrasePlaceholder": {
+    "message": "12-word Seed phrase",
+    "note": "Onboarding"
+  },
+  "join": {
+    "message": "Join",
+    "note": "Onboarding"
+  },
+  "follow": {
+    "message": "Follow",
+    "note": "Onboarding"
+  },
+  "yourWalletIsReady": {
+    "message": "Your wallet is ready",
+    "note": "Onboarding"
+  },
+  "joinOurDiscord": {
+    "message": "Join our Leo Wallet Discord",
+    "note": "Onboarding"
+  },
+  "joinOurTwitter": {
+    "message": "Follow us on X (Twitter)",
+    "note": "Onboarding"
+  },
+  "exploreTheWorldOfPrivateAssets": {
+    "message": "Explore the world of private assets",
+    "note": "Onboarding"
+  },
+  "getStarted": {
+    "message": "Get started",
+    "note": "Onboarding"
+  },
+  "enterPassword": {
+    "message": "Enter password",
+    "note": "Onboarding"
+  },
+  "verifyPassword": {
+    "message": "Verify password",
+    "note": "Onboarding"
+  },
+  "enterPasswordAgain": {
+    "message": "Enter password again",
+    "note": "Onboarding"
+  },
+  "itsAMatch": {
+    "message": "It's a match!",
+    "note": "Onboarding"
+  },
+  "readMoreOnboarding": {
+    "message": "Read More",
+    "note": "Onboarding"
+  },
+  "helpUsToImproveLeoWallet": {
+    "message": "Help us to improve Leo Wallet",
+    "note": "Onboarding"
+  },
+  "createPassword": {
+    "message": "Create password",
+    "note": "Onboarding"
+  },
+  "createPasswordDescription": {
+    "message": "Set a password to unlock your wallet each time you use your computer. It can't be used to recover your wallet.",
+    "note": "Onboarding"
+  },
+  "veryStrong": {
+    "message": "Very strong!",
+    "note": "Onboarding"
+  },
+  "medium": {
+    "message": "Medium",
+    "note": "Onboarding"
+  },
+  "low": {
+    "message": "Low",
+    "note": "Onboarding"
+  },
+  "8chars1number": {
+    "message": "8 characters, 1 number",
+    "note": "Onboarding"
+  },
+  "minimumCharsWithAtLeast": {
+    "message": "Minimum 8 characters with at least 1 number",
+    "note": "Onboarding"
+  },
+  "backUpWalletInstructions": {
+    "message": "Save these 12 words to a password manager, or write down and store in a secure place. Do not share with anyone.",
+    "note": "Onboarding"
+  },
+  "select": {
+    "message": "Select",
+    "note": "Onboarding"
+  },
+  "selected": {
+    "message": "Selected",
+    "note": "Onboarding"
+  },
+  "additionalDownloads": {
+    "message": "Additional Downloads",
+    "note": "Onboarding"
+  },
+  "600megabytes": {
+    "message": "600+ megabytes",
+    "note": "Onboarding"
+  },
+  "transactionSpeed": {
+    "message": "Transaction Speed",
+    "note": "Onboarding"
+  },
+  "transactionSpeedMins": {
+    "message": "1-10 minutes",
+    "note": "Onboarding"
+  },
+  "maximumPrivacy": {
+    "message": "Maximum Privacy",
+    "note": "Onboarding"
+  },
+  "vpnLevelPrivacy": {
+    "message": "VPN level privacy",
+    "note": "Onboarding"
+  },
+  "transactionSpeed2Sec": {
+    "message": "2 seconds",
+    "note": "Onboarding"
+  },
+  "additionalDownloads0mb": {
+    "message": "0 MB",
+    "note": "Onboarding"
+  },
+  "delegateProofsToSecureServers": {
+    "message": "Delegate proofs to secure servers",
+    "note": "Onboarding"
+  },
+  "delegateTransactions": {
+    "message": "Delegate\nTransactions",
+    "note": "Onboarding"
+  },
+  "generateTransactionsLocally": {
+    "message": "Generate Transactions\nLocally",
+    "note": "Onboarding"
+  },
+  "chainUnstable": {
+    "message": "Due to instability of Aleo Testnet3, transactions may fail."
+  },
+  "dataReset": {
+    "message": "Data Reset."
+  },
+  "transactionHistoryLost": {
+    "message": "We want to inform you that all transaction history has been lost due to a recent reset of the Aleo Testnet3."
+  },
+  "learnMore": {
+    "message": "Learn more"
+  },
+  "checkStatus": {
+    "message": "Check status"
+  },
+  "walletBuiltForPrivacy": {
+    "message": "The wallet built for privacy",
+    "note": "Onboarding"
+  },
+  "privateTransactionsAnytimeAnywhere": {
+    "message": "Private transactions anytime, anywhere.",
+    "note": "Onboarding"
+  },
+  "createANewWallet": {
+    "message": "Create a new wallet",
+    "note": "Onboarding"
+  },
+  "iAlreadyHaveAWallet": {
+    "message": "I already have a wallet",
+    "note": "Onboarding"
+  },
+  "backUpYourWallet": {
+    "message": "Back up your wallet",
+    "note": "Onboarding"
+  },
+  "saveThese12Words": {
+    "message": "Save these 12 words to a password manager, or write down and store in a secure place. Do not share with anyone.",
+    "note": "Onboarding"
+  },
+  "show": {
+    "message": "Show",
+    "note": "Onboarding"
+  },
+  "hide": {
+    "message": "Hide",
+    "note": "Onboarding"
+  },
+  "copied": {
+    "message": "Copied",
+    "note": "Onboarding"
+  },
+  "copyToClipboard": {
+    "message": "Copy to clipboard",
+    "note": "Onboarding"
+  },
+  "createsProofsOnYourComputer": {
+    "message": "Creates proofs on your computer",
+    "note": "Onboarding"
+  },
+  "yourKeysStayPrivate": {
+    "message": "Your keys stay private",
+    "note": "Onboarding"
+  },
+  "selectTheDefaultTransactionType": {
+    "message": "Select the Default Transaction Type",
+    "note": "Onboarding"
+  },
+  "popular": {
+    "message": "Popular",
+    "note": "Onboarding"
+  },
+  "verifyMessagePrefix": {
+    "message": "Confirm you've saved your secret recovery phrase. Select word #10",
+    "note": "Onboarding"
+  },
+  "enterYourWalletSeedPhrase": {
+    "message": "Enter your wallet's 12-word Seed phrase.",
+    "note": "Onboarding"
+  },
+  "onlyAleoSeedPhrasesAreSupported": {
+    "message": "Only Aleo Seed phrases are supported.",
+    "note": "Onboarding"
+  },
+  "seedPhrasePlaceholder": {
+    "message": "12-word Seed phrase",
+    "note": "Onboarding"
+  },
+  "join": {
+    "message": "Join",
+    "note": "Onboarding"
+  },
+  "follow": {
+    "message": "Follow",
+    "note": "Onboarding"
+  },
+  "yourWalletIsReady": {
+    "message": "Your wallet is ready",
+    "note": "Onboarding"
+  },
+  "joinOurDiscord": {
+    "message": "Join our Leo Wallet Discord",
+    "note": "Onboarding"
+  },
+  "joinOurTwitter": {
+    "message": "Follow us on X (Twitter)",
+    "note": "Onboarding"
+  },
+  "exploreTheWorldOfPrivateAssets": {
+    "message": "Explore the world of private assets",
+    "note": "Onboarding"
+  },
+  "getStarted": {
+    "message": "Get started",
+    "note": "Onboarding"
+  },
+  "enterPassword": {
+    "message": "Enter password",
+    "note": "Onboarding"
+  },
+  "verifyPassword": {
+    "message": "Verify password",
+    "note": "Onboarding"
+  },
+  "enterPasswordAgain": {
+    "message": "Enter password again",
+    "note": "Onboarding"
+  },
+  "itsAMatch": {
+    "message": "It's a match!",
+    "note": "Onboarding"
+  },
+  "readMoreOnboarding": {
+    "message": "Read More",
+    "note": "Onboarding"
+  },
+  "helpUsToImproveLeoWallet": {
+    "message": "Help us to improve Leo Wallet",
+    "note": "Onboarding"
+  },
+  "createPassword": {
+    "message": "Create password",
+    "note": "Onboarding"
+  },
+  "createPasswordDescription": {
+    "message": "Set a password to unlock your wallet each time you use your computer. It can't be used to recover your wallet.",
+    "note": "Onboarding"
+  },
+  "veryStrong": {
+    "message": "Very strong!",
+    "note": "Onboarding"
+  },
+  "medium": {
+    "message": "Medium",
+    "note": "Onboarding"
+  },
+  "low": {
+    "message": "Low",
+    "note": "Onboarding"
+  },
+  "8chars1number": {
+    "message": "8 characters, 1 number",
+    "note": "Onboarding"
+  },
+  "minimumCharsWithAtLeast": {
+    "message": "Minimum 8 characters with at least 1 number",
+    "note": "Onboarding"
+  },
+  "backUpWalletInstructions": {
+    "message": "Save these 12 words to a password manager, or write down and store in a secure place. Do not share with anyone.",
+    "note": "Onboarding"
+  },
+  "select": {
+    "message": "Select",
+    "note": "Onboarding"
+  },
+  "selected": {
+    "message": "Selected",
+    "note": "Onboarding"
+  },
+  "additionalDownloads": {
+    "message": "Additional Downloads",
+    "note": "Onboarding"
+  },
+  "600megabytes": {
+    "message": "600+ megabytes",
+    "note": "Onboarding"
+  },
+  "transactionSpeed": {
+    "message": "Transaction Speed",
+    "note": "Onboarding"
+  },
+  "transactionSpeedMins": {
+    "message": "1-10 minutes",
+    "note": "Onboarding"
+  },
+  "maximumPrivacy": {
+    "message": "Maximum Privacy",
+    "note": "Onboarding"
+  },
+  "vpnLevelPrivacy": {
+    "message": "VPN level privacy",
+    "note": "Onboarding"
+  },
+  "transactionSpeed2Sec": {
+    "message": "2 seconds",
+    "note": "Onboarding"
+  },
+  "additionalDownloads0mb": {
+    "message": "0 MB",
+    "note": "Onboarding"
+  },
+  "delegateProofsToSecureServers": {
+    "message": "Delegate proofs to secure servers",
+    "note": "Onboarding"
+  },
+  "delegateTransactions": {
+    "message": "Delegate\nTransactions",
+    "note": "Onboarding"
+  },
+  "generateTransactionsLocally": {
+    "message": "Generate Transactions\nLocally",
+    "note": "Onboarding"
+  },
+  "chainUnstable": {
+    "message": "Due to instability of Aleo Testnet3, transactions may fail."
+  }
+}

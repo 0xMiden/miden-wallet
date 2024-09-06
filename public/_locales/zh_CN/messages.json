@@ -1,0 +1,3591 @@
+{
+  "appName": {
+    "message": "Aleo - Aleo钱包"
+  },
+  "showIncomingTransactions": {
+    "message": "显示进账交易"
+  },
+  "appDesc": {
+    "message": "🔐💰浏览器扩展程序，适用于Aleo区块链的数字加密货币钱包。"
+  },
+  "importAccount": {
+    "message": "导入账户"
+  },
+  "createAccount": {
+    "message": "创建或恢复帐户"
+  },
+  "faucetFileTitle": {
+    "message": "Faucet文件"
+  },
+  "faucetFile": {
+    "message": "Faucet文件"
+  },
+  "settings": {
+    "message": "设置"
+  },
+  "openNewTab": {
+    "message": "打开新标签页"
+  },
+  "maximiseView": {
+    "message": "最大化视图"
+  },
+  "selectFileOfFormat": {
+    "message": "选择$format$文件",
+    "placeholders": {
+      "format": {
+        "content": "$1"
+      }
+    }
+  },
+  "authorizedDApps": {
+    "message": "授权DApps",
+    "description": "DApps = Decentralized Applications"
+  },
+  "clickIconToResetPermissions": {
+    "message": "点击X图标来重置权限。"
+  },
+  "versionLabel": {
+    "message": "版本：$version$",
+    "placeholders": {
+      "version": {
+        "content": "$1"
+      }
+    }
+  },
+  "madeWithLove": {
+    "message": "$companyName$的用$loveIcon$之作",
+    "placeholders": {
+      "loveIcon": {
+        "content": "$1"
+      },
+      "companyName": {
+        "content": "$2"
+      }
+    }
+  },
+  "feeInputDescription": {
+    "message": "此操作的基本费用为：$fee$\n附加 - 加快其确认流程",
+    "placeholders": {
+      "fee": {
+        "content": "$1"
+      }
+    }
+  },
+  "resetPermissionsConfirmation": {
+    "message": "确定要为\n$origin$重置权限吗？",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "protectedFormField": {
+    "message": "有保护"
+  },
+  "clickToRevealOrEditField": {
+    "message": "点击以显示或编辑此字段"
+  },
+  "copiedHash": {
+    "message": "已复制。"
+  },
+  "copyHashToClipboard": {
+    "message": "复制到剪贴板"
+  },
+  "accounts": {
+    "message": "账户"
+  },
+  "lock": {
+    "message": "堵塞"
+  },
+  "importedAccount": {
+    "message": "已导入"
+  },
+  "networks": {
+    "message": "网络"
+  },
+  "back": {
+    "message": "返回"
+  },
+  "addNewToken": {
+    "message": "添加新代币"
+  },
+  "hideSomeToken": {
+    "message": "隐藏“$tokenName$”代币",
+    "placeholders": {
+      "tokenName": {
+        "content": "$1"
+      }
+    }
+  },
+  "copySomeTokenAddress": {
+    "message": "复制“$tokenSymbol$”地址",
+    "placeholders": {
+      "tokenSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "copySomeTokenId": {
+    "message": "复制“$tokenSymbol$”ID",
+    "placeholders": {
+      "tokenSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "originLabel": {
+    "message": "原点：$origin$",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "networkLabel": {
+    "message": "网络：$network$",
+    "placeholders": {
+      "network": {
+        "content": "$1"
+      }
+    }
+  },
+  "pkhLabel": {
+    "message": "账户：$pkh$",
+    "placeholders": {
+      "pkh": {
+        "content": "$1"
+      }
+    }
+  },
+  "minDelegationAmountDescription": {
+    "message": "您的当前余额低于此面包店的最低委托额。这表示当余额低于$minAmount$时，将不会有付款。",
+    "placeholders": {
+      "minAmount": {
+        "content": "$1"
+      }
+    }
+  },
+  "clickOnBakerPrompt": {
+    "message": "点击您想委托资金的面包店。此列表由$link$提供技术支持。",
+    "placeholders": {
+      "link": {
+        "content": "$1"
+      }
+    }
+  },
+  "highestIsBetter": {
+    "message": "越高越好"
+  },
+  "unlockWalletPrompt": {
+    "message": "如果您想保存现有钱包中的某些数据——$link$并解锁。",
+    "placeholders": {
+      "link": {
+        "content": "$1"
+      }
+    }
+  },
+  "acceptTermsInputDescription": {
+    "message": "我已阅读并同意 $termsOfUsageLink$和$privacyPolicyLink$",
+    "placeholders": {
+      "termsOfUsageLink": {
+        "content": "$1"
+      },
+      "privacyPolicyLink": {
+        "content": "$2"
+      }
+    }
+  },
+  "copiedTokenAddress": {
+    "message": "已复制。"
+  },
+  "copiedTokenId": {
+    "message": "已复制。"
+  },
+  "delegatedTo": {
+    "message": "已委托给："
+  },
+  "delegatingMotivation": {
+    "message": "将资金委托给面包店是用您的余额赚利息的好办法。"
+  },
+  "reDelegate": {
+    "message": "重新委托"
+  },
+  "delegateNow": {
+    "message": "立即委托"
+  },
+  "cancel": {
+    "message": "取消"
+  },
+  "save": {
+    "message": "保存"
+  },
+  "edit": {
+    "message": "编辑"
+  },
+  "useCoinSwitch": {
+    "message": "使用CoinSwitch",
+    "description": "CoinSwitch = https://coinswitch.co/"
+  },
+  "aleoFaucet": {
+    "message": "Aleo Faucet"
+  },
+  "aleoFaucetAlpha": {
+    "message": "Aleo Faucet (Alpha)"
+  },
+  "depositToWallet": {
+    "message": "存入您的钱包"
+  },
+  "depositToWalletDescription": {
+    "message": "点击存款方式来将钱存入您的钱包。使用Faucet可获取免费代币！"
+  },
+  "addToken": {
+    "message": "添加代币"
+  },
+  "contractNotAvailable": {
+    "message": "此地址的合约不可用。它在此网络上吗？"
+  },
+  "noTransferMethod": {
+    "message": "无转账方式"
+  },
+  "tokenDoesNotMatchStandard": {
+    "message": "提供的代币合约不符合$standard$标准",
+    "placeholders": {
+      "standard": {
+        "content": "$1"
+      }
+    }
+  },
+  "error": {
+    "message": "错误"
+  },
+  "tokenType": {
+    "message": "代币类型"
+  },
+  "tokenId": {
+    "message": "代币ID"
+  },
+  "tokenIdInputDescription": {
+    "message": "一个非负整数，表示FA2合约内的代币"
+  },
+  "comingSoonComment": {
+    "message": "（即将推出）"
+  },
+  "soon": {
+    "message": "即将"
+  },
+  "required": {
+    "message": "必填"
+  },
+  "address": {
+    "message": "地址"
+  },
+  "addressOfDeployedTokenContract": {
+    "message": "已部署的代币合约的地址。"
+  },
+  "tokenContractPlaceholder": {
+    "message": "例如：KT1v9CmPy..."
+  },
+  "tokenSymbolPatternDescription": {
+    "message": "仅可使用a-z、A-Z、0-9字符，长度为2-5"
+  },
+  "symbol": {
+    "message": "符号"
+  },
+  "tokenSymbolInputDescription": {
+    "message": "代币符号，例如“USD”表示美元。"
+  },
+  "tokenSymbolInputPlaceholder": {
+    "message": "例如WEW、BOW、LAL等等。"
+  },
+  "tokenNamePatternDescription": {
+    "message": "无特殊字符，长度为3-50"
+  },
+  "name": {
+    "message": "名称"
+  },
+  "tokenNameInputDescription": {
+    "message": "代币名称，例如“比特币”表示BTC资产。"
+  },
+  "tokenNameInputPlaceholder": {
+    "message": "例如：MySuperToken"
+  },
+  "nonNegativeIntMessage": {
+    "message": "整数，0或更大"
+  },
+  "decimals": {
+    "message": "小数"
+  },
+  "decimalsInputDescription": {
+    "message": "小数点后面的小数位。例如：BTC为8位，USD为2位。"
+  },
+  "orIPFSImageURL": {
+    "message": "或IPFS图片URL"
+  },
+  "validImageURL": {
+    "message": "有效的图片URL"
+  },
+  "onlyHTTPS": {
+    "message": "仅HTTPS"
+  },
+  "formatsAllowed": {
+    "message": "仅可使用.png、.jpg、.jpeg、.gif、.webp图片"
+  },
+  "iconURL": {
+    "message": "图标URL"
+  },
+  "optionalComment": {
+    "message": "（选填）"
+  },
+  "iconURLInputDescription": {
+    "message": "代币标志图片URL。"
+  },
+  "invalidAddress": {
+    "message": "地址无效"
+  },
+  "contractNotExistOnNetwork": {
+    "message": "此智能合约不在当前网络上"
+  },
+  "onlyKTContractAddressAllowed": {
+    "message": "仅可使用KT……合约地址",
+    "description": "KT not translated"
+  },
+  "operationHash": {
+    "message": "操作哈希"
+  },
+  "alert": {
+    "message": "提示"
+  },
+  "accountNameInputTitle": {
+    "message": "1-16个字符，无特殊字符"
+  },
+  "defaultAccountName": {
+    "message": "账户$accountNumber$",
+    "placeholders": {
+      "accountNumber": {
+        "content": "$1"
+      }
+    }
+  },
+  "defaultManagedKTAccountName": {
+    "message": "有人管理的KT$accountNumber$",
+    "description": "KT not translated",
+    "placeholders": {
+      "accountNumber": {
+        "content": "$1"
+      }
+    }
+  },
+  "defaultWatchOnlyAccountName": {
+    "message": "仅供查看$accountNumber$",
+    "placeholders": {
+      "accountNumber": {
+        "content": "$1"
+      }
+    }
+  },
+  "accountsToRemoveConstraint": {
+    "message": "您的助记词将始终能够重新生成此钱包。删除它是不可能的。"
+  },
+  "doNotSharePrivateKey": {
+    "message": "<b>切勿分享</b>此组字符给任何人！它可用于窃取您当前的账户。"
+  },
+  "appWouldLikeToConnectToYourWallet": {
+    "message": "$origin$想连接您的钱包",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "appRequestOperationToYou": {
+    "message": "$origin$请求您的操作",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "reject": {
+    "message": "拒绝"
+  },
+  "signAction": {
+    "message": "签署"
+  },
+  "decryptAction": {
+    "message": "解密"
+  },
+  "appRequestsToSign": {
+    "message": "$origin$请求您签署",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "appRequestsToDecrypt": {
+    "message": "$origin$ 要求您解密",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "alpha": {
+    "message": "Alpha"
+  },
+  "viewAccountAddressWarning": {
+    "message": "此站点正在请求查看您账户地址的权限。请始终确认您信任所使用的网站。"
+  },
+  "account": {
+    "message": "账户"
+  },
+  "toBeConnectedWithDApp": {
+    "message": "待与dApp连接。"
+  },
+  "atLeast8Characters": {
+    "message": "至少8个字符"
+  },
+  "atLeast1Number": {
+    "message": "至少1个数字"
+  },
+  "atLeast1LowercaseLetter": {
+    "message": "至少1个小写字母"
+  },
+  "atLeast1UppercaseLetter": {
+    "message": "至少1个大写字母"
+  },
+  "mnemonicWordsAmountConstraint": {
+    "message": "12、15、18、21或24个英语单词"
+  },
+  "mnemonicSpacingConstraint": {
+    "message": "每个单词用一个空格分隔"
+  },
+  "justValidPreGeneratedMnemonic": {
+    "message": "仅有效的预生成助记符"
+  },
+  "oops": {
+    "message": "哎呀！"
+  },
+  "smthWentWrongWhile": {
+    "message": "$action$时出错了",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "mayHappenBecauseYouAreOffline": {
+    "message": "发生这种情况可能是因为您当前离线了"
+  },
+  "tryAgain": {
+    "message": "重试"
+  },
+  "testnetbeta": {
+    "message": "Aleo 测试网测试版",
+    "description": "Testnet Beta"
+  },
+  "leoWalletOptions": {
+    "message": "Aleo钱包 | 选项"
+  },
+  "resetExtension": {
+    "message": "重置扩展程序"
+  },
+  "resetExtensionConfirmation": {
+    "message": "确定要重置Aleo钱包吗？\n此操作的结果是您的全部数据将被删除。"
+  },
+  "failedToResetExtension": {
+    "message": "无法重置扩展程序：$errorMessage$",
+    "placeholders": {
+      "errorMessage": {
+        "content": "$1"
+      }
+    }
+  },
+  "ledger": {
+    "message": "Ledger",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "retry": {
+    "message": "重试"
+  },
+  "privateKeyCannotBeRevealed": {
+    "message": "私钥不可显示"
+  },
+  "youCannotGetPrivateKeyFromThisAccountType": {
+    "message": "您无法从$accountType$账户获取私钥。",
+    "placeholders": {
+      "accountType": {
+        "content": "$1"
+      }
+    }
+  },
+  "maximalAmount": {
+    "message": "最大：$amount$",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "amountMustBePositive": {
+    "message": "必须为正数"
+  },
+  "accountName": {
+    "message": "账户名称"
+  },
+  "accountNameInputDescription": {
+    "message": "新账户的名称是什么？"
+  },
+  "createNewWallet": {
+    "message": "创建新钱包"
+  },
+  "createNewWalletDescription": {
+    "message": "没用过Aleo钱包？我们先设置一个！这样做会创建一个新钱包和助记词"
+  },
+  "delegate": {
+    "message": "委托"
+  },
+  "explore": {
+    "message": "探索"
+  },
+  "assetsWhileMessage": {
+    "message": "正在获取资产数据"
+  },
+  "receive": {
+    "message": "接收"
+  },
+  "send": {
+    "message": "发送"
+  },
+  "baking": {
+    "message": "烘焙"
+  },
+  "operations": {
+    "message": "操作"
+  },
+  "delegationInfoWhileMessage": {
+    "message": "正在获取或处理您的委托信息"
+  },
+  "operationHistoryWhileMessage": {
+    "message": "正在获取或处理操作历史记录"
+  },
+  "privateKey": {
+    "message": "私钥"
+  },
+  "mnemonic": {
+    "message": "助记符"
+  },
+  "fundraiser": {
+    "message": "资金筹集活动"
+  },
+  "privateKeyInputDescription": {
+    "message": "您要导入的账户的密钥。"
+  },
+  "privateKeyInputPlaceholder": {
+    "message": "例如：edsk3wfiPMu..."
+  },
+  "password": {
+    "message": "密码"
+  },
+  "isPrivateKeyEncrypted": {
+    "message": "您的私钥是加密格式的吗？"
+  },
+  "customDerivationPath": {
+    "message": "自定义衍生路径"
+  },
+  "mnemonicInputLabel": {
+    "message": "助记词"
+  },
+  "mnemonicInputPlaceholder": {
+    "message": "例如：venue sock milk update..."
+  },
+  "passwordInputDescription": {
+    "message": "用于附加助记衍生。这不是钱包的密码。"
+  },
+  "derivation": {
+    "message": "衍生"
+  },
+  "addDerivationPathPrompt": {
+    "message": "默认不使用衍生。点击“自定义衍生路径”来添加一个。"
+  },
+  "derivationPathMustStartWithM": {
+    "message": "必须以“m”开头"
+  },
+  "derivationSeparatorMustBeSlash": {
+    "message": "分隔符必须为“/”"
+  },
+  "invalidPath": {
+    "message": "路径无效"
+  },
+  "email": {
+    "message": "邮箱"
+  },
+  "unexpectedOrInvalidFile": {
+    "message": "意外或无效的文件"
+  },
+  "requestSent": {
+    "message": "$type$请求已发送！正在确认…",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "success": {
+    "message": "成功"
+  },
+  "smthWentWrong": {
+    "message": "出错了"
+  },
+  "faucetFileInputPrompt": {
+    "message": "拖放一个文件或点击下方区域来手动选择。您可以从$link$下载下来。",
+    "placeholders": {
+      "link": {
+        "content": "$1"
+      }
+    }
+  },
+  "processing": {
+    "message": "正在处理…"
+  },
+  "accountAddressLabel": {
+    "message": "您当前的账户地址。分享该地址来收款。"
+  },
+  "copiedAddress": {
+    "message": "已复制。"
+  },
+  "copyAddressToClipboard": {
+    "message": "复制到剪贴板"
+  },
+  "qrCode": {
+    "message": "二维码"
+  },
+  "revealPrivateKey": {
+    "message": "显示私钥"
+  },
+  "revealPrivateKeyDescription": {
+    "message": "也称为“导出账户”，显示所选账户的私钥。"
+  },
+  "revealSeedPhrase": {
+    "message": "显示助记词"
+  },
+  "revealSeedPhraseDescription": {
+    "message": "也称为“导出钱包”，您可能需要此助记词来在其他设备上访问您的钱包和账户。"
+  },
+  "dApps": {
+    "message": "DApp",
+    "description": "DApps = Decentralized Applications"
+  },
+  "dAppsDescription": {
+    "message": "在此处，您可以获得与支持Aleo钱包的去中心化应用互动的能力。"
+  },
+  "networksDescription": {
+    "message": "在此处，您可以添加或删除自定义Aleo网络。",
+    "description": "Aleo = blockchain name (https://aleo.com/)"
+  },
+  "activateAccount": {
+    "message": "激活账户"
+  },
+  "activateAccountDescription": {
+    "message": "这对于ICO/资金筹集活动或Testnet Faucet账户可能是必要的。"
+  },
+  "removeAccount": {
+    "message": "移除账户"
+  },
+  "removeAccountDescription": {
+    "message": "使用此板块来移除所选账户。仅导入的账户可移除。"
+  },
+  "about": {
+    "message": "关于"
+  },
+  "aboutDescription": {
+    "message": "使用此板块来查看关于Aleo钱包的元信息。"
+  },
+  "unlockWallet": {
+    "message": "解锁钱包"
+  },
+  "toContinue": {
+    "message": "以继续"
+  },
+  "unlockPasswordInputDescription": {
+    "message": "该钱包已使用密码保护。"
+  },
+  "unlock": {
+    "message": "解锁"
+  },
+  "importNewAccountTitle": {
+    "message": "恢复账户？或登录其他账户？"
+  },
+  "importWalletUsingSeedPhrase": {
+    "message": "使用助记词导入钱包"
+  },
+  "connectLedger": {
+    "message": "连接Ledger",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "importExistingWallet": {
+    "message": "导入现有钱包"
+  },
+  "links": {
+    "message": "链接"
+  },
+  "website": {
+    "message": "网站"
+  },
+  "repo": {
+    "message": "知识库"
+  },
+  "privacyPolicy": {
+    "message": "隐私政策"
+  },
+  "termsOfUse": {
+    "message": "使用条款"
+  },
+  "contact": {
+    "message": "联系方式"
+  },
+  "accountAlreadyActivated": {
+    "message": "您的账户已激活。"
+  },
+  "accountActivated": {
+    "message": "您的账户已成功激活！"
+  },
+  "failureSecretMayBeInvalid": {
+    "message": "失败。发生这种情况可能是因为提供的密钥无效"
+  },
+  "accountToBeActivated": {
+    "message": "账户待激活。"
+  },
+  "ifYouWantToActivateAnotherAccount": {
+    "message": "如需激活其他账户——请在右上角下拉菜单中选择。"
+  },
+  "activateAccountSecret": {
+    "message": "密钥"
+  },
+  "activateAccountSecretDescription": {
+    "message": "来自资金筹集账户或Faucet的“secret”字段"
+  },
+  "activateAccountSecretPlaceholder": {
+    "message": "例如：n4hs7sd3..."
+  },
+  "activate": {
+    "message": "激活"
+  },
+  "minimalFeeDescription": {
+    "message": "最小"
+  },
+  "fastFeeDescription": {
+    "message": "快速"
+  },
+  "rocketFeeDescription": {
+    "message": "火箭"
+  },
+  "customFeeDescription": {
+    "message": "自定义"
+  },
+  "additionalFee": {
+    "message": "附加费用"
+  },
+  "asset": {
+    "message": "资产"
+  },
+  "selectAnotherAssetPrompt": {
+    "message": "点击区域以选择其他资产或代币。"
+  },
+  "disable": {
+    "message": "禁用"
+  },
+  "enable": {
+    "message": "启用"
+  },
+  "dAppsCheckmarkPrompt": {
+    "message": "点击勾号以$action$DApp互动功能",
+    "description": "DApps = Decentralized Applications",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "dAppsInteraction": {
+    "message": "DApp互动",
+    "description": "DApps = Decentralized Applications"
+  },
+  "enabled": {
+    "message": "已启用"
+  },
+  "disabled": {
+    "message": "已禁用"
+  },
+  "enablePopup": {
+    "message": "启用弹窗"
+  },
+  "popupEnabled": {
+    "message": "已启用"
+  },
+  "popupDisabled": {
+    "message": "已禁用"
+  },
+  "rank": {
+    "message": "排行"
+  },
+  "delete": {
+    "message": "删除"
+  },
+  "fee": {
+    "message": "费用"
+  },
+  "space": {
+    "message": "空间"
+  },
+  "delegation": {
+    "message": "委托"
+  },
+  "baker": {
+    "message": "面包店"
+  },
+  "bakerInputDescription": {
+    "message": "已注册面包店的地址。"
+  },
+  "bakerInputPlaceholder": {
+    "message": "例如：aleo13u9kfm2..."
+  },
+  "minDelegationAmountTitle": {
+    "message": "最小委托额"
+  },
+  "unknownBakerTitle": {
+    "message": "未知面包店"
+  },
+  "unknownBakerDescription": {
+    "message": "提供的地址对于我们而言不是面包店的地址！如需向其委托资金，请自担风险。"
+  },
+  "delegateToRecommendedBakers": {
+    "message": "委托给推荐的面包店"
+  },
+  "sortBy": {
+    "message": "排序条件"
+  },
+  "cycles_other": {
+    "message": "$amount$周期",
+    "description": "For plural forms",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "notEnoughFunds": {
+    "message": "资金不足"
+  },
+  "notEnoughCurrencyFunds": {
+    "message": "$currency$资金不足",
+    "placeholders": {
+      "currency": {
+        "content": "$1"
+      }
+    }
+  },
+  "notAllowed": {
+    "message": "不允许"
+  },
+  "failed": {
+    "message": "失败"
+  },
+  "yourBalanceIsZero": {
+    "message": "您的余额为0。"
+  },
+  "minimalFeeGreaterThanBalance": {
+    "message": "此交易的最低费用高于您的余额。"
+  },
+  "alreadyDelegatedFundsToBaker": {
+    "message": "已委托资金给此面包店。无法再次委托。"
+  },
+  "bakerNotRegistered": {
+    "message": "指定的面包店未注册。"
+  },
+  "unableToPerformActionToBaker": {
+    "message": "无法$action$给提供的面包店。",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "estimateDelegation": {
+    "message": "预估委托"
+  },
+  "thisMayHappenBecause": {
+    "message": "发生这种情况可能是因为："
+  },
+  "minimalFeeGreaterThanBalanceVerbose": {
+    "message": "此交易的最低费用高于您的余额。由于您向空的管理员账户转账，可能会向您高额费用。这需要收取一次性的0.06425 $gasTokenSymbol$ 消耗费；",
+    "placeholders": {
+      "gasTokenSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "networkOrOtherIssue": {
+    "message": "网络或其他技术问题。"
+  },
+  "unableToDelegateToKTAddress": {
+    "message": "无法委托给KT……合约地址"
+  },
+  "confirmAction": {
+    "message": "确认$action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "payloadToSign": {
+    "message": "待签署的付款"
+  },
+  "decline": {
+    "message": "拒绝"
+  },
+  "confirm": {
+    "message": "确认"
+  },
+  "confirmDecryptionPermission": {
+    "message": "确认解密权限"
+  },
+  "confirmDecryptionPermissionDescription": {
+    "message": "这将永久访问您的历史记录，并且无法撤销。"
+  },
+  "confirmRisk": {
+    "message": "我了解风险并希望继续。"
+  },
+  "decryptPermission": {
+    "message": "解密权限"
+  },
+  "NO_DECRYPT": {
+    "message": "此应用程序无法使用您的任何查看密钥解密任何记录。"
+  },
+  "DECRYPT_UPON_REQUEST": {
+    "message": "此应用程序只能在您明确批准的情况下解密记录。系统将提示您输入任何解密请求。"
+  },
+  "AUTO_DECRYPT": {
+    "message": "仅当您的钱包已连接时，此应用程序才可以在没有明确许可的情况下自动解密它需要的任何记录。它看不到您的 ViewKey。"
+  },
+  "network": {
+    "message": "网络"
+  },
+  "unknownNetwork": {
+    "message": "未知："
+  },
+  "backupNewSeedPhrase": {
+    "message": "备份新的助记词"
+  },
+  "attentionExclamation": {
+    "message": "注意！"
+  },
+  "lockedWalletAlreadyExists": {
+    "message": "已锁定的钱包<b>已存在</b>。\n导入新的会<b>摧毁现有的</b>。"
+  },
+  "backToUnlockPage": {
+    "message": "回到解锁页面"
+  },
+  "mustBeEqualToPasswordAbove": {
+    "message": "必须与上方密码相同"
+  },
+  "repeatPassword": {
+    "message": "重复密码"
+  },
+  "repeatPasswordInputDescription": {
+    "message": "请再次输入该密码。"
+  },
+  "confirmTermsError": {
+    "message": "若不确认使用条款则无法继续"
+  },
+  "confirmError": {
+    "message": "未经确认无法继续。"
+  },
+  "acceptTerms": {
+    "message": "接受条款"
+  },
+  "termsOfUsage": {
+    "message": "使用条款"
+  },
+  "create": {
+    "message": "创建"
+  },
+  "revealNewSeedPhrase": {
+    "message": "<b>点击下方区域</b>来显示新的助记词。\n此后，将此助记词写在一张纸上并<b>保存在安全的地方</b>。或者您也可以背下来。"
+  },
+  "doNotSharePhrase": {
+    "message": "<b>切勿分享</b>此助记词给任何人！它可用于窃取您全部的账户。"
+  },
+  "youWillNeedThisSeedPhrase": {
+    "message": "如果您曾经切换过浏览器或设备，您就需要此助记词来访问您的账户。"
+  },
+  "unableToContinueWithoutConfirming": {
+    "message": "若不确认则无法继续"
+  },
+  "backupedInputLabel": {
+    "message": "我备份了助记词"
+  },
+  "backupedInputDescription": {
+    "message": "并接受一切由丢失该助记词导致的风险，\n我的资金可能会损失。"
+  },
+  "continue": {
+    "message": "继续"
+  },
+  "noOperationsFound": {
+    "message": "找不到操作"
+  },
+  "pending": {
+    "message": "待处理…"
+  },
+  "backtracked": {
+    "message": "已回溯"
+  },
+  "operationSuccessfullyProcessed": {
+    "message": "$type$已成功处理和确认！",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "timedOutOperationConfirmation": {
+    "message": "超时操作确认。您可以继续等待或稍后重试。"
+  },
+  "accountToBeRemoved": {
+    "message": "账户待移除。"
+  },
+  "ifYouWantToRemoveAnotherAccount": {
+    "message": "如需移除其他账户——请在右上角下拉菜单中选择。"
+  },
+  "cannotBeRemoved": {
+    "message": "无法移除"
+  },
+  "importedPlural": {
+    "message": "已导入"
+  },
+  "enterPasswordToRemoveAccount": {
+    "message": "输入密码以移除账户。"
+  },
+  "remove": {
+    "message": "移除"
+  },
+  "ifYouWantToRevealPrivateKeyFromOtherAccount": {
+    "message": "如需显示其他账户的私钥——请在右上角下拉菜单中选择。"
+  },
+  "privateKeyFieldDescription": {
+    "message": "当前账户的密钥。请保密。"
+  },
+  "derivationPath": {
+    "message": "衍生路径"
+  },
+  "seedPhrase": {
+    "message": "助记词"
+  },
+  "pathForHDAccounts": {
+    "message": "用于HD账户。它用于使用助记词恢复全部账户。",
+    "description": "HD = Hierarchical Deterministic"
+  },
+  "derivationPathExample": {
+    "message": "m/44'/0'/<account_index>'/0'"
+  },
+  "derivationPathExample2": {
+    "message": "例如：m/44'/1729'/…"
+  },
+  "keepSeedPhraseSecret": {
+    "message": "请保密。"
+  },
+  "revealSecretPasswordInputDescription": {
+    "message": "输入密码以显示$secretName$。",
+    "placeholders": {
+      "secretName": {
+        "content": "$1"
+      }
+    }
+  },
+  "reveal": {
+    "message": "显示"
+  },
+  "transaction": {
+    "message": "交易"
+  },
+  "recipient": {
+    "message": "收件人"
+  },
+  "tokensRecepientInputDescription": {
+    "message": "要接收$assetSymbol$资金的地址。",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "tokensRecepientInputDescriptionWithDomain": {
+    "message": "要接收$assetSymbol$资金的地址或Aleo域名。",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "addressInputDescription": {
+    "message": "Aleo账户或智能合约的地址。"
+  },
+  "addressInputDescriptionWithDomain": {
+    "message": "帐户或智能合约的地址或Aleo域名。"
+  },
+  "recipientInputPlaceholder": {
+    "message": "例如：aleo13u9kfm2..."
+  },
+  "recipientInputPlaceholderWithDomain": {
+    "message": "例如：alice.aleo或aleo13u9kfm2…",
+    "description": "alice.aleo = domain like google.com"
+  },
+  "tryingToTransferToYourself": {
+    "message": "您正在尝试向自己转账。\n请确认您确实想这样做。"
+  },
+  "amount": {
+    "message": "金额"
+  },
+  "availableToSend": {
+    "message": "可发送（最大）："
+  },
+  "inAsset": {
+    "message": "以$assetSymbol$计",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "amountPlaceholder": {
+    "message": "例如：123.45"
+  },
+  "sendToMyAccounts": {
+    "message": "发送至我的账户"
+  },
+  "clickOnRecipientAccount": {
+    "message": "点击要接收资金的账户。"
+  },
+  "unableToSendTransactionAction": {
+    "message": "无法发送交易至提供的收件人。"
+  },
+  "unableToEstimateTransactionAction": {
+    "message": "无法预估交易至提供的收件人。"
+  },
+  "makeSureToBackupSeedPhrase": {
+    "message": "请务必备份您的助记词！"
+  },
+  "exploreMore": {
+    "message": "继续探索…"
+  },
+  "selfComment": {
+    "message": "（自己）"
+  },
+  "deleteNetworkConfirm": {
+    "message": "确定要删除此网络吗？"
+  },
+  "networkNamePlaceholder": {
+    "message": "我的自定义网络"
+  },
+  "mustBeValidURL": {
+    "message": "必须为有效URL"
+  },
+  "rpcBaseURL": {
+    "message": "基于RPC的URL",
+    "description": "RPC = Remote Procedure Call (https://en.wikipedia.org/wiki/Remote_procedure_call)"
+  },
+  "mustBeUnique": {
+    "message": "必须唯一"
+  },
+  "addNetwork": {
+    "message": "添加网络"
+  },
+  "currentNetworks": {
+    "message": "当前网络"
+  },
+  "deleteNetworkHint": {
+    "message": "点击X图标以删除网络。如需编辑网络，仅需先删除再用新的参数添加一个。"
+  },
+  "preview": {
+    "message": "预览"
+  },
+  "raw": {
+    "message": "原始"
+  },
+  "fetchingConfirmationDetails": {
+    "message": "正在获取确认详情"
+  },
+  "notIdentified": {
+    "message": "未识别"
+  },
+  "connection": {
+    "message": "连接"
+  },
+  "connect": {
+    "message": "连接"
+  },
+  "confirmActionOnDevice": {
+    "message": "确认操作"
+  },
+  "deviceName": {
+    "message": "$device$设备",
+    "placeholders": {
+      "device": {
+        "content": "$1"
+      }
+    }
+  },
+  "ledgerNano": {
+    "message": "Ledger Nano",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "defaultLedgerName": {
+    "message": "Ledger $number$",
+    "description": "Ledger = https://www.ledger.com/",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "ledgerNameConstraint": {
+    "message": "1-16个字符，无特殊字符"
+  },
+  "ledgerNameInputDescription": {
+    "message": "新Ledger账户的名称是什么？",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "defaultDerivationPathLabel": {
+    "message": "默认使用$path$衍生。",
+    "placeholders": {
+      "path": {
+        "content": "$1"
+      }
+    }
+  },
+  "clickOnCustomDerivationPath": {
+    "message": "点击“自定义衍生路径”来进行自定义。"
+  },
+  "addLedgerAccount": {
+    "message": "添加Ledger账户",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "firefoxLedgerConnectionError": {
+    "message": "$sorry$通过$browser$与$device$设备的连接暂时$unavailable$。",
+    "placeholders": {
+      "sorry": {
+        "content": "$1"
+      },
+      "device": {
+        "content": "$2"
+      },
+      "browser": {
+        "content": "$3"
+      },
+      "unavailable": {
+        "content": "$4"
+      }
+    }
+  },
+  "connectionUnavailable": {
+    "message": "不可用"
+  },
+  "sorry": {
+    "message": "抱歉！"
+  },
+  "upload": {
+    "message": "上传"
+  },
+  "languageAndCountry": {
+    "message": "语言"
+  },
+  "generalSettings": {
+    "message": "通用"
+  },
+  "generalSettingsDescription": {
+    "message": "在此处您可以管理语言偏好和显示模式。"
+  },
+  "swapNoun": {
+    "message": "交换"
+  },
+  "transfers": {
+    "message": "转账"
+  },
+  "someUnknownToken": {
+    "message": "未知代币$token$",
+    "placeholders": {
+      "token": {
+        "content": "$1"
+      }
+    }
+  },
+  "interactionWithSomeEntrypoint": {
+    "message": "与合约$contractAddress$的进入点“$entrypoint$”的互动",
+    "placeholders": {
+      "entrypoint": {
+        "content": "$1"
+      },
+      "contractAddress": {
+        "content": "$2"
+      }
+    }
+  },
+  "transactionOfSomeType": {
+    "message": "“$type$”类型的交易",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "approveToken": {
+    "message": "批准代币"
+  },
+  "add": {
+    "message": "添加"
+  },
+  "assets": {
+    "message": "资产"
+  },
+  "activity": {
+    "message": "活动"
+  },
+  "manage": {
+    "message": "管理"
+  },
+  "manageAssets": {
+    "message": "管理资产"
+  },
+  "noAssetsFound": {
+    "message": "找不到资产"
+  },
+  "ifYouDontSeeYourAsset": {
+    "message": "如果看不到自己的资产，\n请尝试点击$toClick$。",
+    "placeholders": {
+      "toClick": {
+        "content": "$1"
+      }
+    }
+  },
+  "addressOfTokenContract": {
+    "message": "$assetSymbol$代币合约的地址。",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "searchAssets": {
+    "message": "搜索资产…"
+  },
+  "deployNew": {
+    "message": "新部署"
+  },
+  "managedKTAccount": {
+    "message": "有人管理的KT"
+  },
+  "watchOnlyAccount": {
+    "message": "仅供查看"
+  },
+  "disabledForWatchOnlyAccount": {
+    "message": "已为仅供查看账户禁用"
+  },
+  "activationOperationType": {
+    "message": "激活"
+  },
+  "youAreNotContractManager": {
+    "message": "您不是合约管理员"
+  },
+  "contract": {
+    "message": "合约"
+  },
+  "contractAddressInputDescription": {
+    "message": "待连接的合约的地址。"
+  },
+  "contractAddressInputPlaceholder": {
+    "message": "例如：KT1a9w1S7hN5s..."
+  },
+  "addKnownManagedContract": {
+    "message": "添加已知的有人管理的合约"
+  },
+  "clickOnContractToImport": {
+    "message": "点击要导入的合约。"
+  },
+  "notContractAddress": {
+    "message": "不是合约地址"
+  },
+  "contractAlreadyImported": {
+    "message": "此合约已导入"
+  },
+  "waitWhileContractBeingDeployed": {
+    "message": "在合约部署期间，请勿离开本页面或关闭窗口，这可能需要一点时间。一旦部署成功，本表单和提示信息都将自动消失。"
+  },
+  "justAMinute": {
+    "message": "请稍候…"
+  },
+  "referredByTokenContactAddressInvalid": {
+    "message": "代币合约中引用的合约地址$address$是无效的。",
+    "placeholders": {
+      "address": {
+        "content": "$1"
+      }
+    }
+  },
+  "someNetworkIsNotCurrent": {
+    "message": "指定的$network$网络不是当前网络",
+    "placeholders": {
+      "network": {
+        "content": "$1"
+      }
+    }
+  },
+  "someNetworkWithChainIdIsNotCurrent": {
+    "message": "指定的链ID $chainId$不是当前网络的链ID",
+    "placeholders": {
+      "chainId": {
+        "content": "$1"
+      }
+    }
+  },
+  "popupSettings": {
+    "message": "弹窗模式"
+  },
+  "popupSettingsDescription": {
+    "message": "在此处，您可以配置出现在插件的图标点击扩展面板上的弹窗。"
+  },
+  "managedContract": {
+    "message": "有人管理的合约"
+  },
+  "referredByTokenContractNotFound": {
+    "message": "代币合约中引用的合约$address$未找到。",
+    "placeholders": {
+      "address": {
+        "content": "$1"
+      }
+    }
+  },
+  "tokenContractNotFound": {
+    "message": "找不到该合约。"
+  },
+  "failedToParseMetadata": {
+    "message": "无法解析元数据"
+  },
+  "unknownParseErrorOccurred": {
+    "message": "发生未知的解析错误。"
+  },
+  "errorWhileFetchingUrl": {
+    "message": "获取表单$url$时出错",
+    "placeholders": {
+      "url": {
+        "content": "$1"
+      }
+    }
+  },
+  "invalidManagedContract": {
+    "message": "该有人管理的合约是无效的"
+  },
+  "someMethodNotDefinedInContract": {
+    "message": "“$name$”方式未在合约中定义。",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "someMethodSignatureDoesNotMatchStandard": {
+    "message": "“$name$”方式的签名不符合标准。",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "failedToLoadChainID": {
+    "message": "无法加载此网络的链ID"
+  },
+  "makeSureTokenIdIsCorrect": {
+    "message": "请确认代币ID是正确的。"
+  },
+  "unknownErrorCheckingSomeEntrypoint": {
+    "message": "检查“$name$”进入点时出错了。",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "incorrectTokenIdErrorMessage": {
+    "message": "处理具有所提供数据的代币时失败。请确认代币ID是正确的。"
+  },
+  "transfer": {
+    "message": "转账"
+  },
+  "transferFromSmb": {
+    "message": "自$sender$",
+    "placeholders": {
+      "sender": {
+        "content": "$1"
+      }
+    }
+  },
+  "transferToSmb": {
+    "message": "至$receiver$",
+    "placeholders": {
+      "receiver": {
+        "content": "$1"
+      }
+    }
+  },
+  "interaction": {
+    "message": "互动"
+  },
+  "interactionWithContract": {
+    "message": "与$contract$",
+    "placeholders": {
+      "contract": {
+        "content": "$1"
+      }
+    }
+  },
+  "delegationToSmb": {
+    "message": "至$delegate$",
+    "placeholders": {
+      "delegate": {
+        "content": "$1"
+      }
+    }
+  },
+  "fa2TokenAlreadyExists": {
+    "message": "地址为$address$且ID为$tokenId$的代币已存在。",
+    "placeholders": {
+      "address": {
+        "content": "$1"
+      },
+      "tokenId": {
+        "content": "$2"
+      }
+    }
+  },
+  "nonFa2TokenAlreadyExists": {
+    "message": "地址为$address$的代币已存在。",
+    "placeholders": {
+      "address": {
+        "content": "$1"
+      }
+    }
+  },
+  "approveForSmb": {
+    "message": "对于$spender$",
+    "placeholders": {
+      "spender": {
+        "content": "$1"
+      }
+    }
+  },
+  "undelegation": {
+    "message": "取消委托"
+  },
+  "bytes": {
+    "message": "字节"
+  },
+  "clean": {
+    "message": "清除"
+  },
+  "errorChangingAccountName": {
+    "message": "更改账户名称时出错"
+  },
+  "ok": {
+    "message": "好"
+  },
+  "yes": {
+    "message": "是"
+  },
+  "no": {
+    "message": "否"
+  },
+  "actionConfirmation": {
+    "message": "确认操作"
+  },
+  "domainDoesntResolveToAddress": {
+    "message": "域名“$value$”无法解析至地址",
+    "placeholders": {
+      "value": {
+        "content": "$1"
+      }
+    }
+  },
+  "invalidAddressOrDomain": {
+    "message": "地址或域名无效"
+  },
+  "resolvedAddress": {
+    "message": "已解析的地址"
+  },
+  "invalidRpcCantGetChainId": {
+    "message": "RPC无效。无法获取链ID",
+    "description": "RPC = Remote Procedure Call (https://en.wikipedia.org/wiki/Remote_procedure_call)"
+  },
+  "contractNotOriginated": {
+    "message": "合约未发起"
+  },
+  "welcomeTo": {
+    "message": "欢迎使用"
+  },
+  "domain": {
+    "message": "域名"
+  },
+  "hash": {
+    "message": "哈希"
+  },
+  "defaultAccount": {
+    "message": "默认账户"
+  },
+  "loadMore": {
+    "message": "加载更多"
+  },
+  "submit": {
+    "message": "提交"
+  },
+  "invalidJsonInput": {
+    "message": "JSON无效"
+  },
+  "notFaucetJson": {
+    "message": "不是Faucet JSON"
+  },
+  "faucetJson": {
+    "message": "Faucet JSON"
+  },
+  "faucetJsonDescription": {
+    "message": "您可以通过在此粘贴JSON来代替添加文件"
+  },
+  "selectFile": {
+    "message": "选择文件"
+  },
+  "clickToRevealField": {
+    "message": "单击以显示此字段"
+  },
+  "clickToReveal": {
+    "message": "点击揭示"
+  },
+  "skip": {
+    "message": "跳过"
+  },
+  "checkNow": {
+    "message": "现在检查"
+  },
+  "theLendingProtocol": {
+    "message": "Aleo 上的借贷协议。"
+  },
+  "alreadyLaunched": {
+    "message": "已经上线了！"
+  },
+  "borrowLandEarn": {
+    "message": "借用、登陆和赚取您最喜爱的代币！"
+  },
+  "independenceDayOfUkraine": {
+    "message": "乌克兰独立日"
+  },
+  "zeroSwapCommissionTitle": {
+    "message": "为期两周的零掉期佣金 - 庆祝 $text$ 和我们！",
+    "placeholders": {
+      "text": {
+        "content": "$1"
+      }
+    }
+  },
+  "zeroSwapCommissionDescription": {
+    "message": "从 $date1$ 直到 $date2$ , Leo 用户可以通过我们的路由器在 $text$ 没有我们的开发佣金的部分。\n\n享受最有利可图的汇率并在一个地方免费交易。",
+    "placeholders": {
+      "date1": {
+        "content": "$1"
+      },
+      "date2": {
+        "content": "$2"
+      },
+      "text": {
+        "content": "$3"
+      }
+    }
+  },
+  "okGotIt": {
+    "message": "知道了"
+  },
+  "changelogTitle": {
+    "message": "Leo 钱包已更新"
+  },
+  "changelogDescription": {
+    "message": "在本次更新中"
+  },
+  "update": {
+    "message": "更新"
+  },
+  "skipOnboarding": {
+    "message": "跳过入职"
+  },
+  "advancedUser": {
+    "message": "我是高级用户"
+  },
+  "analytics": {
+    "message": "分析"
+  },
+  "analyticsCollecting": {
+    "message": "匿名信息收集"
+  },
+  "analyticsInputDescription": {
+    "message": "我同意 $analyticsLink$ ",
+    "placeholders": {
+      "analyticsLink": {
+        "content": "$1"
+      }
+    }
+  },
+  "dcpDelegatingMotivation": {
+    "message": "将您的资金委托给生产者是赚取余额利息的好方法"
+  },
+  "addAsset": {
+    "message": "添加资产"
+  },
+  "assetId": {
+    "message": "资产 ID"
+  },
+  "comingSoon": {
+    "message": "快来了"
+  },
+  "weakKeystorePassword": {
+    "message": "“密钥库文件”密码太弱，无法用作扩展密码。你需要设置一个新的。"
+  },
+  "mustBeNonNegative": {
+    "message": "必须是非负数"
+  },
+  "positiveIntMessage": {
+    "message": "整数，1 或更大"
+  },
+  "doNotShareViewKey": {
+    "message": "<b>仅与您信任的人分享</b>它可用于查看您的所有交易历史记录。"
+  },
+  "signPayload": {
+    "message": "留言签名"
+  },
+  "decryptPayload": {
+    "message": "要解密的消息"
+  },
+  "noPreview": {
+    "message": "没有可用的预览"
+  },
+  "requirements": {
+    "message": "要求："
+  },
+  "mixtureOfUppercaseAndLowercaseLetters": {
+    "message": "大写和小写字母的混合。"
+  },
+  "mixtureOfLettersAndNumbers": {
+    "message": "字母和数字的混合体。"
+  },
+  "atLeast1SpecialCharacter": {
+    "message": "包含至少一个特殊字符，例如 ! @"
+  },
+  "seedInputNumberOfWords": {
+    "message": "我的种子短语是 $1 字"
+  },
+  "seedPasteFailedTooManyWords": {
+    "message": "粘贴失败，因为它包含超过 24 个单词。"
+  },
+  "seedPhraseTip": {
+    "message": "您可以将整个秘密种子短语粘贴到任何字段中"
+  },
+  "assetMustBeSelected": {
+    "message": "必须选择资产"
+  },
+  "gasFeeMustBePositive": {
+    "message": "汽油费必须为正"
+  },
+  "get": {
+    "message": "得到"
+  },
+  "exolixWarningNote": {
+    "message": "请只存款 $currencyName$ 传输网络 $networkName$ .否则，您可能会永久失去您的资产。",
+    "placeholders": {
+      "currencyName": {
+        "content": "$1"
+      },
+      "networkName": {
+        "content": "$1"
+      }
+    }
+  },
+  "mnemonicInputDescription": {
+    "message": "助记符。你的秘密 12 - 24 字词组。"
+  },
+  "mnemonicInputWarning": {
+    "message": "我们不存储您的助记词。不要丢失它！"
+  },
+  "importWallet": {
+    "message": "导入您的钱包"
+  },
+  "createWallet": {
+    "message": "创建您的钱包"
+  },
+  "errorImportingKukaiWallet": {
+    "message": "导入 Kukai 钱包时出错"
+  },
+  "selectedFileFormatNotSupported": {
+    "message": "不支持所选的文件格式"
+  },
+  "fileHasSyntaxError": {
+    "message": "该文件有语法错误。确保文件正确。"
+  },
+  "entropyDecryptionError": {
+    "message": "解密熵失败。确保密码正确"
+  },
+  "kukaiFileVersionError": {
+    "message": "只能处理版本 3 的文件"
+  },
+  "kukaiWalletTypeError": {
+    "message": "无法显示此钱包类型的助记词"
+  },
+  "revealViewKey": {
+    "message": "显示视图键"
+  },
+  "revealViewKeyDescription": {
+    "message": "也称为“共享帐户历史记录”，显示您选择的帐户的查看密钥。"
+  },
+  "info": {
+    "message": "信息"
+  },
+  "unlockPasswordErrorDelay": {
+    "message": "您已经输入了 3 次错误的密码。你的钱包被冻结了"
+  },
+  "importExistingWalletDescription": {
+    "message": "已经有钱包了？使用您的助记词或加密的密钥库文件将其导入"
+  },
+  "routingFee": {
+    "message": "路由费"
+  },
+  "routingFeeTooltip": {
+    "message": "用于在 Aleo DEX 中选择最有利可图的交换路线。\n\n不包括 DEXes 佣金。"
+  },
+  "staking": {
+    "message": "质押"
+  },
+  "recommended": {
+    "message": "推荐的"
+  },
+  "partnership": {
+    "message": "合伙"
+  },
+  "delegationGuide": {
+    "message": "完整的视频指南"
+  },
+  "delegationGuideLink": {
+    "message": "如何委托 XTZ"
+  },
+  "delegationComunity": {
+    "message": "如果您有任何问题，请写在我们的社区中"
+  },
+  "delegationPointsHead1": {
+    "message": "赚取 5.6% 的利息"
+  },
+  "delegationPointsHead2": {
+    "message": "在你的 Aleo 上"
+  },
+  "delegationPointsHead3": {
+    "message": "每年从烘焙奖励"
+  },
+  "delegationPoint1": {
+    "message": "您在 Aleo 的第一笔奖励将在大约 36 天内支付。"
+  },
+  "delegationPoint2": {
+    "message": "然后，您每 3 天收到一次奖励。"
+  },
+  "delegationPoint3": {
+    "message": "赚取率随时间而变化。查看您电子钱包中的当前汇率。"
+  },
+  "delegationPoint4": {
+    "message": "您的 Aleo 代币永远不会被锁定。随时发送！"
+  },
+  "producer": {
+    "message": "制片人"
+  },
+  "producerInputDescription": {
+    "message": "注册生产者的地址。"
+  },
+  "bakerInputDescriptionWithDomain": {
+    "message": "注册面包师的地址或域名。"
+  },
+  "file": {
+    "message": "文件"
+  },
+  "keystoreFile": {
+    "message": "密钥库文件"
+  },
+  "filePassword": {
+    "message": "文件密码"
+  },
+  "filePasswordInputDescription": {
+    "message": "请输入密钥库文件的密码"
+  },
+  "fileInputPrompt": {
+    "message": "选择一个文件或将其拖到此处"
+  },
+  "useKeystorePassword": {
+    "message": "使用文件密码作为扩展密码"
+  },
+  "import": {
+    "message": "进口"
+  },
+  "applied": {
+    "message": "应用"
+  },
+  "skipped": {
+    "message": "跳过"
+  },
+  "ifYouWantToRevealViewKeyFromOtherAccount": {
+    "message": "如果您想从另一个帐户显示查看密钥 - 您应该在右上角的下拉列表中选择它。"
+  },
+  "viewKeyFieldDescription": {
+    "message": "当前帐户查看键。保密。拥有此密钥的任何人都可以查看您的交易记录"
+  },
+  "derivationType": {
+    "message": "派生类型"
+  },
+  "derivationTypeFieldDescription": {
+    "message": "帐户将使用的椭圆曲线。"
+  },
+  "tryingToTransferToContract": {
+    "message": "您正在尝试将资金转移到合同中。\n请确保这正是您想要的。"
+  },
+  "inFiat": {
+    "message": "在菲亚特"
+  },
+  "fiatCurrency": {
+    "message": "默认货币"
+  },
+  "tokens": {
+    "message": "代币"
+  },
+  "manageTokens": {
+    "message": "管理令牌"
+  },
+  "searchByName": {
+    "message": "按名称搜索..."
+  },
+  "analyticsSettings": {
+    "message": "匿名分析"
+  },
+  "analyticsSettingsDescription": {
+    "message": "您可以在此处配置匿名分析的发送，以帮助我们改进产品。"
+  },
+  "origination": {
+    "message": "起源"
+  },
+  "unknownErrorFromRPC": {
+    "message": "发送请求失败 $url$ .提供的请求无效或 RPC 节点暂时无法访问。",
+    "placeholders": {
+      "url": {
+        "content": "$1"
+      }
+    }
+  },
+  "emptyImplicitContract": {
+    "message": "您的帐户是空的。在此帐户上存入任何 aleo credits 金额以激活它"
+  },
+  "balanceTooLow": {
+    "message": "Gas 代币余额过低"
+  },
+  "swap": {
+    "message": "交换"
+  },
+  "accountNumber": {
+    "message": "帐号"
+  },
+  "noExchangersAvailable": {
+    "message": "抱歉，当前网络没有可用的交换器。"
+  },
+  "noResults": {
+    "message": "没有结果"
+  },
+  "aleoApy": {
+    "message": "年利率：6%"
+  },
+  "tokenApy": {
+    "message": "APY"
+  },
+  "max": {
+    "message": "最大限度"
+  },
+  "balance": {
+    "message": "平衡："
+  },
+  "from": {
+    "message": "从"
+  },
+  "toAsset": {
+    "message": "至"
+  },
+  "via": {
+    "message": "通过"
+  },
+  "swapRoute": {
+    "message": "交换路线"
+  },
+  "exchangeRate": {
+    "message": "汇率"
+  },
+  "priceImpact": {
+    "message": "价格影响"
+  },
+  "slippageTolerance": {
+    "message": "滑动公差"
+  },
+  "minimumReceived": {
+    "message": "最低收到"
+  },
+  "inputOutputAssetsCannotBeSame": {
+    "message": "输入和输出资产不能相同"
+  },
+  "amountMustBeReservedForNetworkFees": {
+    "message": "必须保留 $amount$ 以支付网络费用",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "helpAndCommunity": {
+    "message": "帮助"
+  },
+  "communityResourcesTitle": {
+    "message": "您可能总能找到有关 Leo 钱包的其他信息或寻求有关下一个资源的帮助。"
+  },
+  "helpAndCommunityDescription": {
+    "message": "如果您想成为我们社区的一员或需要帮助，请使用此部分。"
+  },
+  "joinPrompt": {
+    "message": "欢迎加入并提出您的问题😊"
+  },
+  "blockExplorer": {
+    "message": "区块链浏览器"
+  },
+  "specifyTokenId": {
+    "message": "指定令牌 ID"
+  },
+  "notWhitelistedTokenWarning": {
+    "message": "注意力！您尝试交换的令牌之一未列入白名单。您可以自担风险与他们互动。"
+  },
+  "tvl": {
+    "message": "电视L"
+  },
+  "promoted": {
+    "message": "晋升"
+  },
+  "searchDApps": {
+    "message": "搜索 DApp"
+  },
+  "game": {
+    "message": "游戏"
+  },
+  "social": {
+    "message": "社会的"
+  },
+  "marketplace": {
+    "message": "市场"
+  },
+  "farming": {
+    "message": "农业"
+  },
+  "other": {
+    "message": "其他"
+  },
+  "noMatchingDAppsFound": {
+    "message": "未找到匹配的 dApp"
+  },
+  "gasFee": {
+    "message": "燃气费"
+  },
+  "storageFee": {
+    "message": "仓储费"
+  },
+  "leoWalletFeeWarning": {
+    "message": "Leo Wallet 目前不对交易所收取任何费用，但将来可能会收取费用。"
+  },
+  "poolExchangeFee": {
+    "message": "矿池兑换费"
+  },
+  "PriceImpactInfo": {
+    "message": "由于交易规模而导致的市场价格与估计价格之间的差异"
+  },
+  "selectToken": {
+    "message": "选择令牌"
+  },
+  "viewAll": {
+    "message": "查看全部"
+  },
+  "rewardsForBlocks": {
+    "message": "$reward$ $blocksAmount$ $blocks$ $feesAmount$ 费用",
+    "placeholders": {
+      "reward": {
+        "content": "$1"
+      },
+      "blocksAmount": {
+        "content": "$2"
+      },
+      "blocks": {
+        "content": "$3"
+      },
+      "feesAmount": {
+        "content": "$4"
+      }
+    }
+  },
+  "rewardsForSlots": {
+    "message": "$reward$ for $slotsAmount$ $slots$",
+    "placeholders": {
+      "reward": {
+        "content": "$1"
+      },
+      "slotsAmount": {
+        "content": "$2"
+      },
+      "slots": {
+        "content": "$3"
+      }
+    }
+  },
+  "storageFeeMax": {
+    "message": "仓储费（最高）"
+  },
+  "storageLimit": {
+    "message": "调整存储限制"
+  },
+  "txIsLikelyToFail": {
+    "message": "警告！交易很可能失败"
+  },
+  "copyErrorLogs": {
+    "message": "复制错误日志"
+  },
+  "dAppsListTvlDescription": {
+    "message": "总值锁定。 aleo credits 中的值是锁定在 dApp 中的 aleo credits 总量。美元的价值是锁定在那里的 aleo credits 和代币的总量。"
+  },
+  "noFavoriteDApps": {
+    "message": "您没有任何喜欢的 dApp"
+  },
+  "more": {
+    "message": "更多的",
+    "description": "Show more"
+  },
+  "less": {
+    "message": "较少的",
+    "description": "Show less"
+  },
+  "recentDestinations": {
+    "message": "最近的目的地"
+  },
+  "unknownAccount": {
+    "message": "未知帐户"
+  },
+  "ledgerLiveBridgeGuide": {
+    "message": "要连接到 Ledger，请在您的设备上激活 Ledger Live 应用程序，打开 Aleo 钱包应用程序并允许 WebSocket 连接到您的 Leo 帐户。"
+  },
+  "ledgerBridgeGuide": {
+    "message": "要连接 Ledger，请激活您的设备并打开 Aleo Wallet 应用程序。"
+  },
+  "noExchangerFoundForToken": {
+    "message": "没有找到代币的交换器 $symbol$  ( $name$ ).",
+    "placeholders": {
+      "symbol": {
+        "content": "$1"
+      },
+      "name": {
+        "content": "$2"
+      }
+    }
+  },
+  "addressBook": {
+    "message": "地址簿"
+  },
+  "addressBookDescription": {
+    "message": "添加、删除和管理您的联系人。"
+  },
+  "addNewContact": {
+    "message": "新联系人"
+  },
+  "addContact": {
+    "message": "增加联系人"
+  },
+  "newContactPlaceholder": {
+    "message": "例如爱丽丝鲍勃"
+  },
+  "contactWithTheSameAddressAlreadyExists": {
+    "message": "已存在相同地址的联系人"
+  },
+  "currentContacts": {
+    "message": "当前联系人"
+  },
+  "updateContactDescription": {
+    "message": "要更新现有联系人，只需将其删除\n并添加一个新的。"
+  },
+  "deleteContactConfirm": {
+    "message": "您确定要删除此联系人吗？"
+  },
+  "ownAccount": {
+    "message": "自己的"
+  },
+  "counterErrorDescription": {
+    "message": "暂时不能进行操作！\n请等待您之前的操作应用后重试。"
+  },
+  "swapDisclaimerTitle": {
+    "message": "免责声明。 Beta 版，使用前请阅读 SWAP 部分。"
+  },
+  "swapDisclaimerContent": {
+    "message": "Leo 钱包仅提供与 Aleo Dexes 交互的界面。\n\n我们不负责：DEX 问题、显示的代币、价格、汇率和用户交易决策。\n\n在使用此交换部分之前，您应该查看相关文档以了解 DEX(AMM) 协议的工作原理。\n\n使用此部分完全是用户的责任。"
+  },
+  "noContactsFound": {
+    "message": "未找到联系人"
+  },
+  "addThisAddressToContacts": {
+    "message": "将此地址添加到联系人？"
+  },
+  "verifySeedPhrase": {
+    "message": "验证种子短语"
+  },
+  "verifySeedPhraseDescription": {
+    "message": "用单词填写空白字段以验证您的种子短语备份"
+  },
+  "word": {
+    "message": "单词 $number$ ",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "finish": {
+    "message": "结束"
+  },
+  "welcomeToOnboarding": {
+    "message": "欢迎加入"
+  },
+  "onboarding": {
+    "message": "入职"
+  },
+  "next": {
+    "message": "下一个"
+  },
+  "updatingMinMax": {
+    "message": "正在更新最小/最大..."
+  },
+  "done": {
+    "message": "完毕！"
+  },
+  "standWithUkraine": {
+    "message": "与乌克兰站在一起"
+  },
+  "addressBalanceDetails": {
+    "message": "您的地址和余额"
+  },
+  "addressBalanceDescription": {
+    "message": "创建帐户后，您将获得一个唯一地址——您在 Aleo 区块链中的个人标识符。如果您想在 Leo 中接收和使用 Aleo 积分或 Aleo 构建的代币，您应该使用此地址。"
+  },
+  "addressBalanceHint": {
+    "message": "您的 Aleo 积分余额显示在公共地址下方。"
+  },
+  "howToStartDetails": {
+    "message": "如何开始"
+  },
+  "howToStartDescription1": {
+    "message": "要开始使用您的钱包并与 Aleo DApps 生态系统交互，帐户余额必须为正数。为此，请使用 Aleo Credits 硬币充值您的地址。"
+  },
+  "howToStartDescription2": {
+    "message": "您可以使用“购买”按钮并使用加密货币、借记卡或信用卡充值您的 Aleo Credits 余额。"
+  },
+  "howToStartHint": {
+    "message": "此外，您可以复制您的地址并将硬币从另一个钱包或交易所发送到该地址。要复制地址，请在主钱包屏幕上单击它或使用“接收”。"
+  },
+  "tokensCollectibleDetails": {
+    "message": "代币"
+  },
+  "tokensCollectibleDescription1": {
+    "message": "您的 FA1.2 和 FA2 代币余额显示在“代币”选项卡上。"
+  },
+  "tokensCollectibleDescription2": {
+    "message": "您可以通过单击此部分中的任何代币来发送、检查余额或合约地址。"
+  },
+  "tokensCollectibleHint": {
+    "message": "您的不可替代代币 (NFT) 显示在“收藏品”选项卡上。在这里，您还可以与自己的 NFT 进行交互，查看它们的完整视图、ID 和合约地址。"
+  },
+  "profileRpcDetails": {
+    "message": "轮廓"
+  },
+  "profileRpcDescription": {
+    "message": "在界面顶部，您可以看到您的帐户 robo-icon。通过点击它，您将看到与帐户交互的参数、设置按钮和扩展查看模式。"
+  },
+  "profileRpcHint1": {
+    "message": "接下来，您将看到“网络”选择器，它允许您选择 Leo 扩展将连接到的节点 (RPC)。"
+  },
+  "profileRpcHint2": {
+    "message": "如果未显示余额，请尝试更改节点。"
+  },
+  "profileRpcHint3": {
+    "message": "您可以从预定义列表中进行选择，也可以按照以下步骤手动添加 RPC"
+  },
+  "congrats": {
+    "message": "恭喜！"
+  },
+  "instructions": {
+    "message": "指示。"
+  },
+  "start": {
+    "message": "开始"
+  },
+  "thanks": {
+    "message": "好，谢谢！"
+  },
+  "browserVersionIsOutOfDate": {
+    "message": "您的浏览器版本已过期，强烈建议更新到最新版本！"
+  },
+  "congratsDescription1": {
+    "message": "感谢您的关注！"
+  },
+  "congratsDescription2": {
+    "message": "现在您了解了 Leo 钱包的基本和最重要的功能。"
+  },
+  "congratsDescription3": {
+    "message": "您可以从 YouTube 上的“教育系列”了解 Leo 的所有功能。"
+  },
+  "congratsDescription4": {
+    "message": "此外，我们的知识库中提供了说明和指南。"
+  },
+  "congratsDescription5": {
+    "message": "加入我们的 Telegram 和 Discord 社区。"
+  },
+  "congratsDescription6": {
+    "message": "PS：祝探索 Aleo 世界好运！"
+  },
+  "attention": {
+    "message": "注意力"
+  },
+  "attentionDescription": {
+    "message": "切勿以任何借口与第三方共享您的私钥和助记词。"
+  },
+  "attentionListTitle1": {
+    "message": "另外，请记住："
+  },
+  "attentionListItem1": {
+    "message": "您的钱包可以通过浏览器 0days 或安装的其他恶意扩展程序进行攻击；"
+  },
+  "attentionListItem2": {
+    "message": "屏幕可能被系统中安装的恶意软件操纵；"
+  },
+  "attentionListItem3": {
+    "message": "用户主机可被恶意软件攻击，窃取加密钱包；"
+  },
+  "attentionListItem4": {
+    "message": "选择弱密码会降低钱包抵抗对抗性暴力破解的能力。"
+  },
+  "attentionListTitle2": {
+    "message": "为了保护您的资产安全，我们建议："
+  },
+  "attentionListItem5": {
+    "message": "尽快将您的资金从“热”钱包转移到“冷”钱包（Leo 钱包支持与“Ledger Nano”设备集成）；"
+  },
+  "attentionListItem6": {
+    "message": "使用单独的浏览器进行网上冲浪和钱包操作；"
+  },
+  "attentionListItem7": {
+    "message": "一次使用一个浏览器的标签进行交易；"
+  },
+  "attentionListItem8": {
+    "message": "不使用时保持钱包锁定。"
+  },
+  "takeCare": {
+    "message": "在加密货币世界中注意您的安全！"
+  },
+  "readMore": {
+    "message": "阅读更多"
+  },
+  "deleteTokenConfirm": {
+    "message": "您确定要删除此令牌吗？"
+  },
+  "ledgerLiveSettings": {
+    "message": "使用 Ledger Live"
+  },
+  "ledgerLiveSettingsDescription": {
+    "message": "新的 Ledger Live 桥允许您以不同的方式使用您的 Ledger。"
+  },
+  "lockUpSettings": {
+    "message": "延长锁定"
+  },
+  "lockUpSettingsDescription": {
+    "message": "不活动 5 分钟后，该扩展程序将被自动阻止。"
+  },
+  "totalBalance": {
+    "message": "总余额"
+  },
+  "buyButton": {
+    "message": "买"
+  },
+  "buyWithCrypto": {
+    "message": "使用加密货币购买"
+  },
+  "buyWithExolix": {
+    "message": "使用 Exolix 购买"
+  },
+  "buyWithExolixDescription": {
+    "message": "交换 $number$ 无需注册即可立即将加密货币转入 Aleo Credits 或 USDT Aleo",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "buyWithMoonPay": {
+    "message": "用 MoonPay 购买"
+  },
+  "buyWithMoonPayDescription": {
+    "message": "加密变得容易了。使用 Visa、Mastercard 以及所有主要的借记卡和信用卡在几分钟内购买 Aleo Credits。"
+  },
+  "buyWithRamp": {
+    "message": "用斜坡购买"
+  },
+  "buyWithRampDescription": {
+    "message": "使用 Visa、Mastercard 以及所有主要的借记卡和信用卡购买 Aleo Credits。 Ramp 可在 160 个国家和地区使用。"
+  },
+  "buyWithAliceBob": {
+    "message": "用 Alice-Bob 购买 Aleo Credits（仅限 UAH）"
+  },
+  "buyWithAliceBobDescription": {
+    "message": "UAH 到 Aleo Credits 的快速且具有成本效益的交换。"
+  },
+  "buyWithUtorgDescription": {
+    "message": "获得许可的法定加密网关。 187 个国家，AI 驱动的 KYC，Apple Pay，Google Pay。"
+  },
+  "topUpBuy": {
+    "message": "充值 $gasTokenName$ 平衡",
+    "placeholders": {
+      "gasTokenName": {
+        "content": "$1"
+      }
+    }
+  },
+  "buyWithUtorg": {
+    "message": "用 UTORG 购买 Aleo Credits"
+  },
+  "buyWithCard": {
+    "message": "用借记卡/信用卡购买"
+  },
+  "topUpDescription": {
+    "message": "Leo集成第三方解决方案购买 $gasTokenName1$ 使用加密货币或借记卡/信用卡。选择提供商，遵循指南，获取 $gasTokenName2$ 在您的帐户上。",
+    "placeholders": {
+      "gasTokenName1": {
+        "content": "$1"
+      },
+      "gasTokenName2": {
+        "content": "$2"
+      }
+    }
+  },
+  "enterAmount": {
+    "message": "请输入金额："
+  },
+  "topUpCrypto": {
+    "message": "加密货币"
+  },
+  "topUpDebit": {
+    "message": "借记卡/信用卡"
+  },
+  "overdueTransaction": {
+    "message": "交易逾期"
+  },
+  "overdueTransactionMessage": {
+    "message": "请创建一个新的交易所，除非\n 您已发送资金。\n 如果资金已发送，请等待系统确认。"
+  },
+  "topUpAgain": {
+    "message": "再次充值"
+  },
+  "topUp": {
+    "message": "充值"
+  },
+  "newTopUp": {
+    "message": "新充值"
+  },
+  "exchangeDetails": {
+    "message": "输入兑换详情"
+  },
+  "exchangeDetailsDescription": {
+    "message": "立即充值您的 Aleo Credits 或 USDT Aleo 余额 $number$ 加密货币",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "privacyAndPolicyLinks": {
+    "message": "通过点击 $buttonContent$ 你同意 $termsOfUse$ 和 $privacyPolicy$ ",
+    "placeholders": {
+      "buttonContent": {
+        "content": "$1"
+      },
+      "termsOfUse": {
+        "content": "$2"
+      },
+      "privacyPolicy": {
+        "content": "$3"
+      }
+    }
+  },
+  "depositAddressText": {
+    "message": "订金 $depositAddress$ 地址：",
+    "placeholders": {
+      "depositAddress": {
+        "content": "$1"
+      }
+    }
+  },
+  "support": {
+    "message": "支持"
+  },
+  "deposit": {
+    "message": "订金"
+  },
+  "depositDescription": {
+    "message": "将资金发送到以下地址。收到存款后，兑换过程将自动开始"
+  },
+  "sendByOneTransaction": {
+    "message": "通过一笔交易发送"
+  },
+  "youGet": {
+    "message": "你得到："
+  },
+  "fixedRate": {
+    "message": "固定利率："
+  },
+  "transactionId": {
+    "message": "交易编号："
+  },
+  "atomDepositMemo": {
+    "message": "Atom 存款备忘录"
+  },
+  "recipientAddress": {
+    "message": "收件人地址："
+  },
+  "recipientXtzAddress": {
+    "message": "收件人XTZ地址："
+  },
+  "inputHash": {
+    "message": "输入哈希："
+  },
+  "youSend": {
+    "message": "您发送："
+  },
+  "sendTime": {
+    "message": "发送时间："
+  },
+  "completedDescription": {
+    "message": "请检查您钱包中的资金。\n交换过程完成。"
+  },
+  "completed": {
+    "message": "完全的"
+  },
+  "youReceive": {
+    "message": "你收到："
+  },
+  "waitMessage": {
+    "message": "请稍等。转换过程需要 15 分钟到 2 小时。"
+  },
+  "confirmation": {
+    "message": "确认"
+  },
+  "exchanging": {
+    "message": "交换"
+  },
+  "step": {
+    "message": "步"
+  },
+  "collectibles": {
+    "message": "收藏品"
+  },
+  "attentionSendAmount": {
+    "message": "您需要将确切数量的加密货币发送到存款地址。否则交易将失败，您将不得不联系 $support$ ",
+    "placeholders": {
+      "support": {
+        "content": "$1"
+      }
+    }
+  },
+  "important": {
+    "message": "重要的"
+  },
+  "id": {
+    "message": "ID"
+  },
+  "addCollectible": {
+    "message": "添加收藏品"
+  },
+  "manageCollectibles": {
+    "message": "管理收藏品"
+  },
+  "deleteCollectibleConfirm": {
+    "message": "您确定要删除此收藏品吗？"
+  },
+  "zeroCollectibleText": {
+    "message": "您还没有收藏品！\n获得其中之一的好时机"
+  },
+  "min": {
+    "message": "分钟："
+  },
+  "warningTopUpServiceMessage": {
+    "message": "代币兑换功能由第三方提供。 Leo Wallet 不对第三方服务的工作负责。"
+  },
+  "selectTokensToSwap": {
+    "message": "请选择要交换的代币"
+  },
+  "enterSwapAmount": {
+    "message": "请输入掉期金额"
+  },
+  "noQuotesAvailable": {
+    "message": "没有可用的报价"
+  },
+  "swapRouteLoadingHasFailed": {
+    "message": "汇率数据加载失败。\n重新加载此页面或稍后再试。"
+  },
+  "swapTokenSearchInputPlaceholder": {
+    "message": "输入姓名或地址"
+  },
+  "scanQRWithLeoMobile": {
+    "message": "使用您的 Leo Wallet 移动应用程序扫描此二维码。"
+  },
+  "serviceIsUnavailable": {
+    "message": "抱歉，服务暂时不可用。稍后再试！"
+  },
+  "buyWithChainBits": {
+    "message": "用 ChainBits 购买"
+  },
+  "buyWithChainBitsDescription": {
+    "message": "购买加密货币从未如此简单"
+  },
+  "permissionLabel": {
+    "message": "解密权限： $decryptPermission$ ",
+    "placeholders": {
+      "decryptPermission": {
+        "content": "$1"
+      }
+    }
+  },
+  "NO_DECRYPT_SHORT": {
+    "message": "没有任何"
+  },
+  "DECRYPT_UPON_REQUEST_SHORT": {
+    "message": "根据要求"
+  },
+  "AUTO_DECRYPT_SHORT": {
+    "message": "连接时"
+  },
+  "invalidViewKey": {
+    "message": "无效的视图键"
+  },
+  "viewKey": {
+    "message": "查看密钥"
+  },
+  "viewKeyInputDescription": {
+    "message": "您要导入的帐户的查看密钥。"
+  },
+  "viewKeyInputPlaceholder": {
+    "message": "例如AViewKey1iHE..."
+  },
+  "setPassword": {
+    "message": "设置密码"
+  },
+  "doSavePhrase": {
+    "message": "在纸上<b>复制</b>此短语并将其存储在安全位置。"
+  },
+  "coinbaseReward": {
+    "message": "Coinbase 奖励"
+  },
+  "coinbaseRewardSmb": {
+    "message": "$amount$ 来自 Proving 的 ALEO",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "activityToolTip": {
+    "message": "点击查看完整历史"
+  },
+  "waitingOnAleo": {
+    "message": "Aleo 目前不支持此功能。"
+  },
+  "buildForPrivacy": {
+    "message": "专为隐私而建"
+  },
+  "buildForAleo": {
+    "message": "专为 Aleo 打造"
+  },
+  "poweredBy": {
+    "message": "供电 $companyName$ ",
+    "placeholders": {
+      "companyName": {
+        "content": "$1"
+      }
+    }
+  },
+  "doNotSharePrivateKey1": {
+    "message": "不要与任何人分享！"
+  },
+  "doNotSharePrivateKey2": {
+    "message": "它可以用来窃取您的当前帐户。"
+  },
+  "doNotShareViewKey1": {
+    "message": "只与您信任的人分享！"
+  },
+  "doNotShareViewKey2": {
+    "message": "它可用于查看您的所有交易历史记录。"
+  },
+  "recordsAction": {
+    "message": "分享记录"
+  },
+  "downloadRecords": {
+    "message": "下载记录"
+  },
+  "transactionAction": {
+    "message": "交易"
+  },
+  "appRequestsRecords": {
+    "message": "$origin$ 请求您的程序记录：$program$",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      },
+      "program": {
+        "content": "$"
+      }
+    }
+  },
+  "appRequestsTransaction": {
+    "message": "$origin$ 请求交易",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "editAccountName": {
+    "message": "编辑账户名称"
+  },
+  "reviewAndConfirm": {
+    "message": "审查"
+  },
+  "transactionInitiated": {
+    "message": "交易发起"
+  },
+  "transactionBackground": {
+    "message": "交易将在后台进行。"
+  },
+  "openedNewTab": {
+    "message": "钱包打开一个新标签以加快交易速度。该选项卡将自动关闭。"
+  },
+  "speedUpTransaction": {
+    "message": "加快交易。"
+  },
+  "generatingTransaction": {
+    "message": "生成交易"
+  },
+  "generatingTransactionWarning": {
+    "message": "如果您在交易生成之前离开此页面，您的交易将不会完成。"
+  },
+  "balancePending": {
+    "message": "余额挂起同步"
+  },
+  "keepTabOpenForSync": {
+    "message": "保持此选项卡打开以加快同步速度。"
+  },
+  "openNewTabToSync": {
+    "message": "打开一个选项卡以加快同步速度。"
+  },
+  "fullySynced": {
+    "message": "完全同步"
+  },
+  "synced": {
+    "message": "已同步"
+  },
+  "syncing": {
+    "message": "同步中"
+  },
+  "fileSettings": {
+    "message": "文件设置"
+  },
+  "fileSettingsDescription": {
+    "message": "直接从您的钱包中添加或删除文件。"
+  },
+  "advancedSettings": {
+    "message": "高级设置"
+  },
+  "advancedSettingsDescription": {
+    "message": "帮助您调试和诊断 Leo 钱包问题的工具。"
+  },
+  "resync": {
+    "message": "重新同步"
+  },
+  "resyncDescription": {
+    "message": "重置此帐户的所有历史记录并重新与网络同步。"
+  },
+  "noFee": {
+    "message": "不收费"
+  },
+  "doNotSharePhrase1": {
+    "message": "不要与任何人分享这句话！"
+  },
+  "doNotSharePhrase2": {
+    "message": "它可用于窃取您的所有帐户。"
+  },
+  "changeSeedPhrase": {
+    "message": "更改种子短语"
+  },
+  "feeNotRequired": {
+    "message": "目前不需要任何费用。"
+  },
+  "proofGenerationTab": {
+    "message": "需要打开标签才能高效生成交易证明"
+  },
+  "credit": {
+    "message": "信用"
+  },
+  "credits": {
+    "message": "学分"
+  },
+  "to": {
+    "message": "到"
+  },
+  "received": {
+    "message": "已收到"
+  },
+  "sent": {
+    "message": "发送"
+  },
+  "storageUsed": {
+    "message": "使用的总存储空间"
+  },
+  "uploadFile": {
+    "message": "上传文件"
+  },
+  "fileSize": {
+    "message": "文件大小"
+  },
+  "downloadDefaultFiles": {
+    "message": "下载默认文件"
+  },
+  "download": {
+    "message": "下载"
+  },
+  "details": {
+    "message": "细节"
+  },
+  "faucet": {
+    "message": "龙头"
+  },
+  "aleoFaucetDescription": {
+    "message": "所有分发的积分仅用于测试目的，没有价值。"
+  },
+  "aleoFaucetStep1": {
+    "message": "用手机扫描二维码"
+  },
+  "aleoFaucetStep1Description": {
+    "message": "然后单击它向您显示的提示。"
+  },
+  "aleoFaucetStep2": {
+    "message": "确认并发送短信"
+  },
+  "aleoFaucetStep2Description": {
+    "message": "（可能需要支付信息费和数据费）"
+  },
+  "aleoFaucetStep3": {
+    "message": "获得 Aleo 积分"
+  },
+  "aleoFaucetStep3Description": {
+    "message": "Aleo Faucet 会向您发送积分。"
+  },
+  "deployAction": {
+    "message": "部署程序"
+  },
+  "appRequestsDeploy": {
+    "message": "$origin$ 请求部署",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "viewKeyWatchOnly": {
+    "message": "查看密钥（仅限观看）"
+  },
+  "none": {
+    "message": "没有任何"
+  },
+  "collection": {
+    "message": "收藏"
+  },
+  "source": {
+    "message": "来源"
+  },
+  "attributes": {
+    "message": "属性"
+  },
+  "noNFTsYet": {
+    "message": "还没有 NFT"
+  },
+  "noNFTsSubMessage": {
+    "message": "一旦你拥有了 NFT，你就会在这里看到你的 NFT。"
+  },
+  "sourceLink": {
+    "message": "来源链接"
+  },
+  "explorer": {
+    "message": "探索者"
+  },
+  "explorerLink": {
+    "message": "转到资源管理器"
+  },
+  "noTransactionsRemaining": {
+    "message": "没有剩余交易，关闭此选项卡"
+  },
+  "transactionsRemaining": {
+    "message": "剩余交易"
+  },
+  "status": {
+    "message": "地位"
+  },
+  "available": {
+    "message": "可用的"
+  },
+  "feeToolTip": {
+    "message": "点击编辑费用"
+  },
+  "gpuSettings": {
+    "message": "GPU 加速 *实验性*"
+  },
+  "gpuSettingsDescription": {
+    "message": "您可以在此处打开或关闭 GPU 加速以加速同步和证明生成。此功能不稳定，可能会导致崩溃。"
+  },
+  "sending": {
+    "message": "发送"
+  },
+  "executing": {
+    "message": "执行中"
+  },
+  "executed": {
+    "message": "执行"
+  },
+  "minted": {
+    "message": "铸造"
+  },
+  "nft": {
+    "message": "NFT"
+  },
+  "convert": {
+    "message": "转变"
+  },
+  "public": {
+    "message": "民众"
+  },
+  "private": {
+    "message": "私人"
+  },
+  "converting": {
+    "message": "转换"
+  },
+  "customizeFee": {
+    "message": "定制费用"
+  },
+  "convertingPublic": {
+    "message": "转换为公共 NFT"
+  },
+  "convertingPrivate": {
+    "message": "转换为私人 NFT"
+  },
+  "switch": {
+    "message": "转变"
+  },
+  "convertToPrivate": {
+    "message": "转换为私有"
+  },
+  "convertToPublic": {
+    "message": "转换为公开"
+  },
+  "convertPublicPrivate": {
+    "message": "转换为公共/私有"
+  },
+  "toConvert": {
+    "message": "转换"
+  },
+  "willGet": {
+    "message": "你会得到"
+  },
+  "toPublic": {
+    "message": "向公众"
+  },
+  "toPrivate": {
+    "message": "私人的"
+  },
+  "ON_CHAIN_HISTORY": {
+    "message": "<b>警告！</b>此应用程序正在询问您的链上历史记录。确保您真的信任这个应用程序。"
+  },
+  "ON_CHAIN_HISTORY_SHORT": {
+    "message": "完全访问权限"
+  },
+  "allPrograms": {
+    "message": "所有节目"
+  },
+  "canView": {
+    "message": "可以查看"
+  },
+  "connectFor": {
+    "message": "连接用于"
+  },
+  "blocks_other": {
+    "message": "$amount$块",
+    "description": "For plural forms",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoCloseSettings": {
+    "message": "自动关闭生成交易页面"
+  },
+  "autoCloseSettingsDescription": {
+    "message": "此处可以配置交易生成后自动关闭生成交易页面。"
+  },
+  "feeVisibility": {
+    "message": "费用可见性"
+  },
+  "transactionDelegated": {
+    "message": "交易已发送以生成证明。"
+  },
+  "fastTransactionDescription": {
+    "message": "交易将自动广播并最终确定。"
+  },
+  "fastTransaction": {
+    "message": "交易速度"
+  },
+  "delegateProofSettings": {
+    "message": "委托证明生成"
+  },
+  "delegateProofSettingsDescription": {
+    "message": "您可以在此处配置将证明生成委托给远程服务器。这将加快证明生成速度，但会将交易详细信息披露给受信任的服务器。"
+  },
+  "mainAssetBalanceIsZero": {
+    "message": "您的 aleo 积分（主要资产）余额为零。费用需要 Aleo 积分。"
+  },
+  "stake": {
+    "message": "赌注"
+  },
+  "unstake": {
+    "message": "取消质押"
+  },
+  "stakeAccount": {
+    "message": "质押账户"
+  },
+  "staked": {
+    "message": "质押"
+  },
+  "stakeEarningSymbol": {
+    "message": "股权赚取 $assetSymbol$ ",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "stakeEarnRewards": {
+    "message": "质押代币并赚取奖励"
+  },
+  "amountMustBeGreaterThanOne": {
+    "message": "必须大于 1"
+  },
+  "unstaking": {
+    "message": "取消质押"
+  },
+  "unstaked": {
+    "message": "未质押"
+  },
+  "validator": {
+    "message": "验证器"
+  },
+  "yourStakeIn": {
+    "message": "您的股份"
+  },
+  "active": {
+    "message": "积极的"
+  },
+  "learnMoreHere": {
+    "message": "在这里了解更多"
+  },
+  "rewards": {
+    "message": "奖励"
+  },
+  "claim": {
+    "message": "宣称"
+  },
+  "claimed": {
+    "message": "声称"
+  },
+  "claiming": {
+    "message": "声称"
+  },
+  "availableToClaim": {
+    "message": "可领取"
+  },
+  "unstakingInProgress": {
+    "message": "解除质押正在进行中"
+  },
+  "mustStakeAtLeastTenAleo": {
+    "message": "初始权益必须至少为 10 ALEO"
+  },
+  "pleaseNote": {
+    "message": "请注意"
+  },
+  "unstakingProcess": {
+    "message": "取消抵押是一个两步过程。开始取消质押后，请确保在 3 小时处理期后领取您的 ALEO。"
+  },
+  "testNetIsDown": {
+    "message": "Aleo Testnet Beta 已关闭。"
+  },
+  "checkStatus": {
+    "message": "检查状态"
+  },
+  "walletBuiltForPrivacy": {
+    "message": "专为隐私而建的钱包",
+    "note": "Onboarding"
+  },
+  "privateTransactionsAnytimeAnywhere": {
+    "message": "随时随地进行私人交易。",
+    "note": "Onboarding"
+  },
+  "createANewWallet": {
+    "message": "创建一个新钱包",
+    "note": "Onboarding"
+  },
+  "iAlreadyHaveAWallet": {
+    "message": "我已经有一个钱包",
+    "note": "Onboarding"
+  },
+  "backUpYourWallet": {
+    "message": "备份你的钱包",
+    "note": "Onboarding"
+  },
+  "saveThese12Words": {
+    "message": "将这12个单词保存到密码管理器中，或者写下来并存放在安全的地方。不要与任何人分享。",
+    "note": "Onboarding"
+  },
+  "show": {
+    "message": "显示",
+    "note": "Onboarding"
+  },
+  "hide": {
+    "message": "隐藏",
+    "note": "Onboarding"
+  },
+  "copied": {
+    "message": "已复制",
+    "note": "Onboarding"
+  },
+  "copyToClipboard": {
+    "message": "复制到剪贴板",
+    "note": "Onboarding"
+  },
+  "createsProofsOnYourComputer": {
+    "message": "在你的电脑上创建证明",
+    "note": "Onboarding"
+  },
+  "yourKeysStayPrivate": {
+    "message": "你的密钥保持私密",
+    "note": "Onboarding"
+  },
+  "selectTheDefaultTransactionType": {
+    "message": "选择默认交易类型",
+    "note": "Onboarding"
+  },
+  "popular": {
+    "message": "流行",
+    "note": "Onboarding"
+  },
+  "verifyMessagePrefix": {
+    "message": "确认您已保存您的秘密恢复短语。选择第10个单词",
+    "note": "Onboarding"
+  },
+  "enterYourWalletSeedPhrase": {
+    "message": "输入你钱包的12个单词的种子短语。",
+    "note": "Onboarding"
+  },
+  "onlyAleoSeedPhrasesAreSupported": {
+    "message": "只支持Aleo种子短语。",
+    "note": "Onboarding"
+  },
+  "seedPhrasePlaceholder": {
+    "message": "12个单词的种子短语",
+    "note": "Onboarding"
+  },
+  "join": {
+    "message": "加入",
+    "note": "Onboarding"
+  },
+  "follow": {
+    "message": "关注",
+    "note": "Onboarding"
+  },
+  "yourWalletIsReady": {
+    "message": "您的钱包已准备好",
+    "note": "Onboarding"
+  },
+  "joinOurDiscord": {
+    "message": "加入我们的Leo Wallet Discord",
+    "note": "Onboarding"
+  },
+  "joinOurTwitter": {
+    "message": "在X（Twitter）上关注我们",
+    "note": "Onboarding"
+  },
+  "exploreTheWorldOfPrivateAssets": {
+    "message": "探索私人资产的世界",
+    "note": "Onboarding"
+  },
+  "getStarted": {
+    "message": "开始",
+    "note": "Onboarding"
+  },
+  "enterPassword": {
+    "message": "输入密码",
+    "note": "Onboarding"
+  },
+  "verifyPassword": {
+    "message": "验证密码",
+    "note": "Onboarding"
+  },
+  "enterPasswordAgain": {
+    "message": "再次输入密码",
+    "note": "Onboarding"
+  },
+  "itsAMatch": {
+    "message": "匹配成功！",
+    "note": "Onboarding"
+  },
+  "readMoreOnboarding": {
+    "message": "阅读更多",
+    "note": "Onboarding"
+  },
+  "helpUsToImproveLeoWallet": {
+    "message": "帮助我们改进Leo Wallet",
+    "note": "Onboarding"
+  },
+  "createPassword": {
+    "message": "创建密码",
+    "note": "Onboarding"
+  },
+  "createPasswordDescription": {
+    "message": "设置密码，每次使用计算机时解锁您的钱包。它不能用于恢复您的钱包。",
+    "note": "Onboarding"
+  },
+  "veryStrong": {
+    "message": "非常强！",
+    "note": "Onboarding"
+  },
+  "medium": {
+    "message": "中等",
+    "note": "Onboarding"
+  },
+  "low": {
+    "message": "低",
+    "note": "Onboarding"
+  },
+  "8chars1number": {
+    "message": "8个字符，1个数字",
+    "note": "Onboarding"
+  },
+  "minimumCharsWithAtLeast": {
+    "message": "至少8个字符，其中至少1个数字",
+    "note": "Onboarding"
+  },
+  "backUpWalletInstructions": {
+    "message": "将这12个单词保存到密码管理器，或写下并存放在安全的地方。不要与任何人分享。",
+    "note": "Onboarding"
+  },
+  "select": {
+    "message": "选择",
+    "note": "Onboarding"
+  },
+  "selected": {
+    "message": "已选择",
+    "note": "Onboarding"
+  },
+  "additionalDownloads": {
+    "message": "额外下载",
+    "note": "Onboarding"
+  },
+  "600megabytes": {
+    "message": "600+兆字节",
+    "note": "Onboarding"
+  },
+  "transactionSpeed": {
+    "message": "交易速度",
+    "note": "Onboarding"
+  },
+  "transactionSpeedMins": {
+    "message": "1-10分钟",
+    "note": "Onboarding"
+  },
+  "maximumPrivacy": {
+    "message": "最大隐私",
+    "note": "Onboarding"
+  },
+  "vpnLevelPrivacy": {
+    "message": "VPN级别的隐私",
+    "note": "Onboarding"
+  },
+  "transactionSpeed2Sec": {
+    "message": "2秒",
+    "note": "Onboarding"
+  },
+  "additionalDownloads0mb": {
+    "message": "0 MB",
+    "note": "Onboarding"
+  },
+  "delegateProofsToSecureServers": {
+    "message": "将证明委托给安全服务器",
+    "note": "Onboarding"
+  },
+  "delegateTransactions": {
+    "message": "委托\n交易",
+    "note": "Onboarding"
+  },
+  "generateTransactionsLocally": {
+    "message": "本地生成交易",
+    "note": "Onboarding"
+  },
+  "chainUnstable": {
+    "message": "由于Aleo Testnet3的不稳定，交易可能会失败."
+  },
+  "dataReset": {
+    "message": "数据重置。"
+  },
+  "transactionHistoryLost": {
+    "message": "我们想通知您，由于最近的 Aleo Testnet3 重置，所有交易历史记录都已丢失。"
+  },
+  "learnMore": {
+    "message": "了解更多"
+  },
+  "checkStatus": {
+    "message": "检查状态"
+  },
+  "walletBuiltForPrivacy": {
+    "message": "专为隐私而建的钱包",
+    "note": "Onboarding"
+  },
+  "privateTransactionsAnytimeAnywhere": {
+    "message": "随时随地进行私人交易。",
+    "note": "Onboarding"
+  },
+  "createANewWallet": {
+    "message": "创建一个新钱包",
+    "note": "Onboarding"
+  },
+  "iAlreadyHaveAWallet": {
+    "message": "我已经有一个钱包",
+    "note": "Onboarding"
+  },
+  "backUpYourWallet": {
+    "message": "备份你的钱包",
+    "note": "Onboarding"
+  },
+  "saveThese12Words": {
+    "message": "将这12个单词保存到密码管理器中，或者写下来并存放在安全的地方。不要与任何人分享。",
+    "note": "Onboarding"
+  },
+  "show": {
+    "message": "显示",
+    "note": "Onboarding"
+  },
+  "hide": {
+    "message": "隐藏",
+    "note": "Onboarding"
+  },
+  "copied": {
+    "message": "已复制",
+    "note": "Onboarding"
+  },
+  "copyToClipboard": {
+    "message": "复制到剪贴板",
+    "note": "Onboarding"
+  },
+  "createsProofsOnYourComputer": {
+    "message": "在你的电脑上创建证明",
+    "note": "Onboarding"
+  },
+  "yourKeysStayPrivate": {
+    "message": "你的密钥保持私密",
+    "note": "Onboarding"
+  },
+  "selectTheDefaultTransactionType": {
+    "message": "选择默认交易类型",
+    "note": "Onboarding"
+  },
+  "popular": {
+    "message": "流行",
+    "note": "Onboarding"
+  },
+  "verifyMessagePrefix": {
+    "message": "确认您已保存您的秘密恢复短语。选择第10个单词",
+    "note": "Onboarding"
+  },
+  "enterYourWalletSeedPhrase": {
+    "message": "输入你钱包的12个单词的种子短语。",
+    "note": "Onboarding"
+  },
+  "onlyAleoSeedPhrasesAreSupported": {
+    "message": "只支持Aleo种子短语。",
+    "note": "Onboarding"
+  },
+  "seedPhrasePlaceholder": {
+    "message": "12个单词的种子短语",
+    "note": "Onboarding"
+  },
+  "join": {
+    "message": "加入",
+    "note": "Onboarding"
+  },
+  "follow": {
+    "message": "关注",
+    "note": "Onboarding"
+  },
+  "yourWalletIsReady": {
+    "message": "您的钱包已准备好",
+    "note": "Onboarding"
+  },
+  "joinOurDiscord": {
+    "message": "加入我们的Leo Wallet Discord",
+    "note": "Onboarding"
+  },
+  "joinOurTwitter": {
+    "message": "在X（Twitter）上关注我们",
+    "note": "Onboarding"
+  },
+  "exploreTheWorldOfPrivateAssets": {
+    "message": "探索私人资产的世界",
+    "note": "Onboarding"
+  },
+  "getStarted": {
+    "message": "开始",
+    "note": "Onboarding"
+  },
+  "enterPassword": {
+    "message": "输入密码",
+    "note": "Onboarding"
+  },
+  "verifyPassword": {
+    "message": "验证密码",
+    "note": "Onboarding"
+  },
+  "enterPasswordAgain": {
+    "message": "再次输入密码",
+    "note": "Onboarding"
+  },
+  "itsAMatch": {
+    "message": "匹配成功！",
+    "note": "Onboarding"
+  },
+  "readMoreOnboarding": {
+    "message": "阅读更多",
+    "note": "Onboarding"
+  },
+  "helpUsToImproveLeoWallet": {
+    "message": "帮助我们改进Leo Wallet",
+    "note": "Onboarding"
+  },
+  "createPassword": {
+    "message": "创建密码",
+    "note": "Onboarding"
+  },
+  "createPasswordDescription": {
+    "message": "设置密码，每次使用计算机时解锁您的钱包。它不能用于恢复您的钱包。",
+    "note": "Onboarding"
+  },
+  "veryStrong": {
+    "message": "非常强！",
+    "note": "Onboarding"
+  },
+  "medium": {
+    "message": "中等",
+    "note": "Onboarding"
+  },
+  "low": {
+    "message": "低",
+    "note": "Onboarding"
+  },
+  "8chars1number": {
+    "message": "8个字符，1个数字",
+    "note": "Onboarding"
+  },
+  "minimumCharsWithAtLeast": {
+    "message": "至少8个字符，其中至少1个数字",
+    "note": "Onboarding"
+  },
+  "backUpWalletInstructions": {
+    "message": "将这12个单词保存到密码管理器，或写下并存放在安全的地方。不要与任何人分享。",
+    "note": "Onboarding"
+  },
+  "select": {
+    "message": "选择",
+    "note": "Onboarding"
+  },
+  "selected": {
+    "message": "已选择",
+    "note": "Onboarding"
+  },
+  "additionalDownloads": {
+    "message": "额外下载",
+    "note": "Onboarding"
+  },
+  "600megabytes": {
+    "message": "600+兆字节",
+    "note": "Onboarding"
+  },
+  "transactionSpeed": {
+    "message": "交易速度",
+    "note": "Onboarding"
+  },
+  "transactionSpeedMins": {
+    "message": "1-10分钟",
+    "note": "Onboarding"
+  },
+  "maximumPrivacy": {
+    "message": "最大隐私",
+    "note": "Onboarding"
+  },
+  "vpnLevelPrivacy": {
+    "message": "VPN级别的隐私",
+    "note": "Onboarding"
+  },
+  "transactionSpeed2Sec": {
+    "message": "2秒",
+    "note": "Onboarding"
+  },
+  "additionalDownloads0mb": {
+    "message": "0 MB",
+    "note": "Onboarding"
+  },
+  "delegateProofsToSecureServers": {
+    "message": "将证明委托给安全服务器",
+    "note": "Onboarding"
+  },
+  "delegateTransactions": {
+    "message": "委托\n交易",
+    "note": "Onboarding"
+  },
+  "generateTransactionsLocally": {
+    "message": "本地生成交易",
+    "note": "Onboarding"
+  },
+  "chainUnstable": {
+    "message": "由于Aleo Testnet3的不稳定，交易可能会失败."
+  }
+}

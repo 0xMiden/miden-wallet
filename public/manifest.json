@@ -1,0 +1,90 @@
+{
+  "manifest_version": 3,
+  "name": "Miden Wallet",
+  "version": "0.1",
+
+  "icons": {
+    "16": "misc/logo-white-bg-16.png",
+    "32": "misc/logo-white-bg-32.png",
+    "48": "misc/logo-white-bg-48.png",
+    "128": "misc/logo-white-bg-128.png"
+  },
+  "description": "__MSG_appDesc__",
+  "__chrome|firefox|opera__homepage_url": "https://leo.app",
+  "short_name": "Miden Wallet",
+
+  "permissions": ["storage", "clipboardWrite", "unlimitedStorage", "activeTab", "tabs"],
+  "host_permissions": [
+    "http://localhost:4180/",
+    "http://localhost:3000/",
+    "https://*.leo.app/*",
+    "https://*.aleorpc.com/",
+    "https://*.aleo.org/*"
+  ],
+
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  },
+  "cross_origin_embedder_policy": {
+    "value": "require-corp"
+  },
+  "cross_origin_opener_policy": {
+    "value": "same-origin"
+  },
+
+  "__chrome|firefox__author": "https://demoxlabs.xyz",
+  "__opera__developer": {
+    "name": "https://demoxlabs.xyz"
+  },
+
+  "__firefox__browser_specific_settings": {
+    "gecko": {
+      "id": "support@leo.app"
+    }
+  },
+
+  "__chrome__minimum_chrome_version": "88",
+  "__opera__minimum_opera_version": "36",
+
+  "default_locale": "en",
+
+  "action": {
+    "__chrome|firefox|opera__default_popup": "popup.html",
+    "default_icon": {
+      "16": "misc/logo-white-bg-16.png",
+      "32": "misc/logo-white-bg-32.png",
+      "48": "misc/logo-white-bg-48.png",
+      "128": "misc/logo-white-bg-128.png"
+    },
+    "default_title": "Miden Wallet",
+    "__chrome|opera__chrome_style": false,
+    "__firefox__browser_style": false
+  },
+
+  "__chrome|opera__options_page": "options.html",
+
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+
+  "background": {
+    "service_worker": "sw.js"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["http://localhost/*", "http://127.0.0.1/*", "https://*/*"],
+      "js": ["contentScript.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+
+  "web_accessible_resources": [
+    {
+      "resources": ["addToWindow.js"],
+      "matches": ["http://localhost/*", "http://127.0.0.1/*", "https://*/*"]
+    }
+  ]
+}

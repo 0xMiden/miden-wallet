@@ -1,0 +1,20 @@
+{
+  "bracketSameLine": false,
+  "singleQuote": true,
+  "trailingComma": "none",
+  "arrowParens": "avoid",
+  "printWidth": 120,
+  "importOrderCaseInsensitive": true,
+  "importOrderSeparation": true,
+  "importOrder": [
+    "css$",
+    "",
+    "^react$",
+    "",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^(app|lib|shared|workers)/(.*)$",
+    "",
+    "^[./]"
+  ]
+}

@@ -1,0 +1,3635 @@
+{
+  "showIncomingTransactions": {
+    "message": "앞으로의 거래 표시"
+  },
+  "appName": {
+    "message": "타노스 - 테조스 지갑"
+  },
+  "appDesc": {
+    "message": "🔐💰브라우저에 맞는 웹 익스텐선으로 테조스 블록체인용 암호화화폐 지갑을 사용합니다."
+  },
+  "importAccount": {
+    "message": "계정 불러오기"
+  },
+  "createAccount": {
+    "message": "계정 생성 또는 복원"
+  },
+  "faucetFileTitle": {
+    "message": "수도꼭지 파일"
+  },
+  "faucetFile": {
+    "message": "수도꼭지 파일"
+  },
+  "settings": {
+    "message": "설정"
+  },
+  "openNewTab": {
+    "message": "새 탭 열기"
+  },
+  "maximiseView": {
+    "message": "화면 최대화"
+  },
+  "selectFileOfFormat": {
+    "message": "$format$ 파일 선택",
+    "placeholders": {
+      "format": {
+        "content": "$1"
+      }
+    }
+  },
+  "authorizedDApps": {
+    "message": "인증된 분산 앱",
+    "description": "DApps = Decentralized Applications"
+  },
+  "clickIconToResetPermissions": {
+    "message": "X 아이콘을 클릭하여 접근 권한을 초기화하세요."
+  },
+  "versionLabel": {
+    "message": "버전: $version$",
+    "placeholders": {
+      "version": {
+        "content": "$1"
+      }
+    }
+  },
+  "madeWithLove": {
+    "message": "$companyName$ 옆에 $loveIcon$ 포함하여 제작",
+    "placeholders": {
+      "loveIcon": {
+        "content": "$1"
+      },
+      "companyName": {
+        "content": "$2"
+      }
+    }
+  },
+  "feeInputDescription": {
+    "message": "이 운영에 대한 기본 비용은 $fee$입니다\n추가 - 확인에 따라 속도 상승",
+    "placeholders": {
+      "fee": {
+        "content": "$1"
+      }
+    }
+  },
+  "resetPermissionsConfirmation": {
+    "message": "$origin$에 대한 접근 권한을 정말로 초기화하시겠습니까?",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "protectedFormField": {
+    "message": "보호됨"
+  },
+  "clickToRevealOrEditField": {
+    "message": "클릭하여 이 필드를 공개 혹은 편집하세요"
+  },
+  "copiedHash": {
+    "message": "복사됨."
+  },
+  "copyHashToClipboard": {
+    "message": "클립보드로 복사"
+  },
+  "accounts": {
+    "message": "계정"
+  },
+  "lock": {
+    "message": "블록"
+  },
+  "importedAccount": {
+    "message": "불러오기 완료"
+  },
+  "networks": {
+    "message": "네트워크"
+  },
+  "back": {
+    "message": "뒤로"
+  },
+  "addNewToken": {
+    "message": "새 토큰 추가"
+  },
+  "hideSomeToken": {
+    "message": "\"$tokenName$\" 토큰 숨기기",
+    "placeholders": {
+      "tokenName": {
+        "content": "$1"
+      }
+    }
+  },
+  "copySomeTokenAddress": {
+    "message": "\"$tokenSymbol$\" 주소 복사",
+    "placeholders": {
+      "tokenSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "originLabel": {
+    "message": "원금: $origin$",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "networkLabel": {
+    "message": "네트워크: $network$",
+    "placeholders": {
+      "network": {
+        "content": "$1"
+      }
+    }
+  },
+  "pkhLabel": {
+    "message": "계정: $pkh$",
+    "placeholders": {
+      "pkh": {
+        "content": "$1"
+      }
+    }
+  },
+  "minDelegationAmountDescription": {
+    "message": "현재 잔액이 이 베이커의 최소 위임 금액보다 적습니다. 잔액이 $minAmount$ 미만으로 지불금이 없다는 뜻입니다.",
+    "placeholders": {
+      "minAmount": {
+        "content": "$1"
+      }
+    }
+  },
+  "clickOnBakerPrompt": {
+    "message": "자금을 위임하고자 하는 베이커를 클릭하세요. 이 목록은 $link$이(가) 지원합니다.",
+    "placeholders": {
+      "link": {
+        "content": "$1"
+      }
+    }
+  },
+  "highestIsBetter": {
+    "message": "높을수록 좋습니다"
+  },
+  "unlockWalletPrompt": {
+    "message": "기존 지갑에 있던 것을 저장하고자 한다면 $link$하여 이를 잠금 해제하세요.",
+    "placeholders": {
+      "link": {
+        "content": "$1"
+      }
+    }
+  },
+  "acceptTermsInputDescription": {
+    "message": "본인은 $termsOfUsageLink$ 및 $privacyPolicyLink$를 읽고 이에 동의합니다",
+    "placeholders": {
+      "termsOfUsageLink": {
+        "content": "$1"
+      },
+      "privacyPolicyLink": {
+        "content": "$2"
+      }
+    }
+  },
+  "copiedTokenAddress": {
+    "message": "복사되었습니다."
+  },
+  "copiedTokenId": {
+    "message": "복사되었습니다."
+  },
+  "delegatedTo": {
+    "message": "위임 대상자:"
+  },
+  "delegatingMotivation": {
+    "message": "자금을 베이커에게 위임하는 것이 잔액에 대한 이자를 벌 수 있는 좋은 방법입니다."
+  },
+  "reDelegate": {
+    "message": "재위임"
+  },
+  "delegateNow": {
+    "message": "지금 위임하기"
+  },
+  "cancel": {
+    "message": "취소"
+  },
+  "save": {
+    "message": "저장"
+  },
+  "edit": {
+    "message": "편집"
+  },
+  "useCoinSwitch": {
+    "message": "CoinSwitch 사용",
+    "description": "CoinSwitch = https://coinswitch.co/"
+  },
+  "aleoFaucet": {
+    "message": "테조스 수도꼭지"
+  },
+  "aleoFaucetAlpha": {
+    "message": "테조스 수도꼭지(알파)"
+  },
+  "depositToWallet": {
+    "message": "지갑에 입금"
+  },
+  "depositToWalletDescription": {
+    "message": "지갑으로 돈을 받기 위한 입금 방법을 클릭하세요. 수도꼭지를 활용하여 무료 코인을 받으세요!"
+  },
+  "addToken": {
+    "message": "토큰 추가"
+  },
+  "contractNotAvailable": {
+    "message": "이 주소로 된 계약은 사용할 수 없습니다. 이 네트워크에 존재하는 것이 맞습니가?"
+  },
+  "noTransferMethod": {
+    "message": "송금 방법 없음"
+  },
+  "tokenDoesNotMatchStandard": {
+    "message": "입력한 토큰 계약이 $standard$ 기준과 일치하지 않습니다",
+    "placeholders": {
+      "standard": {
+        "content": "$1"
+      }
+    }
+  },
+  "error": {
+    "message": "오류"
+  },
+  "tokenType": {
+    "message": "토큰 유형"
+  },
+  "tokenId": {
+    "message": "토큰 ID"
+  },
+  "tokenIdInputDescription": {
+    "message": "FA2 계약 내 토큰임을 나타내는 음수가 아닌 정수"
+  },
+  "comingSoonComment": {
+    "message": "(곧 출시)"
+  },
+  "soon": {
+    "message": "곧"
+  },
+  "required": {
+    "message": "필수"
+  },
+  "address": {
+    "message": "주소"
+  },
+  "addressOfDeployedTokenContract": {
+    "message": "배치된 토큰 계약의 주소입니다."
+  },
+  "tokenContractPlaceholder": {
+    "message": "예) KT1v9CmPy..."
+  },
+  "tokenSymbolPatternDescription": {
+    "message": "a-z, A-Z, 0-9만 허용되며 2-5글자여야 합니다"
+  },
+  "symbol": {
+    "message": "기호"
+  },
+  "tokenSymbolInputDescription": {
+    "message": "미국 달러를 'USD'라 하듯, 해당하는 토큰 이름."
+  },
+  "tokenSymbolInputPlaceholder": {
+    "message": "예) WEW, BOW, LAL etc."
+  },
+  "tokenNamePatternDescription": {
+    "message": "특수 문자를 제외한 3-50글자"
+  },
+  "name": {
+    "message": "이름"
+  },
+  "tokenNameInputDescription": {
+    "message": "BTC 자산을 '비트코인'이라 하듯, 해당하는 토큰 이름."
+  },
+  "tokenNameInputPlaceholder": {
+    "message": "예) MySuperToken"
+  },
+  "nonNegativeIntMessage": {
+    "message": "정수, 0 이상"
+  },
+  "decimals": {
+    "message": "소수"
+  },
+  "decimalsInputDescription": {
+    "message": "소수점 뒤의 소수 자릿수. 예: BTC는 8, USD는 2입니다."
+  },
+  "orIPFSImageURL": {
+    "message": "또는 IPFS 이미지 URL"
+  },
+  "validImageURL": {
+    "message": "유효한 이미지 URL"
+  },
+  "onlyHTTPS": {
+    "message": "HTTPS 전용"
+  },
+  "formatsAllowed": {
+    "message": ".png, .jpg, .jpeg, .gif, .webp 이미지만 허용됨"
+  },
+  "iconURL": {
+    "message": "아이콘 URL"
+  },
+  "optionalComment": {
+    "message": "(선택)"
+  },
+  "iconURLInputDescription": {
+    "message": "토큰 로고용 이미지 URL입니다."
+  },
+  "invalidAddress": {
+    "message": "유효하지 않은 주소"
+  },
+  "contractNotExistOnNetwork": {
+    "message": "이 스마트 계약은 현재 네트워크에 존재하지 않습니다"
+  },
+  "onlyKTContractAddressAllowed": {
+    "message": "KT... 계약 주소만 허용됨",
+    "description": "KT not translated"
+  },
+  "operationHash": {
+    "message": "운영 해시"
+  },
+  "alert": {
+    "message": "경고"
+  },
+  "accountNameInputTitle": {
+    "message": "1-16글자, 특수문자 제외"
+  },
+  "accountsToRemoveConstraint": {
+    "message": "귀하의 시드 문구는 항상 이 지갑을 재생성할 수 있습니다. 삭제는 불가능합니다."
+  },
+  "doNotSharePrivateKey": {
+    "message": "누구와도 이 글자 세트를 <b>공유하지 마세요!</b> 현재 계정을 도난 당할 수 있습니다."
+  },
+  "reject": {
+    "message": "거절"
+  },
+  "signAction": {
+    "message": "서명"
+  },
+  "decryptAction": {
+    "message": "복호화"
+  },
+  "appRequestsToDecrypt": {
+    "message": "$origin$ 암호 해독을 요청합니다",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "alpha": {
+    "message": "알파"
+  },
+  "viewAccountAddressWarning": {
+    "message": "이 사이트가 계정 주소를 확인하기 위해 액세스를 요청하고 있습니다. 상호 소통하는 사이트가 믿을만한 사이트인지 항상 확인하세요."
+  },
+  "account": {
+    "message": "계정"
+  },
+  "toBeConnectedWithDApp": {
+    "message": "분산 앱과 연결합니다."
+  },
+  "atLeast8Characters": {
+    "message": "최소 8글자"
+  },
+  "atLeast1Number": {
+    "message": "최소 숫자 1개"
+  },
+  "atLeast1LowercaseLetter": {
+    "message": "소문자 최소 1글자"
+  },
+  "atLeast1UppercaseLetter": {
+    "message": "대문자 최소 1글자"
+  },
+  "mnemonicWordsAmountConstraint": {
+    "message": "영어로 된 12 또는 15, 18, 21, 24 단어"
+  },
+  "mnemonicSpacingConstraint": {
+    "message": "각 단어를 한 칸 띄어쓰기로 구분함"
+  },
+  "justValidPreGeneratedMnemonic": {
+    "message": "유효한 사전 생성 니모닉만"
+  },
+  "oops": {
+    "message": "이런!"
+  },
+  "mayHappenBecauseYouAreOffline": {
+    "message": "현재 오프라인 상태여서 이런 문제가 발생했을 수 있습니다"
+  },
+  "tryAgain": {
+    "message": "다시 시도하기"
+  },
+  "testnetbeta": {
+    "message": "Aleo 테스트넷 베타",
+    "description": "Testnet Beta"
+  },
+  "leoWalletOptions": {
+    "message": "템플 지갑 | 옵션"
+  },
+  "resetExtension": {
+    "message": "익스텐션 재설정"
+  },
+  "resetExtensionConfirmation": {
+    "message": "타노스 지갑을 정말로 초기화하시겠습니까?\n그 결과 모든 데이터가 삭제됩니다."
+  },
+  "failedToResetExtension": {
+    "message": "익스텐션 초기화 실패: $errorMessage$",
+    "placeholders": {
+      "errorMessage": {
+        "content": "$1"
+      }
+    }
+  },
+  "ledger": {
+    "message": "Ledger",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "retry": {
+    "message": "재시도"
+  },
+  "privateKeyCannotBeRevealed": {
+    "message": "비공개 키는 공개할 수 없습니다"
+  },
+  "youCannotGetPrivateKeyFromThisAccountType": {
+    "message": "$accountType$ 계정에서 비공개 키를 받을 수 없습니다.",
+    "placeholders": {
+      "accountType": {
+        "content": "$1"
+      }
+    }
+  },
+  "maximalAmount": {
+    "message": "최대: $amount$",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "amountMustBePositive": {
+    "message": "양수여야 합니다"
+  },
+  "accountName": {
+    "message": "계정 이름"
+  },
+  "accountNameInputDescription": {
+    "message": "새 계정 이름은 무엇이 될까요?"
+  },
+  "createNewWallet": {
+    "message": "새 지갑 생성"
+  },
+  "createNewWalletDescription": {
+    "message": "타노스 지갑이 처음이신가요? 그렇다면 함께 설정해봅시다! 설정 결과 새 지갑 및 비밀 문구가 생성됩니다"
+  },
+  "delegate": {
+    "message": "위임"
+  },
+  "explore": {
+    "message": "탐색"
+  },
+  "assetsWhileMessage": {
+    "message": "자산 데이터 불러오는 중"
+  },
+  "receive": {
+    "message": "받기"
+  },
+  "send": {
+    "message": "전송"
+  },
+  "baking": {
+    "message": "베이킹"
+  },
+  "operations": {
+    "message": "운영"
+  },
+  "delegationInfoWhileMessage": {
+    "message": "위임 정보를 불러오거나 처리하는 중"
+  },
+  "operationHistoryWhileMessage": {
+    "message": "운영 내역을 불러오거나 처리하는 중"
+  },
+  "privateKey": {
+    "message": "비공개 키"
+  },
+  "mnemonic": {
+    "message": "니모닉"
+  },
+  "fundraiser": {
+    "message": "펀드레이저"
+  },
+  "privateKeyInputDescription": {
+    "message": "불러오고자 하는 계정의 비밀 키입니다."
+  },
+  "privateKeyInputPlaceholder": {
+    "message": "예) edsk3wfiPMu..."
+  },
+  "password": {
+    "message": "비밀번호"
+  },
+  "isPrivateKeyEncrypted": {
+    "message": "비공개 키가 암호화된 포맷으로 되어 있나요?"
+  },
+  "customDerivationPath": {
+    "message": "맞춤형 도출 경로"
+  },
+  "mnemonicInputLabel": {
+    "message": "비밀 문구"
+  },
+  "mnemonicInputPlaceholder": {
+    "message": "예) 장소 양말 우유 업데이트..."
+  },
+  "passwordInputDescription": {
+    "message": "추가 니모닉 도출에 사용합니다. 이는 지갑 비밀번호가 아닙니다."
+  },
+  "derivation": {
+    "message": "도출"
+  },
+  "addDerivationPathPrompt": {
+    "message": "기본값으로 도출은 사용하지 않도록 되어 있습니다. 추가하려면 '맞춤형 도출 경로'를 클릭하세요."
+  },
+  "derivationPathMustStartWithM": {
+    "message": "'m'으로 시작해야 합니다"
+  },
+  "derivationSeparatorMustBeSlash": {
+    "message": "'/'으로 구분해야 합니다"
+  },
+  "invalidPath": {
+    "message": "유효하지 않은 경로"
+  },
+  "email": {
+    "message": "이메일"
+  },
+  "unexpectedOrInvalidFile": {
+    "message": "예상치 못한 혹은 유효하지 않은 파일"
+  },
+  "requestSent": {
+    "message": "$type$ 요청을 전송하였습니다! 확인 중...",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "success": {
+    "message": "성공"
+  },
+  "smthWentWrong": {
+    "message": "문제가 발생했습니다"
+  },
+  "faucetFileInputPrompt": {
+    "message": "파일을 드래그 및 드롭 하거나 아래 영역을 클릭하여 수동으로 선택하세요. $link$에서 다운로드 할 수 있습니다.",
+    "placeholders": {
+      "link": {
+        "content": "$1"
+      }
+    }
+  },
+  "processing": {
+    "message": "처리 중..."
+  },
+  "accountAddressLabel": {
+    "message": "회원님의 현재 계정 주소입니다. 이를 공유하여 자금을 받으세요."
+  },
+  "copiedAddress": {
+    "message": "복사됨."
+  },
+  "copyAddressToClipboard": {
+    "message": "클립보드로 복사"
+  },
+  "qrCode": {
+    "message": "QR코드"
+  },
+  "revealPrivateKey": {
+    "message": "비공개 키 공개"
+  },
+  "revealPrivateKeyDescription": {
+    "message": "\"계정 내보내기\"라고도 하는데, 선택한 계정의 비공개 키가 공개됩니다"
+  },
+  "revealSeedPhrase": {
+    "message": "비밀 문구 공개"
+  },
+  "revealSeedPhraseDescription": {
+    "message": "\"지갑 내보내기\"라고도 하는데, 다른 기기에서 지갑 및 계정에 액세스 하려면 이 비밀 문구가 있어야 합니다."
+  },
+  "dApps": {
+    "message": "분산 앱",
+    "description": "DApps = Decentralized Applications"
+  },
+  "dAppsDescription": {
+    "message": "이 섹션에서 타노스 지갑을 지원하는 분산 애플리케이션과 상호 소통하는 기능을 활성화할 수 있습니다."
+  },
+  "networksDescription": {
+    "message": "이 섹션에서 맞춤형 테조스 네트워크를 추가하거나 삭제할 수 있습니다.",
+    "description": "Aleo = blockchain name (https://aleo.com/)"
+  },
+  "activateAccount": {
+    "message": "계정 활성화"
+  },
+  "activateAccountDescription": {
+    "message": "ICO/펀드레이져 혹은 테스트네트 수도꼭지 계정은 이것이 필수입니다"
+  },
+  "removeAccount": {
+    "message": "계정 제거"
+  },
+  "removeAccountDescription": {
+    "message": "이 섹션을 활용하여 선택한 계정을 제거하세요. 불러온 계정만 제거할 수 있습니다."
+  },
+  "about": {
+    "message": "정보"
+  },
+  "aboutDescription": {
+    "message": "이 섹션을 활용하여 타노스 지갑에 관한 메타 징보를 확인하세요."
+  },
+  "unlockWallet": {
+    "message": "지갑 잠금 해제"
+  },
+  "toContinue": {
+    "message": "계속하려면"
+  },
+  "unlockPasswordInputDescription": {
+    "message": "지갑을 보호하기 위해 비밀번호를 사용합니다."
+  },
+  "unlock": {
+    "message": "잠금 해제"
+  },
+  "importNewAccountTitle": {
+    "message": "계정을 복원하시겠습니까? 아니면 다른 계정으로 로그인 하시겠습니까?"
+  },
+  "importWalletUsingSeedPhrase": {
+    "message": "비밀 문구로 지갑 불러오기"
+  },
+  "connectLedger": {
+    "message": "Ledger 연결하기",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "importExistingWallet": {
+    "message": "기존 지갑 불러오기"
+  },
+  "links": {
+    "message": "링크"
+  },
+  "website": {
+    "message": "웹사이트"
+  },
+  "repo": {
+    "message": "저장소"
+  },
+  "privacyPolicy": {
+    "message": "개인정보 보호정책"
+  },
+  "termsOfUse": {
+    "message": "사용약관"
+  },
+  "contact": {
+    "message": "연락처"
+  },
+  "accountAlreadyActivated": {
+    "message": "계정이 이미 활성화되었습니다."
+  },
+  "accountActivated": {
+    "message": "계정 활성화 성공!"
+  },
+  "failureSecretMayBeInvalid": {
+    "message": "실패. 입력한 보안 정보가 유효하지 않을 때 발생할 수 있습니다"
+  },
+  "accountToBeActivated": {
+    "message": "활성화할 계정입니다."
+  },
+  "ifYouWantToActivateAnotherAccount": {
+    "message": "다른 계정을 활성화하고자 한다면 우측 상담 드롭다운에서 해당 계정을 선택하세요."
+  },
+  "activateAccountSecret": {
+    "message": "보안 정보"
+  },
+  "activateAccountSecretDescription": {
+    "message": "펀드레이져 계정 혹은 수도꼭지의 '보안' 필드"
+  },
+  "activateAccountSecretPlaceholder": {
+    "message": "예) n4hs7sd3..."
+  },
+  "activate": {
+    "message": "활성화"
+  },
+  "minimalFeeDescription": {
+    "message": "최소"
+  },
+  "fastFeeDescription": {
+    "message": "빠른"
+  },
+  "rocketFeeDescription": {
+    "message": "로켓"
+  },
+  "customFeeDescription": {
+    "message": "맞춤형"
+  },
+  "additionalFee": {
+    "message": "추가 비용"
+  },
+  "asset": {
+    "message": "자산"
+  },
+  "selectAnotherAssetPrompt": {
+    "message": "다른 자산 혹은 토큰을 선택하려면 영역을 클릭하세요."
+  },
+  "disable": {
+    "message": "비활성화"
+  },
+  "enable": {
+    "message": "활성화"
+  },
+  "dAppsCheckmarkPrompt": {
+    "message": "분산 앱 상호 소통 기능을 $action$하려면 체크표시를 클릭하세요",
+    "description": "DApps = Decentralized Applications",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "dAppsInteraction": {
+    "message": "분산 앱 상호 소통",
+    "description": "DApps = Decentralized Applications"
+  },
+  "enabled": {
+    "message": "활성화됨"
+  },
+  "disabled": {
+    "message": "비활성화됨"
+  },
+  "enablePopup": {
+    "message": "팝업 활성화"
+  },
+  "popupEnabled": {
+    "message": "활성화됨"
+  },
+  "popupDisabled": {
+    "message": "비활성화됨"
+  },
+  "rank": {
+    "message": "순위"
+  },
+  "delete": {
+    "message": "삭제"
+  },
+  "fee": {
+    "message": "비용"
+  },
+  "space": {
+    "message": "공간"
+  },
+  "delegation": {
+    "message": "위임"
+  },
+  "baker": {
+    "message": "베이커"
+  },
+  "bakerInputDescription": {
+    "message": "등록한 베이커의 주소입니다."
+  },
+  "bakerInputPlaceholder": {
+    "message": "예 aleo13u9kfm2..."
+  },
+  "minDelegationAmountTitle": {
+    "message": "최소 위임 계정"
+  },
+  "unknownBakerTitle": {
+    "message": "알 수 없는 베이커"
+  },
+  "unknownBakerDescription": {
+    "message": "입력한 주소는 베이커로서 저희가 알 수 없는 주소입니다! 자금을 위임하시되, 위험 부담은 회원님에게 있습니다."
+  },
+  "delegateToRecommendedBakers": {
+    "message": "추천 베이커로 위임"
+  },
+  "sortBy": {
+    "message": "정렬 기준"
+  },
+  "cycles_other": {
+    "message": "$amount$ 순환 주기",
+    "description": "For plural forms",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "notEnoughFunds": {
+    "message": "자금 부족"
+  },
+  "notEnoughCurrencyFunds": {
+    "message": "$currency$ 자금 부족",
+    "placeholders": {
+      "currency": {
+        "content": "$1"
+      }
+    }
+  },
+  "notAllowed": {
+    "message": "허용되지 않음"
+  },
+  "failed": {
+    "message": "실패"
+  },
+  "yourBalanceIsZero": {
+    "message": "잔액이 0입니다."
+  },
+  "minimalFeeGreaterThanBalance": {
+    "message": "이 송금 건에 대한 최소 비용이 잔액보다 큽니다."
+  },
+  "alreadyDelegatedFundsToBaker": {
+    "message": "자금을 이 베이커에게 이미 위임했습니다. 재위임은 불가합니다."
+  },
+  "bakerNotRegistered": {
+    "message": "지정된 베이커가 등록되지 않았습니다."
+  },
+  "unableToPerformActionToBaker": {
+    "message": "입력한 베이커로 $action$할 수 없습니다.",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "estimateDelegation": {
+    "message": "위임 예상"
+  },
+  "thisMayHappenBecause": {
+    "message": "증상 발생 원인:"
+  },
+  "minimalFeeGreaterThanBalanceVerbose": {
+    "message": "이 송금 건의 최소 비용이 잔액보다 큽니다. 자금을 공란인 관리자 계정으로 송금하려할 때에는 비용이 많이 들 수 있습니다. 한 번에  0.06425 $gasTokenSymbol$ 의 연소 비용이 필요합니다.",
+    "placeholders": {
+      "gasTokenSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "networkOrOtherIssue": {
+    "message": "네트워크 혹은 기타 기술적인 문제입니다."
+  },
+  "unableToDelegateToKTAddress": {
+    "message": "계약 주소인...KT로 위임할 수 없습니다"
+  },
+  "confirmAction": {
+    "message": "$action$ 확인",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "payloadToSign": {
+    "message": "서명할 페이로드"
+  },
+  "decline": {
+    "message": "거절"
+  },
+  "confirm": {
+    "message": "확인"
+  },
+  "confirmDecryptionPermission": {
+    "message": "복호화 권한 확인"
+  },
+  "confirmDecryptionPermissionDescription": {
+    "message": "이렇게 하면 기록에 영구적으로 액세스할 수 있으며 취소할 수 없습니다."
+  },
+  "confirmRisk": {
+    "message": "나는 위험을 이해하고 계속 진행하기를 원합니다."
+  },
+  "decryptPermission": {
+    "message": "복호화 권한"
+  },
+  "NO_DECRYPT": {
+    "message": "이 앱은 보기 키를 사용하여 레코드를 해독할 수 없습니다."
+  },
+  "DECRYPT_UPON_REQUEST": {
+    "message": "이 앱은 귀하의 명시적 승인이 있어야만 기록을 해독할 수 있습니다. 암호 해독 요청을 묻는 메시지가 표시됩니다."
+  },
+  "AUTO_DECRYPT": {
+    "message": "이 앱은 지갑이 연결되어 있는 동안에만 명시적인 허가 없이 필요한 모든 레코드를 자동으로 해독할 수 있습니다. ViewKey를 볼 수 없습니다."
+  },
+  "network": {
+    "message": "네트워크"
+  },
+  "unknownNetwork": {
+    "message": "알 수 없음:"
+  },
+  "backupNewSeedPhrase": {
+    "message": "새 비밀 문구 백업"
+  },
+  "attentionExclamation": {
+    "message": "주의!"
+  },
+  "lockedWalletAlreadyExists": {
+    "message": "잠긴 지갑이 <b>이미 존재합니다</b>.\n새 지갑을 불러오면 <b>기존 지갑은 파기합니다</b>."
+  },
+  "backToUnlockPage": {
+    "message": "돌아가 페이지 잠금 해제"
+  },
+  "mustBeEqualToPasswordAbove": {
+    "message": "상기 비밀번호와 동일해야 합니다"
+  },
+  "repeatPassword": {
+    "message": "비밀번호 반복"
+  },
+  "repeatPasswordInputDescription": {
+    "message": "비밀번호를 다시 입력하세요."
+  },
+  "confirmTermsError": {
+    "message": "사용약관을 확인하지 않으면 계속 진행할 수 없습니다"
+  },
+  "confirmError": {
+    "message": "확인하지 않고는 계속할 수 없습니다."
+  },
+  "acceptTerms": {
+    "message": "약관 동의"
+  },
+  "termsOfUsage": {
+    "message": "사용약관"
+  },
+  "create": {
+    "message": "생성"
+  },
+  "revealNewSeedPhrase": {
+    "message": "<b>아래 영역을 클릭하여</b> 새 비밀문구를 공개하세요.\n그런 다음 종이에 이 문구를 적고 <b>보안이 되는 곳에 저장하세요</b>. 또는 외우고 계셔도 됩니다."
+  },
+  "doNotSharePhrase": {
+    "message": "아무하고도 이 문구를 <b>공유하지 마세요!</b> 모든 계정을 도난 당할 수 있습니다."
+  },
+  "youWillNeedThisSeedPhrase": {
+    "message": "브라우저나 기기 간 전환하는 경우, 계정에 액세스 하기 위해 이 비밀문구가 필요합니다."
+  },
+  "unableToContinueWithoutConfirming": {
+    "message": "확인 없이는 계속 진행할 수 없습니다"
+  },
+  "backupedInputLabel": {
+    "message": "비밀문구를 백업했습니다"
+  },
+  "backupedInputDescription": {
+    "message": "이 문구를 분실할 경우, 자금을 잃게 될 수 있음에 동의합니다."
+  },
+  "continue": {
+    "message": "계속"
+  },
+  "noOperationsFound": {
+    "message": "운영 내용을 찾을 수 없습니다"
+  },
+  "pending": {
+    "message": "보류 중..."
+  },
+  "backtracked": {
+    "message": "역추적됨"
+  },
+  "operationSuccessfullyProcessed": {
+    "message": "$type$ 처리 및 확인 성공!",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "timedOutOperationConfirmation": {
+    "message": "운영 내용 확인 시간이 지났습니다. 좀 더 기다리거나 나중에 다시 시도하세요."
+  },
+  "accountToBeRemoved": {
+    "message": "제거할 계정입니다."
+  },
+  "ifYouWantToRemoveAnotherAccount": {
+    "message": "다른 계정을 제거하고자 하면 우측 상단의 드롭다운에서 해당 계정을 선택하세요."
+  },
+  "cannotBeRemoved": {
+    "message": "제거할 수 없음"
+  },
+  "importedPlural": {
+    "message": "불러오기 완료"
+  },
+  "enterPasswordToRemoveAccount": {
+    "message": "계정을 제거하려면 비밀번호를 입력하세요."
+  },
+  "remove": {
+    "message": "제거"
+  },
+  "ifYouWantToRevealPrivateKeyFromOtherAccount": {
+    "message": "다른 계정의 비공개 키를 공개하고자 한다면 우측 상단의 드롭다운에서 해당되는 것을 선택해야 합니다."
+  },
+  "privateKeyFieldDescription": {
+    "message": "현재 계정 키입니다. 보안을 유지하세요."
+  },
+  "derivationPath": {
+    "message": "도출 경로"
+  },
+  "seedPhrase": {
+    "message": "비밀 문구"
+  },
+  "pathForHDAccounts": {
+    "message": "HD 계정용입니다. 회원님의 비밀 문구에서 모든 계정을 복원하기 위해 사용하는 것입니다.",
+    "description": "HD = Hierarchical Deterministic"
+  },
+  "derivationPathExample": {
+    "message": "m/44'/1729'/<계정 지수>'/0'"
+  },
+  "derivationPathExample2": {
+    "message": "예) m/44'/1729'/..."
+  },
+  "keepSeedPhraseSecret": {
+    "message": "보안을 유지하세요."
+  },
+  "revealSecretPasswordInputDescription": {
+    "message": "$secretName$을(를) 공개하려면 비밀번호를 입력하세요.",
+    "placeholders": {
+      "secretName": {
+        "content": "$1"
+      }
+    }
+  },
+  "reveal": {
+    "message": "공개"
+  },
+  "transaction": {
+    "message": "송금"
+  },
+  "recipient": {
+    "message": "수신자"
+  },
+  "tokensRecepientInputDescription": {
+    "message": "$assetSymbol$ 자금을 전송할 주소입니다.",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "tokensRecepientInputDescriptionWithDomain": {
+    "message": "$assetSymbol$ 자금을 전송할 주소 혹은 테조스 도메인입니다.",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "addressInputDescription": {
+    "message": "테조스 계정 혹은 스마트 계약 주소입니다."
+  },
+  "addressInputDescriptionWithDomain": {
+    "message": "계정의 테조스 도메인 혹은 스마트 계약의 주소입니다."
+  },
+  "recipientInputPlaceholder": {
+    "message": "예) aleo13u9kfm2..."
+  },
+  "recipientInputPlaceholderWithDomain": {
+    "message": "예) alice.aleo or aleo13u9kfm2...",
+    "description": "alice.aleo = domain like google.com"
+  },
+  "tryingToTransferToYourself": {
+    "message": "자신에게 자금을 송금하는 중이시군요.\n정확하게 원하는 것인지 확인해보세요."
+  },
+  "amount": {
+    "message": "금액"
+  },
+  "availableToSend": {
+    "message": "전송 가능(최대):"
+  },
+  "inAsset": {
+    "message": "단위 $assetSymbol$",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "amountPlaceholder": {
+    "message": "예) 123.45"
+  },
+  "sendToMyAccounts": {
+    "message": "내 계정으로 전송"
+  },
+  "clickOnRecipientAccount": {
+    "message": "자금을 전송하고자 하는 계정을 클릭하세요."
+  },
+  "unableToSendTransactionAction": {
+    "message": "입력한 수신자에게 송금액을 전송할 수 없습니다."
+  },
+  "unableToEstimateTransactionAction": {
+    "message": "입력한 수신자에게 송금액을 추산해줄 수 없습니다."
+  },
+  "makeSureToBackupSeedPhrase": {
+    "message": "비밀문구를 백업하였는지 확인하세요!"
+  },
+  "exploreMore": {
+    "message": "추가 탐색하기..."
+  },
+  "selfComment": {
+    "message": "(자신)"
+  },
+  "deleteNetworkConfirm": {
+    "message": "이 네트워크를 정말로 삭제하시겠습니까?"
+  },
+  "networkNamePlaceholder": {
+    "message": "내 맞춤형 네트워크"
+  },
+  "mustBeValidURL": {
+    "message": "URL이 유효해야 합니다"
+  },
+  "rpcBaseURL": {
+    "message": "RPC 기본 URL",
+    "description": "RPC = Remote Procedure Call (https://en.wikipedia.org/wiki/Remote_procedure_call)"
+  },
+  "mustBeUnique": {
+    "message": "고유값이어야 합니다"
+  },
+  "addNetwork": {
+    "message": "네트워크 추가"
+  },
+  "currentNetworks": {
+    "message": "현재 네트워크"
+  },
+  "deleteNetworkHint": {
+    "message": "네트워크를 삭제하려면 X 아이콘을 클릭하세요. 네트워크를 편집하고자 한다면, 이를 삭제하고 내 변수를 포함하여 다른 것을 추가하세요."
+  },
+  "preview": {
+    "message": "미리보기"
+  },
+  "raw": {
+    "message": "원자료"
+  },
+  "fetchingConfirmationDetails": {
+    "message": "확인 세부정보 불러오는 중"
+  },
+  "notIdentified": {
+    "message": "확인되지 않음"
+  },
+  "connection": {
+    "message": "연결"
+  },
+  "connect": {
+    "message": "연결"
+  },
+  "confirmActionOnDevice": {
+    "message": "다음에서 작업 확인"
+  },
+  "deviceName": {
+    "message": "$device$ 기기",
+    "placeholders": {
+      "device": {
+        "content": "$1"
+      }
+    }
+  },
+  "ledgerNano": {
+    "message": "Ledger Nano",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "defaultLedgerName": {
+    "message": "Ledger $number$",
+    "description": "Ledger = https://www.ledger.com/",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "ledgerNameConstraint": {
+    "message": "1-16글자, 특수문자 제외"
+  },
+  "ledgerNameInputDescription": {
+    "message": "새 Ledger 계정의 이름은 무엇이 될까요?",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "defaultDerivationPathLabel": {
+    "message": "기본값으로 $path$ 도출이 사용됩니다.",
+    "placeholders": {
+      "path": {
+        "content": "$1"
+      }
+    }
+  },
+  "clickOnCustomDerivationPath": {
+    "message": "'맞춤형 도출 경로'를 클릭하여 맞춤 설정하세요."
+  },
+  "addLedgerAccount": {
+    "message": "Ledger 계정 추가",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "connectionUnavailable": {
+    "message": "사용 불가"
+  },
+  "sorry": {
+    "message": "죄송합니다!"
+  },
+  "upload": {
+    "message": "업로드"
+  },
+  "languageAndCountry": {
+    "message": "언어"
+  },
+  "generalSettings": {
+    "message": "일반"
+  },
+  "generalSettingsDescription": {
+    "message": "여기에서 선호하는 언어와 디스플레이 모드를 관리할 수 있습니다."
+  },
+  "swapNoun": {
+    "message": "스왑"
+  },
+  "transfers": {
+    "message": "송금"
+  },
+  "approveToken": {
+    "message": "토큰 승인"
+  },
+  "add": {
+    "message": "추가"
+  },
+  "assets": {
+    "message": "자산"
+  },
+  "activity": {
+    "message": "활동"
+  },
+  "manage": {
+    "message": "관리"
+  },
+  "manageAssets": {
+    "message": "자산 관리"
+  },
+  "noAssetsFound": {
+    "message": "자산을 찾을 수 없음"
+  },
+  "searchAssets": {
+    "message": "자산 검색..."
+  },
+  "deployNew": {
+    "message": "새로 배치"
+  },
+  "managedKTAccount": {
+    "message": "관리 대상 KT"
+  },
+  "watchOnlyAccount": {
+    "message": "보기 전용"
+  },
+  "disabledForWatchOnlyAccount": {
+    "message": "보기 전용 계정에서는 비활성화됨"
+  },
+  "activationOperationType": {
+    "message": "활성화"
+  },
+  "youAreNotContractManager": {
+    "message": "회원님은 계약 관리자가 아닙니다"
+  },
+  "contract": {
+    "message": "계약"
+  },
+  "contractAddressInputDescription": {
+    "message": "연결할 계약서 주소입니다."
+  },
+  "contractAddressInputPlaceholder": {
+    "message": "예) KT1a9w1S7hN5s..."
+  },
+  "addKnownManagedContract": {
+    "message": "알려진 관리 계약 추가"
+  },
+  "clickOnContractToImport": {
+    "message": "가져오고자 하는 계약서를 클릭하세요."
+  },
+  "notContractAddress": {
+    "message": "계약 주소가 아님"
+  },
+  "contractAlreadyImported": {
+    "message": "이 계약은 이미 불러온 것입니다"
+  },
+  "waitWhileContractBeingDeployed": {
+    "message": "계약이 배치되는 동안 시간이 다소 걸릴 수 있으니 이 페이지를 나가거나 창을 닫지 마세요. 해당 양식과 이 경고는 배치가 완료되자마자 사라집니다."
+  },
+  "justAMinute": {
+    "message": "잠시만 기다려주세요..."
+  },
+  "someNetworkIsNotCurrent": {
+    "message": "네트워크가 $network$(으)로 지정되었으나 현재 네트워크가 아닙니다",
+    "placeholders": {
+      "network": {
+        "content": "$1"
+      }
+    }
+  },
+  "someNetworkWithChainIdIsNotCurrent": {
+    "message": "체인 ID가 $chainId$(으)로 지정되었으나 현재 네트워크의 체인 ID가 아닙니다",
+    "placeholders": {
+      "chainId": {
+        "content": "$1"
+      }
+    }
+  },
+  "popupSettings": {
+    "message": "팝업 모드"
+  },
+  "popupSettingsDescription": {
+    "message": "익스텐션 패널의 플러그인 아이콘 클릭에 나타나는 팝업을 여기에서 설정할 수 있습니다."
+  },
+  "managedContract": {
+    "message": "관리 대상 계약"
+  },
+  "referredByTokenContractNotFound": {
+    "message": "토큰 계약이 참조하는 계약 $address$를 찾을 수 없습니다.",
+    "placeholders": {
+      "address": {
+        "content": "$1"
+      }
+    }
+  },
+  "tokenContractNotFound": {
+    "message": "계약을 찾을 수 없습니다."
+  },
+  "failedToParseMetadata": {
+    "message": "메타데이터 분석 실패"
+  },
+  "unknownParseErrorOccurred": {
+    "message": "알 수 없는 분석 오류가 발생했습니다."
+  },
+  "errorWhileFetchingUrl": {
+    "message": "$url$에서 불러오는 중 오류가 발생했습니다",
+    "placeholders": {
+      "url": {
+        "content": "$1"
+      }
+    }
+  },
+  "invalidManagedContract": {
+    "message": "유효하지 않은 관리 계약"
+  },
+  "someMethodNotDefinedInContract": {
+    "message": "'$name$' 방법은 계약에 명시되어 있지 않습니다.",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "someMethodSignatureDoesNotMatchStandard": {
+    "message": "'$name$' 방법의 서명이 기준과 일치하지 않습니다.",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "failedToLoadChainID": {
+    "message": "이 네트워크의 체인 ID 로드 실패"
+  },
+  "makeSureTokenIdIsCorrect": {
+    "message": "해당 토큰 ID가 올바른지 확인해보세요."
+  },
+  "unknownErrorCheckingSomeEntrypoint": {
+    "message": "'$name$' 진입점을 확인하는 동안 알 수 없는 오류가 발생했습니다.",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "incorrectTokenIdErrorMessage": {
+    "message": "입력한 데이터로 토큰 처리 중 실패하였습니다. 해당 토큰 ID가 올바른지 확인하세요."
+  },
+  "transfer": {
+    "message": "송금"
+  },
+  "transferFromSmb": {
+    "message": "$sender$로부터",
+    "placeholders": {
+      "sender": {
+        "content": "$1"
+      }
+    }
+  },
+  "transferToSmb": {
+    "message": "$receiver$에게",
+    "placeholders": {
+      "receiver": {
+        "content": "$1"
+      }
+    }
+  },
+  "interaction": {
+    "message": "상호 소통"
+  },
+  "interactionWithContract": {
+    "message": "$contract$ 포함",
+    "placeholders": {
+      "contract": {
+        "content": "$1"
+      }
+    }
+  },
+  "delegationToSmb": {
+    "message": "$delegate$에게",
+    "placeholders": {
+      "delegate": {
+        "content": "$1"
+      }
+    }
+  },
+  "fa2TokenAlreadyExists": {
+    "message": "주소가 $address$인 토큰과 ID $tokenId$(은)는 이미 있습니다.",
+    "placeholders": {
+      "address": {
+        "content": "$1"
+      },
+      "tokenId": {
+        "content": "$2"
+      }
+    }
+  },
+  "nonFa2TokenAlreadyExists": {
+    "message": "주소가 $address$인 토큰은 이미 있습니다.",
+    "placeholders": {
+      "address": {
+        "content": "$1"
+      }
+    }
+  },
+  "approveForSmb": {
+    "message": "$spender$용",
+    "placeholders": {
+      "spender": {
+        "content": "$1"
+      }
+    }
+  },
+  "undelegation": {
+    "message": "위임 해제"
+  },
+  "bytes": {
+    "message": "바이트"
+  },
+  "clean": {
+    "message": "지우기"
+  },
+  "errorChangingAccountName": {
+    "message": "계정 이름 변경 중 오류 발생"
+  },
+  "ok": {
+    "message": "확인"
+  },
+  "yes": {
+    "message": "예"
+  },
+  "no": {
+    "message": "아니오"
+  },
+  "actionConfirmation": {
+    "message": "작업 확인"
+  },
+  "domainDoesntResolveToAddress": {
+    "message": "도메인 \"$value$\"은 주소로 분석되지 않습니다",
+    "placeholders": {
+      "value": {
+        "content": "$1"
+      }
+    }
+  },
+  "invalidAddressOrDomain": {
+    "message": "유효하지 않은 주소나 도메인 이름"
+  },
+  "resolvedAddress": {
+    "message": "분석된 주소"
+  },
+  "invalidRpcCantGetChainId": {
+    "message": "유효하지 않은 RPC: 체인 id를 받을 수 없음",
+    "description": "RPC = Remote Procedure Call (https://en.wikipedia.org/wiki/Remote_procedure_call)"
+  },
+  "contractNotOriginated": {
+    "message": "계약 발생되지 않음"
+  },
+  "welcomeTo": {
+    "message": "환영합니다"
+  },
+  "domain": {
+    "message": "도메인"
+  },
+  "hash": {
+    "message": "해시"
+  },
+  "defaultAccount": {
+    "message": "기본 계정"
+  },
+  "loadMore": {
+    "message": "더 로드 하기"
+  },
+  "submit": {
+    "message": "제출"
+  },
+  "invalidJsonInput": {
+    "message": "유효하지 않은 JSON"
+  },
+  "notFaucetJson": {
+    "message": "수도꼭지 JSON이 아님"
+  },
+  "faucetJson": {
+    "message": "수도꼭지 JSON"
+  },
+  "faucetJsonDescription": {
+    "message": "파일 추가 대신 여기에 JSON을 붙여넣기 할 수 있습니다"
+  },
+  "selectFile": {
+    "message": "파일 선택"
+  },
+  "clickToRevealField": {
+    "message": "이 필드를 표시하려면 클릭하세요."
+  },
+  "clickToReveal": {
+    "message": "클릭하여 공개"
+  },
+  "skip": {
+    "message": "건너뛰다"
+  },
+  "checkNow": {
+    "message": "지금 확인"
+  },
+  "theLendingProtocol": {
+    "message": "테조스의 대출 프로토콜."
+  },
+  "alreadyLaunched": {
+    "message": "이미 출시되었습니다!"
+  },
+  "borrowLandEarn": {
+    "message": "좋아하는 토큰을 빌리고 토지를 확보하세요!"
+  },
+  "independenceDayOfUkraine": {
+    "message": "우크라이나 독립기념일"
+  },
+  "zeroSwapCommissionTitle": {
+    "message": "2주 동안의 제로 스왑 커미션 - 축하 $text$ 우리와 함께!",
+    "placeholders": {
+      "text": {
+        "content": "$1"
+      }
+    }
+  },
+  "zeroSwapCommissionDescription": {
+    "message": "에서 $date1$ 까지 $date2$ , Leo 사용자는 라우터를 통해 거래를 수행할 수 있습니다. $text$ 개발 수수료가 없는 섹션입니다.\n\n가장 유리한 환율과 수수료 없이 한 곳에서 거래하세요.",
+    "placeholders": {
+      "date1": {
+        "content": "$1"
+      },
+      "date2": {
+        "content": "$2"
+      },
+      "text": {
+        "content": "$3"
+      }
+    }
+  },
+  "okGotIt": {
+    "message": "알았어요"
+  },
+  "changelogTitle": {
+    "message": "레오 지갑 업데이트"
+  },
+  "changelogDescription": {
+    "message": "이번 업데이트에서"
+  },
+  "update": {
+    "message": "업데이트"
+  },
+  "skipOnboarding": {
+    "message": "온보딩 건너뛰기"
+  },
+  "advancedUser": {
+    "message": "나는 고급 사용자입니다"
+  },
+  "analytics": {
+    "message": "해석학"
+  },
+  "analyticsCollecting": {
+    "message": "익명 정보 수집"
+  },
+  "analyticsInputDescription": {
+    "message": "나는 찬성합니다 $analyticsLink$ ",
+    "placeholders": {
+      "analyticsLink": {
+        "content": "$1"
+      }
+    }
+  },
+  "dcpDelegatingMotivation": {
+    "message": "귀하의 자금을 생산자에게 위임하는 것은 귀하의 잔액에 대한 이자를 얻는 좋은 방법입니다"
+  },
+  "addAsset": {
+    "message": "자산 추가"
+  },
+  "assetId": {
+    "message": "자산 ID"
+  },
+  "comingSoon": {
+    "message": "출시 예정"
+  },
+  "weakKeystorePassword": {
+    "message": "\"키 저장소 파일\" 암호가 너무 약하여 확장 암호로 사용할 수 없습니다. 새로 설정해야 합니다."
+  },
+  "mustBeNonNegative": {
+    "message": "음수가 아니어야 합니다."
+  },
+  "positiveIntMessage": {
+    "message": "정수, 1 이상"
+  },
+  "doNotShareViewKey": {
+    "message": "<b>신뢰할 수 있는 사람과만 공유</b> 모든 거래 내역을 보는 데 사용할 수 있습니다."
+  },
+  "signPayload": {
+    "message": "서명할 메시지"
+  },
+  "decryptPayload": {
+    "message": "복호화할 메시지"
+  },
+  "noPreview": {
+    "message": "미리보기를 사용할 수 없습니다."
+  },
+  "requirements": {
+    "message": "요구 사항:"
+  },
+  "mixtureOfUppercaseAndLowercaseLetters": {
+    "message": "대문자와 소문자의 혼합."
+  },
+  "mixtureOfLettersAndNumbers": {
+    "message": "문자와 숫자의 혼합."
+  },
+  "atLeast1SpecialCharacter": {
+    "message": "하나 이상의 특수 문자 포함(예: ! @"
+  },
+  "seedInputNumberOfWords": {
+    "message": "내 Seed 문구는 $1 단어입니다."
+  },
+  "seedPasteFailedTooManyWords": {
+    "message": "24개 이상의 단어가 포함되어 있어 붙여넣기에 실패했습니다."
+  },
+  "seedPhraseTip": {
+    "message": "모든 필드에 전체 비밀 시드 구문을 붙여넣을 수 있습니다."
+  },
+  "assetMustBeSelected": {
+    "message": "자산을 선택해야 합니다."
+  },
+  "gasFeeMustBePositive": {
+    "message": "가스 요금은 양수여야 합니다."
+  },
+  "get": {
+    "message": "얻다"
+  },
+  "exolixWarningNote": {
+    "message": "입금만 해주세요 $currencyName$ 전송 네트워크 $networkName$ . 그렇지 않으면 자산을 영구적으로 잃을 수 있습니다.",
+    "placeholders": {
+      "currencyName": {
+        "content": "$1"
+      },
+      "networkName": {
+        "content": "$1"
+      }
+    }
+  },
+  "mnemonicInputDescription": {
+    "message": "니모닉. 당신의 비밀 12 - 24단어 문구."
+  },
+  "mnemonicInputWarning": {
+    "message": "우리는 당신의 시드 문구를 저장하지 않습니다. 잃어버리지 마세요!"
+  },
+  "importWallet": {
+    "message": "지갑 가져오기"
+  },
+  "createWallet": {
+    "message": "지갑 만들기"
+  },
+  "errorImportingKukaiWallet": {
+    "message": "Kukai 지갑을 가져오는 중 오류가 발생했습니다."
+  },
+  "selectedFileFormatNotSupported": {
+    "message": "선택한 파일 형식이 지원되지 않습니다"
+  },
+  "fileHasSyntaxError": {
+    "message": "파일에 구문 오류가 있습니다. 파일이 올바른지 확인하십시오."
+  },
+  "entropyDecryptionError": {
+    "message": "엔트로피를 해독하지 못했습니다. 비밀번호가 정확한지 확인하세요"
+  },
+  "kukaiFileVersionError": {
+    "message": "버전 3의 파일만 처리할 수 있습니다."
+  },
+  "kukaiWalletTypeError": {
+    "message": "이 지갑 유형에 대한 시드 문구를 공개할 수 없습니다."
+  },
+  "revealViewKey": {
+    "message": "보기 키 표시"
+  },
+  "revealViewKeyDescription": {
+    "message": "\"계정 기록 공유\"라고도 하며 선택한 계정의 보기 키를 보여줍니다."
+  },
+  "info": {
+    "message": "정보"
+  },
+  "unlockPasswordErrorDelay": {
+    "message": "잘못된 비밀번호를 세 번 입력했습니다. 지갑이 차단되고 있습니다."
+  },
+  "importExistingWalletDescription": {
+    "message": "이미 지갑이 있으신가요? 시드 구문 또는 암호화된 키 저장소 파일을 사용하여 가져오기"
+  },
+  "routingFee": {
+    "message": "라우팅 수수료"
+  },
+  "routingFeeTooltip": {
+    "message": "Aleo DEX 중에서 가장 수익성이 높은 교환 경로를 선택합니다.\n\nDEXes 커미션은 포함되지 않습니다."
+  },
+  "staking": {
+    "message": "스테이킹"
+  },
+  "recommended": {
+    "message": "추천"
+  },
+  "partnership": {
+    "message": "협력 관계"
+  },
+  "delegationGuide": {
+    "message": "전체 비디오 가이드"
+  },
+  "delegationGuideLink": {
+    "message": "XTZ 위임 방법"
+  },
+  "delegationComunity": {
+    "message": "질문이 있는 경우 커뮤니티에 작성하세요."
+  },
+  "delegationPointsHead1": {
+    "message": "5.6%의 이자를 적립하세요"
+  },
+  "delegationPointsHead2": {
+    "message": "당신의 테조스에서"
+  },
+  "delegationPointsHead3": {
+    "message": "매년 베이킹 보상에서"
+  },
+  "delegationPoint1": {
+    "message": "Aleo의 첫 번째 보상은 약 36일 후에 지급됩니다."
+  },
+  "delegationPoint2": {
+    "message": "그러면 3일마다 보상을 받습니다."
+  },
+  "delegationPoint3": {
+    "message": "적립률은 시간에 따라 다릅니다. 지갑에서 현재 환율을 확인하세요."
+  },
+  "delegationPoint4": {
+    "message": "Aleo 토큰은 잠겨 있지 않습니다. 언제든 보내주세요!"
+  },
+  "producer": {
+    "message": "생산자"
+  },
+  "producerInputDescription": {
+    "message": "등록된 생산자의 주소입니다."
+  },
+  "bakerInputDescriptionWithDomain": {
+    "message": "등록된 제빵사의 주소 또는 도메인 이름입니다."
+  },
+  "cycles_one": {
+    "message": "$amount$ 주기",
+    "description": "For plural forms",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "file": {
+    "message": "파일"
+  },
+  "keystoreFile": {
+    "message": "키 저장소 파일"
+  },
+  "filePassword": {
+    "message": "파일 비밀번호"
+  },
+  "filePasswordInputDescription": {
+    "message": "키 저장소 파일의 암호를 입력하십시오"
+  },
+  "fileInputPrompt": {
+    "message": "파일을 선택하거나 여기로 드래그하세요."
+  },
+  "useKeystorePassword": {
+    "message": "파일 암호를 확장 암호로 사용"
+  },
+  "import": {
+    "message": "수입"
+  },
+  "applied": {
+    "message": "적용된"
+  },
+  "skipped": {
+    "message": "건너뜀"
+  },
+  "ifYouWantToRevealViewKeyFromOtherAccount": {
+    "message": "다른 계정의 보기 키를 공개하려면 오른쪽 상단 드롭다운에서 선택해야 합니다."
+  },
+  "viewKeyFieldDescription": {
+    "message": "현재 계정 보기 키입니다. 비밀로 하세요. 이 키를 가진 사람은 누구나 거래 내역을 볼 수 있습니다."
+  },
+  "derivationType": {
+    "message": "파생 유형"
+  },
+  "derivationTypeFieldDescription": {
+    "message": "계정에서 사용할 타원 곡선입니다."
+  },
+  "tryingToTransferToContract": {
+    "message": "계약을 위해 자금을 이체하려고 합니다.\n정확히 원하는 것인지 확인하십시오."
+  },
+  "inFiat": {
+    "message": "피아트에서"
+  },
+  "fiatCurrency": {
+    "message": "기본 통화"
+  },
+  "tokens": {
+    "message": "토큰"
+  },
+  "manageTokens": {
+    "message": "토큰 관리"
+  },
+  "searchByName": {
+    "message": "이름으로 검색..."
+  },
+  "analyticsSettings": {
+    "message": "익명 분석"
+  },
+  "analyticsSettingsDescription": {
+    "message": "여기에서 제품 개선에 도움이 되는 익명 분석 전송을 구성할 수 있습니다."
+  },
+  "origination": {
+    "message": "개시"
+  },
+  "unknownErrorFromRPC": {
+    "message": "에 요청을 보내지 못했습니다. $url$ . 잘못된 요청이 제공되었거나 RPC 노드에 일시적으로 연결할 수 없습니다.",
+    "placeholders": {
+      "url": {
+        "content": "$1"
+      }
+    }
+  },
+  "emptyImplicitContract": {
+    "message": "계정이 비어 있습니다. 활성화하려면 이 계정에 aleo credits 금액을 입금하세요."
+  },
+  "balanceTooLow": {
+    "message": "가스 토큰 잔액이 너무 낮습니다."
+  },
+  "swap": {
+    "message": "교환"
+  },
+  "accountNumber": {
+    "message": "계좌 번호"
+  },
+  "noExchangersAvailable": {
+    "message": "죄송합니다. 현재 네트워크에 사용할 수 있는 교환기가 없습니다."
+  },
+  "noResults": {
+    "message": "결과 없음"
+  },
+  "aleoApy": {
+    "message": "APY: 6%"
+  },
+  "tokenApy": {
+    "message": "APY"
+  },
+  "max": {
+    "message": "최대"
+  },
+  "balance": {
+    "message": "균형:"
+  },
+  "from": {
+    "message": "에서"
+  },
+  "toAsset": {
+    "message": "에게"
+  },
+  "via": {
+    "message": "을 통해"
+  },
+  "swapRoute": {
+    "message": "스왑 경로"
+  },
+  "exchangeRate": {
+    "message": "환율"
+  },
+  "priceImpact": {
+    "message": "가격 영향"
+  },
+  "slippageTolerance": {
+    "message": "미끄러짐 공차"
+  },
+  "minimumReceived": {
+    "message": "최소 수령"
+  },
+  "inputOutputAssetsCannotBeSame": {
+    "message": "입력 및 출력 자산은 동일할 수 없습니다."
+  },
+  "helpAndCommunity": {
+    "message": "돕다"
+  },
+  "communityResourcesTitle": {
+    "message": "항상 레오 지갑에 대한 추가 정보를 찾거나 다음 리소스에 대한 도움을 요청할 수 있습니다."
+  },
+  "helpAndCommunityDescription": {
+    "message": "커뮤니티의 일원이 되고 싶거나 도움이 필요한 경우 이 섹션을 사용하십시오."
+  },
+  "joinPrompt": {
+    "message": "부담없이 가입하시고 궁금한 점 물어보세요 😊"
+  },
+  "blockExplorer": {
+    "message": "블록체인 탐색기"
+  },
+  "specifyTokenId": {
+    "message": "토큰 ID 지정"
+  },
+  "notWhitelistedTokenWarning": {
+    "message": "주목! 교환하려는 토큰 중 하나가 허용 목록에 없습니다. 당신은 그들과 상호 작용할 수 있습니다."
+  },
+  "tvl": {
+    "message": "TVL"
+  },
+  "promoted": {
+    "message": "승격"
+  },
+  "searchDApps": {
+    "message": "디앱 검색"
+  },
+  "game": {
+    "message": "게임"
+  },
+  "social": {
+    "message": "사회의"
+  },
+  "marketplace": {
+    "message": "시장"
+  },
+  "farming": {
+    "message": "농업"
+  },
+  "other": {
+    "message": "다른"
+  },
+  "noMatchingDAppsFound": {
+    "message": "일치하는 dApp을 찾을 수 없습니다."
+  },
+  "gasFee": {
+    "message": "가스비"
+  },
+  "storageFee": {
+    "message": "보관료"
+  },
+  "leoWalletFeeWarning": {
+    "message": "레오 지갑은 현재 거래소에 수수료를 부과하지 않지만 향후 적용될 수 있습니다."
+  },
+  "poolExchangeFee": {
+    "message": "수영장 교환비"
+  },
+  "PriceImpactInfo": {
+    "message": "거래 규모에 따른 시장 가격과 예상 가격의 차이"
+  },
+  "selectToken": {
+    "message": "토큰 선택"
+  },
+  "viewAll": {
+    "message": "모두보기"
+  },
+  "rewardsForBlocks": {
+    "message": "$blocksAmount$ $blocks$ $feesAmount$ 수수료에 대한 $reward$",
+    "placeholders": {
+      "reward": {
+        "content": "$1"
+      },
+      "blocksAmount": {
+        "content": "$2"
+      },
+      "blocks": {
+        "content": "$3"
+      },
+      "feesAmount": {
+        "content": "$4"
+      }
+    }
+  },
+  "blocks_one": {
+    "message": "$amount$ 블록",
+    "description": "For plural forms",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "blocks_other": {
+    "message": "$amount$ 블록",
+    "description": "For plural forms",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "rewardsForSlots": {
+    "message": "$slotsAmount$ $slots$에 대한 $reward$",
+    "placeholders": {
+      "reward": {
+        "content": "$1"
+      },
+      "slotsAmount": {
+        "content": "$2"
+      },
+      "slots": {
+        "content": "$3"
+      }
+    }
+  },
+  "slots_one": {
+    "message": "$amount$ 슬롯",
+    "description": "For plural forms",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "slots_other": {
+    "message": "$amount$ 슬롯",
+    "description": "For plural forms",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "storageFeeMax": {
+    "message": "보관 수수료(최대)"
+  },
+  "storageLimit": {
+    "message": "저장 한도 조정"
+  },
+  "txIsLikelyToFail": {
+    "message": "경고! 거래가 실패할 가능성이 있음"
+  },
+  "copyErrorLogs": {
+    "message": "오류 로그 복사"
+  },
+  "dAppsListTvlDescription": {
+    "message": "잠긴 총 가치. aleo credits의 값은 dApp에 잠긴 aleo credits의 총량입니다. USD의 가치는 거기에 잠긴 aleo credits와 토큰의 총량입니다."
+  },
+  "noFavoriteDApps": {
+    "message": "좋아하는 dApp이 없습니다."
+  },
+  "more": {
+    "message": "더",
+    "description": "Show more"
+  },
+  "less": {
+    "message": "더 적은",
+    "description": "Show less"
+  },
+  "recentDestinations": {
+    "message": "최근 목적지"
+  },
+  "unknownAccount": {
+    "message": "알 수 없는 계정"
+  },
+  "ledgerLiveBridgeGuide": {
+    "message": "Ledger에 연결하려면 장치에서 Ledger Live 애플리케이션을 활성화하고 Aleo Wallet 애플리케이션을 열고 Leo 계정에 WebSocket 연결을 허용하십시오."
+  },
+  "ledgerBridgeGuide": {
+    "message": "Ledger를 연결하려면 장치를 활성화하고 Aleo Wallet 애플리케이션을 여십시오."
+  },
+  "noExchangerFoundForToken": {
+    "message": "토큰에 대한 교환기를 찾을 수 없습니다. $symbol$  ( $name$ ).",
+    "placeholders": {
+      "symbol": {
+        "content": "$1"
+      },
+      "name": {
+        "content": "$2"
+      }
+    }
+  },
+  "addressBook": {
+    "message": "주소록"
+  },
+  "addressBookDescription": {
+    "message": "연락처를 추가, 제거 및 관리합니다."
+  },
+  "addNewContact": {
+    "message": "새 연락처"
+  },
+  "addContact": {
+    "message": "주소록에 추가"
+  },
+  "newContactPlaceholder": {
+    "message": "예를 들어 앨리스 밥"
+  },
+  "contactWithTheSameAddressAlreadyExists": {
+    "message": "동일한 주소의 연락처가 이미 있습니다."
+  },
+  "currentContacts": {
+    "message": "현재 연락처"
+  },
+  "updateContactDescription": {
+    "message": "기존 연락처를 업데이트하려면 삭제하세요.\n그리고 새로 추가합니다."
+  },
+  "deleteContactConfirm": {
+    "message": "이 연락처를 삭제하시겠습니까?"
+  },
+  "ownAccount": {
+    "message": "소유하다"
+  },
+  "counterErrorDescription": {
+    "message": "현재 작업을 수행할 수 없습니다!\n이전 작업이 적용될 때까지 기다렸다가 다시 시도하세요."
+  },
+  "swapDisclaimerTitle": {
+    "message": "부인 성명. 베타 버전, SWAP 섹션을 사용하기 전에 읽으십시오."
+  },
+  "swapDisclaimerContent": {
+    "message": "레오 지갑은 테조스 덱스와 상호작용할 수 있는 인터페이스만 제공합니다.\n\n당사는 DEX 문제, 표시된 토큰, 가격, 환율 및 사용자 거래 결정에 대해 책임을 지지 않습니다.\n\n이 스왑 섹션을 사용하기 전에 관련 문서를 검토하여 DEX(AMM) 프로토콜이 작동하는 방식을 이해해야 합니다.\n\n이 섹션을 사용하는 것은 전적으로 사용자의 책임입니다."
+  },
+  "noContactsFound": {
+    "message": "연락처를 찾을 수 없습니다"
+  },
+  "addThisAddressToContacts": {
+    "message": "이 주소를 연락처에 추가하시겠습니까?"
+  },
+  "verifySeedPhrase": {
+    "message": "시드 구문 확인"
+  },
+  "verifySeedPhraseDescription": {
+    "message": "Seed Phrase 백업을 확인하는 단어로 빈 필드를 채우십시오."
+  },
+  "word": {
+    "message": "단어 $number$ ",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "finish": {
+    "message": "마치다"
+  },
+  "welcomeToOnboarding": {
+    "message": "온보딩에 오신 것을 환영합니다"
+  },
+  "onboarding": {
+    "message": "온보딩"
+  },
+  "next": {
+    "message": "다음"
+  },
+  "updatingMinMax": {
+    "message": "최소/최대 업데이트 중..."
+  },
+  "done": {
+    "message": "완료!"
+  },
+  "standWithUkraine": {
+    "message": "우크라이나와 함께 하세요"
+  },
+  "addressBalanceDetails": {
+    "message": "귀하의 주소 및 잔액"
+  },
+  "addressBalanceDescription": {
+    "message": "계정을 만든 후에는 고유 주소(Aleo 블록체인의 개인 식별자)를 받게 됩니다. Leo에서 Aleo 크레딧 또는 Aleo 빌드 토큰을 받고 사용하려면 이 주소를 사용해야 합니다."
+  },
+  "addressBalanceHint": {
+    "message": "Aleo 크레딧의 잔액은 공개 주소 아래에 표시됩니다."
+  },
+  "howToStartDetails": {
+    "message": "시작하는 방법"
+  },
+  "howToStartDescription1": {
+    "message": "지갑을 사용하고 Aleo DApps 생태계와 상호 작용하려면 계정 잔액이 양수여야 합니다. 이렇게 하려면 Aleo Credits 코인으로 주소를 채우십시오."
+  },
+  "howToStartDescription2": {
+    "message": "\"구매\" 버튼을 사용하고 암호화폐, 직불 카드 또는 신용 카드를 사용하여 Aleo Credits 잔액을 충전할 수 있습니다."
+  },
+  "howToStartHint": {
+    "message": "또한 주소를 복사하여 다른 지갑이나 거래소에서 코인을 보낼 수도 있습니다. 주소를 복사하려면 지갑 메인 화면에서 주소를 클릭하거나 “받기”를 이용하세요."
+  },
+  "tokensCollectibleDetails": {
+    "message": "토큰"
+  },
+  "tokensCollectibleDescription1": {
+    "message": "FA1.2 및 FA2 토큰의 잔액은 \"토큰\" 탭에 표시됩니다."
+  },
+  "tokensCollectibleDescription2": {
+    "message": "이 섹션에서 토큰을 클릭하여 전송, 잔액 확인 또는 토큰의 계약 주소를 확인할 수 있습니다."
+  },
+  "tokensCollectibleHint": {
+    "message": "대체 불가 토큰(NFT)은 \"수집품\" 탭에 표시됩니다. 여기에서 자신의 NFT와 상호 작용하고 전체 보기, ID 및 계약 주소를 볼 수도 있습니다."
+  },
+  "profileRpcDetails": {
+    "message": "프로필"
+  },
+  "profileRpcDescription": {
+    "message": "인터페이스 상단에서 계정 로봇 아이콘을 볼 수 있습니다. 그것을 클릭하면 계정과의 상호 작용을 위한 매개변수, 설정 버튼 및 확장 프로그램 보기 모드가 표시됩니다."
+  },
+  "profileRpcHint1": {
+    "message": "다음으로 \"네트워크\" 선택기가 표시되며, 여기에서 귀하의 Leo 확장 프로그램이 연결될 노드(RPC)를 선택할 수 있습니다."
+  },
+  "profileRpcHint2": {
+    "message": "잔액이 표시되지 않으면 노드를 변경해 보십시오."
+  },
+  "profileRpcHint3": {
+    "message": "미리 정의된 목록에서 선택하거나 다음을 따라 RPC를 수동으로 추가할 수 있습니다."
+  },
+  "congrats": {
+    "message": "축하해요!"
+  },
+  "instructions": {
+    "message": "지침."
+  },
+  "start": {
+    "message": "시작"
+  },
+  "thanks": {
+    "message": "알았어 고마워!"
+  },
+  "browserVersionIsOutOfDate": {
+    "message": "브라우저 버전이 오래되었습니다. 최신 버전으로 업데이트하는 것이 좋습니다!"
+  },
+  "congratsDescription1": {
+    "message": "주목 해 주셔서 감사합니다!"
+  },
+  "congratsDescription2": {
+    "message": "이제 레오 지갑의 기본 기능과 가장 중요한 기능에 대해 알아보았습니다."
+  },
+  "congratsDescription3": {
+    "message": "YouTube의 \"교육 시리즈\"에서 레오의 모든 기능을 배울 수 있습니다."
+  },
+  "congratsDescription4": {
+    "message": "또한 지침과 가이드는 지식 기반에서 사용할 수 있습니다."
+  },
+  "congratsDescription5": {
+    "message": "Telegram과 Discord에서 커뮤니티에 가입하세요."
+  },
+  "congratsDescription6": {
+    "message": "추신: Aleo 세계를 탐험하는 행운을 빕니다!"
+  },
+  "attention": {
+    "message": "주목"
+  },
+  "attentionDescription": {
+    "message": "어떠한 구실로도 개인 키와 시드 구문을 제3자와 공유하지 마십시오."
+  },
+  "attentionListTitle1": {
+    "message": "또한 다음 사항을 기억하십시오."
+  },
+  "attentionListItem1": {
+    "message": "귀하의 지갑은 브라우저 0days 또는 설치된 다른 악성 확장 프로그램을 통해 표적이 될 수 있습니다."
+  },
+  "attentionListItem2": {
+    "message": "화면은 시스템에 설치된 악성 소프트웨어에 의해 잠재적으로 조작될 수 있습니다."
+  },
+  "attentionListItem3": {
+    "message": "사용자의 호스트 시스템은 암호화된 지갑을 훔치기 위해 맬웨어의 표적이 될 수 있습니다."
+  },
+  "attentionListItem4": {
+    "message": "약한 암호를 선택하면 적대적인 무차별 대입에 저항하는 지갑의 능력이 감소할 수 있습니다."
+  },
+  "attentionListTitle2": {
+    "message": "자산을 안전하게 유지하려면 다음을 권장합니다."
+  },
+  "attentionListItem5": {
+    "message": "가능한 한 빨리 \"핫\" 지갑에서 \"콜드\" 지갑으로 자금을 이동하십시오(Leo 지갑은 \"Ledger Nano\" 장치와의 통합을 지원합니다)."
+  },
+  "attentionListItem6": {
+    "message": "웹서핑과 지갑 운영을 위해 별도의 브라우저를 사용합니다."
+  },
+  "attentionListItem7": {
+    "message": "한 번에 하나의 브라우저 탭을 사용하여 거래하십시오."
+  },
+  "attentionListItem8": {
+    "message": "사용하지 않을 때는 지갑을 잠가 두십시오."
+  },
+  "takeCare": {
+    "message": "암호화폐 세상에서 안전을 지키세요!"
+  },
+  "readMore": {
+    "message": "더 읽어보기"
+  },
+  "deleteTokenConfirm": {
+    "message": "이 토큰을 삭제하시겠습니까?"
+  },
+  "ledgerLiveSettings": {
+    "message": "원장 라이브 사용"
+  },
+  "ledgerLiveSettingsDescription": {
+    "message": "새로운 Ledger Live 브리지를 사용하면 Ledger를 다른 방식으로 사용할 수 있습니다."
+  },
+  "lockUpSettings": {
+    "message": "확장 잠금"
+  },
+  "lockUpSettingsDescription": {
+    "message": "10분 동안 활동이 없으면 확장 프로그램이 자동으로 차단됩니다."
+  },
+  "totalBalance": {
+    "message": "전체 균형"
+  },
+  "buyButton": {
+    "message": "구입하다"
+  },
+  "buyWithCrypto": {
+    "message": "암호화폐로 구매"
+  },
+  "buyWithExolix": {
+    "message": "Exolix로 구매"
+  },
+  "buyWithExolixDescription": {
+    "message": "교환 $number$ 등록 없이 즉시 Aleo Credits 또는 USDT Aleo로 암호화폐",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "buyWithMoonPay": {
+    "message": "MoonPay로 구매"
+  },
+  "buyWithMoonPayDescription": {
+    "message": "암호화가 쉬워졌습니다. Visa, Mastercard 및 모든 주요 직불 카드 및 신용 카드를 사용하여 몇 분 만에 Aleo Credits를 구입하십시오."
+  },
+  "buyWithRamp": {
+    "message": "램프로 구매"
+  },
+  "buyWithRampDescription": {
+    "message": "Visa, Mastercard 및 모든 주요 직불 카드 및 신용 카드를 사용하여 Aleo Credits를 구입하십시오. 램프는 160개 국가 및 지역에서 사용할 수 있습니다."
+  },
+  "buyWithAliceBob": {
+    "message": "Alice-Bob으로 Aleo Credits 구매(UAH만 해당)"
+  },
+  "buyWithAliceBobDescription": {
+    "message": "UAH를 Aleo Credits로 빠르고 비용 효율적인 교환."
+  },
+  "buyWithUtorgDescription": {
+    "message": "라이선스가 있는 법정화폐 간 게이트웨이. 187개국, AI 기반 KYC, Apple Pay, Google Pay."
+  },
+  "topUpBuy": {
+    "message": "충전 $gasTokenName$ 균형",
+    "placeholders": {
+      "gasTokenName": {
+        "content": "$1"
+      }
+    }
+  },
+  "buyWithUtorg": {
+    "message": "UTORG로 Aleo Credits 구매"
+  },
+  "buyWithCard": {
+    "message": "직불/신용 카드로 구매"
+  },
+  "topUpDescription": {
+    "message": "Leo 통합 타사 솔루션 구매 $gasTokenName1$ 암호화폐 또는 직불/신용 카드로. 제공업체를 선택하고 가이드를 따르고 $gasTokenName2$ 귀하의 계정에.",
+    "placeholders": {
+      "gasTokenName1": {
+        "content": "$1"
+      },
+      "gasTokenName2": {
+        "content": "$2"
+      }
+    }
+  },
+  "enterAmount": {
+    "message": "금액을 입력하세요:"
+  },
+  "topUpCrypto": {
+    "message": "암호화"
+  },
+  "topUpDebit": {
+    "message": "직불/신용 카드"
+  },
+  "overdueTransaction": {
+    "message": "거래 기한이 지났습니다"
+  },
+  "overdueTransactionMessage": {
+    "message": "다음이 아니면 새 교환을 만드십시오.\n 당신은 자금을 보냈습니다.\n 자금이 송금된 경우 시스템에서 확인을 기다리십시오."
+  },
+  "topUpAgain": {
+    "message": "다시 충전"
+  },
+  "topUp": {
+    "message": "충전"
+  },
+  "newTopUp": {
+    "message": "새로운 충전"
+  },
+  "exchangeDetails": {
+    "message": "거래소 정보 입력"
+  },
+  "exchangeDetailsDescription": {
+    "message": "Aleo Credits 또는 USDT Aleo 잔액을 즉시 충전하세요. $number$ 암호화폐",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "privacyAndPolicyLinks": {
+    "message": "클릭하여 $buttonContent$ 당신은 동의 $termsOfUse$ 그리고 $privacyPolicy$ ",
+    "placeholders": {
+      "buttonContent": {
+        "content": "$1"
+      },
+      "termsOfUse": {
+        "content": "$2"
+      },
+      "privacyPolicy": {
+        "content": "$3"
+      }
+    }
+  },
+  "depositAddressText": {
+    "message": "보증금 $depositAddress$ 주소:",
+    "placeholders": {
+      "depositAddress": {
+        "content": "$1"
+      }
+    }
+  },
+  "support": {
+    "message": "지원하다"
+  },
+  "deposit": {
+    "message": "보증금"
+  },
+  "depositDescription": {
+    "message": "아래 주소로 자금을 보내주십시오. 보증금이 입금되는 즉시 교환 프로세스가 자동으로 시작됩니다."
+  },
+  "sendByOneTransaction": {
+    "message": "하나의 트랜잭션으로 보내기"
+  },
+  "youGet": {
+    "message": "당신은 얻을:"
+  },
+  "fixedRate": {
+    "message": "고정 비율:"
+  },
+  "transactionId": {
+    "message": "거래 ID:"
+  },
+  "atomDepositMemo": {
+    "message": "아톰 입금 메모"
+  },
+  "recipientAddress": {
+    "message": "받는 사람 주소:"
+  },
+  "recipientXtzAddress": {
+    "message": "받는 사람 XTZ 주소:"
+  },
+  "inputHash": {
+    "message": "입력 해시:"
+  },
+  "youSend": {
+    "message": "당신은 보낸다:"
+  },
+  "sendTime": {
+    "message": "전송 시간:"
+  },
+  "completedDescription": {
+    "message": "지갑의 자금을 확인하십시오.\n교환 절차가 완료되었습니다."
+  },
+  "completed": {
+    "message": "완전한"
+  },
+  "youReceive": {
+    "message": "다음을 받습니다."
+  },
+  "waitMessage": {
+    "message": "기다리세요. 변환 프로세스는 15분에서 2시간이 소요됩니다."
+  },
+  "confirmation": {
+    "message": "확인"
+  },
+  "exchanging": {
+    "message": "교환"
+  },
+  "step": {
+    "message": "단계"
+  },
+  "collectibles": {
+    "message": "수집품"
+  },
+  "attentionSendAmount": {
+    "message": "정확한 양의 암호화폐를 입금 주소로 보내주셔야 합니다. 그렇지 않으면 거래가 실패하고 연락해야 합니다. $support$ ",
+    "placeholders": {
+      "support": {
+        "content": "$1"
+      }
+    }
+  },
+  "important": {
+    "message": "중요한"
+  },
+  "id": {
+    "message": "ID"
+  },
+  "addCollectible": {
+    "message": "수집품 추가"
+  },
+  "manageCollectibles": {
+    "message": "수집품 관리"
+  },
+  "deleteCollectibleConfirm": {
+    "message": "이 소장품을 삭제하시겠습니까?"
+  },
+  "zeroCollectibleText": {
+    "message": "아직 수집품이 없습니다!\n그들 중 하나를 얻을 좋은 시간"
+  },
+  "min": {
+    "message": "최소:"
+  },
+  "warningTopUpServiceMessage": {
+    "message": "토큰 교환 기능은 타사에서 제공합니다. Leo Wallet은 제3자 서비스의 작업에 대해 책임을 지지 않습니다."
+  },
+  "selectTokensToSwap": {
+    "message": "교환할 토큰을 선택하세요."
+  },
+  "enterSwapAmount": {
+    "message": "스왑 금액을 입력하세요."
+  },
+  "noQuotesAvailable": {
+    "message": "사용 가능한 견적이 없습니다"
+  },
+  "swapRouteLoadingHasFailed": {
+    "message": "환율 데이터 로드에 실패했습니다.\n이 페이지를 새로고침하거나 나중에 다시 시도하세요."
+  },
+  "swapTokenSearchInputPlaceholder": {
+    "message": "이름 또는 주소 입력"
+  },
+  "scanQRWithLeoMobile": {
+    "message": "Leo Wallet Mobile 앱으로 이 QR 코드를 스캔하십시오."
+  },
+  "serviceIsUnavailable": {
+    "message": "죄송합니다. 서비스를 일시적으로 사용할 수 없습니다. 나중에 다시 시도하세요!"
+  },
+  "buyWithChainBits": {
+    "message": "ChainBits로 구매"
+  },
+  "buyWithChainBitsDescription": {
+    "message": "암호화폐를 구매하는 것은 결코 쉬운 일이 아닙니다."
+  },
+  "permissionLabel": {
+    "message": "해독 권한: $decryptPermission$ ",
+    "placeholders": {
+      "decryptPermission": {
+        "content": "$1"
+      }
+    }
+  },
+  "NO_DECRYPT_SHORT": {
+    "message": "없음"
+  },
+  "DECRYPT_UPON_REQUEST_SHORT": {
+    "message": "요청 시"
+  },
+  "AUTO_DECRYPT_SHORT": {
+    "message": "연결된 동안"
+  },
+  "invalidViewKey": {
+    "message": "잘못된 보기 키"
+  },
+  "viewKey": {
+    "message": "키 보기"
+  },
+  "viewKeyInputDescription": {
+    "message": "가져오려는 계정의 보기 키입니다."
+  },
+  "viewKeyInputPlaceholder": {
+    "message": "예를 들어 AViewKey1iHE..."
+  },
+  "setPassword": {
+    "message": "암호를 설정하세요"
+  },
+  "doSavePhrase": {
+    "message": "이 문구를 종이에 <b>복사</b>하여 안전한 장소에 보관하십시오."
+  },
+  "coinbaseReward": {
+    "message": "코인베이스 보상"
+  },
+  "coinbaseRewardSmb": {
+    "message": "증명에서 $amount$ ALEO",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "activityToolTip": {
+    "message": "전체 기록을 보려면 클릭하세요."
+  },
+  "waitingOnAleo": {
+    "message": "Aleo는 현재 이 기능을 지원하지 않습니다."
+  },
+  "buildForPrivacy": {
+    "message": "개인 정보 보호를 위해 구축"
+  },
+  "buildForAleo": {
+    "message": "알레오를 위해 제작"
+  },
+  "poweredBy": {
+    "message": "에 의해 구동 $companyName$ ",
+    "placeholders": {
+      "companyName": {
+        "content": "$1"
+      }
+    }
+  },
+  "copySomeTokenId": {
+    "message": "복사 \" $tokenSymbol$ \" ID",
+    "placeholders": {
+      "tokenSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "defaultAccountName": {
+    "message": "계정 $accountNumber$ ",
+    "placeholders": {
+      "accountNumber": {
+        "content": "$1"
+      }
+    }
+  },
+  "defaultManagedKTAccountName": {
+    "message": "매니지드 KT $accountNumber$ ",
+    "description": "KT not translated",
+    "placeholders": {
+      "accountNumber": {
+        "content": "$1"
+      }
+    }
+  },
+  "defaultWatchOnlyAccountName": {
+    "message": "보다 $accountNumber$ ",
+    "placeholders": {
+      "accountNumber": {
+        "content": "$1"
+      }
+    }
+  },
+  "doNotSharePrivateKey1": {
+    "message": "누구와도 공유하지 마십시오!"
+  },
+  "doNotSharePrivateKey2": {
+    "message": "현재 계정을 훔치는 데 사용할 수 있습니다."
+  },
+  "doNotShareViewKey1": {
+    "message": "신뢰할 수 있는 사람들과만 공유하세요!"
+  },
+  "doNotShareViewKey2": {
+    "message": "모든 거래 내역을 보는 데 사용할 수 있습니다."
+  },
+  "appWouldLikeToConnectToYourWallet": {
+    "message": "$origin$에서 지갑에 연결하려고 합니다.",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "appRequestOperationToYou": {
+    "message": "$origin$에서 작업을 요청합니다.",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "recordsAction": {
+    "message": "기록 공유"
+  },
+  "downloadRecords": {
+    "message": "기록 다운로드"
+  },
+  "transactionAction": {
+    "message": "거래"
+  },
+  "appRequestsToSign": {
+    "message": "$origin$에서 서명을 요청합니다.",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "appRequestsRecords": {
+    "message": "$origin$은 다음 프로그램에 대한 기록을 요청합니다: $program$",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      },
+      "program": {
+        "content": "$"
+      }
+    }
+  },
+  "appRequestsTransaction": {
+    "message": "$origin$이 트랜잭션을 요청합니다.",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "smthWentWrongWhile": {
+    "message": "동안 뭔가 잘못되었습니다. $action$ ",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "editAccountName": {
+    "message": "계정 이름 수정"
+  },
+  "reviewAndConfirm": {
+    "message": "검토"
+  },
+  "transactionInitiated": {
+    "message": "트랜잭션 시작"
+  },
+  "transactionBackground": {
+    "message": "트랜잭션은 백그라운드에서 진행됩니다."
+  },
+  "openedNewTab": {
+    "message": "지갑은 거래 속도를 높이기 위해 새 탭을 열었습니다. 해당 탭은 자동으로 닫힙니다."
+  },
+  "speedUpTransaction": {
+    "message": "거래 속도를 높이십시오."
+  },
+  "generatingTransaction": {
+    "message": "트랜잭션 생성"
+  },
+  "generatingTransactionWarning": {
+    "message": "트랜잭션이 생성되기 전에 이 페이지를 벗어나면 트랜잭션이 완료되지 않습니다."
+  },
+  "balancePending": {
+    "message": "보류 중인 동기화 잔액"
+  },
+  "keepTabOpenForSync": {
+    "message": "더 빠른 동기화를 위해 이 탭을 열어 두십시오."
+  },
+  "openNewTabToSync": {
+    "message": "더 빠른 동기화를 위해 탭을 엽니다."
+  },
+  "fullySynced": {
+    "message": "완전히 동기화됨"
+  },
+  "synced": {
+    "message": "동기화됨"
+  },
+  "syncing": {
+    "message": "동기화 중"
+  },
+  "fileSettings": {
+    "message": "파일 설정"
+  },
+  "fileSettingsDescription": {
+    "message": "지갑에서 직접 파일을 추가하거나 제거하십시오."
+  },
+  "advancedSettings": {
+    "message": "고급 설정"
+  },
+  "advancedSettingsDescription": {
+    "message": "Leo Wallet의 문제를 디버깅하고 진단하는 데 도움이 되는 도구입니다."
+  },
+  "resync": {
+    "message": "재동기화"
+  },
+  "resyncDescription": {
+    "message": "이 계정의 모든 기록을 재설정하고 네트워크와 다시 동기화하십시오."
+  },
+  "noFee": {
+    "message": "무료"
+  },
+  "doNotSharePhrase1": {
+    "message": "이 문구를 누구와도 공유하지 마십시오!"
+  },
+  "doNotSharePhrase2": {
+    "message": "모든 계정을 훔치는 데 사용할 수 있습니다."
+  },
+  "changeSeedPhrase": {
+    "message": "시드 문구 변경"
+  },
+  "firefoxLedgerConnectionError": {
+    "message": "$sorry$ $browser$를 통한 $device$ 기기 연결이 일시적으로 $unavailable$입니다.",
+    "placeholders": {
+      "sorry": {
+        "content": "$1"
+      },
+      "device": {
+        "content": "$2"
+      },
+      "browser": {
+        "content": "$3"
+      },
+      "unavailable": {
+        "content": "$4"
+      }
+    }
+  },
+  "someUnknownToken": {
+    "message": "알 수 없는 토큰 $token$ ",
+    "placeholders": {
+      "token": {
+        "content": "$1"
+      }
+    }
+  },
+  "interactionWithSomeEntrypoint": {
+    "message": "진입점과의 상호 작용 '$entrypoint$' 계약의 $contractAddress$ ",
+    "placeholders": {
+      "entrypoint": {
+        "content": "$1"
+      },
+      "contractAddress": {
+        "content": "$2"
+      }
+    }
+  },
+  "transactionOfSomeType": {
+    "message": "유형의 거래 '$type$' ",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "feeNotRequired": {
+    "message": "현재 수수료가 필요하지 않습니다."
+  },
+  "proofGenerationTab": {
+    "message": "트랜잭션 증명을 효율적으로 생성하려면 열린 탭이 필요합니다."
+  },
+  "ifYouDontSeeYourAsset": {
+    "message": "자산이 표시되지 않으면\n클릭을 시도 $toClick$ .",
+    "placeholders": {
+      "toClick": {
+        "content": "$1"
+      }
+    }
+  },
+  "addressOfTokenContract": {
+    "message": "주소 $assetSymbol$ 토큰 계약.",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "referredByTokenContactAddressInvalid": {
+    "message": "계약 주소 $address$ 토큰 컨트랙트에 의해 참조된 은(는) 유효하지 않습니다.",
+    "placeholders": {
+      "address": {
+        "content": "$1"
+      }
+    }
+  },
+  "credit": {
+    "message": "신용 거래"
+  },
+  "credits": {
+    "message": "학점"
+  },
+  "to": {
+    "message": "에게"
+  },
+  "received": {
+    "message": "받았다"
+  },
+  "sent": {
+    "message": "전송된"
+  },
+  "amountMustBeReservedForNetworkFees": {
+    "message": "네트워크 수수료를 지불하려면 $amount$를 예약해야 합니다.",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "billionFormat": {
+    "message": "$billion$B",
+    "placeholders": {
+      "billion": {
+        "content": "$1"
+      }
+    }
+  },
+  "storageUsed": {
+    "message": "사용된 총 스토리지"
+  },
+  "uploadFile": {
+    "message": "파일 업로드"
+  },
+  "fileSize": {
+    "message": "파일 크기"
+  },
+  "downloadDefaultFiles": {
+    "message": "기본 파일 다운로드"
+  },
+  "download": {
+    "message": "다운로드"
+  },
+  "details": {
+    "message": "세부"
+  },
+  "faucet": {
+    "message": "수도꼭지"
+  },
+  "aleoFaucetDescription": {
+    "message": "모든 분배된 크레딧은 테스트 목적이며 가치가 없습니다."
+  },
+  "aleoFaucetStep1": {
+    "message": "휴대전화로 QR 코드를 스캔하세요."
+  },
+  "aleoFaucetStep1Description": {
+    "message": "그리고 표시되는 프롬프트를 클릭합니다."
+  },
+  "aleoFaucetStep2": {
+    "message": "SMS 확인 및 전송"
+  },
+  "aleoFaucetStep2Description": {
+    "message": "(메시지 및 데이터 요금이 부과될 수 있음)"
+  },
+  "aleoFaucetStep3": {
+    "message": "Aleo 크레딧 받기"
+  },
+  "aleoFaucetStep3Description": {
+    "message": "Aleo Faucet이 크레딧을 보내드립니다."
+  },
+  "deployAction": {
+    "message": "프로그램 배포"
+  },
+  "appRequestsDeploy": {
+    "message": "$origin$에서 배포를 요청합니다.",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "viewKeyWatchOnly": {
+    "message": "키 보기(감시 전용)"
+  },
+  "none": {
+    "message": "없음"
+  },
+  "collection": {
+    "message": "수집"
+  },
+  "source": {
+    "message": "원천"
+  },
+  "attributes": {
+    "message": "속성"
+  },
+  "noNFTsYet": {
+    "message": "아직 NFT 없음"
+  },
+  "noNFTsSubMessage": {
+    "message": "NFT가 있으면 여기에서 NFT를 볼 수 있습니다."
+  },
+  "sourceLink": {
+    "message": "소스 링크"
+  },
+  "explorer": {
+    "message": "탐침"
+  },
+  "explorerLink": {
+    "message": "탐색기로 이동"
+  },
+  "noTransactionsRemaining": {
+    "message": "남은 거래가 없습니다. 이 탭을 닫습니다."
+  },
+  "transactionsRemaining": {
+    "message": "남은 거래"
+  },
+  "status": {
+    "message": "상태"
+  },
+  "available": {
+    "message": "사용 가능"
+  },
+  "feeToolTip": {
+    "message": "수수료를 수정하려면 클릭하세요."
+  },
+  "gpuSettings": {
+    "message": "GPU 가속 *실험적*"
+  },
+  "gpuSettingsDescription": {
+    "message": "여기에서 GPU 가속을 켜거나 꺼서 동기화 및 증명 생성을 가속화할 수 있습니다. 이 기능은 안정적이지 않으며 충돌을 일으킬 수 있습니다."
+  },
+  "sending": {
+    "message": "배상"
+  },
+  "executing": {
+    "message": "실행 중"
+  },
+  "executed": {
+    "message": "실행됨"
+  },
+  "minted": {
+    "message": "주조"
+  },
+  "nft": {
+    "message": "NFT"
+  },
+  "convert": {
+    "message": "전환하다"
+  },
+  "public": {
+    "message": "공공의"
+  },
+  "private": {
+    "message": "개인"
+  },
+  "converting": {
+    "message": "변환 중"
+  },
+  "customizeFee": {
+    "message": "수수료 맞춤화"
+  },
+  "convertingPublic": {
+    "message": "퍼블릭 NFT로 전환"
+  },
+  "convertingPrivate": {
+    "message": "비공개 NFT로 전환"
+  },
+  "switch": {
+    "message": "스위치"
+  },
+  "convertToPrivate": {
+    "message": "비공개로 전환"
+  },
+  "convertToPublic": {
+    "message": "공개로 전환"
+  },
+  "convertPublicPrivate": {
+    "message": "공개/비공개 전환"
+  },
+  "toConvert": {
+    "message": "변환하다"
+  },
+  "willGet": {
+    "message": "당신은 얻을 것이다"
+  },
+  "toPublic": {
+    "message": "대중에게"
+  },
+  "toPrivate": {
+    "message": "비공개로"
+  },
+  "ON_CHAIN_HISTORY": {
+    "message": "<b>경고!</b> 이 앱은 온체인 기록을 요청합니다. 이 앱을 정말로 신뢰하는지 확인하세요."
+  },
+  "ON_CHAIN_HISTORY_SHORT": {
+    "message": "전체 권한"
+  },
+  "allPrograms": {
+    "message": "모든 프로그램"
+  },
+  "canView": {
+    "message": "볼 수 있음"
+  },
+  "connectFor": {
+    "message": "연결 대상"
+  },
+  "autoCloseSettings": {
+    "message": "자동 마감 거래 페이지 생성 중"
+  },
+  "autoCloseSettingsDescription": {
+    "message": "여기서는 거래가 생성된 후 거래 생성 페이지의 자동 닫기를 구성할 수 있습니다."
+  },
+  "feeVisibility": {
+    "message": "수수료 가시성"
+  },
+  "transactionDelegated": {
+    "message": "증거 생성을 위해 거래가 전송되었습니다."
+  },
+  "fastTransactionDescription": {
+    "message": "거래는 자동으로 방송되고 완료됩니다."
+  },
+  "fastTransaction": {
+    "message": "거래 속도"
+  },
+  "delegateProofSettings": {
+    "message": "위임 증명 생성"
+  },
+  "delegateProofSettingsDescription": {
+    "message": "여기에서 원격 서버에 대한 증명 생성 위임을 구성할 수 있습니다. 이렇게 하면 증명 생성 속도가 빨라지지만 거래 세부 정보는 신뢰할 수 있는 서버에 공개됩니다."
+  },
+  "mainAssetBalanceIsZero": {
+    "message": "귀하의 알레오 크레딧(주 자산) 잔액이 0입니다. 수수료를 지불하려면 Aleo 크레딧이 필요합니다."
+  },
+  "stake": {
+    "message": "말뚝"
+  },
+  "unstake": {
+    "message": "언스테이크"
+  },
+  "stakeAccount": {
+    "message": "스테이크 계정"
+  },
+  "staked": {
+    "message": "스테이킹됨"
+  },
+  "stakeEarningSymbol": {
+    "message": "스테이크 수익 $assetSymbol$ ",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "stakeEarnRewards": {
+    "message": "토큰을 스테이킹하고 보상을 받으세요"
+  },
+  "amountMustBeGreaterThanOne": {
+    "message": "1보다 커야 합니다."
+  },
+  "unstaking": {
+    "message": "언스테이킹"
+  },
+  "unstaked": {
+    "message": "언스테이크"
+  },
+  "validator": {
+    "message": "검증인"
+  },
+  "yourStakeIn": {
+    "message": "귀하의 지분"
+  },
+  "active": {
+    "message": "활동적인"
+  },
+  "learnMoreHere": {
+    "message": "여기에서 자세히 알아보세요"
+  },
+  "rewards": {
+    "message": "보상"
+  },
+  "claim": {
+    "message": "주장하다"
+  },
+  "claimed": {
+    "message": "청구됨"
+  },
+  "claiming": {
+    "message": "청구"
+  },
+  "availableToClaim": {
+    "message": "청구 가능"
+  },
+  "unstakingInProgress": {
+    "message": "언스테이킹 진행 중"
+  },
+  "mustStakeAtLeastTenAleo": {
+    "message": "초기 지분은 최소 10 ALEO 이상이어야 합니다."
+  },
+  "pleaseNote": {
+    "message": "참고하세요"
+  },
+  "unstakingProcess": {
+    "message": "언스테이킹은 2단계 과정으로 이루어집니다. 언스테이킹을 시작한 후 3시간의 처리 기간이 지난 후 ALEO를 요청하세요."
+  },
+  "testNetIsDown": {
+    "message": "Aleo Testnetbeta이 다운되었습니다."
+  },
+  "checkStatus": {
+    "message": "상태 확인"
+  },
+  "walletBuiltForPrivacy": {
+    "message": "개인 정보 보호를 위해 구축된 지갑",
+    "note": "Onboarding"
+  },
+  "privateTransactionsAnytimeAnywhere": {
+    "message": "언제 어디서나 개인 거래.",
+    "note": "Onboarding"
+  },
+  "createANewWallet": {
+    "message": "새 지갑 만들기",
+    "note": "Onboarding"
+  },
+  "iAlreadyHaveAWallet": {
+    "message": "나는 이미 지갑을 가지고 있습니다",
+    "note": "Onboarding"
+  },
+  "backUpYourWallet": {
+    "message": "지갑 백업하기",
+    "note": "Onboarding"
+  },
+  "saveThese12Words": {
+    "message": "이 12개의 단어를 비밀번호 관리자에 저장하거나 적어서 안전한 곳에 보관하세요. 누구와도 공유하지 마세요.",
+    "note": "Onboarding"
+  },
+  "show": {
+    "message": "보이기",
+    "note": "Onboarding"
+  },
+  "hide": {
+    "message": "숨기기",
+    "note": "Onboarding"
+  },
+  "copied": {
+    "message": "복사됨",
+    "note": "Onboarding"
+  },
+  "copyToClipboard": {
+    "message": "클립보드에 복사",
+    "note": "Onboarding"
+  },
+  "createsProofsOnYourComputer": {
+    "message": "컴퓨터에서 증명을 생성합니다",
+    "note": "Onboarding"
+  },
+  "yourKeysStayPrivate": {
+    "message": "키는 비공개 상태로 유지됩니다",
+    "note": "Onboarding"
+  },
+  "selectTheDefaultTransactionType": {
+    "message": "기본 거래 유형 선택",
+    "note": "Onboarding"
+  },
+  "popular": {
+    "message": "인기",
+    "note": "Onboarding"
+  },
+  "verifyMessagePrefix": {
+    "message": "비밀 복구 문구를 저장했는지 확인하세요. 단어 #10을 선택하세요",
+    "note": "Onboarding"
+  },
+  "enterYourWalletSeedPhrase": {
+    "message": "지갑의 12단어 시드 구문을 입력하세요.",
+    "note": "Onboarding"
+  },
+  "onlyAleoSeedPhrasesAreSupported": {
+    "message": "Aleo 시드 구문만 지원됩니다.",
+    "note": "Onboarding"
+  },
+  "seedPhrasePlaceholder": {
+    "message": "12단어 시드 구문",
+    "note": "Onboarding"
+  },
+  "join": {
+    "message": "가입",
+    "note": "Onboarding"
+  },
+  "follow": {
+    "message": "팔로우",
+    "note": "Onboarding"
+  },
+  "yourWalletIsReady": {
+    "message": "당신의 지갑이 준비되었습니다",
+    "note": "Onboarding"
+  },
+  "joinOurDiscord": {
+    "message": "우리의 Leo Wallet Discord에 가입하세요",
+    "note": "Onboarding"
+  },
+  "joinOurTwitter": {
+    "message": "X (트위터)에서 우리를 팔로우하세요",
+    "note": "Onboarding"
+  },
+  "exploreTheWorldOfPrivateAssets": {
+    "message": "개인 자산의 세계를 탐험하세요",
+    "note": "Onboarding"
+  },
+  "getStarted": {
+    "message": "시작하기",
+    "note": "Onboarding"
+  },
+  "enterPassword": {
+    "message": "비밀번호 입력",
+    "note": "Onboarding"
+  },
+  "verifyPassword": {
+    "message": "비밀번호 확인",
+    "note": "Onboarding"
+  },
+  "enterPasswordAgain": {
+    "message": "비밀번호를 다시 입력하세요",
+    "note": "Onboarding"
+  },
+  "itsAMatch": {
+    "message": "일치합니다!",
+    "note": "Onboarding"
+  },
+  "readMoreOnboarding": {
+    "message": "더 읽기",
+    "note": "Onboarding"
+  },
+  "helpUsToImproveLeoWallet": {
+    "message": "Leo Wallet 개선을 도와주세요",
+    "note": "Onboarding"
+  },
+  "createPassword": {
+    "message": "비밀번호 생성",
+    "note": "Onboarding"
+  },
+  "createPasswordDescription": {
+    "message": "컴퓨터를 사용할 때마다 지갑을 잠금 해제하기 위한 비밀번호를 설정합니다. 지갑을 복구하는 데 사용할 수 없습니다.",
+    "note": "Onboarding"
+  },
+  "veryStrong": {
+    "message": "매우 강력!",
+    "note": "Onboarding"
+  },
+  "medium": {
+    "message": "중간",
+    "note": "Onboarding"
+  },
+  "low": {
+    "message": "낮음",
+    "note": "Onboarding"
+  },
+  "8chars1number": {
+    "message": "8자, 1개의 숫자",
+    "note": "Onboarding"
+  },
+  "minimumCharsWithAtLeast": {
+    "message": "최소 8자 이상, 1개의 숫자 이상",
+    "note": "Onboarding"
+  },
+  "backUpWalletInstructions": {
+    "message": "이 12개의 단어를 비밀번호 관리자에 저장하거나 적어서 안전한 곳에 보관하세요. 누구와도 공유하지 마세요.",
+    "note": "Onboarding"
+  },
+  "select": {
+    "message": "선택",
+    "note": "Onboarding"
+  },
+  "selected": {
+    "message": "선택됨",
+    "note": "Onboarding"
+  },
+  "additionalDownloads": {
+    "message": "추가 다운로드",
+    "note": "Onboarding"
+  },
+  "600megabytes": {
+    "message": "600+ 메가바이트",
+    "note": "Onboarding"
+  },
+  "transactionSpeed": {
+    "message": "거래 속도",
+    "note": "Onboarding"
+  },
+  "transactionSpeedMins": {
+    "message": "1-10분",
+    "note": "Onboarding"
+  },
+  "maximumPrivacy": {
+    "message": "최대 개인정보 보호",
+    "note": "Onboarding"
+  },
+  "vpnLevelPrivacy": {
+    "message": "VPN 수준의 개인정보 보호",
+    "note": "Onboarding"
+  },
+  "transactionSpeed2Sec": {
+    "message": "2초",
+    "note": "Onboarding"
+  },
+  "additionalDownloads0mb": {
+    "message": "0 MB",
+    "note": "Onboarding"
+  },
+  "delegateProofsToSecureServers": {
+    "message": "증명을 안전한 서버에 위임",
+    "note": "Onboarding"
+  },
+  "delegateTransactions": {
+    "message": "거래 위임",
+    "note": "Onboarding"
+  },
+  "generateTransactionsLocally": {
+    "message": "로컬에서 거래 생성",
+    "note": "Onboarding"
+  },
+  "chainUnstable": {
+    "message": "Aleo Testnet3의 불안정성으로 인해 트랜잭션이 실패할 수 있습니다."
+  },
+  "dataReset": {
+    "message": "데이터 초기화."
+  },
+  "transactionHistoryLost": {
+    "message": "최근 Aleo Testnet3의 초기화로 인해 모든 거래 기록이 손실되었음을 알려드립니다."
+  },
+  "learnMore": {
+    "message": "더 알아보기"
+  },
+  "checkStatus": {
+    "message": "상태 확인"
+  },
+  "walletBuiltForPrivacy": {
+    "message": "개인 정보 보호를 위해 구축된 지갑",
+    "note": "Onboarding"
+  },
+  "privateTransactionsAnytimeAnywhere": {
+    "message": "언제 어디서나 개인 거래.",
+    "note": "Onboarding"
+  },
+  "createANewWallet": {
+    "message": "새 지갑 만들기",
+    "note": "Onboarding"
+  },
+  "iAlreadyHaveAWallet": {
+    "message": "나는 이미 지갑을 가지고 있습니다",
+    "note": "Onboarding"
+  },
+  "backUpYourWallet": {
+    "message": "지갑 백업하기",
+    "note": "Onboarding"
+  },
+  "saveThese12Words": {
+    "message": "이 12개의 단어를 비밀번호 관리자에 저장하거나 적어서 안전한 곳에 보관하세요. 누구와도 공유하지 마세요.",
+    "note": "Onboarding"
+  },
+  "show": {
+    "message": "보이기",
+    "note": "Onboarding"
+  },
+  "hide": {
+    "message": "숨기기",
+    "note": "Onboarding"
+  },
+  "copied": {
+    "message": "복사됨",
+    "note": "Onboarding"
+  },
+  "copyToClipboard": {
+    "message": "클립보드에 복사",
+    "note": "Onboarding"
+  },
+  "createsProofsOnYourComputer": {
+    "message": "컴퓨터에서 증명을 생성합니다",
+    "note": "Onboarding"
+  },
+  "yourKeysStayPrivate": {
+    "message": "키는 비공개 상태로 유지됩니다",
+    "note": "Onboarding"
+  },
+  "selectTheDefaultTransactionType": {
+    "message": "기본 거래 유형 선택",
+    "note": "Onboarding"
+  },
+  "popular": {
+    "message": "인기",
+    "note": "Onboarding"
+  },
+  "verifyMessagePrefix": {
+    "message": "비밀 복구 문구를 저장했는지 확인하세요. 단어 #10을 선택하세요",
+    "note": "Onboarding"
+  },
+  "enterYourWalletSeedPhrase": {
+    "message": "지갑의 12단어 시드 구문을 입력하세요.",
+    "note": "Onboarding"
+  },
+  "onlyAleoSeedPhrasesAreSupported": {
+    "message": "Aleo 시드 구문만 지원됩니다.",
+    "note": "Onboarding"
+  },
+  "seedPhrasePlaceholder": {
+    "message": "12단어 시드 구문",
+    "note": "Onboarding"
+  },
+  "join": {
+    "message": "가입",
+    "note": "Onboarding"
+  },
+  "follow": {
+    "message": "팔로우",
+    "note": "Onboarding"
+  },
+  "yourWalletIsReady": {
+    "message": "당신의 지갑이 준비되었습니다",
+    "note": "Onboarding"
+  },
+  "joinOurDiscord": {
+    "message": "우리의 Leo Wallet Discord에 가입하세요",
+    "note": "Onboarding"
+  },
+  "joinOurTwitter": {
+    "message": "X (트위터)에서 우리를 팔로우하세요",
+    "note": "Onboarding"
+  },
+  "exploreTheWorldOfPrivateAssets": {
+    "message": "개인 자산의 세계를 탐험하세요",
+    "note": "Onboarding"
+  },
+  "getStarted": {
+    "message": "시작하기",
+    "note": "Onboarding"
+  },
+  "enterPassword": {
+    "message": "비밀번호 입력",
+    "note": "Onboarding"
+  },
+  "verifyPassword": {
+    "message": "비밀번호 확인",
+    "note": "Onboarding"
+  },
+  "enterPasswordAgain": {
+    "message": "비밀번호를 다시 입력하세요",
+    "note": "Onboarding"
+  },
+  "itsAMatch": {
+    "message": "일치합니다!",
+    "note": "Onboarding"
+  },
+  "readMoreOnboarding": {
+    "message": "더 읽기",
+    "note": "Onboarding"
+  },
+  "helpUsToImproveLeoWallet": {
+    "message": "Leo Wallet 개선을 도와주세요",
+    "note": "Onboarding"
+  },
+  "createPassword": {
+    "message": "비밀번호 생성",
+    "note": "Onboarding"
+  },
+  "createPasswordDescription": {
+    "message": "컴퓨터를 사용할 때마다 지갑을 잠금 해제하기 위한 비밀번호를 설정합니다. 지갑을 복구하는 데 사용할 수 없습니다.",
+    "note": "Onboarding"
+  },
+  "veryStrong": {
+    "message": "매우 강력!",
+    "note": "Onboarding"
+  },
+  "medium": {
+    "message": "중간",
+    "note": "Onboarding"
+  },
+  "low": {
+    "message": "낮음",
+    "note": "Onboarding"
+  },
+  "8chars1number": {
+    "message": "8자, 1개의 숫자",
+    "note": "Onboarding"
+  },
+  "minimumCharsWithAtLeast": {
+    "message": "최소 8자 이상, 1개의 숫자 이상",
+    "note": "Onboarding"
+  },
+  "backUpWalletInstructions": {
+    "message": "이 12개의 단어를 비밀번호 관리자에 저장하거나 적어서 안전한 곳에 보관하세요. 누구와도 공유하지 마세요.",
+    "note": "Onboarding"
+  },
+  "select": {
+    "message": "선택",
+    "note": "Onboarding"
+  },
+  "selected": {
+    "message": "선택됨",
+    "note": "Onboarding"
+  },
+  "additionalDownloads": {
+    "message": "추가 다운로드",
+    "note": "Onboarding"
+  },
+  "600megabytes": {
+    "message": "600+ 메가바이트",
+    "note": "Onboarding"
+  },
+  "transactionSpeed": {
+    "message": "거래 속도",
+    "note": "Onboarding"
+  },
+  "transactionSpeedMins": {
+    "message": "1-10분",
+    "note": "Onboarding"
+  },
+  "maximumPrivacy": {
+    "message": "최대 개인정보 보호",
+    "note": "Onboarding"
+  },
+  "vpnLevelPrivacy": {
+    "message": "VPN 수준의 개인정보 보호",
+    "note": "Onboarding"
+  },
+  "transactionSpeed2Sec": {
+    "message": "2초",
+    "note": "Onboarding"
+  },
+  "additionalDownloads0mb": {
+    "message": "0 MB",
+    "note": "Onboarding"
+  },
+  "delegateProofsToSecureServers": {
+    "message": "증명을 안전한 서버에 위임",
+    "note": "Onboarding"
+  },
+  "delegateTransactions": {
+    "message": "거래 위임",
+    "note": "Onboarding"
+  },
+  "generateTransactionsLocally": {
+    "message": "로컬에서 거래 생성",
+    "note": "Onboarding"
+  },
+  "chainUnstable": {
+    "message": "Aleo Testnet3의 불안정성으로 인해 트랜잭션이 실패할 수 있습니다."
+  }
+}

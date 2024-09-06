@@ -1,0 +1,3648 @@
+{
+  "appName": {
+    "message": "Aleo - Carteira Aleo"
+  },
+  "showIncomingTransactions": {
+    "message": "Mostrar transações recebidas"
+  },
+  "appDesc": {
+    "message": "Carteira de criptomoedas para blocos em cadeia Aleo como extensão da Web para o seu Browser."
+  },
+  "createAccount": {
+    "message": "Criar ou restaurar conta"
+  },
+  "importAccount": {
+    "message": "Importar conta"
+  },
+  "faucetFileTitle": {
+    "message": "Ficheiro faucet"
+  },
+  "faucetFile": {
+    "message": "Ficheiro faucet"
+  },
+  "settings": {
+    "message": "Definições"
+  },
+  "openNewTab": {
+    "message": "Abrir novo separador"
+  },
+  "maximiseView": {
+    "message": "Maximizar vista"
+  },
+  "selectFile": {
+    "message": "Selecionar ficheiro"
+  },
+  "selectFileOfFormat": {
+    "message": "Selecionar ficheiro $format$",
+    "placeholders": {
+      "format": {
+        "content": "$1"
+      }
+    }
+  },
+  "authorizedDApps": {
+    "message": "DApps autorizados",
+    "description": "DApps = Decentralized Applications"
+  },
+  "clickIconToResetPermissions": {
+    "message": "Clique no ícone X para repor as permissões."
+  },
+  "versionLabel": {
+    "message": "versão: $version$",
+    "placeholders": {
+      "version": {
+        "content": "$1"
+      }
+    }
+  },
+  "madeWithLove": {
+    "message": "Feito com $loveIcon$ pela $companyName$",
+    "placeholders": {
+      "loveIcon": {
+        "content": "$1"
+      },
+      "companyName": {
+        "content": "$2"
+      }
+    }
+  },
+  "feeInputDescription": {
+    "message": "A taxa de base para esta operação é: $fee$\nAdicional - acelera a confirmação",
+    "placeholders": {
+      "fee": {
+        "content": "$1"
+      }
+    }
+  },
+  "resetPermissionsConfirmation": {
+    "message": "Tem a ceraleo creditsa de que pretende repor as permissões de\n$origin$?",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "protectedFormField": {
+    "message": "Protegido"
+  },
+  "clickToRevealOrEditField": {
+    "message": "Clicar para revelar ou editar este campo"
+  },
+  "copiedHash": {
+    "message": "Copiado."
+  },
+  "copyHashToClipboard": {
+    "message": "Copiar para a área de transferência"
+  },
+  "accounts": {
+    "message": "Contas"
+  },
+  "lock": {
+    "message": "Bloquear"
+  },
+  "importedAccount": {
+    "message": "Importado"
+  },
+  "networks": {
+    "message": "Redes"
+  },
+  "back": {
+    "message": "Retroceder"
+  },
+  "addNewToken": {
+    "message": "Adicionar novo Token"
+  },
+  "hideSomeToken": {
+    "message": "Ocultar token \"$tokenName$\"",
+    "placeholders": {
+      "tokenName": {
+        "content": "$1"
+      }
+    }
+  },
+  "copySomeTokenAddress": {
+    "message": "Copiar endereço \"$tokenSymbol$\"",
+    "placeholders": {
+      "tokenSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "copySomeTokenId": {
+    "message": "Copiar ID \"$tokenSymbol$\"",
+    "placeholders": {
+      "tokenSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "originLabel": {
+    "message": "Origem: $origin$",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "networkLabel": {
+    "message": "Rede: $network$",
+    "placeholders": {
+      "network": {
+        "content": "$1"
+      }
+    }
+  },
+  "pkhLabel": {
+    "message": "Conta: $pkh$",
+    "placeholders": {
+      "pkh": {
+        "content": "$1"
+      }
+    }
+  },
+  "minDelegationAmountDescription": {
+    "message": "O seu saldo atual é inferior a uma quantidade mínima de delegação deste baker. Isso significa que enquanto o saldo for inferior a $minAmount$ não haverá pagamentos.",
+    "placeholders": {
+      "minAmount": {
+        "content": "$1"
+      }
+    }
+  },
+  "clickOnBakerPrompt": {
+    "message": "Clique no Baker a que pretende delegar fundos. Esta lista é fornecida por $link$.",
+    "placeholders": {
+      "link": {
+        "content": "$1"
+      }
+    }
+  },
+  "highestIsBetter": {
+    "message": "quanto mais, melhor"
+  },
+  "unlockWalletPrompt": {
+    "message": "Se quiser guardar algo de uma carteira já existente - $link$ e desbloqueá-lo.",
+    "placeholders": {
+      "link": {
+        "content": "$1"
+      }
+    }
+  },
+  "acceptTermsInputDescription": {
+    "message": "Li e concordo com os $termsOfUsageLink$ e a $privacyPolicyLink$",
+    "placeholders": {
+      "termsOfUsageLink": {
+        "content": "$1"
+      },
+      "privacyPolicyLink": {
+        "content": "$2"
+      }
+    }
+  },
+  "copiedTokenAddress": {
+    "message": "Copiado."
+  },
+  "copiedTokenId": {
+    "message": "Copiado."
+  },
+  "delegatedTo": {
+    "message": "Delegado a:"
+  },
+  "delegatingMotivation": {
+    "message": "Delegar os seus fundos a bakers é uma excelente forma de ganhar juros sobre o seu saldo"
+  },
+  "reDelegate": {
+    "message": "Delegar novamente"
+  },
+  "delegateNow": {
+    "message": "Delegar agora"
+  },
+  "cancel": {
+    "message": "Cancelar"
+  },
+  "save": {
+    "message": "Guardar"
+  },
+  "edit": {
+    "message": "Editar"
+  },
+  "useCoinSwitch": {
+    "message": "Utilizar CoinSwitch",
+    "description": "CoinSwitch = https://coinswitch.co/"
+  },
+  "aleoFaucet": {
+    "message": "Faucet Aleo"
+  },
+  "aleoFaucetAlpha": {
+    "message": "Faucet Aleo (Alpha)"
+  },
+  "depositToWallet": {
+    "message": "Depositar na sua carteira"
+  },
+  "depositToWalletDescription": {
+    "message": "Clique no método de depósito para obter dinheiro na sua carteira. Utilize o faucet para obter moedas grátis!"
+  },
+  "addToken": {
+    "message": "Adicionar Ativo"
+  },
+  "addAsset": {
+    "message": "Adicionar Ativo"
+  },
+  "contractNotAvailable": {
+    "message": "O contrato neste endereço não está disponível. Existe nesta rede?"
+  },
+  "noTransferMethod": {
+    "message": "Sem método de transferência"
+  },
+  "tokenDoesNotMatchStandard": {
+    "message": "O contrato de ativos fornecido não corresponde ao padrão $standard$",
+    "placeholders": {
+      "standard": {
+        "content": "$1"
+      }
+    }
+  },
+  "error": {
+    "message": "Erro"
+  },
+  "tokenType": {
+    "message": "Tipo de token"
+  },
+  "tokenId": {
+    "message": "ID de token"
+  },
+  "assetId": {
+    "message": "ID de ativo"
+  },
+  "tokenIdInputDescription": {
+    "message": "Um número inteiro não negativo que identifica o ativo dentro do contrato FA2"
+  },
+  "comingSoon": {
+    "message": "Em breve"
+  },
+  "comingSoonComment": {
+    "message": "(em breve)"
+  },
+  "soon": {
+    "message": "em breve"
+  },
+  "required": {
+    "message": "Obrigatório"
+  },
+  "address": {
+    "message": "Endereço"
+  },
+  "addressOfDeployedTokenContract": {
+    "message": "Endereço de um contrato de ativos implementado."
+  },
+  "tokenContractPlaceholder": {
+    "message": "por exemplo, KT1v9CmPy..."
+  },
+  "tokenSymbolPatternDescription": {
+    "message": "Apenas são permitidos caracteres a-z, A-Z, 0-9, comprimento de 2 a 5"
+  },
+  "symbol": {
+    "message": "Símbolo"
+  },
+  "tokenSymbolInputDescription": {
+    "message": "Símbolo do ativo, como 'USD' para o dólar dos Estados Unidos."
+  },
+  "tokenSymbolInputPlaceholder": {
+    "message": "por exemplo, WEW, BOW, LAL, etc."
+  },
+  "tokenNamePatternDescription": {
+    "message": "Sem carateres especiais, comprimento de 3 a 50"
+  },
+  "name": {
+    "message": "Nome"
+  },
+  "tokenNameInputDescription": {
+    "message": "Nome do ativo, como 'Bitcoin' para ativo BTC."
+  },
+  "tokenNameInputPlaceholder": {
+    "message": "por exemplo, MySuperToken"
+  },
+  "nonNegativeIntMessage": {
+    "message": "Inteiro, 0 ou superior"
+  },
+  "mustBeNonNegative": {
+    "message": "Não pode ser negativo"
+  },
+  "positiveIntMessage": {
+    "message": "Inteiro, 1 ou superior"
+  },
+  "decimals": {
+    "message": "Decimais"
+  },
+  "decimalsInputDescription": {
+    "message": "Número de casas decimais após o ponto. Por exemplo: 8 para BTC, 2 para USD."
+  },
+  "orIPFSImageURL": {
+    "message": "Ou URL de imagem IPFS"
+  },
+  "validImageURL": {
+    "message": "URL de imagem válida"
+  },
+  "onlyHTTPS": {
+    "message": "Apenas HTTPS"
+  },
+  "formatsAllowed": {
+    "message": "Apenas são permitidas imagens .png, .jpg, .jpeg, .gif, .webp"
+  },
+  "iconURL": {
+    "message": "URL do Ícone"
+  },
+  "optionalComment": {
+    "message": "(opcional)"
+  },
+  "iconURLInputDescription": {
+    "message": "URL da imagem para logótipo do ativo."
+  },
+  "invalidAddress": {
+    "message": "Endereço inválido"
+  },
+  "contractNotExistOnNetwork": {
+    "message": "Este contrato inteligente não existe na rede atual"
+  },
+  "onlyKTContractAddressAllowed": {
+    "message": "Apenas o endereço do contrato KT... é permitido",
+    "description": "KT not translated"
+  },
+  "operationHash": {
+    "message": "Operação Hash"
+  },
+  "alert": {
+    "message": "Alerta"
+  },
+  "accountNameInputTitle": {
+    "message": "1-16 carateres, nenhum especial"
+  },
+  "defaultAccountName": {
+    "message": "Conta $accountNumber$",
+    "placeholders": {
+      "accountNumber": {
+        "content": "$1"
+      }
+    }
+  },
+  "defaultManagedKTAccountName": {
+    "message": "$accountNumber$ KT gerido",
+    "description": "KT not translated",
+    "placeholders": {
+      "accountNumber": {
+        "content": "$1"
+      }
+    }
+  },
+  "defaultWatchOnlyAccountName": {
+    "message": "$accountNumber$ visualização",
+    "placeholders": {
+      "accountNumber": {
+        "content": "$1"
+      }
+    }
+  },
+  "accountsToRemoveConstraint": {
+    "message": "Sua frase inicial sempre poderá regenerar essa carteira. É impossível excluí-lo."
+  },
+  "doNotSharePrivateKey": {
+    "message": "<b>NÃO partilhe</b> este conjunto de caracteres com ninguém! Pode ser utilizado para roubar a sua conta corrente."
+  },
+  "appWouldLikeToConnectToYourWallet": {
+    "message": "$origin$ gostaria de estabelecer ligação à sua carteira",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "appRequestOperationToYou": {
+    "message": "$origin$ solicita-lhe operações",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "reject": {
+    "message": "Rejeitar"
+  },
+  "signAction": {
+    "message": "Registar"
+  },
+  "decryptAction": {
+    "message": "Descriptografar"
+  },
+  "appRequestsToSign": {
+    "message": "$origin$ solicita-lhe que se registe",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "appRequestsToDecrypt": {
+    "message": "$origin$ solicita que você descriptografe",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "alpha": {
+    "message": "Alpha"
+  },
+  "viewAccountAddressWarning": {
+    "message": "Este site está a solicitar acesso para visualizar o endereço da sua conta. Certifique-se sempre de que confia nos sites com os quais interage."
+  },
+  "account": {
+    "message": "Conta"
+  },
+  "toBeConnectedWithDApp": {
+    "message": "a estabelecer ligação ao dApp."
+  },
+  "atLeast8Characters": {
+    "message": "Pelo menos 8 caracteres"
+  },
+  "atLeast1Number": {
+    "message": "Pelo menos 1 número"
+  },
+  "atLeast1LowercaseLetter": {
+    "message": "Pelo menos 1 letra minúscula"
+  },
+  "atLeast1UppercaseLetter": {
+    "message": "Pelo menos 1 letra maiúscula"
+  },
+  "mnemonicWordsAmountConstraint": {
+    "message": "12, 15, 18, 21 ou 24 palavras em inglês"
+  },
+  "mnemonicSpacingConstraint": {
+    "message": "Cada palavra separada com um único espaço"
+  },
+  "justValidPreGeneratedMnemonic": {
+    "message": "Apenas mnemónica pré-gerada válida"
+  },
+  "oops": {
+    "message": "Ups!"
+  },
+  "smthWentWrongWhile": {
+    "message": "Alguma coisa correu mal durante $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "mayHappenBecauseYouAreOffline": {
+    "message": "Isto pode acontecer porque atualmente está offline"
+  },
+  "tryAgain": {
+    "message": "Tente novamente"
+  },
+  "testnetbeta": {
+    "message": "Aleo Testnet Beta",
+    "description": "Testnet Beta"
+  },
+  "leoWalletOptions": {
+    "message": "Carteira Aleo | Opções"
+  },
+  "resetExtension": {
+    "message": "Repor extensão"
+  },
+  "resetExtensionConfirmation": {
+    "message": "Tem a ceraleo creditsa de que pretende repor a carteira Aleo?\nComo resultado, todos os seus dados serão eliminados."
+  },
+  "failedToResetExtension": {
+    "message": "Falha ao repor a extensão: $errorMessage$",
+    "placeholders": {
+      "errorMessage": {
+        "content": "$1"
+      }
+    }
+  },
+  "ledger": {
+    "message": "Ledger",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "retry": {
+    "message": "Tentar novamente"
+  },
+  "privateKeyCannotBeRevealed": {
+    "message": "A chave privada não pode ser revelada"
+  },
+  "youCannotGetPrivateKeyFromThisAccountType": {
+    "message": "Não pode obter a chave privada de contas $accountType$.",
+    "placeholders": {
+      "accountType": {
+        "content": "$1"
+      }
+    }
+  },
+  "maximalAmount": {
+    "message": "Máximo: $amount$",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "amountMustBePositive": {
+    "message": "Tem de ser positivo"
+  },
+  "accountName": {
+    "message": "Nome da conta"
+  },
+  "accountNameInputDescription": {
+    "message": "Qual será o nome da nova conta?"
+  },
+  "createNewWallet": {
+    "message": "Criar uma nova Carteira"
+  },
+  "createNewWalletDescription": {
+    "message": "Ainda não está familiarizado com a Carteira Aleo? Vamos configurá-la! Isto irá criar uma nova carteira e uma nova frase semente"
+  },
+  "delegate": {
+    "message": "Delegar"
+  },
+  "explore": {
+    "message": "Explorar"
+  },
+  "assetsWhileMessage": {
+    "message": "a obter dados de ativos"
+  },
+  "receive": {
+    "message": "Receber"
+  },
+  "send": {
+    "message": "Enviar"
+  },
+  "baking": {
+    "message": "Baking"
+  },
+  "operations": {
+    "message": "Operações"
+  },
+  "delegationInfoWhileMessage": {
+    "message": "a obter ou processar as informações da sua delegação"
+  },
+  "operationHistoryWhileMessage": {
+    "message": "a obter ou processar o histórico da operação"
+  },
+  "privateKey": {
+    "message": "Chave privada"
+  },
+  "mnemonic": {
+    "message": "Mnemónica"
+  },
+  "fundraiser": {
+    "message": "Fundraiser"
+  },
+  "privateKeyInputDescription": {
+    "message": "A chave secreta da conta que pretende importar."
+  },
+  "privateKeyInputPlaceholder": {
+    "message": "por exemplo, edsk3wfiPMu..."
+  },
+  "password": {
+    "message": "Palavra-passe"
+  },
+  "isPrivateKeyEncrypted": {
+    "message": "A sua chave privada está em formato encriptado?"
+  },
+  "customDerivationPath": {
+    "message": "Caminho de derivação personalizado"
+  },
+  "mnemonicInputLabel": {
+    "message": "Frase semente"
+  },
+  "mnemonicInputDescription": {
+    "message": "Mnemónica. A sua frase secreta de 12 a 24 palavras."
+  },
+  "mnemonicInputPlaceholder": {
+    "message": "por exemplo, local meia leite atualização..."
+  },
+  "passwordInputDescription": {
+    "message": "Utilizado para derivação mnemónica adicional. Isso NÃO é uma palavra-passe de carteira."
+  },
+  "derivation": {
+    "message": "Derivação"
+  },
+  "addDerivationPathPrompt": {
+    "message": "Por defeito não é utilizada a derivação. Clique em 'Caminho de derivação personalizado' para o adicionar."
+  },
+  "derivationPathMustStartWithM": {
+    "message": "Tem de começar com 'm'"
+  },
+  "derivationSeparatorMustBeSlash": {
+    "message": "O separador tem de ser '/'"
+  },
+  "invalidPath": {
+    "message": "Caminho inválido"
+  },
+  "email": {
+    "message": "E-mail"
+  },
+  "unexpectedOrInvalidFile": {
+    "message": "Ficheiro inesperado ou inválido"
+  },
+  "requestSent": {
+    "message": "Pedido $type$ enviado! A confirmar...",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "success": {
+    "message": "Sucesso"
+  },
+  "smthWentWrong": {
+    "message": "Algo correu mal"
+  },
+  "faucetFileInputPrompt": {
+    "message": "Arraste e largue um ficheiro ou selecione-o manualmente clicando na área abaixo. Pode transferi-lo a partir de $link$.",
+    "placeholders": {
+      "link": {
+        "content": "$1"
+      }
+    }
+  },
+  "processing": {
+    "message": "A processar..."
+  },
+  "errorImportingKukaiWallet": {
+    "message": "Erro ao importar a carteira Kukai"
+  },
+  "selectedFileFormatNotSupported": {
+    "message": "O formato de ficheiro selecionado não é suportado"
+  },
+  "fileHasSyntaxError": {
+    "message": "O ficheiro tem um erro de sintaxe. Certifique-se de que o ficheiro está correto."
+  },
+  "entropyDecryptionError": {
+    "message": "Falha ao decifrar a entropia. Certifique-se de que a palavra-passe está correta"
+  },
+  "kukaiFileVersionError": {
+    "message": "Apenas os ficheiros da versão 3 podem ser processados"
+  },
+  "kukaiWalletTypeError": {
+    "message": "Não é possível revelar frase semente para este tipo de carteira"
+  },
+  "accountAddressLabel": {
+    "message": "O endereço da sua conta corrente. Partilhá-lo para receber fundos."
+  },
+  "copiedAddress": {
+    "message": "Copiado."
+  },
+  "copyAddressToClipboard": {
+    "message": "Copiar para a área de transferência"
+  },
+  "qrCode": {
+    "message": "Código QR"
+  },
+  "revealPrivateKey": {
+    "message": "Revelar chave privada"
+  },
+  "revealPrivateKeyDescription": {
+    "message": "Também conhecida como \"Exportar conta\", revela a chave privada da sua conta selecionada."
+  },
+  "revealSeedPhrase": {
+    "message": "Revelar frase semente"
+  },
+  "revealSeedPhraseDescription": {
+    "message": "Também conhecida como \"Exportar carteira\", pode precisar desta frase semente para aceder à sua carteira e às suas contas noutros dispositivos."
+  },
+  "dApps": {
+    "message": "DApps",
+    "description": "DApps = Decentralized Applications"
+  },
+  "dAppsDescription": {
+    "message": "Nesta secção pode ativar a capacidade de interagir com aplicações descentralizadas que suportam a Carteira Aleo."
+  },
+  "networksDescription": {
+    "message": "Nesta secção pode adicionar ou apagar redes Aleo personalizadas.",
+    "description": "Aleo = blockchain name (https://aleo.com/)"
+  },
+  "activateAccount": {
+    "message": "Ativar conta"
+  },
+  "activateAccountDescription": {
+    "message": "Pode ser necessário para contas ICO/Fundraiser ou testnet faucet."
+  },
+  "removeAccount": {
+    "message": "Remover conta"
+  },
+  "removeAccountDescription": {
+    "message": "Utilize esta secção para remover a sua conta selecionada. Apenas as contas importadas podem ser removidas."
+  },
+  "about": {
+    "message": "Sobre"
+  },
+  "aboutDescription": {
+    "message": "Utilize esta secção para ver meta informações sobre a Carteira Aleo."
+  },
+  "unlockWallet": {
+    "message": "Desbloquear a Carteira"
+  },
+  "toContinue": {
+    "message": "para continuar"
+  },
+  "unlockPasswordInputDescription": {
+    "message": "É utilizada uma palavra-passe para proteger a carteira."
+  },
+  "unlock": {
+    "message": "Desbloquear"
+  },
+  "importNewAccountTitle": {
+    "message": "Repor conta? Quer iniciar sessão noutra conta?"
+  },
+  "importWalletUsingSeedPhrase": {
+    "message": "Importar carteira utilizando frase semente"
+  },
+  "connectLedger": {
+    "message": "Ligar Ledger",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "importExistingWallet": {
+    "message": "Importar carteira existente"
+  },
+  "importExistingWalletDescription": {
+    "message": "Já tem uma carteira? Importar utilizando a sua frase semente ou ficheiro keystore encriptado"
+  },
+  "links": {
+    "message": "Ligações"
+  },
+  "website": {
+    "message": "Website"
+  },
+  "repo": {
+    "message": "Repositório"
+  },
+  "privacyPolicy": {
+    "message": "Política de privacidade"
+  },
+  "termsOfUse": {
+    "message": "Termos de utilização"
+  },
+  "contact": {
+    "message": "Contacto"
+  },
+  "accountAlreadyActivated": {
+    "message": "A sua conta já está ativada."
+  },
+  "accountActivated": {
+    "message": "A sua conta foi ativada com sucesso!"
+  },
+  "failureSecretMayBeInvalid": {
+    "message": "Falha. Isto pode acontecer porque o segredo fornecido é inválido"
+  },
+  "accountToBeActivated": {
+    "message": "Conta a ativar."
+  },
+  "ifYouWantToActivateAnotherAccount": {
+    "message": "Se quiser ativar outra conta, selecione-a no menu pendente do canto superior direito."
+  },
+  "activateAccountSecret": {
+    "message": "Segredo"
+  },
+  "activateAccountSecretDescription": {
+    "message": "campo 'segredo' da conta Fundraiser ou Faucet"
+  },
+  "activateAccountSecretPlaceholder": {
+    "message": "por exemplo, n4hs7sd3..."
+  },
+  "activate": {
+    "message": "Ativar"
+  },
+  "minimalFeeDescription": {
+    "message": "Mínimo"
+  },
+  "fastFeeDescription": {
+    "message": "Rápido"
+  },
+  "rocketFeeDescription": {
+    "message": "Foguetão"
+  },
+  "customFeeDescription": {
+    "message": "Personalizado"
+  },
+  "additionalFee": {
+    "message": "Tarifa adicional"
+  },
+  "asset": {
+    "message": "Ativo"
+  },
+  "selectAnotherAssetPrompt": {
+    "message": "Clique na área para selecionar outro ativo ou token."
+  },
+  "disable": {
+    "message": "desativar"
+  },
+  "enable": {
+    "message": "ativar"
+  },
+  "dAppsCheckmarkPrompt": {
+    "message": "Clique na marca de verificação para $action$ da funcionalidade de interação DApps",
+    "description": "DApps = Decentralized Applications",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "dAppsInteraction": {
+    "message": "Interação DApps",
+    "description": "DApps = Decentralized Applications"
+  },
+  "enabled": {
+    "message": "Ativada"
+  },
+  "disabled": {
+    "message": "Desativada"
+  },
+  "enablePopup": {
+    "message": "Ativar pop-up"
+  },
+  "popupEnabled": {
+    "message": "Ativada"
+  },
+  "popupDisabled": {
+    "message": "Desativada"
+  },
+  "delete": {
+    "message": "Eliminar"
+  },
+  "rank": {
+    "message": "Classificação"
+  },
+  "fee": {
+    "message": "Tarifa"
+  },
+  "space": {
+    "message": "Espaço"
+  },
+  "delegation": {
+    "message": "Delegação"
+  },
+  "baker": {
+    "message": "Baker"
+  },
+  "bakerInputDescription": {
+    "message": "Endereço de um baker registado."
+  },
+  "bakerInputDescriptionWithDomain": {
+    "message": "Endereço ou nome de domínio de um baker registado."
+  },
+  "bakerInputPlaceholder": {
+    "message": "por exemplo, aleo13u9kfm2..."
+  },
+  "minDelegationAmountTitle": {
+    "message": "Montante mínimo de delegação"
+  },
+  "unknownBakerTitle": {
+    "message": "Baker desconhecido"
+  },
+  "unknownBakerDescription": {
+    "message": "O endereço fornecido não é conhecido por nós como um baker! Apenas delegue fundos por sua conta e risco."
+  },
+  "delegateToRecommendedBakers": {
+    "message": "Delegar a Bakers recomendados"
+  },
+  "sortBy": {
+    "message": "Ordenar por"
+  },
+  "cycles_one": {
+    "message": "Ciclo $amount$",
+    "description": "For plural forms",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "cycles_other": {
+    "message": "Ciclos $amount$",
+    "description": "For plural forms",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "notEnoughFunds": {
+    "message": "Não há fundos suficientes"
+  },
+  "notEnoughCurrencyFunds": {
+    "message": "Não há fundos de $currency$ suficientes",
+    "placeholders": {
+      "currency": {
+        "content": "$1"
+      }
+    }
+  },
+  "notAllowed": {
+    "message": "Não permitido"
+  },
+  "failed": {
+    "message": "Falha"
+  },
+  "yourBalanceIsZero": {
+    "message": "O seu saldo é zero."
+  },
+  "minimalFeeGreaterThanBalance": {
+    "message": "A taxa mínima para esta transação é superior ao seu saldo."
+  },
+  "alreadyDelegatedFundsToBaker": {
+    "message": "Já delegou fundos a este baker. Não é possível delegar novamente."
+  },
+  "bakerNotRegistered": {
+    "message": "O baker especificado não está registado."
+  },
+  "unableToPerformActionToBaker": {
+    "message": "Impossível $action$ ao baker selecionado.",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "estimateDelegation": {
+    "message": "Estimativa da delegação"
+  },
+  "thisMayHappenBecause": {
+    "message": "Isto pode acontecer porque:"
+  },
+  "minimalFeeGreaterThanBalanceVerbose": {
+    "message": "A taxa mínima para esta transação é superior ao seu saldo. Poderá ser necessário pagar uma taxa superior por enviar fundos para uma conta de Gestor vazia. Isso requer uma taxa de consolidação única de 0,06425 $gasTokenSymbol$;",
+    "placeholders": {
+      "gasTokenSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "networkOrOtherIssue": {
+    "message": "Rede ou outra questão técnica."
+  },
+  "unableToDelegateToKTAddress": {
+    "message": "Incapaz de delegar a KT... endereço contratual"
+  },
+  "confirmAction": {
+    "message": "Confirmar $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "payloadToSign": {
+    "message": "Payload para registo"
+  },
+  "decline": {
+    "message": "Rejeitar"
+  },
+  "confirm": {
+    "message": "Confirmar"
+  },
+  "confirmDecryptionPermission": {
+    "message": "Confirmar permissão de descriptografia"
+  },
+  "confirmDecryptionPermissionDescription": {
+    "message": "Isso dará acesso permanente ao seu histórico e não pode ser revogado."
+  },
+  "confirmRisk": {
+    "message": "Eu entendo o risco e desejo prosseguir."
+  },
+  "decryptPermission": {
+    "message": "Permissão de descriptografia"
+  },
+  "NO_DECRYPT": {
+    "message": "Este aplicativo não pode descriptografar nenhum registro usando nenhuma de suas chaves de visualização."
+  },
+  "DECRYPT_UPON_REQUEST": {
+    "message": "Este aplicativo só pode descriptografar registros com sua aprovação explícita. Você será solicitado para qualquer solicitação de descriptografia."
+  },
+  "AUTO_DECRYPT": {
+    "message": "Este aplicativo pode descriptografar automaticamente qualquer registro necessário sem permissão explícita apenas enquanto sua carteira estiver conectada. Ele não pode ver seu ViewKey."
+  },
+  "network": {
+    "message": "Rede"
+  },
+  "unknownNetwork": {
+    "message": "Desconhecido:"
+  },
+  "backupNewSeedPhrase": {
+    "message": "Cópia de segurança de nova frase semente"
+  },
+  "attentionExclamation": {
+    "message": "Atenção!"
+  },
+  "lockedWalletAlreadyExists": {
+    "message": "A carteira bloqueada <b>já existe</b>.\nImportar uma nova <b>irá destruir a existente</b>."
+  },
+  "backToUnlockPage": {
+    "message": "retroceder para a página Desbloquear"
+  },
+  "mustBeEqualToPasswordAbove": {
+    "message": "Deve ser igual à palavra-passe acima"
+  },
+  "repeatPassword": {
+    "message": "Repetir palavra-passe"
+  },
+  "repeatPasswordInputDescription": {
+    "message": "Introduza novamente a palavra-passe."
+  },
+  "confirmTermsError": {
+    "message": "Não é possível continuar sem confirmar os Termos de utilização"
+  },
+  "confirmError": {
+    "message": "Não foi possível continuar sem confirmar."
+  },
+  "acceptTerms": {
+    "message": "Aceitar termos"
+  },
+  "termsOfUsage": {
+    "message": "Termos de utilização"
+  },
+  "file": {
+    "message": "Ficheiro"
+  },
+  "keystoreFile": {
+    "message": "Ficheiro keystore"
+  },
+  "filePassword": {
+    "message": "Palavra-passe de ficheiro"
+  },
+  "filePasswordInputDescription": {
+    "message": "Introduza uma palavra-passe para o ficheiro keystore"
+  },
+  "fileInputPrompt": {
+    "message": "Escolha um ficheiro ou arraste-o aqui"
+  },
+  "useKeystorePassword": {
+    "message": "Utilizar palavra-passe de Ficheiro como palavra-passe de Extensão"
+  },
+  "create": {
+    "message": "Criar"
+  },
+  "import": {
+    "message": "Importar"
+  },
+  "revealNewSeedPhrase": {
+    "message": "<b>Clique na área abaixo</b> para revelar a sua nova frase semente.\nEm seguida, escreva esta frase num papel e <b>guarde-o num local seguro</b>. Ou pode memorizá-la."
+  },
+  "doNotSharePhrase": {
+    "message": "<b>NÃO partilhe</b> esta frase com ninguém! Pode ser utilizada para roubar todas as suas contas."
+  },
+  "youWillNeedThisSeedPhrase": {
+    "message": "Se alguma vez alternar entre browsers ou dispositivos, irá precisar desta frase semente para aceder às suas contas."
+  },
+  "unableToContinueWithoutConfirming": {
+    "message": "Impossível continuar sem confirmar"
+  },
+  "backupedInputLabel": {
+    "message": "Fiz cópia de segurança da frase semente"
+  },
+  "backupedInputDescription": {
+    "message": "E aceito os riscos de que, se eu perder a frase,\nos meus fundos possam ser perdidos."
+  },
+  "continue": {
+    "message": "Continuar"
+  },
+  "noOperationsFound": {
+    "message": "Não foram encontradas operações"
+  },
+  "pending": {
+    "message": "pendente..."
+  },
+  "applied": {
+    "message": "Aplicado"
+  },
+  "skipped": {
+    "message": "Ignorado"
+  },
+  "backtracked": {
+    "message": "recuado"
+  },
+  "operationSuccessfullyProcessed": {
+    "message": "$type$ processado e confirmado com sucesso!",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "timedOutOperationConfirmation": {
+    "message": "Confirmação de tempo limite de operação excedido. Pode esperar mais tempo ou tentar novamente mais tarde."
+  },
+  "accountToBeRemoved": {
+    "message": "Conta a ser removida."
+  },
+  "ifYouWantToRemoveAnotherAccount": {
+    "message": "Se quiser remover outra conta, selecione-a no menu pendente do canto superior direito."
+  },
+  "cannotBeRemoved": {
+    "message": "Não pode ser removida"
+  },
+  "importedPlural": {
+    "message": "importado"
+  },
+  "enterPasswordToRemoveAccount": {
+    "message": "Introduza a palavra-passe para remover a conta."
+  },
+  "remove": {
+    "message": "Remover"
+  },
+  "ifYouWantToRevealPrivateKeyFromOtherAccount": {
+    "message": "Se quiser revelar a chave privada de outra conta, deve selecioná-la no menu pendente do canto superior direito."
+  },
+  "privateKeyFieldDescription": {
+    "message": "Chave da conta corrente. Mantenha-a em segredo."
+  },
+  "derivationPath": {
+    "message": "Caminho de derivação"
+  },
+  "derivationType": {
+    "message": "Tipo de derivação"
+  },
+  "derivationTypeFieldDescription": {
+    "message": "A curva elíptica que a conta irá utilizar."
+  },
+  "seedPhrase": {
+    "message": "Frase semente"
+  },
+  "pathForHDAccounts": {
+    "message": "para contas HD. Isto é o que utiliza para recuperar todas as suas contas da sua frase semente.",
+    "description": "HD = Hierarchical Deterministic"
+  },
+  "derivationPathExample": {
+    "message": "m/44'/0'/<account_index>'/0'"
+  },
+  "derivationPathExample2": {
+    "message": "por exemplo, m/44'/1729'/..."
+  },
+  "keepSeedPhraseSecret": {
+    "message": "Mantenha-a em segredo."
+  },
+  "revealSecretPasswordInputDescription": {
+    "message": "Introduza a palavra-passe para revelar o $secretName$.",
+    "placeholders": {
+      "secretName": {
+        "content": "$1"
+      }
+    }
+  },
+  "reveal": {
+    "message": "Revelar"
+  },
+  "transaction": {
+    "message": "Transação"
+  },
+  "recipient": {
+    "message": "Destinatário"
+  },
+  "tokensRecepientInputDescription": {
+    "message": "Endereço para onde enviar fundos $assetSymbol$.",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "tokensRecepientInputDescriptionWithDomain": {
+    "message": "Endereço ou domínio Aleo para onde enviar fundos $assetSymbol$.",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "addressInputDescription": {
+    "message": "Endereço da conta Aleo ou contrato inteligente."
+  },
+  "addressInputDescriptionWithDomain": {
+    "message": "Endereço ou domínio Aleo da conta ou contrato inteligente."
+  },
+  "recipientInputPlaceholder": {
+    "message": "por exemplo, aleo13u9kfm2..."
+  },
+  "recipientInputPlaceholderWithDomain": {
+    "message": "por exemplo, alice.aleo ou aleo13u9kfm2...",
+    "description": "alice.aleo = domain like google.com"
+  },
+  "tryingToTransferToYourself": {
+    "message": "Está a tentar transferir fundos para si próprio.\nCertifique-se de que é exatamente o que pretende."
+  },
+  "tryingToTransferToContract": {
+    "message": "Está a tentar transferir fundos para contrato.\nCertifique-se de que é exatamente o que pretende."
+  },
+  "amount": {
+    "message": "Montante"
+  },
+  "availableToSend": {
+    "message": "Disponível para enviar(máx.):"
+  },
+  "inAsset": {
+    "message": "em $assetSymbol$",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "amountPlaceholder": {
+    "message": "por exemplo, 123,45"
+  },
+  "sendToMyAccounts": {
+    "message": "Enviar para as Minhas Contas"
+  },
+  "clickOnRecipientAccount": {
+    "message": "Clique na Conta para a qual pretende enviar fundos."
+  },
+  "unableToSendTransactionAction": {
+    "message": "Impossível enviar a transação para o Destinatário fornecido."
+  },
+  "unableToEstimateTransactionAction": {
+    "message": "Impossível estimar a transação para o Destinatário fornecido."
+  },
+  "makeSureToBackupSeedPhrase": {
+    "message": "Certifique-se de que faz uma cópia de segurança da sua frase semente!"
+  },
+  "exploreMore": {
+    "message": "Explorar mais..."
+  },
+  "selfComment": {
+    "message": "(próprio)"
+  },
+  "deleteNetworkConfirm": {
+    "message": "Tem a ceraleo creditsa de que pretende eliminar esta rede?"
+  },
+  "networkNamePlaceholder": {
+    "message": "A minha rede personalizada"
+  },
+  "mustBeValidURL": {
+    "message": "Deve ser um URL válido"
+  },
+  "rpcBaseURL": {
+    "message": "URL de base RPC",
+    "description": "RPC = Remote Procedure Call (https://en.wikipedia.org/wiki/Remote_procedure_call)"
+  },
+  "mustBeUnique": {
+    "message": "Deve ser único"
+  },
+  "addNetwork": {
+    "message": "Adicionar rede"
+  },
+  "currentNetworks": {
+    "message": "Redes atuais"
+  },
+  "deleteNetworkHint": {
+    "message": "Clique no ícone X para eliminar a rede. Se quiser editar a rede, basta eliminá-la e adicionar outra com novos parâmetros."
+  },
+  "preview": {
+    "message": "Pré-visualização"
+  },
+  "raw": {
+    "message": "Bruto"
+  },
+  "fetchingConfirmationDetails": {
+    "message": "a procurar detalhes de confirmação"
+  },
+  "notIdentified": {
+    "message": "Não identificado"
+  },
+  "connection": {
+    "message": "Ligação"
+  },
+  "connect": {
+    "message": "Ligar"
+  },
+  "confirmActionOnDevice": {
+    "message": "Confirmar a ação em"
+  },
+  "deviceName": {
+    "message": "dispositivo $device$",
+    "placeholders": {
+      "device": {
+        "content": "$1"
+      }
+    }
+  },
+  "ledgerNano": {
+    "message": "Ledger Nano",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "defaultLedgerName": {
+    "message": "Ledger $number$",
+    "description": "Ledger = https://www.ledger.com/",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "ledgerNameConstraint": {
+    "message": "1-16 carateres, nenhum especial"
+  },
+  "ledgerNameInputDescription": {
+    "message": "Qual será o nome da nova conta Ledger?",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "defaultDerivationPathLabel": {
+    "message": "Por defeito, é utilizada a derivação $path$.",
+    "placeholders": {
+      "path": {
+        "content": "$1"
+      }
+    }
+  },
+  "clickOnCustomDerivationPath": {
+    "message": "Clique em 'Caminho de derivação personalizado' para a personalizar."
+  },
+  "addLedgerAccount": {
+    "message": "Adicionar conta Ledger",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "firefoxLedgerConnectionError": {
+    "message": "$sorry$ A ligação ao dispositivo $device$ via $browser$ está temporariamente $unavailable$.",
+    "placeholders": {
+      "sorry": {
+        "content": "$1"
+      },
+      "device": {
+        "content": "$2"
+      },
+      "browser": {
+        "content": "$3"
+      },
+      "unavailable": {
+        "content": "$4"
+      }
+    }
+  },
+  "connectionUnavailable": {
+    "message": "Indisponível"
+  },
+  "sorry": {
+    "message": "Lamentamos!"
+  },
+  "upload": {
+    "message": "Carregar"
+  },
+  "languageAndCountry": {
+    "message": "Idioma"
+  },
+  "generalSettings": {
+    "message": "Geral"
+  },
+  "generalSettingsDescription": {
+    "message": "Aqui pode gerir as preferências de idioma e o modo de visualização."
+  },
+  "swapNoun": {
+    "message": "Trocar"
+  },
+  "transfers": {
+    "message": "Transferências"
+  },
+  "someUnknownToken": {
+    "message": "token desconhecido $token$",
+    "placeholders": {
+      "token": {
+        "content": "$1"
+      }
+    }
+  },
+  "interactionWithSomeEntrypoint": {
+    "message": "Interação com o ponto de entrada '$entrypoint$' do $contractAddress$ do contrato",
+    "placeholders": {
+      "entrypoint": {
+        "content": "$1"
+      },
+      "contractAddress": {
+        "content": "$2"
+      }
+    }
+  },
+  "transactionOfSomeType": {
+    "message": "Transação do tipo '$type$'",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "approveToken": {
+    "message": "Aprovar Token"
+  },
+  "add": {
+    "message": "Acrescentar"
+  },
+  "assets": {
+    "message": "Ativos"
+  },
+  "tokens": {
+    "message": "Tokens"
+  },
+  "activity": {
+    "message": "Atividade"
+  },
+  "manage": {
+    "message": "Gerir"
+  },
+  "manageTokens": {
+    "message": "Gerir tokens"
+  },
+  "noAssetsFound": {
+    "message": "Não foram encontrados ativos"
+  },
+  "ifYouDontSeeYourAsset": {
+    "message": "Se não vir o seu ativo,\ntente clicar em $toClick$.",
+    "placeholders": {
+      "toClick": {
+        "content": "$1"
+      }
+    }
+  },
+  "addressOfTokenContract": {
+    "message": "Endereço de um contrato de tokens $assetSymbol$.",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "searchAssets": {
+    "message": "Procurar ativos..."
+  },
+  "searchByName": {
+    "message": "Procurar por nome..."
+  },
+  "deployNew": {
+    "message": "Implantar novo"
+  },
+  "managedKTAccount": {
+    "message": "KT gerido"
+  },
+  "watchOnlyAccount": {
+    "message": "Apenas visualização"
+  },
+  "disabledForWatchOnlyAccount": {
+    "message": "Desativado para conta de apenas visualização"
+  },
+  "activationOperationType": {
+    "message": "Ativação"
+  },
+  "youAreNotContractManager": {
+    "message": "Não é um gestor de contrato"
+  },
+  "contract": {
+    "message": "Contrato"
+  },
+  "contractAddressInputDescription": {
+    "message": "Endereço do contrato a ligar."
+  },
+  "contractAddressInputPlaceholder": {
+    "message": "por exemplo, KT1a9w1S7hN5s..."
+  },
+  "addKnownManagedContract": {
+    "message": "Acrescentar Contrato gerido conhecido"
+  },
+  "clickOnContractToImport": {
+    "message": "Clique no Contrato que pretende importar."
+  },
+  "notContractAddress": {
+    "message": "Não é um endereço contratual"
+  },
+  "contractAlreadyImported": {
+    "message": "Este contrato já foi importado"
+  },
+  "waitWhileContractBeingDeployed": {
+    "message": "Não saia desta página nem feche a janela enquanto o contrato estiver a ser implantado, pode demorar algum tempo. O formulário e este alerta desaparecerão assim que for implantado com sucesso."
+  },
+  "justAMinute": {
+    "message": "Só um momento..."
+  },
+  "referredByTokenContactAddressInvalid": {
+    "message": "Endereço contratual $address$, que é referido por contrato de tokens, é inválido.",
+    "placeholders": {
+      "address": {
+        "content": "$1"
+      }
+    }
+  },
+  "someNetworkIsNotCurrent": {
+    "message": "A rede $network$ foi especificada, que não é a rede atual",
+    "placeholders": {
+      "network": {
+        "content": "$1"
+      }
+    }
+  },
+  "someNetworkWithChainIdIsNotCurrent": {
+    "message": "Foi especificado o ID da cadeia $chainId$, que não é o ID da cadeia da rede atual",
+    "placeholders": {
+      "chainId": {
+        "content": "$1"
+      }
+    }
+  },
+  "popupSettings": {
+    "message": "Modo pop-up"
+  },
+  "popupSettingsDescription": {
+    "message": "Aqui pode configurar o pop-up que aparece no ícone do plug-in, clique no painel de extensões."
+  },
+  "analyticsSettings": {
+    "message": "Análise anónima"
+  },
+  "analyticsSettingsDescription": {
+    "message": "Aqui pode configurar o envio de análises anónimas que nos ajudam a melhorar o produto."
+  },
+  "managedContract": {
+    "message": "Contrato gerido"
+  },
+  "referredByTokenContractNotFound": {
+    "message": "O $address$ do contrato, que é referido por contrato de tokens, não foi encontrado.",
+    "placeholders": {
+      "address": {
+        "content": "$1"
+      }
+    }
+  },
+  "tokenContractNotFound": {
+    "message": "O contrato não foi encontrado."
+  },
+  "failedToParseMetadata": {
+    "message": "Falha ao analisar metadados"
+  },
+  "unknownParseErrorOccurred": {
+    "message": "Ocorreu um erro de análise desconhecido."
+  },
+  "errorWhileFetchingUrl": {
+    "message": "Ocorreu um erro ao procurar por $url$",
+    "placeholders": {
+      "url": {
+        "content": "$1"
+      }
+    }
+  },
+  "invalidManagedContract": {
+    "message": "Contrato gerido inválido"
+  },
+  "someMethodNotDefinedInContract": {
+    "message": "O método '$name$' não está definido no contrato.",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "someMethodSignatureDoesNotMatchStandard": {
+    "message": "A assinatura do método '$name$' não corresponde ao padrão.",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "failedToLoadChainID": {
+    "message": "Falha no carregamento do ID da cadeia para esta rede"
+  },
+  "makeSureTokenIdIsCorrect": {
+    "message": "Certifique-se de que o ID do ativo está correto."
+  },
+  "unknownErrorCheckingSomeEntrypoint": {
+    "message": "Ocorreu um erro desconhecido ao verificar o ponto de entrada '$name$'.",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "incorrectTokenIdErrorMessage": {
+    "message": "Falha no processamento do ativo com dados fornecidos. Certifique-se de que o ID do ativo está correto."
+  },
+  "transfer": {
+    "message": "Transferência"
+  },
+  "origination": {
+    "message": "Origem"
+  },
+  "transferFromSmb": {
+    "message": "de $sender$",
+    "placeholders": {
+      "sender": {
+        "content": "$1"
+      }
+    }
+  },
+  "transferToSmb": {
+    "message": "para $receiver$",
+    "placeholders": {
+      "receiver": {
+        "content": "$1"
+      }
+    }
+  },
+  "interaction": {
+    "message": "Interação"
+  },
+  "interactionWithContract": {
+    "message": "com $contract$",
+    "placeholders": {
+      "contract": {
+        "content": "$1"
+      }
+    }
+  },
+  "delegationToSmb": {
+    "message": "para $delegate$",
+    "placeholders": {
+      "delegate": {
+        "content": "$1"
+      }
+    }
+  },
+  "fa2TokenAlreadyExists": {
+    "message": "O Token com endereço $address$ e ID $tokenId$ já existe.",
+    "placeholders": {
+      "address": {
+        "content": "$1"
+      },
+      "tokenId": {
+        "content": "$2"
+      }
+    }
+  },
+  "nonFa2TokenAlreadyExists": {
+    "message": "O Token com endereço $address$ já existe.",
+    "placeholders": {
+      "address": {
+        "content": "$1"
+      }
+    }
+  },
+  "approveForSmb": {
+    "message": "para $spender$",
+    "placeholders": {
+      "spender": {
+        "content": "$1"
+      }
+    }
+  },
+  "undelegation": {
+    "message": "Anular delegação"
+  },
+  "bytes": {
+    "message": "Bytes"
+  },
+  "clean": {
+    "message": "Limpar"
+  },
+  "errorChangingAccountName": {
+    "message": "Ocorreu um erro ao mudar o nome da conta"
+  },
+  "ok": {
+    "message": "OK"
+  },
+  "yes": {
+    "message": "Sim"
+  },
+  "no": {
+    "message": "Não"
+  },
+  "actionConfirmation": {
+    "message": "Confirmar a ação"
+  },
+  "domainDoesntResolveToAddress": {
+    "message": "O domínio \"$value$\" não resolve para um endereço",
+    "placeholders": {
+      "value": {
+        "content": "$1"
+      }
+    }
+  },
+  "invalidAddressOrDomain": {
+    "message": "Endereço ou nome de domínio inválido"
+  },
+  "resolvedAddress": {
+    "message": "Endereço resolvido"
+  },
+  "invalidRpcCantGetChainId": {
+    "message": "RPC inválido: Não é possível obter id da cadeia",
+    "description": "RPC = Remote Procedure Call (https://en.wikipedia.org/wiki/Remote_procedure_call)"
+  },
+  "contractNotOriginated": {
+    "message": "Contrato não originado"
+  },
+  "welcomeTo": {
+    "message": "Damos-lhe as boas-vindas a"
+  },
+  "domain": {
+    "message": "Domínio"
+  },
+  "hash": {
+    "message": "Hash"
+  },
+  "defaultAccount": {
+    "message": "Conta predefinida (a primeira)"
+  },
+  "loadMore": {
+    "message": "Carregar mais"
+  },
+  "submit": {
+    "message": "Enviar"
+  },
+  "invalidJsonInput": {
+    "message": "JSON inválido"
+  },
+  "notFaucetJson": {
+    "message": "Não é um JSON de faucet"
+  },
+  "faucetJson": {
+    "message": "JSON de faucet"
+  },
+  "faucetJsonDescription": {
+    "message": "Pode colar aqui o JSON em vez de adicionar ficheiro"
+  },
+  "unknownErrorFromRPC": {
+    "message": "Falha no envio do pedido para $url$. Pedido inválido fornecido ou nó RPC está temporariamente inacessível.",
+    "placeholders": {
+      "url": {
+        "content": "$1"
+      }
+    }
+  },
+  "emptyImplicitContract": {
+    "message": "A sua conta está vazia. Deposite qualquer montante aleo credits nesta conta para ativá-la"
+  },
+  "balanceTooLow": {
+    "message": "Saldo gas token baixo"
+  },
+  "swap": {
+    "message": "Trocar"
+  },
+  "accountNumber": {
+    "message": "Número de conta"
+  },
+  "noExchangersAvailable": {
+    "message": "Lamentamos, não estão disponíveis permutadores para a rede atual."
+  },
+  "noResults": {
+    "message": "Sem resultados"
+  },
+  "max": {
+    "message": "Máx."
+  },
+  "balance": {
+    "message": "Saldo:"
+  },
+  "from": {
+    "message": "De"
+  },
+  "toAsset": {
+    "message": "Para"
+  },
+  "via": {
+    "message": "Via"
+  },
+  "exchangeRate": {
+    "message": "Taxa de câmbio"
+  },
+  "priceImpact": {
+    "message": "Impacto do preço"
+  },
+  "slippageTolerance": {
+    "message": "Tolerância de derrapagem"
+  },
+  "minimumReceived": {
+    "message": "Mínimo recebido"
+  },
+  "inputOutputAssetsCannotBeSame": {
+    "message": "Os ativos de entrada e saída não podem ser os mesmos"
+  },
+  "amountMustBeReservedForNetworkFees": {
+    "message": "$amount$ deve ser reservado para o pagamento de taxas de rede",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "helpAndCommunity": {
+    "message": "Ajuda e comunidade"
+  },
+  "communityResourcesTitle": {
+    "message": "Poderá sempre encontrar informações adicionais sobre a carteira Aleo ou pedir ajuda sobre os próximos recursos."
+  },
+  "helpAndCommunityDescription": {
+    "message": "Utilize esta secção se quiser fazer parte da nossa comunidade ou precisar de ajuda."
+  },
+  "joinPrompt": {
+    "message": "Sinta-se à vontade para aderir e colocar as suas dúvidas "
+  },
+  "blockExplorer": {
+    "message": "Explorador de blocos em cadeia"
+  },
+  "specifyTokenId": {
+    "message": "Especificar ID de token"
+  },
+  "notWhitelistedTokenWarning": {
+    "message": "Atenção! Um dos tokens que está a tentar trocar não está na lista de permissões. Pode interagir com eles por seu próprio risco."
+  },
+  "tvl": {
+    "message": "TVL"
+  },
+  "promoted": {
+    "message": "Promovido"
+  },
+  "searchDApps": {
+    "message": "Procurar DApps"
+  },
+  "game": {
+    "message": "Jogo"
+  },
+  "social": {
+    "message": "Social"
+  },
+  "marketplace": {
+    "message": "Mercado"
+  },
+  "farming": {
+    "message": "Agricultura"
+  },
+  "other": {
+    "message": "Outro"
+  },
+  "noMatchingDAppsFound": {
+    "message": "Não foram encontrados dApps correspondentes"
+  },
+  "thousandFormat": {
+    "message": "$thousand$k",
+    "placeholders": {
+      "thousand": {
+        "content": "$1"
+      }
+    }
+  },
+  "millionFormat": {
+    "message": "$million$M",
+    "placeholders": {
+      "million": {
+        "content": "$1"
+      }
+    }
+  },
+  "billionFormat": {
+    "message": "$billion$B",
+    "placeholders": {
+      "billion": {
+        "content": "$1"
+      }
+    }
+  },
+  "gasFee": {
+    "message": "Taxa de gasolina"
+  },
+  "storageFee": {
+    "message": "Taxa de armazenamento"
+  },
+  "leoWalletFeeWarning": {
+    "message": "Atualmente, a Carteira Aleo não aplica qualquer taxa às trocas, mas pode ser aplicada no futuro."
+  },
+  "poolExchangeFee": {
+    "message": "Taxa de troca conjunta"
+  },
+  "PriceImpactInfo": {
+    "message": "A diferença entre o preço de mercado e o preço estimado devido à dimensão da troca"
+  },
+  "selectToken": {
+    "message": "Selecionar Token"
+  },
+  "viewAll": {
+    "message": "Ver tudo"
+  },
+  "rewardsForBlocks": {
+    "message": "$reward$ para taxas $blocksAmount$ $blocks$ $feesAmount$",
+    "placeholders": {
+      "reward": {
+        "content": "$1"
+      },
+      "blocksAmount": {
+        "content": "$2"
+      },
+      "blocks": {
+        "content": "$3"
+      },
+      "feesAmount": {
+        "content": "$4"
+      }
+    }
+  },
+  "blocks_one": {
+    "message": "$amount$ bloco",
+    "description": "For plural forms",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "blocks_other": {
+    "message": "$amount$ blocos",
+    "description": "For plural forms",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "rewardsForSlots": {
+    "message": "$reward$ para $slotsAmount$ $slots$",
+    "placeholders": {
+      "reward": {
+        "content": "$1"
+      },
+      "slotsAmount": {
+        "content": "$2"
+      },
+      "slots": {
+        "content": "$3"
+      }
+    }
+  },
+  "slots_one": {
+    "message": "$amount$ ranhura",
+    "description": "For plural forms",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "slots_other": {
+    "message": "$amount$ ranhuras",
+    "description": "For plural forms",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "storageFeeMax": {
+    "message": "Taxa de armazenamento (máx.)"
+  },
+  "storageLimit": {
+    "message": "Ajustar limite de armazenamento"
+  },
+  "txIsLikelyToFail": {
+    "message": "Aviso! É provável que a transação falhe"
+  },
+  "dAppsListTvlDescription": {
+    "message": "Valor total bloqueado. O valor em aleo credits é o montante total de aleo credits bloqueado em dApps. O valor em USD é o montante total de aleo credits e tokens aí bloqueados."
+  },
+  "noFavoriteDApps": {
+    "message": "Não tem nenhum dApps favorito"
+  },
+  "more": {
+    "message": "mais",
+    "description": "Show more"
+  },
+  "less": {
+    "message": "menos",
+    "description": "Show less"
+  },
+  "recentDestinations": {
+    "message": "Destinos recentes"
+  },
+  "unknownAccount": {
+    "message": "Conta desconhecida"
+  },
+  "ledgerLiveBridgeGuide": {
+    "message": "Para ligar ao Ledger, ative a aplicação Ledger Live no seu dispositivo, abra a aplicação Carteira Aleo e permita uma ligação WebSocket à sua conta Aleo."
+  },
+  "noExchangerFoundForToken": {
+    "message": "Não foi encontrado nenhum permutador para o token $symbol$ ($name$).",
+    "placeholders": {
+      "symbol": {
+        "content": "$1"
+      },
+      "name": {
+        "content": "$2"
+      }
+    }
+  },
+  "addressBook": {
+    "message": "Livro de endereços"
+  },
+  "addressBookDescription": {
+    "message": "Adicione, remova e gira os seus contactos."
+  },
+  "addNewContact": {
+    "message": "Novo contacto"
+  },
+  "addContact": {
+    "message": "Adicionar contacto"
+  },
+  "newContactPlaceholder": {
+    "message": "por exemplo, Alice Bob"
+  },
+  "contactWithTheSameAddressAlreadyExists": {
+    "message": "O contacto com o mesmo endereço já existe"
+  },
+  "currentContacts": {
+    "message": "Contactos atuais"
+  },
+  "updateContactDescription": {
+    "message": "Para atualizar um contacto existente, basta removê-lo\ne adicionar um novo contacto."
+  },
+  "deleteContactConfirm": {
+    "message": "Tem a ceraleo creditsa de que pretende eliminar este contacto?"
+  },
+  "ownAccount": {
+    "message": "Próprio"
+  },
+  "counterErrorDescription": {
+    "message": "De momento, não pode realizar a operação!\nAguarde até a sua operação anterior ser aplicada e tente novamente."
+  },
+  "swapDisclaimerTitle": {
+    "message": "Renúncia de responsabilidade. Beta version, leia antes de utilizar a secção TROCA."
+  },
+  "swapDisclaimerContent": {
+    "message": "A carteira Aleo fornece apenas uma interface para interagir com Aleo Dexes. \n\nNão somos responsáveis por: Questões DEX, tokens expostos, preço, taxas de câmbio e decisões de negociação dos utilizadores. \n\nAntes de utilizar esta secção de troca, deverá rever a documentação relevante para compreender como funcionam os protocolos DEX(AMM). \n\nA utilização desta secção é da exclusiva responsabilidade do utilizador."
+  },
+  "noContactsFound": {
+    "message": "Não foram encontrados contactos"
+  },
+  "addThisAddressToContacts": {
+    "message": "Adicionar este endereço aos contactos?"
+  },
+  "verifySeedPhrase": {
+    "message": "Verificar frase semente"
+  },
+  "verifySeedPhraseDescription": {
+    "message": "Preencha os campos em branco com as palavras para verificar a cópia de segurança da sua frase semente"
+  },
+  "word": {
+    "message": "$number$ de palavra",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "finish": {
+    "message": "Terminar"
+  },
+  "deleteTokenConfirm": {
+    "message": "Tem a ceraleo creditsa de que pretende eliminar este token?"
+  },
+  "ledgerLiveSettings": {
+    "message": "Usar o Ledger Live"
+  },
+  "ledgerLiveSettingsDescription": {
+    "message": "A nova ponte Ledger Live permite-lhe utilizar o seu Ledger de uma forma diferente."
+  },
+  "totalBalance": {
+    "message": "Saldo total"
+  },
+  "buyButton": {
+    "message": "Comprar"
+  },
+  "buyWithCrypto": {
+    "message": "Comprar com Cripto"
+  },
+  "overdueTransaction": {
+    "message": "A transação venceu"
+  },
+  "overdueTransactionMessage": {
+    "message": "Crie uma nova troca, a menos \n que tenha enviado os fundos. \n Se os fundos tiverem sido enviados, aguarde a confirmação do sistema."
+  },
+  "topUpAgain": {
+    "message": "Repor novamente"
+  },
+  "topUp": {
+    "message": "Repor"
+  },
+  "newTopUp": {
+    "message": "Nova reposição"
+  },
+  "exchangeDetails": {
+    "message": "Introduza os detalhes da troca"
+  },
+  "exchangeDetailsDescription": {
+    "message": "Reponha o seu saldo Aleo Credits ou USDT Aleo instantaneamente com $number$ criptomoedas",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "depositAddressText": {
+    "message": "Endereço do depósito $depositAddress$:",
+    "placeholders": {
+      "depositAddress": {
+        "content": "$1"
+      }
+    }
+  },
+  "support": {
+    "message": "Assistência"
+  },
+  "deposit": {
+    "message": "Depósito"
+  },
+  "depositDescription": {
+    "message": "Envie os fundos para o endereço abaixo. Assim que o depósito for recebido, o processo de troca começará automaticamente"
+  },
+  "sendByOneTransaction": {
+    "message": "Enviar por uma transação"
+  },
+  "youGet": {
+    "message": "Recebe:"
+  },
+  "fixedRate": {
+    "message": "Taxa fixa:"
+  },
+  "transactionId": {
+    "message": "ID de transação:"
+  },
+  "atomDepositMemo": {
+    "message": "Memorando de depósito de átomo"
+  },
+  "recipientAddress": {
+    "message": "Endereço do destinatário:"
+  },
+  "recipientXtzAddress": {
+    "message": "Endereço XTZ do destinatário:"
+  },
+  "inputHash": {
+    "message": "Hash de entrada:"
+  },
+  "youSend": {
+    "message": "Envia:"
+  },
+  "sendTime": {
+    "message": "Hora de envio:"
+  },
+  "completedDescription": {
+    "message": "Verifique os seus fundos na sua carteira.\nO processo de troca está concluído."
+  },
+  "completed": {
+    "message": "Concluído"
+  },
+  "youReceive": {
+    "message": "Recebe:"
+  },
+  "waitMessage": {
+    "message": "Aguarde. O processo de conversão demorará entre 15 min a 2 horas."
+  },
+  "confirmation": {
+    "message": "Confirmação"
+  },
+  "exchanging": {
+    "message": "Trocar"
+  },
+  "step": {
+    "message": "Etapa"
+  },
+  "collectibles": {
+    "message": "Colecionáveis"
+  },
+  "attentionSendAmount": {
+    "message": "É necessário enviar o montante exato de criptomoedas para o endereço de depósito. Caso contrário, a transação irá falhar e terá de contactar a $support$",
+    "placeholders": {
+      "support": {
+        "content": "$1"
+      }
+    }
+  },
+  "important": {
+    "message": "Importante"
+  },
+  "id": {
+    "message": "ID"
+  },
+  "addCollectible": {
+    "message": "Adicionar colecionável"
+  },
+  "manageCollectibles": {
+    "message": "Gerir colecionáveis"
+  },
+  "deleteCollectibleConfirm": {
+    "message": "Tem a ceraleo creditsa de que pretende eliminar este colecionável?"
+  },
+  "zeroCollectibleText": {
+    "message": "Ainda não tem colecionáveis!\nÉ uma boa altura para obter um"
+  },
+  "min": {
+    "message": "Min.:"
+  },
+  "warningTopUpServiceMessage": {
+    "message": "A funcionalidade de troca de tokens é fornecida por um terceiro. A carteira Aleo não é responsável pelo trabalho de serviços de terceiros."
+  },
+  "clickToRevealField": {
+    "message": "Clique para revelar este campo"
+  },
+  "clickToReveal": {
+    "message": "Clique para revelar"
+  },
+  "skip": {
+    "message": "Pular"
+  },
+  "checkNow": {
+    "message": "Verifique agora"
+  },
+  "theLendingProtocol": {
+    "message": "O protocolo de empréstimo em Aleo."
+  },
+  "alreadyLaunched": {
+    "message": "Já Lançado!"
+  },
+  "borrowLandEarn": {
+    "message": "Pegue emprestado, pouse e ganhe em seus tokens favoritos!"
+  },
+  "independenceDayOfUkraine": {
+    "message": "Dia da Independência da Ucrânia"
+  },
+  "zeroSwapCommissionTitle": {
+    "message": "Comissões Zero Swap por duas semanas - celebre o $text$ conosco!",
+    "placeholders": {
+      "text": {
+        "content": "$1"
+      }
+    }
+  },
+  "zeroSwapCommissionDescription": {
+    "message": "A partir de $date1$ até $date2$ , os usuários Leo podem realizar negociações através do nosso roteador no $text$ seção sem nossas comissões de desenvolvimento.\n\nAproveite as taxas de câmbio mais lucrativas e negocie sem taxas em um só lugar.",
+    "placeholders": {
+      "date1": {
+        "content": "$1"
+      },
+      "date2": {
+        "content": "$2"
+      },
+      "text": {
+        "content": "$3"
+      }
+    }
+  },
+  "okGotIt": {
+    "message": "Entendi"
+  },
+  "changelogTitle": {
+    "message": "Carteira Leo atualizada"
+  },
+  "changelogDescription": {
+    "message": "Nesta atualização"
+  },
+  "update": {
+    "message": "Atualizar"
+  },
+  "skipOnboarding": {
+    "message": "Pular integração"
+  },
+  "advancedUser": {
+    "message": "Eu sou um usuário avançado"
+  },
+  "analytics": {
+    "message": "Análise"
+  },
+  "analyticsCollecting": {
+    "message": "coleta de informações anônimas"
+  },
+  "analyticsInputDescription": {
+    "message": "eu concordo com o $analyticsLink$ ",
+    "placeholders": {
+      "analyticsLink": {
+        "content": "$1"
+      }
+    }
+  },
+  "dcpDelegatingMotivation": {
+    "message": "Delegar seus fundos aos produtores é uma ótima maneira de ganhar juros sobre seu saldo"
+  },
+  "weakKeystorePassword": {
+    "message": "A senha do \"arquivo keystore\" é muito fraca para ser usada como senha de extensão. Você precisa definir um novo."
+  },
+  "doNotShareViewKey": {
+    "message": "<b>COMPARTILHE SOMENTE COM PESSOAS EM QUE VOCÊ CONFIA</b> Pode ser usado para visualizar todo o seu histórico de transações."
+  },
+  "signPayload": {
+    "message": "Mensagem para assinar"
+  },
+  "decryptPayload": {
+    "message": "Mensagem para descriptografar"
+  },
+  "noPreview": {
+    "message": "Nenhuma visualização está disponível"
+  },
+  "requirements": {
+    "message": "Requisitos:"
+  },
+  "mixtureOfUppercaseAndLowercaseLetters": {
+    "message": "Uma mistura de letras maiúsculas e minúsculas."
+  },
+  "mixtureOfLettersAndNumbers": {
+    "message": "Uma mistura de letras e números."
+  },
+  "atLeast1SpecialCharacter": {
+    "message": "Inclusão de pelo menos um caractere especial, por exemplo, ! @"
+  },
+  "seedInputNumberOfWords": {
+    "message": "Minha frase de semente é $ 1 palavras"
+  },
+  "seedPasteFailedTooManyWords": {
+    "message": "A colagem falhou porque continha mais de 24 palavras."
+  },
+  "seedPhraseTip": {
+    "message": "Você pode colar toda a sua frase Seed secreta em qualquer campo"
+  },
+  "assetMustBeSelected": {
+    "message": "O recurso deve ser selecionado"
+  },
+  "gasFeeMustBePositive": {
+    "message": "A taxa de gás deve ser positiva"
+  },
+  "get": {
+    "message": "Pegue"
+  },
+  "exolixWarningNote": {
+    "message": "Por favor, deposite apenas $currencyName$ rede de transferência $networkName$ . Caso contrário, você pode perder seus ativos permanentemente.",
+    "placeholders": {
+      "currencyName": {
+        "content": "$1"
+      },
+      "networkName": {
+        "content": "$1"
+      }
+    }
+  },
+  "mnemonicInputWarning": {
+    "message": "Não armazenamos sua frase inicial. Não o perca!"
+  },
+  "importWallet": {
+    "message": "Importar sua carteira"
+  },
+  "createWallet": {
+    "message": "Crie sua carteira"
+  },
+  "revealViewKey": {
+    "message": "Revelar chave de visualização"
+  },
+  "revealViewKeyDescription": {
+    "message": "Também conhecido como \"Compartilhar histórico da conta\", revela a chave de visualização da sua conta selecionada."
+  },
+  "info": {
+    "message": "Informações"
+  },
+  "unlockPasswordErrorDelay": {
+    "message": "Você digitou a senha errada três vezes. Sua carteira está sendo bloqueada por"
+  },
+  "routingFee": {
+    "message": "Taxa de roteamento"
+  },
+  "routingFeeTooltip": {
+    "message": "Por escolher a rota de câmbio mais lucrativa entre os Aleo DEXes.\n\nAs comissões DEXes não estão incluídas."
+  },
+  "staking": {
+    "message": "Estacando"
+  },
+  "recommended": {
+    "message": "Recomendado"
+  },
+  "partnership": {
+    "message": "Parceria"
+  },
+  "delegationGuide": {
+    "message": "Guia de vídeo completo"
+  },
+  "delegationGuideLink": {
+    "message": "Como delegar XTZ"
+  },
+  "delegationComunity": {
+    "message": "Em caso de dúvidas, escreva-as em nossas comunidades"
+  },
+  "delegationPointsHead1": {
+    "message": "Ganhe 5,6% de juros"
+  },
+  "delegationPointsHead2": {
+    "message": "no seu Aleo"
+  },
+  "delegationPointsHead3": {
+    "message": "anualmente de recompensas de cozimento"
+  },
+  "delegationPoint1": {
+    "message": "Sua primeira recompensa no Aleo será paga em aproximadamente 36 dias."
+  },
+  "delegationPoint2": {
+    "message": "Então, você recebe uma recompensa a cada 3 dias."
+  },
+  "delegationPoint3": {
+    "message": "A taxa de ganho varia ao longo do tempo. Verifique a taxa atual em sua carteira."
+  },
+  "delegationPoint4": {
+    "message": "Seus tokens Aleo nunca são bloqueados. Envie a qualquer momento!"
+  },
+  "producer": {
+    "message": "Produtor"
+  },
+  "producerInputDescription": {
+    "message": "Endereço de um produtor registrado."
+  },
+  "ifYouWantToRevealViewKeyFromOtherAccount": {
+    "message": "Se você deseja revelar uma chave de visualização de outra conta - você deve selecioná-la no menu suspenso superior direito."
+  },
+  "viewKeyFieldDescription": {
+    "message": "Chave de visualização da conta atual. Mantenha-o em segredo. Qualquer pessoa com esta chave pode ver seu histórico de transações"
+  },
+  "inFiat": {
+    "message": "em Fiat"
+  },
+  "fiatCurrency": {
+    "message": "Moeda padrão"
+  },
+  "aleoApy": {
+    "message": "APY: 6%"
+  },
+  "tokenApy": {
+    "message": "APY"
+  },
+  "swapRoute": {
+    "message": "Trocar rota"
+  },
+  "copyErrorLogs": {
+    "message": "Copiar registros de erros"
+  },
+  "ledgerBridgeGuide": {
+    "message": "Para conectar o Ledger, ative seu dispositivo e abra o aplicativo Aleo Wallet."
+  },
+  "welcomeToOnboarding": {
+    "message": "Bem-vindo ao Onboarding"
+  },
+  "onboarding": {
+    "message": "Integração"
+  },
+  "next": {
+    "message": "Próximo"
+  },
+  "updatingMinMax": {
+    "message": "Atualizando mín./máx...."
+  },
+  "done": {
+    "message": "Feito!"
+  },
+  "standWithUkraine": {
+    "message": "Fique com a Ucrânia"
+  },
+  "addressBalanceDetails": {
+    "message": "Seu endereço e saldo"
+  },
+  "addressBalanceDescription": {
+    "message": "Depois de criar uma conta, você receberá um endereço exclusivo - seu identificador pessoal no blockchain Aleo. Se você gostaria de receber e usar créditos Aleo ou tokens construídos Aleo no Leo, você deve usar este endereço."
+  },
+  "addressBalanceHint": {
+    "message": "O saldo de seus créditos Aleo é exibido no endereço público."
+  },
+  "howToStartDetails": {
+    "message": "Como começar"
+  },
+  "howToStartDescription1": {
+    "message": "Para começar a usar sua carteira e interagir com o ecossistema Aleo DApps, o saldo da conta deve ser positivo. Para fazer isso, carregue seu endereço com moedas Aleo Credits."
+  },
+  "howToStartDescription2": {
+    "message": "Você pode usar o botão \"Comprar\" e recarregar seu saldo Aleo Credits, usando criptomoedas, cartões de débito ou crédito."
+  },
+  "howToStartHint": {
+    "message": "Além disso, você pode copiar seu endereço e enviar moedas para ele de outra carteira ou Exchange. Para copiar o endereço, clique nele na tela principal da carteira ou use “Receber”."
+  },
+  "tokensCollectibleDetails": {
+    "message": "Fichas"
+  },
+  "tokensCollectibleDescription1": {
+    "message": "Seus saldos de tokens FA1.2 e FA2 são exibidos na guia \"Tokens\"."
+  },
+  "tokensCollectibleDescription2": {
+    "message": "Você pode enviar, verificar saldos ou endereços de contrato de qualquer token clicando nele nesta seção."
+  },
+  "tokensCollectibleHint": {
+    "message": "Seus tokens não fungíveis (NFT) são exibidos na guia “Colecionáveis”. Aqui você também pode interagir com seus próprios NFTs, ver sua visualização completa, ID e endereço do contrato."
+  },
+  "profileRpcDetails": {
+    "message": "Perfil"
+  },
+  "profileRpcDescription": {
+    "message": "Na parte superior da interface, você pode ver o robo-icon da sua conta. Ao clicar nele, você verá os parâmetros de interação com as contas, o botão de configurações e o modo de visualização da extensão."
+  },
+  "profileRpcHint1": {
+    "message": "Em seguida, você verá o seletor “Redes”, que permite selecionar um nó (RPC) ao qual seu ramal Leo será conectado."
+  },
+  "profileRpcHint2": {
+    "message": "Se seu saldo não for exibido, tente alterar o nó."
+  },
+  "profileRpcHint3": {
+    "message": "Você pode escolher em uma lista predefinida ou adicionar RPC manualmente seguindo estes"
+  },
+  "congrats": {
+    "message": "Parabéns!"
+  },
+  "instructions": {
+    "message": "instruções."
+  },
+  "start": {
+    "message": "Começar"
+  },
+  "thanks": {
+    "message": "Ok obrigado!"
+  },
+  "browserVersionIsOutOfDate": {
+    "message": "A versão do seu navegador está desatualizada, recomendamos a atualização para a versão mais recente!"
+  },
+  "congratsDescription1": {
+    "message": "Agradecimentos para sua atenção!"
+  },
+  "congratsDescription2": {
+    "message": "Agora você conhece as funções básicas e mais importantes da carteira Leo."
+  },
+  "congratsDescription3": {
+    "message": "Você pode aprender todos os recursos do Leo em nossa “série educacional” no YouTube."
+  },
+  "congratsDescription4": {
+    "message": "Além disso, instruções e guias estão disponíveis em nossa base de conhecimento."
+  },
+  "congratsDescription5": {
+    "message": "Junte-se às nossas comunidades no Telegram e no Discord."
+  },
+  "congratsDescription6": {
+    "message": "PS: Boa sorte explorando o mundo Aleo!"
+  },
+  "attention": {
+    "message": "Atenção"
+  },
+  "attentionDescription": {
+    "message": "Nunca e sob nenhum pretexto compartilhe suas chaves privadas e frases de semente com terceiros."
+  },
+  "attentionListTitle1": {
+    "message": "Além disso, lembre-se:"
+  },
+  "attentionListItem1": {
+    "message": "Sua carteira pode ser direcionada por meio de um navegador 0days ou por meio de outra extensão maliciosa instalada;"
+  },
+  "attentionListItem2": {
+    "message": "A tela pode ser potencialmente manipulada por software malicioso instalado no sistema;"
+  },
+  "attentionListItem3": {
+    "message": "A máquina host do usuário pode ser alvo de malware para roubar carteira criptografada;"
+  },
+  "attentionListItem4": {
+    "message": "Escolher senhas fracas pode reduzir a capacidade de uma carteira de resistir à força bruta adversária."
+  },
+  "attentionListTitle2": {
+    "message": "Para manter seus ativos seguros, recomendamos:"
+  },
+  "attentionListItem5": {
+    "message": "Mova seus fundos da carteira “quente” para “fria” o mais rápido possível (a carteira Leo suporta integração com dispositivos “Ledger Nano”);"
+  },
+  "attentionListItem6": {
+    "message": "Use navegadores separados para navegação na web e operação da carteira;"
+  },
+  "attentionListItem7": {
+    "message": "Use uma guia do navegador por vez para fazer transações;"
+  },
+  "attentionListItem8": {
+    "message": "Mantenha a carteira trancada quando não estiver em uso."
+  },
+  "takeCare": {
+    "message": "Cuide da sua segurança no mundo das criptomoedas!"
+  },
+  "readMore": {
+    "message": "Leia mais pelo"
+  },
+  "lockUpSettings": {
+    "message": "Bloqueio de extensão"
+  },
+  "lockUpSettingsDescription": {
+    "message": "A extensão será bloqueada automaticamente após 10 minutos de inatividade."
+  },
+  "buyWithExolix": {
+    "message": "Compre com Exolix"
+  },
+  "buyWithExolixDescription": {
+    "message": "Intercâmbio $number$ criptomoedas para Aleo Credits ou USDT Aleo instantaneamente e sem registro",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "buyWithMoonPay": {
+    "message": "Compre com MoonPay"
+  },
+  "buyWithMoonPayDescription": {
+    "message": "A criptografia ficou fácil. Compre Aleo Credits em minutos usando Visa, Mastercard e todos os principais cartões de débito e crédito."
+  },
+  "buyWithRamp": {
+    "message": "Compre com rampa"
+  },
+  "buyWithRampDescription": {
+    "message": "Compre Aleo Credits usando Visa, Mastercard e todos os principais cartões de débito e crédito. A rampa está disponível em 160 países e territórios."
+  },
+  "buyWithAliceBob": {
+    "message": "Compre Aleo Credits com Alice-Bob (somente UAH)"
+  },
+  "buyWithAliceBobDescription": {
+    "message": "Troca rápida e econômica de UAH para Aleo Credits."
+  },
+  "buyWithUtorgDescription": {
+    "message": "Gateway fiat-to-crypto licenciado. 187 países, KYC com tecnologia de IA, Apple Pay, Google Pay."
+  },
+  "topUpBuy": {
+    "message": "Completar $gasTokenName$ Saldo",
+    "placeholders": {
+      "gasTokenName": {
+        "content": "$1"
+      }
+    }
+  },
+  "buyWithUtorg": {
+    "message": "Compre Aleo Credits com UTORG"
+  },
+  "buyWithCard": {
+    "message": "Compre com cartão de débito/crédito"
+  },
+  "topUpDescription": {
+    "message": "Leo integrou soluções de terceiros para comprar $gasTokenName1$ com criptomoeda ou cartão de débito/crédito. Escolha um provedor, siga os guias, obtenha $gasTokenName2$ na sua conta.",
+    "placeholders": {
+      "gasTokenName1": {
+        "content": "$1"
+      },
+      "gasTokenName2": {
+        "content": "$2"
+      }
+    }
+  },
+  "enterAmount": {
+    "message": "Por favor, insira o valor:"
+  },
+  "topUpCrypto": {
+    "message": "Criptografia"
+  },
+  "topUpDebit": {
+    "message": "Cartão de débito/crédito"
+  },
+  "selectTokensToSwap": {
+    "message": "Por favor, selecione tokens para trocar"
+  },
+  "enterSwapAmount": {
+    "message": "Por favor, insira o valor do swap"
+  },
+  "noQuotesAvailable": {
+    "message": "Não há cotações disponíveis"
+  },
+  "swapRouteLoadingHasFailed": {
+    "message": "O carregamento de dados da taxa de câmbio falhou.\nRecarregue esta página ou tente novamente mais tarde."
+  },
+  "swapTokenSearchInputPlaceholder": {
+    "message": "Digite o nome ou endereço"
+  },
+  "scanQRWithLeoMobile": {
+    "message": "Digitalize este código QR com seu aplicativo Leo Wallet Mobile."
+  },
+  "serviceIsUnavailable": {
+    "message": "Desculpe, o serviço está temporariamente indisponível. Tente mais tarde!"
+  },
+  "buyWithChainBits": {
+    "message": "Compre com ChainBits"
+  },
+  "buyWithChainBitsDescription": {
+    "message": "Comprar criptomoedas nunca foi tão fácil"
+  },
+  "permissionLabel": {
+    "message": "Permissão de descriptografia: $decryptPermission$ ",
+    "placeholders": {
+      "decryptPermission": {
+        "content": "$1"
+      }
+    }
+  },
+  "NO_DECRYPT_SHORT": {
+    "message": "Nenhum"
+  },
+  "DECRYPT_UPON_REQUEST_SHORT": {
+    "message": "A pedido"
+  },
+  "AUTO_DECRYPT_SHORT": {
+    "message": "Enquanto conectado"
+  },
+  "invalidViewKey": {
+    "message": "Chave de visualização inválida"
+  },
+  "viewKey": {
+    "message": "Ver chave"
+  },
+  "viewKeyInputDescription": {
+    "message": "A chave View da conta que você deseja importar."
+  },
+  "viewKeyInputPlaceholder": {
+    "message": "por exemplo. AViewKey1iHE..."
+  },
+  "setPassword": {
+    "message": "Configurar senha"
+  },
+  "doSavePhrase": {
+    "message": "<b>Copie</b> esta frase no papel e guarde-a em local seguro."
+  },
+  "coinbaseReward": {
+    "message": "Recompensa Coinbase"
+  },
+  "coinbaseRewardSmb": {
+    "message": "$amount$ ALEO da Prova",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "activityToolTip": {
+    "message": "Clique para ver o histórico completo"
+  },
+  "waitingOnAleo": {
+    "message": "Aleo atualmente não suporta esta funcionalidade."
+  },
+  "buildForPrivacy": {
+    "message": "Construído para privacidade"
+  },
+  "buildForAleo": {
+    "message": "Construído para Aleo"
+  },
+  "poweredBy": {
+    "message": "Distribuído por $companyName$ ",
+    "placeholders": {
+      "companyName": {
+        "content": "$1"
+      }
+    }
+  },
+  "doNotSharePrivateKey1": {
+    "message": "NÃO compartilhe com ninguém!"
+  },
+  "doNotSharePrivateKey2": {
+    "message": "Ele pode ser usado para roubar sua conta atual."
+  },
+  "doNotShareViewKey1": {
+    "message": "Compartilhe apenas com pessoas em quem você confia!"
+  },
+  "doNotShareViewKey2": {
+    "message": "Ele pode ser usado para visualizar todo o seu histórico de transações."
+  },
+  "recordsAction": {
+    "message": "Compartilhar registros"
+  },
+  "downloadRecords": {
+    "message": "Baixar registros"
+  },
+  "transactionAction": {
+    "message": "Transação"
+  },
+  "appRequestsRecords": {
+    "message": "$origin$ solicita seus registros para o programa: $program$",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      },
+      "program": {
+        "content": "$"
+      }
+    }
+  },
+  "appRequestsTransaction": {
+    "message": "$origin$ solicita uma transação",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "editAccountName": {
+    "message": "Editar nome da conta"
+  },
+  "reviewAndConfirm": {
+    "message": "Análise"
+  },
+  "transactionInitiated": {
+    "message": "Transação iniciada"
+  },
+  "transactionBackground": {
+    "message": "A transação prosseguirá em segundo plano."
+  },
+  "openedNewTab": {
+    "message": "A carteira abriu uma nova aba para agilizar a transação. Essa guia será fechada automaticamente."
+  },
+  "speedUpTransaction": {
+    "message": "Acelerar a transação."
+  },
+  "generatingTransaction": {
+    "message": "Gerando Transação"
+  },
+  "generatingTransactionWarning": {
+    "message": "Se você sair desta página antes que a transação seja gerada, sua transação não será concluída."
+  },
+  "balancePending": {
+    "message": "Saldo Pendente de Sincronização"
+  },
+  "keepTabOpenForSync": {
+    "message": "Mantenha esta guia aberta para uma sincronização mais rápida."
+  },
+  "openNewTabToSync": {
+    "message": "Abra uma guia para uma sincronização mais rápida."
+  },
+  "fullySynced": {
+    "message": "Totalmente sincronizado"
+  },
+  "synced": {
+    "message": "Sincronizado"
+  },
+  "syncing": {
+    "message": "Sincronizando"
+  },
+  "fileSettings": {
+    "message": "Configurações de arquivo"
+  },
+  "fileSettingsDescription": {
+    "message": "Adicione ou remova arquivos diretamente de sua carteira."
+  },
+  "advancedSettings": {
+    "message": "Configurações avançadas"
+  },
+  "advancedSettingsDescription": {
+    "message": "Ferramentas para ajudá-lo a depurar e diagnosticar problemas com a Leo Wallet."
+  },
+  "resync": {
+    "message": "Ressincronizar"
+  },
+  "resyncDescription": {
+    "message": "Redefina todo o seu histórico para esta conta e sincronize novamente com a rede."
+  },
+  "noFee": {
+    "message": "Sem taxa"
+  },
+  "doNotSharePhrase1": {
+    "message": "NÃO compartilhe esta frase com ninguém!"
+  },
+  "doNotSharePhrase2": {
+    "message": "Ele pode ser usado para roubar todas as suas contas."
+  },
+  "changeSeedPhrase": {
+    "message": "Alterar Frase Semente"
+  },
+  "feeNotRequired": {
+    "message": "Atualmente não há taxa exigida."
+  },
+  "proofGenerationTab": {
+    "message": "Uma guia aberta é necessária para gerar provas de transação com eficiência"
+  },
+  "credit": {
+    "message": "crédito"
+  },
+  "credits": {
+    "message": "créditos"
+  },
+  "to": {
+    "message": "Para"
+  },
+  "received": {
+    "message": "Recebido"
+  },
+  "sent": {
+    "message": "Enviado"
+  },
+  "storageUsed": {
+    "message": "Armazenamento Total Usado"
+  },
+  "uploadFile": {
+    "message": "Subir arquivo"
+  },
+  "fileSize": {
+    "message": "Tamanho do arquivo"
+  },
+  "downloadDefaultFiles": {
+    "message": "Baixar arquivos padrão"
+  },
+  "download": {
+    "message": "Download"
+  },
+  "privacyAndPolicyLinks": {
+    "message": "Clicando $buttonContent$ você concorda com $termsOfUse$ e $privacyPolicy$ ",
+    "placeholders": {
+      "buttonContent": {
+        "content": "$1"
+      },
+      "termsOfUse": {
+        "content": "$2"
+      },
+      "privacyPolicy": {
+        "content": "$3"
+      }
+    }
+  },
+  "details": {
+    "message": "detalhes"
+  },
+  "faucet": {
+    "message": "Torneira"
+  },
+  "aleoFaucetDescription": {
+    "message": "Todos os créditos distribuídos são para fins de teste e não possuem valor."
+  },
+  "aleoFaucetStep1": {
+    "message": "Escaneie o código QR com seu telefone"
+  },
+  "aleoFaucetStep1Description": {
+    "message": "E clique no prompt que ele mostra."
+  },
+  "aleoFaucetStep2": {
+    "message": "Confirme e envie o SMS"
+  },
+  "aleoFaucetStep2Description": {
+    "message": "(Podem ser aplicadas taxas de dados e mensagens)"
+  },
+  "aleoFaucetStep3": {
+    "message": "Obtenha créditos Aleo"
+  },
+  "aleoFaucetStep3Description": {
+    "message": "Aleo Faucet enviará créditos para você."
+  },
+  "deployAction": {
+    "message": "Implantar programa"
+  },
+  "appRequestsDeploy": {
+    "message": "$origin$ solicita uma implantação",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "viewKeyWatchOnly": {
+    "message": "Chave de visualização (somente para assistir)"
+  },
+  "none": {
+    "message": "Nenhum"
+  },
+  "collection": {
+    "message": "Coleção"
+  },
+  "source": {
+    "message": "Fonte"
+  },
+  "attributes": {
+    "message": "Atributos"
+  },
+  "noNFTsYet": {
+    "message": "Ainda não há NFTs"
+  },
+  "noNFTsSubMessage": {
+    "message": "Você verá seu NFT aqui assim que tiver um."
+  },
+  "sourceLink": {
+    "message": "Link da Fonte"
+  },
+  "explorer": {
+    "message": "Explorador"
+  },
+  "explorerLink": {
+    "message": "Vá para o Explorador"
+  },
+  "noTransactionsRemaining": {
+    "message": "Nenhuma transação restante, fechando esta guia"
+  },
+  "transactionsRemaining": {
+    "message": "transações restantes"
+  },
+  "status": {
+    "message": "Status"
+  },
+  "available": {
+    "message": "Disponível"
+  },
+  "feeToolTip": {
+    "message": "Clique para editar a taxa"
+  },
+  "gpuSettings": {
+    "message": "Aceleração de GPU *Experimental*"
+  },
+  "gpuSettingsDescription": {
+    "message": "Aqui você pode ativar ou desativar a aceleração da GPU para acelerar a sincronização e a geração de provas. Este recurso não é estável e pode causar travamentos."
+  },
+  "sending": {
+    "message": "Enviando"
+  },
+  "executing": {
+    "message": "Executando"
+  },
+  "executed": {
+    "message": "Executado"
+  },
+  "minted": {
+    "message": "Cunhado"
+  },
+  "nft": {
+    "message": "NFT"
+  },
+  "convert": {
+    "message": "Converter"
+  },
+  "public": {
+    "message": "Público"
+  },
+  "private": {
+    "message": "Privado"
+  },
+  "converting": {
+    "message": "Convertendo"
+  },
+  "customizeFee": {
+    "message": "Personalizar taxa"
+  },
+  "convertingPublic": {
+    "message": "Converter para NFT público"
+  },
+  "convertingPrivate": {
+    "message": "Converter para NFT privado"
+  },
+  "switch": {
+    "message": "Trocar"
+  },
+  "convertToPrivate": {
+    "message": "Converter para privado"
+  },
+  "convertToPublic": {
+    "message": "Converter para público"
+  },
+  "convertPublicPrivate": {
+    "message": "Converter para público/privado"
+  },
+  "toConvert": {
+    "message": "converter"
+  },
+  "willGet": {
+    "message": "você vai ter"
+  },
+  "toPublic": {
+    "message": "ao público"
+  },
+  "toPrivate": {
+    "message": "para privado"
+  },
+  "ON_CHAIN_HISTORY": {
+    "message": "<b>AVISO!</b> Este aplicativo está solicitando seu histórico na rede. Certifique-se de que você realmente confia neste aplicativo."
+  },
+  "ON_CHAIN_HISTORY_SHORT": {
+    "message": "Acesso total"
+  },
+  "allPrograms": {
+    "message": "todos os programas"
+  },
+  "canView": {
+    "message": "Pode ver"
+  },
+  "connectFor": {
+    "message": "Conecte-se para"
+  },
+  "autoCloseSettings": {
+    "message": "Página de transação de geração de fechamento automático"
+  },
+  "autoCloseSettingsDescription": {
+    "message": "Aqui você pode configurar o fechamento automático da página de geração da transação após a geração da transação."
+  },
+  "feeVisibility": {
+    "message": "Visibilidade das taxas"
+  },
+  "transactionDelegated": {
+    "message": "A transação foi enviada para geração de comprovante."
+  },
+  "fastTransactionDescription": {
+    "message": "A transação será automaticamente transmitida e finalizada."
+  },
+  "fastTransaction": {
+    "message": "Velocidade de transação"
+  },
+  "delegateProofSettings": {
+    "message": "Geração de prova de delegado"
+  },
+  "delegateProofSettingsDescription": {
+    "message": "Aqui você pode configurar a delegação de geração de provas para um servidor remoto. Isso acelerará a geração de provas, mas divulgará os detalhes da transação para um servidor confiável."
+  },
+  "mainAssetBalanceIsZero": {
+    "message": "Seu saldo de créditos Aleo (ativo principal) é zero. Créditos Aleo são necessários para a taxa."
+  },
+  "stake": {
+    "message": "Estaca"
+  },
+  "unstake": {
+    "message": "Desempacotar"
+  },
+  "stakeAccount": {
+    "message": "Conta de participação"
+  },
+  "staked": {
+    "message": "Apostado"
+  },
+  "stakeEarningSymbol": {
+    "message": "Ganho de aposta $assetSymbol$ ",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "stakeEarnRewards": {
+    "message": "Aposte tokens e ganhe recompensas"
+  },
+  "amountMustBeGreaterThanOne": {
+    "message": "Deve ser maior que 1"
+  },
+  "unstaking": {
+    "message": "Desempilhar"
+  },
+  "unstaked": {
+    "message": "Não apostado"
+  },
+  "validator": {
+    "message": "Validador"
+  },
+  "yourStakeIn": {
+    "message": "Sua participação"
+  },
+  "active": {
+    "message": "Ativo"
+  },
+  "learnMoreHere": {
+    "message": "Saiba mais aqui"
+  },
+  "rewards": {
+    "message": "Recompensas"
+  },
+  "claim": {
+    "message": "Alegar"
+  },
+  "claimed": {
+    "message": "Reivindicado"
+  },
+  "claiming": {
+    "message": "Reivindicando"
+  },
+  "availableToClaim": {
+    "message": "Disponível para reivindicar"
+  },
+  "unstakingInProgress": {
+    "message": "Desempate em andamento"
+  },
+  "mustStakeAtLeastTenAleo": {
+    "message": "A aposta inicial deve ser de pelo menos 10 ALEO"
+  },
+  "pleaseNote": {
+    "message": "Observe"
+  },
+  "unstakingProcess": {
+    "message": "O desempate é um processo de duas etapas. Depois de iniciar o desempate, certifique-se de reivindicar seu ALEO após o período de processamento de 3 horas."
+  },
+  "testNetIsDown": {
+    "message": "Aleo Testnet Beta está fora do ar."
+  },
+  "checkStatus": {
+    "message": "Verificar status"
+  },
+  "walletBuiltForPrivacy": {
+    "message": "A carteira construída para privacidade",
+    "note": "Onboarding"
+  },
+  "privateTransactionsAnytimeAnywhere": {
+    "message": "Transações privadas a qualquer hora, em qualquer lugar.",
+    "note": "Onboarding"
+  },
+  "createANewWallet": {
+    "message": "Criar uma nova carteira",
+    "note": "Onboarding"
+  },
+  "iAlreadyHaveAWallet": {
+    "message": "Eu já tenho uma carteira",
+    "note": "Onboarding"
+  },
+  "backUpYourWallet": {
+    "message": "Faça backup da sua carteira",
+    "note": "Onboarding"
+  },
+  "saveThese12Words": {
+    "message": "Salve estas 12 palavras em um gerenciador de senhas, ou escreva e guarde em um lugar seguro. Não compartilhe com ninguém.",
+    "note": "Onboarding"
+  },
+  "show": {
+    "message": "Mostrar",
+    "note": "Onboarding"
+  },
+  "hide": {
+    "message": "Esconder",
+    "note": "Onboarding"
+  },
+  "copied": {
+    "message": "Copiado",
+    "note": "Onboarding"
+  },
+  "copyToClipboard": {
+    "message": "Copiar para a área de transferência",
+    "note": "Onboarding"
+  },
+  "createsProofsOnYourComputer": {
+    "message": "Cria provas no seu computador",
+    "note": "Onboarding"
+  },
+  "yourKeysStayPrivate": {
+    "message": "Suas chaves permanecem privadas",
+    "note": "Onboarding"
+  },
+  "selectTheDefaultTransactionType": {
+    "message": "Selecione o tipo de transação padrão",
+    "note": "Onboarding"
+  },
+  "popular": {
+    "message": "Popular",
+    "note": "Onboarding"
+  },
+  "verifyMessagePrefix": {
+    "message": "Confirme que você salvou sua frase secreta de recuperação. Selecione a palavra #10",
+    "note": "Onboarding"
+  },
+  "enterYourWalletSeedPhrase": {
+    "message": "Digite a frase semente de 12 palavras da sua carteira.",
+    "note": "Onboarding"
+  },
+  "onlyAleoSeedPhrasesAreSupported": {
+    "message": "Apenas frases semente Aleo são suportadas.",
+    "note": "Onboarding"
+  },
+  "seedPhrasePlaceholder": {
+    "message": "Frase semente de 12 palavras",
+    "note": "Onboarding"
+  },
+  "join": {
+    "message": "Junte-se",
+    "note": "Onboarding"
+  },
+  "follow": {
+    "message": "Siga",
+    "note": "Onboarding"
+  },
+  "yourWalletIsReady": {
+    "message": "Sua carteira está pronta",
+    "note": "Onboarding"
+  },
+  "joinOurDiscord": {
+    "message": "Junte-se ao nosso Discord do Leo Wallet",
+    "note": "Onboarding"
+  },
+  "joinOurTwitter": {
+    "message": "Siga-nos no X (Twitter)",
+    "note": "Onboarding"
+  },
+  "exploreTheWorldOfPrivateAssets": {
+    "message": "Explore o mundo dos ativos privados",
+    "note": "Onboarding"
+  },
+  "getStarted": {
+    "message": "Comece",
+    "note": "Onboarding"
+  },
+  "enterPassword": {
+    "message": "Digite a senha",
+    "note": "Onboarding"
+  },
+  "verifyPassword": {
+    "message": "Verifique a senha",
+    "note": "Onboarding"
+  },
+  "enterPasswordAgain": {
+    "message": "Digite a senha novamente",
+    "note": "Onboarding"
+  },
+  "itsAMatch": {
+    "message": "É uma combinação!",
+    "note": "Onboarding"
+  },
+  "readMoreOnboarding": {
+    "message": "Leia mais",
+    "note": "Onboarding"
+  },
+  "helpUsToImproveLeoWallet": {
+    "message": "Ajude-nos a melhorar o Leo Wallet",
+    "note": "Onboarding"
+  },
+  "createPassword": {
+    "message": "Crie uma senha",
+    "note": "Onboarding"
+  },
+  "createPasswordDescription": {
+    "message": "Defina uma senha para desbloquear sua carteira cada vez que usar seu computador. Ela não pode ser usada para recuperar sua carteira.",
+    "note": "Onboarding"
+  },
+  "veryStrong": {
+    "message": "Muito forte!",
+    "note": "Onboarding"
+  },
+  "medium": {
+    "message": "Médio",
+    "note": "Onboarding"
+  },
+  "low": {
+    "message": "Baixo",
+    "note": "Onboarding"
+  },
+  "8chars1number": {
+    "message": "8 caracteres, 1 número",
+    "note": "Onboarding"
+  },
+  "minimumCharsWithAtLeast": {
+    "message": "Mínimo de 8 caracteres com pelo menos 1 número",
+    "note": "Onboarding"
+  },
+  "backUpWalletInstructions": {
+    "message": "Salve essas 12 palavras em um gerenciador de senhas, ou anote e guarde em um local seguro. Não compartilhe com ninguém.",
+    "note": "Onboarding"
+  },
+  "select": {
+    "message": "Selecione",
+    "note": "Onboarding"
+  },
+  "selected": {
+    "message": "Selecionado",
+    "note": "Onboarding"
+  },
+  "additionalDownloads": {
+    "message": "Downloads adicionais",
+    "note": "Onboarding"
+  },
+  "600megabytes": {
+    "message": "600+ megabytes",
+    "note": "Onboarding"
+  },
+  "transactionSpeed": {
+    "message": "Velocidade da transação",
+    "note": "Onboarding"
+  },
+  "transactionSpeedMins": {
+    "message": "1-10 minutos",
+    "note": "Onboarding"
+  },
+  "maximumPrivacy": {
+    "message": "Máxima privacidade",
+    "note": "Onboarding"
+  },
+  "vpnLevelPrivacy": {
+    "message": "Privacidade de nível VPN",
+    "note": "Onboarding"
+  },
+  "transactionSpeed2Sec": {
+    "message": "2 segundos",
+    "note": "Onboarding"
+  },
+  "additionalDownloads0mb": {
+    "message": "0 MB",
+    "note": "Onboarding"
+  },
+  "delegateProofsToSecureServers": {
+    "message": "Delegar provas para servidores seguros",
+    "note": "Onboarding"
+  },
+  "delegateTransactions": {
+    "message": "Delegar\nTransações",
+    "note": "Onboarding"
+  },
+  "generateTransactionsLocally": {
+    "message": "Gerar Transações\nLocalmente",
+    "note": "Onboarding"
+  },
+  "chainUnstable": {
+    "message": "Devido à instabilidade do Aleo Testnet3, as transações podem falhar."
+  },
+  "dataReset": {
+    "message": "Redefinição de dados."
+  },
+  "transactionHistoryLost": {
+    "message": "Queremos informar que todo o histórico de transações foi perdido devido a uma recente redefinição do Aleo Testnet3."
+  },
+  "learnMore": {
+    "message": "Saiba mais"
+  },
+  "checkStatus": {
+    "message": "Verificar status"
+  },
+  "walletBuiltForPrivacy": {
+    "message": "A carteira construída para privacidade",
+    "note": "Onboarding"
+  },
+  "privateTransactionsAnytimeAnywhere": {
+    "message": "Transações privadas a qualquer hora, em qualquer lugar.",
+    "note": "Onboarding"
+  },
+  "createANewWallet": {
+    "message": "Criar uma nova carteira",
+    "note": "Onboarding"
+  },
+  "iAlreadyHaveAWallet": {
+    "message": "Eu já tenho uma carteira",
+    "note": "Onboarding"
+  },
+  "backUpYourWallet": {
+    "message": "Faça backup da sua carteira",
+    "note": "Onboarding"
+  },
+  "saveThese12Words": {
+    "message": "Salve estas 12 palavras em um gerenciador de senhas, ou escreva e guarde em um lugar seguro. Não compartilhe com ninguém.",
+    "note": "Onboarding"
+  },
+  "show": {
+    "message": "Mostrar",
+    "note": "Onboarding"
+  },
+  "hide": {
+    "message": "Esconder",
+    "note": "Onboarding"
+  },
+  "copied": {
+    "message": "Copiado",
+    "note": "Onboarding"
+  },
+  "copyToClipboard": {
+    "message": "Copiar para a área de transferência",
+    "note": "Onboarding"
+  },
+  "createsProofsOnYourComputer": {
+    "message": "Cria provas no seu computador",
+    "note": "Onboarding"
+  },
+  "yourKeysStayPrivate": {
+    "message": "Suas chaves permanecem privadas",
+    "note": "Onboarding"
+  },
+  "selectTheDefaultTransactionType": {
+    "message": "Selecione o tipo de transação padrão",
+    "note": "Onboarding"
+  },
+  "popular": {
+    "message": "Popular",
+    "note": "Onboarding"
+  },
+  "verifyMessagePrefix": {
+    "message": "Confirme que você salvou sua frase secreta de recuperação. Selecione a palavra #10",
+    "note": "Onboarding"
+  },
+  "enterYourWalletSeedPhrase": {
+    "message": "Digite a frase semente de 12 palavras da sua carteira.",
+    "note": "Onboarding"
+  },
+  "onlyAleoSeedPhrasesAreSupported": {
+    "message": "Apenas frases semente Aleo são suportadas.",
+    "note": "Onboarding"
+  },
+  "seedPhrasePlaceholder": {
+    "message": "Frase semente de 12 palavras",
+    "note": "Onboarding"
+  },
+  "join": {
+    "message": "Junte-se",
+    "note": "Onboarding"
+  },
+  "follow": {
+    "message": "Siga",
+    "note": "Onboarding"
+  },
+  "yourWalletIsReady": {
+    "message": "Sua carteira está pronta",
+    "note": "Onboarding"
+  },
+  "joinOurDiscord": {
+    "message": "Junte-se ao nosso Discord do Leo Wallet",
+    "note": "Onboarding"
+  },
+  "joinOurTwitter": {
+    "message": "Siga-nos no X (Twitter)",
+    "note": "Onboarding"
+  },
+  "exploreTheWorldOfPrivateAssets": {
+    "message": "Explore o mundo dos ativos privados",
+    "note": "Onboarding"
+  },
+  "getStarted": {
+    "message": "Comece",
+    "note": "Onboarding"
+  },
+  "enterPassword": {
+    "message": "Digite a senha",
+    "note": "Onboarding"
+  },
+  "verifyPassword": {
+    "message": "Verifique a senha",
+    "note": "Onboarding"
+  },
+  "enterPasswordAgain": {
+    "message": "Digite a senha novamente",
+    "note": "Onboarding"
+  },
+  "itsAMatch": {
+    "message": "É uma combinação!",
+    "note": "Onboarding"
+  },
+  "readMoreOnboarding": {
+    "message": "Leia mais",
+    "note": "Onboarding"
+  },
+  "helpUsToImproveLeoWallet": {
+    "message": "Ajude-nos a melhorar o Leo Wallet",
+    "note": "Onboarding"
+  },
+  "createPassword": {
+    "message": "Crie uma senha",
+    "note": "Onboarding"
+  },
+  "createPasswordDescription": {
+    "message": "Defina uma senha para desbloquear sua carteira cada vez que usar seu computador. Ela não pode ser usada para recuperar sua carteira.",
+    "note": "Onboarding"
+  },
+  "veryStrong": {
+    "message": "Muito forte!",
+    "note": "Onboarding"
+  },
+  "medium": {
+    "message": "Médio",
+    "note": "Onboarding"
+  },
+  "low": {
+    "message": "Baixo",
+    "note": "Onboarding"
+  },
+  "8chars1number": {
+    "message": "8 caracteres, 1 número",
+    "note": "Onboarding"
+  },
+  "minimumCharsWithAtLeast": {
+    "message": "Mínimo de 8 caracteres com pelo menos 1 número",
+    "note": "Onboarding"
+  },
+  "backUpWalletInstructions": {
+    "message": "Salve essas 12 palavras em um gerenciador de senhas, ou anote e guarde em um local seguro. Não compartilhe com ninguém.",
+    "note": "Onboarding"
+  },
+  "select": {
+    "message": "Selecione",
+    "note": "Onboarding"
+  },
+  "selected": {
+    "message": "Selecionado",
+    "note": "Onboarding"
+  },
+  "additionalDownloads": {
+    "message": "Downloads adicionais",
+    "note": "Onboarding"
+  },
+  "600megabytes": {
+    "message": "600+ megabytes",
+    "note": "Onboarding"
+  },
+  "transactionSpeed": {
+    "message": "Velocidade da transação",
+    "note": "Onboarding"
+  },
+  "transactionSpeedMins": {
+    "message": "1-10 minutos",
+    "note": "Onboarding"
+  },
+  "maximumPrivacy": {
+    "message": "Máxima privacidade",
+    "note": "Onboarding"
+  },
+  "vpnLevelPrivacy": {
+    "message": "Privacidade de nível VPN",
+    "note": "Onboarding"
+  },
+  "transactionSpeed2Sec": {
+    "message": "2 segundos",
+    "note": "Onboarding"
+  },
+  "additionalDownloads0mb": {
+    "message": "0 MB",
+    "note": "Onboarding"
+  },
+  "delegateProofsToSecureServers": {
+    "message": "Delegar provas para servidores seguros",
+    "note": "Onboarding"
+  },
+  "delegateTransactions": {
+    "message": "Delegar\nTransações",
+    "note": "Onboarding"
+  },
+  "generateTransactionsLocally": {
+    "message": "Gerar Transações\nLocalmente",
+    "note": "Onboarding"
+  },
+  "chainUnstable": {
+    "message": "Devido à instabilidade do Aleo Testnet3, as transações podem falhar."
+  }
+}

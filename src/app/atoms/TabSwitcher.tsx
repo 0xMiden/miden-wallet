@@ -1,0 +1,52 @@
+import React from 'react';
+
+import classNames from 'clsx';
+
+import { T } from 'lib/i18n/react';
+import { Link } from 'lib/woozie';
+
+type TabDescriptor = {
+  slug: string;
+  i18nKey: string;
+};
+
+type TabSwitcherProps = {
+  className?: string;
+  tabs: TabDescriptor[];
+  activeTabSlug: string;
+  urlPrefix: string;
+};
+
+const TabSwitcher: React.FC<TabSwitcherProps> = ({ className, tabs, activeTabSlug, urlPrefix }) => (
+  <div
+    className={classNames(
+      'w-full max-w-sm mx-auto',
+      'flex flex-wrap items-center justify-center p-1',
+      'border border-gray-700 rounded-lg',
+      className
+    )}
+  >
+    {tabs.map(({ slug, i18nKey }) => {
+      const active = slug === activeTabSlug;
+
+      return (
+        <Link
+          key={slug}
+          to={`${urlPrefix}/${slug}`}
+          replace
+          className={classNames(
+            'text-center cursor-pointer rounded-lg py-3 px-3 mx-px',
+            'text-black font-medium',
+            active ? 'bg-gray-800' : 'hover:bg-gray-800 focus:bg-gray-700',
+            'transition ease-in-out duration-200'
+          )}
+          style={{ width: `calc(${Math.floor(100 / tabs.length)}% - 2px)`, fontSize: '16px', lineHeight: '24px' }}
+        >
+          <T id={i18nKey} />
+        </Link>
+      );
+    })}
+  </div>
+);
+
+export default TabSwitcher;

@@ -1,0 +1,39 @@
+name: Deploy Storybook
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  publish:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    environment: DEV
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build Storybook Static files
+        run: yarn build:storybook
+
+      - name: Build Express App
+        working-directory: storybook-deploy
+        run: yarn install --frozen-lockfile
+
+      - name: Deploy Storybook
+        uses: akhileshns/heroku-deploy@v3.13.15
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: 'calmravine'
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          appdir: storybook-deploy

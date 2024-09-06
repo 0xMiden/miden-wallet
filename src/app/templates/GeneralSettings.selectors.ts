@@ -1,0 +1,9 @@
+export enum GeneralSettingsSelectors {
+  AnalyticsToggle = 'General Settings/AnalyticsToggle',
+  DAppToggle = 'General Settings/DAppToggle',
+  GPUToggle = 'General Settings/GPUToggle',
+  DelegateToggle = 'General Settings/DelegateToggle',
+  LockUpToggle = 'General Settings/LockUpToggle',
+  PopupToggle = 'General Settings/PopupToggle',
+  AutoCloseToggle = 'General Settings/AutoCloseToggle'
+}

@@ -1,0 +1,91 @@
+import React, { HTMLAttributes, useMemo, useRef } from 'react';
+
+import classNames from 'clsx';
+import CurrencyInput, { CurrencyInputOnChangeValues } from 'react-currency-input-field';
+
+import { Icon, IconName } from 'app/icons/v2';
+
+export interface InputAmountProps extends HTMLAttributes<HTMLDivElement> {
+  className?: string;
+  value?: string;
+  label?: string;
+  error?: boolean;
+  displayFiat?: boolean;
+  fiatValue?: string;
+  autoFocus?: boolean;
+  onValueChange?: (value: string | undefined, name?: string, values?: CurrencyInputOnChangeValues) => void;
+  onToggleCurrency?: () => void;
+}
+
+export const InputAmount: React.FC<InputAmountProps> = ({
+  className,
+  value,
+  label,
+  error,
+  displayFiat,
+  fiatValue,
+  autoFocus,
+  onToggleCurrency,
+  onValueChange,
+  ...props
+}) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // 0-5 36px
+  // 6-12 24px
+  // 13-16 18px
+  const textSize = useMemo(() => {
+    if (!value) {
+      return 'text-4xl';
+    }
+    if (value.length <= 5) {
+      return 'text-4xl md:text-4xl';
+    }
+    if (value.length <= 12) {
+      return 'text-2xl md:text-4xl';
+    }
+
+    return 'text-lg md:text-4xl';
+  }, [value]);
+
+  const inputWidth = useMemo(() => (value?.length ? `${value?.length}ch` : '1ch'), [value]);
+
+  const textColor = useMemo(() => (error ? 'text-red-500' : 'text-black'), [error]);
+
+  const currencyLabel = label || 'ALEO';
+
+  return (
+    <div {...props} className={classNames('flex flex-col items-center gap-y-2', className)}>
+      <div className="flex cursor-pointer items-end" onClick={() => inputRef.current?.focus()}>
+        {displayFiat ? <label className={classNames('text-grey-300 text-left leading-snug', textSize)}>$</label> : null}
+        <CurrencyInput
+          className={classNames('p-0 placeholder-grey-300 outline-none leading-snug', textSize, textColor)}
+          value={displayFiat ? fiatValue || value : value}
+          style={{ width: inputWidth }}
+          onValueChange={onValueChange}
+          placeholder="0"
+          disableGroupSeparators
+          decimalSeparator="."
+          step={1}
+          decimalsLimit={6}
+          allowNegativeValue={false}
+          maxLength={16}
+          autoFocus={autoFocus}
+        />
+        {!displayFiat ? (
+          <label className={classNames('ml-2 text-grey-300 text-left leading-snug', textSize)}>{currencyLabel}</label>
+        ) : null}
+      </div>
+      <button className="flex items-center gap-x-1 cursor-pointer" type="button" onClick={onToggleCurrency}>
+        {!displayFiat ? (
+          <p className="text-sm">${Number(fiatValue || value || 0).toFixed(2)}</p>
+        ) : (
+          <p className="text-sm">
+            {fiatValue || value || 0} {currencyLabel}
+          </p>
+        )}
+        <Icon name={IconName.ArrowUpDown} size="xs" fill="black" />
+      </button>
+    </div>
+  );
+};
