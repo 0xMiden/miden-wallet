@@ -3,7 +3,7 @@ import React, { useEffect, useState, useMemo, memo } from 'react';
 import classNames from 'clsx';
 
 import { ReactComponent as ContactBookIcon } from 'app/icons/contact-book.svg';
-import { searchContacts } from 'lib/aleo/front';
+import { searchContacts } from 'lib/miden/front';
 import { TestIDProps } from 'lib/analytics';
 import { T } from 'lib/i18n/react';
 

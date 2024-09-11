@@ -11,7 +11,7 @@ import { AppEnvProvider } from 'app/env';
 import ErrorBoundary from 'app/ErrorBoundary';
 import Dialogs from 'app/layouts/Dialogs';
 import PageRouter from 'app/PageRouter';
-import { AleoProvider } from 'lib/aleo/front';
+import { AleoProvider } from 'lib/miden/front';
 import { PropsWithChildren } from 'lib/props-with-children';
 import { DialogsProvider } from 'lib/ui/dialog';
 import * as Woozie from 'lib/woozie';

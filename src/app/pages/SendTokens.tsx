@@ -2,18 +2,18 @@ import React, { useCallback, useMemo, useState } from 'react';
 
 import { useRecommendedFee } from 'app/constants';
 import { Loader } from 'components/Loader';
-import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/aleo/assets/constants';
+import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
 import {
   useAccount,
-  useAleoClient,
+  useMidenClient,
   useUnspentAleoRecords,
   useAllBalances,
   useAllTokensBaseMetadata,
   useBalance,
   useDisplayedFungibleTokens
-} from 'lib/aleo/front';
-import { useFilteredContacts } from 'lib/aleo/front/use-filtered-contacts.hook';
-import { getANSAddress, isAddressValid } from 'lib/aleo/helpers';
+} from 'lib/miden/front';
+import { useFilteredContacts } from 'lib/miden/front/use-filtered-contacts.hook';
+import { getANSAddress, isAddressValid } from 'lib/miden/helpers';
 import { formatBigInt, stringToAleoMicrocredits, stringToBigInt } from 'lib/i18n/numbers';
 import { navigate, useLocation } from 'lib/woozie';
 import { IndexScreen as SendTokensFlow } from 'screens/send-tokens';
@@ -22,7 +22,7 @@ import { UIContact, UIFeeType, UIFees, UIForm, UIToken, UITransactionType } from
 export const SendTokens = () => {
   const { search } = useLocation();
   const account = useAccount();
-  const { authorizeTransaction } = useAleoClient();
+  const { authorizeTransaction } = useMidenClient();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
 

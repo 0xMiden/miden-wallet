@@ -6,7 +6,7 @@ import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { ACCOUNT_NAME_PATTERN } from 'app/defaults';
 import PageLayout from 'app/layouts/PageLayout';
-import { useAleoClient, useAllAccounts } from 'lib/aleo/front';
+import { useMidenClient, useAllAccounts } from 'lib/miden/front';
 import { useFormAnalytics } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { navigate } from 'lib/woozie';
@@ -18,7 +18,7 @@ type FormData = {
 const SUBMIT_ERROR_TYPE = 'submit-error';
 
 const CreateAccount: FC = () => {
-  const { createAccount, updateCurrentAccount } = useAleoClient();
+  const { createAccount, updateCurrentAccount } = useMidenClient();
   const allAccounts = useAllAccounts();
   const formAnalytics = useFormAnalytics('CreateAccount');
 

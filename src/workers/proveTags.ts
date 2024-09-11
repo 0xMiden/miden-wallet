@@ -1,7 +1,7 @@
 import { expose } from 'threads/worker';
 
-import { ProofInputs, TagProof } from 'lib/aleo/activity/tagging/tag';
-import { TAGGING_KEYS } from 'lib/aleo/activity/tagging/tagging-keys';
+import { ProofInputs, TagProof } from 'lib/miden/activity/tagging/tag';
+import { TAGGING_KEYS } from 'lib/miden/activity/tagging/tagging-keys';
 
 async function proveTags(chainId: string, proofInputs: ProofInputs[]): Promise<TagProof[]> {
   const proofKeys = TAGGING_KEYS;

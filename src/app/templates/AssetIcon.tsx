@@ -4,7 +4,7 @@ import classNames from 'clsx';
 
 import Identicon from 'app/atoms/Identicon';
 import { ReactComponent as CollectiblePlaceholder } from 'app/icons/collectible-placeholder.svg';
-import { AssetMetadata, getAssetSymbol, useAssetMetadata } from 'lib/aleo/front';
+import { AssetMetadata, getAssetSymbol, useAssetMetadata } from 'lib/miden/front';
 import { formatObjktSmallAssetUri, formatAssetUri } from 'lib/image-uri';
 
 interface AssetIconPlaceholderProps {

@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { AnalyticsEventCategory, PerformanceTimings } from 'lib/aleo/analytics-types';
+import { AnalyticsEventCategory, PerformanceTimings } from 'lib/miden/analytics-types';
 
 import { useAnalyticsNetwork } from './use-analytics-network.hook';
 import { sendPageEvent, sendPerformanceEvent, sendTrackEvent, useAnalyticsState } from './use-analytics-state.hook';

@@ -16,9 +16,9 @@ import Footer from 'app/layouts/PageLayout/Footer';
 import Header from 'app/layouts/PageLayout/Header';
 import Activity from 'app/templates/activity/Activity';
 import { AssetIcon } from 'app/templates/AssetIcon';
-import { getChainStatus } from 'lib/aleo-chain/client';
-import { getEstimatedSyncPercentage } from 'lib/aleo/activity/sync/sync-plan';
-import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/aleo/assets/constants';
+import { getChainStatus } from 'lib/miden-chain/client';
+import { getEstimatedSyncPercentage } from 'lib/miden/activity/sync/sync-plan';
+import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
 import {
   useAccount,
   useAssetMetadata,
@@ -28,7 +28,7 @@ import {
   useOwnMnemonic,
   useStakedBalance,
   useUnstakedBalance
-} from 'lib/aleo/front';
+} from 'lib/miden/front';
 import { TestIDProps } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { useRetryableSWR } from 'lib/swr';

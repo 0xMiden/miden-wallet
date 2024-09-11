@@ -5,7 +5,7 @@ import classNames from 'clsx';
 import { Button } from 'app/atoms/Button';
 import Name from 'app/atoms/Name';
 import { ReactComponent as EditIcon } from 'app/icons/edit.svg';
-import { useAccount } from 'lib/aleo/front';
+import { useAccount } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
 
 import { EditableTitleSelectors } from './EditableTitle.selectors';

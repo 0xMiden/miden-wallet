@@ -1,4 +1,5 @@
-import { sendLog, ILog } from 'lib/aleo-chain/client';
+// @estlint-disable
+import { sendLog, ILog } from 'lib/miden-chain/client';
 
 import manifestJson from '../../public/manifest.json';
 

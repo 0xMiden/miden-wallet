@@ -1,8 +1,8 @@
 import { expose } from 'threads/worker';
 
-import { IRecordMetadata } from 'lib/aleo-chain/rpc-types';
-import { IOwnedRecord } from 'lib/aleo/db/types';
-import { Keys } from 'lib/aleo/front/autoSync';
+import { IRecordMetadata } from 'lib/miden-chain/rpc-types';
+import { IOwnedRecord } from 'lib/miden/db/types';
+import { Keys } from 'lib/miden/front/autoSync';
 import {
   bigIntToU32Array,
   bigIntsToU32Array,

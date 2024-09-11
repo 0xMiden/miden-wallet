@@ -2,7 +2,7 @@ import React, { memo, useMemo, RefObject, useState } from 'react';
 
 import { ACTIVITY_PAGE_SIZE } from 'app/defaults';
 
-import { formatTransactionStatus, ITransactionStatus } from 'lib/aleo/db/transaction-types';
+import { formatTransactionStatus, ITransactionStatus } from 'lib/miden/db/transaction-types';
 
 import { ALEO_DECIMALS } from 'lib/fiat-curency/consts';
 import { formatBigInt } from 'lib/i18n/numbers';

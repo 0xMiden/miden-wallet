@@ -4,8 +4,8 @@ import BigNumber from 'bignumber.js';
 import classNames from 'clsx';
 import CSSTransition from 'react-transition-group/CSSTransition';
 
-import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/aleo/assets/constants';
-import { useAccount, useBalance } from 'lib/aleo/front';
+import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
+import { useAccount, useBalance } from 'lib/miden/front';
 
 type BalanceProps = {
   address: string;

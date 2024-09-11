@@ -2,9 +2,9 @@ import React, { FC } from 'react';
 
 import { Icon, IconName } from 'app/icons/v2';
 import { CardItem } from 'components/CardItem';
-import { setAccountCreationMetadata } from 'lib/aleo/activity/sync/account-creation';
-import { useAccount, useNetwork, useSetNetworkId } from 'lib/aleo/front';
-import { NETWORKS } from 'lib/aleo/networks';
+import { setAccountCreationMetadata } from 'lib/miden/activity/sync/account-creation';
+import { useAccount, useNetwork, useSetNetworkId } from 'lib/miden/front';
+import { NETWORKS } from 'lib/miden/networks';
 
 const ListGroups = [
   {

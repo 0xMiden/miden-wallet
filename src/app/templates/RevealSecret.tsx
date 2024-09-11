@@ -9,7 +9,7 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { getAccountBadgeTitle } from 'app/defaults';
 import { Icon, IconName } from 'app/icons/v2';
 import AccountBanner from 'app/templates/AccountBanner';
-import { useAccount, useSecretState, useAleoClient } from 'lib/aleo/front';
+import { useAccount, useSecretState, useMidenClient } from 'lib/miden/front';
 import { T, t } from 'lib/i18n/react';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 
@@ -24,7 +24,7 @@ type RevealSecretProps = {
 };
 
 const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
-  const { revealViewKey, revealPrivateKey, revealMnemonic } = useAleoClient();
+  const { revealViewKey, revealPrivateKey, revealMnemonic } = useMidenClient();
   const account = useAccount();
   const { fieldRef: secretFieldRef, copy, copied } = useCopyToClipboard();
 

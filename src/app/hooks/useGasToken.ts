@@ -1,4 +1,4 @@
-import { ALEO_METADATA } from '../../lib/aleo/front';
+import { ALEO_METADATA } from '../../lib/miden/front';
 
 export const useGasToken = () => {
   return {

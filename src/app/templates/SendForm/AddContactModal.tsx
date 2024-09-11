@@ -9,7 +9,7 @@ import FormSecondaryButton from 'app/atoms/FormSecondaryButton';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import HashShortView from 'app/atoms/HashShortView';
 import ModalWithTitle from 'app/templates/ModalWithTitle';
-import { useContacts } from 'lib/aleo/front';
+import { useContacts } from 'lib/miden/front';
 import { T, t } from 'lib/i18n/react';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 

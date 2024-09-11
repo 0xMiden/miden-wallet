@@ -6,7 +6,7 @@ import { KeyedMutator } from 'swr';
 import { Button } from 'app/atoms/Button';
 import { ReactComponent as CloseIcon } from 'app/icons/close.svg';
 import { ReactComponent as DownloadIcon } from 'app/icons/download.svg';
-import { IKeyFile, keyFiles } from 'lib/aleo/repo';
+import { IKeyFile, keyFiles } from 'lib/miden/repo';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
 import { t } from 'lib/i18n/react';
 import { useRetryableSWR } from 'lib/swr';

@@ -5,7 +5,7 @@ import { QRCode } from 'react-qr-svg';
 
 import FormField from 'app/atoms/FormField';
 import PageLayout from 'app/layouts/PageLayout';
-import { useAccount } from 'lib/aleo/front';
+import { useAccount } from 'lib/miden/front';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';

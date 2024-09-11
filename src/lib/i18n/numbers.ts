@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import memoize from 'micro-memoize';
 
-import { ALEO_METADATA } from 'lib/aleo/metadata';
+import { ALEO_METADATA } from 'lib/miden/metadata';
 
 import { getCurrentLocale, getNumberSymbols } from './core';
 import { t } from './react';

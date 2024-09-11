@@ -21,9 +21,8 @@ import { ReactComponent as SendIcon } from 'app/icons/send.svg';
 import { ReactComponent as StakeIcon } from 'app/icons/stake.svg';
 import { ReactComponent as WarningIcon } from 'app/icons/warning.svg';
 import { ExploreSelectors } from 'app/pages/Explore.selectors';
-import { shrinkAddressStrings, replaceAleoAddressesWithAlias } from 'lib/aleo-chain';
-import { ITransactionIcon } from 'lib/aleo/db/transaction-types';
-import { useFilteredContacts } from 'lib/aleo/front/use-filtered-contacts.hook';
+import { ITransactionIcon } from 'lib/miden/db/transaction-types';
+import { useFilteredContacts } from 'lib/miden/front/use-filtered-contacts.hook';
 import { getDateFnsLocale, t } from 'lib/i18n/react';
 import useTippy from 'lib/ui/useTippy';
 
@@ -108,8 +107,8 @@ const ActivityContent: FC<ActivityItemProps> = ({ className, fullHistory, activi
   const timestamp = activity.timestamp;
   const foundAddresses = (activity.message ?? '').match(/(aleo1.{58})/g);
   const foundAddress = foundAddresses ? foundAddresses[0] : null;
-  const message = replaceAleoAddressesWithAlias(activity.message ?? '', aliasMap);
-  const shrinkAddressStringsMessage = shrinkAddressStrings(message);
+  const message = '';
+  const shrinkAddressStringsMessage = '';
   const iconFillAndStroke = fullHistory ? 'currentColor' : 'black';
   const icon = !activity.transactionIcon
     ? iconGrabber(activity.type, iconFillAndStroke)

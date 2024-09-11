@@ -1,6 +1,5 @@
 import browser from 'webextension-polyfill';
 
-import { request, assertResponse } from 'lib/aleo/front';
 import { CHECK_ALEO_PAGES_EXIST, WALLET_AUTOLOCK_TIME } from 'lib/fixed-times';
 
 import { getIsLockUpEnabled } from './index';

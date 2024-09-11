@@ -12,8 +12,8 @@ import SendNFT from 'app/pages/SendNFT';
 import Settings from 'app/pages/Settings';
 import Unlock from 'app/pages/Unlock';
 import Welcome from 'app/pages/Welcome';
-import { ALEO_TOKEN_ID } from 'lib/aleo/assets/constants';
-import { useAleoClient } from 'lib/aleo/front';
+import { ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
+import { useMidenClient } from 'lib/miden/front';
 import * as Woozie from 'lib/woozie';
 
 import RootSuspenseFallback from './a11y/RootSuspenseFallback';
@@ -122,7 +122,7 @@ const PageRouter: FC = () => {
   }, [trigger, pathname]);
 
   const appEnv = useAppEnv();
-  const aleo = useAleoClient();
+  const aleo = useMidenClient();
 
   const ctx = useMemo<RouteContext>(
     () => ({

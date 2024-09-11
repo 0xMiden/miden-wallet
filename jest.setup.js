@@ -1,6 +1,6 @@
 const { Crypto, CryptoKey } = require('@peculiar/webcrypto');
 
-let { db } = require('lib/aleo/repo');
+let { db } = require('lib/miden/repo');
 
 Object.assign(global, {
   crypto: new Crypto(),

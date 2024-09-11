@@ -4,9 +4,9 @@ import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { IconName } from 'app/icons/v2';
 import { Button, ButtonVariant } from 'components/Button';
 import { ListItem } from 'components/ListItem';
-import { resyncAccount } from 'lib/aleo/activity/sync';
-import { useAccount, useNetwork } from 'lib/aleo/front';
-import { NETWORKS } from 'lib/aleo/networks';
+import { resyncAccount } from 'lib/miden/activity/sync';
+import { useAccount, useNetwork } from 'lib/miden/front';
+import { NETWORKS } from 'lib/miden/networks';
 import { t } from 'lib/i18n/react';
 import { Link } from 'lib/woozie';
 

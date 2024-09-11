@@ -6,8 +6,8 @@ import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { ReactComponent as InfoIcon } from 'app/icons/info-alert.svg';
 import AccountBanner from 'app/templates/AccountBanner';
-import { deleteAccountData } from 'lib/aleo/activity';
-import { useAleoClient, useAccount } from 'lib/aleo/front';
+import { deleteAccountData } from 'lib/miden/activity';
+import { useMidenClient, useAccount } from 'lib/miden/front';
 import { T, t } from 'lib/i18n/react';
 import { navigate } from 'lib/woozie';
 
@@ -18,7 +18,7 @@ type FormData = {
 };
 
 const RemoveAccount: FC = () => {
-  const { removeAccount } = useAleoClient();
+  const { removeAccount } = useMidenClient();
   const account = useAccount();
 
   const prevAccLengthRef = useRef(1);

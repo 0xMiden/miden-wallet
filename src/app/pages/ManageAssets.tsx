@@ -10,7 +10,7 @@ import { ReactComponent as SearchIcon } from 'app/icons/search.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import { AssetIcon } from 'app/templates/AssetIcon';
 import SearchAssetField from 'app/templates/SearchAssetField';
-import { AssetTypesEnum } from 'lib/aleo/assets/types';
+import { AssetTypesEnum } from 'lib/miden/assets/types';
 import {
   getAssetName,
   getAssetSymbol,
@@ -19,8 +19,8 @@ import {
   useAssetMetadata,
   useAvailableAssets,
   useFilteredAssets
-} from 'lib/aleo/front';
-import { ITokenStatus, ITokenType } from 'lib/aleo/repo';
+} from 'lib/miden/front';
+import { ITokenStatus, ITokenType } from 'lib/miden/repo';
 import { T, t } from 'lib/i18n/react';
 import { useConfirm } from 'lib/ui/dialog';
 import { Link } from 'lib/woozie';

@@ -1,4 +1,4 @@
-import { ALEO_SLUG, CREDITS_PROGRAM_ID, MTSP_PROGRAM_ID } from 'lib/aleo/assets/constants';
+import { ALEO_SLUG, CREDITS_PROGRAM_ID, MTSP_PROGRAM_ID } from 'lib/miden/assets/constants';
 
 export const RECOMMENDED_FEES = {
   // Derived from snarkOS: `snarkos developer execute "credits.aleo" claim_unbond_public ...`

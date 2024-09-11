@@ -11,8 +11,6 @@
 
 # dest
 /dist
-# do include the aleo-tagger which is necessary as a local node module
-!/aleo-tagger/dist/
 
 # Env
 .env

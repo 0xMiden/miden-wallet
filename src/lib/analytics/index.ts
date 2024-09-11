@@ -1,4 +1,4 @@
-export { AnalyticsEventEnum, AnalyticsEventCategory } from 'lib/aleo/analytics-types';
+export { AnalyticsEventEnum, AnalyticsEventCategory } from 'lib/miden/analytics-types';
 
 export { CustomRpsContext } from './custom-rpc.context';
 

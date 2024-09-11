@@ -3,7 +3,7 @@ import 'mv3-hot-reload/background';
 
 import browser, { tabs, runtime } from 'webextension-polyfill';
 
-import { start } from 'lib/aleo/back/main';
+import { start } from 'lib/miden/back/main';
 
 runtime.onInstalled.addListener(({ reason }) => (reason === 'install' ? openFullPage() : null));
 

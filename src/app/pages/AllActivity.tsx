@@ -5,7 +5,7 @@ import classNames from 'clsx';
 import { useAppEnv } from 'app/env';
 import PageLayout from 'app/layouts/PageLayout';
 import Activity from 'app/templates/activity/Activity';
-import { useAccount } from 'lib/aleo/front';
+import { useAccount } from 'lib/miden/front';
 import { T } from 'lib/i18n/react';
 
 type AllActivityProps = {

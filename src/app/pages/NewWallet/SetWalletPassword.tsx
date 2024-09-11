@@ -3,7 +3,7 @@ import React, { FC, useCallback, useLayoutEffect, useState } from 'react';
 import classNames from 'clsx';
 import { Controller, useForm } from 'react-hook-form';
 
-import { useAleoClient } from 'lib/aleo/front/client';
+import { useMidenClient } from 'lib/miden/front/client';
 import { navigate } from 'lib/woozie';
 
 import { AnalyticsEventCategory, useAnalytics, useAnalyticsSettings } from '../../../lib/analytics';
@@ -43,7 +43,7 @@ export const SetWalletPassword: FC<SetWalletPasswordProps> = ({
   seedPhrase,
   keystorePassword
 }) => {
-  const { registerWallet } = useAleoClient();
+  const { registerWallet } = useMidenClient();
   const { trackEvent } = useAnalytics();
 
   const { setAnalyticsEnabled } = useAnalyticsSettings();

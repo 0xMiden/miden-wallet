@@ -1,4 +1,4 @@
-import { Keys } from 'lib/aleo/front/autoSync';
+import { Keys } from 'lib/miden/front/autoSync';
 
 export function createAddressToKeysMap(keys: Keys[]): Map<string, Keys> {
   let addressToKeysMap: Map<string, Keys> = new Map();

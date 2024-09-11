@@ -7,9 +7,9 @@ import InformationBanner from 'app/templates/InformationBanner';
 import { StakeFormSelectors } from 'app/templates/StakeForm.selectors';
 import ConfirmStakeForm from 'app/templates/Staking/ConfirmStake';
 import StakeForm from 'app/templates/Staking/StakeForm';
-import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/aleo/assets/constants';
-import { useAccount, useStakedBalance } from 'lib/aleo/front';
-import { ConfirmStatus } from 'lib/aleo/front/send-types';
+import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
+import { useAccount, useStakedBalance } from 'lib/miden/front';
+import { ConfirmStatus } from 'lib/miden/front/send-types';
 import { t } from 'lib/i18n/react';
 import BigNumber from 'bignumber.js';
 

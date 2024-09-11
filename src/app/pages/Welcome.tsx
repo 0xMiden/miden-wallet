@@ -4,7 +4,7 @@ import { generateMnemonic } from 'bip39';
 
 import { formatMnemonic } from 'app/defaults';
 import { setDelegateProofSetting } from 'app/templates/DelegateSettings';
-import { useAleoClient } from 'lib/aleo/front';
+import { useMidenClient } from 'lib/miden/front';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
 import { navigate, useLocation } from 'lib/woozie';
 import { OnboardingFlow } from 'screens/onboarding/navigator';
@@ -17,7 +17,7 @@ const Welcome: FC = () => {
   const [seedPhrase, setSeedPhrase] = useState<string[] | null>(null);
   const [password, setPassword] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { registerWallet } = useAleoClient();
+  const { registerWallet } = useMidenClient();
   const { trackEvent } = useAnalytics();
 
   const register = useCallback(async () => {

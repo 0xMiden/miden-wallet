@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { AnalyticsEventCategory } from 'lib/aleo/analytics-types';
+import { AnalyticsEventCategory } from 'lib/miden/analytics-types';
 
 import { useAnalytics } from './use-analytics.hook';
 

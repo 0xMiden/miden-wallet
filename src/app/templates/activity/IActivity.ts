@@ -1,4 +1,4 @@
-import { ITransactionIcon } from 'lib/aleo/db/transaction-types';
+import { ITransactionIcon } from 'lib/miden/db/transaction-types';
 
 export interface IActivity {
   key: string;

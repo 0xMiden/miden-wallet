@@ -10,7 +10,7 @@ import 'lib/lock-up/run-checks';
 
 import DisableOutlinesForClick from 'app/a11y/DisableOutlinesForClick';
 import Dialogs from 'app/layouts/Dialogs';
-import { clearStorage } from 'lib/aleo/reset';
+import { clearStorage } from 'lib/miden/reset';
 import { getMessage } from 'lib/i18n';
 import { T } from 'lib/i18n/react';
 import { AlertFn, ConfirmFn, DialogsProvider, useAlert, useConfirm } from 'lib/ui/dialog';

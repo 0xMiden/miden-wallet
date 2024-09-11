@@ -1,4 +1,4 @@
-import { PerformanceTimings } from 'lib/aleo/analytics-types';
+import { PerformanceTimings } from 'lib/miden/analytics-types';
 
 import { sendPerformanceEvent } from './use-analytics-state.hook';
 

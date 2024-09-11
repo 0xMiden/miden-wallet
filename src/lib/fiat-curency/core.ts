@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import constate from 'constate';
 
-import { useStorage } from 'lib/aleo/front';
+import { useStorage } from 'lib/miden/front';
 import { useRetryableSWR } from 'lib/swr';
 
 import { FIAT_CURRENCIES } from './consts';

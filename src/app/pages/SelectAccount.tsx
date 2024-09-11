@@ -15,8 +15,8 @@ import { ReactComponent as PendingIcon } from 'app/icons/rotate.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import MenuItem from 'app/templates/MenuItem';
 import SearchField from 'app/templates/SearchField';
-import { getEstimatedSyncPercentages } from 'lib/aleo/activity/sync/sync-plan';
-import { useAccount, useAleoClient } from 'lib/aleo/front';
+import { getEstimatedSyncPercentages } from 'lib/miden/activity/sync/sync-plan';
+import { useAccount, useMidenClient } from 'lib/miden/front';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
 import { t, T } from 'lib/i18n/react';
 import { useRetryableSWR } from 'lib/swr';
@@ -28,7 +28,7 @@ type ExcludesFalse = <T>(x: T | false) => x is T;
 
 const SelectAccount: FC = () => {
   const appEnv = useAppEnv();
-  const { updateCurrentAccount } = useAleoClient();
+  const { updateCurrentAccount } = useMidenClient();
   const account = useAccount();
   const { trackEvent } = useAnalytics();
   const [searchValue, setSearchValue] = useState('');

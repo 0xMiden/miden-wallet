@@ -1,9 +1,9 @@
 import { nanoid } from 'nanoid';
 
-import { AnalyticsEventCategory, PerformanceTimings } from 'lib/aleo/analytics-types';
-import { useLocalStorage } from 'lib/aleo/front/local-storage';
+import { AnalyticsEventCategory, PerformanceTimings } from 'lib/miden/analytics-types';
+import { useLocalStorage } from 'lib/miden/front/local-storage';
 
-import { assertResponse, request } from '../aleo/front';
+import { assertResponse, request } from '../miden/front';
 
 interface AnalyticsStateInterface {
   enabled?: boolean;

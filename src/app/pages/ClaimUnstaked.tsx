@@ -8,9 +8,9 @@ import CustomizeFee from 'app/templates/CustomizeFee';
 import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import PreviewTransactionAmount from 'app/templates/PreviewTransactionAmount';
 import { StakeFormSelectors } from 'app/templates/StakeForm.selectors';
-import { ALEO_SLUG, ALEO_TOKEN_ID, CREDITS_PROGRAM_ID } from 'lib/aleo/assets/constants';
-import { useAccount, useAleoClient, useUnstakedBalance } from 'lib/aleo/front';
-import { ConfirmStatus } from 'lib/aleo/front/send-types';
+import { ALEO_SLUG, ALEO_TOKEN_ID, CREDITS_PROGRAM_ID } from 'lib/miden/assets/constants';
+import { useAccount, useMidenClient, useUnstakedBalance } from 'lib/miden/front';
+import { ConfirmStatus } from 'lib/miden/front/send-types';
 import { ALEO_MICROCREDITS_TO_CREDITS } from 'lib/fiat-curency';
 import { t } from 'lib/i18n/react';
 import { HistoryAction, navigate } from 'lib/woozie';
@@ -27,7 +27,7 @@ const ClaimUnstaked: FC<ClaimUnstakedProps> = ({ assetSlug = ALEO_SLUG, assetId 
   const confirmed = confirmStatus.confirmed;
   const [feePrivate, setFeePrivate] = useState<boolean>(true);
   const delegateTransaction = isDelegateProofEnabled();
-  const { authorizeTransaction } = useAleoClient();
+  const { authorizeTransaction } = useMidenClient();
 
   let pageTitle = `${t('claim')} ${assetSlug.toUpperCase()}`;
 

@@ -3,8 +3,8 @@ import React, { FC, useCallback, useLayoutEffect, useState } from 'react';
 import { useRecommendedConvertFee } from 'app/constants';
 import { useAppEnv } from 'app/env';
 
-import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/aleo/assets/constants';
-import { useAccount, useFungibleTokens, useAssetMetadata, useAleoClient, useBalance } from 'lib/aleo/front';
+import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
+import { useAccount, useFungibleTokens, useAssetMetadata, useMidenClient, useBalance } from 'lib/miden/front';
 import { useAssetFiatCurrencyPrice } from 'lib/fiat-curency';
 import { formatBigInt, stringToAleoMicrocredits, stringToBigInt } from 'lib/i18n/numbers';
 import { HistoryAction, navigate } from 'lib/woozie';
@@ -18,7 +18,7 @@ type ConvertVisibilityProps = {
 
 const ConvertVisibility: FC<ConvertVisibilityProps> = ({ assetSlug, assetId }) => {
   const { registerBackHandler } = useAppEnv();
-  const { authorizeTransaction } = useAleoClient();
+  const { authorizeTransaction } = useMidenClient();
 
   const account = useAccount();
 

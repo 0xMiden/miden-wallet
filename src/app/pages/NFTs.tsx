@@ -4,7 +4,7 @@ import { useAppEnv } from 'app/env';
 import PageLayout from 'app/layouts/PageLayout';
 import Footer from 'app/layouts/PageLayout/Footer';
 import NFTContainer from 'app/templates/NFTs/NFTContainer';
-import { useAccount } from 'lib/aleo/front';
+import { useAccount } from 'lib/miden/front';
 
 const NFTs: FC = () => {
   const account = useAccount();

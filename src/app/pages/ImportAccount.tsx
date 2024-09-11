@@ -8,7 +8,7 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import NoSpaceField from 'app/atoms/NoSpaceField';
 import TabSwitcher from 'app/atoms/TabSwitcher';
 import PageLayout from 'app/layouts/PageLayout';
-import { isViewKeyValid, useAleoClient, useAllAccounts } from 'lib/aleo/front';
+import { isViewKeyValid, useMidenClient, useAllAccounts } from 'lib/miden/front';
 import { useFormAnalytics } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { navigate } from 'lib/woozie';
@@ -27,7 +27,7 @@ interface ImportTabDescriptor {
 
 const ImportAccount: FC<ImportAccountProps> = ({ tabSlug }) => {
   const allAccounts = useAllAccounts();
-  const { updateCurrentAccount } = useAleoClient();
+  const { updateCurrentAccount } = useMidenClient();
 
   const prevAccLengthRef = useRef(allAccounts.length);
   useEffect(() => {
@@ -85,7 +85,7 @@ interface ByPrivateKeyFormData {
 }
 
 const ByPrivateKeyForm: FC = () => {
-  const { importAccount } = useAleoClient();
+  const { importAccount } = useMidenClient();
 
   const { register, handleSubmit, errors, formState } = useForm<ByPrivateKeyFormData>();
   const [error, setError] = useState<ReactNode>(null);
@@ -155,7 +155,7 @@ interface WatchOnlyFormData {
 }
 
 const WatchOnlyForm: FC = () => {
-  const { importWatchOnlyAccount } = useAleoClient();
+  const { importWatchOnlyAccount } = useMidenClient();
 
   const { handleSubmit, errors, control, formState, setValue, getValues, triggerValidation } =
     useForm<WatchOnlyFormData>({

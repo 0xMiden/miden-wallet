@@ -5,7 +5,7 @@ import classNames from 'clsx';
 import { Button } from 'app/atoms/Button';
 import { useAppEnv } from 'app/env';
 import ContentContainer from 'app/layouts/ContentContainer';
-import { useAleoClient, useStorage } from 'lib/aleo/front';
+import { useMidenClient, useStorage } from 'lib/miden/front';
 import { T } from 'lib/i18n/react';
 
 import { changelogData, ChangelogItem } from './ChangelogOverlay.data';

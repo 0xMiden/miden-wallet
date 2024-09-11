@@ -23,7 +23,7 @@ import {
   UITransactionType
 } from './types';
 
-// duplicated from /lib/aleo/assets to allow storybook to work
+// duplicated from /lib/miden/assets to allow storybook to work
 const ALEO_TOKEN_ID = 'defaultaleotokenid';
 
 const routes: Route[] = [

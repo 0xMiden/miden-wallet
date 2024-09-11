@@ -6,8 +6,8 @@ import { Button } from 'app/atoms/Button';
 import DropdownWrapper from 'app/atoms/DropdownWrapper';
 import Name from 'app/atoms/Name';
 import { ReactComponent as SignalAltIcon } from 'app/icons/signal-alt.svg';
-import { BLOCK_EXPLORERS, useAllNetworks, useBlockExplorer, useNetwork, useSetNetworkId } from 'lib/aleo/front';
-import { NETWORKS } from 'lib/aleo/networks';
+import { BLOCK_EXPLORERS, useAllNetworks, useBlockExplorer, useNetwork, useSetNetworkId } from 'lib/miden/front';
+import { NETWORKS } from 'lib/miden/networks';
 import { T } from 'lib/i18n/react';
 import Popper from 'lib/ui/Popper';
 

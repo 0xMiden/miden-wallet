@@ -6,7 +6,7 @@ import { useAppEnv } from 'app/env';
 import { ReactComponent as ArrowIcon } from 'app/icons/arrow-right-top-alt.svg';
 import { ReactComponent as InfoIcon } from 'app/icons/info-alert.svg';
 import PageLayout from 'app/layouts/PageLayout';
-import { useAccount } from 'lib/aleo/front';
+import { useAccount } from 'lib/miden/front';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
 import { T } from 'lib/i18n/react';
 

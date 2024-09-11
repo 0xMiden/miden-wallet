@@ -5,7 +5,7 @@ import Confirmation from 'app/templates/Confirmation';
 import ConfirmConvertNFTForm from 'app/templates/ConfirmConvertNFTForm';
 import ConvertNFTForm from 'app/templates/ConvertNFTForm';
 import { ConvertNFTVisibilityFormSelectors } from 'app/templates/ConvertNFTForm.selectors';
-import { ConfirmStatus } from 'lib/aleo/front/send-types';
+import { ConfirmStatus } from 'lib/miden/front/send-types';
 import { t } from 'lib/i18n/react';
 import { useLocation } from 'lib/woozie';
 
