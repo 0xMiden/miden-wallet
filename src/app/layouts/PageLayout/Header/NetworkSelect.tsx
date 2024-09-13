@@ -19,6 +19,7 @@ type NetworkSelectProps = HTMLAttributes<HTMLDivElement>;
 const NetworkSelect: FC<NetworkSelectProps> = () => {
   const allNetworks = useAllNetworks();
   const network = useNetwork();
+  const uiNetwork = NETWORKS.find(n => n.id === network.id)!;
   const setNetworkId = useSetNetworkId();
 
   const { setExplorerId } = useBlockExplorer();
@@ -78,7 +79,7 @@ const NetworkSelect: FC<NetworkSelectProps> = () => {
               height: '8px'
             }}
           />
-          <Name style={{ maxWidth: '7rem' }}>{'uiNetwork.name'}</Name>
+          <Name style={{ maxWidth: '7rem' }}>{uiNetwork.name}</Name>
         </Button>
       )}
     </Popper>

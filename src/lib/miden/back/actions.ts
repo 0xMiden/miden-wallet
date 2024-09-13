@@ -8,7 +8,8 @@ import {
   unlocked,
   withInited,
   withUnlocked,
-  settingsUpdated
+  settingsUpdated,
+  accountsUpdated
 } from 'lib/miden/back/store';
 import { Vault } from 'lib/miden/back/vault';
 import { IRecord } from 'lib/miden/db/types';
@@ -91,7 +92,19 @@ export function revealPublicKey(accPublicKey: string) {}
 
 export function removeAccount(accPublicKey: string, password: string) {}
 
-export function editAccount(accPublicKey: string, name: string) {}
+export function editAccount(accPublicKey: string, name: string) {
+  console.log({ accPublicKey, name });
+  return withUnlocked(async ({ vault }) => {
+    name = name.trim();
+    if (!ACCOUNT_NAME_PATTERN.test(name)) {
+      throw new Error('Invalid name. It should be: 1-16 characters, without special');
+    }
+
+    const updatedAccounts = await vault.editAccountName(accPublicKey, name);
+    console.log({ updatedAccounts });
+    accountsUpdated(updatedAccounts);
+  });
+}
 
 export function importAccount(privateKey: string, encPassword?: string) {}
 

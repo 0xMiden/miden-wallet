@@ -71,3 +71,9 @@ export type OnboardingAction =
   | ConfirmationAction
   | ImportSeedPhraseSubmitAction
   | BackAction;
+
+// TODO: Potentially make this into what the onboarding flows use to render the
+// steps rather than hardcode the path in onboarding flow
+export type OnboardingPlan = {
+  steps: OnboardingStep[]; // Order maintained
+};

@@ -45,7 +45,7 @@ const Header: React.FC<{ onBack: () => void; step: OnboardingStep; onboardingTyp
   } else if (step === OnboardingStep.CreatePassword) {
     currentStep = 3;
   }
-  const steps = onboardingType === 'import' ? 2 : 3;
+  const steps = 1;
 
   return (
     <div className="flex justify-between items-center pt-6 px-6">
@@ -63,7 +63,7 @@ const Header: React.FC<{ onBack: () => void; step: OnboardingStep; onboardingTyp
         }}
       />
 
-      <ProgressIndicator currentStep={currentStep || 1} steps={steps} className={currentStep ? '' : 'opacity-0'} />
+      <ProgressIndicator currentStep={1} steps={steps} className={currentStep ? '' : 'opacity-0'} />
     </div>
   );
 };

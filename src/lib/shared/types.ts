@@ -1,5 +1,13 @@
 import { DecryptPermission } from '@demox-labs/aleo-wallet-adapter-base';
 import { IRecord } from 'lib/miden/db/types';
+import {
+  SendPageEventRequest,
+  SendPageEventResponse,
+  SendPerformanceEventRequest,
+  SendPerformanceEventResponse,
+  SendTrackEventRequest,
+  SendTrackEventResponse
+} from './analytics-types';
 
 export enum WalletMessageType {
   // Aknowledge
@@ -125,15 +133,26 @@ export interface WalletState {
   ownMnemonic: boolean | null; // TODO: Will be boolean in future if used. For seed phrase logic
 }
 
+type NonEmptyArray<T> = [T, ...T[]];
+export interface ReadyWalletState extends WalletState {
+  status: WalletStatus.Ready;
+  accounts: NonEmptyArray<WalletAccount>;
+  networks: NonEmptyArray<WalletNetwork>;
+  settings: WalletSettings;
+  currentAccount: WalletAccount;
+}
+
 export interface WalletAccount {
   id: string;
   publicKey: string;
   privateKey: string;
+  name: string;
 }
 
 export interface WalletNetwork {
   rpcBaseURL: string;
   id: string;
+  name: string;
 }
 
 export interface LoadingResponse extends WalletMessageBase {
@@ -475,10 +494,6 @@ export interface GetOwnedRecordsResponse extends WalletMessageBase {
   records: IRecord[];
 }
 
-export interface SendPageEventResponse extends WalletMessageBase {
-  type: WalletMessageType.SendPageEventResponse;
-}
-
 export enum WalletStatus {
   Idle,
   Locked,
@@ -517,9 +532,9 @@ export type WalletRequest =
   | DAppDeployConfirmationRequest
   | GetAllDAppSessionsRequest
   | RemoveDAppSessionRequest
-  //   | SendTrackEventRequest
-  //   | SendPageEventRequest
-  //   | SendPerformanceEventRequest
+  | SendTrackEventRequest
+  | SendPageEventRequest
+  | SendPerformanceEventRequest
   | DecryptCiphertextsRequest
   | GetOwnedRecordsRequest;
 
@@ -555,9 +570,9 @@ export type WalletResponse =
   | DAppBulkTransactionsConfirmationResponse
   | DAppDeployConfirmationResponse
   //   | GetAllDAppSessionsResponse
-  //   | RemoveDAppSessionResponse
-  //   | SendTrackEventResponse
+  // | RemoveDAppSessionResponse
+  | SendTrackEventResponse
   | SendPageEventResponse
-  // | SendPerformanceEventResponse
+  | SendPerformanceEventResponse
   | DecryptCiphertextsResponse
   | GetOwnedRecordsResponse;

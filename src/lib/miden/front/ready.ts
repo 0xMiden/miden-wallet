@@ -3,8 +3,8 @@ import { useCallback, useEffect, useLayoutEffect, useMemo } from 'react';
 import constate from 'constate';
 
 import { usePassiveStorage, useMidenClient } from 'lib/miden/front';
-import { MidenState } from '../types';
 import { WalletStatus } from 'lib/shared/types';
+import { MidenState, ReadyMidenState } from '../types';
 
 export enum ActivationStatus {
   ActivationRequestSent,
@@ -95,7 +95,7 @@ function useReadyMiden() {
   };
 }
 
-function assertReady(state: MidenState) {
+function assertReady(state: MidenState): asserts state is ReadyMidenState {
   if (state.status !== WalletStatus.Ready) {
     throw new Error('Aleo not ready');
   }

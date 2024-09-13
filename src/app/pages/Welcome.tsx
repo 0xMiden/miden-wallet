@@ -57,7 +57,8 @@ const Welcome: FC = () => {
       case 'create-password-submit':
         setPassword(action.payload);
         eventCategory = AnalyticsEventCategory.FormSubmit;
-        navigate(onboardingType === OnboardingType.Create ? '/#select-transaction-type' : '/#confirmation');
+        // navigate(onboardingType === OnboardingType.Create ? '/#select-transaction-type' : '/#confirmation');
+        navigate('/#confirmation');
         break;
       case 'select-transaction-type':
         navigate('/#confirmation');
@@ -73,15 +74,20 @@ const Welcome: FC = () => {
         navigate('/');
         break;
       case 'back':
-        if (step === OnboardingStep.BackupWallet || step === OnboardingStep.ImportWallet) {
+        if (step === OnboardingStep.ImportWallet || step === OnboardingStep.Welcome) {
           navigate('/');
-        } else if (step === OnboardingStep.VerifySeedPhrase) {
-          navigate('/#create-wallet');
         } else if (step === OnboardingStep.CreatePassword) {
-          navigate(onboardingType === OnboardingType.Create ? '/#verify-seed-phrase' : '/#import-wallet');
-        } else if (step === OnboardingStep.SelectTransactionType) {
-          navigate('/#create-password');
+          navigate('/');
         }
+        // if (step === OnboardingStep.BackupWallet || step === OnboardingStep.ImportWallet) {
+        //   navigate('/');
+        // } else if (step === OnboardingStep.VerifySeedPhrase) {
+        //   navigate('/#create-wallet');
+        // } else if (step === OnboardingStep.CreatePassword) {
+        //   navigate(onboardingType === OnboardingType.Create ? '/#verify-seed-phrase' : '/#import-wallet');
+        // } else if (step === OnboardingStep.SelectTransactionType) {
+        //   navigate('/#create-password');
+        // }
         break;
       default:
         break;
@@ -100,7 +106,7 @@ const Welcome: FC = () => {
           navigate('/');
         } else {
           setOnboardingType(OnboardingType.Create);
-          setStep(OnboardingStep.BackupWallet);
+          setStep(OnboardingStep.CreatePassword);
         }
         break;
       case '#import-wallet':

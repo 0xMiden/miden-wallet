@@ -61,16 +61,16 @@ const TABS: Tab[] = [
     testID: SettingsSelectors.AddressBookButton,
     insertHR: false
   },
-  {
-    slug: 'reveal-view-key',
-    titleI18nKey: 'revealViewKey',
-    Icon: KeyIcon,
-    Component: RevealViewKey,
-    descriptionI18nKey: 'revealViewKeyDescription',
-    testID: SettingsSelectors.RevealViewKeyButton,
-    insertHR: true,
-    iconStyle: { stroke: '#000', strokeWidth: '1px' }
-  },
+  // {
+  //   slug: 'reveal-view-key',
+  //   titleI18nKey: 'revealViewKey',
+  //   Icon: KeyIcon,
+  //   Component: RevealViewKey,
+  //   descriptionI18nKey: 'revealViewKeyDescription',
+  //   testID: SettingsSelectors.RevealViewKeyButton,
+  //   insertHR: true,
+  //   iconStyle: { stroke: '#000', strokeWidth: '1px' }
+  // },
   {
     slug: 'reveal-private-key',
     titleI18nKey: 'revealPrivateKey',
@@ -81,15 +81,15 @@ const TABS: Tab[] = [
     insertHR: false,
     iconStyle: { stroke: '#000', strokeWidth: '1px' }
   },
-  {
-    slug: 'reveal-seed-phrase',
-    titleI18nKey: 'revealSeedPhrase',
-    Icon: StickerIcon,
-    Component: RevealSeedPhrase,
-    descriptionI18nKey: 'revealSeedPhraseDescription',
-    testID: SettingsSelectors.RevealSeedPhraseButton,
-    insertHR: false
-  },
+  // {
+  //   slug: 'reveal-seed-phrase',
+  //   titleI18nKey: 'revealSeedPhrase',
+  //   Icon: StickerIcon,
+  //   Component: RevealSeedPhrase,
+  //   descriptionI18nKey: 'revealSeedPhraseDescription',
+  //   testID: SettingsSelectors.RevealSeedPhraseButton,
+  //   insertHR: false
+  // },
   {
     slug: 'file-settings',
     titleI18nKey: 'fileSettings',
@@ -137,6 +137,7 @@ const TABS: Tab[] = [
   }
 ];
 
+// TODO: Consider passing tabs in as a prop
 const Settings: FC<SettingsProps> = ({ tabSlug }) => {
   const activeTab = useMemo(() => TABS.find(t => t.slug === tabSlug) || null, [tabSlug]);
   const listMenuItems = TABS.filter(t => t.slug !== 'networks');

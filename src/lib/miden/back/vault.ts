@@ -73,7 +73,8 @@ export class Vault {
       const initialAccount: WalletAccount = {
         id: 'miden',
         publicKey: accPublicKey,
-        privateKey: accPrivateKey
+        privateKey: accPrivateKey,
+        name: 'Miden Account 1'
       };
       const newAccounts = [initialAccount];
       const passKey = await Passworder.generateKey(password);
@@ -110,7 +111,24 @@ export class Vault {
 
   async importFundraiserAccount(chainId: string, email: string, password: string, mnemonic: string) {}
 
-  async editAccountName(accPublicKey: string, name: string) {}
+  async editAccountName(accPublicKey: string, name: string) {
+    return withError('Failed to edit account name', async () => {
+      const allAccounts = await this.fetchAccounts();
+      if (!allAccounts.some(acc => acc.publicKey === accPublicKey)) {
+        throw new PublicError('Account not found');
+      }
+
+      if (allAccounts.some(acc => acc.publicKey !== accPublicKey && acc.name === name)) {
+        throw new PublicError('Account with same name already exist');
+      }
+
+      const newAllAccounts = allAccounts.map(acc => (acc.publicKey === accPublicKey ? { ...acc, name } : acc));
+      await encryptAndSaveMany([[accountsStrgKey, newAllAccounts]], this.passKey);
+
+      const currentAccount = await this.getCurrentAccount();
+      return { accounts: newAllAccounts, currentAccount };
+    });
+  }
 
   async updateSettings(settings: Partial<WalletSettings>) {
     return withError('Failed to update settings', async () => {

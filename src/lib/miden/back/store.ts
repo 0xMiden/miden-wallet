@@ -97,6 +97,19 @@ export const store = createStore<StoreState>({
     settings,
     currentAccount,
     ownMnemonic
+  }))
+  .on(accountsUpdated, (state, { accounts, currentAccount }) => ({
+    ...state,
+    accounts,
+    currentAccount: currentAccount || state.currentAccount
+  }))
+  .on(currentAccountUpdated, (state, currentAccount) => ({
+    ...state,
+    currentAccount
+  }))
+  .on(settingsUpdated, (state, settings) => ({
+    ...state,
+    settings
   }));
 
 /**

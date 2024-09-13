@@ -83,7 +83,7 @@ const PasswordStrengthIndicator = ({ password, validation }: { password: string;
 
 export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ className, onSubmit, ...props }) => {
   const { t } = useTranslation();
-  const [termsAccepted, setTermsAccepted] = useState(true);
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const [password, setPassword] = useState('');
   const [verifyPassword, setVerifyPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);

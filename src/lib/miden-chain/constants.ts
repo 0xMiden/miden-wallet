@@ -13,6 +13,7 @@ export const MIDEN_NETWORK_ENDPOINTS = new Map<string, string>([
 export const MIDEN_NETWORKS: MidenNetwork[] = [
   {
     rpcBaseURL: 'TODO',
-    id: MIDEN_NETWORK_NAME.TESTNET
+    id: MIDEN_NETWORK_NAME.TESTNET,
+    name: 'Testnet'
   }
 ];

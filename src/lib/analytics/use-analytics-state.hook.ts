@@ -4,6 +4,7 @@ import { AnalyticsEventCategory, PerformanceTimings } from 'lib/miden/analytics-
 import { useLocalStorage } from 'lib/miden/front/local-storage';
 
 import { assertResponse, request } from '../miden/front';
+import { WalletMessageType } from 'lib/shared/types';
 
 interface AnalyticsStateInterface {
   enabled?: boolean;
@@ -18,7 +19,7 @@ export const sendTrackEvent = async (
   properties?: object
 ) => {
   const res = await request({
-    type: 'TODO',
+    type: WalletMessageType.SendTrackEventRequest,
     userId,
     rpc,
     event,
@@ -35,7 +36,7 @@ export const sendPageEvent = async (
   additionalProperties = {}
 ) => {
   const res = await request({
-    type: 'TODO',
+    type: WalletMessageType.SendPageEventRequest,
     userId,
     rpc,
     path,
@@ -52,7 +53,7 @@ export const sendPerformanceEvent = async (
   additionalProperties = {}
 ) => {
   const res = await request({
-    type: 'TODO',
+    type: WalletMessageType.SendPerformanceEventRequest,
     userId,
     rpc,
     event,
