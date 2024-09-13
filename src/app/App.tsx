@@ -30,11 +30,11 @@ const App: FC<AppProps> = ({ env }) => {
       <DialogsProvider>
         <Suspense fallback={<RootSuspenseFallback />}>
           <AppProvider env={env}>
-            {/* <Dialogs /> */}
+            <Dialogs />
 
-            {/* <DisableOutlinesForClick /> */}
+            <DisableOutlinesForClick />
 
-            {/* <AwaitI18N /> */}
+            <AwaitI18N />
 
             <AwaitFonts name="Inter" weights={[300, 400, 500, 600]} className="antialiased font-inter">
               <BootAnimation>{env.confirmWindow ? <ConfirmPage /> : <PageRouter />}</BootAnimation>
@@ -49,7 +49,6 @@ const App: FC<AppProps> = ({ env }) => {
 export default App;
 
 const AppProvider: FC<AppProps> = ({ children, env }) => {
-  console.log('inside AppProvider');
   return (
     <AppEnvProvider {...env}>
       <Woozie.Provider>

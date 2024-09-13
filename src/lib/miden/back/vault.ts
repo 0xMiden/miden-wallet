@@ -15,6 +15,8 @@ import { clearStorage } from 'lib/miden/reset';
 import { getMessage } from 'lib/i18n';
 
 import { IRecord } from '../db/types';
+import { WalletAccount, WalletSettings } from 'lib/shared/types';
+import { createMidenWallet } from '../sdk/miden-client-interface';
 
 const STORAGE_KEY_PREFIX = 'vault';
 const DEFAULT_SETTINGS = {};
@@ -44,6 +46,8 @@ const settingsStrgKey = createStorageKey(StorageEntity.Settings);
 const ownMnemonicStrgKey = createStorageKey(StorageEntity.OwnMnemonic);
 
 export class Vault {
+  constructor(private passKey: CryptoKey) {}
+
   static async isExist() {
     const stored = await isStored(checkStrgKey);
     return stored;
@@ -51,11 +55,42 @@ export class Vault {
 
   static async setup(password: string) {
     return withError('Failed to unlock wallet', async () => {
-      return new Vault();
+      const passKey = await Vault.toValidPassKey(password);
+      return new Vault(passKey);
     });
   }
 
-  static async spawn(password: string, mnemonic?: string, ownMnemonic?: boolean) {}
+  static async spawn(password: string, mnemonic?: string, ownMnemonic?: boolean) {
+    return withError('Failed to create wallet', async () => {
+      if (!mnemonic) {
+        mnemonic = Bip39.generateMnemonic(128);
+      }
+
+      const accPublicKey = await createMidenWallet();
+      console.log({ accPublicKey });
+      const accPrivateKey = 'TODO';
+
+      const initialAccount: WalletAccount = {
+        id: 'miden',
+        publicKey: accPublicKey,
+        privateKey: accPrivateKey
+      };
+      const newAccounts = [initialAccount];
+      const passKey = await Passworder.generateKey(password);
+
+      await clearStorage();
+      await encryptAndSaveMany(
+        [
+          [checkStrgKey, generateCheck()],
+          [mnemonicStrgKey, mnemonic],
+          [accountsStrgKey, newAccounts]
+        ],
+        passKey
+      );
+      await savePlain(currentAccPubKeyStrgKey, accPublicKey);
+      await savePlain(ownMnemonicStrgKey, ownMnemonic ?? false);
+    });
+  }
 
   async fetchSettings() {
     return DEFAULT_SETTINGS;
@@ -77,7 +112,14 @@ export class Vault {
 
   async editAccountName(accPublicKey: string, name: string) {}
 
-  async updateSettings() {}
+  async updateSettings(settings: Partial<WalletSettings>) {
+    return withError('Failed to update settings', async () => {
+      const current = await this.fetchSettings();
+      const newSettings = { ...current, ...settings };
+      await encryptAndSaveMany([[settingsStrgKey, newSettings]], this.passKey);
+      return newSettings;
+    });
+  }
 
   async authorize() {}
 
@@ -93,16 +135,58 @@ export class Vault {
 
   async revealViewKey(accPublicKey: string) {}
 
-  async getCurrentAccount() {}
+  async getCurrentAccount() {
+    const currAccountPubkey = await getPlain<string>(currentAccPubKeyStrgKey);
+    const allAccounts = await this.fetchAccounts();
+    if (allAccounts.length < 1) {
+      throw new PublicError('No accounts created yet.');
+    }
+    let currentAccount = allAccounts.find(acc => acc.publicKey === currAccountPubkey);
+    if (!currentAccount) {
+      currentAccount = await this.setCurrentAccount(allAccounts[0].publicKey);
+    }
+    return currentAccount;
+  }
 
   async isOwnMnemonic() {
     const ownMnemonic = await getPlain<boolean>(ownMnemonicStrgKey);
     return ownMnemonic === undefined ? true : ownMnemonic;
   }
 
-  async setCurrentAccount(accPublicKey: string) {}
+  async setCurrentAccount(accPublicKey: string) {
+    return withError('Failed to set current account', async () => {
+      const allAccounts = await this.fetchAccounts();
+      const newCurrentAccount = allAccounts.find(acc => acc.publicKey === accPublicKey);
+      if (!newCurrentAccount) {
+        throw new PublicError('Account not found');
+      }
+      await savePlain(currentAccPubKeyStrgKey, accPublicKey);
+
+      return newCurrentAccount;
+    });
+  }
 
   async getOwnedRecords() {}
+
+  async fetchAccounts() {
+    const accounts = await fetchAndDecryptOneWithLegacyFallBack<WalletAccount[]>(accountsStrgKey, this.passKey);
+    if (!Array.isArray(accounts)) {
+      throw new PublicError('Accounts not found');
+    }
+    return accounts;
+  }
+
+  private static toValidPassKey(password: string) {
+    return withError('Invalid password', async doThrow => {
+      const passKey = await Passworder.generateKey(password);
+      try {
+        await fetchAndDecryptOneWithLegacyFallBack<any>(checkStrgKey, passKey);
+      } catch (err: any) {
+        doThrow();
+      }
+      return passKey;
+    });
+  }
 }
 
 /**

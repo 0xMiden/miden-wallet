@@ -7,6 +7,15 @@ import { useRetryableSWR } from 'lib/swr';
 import { retryWithTimeout } from 'lib/utility/retry';
 
 import { AutoSync } from './autoSync';
+import {
+  WalletMessageType,
+  WalletNotification,
+  WalletRequest,
+  WalletResponse,
+  WalletState,
+  WalletStatus
+} from 'lib/shared/types';
+import { MidenState } from '../types';
 
 export type ChainApiStatus = 'up' | 'warning' | 'down' | 'unknown';
 
@@ -23,7 +32,21 @@ function getIntercom() {
   return intercom;
 }
 
-async function fetchStateAsync(maxRetries: number = 0) {}
+// TODO: Make generalizable with WalletState (?)
+// Might need to get several state fetchers
+async function fetchStateAsync(maxRetries: number = 0): Promise<MidenState> {
+  const res = await retryWithTimeout(
+    async () => {
+      const res = await request({ type: WalletMessageType.GetStateRequest });
+      assertResponse(res.type === WalletMessageType.GetStateResponse);
+      return res;
+    },
+    3_000,
+    maxRetries
+  );
+
+  return res.state;
+}
 
 export const [MidenClientProvider, useMidenClient] = constate(() => {
   /**
@@ -31,14 +54,14 @@ export const [MidenClientProvider, useMidenClient] = constate(() => {
    */
   const fetchState = useCallback(async () => fetchStateAsync(5), []);
 
-  // const { data, mutate } = useRetryableSWR('state', fetchState, {
-  //   suspense: true,
-  //   shouldRetryOnError: false,
-  //   revalidateOnFocus: false,
-  //   revalidateOnReconnect: false
-  // });
+  const { data, mutate } = useRetryableSWR('state', fetchState, {
+    suspense: true,
+    shouldRetryOnError: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
 
-  // const state = data!;
+  const state = data!;
   const [confirmation, setConfirmation] = useState<Confirmation | null>(null);
   const [chainStatus, setChainStatus] = useState<ChainApiStatus>('unknown');
   const confirmationIdRef = useRef<string | null>(null);
@@ -48,8 +71,18 @@ export const [MidenClientProvider, useMidenClient] = constate(() => {
   }, [setConfirmation]);
 
   useEffect(() => {
+    return getIntercom().subscribe((msg: WalletNotification) => {
+      switch (msg?.type) {
+        case WalletMessageType.StateUpdated:
+          mutate();
+          break;
+      }
+    });
+  }, [mutate, setConfirmation, resetConfirmation]);
+
+  useEffect(() => {
     AutoSync.updateState();
-  }, []);
+  }, [state]);
 
   useEffect(() => {
     const fetchChainStatus = async () => {
@@ -74,18 +107,33 @@ export const [MidenClientProvider, useMidenClient] = constate(() => {
   /**
    * Aliases
    */
-  // const { status, networks: defaultNetworks, accounts, settings, currentAccount, ownMnemonic } = state;
-  const defaultNetworks: any[] = [];
+  const { status, networks: defaultNetworks, accounts, settings, currentAccount, ownMnemonic } = state;
+  const idle = status === WalletStatus.Idle;
+  const locked = status === WalletStatus.Locked;
+  const ready = status === WalletStatus.Ready;
 
-  const customNetworks: string[] = [];
-  const networks = useMemo(() => [...defaultNetworks, ...customNetworks], [defaultNetworks, customNetworks]);
+  const networks = useMemo(() => [...defaultNetworks], [defaultNetworks]);
 
   /*
   Actions
   */
-  const registerWallet = useCallback(async (password: string, mnemonic?: string, ownMnemonic?: boolean) => {}, []);
+  const registerWallet = useCallback(async (password: string, mnemonic?: string, ownMnemonic?: boolean) => {
+    const res = await request({
+      type: WalletMessageType.NewWalletRequest,
+      password,
+      mnemonic,
+      ownMnemonic
+    });
+    assertResponse(res.type === WalletMessageType.NewWalletResponse);
+  }, []);
 
-  const unlock = useCallback(async (password: string) => {}, []);
+  const unlock = useCallback(async (password: string) => {
+    const res = await request({
+      type: WalletMessageType.UnlockRequest,
+      password
+    });
+    assertResponse(res.type === WalletMessageType.UnlockResponse);
+  }, []);
 
   const createAccount = useCallback(async (name?: string) => {}, []);
 
@@ -153,18 +201,20 @@ export const [MidenClientProvider, useMidenClient] = constate(() => {
   const getOwnedRecords = useCallback(async (accPublicKey: string) => {}, []);
 
   return {
-    state: {},
+    state,
     chainStatus,
 
     // Aliases
-    status: 'ready',
+    status,
     defaultNetworks,
-    customNetworks,
     networks,
-    accounts: [],
-    settings: {},
-    currentAccount: {},
-    ownMnemonic: false,
+    accounts,
+    settings,
+    currentAccount,
+    ownMnemonic,
+    idle,
+    locked,
+    ready,
 
     // Misc
     confirmation,
@@ -202,12 +252,12 @@ export const [MidenClientProvider, useMidenClient] = constate(() => {
   };
 });
 
-export type AleoClient = ReturnType<typeof useMidenClient>;
+export type MidenClient = ReturnType<typeof useMidenClient>;
 
-export async function request<T>(req: T) {
+export async function request<T extends WalletRequest>(req: T) {
   const res = await getIntercom().request(req);
   assertResponse('type' in res);
-  return res;
+  return res as WalletResponse;
 }
 
 export function assertResponse(condition: any): asserts condition {

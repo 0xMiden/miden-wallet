@@ -12,8 +12,6 @@ import SendNFT from 'app/pages/SendNFT';
 import Settings from 'app/pages/Settings';
 import Unlock from 'app/pages/Unlock';
 import Welcome from 'app/pages/Welcome';
-import { ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
-import { useMidenClient } from 'lib/miden/front';
 import * as Woozie from 'lib/woozie';
 
 import RootSuspenseFallback from './a11y/RootSuspenseFallback';
@@ -31,6 +29,7 @@ import { SendTokens } from './pages/SendTokens';
 import Stake from './pages/Stake';
 import StakeDetails from './pages/StakeDetails';
 import Unstake from './pages/Unstake';
+import { useMidenClient } from 'lib/miden/front';
 
 interface RouteContext {
   popup: boolean;
@@ -72,12 +71,7 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
       }
     }
   ],
-  [
-    '/loading',
-    (_p, ctx) => {
-      return true ? <Woozie.Redirect to={'/'} /> : <RootSuspenseFallback />;
-    }
-  ],
+  ['/loading', (_p, ctx) => (ctx.ready ? <Woozie.Redirect to={'/'} /> : <RootSuspenseFallback />)],
   ['/', (_p, ctx) => (ctx.ready ? <Explore /> : <Welcome />)],
   ['/create-wallet', onlyNotReady(() => <CreateWallet />)],
   ['/select-account', onlyReady(() => <SelectAccount />)],
@@ -91,12 +85,12 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   ['/send', onlyReady(() => <SendTokens />)],
   ['/send-nft', onlyReady(() => <SendNFT />)],
   ['/convert-nft', onlyReady(() => <ConvertNFT />)],
-  ['/convert-visibility/aleo', onlyReady(() => <ConvertVisibility assetSlug="aleo" assetId={ALEO_TOKEN_ID} />)],
+  ['/convert-visibility/aleo', onlyReady(() => <ConvertVisibility assetSlug="aleo" assetId={'defaultaleotokenid'} />)],
   ['/convert-visibility/:assetId', onlyReady(({ assetId }) => <ConvertVisibility assetId={assetId!} />)],
   ['/settings/:tabSlug?', onlyReady(({ tabSlug }) => <Settings tabSlug={tabSlug} />)],
   ['/nfts', onlyReady(() => <NFTs />)],
   ['/nfts/details', onlyReady(() => <NFTDetails />)],
-  ['/tokens/aleo', onlyReady(() => <Explore assetSlug="aleo" assetId={ALEO_TOKEN_ID} />)],
+  ['/tokens/aleo', onlyReady(() => <Explore assetSlug="aleo" assetId={'defaultaleotokenid'} />)],
   ['/tokens/:assetId?', onlyReady(({ assetId }) => <Explore assetId={assetId} />)],
   ['/generating-transaction', onlyReady(() => <GeneratingTransaction />)],
   ['/stake', onlyReady(() => <Stake />)],
@@ -108,7 +102,6 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
 
 const PageRouter: FC = () => {
   const { trigger, pathname } = Woozie.useLocation();
-  console.log('inside PageRouter', pathname);
 
   // Scroll to top after new location pushed.
   useLayoutEffect(() => {
@@ -122,16 +115,16 @@ const PageRouter: FC = () => {
   }, [trigger, pathname]);
 
   const appEnv = useAppEnv();
-  const aleo = useMidenClient();
+  const miden = useMidenClient();
 
   const ctx = useMemo<RouteContext>(
     () => ({
       popup: appEnv.popup,
       fullPage: appEnv.fullPage,
-      ready: true,
-      locked: false
+      ready: miden.ready,
+      locked: miden.locked
     }),
-    [appEnv.popup, appEnv.fullPage]
+    [appEnv.popup, appEnv.fullPage, miden.ready, miden.locked]
   );
 
   return useMemo(() => Woozie.Router.resolve(ROUTE_MAP, pathname, ctx), [pathname, ctx]);

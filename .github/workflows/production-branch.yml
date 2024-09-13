@@ -6,14 +6,14 @@ on:
       - 'main'
 
 jobs:
-  ci:
-    uses: ./.github/workflows/ci.yml
-    with:
-      environment: PRODUCTION
-    secrets: inherit
-  cd:
-    needs: [ ci ]
-    uses: ./.github/workflows/cd.yml
-    with:
-      environment: PRODUCTION
-    secrets: inherit
+  # ci:
+  #   uses: ./.github/workflows/ci.yml
+  #   with:
+  #     environment: PRODUCTION
+  #   secrets: inherit
+  # cd:
+  #   needs: [ ci ]
+  #   uses: ./.github/workflows/cd.yml
+  #   with:
+  #     environment: PRODUCTION
+  #   secrets: inherit

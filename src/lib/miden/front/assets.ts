@@ -83,7 +83,8 @@ export function useAssetMetadata(slug: string, assetId: string) {
   useEffect(
     () =>
       onStorageChanged(ALL_TOKENS_BASE_METADATA_STORAGE_KEY, newValue => {
-        if (!deepEqual(newValue[assetId], allTokensBaseMetadataRef.current[assetId])) {
+        // TODO: Potentially update this in the future. Breaking the wallet at the moment
+        if (!deepEqual(newValue[assetId], 'TODO')) {
           forceUpdate();
         }
       }),
@@ -91,7 +92,8 @@ export function useAssetMetadata(slug: string, assetId: string) {
   );
 
   const aleoAsset = isAleoAsset(slug);
-  const tokenMetadata = allTokensBaseMetadataRef.current[assetId] ?? null;
+  // TODO: Maybe update this
+  const tokenMetadata = null;
   const exist = Boolean(tokenMetadata);
 
   useEffect(() => {

@@ -16,72 +16,72 @@ env:
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
 jobs:
-  cd:
-    name: Deploy
-    runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+  # cd:
+  #   name: Deploy
+  #   runs-on: ubuntu-latest
+  #   environment: ${{ inputs.environment }}
 
-    steps:
-      - name: Check Out Code
-        uses: actions/checkout@v3
+  #   steps:
+  #     - name: Check Out Code
+  #       uses: actions/checkout@v3
 
-      - name: Use Node 18
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
+  #     - name: Use Node 18
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 18
 
-      - name: Create Dotenv File
-        run: |
-          echo "${{ secrets.ENV }}" > .env
+  #     - name: Create Dotenv File
+  #       run: |
+  #         echo "${{ secrets.ENV }}" > .env
 
-      - name: Run install
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: install
+  #     - name: Run install
+  #       uses: borales/actions-yarn@v4
+  #       with:
+  #         cmd: install
 
-      - name: Build chrome
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: build:chrome
+  #     - name: Build chrome
+  #       uses: borales/actions-yarn@v4
+  #       with:
+  #         cmd: build:chrome
 
-      - name: Build firefox
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: build:firefox
+  #     - name: Build firefox
+  #       uses: borales/actions-yarn@v4
+  #       with:
+  #         cmd: build:firefox
 
-      - name: Set current date as env variable
-        id: get-datetime
-        run: |
-          echo "time_now=$(date +'%Y-%m-%dT%H-%M-%S')" >> $GITHUB_OUTPUT
+  #     - name: Set current date as env variable
+  #       id: get-datetime
+  #       run: |
+  #         echo "time_now=$(date +'%Y-%m-%dT%H-%M-%S')" >> $GITHUB_OUTPUT
 
-      - name: Rename output zip
-        run: |
-          mkdir output
-          mv dist/chrome.zip output/chrome.zip
-          mv dist/firefox.xpi output/firefox.xpi
+  #     - name: Rename output zip
+  #       run: |
+  #         mkdir output
+  #         mv dist/chrome.zip output/chrome.zip
+  #         mv dist/firefox.xpi output/firefox.xpi
 
-      - name: Get output dir name
-        id: get-dir-name
-        env:
-          BRANCH_NAME: ${{ env.BRANCH_NAME }}
-          DIR_NAME: ${{ steps.get-datetime.outputs.time_now }}
-        run: |
-          if [[ ${{ env.BRANCH_NAME }} == "main" ]]; then
-            echo "output_dir_name=main" >> $GITHUB_OUTPUT
-          elif [[ ${{ env.BRANCH_NAME }} == "dev" ]]; then
-            echo "output_dir_name=dev" >> $GITHUB_OUTPUT
-          elif [[ ${{ env.BRANCH_NAME }} == lw-* ]]; then
-            echo "output_dir_name=feature/${{ env.BRANCH_NAME }}" >> $GITHUB_OUTPUT
-          fi
+  #     - name: Get output dir name
+  #       id: get-dir-name
+  #       env:
+  #         BRANCH_NAME: ${{ env.BRANCH_NAME }}
+  #         DIR_NAME: ${{ steps.get-datetime.outputs.time_now }}
+  #       run: |
+  #         if [[ ${{ env.BRANCH_NAME }} == "main" ]]; then
+  #           echo "output_dir_name=main" >> $GITHUB_OUTPUT
+  #         elif [[ ${{ env.BRANCH_NAME }} == "dev" ]]; then
+  #           echo "output_dir_name=dev" >> $GITHUB_OUTPUT
+  #         elif [[ ${{ env.BRANCH_NAME }} == lw-* ]]; then
+  #           echo "output_dir_name=feature/${{ env.BRANCH_NAME }}" >> $GITHUB_OUTPUT
+  #         fi
 
-      - name: Pushes to another repository
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
-        with:
-          source-directory: 'output'
-          destination-github-username: 'demox-labs'
-          destination-repository-name: 'leo-wallet-releases'
-          user-email: evangeorgemarshall@gmail.com
-          target-branch: main
-          target-directory: ${{steps.get-dir-name.outputs.output_dir_name}}
+  #     - name: Pushes to another repository
+  #       uses: cpina/github-action-push-to-another-repository@main
+  #       env:
+  #         SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+  #       with:
+  #         source-directory: 'output'
+  #         destination-github-username: 'demox-labs'
+  #         destination-repository-name: 'leo-wallet-releases'
+  #         user-email: evangeorgemarshall@gmail.com
+  #         target-branch: main
+  #         target-directory: ${{steps.get-dir-name.outputs.output_dir_name}}

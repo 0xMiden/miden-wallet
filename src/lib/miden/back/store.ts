@@ -2,8 +2,9 @@ import { createStore, createEvent } from 'effector';
 
 import { Vault } from 'lib/miden/back/vault';
 import { NETWORKS } from 'lib/miden/networks';
+import { WalletAccount, WalletSettings, WalletState, WalletStatus } from 'lib/shared/types';
 
-export interface StoreState {
+export interface StoreState extends WalletState {
   inited: boolean;
   vault: Vault | null;
 }
@@ -12,8 +13,22 @@ export interface UnlockedStoreState extends StoreState {
   vault: Vault;
 }
 
-export function toFront() {
-  return {};
+export function toFront({
+  status,
+  accounts,
+  networks,
+  settings,
+  currentAccount,
+  ownMnemonic
+}: StoreState): WalletState {
+  return {
+    status,
+    accounts,
+    networks,
+    settings,
+    currentAccount,
+    ownMnemonic
+  };
 }
 
 /**
@@ -26,15 +41,18 @@ export const locked = createEvent('Locked');
 
 export const unlocked = createEvent<{
   vault: Vault;
+  accounts: WalletAccount[];
+  settings: WalletSettings;
+  currentAccount: WalletAccount;
   ownMnemonic: boolean;
 }>('Unlocked');
 
-// export const accountsUpdated =
-//   createEvent<{ accounts: AleoAccount[]; currentAccount?: AleoAccount }>('Accounts updated');
+export const accountsUpdated =
+  createEvent<{ accounts: WalletAccount[]; currentAccount?: WalletAccount }>('Accounts updated');
 
-// export const currentAccountUpdated = createEvent<AleoAccount>('Current Account Updated');
+export const currentAccountUpdated = createEvent<WalletAccount>('Current Account Updated');
 
-// export const settingsUpdated = createEvent<AleoSettings>('Settings updated');
+export const settingsUpdated = createEvent<WalletSettings>('Settings updated');
 
 /**
  * Store
@@ -42,11 +60,18 @@ export const unlocked = createEvent<{
 
 export const store = createStore<StoreState>({
   inited: false,
-  vault: null
+  vault: null,
+  status: WalletStatus.Idle,
+  accounts: [],
+  networks: [],
+  settings: null,
+  currentAccount: null,
+  ownMnemonic: null
 })
   .on(inited, (state, vaultExist) => ({
     ...state,
     inited: true,
+    status: vaultExist ? WalletStatus.Locked : WalletStatus.Idle,
     networks: NETWORKS
   }))
   .on(locked, () => ({
@@ -56,11 +81,22 @@ export const store = createStore<StoreState>({
     // Build a new state from scratch
     // Reset all properties!
     inited: true,
-    vault: null
+    vault: null,
+    status: WalletStatus.Locked,
+    accounts: [],
+    networks: NETWORKS,
+    settings: null,
+    currentAccount: null,
+    ownMnemonic: null
   }))
-  .on(unlocked, (state, { vault }) => ({
+  .on(unlocked, (state, { vault, accounts, settings, currentAccount, ownMnemonic }) => ({
     ...state,
-    vault
+    vault,
+    status: WalletStatus.Ready,
+    accounts,
+    settings,
+    currentAccount,
+    ownMnemonic
   }));
 
 /**

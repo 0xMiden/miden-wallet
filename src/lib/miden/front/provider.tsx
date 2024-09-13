@@ -9,7 +9,6 @@ import { TokensMetadataProvider } from './assets';
 import { FungibleTokensBalancesProvider } from './fungible-tokens-balances';
 
 export const AleoProvider: FC<PropsWithChildren> = ({ children }) => {
-  console.log('inside aleoProvider');
   return (
     <MidenClientProvider>
       <ConditionalReadyLeo>{children}</ConditionalReadyLeo>
@@ -18,8 +17,7 @@ export const AleoProvider: FC<PropsWithChildren> = ({ children }) => {
 };
 
 const ConditionalReadyLeo: FC<PropsWithChildren> = ({ children }) => {
-  const ready = true;
-  console.log('inside ConditionalReadyLeo');
+  const { ready } = useMidenClient();
 
   return useMemo(
     () =>

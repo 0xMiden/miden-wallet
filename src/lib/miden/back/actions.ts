@@ -1,11 +1,21 @@
 import browser from 'webextension-polyfill';
 
-import { toFront, store, inited, locked, unlocked, withInited, withUnlocked } from 'lib/miden/back/store';
+import {
+  toFront,
+  store,
+  inited,
+  locked,
+  unlocked,
+  withInited,
+  withUnlocked,
+  settingsUpdated
+} from 'lib/miden/back/store';
 import { Vault } from 'lib/miden/back/vault';
 import { IRecord } from 'lib/miden/db/types';
 import { createQueue } from 'lib/queue';
 
 import { getCurrentAleoNetwork } from './safe-network';
+import { WalletSettings, WalletState } from 'lib/shared/types';
 
 const ACCOUNT_NAME_PATTERN = /^.{0,16}$/;
 
@@ -17,7 +27,15 @@ export async function init() {
   inited(vaultExist);
 }
 
-export async function getFrontState() {}
+export async function getFrontState(): Promise<WalletState> {
+  const state = store.getState();
+  if (state.inited) {
+    return toFront(state);
+  } else {
+    await new Promise(r => setTimeout(r, 10));
+    return getFrontState();
+  }
+}
 
 export async function isDAppEnabled() {
   return true;
@@ -25,6 +43,7 @@ export async function isDAppEnabled() {
 
 export function registerNewWallet(password: string, mnemonic?: string, ownMnemonic?: boolean) {
   return withInited(async () => {
+    // TODO: Conditional here with Miden / Aleo wallet types
     await Vault.spawn(password, mnemonic, ownMnemonic);
     await unlock(password);
   });
@@ -36,7 +55,18 @@ export function lock() {
   });
 }
 
-export function unlock(password: string) {}
+export function unlock(password: string) {
+  return withInited(() =>
+    enqueueUnlock(async () => {
+      const vault = await Vault.setup(password);
+      const accounts = await vault.fetchAccounts();
+      const settings = await vault.fetchSettings();
+      const currentAccount = await vault.getCurrentAccount();
+      const ownMnemonic = await vault.isOwnMnemonic();
+      unlocked({ vault, accounts, settings, currentAccount, ownMnemonic });
+    })
+  );
+}
 
 export function updateCurrentAccount(accPublicKey: string) {}
 
@@ -71,7 +101,13 @@ export function importFundraiserAccount(email: string, password: string, mnemoni
 
 export function importWatchOnlyAccount(viewKey: string) {}
 
-export function updateSettings() {}
+export function updateSettings(settings: Partial<WalletSettings>) {
+  return withUnlocked(async ({ vault }) => {
+    const updatedSettings = await vault.updateSettings(settings);
+    // createCustomNetworksSnapshot(updatedSettings);
+    settingsUpdated(updatedSettings);
+  });
+}
 
 export function authorize(
   accPublicKey: string,
@@ -90,3 +126,13 @@ export function getAllDAppSessions() {}
 export function removeDAppSession(origin: string) {}
 
 export const getOwnedRecords = async (accPublicKey: string) => {};
+
+// async function createCustomNetworksSnapshot(settings: WalletSettings) {
+//   try {
+//     if (settings.customNetworks) {
+//       await browser.storage.local.set({
+//         custom_networks_snapshot: settings.customNetworks
+//       });
+//     }
+//   } catch {}
+// }

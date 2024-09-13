@@ -11,8 +11,6 @@ const BootAnimation: FC<PropsWithChildren> = ({ children }) => {
     setBooted(true);
   }, [setBooted]);
 
-  console.log('booted', booted);
-
   return (
     <CSSTransition in={booted} timeout={200}>
       {children}

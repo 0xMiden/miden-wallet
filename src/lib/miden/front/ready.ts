@@ -3,6 +3,8 @@ import { useCallback, useEffect, useLayoutEffect, useMemo } from 'react';
 import constate from 'constate';
 
 import { usePassiveStorage, useMidenClient } from 'lib/miden/front';
+import { MidenState } from '../types';
+import { WalletStatus } from 'lib/shared/types';
 
 export enum ActivationStatus {
   ActivationRequestSent,
@@ -31,21 +33,28 @@ export const [
 
 function useReadyMiden() {
   const midenFront = useMidenClient();
-  assertReady();
+  assertReady(midenFront);
 
-  const { settings, ownMnemonic } = midenFront;
-  const accountPk = 'publicKey';
+  const { networks: allNetworks, accounts: allAccounts, settings, currentAccount: account, ownMnemonic } = midenFront;
+  const accountPk = account;
 
   /**
    * Networks
    */
 
-  const defaultNet = 'defaultNet';
-  const allNetworks = [defaultNet];
-  const [networkId, setNetworkId] = usePassiveStorage('network_id', 'defaultNet');
+  const defaultNet = allNetworks[0];
+  const [networkId, setNetworkId] = usePassiveStorage('network_id', defaultNet.id);
 
-  const network = defaultNet;
-  const account = { publicKey: accountPk, name: 'account name' };
+  useEffect(() => {
+    if (allNetworks.every(a => a.id !== networkId)) {
+      setNetworkId(defaultNet.id);
+    }
+  }, [allNetworks, networkId, setNetworkId, defaultNet]);
+
+  const network = useMemo(
+    () => allNetworks.find(n => n.id === networkId) ?? defaultNet,
+    [allNetworks, networkId, defaultNet]
+  );
 
   // /**
   //  * Accounts
@@ -78,7 +87,7 @@ function useReadyMiden() {
     network,
     networkId,
     setNetworkId,
-    allAccounts: [account],
+    allAccounts,
     account,
     accountPk,
     settings,
@@ -86,4 +95,8 @@ function useReadyMiden() {
   };
 }
 
-function assertReady() {}
+function assertReady(state: MidenState) {
+  if (state.status !== WalletStatus.Ready) {
+    throw new Error('Aleo not ready');
+  }
+}
