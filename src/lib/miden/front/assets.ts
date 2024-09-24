@@ -92,8 +92,7 @@ export function useAssetMetadata(slug: string, assetId: string) {
   );
 
   const aleoAsset = isAleoAsset(slug);
-  // TODO: Maybe update this
-  const tokenMetadata = null;
+  const tokenMetadata = allTokensBaseMetadataRef.current[assetId] ?? null;
   const exist = Boolean(tokenMetadata);
 
   useEffect(() => {

@@ -1,0 +1,16 @@
+{
+  "name": "name",
+  "description": "description",
+  "authors": "author",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@demox-labs/miden-sdk": "^0.0.7",
+    "rimraf": "^6.0.1",
+    "serve": "^14.2.3"
+  },
+  "scripts": {
+    "build": "rimraf libs && mkdir libs && cp -r node_modules/@demox-labs/miden-sdk/ libs/ ",
+    "start": "serve ."
+  }
+}

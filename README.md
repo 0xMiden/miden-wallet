@@ -1,8 +1,6 @@
-# Leo - Aleo Wallet
+# Leo - Miden Wallet
 
-Cryptocurrency wallet for [Aleo blockchain](https://aleo.org) as Web Extension for your Browser.<br>
-
-Leo Wallet
+TODO
 
 <hr />
 
@@ -28,7 +26,7 @@ mv ./.env.example ./.env
 ### 1) Clone the repository
 
 ```bash
-git clone https://github.com/demox-labs/leo-wallet && cd leo-wallet
+git clone TODO && cd miden-wallet
 ```
 
 ### 2) Install dependencies
@@ -70,6 +68,7 @@ yarn dev
 Runs the extension in the development mode for Chrome target.<br>
 It's recommended to use Chrome for developing.
 
+For testing with the Miden faucet. It is recommended to run a local faucet as we develop against their upcoming release branch. Refer to the [miden-node repo](https://github.com/0xPolygonMiden/miden-node/blob/next/bin/faucet/README.md) for setup
 
 ## Testing
 

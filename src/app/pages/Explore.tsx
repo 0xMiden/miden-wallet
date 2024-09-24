@@ -42,6 +42,17 @@ import EditableTitle from './Explore/EditableTitle';
 import MainBanner from './Explore/MainBanner';
 import SyncBanner from './Explore/SyncBanner';
 import Tokens from './Explore/Tokens/Tokens';
+import { Button } from 'app/atoms/Button';
+import {
+  createFaucet,
+  createNewMintTransaction,
+  exportNote,
+  fetchCacheAccountAuth,
+  getAccount,
+  listNotes,
+  syncState
+} from 'lib/miden/sdk/miden-client-interface';
+import { MidenWalletStorageType, NoteExportType } from 'lib/miden/sdk/constants';
 
 type ExploreProps = {
   assetSlug?: string | null;
@@ -181,6 +192,54 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
             canDismiss={false}
           />
         </div> */}
+        <div>
+          <Button
+            onClick={async () => {
+              const faucet = await createFaucet();
+              console.log('syncing state');
+              await syncState();
+              console.log('synced state');
+
+              await fetchCacheAccountAuth(faucet);
+
+              const mintTxn = await createNewMintTransaction(
+                account.publicKey,
+                faucet,
+                MidenWalletStorageType.PRIVATE,
+                100
+              );
+
+              const noteId = mintTxn.created_note_ids[0];
+
+              console.log('exporting note...');
+              const noteBytes = await exportNote(noteId, NoteExportType.PARTIAL);
+
+              const blob = new Blob([noteBytes], { type: 'application/octet-stream' });
+
+              // Create a URL for the Blob
+              const url = URL.createObjectURL(blob);
+
+              // Create a temporary anchor element
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = 'exportNoteTest.mno'; // Specify the file name
+
+              // Append the anchor to the document
+              document.body.appendChild(a);
+
+              // Programmatically click the anchor to trigger the download
+              a.click();
+
+              // Remove the anchor from the document
+              document.body.removeChild(a);
+
+              // Revoke the object URL to free up resources
+              URL.revokeObjectURL(url);
+            }}
+          >
+            Debugging Miden Button
+          </Button>
+        </div>
         <SecondarySection assetSlug={assetSlug} assetId={assetId} />
       </div>
       {!assetId && (

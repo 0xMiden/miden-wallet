@@ -1,3 +1,5 @@
+import { WalletMessageType } from 'lib/shared/types';
+
 export enum AnalyticsEventCategory {
   General = 'General',
   ButtonPress = 'ButtonPress',
@@ -17,8 +19,8 @@ export enum AnalyticsEventEnum {
   FiatCurrencyChanged = 'FiatCurrencyChanged'
 }
 
-export interface AleoSendTrackEventRequest {
-  // type: AleoMessageType.SendTrackEventRequest;
+export interface WalletSendTrackEventRequest {
+  type: WalletMessageType.SendTrackEventRequest;
   userId: string;
   rpc: string | undefined;
   event: string;
@@ -26,12 +28,12 @@ export interface AleoSendTrackEventRequest {
   properties?: object;
 }
 
-export interface AleoSendTrackEventResponse {
-  // type: AleoMessageType.SendTrackEventResponse;
+export interface WalletSendTrackEventResponse {
+  type: WalletMessageType.SendTrackEventResponse;
 }
 
-export interface AleoSendPageEventRequest {
-  // type: AleoMessageType.SendPageEventRequest;
+export interface WalletSendPageEventRequest {
+  type: WalletMessageType.SendPageEventRequest;
   userId: string;
   rpc: string | undefined;
   path: string;
@@ -39,16 +41,16 @@ export interface AleoSendPageEventRequest {
   additionalProperties: object;
 }
 
-export interface AleoSendPageEventResponse {
-  // type: AleoMessageType.SendPageEventResponse;
+export interface WalletSendPageEventResponse {
+  type: WalletMessageType.SendPageEventResponse;
 }
 
 export type PerformanceTimings = {
   [key: string]: number;
 };
 
-export interface AleoSendPerformanceEventRequest {
-  // type: AleoMessageType.SendPerformanceEventRequest;
+export interface WalletSendPerformanceEventRequest {
+  type: WalletMessageType.SendPerformanceEventRequest;
   userId: string;
   rpc: string | undefined;
   event: string;
@@ -56,6 +58,6 @@ export interface AleoSendPerformanceEventRequest {
   additionalProperties: object;
 }
 
-export interface AleoSendPerformanceEventResponse {
-  // type: AleoMessageType.SendPerformanceEventResponse;
+export interface WalletSendPerformanceEventResponse {
+  type: WalletMessageType.SendPerformanceEventResponse;
 }

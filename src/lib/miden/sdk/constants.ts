@@ -1,4 +1,10 @@
 export enum MidenWalletStorageType {
-  OFF_CHAIN = 'OffChain',
-  ON_CHAIN = 'OnChain'
+  PRIVATE = 'Private',
+  PUBLIC = 'Public'
+}
+
+export enum NoteExportType {
+  ID = 'Id',
+  FULL = 'Full',
+  PARTIAL = 'Partial'
 }

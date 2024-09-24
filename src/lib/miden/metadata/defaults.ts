@@ -3,13 +3,14 @@ import browser from 'webextension-polyfill';
 import { CREDITS_PROGRAM_ID, MTSP_PROGRAM_ID } from '../assets/constants';
 import { AssetMetadata } from './types';
 
+// TODO: Make this miden data
 export const ALEO_METADATA: AssetMetadata = {
   decimals: 6,
-  symbol: 'ALEO',
-  name: 'Aleo',
+  symbol: 'MIDEN',
+  name: 'Miden',
   programId: CREDITS_PROGRAM_ID,
   mappingName: 'account',
-  thumbnailUri: browser.runtime.getURL('misc/token-logos/aleo.svg')
+  thumbnailUri: browser.runtime.getURL('misc/token-logos/usds.svg')
 };
 
 export const BONDED_ALEO_SYMBOL = 'bonded-aleo';

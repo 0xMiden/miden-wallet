@@ -12,7 +12,7 @@ export enum ActivationStatus {
 }
 
 export const [
-  ReadyAleoProvider,
+  ReadyMidenProvider,
   useAllNetworks,
   useSetNetworkId,
   useNetwork,
@@ -97,6 +97,6 @@ function useReadyMiden() {
 
 function assertReady(state: MidenState): asserts state is ReadyMidenState {
   if (state.status !== WalletStatus.Ready) {
-    throw new Error('Aleo not ready');
+    throw new Error('Wallet not ready');
   }
 }

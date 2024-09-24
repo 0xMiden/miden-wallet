@@ -66,6 +66,8 @@ export class Vault {
         mnemonic = Bip39.generateMnemonic(128);
       }
 
+      console.log('attempting to spawn wallet');
+
       const accPublicKey = await createMidenWallet();
       console.log({ accPublicKey });
       const accPrivateKey = 'TODO';
@@ -174,6 +176,7 @@ export class Vault {
   async setCurrentAccount(accPublicKey: string) {
     return withError('Failed to set current account', async () => {
       const allAccounts = await this.fetchAccounts();
+      console.log({ allAccounts });
       const newCurrentAccount = allAccounts.find(acc => acc.publicKey === accPublicKey);
       if (!newCurrentAccount) {
         throw new PublicError('Account not found');

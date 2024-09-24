@@ -9,6 +9,8 @@ import { useAccount } from 'lib/miden/front';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
+import UploadFileButton from 'app/atoms/UploadFileButton';
+import { consumeNote } from 'lib/miden/sdk/miden-client-interface';
 
 const Receive: FC = () => {
   const account = useAccount();
@@ -21,6 +23,40 @@ const Receive: FC = () => {
     copy();
   };
 
+  function readFileAsUint8Array(): void {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.style.display = 'none';
+
+    input.addEventListener('change', (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      const files = target.files;
+      console.log({ event });
+
+      if (files && files.length > 0) {
+        const file = files[0];
+        const reader = new FileReader();
+        reader.onload = async () => {
+          const arrayBuffer = reader.result as ArrayBuffer;
+          const byteArray = new Uint8Array(arrayBuffer);
+
+          console.log({ account });
+          console.log({ byteArray });
+          await consumeNote(account.publicKey, byteArray);
+        };
+
+        // Start reading the file as an ArrayBuffer
+        reader.readAsArrayBuffer(file);
+      }
+    });
+
+    document.body.appendChild(input);
+    input.click();
+
+    setTimeout(() => {
+      document.body.removeChild(input);
+    }, 100);
+  }
   return (
     <PageLayout
       pageTitle={
@@ -89,6 +125,9 @@ const Receive: FC = () => {
             <div className="p-2 bg-white rounded-lg" style={{ maxWidth: '84%' }}>
               <QRCode bgColor="#FFF" fgColor="#634CFF" level="Q" style={{ width: '100%' }} value={address} />
             </div>
+          </div>
+          <div>
+            <UploadFileButton uploadFile={readFileAsUint8Array} />
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ import { AppEnvProvider } from 'app/env';
 import ErrorBoundary from 'app/ErrorBoundary';
 import Dialogs from 'app/layouts/Dialogs';
 import PageRouter from 'app/PageRouter';
-import { AleoProvider } from 'lib/miden/front';
+import { MidenProvider } from 'lib/miden/front';
 import { PropsWithChildren } from 'lib/props-with-children';
 import { DialogsProvider } from 'lib/ui/dialog';
 import * as Woozie from 'lib/woozie';
@@ -52,7 +52,7 @@ const AppProvider: FC<AppProps> = ({ children, env }) => {
   return (
     <AppEnvProvider {...env}>
       <Woozie.Provider>
-        <AleoProvider>{children}</AleoProvider>
+        <MidenProvider>{children}</MidenProvider>
       </Woozie.Provider>
     </AppEnvProvider>
   );

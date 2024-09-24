@@ -1,9 +1,9 @@
 import Analytics from 'analytics-node';
 
 import {
-  AleoSendPageEventRequest,
-  AleoSendPerformanceEventRequest,
-  AleoSendTrackEventRequest
+  WalletSendPageEventRequest,
+  WalletSendPerformanceEventRequest,
+  WalletSendTrackEventRequest
 } from 'lib/miden/analytics-types';
 
 if (!process.env.ALEO_WALLET_SEGMENT_WRITE_KEY) {
@@ -18,7 +18,7 @@ export const trackEvent = async ({
   event,
   category,
   properties
-}: Omit<AleoSendTrackEventRequest, 'type'>) => {
+}: Omit<WalletSendTrackEventRequest, 'type'>) => {
   client.track({
     userId,
     event: `${category} ${event}`,
@@ -37,7 +37,7 @@ export const pageEvent = async ({
   path,
   search,
   additionalProperties
-}: Omit<AleoSendPageEventRequest, 'type'>) => {
+}: Omit<WalletSendPageEventRequest, 'type'>) => {
   const url = `${path}${search}`;
 
   client.page({
@@ -62,7 +62,7 @@ export const performanceEvent = async ({
   event,
   timings,
   additionalProperties
-}: Omit<AleoSendPerformanceEventRequest, 'type'>) => {
+}: Omit<WalletSendPerformanceEventRequest, 'type'>) => {
   client.track({
     userId,
     event: `Performance ${event}`,
