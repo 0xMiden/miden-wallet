@@ -22,6 +22,7 @@ import { t } from 'lib/i18n/react';
 
 import NetworksSettings from './Networks';
 import { SettingsSelectors } from './Settings.selectors';
+import Footer from 'app/layouts/PageLayout/Footer';
 
 type SettingsProps = {
   tabSlug?: string | null;
@@ -170,6 +171,9 @@ const Settings: FC<SettingsProps> = ({ tabSlug }) => {
             </div>
           )}
         </div>
+      </div>
+      <div className="flex-none w-full absolute bottom-0">
+        <Footer />
       </div>
     </PageLayout>
   );
