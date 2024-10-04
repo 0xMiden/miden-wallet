@@ -68,17 +68,6 @@ const Control: FC = () => {
         </div>
         <div className="flex">
           <NetworkSelect className="self-end" />
-          <Link to={'/settings'} onClick={onSettingsClick}>
-            <SettingsIcon
-              style={{
-                height: 24,
-                width: 24,
-                cursor: 'pointer',
-                marginTop: '8px',
-                marginLeft: '12px'
-              }}
-            />
-          </Link>
         </div>
       </div>
     </>

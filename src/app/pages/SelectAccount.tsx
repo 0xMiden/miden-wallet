@@ -1,28 +1,22 @@
-import React, { FC, useCallback, useMemo, useState } from 'react';
+import React, { FC, useCallback, useMemo } from 'react';
 
 import classNames from 'clsx';
 
-import AccountTypeBadge from 'app/atoms/AccountTypeBadge';
 import ColorIdenticon from 'app/atoms/ColorIdenticon';
 import Name from 'app/atoms/Name';
 import { openInFullPage, useAppEnv } from 'app/env';
-import { ReactComponent as AddIcon } from 'app/icons/add.svg';
 import { ReactComponent as Checkmark } from 'app/icons/checkmark-alt.svg';
-import { ReactComponent as DownloadIcon } from 'app/icons/download.svg';
-import { ReactComponent as LockIcon } from 'app/icons/lock-alt.svg';
 import { ReactComponent as MaximiseIcon } from 'app/icons/maximise.svg';
-import { ReactComponent as PendingIcon } from 'app/icons/rotate.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import MenuItem from 'app/templates/MenuItem';
-import SearchField from 'app/templates/SearchField';
-import { getEstimatedSyncPercentages } from 'lib/miden/activity/sync/sync-plan';
-import { useAccount, useMidenClient } from 'lib/miden/front';
+import { Button, ButtonVariant } from 'components/Button';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
-import { t, T } from 'lib/i18n/react';
-import { useRetryableSWR } from 'lib/swr';
+import { T } from 'lib/i18n/react';
+import { useAccount, useMidenClient } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
 
 import { SelectAccountSelectors } from './SelectAccount.selectors';
+import { Icon, IconName } from 'app/icons/v2';
 
 type ExcludesFalse = <T>(x: T | false) => x is T;
 
@@ -31,11 +25,7 @@ const SelectAccount: FC = () => {
   const { updateCurrentAccount } = useMidenClient();
   const account = useAccount();
   const { trackEvent } = useAnalytics();
-  const [searchValue, setSearchValue] = useState('');
-
-  // We may want to add this back if we get a design. Currently just hide it.
-  // const isShowSearch = useMemo(() => allAccounts.length > 5, [allAccounts.length]);
-  const isShowSearch = false;
+  const accounts = [account];
 
   const handleMaximiseViewClick = useCallback(() => {
     openInFullPage();
@@ -44,25 +34,10 @@ const SelectAccount: FC = () => {
     }
   }, [appEnv.popup]);
 
+  const onAddAccountClick = () => {};
+
   const actions = useMemo(() => {
     const items = [
-      {
-        key: 'create-account',
-        Icon: AddIcon,
-        i18nKey: 'createAccount',
-        linkTo: '/create-account',
-        includeHR: false,
-        selector: SelectAccountSelectors.CreateAccountButton
-      },
-      {
-        key: 'import-account',
-        Icon: DownloadIcon,
-        i18nKey: 'importAccount',
-        linkTo: '/import-account',
-        includeHR: false,
-        iconStyle: { strokeWidth: 1 },
-        selector: SelectAccountSelectors.ImportAccountButton
-      },
       {
         key: 'maximise',
         Icon: MaximiseIcon,
@@ -73,21 +48,12 @@ const SelectAccount: FC = () => {
         linksOutsideOfWallet: true,
         selector: SelectAccountSelectors.MaximizeButton,
         fullPage: false
-      },
-      {
-        key: 'lock',
-        Icon: LockIcon,
-        i18nKey: 'lock',
-        linkTo: '/',
-        onClick: () => {},
-        includeHR: true,
-        selector: SelectAccountSelectors.LockButton
       }
     ].filter(Boolean as any as ExcludesFalse);
     return items.filter((item, index) => {
-      if (index === 0) {
-        return true;
-      }
+      // if (index === 0) {
+      //   return true;
+      // }
       return !appEnv.fullPage || item.fullPage !== false;
     });
   }, [appEnv.fullPage, handleMaximiseViewClick]);
@@ -100,38 +66,61 @@ const SelectAccount: FC = () => {
         </>
       }
     >
-      <div className="flex justify-between w-full md:px-8 lg:px-16 m-auto">
+      <div className="flex flex-1 justify-between w-full px-2 md:px-6">
         <div className={classNames('my-2', 'w-full')}>
-          {isShowSearch && (
-            <SearchField
-              value={searchValue}
-              className={classNames(
-                'py-2 pl-8 pr-4',
-                'bg-transparent',
-                'focus:outline-none',
-                'transition ease-in-out duration-200',
-                'rounded rounded-b-none',
-                'text-black text-sm leading-tight'
-              )}
-              placeholder={t('searchByName')}
-              searchIconClassName="h-5 w-auto"
-              searchIconWrapperClassName="px-2 text-black opacity-75"
-              cleanButtonStyle={{ backgroundColor: 'transparent' }}
-              cleanButtonIconStyle={{ stroke: 'white' }}
-              onValueChange={setSearchValue}
-            />
-          )}
-          <div
-            className={classNames('overflow-y-auto', isShowSearch && 'border-t-0 rounded-t-none')}
-            style={{ maxHeight: '12.5rem' }}
-          >
+          <div className={classNames('overflow-y-auto')} style={{ maxHeight: '12.5rem' }}>
             <div className="flex flex-col">
-              <p className="text-center text-black text-sm p-10">
-                <T id="noResults" />
-              </p>
+              {accounts.map(acc => {
+                const selected = acc.publicKey === account.publicKey;
+                const handleAccountClick = async () => {
+                  if (!selected) {
+                    trackEvent(SelectAccountSelectors.SelectAccountButton, AnalyticsEventCategory.ButtonPress);
+                    await updateCurrentAccount(acc.publicKey);
+                    navigate('/');
+                  }
+                };
+
+                return (
+                  <div
+                    key={acc.publicKey}
+                    className={classNames(
+                      'flex w-full rounded-lg',
+                      'overflow-hidden py-3 px-4',
+                      'flex items-center',
+                      'text-black text-shadow-black',
+                      'transition ease-in-out duration-200',
+                      'cursor-pointer',
+                      'mb-1',
+                      'hover:bg-gray-800 active:bg-gray-700'
+                    )}
+                    style={{ height: '64px' }}
+                    onClick={handleAccountClick}
+                  >
+                    <ColorIdenticon publicKey={acc.publicKey} size={20} className="flex-shrink-0 shadow-xs-white" />
+
+                    <div className="flex flex-col items-start ml-2">
+                      <div className="flex flex-col text-left">
+                        <Name
+                          className="font-medium leading-none"
+                          style={{ paddingBottom: 3, fontSize: '14px', lineHeight: '20px' }}
+                        >
+                          {acc.name}
+                        </Name>
+                      </div>
+                    </div>
+                    <div className="flex flex-col flex-grow items-end">
+                      <Icon
+                        name={IconName.CheckboxCircleFill}
+                        size="md"
+                        className={`mr-1`}
+                        fill={selected ? 'black' : 'transparent'}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
-          <hr className="mt-4"></hr>
         </div>
       </div>
 
@@ -153,6 +142,10 @@ const SelectAccount: FC = () => {
             );
           }
         )}
+      </div>
+
+      <div className="flex flex-col w-full p-6 md:px-8 m-auto">
+        <Button title={'Add Account'} variant={ButtonVariant.Secondary} onClick={onAddAccountClick} />
       </div>
     </PageLayout>
   );

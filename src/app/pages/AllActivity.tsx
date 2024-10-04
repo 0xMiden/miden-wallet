@@ -17,7 +17,7 @@ const AllActivity: FC<AllActivityProps> = ({ programId }) => {
   const account = useAccount();
   const scrollParentRef = useRef<HTMLDivElement>(null);
   const { fullPage } = useAppEnv();
-  const height = fullPage ? '41rem' : '36rem';
+  const height = fullPage ? '41rem' : '527px';
 
   return (
     <PageLayout
