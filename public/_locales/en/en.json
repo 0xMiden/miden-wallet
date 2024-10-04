@@ -928,5 +928,12 @@
   "chainUnstable": "Due to instability of Aleo Testnet3, transactions may fail.",
   "dataReset": "Data Reset.",
   "transactionHistoryLost": "We want to inform you that all transaction history has been lost due to a recent reset of the Aleo Testnet3.",
-  "learnMore": "Learn more"
+  "learnMore": "Learn more",
+  "privacyScalesBetter": "Privacy Scales Better",
+  "yourWalletHasBeenCreated": "Your wallet has been created.",
+  "noSeedPhrase": "No Seed Phrase",
+  "yourAccountIsProtected": "Your account is protected by an encrypted file instead of a seed phrase.",
+  "recovery": "Recovery",
+  "downloadAndSecurelyStore": "Download and securely store the latest version of your encrypted file. This file is essential for account recovery.",
+  "uploadYourEncryptedWalletFile": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain"
 }

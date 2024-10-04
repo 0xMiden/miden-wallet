@@ -39,8 +39,7 @@ export const ImportSeedPhraseScreen: React.FC<ImportSeedPhraseScreenProps> = ({ 
   return (
     <div className={classNames('flex-1', 'flex flex-col justify-start items-center', 'bg-white p-6', className)}>
       <h1 className="text-2xl font-semibold">{t('importWallet')}</h1>
-      <p className="mt-2 text-sm">{t('enterYourWalletSeedPhrase')}</p>
-      <p className="text-sm">{t('onlyAleoSeedPhrasesAreSupported')}</p>
+      <p className="text-sm">{t('uploadYourEncryptedWalletFile')}</p>
 
       <div className="relative w-[360px] my-8">
         <TextArea

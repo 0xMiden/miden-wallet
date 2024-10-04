@@ -64,6 +64,7 @@ import { ReactComponent as LeoLogoAndName } from './leo-logo-and-name-horizontal
 import { ReactComponent as List } from './list.svg';
 import { ReactComponent as Loader } from './loader.svg';
 import { ReactComponent as Lock } from './lock.svg';
+import { ReactComponent as MidenLogo } from './miden-logo.svg';
 import { ReactComponent as More } from './more.svg';
 import { ReactComponent as Pencil } from './pencil.svg';
 import { ReactComponent as QrScan } from './qr-scan.svg';
@@ -161,7 +162,8 @@ export enum IconName {
   Users = 'users',
   Wallet = 'wallet',
   WarningFill = 'warning-fill',
-  Warning = 'warning'
+  Warning = 'warning',
+  MidenLogo = 'miden-logo'
 }
 
 export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
@@ -331,6 +333,8 @@ const IconSwitch = (props: IconProps) => {
       return <WarningFill {...props} />;
     case IconName.Warning:
       return <Warning {...props} />;
+    case IconName.MidenLogo:
+      return <MidenLogo {...props} />;
     default:
       return null;
   }
