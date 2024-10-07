@@ -1,7 +1,7 @@
 {
   "appName": "Aleo - Aleo Wallet",
   "showIncomingTransactions": "Show Incoming Transactions",
-  "appDesc": "🔐💰 Privacy-preserving cryptocurrency wallet for Aleo blockchain using Zero Knowledge Proofs",
+  "appDesc": "🔐💰 Privacy-preserving cryptocurrency wallet for Miden using Zero Knowledge Proofs",
   "createAccount": "Create or Restore account",
   "importAccount": "Import account",
   "faucetFileTitle": "Faucet File",
@@ -170,7 +170,7 @@
   "processing": "Processing...",
   "accountAddressLabel": "Your current account address. Share it to receive funds.",
   "copiedAddress": "Copied.",
-  "copyAddressToClipboard": "Copy Aleo Address",
+  "copyAddressToClipboard": "Copy Address",
   "qrCode": "QRCode",
   "revealPrivateKey": "Reveal Private Key",
   "revealPrivateKeyDescription": "Also known as \"Export Account\", reveals private key for your selected account.",

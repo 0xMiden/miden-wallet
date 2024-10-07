@@ -127,7 +127,7 @@ const Faucet: FC = () => {
                   {4}
                 </div>
                 <div className="flex flex-col w-5/6 ml-2">
-                  <div className="text-sm mb-1">Press the 'Request Faucet' button and paste your Aleo address.</div>
+                  <div className="text-sm mb-1">Press the 'Request Faucet' button and paste your address.</div>
                 </div>
               </div>
             </div>
@@ -166,7 +166,7 @@ const Faucet: FC = () => {
             </div>
             <div className="flex flex-col px-2 text-left">
               <span className="font-medium" style={{ fontSize: '14px', lineHeight: '20px', marginBottom: '4px' }}>
-                Aleo Faucet Q&A
+                Faucet Q&A
                 <br />
               </span>
               <span className="text-xs">

@@ -1303,11 +1303,12 @@
   dependencies:
     eventemitter3 "^4.0.7"
 
-"@demox-labs/miden-sdk@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@demox-labs/miden-sdk/-/miden-sdk-0.0.7.tgz#9f2f05ed82975e899d44c34b14ffee3f4a3465f3"
-  integrity sha512-Q0MR9rlqhC4moQ5VPu0OdJWZGZJBGu7Iwzj1MZlJ6z1pMR3Gj9CY78pdrOc9yWvhr0+c8x1QJDNPl7FYmTU+VQ==
+"@demox-labs/miden-sdk@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@demox-labs/miden-sdk/-/miden-sdk-0.0.11.tgz#c0f30449da413c1f7bcf1c417e5dfeb22d8c5850"
+  integrity sha512-srYeoBdUHgxZ8ZoDPErzjfPAuBLVlFczdj3J6jo4qoMDFHjIFyxF0cjCg6XrDjJSjFpT4+B2mido+XDZGEt7oQ==
   dependencies:
+    chai-as-promised "^8.0.0"
     dexie "^4.0.1"
     glob "^11.0.0"
 
@@ -4733,6 +4734,13 @@ ccount@^2.0.0:
   resolved "https://registry.yarnpkg.com/ccount/-/ccount-2.0.1.tgz#17a3bf82302e0870d6da43a01311a8bc02a3ecf5"
   integrity sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==
 
+chai-as-promised@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/chai-as-promised/-/chai-as-promised-8.0.0.tgz#7eda823f2a6fe9fd3a76bc76878886e955232e6f"
+  integrity sha512-sMsGXTrS3FunP/wbqh/KxM8Kj/aLPXQGkNtvE5wPfSToq8wkkvBpTZo1LIiEVmC4BwkKpag+l5h/20lBMk6nUg==
+  dependencies:
+    check-error "^2.0.0"
+
 chai@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/chai/-/chai-5.1.1.tgz#f035d9792a22b481ead1c65908d14bb62ec1c82c"
@@ -4808,7 +4816,7 @@ charenc@0.0.2:
   resolved "https://registry.yarnpkg.com/charenc/-/charenc-0.0.2.tgz#c0a1d2f3a7092e03774bfa83f14c0fc5790a8667"
   integrity sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==
 
-check-error@^2.1.1:
+check-error@^2.0.0, check-error@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/check-error/-/check-error-2.1.1.tgz#87eb876ae71ee388fa0471fe423f494be1d96ccc"
   integrity sha512-OAlb+T7V4Op9OwdkjmguYRqncdlx5JiofwOAUkmTF+jNdHwzTaTs4sRAGpzLF3oOz5xAyDGrPgeIDFQmDOTiJw==

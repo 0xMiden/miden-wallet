@@ -6,7 +6,7 @@
     "message": "Show Incoming Transactions"
   },
   "appDesc": {
-    "message": "🔐💰 Privacy-preserving cryptocurrency wallet for Aleo blockchain using Zero Knowledge Proofs"
+    "message": "🔐💰 Privacy-preserving cryptocurrency wallet for Miden using Zero Knowledge Proofs"
   },
   "createAccount": {
     "message": "Create or Restore account"
@@ -670,7 +670,7 @@
     "message": "Copied."
   },
   "copyAddressToClipboard": {
-    "message": "Copy Aleo Address"
+    "message": "Copy Address"
   },
   "qrCode": {
     "message": "QRCode"

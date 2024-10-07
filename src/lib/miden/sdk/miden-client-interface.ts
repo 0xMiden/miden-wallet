@@ -1,4 +1,4 @@
-import { AccountId, WebClient } from '@demox-labs/miden-sdk';
+import { Account, AccountId, AccountStorageMode, WebClient } from '@demox-labs/miden-sdk';
 import { MidenWalletStorageType, NoteExportType } from './constants';
 
 const webClient = new WebClient();
@@ -16,9 +16,9 @@ try {
 export const createMidenWallet = async () => {
   // Create a new wallet
   console.log('Creating wallet...');
-  const wallet: AccountId = await webClient.new_wallet(MidenWalletStorageType.PRIVATE, true);
+  const wallet: Account = await webClient.new_wallet(AccountStorageMode.private(), true);
 
-  const walletId = wallet.to_string();
+  const walletId = wallet.id().to_string();
 
   console.log({ walletId });
 
@@ -26,7 +26,7 @@ export const createMidenWallet = async () => {
 };
 
 export const consumeTransaction = async (accountId: string, listOfNotes: string[]) => {
-  const result = await webClient.new_consume_transaction(accountId, listOfNotes);
+  const result = await webClient.new_consume_transaction(accountIdStringToSdk(accountId), listOfNotes);
 };
 
 export const importNote = async (noteBytes: Uint8Array) => {
@@ -45,7 +45,7 @@ export const consumeNote = async (accountId: string, noteBytes: Uint8Array) => {
   await syncState();
 
   console.log('Consuming note:', noteId);
-  const result = await webClient.new_consume_transaction(accountId, [noteId]);
+  const result = await webClient.new_consume_transaction(accountIdStringToSdk(accountId), [noteId]);
   console.log('Consumed note:', result);
 
   return result;
@@ -60,7 +60,7 @@ export const listNotes = async () => {
 
 export const getAccount = async (accountId: string) => {
   console.log('Getting account:', accountId);
-  const result = await webClient.get_account(accountId);
+  const result = await webClient.get_account(accountIdStringToSdk(accountId));
   console.log('Account:', result);
   return result;
 };
@@ -69,14 +69,14 @@ export const getTokens = async (accountId: string, amount: number) => {};
 
 export const createFaucet = async () => {
   console.log('Creating faucet...');
-  const faucet: AccountId = await webClient.new_faucet(MidenWalletStorageType.PRIVATE, false, 'TEST', '10', '1000000');
-  const faucetId = faucet.to_string();
+  const faucet: Account = await webClient.new_faucet(AccountStorageMode.private(), false, 'TEST', '10', '1000000');
+  const faucetId = faucet.id().to_string();
   console.log({ faucetId });
   return faucetId;
 };
 
 export const syncState = async () => {
-  const result = await webClient.sync_state(true);
+  const result = await webClient.sync_state();
   return result;
 };
 
@@ -84,7 +84,7 @@ export const fetchCacheAccountAuth = async (accountId: string) => {
   console.log('Fetching account auth:', accountId);
   let result;
   try {
-    result = await webClient.fetch_and_cache_account_auth_by_pub_key(accountId);
+    result = await webClient.fetch_and_cache_account_auth_by_pub_key(accountIdStringToSdk(accountId));
   } catch (e) {
     console.error(`Unable to get auth for accountId: ${accountId}. Verify that this account is yours`, e);
   }
@@ -96,12 +96,17 @@ export const fetchCacheAccountAuth = async (accountId: string) => {
 export const createNewMintTransaction = async (
   targetAccountId: string,
   faucetId: string,
-  storageType: MidenWalletStorageType,
-  amount: number
+  storageType: AccountStorageMode,
+  amount: bigint
 ) => {
   console.log('Creating new mint transaction...');
   console.log({ targetAccountId, faucetId, storageType, amount });
-  const result = await webClient.new_mint_transaction(targetAccountId, faucetId, storageType, amount.toString());
+  const result = await webClient.new_mint_transaction(
+    accountIdStringToSdk(targetAccountId),
+    accountIdStringToSdk(faucetId),
+    storageType,
+    amount
+  );
   return result;
 };
 
@@ -111,3 +116,5 @@ export const exportNote = async (noteId: string, exportType: NoteExportType) => 
 
   return byteArray;
 };
+
+const accountIdStringToSdk = (accountId: string) => AccountId.from_hex(accountId);

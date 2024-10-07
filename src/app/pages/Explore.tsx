@@ -209,7 +209,7 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
                 100
               );
 
-              const noteId = mintTxn.created_note_ids[0];
+              const noteId = mintTxn.created_notes().notes()[0].id().to_string();
 
               console.log('exporting note...');
               const noteBytes = await exportNote(noteId, NoteExportType.PARTIAL);
@@ -236,6 +236,7 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
               // Revoke the object URL to free up resources
               URL.revokeObjectURL(url);
             }}
+            hidden={true}
           >
             Debugging Miden Button
           </Button>
