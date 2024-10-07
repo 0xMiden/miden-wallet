@@ -1,5 +1,7 @@
 import React, { FC, useMemo } from 'react';
 
+import classNames from 'clsx';
+
 import { ReactComponent as ContactBookIcon } from 'app/icons/contact-book.svg';
 import { ReactComponent as ExtensionIcon } from 'app/icons/extension.svg';
 import { ReactComponent as FileIcon } from 'app/icons/file.svg';
@@ -13,6 +15,7 @@ import { t } from 'lib/i18n/react';
 
 import NetworksSettings from './Networks';
 import { SettingsSelectors } from './Settings.selectors';
+import { useAppEnv } from 'app/env';
 
 type SettingsProps = {
   tabSlug?: string | null;
@@ -142,11 +145,12 @@ const TABS: Tab[] = [
 const Settings: FC<SettingsProps> = ({ tabSlug }) => {
   const activeTab = useMemo(() => TABS.find(t => t.slug === tabSlug) || null, [tabSlug]);
   const listMenuItems = TABS.filter(t => t.slug !== 'networks');
+  const { fullPage } = useAppEnv();
 
   return (
     <PageLayout pageTitle={activeTab ? t(activeTab.titleI18nKey) : t('settings')}>
-      <div className="pb-4" style={{ minHeight: '480px' }}>
-        <div className="px-4">
+      <div className={classNames('flex flex-col flex-1', activeTab ? '' : 'pb-4')} style={{ minHeight: '458px' }}>
+        <div className="px-4 overflow-y-auto" style={fullPage ? {} : { maxHeight: '458px' }}>
           {activeTab ? (
             <activeTab.Component />
           ) : (
@@ -172,9 +176,7 @@ const Settings: FC<SettingsProps> = ({ tabSlug }) => {
           )}
         </div>
       </div>
-      <div className="flex-none w-full absolute bottom-0">
-        <Footer />
-      </div>
+      <Footer />
     </PageLayout>
   );
 };

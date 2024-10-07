@@ -16,7 +16,9 @@ export interface FooterIconWrapperProps {
 export const FooterIconWrapper: React.FC<FooterIconWrapperProps> = ({ linkTo, onClick, icon, iconFill }) => {
   const location = useLocation();
   const currentPath = location.pathname;
-  const active = currentPath === linkTo;
+  const pathSegments = currentPath.split('/');
+  const currentPathSegment = pathSegments[1];
+  const active = currentPathSegment === linkTo.replace('/', '');
 
   return (
     <Link to={linkTo} onClick={onClick}>

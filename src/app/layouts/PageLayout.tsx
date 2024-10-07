@@ -27,7 +27,7 @@ const PageLayout: FC<PageLayoutProps> = ({ children, contentContainerStyle, hide
 
   const containerStyles = fullPage
     ? { height: '750px', boxShadow: '0px 68px 56px rgba(0, 0, 0, 0.15)', maxWidth: '600px', minWidth: '600px' }
-    : {};
+    : { maxHeight: '600px' };
 
   return (
     <>

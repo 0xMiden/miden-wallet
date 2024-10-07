@@ -37,7 +37,7 @@ const About: FC = () => (
       {message => <p className="mt-1 text-black text-sm">{message}</p>}
     </T>
 
-    <div className="flex flex-col w-full pt-2">
+    <div className="flex flex-col w-full py-2">
       {[
         {
           key: 'website',
