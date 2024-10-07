@@ -1026,6 +1026,9 @@
   "revealSeedPhraseDescription": {
     "message": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices."
   },
+  "exportWalletFile": {
+    "message": "Export Wallet File"
+  },
   "dApps": {
     "message": "DApps",
     "description": "DApps = Decentralized Applications"
@@ -3386,7 +3389,7 @@
     "message": "0 MB",
     "note": "Onboarding"
   },
-  
+
   "delegateProofsToSecureServers": {
     "message": "Delegate proofs to secure servers",
     "note": "Onboarding"

@@ -270,6 +270,7 @@
   "revealPrivateKeyDescription": "Also known as \"Export Account\", reveals private key for your selected account.",
   "revealSeedPhrase": "Reveal Seed Phrase",
   "revealSeedPhraseDescription": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices.",
+  "exportWalletFile": "Export Wallet File",
   "dApps": "DApps",
   "dAppsDescription": "In this section you can enable ability to interact with decentralized applications that support Leo Wallet.",
   "networksDescription": "In this section you can add or delete custom Aleo networks.",

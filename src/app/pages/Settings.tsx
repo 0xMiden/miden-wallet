@@ -1,35 +1,25 @@
 import React, { FC, useMemo } from 'react';
 
-import { ReactComponent as FileIcon } from 'app/icons/add-to-list.svg';
-import { ReactComponent as AppsIcon } from 'app/icons/apps.svg';
 import { ReactComponent as ContactBookIcon } from 'app/icons/contact-book.svg';
 import { ReactComponent as ExtensionIcon } from 'app/icons/extension.svg';
-import { ReactComponent as KeyIcon } from 'app/icons/key.svg';
-import { ReactComponent as MinusIcon } from 'app/icons/minus.svg';
-import { ReactComponent as SettingsIcon } from 'app/icons/settings.svg';
-import { ReactComponent as StickerIcon } from 'app/icons/sticker.svg';
-import { ReactComponent as ToolIcon } from 'app/icons/tool.svg';
+import { ReactComponent as FileIcon } from 'app/icons/file.svg';
 import PageLayout from 'app/layouts/PageLayout';
+import Footer from 'app/layouts/PageLayout/Footer';
 import About from 'app/templates/About';
 import AddressBook from 'app/templates/AddressBook';
-import AdvancedSettings from 'app/templates/AdvancedSettings';
-import FileSettings from 'app/templates/FileSettings';
-import GeneralSettings from 'app/templates/GeneralSettings';
 import MenuItem from 'app/templates/MenuItem';
-import RemoveAccount from 'app/templates/RemoveAccount';
 import RevealSecret from 'app/templates/RevealSecret';
 import { t } from 'lib/i18n/react';
 
 import NetworksSettings from './Networks';
 import { SettingsSelectors } from './Settings.selectors';
-import Footer from 'app/layouts/PageLayout/Footer';
 
 type SettingsProps = {
   tabSlug?: string | null;
 };
 
-const RevealViewKey: FC = () => <RevealSecret reveal="view-key" />;
-const RevealPrivateKey: FC = () => <RevealSecret reveal="private-key" />;
+// const RevealViewKey: FC = () => <RevealSecret reveal="view-key" />;
+// const RevealPrivateKey: FC = () => <RevealSecret reveal="private-key" />;
 const RevealSeedPhrase: FC = () => <RevealSecret reveal="seed-phrase" />;
 
 type Tab = {
@@ -44,15 +34,15 @@ type Tab = {
 };
 
 const TABS: Tab[] = [
-  {
-    slug: 'general-settings',
-    titleI18nKey: 'generalSettings',
-    Icon: SettingsIcon,
-    Component: GeneralSettings,
-    descriptionI18nKey: 'generalSettingsDescription',
-    testID: SettingsSelectors.GeneralButton,
-    insertHR: false
-  },
+  // {
+  //   slug: 'general-settings',
+  //   titleI18nKey: 'generalSettings',
+  //   Icon: SettingsIcon,
+  //   Component: GeneralSettings,
+  //   descriptionI18nKey: 'generalSettingsDescription',
+  //   testID: SettingsSelectors.GeneralButton,
+  //   insertHR: false
+  // },
   {
     slug: 'address-book',
     titleI18nKey: 'addressBook',
@@ -72,16 +62,16 @@ const TABS: Tab[] = [
   //   insertHR: true,
   //   iconStyle: { stroke: '#000', strokeWidth: '1px' }
   // },
-  {
-    slug: 'reveal-private-key',
-    titleI18nKey: 'revealPrivateKey',
-    Icon: KeyIcon,
-    Component: RevealPrivateKey,
-    descriptionI18nKey: 'revealPrivateKeyDescription',
-    testID: SettingsSelectors.RevealPrivateKeyButton,
-    insertHR: false,
-    iconStyle: { stroke: '#000', strokeWidth: '1px' }
-  },
+  // {
+  //   slug: 'reveal-private-key',
+  //   titleI18nKey: 'revealPrivateKey',
+  //   Icon: KeyIcon,
+  //   Component: RevealPrivateKey,
+  //   descriptionI18nKey: 'revealPrivateKeyDescription',
+  //   testID: SettingsSelectors.RevealPrivateKeyButton,
+  //   insertHR: false,
+  //   iconStyle: { stroke: '#000', strokeWidth: '1px' }
+  // },
   // {
   //   slug: 'reveal-seed-phrase',
   //   titleI18nKey: 'revealSeedPhrase',
@@ -91,32 +81,42 @@ const TABS: Tab[] = [
   //   testID: SettingsSelectors.RevealSeedPhraseButton,
   //   insertHR: false
   // },
+  // {
+  //   slug: 'file-settings',
+  //   titleI18nKey: 'fileSettings',
+  //   Icon: FileIcon,
+  //   Component: FileSettings,
+  //   descriptionI18nKey: 'fileSettingsDescription',
+  //   testID: SettingsSelectors.FileSettingsButton,
+  //   insertHR: false
+  // },
+  // {
+  //   slug: 'advanced-settings',
+  //   titleI18nKey: 'advancedSettings',
+  //   Icon: ToolIcon,
+  //   Component: AdvancedSettings,
+  //   descriptionI18nKey: 'advancedSettingsDescription',
+  //   testID: SettingsSelectors.AdvancedSettingsButton,
+  //   insertHR: false
+  // },
+  // {
+  //   slug: 'remove-account',
+  //   titleI18nKey: 'removeAccount',
+  //   Icon: MinusIcon,
+  //   Component: RemoveAccount,
+  //   descriptionI18nKey: 'removeAccountDescription',
+  //   testID: SettingsSelectors.RemoveAccountButton,
+  //   insertHR: true
+  // },
   {
-    slug: 'file-settings',
-    titleI18nKey: 'fileSettings',
+    slug: 'reveal-seed-phrase',
+    titleI18nKey: 'exportWalletFile',
     Icon: FileIcon,
-    Component: FileSettings,
-    descriptionI18nKey: 'fileSettingsDescription',
-    testID: SettingsSelectors.FileSettingsButton,
-    insertHR: false
-  },
-  {
-    slug: 'advanced-settings',
-    titleI18nKey: 'advancedSettings',
-    Icon: ToolIcon,
-    Component: AdvancedSettings,
-    descriptionI18nKey: 'advancedSettingsDescription',
-    testID: SettingsSelectors.AdvancedSettingsButton,
-    insertHR: false
-  },
-  {
-    slug: 'remove-account',
-    titleI18nKey: 'removeAccount',
-    Icon: MinusIcon,
-    Component: RemoveAccount,
-    descriptionI18nKey: 'removeAccountDescription',
-    testID: SettingsSelectors.RemoveAccountButton,
-    insertHR: true
+    Component: RevealSeedPhrase,
+    descriptionI18nKey: 'revealSeedPhraseDescription',
+    testID: SettingsSelectors.RevealSeedPhraseButton,
+    insertHR: false,
+    iconStyle: { stroke: '#000', strokeWidth: '0px' }
   },
   {
     slug: 'about',
@@ -152,7 +152,7 @@ const Settings: FC<SettingsProps> = ({ tabSlug }) => {
           ) : (
             <div className="flex flex-col w-full pt-2">
               {listMenuItems.map(({ slug, titleI18nKey, Icon, testID, insertHR, iconStyle }, i) => {
-                const stroke = i === 0 ? 'none' : '#000';
+                const stroke = /*i === 0 ? 'none' :*/ '#000';
                 const style = iconStyle ?? { stroke, strokeWidth: '2px' };
                 const linkTo = `/settings/${slug}`;
                 return (
