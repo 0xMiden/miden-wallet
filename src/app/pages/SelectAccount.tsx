@@ -47,7 +47,8 @@ const SelectAccount: FC = () => {
         includeHR: false,
         linksOutsideOfWallet: true,
         selector: SelectAccountSelectors.MaximizeButton,
-        fullPage: false
+        fullPage: false,
+        iconStyle: {}
       }
     ].filter(Boolean as any as ExcludesFalse);
     return items.filter((item, index) => {

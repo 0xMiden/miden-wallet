@@ -1,4 +1,4 @@
-import { WebClient } from './libs/dist/index.js';
+import { WebClient, AccountStorageMode, AccountId, NoteType } from './libs/dist/index.js';
 
 console.log('script loaded');
 
@@ -9,20 +9,21 @@ await webClient.create_client('http://localhost:57291');
 
 document.getElementById('publicKeyForm').addEventListener('submit', async event => {
   event.preventDefault();
-  const accountId = document.getElementById('publicKey').value;
-  console.log('public key:', accountId);
-  if (!accountId) {
+  const accountIdString = document.getElementById('publicKey').value;
+  console.log('public key:', accountIdString);
+  if (!accountIdString) {
     alert('Please enter a public key');
     return;
   }
+  const accountId = AccountId.from_hex(accountIdString);
 
   console.log('creating faucet...');
-  const faucet = await webClient.new_faucet('Private', false, 'TEST', '10', '1000000');
-  const faucetId = faucet.to_string();
-  console.log('created faucet:', faucetId);
+  const faucet = await webClient.new_faucet(AccountStorageMode.private(), false, 'TEST', 10, BigInt(1000000));
+  const faucetId = faucet.id();
+  console.log('created faucet:', faucetId.to_string());
 
   console.log('syncing state');
-  await webClient.sync_state(true);
+  await webClient.sync_state();
   console.log('synced state');
 
   console.log('fetching account auth...');
@@ -30,12 +31,12 @@ document.getElementById('publicKeyForm').addEventListener('submit', async event 
   console.log('fetched account auth');
 
   console.log('creating mint txn...');
-  const mintTxn = await webClient.new_mint_transaction(accountId, faucetId, 'Private', '100');
-  const noteId = mintTxn.created_note_ids[0];
+  const mintTxn = await webClient.new_mint_transaction(accountId, faucetId, NoteType.private(), BigInt(100));
+  const noteId = mintTxn.created_notes().notes()[0].id();
   console.log('created mint txn');
 
   console.log('exporting note...');
-  const result = await webClient.export_note(noteId, 'Partial');
+  const result = await webClient.export_note(noteId.to_string(), 'Partial');
   const noteBytes = new Uint8Array(result);
 
   const blob = new Blob([noteBytes], { type: 'application/octet-stream' });

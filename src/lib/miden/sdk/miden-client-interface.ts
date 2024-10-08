@@ -69,7 +69,7 @@ export const getTokens = async (accountId: string, amount: number) => {};
 
 export const createFaucet = async () => {
   console.log('Creating faucet...');
-  const faucet: Account = await webClient.new_faucet(AccountStorageMode.private(), false, 'TEST', '10', '1000000');
+  const faucet: Account = await webClient.new_faucet(AccountStorageMode.private(), false, 'TEST', 10, BigInt(1000000));
   const faucetId = faucet.id().to_string();
   console.log({ faucetId });
   return faucetId;

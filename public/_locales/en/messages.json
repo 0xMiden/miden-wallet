@@ -3617,5 +3617,183 @@
   "uploadYourEncryptedWalletFile": {
     "message": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain",
     "note": "Onboarding"
+  },
+  "hide": {
+    "message": "Hide",
+    "note": "Onboarding"
+  },
+  "copied": {
+    "message": "Copied",
+    "note": "Onboarding"
+  },
+  "copyToClipboard": {
+    "message": "Copy to clipboard",
+    "note": "Onboarding"
+  },
+  "createsProofsOnYourComputer": {
+    "message": "Creates proofs on your computer",
+    "note": "Onboarding"
+  },
+  "yourKeysStayPrivate": {
+    "message": "Your keys stay private",
+    "note": "Onboarding"
+  },
+  "selectTheDefaultTransactionType": {
+    "message": "Select the Default Transaction Type",
+    "note": "Onboarding"
+  },
+  "popular": {
+    "message": "Popular",
+    "note": "Onboarding"
+  },
+  "verifyMessagePrefix": {
+    "message": "Confirm you've saved your secret recovery phrase. Select word #10",
+    "note": "Onboarding"
+  },
+  "enterYourWalletSeedPhrase": {
+    "message": "Enter your wallet's 12-word Seed phrase.",
+    "note": "Onboarding"
+  },
+  "onlyAleoSeedPhrasesAreSupported": {
+    "message": "Only Aleo Seed phrases are supported.",
+    "note": "Onboarding"
+  },
+  "seedPhrasePlaceholder": {
+    "message": "12-word Seed phrase",
+    "note": "Onboarding"
+  },
+  "join": {
+    "message": "Join",
+    "note": "Onboarding"
+  },
+  "follow": {
+    "message": "Follow",
+    "note": "Onboarding"
+  },
+  "yourWalletIsReady": {
+    "message": "Your wallet is ready",
+    "note": "Onboarding"
+  },
+  "joinOurDiscord": {
+    "message": "Join our Leo Wallet Discord",
+    "note": "Onboarding"
+  },
+  "joinOurTwitter": {
+    "message": "Follow us on X (Twitter)",
+    "note": "Onboarding"
+  },
+  "exploreTheWorldOfPrivateAssets": {
+    "message": "Explore the world of private assets",
+    "note": "Onboarding"
+  },
+  "getStarted": {
+    "message": "Get started",
+    "note": "Onboarding"
+  },
+  "enterPassword": {
+    "message": "Enter password",
+    "note": "Onboarding"
+  },
+  "verifyPassword": {
+    "message": "Verify password",
+    "note": "Onboarding"
+  },
+  "enterPasswordAgain": {
+    "message": "Enter password again",
+    "note": "Onboarding"
+  },
+  "itsAMatch": {
+    "message": "It's a match!",
+    "note": "Onboarding"
+  },
+  "readMoreOnboarding": {
+    "message": "Read More",
+    "note": "Onboarding"
+  },
+  "helpUsToImproveLeoWallet": {
+    "message": "Help us to improve Leo Wallet",
+    "note": "Onboarding"
+  },
+  "createPassword": {
+    "message": "Create password",
+    "note": "Onboarding"
+  },
+  "createPasswordDescription": {
+    "message": "Set a password to unlock your wallet each time you use your computer. It can't be used to recover your wallet.",
+    "note": "Onboarding"
+  },
+  "veryStrong": {
+    "message": "Very strong!",
+    "note": "Onboarding"
+  },
+  "medium": {
+    "message": "Medium",
+    "note": "Onboarding"
+  },
+  "low": {
+    "message": "Low",
+    "note": "Onboarding"
+  },
+  "8chars1number": {
+    "message": "8 characters, 1 number",
+    "note": "Onboarding"
+  },
+  "minimumCharsWithAtLeast": {
+    "message": "Minimum 8 characters with at least 1 number",
+    "note": "Onboarding"
+  },
+  "backUpWalletInstructions": {
+    "message": "Save these 12 words to a password manager, or write down and store in a secure place. Do not share with anyone.",
+    "note": "Onboarding"
+  },
+  "select": {
+    "message": "Select",
+    "note": "Onboarding"
+  },
+  "selected": {
+    "message": "Selected",
+    "note": "Onboarding"
+  },
+  "additionalDownloads": {
+    "message": "Additional Downloads",
+    "note": "Onboarding"
+  },
+  "600megabytes": {
+    "message": "600+ megabytes",
+    "note": "Onboarding"
+  },
+  "transactionSpeed": {
+    "message": "Transaction Speed",
+  "privacyScalesBetter": {
+    "message": "Privacy Scales Better",
+    "note": "Onboarding"
+  },
+  "yourWalletHasBeenCreated": {
+    "message": "Your wallet has been created.",
+    "note": "Onboarding"
+  },
+  "noSeedPhrase": {
+    "message": "No Seed Phrase",
+    "note": "Onboarding"
+  },
+  "recovery": {
+    "message": "Recovery",
+    "note": "Onboarding"
+  },
+  "yourAccountIsProtected": {
+    "message": "Your account is protected by an encrypted file instead of a seed phrase.",
+    "note": "Onboarding"
+  },
+  "downloadAndSecurelyStore": {
+    "message": "Download and securely store the latest version of your encrypted file. This file is essential for account recovery.",
+    "note": "Onboarding"
+  },
+  "uploadYourEncryptedWalletFile": {
+    "message": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain",
+    "note": "Onboarding"
+  },
+  "chooseFromDevice": {
+    "message": "choose from device",
+    "note": "Onboarding"
   }
-}
+}}}
