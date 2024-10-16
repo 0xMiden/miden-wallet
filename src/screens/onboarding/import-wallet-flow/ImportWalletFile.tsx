@@ -5,16 +5,22 @@ import { useTranslation } from 'react-i18next';
 
 import { Icon, IconName } from 'app/icons/v2';
 import { Button } from 'components/Button';
+import { ONE_MB_IN_BYTES } from 'utils/crypto';
 
-export interface ImportSeedPhraseScreenProps {
-  className?: string;
-  onSubmit?: (seedPhrase: string) => void;
+interface WalletFile {
+  name: string;
+  bytes: Uint8Array;
 }
 
-export const ImportSeedPhraseScreen: React.FC<ImportSeedPhraseScreenProps> = ({ className, onSubmit }) => {
+export interface ImportWalletFileScreenProps {
+  className?: string;
+  onSubmit?: (walletFileBytes: Uint8Array) => void;
+}
+
+export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ className, onSubmit }) => {
   const { t } = useTranslation();
   const walletFileRef = useRef<HTMLInputElement>(null);
-  const [walletFile, setWalletFile] = useState<File | null>(null);
+  const [walletFile, setWalletFile] = useState<WalletFile | null>(null);
 
   const handleClear = () => {
     setWalletFile(null);
@@ -22,23 +28,38 @@ export const ImportSeedPhraseScreen: React.FC<ImportSeedPhraseScreenProps> = ({ 
 
   const handleSubmit = () => {
     if (walletFile !== null && onSubmit) {
-      onSubmit('');
+      onSubmit(walletFile.bytes);
     }
   };
 
   const onUploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // TODO error modals/alerts
     const { files } = e.target;
     if (files && files.length) {
       const file = files[0];
       const parts = file.name.split('.');
-      const size = file.size;
       const fileType = parts[parts.length - 1];
-      // TODO error checking if wrong file type
-      console.log('fileType', fileType);
-      // TODO error checking for fileSize <= 1MB
-      setWalletFile(file);
+      const reader = new FileReader();
+
+      if (file.size > ONE_MB_IN_BYTES || fileType !== 'json') {
+        alert('File size must be <= 1mb and file type must be .json');
+        return;
+      }
+
+      reader.onload = () => {
+        const arrayBuffer = reader.result as ArrayBuffer;
+        const byteArray = new Uint8Array(arrayBuffer);
+        setWalletFile({ name: file.name, bytes: byteArray });
+      };
+
+      reader.onerror = () => {
+        alert('Error with file reader');
+      };
+
+      reader.readAsArrayBuffer(file);
     } else {
-      // TODO error checking for 0 or >1 files
+      alert('Select 1 file');
+      return;
     }
   };
 
@@ -48,13 +69,13 @@ export const ImportSeedPhraseScreen: React.FC<ImportSeedPhraseScreenProps> = ({ 
       cursor: 'pointer'
     };
     return (
-      <span onClick={uploadFileClick} style={style}>
+      <span onClick={onUploadFileClick} style={style}>
         {t('chooseFromDevice')}
       </span>
     );
   };
 
-  const uploadFileClick = () => {
+  const onUploadFileClick = () => {
     if (walletFileRef != null && walletFileRef.current != null) {
       walletFileRef.current.click();
     }

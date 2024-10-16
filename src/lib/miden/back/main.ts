@@ -85,11 +85,11 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
       return {
         type: WalletMessageType.EditAccountResponse
       };
-    // case WalletMessageType.ImportAccountRequest:
-    //   await Actions.importAccount(req.privateKey, req.encPassword);
-    //   return {
-    //     type: WalletMessageType.ImportAccountResponse
-    //   };
+    case WalletMessageType.ImportAccountRequest:
+      await Actions.importAccount(req.privateKey, req.encPassword);
+      return {
+        type: WalletMessageType.ImportAccountResponse
+      };
     // case WalletMessageType.ImportWatchOnlyAccountRequest:
     //   await Actions.importWatchOnlyAccount(req.viewKey);
     //   return {

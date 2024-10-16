@@ -25,6 +25,20 @@ export const createMidenWallet = async () => {
   return walletId;
 };
 
+export const importMidenWallet = async (accountBytes: Uint8Array): Promise<string> => {
+  console.log('Importing wallet...');
+  console.log({ accountBytes });
+  console.log({ accountBytesString: accountBytes.toString() });
+
+  const wallet: Account = await webClient.import_account(accountBytes);
+  const walletIdString = wallet.id().to_string();
+
+  console.log({ walletId: wallet.id() });
+  console.log({ walletIdString });
+
+  return walletIdString;
+};
+
 export const consumeTransaction = async (accountId: string, listOfNotes: string[]) => {
   const result = await webClient.new_consume_transaction(accountIdStringToSdk(accountId), listOfNotes);
 };

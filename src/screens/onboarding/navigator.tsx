@@ -13,13 +13,12 @@ import { WelcomeScreen } from './common/Welcome';
 import { BackUpWalletScreen } from './create-wallet-flow/BackUpWallet';
 import { SelectTransactionTypeScreen } from './create-wallet-flow/SelectTransactionType';
 import { VerifySeedPhraseScreen } from './create-wallet-flow/VerifySeedPhrase';
-import { ImportSeedPhraseScreen } from './import-wallet-flow/ImportSeedPhrase';
+import { ImportWalletFileScreen } from './import-wallet-flow/ImportWalletFile';
 import { OnboardingAction, OnboardingStep, OnboardingType } from './types';
 
 export interface OnboardingFlowProps {
   onboardingType: OnboardingType | null;
   step: OnboardingStep;
-  seedPhrase: string[] | null;
   isLoading?: boolean;
   onAction?: (action: OnboardingAction) => void;
 }
@@ -68,7 +67,7 @@ const Header: React.FC<{ onBack: () => void; step: OnboardingStep; onboardingTyp
   );
 };
 
-export const OnboardingFlow: FC<OnboardingFlowProps> = ({ onboardingType, step, seedPhrase, isLoading, onAction }) => {
+export const OnboardingFlow: FC<OnboardingFlowProps> = ({ onboardingType, step, isLoading, onAction }) => {
   const [navigationDirection, setNavigationDirection] = useState<'forward' | 'backward'>('forward');
 
   const onForwardAction = useCallback(
@@ -115,18 +114,18 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({ onboardingType, step, 
 
     const onConfirmSubmit = () => onForwardAction?.({ id: 'confirmation' });
 
-    const onImportSeedPhraseSubmit = (seedPhrase: string) =>
-      onForwardAction?.({ id: 'import-seed-phrase-submit', payload: seedPhrase });
+    const onImportWalletFileSubmit = (walletFileBytes: Uint8Array) =>
+      onForwardAction?.({ id: 'import-wallet-file-submit', payload: walletFileBytes });
 
     switch (step) {
       case OnboardingStep.Welcome:
         return <WelcomeScreen onSubmit={onWelcomeAction} />;
       case OnboardingStep.BackupWallet:
-        return <BackUpWalletScreen words={seedPhrase || []} onSubmit={onBackupWalletSubmit} />;
+        return <BackUpWalletScreen words={[]} onSubmit={onBackupWalletSubmit} />;
       case OnboardingStep.VerifySeedPhrase:
-        return <VerifySeedPhraseScreen words={seedPhrase || []} onSubmit={onVerifySeedPhraseSubmit} />;
+        return <VerifySeedPhraseScreen words={[]} onSubmit={onVerifySeedPhraseSubmit} />;
       case OnboardingStep.ImportWallet:
-        return <ImportSeedPhraseScreen onSubmit={onImportSeedPhraseSubmit} />;
+        return <ImportWalletFileScreen onSubmit={onImportWalletFileSubmit} />;
       case OnboardingStep.CreatePassword:
         return <CreatePasswordScreen onSubmit={onCreatePasswordSubmit} />;
       case OnboardingStep.SelectTransactionType:
@@ -137,7 +136,7 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({ onboardingType, step, 
       default:
         return <></>;
     }
-  }, [step, seedPhrase, isLoading, onForwardAction]);
+  }, [step, isLoading, onForwardAction]);
 
   const onBack = () => {
     setNavigationDirection('backward');
