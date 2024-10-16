@@ -64,6 +64,7 @@ import { ReactComponent as LeoLogoAndName } from './leo-logo-and-name-horizontal
 import { ReactComponent as List } from './list.svg';
 import { ReactComponent as Loader } from './loader.svg';
 import { ReactComponent as Lock } from './lock.svg';
+import { ReactComponent as MidenLogo } from './miden-logo.svg';
 import { ReactComponent as More } from './more.svg';
 import { ReactComponent as Pencil } from './pencil.svg';
 import { ReactComponent as QrScan } from './qr-scan.svg';
@@ -76,6 +77,8 @@ import { ReactComponent as SettingsFill } from './settings-fill.svg';
 import { ReactComponent as Settings } from './settings.svg';
 import { ReactComponent as Share } from './share.svg';
 import { ReactComponent as SmileSad } from './smile-sad.svg';
+import { ReactComponent as UploadFile } from './upload-file.svg';
+import { ReactComponent as UploadedFile } from './uploaded-file.svg';
 import { ReactComponent as User } from './user.svg';
 import { ReactComponent as Users } from './users.svg';
 import { ReactComponent as Wallet } from './wallet.svg';
@@ -161,7 +164,10 @@ export enum IconName {
   Users = 'users',
   Wallet = 'wallet',
   WarningFill = 'warning-fill',
-  Warning = 'warning'
+  Warning = 'warning',
+  MidenLogo = 'miden-logo',
+  UploadFile = 'upload-file',
+  UploadedFile = 'uploaded-file'
 }
 
 export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
@@ -331,6 +337,12 @@ const IconSwitch = (props: IconProps) => {
       return <WarningFill {...props} />;
     case IconName.Warning:
       return <Warning {...props} />;
+    case IconName.MidenLogo:
+      return <MidenLogo {...props} />;
+    case IconName.UploadFile:
+      return <UploadFile {...props} />;
+    case IconName.UploadedFile:
+      return <UploadedFile {...props} />;
     default:
       return null;
   }

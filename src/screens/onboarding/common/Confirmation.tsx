@@ -3,8 +3,8 @@ import React, { useMemo } from 'react';
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
-import { IconName } from 'app/icons/v2';
-import { Button, ButtonVariant } from 'components/Button';
+import { Icon, IconName } from 'app/icons/v2';
+import { Button } from 'components/Button';
 import { Message } from 'components/Message';
 
 export interface ConfirmationScreenProps extends React.ButtonHTMLAttributes<HTMLDivElement> {
@@ -14,36 +14,39 @@ export interface ConfirmationScreenProps extends React.ButtonHTMLAttributes<HTML
 
 export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ className, isLoading, onSubmit, ...props }) => {
   const { t } = useTranslation();
-  const Links = useMemo(
+  const Checkmarks = useMemo(
     () => [
       {
-        title: t('joinOurDiscord'),
-        url: 'https://link.leo.app/discord',
-        action: t('join')
+        title: t('noSeedPhrase'),
+        description: t('yourAccountIsProtected')
       },
       {
-        title: t('joinOurTwitter'),
-        url: 'https://link.leo.app/twitter',
-        action: t('follow')
+        title: t('recovery'),
+        description: t('downloadAndSecurelyStore')
       }
     ],
     [t]
   );
   return (
-    <div {...props} className={classNames('flex-1', 'flex flex-col', 'bg-white px-10 py-6 gap-y-8', className)}>
-      <Message
-        icon={IconName.CheckboxCircleFill}
-        title={t('yourWalletIsReady')}
-        description={t('exploreTheWorldOfPrivateAssets')}
-      />
+    <div {...props} className="flex-1 flex flex-col bg-white px-10 py-6 gap-y-8">
+      <Message icon={IconName.CheckboxCircleFill} title={t('yourWalletHasBeenCreated')} description={''} />
 
-      <div>
-        {Links.map((el, idx) => (
-          <div key={'link-' + idx} className="flex items-center justify-between py-4 border-t border-grey-100 gap-x-4">
-            <span className="text-sm font-medium">{el.title}</span>
-            <a href={el.url} target="_blank" rel="noreferrer">
-              <Button title={el.action} variant={ButtonVariant.Secondary} className="flex items-center" />
-            </a>
+      <div className="flex items-center justify-center gap-x-1">
+        <Icon name={IconName.MidenLogo} size="md" />
+        <h1 className="font-semibold text-lg">polygon</h1>
+        <p className="text-lg">Miden</p>
+      </div>
+
+      <div className="flex flex-col gap-y-2">
+        {Checkmarks.map((c, idx) => (
+          <div key={'checkmark-' + c.title + idx} className="flex gap-x-2">
+            <div>
+              <Icon name={IconName.CheckboxCircleFill} />
+            </div>
+            <div className="flex flex-col">
+              <h1 className="font-semibold text-lg">{c.title}</h1>
+              <p className="text-base">{c.description}</p>
+            </div>
           </div>
         ))}
       </div>

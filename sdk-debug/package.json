@@ -10,7 +10,7 @@
     "serve": "^14.2.3"
   },
   "scripts": {
-    "build": "rimraf libs && mkdir libs && cp -r node_modules/@demox-labs/miden-sdk/ libs/ ",
+    "build": "rimraf libs && mkdir libs && cp -r ../node_modules/@demox-labs/miden-sdk/ libs/ ",
     "start": "serve ."
   }
 }

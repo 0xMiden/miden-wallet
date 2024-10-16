@@ -1,6 +1,5 @@
 import React from 'react';
 
-import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
 import { IconName } from 'app/icons/v2';
@@ -13,13 +12,13 @@ export interface WelcomeScreenProps extends Omit<React.ButtonHTMLAttributes<HTML
 
 export type Actions = 'create' | 'import';
 
-export const WelcomeScreen = ({ className, onSubmit, ...props }: WelcomeScreenProps) => {
+export const WelcomeScreen = ({ onSubmit, ...props }: WelcomeScreenProps) => {
   const { t } = useTranslation();
   return (
-    <div className={classNames('flex-1', 'flex flex-col items-center', 'bg-white gap-8 p-6', className)} {...props}>
+    <div className="flex-1 flex flex-col items-center bg-white gap-8 p-6" {...props}>
       <Message
-        icon={IconName.LeoLock}
-        title={t('walletBuiltForPrivacy')}
+        icon={IconName.MidenLogo}
+        title={t('privacyScalesBetter')}
         description={t('privateTransactionsAnytimeAnywhere')}
       />
 

@@ -53,6 +53,7 @@ import {
   syncState
 } from 'lib/miden/sdk/miden-client-interface';
 import { MidenWalletStorageType, NoteExportType } from 'lib/miden/sdk/constants';
+import { AccountStorageMode } from '@demox-labs/miden-sdk';
 
 type ExploreProps = {
   assetSlug?: string | null;
@@ -205,8 +206,8 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
               const mintTxn = await createNewMintTransaction(
                 account.publicKey,
                 faucet,
-                MidenWalletStorageType.PRIVATE,
-                100
+                AccountStorageMode.private(),
+                BigInt(100)
               );
 
               const noteId = mintTxn.created_notes().notes()[0].id().to_string();
