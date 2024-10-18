@@ -44,6 +44,7 @@ import SyncBanner from './Explore/SyncBanner';
 import Tokens from './Explore/Tokens/Tokens';
 import { Button } from 'app/atoms/Button';
 import {
+  accountIdStringToSdk,
   createFaucet,
   createNewMintTransaction,
   exportNote,
@@ -196,48 +197,11 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
         <div>
           <Button
             onClick={async () => {
-              const faucet = await createFaucet();
-              console.log('syncing state');
-              await syncState();
-              console.log('synced state');
-
-              await fetchCacheAccountAuth(faucet);
-
-              const mintTxn = await createNewMintTransaction(
-                account.publicKey,
-                faucet,
-                AccountStorageMode.private(),
-                BigInt(100)
-              );
-
-              const noteId = mintTxn.created_notes().notes()[0].id().to_string();
-
-              console.log('exporting note...');
-              const noteBytes = await exportNote(noteId, NoteExportType.PARTIAL);
-
-              const blob = new Blob([noteBytes], { type: 'application/octet-stream' });
-
-              // Create a URL for the Blob
-              const url = URL.createObjectURL(blob);
-
-              // Create a temporary anchor element
-              const a = document.createElement('a');
-              a.href = url;
-              a.download = 'exportNoteTest.mno'; // Specify the file name
-
-              // Append the anchor to the document
-              document.body.appendChild(a);
-
-              // Programmatically click the anchor to trigger the download
-              a.click();
-
-              // Remove the anchor from the document
-              document.body.removeChild(a);
-
-              // Revoke the object URL to free up resources
-              URL.revokeObjectURL(url);
+              // await syncState();
+              const result = await getAccount('0x9b48eb80952faf44');
+              const balance = result.vault().get_balance(accountIdStringToSdk('0x2a1d6414c196ab22'));
+              console.log({ balance });
             }}
-            hidden={true}
           >
             Debugging Miden Button
           </Button>

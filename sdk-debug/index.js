@@ -18,7 +18,7 @@ document.getElementById('publicKeyForm').addEventListener('submit', async event 
   const accountId = AccountId.from_hex(accountIdString);
 
   console.log('creating faucet...');
-  const faucet = await webClient.new_faucet(AccountStorageMode.private(), false, 'TEST', 10, BigInt(1000000));
+  const faucet = await webClient.new_faucet(AccountStorageMode.public(), false, 'TEST', 10, BigInt(1000000));
   const faucetId = faucet.id();
   console.log('created faucet:', faucetId.to_string());
 
@@ -31,7 +31,7 @@ document.getElementById('publicKeyForm').addEventListener('submit', async event 
   console.log('fetched account auth');
 
   console.log('creating mint txn...');
-  const mintTxn = await webClient.new_mint_transaction(accountId, faucetId, NoteType.private(), BigInt(100));
+  const mintTxn = await webClient.new_mint_transaction(accountId, faucetId, NoteType.public(), BigInt(100));
   const noteId = mintTxn.created_notes().notes()[0].id();
   console.log('created mint txn');
 

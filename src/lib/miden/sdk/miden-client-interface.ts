@@ -65,12 +65,12 @@ export const consumeNote = async (accountId: string, noteBytes: Uint8Array) => {
   return result;
 };
 
-export const listNotes = async () => {
-  const notes = await webClient.get_input_notes('All');
-  console.log('Notes:', notes);
+// export const listNotes = async () => {
+//   const notes = await webClient.get_input_notes('All');
+//   console.log('Notes:', notes);
 
-  return notes;
-};
+//   return notes;
+// };
 
 export const getAccount = async (accountId: string) => {
   console.log('Getting account:', accountId);
@@ -91,6 +91,7 @@ export const createFaucet = async () => {
 
 export const syncState = async () => {
   const result = await webClient.sync_state();
+  console.log({ result });
   return result;
 };
 
@@ -131,4 +132,4 @@ export const exportNote = async (noteId: string, exportType: NoteExportType) => 
   return byteArray;
 };
 
-const accountIdStringToSdk = (accountId: string) => AccountId.from_hex(accountId);
+export const accountIdStringToSdk = (accountId: string) => AccountId.from_hex(accountId);

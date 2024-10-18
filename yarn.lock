@@ -1303,10 +1303,10 @@
   dependencies:
     eventemitter3 "^4.0.7"
 
-"@demox-labs/miden-sdk@^0.0.11":
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/@demox-labs/miden-sdk/-/miden-sdk-0.0.11.tgz#c0f30449da413c1f7bcf1c417e5dfeb22d8c5850"
-  integrity sha512-srYeoBdUHgxZ8ZoDPErzjfPAuBLVlFczdj3J6jo4qoMDFHjIFyxF0cjCg6XrDjJSjFpT4+B2mido+XDZGEt7oQ==
+"@demox-labs/miden-sdk@^0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@demox-labs/miden-sdk/-/miden-sdk-0.0.12.tgz#acbf475fcce4dcf3c1068618b7e8f1746e7456c9"
+  integrity sha512-tnxoijO8/pCT+H7X7UZvSKTLeL7Z45ZYdQgyBGa/a//CrWtigifep0og+3Qbx8II8IjZqUT3ZHHPh1/ZTyqD0w==
   dependencies:
     chai-as-promised "^8.0.0"
     dexie "^4.0.1"
