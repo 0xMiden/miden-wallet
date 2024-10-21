@@ -30,6 +30,7 @@ import Stake from './pages/Stake';
 import StakeDetails from './pages/StakeDetails';
 import Unstake from './pages/Unstake';
 import { useMidenClient } from 'lib/miden/front';
+import { SendFlow } from 'screens/send-flow/SendManager';
 
 interface RouteContext {
   popup: boolean;
@@ -82,7 +83,7 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   ['/faucet', onlyReady(() => <Faucet />)],
   ['/activity/:programId?', onlyReady(({ programId }) => <AllActivity programId={programId} />)],
   ['/manage-assets/:assetType?', onlyReady(({ assetType }) => <ManageAssets assetType={assetType!} />)],
-  ['/send', onlyReady(() => <SendTokens />)],
+  ['/send', onlyReady(() => <SendFlow isLoading={false} />)],
   ['/send-nft', onlyReady(() => <SendNFT />)],
   ['/convert-nft', onlyReady(() => <ConvertNFT />)],
   ['/convert-visibility/aleo', onlyReady(() => <ConvertVisibility assetSlug="aleo" assetId={'defaultaleotokenid'} />)],
