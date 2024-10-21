@@ -9,14 +9,23 @@ export enum MIDEN_NETWORK_NAME {
 export const MIDEN_NETWORK_ENDPOINTS = new Map<string, string>([
   [MIDEN_NETWORK_NAME.MAINNET, 'https://api.miden.io'], // Placeholder
   [MIDEN_NETWORK_NAME.TESTNET, 'https://testnet.miden.io/'],
-  [MIDEN_NETWORK_NAME.LOCALNET, 'http://localhost:8080']
+  [MIDEN_NETWORK_NAME.LOCALNET, 'http://localhost:57291']
 ]);
 
 export const MIDEN_NETWORKS: MidenNetwork[] = [
   {
     rpcBaseURL: 'TODO',
     id: MIDEN_NETWORK_NAME.TESTNET,
-    name: 'Testnet'
+    name: 'Testnet',
+    autoSync: true
   },
-  { rpcBaseURL: 'localhost:8080', id: MIDEN_NETWORK_NAME.LOCALNET, name: 'Localnet' }
+  { rpcBaseURL: 'localhost:57291', id: MIDEN_NETWORK_NAME.LOCALNET, name: 'Localnet', autoSync: true }
 ];
+
+export enum MidenTokens {
+  Miden
+}
+
+export const TOKEN_MAPPING = {
+  [MidenTokens.Miden]: { faucetId: '0x2526b867beb537ca' }
+};

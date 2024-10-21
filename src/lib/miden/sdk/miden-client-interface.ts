@@ -1,5 +1,6 @@
 import { Account, AccountId, AccountStorageMode, WebClient } from '@demox-labs/miden-sdk';
 import { MidenWalletStorageType, NoteExportType } from './constants';
+import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 
 const webClient = new WebClient();
 
@@ -8,7 +9,7 @@ const webClient = new WebClient();
 try {
   console.log('Creating client...');
   // await webClient.create_client('http://18.203.155.106:57291');
-  await webClient.create_client('http://localhost:57291');
+  await webClient.create_client(MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!);
 } catch (e) {
   console.error('Error creating client:', e);
 }
@@ -50,7 +51,17 @@ export const importNote = async (noteBytes: Uint8Array) => {
   return result;
 };
 
-export const consumeNote = async (accountId: string, noteBytes: Uint8Array) => {
+export const consumeNoteId = async (accountId: string, noteId: string) => {
+  await fetchCacheAccountAuth(accountId);
+
+  console.log('Consuming note:', noteId);
+  const result = await webClient.new_consume_transaction(accountIdStringToSdk(accountId), [noteId]);
+  console.log('Consumed note:', result);
+
+  return result;
+};
+
+export const consumeNoteBytes = async (accountId: string, noteBytes: Uint8Array) => {
   await syncState();
   const noteId = await importNote(noteBytes);
 
@@ -90,9 +101,8 @@ export const createFaucet = async () => {
 };
 
 export const syncState = async () => {
-  const result = await webClient.sync_state();
-  console.log({ result });
-  return result;
+  const syncSummary = await webClient.sync_state();
+  return syncSummary;
 };
 
 export const fetchCacheAccountAuth = async (accountId: string) => {

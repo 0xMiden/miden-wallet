@@ -2,14 +2,6 @@
 # yarn lockfile v1
 
 
-"@demox-labs/miden-sdk@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@demox-labs/miden-sdk/-/miden-sdk-0.0.7.tgz#9f2f05ed82975e899d44c34b14ffee3f4a3465f3"
-  integrity sha512-Q0MR9rlqhC4moQ5VPu0OdJWZGZJBGu7Iwzj1MZlJ6z1pMR3Gj9CY78pdrOc9yWvhr0+c8x1QJDNPl7FYmTU+VQ==
-  dependencies:
-    dexie "^4.0.1"
-    glob "^11.0.0"
-
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/@isaacs/cliui/-/cliui-8.0.2.tgz#b37667b7bc181c168782259bab42474fbf52b550"
@@ -229,11 +221,6 @@ deep-extend@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.6.0.tgz#c4fa7c95404a17a9c3e8ca7e1537312b736330ac"
   integrity sha512-LOHxIOaPYdHlJRtCQfDIVZtfw/ufM8+rVj649RIHzcm/vGwQRXFt6OPqIFWsm2XEMrNIEtWR64sY1LEKD2vAOA==
-
-dexie@^4.0.1:
-  version "4.0.8"
-  resolved "https://registry.yarnpkg.com/dexie/-/dexie-4.0.8.tgz#21fca70686bdaa1d86fad45b6b19316f6a084a1d"
-  integrity sha512-1G6cJevS17KMDK847V3OHvK2zei899GwpDiqfEXHP1ASvme6eWJmAp9AU4s1son2TeGkWmC0g3y8ezOBPnalgQ==
 
 eastasianwidth@^0.2.0:
   version "0.2.0"

@@ -22,7 +22,7 @@ export function useAssetFiatCurrencyPrice(slug: string) {
   const { fiatRates, selectedFiatCurrency } = useFiatCurrency();
 
   return useMemo(() => {
-    if (slug !== 'aleo') return 0; // TODO get real fiat rates for other tokens
+    if (slug !== 'aleo') return 1; // TODO get real fiat rates for other tokens
     if (!fiatRates || !exchangeRate || !exchangeRateAleo) return null;
     const fiatToUsdRate = fiatRates[selectedFiatCurrency.name.toLowerCase()] / exchangeRateAleo;
     const trueExchangeRate = fiatToUsdRate * exchangeRate;

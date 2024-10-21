@@ -81,7 +81,7 @@ export const [MidenClientProvider, useMidenClient] = constate(() => {
   }, [mutate, setConfirmation, resetConfirmation]);
 
   useEffect(() => {
-    AutoSync.updateState();
+    AutoSync.updateState(state);
   }, [state]);
 
   useEffect(() => {

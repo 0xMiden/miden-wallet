@@ -1,4 +1,3 @@
-import { DecryptPermission } from '@demox-labs/aleo-wallet-adapter-base';
 import { IRecord } from 'lib/miden/db/types';
 import {
   SendPageEventRequest,
@@ -153,6 +152,7 @@ export interface WalletNetwork {
   rpcBaseURL: string;
   id: string;
   name: string;
+  autoSync: boolean;
 }
 
 export interface LoadingResponse extends WalletMessageBase {
@@ -375,7 +375,6 @@ export interface DAppGetPayloadRequest extends WalletMessageBase {
 export interface DAppGetPayloadResponse<T> extends WalletMessageBase {
   type: WalletMessageType.DAppGetPayloadResponse;
   payload: T;
-  decryptPermission: DecryptPermission;
 }
 
 export interface DAppPermConfirmationRequest extends WalletMessageBase {

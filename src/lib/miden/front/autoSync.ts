@@ -7,6 +7,8 @@ import { syncOwnedRecords, completeOwnedRecords } from '../activity/sync';
 import { setAccountCreationMetadata } from '../activity/sync/account-creation';
 import { SyncOptions } from '../activity/sync/sync-options';
 import { tagOwnedRecords } from '../activity/tagging/tag';
+import { WalletState } from 'lib/shared/types';
+import { syncState } from '../sdk/miden-client-interface';
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
@@ -14,8 +16,17 @@ class Sync {
   lastHeight: number = 0;
   lastRecordId: number = 0;
   getHeightFetchTimestamp: number = 0;
+  state?: WalletState;
 
-  public updateState() {}
+  public updateState(state: WalletState) {
+    const previousState = this.state;
+    this.state = state;
+
+    if (!previousState) {
+      // Start repeatedly syncing
+      this.sync();
+    }
+  }
 
   async sync() {
     // Don't sync on the generating transaction page
@@ -23,6 +34,10 @@ class Sync {
     if (isGeneratingUrl) {
       return;
     }
+
+    await this.syncChain();
+    await sleep(5000);
+    await this.sync();
   }
 
   private async syncRecords(keys: Keys[], gpuEnabled: boolean) {
@@ -62,16 +77,9 @@ class Sync {
       });
   }
 
-  async syncChain(ownMnemonic: boolean) {
+  async syncChain() {
     try {
-      if ((Date.now() - this.getHeightFetchTimestamp) / 1000 >= 20) {
-        this.getHeightFetchTimestamp = Date.now();
-      }
-
-      // We want to ensure newly created accounts get their block height set before trying to sync them
-      await this.syncAccountCreationBlockHeights(ownMnemonic, this.lastHeight);
-
-      const gpuEnabled = isGPUAccelerationEnabled();
+      await syncState();
     } catch (e) {
       logger.error(`Failed to sync chain`);
     }

@@ -16,35 +16,37 @@ import { T } from 'lib/i18n/react';
 import { PropsWithChildren } from 'lib/props-with-children';
 
 type MainBannerProps = {
-  assetSlug?: string | null;
-  assetId?: string | null;
-  accountPk: string;
+  balance: BigNumber;
 };
 
-const MainBanner = memo<MainBannerProps>(({ assetSlug, assetId, accountPk }) => {
-  const assetBannerDisplayed = true; // assetSlug || !mainnet
-  return assetBannerDisplayed ? (
-    <AssetBanner assetSlug={assetSlug} assetId={assetId} accountPk={accountPk} />
-  ) : (
-    <AleoVolumeBanner accountPk={accountPk} />
-  );
+const MainBanner = memo<MainBannerProps>(({ balance }) => {
+  return <AssetBanner />;
 });
 
 export default MainBanner;
 
 type AleoVolumeBannerProps = {
-  accountPk: string;
+  balance: BigNumber;
 };
 
-const AleoVolumeBanner: FC<AleoVolumeBannerProps> = ({ accountPk }) => {
-  const account = useAccount();
+const AleoVolumeBanner: FC<AleoVolumeBannerProps> = ({ balance }) => {
+  // TODO: This just returns 1 for now
+  const tokenPrice = useAssetFiatCurrencyPrice('miden');
 
-  const aleoPrice = useAssetFiatCurrencyPrice('aleo');
+  const volumeInUSD = useMemo(() => {
+    if (balance && tokenPrice) {
+      const balanceInUsd = balance.times(tokenPrice);
+
+      return balanceInUsd;
+    }
+
+    return null;
+  }, [balance, tokenPrice]);
 
   return (
     <BannerLayout name={<T id="totalBalance" />}>
       <div className="h-12 w-full flex items-stretch justify-start">
-        {
+        {volumeInUSD && (
           <>
             <div className="flex-1 flex items-center justify-end">
               <DollarIcon
@@ -53,24 +55,25 @@ const AleoVolumeBanner: FC<AleoVolumeBannerProps> = ({ accountPk }) => {
             </div>
 
             <h3 className="text-3xl  text-black flex items-center">
-              <Money fiat>{'volumeInUSD'}</Money>
+              <Money fiat>{volumeInUSD}</Money>
             </h3>
 
             <div className="flex-1" />
           </>
-        }
+        )}
       </div>
     </BannerLayout>
   );
 };
 
 type AssetBannerProps = {
-  assetSlug?: string | null;
-  assetId?: string | null;
-  accountPk: string;
+  // assetSlug?: string | null;
+  // assetId?: string | null;
+  // accountPk: string;
 };
 
 const BalanceBanner: FC<{ balance: BigNumber; assetSlug?: string | null }> = ({ balance, assetSlug }) => {
+  console.log('BalanceBanner', { balance, assetSlug });
   if (assetSlug) {
     return (
       <div className="mt-3 font-bold text-black flex" style={{ fontSize: `2.25rem`, lineHeight: '2.5rem' }}>
@@ -95,17 +98,14 @@ const BalanceBanner: FC<{ balance: BigNumber; assetSlug?: string | null }> = ({ 
   );
 };
 
-const AssetBanner: FC<AssetBannerProps> = ({ assetSlug, assetId, accountPk }) => {
-  const assetMetadata = useAssetMetadata(assetSlug || 'aleo', assetId || ALEO_TOKEN_ID);
+const AssetBanner: FC<AssetBannerProps> = ({}) => {
   const { popup } = useAppEnv();
 
   return (
-    <BannerLayout name={<Name style={{ maxWidth: popup ? '11rem' : '13rem' }}>{getAssetName(assetMetadata)}</Name>}>
+    <BannerLayout name={<Name style={{ maxWidth: popup ? '11rem' : '13rem' }}>{'Miden'}</Name>}>
       <div className=" w-full flex text-left">
         <div className="flex items-center">
-          <Balance address={accountPk} assetSlug={assetSlug!} assetId={assetId!}>
-            {balance => <BalanceBanner balance={balance} assetSlug={assetSlug} />}
-          </Balance>
+          <Balance>{balance => <BalanceBanner balance={balance} />}</Balance>
         </div>
       </div>
     </BannerLayout>

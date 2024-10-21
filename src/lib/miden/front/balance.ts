@@ -6,6 +6,7 @@ import { ALEO_METADATA, AssetMetadata, useAssetMetadata } from 'lib/miden/front'
 import { useRetryableSWR } from 'lib/swr';
 
 import { ALEO_TOKEN_ID } from '../assets/constants';
+import { accountIdStringToSdk, getAccount } from '../sdk/miden-client-interface';
 
 type UseBalanceOptions = {
   suspense?: boolean;
@@ -15,14 +16,21 @@ type UseBalanceOptions = {
   refreshInterval?: number;
 };
 
-export function useBalance(
-  assetSlug: string,
-  assetId: string,
-  opts: UseBalanceOptions = {},
-  includePublic: boolean = true,
-  includePrivate: boolean = true,
-  unlocked: boolean = false
-) {}
+export function useBalance(accountId: string, faucetId: string) {
+  console.log('inside useBalance');
+  const fetchBalanceLocal = useCallback(async () => {
+    const account = await getAccount(accountId);
+    const balance = account.vault().get_balance(accountIdStringToSdk(faucetId));
+    console.log({ balance });
+    return new BigNumber(balance.toString());
+  }, []);
+
+  return useRetryableSWR(faucetId, fetchBalanceLocal, {
+    revalidateOnFocus: false,
+    dedupingInterval: 20_000,
+    refreshInterval: 15_000
+  });
+}
 
 export interface TokenBalanceData {
   tokenId: string;

@@ -41,20 +41,21 @@ import AddressChip from './Explore/AddressChip';
 import EditableTitle from './Explore/EditableTitle';
 import MainBanner from './Explore/MainBanner';
 import SyncBanner from './Explore/SyncBanner';
-import Tokens from './Explore/Tokens/Tokens';
 import { Button } from 'app/atoms/Button';
 import {
   accountIdStringToSdk,
+  consumeNoteId,
   createFaucet,
   createNewMintTransaction,
   exportNote,
   fetchCacheAccountAuth,
   getAccount,
-  listNotes,
   syncState
 } from 'lib/miden/sdk/miden-client-interface';
 import { MidenWalletStorageType, NoteExportType } from 'lib/miden/sdk/constants';
 import { AccountStorageMode } from '@demox-labs/miden-sdk';
+import { TOKEN_MAPPING, MidenTokens } from 'lib/miden-chain/constants';
+import Tokens from './Explore/Tokens/Tokens';
 
 type ExploreProps = {
   assetSlug?: string | null;
@@ -197,10 +198,23 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
         <div>
           <Button
             onClick={async () => {
-              // await syncState();
-              const result = await getAccount('0x9b48eb80952faf44');
-              const balance = result.vault().get_balance(accountIdStringToSdk('0x2a1d6414c196ab22'));
-              console.log({ balance });
+              // const syncSummary = await syncState();
+              // console.log('blockNum: ', syncSummary.block_num());
+              // console.log('comitted notes: ', syncSummary.committed_notes());
+              // console.log('committed_transactions: ', syncSummary.committed_transactions());
+              // console.log('consumed_notes: ', syncSummary.consumed_notes());
+              // console.log('received_notes: ', syncSummary.received_notes());
+              // console.log('updated_accounts: ', syncSummary.updated_accounts());
+              // const result = await getAccount('0x92d3323052c31ffd');
+              // const balance = result.vault().get_balance(accountIdStringToSdk('0x2a1d6414c196ab22'));
+              // console.log({ balance });
+              await consumeNoteId(
+                '0x92d3323052c31ffd',
+                '0x280bf11a3cab811b7125c43077d57bea2ad94224199bb0c8d7da2803b92382c6'
+              );
+              const result = await getAccount('0x92d3323052c31ffd');
+              const balance = result.vault().get_balance(accountIdStringToSdk('0x2526b867beb537ca'));
+              // console.log({ balance });
             }}
           >
             Debugging Miden Button
@@ -352,6 +366,8 @@ type PublicPrivateBalanceProps = {
 
 const PublicPrivateBalance: FC<PublicPrivateBalanceProps> = ({ assetSlug, assetId }) => {
   const account = useAccount();
+  const { data: balance } = useBalance('0x92d3323052c31ffd', TOKEN_MAPPING[MidenTokens.Miden].faucetId);
+  // console.log({ balance });
 
   const convertUrl = assetSlug === ALEO_SLUG ? '/convert-visibility/aleo' : `/convert-visibility/${assetId}`;
 
@@ -369,7 +385,8 @@ const PublicPrivateBalance: FC<PublicPrivateBalanceProps> = ({ assetSlug, assetI
             <span className="text-xs" style={{ color: '#484848' }}>
               {t('private')}
             </span>
-            <span className="text-sm font-medium">{0.0}</span>
+            {/* TODO: */}
+            <span className="text-sm font-medium">{balance?.toString() || 0.0}</span>
           </div>
         </div>
         <div className="flex w-1/2 justify-center">
