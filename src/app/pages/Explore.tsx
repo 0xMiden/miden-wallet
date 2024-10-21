@@ -143,7 +143,7 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
           </div>
         )}
         <div className={classNames('flex flex-col justify-start')}>
-          <MainBanner accountPk={account.publicKey} assetSlug={assetSlug} assetId={assetId} />
+          <MainBanner />
           <div className="mx-2 pt-1 pb-3">{!assetId && <AddressChip publicKey={account.publicKey} />}</div>
           <div className="flex justify-between w-full mt-1 px-2 mb-4">
             <ActionButton
