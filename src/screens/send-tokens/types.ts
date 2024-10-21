@@ -1,3 +1,48 @@
+import { NoteType } from '@demox-labs/miden-sdk';
+
+export enum SendFlowStep {
+  SelectRecipient = 'SelectRecipient',
+  SelectAmount = 'SelectAmount',
+  ReviewTransaction = 'ReviewTransaction',
+  TransactionInitiated = 'TransactionInitiated'
+}
+
+export type SendFlowForm = {
+  amount: string;
+  sendType: NoteType;
+  receiveType: NoteType;
+  recipientAddress?: string;
+  recipientAddressInput?: string;
+};
+
+export enum SendFlowActionId {
+  GoBack = 'go-back',
+  Navigate = 'navigate',
+  SetFormValues = 'set-form-values',
+  Finish = 'finish'
+}
+
+export type Navigate = {
+  id: SendFlowActionId.Navigate;
+  step: SendTokensStep;
+};
+
+export type GoBack = {
+  id: SendFlowActionId.GoBack;
+};
+
+export type SetFormValues = {
+  id: SendFlowActionId.SetFormValues;
+  payload: Partial<UIForm>;
+  triggerValidation?: boolean;
+};
+
+export type Finish = {
+  id: SendFlowActionId.Finish;
+};
+
+export type SendFlowAction = Navigate | GoBack | SetFormValues | Finish;
+
 export enum SendTokensStep {
   AdvancedOptions = 'AdvancedOptions',
   SelectRecipient = 'SelectRecipient',
@@ -37,10 +82,6 @@ export type OpenUrlAction = {
   url: 'buy-tokens' | 'transfer-tokens' | 'faucet';
 };
 
-export type GoBack = {
-  id: SendTokensActionId.GoBack;
-};
-
 export type GoBackAction = {
   id: SendTokensActionId.GoBack;
 };
@@ -55,7 +96,7 @@ export type FinishAction = {
   id: SendTokensActionId.Finish;
 };
 
-export type SendTokensAction = NavigateAction | GoBack | OpenUrlAction | SetFormValuesAction | FinishAction;
+export type SendTokensAction = NavigateAction | GoBackAction | OpenUrlAction | SetFormValuesAction | FinishAction;
 
 export type UIToken = {
   id: string;

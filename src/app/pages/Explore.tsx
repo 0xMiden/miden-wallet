@@ -53,7 +53,7 @@ import {
   syncState
 } from 'lib/miden/sdk/miden-client-interface';
 import { MidenWalletStorageType, NoteExportType } from 'lib/miden/sdk/constants';
-import { AccountStorageMode } from '@demox-labs/miden-sdk';
+import { AccountStorageMode, NoteType } from '@demox-labs/miden-sdk';
 import { TOKEN_MAPPING, MidenTokens } from 'lib/miden-chain/constants';
 import Tokens from './Explore/Tokens/Tokens';
 
@@ -149,7 +149,7 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
             <ActionButton
               label={<T id="send" />}
               Icon={SendIcon}
-              to={'leo.app'}
+              to={'/send'}
               disabled={false}
               tippyProps={tippyPropsMock}
               testID={ExploreSelectors.SendButton}
