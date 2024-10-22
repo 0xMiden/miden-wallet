@@ -15,21 +15,22 @@ export type Actions = 'create' | 'import';
 export const WelcomeScreen = ({ onSubmit, ...props }: WelcomeScreenProps) => {
   const { t } = useTranslation();
   return (
-    <div className="flex-1 flex flex-col items-center bg-white gap-8 p-6" {...props}>
-      <Message
-        icon={IconName.MidenLogo}
-        title={t('privacyScalesBetter')}
-        description={t('privateTransactionsAnytimeAnywhere')}
-      />
-
+    <div className="flex-1 flex flex-col items-center justify-around bg-white gap-8 p-6 h-full">
+      <div className="mt-6">
+        <Message
+          icon={IconName.MidenLogo}
+          title={t('privacyScalesBetter')}
+          description={t('privateTransactionsAnytimeAnywhere')}
+        />
+      </div>
       <div className="w-[360px] flex flex-col gap-2">
         <Button title={t('createANewWallet')} onClick={() => onSubmit?.('create')} />
-        <Button
+        {/* <Button
           id={'import-link'}
           title={t('iAlreadyHaveAWallet')}
           variant={ButtonVariant.Ghost}
           onClick={() => onSubmit?.('import')}
-        />
+        /> */}
       </div>
     </div>
   );

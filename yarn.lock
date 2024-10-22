@@ -1296,7 +1296,7 @@
   resolved "https://registry.yarnpkg.com/@csstools/selector-specificity/-/selector-specificity-2.2.0.tgz#2cbcf822bf3764c9658c4d2e568bd0c0cb748016"
   integrity sha512-+OJ9konv95ClSTOJCmMZqpd5+YGsB2S+x6w3E1oaM8UuR5j8nTNHYSz8c9BEPGDOCMQYIEEGlVPj/VY64iTbGw==
 
-"@demox-labs/miden-sdk@file:../demox-miden-client/crates/web-client/dist":
+"@demox-labs/miden-sdk@file:../forked-miden-client/crates/web-client/dist":
   version "0.0.0"
 
 "@dicebear/avatars-bottts-sprites@4.2.5":

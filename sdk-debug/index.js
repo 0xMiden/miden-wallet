@@ -1,5 +1,4 @@
-import { WebClient, AccountStorageMode, AccountId, NoteType } from './libs/dist/index.js';
-
+import { WebClient, AccountStorageMode, AccountId, NoteType } from './libs/index.js';
 console.log('script loaded');
 
 const databases = await indexedDB.databases();
@@ -27,9 +26,14 @@ document.getElementById('loading').style.display = 'none';
 document.getElementById('publicKeyForm').addEventListener('submit', async event => {
   event.preventDefault();
   const accountIdString = document.getElementById('publicKey').value;
-  const isPrivate = document.getElementById('isPrivate').checked;
+  const isPrivate = false; //document.getElementById('isPrivate').checked;
+  const amount = document.getElementById('amount').value;
   if (!accountIdString) {
     alert('Please enter a public key');
+    return;
+  }
+  if (!amount || isNaN(amount)) {
+    alert('Please enter a digit amount');
     return;
   }
   const accountId = AccountId.from_hex(accountIdString);
@@ -43,7 +47,7 @@ document.getElementById('publicKeyForm').addEventListener('submit', async event 
     accountId,
     faucetId,
     isPrivate ? NoteType.private() : NoteType.public(),
-    BigInt(100)
+    BigInt(amount)
   );
   const noteId = mintTxn.created_notes().notes()[0].id();
   console.log('created mint txn');

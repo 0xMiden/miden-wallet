@@ -28,16 +28,17 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ classNam
     [t]
   );
   return (
-    <div {...props} className="flex-1 flex flex-col bg-white px-10 py-6 gap-y-8">
-      <Message icon={IconName.CheckboxCircleFill} title={t('yourWalletHasBeenCreated')} description={''} />
-
-      <div className="flex items-center justify-center gap-x-1">
-        <Icon name={IconName.MidenLogo} size="md" />
-        <h1 className="font-semibold text-lg">polygon</h1>
-        <p className="text-lg">Miden</p>
+    <div {...props} className="flex-1 flex flex-col h-full justify-between bg-white px-10 py-6 gap-y-8">
+      <div className="flex flex-col gap-y-5">
+        <Message icon={IconName.CheckboxCircleFill} title={t('yourWalletHasBeenCreated')} description={''} />
+        <div className="flex items-center justify-center gap-x-1">
+          <Icon name={IconName.MidenLogo} size="md" />
+          <h1 className="font-semibold text-lg">polygon</h1>
+          <p className="text-lg">Miden</p>
+        </div>
       </div>
 
-      <div className="flex flex-col gap-y-2">
+      {/* <div className="flex flex-col gap-y-2">
         {Checkmarks.map((c, idx) => (
           <div key={'checkmark-' + c.title + idx} className="flex gap-x-2">
             <div>
@@ -49,7 +50,7 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ classNam
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
 
       <Button title={t('getStarted')} className="w-[360px] self-center" onClick={onSubmit} isLoading={isLoading} />
     </div>

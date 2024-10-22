@@ -15,7 +15,9 @@ import { useAssetFiatCurrencyPrice } from 'lib/fiat-curency';
 import { T } from 'lib/i18n/react';
 import { PropsWithChildren } from 'lib/props-with-children';
 
-type MainBannerProps = {};
+type MainBannerProps = {
+  balance: BigNumber;
+};
 
 const MainBanner = memo<MainBannerProps>(({}) => {
   return <AssetBanner />;

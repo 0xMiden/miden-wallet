@@ -1,4 +1,3 @@
-import { WebClient } from '@demox-labs/miden-sdk';
 import { ReadyWalletState, WalletNetwork, WalletState } from 'lib/shared/types';
 
 export interface MidenState extends WalletState {

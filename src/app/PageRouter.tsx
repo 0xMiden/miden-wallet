@@ -7,12 +7,13 @@ import Faucet from 'app/pages/Faucet';
 import ImportAccount from 'app/pages/ImportAccount';
 import { CreateWallet } from 'app/pages/NewWallet/CreateWallet';
 import { ImportWallet } from 'app/pages/NewWallet/ImportWallet';
-import Receive from 'app/pages/Receive';
+import { Receive } from 'app/pages/Receive';
 import SendNFT from 'app/pages/SendNFT';
 import Settings from 'app/pages/Settings';
 import Unlock from 'app/pages/Unlock';
 import Welcome from 'app/pages/Welcome';
 import * as Woozie from 'lib/woozie';
+import { SendFlow } from 'screens/send-flow/SendManager';
 
 import RootSuspenseFallback from './a11y/RootSuspenseFallback';
 import AllActivity from './pages/AllActivity';
@@ -25,12 +26,10 @@ import ManageAssets from './pages/ManageAssets';
 import NFTDetails from './pages/NFTDetails';
 import NFTs from './pages/NFTs';
 import SelectAccount from './pages/SelectAccount';
-import { SendTokens } from './pages/SendTokens';
 import Stake from './pages/Stake';
 import StakeDetails from './pages/StakeDetails';
 import Unstake from './pages/Unstake';
 import { useMidenContext } from 'lib/miden/front';
-import { SendFlow } from 'screens/send-flow/SendManager';
 
 interface RouteContext {
   popup: boolean;
