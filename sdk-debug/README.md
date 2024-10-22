@@ -8,9 +8,8 @@ This is currently for leveraging the miden sdk to use its functions outside the 
    - Ensure the wallet is hooked up to the same rpc
    - Verify the rpc is the same port as defined in [index.js](index.js)
 2. Build the workspace (sdk-debug)
-   - ensure yarn has been run in top level miden-wallet directory
-   - `yarn`
-   - `yarn build`
+   - ensure `yarn` has been run in top level miden-wallet directory
+   - `yarn build` within sdk-debug
      - This copies over the sdk dependencies from node_modules into another folder to avoid having to add webpack
    - `yarn start` within sdk-debug
      - Starts the server and provides the webpage to go to
