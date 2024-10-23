@@ -25,7 +25,7 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, on
   const { publicKey } = useAccount();
 
   // TODO: More robust way to toggle faucet type
-  useBalance(publicKey, TOKEN_MAPPING[MidenTokens.Miden].faucetId);
+  const { data: balance } = useBalance(publicKey, TOKEN_MAPPING[MidenTokens.Miden].faucetId);
 
   const onAmountChangeHandler = useCallback(
     (
@@ -64,7 +64,7 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, on
 
         <div className="flex flex-col gap-y-2 ">
           <div className="flex flex-row items-center py-4">
-            <div className="flex-1">BALANCE INFO</div>
+            <div className="flex-1">{balance?.toString()}</div>
             <button onClick={() => {}} type="button">
               <Chip label="Max" className="cursor-pointer" />
             </button>
