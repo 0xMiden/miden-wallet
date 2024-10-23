@@ -7,6 +7,8 @@ import { Chip } from 'components/Chip';
 import { InputAmount } from 'components/InputAmount';
 import { NavigationHeader } from 'components/NavigationHeader';
 import { SendFlowAction, SendFlowActionId } from 'screens/send-tokens/types';
+import { useAccount, useBalance } from 'lib/miden/front';
+import { MidenTokens, TOKEN_MAPPING } from 'lib/miden-chain/constants';
 
 export interface SelectAmountProps {
   amount: string;
@@ -20,6 +22,10 @@ const TOKEN_NAME = 'MIDEN';
 
 export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, onGoNext, onAction, onCancel }) => {
   const { t } = useTranslation();
+  const { publicKey } = useAccount();
+
+  // TODO: More robust way to toggle faucet type
+  useBalance(publicKey, TOKEN_MAPPING[MidenTokens.Miden].faucetId);
 
   const onAmountChangeHandler = useCallback(
     (

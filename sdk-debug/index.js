@@ -27,8 +27,7 @@ document.getElementById('loading').style.display = 'none';
 document.getElementById('publicKeyForm').addEventListener('submit', async event => {
   event.preventDefault();
   const accountIdString = document.getElementById('publicKey').value;
-  const isPrivate = !!document.getElementById('isPrivate').value;
-  console.log('public key:', accountIdString);
+  const isPrivate = document.getElementById('isPrivate').checked;
   if (!accountIdString) {
     alert('Please enter a public key');
     return;

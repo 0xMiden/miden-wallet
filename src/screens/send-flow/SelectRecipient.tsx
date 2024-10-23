@@ -50,11 +50,7 @@ export const SelectRecipient: React.FC<SelectRecipientProps> = ({
             )}
           </div>
         </div>
-        <div>
-          <Button onClick={async () => {}} hidden={false}>
-            Debugging Miden Button
-          </Button>
-        </div>
+        <div></div>
         <div className="flex flex-row gap-x-2">
           <Button className="flex-1" title={'Cancel'} variant={ButtonVariant.Secondary} onClick={onCancel} />
           <Button

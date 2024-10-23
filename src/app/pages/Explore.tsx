@@ -46,6 +46,7 @@ import { MidenWalletStorageType, NoteExportType } from 'lib/miden/sdk/constants'
 import { AccountStorageMode, NoteType } from '@demox-labs/miden-sdk';
 import { TOKEN_MAPPING, MidenTokens } from 'lib/miden-chain/constants';
 import Tokens from './Explore/Tokens/Tokens';
+import { useMidenClient } from 'app/hooks/useMidenClient';
 
 type ExploreProps = {
   assetSlug?: string | null;
@@ -68,6 +69,7 @@ const activityTippyPropsMock = {
 
 const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
   const account = useAccount();
+  const midenClient = useMidenClient();
 
   if (assetId && !assetSlug) {
     if (!assetSlug) {
@@ -189,17 +191,7 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
         <div>
           <Button
             onClick={async () => {
-              // await midenClient.syncState();
-              // const result = await getAccount('0x92d3323052c31ffd');
-              // const balance = result.vault().get_balance(accountIdStringToSdk('0x2a1d6414c196ab22'));
-              // console.log({ balance });
-              // await consumeNoteId(
-              //   '0x92d3323052c31ffd',
-              //   '0x280bf11a3cab811b7125c43077d57bea2ad94224199bb0c8d7da2803b92382c6'
-              // );
-              // const result = await getAccount('0x92d3323052c31ffd');
-              // const balance = result.vault().get_balance(accountIdStringToSdk('0x2526b867beb537ca'));
-              // console.log({ balance });
+              midenClient.consumeNoteId(account.publicKey, 'something');
             }}
           >
             Debugging Miden Button
