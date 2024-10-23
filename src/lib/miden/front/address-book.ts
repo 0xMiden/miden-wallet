@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
 
-import { useMidenClient } from 'lib/miden/front';
+import { useMidenContext } from 'lib/miden/front';
 import { getMessage } from 'lib/i18n';
 
 import { useFilteredContacts } from './use-filtered-contacts.hook';
 
 export function useContacts() {
-  const { updateSettings } = useMidenClient();
+  const { updateSettings } = useMidenContext();
   const { contacts, allContacts } = useFilteredContacts();
 
   const addContact = useCallback(() => {}, [contacts, allContacts, updateSettings]);

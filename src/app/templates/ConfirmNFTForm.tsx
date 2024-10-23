@@ -7,7 +7,7 @@ import { Button } from 'app/atoms/Button';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import Spinner from 'app/atoms/Spinner/Spinner';
 import { openLoadingFullPage, useAppEnv } from 'app/env';
-import { useAccount, useMidenClient } from 'lib/miden/front';
+import { useAccount, useMidenContext } from 'lib/miden/front';
 import { ALEO_DECIMALS } from 'lib/fiat-curency/consts';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { t, T } from 'lib/i18n/react';
@@ -56,7 +56,7 @@ const Form: FC<FormProps> = ({ nft, to, fee, feePrivate, setConfirmStatus }) => 
   const account = useAccount();
   const { fullPage } = useAppEnv();
   const delegateTransaction = isDelegateProofEnabled();
-  const { authorizeTransaction } = useMidenClient();
+  const { authorizeTransaction } = useMidenContext();
 
   /**
    * Form

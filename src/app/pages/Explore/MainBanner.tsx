@@ -71,7 +71,6 @@ type AssetBannerProps = {
 };
 
 const BalanceBanner: FC<{ balance: BigNumber; assetSlug?: string | null }> = ({ balance, assetSlug }) => {
-  console.log('BalanceBanner', { balance, assetSlug });
   if (assetSlug) {
     return (
       <div className="mt-3 font-bold text-black flex" style={{ fontSize: `2.25rem`, lineHeight: '2.5rem' }}>

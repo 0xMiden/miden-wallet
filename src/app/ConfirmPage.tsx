@@ -8,7 +8,7 @@ import Spinner from 'app/atoms/Spinner/Spinner';
 import ErrorBoundary from 'app/ErrorBoundary';
 import ContentContainer from 'app/layouts/ContentContainer';
 import Unlock from 'app/pages/Unlock';
-import { useMidenClient } from 'lib/miden/front';
+import { useMidenContext } from 'lib/miden/front';
 import { CustomRpsContext } from 'lib/analytics';
 import { ALEO_DECIMALS } from 'lib/fiat-curency';
 import { formatBigInt } from 'lib/i18n/numbers';
@@ -90,7 +90,7 @@ const ConfirmDAppForm: FC = () => {
     confirmDAppTransaction,
     confirmDAppBulkTransactions,
     confirmDAppDeploy
-  } = useMidenClient();
+  } = useMidenContext();
 
   const loc = useLocation();
   const id = useMemo(() => {

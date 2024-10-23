@@ -10,7 +10,7 @@ import Spinner from 'app/atoms/Spinner/Spinner';
 import { openLoadingFullPage, useAppEnv } from 'app/env';
 import PreviewTransactionAmount from 'app/templates/PreviewTransactionAmount';
 import { CREDITS_PROGRAM_ID } from 'lib/miden/assets/constants';
-import { useAccount, useMidenClient } from 'lib/miden/front';
+import { useAccount, useMidenContext } from 'lib/miden/front';
 import { ALEO_DECIMALS, ALEO_MICROCREDITS_TO_CREDITS } from 'lib/fiat-curency/consts';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { t, T } from 'lib/i18n/react';
@@ -107,7 +107,7 @@ const Form: FC<FormProps> = ({
   const { fullPage } = useAppEnv();
   const assetSymbol = assetSlug.toUpperCase() || 'ALEO';
   const delegateTransaction = isDelegateProofEnabled();
-  const { authorizeTransaction } = useMidenClient();
+  const { authorizeTransaction } = useMidenContext();
 
   /**
    * Form

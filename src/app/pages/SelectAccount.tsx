@@ -12,7 +12,7 @@ import MenuItem from 'app/templates/MenuItem';
 import { Button, ButtonVariant } from 'components/Button';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
 import { T } from 'lib/i18n/react';
-import { useAccount, useMidenClient } from 'lib/miden/front';
+import { useAccount, useMidenContext } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
 
 import { SelectAccountSelectors } from './SelectAccount.selectors';
@@ -22,7 +22,7 @@ type ExcludesFalse = <T>(x: T | false) => x is T;
 
 const SelectAccount: FC = () => {
   const appEnv = useAppEnv();
-  const { updateCurrentAccount } = useMidenClient();
+  const { updateCurrentAccount } = useMidenContext();
   const account = useAccount();
   const { trackEvent } = useAnalytics();
   const accounts = [account];

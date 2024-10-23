@@ -4,9 +4,7 @@ import BigNumber from 'bignumber.js';
 
 import { ALEO_METADATA, AssetMetadata, useAssetMetadata } from 'lib/miden/front';
 import { useRetryableSWR } from 'lib/swr';
-
-import { ALEO_TOKEN_ID } from '../assets/constants';
-import { accountIdStringToSdk, getAccount } from '../sdk/miden-client-interface';
+import { accountIdStringToSdk, MidenClientInterface } from '../sdk/miden-client-interface';
 
 type UseBalanceOptions = {
   suspense?: boolean;
@@ -16,12 +14,13 @@ type UseBalanceOptions = {
   refreshInterval?: number;
 };
 
+const midenClient = await MidenClientInterface.create();
+
 export function useBalance(accountId: string, faucetId: string) {
-  console.log('inside useBalance');
   const fetchBalanceLocal = useCallback(async () => {
-    const account = await getAccount(accountId);
+    const account = await midenClient.getAccount(accountId);
     const balance = account.vault().get_balance(accountIdStringToSdk(faucetId));
-    console.log({ balance });
+    // const balance = 1;
     return new BigNumber(balance.toString());
   }, []);
 

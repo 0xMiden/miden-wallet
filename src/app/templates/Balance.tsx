@@ -14,7 +14,6 @@ type BalanceProps = {
 const Balance = memo<BalanceProps>(({ children }) => {
   const account = useAccount();
   const { data: balance } = useBalance(account.publicKey, '0x2526b867beb537ca');
-  console.log('inside the Balance component');
   console.log(balance?.toNumber());
 
   return useMemo(() => {

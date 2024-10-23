@@ -24,7 +24,6 @@ interface AppProps extends Partial<PropsWithChildren> {
 }
 
 const App: FC<AppProps> = ({ env }) => {
-  console.log('env.confirmWindow', env.confirmWindow);
   return (
     <ErrorBoundary whileMessage="booting a wallet" className="min-h-screen">
       <DialogsProvider>

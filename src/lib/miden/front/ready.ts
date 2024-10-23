@@ -2,7 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo } from 'react';
 
 import constate from 'constate';
 
-import { usePassiveStorage, useMidenClient } from 'lib/miden/front';
+import { usePassiveStorage, useMidenContext } from 'lib/miden/front';
 import { WalletStatus } from 'lib/shared/types';
 import { MidenState, ReadyMidenState } from '../types';
 
@@ -32,7 +32,7 @@ export const [
 );
 
 function useReadyMiden() {
-  const midenFront = useMidenClient();
+  const midenFront = useMidenContext();
   assertReady(midenFront);
 
   const { networks: allNetworks, accounts: allAccounts, settings, currentAccount: account, ownMnemonic } = midenFront;

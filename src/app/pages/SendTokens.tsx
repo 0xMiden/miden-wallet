@@ -5,7 +5,7 @@ import { Loader } from 'components/Loader';
 import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
 import {
   useAccount,
-  useMidenClient,
+  useMidenContext,
   useUnspentAleoRecords,
   useAllBalances,
   useAllTokensBaseMetadata,
@@ -22,7 +22,7 @@ import { UIContact, UIFeeType, UIFees, UIForm, UIToken, UITransactionType } from
 export const SendTokens = () => {
   const { search } = useLocation();
   const account = useAccount();
-  const { authorizeTransaction } = useMidenClient();
+  const { authorizeTransaction } = useMidenContext();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
 

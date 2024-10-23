@@ -10,13 +10,14 @@ import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 import UploadFileButton from 'app/atoms/UploadFileButton';
-import { consumeNote } from 'lib/miden/sdk/miden-client-interface';
+import { useMidenClient } from 'app/hooks/useMidenClient';
 
 const Receive: FC = () => {
   const account = useAccount();
   const address = account.publicKey;
   const { fieldRef, copy, copied } = useCopyToClipboard();
   const { trackEvent } = useAnalytics();
+  const midenClient = useMidenClient();
 
   const onClick = () => {
     trackEvent('Receive/AddressCopied', AnalyticsEventCategory.ButtonPress);
@@ -42,7 +43,7 @@ const Receive: FC = () => {
 
           console.log({ account });
           console.log({ byteArray });
-          await consumeNote(account.publicKey, byteArray);
+          await midenClient.consumeNoteBytes(account.publicKey, byteArray);
         };
 
         // Start reading the file as an ArrayBuffer

@@ -8,10 +8,10 @@ import { setAccountCreationMetadata } from '../activity/sync/account-creation';
 import { SyncOptions } from '../activity/sync/sync-options';
 import { tagOwnedRecords } from '../activity/tagging/tag';
 import { WalletState } from 'lib/shared/types';
-import { syncState } from '../sdk/miden-client-interface';
+import { MidenClientInterface } from '../sdk/miden-client-interface';
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
-
+const midenClient = await MidenClientInterface.create();
 class Sync {
   lastHeight: number = 0;
   lastRecordId: number = 0;
@@ -79,9 +79,9 @@ class Sync {
 
   async syncChain() {
     try {
-      await syncState();
+      await midenClient.syncState();
     } catch (e) {
-      logger.error(`Failed to sync chain`);
+      logger.error(`Failed to sync chain: ${e}`);
     }
   }
 }

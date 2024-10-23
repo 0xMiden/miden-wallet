@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { useMidenClient } from './client';
+import { useMidenContext } from './client';
 import { useSettings } from './ready';
 
 export function useFilteredContacts() {

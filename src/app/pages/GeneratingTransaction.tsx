@@ -13,7 +13,7 @@ import PageLayout from 'app/layouts/PageLayout';
 import { isAutoCloseEnabled } from 'app/templates/AutoCloseSettings';
 
 import { formatTransactionStatus, ITransactionStatus } from 'lib/miden/db/transaction-types';
-import { useMidenClient, useAllAccounts } from 'lib/miden/front';
+import { useMidenContext, useAllAccounts } from 'lib/miden/front';
 import { useFilteredContacts } from 'lib/miden/front/use-filtered-contacts.hook';
 import { useAnalytics } from 'lib/analytics';
 import { t, T } from 'lib/i18n/react';
@@ -26,7 +26,7 @@ const GeneratingTransaction: FC = () => {
   const [displayMessage, setDisplayMessage] = useState('');
   const { pageEvent, trackEvent, performanceEvent } = useAnalytics();
   const { allContacts } = useFilteredContacts();
-  const { authorizeDeploy } = useMidenClient();
+  const { authorizeDeploy } = useMidenContext();
 
   useEffect(() => {
     pageEvent('GeneratingTransaction', '');

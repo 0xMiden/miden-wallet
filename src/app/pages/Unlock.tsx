@@ -8,7 +8,7 @@ import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import SimplePageLayout from 'app/layouts/SimplePageLayout';
 import LogoVerticalTitle from 'app/misc/logo-vertical-title.svg';
-import { useLocalStorage, useMidenClient } from 'lib/miden/front';
+import { useLocalStorage, useMidenContext } from 'lib/miden/front';
 import { useFormAnalytics } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { Link } from 'lib/woozie';
@@ -36,7 +36,7 @@ const getTimeLeft = (start: number, end: number) => {
 };
 
 const Unlock: FC<UnlockProps> = ({ canImportNew = true }) => {
-  const { unlock } = useMidenClient();
+  const { unlock } = useMidenContext();
   const formAnalytics = useFormAnalytics('UnlockWallet');
 
   const [attempt, setAttempt] = useLocalStorage<number>('AleoSharedStorageKey.PasswordAttempts', 1);

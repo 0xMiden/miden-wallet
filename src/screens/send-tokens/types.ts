@@ -24,7 +24,7 @@ export enum SendFlowActionId {
 
 export type Navigate = {
   id: SendFlowActionId.Navigate;
-  step: SendTokensStep;
+  step: SendFlowStep;
 };
 
 export type GoBack = {

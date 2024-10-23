@@ -7,7 +7,7 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { ReactComponent as InfoIcon } from 'app/icons/info-alert.svg';
 import AccountBanner from 'app/templates/AccountBanner';
 import { deleteAccountData } from 'lib/miden/activity';
-import { useMidenClient, useAccount } from 'lib/miden/front';
+import { useMidenContext, useAccount } from 'lib/miden/front';
 import { T, t } from 'lib/i18n/react';
 import { navigate } from 'lib/woozie';
 
@@ -18,7 +18,7 @@ type FormData = {
 };
 
 const RemoveAccount: FC = () => {
-  const { removeAccount } = useMidenClient();
+  const { removeAccount } = useMidenContext();
   const account = useAccount();
 
   const prevAccLengthRef = useRef(1);

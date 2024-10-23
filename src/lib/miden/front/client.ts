@@ -48,7 +48,7 @@ async function fetchStateAsync(maxRetries: number = 0): Promise<MidenState> {
   return res.state;
 }
 
-export const [MidenClientProvider, useMidenClient] = constate(() => {
+export const [MidenContextProvider, useMidenContext] = constate(() => {
   /**
    * State
    */
@@ -261,7 +261,7 @@ export const [MidenClientProvider, useMidenClient] = constate(() => {
   };
 });
 
-export type MidenClient = ReturnType<typeof useMidenClient>;
+export type MidenContext = ReturnType<typeof useMidenContext>;
 
 export async function request<T extends WalletRequest>(req: T) {
   const res = await getIntercom().request(req);

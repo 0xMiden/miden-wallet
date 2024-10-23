@@ -10,6 +10,7 @@ import { SendFlowAction, SendFlowActionId, SendFlowForm, SendFlowStep } from 'sc
 import { ReviewTransaction } from './ReviewTransaction';
 import { SelectAmount } from './SelectAmount';
 import { SelectRecipient } from './SelectRecipient';
+import { navigate } from 'lib/woozie';
 
 const ROUTES: Route[] = [
   {
@@ -36,12 +37,16 @@ const ROUTES: Route[] = [
 
 export interface SendManagerProps {
   isLoading: boolean;
-  onClose?: () => void;
   onSubmitForm?: (data: SendFlowForm) => Promise<boolean>;
 }
 
-export const SendManager: React.FC<SendManagerProps> = ({ isLoading, onClose, onSubmitForm }) => {
+export const SendManager: React.FC<SendManagerProps> = ({ isLoading, onSubmitForm }) => {
   const { navigateTo, goBack } = useNavigator();
+
+  const onClose = useCallback(() => {
+    navigate('/');
+  }, []);
+
   const { register, watch, handleSubmit, formState, setError, clearError } = useForm<SendFlowForm>({
     defaultValues: {
       amount: undefined,
@@ -139,11 +144,18 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading, onClose, on
               onAddressChange={onAddressChange}
               onGoNext={() => goToStep(SendFlowStep.SelectAmount)}
               onClear={onClearAddress}
+              onClose={onClose}
+              onCancel={onClose}
             />
           );
         case SendFlowStep.SelectAmount:
           return (
-            <SelectAmount onGoBack={goBack} onGoNext={() => goToStep(SendFlowStep.ReviewTransaction)} amount={amount} />
+            <SelectAmount
+              onGoBack={goBack}
+              onGoNext={() => goToStep(SendFlowStep.ReviewTransaction)}
+              amount={amount}
+              onCancel={onClose}
+            />
           );
         case SendFlowStep.ReviewTransaction:
           return <ReviewTransaction onGoBack={goBack} amount={amount} recipientAddress={recipientAddress} />;
@@ -168,7 +180,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading, onClose, on
       )}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex-1 flex">
-        <Navigator renderRoute={renderStep} initialRouteName={SendFlowStep.SelectAmount} />
+        <Navigator renderRoute={renderStep} initialRouteName={SendFlowStep.SelectRecipient} />
       </form>
     </div>
   );

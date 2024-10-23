@@ -6,7 +6,7 @@ import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { ACCOUNT_NAME_PATTERN } from 'app/defaults';
 import PageLayout from 'app/layouts/PageLayout';
-import { useAccount, useMidenClient } from 'lib/miden/front';
+import { useAccount, useMidenContext } from 'lib/miden/front';
 import { useFormAnalytics } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { navigate } from 'lib/woozie';
@@ -18,7 +18,7 @@ type FormData = {
 const SUBMIT_ERROR_TYPE = 'submit-error';
 
 const UpdateAccountName: FC = () => {
-  const { editAccountName } = useMidenClient();
+  const { editAccountName } = useMidenContext();
   const account = useAccount();
   const formAnalytics = useFormAnalytics('ChangeAccountName');
 

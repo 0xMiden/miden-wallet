@@ -13,11 +13,12 @@ export interface SelectAmountProps {
   onGoBack: () => void;
   onGoNext: () => void;
   onAction?: (action: SendFlowAction) => void;
+  onCancel: () => void;
 }
 
 const TOKEN_NAME = 'MIDEN';
 
-export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, onGoNext, onAction }) => {
+export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, onGoNext, onAction, onCancel }) => {
   const { t } = useTranslation();
 
   const onAmountChangeHandler = useCallback(
@@ -64,7 +65,7 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, on
           </div>
         </div>
         <div className="flex flex-row gap-x-2">
-          <Button className="flex-1" title={t('cancel')} variant={ButtonVariant.Secondary} onClick={() => {}} />
+          <Button className="flex-1" title={t('cancel')} variant={ButtonVariant.Secondary} onClick={onCancel} />
           <Button
             className="flex-1"
             title={t('next')}

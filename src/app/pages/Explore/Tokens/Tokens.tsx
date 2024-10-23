@@ -256,12 +256,8 @@ const ListItem = memo<ListItemProps>(({ assetSlug, assetId, active, accountPubli
           </div>
         </div>
         <div className="flex flex-col justify-between w-full mb-1">
-          <Balance address={accountPublicKey} assetSlug={assetSlug} assetId={assetId} displayed={displayed}>
-            {renderBalanceInToken}
-          </Balance>
-          <Balance address={accountPublicKey} assetSlug={assetSlug} assetId={assetId} displayed={displayed}>
-            {renderBalanceInFiat}
-          </Balance>
+          <Balance>{renderBalanceInToken}</Balance>
+          <Balance>{renderBalanceInFiat}</Balance>
         </div>
       </div>
     </Link>

@@ -2,7 +2,7 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import { formatMnemonic } from 'app/defaults';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
-import { useMidenClient } from 'lib/miden/front';
+import { useMidenContext } from 'lib/miden/front';
 import { navigate, useLocation } from 'lib/woozie';
 import { OnboardingFlow } from 'screens/onboarding/navigator';
 import { OnboardingAction, OnboardingStep, OnboardingType } from 'screens/onboarding/types';
@@ -15,7 +15,7 @@ const Welcome: FC = () => {
   const [walletFileBytes, setWalletFileBytes] = useState<Uint8Array | null>(null);
   const [password, setPassword] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { registerWallet } = useMidenClient();
+  const { registerWallet } = useMidenContext();
   const { trackEvent } = useAnalytics();
 
   const register = useCallback(async () => {

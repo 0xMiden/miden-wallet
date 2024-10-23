@@ -29,7 +29,7 @@ import { SendTokens } from './pages/SendTokens';
 import Stake from './pages/Stake';
 import StakeDetails from './pages/StakeDetails';
 import Unstake from './pages/Unstake';
-import { useMidenClient } from 'lib/miden/front';
+import { useMidenContext } from 'lib/miden/front';
 import { SendFlow } from 'screens/send-flow/SendManager';
 
 interface RouteContext {
@@ -116,7 +116,7 @@ const PageRouter: FC = () => {
   }, [trigger, pathname]);
 
   const appEnv = useAppEnv();
-  const miden = useMidenClient();
+  const miden = useMidenContext();
 
   const ctx = useMemo<RouteContext>(
     () => ({

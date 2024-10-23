@@ -17,11 +17,11 @@ const meta: Meta<typeof OnboardingFlow> = {
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   args: {
-    seedPhrase: ['hello', 'world', 'foo', 'bar', 'baz', 'qux', 'quux', 'corge', 'grault', 'garply', 'waldo', 'fred'],
+    // seedPhrase: ['hello', 'world', 'foo', 'bar', 'baz', 'qux', 'quux', 'corge', 'grault', 'garply', 'waldo', 'fred'],
     step: OnboardingStep.Welcome
   },
   argTypes: {
-    seedPhrase: { control: { type: 'object' } },
+    // seedPhrase: { control: { type: 'object' } },
     step: {
       options: Object.values(OnboardingStep),
       name: 'step',
@@ -59,9 +59,9 @@ const meta: Meta<typeof OnboardingFlow> = {
         case 'confirmation':
           updateArgs({ step: OnboardingStep.Welcome });
           break;
-        case 'import-seed-phrase-submit':
-          updateArgs({ step: OnboardingStep.CreatePassword });
-          break;
+        // case 'import-seed-phrase-submit':
+        //   updateArgs({ step: OnboardingStep.CreatePassword });
+        //   break;
         case 'back':
           if (step === OnboardingStep.BackupWallet || step === OnboardingStep.ImportWallet) {
             updateArgs({ step: OnboardingStep.Welcome });
@@ -94,7 +94,7 @@ type Story = StoryObj<typeof OnboardingFlow>;
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Example: Story = {
   args: {
-    step: OnboardingStep.Welcome,
-    seedPhrase: ['hello', 'world', 'foo', 'bar', 'baz', 'qux', 'quux', 'corge', 'grault', 'garply', 'waldo', 'fred']
+    step: OnboardingStep.Welcome
+    // seedPhrase: ['hello', 'world', 'foo', 'bar', 'baz', 'qux', 'quux', 'corge', 'grault', 'garply', 'waldo', 'fred']
   }
 };

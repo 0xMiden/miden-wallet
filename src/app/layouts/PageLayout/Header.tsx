@@ -9,7 +9,7 @@ import { useAppEnv } from 'app/env';
 import { ReactComponent as ChevronDownIcon } from 'app/icons/chevron-down.svg';
 import { ReactComponent as SettingsIcon } from 'app/icons/settings.svg';
 import ContentContainer from 'app/layouts/ContentContainer';
-import { useMidenClient, useAccount } from 'lib/miden/front';
+import { useMidenContext, useAccount } from 'lib/miden/front';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
 import { Link } from 'lib/woozie';
 

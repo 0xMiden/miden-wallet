@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react';
 import PageLayout from 'app/layouts/PageLayout';
 import { t } from 'lib/i18n/react';
 
-import { useMidenClient } from '../../../lib/miden/front';
+import { useMidenContext } from '../../../lib/miden/front';
 import { ImportFromSeedPhrase } from './import/ImportFromSeedPhrase';
 import { LockedWalletExists } from './LockedWalletExists';
 import { SetWalletPassword } from './SetWalletPassword';

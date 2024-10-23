@@ -16,7 +16,7 @@ import { getMessage } from 'lib/i18n';
 
 import { IRecord } from '../db/types';
 import { WalletAccount, WalletSettings } from 'lib/shared/types';
-import { createMidenWallet } from '../sdk/miden-client-interface';
+import { MidenClientInterface } from '../sdk/miden-client-interface';
 
 const STORAGE_KEY_PREFIX = 'vault';
 const DEFAULT_SETTINGS = {};
@@ -44,6 +44,7 @@ const currentAccPubKeyStrgKey = createStorageKey(StorageEntity.CurrentAccPubKey)
 const accountsStrgKey = createStorageKey(StorageEntity.Accounts);
 const settingsStrgKey = createStorageKey(StorageEntity.Settings);
 const ownMnemonicStrgKey = createStorageKey(StorageEntity.OwnMnemonic);
+const midenClient = await MidenClientInterface.create();
 
 export class Vault {
   constructor(private passKey: CryptoKey) {}
@@ -68,8 +69,7 @@ export class Vault {
 
       console.log('attempting to spawn wallet');
 
-      const accPublicKey = await createMidenWallet();
-      console.log({ accPublicKey });
+      const accPublicKey = await midenClient.createMidenWallet();
       const accPrivateKey = 'TODO';
 
       const initialAccount: WalletAccount = {

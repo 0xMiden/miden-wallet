@@ -42,16 +42,6 @@ import EditableTitle from './Explore/EditableTitle';
 import MainBanner from './Explore/MainBanner';
 import SyncBanner from './Explore/SyncBanner';
 import { Button } from 'app/atoms/Button';
-import {
-  accountIdStringToSdk,
-  consumeNoteId,
-  createFaucet,
-  createNewMintTransaction,
-  exportNote,
-  fetchCacheAccountAuth,
-  getAccount,
-  syncState
-} from 'lib/miden/sdk/miden-client-interface';
 import { MidenWalletStorageType, NoteExportType } from 'lib/miden/sdk/constants';
 import { AccountStorageMode, NoteType } from '@demox-labs/miden-sdk';
 import { TOKEN_MAPPING, MidenTokens } from 'lib/miden-chain/constants';
@@ -94,6 +84,7 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
   const { search } = useLocation();
   const [hasSeenNotification, setHasSeenNotification] = useLocalStorage('chainStatus', { seen: false, timestamp: -1 });
   const alert = useAlert();
+  // const midenClient = useMidenClient();
 
   useLayoutEffect(() => {
     const usp = new URLSearchParams(search);
@@ -198,22 +189,16 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
         <div>
           <Button
             onClick={async () => {
-              // const syncSummary = await syncState();
-              // console.log('blockNum: ', syncSummary.block_num());
-              // console.log('comitted notes: ', syncSummary.committed_notes());
-              // console.log('committed_transactions: ', syncSummary.committed_transactions());
-              // console.log('consumed_notes: ', syncSummary.consumed_notes());
-              // console.log('received_notes: ', syncSummary.received_notes());
-              // console.log('updated_accounts: ', syncSummary.updated_accounts());
+              // await midenClient.syncState();
               // const result = await getAccount('0x92d3323052c31ffd');
               // const balance = result.vault().get_balance(accountIdStringToSdk('0x2a1d6414c196ab22'));
               // console.log({ balance });
-              await consumeNoteId(
-                '0x92d3323052c31ffd',
-                '0x280bf11a3cab811b7125c43077d57bea2ad94224199bb0c8d7da2803b92382c6'
-              );
-              const result = await getAccount('0x92d3323052c31ffd');
-              const balance = result.vault().get_balance(accountIdStringToSdk('0x2526b867beb537ca'));
+              // await consumeNoteId(
+              //   '0x92d3323052c31ffd',
+              //   '0x280bf11a3cab811b7125c43077d57bea2ad94224199bb0c8d7da2803b92382c6'
+              // );
+              // const result = await getAccount('0x92d3323052c31ffd');
+              // const balance = result.vault().get_balance(accountIdStringToSdk('0x2526b867beb537ca'));
               // console.log({ balance });
             }}
           >
