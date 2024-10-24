@@ -43,7 +43,7 @@ const Receive: FC = () => {
 
           console.log({ account });
           console.log({ byteArray });
-          await midenClient.consumeNoteBytes(account.publicKey, byteArray);
+          await midenClient?.consumeNoteBytes(account.publicKey, byteArray);
         };
 
         // Start reading the file as an ArrayBuffer

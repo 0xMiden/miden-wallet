@@ -13,6 +13,7 @@ export interface InputAmountProps extends HTMLAttributes<HTMLDivElement> {
   displayFiat?: boolean;
   fiatValue?: string;
   autoFocus?: boolean;
+  displayToggleCurrency?: boolean;
   onValueChange?: (value: string | undefined, name?: string, values?: CurrencyInputOnChangeValues) => void;
   onToggleCurrency?: () => void;
 }
@@ -25,6 +26,7 @@ export const InputAmount: React.FC<InputAmountProps> = ({
   displayFiat,
   fiatValue,
   autoFocus,
+  displayToggleCurrency,
   onToggleCurrency,
   onValueChange,
   ...props
@@ -76,16 +78,18 @@ export const InputAmount: React.FC<InputAmountProps> = ({
           <label className={classNames('ml-2 text-grey-300 text-left leading-snug', textSize)}>{currencyLabel}</label>
         ) : null}
       </div>
-      <button className="flex items-center gap-x-1 cursor-pointer" type="button" onClick={onToggleCurrency}>
-        {!displayFiat ? (
-          <p className="text-sm">${Number(fiatValue || value || 0).toFixed(2)}</p>
-        ) : (
-          <p className="text-sm">
-            {fiatValue || value || 0} {currencyLabel}
-          </p>
-        )}
-        <Icon name={IconName.ArrowUpDown} size="xs" fill="black" />
-      </button>
+      {displayToggleCurrency && (
+        <button className="flex items-center gap-x-1 cursor-pointer" type="button" onClick={onToggleCurrency}>
+          {!displayFiat ? (
+            <p className="text-sm">${Number(fiatValue || value || 0).toFixed(2)}</p>
+          ) : (
+            <p className="text-sm">
+              {fiatValue || value || 0} {currencyLabel}
+            </p>
+          )}
+          <Icon name={IconName.ArrowUpDown} size="xs" fill="black" />
+        </button>
+      )}
     </div>
   );
 };

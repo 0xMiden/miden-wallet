@@ -1,4 +1,4 @@
-import { Account, AccountId, AccountStorageMode, WebClient } from '@demox-labs/miden-sdk';
+import { Account, AccountId, AccountStorageMode, NoteFilter, NoteFilterTypes, WebClient } from '@demox-labs/miden-sdk';
 import { MidenWalletStorageType, NoteExportType } from './constants';
 import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 
@@ -104,6 +104,20 @@ export class MidenClientInterface {
     const byteArray = new Uint8Array(result);
 
     return byteArray;
+  }
+
+  async getPublicNotes() {
+    const filter = new NoteFilter(NoteFilterTypes.All);
+    const result = await this.webClient.get_input_notes(filter);
+    result.forEach(note => {
+      console.log('Note:', note);
+      console.log('Details', note.details());
+      console.log('Assets', note.details().assets());
+      console.log('Digest', note.details().recipient().digest());
+      console.log('Digest', note.details().recipient().digest().to_hex());
+      console.log('Digest', note.details().recipient().digest().to_word());
+    });
+    return result;
   }
 }
 

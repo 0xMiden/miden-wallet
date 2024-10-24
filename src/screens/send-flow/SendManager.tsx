@@ -47,7 +47,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading, onSubmitFor
     navigate('/');
   }, []);
 
-  const { register, watch, handleSubmit, formState, setError, clearError } = useForm<SendFlowForm>({
+  const { register, watch, handleSubmit, formState, setError, clearError, setValue } = useForm<SendFlowForm>({
     defaultValues: {
       amount: undefined,
       sendType: NoteType.public(),
@@ -66,6 +66,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading, onSubmitFor
   }, [register]);
 
   const amount = watch('amount');
+  console.log({ amount });
   const sendType = watch('sendType');
   const receiveType = watch('receiveType');
   const recipientAddress = watch('recipientAddress');
@@ -82,6 +83,11 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading, onSubmitFor
           break;
         case SendFlowActionId.Finish:
           onClose?.();
+          break;
+        case SendFlowActionId.SetFormValues:
+          Object.entries(action.payload).forEach(([key, value]) => {
+            setValue(key, value);
+          });
           break;
         default:
           break;
@@ -155,6 +161,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading, onSubmitFor
               onGoNext={() => goToStep(SendFlowStep.ReviewTransaction)}
               amount={amount}
               onCancel={onClose}
+              onAction={onAction}
             />
           );
         case SendFlowStep.ReviewTransaction:

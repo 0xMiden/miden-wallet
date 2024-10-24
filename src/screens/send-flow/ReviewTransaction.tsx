@@ -2,6 +2,7 @@ import { Icon, IconName } from 'app/icons/v2';
 import { AmountLabel } from 'components/AmountLabel';
 import { Button, ButtonVariant } from 'components/Button';
 import { NavigationHeader } from 'components/NavigationHeader';
+import { useAccount } from 'lib/miden/front';
 import React from 'react';
 
 import { useTranslation } from 'react-i18next';
@@ -19,6 +20,7 @@ export interface ReviewTransactionProps {
 
 export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({ amount, recipientAddress, onGoBack }) => {
   const { t } = useTranslation();
+  const { publicKey } = useAccount();
 
   return (
     <div className="flex-1 flex flex-col">
@@ -31,7 +33,7 @@ export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({ amount, re
         <div className="flex flex-col gap-y-2">
           <span className="flex flex-row justify-between">
             <label className="text-sm text-grey-600">From</label>
-            <p className="text-sm">SEND ADDRESS</p>
+            <p className="text-sm">{publicKey}</p>
           </span>
           <span className="flex flex-row justify-between whitespace-pre-line">
             <label className="text-sm text-grey-600">To</label>

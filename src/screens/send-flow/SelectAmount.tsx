@@ -26,6 +26,7 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, on
 
   // TODO: More robust way to toggle faucet type
   const { data: balance } = useBalance(publicKey, TOKEN_MAPPING[MidenTokens.Miden].faucetId);
+  // const balance = 10;
 
   const onAmountChangeHandler = useCallback(
     (
@@ -37,6 +38,9 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, on
         value: string;
       }
     ) => {
+      console.log('in onAmountChangeHandler');
+      console.log(value);
+      console.log({ values });
       onAction?.({
         id: SendFlowActionId.SetFormValues,
         payload: {
@@ -65,7 +69,19 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, on
         <div className="flex flex-col gap-y-2 ">
           <div className="flex flex-row items-center py-4">
             <div className="flex-1">{balance?.toString()}</div>
-            <button onClick={() => {}} type="button">
+            <button
+              onClick={() => {
+                // TODO: Get this max shit working
+                onAction?.({
+                  id: SendFlowActionId.SetFormValues,
+                  payload: {
+                    amount: balance?.toString()
+                  },
+                  triggerValidation: false
+                });
+              }}
+              type="button"
+            >
               <Chip label="Max" className="cursor-pointer" />
             </button>
           </div>
