@@ -10,6 +10,7 @@ import { ReactComponent as Apps } from './apps.svg';
 import { ReactComponent as ArrowDown } from './arrow-down.svg';
 import { ReactComponent as ArrowLeft } from './arrow-left.svg';
 import { ReactComponent as ArrowRightDownFill } from './arrow-right-down-fill.svg';
+import { ReactComponent as ArrowRightDownFilledCircle } from './arrow-right-down-filled-circle.svg';
 import { ReactComponent as ArrowRightDown } from './arrow-right-down.svg';
 import { ReactComponent as ArrowRightUpFill } from './arrow-right-up-fill.svg';
 import { ReactComponent as ArrowRightUp } from './arrow-right-up.svg';
@@ -35,6 +36,7 @@ import { ReactComponent as Code } from './code.svg';
 import { ReactComponent as Coins } from './coins.svg';
 import { ReactComponent as ContactsBook } from './contacts-book.svg';
 import { ReactComponent as Convert } from './convert.svg';
+import { ReactComponent as Copy } from './copy.svg';
 import { ReactComponent as Download1 } from './download-1.svg';
 import { ReactComponent as Download } from './download.svg';
 import { ReactComponent as EmotionSad } from './emotion-sad.svg';
@@ -93,6 +95,7 @@ export enum IconName {
   ArrowDown = 'arrow-down',
   ArrowLeft = 'arrow-left',
   ArrowRightDownFill = 'arrow-right-down-fill',
+  ArrowRightDownFilledCircle = 'arrow-right-down-filled-circle',
   ArrowRightDown = 'arrow-right-down',
   ArrowRightUpFill = 'arrow-right-up-fill',
   ArrowRightUp = 'arrow-right-up',
@@ -118,6 +121,7 @@ export enum IconName {
   Coins = 'coins',
   ContactsBook = 'contacts-book',
   Convert = 'convert',
+  Copy = 'copy',
   Download1 = 'download-1',
   Download = 'download',
   EmotionSad = 'emotion-sad',
@@ -243,6 +247,8 @@ const IconSwitch = (props: IconProps) => {
       return <ContactsBook {...props} />;
     case IconName.Convert:
       return <Convert {...props} />;
+    case IconName.Copy:
+      return <Copy {...props} />;
     case IconName.Download1:
       return <Download1 {...props} />;
     case IconName.Download:
@@ -343,6 +349,8 @@ const IconSwitch = (props: IconProps) => {
       return <UploadFile {...props} />;
     case IconName.UploadedFile:
       return <UploadedFile {...props} />;
+    case IconName.ArrowRightDownFilledCircle:
+      return <ArrowRightDownFilledCircle {...props} />;
     default:
       return null;
   }

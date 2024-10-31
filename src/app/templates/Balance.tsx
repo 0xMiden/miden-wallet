@@ -6,6 +6,7 @@ import CSSTransition from 'react-transition-group/CSSTransition';
 
 import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
 import { useAccount, useBalance } from 'lib/miden/front';
+import { MidenTokens, TOKEN_MAPPING } from 'lib/miden-chain/constants';
 
 type BalanceProps = {
   children: (b: BigNumber) => ReactElement;
@@ -13,8 +14,7 @@ type BalanceProps = {
 
 const Balance = memo<BalanceProps>(({ children }) => {
   const account = useAccount();
-  const { data: balance } = useBalance(account.publicKey, '0x2526b867beb537ca');
-  console.log(balance?.toNumber());
+  const { data: balance } = useBalance(account.publicKey, TOKEN_MAPPING[MidenTokens.Miden].faucetId);
 
   return useMemo(() => {
     const childNode = children(balance !== undefined ? balance : new BigNumber(0));

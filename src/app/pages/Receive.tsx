@@ -1,139 +1,87 @@
-import React, { FC } from 'react';
-
-import classNames from 'clsx';
-import { QRCode } from 'react-qr-svg';
+import React, { useEffect } from 'react';
 
 import FormField from 'app/atoms/FormField';
+import { Icon, IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
+import { Button } from 'components/Button';
+import { T } from 'lib/i18n/react';
 import { useAccount } from 'lib/miden/front';
-import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
-import { T, t } from 'lib/i18n/react';
+import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
-import UploadFileButton from 'app/atoms/UploadFileButton';
-import { useMidenClient } from 'app/hooks/useMidenClient';
 
-const Receive: FC = () => {
+export interface ClaimableNote {
+  id: string;
+  amount: string;
+}
+
+export interface ReceiveProps {}
+
+const midenClient = await MidenClientInterface.create();
+
+export const Receive: React.FC<ReceiveProps> = () => {
   const account = useAccount();
   const address = account.publicKey;
-  const { fieldRef, copy, copied } = useCopyToClipboard();
-  const { trackEvent } = useAnalytics();
-  const midenClient = useMidenClient();
+  const { fieldRef, copy } = useCopyToClipboard();
+  const [claimableNotes, setClaimableNotes] = React.useState<ClaimableNote[]>([]);
 
-  const onClick = () => {
-    trackEvent('Receive/AddressCopied', AnalyticsEventCategory.ButtonPress);
-    copy();
+  const pageTitle = (
+    <>
+      <T id="receive" />
+    </>
+  );
+
+  const fetchNotes = async () => {
+    const notes = await midenClient.getCommittedNotes();
+    if (notes.length === 0) {
+      return;
+    }
+    setClaimableNotes(
+      notes.map(note => ({
+        id: note.id().to_string(),
+        amount: note.details().assets().assets()[0].amount().toString()
+      }))
+    );
   };
 
-  function readFileAsUint8Array(): void {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.style.display = 'none';
+  useEffect(() => {
+    fetchNotes();
+    const intervalId = setInterval(fetchNotes, 2000);
+    return () => clearInterval(intervalId);
+  }, []);
 
-    input.addEventListener('change', (event: Event) => {
-      const target = event.target as HTMLInputElement;
-      const files = target.files;
-      console.log({ event });
+  const consumeNote = async (noteId: string) => {
+    await midenClient.consumeNoteId(address, noteId);
+    setClaimableNotes(claimableNotes.filter(note => note.id !== noteId));
+  };
 
-      if (files && files.length > 0) {
-        const file = files[0];
-        const reader = new FileReader();
-        reader.onload = async () => {
-          const arrayBuffer = reader.result as ArrayBuffer;
-          const byteArray = new Uint8Array(arrayBuffer);
-
-          console.log({ account });
-          console.log({ byteArray });
-          await midenClient?.consumeNoteBytes(account.publicKey, byteArray);
-        };
-
-        // Start reading the file as an ArrayBuffer
-        reader.readAsArrayBuffer(file);
-      }
-    });
-
-    document.body.appendChild(input);
-    input.click();
-
-    setTimeout(() => {
-      document.body.removeChild(input);
-    }, 100);
-  }
   return (
-    <PageLayout
-      pageTitle={
-        <>
-          <T id="receive" />
-        </>
-      }
-    >
+    <PageLayout pageTitle={pageTitle}>
       <div className="p-4">
-        <div className={classNames('w-full max-w-sm mx-auto')}>
-          <FormField
-            textarea
-            rows={2}
-            ref={fieldRef}
-            id="receive-address"
-            label={
-              <div className="font-medium mt-8" style={{ fontSize: '14px', lineHeight: '20px' }}>
-                {t('address')}
-              </div>
-            }
-            labelDescription={
-              <div className="mt-2" style={{ fontSize: '12px', lineHeight: '16px' }}>
-                {t('accountAddressLabel')}
-              </div>
-            }
-            value={address}
-            size={36}
-            spellCheck={false}
-            readOnly
-            className="text-sm rounded mt-2"
-            onClick={copy}
-            style={{
-              resize: 'none',
-              lineHeight: '20px'
-            }}
-          />
-          <div className="flex">
-            <button
-              type="button"
-              className={classNames(
-                'w-full mt-2 mb-6',
-                'py-4 px-2 w-40',
-                'hover:bg-gray-700',
-                'active:bg-gray-600',
-                'flex items-center justify-center',
-                'text-black bg-gray-800 rounded-lg',
-                'font-semibold',
-                'transition duration-300 ease-in-out',
-                'opacity-90 hover:opacity-100 focus:opacity-100',
-                'shadow-sm',
-                'hover:shadow focus:shadow'
-              )}
-              style={{ fontSize: '16px', lineHeight: '24px' }}
-              onClick={onClick}
-            >
-              {copied ? (
-                <T id="copiedAddress" />
-              ) : (
-                <>
-                  <T id="copyAddressToClipboard" />
-                </>
-              )}
-            </button>
-          </div>
-          <div className="flex flex-col items-center" style={{ padding: '36px 56px' }}>
-            <div className="p-2 bg-white rounded-lg" style={{ maxWidth: '84%' }}>
-              <QRCode bgColor="#FFF" fgColor="#634CFF" level="Q" style={{ width: '100%' }} value={address} />
+        <FormField ref={fieldRef} value={address} style={{ display: 'none' }} />
+        <div className="flex flex-col justify-start gap-y-2">
+          <div className="flex justify-between pr-3">
+            <div className="flex flex-col">
+              <p className="text-xs text-gray-400">Your address</p>
+              <p className="text-sm">{address}</p>
             </div>
+            <Icon name={IconName.Copy} onClick={copy} style={{ cursor: 'pointer' }} />
           </div>
-          <div>
-            <UploadFileButton uploadFile={readFileAsUint8Array} />
-          </div>
+        </div>
+        {claimableNotes.length > 0 && <p className="text-lg mt-10 mb-5">Ready to claim</p>}
+        <div className="flex flex-col gap-y-4 p-6">
+          {claimableNotes.map(note => (
+            <div key={note.id} className="flex justify-between">
+              <div className="flex items-center gap-x-2">
+                <Icon name={IconName.ArrowRightDownFilledCircle} size="md" />
+                <p>{`${note.amount} miden`}</p>
+              </div>
+              <Button onClick={() => consumeNote(note.id)}>
+                <p className="text-white">Claim</p>
+              </Button>
+            </div>
+          ))}
         </div>
       </div>
     </PageLayout>
   );
 };
-
-export default Receive;

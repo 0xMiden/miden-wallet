@@ -148,6 +148,7 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({ onboardingType, step, 
       className={classNames(
         'w-[37.5rem] h-[40rem] mx-auto',
         'flex flex-col bg-white',
+        // 'bg-gradient-to-r from-indigo-300 to-white',
         'rounded-3xl',
         'overflow-hidden'
       )}
@@ -159,6 +160,7 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({ onboardingType, step, 
       </AnimatePresence>
       <AnimatePresence mode={'wait'} initial={false}>
         <motion.div
+          className="h-full"
           key={step}
           initial="initialState"
           animate="animateState"

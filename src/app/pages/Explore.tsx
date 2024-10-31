@@ -70,7 +70,7 @@ const activityTippyPropsMock = {
 const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
   const account = useAccount();
   const midenClient = useMidenClient();
-
+  const { data: balance } = useBalance(account.id, TOKEN_MAPPING[MidenTokens.Miden].faucetId);
   if (assetId && !assetSlug) {
     if (!assetSlug) {
       // Tokens are not guaranteed to load on mount
@@ -103,16 +103,23 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
   return (
     <div
       className={`flex flex-col bg-white m-auto rounded-lg ${fullPage ? 'w-2/5' : 'w-full h-full'}`}
-      style={{ boxShadow: fullPage ? '0px 68px 56px rgba(0, 0, 0, 0.15)' : '', ...height }}
+      style={{
+        /* backgroundImage: `url("data:image/svg+xml,%3Csvg width='360' height='288' viewBox='0 0 360 288' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_4763_4486)'%3E%3Crect x='2' y='66' width='471' height='470' fill='url(%23paint0_radial_4763_4486)'/%3E%3Crect x='-225' y='-147' width='471' height='470' fill='url(%23paint1_radial_4763_4486)'/%3E%3C/g%3E%3Cdefs%3E%3CradialGradient id='paint0_radial_4763_4486' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='translate(237.5 301) rotate(90) scale(235 235.5)'%3E%3Cstop stop-color='%23F5EBFE'/%3E%3Cstop offset='1' stop-color='%23F5EBFE' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='paint1_radial_4763_4486' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='translate(10.5 88) rotate(90) scale(235 235.5)'%3E%3Cstop stop-color='%23EFE0FB'/%3E%3Cstop offset='1' stop-color='%23EFE0FB' stop-opacity='0'/%3E%3C/radialGradient%3E%3CclipPath id='clip0_4763_4486'%3E%3Crect width='360' height='288' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E")`,
+        backgroundSize: 'cover',
+        borderBottomLeftRadius: '1.5rem',
+        borderBottomRightRadius: '1.5rem', */
+        ...height
+      }}
+      //style={{ boxShadow: fullPage ? '0px 68px 56px rgba(0, 0, 0, 0.15)' : '', ...height }}
     >
       <div
         className="flex-none"
-        style={{
+        /* style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='360' height='288' viewBox='0 0 360 288' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_4763_4486)'%3E%3Crect x='2' y='66' width='471' height='470' fill='url(%23paint0_radial_4763_4486)'/%3E%3Crect x='-225' y='-147' width='471' height='470' fill='url(%23paint1_radial_4763_4486)'/%3E%3C/g%3E%3Cdefs%3E%3CradialGradient id='paint0_radial_4763_4486' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='translate(237.5 301) rotate(90) scale(235 235.5)'%3E%3Cstop stop-color='%23F5EBFE'/%3E%3Cstop offset='1' stop-color='%23F5EBFE' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='paint1_radial_4763_4486' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='translate(10.5 88) rotate(90) scale(235 235.5)'%3E%3Cstop stop-color='%23EFE0FB'/%3E%3Cstop offset='1' stop-color='%23EFE0FB' stop-opacity='0'/%3E%3C/radialGradient%3E%3CclipPath id='clip0_4763_4486'%3E%3Crect width='360' height='288' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E")`,
           backgroundSize: 'cover',
           borderBottomLeftRadius: '1.5rem',
           borderBottomRightRadius: '1.5rem'
-        }}
+        }} */
       >
         <>{syncFraction <= 0.995 && <SyncBanner syncText={formatSyncFraction(syncFraction)} fullPage={fullPage} />}</>
         {!assetId && <Header />}
@@ -136,7 +143,7 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
           </div>
         )}
         <div className={classNames('flex flex-col justify-start')}>
-          <MainBanner />
+          <MainBanner balance={balance || new BigNumber(0)} />
           <div className="mx-2 pt-1 pb-3">{!assetId && <AddressChip publicKey={account.publicKey} />}</div>
           <div className="flex justify-between w-full mt-1 px-2 mb-4">
             <ActionButton
@@ -155,14 +162,14 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
               testID={ExploreSelectors.ReceiveButton}
               className="w-1/2 mx-1"
             />
-            <ActionButton
+            {/* <ActionButton
               label={<T id="faucet" />}
               Icon={FaucetIcon}
               to="/faucet"
               testID={ExploreSelectors.FaucetButton}
               className="w-1/2 mx-1"
               iconStyle={{ height: '20px', width: '20px', stroke: 'none' }}
-            />
+            /> */}
           </div>
         </div>
       </div>
@@ -188,22 +195,13 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
             canDismiss={false}
           />
         </div> */}
-        <div>
-          <Button
-            onClick={async () => {
-              midenClient.consumeNoteId(account.publicKey, 'something');
-            }}
-          >
-            Debugging Miden Button
-          </Button>
-        </div>
         <SecondarySection assetSlug={assetSlug} assetId={assetId} />
       </div>
-      {!assetId && (
+      {/* {!assetId && (
         <div className="flex-none">
           <Footer />
         </div>
-      )}
+      )} */}
     </div>
   );
 };
@@ -344,7 +342,6 @@ type PublicPrivateBalanceProps = {
 const PublicPrivateBalance: FC<PublicPrivateBalanceProps> = ({ assetSlug, assetId }) => {
   const account = useAccount();
   const { data: balance } = useBalance('0x92d3323052c31ffd', TOKEN_MAPPING[MidenTokens.Miden].faucetId);
-  // console.log({ balance });
 
   const convertUrl = assetSlug === ALEO_SLUG ? '/convert-visibility/aleo' : `/convert-visibility/${assetId}`;
 

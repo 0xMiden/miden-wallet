@@ -137,10 +137,10 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
     <div className={classNames('flex-1', 'flex flex-col', 'bg-white gap-y-8 p-6', className)} {...props}>
       <div className="flex flex-col items-center">
         <header className="text-2xl font-semibold">{t('createPassword')}</header>
-        <p className="text-sm font-normal mt-2 text-center w-[500px]">{t('createPasswordDescription')}</p>
+        <p className="text-sm font-normal mt-2 w-[500px]">{t('createPasswordDescription')}</p>
       </div>
 
-      <article className="w-[360px] flex flex-col gap-y-4 self-center">
+      <article className="w-full flex flex-col gap-y-4 px-6">
         <div className="flex flex-col gap-y-2">
           <Input
             type={isPasswordVisible ? 'text' : 'password'}
@@ -181,7 +181,7 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
         </div>
       </article>
 
-      <div className="flex gap-x-2 w-[360px] text-sm self-center">
+      {/* <div className="flex gap-x-2 w-[360px] text-sm self-center">
         <button className="flex gap-x-2 items-center " onClick={() => onTermsAcceptedToggle(!termsAccepted)}>
           <Checkbox id="help-us" value={termsAccepted} />
           <label className="text-black cursor-pointer">{t('helpUsToImproveLeoWallet')}</label>
@@ -189,7 +189,7 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
         <Link target="_blank" href="https://www.leo.app/privacy">
           ({t('readMoreOnboarding')})
         </Link>
-      </div>
+      </div> */}
 
       {/* TODO: add link component */}
       <div className="w-[360px] flex flex-col gap-2 self-center">
