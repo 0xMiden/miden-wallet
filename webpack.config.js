@@ -230,7 +230,8 @@ const workerConfig = {
     buildTransaction: './src/workers/buildTransaction.ts',
     scanRecordsGpu: './src/workers/scanRecordsGpu.ts',
     scanRecordsDirect: './src/workers/scanRecordsDirect.ts',
-    proveTags: './src/workers/proveTags.ts'
+    proveTags: './src/workers/proveTags.ts',
+    consumeNoteId: './src/workers/consumeNoteId.ts'
   },
   output: {
     pathinfo: false,

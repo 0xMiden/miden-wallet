@@ -74,7 +74,7 @@ const NetworkSelect: FC<NetworkSelectProps> = () => {
           <div
             className={classNames('mr-2 -mt-0.5', 'rounded-full', 'shadow-xs')}
             style={{
-              backgroundColor: 'red',
+              backgroundColor: '#00DB8C',
               width: '8px',
               height: '8px'
             }}

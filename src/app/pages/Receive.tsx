@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import FormField from 'app/atoms/FormField';
-import { useMidenClient } from 'app/hooks/useMidenClient';
 import { Icon, IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
-import { Button } from 'components/Button';
+import { Button, ButtonVariant } from 'components/Button';
 import { T } from 'lib/i18n/react';
+import { consumeNoteId } from 'lib/miden-worker/consumeNoteId';
 import { useAccount } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
@@ -16,8 +16,8 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const account = useAccount();
   const address = account.publicKey;
   const { fieldRef, copy } = useCopyToClipboard();
-  const { midenClient, midenClientLoading } = useMidenClient();
   const { data: claimableNotes } = useClaimableNotes(account.id);
+  const [claimingNoteId, setClaimingNoteId] = useState<string | null>(null);
 
   const pageTitle = (
     <>
@@ -26,8 +26,13 @@ export const Receive: React.FC<ReceiveProps> = () => {
   );
 
   const consumeNote = async (noteId: string) => {
-    if (midenClient !== undefined) {
-      await midenClient.consumeNoteId(address, noteId);
+    setClaimingNoteId(noteId);
+    const noteIndex = claimableNotes?.findIndex(note => note.id === noteId);
+    await consumeNoteId(address, noteId);
+    setClaimingNoteId(null);
+    // Remove the note from the list of claimable notes, if it's still there
+    if (claimableNotes && noteIndex && claimableNotes[noteIndex].id === noteId) {
+      claimableNotes.splice(noteIndex, 1);
     }
   };
 
@@ -52,12 +57,16 @@ export const Receive: React.FC<ReceiveProps> = () => {
             claimableNotes.map(note => (
               <div key={note.id} className="flex justify-between">
                 <div className="flex items-center gap-x-2">
-                  <Icon name={IconName.ArrowRightDownFilledCircle} size="md" />
-                  <p>{`${note.amount} miden`}</p>
+                  <Icon name={IconName.ArrowRightDownFilledCircle} size="lg" />
+                  <p className="text-lg">{`${note.amount} miden`}</p>
                 </div>
-                <Button disabled={midenClientLoading} onClick={() => consumeNote(note.id)}>
-                  <p className="text-white">Claim</p>
-                </Button>
+                <Button
+                  variant={ButtonVariant.Primary}
+                  disabled={claimingNoteId !== null}
+                  onClick={() => consumeNote(note.id)}
+                  isLoading={claimingNoteId === note.id}
+                  title="Claim"
+                />
               </div>
             ))}
         </div>
