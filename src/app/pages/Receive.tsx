@@ -8,6 +8,7 @@ import { T } from 'lib/i18n/react';
 import { useAccount } from 'lib/miden/front';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
+import { useMidenClient } from 'app/hooks/useMidenClient';
 
 export interface ClaimableNote {
   id: string;
@@ -16,13 +17,12 @@ export interface ClaimableNote {
 
 export interface ReceiveProps {}
 
-const midenClient = await MidenClientInterface.create();
-
 export const Receive: React.FC<ReceiveProps> = () => {
   const account = useAccount();
   const address = account.publicKey;
   const { fieldRef, copy } = useCopyToClipboard();
   const [claimableNotes, setClaimableNotes] = React.useState<ClaimableNote[]>([]);
+  const { midenClient, midenClientLoading } = useMidenClient();
 
   const pageTitle = (
     <>
@@ -31,26 +31,28 @@ export const Receive: React.FC<ReceiveProps> = () => {
   );
 
   const fetchNotes = async () => {
-    const notes = await midenClient.getCommittedNotes();
-    if (notes.length === 0) {
-      return;
+    if (midenClient) {
+      const notes = await midenClient.getCommittedNotes();
+      if (notes.length === 0) {
+        return;
+      }
+      setClaimableNotes(
+        notes.map(note => ({
+          id: note.id().to_string(),
+          amount: note.details().assets().assets()[0].amount().toString()
+        }))
+      );
     }
-    setClaimableNotes(
-      notes.map(note => ({
-        id: note.id().to_string(),
-        amount: note.details().assets().assets()[0].amount().toString()
-      }))
-    );
   };
 
   useEffect(() => {
     fetchNotes();
     const intervalId = setInterval(fetchNotes, 2000);
     return () => clearInterval(intervalId);
-  }, []);
+  }, [midenClient]);
 
   const consumeNote = async (noteId: string) => {
-    await midenClient.consumeNoteId(address, noteId);
+    await midenClient?.consumeNoteId(address, noteId);
     setClaimableNotes(claimableNotes.filter(note => note.id !== noteId));
   };
 
@@ -75,7 +77,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
                 <Icon name={IconName.ArrowRightDownFilledCircle} size="md" />
                 <p>{`${note.amount} miden`}</p>
               </div>
-              <Button onClick={() => consumeNote(note.id)}>
+              <Button disabled={midenClientLoading} onClick={() => consumeNote(note.id)}>
                 <p className="text-white">Claim</p>
               </Button>
             </div>

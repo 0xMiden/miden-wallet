@@ -1,19 +1,21 @@
+import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import { useEffect, useState } from 'react';
 
 export const useMidenClient = () => {
   const [midenClient, setMidenClient] = useState<MidenClientInterface>();
+  const [isLoading, setIsLoading] = useState(true);
+  const isDelegatedProvingEnabled = isDelegateProofEnabled();
 
   useEffect(() => {
     const initializeClient = async () => {
-      console.log('Initializing Miden client...');
-      const client = await MidenClientInterface.create();
+      const client = await MidenClientInterface.create(isDelegatedProvingEnabled);
       setMidenClient(client);
-      console.log('Miden client is ready');
+      setIsLoading(false);
     };
 
     initializeClient();
-  }, []);
+  }, [isDelegatedProvingEnabled]);
 
-  return midenClient;
+  return { midenClient, midenClientLoading: isLoading };
 };

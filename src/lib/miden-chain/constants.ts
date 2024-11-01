@@ -12,6 +12,10 @@ export const MIDEN_NETWORK_ENDPOINTS = new Map<string, string>([
   [MIDEN_NETWORK_NAME.LOCALNET, 'http://localhost:57291']
 ]);
 
+export const MIDEN_PROVING_ENDPOINTS = new Map<string, string>([
+  [MIDEN_NETWORK_NAME.LOCALNET, 'http://localhost:50051']
+]);
+
 export const MIDEN_NETWORKS: MidenNetwork[] = [
   {
     rpcBaseURL: 'TODO',

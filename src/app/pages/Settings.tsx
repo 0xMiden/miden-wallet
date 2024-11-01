@@ -5,6 +5,7 @@ import classNames from 'clsx';
 import { ReactComponent as ContactBookIcon } from 'app/icons/contact-book.svg';
 import { ReactComponent as ExtensionIcon } from 'app/icons/extension.svg';
 import { ReactComponent as FileIcon } from 'app/icons/file.svg';
+import { ReactComponent as SettingsIcon } from 'app/icons/settings.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import Footer from 'app/layouts/PageLayout/Footer';
 import About from 'app/templates/About';
@@ -16,6 +17,7 @@ import { t } from 'lib/i18n/react';
 import NetworksSettings from './Networks';
 import { SettingsSelectors } from './Settings.selectors';
 import { useAppEnv } from 'app/env';
+import GeneralSettings from 'app/templates/GeneralSettings';
 
 type SettingsProps = {
   tabSlug?: string | null;
@@ -37,15 +39,15 @@ type Tab = {
 };
 
 const TABS: Tab[] = [
-  // {
-  //   slug: 'general-settings',
-  //   titleI18nKey: 'generalSettings',
-  //   Icon: SettingsIcon,
-  //   Component: GeneralSettings,
-  //   descriptionI18nKey: 'generalSettingsDescription',
-  //   testID: SettingsSelectors.GeneralButton,
-  //   insertHR: false
-  // },
+  {
+    slug: 'general-settings',
+    titleI18nKey: 'generalSettings',
+    Icon: SettingsIcon,
+    Component: GeneralSettings,
+    descriptionI18nKey: 'generalSettingsDescription',
+    testID: SettingsSelectors.GeneralButton,
+    insertHR: false
+  },
   {
     slug: 'address-book',
     titleI18nKey: 'addressBook',

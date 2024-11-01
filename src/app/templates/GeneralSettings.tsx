@@ -10,17 +10,17 @@ import PopupSettings from 'app/templates/PopupSettings';
 const GeneralSettings: FC = () => {
   return (
     <div className="w-full max-w-sm mx-auto my-8">
-      <LocaleSelect className="mb-8" />
+      {/* <LocaleSelect className="mb-8" /> */}
 
-      <PopupSettings />
+      {/* <PopupSettings /> */}
 
-      <LockUpSettings />
+      {/* <LockUpSettings /> */}
 
       <DelegateSettings />
 
-      <GPUSettings />
+      {/* <GPUSettings /> */}
 
-      <AnalyticsSettings />
+      {/* <AnalyticsSettings /> */}
     </div>
   );
 };
