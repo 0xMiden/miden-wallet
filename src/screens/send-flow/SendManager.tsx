@@ -1,16 +1,21 @@
-import React, { useEffect, useCallback, ChangeEvent } from 'react';
+import React, { ChangeEvent, useCallback, useEffect } from 'react';
 
 import { NoteType } from '@demox-labs/miden-sdk';
 import classNames from 'clsx';
 import { OnSubmit, useForm } from 'react-hook-form';
 
-import { Route, Navigator, NavigatorProvider, useNavigator } from 'components/Navigator';
+import { useMidenClient } from 'app/hooks/useMidenClient';
+import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
+import { MidenTokens, TOKEN_MAPPING } from 'lib/miden-chain/constants';
+import { useAccount } from 'lib/miden/front';
+import { navigate } from 'lib/woozie';
+import { UITransactionType } from 'screens/convert-tokens/types';
 import { SendFlowAction, SendFlowActionId, SendFlowForm, SendFlowStep } from 'screens/send-tokens/types';
 
 import { ReviewTransaction } from './ReviewTransaction';
 import { SelectAmount } from './SelectAmount';
 import { SelectRecipient } from './SelectRecipient';
-import { navigate } from 'lib/woozie';
+import { TransactionInitiated } from './TransactionInitiated';
 
 const ROUTES: Route[] = [
   {
@@ -37,11 +42,12 @@ const ROUTES: Route[] = [
 
 export interface SendManagerProps {
   isLoading: boolean;
-  onSubmitForm?: (data: SendFlowForm) => Promise<boolean>;
 }
 
-export const SendManager: React.FC<SendManagerProps> = ({ isLoading, onSubmitForm }) => {
+export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const { navigateTo, goBack } = useNavigator();
+  const midenClient = useMidenClient();
+  const { publicKey } = useAccount();
 
   const onClose = useCallback(() => {
     navigate('/');
@@ -50,27 +56,23 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading, onSubmitFor
   const { register, watch, handleSubmit, formState, setError, clearError, setValue } = useForm<SendFlowForm>({
     defaultValues: {
       amount: undefined,
-      sendType: NoteType.public(),
-      receiveType: NoteType.public(),
+      sendType: UITransactionType.Public,
       recipientAddress: undefined,
-      recipientAddressInput: undefined
+      recallBlocks: undefined
     }
   });
 
   useEffect(() => {
     register('amount');
     register('sendType');
-    register('receiveType');
     register('recipientAddress');
-    register('recipientAddressInput');
+    register('recallBlocks');
   }, [register]);
 
   const amount = watch('amount');
-  console.log({ amount });
   const sendType = watch('sendType');
-  const receiveType = watch('receiveType');
   const recipientAddress = watch('recipientAddress');
-  const recipientAddressInput = watch('recipientAddressInput');
+  const recallBlocks = watch('recallBlocks');
 
   const onAction = useCallback(
     (action: SendFlowAction) => {
@@ -93,7 +95,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading, onSubmitFor
           break;
       }
     },
-    [navigateTo, goBack, onClose]
+    [navigateTo, goBack, onClose, setValue]
   );
 
   const onSubmit = useCallback<OnSubmit<SendFlowForm>>(
@@ -103,8 +105,16 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading, onSubmitFor
       }
       try {
         clearError('submit');
-        await onSubmitForm?.(data);
-        onAction({ id: SendFlowActionId.Navigate, step: SendFlowStep.ReviewTransaction });
+        console.log(data);
+        midenClient!.sendTransaction(
+          publicKey,
+          recipientAddress!,
+          TOKEN_MAPPING[MidenTokens.Miden].faucetId, // TODO: add more robust way to change faucet id
+          NoteType.public(),
+          BigInt(amount),
+          recallBlocks ? parseInt(recallBlocks) : undefined
+        );
+        onAction({ id: SendFlowActionId.Navigate, step: SendFlowStep.TransactionInitiated });
       } catch (e: any) {
         if (e.message) {
           setError('submit', 'manual', e.message);
@@ -112,14 +122,14 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading, onSubmitFor
         console.error(e);
       }
     },
-    [formState, onAction, onSubmitForm, clearError, setError]
+    [clearError, midenClient, publicKey, recipientAddress, amount, recallBlocks, onAction, setError]
   );
 
   const onAddressChange = useCallback(
     (event: ChangeEvent<HTMLTextAreaElement>) => {
       onAction({
         id: SendFlowActionId.SetFormValues,
-        payload: { recipientAddressInput: event.target.value }
+        payload: { recipientAddress: event.target.value }
       });
     },
     [onAction]
@@ -135,7 +145,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading, onSubmitFor
   const onClearAddress = useCallback(() => {
     onAction({
       id: SendFlowActionId.SetFormValues,
-      payload: { recipientAddressInput: '' }
+      payload: { recipientAddress: '' }
     });
   }, [onAction]);
 
@@ -165,14 +175,22 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading, onSubmitFor
             />
           );
         case SendFlowStep.ReviewTransaction:
-          return <ReviewTransaction onGoBack={goBack} amount={amount} recipientAddress={recipientAddress} />;
+          return (
+            <ReviewTransaction
+              onAction={onAction}
+              onGoBack={goBack}
+              amount={amount}
+              recipientAddress={recipientAddress}
+              sendType={JSON.stringify(sendType)}
+            />
+          );
         case SendFlowStep.TransactionInitiated:
-          return <></>;
+          return <TransactionInitiated onAction={onAction} />;
         default:
           return <></>;
       }
     },
-    [amount, goBack, goToStep, onAddressChange, onClearAddress, recipientAddress]
+    [amount, goBack, goToStep, onAction, onAddressChange, onClearAddress, onClose, recipientAddress, sendType]
   );
 
   return (
@@ -185,6 +203,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading, onSubmitFor
         'rounded-3xl',
         'overflow-hidden relative'
       )}
+      data-testid="send-flow"
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex-1 flex">
         <Navigator renderRoute={renderStep} initialRouteName={SendFlowStep.SelectRecipient} />

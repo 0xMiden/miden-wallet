@@ -1,26 +1,63 @@
+import React, { useCallback, useState } from 'react';
+
+import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
+
 import { Icon, IconName } from 'app/icons/v2';
-import { AmountLabel } from 'components/AmountLabel';
 import { Button, ButtonVariant } from 'components/Button';
 import { NavigationHeader } from 'components/NavigationHeader';
 import { useAccount } from 'lib/miden/front';
-import React from 'react';
+import { SendFlowAction, SendFlowActionId } from 'screens/send-tokens/types';
 
-import { useTranslation } from 'react-i18next';
-
-import { SendFlowAction } from 'screens/send-tokens/types';
-import colors from 'utils/tailwind-colors';
+import { RecallBlocksModal } from './RecallBlocksModal';
 
 const TOKEN_NAME = 'MIDEN';
 
 export interface ReviewTransactionProps {
   amount: string;
+  onAction: (action: SendFlowAction) => void;
   onGoBack: () => void;
   recipientAddress?: string;
+  sendType?: string;
+  recallBlocks?: string;
 }
 
-export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({ amount, recipientAddress, onGoBack }) => {
+export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
+  amount,
+  recipientAddress,
+  sendType,
+  recallBlocks,
+  onAction,
+  onGoBack
+}) => {
   const { t } = useTranslation();
   const { publicKey } = useAccount();
+  const [recallBlocksModalIsOpen, setRecallBlocksModalIsOpen] = useState(false);
+  const [recallBlocksInput, setRecallBlocksInput] = useState<string>(recallBlocks || '');
+  const [recallBlocksDisplay, setRecallBlocksDisplay] = useState<string>(recallBlocks || ''); // TODO: remove workaround for SetFormValues not rerendering recallBlocks
+  const onBlocksChangeHandler = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setRecallBlocksInput(e.target.value);
+    },
+    [setRecallBlocksInput]
+  );
+
+  const onRecallBlocksCancel = useCallback(() => {
+    setRecallBlocksInput(recallBlocksDisplay);
+    setRecallBlocksModalIsOpen(false);
+  }, [setRecallBlocksInput, recallBlocksDisplay, setRecallBlocksModalIsOpen]);
+
+  const onRecallBlocksSubmit = useCallback(() => {
+    onAction?.({
+      id: SendFlowActionId.SetFormValues,
+      payload: {
+        recallBlocks: recallBlocksInput
+      },
+      triggerValidation: false
+    });
+    setRecallBlocksDisplay(recallBlocksInput);
+    setRecallBlocksModalIsOpen(false);
+  }, [onAction, recallBlocksInput, setRecallBlocksModalIsOpen]);
 
   return (
     <div className="flex-1 flex flex-col">
@@ -41,14 +78,40 @@ export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({ amount, re
           </span>
           <span className="flex flex-row justify-between">
             <label className="text-sm text-grey-600">Send Type</label>
+            <p className="text-sm text-right">Public</p>
           </span>
         </div>
 
         <hr className="h-px bg-grey-100" />
 
+        <div className="flex flex-col gap-y-2">
+          <span className="flex flex-row justify-between">
+            <label className="text-sm text-grey-600">Recall blocks</label>
+            <div className="flex flex-row">
+              <p className={classNames('text-sm text-right mr-4', recallBlocksDisplay ? 'opacity-100' : 'opacity-50')}>
+                {recallBlocksDisplay || 'None'}
+              </p>
+              <Icon
+                name={IconName.Settings}
+                fill="black"
+                className="cursor-pointer"
+                onClick={() => setRecallBlocksModalIsOpen(true)}
+              />
+            </div>
+          </span>
+        </div>
+
         <span className="flex-1" />
         <Button type="submit" title={t('send')} variant={ButtonVariant.Primary} disabled={false} />
       </div>
+      <RecallBlocksModal
+        isOpen={recallBlocksModalIsOpen}
+        parentSelector={() => document.querySelector('#root [data-testid="send-flow"]')!}
+        onBlocksChangeHandler={onBlocksChangeHandler}
+        onCancel={onRecallBlocksCancel}
+        onSubmit={onRecallBlocksSubmit}
+        recallBlocksInput={recallBlocksInput}
+      />
     </div>
   );
 };

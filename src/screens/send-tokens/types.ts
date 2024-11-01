@@ -9,10 +9,9 @@ export enum SendFlowStep {
 
 export type SendFlowForm = {
   amount: string;
-  sendType: NoteType;
-  receiveType: NoteType;
+  sendType: UITransactionType;
   recipientAddress?: string;
-  recipientAddressInput?: string;
+  recallBlocks?: string;
 };
 
 export enum SendFlowActionId {
@@ -122,6 +121,7 @@ export type UIForm = {
   amount: string;
   sendType: UITransactionType;
   receiveType: UITransactionType;
+  recallBlocks?: string;
   recipientAddress?: string;
   recipientAddressInput?: string;
   recipientAnsName?: string;

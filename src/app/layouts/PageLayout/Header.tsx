@@ -66,9 +66,9 @@ const Control: FC = () => {
             </Button>
           </Link>
         </div>
-        <div className="flex">
+        {/* <div className="flex">
           <NetworkSelect className="self-end" />
-        </div>
+        </div> */}
       </div>
     </>
   );

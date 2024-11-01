@@ -1,9 +1,17 @@
-import { Account, AccountId, AccountStorageMode, NoteFilter, NoteFilterTypes, WebClient } from '@demox-labs/miden-sdk';
+import {
+  Account,
+  AccountId,
+  AccountStorageMode,
+  NoteFilter,
+  NoteFilterTypes,
+  NoteType,
+  WebClient
+} from '@demox-labs/miden-sdk';
+import { InputNoteRecord } from '@demox-labs/miden-sdk/crates/miden_client_web';
 
 import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 
 import { NoteExportType } from './constants';
-import { InputNoteRecord } from '@demox-labs/miden-sdk/crates/miden_client_web';
 
 export class MidenClientInterface {
   webClient: WebClient;
@@ -85,6 +93,11 @@ export class MidenClientInterface {
     return result;
   }
 
+  async getAccounts() {
+    const result = await this.webClient.get_accounts();
+    return result;
+  }
+
   async syncState() {
     const syncSummary = await this.webClient.sync_state();
     // console.log('blockNum: ', syncSummary.block_num());
@@ -112,6 +125,40 @@ export class MidenClientInterface {
   async getCommittedNotes(): Promise<InputNoteRecord[]> {
     const filter = new NoteFilter(NoteFilterTypes.Committed);
     const result = await this.webClient.get_input_notes(filter);
+
+    return result;
+  }
+
+  async sendTransaction(
+    senderAccountId: string,
+    recipientAccountId: string,
+    faucetId: string,
+    noteType: NoteType,
+    amount: bigint,
+    recallBlocks?: number
+  ) {
+    let recallHeight = undefined;
+    if (recallBlocks) {
+      const syncState = await this.syncState();
+      const blockNum = syncState.block_num();
+      recallHeight = blockNum + recallBlocks;
+    }
+
+    const result = await this.webClient.new_send_transaction(
+      accountIdStringToSdk(senderAccountId),
+      accountIdStringToSdk(recipientAccountId),
+      accountIdStringToSdk(faucetId),
+      noteType,
+      amount,
+      recallHeight
+    );
+    console.log(
+      'Created notes:',
+      result
+        .created_notes()
+        .notes()
+        .map(note => note.id().to_string())
+    );
 
     return result;
   }

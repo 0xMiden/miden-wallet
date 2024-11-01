@@ -8,12 +8,20 @@ export interface MessageProps extends React.ButtonHTMLAttributes<HTMLDivElement>
   icon: IconName;
   title: string;
   description: string;
+  iconBackgroundClassName?: string;
 }
 
-export const Message: React.FC<MessageProps> = ({ className, icon = IconName.Apps, title, description, ...props }) => {
+export const Message: React.FC<MessageProps> = ({
+  className,
+  iconBackgroundClassName,
+  icon = IconName.Apps,
+  title,
+  description,
+  ...props
+}) => {
   return (
     <div {...props} className="flex flex-col justify-center items-center">
-      <div className="w-40 aspect-square flex items-center justify-center">
+      <div className={classNames('w-40 aspect-square flex items-center justify-center', iconBackgroundClassName)}>
         <Icon name={icon} size="xxl" />
       </div>
       <div className="flex flex-col items-center">

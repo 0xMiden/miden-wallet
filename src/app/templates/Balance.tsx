@@ -4,9 +4,8 @@ import BigNumber from 'bignumber.js';
 import classNames from 'clsx';
 import CSSTransition from 'react-transition-group/CSSTransition';
 
-import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
-import { useAccount, useBalance } from 'lib/miden/front';
 import { MidenTokens, TOKEN_MAPPING } from 'lib/miden-chain/constants';
+import { useAccount, useBalance } from 'lib/miden/front';
 
 type BalanceProps = {
   children: (b: BigNumber) => ReactElement;
