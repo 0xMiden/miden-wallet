@@ -17,6 +17,7 @@ import Header from 'app/layouts/PageLayout/Header';
 import Activity from 'app/templates/activity/Activity';
 import { AssetIcon } from 'app/templates/AssetIcon';
 import { getChainStatus } from 'lib/miden-chain/client';
+import { TOKEN_MAPPING, MidenTokens } from 'lib/miden-chain/constants';
 import { getEstimatedSyncPercentage } from 'lib/miden/activity/sync/sync-plan';
 import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
 import {
@@ -31,7 +32,7 @@ import {
 } from 'lib/miden/front';
 import { TestIDProps } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
-import { useRetryableSWR } from 'lib/swr';
+import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import { useAlert } from 'lib/ui/dialog';
 import useTippy, { TippyProps } from 'lib/ui/useTippy';
 import { HistoryAction, Link, navigate, To, useLocation } from 'lib/woozie';
@@ -41,12 +42,11 @@ import AddressChip from './Explore/AddressChip';
 import EditableTitle from './Explore/EditableTitle';
 import MainBanner from './Explore/MainBanner';
 import SyncBanner from './Explore/SyncBanner';
-import { Button } from 'app/atoms/Button';
-import { MidenWalletStorageType, NoteExportType } from 'lib/miden/sdk/constants';
-import { AccountStorageMode, NoteType } from '@demox-labs/miden-sdk';
-import { TOKEN_MAPPING, MidenTokens } from 'lib/miden-chain/constants';
 import Tokens from './Explore/Tokens/Tokens';
 import { useMidenClient } from 'app/hooks/useMidenClient';
+import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
+
+const midenClient = await MidenClientInterface.create();
 
 type ExploreProps = {
   assetSlug?: string | null;
@@ -69,7 +69,7 @@ const activityTippyPropsMock = {
 
 const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
   const account = useAccount();
-  const midenClient = useMidenClient();
+  const { data: claimableNotes } = useClaimableNotes(account.id);
   const { data: balance } = useBalance(account.id, TOKEN_MAPPING[MidenTokens.Miden].faucetId);
   if (assetId && !assetSlug) {
     if (!assetSlug) {
@@ -77,6 +77,7 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
       navigate('/', HistoryAction.Replace);
     }
   }
+  console.log('claimableNotes:', claimableNotes);
 
   const syncFraction = 1;
 
@@ -86,7 +87,25 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
   const { search } = useLocation();
   const [hasSeenNotification, setHasSeenNotification] = useLocalStorage('chainStatus', { seen: false, timestamp: -1 });
   const alert = useAlert();
-  // const midenClient = useMidenClient();
+
+  /* const fetchClaimableNotes = async () => {
+    const notes = await midenClient.getCommittedNotes();
+    if (notes.length === 0) {
+      return;
+    }
+    setClaimableNotes(
+      notes.map(note => ({
+        id: note.id().to_string(),
+        amount: note.details().assets().assets()[0].amount().toString()
+      }))
+    );
+  };
+
+  useEffect(() => {
+    fetchClaimableNotes();
+    const intervalId = setInterval(fetchClaimableNotes, 2000);
+    return () => clearInterval(intervalId);
+  }, []); */
 
   useLayoutEffect(() => {
     const usp = new URLSearchParams(search);
@@ -102,7 +121,11 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
 
   return (
     <div
-      className={`flex flex-col bg-white m-auto rounded-lg ${fullPage ? 'w-2/5' : 'w-full h-full'}`}
+      className={classNames(
+        'flex flex-col m-auto rounded-lg',
+        'bg-gradient-to-br from-purple-200 via-white to-white',
+        fullPage ? 'w-2/5' : 'w-full h-full'
+      )}
       style={{
         /* backgroundImage: `url("data:image/svg+xml,%3Csvg width='360' height='288' viewBox='0 0 360 288' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_4763_4486)'%3E%3Crect x='2' y='66' width='471' height='470' fill='url(%23paint0_radial_4763_4486)'/%3E%3Crect x='-225' y='-147' width='471' height='470' fill='url(%23paint1_radial_4763_4486)'/%3E%3C/g%3E%3Cdefs%3E%3CradialGradient id='paint0_radial_4763_4486' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='translate(237.5 301) rotate(90) scale(235 235.5)'%3E%3Cstop stop-color='%23F5EBFE'/%3E%3Cstop offset='1' stop-color='%23F5EBFE' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='paint1_radial_4763_4486' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='translate(10.5 88) rotate(90) scale(235 235.5)'%3E%3Cstop stop-color='%23EFE0FB'/%3E%3Cstop offset='1' stop-color='%23EFE0FB' stop-opacity='0'/%3E%3C/radialGradient%3E%3CclipPath id='clip0_4763_4486'%3E%3Crect width='360' height='288' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E")`,
         backgroundSize: 'cover',
@@ -145,7 +168,7 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
         <div className={classNames('flex flex-col justify-start')}>
           <MainBanner balance={balance || new BigNumber(0)} />
           <div className="mx-2 pt-1 pb-3">{!assetId && <AddressChip publicKey={account.publicKey} />}</div>
-          <div className="flex justify-between w-full mt-1 px-2 mb-4">
+          <div className="flex justify-between items-center w-full mt-1 px-2 mb-4">
             <ActionButton
               label={<T id="send" />}
               Icon={SendIcon}
@@ -155,13 +178,20 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
               testID={ExploreSelectors.SendButton}
               className="w-1/2 mx-1"
             />
-            <ActionButton
-              label={<T id="receive" />}
-              Icon={ReceiveIcon}
-              to="/receive"
-              testID={ExploreSelectors.ReceiveButton}
-              className="w-1/2 mx-1"
-            />
+            <div className="flex-1 relative">
+              <ActionButton
+                label={<T id="receive" />}
+                Icon={ReceiveIcon}
+                to="/receive"
+                testID={ExploreSelectors.ReceiveButton}
+                className="w-1/2 mx-1"
+              />
+              {claimableNotes !== undefined && claimableNotes.length > 0 && (
+                <div className="absolute top-[20%] left-[60%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">
+                  {claimableNotes.length}
+                </div>
+              )}
+            </div>
             {/* <ActionButton
               label={<T id="faucet" />}
               Icon={FaucetIcon}
@@ -300,7 +330,7 @@ const SecondarySection: FC<SecondarySectionProps> = ({ className, assetSlug, ass
   const activityLink = assetId ? `/activity/${programId}` : '/activity';
 
   return (
-    <div className={classNames('bg-white', 'rounded-lg', className)}>
+    <div className={classNames('bg-transparent', 'rounded-lg', className)}>
       {!assetId && (
         <div className={classNames('w-full px-4 pt-3', 'flex justify-start', 'text-sm font-semibold text-black')}>
           <span>{t('tokens')}</span>

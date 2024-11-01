@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 
-import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
 import { Icon, IconName } from 'app/icons/v2';
@@ -14,6 +13,7 @@ export interface ConfirmationScreenProps extends React.ButtonHTMLAttributes<HTML
 
 export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ className, isLoading, onSubmit, ...props }) => {
   const { t } = useTranslation();
+
   const Checkmarks = useMemo(
     () => [
       {
@@ -52,7 +52,14 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ classNam
         ))}
       </div> */}
 
-      <Button title={t('getStarted')} className="w-[360px] self-center" onClick={onSubmit} isLoading={isLoading} />
+      <Button
+        tabIndex={0}
+        autoFocus
+        title={t('getStarted')}
+        className="w-[360px] self-center"
+        onClick={onSubmit}
+        isLoading={isLoading}
+      />
     </div>
   );
 };

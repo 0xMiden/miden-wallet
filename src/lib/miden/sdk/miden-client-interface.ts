@@ -7,7 +7,7 @@ import {
   NoteType,
   WebClient
 } from '@demox-labs/miden-sdk';
-import { InputNoteRecord } from '@demox-labs/miden-sdk/crates/miden_client_web';
+import { InputNoteRecord } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
 
 import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';
 
