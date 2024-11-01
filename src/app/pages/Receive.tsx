@@ -16,7 +16,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const account = useAccount();
   const address = account.publicKey;
   const { fieldRef, copy } = useCopyToClipboard();
-  const { data: claimableNotes } = useClaimableNotes(account.id);
+  const { data: claimableNotes, mutate: mutateClaimableNotes } = useClaimableNotes(account.id);
   const [claimingNoteId, setClaimingNoteId] = useState<string | null>(null);
 
   const pageTitle = (
@@ -27,13 +27,9 @@ export const Receive: React.FC<ReceiveProps> = () => {
 
   const consumeNote = async (noteId: string) => {
     setClaimingNoteId(noteId);
-    const noteIndex = claimableNotes?.findIndex(note => note.id === noteId);
     await consumeNoteId(address, noteId);
     setClaimingNoteId(null);
-    // Remove the note from the list of claimable notes, if it's still there
-    if (claimableNotes && noteIndex && claimableNotes[noteIndex].id === noteId) {
-      claimableNotes.splice(noteIndex, 1);
-    }
+    mutateClaimableNotes();
   };
 
   return (

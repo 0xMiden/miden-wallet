@@ -115,6 +115,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
         clearError('submit');
         console.log(data);
         onAction({ id: SendFlowActionId.Navigate, step: SendFlowStep.GeneratingTransaction });
+        await new Promise(resolve => setTimeout(resolve, 5000));
         await midenClient?.sendTransaction(
           publicKey,
           recipientAddress!,
