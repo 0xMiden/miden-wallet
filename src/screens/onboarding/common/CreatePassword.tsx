@@ -133,6 +133,18 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
     setIsVerifyPasswordVisible(prev => !prev);
   }, []);
 
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (isValidPassword && onSubmit) {
+          onPasswordSubmit();
+        }
+      }
+    },
+    [isValidPassword, onPasswordSubmit, onSubmit]
+  );
+
   return (
     <div className={classNames('flex-1', 'flex flex-col', 'bg-white gap-y-8 p-6', className)} {...props}>
       <div className="flex flex-col items-center">
@@ -153,6 +165,7 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
               </button>
             }
             onChange={onPasswordChange}
+            onKeyDown={handleKeyDown}
           />
           <PasswordStrengthIndicator password={password} validation={passwordValidation} />
         </div>
@@ -169,6 +182,7 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
               </button>
             }
             onChange={e => setVerifyPassword(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
           <p
             className={classNames(

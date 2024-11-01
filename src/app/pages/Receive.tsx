@@ -1,19 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import FormField from 'app/atoms/FormField';
+import { useMidenClient } from 'app/hooks/useMidenClient';
 import { Icon, IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
 import { Button } from 'components/Button';
 import { T } from 'lib/i18n/react';
 import { useAccount } from 'lib/miden/front';
-import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
+import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
-import { useMidenClient } from 'app/hooks/useMidenClient';
-
-export interface ClaimableNote {
-  id: string;
-  amount: string;
-}
 
 export interface ReceiveProps {}
 
@@ -21,8 +16,8 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const account = useAccount();
   const address = account.publicKey;
   const { fieldRef, copy } = useCopyToClipboard();
-  const [claimableNotes, setClaimableNotes] = React.useState<ClaimableNote[]>([]);
   const { midenClient, midenClientLoading } = useMidenClient();
+  const { data: claimableNotes } = useClaimableNotes(account.id);
 
   const pageTitle = (
     <>
@@ -30,30 +25,10 @@ export const Receive: React.FC<ReceiveProps> = () => {
     </>
   );
 
-  const fetchNotes = async () => {
-    if (midenClient) {
-      const notes = await midenClient.getCommittedNotes();
-      if (notes.length === 0) {
-        return;
-      }
-      setClaimableNotes(
-        notes.map(note => ({
-          id: note.id().to_string(),
-          amount: note.details().assets().assets()[0].amount().toString()
-        }))
-      );
-    }
-  };
-
-  useEffect(() => {
-    fetchNotes();
-    const intervalId = setInterval(fetchNotes, 2000);
-    return () => clearInterval(intervalId);
-  }, [midenClient]);
-
   const consumeNote = async (noteId: string) => {
-    await midenClient?.consumeNoteId(address, noteId);
-    setClaimableNotes(claimableNotes.filter(note => note.id !== noteId));
+    if (midenClient !== undefined) {
+      await midenClient.consumeNoteId(address, noteId);
+    }
   };
 
   return (
@@ -69,19 +44,22 @@ export const Receive: React.FC<ReceiveProps> = () => {
             <Icon name={IconName.Copy} onClick={copy} style={{ cursor: 'pointer' }} />
           </div>
         </div>
-        {claimableNotes.length > 0 && <p className="text-lg mt-10 mb-5">Ready to claim</p>}
+        {claimableNotes !== undefined && claimableNotes.length > 0 && (
+          <p className="text-lg mt-10 mb-5">Ready to claim</p>
+        )}
         <div className="flex flex-col gap-y-4 p-6">
-          {claimableNotes.map(note => (
-            <div key={note.id} className="flex justify-between">
-              <div className="flex items-center gap-x-2">
-                <Icon name={IconName.ArrowRightDownFilledCircle} size="md" />
-                <p>{`${note.amount} miden`}</p>
+          {claimableNotes !== undefined &&
+            claimableNotes.map(note => (
+              <div key={note.id} className="flex justify-between">
+                <div className="flex items-center gap-x-2">
+                  <Icon name={IconName.ArrowRightDownFilledCircle} size="md" />
+                  <p>{`${note.amount} miden`}</p>
+                </div>
+                <Button disabled={midenClientLoading} onClick={() => consumeNote(note.id)}>
+                  <p className="text-white">Claim</p>
+                </Button>
               </div>
-              <Button disabled={midenClientLoading} onClick={() => consumeNote(note.id)}>
-                <p className="text-white">Claim</p>
-              </Button>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </PageLayout>

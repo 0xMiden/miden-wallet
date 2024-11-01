@@ -106,7 +106,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       try {
         clearError('submit');
         console.log(data);
-        midenClient!.sendTransaction(
+        midenClient.midenClient!.sendTransaction(
           publicKey,
           recipientAddress!,
           TOKEN_MAPPING[MidenTokens.Miden].faucetId, // TODO: add more robust way to change faucet id

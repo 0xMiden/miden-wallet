@@ -147,46 +147,48 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({ onboardingType, step, 
     <div
       className={classNames(
         'w-[37.5rem] h-[40rem] mx-auto',
-        'flex flex-col bg-white',
-        // 'bg-gradient-to-r from-indigo-300 to-white',
+        'flex flex-col',
         'rounded-3xl',
+        step == OnboardingStep.Welcome ? 'bg-gradient-to-br from-purple-200 via-white to-white' : 'bg-white',
         'overflow-hidden'
       )}
     >
-      <AnimatePresence mode={'wait'} initial={false}>
-        {step !== OnboardingStep.Confirmation && step !== OnboardingStep.SelectTransactionType && (
-          <Header onBack={onBack} step={step} onboardingType={onboardingType} key={'header'} />
-        )}
-      </AnimatePresence>
-      <AnimatePresence mode={'wait'} initial={false}>
-        <motion.div
-          className="h-full"
-          key={step}
-          initial="initialState"
-          animate="animateState"
-          exit="exitState"
-          transition={{
-            type: 'tween',
-            duration: 0.2
-          }}
-          variants={{
-            initialState: {
-              x: navigationDirection === 'forward' ? '1vw' : '-1vw',
-              opacity: 0
-            },
-            animateState: {
-              x: 0,
-              opacity: 1
-            },
-            exitState: {
-              x: navigationDirection === 'forward' ? '-1vw' : '1vw',
-              opacity: 0
-            }
-          }}
-        >
-          {renderStep()}
-        </motion.div>
-      </AnimatePresence>
+      <div className="h-full w-full">
+        <AnimatePresence mode={'wait'} initial={false}>
+          {step !== OnboardingStep.Confirmation && step !== OnboardingStep.SelectTransactionType && (
+            <Header onBack={onBack} step={step} onboardingType={onboardingType} key={'header'} />
+          )}
+        </AnimatePresence>
+        <AnimatePresence mode={'wait'} initial={false}>
+          <motion.div
+            className="h-full"
+            key={step}
+            initial="initialState"
+            animate="animateState"
+            exit="exitState"
+            transition={{
+              type: 'tween',
+              duration: 0.2
+            }}
+            variants={{
+              initialState: {
+                x: navigationDirection === 'forward' ? '1vw' : '-1vw',
+                opacity: 0
+              },
+              animateState: {
+                x: 0,
+                opacity: 1
+              },
+              exitState: {
+                x: navigationDirection === 'forward' ? '-1vw' : '1vw',
+                opacity: 0
+              }
+            }}
+          >
+            {renderStep()}
+          </motion.div>
+        </AnimatePresence>
+      </div>
     </div>
   );
 };

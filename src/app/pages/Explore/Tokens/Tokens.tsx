@@ -226,7 +226,7 @@ const ListItem = memo<ListItemProps>(({ assetSlug, assetId, active, accountPubli
     <Link
       to={toExploreAssetLink(assetId)}
       className={classNames(
-        'mt-2 p-2 border border-gray-600 rounded-lg',
+        'p-2 border border-gray-600 rounded-lg',
         'relative',
         'block w-full',
         'overflow-hidden',
