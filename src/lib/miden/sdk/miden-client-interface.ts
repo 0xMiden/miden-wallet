@@ -153,6 +153,8 @@ export class MidenClientInterface {
       recallHeight = blockNum + recallBlocks;
     }
 
+    await this.fetchCacheAccountAuth(senderAccountId);
+
     const result = await this.webClient.new_send_transaction(
       accountIdStringToSdk(senderAccountId),
       accountIdStringToSdk(recipientAccountId),

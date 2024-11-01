@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 
 import { NoteType } from '@demox-labs/miden-sdk';
 import classNames from 'clsx';
@@ -12,6 +12,7 @@ import { navigate } from 'lib/woozie';
 import { UITransactionType } from 'screens/convert-tokens/types';
 import { SendFlowAction, SendFlowActionId, SendFlowForm, SendFlowStep } from 'screens/send-tokens/types';
 
+import { GeneratingTransaction } from './GeneratingTransaction';
 import { ReviewTransaction } from './ReviewTransaction';
 import { SelectAmount } from './SelectAmount';
 import { SelectRecipient } from './SelectRecipient';
@@ -34,6 +35,11 @@ const ROUTES: Route[] = [
     animationOut: 'pop'
   },
   {
+    name: SendFlowStep.GeneratingTransaction,
+    animationIn: 'push',
+    animationOut: 'pop'
+  },
+  {
     name: SendFlowStep.TransactionInitiated,
     animationIn: 'push',
     animationOut: 'pop'
@@ -46,8 +52,10 @@ export interface SendManagerProps {
 
 export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const { navigateTo, goBack } = useNavigator();
-  const midenClient = useMidenClient();
+  const { midenClient } = useMidenClient();
   const { publicKey } = useAccount();
+  const [transactionGenerationComplete, setTransactionGenerationComplete] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
 
   const onClose = useCallback(() => {
     navigate('/');
@@ -106,23 +114,36 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       try {
         clearError('submit');
         console.log(data);
-        midenClient.midenClient!.sendTransaction(
+        onAction({ id: SendFlowActionId.Navigate, step: SendFlowStep.GeneratingTransaction });
+        await midenClient?.sendTransaction(
           publicKey,
           recipientAddress!,
           TOKEN_MAPPING[MidenTokens.Miden].faucetId, // TODO: add more robust way to change faucet id
           NoteType.public(),
-          BigInt(amount),
+          BigInt(amount!),
           recallBlocks ? parseInt(recallBlocks) : undefined
         );
-        onAction({ id: SendFlowActionId.Navigate, step: SendFlowStep.TransactionInitiated });
+        setTransactionGenerationComplete(true);
       } catch (e: any) {
         if (e.message) {
           setError('submit', 'manual', e.message);
         }
+        setSubmitError(true);
         console.error(e);
       }
     },
-    [clearError, midenClient, publicKey, recipientAddress, amount, recallBlocks, onAction, setError]
+    [
+      formState.isSubmitting,
+      clearError,
+      midenClient,
+      publicKey,
+      recipientAddress,
+      amount,
+      recallBlocks,
+      onAction,
+      setError,
+      setTransactionGenerationComplete
+    ]
   );
 
   const onAddressChange = useCallback(
@@ -184,13 +205,33 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
               sendType={JSON.stringify(sendType)}
             />
           );
+        case SendFlowStep.GeneratingTransaction:
+          return (
+            <GeneratingTransaction
+              transactionComplete={transactionGenerationComplete}
+              onAction={onAction}
+              submitError={submitError}
+            />
+          );
         case SendFlowStep.TransactionInitiated:
           return <TransactionInitiated onAction={onAction} />;
         default:
           return <></>;
       }
     },
-    [amount, goBack, goToStep, onAction, onAddressChange, onClearAddress, onClose, recipientAddress, sendType]
+    [
+      amount,
+      goBack,
+      goToStep,
+      onAction,
+      onAddressChange,
+      onClearAddress,
+      onClose,
+      recipientAddress,
+      sendType,
+      transactionGenerationComplete,
+      submitError
+    ]
   );
 
   return (
