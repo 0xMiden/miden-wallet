@@ -9,6 +9,8 @@ import { consumeNoteId } from 'lib/miden-worker/consumeNoteId';
 import { useAccount } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
+import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
+import { useMidenClient } from 'app/hooks/useMidenClient';
 
 export interface ReceiveProps {}
 
@@ -18,6 +20,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const { fieldRef, copy } = useCopyToClipboard();
   const { data: claimableNotes, mutate: mutateClaimableNotes } = useClaimableNotes(account.id);
   const [claimingNoteId, setClaimingNoteId] = useState<string | null>(null);
+  const { midenClient } = useMidenClient();
 
   const pageTitle = (
     <>
@@ -27,7 +30,11 @@ export const Receive: React.FC<ReceiveProps> = () => {
 
   const consumeNote = async (noteId: string) => {
     setClaimingNoteId(noteId);
-    await consumeNoteId(address, noteId);
+    if (isDelegateProofEnabled()) {
+      await midenClient?.consumeNoteId(account.publicKey, noteId);
+    } else {
+      await consumeNoteId(address, noteId);
+    }
     setClaimingNoteId(null);
     mutateClaimableNotes();
   };

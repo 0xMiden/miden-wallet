@@ -225,7 +225,7 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
             canDismiss={false}
           />
         </div> */}
-        <SecondarySection assetSlug={assetSlug} assetId={assetId} />
+        {/* <SecondarySection assetSlug={assetSlug} assetId={assetId} /> */}
       </div>
       {/* {!assetId && (
         <div className="flex-none">

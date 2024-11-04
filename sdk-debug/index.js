@@ -22,6 +22,8 @@ await webClient.sync_state();
 console.log('synced state');
 
 document.getElementById('loading').style.display = 'none';
+document.getElementById('faucetIdTitle').style.display = 'block';
+document.getElementById('faucetId').innerText = faucetId.to_string();
 
 document.getElementById('publicKeyForm').addEventListener('submit', async event => {
   event.preventDefault();
