@@ -1,41 +1,33 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import classNames from 'clsx';
 
-import { Button } from 'app/atoms/Button';
 import CircularProgress from 'app/atoms/CircularProgress';
 import { closeLoadingFullPage } from 'app/env';
 import useBeforeUnload from 'app/hooks/useBeforeUnload';
 import { ReactComponent as WarningIcon } from 'app/icons/warning-alt.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import { isAutoCloseEnabled } from 'app/templates/AutoCloseSettings';
-
-import { formatTransactionStatus, ITransactionStatus } from 'lib/miden/db/transaction-types';
-import { useMidenContext, useAllAccounts } from 'lib/miden/front';
-import { useFilteredContacts } from 'lib/miden/front/use-filtered-contacts.hook';
 import { useAnalytics } from 'lib/analytics';
 import { t, T } from 'lib/i18n/react';
-import { useRetryableSWR } from 'lib/swr';
-
-import { GeneratingTransactionSelectors } from './GeneratingTransaction.selectors';
+import { consumeNoteId } from 'lib/miden-worker/consumeNoteId';
+import { sendTransaction } from 'lib/miden-worker/sendTransaction';
+import { ITransactionStatus } from 'lib/miden/db/transaction-types';
+import { putToStorage } from 'lib/miden/front';
+import { safeGenerateTransactionsLoop, useQueuedTransactions } from 'lib/miden/front/queued-transactions';
 
 const GeneratingTransaction: FC = () => {
-  const accounts = useAllAccounts();
   const [displayMessage, setDisplayMessage] = useState('');
   const { pageEvent, trackEvent, performanceEvent } = useAnalytics();
-  const { allContacts } = useFilteredContacts();
-  const { authorizeDeploy } = useMidenContext();
+  // const { allContacts } = useFilteredContacts();
+  // const { authorizeDeploy } = useMidenContext();
+  const [transactions] = useQueuedTransactions();
 
   useEffect(() => {
     pageEvent('GeneratingTransaction', '');
   }, [pageEvent]);
-
-  const transactions: any = [];
-  const canCancelTransaction = transactions.length > 0 && transactions[0].status !== ITransactionStatus.Broadcasting;
-  const statusMessage =
-    transactions.length > 0 ? `${t('status')}: ${formatTransactionStatus(transactions[0].status)}` : '';
 
   const prevTransactionsLength = useRef<number>();
   useEffect(() => {
@@ -52,12 +44,19 @@ const GeneratingTransaction: FC = () => {
     prevTransactionsLength.current = transactions.length;
   }, [transactions, trackEvent]);
 
-  const cancelTx = async () => {
-    canCancelTransaction;
-  };
+  useEffect(() => {
+    safeGenerateTransactionsLoop(consumeNoteId, sendTransaction);
+    setInterval(() => {
+      safeGenerateTransactionsLoop(consumeNoteId, sendTransaction);
+    }, 5_000);
+  }, [transactions]);
 
-  useBeforeUnload(t('generatingTransactionWarning'), transactions.length !== 0);
-  const progress = transactions.length > 0 ? statusToProgress(transactions[0].status) : 0;
+  const clearStorage = useCallback(() => {
+    putToStorage('miden-queued-transactions', []);
+  }, []);
+
+  useBeforeUnload(t('generatingTransactionWarning'), transactions.length !== 0, clearStorage);
+  const progress = transactions.length > 0 ? (1 / transactions.length) * 80 : 0;
 
   return (
     <PageLayout
@@ -87,12 +86,6 @@ const GeneratingTransaction: FC = () => {
           >
             {displayMessage}
           </div>
-          <div
-            className="flex flex-col mt-1 pb-8 items-center text-black text-center"
-            style={{ fontSize: '14px', lineHeight: '20px' }}
-          >
-            {statusMessage}&nbsp;
-          </div>
         </div>
         <div
           className="flex w-full max-w-sm mx-auto text-center mt-6 rounded-lg bg-yellow-500"
@@ -116,7 +109,7 @@ const GeneratingTransaction: FC = () => {
           </div>
         </div>
         <div className={classNames('w-full pt-2 pb-8 px-4 mt-24')}>
-          <Button
+          {/* <Button
             className={`w-full justify-center border-none font-semibold text-sm`}
             style={{
               padding: '12px 2rem',
@@ -133,7 +126,7 @@ const GeneratingTransaction: FC = () => {
             testID={GeneratingTransactionSelectors.CancelButton}
           >
             Cancel Transaction
-          </Button>
+          </Button> */}
         </div>
       </div>
     </PageLayout>

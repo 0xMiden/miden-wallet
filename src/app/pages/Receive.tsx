@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
 
 import FormField from 'app/atoms/FormField';
+import { openLoadingFullPage } from 'app/env';
 import { Icon, IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
+import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Button, ButtonVariant } from 'components/Button';
 import { T } from 'lib/i18n/react';
-import { consumeNoteId } from 'lib/miden-worker/consumeNoteId';
 import { useAccount } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
+import { useQueuedTransactions } from 'lib/miden/front/queued-transactions';
+import { QueuedTransactionType } from 'lib/miden/types';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
-import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
-import { useMidenClient } from 'app/hooks/useMidenClient';
 
 export interface ReceiveProps {}
 
@@ -18,9 +19,9 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const account = useAccount();
   const address = account.publicKey;
   const { fieldRef, copy } = useCopyToClipboard();
-  const { data: claimableNotes, mutate: mutateClaimableNotes } = useClaimableNotes(account.id);
-  const [claimingNoteId, setClaimingNoteId] = useState<string | null>(null);
-  const { midenClient } = useMidenClient();
+  const { data: claimableNotes } = useClaimableNotes(account.id);
+  const isDelegatedProvingEnabled = isDelegateProofEnabled();
+  const [, queueTransaction] = useQueuedTransactions();
 
   const pageTitle = (
     <>
@@ -28,16 +29,26 @@ export const Receive: React.FC<ReceiveProps> = () => {
     </>
   );
 
-  const consumeNote = async (noteId: string) => {
-    setClaimingNoteId(noteId);
-    if (isDelegateProofEnabled()) {
-      await midenClient?.consumeNoteId(account.publicKey, noteId);
-    } else {
-      await consumeNoteId(address, noteId);
-    }
-    setClaimingNoteId(null);
-    mutateClaimableNotes();
-  };
+  const consumeNote = useCallback(
+    (noteId: string) => {
+      const transaction = {
+        type: QueuedTransactionType.ConsumeNoteId,
+        data: {
+          address: account.publicKey,
+          noteId,
+          delegateTransaction: isDelegatedProvingEnabled
+        }
+      };
+
+      queueTransaction(transaction);
+      openLoadingFullPage();
+      const index = claimableNotes?.findIndex(note => note.id === noteId);
+      if (index !== undefined && index !== -1) {
+        claimableNotes?.splice(index, 1);
+      }
+    },
+    [account, isDelegatedProvingEnabled, queueTransaction, claimableNotes]
+  );
 
   return (
     <PageLayout pageTitle={pageTitle}>
@@ -63,13 +74,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
                   <Icon name={IconName.ArrowRightDownFilledCircle} size="lg" />
                   <p className="text-lg">{`${note.amount} miden`}</p>
                 </div>
-                <Button
-                  variant={ButtonVariant.Primary}
-                  disabled={claimingNoteId !== null}
-                  onClick={() => consumeNote(note.id)}
-                  isLoading={claimingNoteId === note.id}
-                  title="Claim"
-                />
+                <Button variant={ButtonVariant.Primary} onClick={() => consumeNote(note.id)} title="Claim" />
               </div>
             ))}
         </div>

@@ -1,13 +1,13 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 
-import { NoteType } from '@demox-labs/miden-sdk';
 import classNames from 'clsx';
 import { OnSubmit, useForm } from 'react-hook-form';
 
-import { useMidenClient } from 'app/hooks/useMidenClient';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { MidenTokens, TOKEN_MAPPING } from 'lib/miden-chain/constants';
 import { useAccount } from 'lib/miden/front';
+import { useQueuedTransactions } from 'lib/miden/front/queued-transactions';
+import { QueuedTransactionType, SendTransactionTransaction } from 'lib/miden/types';
 import { navigate } from 'lib/woozie';
 import { UITransactionType } from 'screens/convert-tokens/types';
 import { SendFlowAction, SendFlowActionId, SendFlowForm, SendFlowStep } from 'screens/send-tokens/types';
@@ -17,6 +17,7 @@ import { ReviewTransaction } from './ReviewTransaction';
 import { SelectAmount } from './SelectAmount';
 import { SelectRecipient } from './SelectRecipient';
 import { TransactionInitiated } from './TransactionInitiated';
+import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 
 const ROUTES: Route[] = [
   {
@@ -52,10 +53,11 @@ export interface SendManagerProps {
 
 export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const { navigateTo, goBack } = useNavigator();
-  const { midenClient } = useMidenClient();
   const { publicKey } = useAccount();
   const [transactionGenerationComplete, setTransactionGenerationComplete] = useState(false);
   const [submitError, setSubmitError] = useState(false);
+  const [, queueTransaction] = useQueuedTransactions();
+  const isDelegatedProvingEnabled = isDelegateProofEnabled();
 
   const onClose = useCallback(() => {
     navigate('/');
@@ -114,17 +116,18 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       try {
         clearError('submit');
         console.log(data);
-        onAction({ id: SendFlowActionId.Navigate, step: SendFlowStep.GeneratingTransaction });
-        await new Promise(resolve => setTimeout(resolve, 5000));
-        await midenClient?.sendTransaction(
-          publicKey,
-          recipientAddress!,
-          TOKEN_MAPPING[MidenTokens.Miden].faucetId, // TODO: add more robust way to change faucet id
-          NoteType.public(),
-          BigInt(amount!),
-          recallBlocks ? parseInt(recallBlocks) : undefined
-        );
-        setTransactionGenerationComplete(true);
+        onAction({ id: SendFlowActionId.Navigate, step: SendFlowStep.TransactionInitiated });
+        const payload: SendTransactionTransaction = {
+          senderAccountId: publicKey!,
+          recipientAccountId: recipientAddress!,
+          faucetId: TOKEN_MAPPING[MidenTokens.Miden].faucetId, // TODO: add more robust way to change faucet id
+          noteType: sendType,
+          amount: amount!,
+          recallBlocks: recallBlocks ? parseInt(recallBlocks) : undefined,
+          delegateTransaction: isDelegatedProvingEnabled
+        };
+        const transaction = { type: QueuedTransactionType.SendTransaction, data: payload };
+        queueTransaction(transaction);
       } catch (e: any) {
         if (e.message) {
           setError('submit', 'manual', e.message);
@@ -136,14 +139,15 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     [
       formState.isSubmitting,
       clearError,
-      midenClient,
+      onAction,
       publicKey,
       recipientAddress,
+      sendType,
       amount,
       recallBlocks,
-      onAction,
+      queueTransaction,
       setError,
-      setTransactionGenerationComplete
+      isDelegatedProvingEnabled
     ]
   );
 

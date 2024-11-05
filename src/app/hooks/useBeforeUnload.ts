@@ -1,8 +1,11 @@
 import { useEffect } from 'react';
 
-function useBeforeUnload(promptMessage: string, enabled: boolean) {
+function useBeforeUnload(promptMessage: string, enabled: boolean, additionalAction?: () => void) {
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (additionalAction) {
+        additionalAction();
+      }
       if (!enabled) return;
       event.preventDefault();
       event.returnValue = promptMessage;
@@ -12,7 +15,7 @@ function useBeforeUnload(promptMessage: string, enabled: boolean) {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-  }, [promptMessage, enabled]);
+  }, [promptMessage, enabled, additionalAction]);
 }
 
 export default useBeforeUnload;

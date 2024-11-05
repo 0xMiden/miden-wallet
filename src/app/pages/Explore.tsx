@@ -45,6 +45,8 @@ import SyncBanner from './Explore/SyncBanner';
 import Tokens from './Explore/Tokens/Tokens';
 import { useMidenClient } from 'app/hooks/useMidenClient';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
+import { useRetryableSWR } from 'lib/swr';
+import { useQueuedTransactions } from 'lib/miden/front/queued-transactions';
 
 const midenClient = await MidenClientInterface.create();
 
@@ -87,6 +89,11 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
   const { search } = useLocation();
   const [hasSeenNotification, setHasSeenNotification] = useLocalStorage('chainStatus', { seen: false, timestamp: -1 });
   const alert = useAlert();
+  const [queuedTransactions] = useQueuedTransactions();
+
+  useEffect(() => {
+    if (queuedTransactions.length) openLoadingFullPage();
+  }, [queuedTransactions]);
 
   /* const fetchClaimableNotes = async () => {
     const notes = await midenClient.getCommittedNotes();
