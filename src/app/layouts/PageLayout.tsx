@@ -20,24 +20,26 @@ import { ChangelogOverlay } from './PageLayout/ChangelogOverlay/ChangelogOverlay
 interface PageLayoutProps extends PropsWithChildren, ToolbarProps {
   contentContainerStyle?: React.CSSProperties;
   hideToolbar?: boolean;
+  showBottomBorder?: boolean;
 }
 
-const PageLayout: FC<PageLayoutProps> = ({ children, contentContainerStyle, hideToolbar, ...toolbarProps }) => {
+const PageLayout: FC<PageLayoutProps> = ({
+  children,
+  contentContainerStyle,
+  hideToolbar,
+  showBottomBorder = true,
+  ...toolbarProps
+}) => {
   const { fullPage } = useAppEnv();
 
-  const containerStyles = fullPage
-    ? { height: '750px', boxShadow: '0px 68px 56px rgba(0, 0, 0, 0.15)', maxWidth: '600px', minWidth: '600px' }
-    : { maxHeight: '600px' };
+  const containerStyles = fullPage ? { height: '640px', width: '600px' } : { height: '600px', width: '360px' };
 
   return (
     <>
       <DocBg bgClassName="bg-white" />
 
       <div
-        className={classNames(
-          'bg-white m-auto rounded-lg relative flex flex-col flex-1',
-          `${fullPage ? 'w-2/5' : 'w-full'}`
-        )}
+        className={classNames('bg-white m-auto rounded-3xl relative flex flex-col flex-1')}
         style={{ ...containerStyles }}
       >
         <ContentPaper>
@@ -66,7 +68,7 @@ const ContentPaper: FC<ContentPaparProps> = ({ className, style = {}, children, 
   return appEnv.fullPage ? (
     <ContentContainer>
       <div
-        className={classNames('bg-white', 'rounded-lg', 'flex flex-col flex-1', className)}
+        className={classNames('bg-white', 'rounded-3xl', 'flex flex-col flex-1', className)}
         style={{ minHeight: '20rem', ...style }}
         {...rest}
       >
@@ -99,6 +101,7 @@ type ToolbarProps = {
   setStep?: (step: number) => void;
   skip?: boolean;
   attention?: boolean;
+  showBottomBorder?: boolean;
 };
 
 const Toolbar: FC<ToolbarProps> = ({
@@ -107,11 +110,13 @@ const Toolbar: FC<ToolbarProps> = ({
   step,
   setStep,
   skip,
-  advancedSettingsSection
+  advancedSettingsSection,
+  showBottomBorder
 }) => {
   const { historyPosition, pathname } = useLocation();
   const { registerBackHandler, onBack } = useAppEnv();
   const { setOnboardingCompleted } = useOnboardingProgress();
+  const { fullPage } = useAppEnv();
 
   const onStepBack = () => {
     if (step && setStep && step > 0) {
@@ -177,9 +182,7 @@ const Toolbar: FC<ToolbarProps> = ({
         // with the top of the browser window
         // (thus never triggering the intersection observer).
         top: -1,
-        minHeight: '1.75rem',
-        maxHeight: '750px',
-        borderBottom: '1px solid #E9EBEF'
+        borderBottom: showBottomBorder ? '1px solid #E9EBEF' : 'none'
       }}
     >
       <div className="flex justify-between w-full" style={{ paddingTop: '14px', paddingBottom: '14px' }}>

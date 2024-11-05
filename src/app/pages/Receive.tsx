@@ -19,7 +19,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const account = useAccount();
   const address = account.publicKey;
   const { fieldRef, copy } = useCopyToClipboard();
-  const { data: claimableNotes } = useClaimableNotes(account.id);
+  const { data: claimableNotes } = useClaimableNotes(address);
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
   const [, queueTransaction] = useQueuedTransactions();
 
@@ -51,28 +51,32 @@ export const Receive: React.FC<ReceiveProps> = () => {
   );
 
   return (
-    <PageLayout pageTitle={pageTitle}>
+    <PageLayout pageTitle={pageTitle} showBottomBorder={false}>
       <div className="p-4">
         <FormField ref={fieldRef} value={address} style={{ display: 'none' }} />
         <div className="flex flex-col justify-start gap-y-2">
-          <div className="flex justify-between pr-3">
+          <div className="flex justify-center items-center gap-24">
             <div className="flex flex-col">
               <p className="text-xs text-gray-400">Your address</p>
               <p className="text-sm">{address}</p>
             </div>
             <Icon name={IconName.Copy} onClick={copy} style={{ cursor: 'pointer' }} />
           </div>
+          <div className="w-1/2 mx-auto" style={{ borderBottom: '1px solid #E9EBEF' }}></div>
         </div>
         {claimableNotes !== undefined && claimableNotes.length > 0 && (
-          <p className="text-lg mt-10 mb-5">Ready to claim</p>
+          <p className="text-xs text-gray-400 mt-10 mb-5">Ready to claim</p>
         )}
         <div className="flex flex-col gap-y-4 p-6">
           {claimableNotes !== undefined &&
             claimableNotes.map(note => (
-              <div key={note.id} className="flex justify-between">
+              <div key={note.id} className="flex justify-center items-center">
                 <div className="flex items-center gap-x-2">
                   <Icon name={IconName.ArrowRightDownFilledCircle} size="lg" />
-                  <p className="text-lg">{`${note.amount} miden`}</p>
+                  <div className="flex flex-col gap-y-2">
+                    <p className="text-lg">{`${note.amount} MIDEN`}</p>
+                    {/* <p className="text-xs text-gray-400">{note.senderAddress}</p> */}
+                  </div>
                 </div>
                 <Button variant={ButtonVariant.Primary} onClick={() => consumeNote(note.id)} title="Claim" />
               </div>

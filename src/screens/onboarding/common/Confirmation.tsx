@@ -29,7 +29,7 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ classNam
   );
   return (
     <div {...props} className="flex-1 flex flex-col h-full justify-between bg-white px-10 py-6 gap-y-8">
-      <div className="flex flex-col gap-y-5">
+      <div className="flex flex-col items-center justify-center flex-grow">
         <Message icon={IconName.CheckboxCircleFill} title={t('yourWalletHasBeenCreated')} description={''} />
         <div className="flex items-center justify-center gap-x-1">
           <Icon name={IconName.MidenLogo} size="md" />
@@ -37,7 +37,16 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ classNam
           <p className="text-lg">Miden</p>
         </div>
       </div>
-
+      <div className="flex mt-auto justify-center">
+        <Button
+          tabIndex={0}
+          autoFocus
+          title={t('getStarted')}
+          className="w-[360px] self-center"
+          onClick={onSubmit}
+          isLoading={isLoading}
+        />
+      </div>
       {/* <div className="flex flex-col gap-y-2">
         {Checkmarks.map((c, idx) => (
           <div key={'checkmark-' + c.title + idx} className="flex gap-x-2">
@@ -51,15 +60,6 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ classNam
           </div>
         ))}
       </div> */}
-
-      <Button
-        tabIndex={0}
-        autoFocus
-        title={t('getStarted')}
-        className="w-[360px] self-center"
-        onClick={onSubmit}
-        isLoading={isLoading}
-      />
     </div>
   );
 };
