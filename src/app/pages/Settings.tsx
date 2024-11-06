@@ -47,8 +47,8 @@ const TABS: Tab[] = [
     descriptionI18nKey: 'generalSettingsDescription',
     testID: SettingsSelectors.GeneralButton,
     insertHR: false
-  },
-  {
+  }
+  /* {
     slug: 'address-book',
     titleI18nKey: 'addressBook',
     Icon: ContactBookIcon,
@@ -56,7 +56,7 @@ const TABS: Tab[] = [
     descriptionI18nKey: 'addressBookDescription',
     testID: SettingsSelectors.AddressBookButton,
     insertHR: false
-  },
+  }, */
   // {
   //   slug: 'reveal-view-key',
   //   titleI18nKey: 'revealViewKey',
@@ -113,7 +113,7 @@ const TABS: Tab[] = [
   //   testID: SettingsSelectors.RemoveAccountButton,
   //   insertHR: true
   // },
-  {
+  /* {
     slug: 'reveal-seed-phrase',
     titleI18nKey: 'exportWalletFile',
     Icon: FileIcon,
@@ -140,7 +140,7 @@ const TABS: Tab[] = [
     descriptionI18nKey: 'networkDescription',
     testID: SettingsSelectors.NetworksButton,
     insertHR: false
-  }
+  } */
 ];
 
 // TODO: Consider passing tabs in as a prop

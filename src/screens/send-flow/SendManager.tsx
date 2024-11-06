@@ -18,6 +18,7 @@ import { SelectAmount } from './SelectAmount';
 import { SelectRecipient } from './SelectRecipient';
 import { TransactionInitiated } from './TransactionInitiated';
 import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
+import { useAppEnv } from 'app/env';
 
 const ROUTES: Route[] = [
   {
@@ -58,6 +59,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const [submitError, setSubmitError] = useState(false);
   const [, queueTransaction] = useQueuedTransactions();
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
+  const { fullPage } = useAppEnv();
 
   const onClose = useCallback(() => {
     navigate('/');
@@ -242,8 +244,10 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   return (
     <div
       className={classNames(
-        'w-[22.5rem] h-[37.5rem] md:w-[37.5rem] md:h-[46.875rem] md:my-8',
-        'mx-auto border rounded-md overflow-hidden ',
+        fullPage
+          ? 'h-[640px] max-h-[640px] w-[600px] max-w-[600px]'
+          : 'h-[600px] max-h-[600px] w-[340px] max-w-[340px]',
+        'mx-auto border rounded-3xl overflow-hidden ',
         'flex flex-1',
         'flex-col bg-white',
         'rounded-3xl',

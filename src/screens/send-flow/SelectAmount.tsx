@@ -42,7 +42,7 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, on
         payload: {
           amount: value ? values?.formatted : undefined
         },
-        triggerValidation: false
+        triggerValidation: true
       });
     },
     [onAction]
@@ -64,7 +64,10 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, on
 
         <div className="flex flex-col gap-y-2 ">
           <div className="flex flex-row items-center py-4">
-            <div className="flex-1">{balance?.toString()}</div>
+            <div className="flex-1 flex-col gap-y-1">
+              <p className="text-sm text-gray-400">Available balance</p>
+              <p className="text-sm text-black">{`${balance?.toString()} MIDEN`}</p>
+            </div>
             <button
               onClick={() => {
                 onAction?.({
@@ -77,7 +80,7 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, on
               }}
               type="button"
             >
-              <Chip label="Max" className="cursor-pointer" />
+              <Chip label="Max" className="cursor-pointer font-bold" />
             </button>
           </div>
         </div>
