@@ -1296,10 +1296,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/selector-specificity/-/selector-specificity-2.2.0.tgz#2cbcf822bf3764c9658c4d2e568bd0c0cb748016"
   integrity sha512-+OJ9konv95ClSTOJCmMZqpd5+YGsB2S+x6w3E1oaM8UuR5j8nTNHYSz8c9BEPGDOCMQYIEEGlVPj/VY64iTbGw==
 
-"@demox-labs/miden-sdk@0.0.18":
-  version "0.0.18"
-  resolved "https://registry.yarnpkg.com/@demox-labs/miden-sdk/-/miden-sdk-0.0.18.tgz#c55976907b06ba31966c52543aed8a65995a43cb"
-  integrity sha512-gbD5YeJTdBwMd9xdGX+euj6QiN8RttMG+RP3fgTLQXt/4tS9AYXMaR4IP/cxKfhctvIlBlfiJSHNqFcDTbJWxQ==
+"@demox-labs/miden-sdk@0.0.20":
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/@demox-labs/miden-sdk/-/miden-sdk-0.0.20.tgz#2a9a99af2c3213cac349b158a5f0c6f13e3b62a0"
+  integrity sha512-SboTfz/ImrbuFpqjaLEs67ARCB9Brgrj+YG+LOAvCgKteUyIxRbpadOfah/dLi18durp5YOj89L7VWIvE3MrSg==
   dependencies:
     chai-as-promised "^8.0.0"
     dexie "^4.0.1"

@@ -7,11 +7,11 @@ import {
   NoteType,
   WebClient
 } from '@demox-labs/miden-sdk';
-import { InputNoteRecord } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
 
 import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';
 
 import { NoteExportType } from './constants';
+import { InputNoteRecord } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
 
 export class MidenClientInterface {
   webClient: WebClient;
@@ -23,7 +23,10 @@ export class MidenClientInterface {
     const webClient = new WebClient();
 
     if (delegateProving) {
-      await webClient.create_client(MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!);
+      await webClient.create_client(
+        MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!,
+        MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!
+      );
     } else {
       await webClient.create_client(MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!);
     }
