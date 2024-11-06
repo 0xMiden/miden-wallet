@@ -149,11 +149,11 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
     <div className={classNames('flex-1', 'flex flex-col', 'bg-white gap-y-8 p-6', className)} {...props}>
       <div className="flex flex-col items-center">
         <header className="text-2xl font-semibold">{t('createPassword')}</header>
-        <p className="text-sm font-normal mt-2 w-[500px]">{t('createPasswordDescription')}</p>
+        <p className="text-sm text-center font-normal mt-2 w-[500px]">{t('createPasswordDescription')}</p>
       </div>
 
-      <article className="w-full flex flex-col gap-y-4 px-6">
-        <div className="flex flex-col gap-y-2">
+      <article className="w-full justify-center items-center flex flex-col gap-y-4 px-6">
+        <div className="flex flex-col w-[360px] gap-y-2">
           <Input
             type={isPasswordVisible ? 'text' : 'password'}
             label={t('password')}
@@ -170,7 +170,7 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
           <PasswordStrengthIndicator password={password} validation={passwordValidation} />
         </div>
 
-        <div className="flex flex-col gap-y-2">
+        <div className="flex flex-col w-[360px] gap-y-2">
           <Input
             type={isVerifyPasswordVisible ? 'text' : 'password'}
             label={t('verifyPassword')}

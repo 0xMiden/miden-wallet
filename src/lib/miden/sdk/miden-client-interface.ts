@@ -133,25 +133,16 @@ export class MidenClientInterface {
 
   async getConsumableNotes(accountId: string, currentBlockHeight: number): Promise<ConsumableNoteRecord[]> {
     const result = await this.webClient.get_consumable_notes();
-    console.log('Consumable notes:', result);
     const notes = result.filter(note => {
-      console.log('consumability length', note.note_consumability().length);
-      note.note_consumability().forEach(consumability => {
-        console.log(consumability, 'consumable after block', consumability.consumable_after_block());
-      });
-
       const consumability = note.note_consumability();
       if (consumability.length === 0) {
-        console.log('Note has no consumability');
         return false;
       }
       const consumableAfterBlock = note.note_consumability()[0].consumable_after_block();
       if (consumableAfterBlock === undefined) {
-        console.log('Note has no consumable_after_block');
         return true;
       }
-      console.log('note height', consumableAfterBlock, 'current block height', currentBlockHeight);
-      return consumableAfterBlock <= currentBlockHeight;
+      return consumableAfterBlock < currentBlockHeight;
     });
 
     return notes;

@@ -64,21 +64,30 @@ export const Receive: React.FC<ReceiveProps> = () => {
           </div>
           <div className="w-1/2 mx-auto" style={{ borderBottom: '1px solid #E9EBEF' }}></div>
         </div>
-        {claimableNotes !== undefined && claimableNotes.length > 0 && (
-          <p className="text-xs text-gray-400 mt-10 mb-5">Ready to claim</p>
-        )}
         <div className="flex flex-col gap-y-4 p-6">
+          <div className="flex justify-center">
+            <div className="relative left-[-19%]">
+              {claimableNotes !== undefined && claimableNotes.length > 0 && (
+                <p className="text-md text-gray-600">Ready to claim</p>
+              )}
+            </div>
+          </div>
           {claimableNotes !== undefined &&
             claimableNotes.map(note => (
-              <div key={note.id} className="flex justify-center items-center">
+              <div key={note.id} className="flex justify-center items-center gap-8">
                 <div className="flex items-center gap-x-2">
                   <Icon name={IconName.ArrowRightDownFilledCircle} size="lg" />
-                  <div className="flex flex-col gap-y-2">
-                    <p className="text-lg">{`${note.amount} MIDEN`}</p>
-                    {/* <p className="text-xs text-gray-400">{note.senderAddress}</p> */}
+                  <div className="flex flex-col">
+                    <p className="text-md font-bold">{`${note.amount} MIDEN`}</p>
+                    <p className="text-xs text-gray-600">{note.senderAddress}</p>
                   </div>
                 </div>
-                <Button variant={ButtonVariant.Primary} onClick={() => consumeNote(note.id)} title="Claim" />
+                <Button
+                  className="w-[75px] h-[36px] text-md"
+                  variant={ButtonVariant.Primary}
+                  onClick={() => consumeNote(note.id)}
+                  title="Claim"
+                />
               </div>
             ))}
         </div>

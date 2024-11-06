@@ -22,7 +22,7 @@ const Header: FC = () => {
   const isGeneratingUrl = window.location.href.search('generating-transaction') > -1;
 
   return (
-    <header className={classNames('mx-4', appEnv.fullPage && '')} style={{ borderBottom: '1px solid white' }}>
+    <header className={classNames('mx-4', appEnv.fullPage && '')}>
       <ContentContainer className="py-5">
         <div>
           <div className="flex w-full">{!isGeneratingUrl && <Control />}</div>
