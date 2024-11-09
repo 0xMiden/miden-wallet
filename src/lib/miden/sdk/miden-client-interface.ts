@@ -19,16 +19,16 @@ export class MidenClientInterface {
     this.webClient = webClient;
   }
 
-  static async create(delegateProving: boolean = false) {
+  static async create(delegateProving: boolean = true) {
     const webClient = new WebClient();
 
     if (delegateProving) {
       await webClient.create_client(
-        MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!,
-        MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!
+        MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!,
+        MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!
       );
     } else {
-      await webClient.create_client(MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!);
+      await webClient.create_client(MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!);
     }
 
     return new MidenClientInterface(webClient);
