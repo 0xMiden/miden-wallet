@@ -135,7 +135,7 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
         {!assetId && <Header />}
         {/* {!assetId && <EditableTitle />} */}
         {assetId && (
-          <div className="flex justify-start mt-1 py-4 mb-4 mx-4 text-lg uppercase font-medium border-b border-white">
+          <div className="flex justify-start mt-1 py-4 mb-4 mx-4 text-lg uppercase font-medium">
             <div className="flex flex-col justify-center" style={{ lineHeight: '39px' }}>
               <Link testID={ExploreSelectors.ActivityTab} to={'/'} className="w-6 h-6">
                 <ArrowLeftIcon />
@@ -153,8 +153,10 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
           </div>
         )}
         <div className={classNames('flex flex-col justify-start mt-6')}>
-          <MainBanner balance={balance || new BigNumber(0)} />
-          <div className="mx-2 pt-1 pb-3">{!assetId && <AddressChip publicKey={account.publicKey} />}</div>
+          <div className="flex flex-col w-full justify-center items-center">
+            <MainBanner balance={balance || new BigNumber(0)} />
+            {!assetId && <AddressChip publicKey={account.publicKey} />}
+          </div>
           <div className="flex justify-between items-center w-full mt-1 px-2 mb-4">
             <ActionButton
               label={<T id="send" />}

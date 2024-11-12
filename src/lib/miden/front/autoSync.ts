@@ -36,7 +36,7 @@ class Sync {
     }
 
     await this.syncChain();
-    await sleep(5000);
+    await sleep(3000);
     await this.sync();
   }
 

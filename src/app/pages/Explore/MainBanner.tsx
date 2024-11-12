@@ -102,7 +102,7 @@ const AssetBanner: FC<AssetBannerProps> = ({}) => {
 
   return (
     <BannerLayout name={<Name style={{ maxWidth: popup ? '11rem' : '13rem' }}>{'Miden'}</Name>}>
-      <div className=" w-full flex text-left">
+      <div className=" w-full flex justify-center">
         <div className="flex items-center">
           <Balance>{balance => <BalanceBanner balance={balance} />}</Balance>
         </div>
