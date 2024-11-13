@@ -52,7 +52,7 @@ export const generateTransactionsLoop = async (
   switch (type) {
     case QueuedTransactionType.ConsumeNoteId:
       console.log('generating consumeNoteId', data);
-      await consumeNoteId(data.address, data.noteId);
+      await consumeNoteId(data.address, data.noteId, data.delegateTransaction);
       break;
     case QueuedTransactionType.SendTransaction:
       console.log('generating sendTransaction', data);
@@ -62,7 +62,8 @@ export const generateTransactionsLoop = async (
         data.faucetId,
         data.noteType,
         data.amount,
-        data.recallBlocks
+        data.recallBlocks,
+        data.delegateTransaction
       );
       break;
   }

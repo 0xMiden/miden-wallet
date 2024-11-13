@@ -6,7 +6,8 @@ export type SendTransactionWorker = (
   faucetId: string,
   noteType: string,
   amount: string,
-  recallBlocks?: number
+  recallBlocks?: number,
+  delegateTransaction?: boolean
 ) => Promise<void>;
 
 export const sendTransaction = async (
@@ -15,12 +16,13 @@ export const sendTransaction = async (
   faucetId: string,
   noteType: string,
   amount: string,
-  recallBlocks?: number
+  recallBlocks?: number,
+  delegateTransaction: boolean = true
 ): Promise<void> => {
   const worker = await spawn<SendTransactionWorker>(new Worker('./sendTransaction.js'));
 
   try {
-    await worker(senderAccountId, recipientAccountId, faucetId, noteType, amount, recallBlocks);
+    await worker(senderAccountId, recipientAccountId, faucetId, noteType, amount, recallBlocks, delegateTransaction);
     await Thread.terminate(worker);
   } catch (e) {
     await Thread.terminate(worker);
