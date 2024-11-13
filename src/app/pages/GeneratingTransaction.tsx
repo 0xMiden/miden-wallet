@@ -20,7 +20,7 @@ import { safeGenerateTransactionsLoop, useQueuedTransactions } from 'lib/miden/f
 import { Alert, AlertVariant } from 'components/Alert';
 
 const GeneratingTransaction: FC = () => {
-  const [displayMessage, setDisplayMessage] = useState('');
+  const [displayMessage, setDisplayMessage] = useState('Generating your transaction');
   const { pageEvent, trackEvent, performanceEvent } = useAnalytics();
   // const { allContacts } = useFilteredContacts();
   // const { authorizeDeploy } = useMidenContext();
@@ -60,39 +60,34 @@ const GeneratingTransaction: FC = () => {
   const progress = transactions.length > 0 ? (1 / transactions.length) * 80 : 0;
 
   return (
-    <PageLayout
-      pageTitle={
-        <div className="font-semibold" style={{ fontSize: '18px', lineHeight: '24px' }}>
-          <T id="generatingTransaction" />
-        </div>
-      }
-      hasBackAction={false}
+    <div
+      className={classNames(
+        'h-[640px] max-h-[640px] w-[600px] max-w-[600px]',
+        'mx-auto overflow-hidden ',
+        'flex flex-1',
+        'flex-col bg-white p-6',
+        'border rounded-3xl',
+        'overflow-hidden relative'
+      )}
     >
-      <div>
-        <div className={classNames('w-full max-w-sm mx-auto')}>
-          <Alert
-            variant={AlertVariant.Warning}
-            title="Do not close this window. Window will auto-close after the transaction is generated"
-          />
-          <div className="flex-1 flex flex-col justify-center items-center md:w-[460px] md:mx-auto mt-6">
-            <div
-              className={classNames(
-                'w-40 aspect-square flex items-center justify-center',
-                'rounded-full bg-gradient-to-t from-white to-[#F9F9F9]'
-              )}
-            >
-              <CircularProgress borderWeight={6} progress={progress} circleColor="black" circleSize={50} spin={true} />
-            </div>
-            <div
-              className="flex flex-col pt-6 items-center text-black font-medium text-center"
-              style={{ fontSize: '18px', lineHeight: '24px' }}
-            >
-              {displayMessage}
-            </div>
+      <div className={classNames('flex flex-1 flex-col w-full')}>
+        <Alert
+          variant={AlertVariant.Warning}
+          title="Do not close this window. Window will auto-close after the transaction is generated"
+        />
+        <div className="flex-1 flex flex-col justify-center items-center md:w-[460px] md:mx-auto">
+          <div
+            className={classNames(
+              'w-40 aspect-square flex items-center justify-center mb-8',
+              'rounded-full bg-gradient-to-t from-white to-[#F9F9F9]'
+            )}
+          >
+            <CircularProgress borderWeight={6} progress={progress} circleColor="black" circleSize={50} spin={true} />
           </div>
+          <h1 className="flex flex-col font-semibold text-2xl lh-title text-center text-balance">{displayMessage}</h1>
         </div>
       </div>
-    </PageLayout>
+    </div>
   );
 };
 

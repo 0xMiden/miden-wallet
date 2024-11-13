@@ -35,7 +35,7 @@ const getTimeLeft = (start: number, end: number) => {
   return `${checkTime(minutes)}:${checkTime(seconds)}`;
 };
 
-const Unlock: FC<UnlockProps> = ({ canImportNew = true }) => {
+const Unlock: FC<UnlockProps> = ({ canImportNew = false }) => {
   const { unlock } = useMidenContext();
   const formAnalytics = useFormAnalytics('UnlockWallet');
 
@@ -161,22 +161,6 @@ const Unlock: FC<UnlockProps> = ({ canImportNew = true }) => {
             }}
           >
             <T id="importNewAccountTitle">{message => <h3 className="text-black">{message}</h3>}</T>
-
-            <T id="importWalletUsingSeedPhrase">
-              {message => (
-                <Link
-                  to="/import-wallet"
-                  className={classNames(
-                    'text-primary-purple',
-                    'transition duration-200 ease-in-out',
-                    'opacity-75 hover:opacity-100 focus:opacity-100',
-                    'hover:underline'
-                  )}
-                >
-                  {message}
-                </Link>
-              )}
-            </T>
           </div>
         )}
       </form>
