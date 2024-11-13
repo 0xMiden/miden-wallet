@@ -17,7 +17,7 @@ export const sendTransaction = async (
   noteType: string,
   amount: string,
   recallBlocks?: number,
-  delegateTransaction: boolean = true
+  delegateTransaction?: boolean
 ): Promise<void> => {
   const worker = await spawn<SendTransactionWorker>(new Worker('./sendTransaction.js'));
 

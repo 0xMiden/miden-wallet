@@ -62,11 +62,11 @@ export const Receive: React.FC<ReceiveProps> = () => {
             </div>
             <Icon name={IconName.Copy} onClick={copy} style={{ cursor: 'pointer' }} />
           </div>
-          <div className="w-1/2 mx-auto" style={{ borderBottom: '1px solid #E9EBEF' }}></div>
+          <div className="w-5/6 md:w-1/2 mx-auto" style={{ borderBottom: '1px solid #E9EBEF' }}></div>
         </div>
         <div className="flex flex-col gap-y-4 p-6">
           <div className="flex justify-center">
-            <div className="relative left-[-19%]">
+            <div className="relative left-[-33%] md:left-[-19%]">
               {claimableNotes !== undefined && claimableNotes.length > 0 && (
                 <p className="text-md text-gray-600">Ready to claim</p>
               )}

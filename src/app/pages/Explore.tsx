@@ -127,7 +127,11 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
 
   return (
     <div
-      className={classNames('flex flex-col m-auto rounded-3xl', 'bg-gradient-to-br from-purple-200 via-white to-white')}
+      className={classNames(
+        'flex flex-col m-auto',
+        'bg-gradient-to-br from-purple-200 via-white to-white',
+        fullPage && 'rounded-3xl'
+      )}
       style={size}
     >
       <div className="flex-none">

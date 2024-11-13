@@ -26,7 +26,7 @@ export function useBalance(accountId: string, faucetId: string) {
   return useRetryableSWR(faucetId, fetchBalanceLocal, {
     revalidateOnFocus: false,
     dedupingInterval: 20_000,
-    refreshInterval: 15_000
+    refreshInterval: 5_000
   });
 }
 

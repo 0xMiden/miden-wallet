@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, useCallback, useMemo } from 'react';
 
 import classNames from 'clsx';
 
@@ -6,6 +6,7 @@ import { ReactComponent as ContactBookIcon } from 'app/icons/contact-book.svg';
 import { ReactComponent as ExtensionIcon } from 'app/icons/extension.svg';
 import { ReactComponent as FileIcon } from 'app/icons/file.svg';
 import { ReactComponent as SettingsIcon } from 'app/icons/settings.svg';
+import { ReactComponent as MaximiseIcon } from 'app/icons/maximise.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import Footer from 'app/layouts/PageLayout/Footer';
 import About from 'app/templates/About';
@@ -16,7 +17,7 @@ import { t } from 'lib/i18n/react';
 
 import NetworksSettings from './Networks';
 import { SettingsSelectors } from './Settings.selectors';
-import { useAppEnv } from 'app/env';
+import { openInFullPage, useAppEnv } from 'app/env';
 import GeneralSettings from 'app/templates/GeneralSettings';
 
 type SettingsProps = {
@@ -147,7 +148,14 @@ const TABS: Tab[] = [
 const Settings: FC<SettingsProps> = ({ tabSlug }) => {
   const activeTab = useMemo(() => TABS.find(t => t.slug === tabSlug) || null, [tabSlug]);
   const listMenuItems = TABS.filter(t => t.slug !== 'networks');
-  const { fullPage } = useAppEnv();
+  const { fullPage, popup } = useAppEnv();
+
+  const handleMaximiseViewClick = useCallback(() => {
+    openInFullPage();
+    if (popup) {
+      window.close();
+    }
+  }, [popup]);
 
   return (
     <PageLayout pageTitle={activeTab ? t(activeTab.titleI18nKey) : t('settings')}>
@@ -174,6 +182,16 @@ const Settings: FC<SettingsProps> = ({ tabSlug }) => {
                   />
                 );
               })}
+              <MenuItem
+                key={'maximise'}
+                Icon={MaximiseIcon}
+                titleI18nKey={fullPage ? 'openNewTab' : 'maximiseView'}
+                slug={'/fullpage.html'}
+                onClick={handleMaximiseViewClick}
+                insertHR={false}
+                linksOutsideOfWallet={true}
+                testID={''}
+              />
             </div>
           )}
         </div>

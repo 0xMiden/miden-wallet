@@ -247,10 +247,10 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
         fullPage
           ? 'h-[640px] max-h-[640px] w-[600px] max-w-[600px]'
           : 'h-[600px] max-h-[600px] w-[340px] max-w-[340px]',
-        'mx-auto border rounded-3xl overflow-hidden ',
+        'mx-auto overflow-hidden ',
         'flex flex-1',
         'flex-col bg-white',
-        'rounded-3xl',
+        fullPage && 'border rounded-3xl',
         'overflow-hidden relative'
       )}
       data-testid="send-flow"

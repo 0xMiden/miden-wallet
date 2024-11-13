@@ -10,7 +10,7 @@ async function sendTransaction(
   noteType: string,
   amount: string,
   recallBlocks?: number,
-  delegateProof = true
+  delegateProof?: boolean
 ): Promise<void> {
   const midenClient = await MidenClientInterface.create(delegateProof);
   const noteTypeObj = noteType === 'public' ? NoteType.public() : NoteType.private();
