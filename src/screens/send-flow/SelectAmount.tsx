@@ -6,9 +6,9 @@ import { Button, ButtonVariant } from 'components/Button';
 import { Chip } from 'components/Chip';
 import { InputAmount } from 'components/InputAmount';
 import { NavigationHeader } from 'components/NavigationHeader';
-import { SendFlowAction, SendFlowActionId } from 'screens/send-tokens/types';
-import { useAccount, useBalance } from 'lib/miden/front';
 import { MidenTokens, TOKEN_MAPPING } from 'lib/miden-chain/constants';
+import { useAccount, useBalance } from 'lib/miden/front';
+import { SendFlowAction, SendFlowActionId } from 'screens/send-tokens/types';
 
 export interface SelectAmountProps {
   amount: string;

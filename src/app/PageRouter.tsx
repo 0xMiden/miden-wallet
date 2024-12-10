@@ -12,7 +12,9 @@ import SendNFT from 'app/pages/SendNFT';
 import Settings from 'app/pages/Settings';
 import Unlock from 'app/pages/Unlock';
 import Welcome from 'app/pages/Welcome';
+import { useMidenContext } from 'lib/miden/front';
 import * as Woozie from 'lib/woozie';
+import { GeneratingTransactionPage } from 'screens/generating-transaction/GeneratingTransaction';
 import { SendFlow } from 'screens/send-flow/SendManager';
 
 import RootSuspenseFallback from './a11y/RootSuspenseFallback';
@@ -21,7 +23,6 @@ import ClaimUnstaked from './pages/ClaimUnstaked';
 import ConvertNFT from './pages/ConvertNFT';
 import ConvertVisibility from './pages/ConvertVisibility';
 import EditAccountName from './pages/EditAccountName';
-import GeneratingTransaction from './pages/GeneratingTransaction';
 import ManageAssets from './pages/ManageAssets';
 import NFTDetails from './pages/NFTDetails';
 import NFTs from './pages/NFTs';
@@ -29,7 +30,6 @@ import SelectAccount from './pages/SelectAccount';
 import Stake from './pages/Stake';
 import StakeDetails from './pages/StakeDetails';
 import Unstake from './pages/Unstake';
-import { useMidenContext } from 'lib/miden/front';
 
 interface RouteContext {
   popup: boolean;
@@ -92,7 +92,8 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   ['/nfts/details', onlyReady(() => <NFTDetails />)],
   ['/tokens/aleo', onlyReady(() => <Explore assetSlug="aleo" assetId={'defaultaleotokenid'} />)],
   ['/tokens/:assetId?', onlyReady(({ assetId }) => <Explore assetId={assetId} />)],
-  ['/generating-transaction', onlyReady(() => <GeneratingTransaction />)],
+  ['/generating-transaction', onlyReady(() => <GeneratingTransactionPage />)],
+  ['/generating-transaction-full', onlyReady(() => <GeneratingTransactionPage keepOpen={true} />)],
   ['/stake', onlyReady(() => <Stake />)],
   ['/unstake', onlyReady(() => <Unstake />)],
   ['/stake-details', onlyReady(() => <StakeDetails />)],

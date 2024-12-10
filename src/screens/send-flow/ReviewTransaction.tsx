@@ -1,8 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
+import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { Icon, IconName } from 'app/icons/v2';
 import { Button, ButtonVariant } from 'components/Button';
 import { NavigationHeader } from 'components/NavigationHeader';
@@ -17,15 +18,15 @@ export interface ReviewTransactionProps {
   amount: string;
   onAction: (action: SendFlowAction) => void;
   onGoBack: () => void;
+  sharePrivately: boolean;
   recipientAddress?: string;
-  sendType?: string;
   recallBlocks?: string;
 }
 
 export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
   amount,
   recipientAddress,
-  sendType,
+  sharePrivately,
   recallBlocks,
   onAction,
   onGoBack
@@ -35,6 +36,22 @@ export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
   const [recallBlocksModalIsOpen, setRecallBlocksModalIsOpen] = useState(false);
   const [recallBlocksInput, setRecallBlocksInput] = useState<string>(recallBlocks || '');
   const [recallBlocksDisplay, setRecallBlocksDisplay] = useState<string>(recallBlocks || ''); // TODO: remove workaround for SetFormValues not rerendering recallBlocks
+  const changingRef = useRef(false);
+
+  const handleSharePrivatelyToggle = useCallback(
+    (evt: React.ChangeEvent<HTMLInputElement>) => {
+      if (changingRef.current) return;
+      changingRef.current = true;
+
+      onAction({
+        id: SendFlowActionId.SetFormValues,
+        payload: { sharePrivately: evt.target.checked }
+      });
+      changingRef.current = false;
+    },
+    [onAction]
+  );
+
   const onBlocksChangeHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setRecallBlocksInput(e.target.value);
@@ -76,18 +93,14 @@ export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
             <label className="text-sm text-grey-600">To</label>
             <p className="text-sm text-right">{recipientAddress}</p>
           </span>
-          <span className="flex flex-row justify-between">
-            <label className="text-sm text-grey-600">Send Type</label>
-            <p className="text-sm text-right">Public</p>
-          </span>
         </div>
 
         <hr className="h-px bg-grey-100" />
 
         <div className="flex flex-col gap-y-2">
-          <span className="flex flex-row justify-between">
+          <span className="flex flex-row items-center justify-between py-2">
             <label className="text-sm text-grey-600">Recall blocks</label>
-            <div className="flex flex-row">
+            <div className="flex flex-row items-center">
               <p className={classNames('text-sm text-right mr-4', recallBlocksDisplay ? 'opacity-100' : 'opacity-50')}>
                 {recallBlocksDisplay || 'None'}
               </p>
@@ -96,6 +109,22 @@ export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
                 fill="black"
                 className="cursor-pointer"
                 onClick={() => setRecallBlocksModalIsOpen(true)}
+              />
+            </div>
+          </span>
+        </div>
+
+        <hr className="h-px bg-grey-100" />
+
+        <div className="flex flex-col gap-y-2">
+          <span className="flex flex-row items-center justify-between py-2">
+            <label className="text-sm text-grey-600">Share transaction privately</label>
+            <div className="flex flex-row items-center">
+              <ToggleSwitch
+                checked={sharePrivately}
+                onChange={handleSharePrivatelyToggle}
+                name="sharePrivately"
+                containerClassName="my-1"
               />
             </div>
           </span>

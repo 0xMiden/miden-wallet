@@ -8,6 +8,16 @@ export interface ReadyMidenState extends ReadyWalletState {}
 
 export interface MidenNetwork extends WalletNetwork {}
 
+export enum NoteTypeEnum {
+  Public = 'public',
+  Private = 'private'
+}
+
+export interface ExportedNote {
+  noteId: string;
+  noteBytes: Uint8Array;
+}
+
 export interface QueuedTransaction {
   type: QueuedTransactionType;
   data: any;
