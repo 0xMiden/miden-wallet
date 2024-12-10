@@ -43,7 +43,12 @@ export const RecallBlocksModal: FC<RecallBlocksModalProps> = ({
           be able to recall your funds.
         </p>
         <div className="my-4">
-          <Input label="Blocks until recall" value={recallBlocksInput} onChange={onBlocksChangeHandler} />
+          <Input
+            label="Blocks until recall"
+            autoFocus={true}
+            value={recallBlocksInput}
+            onChange={onBlocksChangeHandler}
+          />
         </div>
         <div className="flex flex-row gap-x-2">
           <Button className="flex-1" title={t('cancel')} variant={ButtonVariant.Secondary} onClick={onCancel} />

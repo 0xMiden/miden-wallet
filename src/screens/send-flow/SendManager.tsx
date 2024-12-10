@@ -1,24 +1,22 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect } from 'react';
 
 import classNames from 'clsx';
 import { OnSubmit, useForm } from 'react-hook-form';
 
+import { useAppEnv } from 'app/env';
+import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { MidenTokens, TOKEN_MAPPING } from 'lib/miden-chain/constants';
 import { useAccount } from 'lib/miden/front';
 import { useQueuedTransactions } from 'lib/miden/front/queued-transactions';
-import { QueuedTransactionType, SendTransactionTransaction } from 'lib/miden/types';
+import { NoteTypeEnum, QueuedTransactionType, SendTransactionTransaction } from 'lib/miden/types';
 import { navigate } from 'lib/woozie';
-import { UITransactionType } from 'screens/convert-tokens/types';
 import { SendFlowAction, SendFlowActionId, SendFlowForm, SendFlowStep } from 'screens/send-tokens/types';
 
-import { GeneratingTransaction } from './GeneratingTransaction';
 import { ReviewTransaction } from './ReviewTransaction';
 import { SelectAmount } from './SelectAmount';
 import { SelectRecipient } from './SelectRecipient';
 import { TransactionInitiated } from './TransactionInitiated';
-import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
-import { useAppEnv } from 'app/env';
 
 const ROUTES: Route[] = [
   {
@@ -55,8 +53,6 @@ export interface SendManagerProps {
 export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const { navigateTo, goBack } = useNavigator();
   const { publicKey } = useAccount();
-  const [transactionGenerationComplete, setTransactionGenerationComplete] = useState(false);
-  const [submitError, setSubmitError] = useState(false);
   const [, queueTransaction] = useQueuedTransactions();
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
   const { fullPage } = useAppEnv();
@@ -65,10 +61,15 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     navigate('/');
   }, []);
 
+  const onGenerateTransaction = useCallback(() => {
+    const route = fullPage ? '/generating-transaction-full' : '/generating-transaction';
+    navigate(route);
+  }, [fullPage]);
+
   const { register, watch, handleSubmit, formState, setError, clearError, setValue } = useForm<SendFlowForm>({
     defaultValues: {
       amount: undefined,
-      sendType: UITransactionType.Public,
+      sharePrivately: false,
       recipientAddress: undefined,
       recallBlocks: undefined
     }
@@ -76,13 +77,13 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
 
   useEffect(() => {
     register('amount');
-    register('sendType');
+    register('sharePrivately');
     register('recipientAddress');
     register('recallBlocks');
   }, [register]);
 
   const amount = watch('amount');
-  const sendType = watch('sendType');
+  const sharePrivately = watch('sharePrivately');
   const recipientAddress = watch('recipientAddress');
   const recallBlocks = watch('recallBlocks');
 
@@ -103,11 +104,14 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
             setValue(key, value);
           });
           break;
+        case SendFlowActionId.GenerateTransaction:
+          onGenerateTransaction();
+          break;
         default:
           break;
       }
     },
-    [navigateTo, goBack, onClose, setValue]
+    [navigateTo, goBack, onClose, setValue, onGenerateTransaction]
   );
 
   const onSubmit = useCallback<OnSubmit<SendFlowForm>>(
@@ -117,24 +121,23 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       }
       try {
         clearError('submit');
-        console.log(data);
-        onAction({ id: SendFlowActionId.Navigate, step: SendFlowStep.TransactionInitiated });
         const payload: SendTransactionTransaction = {
           senderAccountId: publicKey!,
           recipientAccountId: recipientAddress!,
           faucetId: TOKEN_MAPPING[MidenTokens.Miden].faucetId, // TODO: add more robust way to change faucet id
-          noteType: sendType,
+          noteType: sharePrivately ? NoteTypeEnum.Private : NoteTypeEnum.Public,
           amount: amount!,
           recallBlocks: recallBlocks ? parseInt(recallBlocks) : undefined,
           delegateTransaction: isDelegatedProvingEnabled
         };
         const transaction = { type: QueuedTransactionType.SendTransaction, data: payload };
         queueTransaction(transaction);
+        onAction({ id: SendFlowActionId.GenerateTransaction });
       } catch (e: any) {
         if (e.message) {
           setError('submit', 'manual', e.message);
         }
-        setSubmitError(true);
+        // setSubmitError(true);
         console.error(e);
       }
     },
@@ -144,7 +147,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       onAction,
       publicKey,
       recipientAddress,
-      sendType,
+      sharePrivately,
       amount,
       recallBlocks,
       queueTransaction,
@@ -209,15 +212,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
               onGoBack={goBack}
               amount={amount}
               recipientAddress={recipientAddress}
-              sendType={JSON.stringify(sendType)}
-            />
-          );
-        case SendFlowStep.GeneratingTransaction:
-          return (
-            <GeneratingTransaction
-              transactionComplete={transactionGenerationComplete}
-              onAction={onAction}
-              submitError={submitError}
+              sharePrivately={sharePrivately}
             />
           );
         case SendFlowStep.TransactionInitiated:
@@ -226,19 +221,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
           return <></>;
       }
     },
-    [
-      amount,
-      goBack,
-      goToStep,
-      onAction,
-      onAddressChange,
-      onClearAddress,
-      onClose,
-      recipientAddress,
-      sendType,
-      transactionGenerationComplete,
-      submitError
-    ]
+    [amount, goBack, goToStep, onAction, onAddressChange, onClearAddress, onClose, recipientAddress, sharePrivately]
   );
 
   return (

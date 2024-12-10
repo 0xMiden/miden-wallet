@@ -1,12 +1,9 @@
-import React, { ChangeEvent, useCallback } from 'react';
+import React, { ChangeEvent } from 'react';
 
 import { Icon, IconName } from 'app/icons/v2';
 import { Button, ButtonVariant } from 'components/Button';
 import { NavigationHeader } from 'components/NavigationHeader';
 import { TextArea } from 'components/TextArea';
-import { NoteType } from '@demox-labs/miden-sdk';
-import { NoteExportType } from 'lib/miden/sdk/constants';
-import { navigate } from 'lib/woozie';
 
 export interface SelectRecipientProps {
   address?: string;

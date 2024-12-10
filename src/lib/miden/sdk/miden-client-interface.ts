@@ -1,13 +1,5 @@
-import {
-  Account,
-  AccountId,
-  AccountStorageMode,
-  NoteFilter,
-  NoteFilterTypes,
-  NoteType,
-  WebClient
-} from '@demox-labs/miden-sdk';
-import { ConsumableNoteRecord } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
+import { Account, AccountId, AccountStorageMode, NoteType, WebClient } from '@demox-labs/miden-sdk';
+import { ConsumableNoteRecord, TransactionResult } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
 
 import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';
 
@@ -124,7 +116,7 @@ export class MidenClientInterface {
     return result;
   }
 
-  async exportNote(noteId: string, exportType: NoteExportType) {
+  async exportNote(noteId: string, exportType: NoteExportType): Promise<Uint8Array> {
     const result = await this.webClient.export_note(noteId, exportType);
     const byteArray = new Uint8Array(result);
 
@@ -155,7 +147,7 @@ export class MidenClientInterface {
     noteType: NoteType,
     amount: bigint,
     recallBlocks?: number
-  ) {
+  ): Promise<TransactionResult> {
     let recallHeight = undefined;
     if (recallBlocks) {
       const syncState = await this.syncState();

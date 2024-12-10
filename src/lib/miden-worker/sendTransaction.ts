@@ -1,4 +1,6 @@
-import { spawn, Worker, Thread } from 'threads';
+import { spawn, Thread, Worker } from 'threads';
+
+import { ExportedNote } from 'lib/miden/types';
 
 export type SendTransactionWorker = (
   senderAccountId: string,
@@ -8,7 +10,7 @@ export type SendTransactionWorker = (
   amount: string,
   recallBlocks?: number,
   delegateTransaction?: boolean
-) => Promise<void>;
+) => Promise<ExportedNote | null>;
 
 export const sendTransaction = async (
   senderAccountId: string,
@@ -18,12 +20,21 @@ export const sendTransaction = async (
   amount: string,
   recallBlocks?: number,
   delegateTransaction?: boolean
-): Promise<void> => {
+): Promise<ExportedNote | null> => {
   const worker = await spawn<SendTransactionWorker>(new Worker('./sendTransaction.js'));
 
   try {
-    await worker(senderAccountId, recipientAccountId, faucetId, noteType, amount, recallBlocks, delegateTransaction);
+    const exportedNote = await worker(
+      senderAccountId,
+      recipientAccountId,
+      faucetId,
+      noteType,
+      amount,
+      recallBlocks,
+      delegateTransaction
+    );
     await Thread.terminate(worker);
+    return exportedNote;
   } catch (e) {
     await Thread.terminate(worker);
     throw e;
