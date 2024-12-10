@@ -3,7 +3,7 @@ import React, { ChangeEvent, useCallback, useEffect } from 'react';
 import classNames from 'clsx';
 import { OnSubmit, useForm } from 'react-hook-form';
 
-import { useAppEnv } from 'app/env';
+import { openLoadingFullPage, useAppEnv } from 'app/env';
 import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { MidenTokens, TOKEN_MAPPING } from 'lib/miden-chain/constants';
@@ -62,9 +62,14 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   }, []);
 
   const onGenerateTransaction = useCallback(() => {
-    const route = fullPage ? '/generating-transaction-full' : '/generating-transaction';
-    navigate(route);
-  }, [fullPage]);
+    if (fullPage) {
+      navigate('/generating-transaction-full');
+      return;
+    }
+
+    openLoadingFullPage();
+    navigateTo(SendFlowStep.TransactionInitiated);
+  }, [fullPage, navigateTo]);
 
   const { register, watch, handleSubmit, formState, setError, clearError, setValue } = useForm<SendFlowForm>({
     defaultValues: {
