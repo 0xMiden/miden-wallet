@@ -142,7 +142,6 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
         if (e.message) {
           setError('submit', 'manual', e.message);
         }
-        // setSubmitError(true);
         console.error(e);
       }
     },
