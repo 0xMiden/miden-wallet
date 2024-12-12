@@ -8,20 +8,25 @@ import { Button, ButtonVariant } from 'components/Button';
 import { Chip } from 'components/Chip';
 
 export interface BackUpWalletScreenProps extends HTMLAttributes<HTMLDivElement> {
-  words: string[];
+  seedPhrase: string[];
   onSubmit?: () => void;
 }
 
-export const BackUpWalletScreen: React.FC<BackUpWalletScreenProps> = ({ words, className, onSubmit, ...props }) => {
+export const BackUpWalletScreen: React.FC<BackUpWalletScreenProps> = ({
+  seedPhrase,
+  className,
+  onSubmit,
+  ...props
+}) => {
   const { t } = useTranslation();
   const [isWordsVisible, setIsWordsVisible] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
 
   const onCopyToClipboard = useCallback(() => {
-    navigator.clipboard.writeText(words.join(' '));
+    navigator.clipboard.writeText(seedPhrase.join(' '));
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
-  }, [words]);
+  }, [seedPhrase]);
 
   const onWordsVisibilityToggle = useCallback(() => {
     setIsWordsVisible(prev => !prev);
@@ -48,7 +53,7 @@ export const BackUpWalletScreen: React.FC<BackUpWalletScreenProps> = ({ words, c
       </div>
 
       <article className="grid grid-cols-3 gap-4 w-[82%] self-center">
-        {words.map((word, index) => (
+        {seedPhrase.map((word, index) => (
           <Chip
             key={`seed-word-${index}`}
             label={

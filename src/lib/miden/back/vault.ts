@@ -155,6 +155,18 @@ export class Vault {
 
   async revealViewKey(accPublicKey: string) {}
 
+  static async revealMnemonic(password: string) {
+    const passKey = await Vault.toValidPassKey(password);
+    return withError('Failed to reveal seed phrase', async () => {
+      const mnemonic = await fetchAndDecryptOneWithLegacyFallBack<string>(mnemonicStrgKey, passKey);
+      const mnemonicPattern = /^(\b\w+\b\s?){12}$/;
+      if (!mnemonicPattern.test(mnemonic)) {
+        throw new PublicError('Mnemonic does not match the expected pattern');
+      }
+      return mnemonic;
+    });
+  }
+
   async getCurrentAccount() {
     const currAccountPubkey = await getPlain<string>(currentAccPubKeyStrgKey);
     const allAccounts = await this.fetchAccounts();

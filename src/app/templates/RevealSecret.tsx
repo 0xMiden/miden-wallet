@@ -63,9 +63,8 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
 
       clearError('password');
       try {
-        let scrt: string;
-
-        setSecret('scrt');
+        const secret = await revealMnemonic(password);
+        setSecret(secret);
       } catch (err: any) {
         console.error(err);
 
@@ -75,18 +74,7 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
         focusPasswordField();
       }
     },
-    [
-      reveal,
-      submitting,
-      clearError,
-      setError,
-      revealViewKey,
-      revealPrivateKey,
-      revealMnemonic,
-      account.publicKey,
-      setSecret,
-      focusPasswordField
-    ]
+    [submitting, clearError, setError, revealMnemonic, setSecret, focusPasswordField]
   );
 
   const texts = useMemo(() => {

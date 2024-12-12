@@ -146,7 +146,14 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
 
   const revealPrivateKey = useCallback(async (accountPublicKey: string, password: string) => {}, []);
 
-  const revealMnemonic = useCallback(async (password: string) => {}, []);
+  const revealMnemonic = useCallback(async (password: string) => {
+    const res = await request({
+      type: WalletMessageType.RevealMnemonicRequest,
+      password
+    });
+    assertResponse(res.type === WalletMessageType.RevealMnemonicResponse);
+    return res.mnemonic;
+  }, []);
 
   const removeAccount = useCallback(async (accountPublicKey: string, password: string) => {}, []);
 
