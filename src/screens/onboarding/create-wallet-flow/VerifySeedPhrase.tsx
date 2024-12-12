@@ -8,18 +8,18 @@ import { Button } from 'components/Button';
 import { Chip } from 'components/Chip';
 
 export interface VerifySeedPhraseScreenProps extends React.ButtonHTMLAttributes<HTMLDivElement> {
-  words: string[];
+  seedPhrase: string[];
   onSubmit?: () => void;
 }
 
 export const VerifySeedPhraseScreen: React.FC<VerifySeedPhraseScreenProps> = ({
-  words,
+  seedPhrase,
   className,
   onSubmit,
   ...props
 }) => {
   const { t } = useTranslation();
-  const shuffledWords = useMemo(() => shuffle(words), [words]);
+  const shuffledWords = useMemo(() => shuffle(seedPhrase), [seedPhrase]);
   const wordIndexToVerify = 9;
   const [selectedWordIndex, setSelectedWordIndex] = useState<number | null>(null);
 
@@ -31,8 +31,8 @@ export const VerifySeedPhraseScreen: React.FC<VerifySeedPhraseScreenProps> = ({
     if (selectedWordIndex === null) {
       return false;
     }
-    return shuffledWords[selectedWordIndex] === words[wordIndexToVerify];
-  }, [selectedWordIndex, shuffledWords, words, wordIndexToVerify]);
+    return shuffledWords[selectedWordIndex] === seedPhrase[wordIndexToVerify];
+  }, [selectedWordIndex, shuffledWords, seedPhrase, wordIndexToVerify]);
 
   return (
     <div className={classNames('flex-1', 'flex flex-col', 'bg-white gap-8 p-6', className)} {...props}>

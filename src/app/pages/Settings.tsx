@@ -48,7 +48,7 @@ const TABS: Tab[] = [
     descriptionI18nKey: 'generalSettingsDescription',
     testID: SettingsSelectors.GeneralButton,
     insertHR: false
-  }
+  },
   /* {
     slug: 'address-book',
     titleI18nKey: 'addressBook',
@@ -78,15 +78,15 @@ const TABS: Tab[] = [
   //   insertHR: false,
   //   iconStyle: { stroke: '#000', strokeWidth: '1px' }
   // },
-  // {
-  //   slug: 'reveal-seed-phrase',
-  //   titleI18nKey: 'revealSeedPhrase',
-  //   Icon: StickerIcon,
-  //   Component: RevealSeedPhrase,
-  //   descriptionI18nKey: 'revealSeedPhraseDescription',
-  //   testID: SettingsSelectors.RevealSeedPhraseButton,
-  //   insertHR: false
-  // },
+  {
+    slug: 'reveal-seed-phrase',
+    titleI18nKey: 'revealSeedPhrase',
+    Icon: SettingsIcon,
+    Component: RevealSeedPhrase,
+    descriptionI18nKey: 'revealSeedPhraseDescription',
+    testID: SettingsSelectors.RevealSeedPhraseButton,
+    insertHR: false
+  }
   // {
   //   slug: 'file-settings',
   //   titleI18nKey: 'fileSettings',

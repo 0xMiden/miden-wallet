@@ -68,12 +68,12 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
     //     type: WalletMessageType.RevealPrivateKeyResponse,
     //     privateKey
     //   };
-    // case WalletMessageType.RevealMnemonicRequest:
-    //   const mnemonic = await Actions.revealMnemonic(req.password);
-    //   return {
-    //     type: WalletMessageType.RevealMnemonicResponse,
-    //     mnemonic
-    //   };
+    case WalletMessageType.RevealMnemonicRequest:
+      const mnemonic = await Actions.revealMnemonic(req.password);
+      return {
+        type: WalletMessageType.RevealMnemonicResponse,
+        mnemonic
+      };
     case WalletMessageType.RemoveAccountRequest:
       await Actions.removeAccount(req.accountPublicKey, req.password);
       return {
