@@ -5,6 +5,7 @@ import classNames from 'clsx';
 
 import { ACTIVITY_SUMMARY_SIZE } from 'app/defaults';
 import { openLoadingFullPage, useAppEnv } from 'app/env';
+import { useMidenClient } from 'app/hooks/useMidenClient';
 import { ReactComponent as ArrowLeftIcon } from 'app/icons/arrow-left.svg';
 import { ReactComponent as FaucetIcon } from 'app/icons/faucet.svg';
 import { ReactComponent as GlobalIcon } from 'app/icons/global-line.svg';
@@ -16,6 +17,8 @@ import Footer from 'app/layouts/PageLayout/Footer';
 import Header from 'app/layouts/PageLayout/Header';
 import Activity from 'app/templates/activity/Activity';
 import { AssetIcon } from 'app/templates/AssetIcon';
+import { TestIDProps } from 'lib/analytics';
+import { T, t } from 'lib/i18n/react';
 import { getChainStatus } from 'lib/miden-chain/client';
 import { TOKEN_MAPPING, MidenTokens } from 'lib/miden-chain/constants';
 import { getEstimatedSyncPercentage } from 'lib/miden/activity/sync/sync-plan';
@@ -30,9 +33,10 @@ import {
   useStakedBalance,
   useUnstakedBalance
 } from 'lib/miden/front';
-import { TestIDProps } from 'lib/analytics';
-import { T, t } from 'lib/i18n/react';
+import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
+import { useQueuedTransactions } from 'lib/miden/front/queued-transactions';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
+import { useRetryableSWR } from 'lib/swr';
 import { useAlert } from 'lib/ui/dialog';
 import useTippy, { TippyProps } from 'lib/ui/useTippy';
 import { HistoryAction, Link, navigate, To, useLocation } from 'lib/woozie';
@@ -43,10 +47,6 @@ import EditableTitle from './Explore/EditableTitle';
 import MainBanner from './Explore/MainBanner';
 import SyncBanner from './Explore/SyncBanner';
 import Tokens from './Explore/Tokens/Tokens';
-import { useMidenClient } from 'app/hooks/useMidenClient';
-import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
-import { useRetryableSWR } from 'lib/swr';
-import { useQueuedTransactions } from 'lib/miden/front/queued-transactions';
 
 const midenClient = await MidenClientInterface.create();
 

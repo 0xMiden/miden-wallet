@@ -23,6 +23,8 @@ import ClaimUnstaked from './pages/ClaimUnstaked';
 import ConvertNFT from './pages/ConvertNFT';
 import ConvertVisibility from './pages/ConvertVisibility';
 import EditAccountName from './pages/EditAccountName';
+import ImportNotePending from './pages/ImportNotePending';
+import ImportNoteResult from './pages/ImportNoteResult';
 import ManageAssets from './pages/ManageAssets';
 import NFTDetails from './pages/NFTDetails';
 import NFTs from './pages/NFTs';
@@ -98,6 +100,9 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   ['/unstake', onlyReady(() => <Unstake />)],
   ['/stake-details', onlyReady(() => <StakeDetails />)],
   ['/claim', onlyReady(() => <ClaimUnstaked />)],
+  ['/import-note-pending/:noteId', onlyReady(({ noteId }) => <ImportNotePending noteId={noteId!} />)],
+  ['/import-note-success', onlyReady(() => <ImportNoteResult success={true} />)],
+  ['/import-note-failure', onlyReady(() => <ImportNoteResult success={false} />)],
   ['*', () => <Woozie.Redirect to="/" />]
 ]);
 
