@@ -13,6 +13,7 @@ import { SetWalletPassword } from './SetWalletPassword';
 import { Template } from './Template';
 
 export const CreateWallet: FC = () => {
+  console.log('rendered CreateWallet');
   const [seedPhrase, setSeedPhrase] = useState(() => generateMnemonic(128));
   const [backupCompleted, setBackupCompleted] = useState(false);
   const [verificationCompleted, setVerificationCompleted] = useState(false);

@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { BackUpWalletScreen } from 'screens/onboarding/create-wallet-flow/BackUpWallet';
+import { BackUpSeedPhraseScreen } from 'screens/onboarding/create-wallet-flow/BackUpSeedPhrase';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
-const meta: Meta<typeof BackUpWalletScreen> = {
+const meta: Meta<typeof BackUpSeedPhraseScreen> = {
   title: 'Screens/Onboarding/BackUpYourWallet',
-  component: BackUpWalletScreen,
+  component: BackUpSeedPhraseScreen,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     // layout: 'pad',
@@ -18,7 +18,7 @@ const meta: Meta<typeof BackUpWalletScreen> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof BackUpWalletScreen>;
+type Story = StoryObj<typeof BackUpSeedPhraseScreen>;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Example: Story = {

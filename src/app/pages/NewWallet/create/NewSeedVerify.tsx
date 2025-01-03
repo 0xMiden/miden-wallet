@@ -37,6 +37,7 @@ interface NewSeedVerifyProps {
 }
 
 export const NewSeedVerify: FC<NewSeedVerifyProps> = ({ seedPhrase, onVerificationComplete }) => {
+  console.log('rendered NewSeedVerify');
   const { handleSubmit } = useForm();
   const words = useMemo(() => seedPhrase.split(' '), [seedPhrase]);
   const wordsToCheckPositions = useMemo(() => {

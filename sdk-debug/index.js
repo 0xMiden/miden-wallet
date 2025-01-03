@@ -1,4 +1,4 @@
-import { WebClient, AccountStorageMode, AccountId, NoteType } from './libs/dist/index.js';
+import { WebClient, AccountStorageMode, AccountId, NoteType } from './libs/miden-sdk/index.js';
 console.log('script loaded');
 
 const databases = await indexedDB.databases();

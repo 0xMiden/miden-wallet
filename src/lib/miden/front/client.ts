@@ -3,10 +3,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import constate from 'constate';
 
 import { IntercomClient } from 'lib/intercom';
-import { useRetryableSWR } from 'lib/swr';
-import { retryWithTimeout } from 'lib/utility/retry';
-
-import { AutoSync } from './autoSync';
 import {
   WalletMessageType,
   WalletNotification,
@@ -15,7 +11,12 @@ import {
   WalletState,
   WalletStatus
 } from 'lib/shared/types';
+import { useRetryableSWR } from 'lib/swr';
+import { retryWithTimeout } from 'lib/utility/retry';
+import { WalletType } from 'screens/onboarding/types';
+
 import { MidenState } from '../types';
+import { AutoSync } from './autoSync';
 
 export type ChainApiStatus = 'up' | 'warning' | 'down' | 'unknown';
 
@@ -118,15 +119,19 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   Actions
   */
   // TODO: Make this take some sort of enum for multi wallet support
-  const registerWallet = useCallback(async (password: string, mnemonic?: string, ownMnemonic?: boolean) => {
-    const res = await request({
-      type: WalletMessageType.NewWalletRequest,
-      password,
-      mnemonic,
-      ownMnemonic
-    });
-    assertResponse(res.type === WalletMessageType.NewWalletResponse);
-  }, []);
+  const registerWallet = useCallback(
+    async (walletType: WalletType, password: string, mnemonic?: string, ownMnemonic?: boolean) => {
+      const res = await request({
+        type: WalletMessageType.NewWalletRequest,
+        walletType,
+        password,
+        mnemonic,
+        ownMnemonic
+      });
+      assertResponse(res.type === WalletMessageType.NewWalletResponse);
+    },
+    []
+  );
 
   const unlock = useCallback(async (password: string) => {
     const res = await request({

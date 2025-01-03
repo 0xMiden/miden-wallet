@@ -23,6 +23,7 @@ interface NewSeedBackupProps {
 }
 
 export const NewSeedBackup: FC<NewSeedBackupProps> = ({ seedPhrase, onBackupComplete, changeSeedPhrase }) => {
+  console.log('rendered NewSeedBackup');
   const { trackEvent } = useAnalytics();
   useEffect(() => {
     trackEvent(OnboardingSelectors.CreateNewWalletButton);

@@ -1,7 +1,9 @@
 import { Account, AccountId, AccountStorageMode, NoteType, WebClient } from '@demox-labs/miden-sdk';
-import { ConsumableNoteRecord, TransactionResult } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
+import { ConsumableNoteRecord, TransactionResult } from '@demox-labs/miden-sdk/crates/miden_client_web';
+// import { ConsumableNoteRecord, TransactionResult } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
 
 import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';
+import { WalletType } from 'screens/onboarding/types';
 
 import { NoteExportType } from './constants';
 
@@ -16,20 +18,23 @@ export class MidenClientInterface {
 
     if (delegateProving) {
       await webClient.create_client(
-        MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!,
+        MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!,
         MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!
       );
     } else {
-      await webClient.create_client(MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!);
+      await webClient.create_client(MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!);
     }
 
     return new MidenClientInterface(webClient);
   }
 
-  async createMidenWallet() {
+  async createMidenWallet(walletType: WalletType) {
     // Create a new wallet
-    console.log('Creating wallet...');
-    const wallet: Account = await this.webClient.new_wallet(AccountStorageMode.public(), true);
+
+    console.log(`Creating ${walletType} wallet...`);
+    const accountStorageMode =
+      walletType === WalletType.OnChain ? AccountStorageMode.public() : AccountStorageMode.private();
+    const wallet: Account = await this.webClient.new_wallet(accountStorageMode, true);
 
     const walletId = wallet.id().to_string();
 
