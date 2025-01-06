@@ -5,7 +5,6 @@ import { generateMnemonic } from 'bip39';
 import PageLayout from 'app/layouts/PageLayout';
 import { t } from 'lib/i18n/react';
 
-import { useMidenContext } from '../../../lib/miden/front';
 import { NewSeedBackup } from './create/NewSeedBackup';
 import { NewSeedVerify } from './create/NewSeedVerify';
 import { LockedWalletExists } from './LockedWalletExists';
@@ -13,7 +12,6 @@ import { SetWalletPassword } from './SetWalletPassword';
 import { Template } from './Template';
 
 export const CreateWallet: FC = () => {
-  console.log('rendered CreateWallet');
   const [seedPhrase, setSeedPhrase] = useState(() => generateMnemonic(128));
   const [backupCompleted, setBackupCompleted] = useState(false);
   const [verificationCompleted, setVerificationCompleted] = useState(false);

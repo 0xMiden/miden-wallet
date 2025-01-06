@@ -26,7 +26,6 @@ import EditAccountName from './pages/EditAccountName';
 import ImportNotePending from './pages/ImportNotePending';
 import ImportNoteResult from './pages/ImportNoteResult';
 import ManageAssets from './pages/ManageAssets';
-import { SelectWalletType } from './pages/NewWallet/SelectWalletType';
 import NFTDetails from './pages/NFTDetails';
 import NFTs from './pages/NFTs';
 import SelectAccount from './pages/SelectAccount';
@@ -76,7 +75,6 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   ],
   ['/loading', (_p, ctx) => (ctx.ready ? <Woozie.Redirect to={'/'} /> : <RootSuspenseFallback />)],
   ['/', (_p, ctx) => (ctx.ready ? <Explore /> : <Welcome />)],
-  ['/select-wallet-type', onlyNotReady(() => <SelectWalletType />)],
   ['/create-wallet', onlyNotReady(() => <CreateWallet />)],
   ['/select-account', onlyReady(() => <SelectAccount />)],
   ['/create-account', onlyReady(() => <CreateAccount />)],
