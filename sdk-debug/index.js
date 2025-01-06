@@ -28,7 +28,7 @@ document.getElementById('faucetId').innerText = faucetId.to_string();
 document.getElementById('publicKeyForm').addEventListener('submit', async event => {
   event.preventDefault();
   const accountIdString = document.getElementById('publicKey').value;
-  const isPrivate = false; //document.getElementById('isPrivate').checked;
+  const isPrivate = document.getElementById('isPrivate').checked;
   const amount = document.getElementById('amount').value;
   if (!accountIdString) {
     alert('Please enter a public key');
