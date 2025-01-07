@@ -3,9 +3,15 @@ export enum OnboardingType {
   Import = 'import'
 }
 
+export enum WalletType {
+  OffChain = 'off-chain',
+  OnChain = 'on-chain'
+}
+
 export enum OnboardingStep {
   Welcome = 'welcome',
-  BackupWallet = 'backup-wallet',
+  SelectWalletType = 'select-wallet-type',
+  BackupSeedPhrase = 'backup-seed-phrase',
   VerifySeedPhrase = 'verify-seed-phrase',
   ImportWallet = 'import-wallet',
   CreatePassword = 'create-password',
@@ -14,20 +20,25 @@ export enum OnboardingStep {
 }
 
 export type OnboardingActionId =
-  | 'create-wallet'
+  | 'select-wallet-type'
   | 'import-wallet'
+  | 'backup-seed-phrase'
   | 'verify-seed-phrase'
   | 'create-password'
   | 'create-password-submit'
   | 'select-transaction-type'
   | 'confirmation';
 
-export type CreateWalletAction = {
-  id: 'create-wallet';
+export type SelectWalletTypeAction = {
+  id: 'select-wallet-type';
 };
 
 export type ImportWalletAction = {
   id: 'import-wallet';
+};
+
+export type BackupSeedPhraseAction = {
+  id: 'backup-seed-phrase';
 };
 
 export type VerifySeedPhraseAction = {
@@ -36,6 +47,7 @@ export type VerifySeedPhraseAction = {
 
 export type CreatePasswordAction = {
   id: 'create-password';
+  payload: WalletType;
 };
 
 export type CreatePasswordSubmitAction = {
@@ -62,7 +74,8 @@ export type BackAction = {
 };
 
 export type OnboardingAction =
-  | CreateWalletAction
+  | SelectWalletTypeAction
+  | BackupSeedPhraseAction
   | ImportWalletAction
   | VerifySeedPhraseAction
   | CreatePasswordAction

@@ -33,8 +33,8 @@ const meta: Meta<typeof OnboardingFlow> = {
     const [{ step, onboardingType }, updateArgs] = useArgs();
     const onAction = (action: OnboardingAction) => {
       switch (action.id) {
-        case 'create-wallet':
-          updateArgs({ step: OnboardingStep.BackupWallet, onboardingType: OnboardingType.Create });
+        case 'backup-seed-phrase':
+          updateArgs({ step: OnboardingStep.BackupSeedPhrase, onboardingType: OnboardingType.Create });
           break;
         case 'import-wallet':
           updateArgs({ step: OnboardingStep.ImportWallet, onboardingType: OnboardingType.Import });
@@ -63,13 +63,14 @@ const meta: Meta<typeof OnboardingFlow> = {
         //   updateArgs({ step: OnboardingStep.CreatePassword });
         //   break;
         case 'back':
-          if (step === OnboardingStep.BackupWallet || step === OnboardingStep.ImportWallet) {
+          if (step === OnboardingStep.BackupSeedPhrase || step === OnboardingStep.ImportWallet) {
             updateArgs({ step: OnboardingStep.Welcome });
           } else if (step === OnboardingStep.VerifySeedPhrase) {
-            updateArgs({ step: OnboardingStep.BackupWallet });
+            updateArgs({ step: OnboardingStep.BackupSeedPhrase });
           } else if (step === OnboardingStep.CreatePassword) {
             updateArgs({
-              step: onboardingType === OnboardingType.Create ? OnboardingStep.BackupWallet : OnboardingStep.ImportWallet
+              step:
+                onboardingType === OnboardingType.Create ? OnboardingStep.BackupSeedPhrase : OnboardingStep.ImportWallet
             });
           } else if (step === OnboardingStep.SelectTransactionType) {
             updateArgs({ step: OnboardingStep.CreatePassword });

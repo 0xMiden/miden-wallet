@@ -1026,6 +1026,18 @@
   "revealSeedPhraseDescription": {
     "message": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices."
   },
+  "faucetId": {
+    "message": "Faucet ID"
+  },
+  "setNewFaucetId": {
+    "message": "Set new Faucet ID"
+  },
+  "setNewFaucetIdDescription": {
+    "message": "Enter the ID of a miden faucet"
+  },
+  "editMidenFaucetId": {
+    "message": "Edit Miden Faucet ID"
+  },
   "exportWalletFile": {
     "message": "Export Wallet File"
   },
