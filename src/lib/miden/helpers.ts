@@ -3,7 +3,10 @@ import memoize from 'micro-memoize';
 import { IRecord } from './db/types';
 import { NETWORKS } from './networks';
 
-export function isAddressValid(address: string) {}
+// TODO: implement address checks
+export function isAddressValid(address: string) {
+  return true;
+}
 
 export function isViewKeyValid(viewKey: string) {
   return true;

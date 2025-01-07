@@ -17,6 +17,7 @@ import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
 import CustomSelect, { OptionRenderProps } from './CustomSelect';
 import HashChip from './HashChip';
+import { WalletContact } from 'lib/shared/types';
 
 type ContactActions = {
   remove: (address: string) => void;
@@ -63,9 +64,7 @@ const AddressBook: React.FC = () => {
       <CustomSelect
         actions={contactActions}
         className={fullPage ? 'mb-6' : ''}
-        getItemId={() => {
-          return 'TODO';
-        }}
+        getItemId={getContactKey}
         items={allContacts}
         OptionIcon={ContactIcon}
         OptionContent={ContactContent}
@@ -107,6 +106,11 @@ const AddNewContactForm: React.FC<{ className?: string }> = ({ className }) => {
       try {
         clearError();
 
+        if (!isAddressValid(address)) {
+          throw new Error(t('invalidAddress'));
+        }
+
+        await addContact({ address, name, addedAt: Date.now() });
         resetForm();
       } catch (err: any) {
         await withErrorHumanDelay(err, () => setError('address', SUBMIT_ERROR_TYPE, err.message));
@@ -166,21 +170,21 @@ const AddNewContactForm: React.FC<{ className?: string }> = ({ className }) => {
   );
 };
 
-const ContactIcon: React.FC<OptionRenderProps<string>> = ({ item }) => (
-  <ColorIdenticon publicKey={'item.address'} size={20} className="flex-shrink-0 shadow-xs" />
+const ContactIcon: React.FC<OptionRenderProps<WalletContact, string, ContactActions>> = ({ item }) => (
+  <ColorIdenticon publicKey={item.address} size={20} className="flex-shrink-0 shadow-xs" />
 );
 
-const ContactContent: React.FC<OptionRenderProps<string>> = ({ item, actions }) => (
+const ContactContent: React.FC<OptionRenderProps<WalletContact, string, ContactActions>> = ({ item, actions }) => (
   <div className="flex flex-1 w-full">
     <div className="flex flex-col justify-between flex-1">
-      <Name className="mb-px text-sm font-medium leading-tight text-left">{'item.name'}</Name>
+      <Name className="mb-px text-sm font-medium leading-tight text-left">{item.name}</Name>
 
       <div className="text-xs  leading-tight text-black">
-        <HashChip hash={'item.address'} small />
+        <HashChip hash={item.address} small />
       </div>
     </div>
 
-    {true ? (
+    {item.accountInWallet ? (
       <div className="flex items-center">
         <span
           className={classNames(
@@ -202,6 +206,7 @@ const ContactContent: React.FC<OptionRenderProps<string>> = ({ item, actions }) 
         className={classNames('flex-none p-2', 'text-black hover:text-black', 'transition ease-in-out duration-200')}
         onClick={evt => {
           evt.stopPropagation();
+          actions?.remove(item.address);
         }}
       >
         <CloseIcon className="w-auto h-5 stroke-current stroke-2" title={t('delete')} />
@@ -210,4 +215,6 @@ const ContactContent: React.FC<OptionRenderProps<string>> = ({ item, actions }) 
   </div>
 );
 
-function getContactKey() {}
+function getContactKey(contact: WalletContact) {
+  return contact.address;
+}

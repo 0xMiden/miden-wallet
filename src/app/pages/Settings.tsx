@@ -49,7 +49,7 @@ const TABS: Tab[] = [
     testID: SettingsSelectors.GeneralButton,
     insertHR: false
   },
-  /* {
+  {
     slug: 'address-book',
     titleI18nKey: 'addressBook',
     Icon: ContactBookIcon,
@@ -57,7 +57,7 @@ const TABS: Tab[] = [
     descriptionI18nKey: 'addressBookDescription',
     testID: SettingsSelectors.AddressBookButton,
     insertHR: false
-  }, */
+  },
   // {
   //   slug: 'reveal-view-key',
   //   titleI18nKey: 'revealViewKey',
