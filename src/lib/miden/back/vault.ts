@@ -86,7 +86,7 @@ export class Vault {
       await encryptAndSaveMany(
         [
           [checkStrgKey, generateCheck()],
-          [mnemonicStrgKey, mnemonic ?? ""],
+          [mnemonicStrgKey, mnemonic ?? ''],
           [accountsStrgKey, newAccounts]
         ],
         passKey

@@ -12,6 +12,7 @@ import PageLayout from 'app/layouts/PageLayout';
 import Footer from 'app/layouts/PageLayout/Footer';
 import About from 'app/templates/About';
 import AddressBook from 'app/templates/AddressBook';
+import EditMidenFaucetId from 'app/templates/EditMidenFaucetId';
 import GeneralSettings from 'app/templates/GeneralSettings';
 import MenuItem from 'app/templates/MenuItem';
 import RevealSecret from 'app/templates/RevealSecret';
@@ -86,6 +87,15 @@ const TABS: Tab[] = [
     Component: RevealSeedPhrase,
     descriptionI18nKey: 'revealSeedPhraseDescription',
     testID: SettingsSelectors.RevealSeedPhraseButton,
+    insertHR: false
+  },
+  {
+    slug: 'edit-miden-faucet-id',
+    titleI18nKey: 'editMidenFaucetId',
+    Icon: SettingsIcon,
+    Component: EditMidenFaucetId,
+    descriptionI18nKey: 'editMidenFaucetIdDescription',
+    testID: SettingsSelectors.EditMidenFaucetButton,
     insertHR: false
   }
   // {
