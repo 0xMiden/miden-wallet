@@ -9,9 +9,20 @@ import { SyncOptions } from '../activity/sync/sync-options';
 import { tagOwnedRecords } from '../activity/tagging/tag';
 import { WalletState } from 'lib/shared/types';
 import { MidenClientInterface } from '../sdk/miden-client-interface';
+import { getMessagesForRecipient } from 'amp-core';
+import { MessageHttp } from 'amp-core/script/http-types';
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 const midenClient = await MidenClientInterface.create();
+
+export const AMP_SYNC_STORAGE_KEY = 'amp-sync-storage-key';
+export const DEFAULT_DELEGATE_PROOF = false;
+
+export function isAmpSyncEnabled() {
+  const stored = localStorage.getItem(AMP_SYNC_STORAGE_KEY);
+  return stored ? (JSON.parse(stored) as boolean) : DEFAULT_DELEGATE_PROOF;
+}
+
 class Sync {
   lastHeight: number = 0;
   lastRecordId: number = 0;
@@ -36,6 +47,7 @@ class Sync {
     }
 
     await this.syncChain();
+    await this.syncAmp();
     await sleep(3000);
     await this.sync();
   }
@@ -82,6 +94,27 @@ class Sync {
       await midenClient.syncState();
     } catch (e) {
       logger.error(`Failed to sync chain: ${e}`);
+    }
+  }
+
+  async syncAmp() {
+    const publicKey = this.state?.currentAccount?.publicKey;
+    const ampSyncEnabled = isAmpSyncEnabled();
+
+    if (publicKey ) {
+      const response = await getMessagesForRecipient(publicKey);
+      const messages: MessageHttp[] = await response.json();
+      if (messages.length > 0) {
+        console.log('Syncing amp...');
+
+        // TOOD: Need a way to clear the messages once they're recieved
+        for (let message of messages) {
+          // TODO: Potentially tweak upstream to make this cleaner
+          const noteBytes = new Uint8Array(message.body.split(',').map(Number));
+
+          const result = await midenClient.importNoteBytes(noteBytes);
+        }
+      }
     }
   }
 }
