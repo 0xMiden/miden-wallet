@@ -3,13 +3,16 @@ import browser from 'webextension-polyfill';
 import { CHECK_ALEO_PAGES_EXIST, WALLET_AUTOLOCK_TIME } from 'lib/fixed-times';
 
 import { getIsLockUpEnabled } from './index';
+import { assertResponse, request } from 'lib/miden/front';
+import { MidenMessageType } from 'lib/miden/types';
+import { WalletMessageType } from 'lib/shared/types';
 
 if (window.location.href.includes('extension://') === false)
   throw new Error('Lock-up checks are meant for extension pages only.');
 
 const CLOSURE_STORAGE_KEY = 'last-page-closure-timestamp';
 
-const isSinglePageOpened = () => getOpenedAleoPagesN() === 1;
+const isSinglePageOpened = () => getOpenedMidenPagesN() === 1;
 
 export const needsLocking = async () => {
   return (
@@ -30,17 +33,17 @@ if (await needsLocking()) {
 });
 
 // Set immediately, and then every x seconds
-if (getOpenedAleoPagesN() > 0) {
+if (getOpenedMidenPagesN() > 0) {
   await updateClosureTimestamp();
 }
 setInterval(async () => {
-  if (getOpenedAleoPagesN() > 0) {
+  if (getOpenedMidenPagesN() > 0) {
     await browser.runtime.sendMessage('wakeup');
     await updateClosureTimestamp();
   }
 }, CHECK_ALEO_PAGES_EXIST);
 
-function getOpenedAleoPagesN() {
+function getOpenedMidenPagesN() {
   return browser.extension.getViews().length;
 }
 
@@ -52,4 +55,9 @@ async function updateClosureTimestamp() {
   await browser.storage.local.set({ 'last-page-closure-timestamp': Date.now().toString() });
 }
 
-async function lock() {}
+async function lock() {
+  const res = await request({
+    type: WalletMessageType.LockRequest
+  });
+  assertResponse(res.type === WalletMessageType.LockResponse);
+}

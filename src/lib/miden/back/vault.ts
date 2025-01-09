@@ -96,6 +96,10 @@ export class Vault {
     });
   }
 
+  static async getCurrentAccountPublicKey() {
+    return await getPlain<string>(currentAccPubKeyStrgKey);
+  }
+
   async fetchSettings() {
     return DEFAULT_SETTINGS;
   }

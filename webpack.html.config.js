@@ -2,22 +2,22 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 const htmlPluginOptions = {};
-  process.env.MODE_ENV === 'production'
-    ? {
-        minify: {
-          removeComments: true,
-          collapseWhitespace: true,
-          removeRedundantAttributes: true,
-          useShortDoctype: true,
-          removeEmptyAttributes: true,
-          removeStyleLinkTypeAttributes: true,
-          keepClosingSlash: true,
-          minifyJS: true,
-          minifyCSS: true,
-          minifyURLs: true
-        }
+process.env.MODE_ENV === 'production'
+  ? {
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
       }
-    : {};
+    }
+  : {};
 
 const getTemplateEntry = (publicPath, name) => ({
   path: path.join(publicPath, `${name}.html`),

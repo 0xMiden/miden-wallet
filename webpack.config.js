@@ -115,7 +115,7 @@ const appConfig = {
     publicAssetsPlugin(PUBLIC_PATH, OUTPUT_PATH, MANIFEST, TARGET_BROWSER),
 
     new WebpackBar({
-      name: 'Leo Wallet',
+      name: 'Trident Wallet',
       color: '#634CFF'
     })
   ],
@@ -275,7 +275,7 @@ const workerConfig = {
     }),
 
     new WebpackBar({
-      name: 'Leo Wallet Workers',
+      name: 'Trident Wallet Workers',
       color: '#634CFF'
     })
   ],

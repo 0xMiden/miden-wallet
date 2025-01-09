@@ -5,10 +5,12 @@ import * as Analytics from 'lib/miden/back/analytics';
 import { intercom } from 'lib/miden/back/defaults';
 import { store, toFront } from 'lib/miden/back/store';
 import { WalletMessageType, WalletRequest, WalletResponse } from 'lib/shared/types';
+import { MidenMessageType } from '../types';
 
 const frontStore = store.map(toFront);
 
 export async function start() {
+  console.log('Miden background script started');
   intercom.onRequest(processRequest);
   await Actions.init();
   frontStore.watch(() => {
@@ -17,6 +19,7 @@ export async function start() {
 }
 
 async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<WalletResponse | void> {
+  console.log('processing request', req);
   switch (req?.type) {
     // case WalletMessageType.SendTrackEventRequest:
     //   await Analytics.trackEvent(req);
@@ -137,22 +140,23 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
     //     type: WalletMessageType.DAppRemoveSessionResponse,
     //     sessions
     //   };
-    // case WalletMessageType.PageRequest:
-    //   const dAppEnabled = await Actions.isDAppEnabled();
-    //   if (dAppEnabled) {
-    //     if (req.payload === 'PING') {
-    //       return {
-    //         type: WalletMessageType.PageResponse,
-    //         payload: 'PONG'
-    //       };
-    //     }
-    //     const resPayload = await Actions.processDApp(req.origin, req.payload);
-    //     return {
-    //       type: WalletMessageType.PageResponse,
-    //       payload: resPayload ?? null
-    //     };
-    //   }
-    //   break;
+    case MidenMessageType.PageRequest:
+      console.log('page request');
+      const dAppEnabled = await Actions.isDAppEnabled();
+      if (dAppEnabled) {
+        if (req.payload === 'PING') {
+          return {
+            type: MidenMessageType.PageResponse,
+            payload: 'PONG'
+          };
+        }
+        const resPayload = await Actions.processDApp(req.origin, req.payload);
+        return {
+          type: MidenMessageType.PageResponse,
+          payload: resPayload ?? null
+        };
+      }
+      break;
     // case WalletMessageType.GetOwnedRecordsRequest:
     // const records = await Actions.getOwnedRecords(req.accPublicKey);
     // return {

@@ -1,9 +1,9 @@
 import { EventEmitter, WalletAdapterNetwork, DecryptPermission, AleoTransaction, AleoDeployment } from '@demox-labs/aleo-wallet-adapter-base';
 import { LeoWallet, LeoWalletEvents } from '@demox-labs/aleo-wallet-adapter-leo';
-import { AleoDAppPermission } from './types';
+import { MidenDAppPermission } from './types';
 export declare class LeoWindowObject extends EventEmitter<LeoWalletEvents> implements LeoWallet {
     publicKey?: string | undefined;
-    permission?: AleoDAppPermission | undefined;
+    permission?: MidenDAppPermission | undefined;
     appName?: string | undefined;
     network?: WalletAdapterNetwork | undefined;
     private clearAccountChangeInterval?;

@@ -7,10 +7,12 @@ import Name from 'app/atoms/Name';
 import { ReactComponent as LayersIcon } from 'app/icons/layers.svg';
 import { ReactComponent as OkIcon } from 'app/icons/ok.svg';
 import DAppLogo from 'app/templates/DAppLogo';
+import { DappMetadata } from 'lib/miden/types';
 
 type ConnectBannerProps = {
   type: 'connect';
   origin: string;
+  appMeta: DappMetadata;
   className?: string;
 };
 

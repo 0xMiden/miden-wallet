@@ -16,8 +16,9 @@ import { useRetryableSWR } from 'lib/swr';
 import { retryWithTimeout } from 'lib/utility/retry';
 import { WalletType } from 'screens/onboarding/types';
 
-import { MidenState } from '../types';
 import { AutoSync } from './autoSync';
+import { MidenMessageType, MidenState } from '../types';
+import { DecryptPermission } from '@demox-labs/miden-wallet-adapter-base';
 
 export type ChainApiStatus = 'up' | 'warning' | 'down' | 'unknown';
 
@@ -206,9 +207,28 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     []
   );
 
-  const getDAppPayload = useCallback(async (id: string) => {}, []);
+  const getDAppPayload = useCallback(async (id: string) => {
+    const res = await request({
+      type: MidenMessageType.DAppGetPayloadRequest,
+      id
+    });
+    assertResponse(res.type === MidenMessageType.DAppGetPayloadResponse);
+    return res.payload;
+  }, []);
 
-  const confirmDAppPermission = useCallback(async (id: string, confirmed: boolean, publicKey: string) => {}, []);
+  const confirmDAppPermission = useCallback(
+    async (id: string, confirmed: boolean, publicKey: string, decryptPermission: DecryptPermission) => {
+      const res = await request({
+        type: MidenMessageType.DAppPermConfirmationRequest,
+        id,
+        confirmed,
+        accountPublicKey: confirmed ? publicKey : '',
+        decryptPermission
+      });
+      assertResponse(res.type === MidenMessageType.DAppPermConfirmationResponse);
+    },
+    []
+  );
 
   const confirmDAppSign = useCallback(async (id: string, confirmed: boolean) => {}, []);
 

@@ -1,5 +1,4 @@
-import browser from 'webextension-polyfill';
-
+import { MidenDAppMessageType, MidenDAppRequest, MidenDAppResponse } from 'lib/adapter/types';
 import {
   toFront,
   store,
@@ -12,12 +11,18 @@ import {
   accountsUpdated
 } from 'lib/miden/back/store';
 import { Vault } from 'lib/miden/back/vault';
-import { IRecord } from 'lib/miden/db/types';
 import { createQueue } from 'lib/queue';
 import { WalletSettings, WalletState } from 'lib/shared/types';
 import { WalletType } from 'screens/onboarding/types';
 
-import { getCurrentAleoNetwork } from './safe-network';
+import {
+  getAllDApps,
+  getCurrentPermission,
+  removeDApp,
+  requestDisconnect,
+  requestPermission,
+  requestTransaction
+} from './dapp';
 
 const ACCOUNT_NAME_PATTERN = /^.{0,16}$/;
 
@@ -137,11 +142,32 @@ export function authorize(
 
 export function authorizeDeploy(accPublicKey: string, deployment: string, feeCredits: number, feeRecord?: string) {}
 
-export function getAllDAppSessions() {}
+export function getAllDAppSessions() {
+  return getAllDApps();
+}
 
-export function removeDAppSession(origin: string) {}
+export function removeDAppSession(origin: string) {
+  return withUnlocked(async ({ vault }) => {
+    const currentAccountPublicKey = await Vault.getCurrentAccountPublicKey();
+    return removeDApp(origin, currentAccountPublicKey!);
+  });
+}
 
-export const getOwnedRecords = async (accPublicKey: string) => {};
+export async function processDApp(origin: string, req: MidenDAppRequest): Promise<MidenDAppResponse | void> {
+  switch (req?.type) {
+    case MidenDAppMessageType.GetCurrentPermissionRequest:
+      return withInited(() => getCurrentPermission(origin));
+
+    case MidenDAppMessageType.PermissionRequest:
+      return withInited(() => enqueueDApp(() => requestPermission(origin, req)));
+
+    case MidenDAppMessageType.DisconnectRequest:
+      return withInited(() => enqueueDApp(() => requestDisconnect(origin, req)));
+
+    case MidenDAppMessageType.TransactionRequest:
+      return withInited(() => enqueueDApp(() => requestTransaction(origin, req)));
+  }
+}
 
 // async function createCustomNetworksSnapshot(settings: WalletSettings) {
 //   try {

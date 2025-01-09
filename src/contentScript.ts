@@ -1,7 +1,9 @@
 import browser from 'webextension-polyfill';
 
+import { MidenPageMessageType, MidenPageMessage } from 'lib/adapter/types';
 import { IntercomClient } from 'lib/intercom/client';
 import { serealizeError } from 'lib/intercom/helpers';
+import { MidenMessageType, MidenResponse } from 'lib/miden/types';
 
 enum BeaconMessageTarget {
   Page = 'toPage',
@@ -57,10 +59,10 @@ window.addEventListener(
   evt => {
     if (evt.source !== window) return;
 
-    const isAleoRequest = evt.data?.type === 'AleoPageMessageType.Request';
+    const isMidenRequest = evt.data?.type === MidenPageMessageType.Request;
 
-    if (isAleoRequest) {
-      aleoRequest(evt);
+    if (isMidenRequest) {
+      midenRequest(evt);
     } else {
       return;
     }
@@ -68,43 +70,44 @@ window.addEventListener(
   false
 );
 
-function aleoRequest(evt: MessageEvent) {
+function midenRequest(evt: MessageEvent) {
   const { payload, reqId } = evt.data;
+  console.log('midenRequest', payload);
 
-  // getIntercom()
-  //   .request({
-  //     type: AleoMessageType.PageRequest,
-  //     origin: evt.origin,
-  //     payload
-  //   })
-  //   .then((res: AleoResponse) => {
-  //     if (res?.type === AleoMessageType.PageResponse) {
-  //       send(
-  //         {
-  //           type: AleoPageMessageType.Response,
-  //           payload: res.payload,
-  //           reqId
-  //         },
-  //         evt.origin
-  //       );
-  //     }
-  //   })
-  //   .catch(err => {
-  //     send(
-  //       {
-  //         type: AleoPageMessageType.ErrorResponse,
-  //         payload: serealizeError(err),
-  //         reqId
-  //       },
-  //       evt.origin
-  //     );
-  //   });
+  getIntercom()
+    .request({
+      type: MidenMessageType.PageRequest,
+      origin: evt.origin,
+      payload
+    })
+    .then((res: MidenResponse) => {
+      if (res?.type === MidenMessageType.PageResponse) {
+        send(
+          {
+            type: MidenPageMessageType.Response,
+            payload: res.payload,
+            reqId
+          },
+          evt.origin
+        );
+      }
+    })
+    .catch(err => {
+      send(
+        {
+          type: MidenPageMessageType.ErrorResponse,
+          payload: serealizeError(err),
+          reqId
+        },
+        evt.origin
+      );
+    });
 }
 
-// function send(msg: AleoPageMessage | BeaconPageMessage, targetOrigin: string) {
-//   if (!targetOrigin || targetOrigin === '*') return;
-//   window.postMessage(msg, targetOrigin);
-// }
+function send(msg: MidenPageMessage | BeaconPageMessage, targetOrigin: string) {
+  if (!targetOrigin || targetOrigin === '*') return;
+  window.postMessage(msg, targetOrigin);
+}
 
 let intercom: IntercomClient | null;
 function getIntercom() {

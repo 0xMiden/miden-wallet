@@ -1,10 +1,12 @@
 import React, { FC } from 'react';
 
+import { DecryptPermission } from '@demox-labs/miden-wallet-adapter-base';
 import classNames from 'clsx';
 
 import { T, t } from 'lib/i18n/react';
 
 type DecryptPermissionBannerProps = {
+  decryptPermission: DecryptPermission;
   programs?: string[];
 };
 

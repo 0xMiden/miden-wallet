@@ -31,6 +31,8 @@
   "dependencies": {
     "@babel/core": "^7.17.2",
     "@babel/preset-env": "^7.16.11",
+    "@demox-labs/miden-wallet-adapter-base": "0.0.1",
+    "@demox-labs/miden-wallet-adapter-trident": "0.0.1",
     "@demox-labs/miden-sdk": "0.0.23",
     "@demox-labs/amp-core": "0.1.0",
     "@dicebear/avatars": "4.2.5",

@@ -1,5 +1,6 @@
 import { IRecord } from 'lib/miden/db/types';
 import { WalletType } from 'screens/onboarding/types';
+import { MidenMessageType, MidenRequest, MidenResponse } from 'lib/miden/types';
 
 import {
   SendPageEventRequest,
@@ -93,7 +94,7 @@ export enum WalletMessageType {
 export type WalletNotification = StateUpdated;
 
 export interface WalletMessageBase {
-  type: WalletMessageType;
+  type: WalletMessageType | MidenMessageType;
 }
 
 export interface AcknowledgeRequest extends WalletMessageBase {
@@ -514,6 +515,7 @@ export enum WalletStatus {
 }
 
 export type WalletRequest =
+  | MidenRequest
   | AcknowledgeRequest
   | GetStateRequest
   | NewWalletRequest
@@ -552,6 +554,7 @@ export type WalletRequest =
   | GetOwnedRecordsRequest;
 
 export type WalletResponse =
+  | MidenResponse
   | AcknowledgeResponse
   | LoadingResponse
   | GetStateResponse
