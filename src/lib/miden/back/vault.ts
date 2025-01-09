@@ -17,6 +17,7 @@ import { WalletType } from 'screens/onboarding/types';
 
 import { IRecord } from '../db/types';
 import { MidenClientInterface } from '../sdk/miden-client-interface';
+import { SendTransaction } from '@demox-labs/miden-wallet-adapter-base';
 
 const STORAGE_KEY_PREFIX = 'vault';
 const DEFAULT_SETTINGS = {};
@@ -146,7 +147,7 @@ export class Vault {
     });
   }
 
-  async authorize() {}
+  async authorize(sendTransaction: SendTransaction) {}
 
   async authorizeDeploy() {}
 

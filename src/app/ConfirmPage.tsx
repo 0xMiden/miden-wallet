@@ -85,9 +85,27 @@ interface PayloadContentProps {
   error?: any;
 }
 
-const PayloadContent: React.FC<PayloadContentProps> = ({ viewKey, error }) => {
+const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error }) => {
   let content: string | React.ReactNode = t('noPreview');
-
+  switch (payload.type) {
+    case 'transaction': {
+      content = (
+        <div style={{ height: '200px', overflowY: 'auto' }}>
+          <div className="text-sm" key={0}>
+            {payload.transactionMessages[0]}
+          </div>
+          {payload.transactionMessages.slice(1).map((message, i) => {
+            return (
+              <div className="my-2 text-xs" key={i + 2}>
+                {message}
+              </div>
+            );
+          })}
+        </div>
+      );
+      break;
+    }
+  }
   return (
     <div className={classNames('w-full', 'flex flex-col')}>
       {t(`Payload`) && (
@@ -111,16 +129,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ viewKey, error }) => {
 export default ConfirmPage;
 
 const ConfirmDAppForm: FC = () => {
-  const {
-    getDAppPayload,
-    confirmDAppPermission,
-    confirmDAppSign,
-    confirmDAppDecrypt,
-    confirmDAppRecords,
-    confirmDAppTransaction,
-    confirmDAppBulkTransactions,
-    confirmDAppDeploy
-  } = useMidenContext();
+  const { getDAppPayload, confirmDAppPermission, confirmDAppTransaction } = useMidenContext();
   const account = useAccount();
 
   const loc = useLocation();
@@ -355,7 +364,7 @@ const ConfirmDAppForm: FC = () => {
               loading={declining}
               onClick={handleDeclineClick}
             >
-              {'content.declineActionTitle'}
+              {content.declineActionTitle}
             </FormSecondaryButton>
           </div>
 
@@ -366,9 +375,9 @@ const ConfirmDAppForm: FC = () => {
               style={{ fontSize: '16px', lineHeight: '24px', padding: '14px 0px', border: 'none' }}
               loading={confirming}
               onClick={handleConfirmClick}
-              testID={'content.confirmActionTestID'}
+              testID={content.confirmActionTestID}
             >
-              {'content.confirmActionTitle'}
+              {content.confirmActionTitle}
             </FormSubmitButton>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import {
-  AleoTransaction,
+  MidenTransaction,
   AleoDeployment,
   DecryptPermission,
   WalletAdapterNetwork
@@ -181,7 +181,7 @@ export interface MidenDAppRecordsResponse extends MidenDAppMessageBase {
 export interface MidenDAppTransactionRequest extends MidenDAppMessageBase {
   type: MidenDAppMessageType.TransactionRequest;
   sourcePublicKey: string;
-  transaction: AleoTransaction;
+  transaction: MidenTransaction;
 }
 
 export interface MidenDAppTransactionResponse extends MidenDAppMessageBase {
@@ -192,7 +192,7 @@ export interface MidenDAppTransactionResponse extends MidenDAppMessageBase {
 export interface MidenDAppExecutionRequest extends MidenDAppMessageBase {
   type: MidenDAppMessageType.ExecutionRequest;
   sourcePublicKey: string;
-  transaction: AleoTransaction;
+  transaction: MidenTransaction;
 }
 
 export interface MidenDAppExecutionResponse extends MidenDAppMessageBase {
@@ -203,7 +203,7 @@ export interface MidenDAppExecutionResponse extends MidenDAppMessageBase {
 export interface MidenDAppBulkTransactionsRequest extends MidenDAppMessageBase {
   type: MidenDAppMessageType.BulkTransactionsRequest;
   sourcePublicKey: string;
-  transactions: AleoTransaction[];
+  transactions: MidenTransaction[];
 }
 
 export interface MidenDAppBulkTransactionsResponse extends MidenDAppMessageBase {

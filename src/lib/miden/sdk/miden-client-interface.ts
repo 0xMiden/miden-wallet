@@ -142,6 +142,32 @@ export class MidenClientInterface {
     return notes;
   }
 
+  async mintTransaction(
+    recipientAccountId: string,
+    faucetId: string,
+    noteType: NoteType,
+    amount: bigint
+  ): Promise<TransactionResult> {
+    await this.fetchCacheAccountAuth(recipientAccountId);
+
+    const result = await this.webClient.new_mint_transaction(
+      accountIdStringToSdk(recipientAccountId),
+      accountIdStringToSdk(faucetId),
+      noteType,
+      amount
+    );
+
+    console.log(
+      'Created notes:',
+      result
+        .created_notes()
+        .notes()
+        .map(note => note.id().to_string())
+    );
+
+    return result;
+  }
+
   async sendTransaction(
     senderAccountId: string,
     recipientAccountId: string,

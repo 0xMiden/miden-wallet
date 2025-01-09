@@ -24,10 +24,13 @@ import {
   MidenDAppSession,
   MidenDAppSessions,
   MidenMessageType,
-  MidenRequest
+  MidenRequest,
+  QueuedTransactionType
 } from 'lib/miden/types';
 import { WalletStatus } from 'lib/shared/types';
 
+import { fetchFromStorage, putToStorage } from '../front';
+import { QUEUED_TRANSACTIONS_KEY } from '../front/queued-transactions';
 import { store, withUnlocked } from './store';
 
 const CONFIRM_WINDOW_WIDTH = 380;
@@ -200,12 +203,6 @@ export async function requestTransaction(
     throw new Error(MidenDAppErrorType.NotFound);
   }
 
-  // const current = await getCurrentMidenNetwork();
-  // const currentChainId = loadChainId(current.rpcBaseURL);
-
-  // assertDAppNetworkValid(dApp, currentChainId);
-  // change mainnetbeta to mainnet to match the wallet adapter request
-
   return new Promise((resolve, reject) =>
     generatePromisifyTransaction(resolve, reject, dApp, req, MidenDAppMessageType.TransactionResponse)
   );
@@ -249,20 +246,27 @@ const generatePromisifyTransaction = async <
 
   let preview: any = null;
   let transactionMessages: string[] = [];
+  const transaction = req.transaction.sendTransaction;
+  if (!transaction) {
+    reject(new Error(`${MidenDAppErrorType.InvalidParams}: Unable to deserialize provided transaction`));
+    return;
+  }
+
   try {
-    // Convert to our internal representation of transactions & transitions to later generate proof
-    const result = await withUnlocked(async ({ vault }) => {
-      const viewKey = await vault.revealViewKey(req.sourcePublicKey);
-      const executionOnly = messageType === MidenDAppMessageType.ExecutionResponse;
+    transactionMessages = await withUnlocked(async () => {
+      const transaction = req.transaction.sendTransaction!;
+      const tsTexts = [
+        `Transfer note from faucet: ${transaction.faucetId} with inputs:`,
+        `Recipient: ${transaction.recipientAccountId}`,
+        `Amount: ${transaction.amount}`,
+        `NoteType: ${transaction.noteType}`,
+        `${transaction.recallBlocks}`
+      ];
+      return tsTexts;
     });
   } catch (e) {
     reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
   }
-
-  // if (!transaction) {
-  //   reject(new Error(`${MidenDAppErrorType.InvalidParams}: Unable to deserialize provided transaction`));
-  //   return;
-  // }
 
   await requestConfirm({
     id,
@@ -273,7 +277,6 @@ const generatePromisifyTransaction = async <
       appMeta: dApp.appMeta,
       sourcePublicKey: req.sourcePublicKey,
       transactionMessages,
-      fee: req.transaction.fee ?? 0,
       preview
     },
     onDecline: () => {
@@ -283,12 +286,21 @@ const generatePromisifyTransaction = async <
       if (confirmReq?.type === MidenMessageType.DAppTransactionConfirmationRequest && confirmReq?.id === id) {
         if (confirmReq.confirmed) {
           try {
-            if (true) {
-              // const transactionId = await createTransaction(transaction, transitions, confirmReq.delegate);
-              // resolve({
-              //   type: messageType,
-              //   transactionId: transactionId
-              // } as any);
+            if (transaction) {
+              console.log('confirmation request', transaction);
+              const queuedTransactions = await fetchFromStorage(QUEUED_TRANSACTIONS_KEY);
+              const newQueuedTransactions = [
+                ...queuedTransactions,
+                {
+                  type: QueuedTransactionType.SendTransaction,
+                  data: { ...transaction, delegateTransaction: confirmReq.delegate }
+                }
+              ];
+              await putToStorage(QUEUED_TRANSACTIONS_KEY, newQueuedTransactions);
+              resolve({
+                type: messageType,
+                transactionId: ''
+              } as any);
             } else {
               throw new Error('Unable to create transaction');
             }

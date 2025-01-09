@@ -236,7 +236,15 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
 
   const confirmDAppRecords = useCallback(async (id: string, confirmed: boolean) => {}, []);
 
-  const confirmDAppTransaction = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {}, []);
+  const confirmDAppTransaction = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {
+    const res = await request({
+      type: MidenMessageType.DAppTransactionConfirmationRequest,
+      id,
+      confirmed,
+      delegate
+    });
+    assertResponse(res.type === MidenMessageType.DAppTransactionConfirmationResponse);
+  }, []);
 
   const confirmDAppBulkTransactions = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {}, []);
 

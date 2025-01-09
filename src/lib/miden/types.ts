@@ -86,7 +86,6 @@ export interface MidenDAppTransactionPayload extends MidenDAppPayloadBase {
   sourcePublicKey: string;
   preview: any;
   transactionMessages: string[];
-  fee: number;
 }
 
 export type MidenDAppPayload = MidenDAppConnectPayload | MidenDAppTransactionPayload;
