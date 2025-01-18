@@ -1296,10 +1296,10 @@
   resolved "https://registry.npmjs.org/@csstools/selector-specificity/-/selector-specificity-2.2.0.tgz"
   integrity sha512-+OJ9konv95ClSTOJCmMZqpd5+YGsB2S+x6w3E1oaM8UuR5j8nTNHYSz8c9BEPGDOCMQYIEEGlVPj/VY64iTbGw==
 
-"@demox-labs/miden-sdk@0.0.23":
-  version "0.0.23"
-  resolved "https://registry.yarnpkg.com/@demox-labs/miden-sdk/-/miden-sdk-0.0.23.tgz#fef426ddd7d04df97ae7ec9013f9ccad1645172a"
-  integrity sha512-rWXYP4ZfLZP1LvTcUwDTXGZ7VK39oUz3G/QUbK6ANT0bjdaDKYi62KP9ZHWxvD31BGLtICNKoN2nYrr8YfEf4Q==
+"@demox-labs/miden-sdk@0.6.1-next.3":
+  version "0.6.1-next.3"
+  resolved "https://registry.yarnpkg.com/@demox-labs/miden-sdk/-/miden-sdk-0.6.1-next.3.tgz#ae5f8af04766b48647fcbc6beaccc1fd1478d149"
+  integrity sha512-Og11pCc1KvLn8hz+52mWm97zLwmGK7ImGAruuPiIJHOe64v3dwmpSvQ4qCNzxzRxRVNfVY0qhH6smNLhXVWQNw==
   dependencies:
     chai-as-promised "^8.0.0"
     dexie "^4.0.1"
@@ -13893,6 +13893,11 @@ zlib@^1.0.5:
   version "1.0.5"
   resolved "https://registry.npmjs.org/zlib/-/zlib-1.0.5.tgz"
   integrity sha512-40fpE2II+Cd3k8HWTWONfeKE2jL+P42iWJ1zzps5W51qcTsOUKM5Q5m2PFb0CLxlmFAaUuUdJGc3OfZy947v0w==
+
+zustand@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-5.0.3.tgz#b323435b73d06b2512e93c77239634374b0e407f"
+  integrity sha512-14fwWQtU3pH4dE0dOpdMiWjddcH+QzKIgk1cl8epwSE7yag43k/AD/m4L6+K7DytAOr9gGBe3/EXj9g7cdostg==
 
 zwitch@^2.0.0:
   version "2.0.4"

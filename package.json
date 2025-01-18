@@ -31,7 +31,7 @@
   "dependencies": {
     "@babel/core": "^7.17.2",
     "@babel/preset-env": "^7.16.11",
-    "@demox-labs/miden-sdk": "0.0.23",
+    "@demox-labs/miden-sdk": "0.6.1-next.3",
     "@dicebear/avatars": "4.2.5",
     "@dicebear/avatars-bottts-sprites": "4.2.5",
     "@dicebear/avatars-jdenticon-sprites": "4.2.5",
@@ -158,7 +158,8 @@
     "wasm-themis": "0.14.6",
     "webextension-polyfill": "^0.10.0",
     "yup": "^1.4.0",
-    "zlib": "^1.0.5"
+    "zlib": "^1.0.5",
+    "zustand": "^5.0.3"
   },
   "peerDependencies": {
     "postcss": "8.4.6"
