@@ -32,5 +32,5 @@ export enum MidenTokens {
 }
 
 export const TOKEN_MAPPING = {
-  [MidenTokens.Miden]: { faucetId: '0xffd01b0acbb927200000e433024f2d' }
+  [MidenTokens.Miden]: { faucetId: '0xa065af1ed35b74200000163ffdc5c6' }
 };

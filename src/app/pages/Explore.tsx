@@ -47,10 +47,6 @@ import EditableTitle from './Explore/EditableTitle';
 import MainBanner from './Explore/MainBanner';
 import SyncBanner from './Explore/SyncBanner';
 import Tokens from './Explore/Tokens/Tokens';
-import { Button } from 'components/Button';
-import { getMessage, postMessage, postProposal } from 'amp-core';
-import { NoteType } from '@demox-labs/miden-sdk';
-import { NoteExportType } from 'lib/miden/sdk/constants';
 
 const midenClient = await MidenClientInterface.create();
 
@@ -164,44 +160,6 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
           <div className="flex flex-col w-full justify-center items-center">
             <MainBanner balance={balance || new BigNumber(0)} />
             {!assetId && <AddressChip publicKey={account.publicKey} />}
-            <Button
-              onClick={async () => {
-                const result = await midenClient.sendTransaction(
-                  account.publicKey,
-                  '0x1b654d35424884e9',
-                  '0x233be0f3893fae5e',
-                  NoteType.private(),
-                  10n
-                );
-
-                const noteId = result.created_notes().notes()[0].id().to_string();
-                console.log('Exporting note:', noteId);
-                const noteBytes = await midenClient.exportNote(noteId, NoteExportType.PARTIAL);
-
-                const response = await postMessage({ messageId: 'test-send', body: noteBytes.toString() });
-                console.log({ response });
-              }}
-            >
-              Send message
-            </Button>
-            <Button
-              onClick={async () => {
-                const response: any = await getMessage('test-send');
-                const message = await response.json();
-                const noteBytes = new Uint8Array(message.body.split(',').map(Number));
-                console.log({ message });
-                console.log({ noteBytes });
-                if (noteBytes.length === 0) {
-                  return;
-                } else {
-                  const result = await midenClient.consumeNoteBytes(account.publicKey, noteBytes);
-                  const noteId = result.consumed_notes().get_note(0).id().to_string();
-                  console.log({ noteId });
-                }
-              }}
-            >
-              Receive message / receive funds
-            </Button>
           </div>
           <div className="flex justify-between items-center w-full mt-1 px-2 mb-4">
             <ActionButton

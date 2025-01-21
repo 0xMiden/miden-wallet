@@ -4,19 +4,19 @@ import { logger } from 'shared/logger';
 
 import { syncOwnedRecords, completeOwnedRecords } from '../activity/sync';
 
-import { setAccountCreationMetadata } from '../activity/sync/account-creation';
 import { SyncOptions } from '../activity/sync/sync-options';
 import { tagOwnedRecords } from '../activity/tagging/tag';
 import { WalletState } from 'lib/shared/types';
 import { MidenClientInterface } from '../sdk/miden-client-interface';
-import { getMessagesForRecipient } from 'amp-core';
-import { MessageHttp } from 'amp-core/script/http-types';
+import { ampApi } from 'lib/amp/amp-interface';
+import { MessageHttpOutput } from '@demox-labs/amp-core/script/http-types';
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 const midenClient = await MidenClientInterface.create();
 
 export const AMP_SYNC_STORAGE_KEY = 'amp-sync-storage-key';
 export const DEFAULT_DELEGATE_PROOF = false;
+export const AMP_CYCLE_WAIT = 5;
 
 export function isAmpSyncEnabled() {
   const stored = localStorage.getItem(AMP_SYNC_STORAGE_KEY);
@@ -28,6 +28,7 @@ class Sync {
   lastRecordId: number = 0;
   getHeightFetchTimestamp: number = 0;
   state?: WalletState;
+  ampCycles: number = 0;
 
   public updateState(state: WalletState) {
     const previousState = this.state;
@@ -100,10 +101,11 @@ class Sync {
   async syncAmp() {
     const publicKey = this.state?.currentAccount?.publicKey;
     const ampSyncEnabled = isAmpSyncEnabled();
+    const isAmpCycle = this.ampCycles % AMP_CYCLE_WAIT === 0;
 
-    if (publicKey ) {
-      const response = await getMessagesForRecipient(publicKey);
-      const messages: MessageHttp[] = await response.json();
+    if (publicKey && ampSyncEnabled && isAmpCycle) {
+      const response = await ampApi.getMessagesForRecipient(publicKey);
+      const messages: MessageHttpOutput[] = await response.json();
       if (messages.length > 0) {
         console.log('Syncing amp...');
 
@@ -112,10 +114,12 @@ class Sync {
           // TODO: Potentially tweak upstream to make this cleaner
           const noteBytes = new Uint8Array(message.body.split(',').map(Number));
 
-          const result = await midenClient.importNoteBytes(noteBytes);
+          await midenClient.importNoteBytes(noteBytes);
         }
       }
     }
+
+    this.ampCycles++;
   }
 }
 

@@ -4,7 +4,7 @@ import { expose } from 'threads/worker';
 import { NoteExportType } from 'lib/miden/sdk/constants';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import { ExportedNote } from 'lib/miden/types';
-import { postMessage } from 'amp-core';
+import { ampApi } from 'lib/amp/amp-interface';
 
 async function sendTransaction(
   senderAccountId: string,
@@ -32,7 +32,7 @@ async function sendTransaction(
 
     // TODO: Potentially unhook this from export process
     try {
-      await postMessage({
+      await ampApi.postMessage({
         recipient: recipientAccountId,
         body: noteBytes.toString()
       });
