@@ -15,12 +15,12 @@ const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 const midenClient = await MidenClientInterface.create();
 
 export const AMP_SYNC_STORAGE_KEY = 'amp-sync-storage-key';
-export const DEFAULT_DELEGATE_PROOF = false;
+export const DEFAULT_ENABLE_AMP = false;
 export const AMP_CYCLE_WAIT = 5;
 
 export function isAmpSyncEnabled() {
   const stored = localStorage.getItem(AMP_SYNC_STORAGE_KEY);
-  return stored ? (JSON.parse(stored) as boolean) : DEFAULT_DELEGATE_PROOF;
+  return stored ? (JSON.parse(stored) as boolean) : DEFAULT_ENABLE_AMP;
 }
 
 class Sync {
