@@ -7,13 +7,16 @@ import CSSTransition from 'react-transition-group/CSSTransition';
 import { MidenTokens, TOKEN_MAPPING } from 'lib/miden-chain/constants';
 import { useAccount, useBalance } from 'lib/miden/front';
 
+import { getFaucetIdSetting } from './EditMidenFaucetId';
+
 type BalanceProps = {
   children: (b: BigNumber) => ReactElement;
 };
 
 const Balance = memo<BalanceProps>(({ children }) => {
   const account = useAccount();
-  const { data: balance } = useBalance(account.publicKey, TOKEN_MAPPING[MidenTokens.Miden].faucetId);
+  const faucetId = getFaucetIdSetting();
+  const { data: balance } = useBalance(account.publicKey, faucetId);
 
   return useMemo(() => {
     const childNode = children(balance !== undefined ? balance : new BigNumber(0));

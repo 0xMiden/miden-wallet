@@ -10,40 +10,48 @@ import { SquareButton } from 'components/SquareButton';
 import { ConfirmationScreen } from './common/Confirmation';
 import { CreatePasswordScreen } from './common/CreatePassword';
 import { WelcomeScreen } from './common/Welcome';
-import { BackUpWalletScreen } from './create-wallet-flow/BackUpWallet';
+import { BackUpSeedPhraseScreen } from './create-wallet-flow/BackUpSeedPhrase';
 import { SelectTransactionTypeScreen } from './create-wallet-flow/SelectTransactionType';
+import { SelectWalletTypeScreen } from './create-wallet-flow/SelectWalletType';
 import { VerifySeedPhraseScreen } from './create-wallet-flow/VerifySeedPhrase';
 import { ImportWalletFileScreen } from './import-wallet-flow/ImportWalletFile';
-import { OnboardingAction, OnboardingStep, OnboardingType } from './types';
+import { OnboardingAction, OnboardingStep, OnboardingType, WalletType } from './types';
 
 export interface OnboardingFlowProps {
   seedPhrase: string[] | null;
   onboardingType: OnboardingType | null;
+  walletType: WalletType | null;
   step: OnboardingStep;
   isLoading?: boolean;
   onAction?: (action: OnboardingAction) => void;
 }
 
-const Header: React.FC<{ onBack: () => void; step: OnboardingStep; onboardingType?: 'create' | 'import' | null }> = ({
-  onboardingType,
-  step,
-  onBack
-}) => {
+const Header: React.FC<{
+  onBack: () => void;
+  step: OnboardingStep;
+  walletType: WalletType | null;
+  onboardingType?: 'import' | 'create' | null;
+}> = ({ walletType, onboardingType, step, onBack }) => {
   if (step === OnboardingStep.Confirmation || step === OnboardingStep.SelectTransactionType) {
     return null;
   }
 
   const shouldRenderBackButton = step !== OnboardingStep.Welcome;
-  let currentStep: number | null = step === OnboardingStep.Welcome ? null : 3;
+  let currentStep: number | null =
+    step === OnboardingStep.Welcome || step === OnboardingStep.SelectWalletType ? null : 3;
 
-  if (step === OnboardingStep.BackupWallet) {
+  if (step === OnboardingStep.BackupSeedPhrase) {
     currentStep = 1;
   } else if (step === OnboardingStep.VerifySeedPhrase) {
     currentStep = 2;
   } else if (step === OnboardingStep.ImportWallet) {
     currentStep = 1;
   } else if (step === OnboardingStep.CreatePassword) {
-    currentStep = 3;
+    if (onboardingType === 'create' && walletType === WalletType.OffChain) {
+      currentStep = null;
+    } else {
+      currentStep = 3;
+    }
   }
   const steps = onboardingType === 'import' ? 2 : 3;
 
@@ -68,7 +76,14 @@ const Header: React.FC<{ onBack: () => void; step: OnboardingStep; onboardingTyp
   );
 };
 
-export const OnboardingFlow: FC<OnboardingFlowProps> = ({ seedPhrase, onboardingType, step, isLoading, onAction }) => {
+export const OnboardingFlow: FC<OnboardingFlowProps> = ({
+  seedPhrase,
+  walletType,
+  onboardingType,
+  step,
+  isLoading,
+  onAction
+}) => {
   const [navigationDirection, setNavigationDirection] = useState<'forward' | 'backward'>('forward');
 
   const onForwardAction = useCallback(
@@ -80,11 +95,11 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({ seedPhrase, onboarding
   );
 
   const renderStep = useCallback(() => {
-    const onWelcomeAction = (action: 'create' | 'import') => {
+    const onWelcomeAction = (action: 'select-wallet-type' | 'import') => {
       switch (action) {
-        case 'create':
+        case 'select-wallet-type':
           onForwardAction?.({
-            id: 'create-wallet'
+            id: 'select-wallet-type'
           });
           break;
         case 'import':
@@ -97,14 +112,33 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({ seedPhrase, onboarding
       }
     };
 
-    const onBackupWalletSubmit = () =>
+    const onSelectWalletTypeSubmit = (payload: WalletType) => {
+      switch (payload) {
+        case WalletType.OnChain:
+          onForwardAction?.({
+            id: 'backup-seed-phrase'
+          });
+          break;
+        case WalletType.OffChain:
+          onForwardAction?.({
+            id: 'create-password',
+            payload: payload
+          });
+          break;
+        default:
+          break;
+      }
+    };
+
+    const onBackupSeedPhraseSubmit = () =>
       onForwardAction?.({
         id: 'verify-seed-phrase'
       });
 
     const onVerifySeedPhraseSubmit = () =>
       onForwardAction?.({
-        id: 'create-password'
+        id: 'create-password',
+        payload: WalletType.OnChain
       });
 
     const onCreatePasswordSubmit = (password: string) =>
@@ -121,8 +155,10 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({ seedPhrase, onboarding
     switch (step) {
       case OnboardingStep.Welcome:
         return <WelcomeScreen onSubmit={onWelcomeAction} />;
-      case OnboardingStep.BackupWallet:
-        return <BackUpWalletScreen seedPhrase={seedPhrase || []} onSubmit={onBackupWalletSubmit} />;
+      case OnboardingStep.SelectWalletType:
+        return <SelectWalletTypeScreen onSubmit={onSelectWalletTypeSubmit} />;
+      case OnboardingStep.BackupSeedPhrase:
+        return <BackUpSeedPhraseScreen seedPhrase={seedPhrase || []} onSubmit={onBackupSeedPhraseSubmit} />;
       case OnboardingStep.VerifySeedPhrase:
         return <VerifySeedPhraseScreen seedPhrase={seedPhrase || []} onSubmit={onVerifySeedPhraseSubmit} />;
       case OnboardingStep.ImportWallet:
@@ -157,7 +193,13 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({ seedPhrase, onboarding
       <div className="h-full w-full">
         <AnimatePresence mode={'wait'} initial={false}>
           {step !== OnboardingStep.Confirmation && step !== OnboardingStep.SelectTransactionType && (
-            <Header onBack={onBack} step={step} onboardingType={onboardingType} key={'header'} />
+            <Header
+              onBack={onBack}
+              step={step}
+              walletType={walletType}
+              onboardingType={onboardingType}
+              key={'header'}
+            />
           )}
         </AnimatePresence>
         <AnimatePresence mode={'wait'} initial={false}>

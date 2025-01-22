@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
+import { getFaucetIdSetting } from 'app/templates/EditMidenFaucetId';
 import { Button, ButtonVariant } from 'components/Button';
 import { Chip } from 'components/Chip';
 import { InputAmount } from 'components/InputAmount';
@@ -23,9 +24,10 @@ const TOKEN_NAME = 'MIDEN';
 export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, onGoNext, onAction, onCancel }) => {
   const { t } = useTranslation();
   const { publicKey } = useAccount();
+  const faucetId = getFaucetIdSetting();
 
   // TODO: More robust way to toggle faucet type
-  const { data: balance } = useBalance(publicKey, TOKEN_MAPPING[MidenTokens.Miden].faucetId);
+  const { data: balance } = useBalance(publicKey, faucetId);
 
   const onAmountChangeHandler = useCallback(
     (

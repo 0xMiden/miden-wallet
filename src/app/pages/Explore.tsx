@@ -17,6 +17,7 @@ import Footer from 'app/layouts/PageLayout/Footer';
 import Header from 'app/layouts/PageLayout/Header';
 import Activity from 'app/templates/activity/Activity';
 import { AssetIcon } from 'app/templates/AssetIcon';
+import { getFaucetIdSetting } from 'app/templates/EditMidenFaucetId';
 import { TestIDProps } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { getChainStatus } from 'lib/miden-chain/client';
@@ -71,8 +72,9 @@ const activityTippyPropsMock = {
 
 const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
   const account = useAccount();
+  const faucetId = getFaucetIdSetting();
   const { data: claimableNotes } = useClaimableNotes(account.publicKey);
-  const { data: balance } = useBalance(account.id, TOKEN_MAPPING[MidenTokens.Miden].faucetId);
+  const { data: balance } = useBalance(account.id, faucetId);
   if (assetId && !assetSlug) {
     if (!assetSlug) {
       // Tokens are not guaranteed to load on mount
@@ -364,7 +366,8 @@ type PublicPrivateBalanceProps = {
 
 const PublicPrivateBalance: FC<PublicPrivateBalanceProps> = ({ assetSlug, assetId }) => {
   const account = useAccount();
-  const { data: balance } = useBalance('0x92d3323052c31ffd', TOKEN_MAPPING[MidenTokens.Miden].faucetId);
+  const faucetId = getFaucetIdSetting();
+  const { data: balance } = useBalance(account.id, faucetId);
 
   const convertUrl = assetSlug === ALEO_SLUG ? '/convert-visibility/aleo' : `/convert-visibility/${assetId}`;
 

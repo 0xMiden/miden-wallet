@@ -1,4 +1,6 @@
 import { IRecord } from 'lib/miden/db/types';
+import { WalletType } from 'screens/onboarding/types';
+
 import {
   SendPageEventRequest,
   SendPageEventResponse,
@@ -146,6 +148,7 @@ export interface WalletAccount {
   publicKey: string;
   privateKey: string;
   name: string;
+  isPublic: boolean;
 }
 
 export interface WalletNetwork {
@@ -161,6 +164,7 @@ export interface LoadingResponse extends WalletMessageBase {
 
 export interface NewWalletRequest extends WalletMessageBase {
   type: WalletMessageType.NewWalletRequest;
+  walletType: WalletType;
   password: string;
   mnemonic?: string;
   ownMnemonic?: boolean;

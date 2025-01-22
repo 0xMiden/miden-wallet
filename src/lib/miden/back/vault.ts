@@ -1,5 +1,6 @@
 import * as Bip39 from 'bip39';
 
+import { getMessage } from 'lib/i18n';
 import { PublicError } from 'lib/miden/back/defaults';
 import {
   encryptAndSaveMany,
@@ -11,11 +12,10 @@ import {
 } from 'lib/miden/back/safe-storage';
 import * as Passworder from 'lib/miden/passworder';
 import { clearStorage } from 'lib/miden/reset';
-
-import { getMessage } from 'lib/i18n';
+import { WalletAccount, WalletSettings } from 'lib/shared/types';
+import { WalletType } from 'screens/onboarding/types';
 
 import { IRecord } from '../db/types';
-import { WalletAccount, WalletSettings } from 'lib/shared/types';
 import { MidenClientInterface } from '../sdk/miden-client-interface';
 
 const STORAGE_KEY_PREFIX = 'vault';
@@ -61,22 +61,23 @@ export class Vault {
     });
   }
 
-  static async spawn(password: string, mnemonic?: string, ownMnemonic?: boolean) {
+  static async spawn(walletType: WalletType, password: string, mnemonic?: string, ownMnemonic?: boolean) {
     return withError('Failed to create wallet', async () => {
-      if (!mnemonic) {
+      if (!mnemonic && walletType === WalletType.OnChain) {
         mnemonic = Bip39.generateMnemonic(128);
       }
 
       console.log('attempting to spawn wallet');
 
-      const accPublicKey = await midenClient.createMidenWallet();
+      const accPublicKey = await midenClient.createMidenWallet(walletType);
       const accPrivateKey = 'TODO';
 
       const initialAccount: WalletAccount = {
         id: 'miden',
         publicKey: accPublicKey,
         privateKey: accPrivateKey,
-        name: 'Miden Account 1'
+        name: 'Miden Account 1',
+        isPublic: walletType === WalletType.OnChain
       };
       const newAccounts = [initialAccount];
       const passKey = await Passworder.generateKey(password);
@@ -85,7 +86,7 @@ export class Vault {
       await encryptAndSaveMany(
         [
           [checkStrgKey, generateCheck()],
-          [mnemonicStrgKey, mnemonic],
+          [mnemonicStrgKey, mnemonic ?? ''],
           [accountsStrgKey, newAccounts]
         ],
         passKey

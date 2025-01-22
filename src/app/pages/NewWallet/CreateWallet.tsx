@@ -5,7 +5,6 @@ import { generateMnemonic } from 'bip39';
 import PageLayout from 'app/layouts/PageLayout';
 import { t } from 'lib/i18n/react';
 
-import { useMidenContext } from '../../../lib/miden/front';
 import { NewSeedBackup } from './create/NewSeedBackup';
 import { NewSeedVerify } from './create/NewSeedVerify';
 import { LockedWalletExists } from './LockedWalletExists';

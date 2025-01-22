@@ -7,12 +7,12 @@ import { IconName } from 'app/icons/v2';
 import { Button, ButtonVariant } from 'components/Button';
 import { Chip } from 'components/Chip';
 
-export interface BackUpWalletScreenProps extends HTMLAttributes<HTMLDivElement> {
+export interface BackUpSeedPhraseScreenProps extends HTMLAttributes<HTMLDivElement> {
   seedPhrase: string[];
   onSubmit?: () => void;
 }
 
-export const BackUpWalletScreen: React.FC<BackUpWalletScreenProps> = ({
+export const BackUpSeedPhraseScreen: React.FC<BackUpSeedPhraseScreenProps> = ({
   seedPhrase,
   className,
   onSubmit,

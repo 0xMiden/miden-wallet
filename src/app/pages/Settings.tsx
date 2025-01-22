@@ -2,23 +2,25 @@ import React, { FC, useCallback, useMemo } from 'react';
 
 import classNames from 'clsx';
 
+import { openInFullPage, useAppEnv } from 'app/env';
 import { ReactComponent as ContactBookIcon } from 'app/icons/contact-book.svg';
 import { ReactComponent as ExtensionIcon } from 'app/icons/extension.svg';
 import { ReactComponent as FileIcon } from 'app/icons/file.svg';
-import { ReactComponent as SettingsIcon } from 'app/icons/settings.svg';
 import { ReactComponent as MaximiseIcon } from 'app/icons/maximise.svg';
+import { ReactComponent as SettingsIcon } from 'app/icons/settings.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import Footer from 'app/layouts/PageLayout/Footer';
 import About from 'app/templates/About';
 import AddressBook from 'app/templates/AddressBook';
+import EditMidenFaucetId from 'app/templates/EditMidenFaucetId';
+import GeneralSettings from 'app/templates/GeneralSettings';
 import MenuItem from 'app/templates/MenuItem';
 import RevealSecret from 'app/templates/RevealSecret';
 import { t } from 'lib/i18n/react';
+import { useAccount } from 'lib/miden/front';
 
 import NetworksSettings from './Networks';
 import { SettingsSelectors } from './Settings.selectors';
-import { openInFullPage, useAppEnv } from 'app/env';
-import GeneralSettings from 'app/templates/GeneralSettings';
 
 type SettingsProps = {
   tabSlug?: string | null;
@@ -86,6 +88,15 @@ const TABS: Tab[] = [
     descriptionI18nKey: 'revealSeedPhraseDescription',
     testID: SettingsSelectors.RevealSeedPhraseButton,
     insertHR: false
+  },
+  {
+    slug: 'edit-miden-faucet-id',
+    titleI18nKey: 'editMidenFaucetId',
+    Icon: SettingsIcon,
+    Component: EditMidenFaucetId,
+    descriptionI18nKey: 'editMidenFaucetIdDescription',
+    testID: SettingsSelectors.EditMidenFaucetButton,
+    insertHR: false
   }
   // {
   //   slug: 'file-settings',
@@ -147,8 +158,12 @@ const TABS: Tab[] = [
 // TODO: Consider passing tabs in as a prop
 const Settings: FC<SettingsProps> = ({ tabSlug }) => {
   const activeTab = useMemo(() => TABS.find(t => t.slug === tabSlug) || null, [tabSlug]);
-  const listMenuItems = TABS.filter(t => t.slug !== 'networks');
+  let listMenuItems = TABS.filter(t => t.slug !== 'networks');
   const { fullPage, popup } = useAppEnv();
+  const account = useAccount();
+  if (!account.isPublic) {
+    listMenuItems = listMenuItems.filter(t => t.slug !== 'reveal-seed-phrase');
+  }
 
   const handleMaximiseViewClick = useCallback(() => {
     openInFullPage();

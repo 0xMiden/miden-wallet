@@ -10,7 +10,7 @@ export interface WelcomeScreenProps extends Omit<React.ButtonHTMLAttributes<HTML
   onSubmit?: (action: Actions) => void;
 }
 
-export type Actions = 'create' | 'import';
+export type Actions = 'select-wallet-type' | 'import';
 
 export const WelcomeScreen = ({ onSubmit, ...props }: WelcomeScreenProps) => {
   const { t } = useTranslation();
@@ -24,7 +24,7 @@ export const WelcomeScreen = ({ onSubmit, ...props }: WelcomeScreenProps) => {
         />
       </div>
       <div className="w-[360px] flex flex-col gap-2">
-        <Button tabIndex={0} autoFocus title={t('createANewWallet')} onClick={() => onSubmit?.('create')} />
+        <Button tabIndex={0} autoFocus title={t('createANewWallet')} onClick={() => onSubmit?.('select-wallet-type')} />
         {/* <Button
           id={'import-link'}
           title={t('iAlreadyHaveAWallet')}
