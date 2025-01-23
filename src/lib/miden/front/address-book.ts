@@ -4,16 +4,37 @@ import { useMidenContext } from 'lib/miden/front';
 import { getMessage } from 'lib/i18n';
 
 import { useFilteredContacts } from './use-filtered-contacts.hook';
+import { WalletContact } from 'lib/shared/types';
 
 export function useContacts() {
   const { updateSettings } = useMidenContext();
   const { contacts, allContacts } = useFilteredContacts();
 
-  const addContact = useCallback(() => {}, [contacts, allContacts, updateSettings]);
+  const addContact = useCallback(
+    async (cToAdd: WalletContact) => {
+      if (allContacts.some(c => c.address === cToAdd.address)) {
+        throw new Error(getMessage('contactWithTheSameAddressAlreadyExists'));
+      }
+      console.log('calling update settings...');
+      await updateSettings({
+        contacts: [cToAdd, ...contacts]
+      });
+    },
+    [contacts, allContacts, updateSettings]
+  );
 
-  const removeContact = useCallback(async (address: string) => {}, [contacts, updateSettings]);
+  const removeContact = useCallback(
+    async (address: string) =>
+      await updateSettings({
+        contacts: contacts.filter(c => c.address !== address)
+      }),
+    [contacts, updateSettings]
+  );
 
-  const getContact = useCallback(() => {}, [allContacts]);
+  const getContact = useCallback(
+    (address: string) => allContacts.find(c => c.address === address) ?? null,
+    [allContacts]
+  );
 
   return {
     addContact,

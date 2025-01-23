@@ -4,6 +4,7 @@ import { expose } from 'threads/worker';
 import { NoteExportType } from 'lib/miden/sdk/constants';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import { ExportedNote } from 'lib/miden/types';
+import { ampApi } from 'lib/amp/amp-interface';
 
 async function sendTransaction(
   senderAccountId: string,
@@ -27,8 +28,19 @@ async function sendTransaction(
 
   if (noteType === 'private') {
     const noteId = result.created_notes().notes()[0].id().to_string();
-    console.log('Exporting note:', noteId);
     const noteBytes = await midenClient.exportNote(noteId, NoteExportType.PARTIAL);
+
+    // TODO: Potentially unhook this from export process
+    try {
+      await ampApi.postMessage({
+        recipient: recipientAccountId,
+        body: noteBytes.toString()
+      });
+      console.log('Sent note to AMP');
+    } catch (e) {
+      console.error('Failed to send note to AMP', e);
+    }
+
     return { noteId, noteBytes };
   }
 

@@ -8,6 +8,7 @@ import {
   WalletNotification,
   WalletRequest,
   WalletResponse,
+  WalletSettings,
   WalletState,
   WalletStatus
 } from 'lib/shared/types';
@@ -179,7 +180,13 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   const importMnemonicAccount = useCallback(async (mnemonic: string, password?: string, derivationPath?: string) => {},
   []);
 
-  const updateSettings = useCallback(async () => {}, []);
+  const updateSettings = useCallback(async (newSettings: Partial<WalletSettings>) => {
+    const res = await request({
+      type: WalletMessageType.UpdateSettingsRequest,
+      settings: newSettings
+    });
+    assertResponse(res.type === WalletMessageType.UpdateSettingsResponse);
+  }, []);
 
   const authorizeTransaction = useCallback(
     async (

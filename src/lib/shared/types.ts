@@ -307,7 +307,17 @@ export interface UpdateSettingsRequest extends WalletMessageBase {
 }
 
 // TODO: Pull this out somewhere and make it more generalizable
-export interface WalletSettings {}
+export interface WalletSettings {
+  contacts?: WalletContact[];
+}
+
+export interface WalletContact {
+  address: string;
+  name: string;
+  addedAt?: number;
+  accountInWallet?: boolean;
+  sharedSecret?: string;
+}
 
 export interface UpdateSettingsResponse extends WalletMessageBase {
   type: WalletMessageType.UpdateSettingsResponse;
