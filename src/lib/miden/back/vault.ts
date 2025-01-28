@@ -1,5 +1,6 @@
 import * as Bip39 from 'bip39';
 
+import { derivePath } from '@demox-labs/aleo-hd-key';
 import { getMessage } from 'lib/i18n';
 import { PublicError } from 'lib/miden/back/defaults';
 import {
@@ -70,14 +71,12 @@ export class Vault {
       console.log('attempting to spawn wallet');
 
       const accPublicKey = await midenClient.createMidenWallet(walletType);
-      const accPrivateKey = 'TODO';
 
       const initialAccount: WalletAccount = {
-        id: 'miden',
         publicKey: accPublicKey,
-        privateKey: accPrivateKey,
         name: 'Miden Account 1',
-        isPublic: walletType === WalletType.OnChain
+        isPublic: walletType === WalletType.OnChain,
+        type: WalletType.OnChain
       };
       const newAccounts = [initialAccount];
       const passKey = await Passworder.generateKey(password);
@@ -100,7 +99,41 @@ export class Vault {
     return DEFAULT_SETTINGS;
   }
 
-  async createHDAccount(name?: string, hdAccIndex?: number, chainId?: string) {}
+  async createHDAccount(name?: string, walletType: WalletType = WalletType.OnChain) {
+    return withError('Failed to create account', async () => {
+      const [mnemonic, allAccounts] = await Promise.all([
+        fetchAndDecryptOneWithLegacyFallBack<string>(mnemonicStrgKey, this.passKey),
+        this.fetchAccounts()
+      ]);
+
+      const clientSeed = deriveClientSeed(walletType, mnemonic, allAccounts);
+
+      const midenClient = await MidenClientInterface.create({ seed: clientSeed }); // todo: seed this
+      const walletId = await midenClient.createMidenWallet(walletType);
+
+      const accName = name || getNewAccountName(allAccounts);
+
+      const newAccount: WalletAccount = {
+        type: walletType,
+        name: accName,
+        publicKey: walletId,
+        isPublic: walletType === WalletType.OnChain
+      };
+
+      const newAllAcounts = concatAccount(allAccounts, newAccount);
+
+      await encryptAndSaveMany(
+        [
+          [accPubKeyStrgKey(walletId), walletId],
+          // private key and view key were here from aleo, but removed since we dont store pk and vk isnt a thing (yet)
+          [accountsStrgKey, newAllAcounts]
+        ],
+        this.passKey
+      );
+
+      return newAllAcounts;
+    });
+  }
 
   async importAccount(chainId: string, accPrivateKey: string) {
     const errMessage = 'Failed to import account.\nThis may happen because provided Key is invalid';
@@ -231,21 +264,48 @@ function generateCheck() {
   return Bip39.generateMnemonic(128);
 }
 
-function concatAccount() {}
+function concatAccount(current: WalletAccount[], newOne: WalletAccount) {
+  if (current.every(a => a.publicKey !== newOne.publicKey)) {
+    return [...current, newOne];
+  }
 
-function getNewAccountName(templateI18nKey = 'defaultAccountName') {
-  return getMessage(templateI18nKey);
+  throw new PublicError('Account already exists');
 }
 
-async function getPublicKeyAndViewKey(chainId: string, privateKey: string) {}
+function getNewAccountName(allAccounts: WalletAccount[], templateI18nKey = 'defaultAccountName') {
+  return getMessage(templateI18nKey, String(allAccounts.length + 1));
+}
 
-async function seedToHDPrivateKey(seed: Buffer, hdAccIndex: number) {}
+async function getPublicKeyAndViewKey(privateKey: string) {}
 
-function getMainDerivationPath(accIndex: number) {
-  return `m/44'/0'/${accIndex}'/0'`;
+function getMainDerivationPath(walletType: WalletType, accIndex: number) {
+  let walletTypeIndex = 0;
+  if (walletType === WalletType.OnChain) {
+    walletTypeIndex = 0;
+  } else if (walletType === WalletType.OffChain) {
+    walletTypeIndex = 1;
+  } else {
+    throw new Error('Invalid wallet type');
+  }
+  return `m/44'/0'/${walletTypeIndex}'/${accIndex}'`;
 }
 
 async function seedToPrivateKey(chainId: string, seed: Buffer) {}
+
+function deriveClientSeed(walletType: WalletType, mnemonic: string, allAccounts: WalletAccount[]) {
+  const seed = Bip39.mnemonicToSeedSync(mnemonic);
+  const hdAccIndex = allAccounts.reduce((acc, curr) => {
+    if (curr.type === walletType) {
+      return acc + 1;
+    } else {
+      return 0;
+    }
+  }, 0);
+
+  const path = getMainDerivationPath(walletType, hdAccIndex);
+  const { seed: childSeed } = derivePath(path, seed.toString('hex'));
+  return new Uint8Array(childSeed);
+}
 
 function createStorageKey(id: StorageEntity) {
   return combineStorageKey(STORAGE_KEY_PREFIX, id);

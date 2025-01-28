@@ -1236,15 +1236,22 @@
   resolved "https://registry.npmjs.org/@csstools/selector-specificity/-/selector-specificity-2.2.0.tgz"
   integrity sha512-+OJ9konv95ClSTOJCmMZqpd5+YGsB2S+x6w3E1oaM8UuR5j8nTNHYSz8c9BEPGDOCMQYIEEGlVPj/VY64iTbGw==
 
+"@demox-labs/aleo-hd-key@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-hd-key/-/aleo-hd-key-0.0.1.tgz#6c2e1ba79fa5e6c6c4a73c92fae617bc616b6b59"
+  integrity sha512-P6EILu/wk7w9taZkLUhQYqGjpUMP9GERj2Cm4+04jUCUsfQsMPQJIFaWyXe4y13E0EKyaI8MHy6IEEA8KV8wWQ==
+  dependencies:
+    create-hmac "1.1.7"
+
 "@demox-labs/amp-core@0.1.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@demox-labs/amp-core/-/amp-core-0.1.0.tgz#7a401fc856b28a98168d38b28e787846fdc3cc49"
   integrity sha512-L10JKzw32Z5geDHytb5ApVDUBRQ+T6/pfSaM5oeeaOrM5V7Rmbizoa0D3xzEaE6eDcm6X6U+bc0cun3cznJL+g==
 
-"@demox-labs/miden-sdk@0.0.23":
-  version "0.0.23"
-  resolved "https://registry.yarnpkg.com/@demox-labs/miden-sdk/-/miden-sdk-0.0.23.tgz#fef426ddd7d04df97ae7ec9013f9ccad1645172a"
-  integrity sha512-rWXYP4ZfLZP1LvTcUwDTXGZ7VK39oUz3G/QUbK6ANT0bjdaDKYi62KP9ZHWxvD31BGLtICNKoN2nYrr8YfEf4Q==
+"@demox-labs/miden-sdk@0.6.1-next.4":
+  version "0.6.1-next.4"
+  resolved "https://registry.yarnpkg.com/@demox-labs/miden-sdk/-/miden-sdk-0.6.1-next.4.tgz#952cf5c30d0797aeb65746654d2ecfc7835ca5de"
+  integrity sha512-mlvAMi4oHPsEyCz8o6TKft08uU81sGWqk8dPGVRGNu1TArHKnfsmpfD/ihXsz/HOIsuTXFoHT2cNbGrnIK2mbw==
   dependencies:
     chai-as-promised "^8.0.0"
     dexie "^4.0.1"

@@ -79,7 +79,19 @@ export function getCurrentAccount() {
   });
 }
 
-export function createHDAccount(name?: string) {}
+export function createHDAccount(name?: string) {
+  return withUnlocked(async ({ vault }) => {
+    if (name) {
+      name = name.trim();
+      if (!ACCOUNT_NAME_PATTERN.test(name)) {
+        throw new Error('Invalid name. It should be: 1-16 characters, without special');
+      }
+
+      const accounts = await vault.createHDAccount(name);
+      accountsUpdated({ accounts });
+    }
+  });
+}
 
 export function decryptCiphertexts(accPublicKey: string, cipherTexts: string[]) {}
 

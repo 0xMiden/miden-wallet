@@ -6,22 +6,30 @@ import { WalletType } from 'screens/onboarding/types';
 
 import { NoteExportType } from './constants';
 
+export type MidenClientCreateOptions = {
+  delegateProving?: boolean;
+  seed?: Uint8Array;
+};
+
 export class MidenClientInterface {
   webClient: WebClient;
   private constructor(webClient: WebClient) {
     this.webClient = webClient;
   }
 
-  static async create(delegateProving: boolean = true) {
+  static async create(options: MidenClientCreateOptions = { delegateProving: true }) {
     const webClient = new WebClient();
+    const delegateProving = options.delegateProving;
+    const seed = options.seed;
 
     if (delegateProving) {
       await webClient.create_client(
         MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!,
-        MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!
+        MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!,
+        seed
       );
     } else {
-      await webClient.create_client(MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!);
+      await webClient.create_client(MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!, null, seed);
     }
 
     return new MidenClientInterface(webClient);

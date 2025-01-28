@@ -144,11 +144,10 @@ export interface ReadyWalletState extends WalletState {
 }
 
 export interface WalletAccount {
-  id: string;
   publicKey: string;
-  privateKey: string;
   name: string;
   isPublic: boolean;
+  type: WalletType;
 }
 
 export interface WalletNetwork {
