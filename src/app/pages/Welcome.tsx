@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import { generateMnemonic } from 'bip39';
-import { set } from 'date-fns';
+import wordslist from 'bip39/src/wordlists/english.json';
 
 import { formatMnemonic } from 'app/defaults';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
@@ -16,38 +16,26 @@ const Welcome: FC = () => {
   const [seedPhrase, setSeedPhrase] = useState<string[] | null>(null);
   const [onboardingType, setOnboardingType] = useState<OnboardingType | null>(null);
   const [password, setPassword] = useState<string | null>(null);
-  const [walletType, setWalletType] = useState<WalletType | null>(null);
+  const [walletType] = useState<WalletType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { registerWallet } = useMidenContext();
   const { trackEvent } = useAnalytics();
 
-  const register = useCallback(
-    async (walletType: WalletType) => {
-      if (walletType === WalletType.OnChain) {
-        if (password && seedPhrase) {
-          try {
-            await registerWallet(
-              walletType,
-              password,
-              formatMnemonic(seedPhrase.join(' ')),
-              onboardingType === OnboardingType.Import
-            );
-          } catch (e) {
-            console.error(e);
-          }
-        }
-      } else {
-        if (password) {
-          try {
-            await registerWallet(walletType, password, undefined, onboardingType === OnboardingType.Import);
-          } catch (e) {
-            console.error(e);
-          }
-        }
+  const register = useCallback(async () => {
+    if (password && seedPhrase) {
+      // Need to determine whether or not to import from the seed or not
+      try {
+        await registerWallet(
+          WalletType.OnChain,
+          password,
+          formatMnemonic(seedPhrase.join(' ')),
+          onboardingType === OnboardingType.Import // might be able to leverage ownMnemonic to determine whther to attempt imports in general
+        );
+      } catch (e) {
+        console.error(e);
       }
-    },
-    [password, onboardingType, registerWallet, seedPhrase]
-  );
+    }
+  }, [password, onboardingType, registerWallet, seedPhrase]);
 
   const onAction = async (action: OnboardingAction) => {
     let eventCategory = AnalyticsEventCategory.ButtonPress;
@@ -62,7 +50,8 @@ const Welcome: FC = () => {
         setOnboardingType(OnboardingType.Import);
         navigate('/#import-wallet');
         break;
-      case 'import-wallet-file-submit':
+      case 'import-seed-phrase-submit':
+        setSeedPhrase(action.payload.split(' '));
         navigate('/#create-password');
         break;
       case 'backup-seed-phrase':
@@ -73,7 +62,6 @@ const Welcome: FC = () => {
         navigate('/#verify-seed-phrase');
         break;
       case 'create-password':
-        setWalletType(action.payload);
         navigate('/#create-password');
         break;
       case 'create-password-submit':
@@ -83,7 +71,7 @@ const Welcome: FC = () => {
         break;
       case 'confirmation':
         setIsLoading(true);
-        await register(walletType as WalletType);
+        await register();
         setIsLoading(false);
         eventCategory = AnalyticsEventCategory.FormSubmit;
         navigate('/');
@@ -97,7 +85,7 @@ const Welcome: FC = () => {
           navigate('/#backup-seed-phrase');
         } else if (step === OnboardingStep.CreatePassword) {
           if (onboardingType === OnboardingType.Create) {
-            navigate(walletType === WalletType.OnChain ? '/#verify-seed-phrase' : '/#select-wallet-type');
+            navigate('/#verify-seed-phrase');
           } else {
             navigate('/#import-wallet');
           }
@@ -146,6 +134,7 @@ const Welcome: FC = () => {
 
   return (
     <OnboardingFlow
+      wordslist={wordslist}
       seedPhrase={seedPhrase}
       onboardingType={onboardingType}
       walletType={walletType}

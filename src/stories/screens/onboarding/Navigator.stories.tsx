@@ -36,9 +36,9 @@ const meta: Meta<typeof OnboardingFlow> = {
         case 'backup-seed-phrase':
           updateArgs({ step: OnboardingStep.BackupSeedPhrase, onboardingType: OnboardingType.Create });
           break;
-        case 'import-wallet':
-          updateArgs({ step: OnboardingStep.ImportWallet, onboardingType: OnboardingType.Import });
-          break;
+        // case 'import-wallet':
+        //   updateArgs({ step: OnboardingStep.ImportWallet, onboardingType: OnboardingType.Import });
+        //   break;
         case 'verify-seed-phrase':
           updateArgs({ step: OnboardingStep.VerifySeedPhrase });
           break;
@@ -59,9 +59,9 @@ const meta: Meta<typeof OnboardingFlow> = {
         case 'confirmation':
           updateArgs({ step: OnboardingStep.Welcome });
           break;
-        // case 'import-seed-phrase-submit':
-        //   updateArgs({ step: OnboardingStep.CreatePassword });
-        //   break;
+        case 'import-seed-phrase-submit':
+          updateArgs({ step: OnboardingStep.CreatePassword });
+          break;
         case 'back':
           if (step === OnboardingStep.BackupSeedPhrase || step === OnboardingStep.ImportWallet) {
             updateArgs({ step: OnboardingStep.Welcome });

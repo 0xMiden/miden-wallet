@@ -1,10 +1,17 @@
-import { Account, AccountId, AccountStorageMode, NoteType, WebClient } from '@demox-labs/miden-sdk';
-import { ConsumableNoteRecord, TransactionResult } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
+import {
+  Account,
+  AccountId,
+  AccountStorageMode,
+  ConsumableNoteRecord,
+  NoteType,
+  WebClient
+} from '@demox-labs/miden-sdk';
 
 import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';
 import { WalletType } from 'screens/onboarding/types';
 
 import { NoteExportType } from './constants';
+import { TransactionResult } from '@demox-labs/miden-sdk/crates/miden_client_web';
 
 export type MidenClientCreateOptions = {
   delegateProving?: boolean;
@@ -35,11 +42,11 @@ export class MidenClientInterface {
     return new MidenClientInterface(webClient);
   }
 
-  async createMidenWallet(walletType: WalletType) {
+  async createMidenWallet(walletType: WalletType, seed?: Uint8Array): Promise<string> {
     // Create a new wallet
     const accountStorageMode =
       walletType === WalletType.OnChain ? AccountStorageMode.public() : AccountStorageMode.private();
-    const wallet: Account = await this.webClient.new_wallet(accountStorageMode, true);
+    const wallet: Account = await this.webClient.new_wallet(accountStorageMode, true, seed);
 
     const walletId = wallet.id().to_string();
 
@@ -60,6 +67,15 @@ export class MidenClientInterface {
     console.log({ walletIdString });
 
     return walletIdString;
+  }
+
+  async importMidenWalletFromSeed(walletType: WalletType, seed: Uint8Array) {
+    const accountStorageMode =
+      walletType === WalletType.OnChain ? AccountStorageMode.public() : AccountStorageMode.private();
+
+    const account = await this.webClient.import_account_from_seed(seed, accountStorageMode, true);
+
+    return account.id().to_string();
   }
 
   async consumeTransaction(accountId: string, listOfNoteIds: string[]) {
@@ -111,12 +127,12 @@ export class MidenClientInterface {
 
   async syncState() {
     const syncSummary = await this.webClient.sync_state();
-    // console.log('blockNum: ', syncSummary.block_num());
-    // console.log('comitted notes: ', syncSummary.committed_notes());
-    // console.log('committed_transactions: ', syncSummary.committed_transactions());
-    // console.log('consumed_notes: ', syncSummary.consumed_notes());
-    // console.log('received_notes: ', syncSummary.received_notes());
-    // console.log('updated_accounts: ', syncSummary.updated_accounts());
+    console.log('blockNum: ', syncSummary.block_num());
+    console.log('comitted notes: ', syncSummary.committed_notes());
+    console.log('committed_transactions: ', syncSummary.committed_transactions());
+    console.log('consumed_notes: ', syncSummary.consumed_notes());
+    console.log('received_notes: ', syncSummary.received_notes());
+    console.log('updated_accounts: ', syncSummary.updated_accounts());
 
     return syncSummary;
   }

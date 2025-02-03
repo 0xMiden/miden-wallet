@@ -9,7 +9,7 @@ export const useMidenClient = () => {
 
   useEffect(() => {
     const initializeClient = async () => {
-      const client = await MidenClientInterface.create(isDelegatedProvingEnabled);
+      const client = await MidenClientInterface.create({ delegateProving: isDelegatedProvingEnabled });
       setMidenClient(client);
       setIsLoading(false);
     };

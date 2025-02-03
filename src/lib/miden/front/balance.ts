@@ -19,8 +19,8 @@ const midenClient = await MidenClientInterface.create();
 export function useBalance(accountId: string, faucetId: string) {
   const fetchBalanceLocal = useCallback(async () => {
     const account = await midenClient.getAccount(accountId);
-    const balance = account.vault().get_balance(accountIdStringToSdk(faucetId));
-    return new BigNumber(balance.toString());
+    const balance = account?.vault().get_balance(accountIdStringToSdk(faucetId));
+    return new BigNumber(balance?.toString() || 0);
   }, [accountId, faucetId]);
 
   return useRetryableSWR(faucetId, fetchBalanceLocal, {

@@ -45,7 +45,6 @@ const currentAccPubKeyStrgKey = createStorageKey(StorageEntity.CurrentAccPubKey)
 const accountsStrgKey = createStorageKey(StorageEntity.Accounts);
 const settingsStrgKey = createStorageKey(StorageEntity.Settings);
 const ownMnemonicStrgKey = createStorageKey(StorageEntity.OwnMnemonic);
-const midenClient = await MidenClientInterface.create();
 
 export class Vault {
   constructor(private passKey: CryptoKey) {}
@@ -64,13 +63,26 @@ export class Vault {
 
   static async spawn(walletType: WalletType, password: string, mnemonic?: string, ownMnemonic?: boolean) {
     return withError('Failed to create wallet', async () => {
-      if (!mnemonic && walletType === WalletType.OnChain) {
+      if (!mnemonic) {
         mnemonic = Bip39.generateMnemonic(128);
       }
 
-      console.log('attempting to spawn wallet');
+      const walletSeed = deriveClientSeed(walletType, mnemonic, []);
 
-      const accPublicKey = await midenClient.createMidenWallet(walletType);
+      const midenClient = await MidenClientInterface.create();
+
+      let accPublicKey;
+      if (ownMnemonic) {
+        try {
+          accPublicKey = await midenClient.importMidenWalletFromSeed(walletType, walletSeed);
+        } catch (e) {
+          // TODO: Propagate this error up somehow to user indicating the import failed
+          console.error('Failed to import wallet from seed, creating new wallet instead');
+          accPublicKey = await midenClient.createMidenWallet(walletType, walletSeed);
+        }
+      } else {
+        accPublicKey = await midenClient.createMidenWallet(walletType, walletSeed);
+      }
 
       const initialAccount: WalletAccount = {
         publicKey: accPublicKey,
@@ -106,10 +118,31 @@ export class Vault {
         this.fetchAccounts()
       ]);
 
-      const clientSeed = deriveClientSeed(walletType, mnemonic, allAccounts);
+      const isOwnMnemonic = await this.isOwnMnemonic();
 
-      const midenClient = await MidenClientInterface.create({ seed: clientSeed }); // todo: seed this
-      const walletId = await midenClient.createMidenWallet(walletType);
+      const walletSeed = deriveClientSeed(walletType, mnemonic, allAccounts);
+
+      const midenClient = await MidenClientInterface.create();
+      let walletId;
+      if (isOwnMnemonic) {
+        try {
+          walletId = await midenClient.importMidenWalletFromSeed(walletType, walletSeed);
+        } catch (e) {
+          // This is a weird case at the moment. If the user has their own mnemonic, we have to
+          // try importing every time since we dont know whether the account already exists on-chain. If this process fails,
+          // its actually fine, as the seed / account hasn't been used before. (Barring any other failures from the sdk)
+
+          // Off-chain accounts work just fine, since there's nothing to retrieve anyway. It effectively just runs the
+          // createMidenWallet
+
+          // Long-term it might be worth it to expose the key pair generation on the sdk, and the ability to check the chain to see if
+          // the account exists before attempting the import, but this will work for now.
+
+          walletId = await midenClient.createMidenWallet(walletType, walletSeed);
+        }
+      } else {
+        walletId = await midenClient.createMidenWallet(walletType, walletSeed);
+      }
 
       const accName = name || getNewAccountName(allAccounts);
 
@@ -222,7 +255,6 @@ export class Vault {
   async setCurrentAccount(accPublicKey: string) {
     return withError('Failed to set current account', async () => {
       const allAccounts = await this.fetchAccounts();
-      console.log({ allAccounts });
       const newCurrentAccount = allAccounts.find(acc => acc.publicKey === accPublicKey);
       if (!newCurrentAccount) {
         throw new PublicError('Account not found');
