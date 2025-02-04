@@ -1,4 +1,9 @@
-import { DecryptPermission } from '@demox-labs/miden-wallet-adapter-base';
+import {
+  DecryptPermission,
+  MintTransaction,
+  SendTransaction,
+  TransactionType
+} from '@demox-labs/miden-wallet-adapter-base';
 import { nanoid } from 'nanoid';
 import browser, { Runtime } from 'webextension-polyfill';
 
@@ -15,6 +20,7 @@ import {
   MidenDAppTransactionRequest,
   MidenDAppTransactionResponse
 } from 'lib/adapter/types';
+import * as Actions from 'lib/miden/back/actions';
 import { intercom } from 'lib/miden/back/defaults';
 import { Vault } from 'lib/miden/back/vault';
 import { NETWORKS } from 'lib/miden/networks';
@@ -189,6 +195,7 @@ export async function requestTransaction(
   origin: string,
   req: MidenDAppTransactionRequest
 ): Promise<MidenDAppTransactionResponse> {
+  console.log(req, 'requestTransaction, dapp.ts');
   if (!req?.sourcePublicKey || !req?.transaction) {
     throw new Error(MidenDAppErrorType.InvalidParams);
   }
@@ -244,25 +251,32 @@ const generatePromisifyTransaction = async <
   //   );
   // }
 
-  let preview: any = null;
   let transactionMessages: string[] = [];
-  const transaction = req.transaction.sendTransaction;
-  if (!transaction) {
-    reject(new Error(`${MidenDAppErrorType.InvalidParams}: Unable to deserialize provided transaction`));
-    return;
-  }
-
   try {
     transactionMessages = await withUnlocked(async () => {
-      const transaction = req.transaction.sendTransaction!;
-      const tsTexts = [
-        `Transfer note from faucet: ${transaction.faucetId} with inputs:`,
-        `Recipient: ${transaction.recipientAccountId}`,
-        `Amount: ${transaction.amount}`,
-        `NoteType: ${transaction.noteType}`,
-        `${transaction.recallBlocks}`
-      ];
-      return tsTexts;
+      const { type, payload } = req.transaction;
+      switch (type) {
+        case TransactionType.Send:
+          const sendTransaction = payload as SendTransaction;
+          if (!sendTransaction.recipientAccountId || !sendTransaction.amount || !sendTransaction.noteType) {
+            reject(new Error(`${MidenDAppErrorType.InvalidParams}: Invalid SendTransaction payload`));
+          }
+
+          return formatSendTransactionPreview(sendTransaction);
+        case TransactionType.Mint:
+          const mintTransaction = payload as MintTransaction;
+          if (!mintTransaction.recipientAccountId || !mintTransaction.amount || !mintTransaction.noteType) {
+            reject(new Error(`${MidenDAppErrorType.InvalidParams}: Invalid MintTransaction payload`));
+          }
+
+          return formatMintTransactionPreview(mintTransaction);
+        case TransactionType.Custom:
+          if (!(payload instanceof Uint8Array)) {
+            reject(new Error(`${MidenDAppErrorType.InvalidParams}: Invalid CustomTransaction payload`));
+          }
+
+          return formatCustomTransactionPreview(payload as Uint8Array);
+      }
     });
   } catch (e) {
     reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
@@ -277,7 +291,7 @@ const generatePromisifyTransaction = async <
       appMeta: dApp.appMeta,
       sourcePublicKey: req.sourcePublicKey,
       transactionMessages,
-      preview
+      preview: null
     },
     onDecline: () => {
       reject(new Error(MidenDAppErrorType.NotGranted));
@@ -286,23 +300,31 @@ const generatePromisifyTransaction = async <
       if (confirmReq?.type === MidenMessageType.DAppTransactionConfirmationRequest && confirmReq?.id === id) {
         if (confirmReq.confirmed) {
           try {
-            if (transaction) {
-              console.log('confirmation request', transaction);
-              const queuedTransactions = await fetchFromStorage(QUEUED_TRANSACTIONS_KEY);
-              const newQueuedTransactions = [
-                ...queuedTransactions,
-                {
-                  type: QueuedTransactionType.SendTransaction,
-                  data: { ...transaction, delegateTransaction: confirmReq.delegate }
-                }
-              ];
-              await putToStorage(QUEUED_TRANSACTIONS_KEY, newQueuedTransactions);
-              resolve({
-                type: messageType,
-                transactionId: ''
-              } as any);
-            } else {
-              throw new Error('Unable to create transaction');
+            const { type, payload } = req.transaction;
+            switch (type) {
+              case TransactionType.Send:
+                const queuedTransactions = await fetchFromStorage(QUEUED_TRANSACTIONS_KEY);
+                const newQueuedTransactions = [
+                  ...queuedTransactions,
+                  {
+                    type: QueuedTransactionType.SendTransaction,
+                    data: { ...req.transaction.payload, delegateTransaction: confirmReq.delegate }
+                  }
+                ];
+                await putToStorage(QUEUED_TRANSACTIONS_KEY, newQueuedTransactions);
+                resolve({
+                  type: messageType,
+                  transactionId: ''
+                } as any);
+                break;
+              case TransactionType.Mint:
+                await Actions.requestMintTransaction(payload as MintTransaction);
+                break;
+              case TransactionType.Custom:
+                await Actions.requestCustomTransaction(payload as Uint8Array);
+                break;
+              default:
+                throw new Error('Unable to create transaction');
             }
           } catch (e) {
             reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
@@ -492,4 +514,34 @@ function assertDAppNetworkValid(dApp: MidenDAppSession | undefined, currentChain
   if (dApp?.network?.toString() !== currentChainId) {
     throw new Error(MidenDAppErrorType.NetworkNotGranted);
   }
+}
+
+function formatSendTransactionPreview(transaction: SendTransaction): string[] {
+  const tsTexts = [
+    `Transfer note from faucet: ${transaction.faucetId} with inputs:`,
+    `Recipient: ${transaction.recipientAccountId}`,
+    `Amount: ${transaction.amount}`,
+    `NoteType: ${transaction.noteType}`,
+    `${transaction.recallBlocks}`
+  ];
+
+  return tsTexts;
+}
+
+function formatMintTransactionPreview(transaction: MintTransaction): string[] {
+  const tsTexts = [
+    `Mint note from faucet: ${transaction.faucetId} with inputs:`,
+    `Recipient: ${transaction.recipientAccountId}`,
+    `Amount: ${transaction.amount}`,
+    `NoteType: ${transaction.noteType}`
+  ];
+
+  return tsTexts;
+}
+
+function formatCustomTransactionPreview(payload: Uint8Array): string[] {
+  return [
+    'This dApp is requesting a custom transaction,',
+    'please ensure you know the details of the transaction before proceeding.'
+  ];
 }

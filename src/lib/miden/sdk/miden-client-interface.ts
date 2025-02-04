@@ -203,6 +203,13 @@ export class MidenClientInterface {
 
     return result;
   }
+
+  async submitCustomTransaction(accountId: string, transactionRequestBytes: Uint8Array) {
+    // const transactionRequest = TransactionRequest.deserializeBinary(transactionRequestBytes);
+    // const transactionResult = await this.webClient.new_transaction(accountIdStringToSdk(accountId), transactionRequest);
+    // await this.webClient.submit_transaction(transactionResult);
+    // return transactionResult;
+  }
 }
 
 export const accountIdStringToSdk = (accountId: string) => {

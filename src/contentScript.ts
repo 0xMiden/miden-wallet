@@ -72,7 +72,6 @@ window.addEventListener(
 
 function midenRequest(evt: MessageEvent) {
   const { payload, reqId } = evt.data;
-  console.log('midenRequest', payload);
 
   getIntercom()
     .request({

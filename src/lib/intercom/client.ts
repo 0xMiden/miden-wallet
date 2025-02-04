@@ -16,7 +16,6 @@ export class IntercomClient {
    * Makes a request to background process and returns a response promise
    */
   async request(payload: any): Promise<any> {
-    console.log('intercom request', payload);
     const reqId = this.reqId++;
 
     this.send({ type: MessageType.Req, data: payload, reqId });

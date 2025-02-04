@@ -18,6 +18,7 @@ import { WalletType } from 'screens/onboarding/types';
 import { IRecord } from '../db/types';
 import { MidenClientInterface } from '../sdk/miden-client-interface';
 import { SendTransaction } from '@demox-labs/miden-wallet-adapter-base';
+import { NoteType } from '@demox-labs/miden-sdk';
 
 const STORAGE_KEY_PREFIX = 'vault';
 const DEFAULT_SETTINGS = {};
@@ -145,6 +146,16 @@ export class Vault {
       await encryptAndSaveMany([[settingsStrgKey, newSettings]], this.passKey);
       return newSettings;
     });
+  }
+
+  async mintTransaction(recipientAccountId: string, faucetId: string, noteType: string, amount: bigint) {
+    const noteTypeObj = noteType === 'public' ? NoteType.public() : NoteType.private();
+    await midenClient.mintTransaction(recipientAccountId, faucetId, noteTypeObj, amount);
+  }
+
+  async submitCustomTransaction(transactionRequest: Uint8Array) {
+    const currentAccountId = (await this.getCurrentAccount()).publicKey;
+    await midenClient.submitCustomTransaction(currentAccountId, transactionRequest);
   }
 
   async authorize(sendTransaction: SendTransaction) {}

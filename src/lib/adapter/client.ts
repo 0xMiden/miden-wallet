@@ -84,7 +84,6 @@ export async function requestPermission(
   network: WalletAdapterNetwork,
   programs?: string[]
 ) {
-  console.log('requestPermission');
   const res = await request({
     type: MidenDAppMessageType.PermissionRequest,
     appMeta,
@@ -141,8 +140,6 @@ function request(payload: MidenDAppRequest) {
       }
     };
 
-    console.log('request', payload);
-
     send({
       type: MidenPageMessageType.Request,
       payload,
@@ -182,7 +179,6 @@ export function assertResponse(condition: any): asserts condition {
 }
 
 function send(msg: MidenPageMessage) {
-  console.log('send', msg);
   window.postMessage(msg, '*');
 }
 

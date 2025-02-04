@@ -1,3 +1,5 @@
+import { MidenMintTransaction } from '@demox-labs/miden-wallet-adapter-base';
+
 import { MidenDAppMessageType, MidenDAppRequest, MidenDAppResponse } from 'lib/adapter/types';
 import {
   toFront,
@@ -154,6 +156,7 @@ export function removeDAppSession(origin: string) {
 }
 
 export async function processDApp(origin: string, req: MidenDAppRequest): Promise<MidenDAppResponse | void> {
+  console.log('Processing DApp request:', req);
   switch (req?.type) {
     case MidenDAppMessageType.GetCurrentPermissionRequest:
       return withInited(() => getCurrentPermission(origin));
@@ -167,6 +170,18 @@ export async function processDApp(origin: string, req: MidenDAppRequest): Promis
     case MidenDAppMessageType.TransactionRequest:
       return withInited(() => enqueueDApp(() => requestTransaction(origin, req)));
   }
+}
+
+export async function requestMintTransaction(req: MidenMintTransaction) {
+  return withUnlocked(async ({ vault }) => {
+    vault.mintTransaction(req.recipientAccountId, req.faucetId, req.noteType, BigInt(req.amount));
+  });
+}
+
+export async function requestCustomTransaction(payload: Uint8Array) {
+  return withUnlocked(async ({ vault }) => {
+    vault.submitCustomTransaction(payload);
+  });
 }
 
 // async function createCustomNetworksSnapshot(settings: WalletSettings) {

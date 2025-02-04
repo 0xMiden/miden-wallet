@@ -181,8 +181,7 @@ const Settings: FC<SettingsProps> = ({ tabSlug }) => {
           ) : (
             <div className="flex flex-col w-full pt-2">
               {listMenuItems.map(({ slug, titleI18nKey, Icon, testID, insertHR, iconStyle }, i) => {
-                const stroke = i === 0 ? 'none' : '#000';
-                const style = iconStyle ?? { stroke, strokeWidth: '2px' };
+                const style = iconStyle ?? { stroke: 'none' };
                 const linkTo = `/settings/${slug}`;
                 return (
                   <MenuItem

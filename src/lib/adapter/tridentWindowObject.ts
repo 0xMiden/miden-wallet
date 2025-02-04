@@ -31,7 +31,6 @@ export class TridentWindowObject extends EventEmitter<TridentWalletEvents> imple
     network: WalletAdapterNetwork,
     programs?: string[]
   ): Promise<void> {
-    console.log('connect');
     const perm = await requestPermission(
       { name: window.location.hostname },
       false,
