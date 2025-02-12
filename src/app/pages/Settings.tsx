@@ -58,7 +58,8 @@ const TABS: Tab[] = [
     Component: AddressBook,
     descriptionI18nKey: 'addressBookDescription',
     testID: SettingsSelectors.AddressBookButton,
-    insertHR: false
+    insertHR: false,
+    iconStyle: { stroke: '#000', strokeWidth: '2px' }
   },
   // {
   //   slug: 'reveal-view-key',

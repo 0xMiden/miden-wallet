@@ -1,4 +1,4 @@
-import { Account, AccountId, AccountStorageMode, NoteType, WebClient } from '@demox-labs/miden-sdk';
+import { Account, AccountId, AccountStorageMode, NoteType, TransactionRequest, WebClient } from '@demox-labs/miden-sdk';
 import { ConsumableNoteRecord, TransactionResult } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
 
 import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';
@@ -204,11 +204,13 @@ export class MidenClientInterface {
     return result;
   }
 
-  async submitCustomTransaction(accountId: string, transactionRequestBytes: Uint8Array) {
-    // const transactionRequest = TransactionRequest.deserializeBinary(transactionRequestBytes);
-    // const transactionResult = await this.webClient.new_transaction(accountIdStringToSdk(accountId), transactionRequest);
-    // await this.webClient.submit_transaction(transactionResult);
-    // return transactionResult;
+  async submitTransaction(accountId: string, transactionRequestBytes: Uint8Array) {
+    await this.syncState();
+    await this.fetchCacheAccountAuth(accountId);
+    const transactionRequest = TransactionRequest.deserialize(new Uint8Array(transactionRequestBytes));
+    const transactionResult = await this.webClient.new_transaction(accountIdStringToSdk(accountId), transactionRequest);
+    await this.webClient.submit_transaction(transactionResult);
+    return transactionResult;
   }
 }
 

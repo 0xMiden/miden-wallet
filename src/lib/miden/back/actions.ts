@@ -132,16 +132,6 @@ export function updateSettings(settings: Partial<WalletSettings>) {
   });
 }
 
-export function authorize(
-  accPublicKey: string,
-  program: string,
-  functionName: string,
-  inputs: string[],
-  feeCredits: number,
-  feeRecord?: string,
-  imports?: { [key: string]: string }
-) {}
-
 export function authorizeDeploy(accPublicKey: string, deployment: string, feeCredits: number, feeRecord?: string) {}
 
 export function getAllDAppSessions() {
@@ -156,7 +146,6 @@ export function removeDAppSession(origin: string) {
 }
 
 export async function processDApp(origin: string, req: MidenDAppRequest): Promise<MidenDAppResponse | void> {
-  console.log('Processing DApp request:', req);
   switch (req?.type) {
     case MidenDAppMessageType.GetCurrentPermissionRequest:
       return withInited(() => getCurrentPermission(origin));
@@ -175,12 +164,6 @@ export async function processDApp(origin: string, req: MidenDAppRequest): Promis
 export async function requestMintTransaction(req: MidenMintTransaction) {
   return withUnlocked(async ({ vault }) => {
     vault.mintTransaction(req.recipientAccountId, req.faucetId, req.noteType, BigInt(req.amount));
-  });
-}
-
-export async function requestCustomTransaction(payload: Uint8Array) {
-  return withUnlocked(async ({ vault }) => {
-    vault.submitCustomTransaction(payload);
   });
 }
 

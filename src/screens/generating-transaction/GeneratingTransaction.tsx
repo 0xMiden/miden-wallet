@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import React, { FC, useCallback, useEffect, useRef } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useRef } from 'react';
 
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +16,7 @@ import { useAnalytics } from 'lib/analytics';
 import { t } from 'lib/i18n/react';
 import { consumeNoteId } from 'lib/miden-worker/consumeNoteId';
 import { sendTransaction } from 'lib/miden-worker/sendTransaction';
+import { safeGenerateTransactionsLoop as dbTransactionsLoop, getAllUncompletedTransactions } from 'lib/miden/activity';
 import { putToStorage } from 'lib/miden/front';
 import {
   EXPORTED_NOTES_KEY,
@@ -24,15 +25,27 @@ import {
   safeGenerateTransactionsLoop,
   useQueuedTransactions
 } from 'lib/miden/front/queued-transactions';
+import { useRetryableSWR } from 'lib/swr';
 import { navigate } from 'lib/woozie';
 
 export interface GeneratingTransactionPageProps {
   keepOpen?: boolean;
 }
 
-export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ keepOpen = false }) => {
+export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ keepOpen = true }) => {
   const { pageEvent, trackEvent } = useAnalytics();
   const [transactions, , exportedNotes] = useQueuedTransactions();
+
+  const { data: txs, mutate: mutateTx } = useRetryableSWR(
+    [`all-latest-generating-transactions`],
+    async () => getAllUncompletedTransactions(),
+    {
+      revalidateOnMount: true,
+      refreshInterval: 5_000,
+      dedupingInterval: 3_000
+    }
+  );
+  const allTransactions = useMemo(() => (txs ? [...transactions, ...txs] : transactions), [txs, transactions]);
 
   const clearStorage = useCallback(() => {
     putToStorage(QUEUED_TRANSACTIONS_KEY, []);
@@ -60,7 +73,7 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
       exportedNotes.length === 0 &&
       prevTransactionsLength.current &&
       prevTransactionsLength.current > 0 &&
-      transactions.length === 0
+      allTransactions.length === 0
     ) {
       new Promise(res => setTimeout(res, 10_000)).then(async () => {
         await trackEvent('GeneratingTransaction Page Closed Automatically');
@@ -84,18 +97,27 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
       });
     }
 
-    prevTransactionsLength.current = transactions.length;
-  }, [transactions, trackEvent, exportedNotes, onClose]);
+    prevTransactionsLength.current = allTransactions.length;
+  }, [allTransactions, trackEvent, exportedNotes, onClose]);
 
   useEffect(() => {
-    safeGenerateTransactionsLoop(consumeNoteId, sendTransaction);
-    setInterval(() => {
+    if (transactions.length > 0) {
       safeGenerateTransactionsLoop(consumeNoteId, sendTransaction);
+    } else {
+      dbTransactionsLoop();
+    }
+    setInterval(() => {
+      if (transactions.length > 0) {
+        safeGenerateTransactionsLoop(consumeNoteId, sendTransaction);
+      } else {
+        dbTransactionsLoop();
+        mutateTx();
+      }
     }, 5_000);
-  }, []);
+  }, [transactions, mutateTx]);
 
-  useBeforeUnload(t('generatingTransactionWarning'), transactions.length !== 0, clearStorage);
-  const progress = transactions.length > 0 ? (1 / transactions.length) * 80 : 0;
+  useBeforeUnload(t('generatingTransactionWarning'), allTransactions.length !== 0, clearStorage);
+  const progress = allTransactions.length > 0 ? (1 / allTransactions.length) * 80 : 0;
 
   return (
     <div
@@ -113,7 +135,7 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
           exportedNotes={exportedNotes}
           progress={progress}
           onDoneClick={onClose}
-          transactionComplete={transactions.length === 0}
+          transactionComplete={allTransactions.length === 0}
         />
       </div>
     </div>

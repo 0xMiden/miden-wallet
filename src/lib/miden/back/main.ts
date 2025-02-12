@@ -19,7 +19,6 @@ export async function start() {
 }
 
 async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<WalletResponse | void> {
-  console.log('processing request', req);
   switch (req?.type) {
     // case WalletMessageType.SendTrackEventRequest:
     //   await Analytics.trackEvent(req);
@@ -108,20 +107,6 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
       return {
         type: WalletMessageType.UpdateSettingsResponse
       };
-    // case WalletMessageType.AuthorizeRequest:
-    //   const auth = await Actions.authorize(
-    //     req.accPublicKey,
-    //     req.program,
-    //     req.functionName,
-    //     req.inputs,
-    //     req.feeCredits,
-    //     req.feeRecord,
-    //     req.imports
-    //   );
-    //   return {
-    //     type: WalletMessageType.AuthorizeResponse,
-    //     ...auth
-    //   };
     // case WalletMessageType.AuthorizeDeployRequest:
     //   const authDeploy = await Actions.authorizeDeploy(req.accPublicKey, req.deployment, req.feeCredits, req.feeRecord);
     //   return {
@@ -141,7 +126,6 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
     //     sessions
     //   };
     case MidenMessageType.PageRequest:
-      console.log('page request');
       const dAppEnabled = await Actions.isDAppEnabled();
       if (dAppEnabled) {
         if (req.payload === 'PING') {

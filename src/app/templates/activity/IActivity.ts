@@ -1,4 +1,4 @@
-import { ITransactionIcon } from 'lib/miden/db/transaction-types';
+import { ITransactionRequestIcon } from 'lib/miden/db/types';
 
 export interface IActivity {
   key: string;
@@ -11,7 +11,7 @@ export interface IActivity {
   secondaryMessage?: string;
   cancel?: () => Promise<void>;
   explorerLink?: string;
-  transactionIcon?: ITransactionIcon;
+  transactionIcon?: ITransactionRequestIcon;
   txId?: string;
   fee?: string;
 }

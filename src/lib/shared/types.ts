@@ -1,6 +1,5 @@
-import { IRecord } from 'lib/miden/db/types';
-import { WalletType } from 'screens/onboarding/types';
 import { MidenMessageType, MidenRequest, MidenResponse } from 'lib/miden/types';
+import { WalletType } from 'screens/onboarding/types';
 
 import {
   SendPageEventRequest,
@@ -51,8 +50,8 @@ export enum WalletMessageType {
   ImportMnemonicAccountResponse = 'IMPORT_MNEMONIC_ACCOUNT_RESPONSE',
   UpdateSettingsRequest = 'UPDATE_SETTINGS_REQUEST',
   UpdateSettingsResponse = 'UPDATE_SETTINGS_RESPONSE',
-  AuthorizeRequest = 'AUTHORIZE_REQUEST',
-  AuthorizeResponse = 'AUTHORIZE_RESPONSE',
+  SubmitTransactionRequest = 'SUBMIT_TRANSACTION_REQUEST',
+  SubmitTransactionResponse = 'SUBMIT_TRANSACTION_RESPONSE',
   AuthorizeDeployRequest = 'AUTHORIZE_DEPLOY_REQUEST',
   AuthorizeDeployResponse = 'AUTHORIZE_DEPLOY_RESPONSE',
   ConfirmationRequest = 'CONFIRMATION_REQUEST',
@@ -324,23 +323,6 @@ export interface UpdateSettingsResponse extends WalletMessageBase {
   type: WalletMessageType.UpdateSettingsResponse;
 }
 
-export interface AuthorizeRequest extends WalletMessageBase {
-  type: WalletMessageType.AuthorizeRequest;
-  accPublicKey: string;
-  program: string;
-  functionName: string;
-  inputs: string[];
-  feeCredits: number;
-  feeRecord?: string;
-  imports?: { [key: string]: string };
-}
-
-export interface AuthorizeResponse extends WalletMessageBase {
-  type: WalletMessageType.AuthorizeResponse;
-  authorization: string;
-  feeAuthorization: string;
-}
-
 export interface AuthorizeDeployRequest extends WalletMessageBase {
   type: WalletMessageType.AuthorizeDeployRequest;
   accPublicKey: string;
@@ -505,7 +487,6 @@ export interface GetOwnedRecordsRequest extends WalletMessageBase {
 
 export interface GetOwnedRecordsResponse extends WalletMessageBase {
   type: WalletMessageType.GetOwnedRecordsResponse;
-  records: IRecord[];
 }
 
 export enum WalletStatus {
@@ -534,7 +515,6 @@ export type WalletRequest =
   | ImportMnemonicAccountRequest
   | ConfirmationRequest
   | UpdateSettingsRequest
-  | AuthorizeRequest
   | AuthorizeDeployRequest
   | PageRequest
   | DAppGetPayloadRequest
@@ -574,7 +554,6 @@ export type WalletResponse =
   | ImportMnemonicAccountResponse
   | ConfirmationResponse
   | UpdateSettingsResponse
-  | AuthorizeResponse
   | AuthorizeDeployResponse
   | PageResponse
   //   | DAppGetPayloadResponse

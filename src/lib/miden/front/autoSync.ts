@@ -1,15 +1,10 @@
-import { getHeight, getLastRecordId } from 'lib/miden-chain';
-import { isGPUAccelerationEnabled } from 'lib/gpu/gpu-settings';
+import { MessageHttpOutput } from '@demox-labs/amp-core/script/http-types';
+
+import { ampApi } from 'lib/amp/amp-interface';
+import { WalletState } from 'lib/shared/types';
 import { logger } from 'shared/logger';
 
-import { syncOwnedRecords, completeOwnedRecords } from '../activity/sync';
-
-import { SyncOptions } from '../activity/sync/sync-options';
-import { tagOwnedRecords } from '../activity/tagging/tag';
-import { WalletState } from 'lib/shared/types';
 import { MidenClientInterface } from '../sdk/miden-client-interface';
-import { ampApi } from 'lib/amp/amp-interface';
-import { MessageHttpOutput } from '@demox-labs/amp-core/script/http-types';
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 const midenClient = await MidenClientInterface.create();
@@ -51,43 +46,6 @@ class Sync {
     await this.syncAmp();
     await sleep(3000);
     await this.sync();
-  }
-
-  private async syncRecords(keys: Keys[], gpuEnabled: boolean) {
-    const adapter = navigator.gpu ? await navigator.gpu.requestAdapter() : null;
-    const hasGpu = !!adapter && gpuEnabled;
-    const syncOptions: SyncOptions = { includeTaggedRecords: true, useGPU: hasGpu };
-    const syncBatch = hasGpu ? 1 : 2;
-    const batchSize = hasGpu ? 200_000 : 5_000; // number of blocks to iterate through each batch
-    await navigator.locks
-      .request(`records`, { ifAvailable: true }, async lock => {
-        if (!lock) return;
-
-        await syncOwnedRecords(syncOptions, keys, this.lastRecordId, syncBatch, batchSize);
-        await completeOwnedRecords(keys);
-        await tagOwnedRecords(keys);
-      })
-      .catch(e => {
-        logger.error(`Failed to sync records `, e);
-      });
-  }
-
-  private async syncTransactions(chainId: string, accounts: string[], currentBlock: number) {}
-
-  private async cancelFailedTransactions(chainId: string) {}
-
-  private async syncAccountCreationBlockHeights(ownMnemonic: boolean, blockHeight: number) {
-    const lockKey = `account-creation-block-heights`;
-    await navigator.locks
-      .request(lockKey, { ifAvailable: true }, async lock => {
-        if (!lock) return;
-        let accountCreationBlockHeightTasks: Promise<any>[] = [];
-
-        await Promise.all(accountCreationBlockHeightTasks);
-      })
-      .catch(e => {
-        logger.error(`Failed to sync account creation block heights`, e);
-      });
   }
 
   async syncChain() {

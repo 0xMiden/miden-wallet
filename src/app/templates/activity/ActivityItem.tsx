@@ -21,7 +21,7 @@ import { ReactComponent as SendIcon } from 'app/icons/send.svg';
 import { ReactComponent as StakeIcon } from 'app/icons/stake.svg';
 import { ReactComponent as WarningIcon } from 'app/icons/warning.svg';
 import { ExploreSelectors } from 'app/pages/Explore.selectors';
-import { ITransactionIcon } from 'lib/miden/db/transaction-types';
+import { ITransactionRequestIcon } from 'lib/miden/db/types';
 import { useFilteredContacts } from 'lib/miden/front/use-filtered-contacts.hook';
 import { getDateFnsLocale, t } from 'lib/i18n/react';
 import useTippy from 'lib/ui/useTippy';
@@ -55,7 +55,7 @@ const iconGrabber = (activityType: ActivityType, iconFillAndStroke: string) => {
   }
 };
 
-const transactionIconGrabber = (transactionIcon: ITransactionIcon, iconFillAndStroke: string) => {
+const transactionIconGrabber = (transactionIcon: ITransactionRequestIcon, iconFillAndStroke: string) => {
   switch (transactionIcon) {
     case 'SEND':
       return (

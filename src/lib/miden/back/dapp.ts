@@ -1,5 +1,6 @@
 import {
   DecryptPermission,
+  MidenCustomTransaction,
   MintTransaction,
   SendTransaction,
   TransactionType
@@ -35,6 +36,7 @@ import {
 } from 'lib/miden/types';
 import { WalletStatus } from 'lib/shared/types';
 
+import { requestCustomTransaction } from '../activity/transactions';
 import { fetchFromStorage, putToStorage } from '../front';
 import { QUEUED_TRANSACTIONS_KEY } from '../front/queued-transactions';
 import { store, withUnlocked } from './store';
@@ -271,11 +273,12 @@ const generatePromisifyTransaction = async <
 
           return formatMintTransactionPreview(mintTransaction);
         case TransactionType.Custom:
-          if (!(payload instanceof Uint8Array)) {
+          const customTransaction = payload as MidenCustomTransaction;
+          if (!customTransaction.accountId || !customTransaction.transactionRequest) {
             reject(new Error(`${MidenDAppErrorType.InvalidParams}: Invalid CustomTransaction payload`));
           }
 
-          return formatCustomTransactionPreview(payload as Uint8Array);
+          return formatCustomTransactionPreview(customTransaction);
       }
     });
   } catch (e) {
@@ -321,7 +324,8 @@ const generatePromisifyTransaction = async <
                 await Actions.requestMintTransaction(payload as MintTransaction);
                 break;
               case TransactionType.Custom:
-                await Actions.requestCustomTransaction(payload as Uint8Array);
+                const { accountId, transactionRequest } = payload as MidenCustomTransaction;
+                await requestCustomTransaction(accountId, transactionRequest);
                 break;
               default:
                 throw new Error('Unable to create transaction');
@@ -539,7 +543,7 @@ function formatMintTransactionPreview(transaction: MintTransaction): string[] {
   return tsTexts;
 }
 
-function formatCustomTransactionPreview(payload: Uint8Array): string[] {
+function formatCustomTransactionPreview(payload: MidenCustomTransaction): string[] {
   return [
     'This dApp is requesting a custom transaction,',
     'please ensure you know the details of the transaction before proceeding.'

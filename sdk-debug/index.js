@@ -1,4 +1,4 @@
-import { WebClient, AccountStorageMode, AccountId, NoteType } from './libs/dist/index.js';
+import { WebClient, AccountStorageMode, AccountId, NoteType, TransactionRequest } from './libs/dist/index.js';
 console.log('script loaded');
 
 const databases = await indexedDB.databases();
@@ -84,4 +84,70 @@ document.getElementById('publicKeyForm').addEventListener('submit', async event 
 
   await webClient.sync_state();
   console.log('synced state complete');
+});
+
+document.getElementById('transactionRequestForm').addEventListener('submit', async event => {
+  event.preventDefault();
+  const accountIdString = document.getElementById('publicKey').value;
+  if (!accountIdString) {
+    alert('Please enter a public key');
+    return;
+  }
+  const accountId = AccountId.from_hex(accountIdString);
+
+  console.log('creating transaction request...');
+  const transactionRequest = await webClient.create_mint_transaction_request(
+    accountId,
+    faucetId,
+    NoteType.public(),
+    BigInt(100)
+  );
+  console.log('created transaction request');
+  console.log('exporting transaction request...');
+  const bytes = transactionRequest.serialize();
+
+  const blob = new Blob([bytes], { type: 'application/octet-stream' });
+
+  // Create a URL for the Blob
+  const url = URL.createObjectURL(blob);
+
+  // Create a temporary anchor element
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'exportTxRequest.mno'; // Specify the file name
+
+  // Append the anchor to the document
+  document.body.appendChild(a);
+
+  // Programmatically click the anchor to trigger the download
+  a.click();
+
+  // Remove the anchor from the document
+  document.body.removeChild(a);
+
+  // Revoke the object URL to free up resources
+  URL.revokeObjectURL(url);
+
+  await webClient.sync_state();
+  console.log('synced state complete');
+});
+
+document.getElementById('fileInput').addEventListener('change', async event => {
+  event.preventDefault();
+  const file = event.target.files ? event.target.files[0] : null;
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = async e => {
+      try {
+        if (e.target?.result instanceof ArrayBuffer) {
+          const txRequestAsUint8Array = new Uint8Array(e.target.result);
+          const transactionRequest = TransactionRequest.deserialize(txRequestAsUint8Array);
+          console.log('deserialized transaction request:', transactionRequest);
+        }
+      } catch (error) {
+        console.error('Error during note import:', error);
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  }
 });

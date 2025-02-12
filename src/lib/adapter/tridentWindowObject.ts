@@ -1,4 +1,9 @@
-import { EventEmitter, WalletAdapterNetwork, DecryptPermission } from '@demox-labs/miden-wallet-adapter-base';
+import {
+  EventEmitter,
+  WalletAdapterNetwork,
+  DecryptPermission,
+  MidenTransaction
+} from '@demox-labs/miden-wallet-adapter-base';
 import { TridentWallet, TridentWalletEvents } from '@demox-labs/miden-wallet-adapter-trident';
 
 import {
@@ -21,7 +26,7 @@ export class TridentWindowObject extends EventEmitter<TridentWalletEvents> imple
     return await isAvailable();
   }
 
-  async requestTransaction(transaction: any): Promise<{ transactionId?: string | undefined }> {
+  async requestTransaction(transaction: MidenTransaction): Promise<{ transactionId?: string | undefined }> {
     const res = await requestTransaction(this.publicKey!, transaction);
     return { transactionId: res };
   }

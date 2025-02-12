@@ -20,10 +20,19 @@
         <div>
             <button type="submit">Generate note for account</button>
         </div>
-        
-    </form>    
+
+    </form>
     <h2 id="faucetIdTitle" style="display: none;">Faucet Id:</h2>
     <h3 id="faucetId"></h3>
+
+    <form id="transactionRequestForm">
+        <button type="submit">Create transaction request</button>
+    </form>
+
+    <form id="txRequestUpload">
+        <label for="fileInput">Upload transaction request file:</label>
+        <input type="file" id="fileInput" />
+    </form>
 
     <script type="module" src="./index.js"></script>
 </body>

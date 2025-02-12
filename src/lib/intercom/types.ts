@@ -1,6 +1,6 @@
 export enum MessageType {
   Req = 'INTERCOM_REQUEST', // Request responses
-  Res = 'INTERCOM_RESPONSE', // Reponse message
+  Res = 'INTERCOM_RESPONSE', // Response message
   Err = 'INTERCOM_ERROR', // Error message
   Sub = 'INTERCOM_SUBSCRIPTION' // Subscription updates
 }

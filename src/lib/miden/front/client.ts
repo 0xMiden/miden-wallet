@@ -189,19 +189,6 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     assertResponse(res.type === WalletMessageType.UpdateSettingsResponse);
   }, []);
 
-  const authorizeTransaction = useCallback(
-    async (
-      accPublicKey: string,
-      program: string,
-      functionName: string,
-      inputs: string[],
-      feeCredits: number,
-      feeRecord?: string,
-      imports?: { [key: string]: string }
-    ) => {},
-    []
-  );
-
   const authorizeDeploy = useCallback(
     async (accPublicKey: string, deployment: string, feeCredits: number, feeRecord?: string) => {},
     []
@@ -291,7 +278,6 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     importWatchOnlyAccount,
     importMnemonicAccount,
     updateSettings,
-    authorizeTransaction,
     authorizeDeploy,
     getDAppPayload,
     confirmDAppPermission,

@@ -22,7 +22,6 @@ import { TestIDProps } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { getChainStatus } from 'lib/miden-chain/client';
 import { TOKEN_MAPPING, MidenTokens } from 'lib/miden-chain/constants';
-import { getEstimatedSyncPercentage } from 'lib/miden/activity/sync/sync-plan';
 import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
 import {
   useAccount,
@@ -48,6 +47,7 @@ import EditableTitle from './Explore/EditableTitle';
 import MainBanner from './Explore/MainBanner';
 import SyncBanner from './Explore/SyncBanner';
 import Tokens from './Explore/Tokens/Tokens';
+import { hasQueuedTransactions } from 'lib/miden/activity';
 
 const midenClient = await MidenClientInterface.create();
 
@@ -92,9 +92,19 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
   const alert = useAlert();
   const [queuedTransactions] = useQueuedTransactions();
 
+  const { data: queuedDbTransactions } = useRetryableSWR(
+    [`has-queued-transactions`, address],
+    async () => hasQueuedTransactions(),
+    {
+      revalidateOnMount: true,
+      refreshInterval: 15_000,
+      dedupingInterval: 5_000
+    }
+  );
+
   useEffect(() => {
-    if (queuedTransactions.length) openLoadingFullPage();
-  }, [queuedTransactions]);
+    if (queuedTransactions.length || queuedDbTransactions) openLoadingFullPage();
+  }, [queuedTransactions, queuedDbTransactions]);
 
   /* const fetchClaimableNotes = async () => {
     const notes = await midenClient.getCommittedNotes();
@@ -307,10 +317,6 @@ type SecondarySectionProps = {
   assetId?: string | null;
   className?: string;
 };
-
-async function getSyncFraction(chainId: string, address: string, defaultSyncFraction: number): Promise<number> {
-  return await getEstimatedSyncPercentage(chainId, address, defaultSyncFraction);
-}
 
 const formatSyncFraction = (syncFraction: number) => {
   return `${(100.0 * syncFraction).toFixed(1)}%`;

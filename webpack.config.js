@@ -35,7 +35,8 @@ const appConfig = {
   },
   experiments: {
     asyncWebAssembly: true,
-    syncWebAssembly: true
+    syncWebAssembly: true,
+    topLevelAwait: true
   },
   entry: {
     confirm: './src/confirm.tsx',
@@ -227,12 +228,9 @@ const workerConfig = {
   },
   target: 'webworker',
   entry: {
-    buildTransaction: './src/workers/buildTransaction.ts',
-    scanRecordsGpu: './src/workers/scanRecordsGpu.ts',
-    scanRecordsDirect: './src/workers/scanRecordsDirect.ts',
-    proveTags: './src/workers/proveTags.ts',
     consumeNoteId: './src/workers/consumeNoteId.ts',
-    sendTransaction: './src/workers/sendTransaction.ts'
+    sendTransaction: './src/workers/sendTransaction.ts',
+    submitTransactionRequest: './src/workers/submitTransactionRequest.ts'
   },
   output: {
     pathinfo: false,
