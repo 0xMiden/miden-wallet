@@ -21,6 +21,7 @@ import { useAccount } from 'lib/miden/front';
 
 import NetworksSettings from './Networks';
 import { SettingsSelectors } from './Settings.selectors';
+import { EncryptedFileFlow, EncryptedFileManager } from 'screens/encrypted-file-flow/EncryptedFileManager';
 
 type SettingsProps = {
   tabSlug?: string | null;
@@ -97,6 +98,15 @@ const TABS: Tab[] = [
     Component: EditMidenFaucetId,
     descriptionI18nKey: 'editMidenFaucetIdDescription',
     testID: SettingsSelectors.EditMidenFaucetButton,
+    insertHR: false
+  },
+  {
+    slug: 'encrypted-wallet-file',
+    titleI18nKey: 'encryptedWalletFile',
+    Icon: SettingsIcon,
+    Component: EncryptedFileFlow,
+    descriptionI18nKey: 'encryptedWalletFileDescription',
+    testID: SettingsSelectors.EncryptedWalletFile,
     insertHR: false
   }
   // {
