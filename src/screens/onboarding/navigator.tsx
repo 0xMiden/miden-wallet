@@ -14,10 +14,11 @@ import { BackUpSeedPhraseScreen } from './create-wallet-flow/BackUpSeedPhrase';
 import { SelectTransactionTypeScreen } from './create-wallet-flow/SelectTransactionType';
 import { SelectWalletTypeScreen } from './create-wallet-flow/SelectWalletType';
 import { VerifySeedPhraseScreen } from './create-wallet-flow/VerifySeedPhrase';
-import { ImportWalletFileScreen } from './import-wallet-flow/ImportWalletFile';
 import { OnboardingAction, OnboardingStep, OnboardingType, WalletType } from './types';
+import { ImportSeedPhraseScreen } from './import-wallet-flow/ImportSeedPhrase';
 
 export interface OnboardingFlowProps {
+  wordslist: string[];
   seedPhrase: string[] | null;
   onboardingType: OnboardingType | null;
   walletType: WalletType | null;
@@ -77,6 +78,7 @@ const Header: React.FC<{
 };
 
 export const OnboardingFlow: FC<OnboardingFlowProps> = ({
+  wordslist,
   seedPhrase,
   walletType,
   onboardingType,
@@ -149,8 +151,11 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
 
     const onConfirmSubmit = () => onForwardAction?.({ id: 'confirmation' });
 
-    const onImportWalletFileSubmit = (walletFileBytes: Uint8Array) =>
-      onForwardAction?.({ id: 'import-wallet-file-submit', payload: walletFileBytes });
+    // const onImportWalletFileSubmit = (walletFileBytes: Uint8Array) =>
+    //   onForwardAction?.({ id: 'import-wallet-file-submit', payload: walletFileBytes });
+
+    const onImportSeedPhraseSubmit = (seedPhrase: string) =>
+      onForwardAction?.({ id: 'import-seed-phrase-submit', payload: seedPhrase });
 
     switch (step) {
       case OnboardingStep.Welcome:
@@ -162,7 +167,7 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
       case OnboardingStep.VerifySeedPhrase:
         return <VerifySeedPhraseScreen seedPhrase={seedPhrase || []} onSubmit={onVerifySeedPhraseSubmit} />;
       case OnboardingStep.ImportWallet:
-        return <ImportWalletFileScreen onSubmit={onImportWalletFileSubmit} />;
+        return <ImportSeedPhraseScreen wordslist={wordslist} onSubmit={onImportSeedPhraseSubmit} />;
       case OnboardingStep.CreatePassword:
         return <CreatePasswordScreen onSubmit={onCreatePasswordSubmit} />;
       case OnboardingStep.SelectTransactionType:

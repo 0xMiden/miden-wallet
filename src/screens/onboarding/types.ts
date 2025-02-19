@@ -69,6 +69,11 @@ export type ImportWalletFileSubmitAction = {
   payload: Uint8Array;
 };
 
+export type ImportSeedPhraseSubmitAction = {
+  id: 'import-seed-phrase-submit';
+  payload: string;
+};
+
 export type BackAction = {
   id: 'back';
 };
@@ -82,7 +87,7 @@ export type OnboardingAction =
   | CreatePasswordSubmitAction
   | SelectTransactionTypeAction
   | ConfirmationAction
-  | ImportWalletFileSubmitAction
+  | ImportSeedPhraseSubmitAction
   | BackAction;
 
 // TODO: Potentially make this into what the onboarding flows use to render the

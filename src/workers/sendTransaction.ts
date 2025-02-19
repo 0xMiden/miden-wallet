@@ -13,9 +13,9 @@ async function sendTransaction(
   noteType: string,
   amount: string,
   recallBlocks?: number,
-  delegateProof?: boolean
+  delegateProving?: boolean
 ): Promise<ExportedNote | null> {
-  const midenClient = await MidenClientInterface.create(delegateProof);
+  const midenClient = await MidenClientInterface.create({ delegateProving });
   const noteTypeObj = noteType === 'public' ? NoteType.public() : NoteType.private();
   const result = await midenClient.sendTransaction(
     senderAccountId,

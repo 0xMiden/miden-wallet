@@ -1,10 +1,22 @@
-import { Account, AccountId, AccountStorageMode, NoteType, TransactionRequest, WebClient } from '@demox-labs/miden-sdk';
-import { ConsumableNoteRecord, TransactionResult } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
+import {
+  Account,
+  AccountId,
+  AccountStorageMode,
+  ConsumableNoteRecord,
+  NoteType,
+  WebClient
+} from '@demox-labs/miden-sdk';
 
 import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';
 import { WalletType } from 'screens/onboarding/types';
 
 import { NoteExportType } from './constants';
+import { TransactionRequest, TransactionResult } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
+
+export type MidenClientCreateOptions = {
+  delegateProving?: boolean;
+  seed?: Uint8Array;
+};
 
 export class MidenClientInterface {
   webClient: WebClient;
@@ -12,22 +24,25 @@ export class MidenClientInterface {
     this.webClient = webClient;
   }
 
-  static async create(delegateProving: boolean = true) {
+  static async create(options: MidenClientCreateOptions = { delegateProving: true }) {
     const webClient = new WebClient();
+    const delegateProving = options.delegateProving;
+    const seed = options.seed;
 
     if (delegateProving) {
       await webClient.create_client(
         MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!,
-        MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!
+        MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!,
+        seed
       );
     } else {
-      await webClient.create_client(MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!);
+      await webClient.create_client(MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!, null, seed);
     }
 
     return new MidenClientInterface(webClient);
   }
 
-  async createMidenWallet(walletType: WalletType) {
+  async createMidenWallet(walletType: WalletType, seed?: Uint8Array): Promise<string> {
     // Create a new wallet
     const accountStorageMode =
       walletType === WalletType.OnChain ? AccountStorageMode.public() : AccountStorageMode.private();
@@ -53,6 +68,15 @@ export class MidenClientInterface {
 
     return walletIdString;
   }
+
+  // async importMidenWalletFromSeed(walletType: WalletType, seed: Uint8Array) {
+  //   const accountStorageMode =
+  //     walletType === WalletType.OnChain ? AccountStorageMode.public() : AccountStorageMode.private();
+
+  //   const account = await this.webClient.import_account_from_seed(seed, accountStorageMode, true);
+
+  //   return account.id().to_string();
+  // }
 
   async consumeTransaction(accountId: string, listOfNoteIds: string[]) {
     const result = await this.webClient.new_consume_transaction(accountIdStringToSdk(accountId), listOfNoteIds);
@@ -103,12 +127,12 @@ export class MidenClientInterface {
 
   async syncState() {
     const syncSummary = await this.webClient.sync_state();
-    // console.log('blockNum: ', syncSummary.block_num());
-    // console.log('comitted notes: ', syncSummary.committed_notes());
-    // console.log('committed_transactions: ', syncSummary.committed_transactions());
-    // console.log('consumed_notes: ', syncSummary.consumed_notes());
-    // console.log('received_notes: ', syncSummary.received_notes());
-    // console.log('updated_accounts: ', syncSummary.updated_accounts());
+    console.log('blockNum: ', syncSummary.block_num());
+    console.log('comitted notes: ', syncSummary.committed_notes());
+    console.log('committed_transactions: ', syncSummary.committed_transactions());
+    console.log('consumed_notes: ', syncSummary.consumed_notes());
+    console.log('received_notes: ', syncSummary.received_notes());
+    console.log('updated_accounts: ', syncSummary.updated_accounts());
 
     return syncSummary;
   }
@@ -207,10 +231,10 @@ export class MidenClientInterface {
   async submitTransaction(accountId: string, transactionRequestBytes: Uint8Array) {
     await this.syncState();
     await this.fetchCacheAccountAuth(accountId);
-    const transactionRequest = TransactionRequest.deserialize(new Uint8Array(transactionRequestBytes));
-    const transactionResult = await this.webClient.new_transaction(accountIdStringToSdk(accountId), transactionRequest);
-    await this.webClient.submit_transaction(transactionResult);
-    return transactionResult;
+    // const transactionRequest = TransactionRequest.deserialize(new Uint8Array(transactionRequestBytes));
+    // const transactionResult = await this.webClient.new_transaction(accountIdStringToSdk(accountId), transactionRequest);
+    // await this.webClient.submit_transaction(transactionResult);
+    return '';
   }
 }
 
