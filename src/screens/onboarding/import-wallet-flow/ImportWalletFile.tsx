@@ -6,17 +6,21 @@ import { useTranslation } from 'react-i18next';
 import { Icon, IconName } from 'app/icons/v2';
 import { Button } from 'components/Button';
 import { ONE_MB_IN_BYTES } from 'utils/crypto';
-
-interface WalletFile {
-  name: string;
-  bytes: Uint8Array;
-}
+import { EncryptedWalletFile } from 'screens/shared';
+import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 
 export interface ImportWalletFileScreenProps {
   className?: string;
-  onSubmit?: (walletFileBytes: Uint8Array) => void;
+  onSubmit?: (seedPhrase: string) => void;
 }
 
+type WalletFile = EncryptedWalletFile & {
+  name: string;
+};
+
+const midenClient = await MidenClientInterface.create();
+
+// TODO: This needs to move forward in the onboarding steps, likely needs some sort of next thing feature
 export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ className, onSubmit }) => {
   const { t } = useTranslation();
   const walletFileRef = useRef<HTMLInputElement>(null);
@@ -26,9 +30,11 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
     setWalletFile(null);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (walletFile !== null && onSubmit) {
-      onSubmit(walletFile.bytes);
+      onSubmit('TODO: seed phrase');
+      await midenClient.importDb(walletFile.dbContent);
+      console.log('WE DID IT ');
     }
   };
 
@@ -41,22 +47,26 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
       const fileType = parts[parts.length - 1];
       const reader = new FileReader();
 
-      if (file.size > ONE_MB_IN_BYTES || fileType !== 'json') {
-        alert('File size must be <= 1mb and file type must be .json');
+      if (fileType !== 'json') {
+        alert('File type must be .json');
         return;
       }
 
       reader.onload = () => {
-        const arrayBuffer = reader.result as ArrayBuffer;
-        const byteArray = new Uint8Array(arrayBuffer);
-        setWalletFile({ name: file.name, bytes: byteArray });
+        try {
+          const jsonContent = JSON.parse(reader.result as string) as EncryptedWalletFile;
+          setWalletFile({ ...jsonContent, name: file.name });
+        } catch (e) {
+          console.error(e);
+          alert('Invalid JSON file');
+        }
       };
 
       reader.onerror = () => {
         alert('Error with file reader');
       };
 
-      reader.readAsArrayBuffer(file);
+      reader.readAsText(file);
     } else {
       alert('Select 1 file');
       return;
@@ -103,7 +113,7 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
         >
           <Icon name={IconName.UploadFile} size="xxl" />
           <p className="text-sm">Drag and drop file or {uploadFileComponent()}</p>
-          <p className="text-sm text-gray-200">.JSON, .CSV max 1 MB</p>
+          <p className="text-sm text-gray-200">.JSON</p>
           <div>
             <input style={{ display: 'none' }} ref={walletFileRef} onChange={onUploadFile} type="file" />
           </div>

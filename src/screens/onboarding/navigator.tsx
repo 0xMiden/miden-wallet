@@ -176,6 +176,10 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
     const onImportSeedPhraseSubmit = (seedPhrase: string) =>
       onForwardAction?.({ id: 'import-seed-phrase-submit', payload: seedPhrase });
 
+    const onImportFileSubmit = (seedPhrase: string) => {
+      onForwardAction?.({ id: 'import-wallet-file-submit', payload: seedPhrase });
+    };
+
     switch (step) {
       case OnboardingStep.Welcome:
         return <WelcomeScreen onSubmit={onWelcomeAction} />;
@@ -190,7 +194,7 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
       case OnboardingStep.ImportFromSeed:
         return <ImportSeedPhraseScreen wordslist={wordslist} onSubmit={onImportSeedPhraseSubmit} />;
       case OnboardingStep.ImportFromFile:
-        return <ImportWalletFileScreen />;
+        return <ImportWalletFileScreen onSubmit={onImportFileSubmit} />;
       case OnboardingStep.CreatePassword:
         return <CreatePasswordScreen onSubmit={onCreatePasswordSubmit} />;
       case OnboardingStep.SelectTransactionType:

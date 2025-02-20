@@ -16,6 +16,7 @@ const Welcome: FC = () => {
   const [seedPhrase, setSeedPhrase] = useState<string[] | null>(null);
   const [onboardingType, setOnboardingType] = useState<OnboardingType | null>(null);
   const [password, setPassword] = useState<string | null>(null);
+  const [importedWithFile, setImportedWithFile] = useState(false);
   const [walletType] = useState<WalletType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { registerWallet } = useMidenContext();
@@ -23,16 +24,18 @@ const Welcome: FC = () => {
 
   const register = useCallback(async () => {
     if (password && seedPhrase) {
-      // Need to determine whether or not to import from the seed or not
-      try {
-        await registerWallet(
-          WalletType.OnChain,
-          password,
-          formatMnemonic(seedPhrase.join(' ')),
-          onboardingType === OnboardingType.Import // might be able to leverage ownMnemonic to determine whther to attempt imports in general
-        );
-      } catch (e) {
-        console.error(e);
+      // If the user imported a wallet file, we don't want to register another wallet
+      if (!importedWithFile) {
+        try {
+          await registerWallet(
+            WalletType.OnChain,
+            password,
+            formatMnemonic(seedPhrase.join(' ')),
+            onboardingType === OnboardingType.Import // might be able to leverage ownMnemonic to determine whther to attempt imports in general
+          );
+        } catch (e) {
+          console.error(e);
+        }
       }
     }
   }, [password, onboardingType, registerWallet, seedPhrase]);
@@ -52,6 +55,12 @@ const Welcome: FC = () => {
         break;
       case 'import-from-file':
         navigate('/#import-from-file');
+        break;
+      // TODO: Make sure that the payload is sent from the upstream page correctly
+      case 'import-wallet-file-submit':
+        setSeedPhrase(action.payload.split(' '));
+        setImportedWithFile(true);
+        navigate('/#create-password');
         break;
       case 'import-from-seed':
         navigate('/#import-from-seed');

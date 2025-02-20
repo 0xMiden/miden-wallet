@@ -83,7 +83,7 @@ export type ConfirmationAction = {
 
 export type ImportWalletFileSubmitAction = {
   id: 'import-wallet-file-submit';
-  payload: Uint8Array;
+  payload: string;
 };
 
 export type ImportSeedPhraseSubmitAction = {
@@ -107,7 +107,8 @@ export type OnboardingAction =
   | ImportSeedPhraseSubmitAction
   | BackAction
   | ImportFromFileAction
-  | ImportFromSeedAction;
+  | ImportFromSeedAction
+  | ImportWalletFileSubmitAction;
 
 // TODO: Potentially make this into what the onboarding flows use to render the
 // steps rather than hardcode the path in onboarding flow

@@ -242,6 +242,10 @@ export class MidenClientInterface {
     console.log('type of dump', typeof dump);
     return dump;
   }
+
+  async importDb(dump: any) {
+    await this.webClient.import_store(dump);
+  }
 }
 
 export const accountIdStringToSdk = (accountId: string) => {

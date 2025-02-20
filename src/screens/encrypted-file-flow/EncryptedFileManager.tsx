@@ -66,10 +66,12 @@ export const EncryptedFileManager: React.FC<{}> = () => {
   useEffect(() => {
     register('fileName');
     register('filePassword');
+    register('walletPassword');
   }, [register]);
 
   const fileName = watch('fileName');
   const filePassword = watch('filePassword');
+  const walletPassword = watch('walletPassword');
 
   const onAction = useCallback(
     (action: EncryptedFileAction) => {
@@ -143,12 +145,21 @@ export const EncryptedFileManager: React.FC<{}> = () => {
     [onAction]
   );
 
-  const handlePasswordChange = useCallback(
+  const onFilePasswordChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const fooBar = event.target.value;
       onAction({
         id: EncryptedFileActionId.SetFormValues,
-        payload: { filePassword: fooBar }
+        payload: { filePassword: event.target.value }
+      });
+    },
+    [onAction]
+  );
+
+  const onWalletPasswordChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      onAction({
+        id: EncryptedFileActionId.SetFormValues,
+        payload: { walletPassword: event.target.value }
       });
     },
     [onAction]
@@ -160,7 +171,13 @@ export const EncryptedFileManager: React.FC<{}> = () => {
       switch (route.name) {
         case EncryptedFileStep.WalletPassword:
           const onGoNext = () => goToStep(EncryptedFileStep.ExportFileName);
-          return <EncryptedWalletFileWalletPassword onGoNext={onGoNext} onGoBack={goBack} />;
+          return (
+            <EncryptedWalletFileWalletPassword
+              onGoNext={onGoNext}
+              onGoBack={goBack}
+              onPasswordChange={onWalletPasswordChange}
+            />
+          );
         case EncryptedFileStep.ExportFileName:
           return (
             <ExportFileName
@@ -179,17 +196,35 @@ export const EncryptedFileManager: React.FC<{}> = () => {
               onGoNext={() => {
                 goToStep(EncryptedFileStep.ExportFileComplete);
               }}
-              handlePasswordChange={handlePasswordChange}
+              handlePasswordChange={onFilePasswordChange}
               passwordValue={filePassword ?? ''}
             />
           );
         case EncryptedFileStep.ExportFileComplete:
-          return <ExportFileComplete onGoBack={goBack} passwordValue={filePassword ?? ''} />;
+          return (
+            <ExportFileComplete
+              onGoBack={goBack}
+              filePassword={filePassword ?? ''}
+              fileName={fileName}
+              walletPassword={walletPassword ?? ''}
+            />
+          );
         default:
           return <></>;
       }
     },
-    [goBack, goToStep, onAction, onClose, fileName, onFileNameChange, filePassword, handlePasswordChange]
+    [
+      goBack,
+      goToStep,
+      onAction,
+      onClose,
+      fileName,
+      onFileNameChange,
+      filePassword,
+      onFilePasswordChange,
+      walletPassword,
+      onFilePasswordChange
+    ]
   );
 
   return (

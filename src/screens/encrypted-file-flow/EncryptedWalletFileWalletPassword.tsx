@@ -31,9 +31,13 @@ const getTimeLeft = (start: number, end: number) => {
 export interface EncryptedWalletFileWalletPasswordProps {
   onGoNext: () => void;
   onGoBack: () => void;
+  onPasswordChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
-const EncryptedWalletFileWalletPassword: React.FC<EncryptedWalletFileWalletPasswordProps> = ({ onGoNext }) => {
+const EncryptedWalletFileWalletPassword: React.FC<EncryptedWalletFileWalletPasswordProps> = ({
+  onGoNext,
+  onPasswordChange
+}) => {
   const { unlock } = useMidenContext();
   console.log('typeof onGoNext', typeof onGoNext);
 
@@ -95,7 +99,7 @@ const EncryptedWalletFileWalletPassword: React.FC<EncryptedWalletFileWalletPassw
           name="password"
           errorCaption={errors.password && errors.password.message}
           containerClassName="mb-4"
-          onChange={() => clearError()}
+          onChange={onPasswordChange}
           disabled={isDisabled}
         />
 
