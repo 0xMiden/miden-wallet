@@ -180,7 +180,7 @@ export const SetWalletPassword: FC<SetWalletPasswordProps> = ({
               placeholder="********"
               errorCaption={errors.password?.message}
               onChange={handlePasswordChange}
-              containerClassName="mx-2"
+              containerClassName="mb-4"
             />
 
             <FormField
@@ -194,7 +194,7 @@ export const SetWalletPassword: FC<SetWalletPasswordProps> = ({
               name="repeatPassword"
               placeholder="********"
               errorCaption={errors.repeatPassword?.message}
-              containerClassName="mx-2"
+              containerClassName="mb-4"
             />
           </div>
 

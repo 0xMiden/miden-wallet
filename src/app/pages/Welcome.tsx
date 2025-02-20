@@ -46,9 +46,15 @@ const Welcome: FC = () => {
         setOnboardingType(OnboardingType.Create);
         navigate('/#select-wallet-type');
         break;
-      case 'import-wallet':
+      case 'select-import-type':
         setOnboardingType(OnboardingType.Import);
-        navigate('/#import-wallet');
+        navigate('/#select-import-type');
+        break;
+      case 'import-from-file':
+        navigate('/#import-from-file');
+        break;
+      case 'import-from-seed':
+        navigate('/#import-from-seed');
         break;
       case 'import-seed-phrase-submit':
         setSeedPhrase(action.payload.split(' '));
@@ -77,7 +83,7 @@ const Welcome: FC = () => {
         navigate('/');
         break;
       case 'back':
-        if (step === OnboardingStep.ImportWallet || step === OnboardingStep.SelectWalletType) {
+        if (step === OnboardingStep.SelectImportType || step === OnboardingStep.SelectWalletType) {
           navigate('/');
         } else if (step === OnboardingStep.BackupSeedPhrase) {
           navigate('/#select-wallet-type');
@@ -89,6 +95,8 @@ const Welcome: FC = () => {
           } else {
             navigate('/#import-wallet');
           }
+        } else if (step == OnboardingStep.ImportFromFile || step == OnboardingStep.ImportFromSeed) {
+          navigate('/#select-import-type');
         }
         break;
       default:
@@ -107,9 +115,15 @@ const Welcome: FC = () => {
         setOnboardingType(OnboardingType.Create);
         setStep(OnboardingStep.SelectWalletType);
         break;
-      case '#import-wallet':
-        setStep(OnboardingStep.ImportWallet);
+      case '#select-import-type':
+        setStep(OnboardingStep.SelectImportType);
         setOnboardingType(OnboardingType.Import);
+        break;
+      case '#import-from-seed':
+        setStep(OnboardingStep.ImportFromSeed);
+        break;
+      case '#import-from-file':
+        setStep(OnboardingStep.ImportFromFile);
         break;
       case '#backup-seed-phrase':
         setStep(OnboardingStep.BackupSeedPhrase);

@@ -10,7 +10,7 @@ export interface WelcomeScreenProps extends Omit<React.ButtonHTMLAttributes<HTML
   onSubmit?: (action: Actions) => void;
 }
 
-export type Actions = 'select-wallet-type' | 'import';
+export type Actions = 'select-wallet-type' | 'select-import-type';
 
 export const WelcomeScreen = ({ onSubmit, ...props }: WelcomeScreenProps) => {
   const { t } = useTranslation();
@@ -29,7 +29,7 @@ export const WelcomeScreen = ({ onSubmit, ...props }: WelcomeScreenProps) => {
           id={'import-link'}
           title={t('iAlreadyHaveAWallet')}
           variant={ButtonVariant.Ghost}
-          onClick={() => onSubmit?.('import')}
+          onClick={() => onSubmit?.('select-import-type')}
         />
       </div>
     </div>

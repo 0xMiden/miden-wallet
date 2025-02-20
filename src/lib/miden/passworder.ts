@@ -53,6 +53,7 @@ export async function decrypt<T = any>(
   return JSON.parse(stuffStr);
 }
 
+// This is deterministic given the string, per Evan
 export async function generateKey(password: string) {
   const hash = await crypto.subtle.digest('SHA-256', Buffer.from(password, 'utf-8'));
   return importKey(hash);

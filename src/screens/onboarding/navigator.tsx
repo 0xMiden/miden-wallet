@@ -14,8 +14,10 @@ import { BackUpSeedPhraseScreen } from './create-wallet-flow/BackUpSeedPhrase';
 import { SelectTransactionTypeScreen } from './create-wallet-flow/SelectTransactionType';
 import { SelectWalletTypeScreen } from './create-wallet-flow/SelectWalletType';
 import { VerifySeedPhraseScreen } from './create-wallet-flow/VerifySeedPhrase';
-import { OnboardingAction, OnboardingStep, OnboardingType, WalletType } from './types';
+import { ImportType, OnboardingAction, OnboardingStep, OnboardingType, WalletType } from './types';
 import { ImportSeedPhraseScreen } from './import-wallet-flow/ImportSeedPhrase';
+import { SelectImportTypeScreen } from './import-wallet-flow/SelectImportType';
+import { ImportWalletFileScreen } from './import-wallet-flow/ImportWalletFile';
 
 export interface OnboardingFlowProps {
   wordslist: string[];
@@ -97,16 +99,16 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
   );
 
   const renderStep = useCallback(() => {
-    const onWelcomeAction = (action: 'select-wallet-type' | 'import') => {
+    const onWelcomeAction = (action: 'select-wallet-type' | 'select-import-type') => {
       switch (action) {
         case 'select-wallet-type':
           onForwardAction?.({
             id: 'select-wallet-type'
           });
           break;
-        case 'import':
+        case 'select-import-type':
           onForwardAction?.({
-            id: 'import-wallet'
+            id: 'select-import-type'
           });
           break;
         default:
@@ -125,6 +127,23 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
           onForwardAction?.({
             id: 'create-password',
             payload: payload
+          });
+          break;
+        default:
+          break;
+      }
+    };
+
+    const onSelectImportTypeSubmit = (payload: ImportType) => {
+      switch (payload) {
+        case ImportType.SeedPhrase:
+          onForwardAction?.({
+            id: 'import-from-seed'
+          });
+          break;
+        case ImportType.WalletFile:
+          onForwardAction?.({
+            id: 'import-from-file'
           });
           break;
         default:
@@ -166,8 +185,12 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
         return <BackUpSeedPhraseScreen seedPhrase={seedPhrase || []} onSubmit={onBackupSeedPhraseSubmit} />;
       case OnboardingStep.VerifySeedPhrase:
         return <VerifySeedPhraseScreen seedPhrase={seedPhrase || []} onSubmit={onVerifySeedPhraseSubmit} />;
-      case OnboardingStep.ImportWallet:
+      case OnboardingStep.SelectImportType:
+        return <SelectImportTypeScreen onSubmit={onSelectImportTypeSubmit} />;
+      case OnboardingStep.ImportFromSeed:
         return <ImportSeedPhraseScreen wordslist={wordslist} onSubmit={onImportSeedPhraseSubmit} />;
+      case OnboardingStep.ImportFromFile:
+        return <ImportWalletFileScreen />;
       case OnboardingStep.CreatePassword:
         return <CreatePasswordScreen onSubmit={onCreatePasswordSubmit} />;
       case OnboardingStep.SelectTransactionType:

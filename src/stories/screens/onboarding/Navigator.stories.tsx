@@ -63,14 +63,16 @@ const meta: Meta<typeof OnboardingFlow> = {
           updateArgs({ step: OnboardingStep.CreatePassword });
           break;
         case 'back':
-          if (step === OnboardingStep.BackupSeedPhrase || step === OnboardingStep.ImportWallet) {
+          if (step === OnboardingStep.BackupSeedPhrase || step === OnboardingStep.SelectImportType) {
             updateArgs({ step: OnboardingStep.Welcome });
           } else if (step === OnboardingStep.VerifySeedPhrase) {
             updateArgs({ step: OnboardingStep.BackupSeedPhrase });
           } else if (step === OnboardingStep.CreatePassword) {
             updateArgs({
               step:
-                onboardingType === OnboardingType.Create ? OnboardingStep.BackupSeedPhrase : OnboardingStep.ImportWallet
+                onboardingType === OnboardingType.Create
+                  ? OnboardingStep.BackupSeedPhrase
+                  : OnboardingStep.SelectImportType
             });
           } else if (step === OnboardingStep.SelectTransactionType) {
             updateArgs({ step: OnboardingStep.CreatePassword });

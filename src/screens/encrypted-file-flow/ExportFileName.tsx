@@ -32,7 +32,12 @@ const ExportFileName: React.FC<ExportFileNameProps> = ({ onGoNext, onGoBack, onF
         title="Do not share your Encrypted Wallet File! If someone has your Encrypted Wallet File and password, they will have full control of your wallet."
       />
 
-      <TextArea placeholder={DEFAULT_FILE_NAME} className="w-full pr-10" value={fileName} onChange={onFileNameChange} />
+      <TextArea
+        placeholder={DEFAULT_FILE_NAME}
+        className="mt-4 w-full pr-10"
+        value={fileName}
+        onChange={onFileNameChange}
+      />
       <T id="continue">
         {message => (
           <FormSubmitButton

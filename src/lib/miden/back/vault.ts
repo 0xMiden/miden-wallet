@@ -74,7 +74,8 @@ export class Vault {
       let accPublicKey;
       if (ownMnemonic) {
         try {
-          accPublicKey = await midenClient.importMidenWalletFromSeed(walletType, walletSeed);
+          // accPublicKey = await midenClient.importMidenWalletFromSeed(walletType, walletSeed);
+          accPublicKey = await midenClient.createMidenWallet(walletType, walletSeed);
         } catch (e) {
           // TODO: Propagate this error up somehow to user indicating the import failed
           console.error('Failed to import wallet from seed, creating new wallet instead');
@@ -130,7 +131,8 @@ export class Vault {
       let walletId;
       if (isOwnMnemonic) {
         try {
-          walletId = await midenClient.importMidenWalletFromSeed(walletType, walletSeed);
+          // walletId = await midenClient.importMidenWalletFromSeed(walletType, walletSeed);
+          walletId = await midenClient.createMidenWallet(walletType, walletSeed);
         } catch (e) {
           // This is a weird case at the moment. If the user has their own mnemonic, we have to
           // try importing every time since we dont know whether the account already exists on-chain. If this process fails,
@@ -213,6 +215,7 @@ export class Vault {
   }
 
   async mintTransaction(recipientAccountId: string, faucetId: string, noteType: string, amount: bigint) {
+    const midenClient = await MidenClientInterface.create();
     const noteTypeObj = noteType === 'public' ? NoteType.public() : NoteType.private();
     await midenClient.mintTransaction(recipientAccountId, faucetId, noteTypeObj, amount);
   }

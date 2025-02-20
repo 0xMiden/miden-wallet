@@ -15,6 +15,8 @@ import { EncryptedFileAction, EncryptedFileActionId, EncryptedFileForm, Encrypte
 import EncryptedWalletFileWalletPassword from 'screens/encrypted-file-flow/EncryptedWalletFileWalletPassword';
 import ExportFileName from './ExportFileName';
 import ExportFilePassword from './ExportFilePassword';
+import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
+import ExportFileComplete from './ExportFileComplete';
 
 const ROUTES: Route[] = [
   {
@@ -63,9 +65,11 @@ export const EncryptedFileManager: React.FC<{}> = () => {
 
   useEffect(() => {
     register('fileName');
+    register('filePassword');
   }, [register]);
 
   const fileName = watch('fileName');
+  const filePassword = watch('filePassword');
 
   const onAction = useCallback(
     (action: EncryptedFileAction) => {
@@ -139,14 +143,23 @@ export const EncryptedFileManager: React.FC<{}> = () => {
     [onAction]
   );
 
+  const handlePasswordChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const fooBar = event.target.value;
+      onAction({
+        id: EncryptedFileActionId.SetFormValues,
+        payload: { filePassword: fooBar }
+      });
+    },
+    [onAction]
+  );
+
   // TODO: Add the components here!
   const renderStep = useCallback(
     (route: Route) => {
       switch (route.name) {
         case EncryptedFileStep.WalletPassword:
-          console.log('rendering EncryptedWalletFileWalletPassword');
           const onGoNext = () => goToStep(EncryptedFileStep.ExportFileName);
-          console.log('onGoNext in parent: ', onGoNext);
           return <EncryptedWalletFileWalletPassword onGoNext={onGoNext} onGoBack={goBack} />;
         case EncryptedFileStep.ExportFileName:
           return (
@@ -160,14 +173,23 @@ export const EncryptedFileManager: React.FC<{}> = () => {
             />
           );
         case EncryptedFileStep.ExportFilePassword:
-          return <ExportFilePassword onGoBack={goBack} onGoNext={() => {}} />;
+          return (
+            <ExportFilePassword
+              onGoBack={goBack}
+              onGoNext={() => {
+                goToStep(EncryptedFileStep.ExportFileComplete);
+              }}
+              handlePasswordChange={handlePasswordChange}
+              passwordValue={filePassword ?? ''}
+            />
+          );
         case EncryptedFileStep.ExportFileComplete:
-          return <></>;
+          return <ExportFileComplete onGoBack={goBack} passwordValue={filePassword ?? ''} />;
         default:
           return <></>;
       }
     },
-    [goBack, goToStep, onAction, onClose, fileName, onFileNameChange]
+    [goBack, goToStep, onAction, onClose, fileName, onFileNameChange, filePassword, handlePasswordChange]
   );
 
   return (

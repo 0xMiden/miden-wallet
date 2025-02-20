@@ -236,6 +236,12 @@ export class MidenClientInterface {
     // await this.webClient.submit_transaction(transactionResult);
     return '';
   }
+
+  async exportDb() {
+    const dump = await this.webClient.export_store();
+    console.log('type of dump', typeof dump);
+    return dump;
+  }
 }
 
 export const accountIdStringToSdk = (accountId: string) => {

@@ -8,12 +8,19 @@ export enum WalletType {
   OnChain = 'on-chain'
 }
 
+export enum ImportType {
+  SeedPhrase = 'seed-phrase',
+  WalletFile = 'wallet-file'
+}
+
 export enum OnboardingStep {
   Welcome = 'welcome',
   SelectWalletType = 'select-wallet-type',
   BackupSeedPhrase = 'backup-seed-phrase',
   VerifySeedPhrase = 'verify-seed-phrase',
-  ImportWallet = 'import-wallet',
+  SelectImportType = 'select-import-type',
+  ImportFromSeed = 'import-from-seed',
+  ImportFromFile = 'import-from-file',
   CreatePassword = 'create-password',
   SelectTransactionType = 'select-transaction-type',
   Confirmation = 'confirmation'
@@ -21,20 +28,30 @@ export enum OnboardingStep {
 
 export type OnboardingActionId =
   | 'select-wallet-type'
-  | 'import-wallet'
+  | 'select-import-type'
   | 'backup-seed-phrase'
   | 'verify-seed-phrase'
   | 'create-password'
   | 'create-password-submit'
   | 'select-transaction-type'
-  | 'confirmation';
+  | 'confirmation'
+  | 'import-from-file'
+  | 'import-from-seed';
 
 export type SelectWalletTypeAction = {
   id: 'select-wallet-type';
 };
 
-export type ImportWalletAction = {
-  id: 'import-wallet';
+export type SelectImportTypeAction = {
+  id: 'select-import-type';
+};
+
+export type ImportFromFileAction = {
+  id: 'import-from-file';
+};
+
+export type ImportFromSeedAction = {
+  id: 'import-from-seed';
 };
 
 export type BackupSeedPhraseAction = {
@@ -81,14 +98,16 @@ export type BackAction = {
 export type OnboardingAction =
   | SelectWalletTypeAction
   | BackupSeedPhraseAction
-  | ImportWalletAction
+  | SelectImportTypeAction
   | VerifySeedPhraseAction
   | CreatePasswordAction
   | CreatePasswordSubmitAction
   | SelectTransactionTypeAction
   | ConfirmationAction
   | ImportSeedPhraseSubmitAction
-  | BackAction;
+  | BackAction
+  | ImportFromFileAction
+  | ImportFromSeedAction;
 
 // TODO: Potentially make this into what the onboarding flows use to render the
 // steps rather than hardcode the path in onboarding flow
