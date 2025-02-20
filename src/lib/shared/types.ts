@@ -164,7 +164,6 @@ export interface LoadingResponse extends WalletMessageBase {
 
 export interface NewWalletRequest extends WalletMessageBase {
   type: WalletMessageType.NewWalletRequest;
-  walletType: WalletType;
   password: string;
   mnemonic?: string;
   ownMnemonic?: boolean;

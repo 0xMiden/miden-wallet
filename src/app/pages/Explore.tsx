@@ -20,8 +20,8 @@ import { AssetIcon } from 'app/templates/AssetIcon';
 import { getFaucetIdSetting } from 'app/templates/EditMidenFaucetId';
 import { TestIDProps } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
-import { getChainStatus } from 'lib/miden-chain/client';
 import { TOKEN_MAPPING, MidenTokens } from 'lib/miden-chain/constants';
+import { hasQueuedTransactions } from 'lib/miden/activity';
 import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
 import {
   useAccount,
@@ -47,7 +47,6 @@ import EditableTitle from './Explore/EditableTitle';
 import MainBanner from './Explore/MainBanner';
 import SyncBanner from './Explore/SyncBanner';
 import Tokens from './Explore/Tokens/Tokens';
-import { hasQueuedTransactions } from 'lib/miden/activity';
 
 const midenClient = await MidenClientInterface.create();
 
@@ -88,7 +87,6 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
   const address = account.publicKey;
   const { fullPage, registerBackHandler } = useAppEnv();
   const { search } = useLocation();
-  const [hasSeenNotification, setHasSeenNotification] = useLocalStorage('chainStatus', { seen: false, timestamp: -1 });
   const alert = useAlert();
   const [queuedTransactions] = useQueuedTransactions();
 

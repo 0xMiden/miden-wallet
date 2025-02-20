@@ -1,7 +1,7 @@
 import { Account, AccountId, AccountStorageMode, NoteType, TransactionRequest, WebClient } from '@demox-labs/miden-sdk';
 import { ConsumableNoteRecord, TransactionResult } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
 
-import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';
+import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { WalletType } from 'screens/onboarding/types';
 
 import { NoteExportType } from './constants';
@@ -12,17 +12,8 @@ export class MidenClientInterface {
     this.webClient = webClient;
   }
 
-  static async create(delegateProving: boolean = true) {
-    const webClient = new WebClient();
-
-    if (delegateProving) {
-      await webClient.create_client(
-        MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!,
-        MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!
-      );
-    } else {
-      await webClient.create_client(MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!);
-    }
+  static async create() {
+    const webClient = await WebClient.create_client(MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!);
 
     return new MidenClientInterface(webClient);
   }

@@ -1,10 +1,10 @@
 import { NoteType } from '@demox-labs/miden-sdk';
 import { expose } from 'threads/worker';
 
+import { ampApi } from 'lib/amp/amp-interface';
 import { NoteExportType } from 'lib/miden/sdk/constants';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import { ExportedNote } from 'lib/miden/types';
-import { ampApi } from 'lib/amp/amp-interface';
 
 async function sendTransaction(
   senderAccountId: string,
@@ -12,10 +12,9 @@ async function sendTransaction(
   faucetId: string,
   noteType: string,
   amount: string,
-  recallBlocks?: number,
-  delegateProof?: boolean
+  recallBlocks?: number
 ): Promise<ExportedNote | null> {
-  const midenClient = await MidenClientInterface.create(delegateProof);
+  const midenClient = await MidenClientInterface.create();
   const noteTypeObj = noteType === 'public' ? NoteType.public() : NoteType.private();
   const result = await midenClient.sendTransaction(
     senderAccountId,

@@ -311,7 +311,7 @@ const generatePromisifyTransaction = async <
                   ...queuedTransactions,
                   {
                     type: QueuedTransactionType.SendTransaction,
-                    data: { ...req.transaction.payload, delegateTransaction: confirmReq.delegate }
+                    data: { ...req.transaction.payload }
                   }
                 ];
                 await putToStorage(QUEUED_TRANSACTIONS_KEY, newQueuedTransactions);

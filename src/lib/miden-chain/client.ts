@@ -1,4 +1,5 @@
 import { JSONRPCClient } from 'json-rpc-2.0';
+
 import { IRecordMetadata } from './rpc-types';
 
 export const getHeight = async () => {};
@@ -45,8 +46,6 @@ export interface ILog {
 }
 
 export const sendLog = async (log: ILog) => {};
-
-export const getChainStatus = async () => {};
 
 export const getClient = () => {
   const client = new JSONRPCClient((jsonRPCRequest: any) =>

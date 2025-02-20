@@ -1,4 +1,4 @@
-import { WebClient, AccountStorageMode, AccountId, NoteType, TransactionRequest } from './libs/dist/index.js';
+import { WebClient, AccountStorageMode, AccountId, NoteType, TransactionRequest } from './libs/miden-sdk/dist/index.js';
 console.log('script loaded');
 
 const databases = await indexedDB.databases();
@@ -7,10 +7,8 @@ for (const db of databases) {
   indexedDB.deleteDatabase(db.name);
 }
 
-const webClient = new WebClient();
-
 // Your rpc should automatically be configured to this port, but if not you can set it here
-await webClient.create_client('http://localhost:57291');
+const webClient = await WebClient.create_client('http://localhost:57291');
 
 console.log('creating faucet...');
 const faucet = await webClient.new_faucet(AccountStorageMode.public(), false, 'TEST', 10, BigInt(1000000));

@@ -35,7 +35,6 @@ export enum QueuedTransactionType {
 export interface ConsumedNoteIdTransaction {
   address: string;
   noteId: string;
-  delegateTransaction: boolean;
 }
 
 export interface SendTransactionTransaction {
@@ -45,7 +44,6 @@ export interface SendTransactionTransaction {
   noteType: string;
   amount: string;
   recallBlocks?: number;
-  delegateTransaction: boolean;
 }
 
 export interface MidenDAppSession {

@@ -15,7 +15,6 @@ import {
 import { Vault } from 'lib/miden/back/vault';
 import { createQueue } from 'lib/queue';
 import { WalletSettings, WalletState } from 'lib/shared/types';
-import { WalletType } from 'screens/onboarding/types';
 
 import {
   getAllDApps,
@@ -50,10 +49,10 @@ export async function isDAppEnabled() {
   return true;
 }
 
-export function registerNewWallet(walletType: WalletType, password: string, mnemonic?: string, ownMnemonic?: boolean) {
+export function registerNewWallet(password: string, mnemonic?: string, ownMnemonic?: boolean) {
   return withInited(async () => {
     // TODO: Conditional here with Miden / Aleo wallet types
-    await Vault.spawn(walletType, password, mnemonic, ownMnemonic);
+    await Vault.spawn(password, mnemonic, ownMnemonic);
     await unlock(password);
   });
 }
