@@ -8,8 +8,8 @@ const SubmitTransactionRequest = {
   transferTransactionRequest: (buffer: ArrayBuffer) => {
     transactionRequest = new Uint8Array(buffer);
   },
-  submitTransactionRequest: async (address: string, delegateProof?: boolean) => {
-    const midenClientInterface = await MidenClientInterface.create(delegateProof);
+  submitTransactionRequest: async (address: string) => {
+    const midenClientInterface = await MidenClientInterface.create();
     await midenClientInterface.submitTransaction(address, transactionRequest);
   }
 };

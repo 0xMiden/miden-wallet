@@ -5,6 +5,7 @@ import * as Analytics from 'lib/miden/back/analytics';
 import { intercom } from 'lib/miden/back/defaults';
 import { store, toFront } from 'lib/miden/back/store';
 import { WalletMessageType, WalletRequest, WalletResponse } from 'lib/shared/types';
+
 import { MidenMessageType } from '../types';
 
 const frontStore = store.map(toFront);
@@ -36,7 +37,7 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
         state
       };
     case WalletMessageType.NewWalletRequest:
-      await Actions.registerNewWallet(req.walletType, req.password, req.mnemonic, req.ownMnemonic);
+      await Actions.registerNewWallet(req.password, req.mnemonic, req.ownMnemonic);
       return { type: WalletMessageType.NewWalletResponse };
     case WalletMessageType.UnlockRequest:
       await Actions.unlock(req.password);

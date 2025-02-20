@@ -61,15 +61,15 @@ export class Vault {
     });
   }
 
-  static async spawn(walletType: WalletType, password: string, mnemonic?: string, ownMnemonic?: boolean) {
+  static async spawn(password: string, mnemonic?: string, ownMnemonic?: boolean) {
     return withError('Failed to create wallet', async () => {
-      if (!mnemonic && walletType === WalletType.OnChain) {
+      if (!mnemonic) {
         mnemonic = Bip39.generateMnemonic(128);
       }
 
       console.log('attempting to spawn wallet');
 
-      const accPublicKey = await midenClient.createMidenWallet(walletType);
+      const accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain);
       const accPrivateKey = 'TODO';
 
       const initialAccount: WalletAccount = {
@@ -77,7 +77,7 @@ export class Vault {
         publicKey: accPublicKey,
         privateKey: accPrivateKey,
         name: 'Miden Account 1',
-        isPublic: walletType === WalletType.OnChain
+        isPublic: true
       };
       const newAccounts = [initialAccount];
       const passKey = await Passworder.generateKey(password);
@@ -86,7 +86,7 @@ export class Vault {
       await encryptAndSaveMany(
         [
           [checkStrgKey, generateCheck()],
-          [mnemonicStrgKey, mnemonic ?? ''],
+          [mnemonicStrgKey, mnemonic],
           [accountsStrgKey, newAccounts]
         ],
         passKey

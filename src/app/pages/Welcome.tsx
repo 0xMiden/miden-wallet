@@ -8,7 +8,7 @@ import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
 import { useMidenContext } from 'lib/miden/front';
 import { navigate, useLocation } from 'lib/woozie';
 import { OnboardingFlow } from 'screens/onboarding/navigator';
-import { OnboardingAction, OnboardingStep, OnboardingType, WalletType } from 'screens/onboarding/types';
+import { OnboardingAction, OnboardingStep, OnboardingType } from 'screens/onboarding/types';
 
 const Welcome: FC = () => {
   const { hash } = useLocation();
@@ -16,47 +16,29 @@ const Welcome: FC = () => {
   const [seedPhrase, setSeedPhrase] = useState<string[] | null>(null);
   const [onboardingType, setOnboardingType] = useState<OnboardingType | null>(null);
   const [password, setPassword] = useState<string | null>(null);
-  const [walletType, setWalletType] = useState<WalletType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { registerWallet } = useMidenContext();
   const { trackEvent } = useAnalytics();
 
-  const register = useCallback(
-    async (walletType: WalletType) => {
-      if (walletType === WalletType.OnChain) {
-        if (password && seedPhrase) {
-          try {
-            await registerWallet(
-              walletType,
-              password,
-              formatMnemonic(seedPhrase.join(' ')),
-              onboardingType === OnboardingType.Import
-            );
-          } catch (e) {
-            console.error(e);
-          }
-        }
-      } else {
-        if (password) {
-          try {
-            await registerWallet(walletType, password, undefined, onboardingType === OnboardingType.Import);
-          } catch (e) {
-            console.error(e);
-          }
-        }
+  const register = useCallback(async () => {
+    if (password && seedPhrase) {
+      try {
+        await registerWallet(password, formatMnemonic(seedPhrase.join(' ')), onboardingType === OnboardingType.Import);
+      } catch (e) {
+        console.error(e);
       }
-    },
-    [password, onboardingType, registerWallet, seedPhrase]
-  );
+    }
+  }, [password, onboardingType, registerWallet, seedPhrase]);
 
   const onAction = async (action: OnboardingAction) => {
     let eventCategory = AnalyticsEventCategory.ButtonPress;
     let eventProperties = {};
 
     switch (action.id) {
-      case 'select-wallet-type':
+      case 'create-wallet':
+        setSeedPhrase(generateMnemonic(128).split(' '));
         setOnboardingType(OnboardingType.Create);
-        navigate('/#select-wallet-type');
+        navigate('/#backup-seed-phrase');
         break;
       case 'import-wallet':
         setOnboardingType(OnboardingType.Import);
@@ -73,7 +55,6 @@ const Welcome: FC = () => {
         navigate('/#verify-seed-phrase');
         break;
       case 'create-password':
-        setWalletType(action.payload);
         navigate('/#create-password');
         break;
       case 'create-password-submit':
@@ -83,24 +64,18 @@ const Welcome: FC = () => {
         break;
       case 'confirmation':
         setIsLoading(true);
-        await register(walletType as WalletType);
+        await register();
         setIsLoading(false);
         eventCategory = AnalyticsEventCategory.FormSubmit;
         navigate('/');
         break;
       case 'back':
-        if (step === OnboardingStep.ImportWallet || step === OnboardingStep.SelectWalletType) {
+        if (step === OnboardingStep.ImportWallet || step === OnboardingStep.BackupSeedPhrase) {
           navigate('/');
-        } else if (step === OnboardingStep.BackupSeedPhrase) {
-          navigate('/#select-wallet-type');
         } else if (step === OnboardingStep.VerifySeedPhrase) {
           navigate('/#backup-seed-phrase');
         } else if (step === OnboardingStep.CreatePassword) {
-          if (onboardingType === OnboardingType.Create) {
-            navigate(walletType === WalletType.OnChain ? '/#verify-seed-phrase' : '/#select-wallet-type');
-          } else {
-            navigate('/#import-wallet');
-          }
+          navigate(onboardingType === OnboardingType.Create ? '/#verify-seed-phrase' : '/#import-wallet');
         }
         break;
       default:
@@ -115,19 +90,16 @@ const Welcome: FC = () => {
       case '':
         setStep(OnboardingStep.Welcome);
         break;
-      case '#select-wallet-type':
-        setOnboardingType(OnboardingType.Create);
-        setStep(OnboardingStep.SelectWalletType);
-        break;
-      case '#import-wallet':
-        setStep(OnboardingStep.ImportWallet);
-        setOnboardingType(OnboardingType.Import);
-        break;
       case '#backup-seed-phrase':
+        setOnboardingType(OnboardingType.Create);
         setStep(OnboardingStep.BackupSeedPhrase);
         break;
       case '#verify-seed-phrase':
         setStep(OnboardingStep.VerifySeedPhrase);
+        break;
+      case '#import-wallet':
+        setStep(OnboardingStep.ImportWallet);
+        setOnboardingType(OnboardingType.Import);
         break;
       case '#create-password':
         setStep(OnboardingStep.CreatePassword);
@@ -148,7 +120,6 @@ const Welcome: FC = () => {
     <OnboardingFlow
       seedPhrase={seedPhrase}
       onboardingType={onboardingType}
-      walletType={walletType}
       step={step}
       isLoading={isLoading}
       onAction={onAction}

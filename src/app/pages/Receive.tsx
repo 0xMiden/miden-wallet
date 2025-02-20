@@ -69,8 +69,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
         type: QueuedTransactionType.ConsumeNoteId,
         data: {
           address: account.publicKey,
-          noteId,
-          delegateTransaction: isDelegatedProvingEnabled
+          noteId
         }
       };
 

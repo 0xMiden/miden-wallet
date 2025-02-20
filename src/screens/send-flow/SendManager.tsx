@@ -4,7 +4,6 @@ import classNames from 'clsx';
 import { OnSubmit, useForm } from 'react-hook-form';
 
 import { openLoadingFullPage, useAppEnv } from 'app/env';
-import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { getFaucetIdSetting } from 'app/templates/EditMidenFaucetId';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { MidenTokens, TOKEN_MAPPING } from 'lib/miden-chain/constants';
@@ -55,7 +54,6 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const { navigateTo, goBack } = useNavigator();
   const { publicKey } = useAccount();
   const [, queueTransaction] = useQueuedTransactions();
-  const isDelegatedProvingEnabled = isDelegateProofEnabled();
   const faucetId = getFaucetIdSetting();
   const { fullPage } = useAppEnv();
 
@@ -134,8 +132,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
           faucetId: faucetId, // TODO: add more robust way to change faucet id
           noteType: sharePrivately ? NoteTypeEnum.Private : NoteTypeEnum.Public,
           amount: amount!,
-          recallBlocks: recallBlocks ? parseInt(recallBlocks) : undefined,
-          delegateTransaction: isDelegatedProvingEnabled
+          recallBlocks: recallBlocks ? parseInt(recallBlocks) : undefined
         };
         const transaction = { type: QueuedTransactionType.SendTransaction, data: payload };
         queueTransaction(transaction);
@@ -158,7 +155,6 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       recallBlocks,
       queueTransaction,
       setError,
-      isDelegatedProvingEnabled,
       faucetId
     ]
   );
