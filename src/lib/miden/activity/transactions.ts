@@ -1,8 +1,12 @@
+import { NoteType } from '@demox-labs/miden-sdk';
+import { TransactionResult } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
+
 import { submitTransactionRequest } from 'lib/miden-worker/submitTransactionRequest';
 import * as Repo from 'lib/miden/repo';
 import { logger } from 'shared/logger';
 
-import { Transaction, ITransactionStatus, ITransaction } from '../db/types';
+import { ConsumeTransaction, ITransaction, ITransactionStatus, SendTransaction, Transaction } from '../db/types';
+import { toNoteTypeString } from './helpers';
 
 export const MAX_WAIT_BEFORE_CANCEL = 30 * 60_000; // 30 minutes
 
@@ -23,13 +27,57 @@ export const requestMintTransaction = async (
   // add transaction request to db
 };
 
-export const requestSendTransaction = async (
-  recipienctAccountId: string,
+export const initiateConsumeTransaction = async (accountId: string, noteId: string): Promise<string> => {
+  const dbTransaction = new ConsumeTransaction(accountId, noteId);
+  await Repo.transactions.add(dbTransaction);
+
+  return dbTransaction.id;
+};
+
+export const completeConsumeTransaction = async (id: string, result: TransactionResult) => {
+  const note = result.consumed_notes().get_note(0).note();
+  const sender = note.metadata().sender().to_string();
+  const executedTransaction = result.executed_transaction();
+
+  const dbTransaction = await Repo.transactions.where({ id }).first();
+  const reclaimed = dbTransaction?.accountId === sender;
+  const displayMessage = reclaimed ? 'Reclaimed' : 'Received';
+  const secondaryAccountId = reclaimed ? undefined : sender;
+
+  await updateTransactionStatus(id, ITransactionStatus.Completed, {
+    displayMessage,
+    transactionId: executedTransaction.id().to_hex(),
+    secondaryAccountId,
+    noteType: toNoteTypeString(note.metadata().note_type()),
+    completedAt: Date.now() / 1000 // Convert to seconds.
+  });
+};
+
+export const initiateSendTransaction = async (
+  senderAccountId: string,
+  recipientAccountId: string,
   faucetId: string,
-  noteType: string,
+  noteType: NoteType,
   amount: bigint
-) => {
-  // add transaction request to db
+): Promise<string> => {
+  const dbTransaction = new SendTransaction(
+    senderAccountId,
+    amount,
+    recipientAccountId,
+    faucetId,
+    toNoteTypeString(noteType)
+  );
+  await Repo.transactions.add(dbTransaction);
+
+  return dbTransaction.id;
+};
+
+export const completeSendTransaction = async (id: string, result: TransactionResult) => {
+  await updateTransactionStatus(id, ITransactionStatus.Completed, {
+    displayMessage: 'Sent',
+    transactionId: result.executed_transaction().id().to_hex(),
+    completedAt: Date.now() / 1000 // Convert to seconds.
+  });
 };
 
 /**
@@ -138,7 +186,6 @@ export const generateTransaction = async (transaction: Transaction) => {
   // Mark transaction as completed
   await updateTransactionStatus(transaction.id, ITransactionStatus.Completed, {
     completedAt: Date.now() / 1000 // Convert to seconds.
-    //resultBytes: result.serialize()
   });
 };
 

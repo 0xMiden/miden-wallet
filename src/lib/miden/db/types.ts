@@ -9,6 +9,7 @@ export enum ITransactionStatus {
 
 export type ITransactionIcon = 'SEND' | 'RECEIVE' | 'SWAP' | 'FAILED' | 'MINT' | 'DEFAULT';
 export type ITransactionType = 'send' | 'consume' | 'execute';
+export type INoteType = 'public' | 'private';
 
 export interface ITransaction {
   id: string;
@@ -18,6 +19,7 @@ export interface ITransaction {
   secondaryAccountId?: string;
   faucetId?: string;
   noteId?: string;
+  noteType?: INoteType;
   transactionId?: string;
   requestBytes?: Uint8Array;
   status: ITransactionStatus;
@@ -33,6 +35,7 @@ export class Transaction implements ITransaction {
   type: ITransactionType;
   accountId: string;
   amount?: bigint;
+  noteType?: INoteType;
   transactionId?: string;
   requestBytes?: Uint8Array;
   status: ITransactionStatus;
@@ -51,6 +54,7 @@ export class Transaction implements ITransaction {
     this.status = ITransactionStatus.Queued;
     this.initiatedAt = Date.now();
     this.displayIcon = 'DEFAULT';
+    this.displayMessage = 'Executing';
   }
 }
 
@@ -61,6 +65,7 @@ export class SendTransaction implements ITransaction {
   amount: bigint;
   secondaryAccountId: string;
   faucetId: string;
+  noteType: INoteType;
   transactionId?: string;
   status: ITransactionStatus;
   initiatedAt: number;
@@ -69,16 +74,25 @@ export class SendTransaction implements ITransaction {
   displayMessage?: string;
   displayIcon: ITransactionIcon;
 
-  constructor(accountId: string, amount: bigint, recipientId: string, faucetId: string) {
+  constructor(
+    accountId: string,
+    amount: bigint,
+    recipientId: string,
+    faucetId: string,
+    noteType: INoteType,
+    status: ITransactionStatus = ITransactionStatus.GeneratingTransaction
+  ) {
     this.id = uuid();
     this.type = 'send';
     this.accountId = accountId;
     this.amount = amount;
     this.secondaryAccountId = recipientId;
     this.faucetId = faucetId;
-    this.status = ITransactionStatus.GeneratingTransaction;
+    this.noteType = noteType;
+    this.status = status;
     this.initiatedAt = Date.now();
-    this.displayIcon = 'DEFAULT';
+    this.displayIcon = 'SEND';
+    this.displayMessage = 'Sending';
   }
 }
 
@@ -108,7 +122,8 @@ export class ConsumeTransaction implements ITransaction {
     this.secondaryAccountId = senderId;
     this.status = ITransactionStatus.GeneratingTransaction;
     this.initiatedAt = Date.now();
-    this.displayIcon = 'DEFAULT';
+    this.displayIcon = 'RECEIVE';
+    this.displayMessage = 'Consuming';
   }
 }
 

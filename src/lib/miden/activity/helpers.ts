@@ -1,3 +1,4 @@
+import { NoteType } from '@demox-labs/miden-sdk';
 import BigNumber from 'bignumber.js';
 
 export function tryParseTokenTransfers(
@@ -82,3 +83,5 @@ const checkIfIntString = (x: any) => (typeof x.int === 'string' ? x.int : undefi
 
 const checkDestination = (x: any, destination: string) =>
   typeof x.int === 'string' ? toTokenId(destination, x.int) : undefined;
+
+export const toNoteTypeString = (noteType: NoteType) => (noteType === NoteType.public() ? 'public' : 'private');

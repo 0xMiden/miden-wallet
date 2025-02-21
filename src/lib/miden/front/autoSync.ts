@@ -50,7 +50,10 @@ class Sync {
 
   async syncChain() {
     try {
-      await midenClient.syncState();
+      const summary = await midenClient.syncState();
+      if (summary.updated_accounts().some(id => id.to_string() === this.state?.currentAccount?.publicKey)) {
+        // get the transaction ids and filter by the current account
+      }
     } catch (e) {
       logger.error(`Failed to sync chain: ${e}`);
     }

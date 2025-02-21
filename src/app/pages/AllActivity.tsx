@@ -30,7 +30,7 @@ const AllActivity: FC<AllActivityProps> = ({ programId }) => {
     >
       <div className="px-4">
         <div
-          className={classNames('-mx-4 pb-4', 'shadow-top-light bg-white overflow-y-scroll z-30 relative')}
+          className={classNames('-mx-4 pb-4', 'bg-white overflow-y-scroll z-30 relative')}
           style={{ height }}
           ref={scrollParentRef}
         >
