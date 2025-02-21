@@ -2,8 +2,11 @@ import { Account, AccountId, AccountStorageMode, NoteType, TransactionRequest, W
 import { ConsumableNoteRecord, TransactionResult } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
 
 import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
+import { updateTransactionStatus } from 'lib/miden/activity';
+import * as Repo from 'lib/miden/repo';
 import { WalletType } from 'screens/onboarding/types';
 
+import { ConsumeTransaction, ITransactionStatus, SendTransaction } from '../db/types';
 import { NoteExportType } from './constants';
 
 export class MidenClientInterface {
@@ -58,11 +61,16 @@ export class MidenClientInterface {
   }
 
   async consumeNoteId(accountId: string, noteId: string) {
+    const dbTransaction = new ConsumeTransaction(accountId, noteId);
+    await Repo.transactions.add(dbTransaction);
+
     await this.fetchCacheAccountAuth(accountId);
 
     console.log('Consuming note:', noteId);
     const result = await this.webClient.new_consume_transaction(accountIdStringToSdk(accountId), [noteId]);
     console.log('Consumed note:', result);
+
+    await updateTransactionStatus(dbTransaction.id, ITransactionStatus.Completed, {});
 
     return result;
   }
@@ -70,6 +78,8 @@ export class MidenClientInterface {
   async consumeNoteBytes(accountId: string, noteBytes: Uint8Array) {
     await this.syncState();
     const noteId = await this.importNoteBytes(noteBytes);
+    const dbTransaction = new ConsumeTransaction(accountId, noteId);
+    await Repo.transactions.add(dbTransaction);
 
     await this.fetchCacheAccountAuth(accountId);
 
@@ -78,6 +88,8 @@ export class MidenClientInterface {
     console.log('Consuming note:', noteId);
     const result = await this.webClient.new_consume_transaction(accountIdStringToSdk(accountId), [noteId]);
     console.log('Consumed note:', result);
+
+    await updateTransactionStatus(dbTransaction.id, ITransactionStatus.Completed, {});
 
     return result;
   }
@@ -174,6 +186,9 @@ export class MidenClientInterface {
       recallHeight = blockNum + recallBlocks;
     }
 
+    const dbTransaction = new SendTransaction(senderAccountId, amount, recipientAccountId, faucetId);
+    await Repo.transactions.add(dbTransaction);
+
     await this.fetchCacheAccountAuth(senderAccountId);
 
     const result = await this.webClient.new_send_transaction(
@@ -184,18 +199,13 @@ export class MidenClientInterface {
       amount,
       recallHeight
     );
-    console.log(
-      'Created notes:',
-      result
-        .created_notes()
-        .notes()
-        .map(note => note.id().to_string())
-    );
+
+    await updateTransactionStatus(dbTransaction.id, ITransactionStatus.Completed, {});
 
     return result;
   }
 
-  async submitTransaction(accountId: string, transactionRequestBytes: Uint8Array) {
+  async submitTransaction(accountId: string, transactionRequestBytes: Uint8Array): Promise<TransactionResult> {
     await this.syncState();
     await this.fetchCacheAccountAuth(accountId);
     const transactionRequest = TransactionRequest.deserialize(new Uint8Array(transactionRequestBytes));

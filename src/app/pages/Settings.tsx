@@ -174,7 +174,10 @@ const Settings: FC<SettingsProps> = ({ tabSlug }) => {
   }, [popup]);
 
   return (
-    <PageLayout pageTitle={activeTab ? t(activeTab.titleI18nKey) : t('settings')}>
+    <PageLayout
+      pageTitle={activeTab ? t(activeTab.titleI18nKey) : t('settings')}
+      hasBackAction={activeTab ? true : false}
+    >
       <div className={classNames('flex flex-col flex-1', activeTab ? '' : 'pb-4')} style={{ minHeight: '458px' }}>
         <div className="px-4 overflow-y-auto" style={fullPage ? {} : { maxHeight: '458px' }}>
           {activeTab ? (
@@ -211,7 +214,7 @@ const Settings: FC<SettingsProps> = ({ tabSlug }) => {
           )}
         </div>
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </PageLayout>
   );
 };

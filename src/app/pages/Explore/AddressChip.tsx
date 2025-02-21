@@ -8,12 +8,13 @@ type AddressChipProps = {
   publicKey: string;
   className?: string;
   small?: boolean;
+  trim?: boolean;
 };
 
-const AddressChip: FC<AddressChipProps> = ({ publicKey, className, small }) => {
+const AddressChip: FC<AddressChipProps> = ({ publicKey, className, small, trim }) => {
   return (
     <div className={classNames('flex items-center', className)}>
-      <HashChip hash={publicKey} small={small} />
+      <HashChip hash={publicKey} small={small} trim={trim} />
     </div>
   );
 };

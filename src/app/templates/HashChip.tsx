@@ -21,6 +21,7 @@ const HashChip: FC<HashChipProps> = ({
     <span className="flex flex-row items-center">
       <HashShortView
         hash={hash}
+        trim={trim}
         trimAfter={trimAfter}
         firstCharsCount={firstCharsCount}
         lastCharsCount={lastCharsCount}

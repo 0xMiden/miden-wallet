@@ -17,7 +17,7 @@ const AllActivity: FC<AllActivityProps> = ({ programId }) => {
   const account = useAccount();
   const scrollParentRef = useRef<HTMLDivElement>(null);
   const { fullPage } = useAppEnv();
-  const height = fullPage ? '41rem' : '527px';
+  const height = fullPage ? '491px' : '459px';
 
   return (
     <PageLayout
@@ -26,10 +26,11 @@ const AllActivity: FC<AllActivityProps> = ({ programId }) => {
           <T id="activity" />
         </>
       }
+      hasBackAction={false}
     >
       <div className="px-4">
         <div
-          className={classNames('-mx-4 pb-4', 'shadow-top-light bg-white overflow-y-scroll rounded-lg')}
+          className={classNames('-mx-4 pb-4', 'shadow-top-light bg-white overflow-y-scroll z-30 relative')}
           style={{ height }}
           ref={scrollParentRef}
         >

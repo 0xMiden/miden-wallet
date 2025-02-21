@@ -230,11 +230,11 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
         </div> */}
         {/* <SecondarySection assetSlug={assetSlug} assetId={assetId} /> */}
       </div>
-      {/* {!assetId && (
+      {!assetId && (
         <div className="flex-none">
           <Footer />
         </div>
-      )} */}
+      )}
     </div>
   );
 };

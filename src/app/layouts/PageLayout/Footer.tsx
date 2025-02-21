@@ -19,7 +19,7 @@ const Footer: FC = () => {
   };
 
   return (
-    <footer className="w-full relative bg-white border-t rounded-b-lg h-18 px-8 md:px-16 py-3">
+    <footer className="w-full relative bg-white border-t rounded-b-3xl h-18 px-8 md:px-16 py-3 md:py-4">
       <div className="flex justify-between">
         <FooterIconWrapper icon={IconName.Home} iconFill={IconName.HomeFill} linkTo={'/'} onClick={onHomeClick} />
         <FooterIconWrapper

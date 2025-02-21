@@ -1,8 +1,8 @@
 import { submitTransactionRequest } from 'lib/miden-worker/submitTransactionRequest';
-import { transactionRequests } from 'lib/miden/repo';
+import * as Repo from 'lib/miden/repo';
 import { logger } from 'shared/logger';
 
-import { ITransactionRequest, ITransactionRequestStatus, TransactionRequest } from '../db/types';
+import { Transaction, ITransactionStatus, ITransaction } from '../db/types';
 
 export const MAX_WAIT_BEFORE_CANCEL = 30 * 60_000; // 30 minutes
 
@@ -10,8 +10,8 @@ export const requestCustomTransaction = async (accountId: string, transactionReq
   console.log('storing custom transaction', transactionRequestBytes);
   const byteArray = new Uint8Array(Buffer.from(transactionRequestBytes, 'base64'));
   console.log(byteArray);
-  const transactionRequest = new TransactionRequest('0x6f2c28f3a32575200000457d2cfec3', byteArray);
-  await transactionRequests.add(transactionRequest);
+  const transaction = new Transaction('execute', accountId, byteArray);
+  await Repo.transactions.add(transaction);
 };
 
 export const requestMintTransaction = async (
@@ -33,52 +33,80 @@ export const requestSendTransaction = async (
 };
 
 /**
- * Update the status of the transaction request
- * @param id The id of the transaction request to update
- * @throws if the transaction request has been cancelled
+ * Update the status of the transaction
+ * @param id The id of the transaction to update
+ * @throws if the transaction has been cancelled
  */
-const updateTransactionStatus = async <K extends keyof ITransactionRequest>(
+export const updateTransactionStatus = async <K extends keyof ITransaction>(
   id: string,
-  status: ITransactionRequestStatus,
-  otherValues: Pick<ITransactionRequest, K>
+  status: ITransactionStatus,
+  otherValues: Pick<ITransaction, K>
 ) => {
-  const tx = await transactionRequests.where({ id }).first();
-  if (!tx) throw new Error('No transaction request found to update');
-  if (tx.status === ITransactionRequestStatus.Failed || tx.status === ITransactionRequestStatus.Completed) {
-    throw new Error('Transaction request already in a finalized state');
+  const tx = await Repo.transactions.where({ id }).first();
+  if (!tx) throw new Error('No transaction found to update');
+  if (tx.status === ITransactionStatus.Failed || tx.status === ITransactionStatus.Completed) {
+    throw new Error('Transaction already in a finalized state');
   }
 
-  await transactionRequests.where({ id: id }).modify(t => {
+  await Repo.transactions.where({ id: id }).modify(t => {
     Object.assign(t, otherValues);
     t.status = status;
   });
 };
 
 export const hasQueuedTransactions = async () => {
-  const transactions = await transactionRequests
-    .filter(rec => rec.status === ITransactionRequestStatus.Queued)
-    .toArray();
-  return transactions.length > 0;
+  const tx = await Repo.transactions.filter(rec => rec.status === ITransactionStatus.Queued).toArray();
+  return tx.length > 0;
 };
 
-export const getTransactionsInProgress = async (): Promise<TransactionRequest[]> => {
-  const transactions = await transactionRequests
-    .filter(rec => rec.status === ITransactionRequestStatus.GeneratingTransaction)
-    .toArray();
-  transactions.sort((tx1, tx2) => tx1.initiatedAt - tx2.initiatedAt);
-  return transactions;
+export const getUncompletedTransactions = async (address: string) => {
+  const statuses = [ITransactionStatus.Queued, ITransactionStatus.GeneratingTransaction];
+  return await getTransactionsInStatuses(statuses, address);
+};
+
+const getTransactionsInStatuses = async (statuses: ITransactionStatus[], accountId: string) => {
+  let txs = await Repo.transactions.filter(rec => statuses.includes(rec.status)).toArray();
+  txs.sort((tx1, tx2) => tx1.initiatedAt - tx2.initiatedAt);
+  txs = txs.filter(tx => tx.accountId === accountId);
+
+  return txs;
+};
+
+export const getTransactionsInProgress = async (): Promise<Transaction[]> => {
+  const txs = await Repo.transactions.filter(rec => rec.status === ITransactionStatus.GeneratingTransaction).toArray();
+  txs.sort((tx1, tx2) => tx1.initiatedAt - tx2.initiatedAt);
+  return txs;
 };
 
 export const getAllUncompletedTransactions = async () => {
-  const transactions = await transactionRequests
-    .filter(
-      rec =>
-        rec.status === ITransactionRequestStatus.GeneratingTransaction ||
-        rec.status === ITransactionRequestStatus.Queued
-    )
+  const txs = await Repo.transactions
+    .filter(rec => rec.status === ITransactionStatus.GeneratingTransaction || rec.status === ITransactionStatus.Queued)
     .toArray();
+  txs.sort((tx1, tx2) => tx1.initiatedAt - tx2.initiatedAt);
+  return txs;
+};
+
+export const getFailedTransactions = async () => {
+  const transactions = await Repo.transactions.filter(tx => tx.status === ITransactionStatus.Failed).toArray();
   transactions.sort((tx1, tx2) => tx1.initiatedAt - tx2.initiatedAt);
   return transactions;
+};
+
+export const getCompletedTransactions = async (
+  accountId: string,
+  offset?: number,
+  limit?: number,
+  includeFailed: boolean = false
+) => {
+  let transactions = await Repo.transactions.filter(tx => tx.status === ITransactionStatus.Completed).toArray();
+  if (includeFailed) {
+    const failedTransactions = await getFailedTransactions();
+    transactions = transactions.concat(failedTransactions);
+  }
+  transactions.sort((tx1, tx2) => (tx1.completedAt || tx1.initiatedAt) - (tx2.completedAt || tx2.initiatedAt));
+  transactions = transactions.filter(tx => tx.accountId === accountId);
+
+  return transactions.slice(offset, limit);
 };
 
 /**
@@ -97,27 +125,34 @@ export const cancelStuckTransactions = async () => {
 
 export type SubmitTransaction = (accPublicKey: string, transactionRequestBytes: Uint8Array) => Promise<void>;
 
-export const generateTransaction = async (transactionRequest: TransactionRequest) => {
+export const generateTransaction = async (transaction: Transaction) => {
   // Mark transaction as in progress
-  await updateTransactionStatus(transactionRequest.id, ITransactionRequestStatus.GeneratingTransaction, {
+  await updateTransactionStatus(transaction.id, ITransactionStatus.GeneratingTransaction, {
     processingStartedAt: Date.now()
   });
 
   // Process transaction
-  await submitTransactionRequest(transactionRequest.accountId, new Uint8Array(transactionRequest.requestBytes));
+  const result = await submitTransactionRequest(transaction.accountId, new Uint8Array(transaction.requestBytes!));
+  console.log('Transaction result', result);
 
   // Mark transaction as completed
-  await updateTransactionStatus(transactionRequest.id, ITransactionRequestStatus.Completed, {
-    completedAt: Date.now() / 1000 // Convert to seconds
+  await updateTransactionStatus(transaction.id, ITransactionStatus.Completed, {
+    completedAt: Date.now() / 1000 // Convert to seconds.
+    //resultBytes: result.serialize()
   });
 };
 
-export const cancelTransaction = async (transactionRequest: TransactionRequest) => {
+export const cancelTransaction = async (transaction: Transaction) => {
   // Cancel the transaction
-  await transactionRequests.where({ id: transactionRequest.id }).modify(dbTx => {
+  await Repo.transactions.where({ id: transaction.id }).modify(dbTx => {
     dbTx.completedAt = Date.now() / 1000; // Convert to seconds
-    dbTx.status = ITransactionRequestStatus.Failed;
+    dbTx.status = ITransactionStatus.Failed;
   });
+};
+
+export const cancelTransactionById = async (id: string) => {
+  const tx = await Repo.transactions.where({ id }).first();
+  if (tx) await cancelTransaction(tx);
 };
 
 export const generateTransactionsLoop = async () => {
@@ -130,9 +165,7 @@ export const generateTransactionsLoop = async () => {
   }
 
   // Find transactions waiting to process
-  const queuedTransactions = await transactionRequests
-    .filter(rec => rec.status === ITransactionRequestStatus.Queued)
-    .toArray();
+  const queuedTransactions = await Repo.transactions.filter(rec => rec.status === ITransactionStatus.Queued).toArray();
   queuedTransactions.sort((tx1, tx2) => tx1.initiatedAt - tx2.initiatedAt);
   if (queuedTransactions.length === 0) {
     return;
@@ -148,8 +181,8 @@ export const generateTransactionsLoop = async () => {
     logger.warning('Failed to generate transaction', e);
     console.log(e);
     // Cancel the transaction if it hasn't already been cancelled
-    const tx = await transactionRequests.where({ id: nextTransaction.id }).first();
-    if (tx && tx.status !== ITransactionRequestStatus.Failed) await cancelTransaction(tx);
+    const tx = await Repo.transactions.where({ id: nextTransaction.id }).first();
+    if (tx && tx.status !== ITransactionStatus.Failed) await cancelTransaction(tx);
   }
 };
 

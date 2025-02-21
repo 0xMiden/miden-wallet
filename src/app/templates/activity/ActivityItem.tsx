@@ -77,22 +77,11 @@ const transactionIconGrabber = (transactionIcon: ITransactionRequestIcon, iconFi
           fill={iconFillAndStroke}
         />
       );
-    case 'DEPLOY':
-      return <RocketIcon height={'24px'} width={'24px'} style={{ paddingLeft: '3px' }} stroke={iconFillAndStroke} />;
     case 'REJECTED':
       return <WarningIcon height={'24px'} width={'24px'} />;
     case 'MINT':
       return <MintIcon height={'24px'} width={'24px'} />;
-    case 'CONVERT_PRIVATE':
-      return <ConvertPrivate height={'24px'} width={'24px'} />;
-    case 'CONVERT_PUBLIC':
-      return <ConvertPublic height={'24px'} width={'24px'} />;
-    case 'CONVERT_PRIVATE_TOKEN':
-      return <LockIcon height={'24px'} width={'24px'} />;
-    case 'CONVERT_PUBLIC_TOKEN':
-      return <GlobalIcon height={'24px'} width={'24px'} />;
-    case 'STAKE':
-      return <StakeIcon height={'24px'} width={'24px'} fill={iconFillAndStroke} />;
+    case 'SWAP':
     case 'DEFAULT':
       return <CodeIcon height={'24px'} width={'24px'} fill={iconFillAndStroke} stroke={iconFillAndStroke} />;
   }

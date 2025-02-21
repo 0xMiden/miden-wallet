@@ -189,7 +189,7 @@ const Toolbar: FC<ToolbarProps> = ({
         {pageTitle && (
           <div
             className={classNames('flex items-center', 'text-black', 'text-right font-semibold leading-none')}
-            style={{ fontSize: '18px', lineHeight: '24px' }}
+            style={{ fontSize: '18px', lineHeight: '44px' }}
           >
             {pageTitle}
           </div>
