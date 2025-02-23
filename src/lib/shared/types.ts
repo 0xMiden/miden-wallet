@@ -22,6 +22,8 @@ export enum WalletMessageType {
   GetStateResponse = 'GET_STATE_RESPONSE',
   NewWalletRequest = 'NEW_WALLET_REQUEST',
   NewWalletResponse = 'NEW_WALLET_RESPONSE',
+  ImportFromClientRequest = 'IMPORT_FROM_CLIENT_REQUEST',
+  ImportFromClientResponse = 'IMPORT_FROM_CLIENT_RESPONSE',
   UnlockRequest = 'UNLOCK_REQUEST',
   UnlockResponse = 'UNLOCK_RESPONSE',
   LockRequest = 'LOCK_REQUEST',
@@ -488,6 +490,16 @@ export interface GetOwnedRecordsResponse extends WalletMessageBase {
   type: WalletMessageType.GetOwnedRecordsResponse;
 }
 
+export interface ImportFromClientRequest extends WalletMessageBase {
+  type: WalletMessageType.ImportFromClientRequest;
+  password: string;
+  mnemonic: string;
+}
+
+export interface ImportFromClientResponse extends WalletMessageBase {
+  type: WalletMessageType.ImportFromClientResponse;
+}
+
 export enum WalletStatus {
   Idle,
   Locked,
@@ -530,7 +542,8 @@ export type WalletRequest =
   | SendPageEventRequest
   | SendPerformanceEventRequest
   | DecryptCiphertextsRequest
-  | GetOwnedRecordsRequest;
+  | GetOwnedRecordsRequest
+  | ImportFromClientRequest;
 
 export type WalletResponse =
   | MidenResponse
@@ -569,4 +582,5 @@ export type WalletResponse =
   | SendPageEventResponse
   | SendPerformanceEventResponse
   | DecryptCiphertextsResponse
-  | GetOwnedRecordsResponse;
+  | GetOwnedRecordsResponse
+  | ImportFromClientResponse;

@@ -135,6 +135,15 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     []
   );
 
+  const importWalletFromClient = useCallback(async (password: string, mnemonic: string) => {
+    const res = await request({
+      type: WalletMessageType.ImportFromClientRequest,
+      password,
+      mnemonic
+    });
+    assertResponse(res.type === WalletMessageType.ImportFromClientResponse);
+  }, []);
+
   const unlock = useCallback(async (password: string) => {
     const res = await request({
       type: WalletMessageType.UnlockRequest,
@@ -290,7 +299,8 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     getAllDAppSessions,
     removeDAppSession,
     decryptCiphertexts,
-    getOwnedRecords
+    getOwnedRecords,
+    importWalletFromClient
   };
 });
 

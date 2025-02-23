@@ -1,5 +1,6 @@
 import { useMidenClient } from 'app/hooks/useMidenClient';
 import { useMidenContext } from 'lib/miden/front';
+import { decryptJson, deriveKey, encrypt, encryptJson, generateKey, generateSalt } from 'lib/miden/passworder';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import React, { FC, useEffect, useState } from 'react';
 import { EncryptedWalletFile } from 'screens/shared';
@@ -14,25 +15,42 @@ export interface ExportFileCompleteProps {
 const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({ filePassword, fileName, walletPassword }) => {
   const { midenClient, midenClientLoading } = useMidenClient();
   const { revealMnemonic } = useMidenContext();
-  const [dump, setDump] = useState('');
 
-  const getDbDump = async () => {
+  const getExportFile = async () => {
     console.log('dumping...');
     const dbDump = await midenClient?.exportDb();
 
-    // TODO: need to get the wallet password from the previous steps
-    // const seedPhrase = await revealMnemonic(walletPassword);
-    const seedPhrase = 'foo bar baz';
+    const seedPhrase = await revealMnemonic(walletPassword);
 
     const walletFile: EncryptedWalletFile = {
       seedPhrase,
       dbContent: dbDump
     };
 
-    console.log({ walletFile });
+    console.log({ filePassword, walletPassword });
+
+    const salt = generateSalt();
+    const passKey = await generateKey(filePassword);
+    const derivedKey = await deriveKey(passKey, salt);
+
+    const encryptedFile = await encryptJson(walletFile, derivedKey);
 
     const encoder = new TextEncoder();
-    const fileBytes = encoder.encode(JSON.stringify(walletFile));
+    const fileBytes = encoder.encode(
+      JSON.stringify({
+        dt: encryptedFile.dt,
+        iv: encryptedFile.iv,
+        salt
+      })
+    );
+
+    console.log('testing something rq');
+
+    const decrypted = await decryptJson(encryptedFile, derivedKey);
+
+    const dataIntegrity = JSON.stringify(walletFile) === JSON.stringify(decrypted);
+
+    console.log('Data Integrity Check:', dataIntegrity ? 'PASS ✅' : 'FAIL ❌');
 
     const blob = new Blob([fileBytes], { type: 'application/json' });
 
@@ -62,8 +80,9 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({ filePassword, f
   useEffect(() => {
     if (midenClientLoading) return;
 
-    getDbDump();
+    getExportFile();
   }, [midenClientLoading]);
+
   return <div>Creating file...</div>;
 };
 

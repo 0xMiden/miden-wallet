@@ -170,9 +170,6 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
 
     const onConfirmSubmit = () => onForwardAction?.({ id: 'confirmation' });
 
-    // const onImportWalletFileSubmit = (walletFileBytes: Uint8Array) =>
-    //   onForwardAction?.({ id: 'import-wallet-file-submit', payload: walletFileBytes });
-
     const onImportSeedPhraseSubmit = (seedPhrase: string) =>
       onForwardAction?.({ id: 'import-seed-phrase-submit', payload: seedPhrase });
 

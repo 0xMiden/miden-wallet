@@ -34,7 +34,6 @@ const ExportFilePassword: React.FC<ExportFilePasswordProps> = ({
   });
 
   const onSubmit = () => {
-    console.log('i wanna die');
     onGoNext();
   };
 

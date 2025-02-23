@@ -108,6 +108,42 @@ export class Vault {
     });
   }
 
+  static async spawnFromMidenClient(password: string, mnemonic: string) {
+    return withError('Failed to spawn from miden client', async () => {
+      const midenClient = await MidenClientInterface.create();
+      const accountHeaders = await midenClient.getAccounts();
+      const accounts = await Promise.all(
+        accountHeaders.map(accountHeader => midenClient.getAccount(accountHeader.id().to_string()))
+      );
+
+      const newAccounts = [];
+      for (let i = 0; i < accounts.length; i++) {
+        const acc = accounts[i];
+        if (acc) {
+          newAccounts.push({
+            publicKey: acc.id().to_string(),
+            name: 'Miden Account ' + (i + 1),
+            isPublic: acc.is_public(),
+            type: WalletType.OnChain
+          });
+        }
+      }
+      const passKey = await Passworder.generateKey(password);
+
+      await clearStorage();
+      await encryptAndSaveMany(
+        [
+          [checkStrgKey, generateCheck()],
+          [mnemonicStrgKey, mnemonic ?? ''],
+          [accountsStrgKey, newAccounts]
+        ],
+        passKey
+      );
+      await savePlain(currentAccPubKeyStrgKey, newAccounts[0].publicKey);
+      await savePlain(ownMnemonicStrgKey, true);
+    });
+  }
+
   static async getCurrentAccountPublicKey() {
     return await getPlain<string>(currentAccPubKeyStrgKey);
   }

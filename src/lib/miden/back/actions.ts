@@ -58,6 +58,13 @@ export function registerNewWallet(walletType: WalletType, password: string, mnem
   });
 }
 
+export function registerImportedWallet(password: string, mnemonic: string) {
+  return withInited(async () => {
+    await Vault.spawnFromMidenClient(password, mnemonic);
+    await unlock(password);
+  });
+}
+
 export function lock() {
   return withInited(async () => {
     locked();

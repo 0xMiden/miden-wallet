@@ -19,20 +19,27 @@ const Welcome: FC = () => {
   const [importedWithFile, setImportedWithFile] = useState(false);
   const [walletType] = useState<WalletType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { registerWallet } = useMidenContext();
+  const { registerWallet, importWalletFromClient } = useMidenContext();
   const { trackEvent } = useAnalytics();
 
   const register = useCallback(async () => {
     if (password && seedPhrase) {
-      // If the user imported a wallet file, we don't want to register another wallet
+      const seedPhraseFormatted = formatMnemonic(seedPhrase.join(' '));
       if (!importedWithFile) {
         try {
           await registerWallet(
             WalletType.OnChain,
             password,
-            formatMnemonic(seedPhrase.join(' ')),
+            seedPhraseFormatted,
             onboardingType === OnboardingType.Import // might be able to leverage ownMnemonic to determine whther to attempt imports in general
           );
+        } catch (e) {
+          console.error(e);
+        }
+      } else {
+        try {
+          console.log('importing wallet from client');
+          await importWalletFromClient(password, seedPhraseFormatted);
         } catch (e) {
           console.error(e);
         }
@@ -56,9 +63,10 @@ const Welcome: FC = () => {
       case 'import-from-file':
         navigate('/#import-from-file');
         break;
-      // TODO: Make sure that the payload is sent from the upstream page correctly
       case 'import-wallet-file-submit':
-        setSeedPhrase(action.payload.split(' '));
+        const seedPhrase = action.payload.split(' ');
+        console.log({ seedPhrase });
+        setSeedPhrase(seedPhrase);
         setImportedWithFile(true);
         navigate('/#create-password');
         break;

@@ -8,6 +8,23 @@ import { Button } from 'components/Button';
 import { ONE_MB_IN_BYTES } from 'utils/crypto';
 import { EncryptedWalletFile } from 'screens/shared';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
+import { decrypt, decryptJson, deriveKey, generateKey } from 'lib/miden/passworder';
+import FormField, { PASSWORD_ERROR_CAPTION } from 'app/atoms/FormField';
+import {
+  lettersNumbersMixtureRegx,
+  PASSWORD_PATTERN,
+  specialCharacterRegx,
+  uppercaseLowercaseMixtureRegx
+} from 'app/defaults';
+import { useForm } from 'react-hook-form';
+import PasswordStrengthIndicator, { PasswordValidation } from 'lib/ui/PasswordStrengthIndicator';
+import { MIN_PASSWORD_LENGTH } from 'app/pages/NewWallet/SetWalletPassword';
+import FormSubmitButton from 'app/atoms/FormSubmitButton';
+import { T } from 'lib/i18n/react';
+
+interface FormData {
+  password?: string;
+}
 
 export interface ImportWalletFileScreenProps {
   className?: string;
@@ -24,18 +41,55 @@ const midenClient = await MidenClientInterface.create();
 export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ className, onSubmit }) => {
   const { t } = useTranslation();
   const walletFileRef = useRef<HTMLInputElement>(null);
-  const [walletFile, setWalletFile] = useState<WalletFile | null>(null);
+  const [walletFile, setWalletFile] = useState<any | null>(null);
+
+  const [passwordValidation, setPasswordValidation] = useState<PasswordValidation>({
+    minChar: false,
+    cases: false,
+    number: false,
+    specialChar: false
+  });
+
+  const { control, watch, register, handleSubmit, errors, triggerValidation, formState } = useForm<FormData>({
+    mode: 'onChange'
+  });
+
+  const filePassword = watch('password') ?? '';
 
   const handleClear = () => {
     setWalletFile(null);
   };
 
-  const handleSubmit = async () => {
+  const handleImportSubmit = async () => {
     if (walletFile !== null && onSubmit) {
-      onSubmit('TODO: seed phrase');
-      await midenClient.importDb(walletFile.dbContent);
-      console.log('WE DID IT ');
+      const passKey = await generateKey(filePassword);
+      const saltByteArray = Object.values(walletFile.salt) as number[];
+      const saltU8 = new Uint8Array(saltByteArray);
+
+      const derivedKey = await deriveKey(passKey, saltU8);
+
+      const decryptedWallet = await decryptJson({ dt: walletFile.dt, iv: walletFile.iv }, derivedKey);
+      const dbContent = decryptedWallet.dbContent;
+      const seedPhrase = decryptedWallet.seedPhrase;
+
+      console.log({ seedPhrase });
+
+      console.log({ dbContent });
+
+      await midenClient.importDb(dbContent);
+
+      onSubmit(seedPhrase);
     }
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+    const tempValue = e.target.value;
+    setPasswordValidation({
+      minChar: tempValue.length >= MIN_PASSWORD_LENGTH,
+      cases: uppercaseLowercaseMixtureRegx.test(tempValue),
+      number: lettersNumbersMixtureRegx.test(tempValue),
+      specialChar: specialCharacterRegx.test(tempValue)
+    });
   };
 
   const onUploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +108,10 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
 
       reader.onload = () => {
         try {
-          const jsonContent = JSON.parse(reader.result as string) as EncryptedWalletFile;
+          const decoder = new TextDecoder();
+          const decodedContent = decoder.decode(reader.result as ArrayBuffer);
+          const jsonContent = JSON.parse(decodedContent);
+
           setWalletFile({ ...jsonContent, name: file.name });
         } catch (e) {
           console.error(e);
@@ -66,7 +123,7 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
         alert('Error with file reader');
       };
 
-      reader.readAsText(file);
+      reader.readAsArrayBuffer(file);
     } else {
       alert('Select 1 file');
       return;
@@ -92,17 +149,18 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
   };
 
   return (
-    <div
+    <form
       className={classNames(
         'flex-1 h-full',
         'flex flex-col justify-content items-center gap-y-2',
         'bg-white p-6',
         className
       )}
+      onSubmit={handleSubmit(handleImportSubmit)}
     >
       <h1 className="text-2xl font-semibold">{t('importWallet')}</h1>
       <p className="text-sm">{t('uploadYourEncryptedWalletFile')}</p>
-
+      {/* TODO: Need to add the password field here plus state handling */}
       {walletFile == null ? (
         <div
           className={classNames(
@@ -131,7 +189,33 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
         </div>
       )}
 
-      <Button title={t('continue')} onClick={handleSubmit} disabled={walletFile == null} className="w-[360px]" />
-    </div>
+      <div className="flex mt-8 mb-4">
+        <FormField
+          ref={register({
+            required: PASSWORD_ERROR_CAPTION
+            // pattern: {
+            //   value: PASSWORD_PATTERN,
+            //   message: PASSWORD_ERROR_CAPTION
+            // }
+          })}
+          label={t('password')}
+          id="newwallet-password"
+          type="password"
+          name="password"
+          placeholder="********"
+          errorCaption={errors.password?.message}
+          onChange={handlePasswordChange}
+          containerClassName="mb-4"
+        />
+      </div>
+
+      <FormSubmitButton
+        loading={formState.isSubmitting}
+        className="w-full text-base pt-4 mx-auto"
+        style={{ display: 'block', fontWeight: 500, padding: '12px 0px' }}
+      >
+        <T id={'import'} />
+      </FormSubmitButton>
+    </form>
   );
 };
