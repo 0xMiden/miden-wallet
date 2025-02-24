@@ -7,26 +7,23 @@ import Name from 'app/atoms/Name';
 import { openInFullPage, useAppEnv } from 'app/env';
 import { ReactComponent as Checkmark } from 'app/icons/checkmark-alt.svg';
 import { ReactComponent as MaximiseIcon } from 'app/icons/maximise.svg';
-import { Icon, IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
 import MenuItem from 'app/templates/MenuItem';
 import { Button, ButtonVariant } from 'components/Button';
-import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
 import { T } from 'lib/i18n/react';
 import { useAccount, useMidenContext, useAllAccounts } from 'lib/miden/front';
-import { Link, navigate } from 'lib/woozie';
+import { navigate } from 'lib/woozie';
 
 import { SelectAccountSelectors } from './SelectAccount.selectors';
 
 type ExcludesFalse = <T>(x: T | false) => x is T;
 
 const SelectAccount: FC = () => {
-  const appEnv = useAppEnv(); // Keep
-  const { updateCurrentAccount } = useMidenContext(); // Implement
+  const appEnv = useAppEnv();
+  const { updateCurrentAccount } = useMidenContext();
   const allAccounts = useAllAccounts();
-  const account = useAccount(); // Keep
+  const account = useAccount();
 
-  // Keep
   const handleMaximiseViewClick = useCallback(() => {
     openInFullPage();
     if (appEnv.popup) {
@@ -34,13 +31,10 @@ const SelectAccount: FC = () => {
     }
   }, [appEnv.popup]);
 
-  // Implement
   const onAddAccountClick = () => {
-    console.log('Add Account');
     navigate('/create-account');
   };
 
-  // Keep
   const actions = useMemo(() => {
     const items = [
       {

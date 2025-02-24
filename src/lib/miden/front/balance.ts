@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import BigNumber from 'bignumber.js';
 
-import { ALEO_METADATA, AssetMetadata, useAssetMetadata } from 'lib/miden/front';
+import { AssetMetadata } from 'lib/miden/front';
 import { useRetryableSWR } from 'lib/swr';
 
 import { accountIdStringToSdk, MidenClientInterface } from '../sdk/miden-client-interface';
@@ -18,7 +18,6 @@ type UseBalanceOptions = {
 const midenClient = await MidenClientInterface.create();
 
 export function useBalance(accountId: string, faucetId: string, opts: UseBalanceOptions = {}) {
-  console.log('useBalance', accountId, faucetId);
   const fetchBalanceLocal = useCallback(async () => {
     const account = await midenClient.getAccount(accountId);
     const balance = account.vault().get_balance(accountIdStringToSdk(faucetId));

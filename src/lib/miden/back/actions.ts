@@ -79,7 +79,6 @@ export function unlock(password: string) {
 }
 
 export function updateCurrentAccount(accPublicKey: string) {
-  console.log('Updating current account');
   return withUnlocked(async ({ vault }) => {
     const currentAccount = await vault.setCurrentAccount(accPublicKey);
     currentAccountUpdated(currentAccount);
@@ -102,11 +101,8 @@ export function createHDAccount(walletType: WalletType, name?: string) {
       }
     }
 
-    console.log('Creating account in vault');
     const accounts = await vault.createHDAccount(walletType, name);
-    console.log('Account created in vault');
     accountsUpdated({ accounts });
-    console.log('Account updated');
   });
 }
 

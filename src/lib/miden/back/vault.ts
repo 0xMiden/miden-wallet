@@ -80,7 +80,7 @@ export class Vault {
       const initialAccount: WalletAccount = {
         publicKey: accPublicKey,
         privateKey: accPrivateKey,
-        name: 'Public Account 1',
+        name: 'Pub Account 1',
         isPublic: true,
         hdIndex: hdAccIndex
       };
@@ -110,30 +110,16 @@ export class Vault {
     return DEFAULT_SETTINGS;
   }
 
-  async createHDAccount(
-    walletType: WalletType,
-    name?: string,
-    hdAccIndex?: number,
-    chainId?: string
-  ): Promise<WalletAccount[]> {
+  async createHDAccount(walletType: WalletType, name?: string, hdAccIndex?: number): Promise<WalletAccount[]> {
     return withError('Failed to create account', async () => {
-      console.log('createHDAccount');
-      console.log('walletType', walletType);
-      console.log('name', name);
-      console.log('hdAccIndex', hdAccIndex);
-      console.log('chainId', chainId);
       const [mnemonic, allAccounts] = await Promise.all([
         fetchAndDecryptOneWithLegacyFallBack<string>(mnemonicStrgKey, this.passKey),
         this.fetchAccounts()
       ]);
 
-      console.log('mnemonic', mnemonic);
-      console.log('allAccounts', allAccounts);
-
       const seed = Bip39.mnemonicToSeedSync(mnemonic);
 
       if (!hdAccIndex) {
-        console.log('hdAccIndex not provided');
         let accounts;
         if (walletType === WalletType.OnChain) {
           accounts = allAccounts.filter(acc => acc.isPublic);
@@ -144,15 +130,12 @@ export class Vault {
       }
 
       // TODO: Generate account with seed
-      console.log('attempting to spawn wallet');
-
       const accPublicKey = await midenClient.createMidenWallet(walletType);
       const accPrivateKey = 'TODO';
 
       const accName = name || getNewAccountName(allAccounts);
 
       if (allAccounts.some(a => a.publicKey === accPublicKey)) {
-        console.log('Account already exists... recursing');
         return this.createHDAccount(walletType, accName, hdAccIndex + 1);
       }
 
@@ -164,7 +147,6 @@ export class Vault {
         hdIndex: hdAccIndex
       };
       const newAllAcounts = concatAccount(allAccounts, newAccount);
-      console.log('newAllAcounts', newAllAcounts);
 
       await encryptAndSaveMany(
         [

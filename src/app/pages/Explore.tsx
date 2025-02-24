@@ -71,7 +71,6 @@ const activityTippyPropsMock = {
 
 const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
   const account = useAccount();
-  console.log('Explore', account);
   const faucetId = getFaucetIdSetting();
   const { data: claimableNotes } = useClaimableNotes(account.publicKey);
   const { data: balance } = useBalance(account.publicKey, faucetId);

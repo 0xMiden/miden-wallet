@@ -8,8 +8,6 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { ACCOUNT_NAME_PATTERN } from 'app/defaults';
 import { ReactComponent as ArrowRightIcon } from 'app/icons/arrow-right.svg';
 import PageLayout from 'app/layouts/PageLayout';
-import { Alert, AlertVariant } from 'components/Alert';
-import { useFormAnalytics } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { useMidenContext, useAllAccounts } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
@@ -41,7 +39,6 @@ const CreateAccount: FC = () => {
   const allAccounts = useAllAccounts();
 
   const computedDefaultName = useMemo(() => {
-    // Count the number of existing accounts for the selected wallet type.
     if (selectedWalletType === WalletType.OnChain) {
       return `Pub Account ${allAccounts.filter(acc => acc.isPublic).length + 1}`;
     } else {
@@ -51,15 +48,9 @@ const CreateAccount: FC = () => {
 
   const prevAccLengthRef = useRef(allAccounts.length);
   useEffect(() => {
-    console.log('useEffect called');
     async function updateAccount() {
-      console.log('updateAccount called');
       const accLength = allAccounts.length;
-      console.log('Account length:', accLength);
-      console.log('Previous account length:', prevAccLengthRef.current);
       if (prevAccLengthRef.current < accLength) {
-        console.log('Account created');
-        console.log('Calling updateCurrentAccount from useEffect');
         await updateCurrentAccount(allAccounts[accLength - 1].publicKey);
         navigate('/');
       }
@@ -77,21 +68,17 @@ const CreateAccount: FC = () => {
   }, [computedDefaultName, setValue]);
 
   const handleWalletTypeSelect = (type: WalletType) => {
-    console.log('Current selected wallet type:', selectedWalletType);
-    console.log('New selected wallet type:', type);
     setSelectedWalletType(type);
   };
 
   const submitting = formState.isSubmitting;
   const onSubmit = useCallback<OnSubmit<FormData>>(
     async ({ name, walletType }) => {
-      console.log('Creating account:', name, walletType);
       if (submitting) return;
 
       clearError('name');
 
       try {
-        console.log('Calling createAccount with wallet type', selectedWalletType);
         await createAccount(selectedWalletType, name);
       } catch (err: any) {
         console.error(err);
@@ -141,7 +128,6 @@ const CreateAccount: FC = () => {
             <div className="font-medium mb-4" style={{ fontSize: '14px', lineHeight: '20px' }}>
               Choose Your Account Type
             </div>
-            {/* <h4 className="font-semibold text-lg mb-4">Choose Your Account Type</h4> */}
             {WalletTypeOptions.map((option, idx) => (
               <div
                 key={option.id}
