@@ -7,26 +7,26 @@ import Name from 'app/atoms/Name';
 import { openInFullPage, useAppEnv } from 'app/env';
 import { ReactComponent as Checkmark } from 'app/icons/checkmark-alt.svg';
 import { ReactComponent as MaximiseIcon } from 'app/icons/maximise.svg';
+import { Icon, IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
 import MenuItem from 'app/templates/MenuItem';
 import { Button, ButtonVariant } from 'components/Button';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
 import { T } from 'lib/i18n/react';
-import { useAccount, useMidenContext } from 'lib/miden/front';
-import { navigate } from 'lib/woozie';
+import { useAccount, useMidenContext, useAllAccounts } from 'lib/miden/front';
+import { Link, navigate } from 'lib/woozie';
 
 import { SelectAccountSelectors } from './SelectAccount.selectors';
-import { Icon, IconName } from 'app/icons/v2';
 
 type ExcludesFalse = <T>(x: T | false) => x is T;
 
 const SelectAccount: FC = () => {
-  const appEnv = useAppEnv();
-  const { updateCurrentAccount } = useMidenContext();
-  const account = useAccount();
-  const { trackEvent } = useAnalytics();
-  const accounts = [account];
+  const appEnv = useAppEnv(); // Keep
+  const { updateCurrentAccount } = useMidenContext(); // Implement
+  const allAccounts = useAllAccounts();
+  const account = useAccount(); // Keep
 
+  // Keep
   const handleMaximiseViewClick = useCallback(() => {
     openInFullPage();
     if (appEnv.popup) {
@@ -34,8 +34,13 @@ const SelectAccount: FC = () => {
     }
   }, [appEnv.popup]);
 
-  const onAddAccountClick = () => {};
+  // Implement
+  const onAddAccountClick = () => {
+    console.log('Add Account');
+    navigate('/create-account');
+  };
 
+  // Keep
   const actions = useMemo(() => {
     const items = [
       {
@@ -67,60 +72,57 @@ const SelectAccount: FC = () => {
         </>
       }
     >
-      <div className="flex flex-1 justify-between w-full px-2 md:px-6">
+      <div className="flex flex-1 justify-between w-full px-2 md:px-6 overflow-y-auto" style={{ maxHeight: '29rem' }}>
         <div className={classNames('my-2', 'w-full')}>
-          <div className={classNames('overflow-y-auto')} style={{ maxHeight: '12.5rem' }}>
-            <div className="flex flex-col">
-              {accounts.map(acc => {
-                const selected = acc.publicKey === account.publicKey;
-                const handleAccountClick = async () => {
-                  if (!selected) {
-                    trackEvent(SelectAccountSelectors.SelectAccountButton, AnalyticsEventCategory.ButtonPress);
-                    await updateCurrentAccount(acc.publicKey);
-                    navigate('/');
-                  }
-                };
+          <div className="flex flex-col">
+            {allAccounts.map(acc => {
+              const selected = acc.publicKey === account.publicKey;
+              const handleAccountClick = async () => {
+                if (!selected) {
+                  await updateCurrentAccount(acc.publicKey);
+                  navigate('/');
+                }
+              };
 
-                return (
-                  <div
-                    key={acc.publicKey}
-                    className={classNames(
-                      'flex w-full rounded-lg',
-                      'overflow-hidden py-3 px-4',
-                      'flex items-center',
-                      'text-black text-shadow-black',
-                      'transition ease-in-out duration-200',
-                      'cursor-pointer',
-                      'mb-1',
-                      'hover:bg-gray-800 active:bg-gray-700'
-                    )}
-                    style={{ height: '64px' }}
-                    onClick={handleAccountClick}
-                  >
-                    <ColorIdenticon publicKey={acc.publicKey} size={20} className="flex-shrink-0 shadow-xs-white" />
+              return (
+                <div
+                  key={acc.publicKey}
+                  className={classNames(
+                    'flex w-full rounded-lg',
+                    'overflow-hidden py-3 px-4',
+                    'flex items-center',
+                    'text-black text-shadow-black',
+                    'transition ease-in-out duration-200',
+                    'cursor-pointer',
+                    'mb-1',
+                    'hover:bg-gray-800 active:bg-gray-700'
+                  )}
+                  style={{ height: '64px' }}
+                  onClick={handleAccountClick}
+                >
+                  <ColorIdenticon publicKey={acc.publicKey} size={20} className="flex-shrink-0 shadow-xs-white" />
 
-                    <div className="flex flex-col items-start ml-2">
-                      <div className="flex flex-col text-left">
-                        <Name
-                          className="font-medium leading-none"
-                          style={{ paddingBottom: 3, fontSize: '14px', lineHeight: '20px' }}
-                        >
-                          {acc.name}
-                        </Name>
+                  <div className="flex flex-col items-start ml-2">
+                    <div className="flex flex-col text-left">
+                      <Name
+                        className="font-medium leading-none"
+                        style={{ paddingBottom: 3, fontSize: '14px', lineHeight: '20px' }}
+                      >
+                        {acc.name}
+                      </Name>
+                      <div className="flex w-full items-start">
+                        <span style={{ fontSize: '12px', lineHeight: '16px' }}>
+                          {acc.isPublic ? 'Public' : 'Private'}
+                        </span>
                       </div>
                     </div>
-                    <div className="flex flex-col flex-grow items-end">
-                      <Icon
-                        name={IconName.CheckboxCircleFill}
-                        size="md"
-                        className={`mr-1`}
-                        fill={selected ? 'black' : 'transparent'}
-                      />
-                    </div>
                   </div>
-                );
-              })}
-            </div>
+                  <div className="flex flex-col flex-grow items-end">
+                    <Checkmark className={`mr-1 ${selected ? '' : 'invisible'} w-5 h-5`} />
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

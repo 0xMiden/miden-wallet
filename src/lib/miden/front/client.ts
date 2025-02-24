@@ -15,6 +15,7 @@ import {
 } from 'lib/shared/types';
 import { useRetryableSWR } from 'lib/swr';
 import { retryWithTimeout } from 'lib/utility/retry';
+import { WalletType } from 'screens/onboarding/types';
 
 import { MidenMessageType, MidenState } from '../types';
 import { AutoSync } from './autoSync';
@@ -115,9 +116,22 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     assertResponse(res.type === WalletMessageType.UnlockResponse);
   }, []);
 
-  const createAccount = useCallback(async (name?: string) => {}, []);
+  const createAccount = useCallback(async (walletType: WalletType, name?: string) => {
+    const res = await request({
+      type: WalletMessageType.CreateAccountRequest,
+      walletType: walletType,
+      name: name
+    });
+    assertResponse(res.type === WalletMessageType.CreateAccountResponse);
+  }, []);
 
-  const updateCurrentAccount = useCallback(async (accountPublicKey: string) => {}, []);
+  const updateCurrentAccount = useCallback(async (accountPublicKey: string) => {
+    const res = await request({
+      type: WalletMessageType.UpdateCurrentAccountRequest,
+      accountPublicKey
+    });
+    assertResponse(res.type === WalletMessageType.UpdateCurrentAccountResponse);
+  }, []);
 
   const decryptCiphertexts = useCallback(async (accPublicKey: string, ciphertexts: string[]) => {}, []);
 

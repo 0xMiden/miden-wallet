@@ -46,12 +46,13 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
       await Actions.lock();
       return { type: WalletMessageType.LockResponse };
     case WalletMessageType.CreateAccountRequest:
-      await Actions.createHDAccount(req.name);
+      await Actions.createHDAccount(req.walletType, req.name);
       return { type: WalletMessageType.CreateAccountResponse };
     // case WalletMessageType.DecryptCiphertextsRequest:
     //   const texts = await Actions.decryptCiphertexts(req.accPublicKey, req.ciphertexts);
     //   return { type: WalletMessageType.DecryptCiphertextsResponse, texts: texts };
     case WalletMessageType.UpdateCurrentAccountRequest:
+      await Actions.updateCurrentAccount(req.accountPublicKey);
       return { type: WalletMessageType.UpdateCurrentAccountResponse };
     // case WalletMessageType.RevealPublicKeyRequest:
     //   const publicKey = await Actions.revealPublicKey(req.accountPublicKey);

@@ -71,9 +71,10 @@ const activityTippyPropsMock = {
 
 const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
   const account = useAccount();
+  console.log('Explore', account);
   const faucetId = getFaucetIdSetting();
   const { data: claimableNotes } = useClaimableNotes(account.publicKey);
-  const { data: balance } = useBalance(account.id, faucetId);
+  const { data: balance } = useBalance(account.publicKey, faucetId);
   if (assetId && !assetSlug) {
     if (!assetSlug) {
       // Tokens are not guaranteed to load on mount
@@ -371,7 +372,7 @@ type PublicPrivateBalanceProps = {
 const PublicPrivateBalance: FC<PublicPrivateBalanceProps> = ({ assetSlug, assetId }) => {
   const account = useAccount();
   const faucetId = getFaucetIdSetting();
-  const { data: balance } = useBalance(account.id, faucetId);
+  const { data: balance } = useBalance(account.publicKey, faucetId);
 
   const convertUrl = assetSlug === ALEO_SLUG ? '/convert-visibility/aleo' : `/convert-visibility/${assetId}`;
 

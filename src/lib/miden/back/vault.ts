@@ -67,17 +67,22 @@ export class Vault {
         mnemonic = Bip39.generateMnemonic(128);
       }
 
+      const seed = Bip39.mnemonicToSeedSync(mnemonic);
+      const hdAccIndex = 0;
+
+      // TODO: Generate account with seed
+
       console.log('attempting to spawn wallet');
 
       const accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain);
       const accPrivateKey = 'TODO';
 
       const initialAccount: WalletAccount = {
-        id: 'miden',
         publicKey: accPublicKey,
         privateKey: accPrivateKey,
-        name: 'Miden Account 1',
-        isPublic: true
+        name: 'Public Account 1',
+        isPublic: true,
+        hdIndex: hdAccIndex
       };
       const newAccounts = [initialAccount];
       const passKey = await Passworder.generateKey(password);
@@ -87,6 +92,7 @@ export class Vault {
         [
           [checkStrgKey, generateCheck()],
           [mnemonicStrgKey, mnemonic],
+          [accPubKeyStrgKey(accPublicKey), accPublicKey],
           [accountsStrgKey, newAccounts]
         ],
         passKey
@@ -104,7 +110,73 @@ export class Vault {
     return DEFAULT_SETTINGS;
   }
 
-  async createHDAccount(name?: string, hdAccIndex?: number, chainId?: string) {}
+  async createHDAccount(
+    walletType: WalletType,
+    name?: string,
+    hdAccIndex?: number,
+    chainId?: string
+  ): Promise<WalletAccount[]> {
+    return withError('Failed to create account', async () => {
+      console.log('createHDAccount');
+      console.log('walletType', walletType);
+      console.log('name', name);
+      console.log('hdAccIndex', hdAccIndex);
+      console.log('chainId', chainId);
+      const [mnemonic, allAccounts] = await Promise.all([
+        fetchAndDecryptOneWithLegacyFallBack<string>(mnemonicStrgKey, this.passKey),
+        this.fetchAccounts()
+      ]);
+
+      console.log('mnemonic', mnemonic);
+      console.log('allAccounts', allAccounts);
+
+      const seed = Bip39.mnemonicToSeedSync(mnemonic);
+
+      if (!hdAccIndex) {
+        console.log('hdAccIndex not provided');
+        let accounts;
+        if (walletType === WalletType.OnChain) {
+          accounts = allAccounts.filter(acc => acc.isPublic);
+        } else {
+          accounts = allAccounts.filter(acc => !acc.isPublic);
+        }
+        hdAccIndex = accounts.length;
+      }
+
+      // TODO: Generate account with seed
+      console.log('attempting to spawn wallet');
+
+      const accPublicKey = await midenClient.createMidenWallet(walletType);
+      const accPrivateKey = 'TODO';
+
+      const accName = name || getNewAccountName(allAccounts);
+
+      if (allAccounts.some(a => a.publicKey === accPublicKey)) {
+        console.log('Account already exists... recursing');
+        return this.createHDAccount(walletType, accName, hdAccIndex + 1);
+      }
+
+      const newAccount: WalletAccount = {
+        name: accName,
+        publicKey: accPublicKey,
+        privateKey: accPrivateKey,
+        isPublic: walletType === WalletType.OnChain,
+        hdIndex: hdAccIndex
+      };
+      const newAllAcounts = concatAccount(allAccounts, newAccount);
+      console.log('newAllAcounts', newAllAcounts);
+
+      await encryptAndSaveMany(
+        [
+          [accPubKeyStrgKey(accPublicKey), accPublicKey],
+          [accountsStrgKey, newAllAcounts]
+        ],
+        this.passKey
+      );
+
+      return newAllAcounts;
+    });
+  }
 
   async importAccount(chainId: string, accPrivateKey: string) {
     const errMessage = 'Failed to import account.\nThis may happen because provided Key is invalid';
@@ -240,18 +312,24 @@ function generateCheck() {
   return Bip39.generateMnemonic(128);
 }
 
-function concatAccount() {}
+function concatAccount(current: WalletAccount[], newOne: WalletAccount) {
+  if (current.every(a => a.publicKey !== newOne.publicKey)) {
+    return [...current, newOne];
+  }
 
-function getNewAccountName(templateI18nKey = 'defaultAccountName') {
-  return getMessage(templateI18nKey);
+  throw new PublicError('Account already exists');
+}
+
+function getNewAccountName(allAccounts: WalletAccount[], templateI18nKey = 'defaultAccountName') {
+  return getMessage(templateI18nKey, String(allAccounts.length + 1));
 }
 
 async function getPublicKeyAndViewKey(chainId: string, privateKey: string) {}
 
 async function seedToHDPrivateKey(seed: Buffer, hdAccIndex: number) {}
 
-function getMainDerivationPath(accIndex: number) {
-  return `m/44'/0'/${accIndex}'/0'`;
+function getMainDerivationPath(walletTypeIndex: number, accIndex: number) {
+  return `m/44'/0'/${walletTypeIndex}'/${accIndex}'/0'`;
 }
 
 async function seedToPrivateKey(chainId: string, seed: Buffer) {}

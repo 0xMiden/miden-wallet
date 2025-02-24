@@ -144,11 +144,11 @@ export interface ReadyWalletState extends WalletState {
 }
 
 export interface WalletAccount {
-  id: string;
   publicKey: string;
   privateKey: string;
   name: string;
   isPublic: boolean;
+  hdIndex: number;
 }
 
 export interface WalletNetwork {
@@ -192,6 +192,7 @@ export interface LockResponse extends WalletMessageBase {
 
 export interface CreateAccountRequest extends WalletMessageBase {
   type: WalletMessageType.CreateAccountRequest;
+  walletType: WalletType;
   name?: string;
 }
 

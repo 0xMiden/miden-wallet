@@ -9,8 +9,8 @@ import { useAppEnv } from 'app/env';
 import { ReactComponent as ChevronDownIcon } from 'app/icons/chevron-down.svg';
 import { ReactComponent as SettingsIcon } from 'app/icons/settings.svg';
 import ContentContainer from 'app/layouts/ContentContainer';
-import { useMidenContext, useAccount } from 'lib/miden/front';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
+import { useMidenContext, useAccount } from 'lib/miden/front';
 import { Link } from 'lib/woozie';
 
 import { HeaderSelectors } from './Header.selectors';
@@ -51,18 +51,17 @@ const Control: FC = () => {
               className={classNames(
                 'flex-shrink-0 flex',
                 'rounded-md',
-                'transition ease-in-out duration-200'
-                // 'cursor-pointer'
+                'transition ease-in-out duration-200',
+                'cursor-pointer'
               )}
-              disabled={true}
             >
               <ColorIdenticon publicKey={account.publicKey} size={20} />
               <div className="self-start flex overflow-x-hidden ml-2 leading-9">
                 <Name className={classNames('font-bold', 'text-black', 'text-sm', 'opacity-90')}>{account.name}</Name>
-                {/* <ChevronDownIcon
+                <ChevronDownIcon
                   className="ml-1 -mr-1 stroke-2"
                   style={{ height: 16, width: 'auto', marginTop: '10px' }}
-                /> */}
+                />
               </div>
             </Button>
           </Link>
