@@ -10,11 +10,13 @@ import {
   withInited,
   withUnlocked,
   settingsUpdated,
-  accountsUpdated
+  accountsUpdated,
+  currentAccountUpdated
 } from 'lib/miden/back/store';
 import { Vault } from 'lib/miden/back/vault';
 import { createQueue } from 'lib/queue';
 import { WalletSettings, WalletState } from 'lib/shared/types';
+import { WalletType } from 'screens/onboarding/types';
 
 import {
   getAllDApps,
@@ -76,7 +78,12 @@ export function unlock(password: string) {
   );
 }
 
-export function updateCurrentAccount(accPublicKey: string) {}
+export function updateCurrentAccount(accPublicKey: string) {
+  return withUnlocked(async ({ vault }) => {
+    const currentAccount = await vault.setCurrentAccount(accPublicKey);
+    currentAccountUpdated(currentAccount);
+  });
+}
 
 export function getCurrentAccount() {
   return withUnlocked(async ({ vault }) => {
@@ -85,7 +92,19 @@ export function getCurrentAccount() {
   });
 }
 
-export function createHDAccount(name?: string) {}
+export function createHDAccount(walletType: WalletType, name?: string) {
+  return withUnlocked(async ({ vault }) => {
+    if (name) {
+      name = name.trim();
+      if (!ACCOUNT_NAME_PATTERN.test(name)) {
+        throw new Error('Invalid name. It should be: 1-16 characters, without special');
+      }
+    }
+
+    const accounts = await vault.createHDAccount(walletType, name);
+    accountsUpdated({ accounts });
+  });
+}
 
 export function decryptCiphertexts(accPublicKey: string, cipherTexts: string[]) {}
 
