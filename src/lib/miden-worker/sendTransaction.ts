@@ -1,30 +1,17 @@
+import { TransactionResult } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
 import { spawn, Thread, Worker } from 'threads';
 
-import { ExportedNote } from 'lib/miden/types';
+import { SendTransaction } from 'lib/miden/db/types';
 
-export type SendTransactionWorker = (
-  senderAccountId: string,
-  recipientAccountId: string,
-  faucetId: string,
-  noteType: string,
-  amount: string,
-  recallBlocks?: number
-) => Promise<ExportedNote | null>;
+export type SendTransactionWorker = (transaction: SendTransaction) => Promise<TransactionResult>;
 
-export const sendTransaction = async (
-  senderAccountId: string,
-  recipientAccountId: string,
-  faucetId: string,
-  noteType: string,
-  amount: string,
-  recallBlocks?: number
-): Promise<ExportedNote | null> => {
+export const sendTransaction = async (transaction: SendTransaction): Promise<TransactionResult> => {
   const worker = await spawn<SendTransactionWorker>(new Worker('./sendTransaction.js'));
 
   try {
-    const exportedNote = await worker(senderAccountId, recipientAccountId, faucetId, noteType, amount, recallBlocks);
+    const result = await worker(transaction);
     await Thread.terminate(worker);
-    return exportedNote;
+    return result;
   } catch (e) {
     await Thread.terminate(worker);
     throw e;

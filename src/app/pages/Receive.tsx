@@ -7,14 +7,13 @@ import PageLayout from 'app/layouts/PageLayout';
 import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Button, ButtonVariant } from 'components/Button';
 import { T } from 'lib/i18n/react';
+import { initiateConsumeTransaction } from 'lib/miden/activity';
 import { useAccount } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
-import { useQueuedTransactions } from 'lib/miden/front/queued-transactions';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
-import { QueuedTransactionType } from 'lib/miden/types';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 import { HistoryAction, navigate } from 'lib/woozie';
-import HashShortView from 'app/atoms/HashShortView';
+
 import AddressChip from './Explore/AddressChip';
 
 export interface ReceiveProps {}
@@ -27,7 +26,6 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const { fieldRef, copy } = useCopyToClipboard();
   const { data: claimableNotes } = useClaimableNotes(address);
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
-  const [, queueTransaction] = useQueuedTransactions();
   const { popup } = useAppEnv();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -68,22 +66,15 @@ export const Receive: React.FC<ReceiveProps> = () => {
 
   const consumeNote = useCallback(
     (noteId: string) => {
-      const transaction = {
-        type: QueuedTransactionType.ConsumeNoteId,
-        data: {
-          address: account.publicKey,
-          noteId
-        }
-      };
-
-      queueTransaction(transaction);
+      initiateConsumeTransaction(account.publicKey, noteId);
       openLoadingFullPage();
+
       const index = claimableNotes?.findIndex(note => note.id === noteId);
       if (index !== undefined && index !== -1) {
         claimableNotes?.splice(index, 1);
       }
     },
-    [account, isDelegatedProvingEnabled, queueTransaction, claimableNotes]
+    [account, claimableNotes]
   );
 
   return (

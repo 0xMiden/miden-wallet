@@ -1,6 +1,8 @@
 import { NoteType } from '@demox-labs/miden-sdk';
 import BigNumber from 'bignumber.js';
 
+import { INoteType } from '../db/types';
+
 export function tryParseTokenTransfers(
   parameters: any,
   destination: string,
@@ -85,3 +87,5 @@ const checkDestination = (x: any, destination: string) =>
   typeof x.int === 'string' ? toTokenId(destination, x.int) : undefined;
 
 export const toNoteTypeString = (noteType: NoteType) => (noteType === NoteType.public() ? 'public' : 'private');
+
+export const toNoteType = (noteType: INoteType) => (noteType === 'public' ? NoteType.public() : NoteType.private());

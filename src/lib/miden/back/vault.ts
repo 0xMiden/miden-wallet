@@ -200,11 +200,6 @@ export class Vault {
     });
   }
 
-  async mintTransaction(recipientAccountId: string, faucetId: string, noteType: string, amount: bigint) {
-    const noteTypeObj = noteType === 'public' ? NoteType.public() : NoteType.private();
-    await midenClient.mintTransaction(recipientAccountId, faucetId, noteTypeObj, amount);
-  }
-
   async authorize(sendTransaction: SendTransaction) {}
 
   async authorizeDeploy() {}

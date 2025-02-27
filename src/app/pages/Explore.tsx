@@ -34,7 +34,6 @@ import {
   useUnstakedBalance
 } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
-import { useQueuedTransactions } from 'lib/miden/front/queued-transactions';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import { useRetryableSWR } from 'lib/swr';
 import { useAlert } from 'lib/ui/dialog';
@@ -88,7 +87,6 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
   const { fullPage, registerBackHandler } = useAppEnv();
   const { search } = useLocation();
   const alert = useAlert();
-  const [queuedTransactions] = useQueuedTransactions();
 
   const { data: queuedDbTransactions } = useRetryableSWR(
     [`has-queued-transactions`, address],
@@ -101,8 +99,8 @@ const Explore: FC<ExploreProps> = ({ assetSlug, assetId }) => {
   );
 
   useEffect(() => {
-    if (queuedTransactions.length || queuedDbTransactions) openLoadingFullPage();
-  }, [queuedTransactions, queuedDbTransactions]);
+    if (queuedDbTransactions) openLoadingFullPage();
+  }, [queuedDbTransactions]);
 
   /* const fetchClaimableNotes = async () => {
     const notes = await midenClient.getCommittedNotes();

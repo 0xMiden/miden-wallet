@@ -21,31 +21,6 @@ export interface ExportedNote {
   noteBytes: Uint8Array;
 }
 
-export interface QueuedTransaction {
-  type: QueuedTransactionType;
-  data: any;
-  id?: number;
-}
-
-export enum QueuedTransactionType {
-  ConsumeNoteId,
-  SendTransaction
-}
-
-export interface ConsumedNoteIdTransaction {
-  address: string;
-  noteId: string;
-}
-
-export interface SendTransactionTransaction {
-  senderAccountId: string;
-  recipientAccountId: string;
-  faucetId: string;
-  noteType: string;
-  amount: string;
-  recallBlocks?: number;
-}
-
 export interface MidenDAppSession {
   network: string; // TODO: replace with MidenChainId
   appMeta: MidenDAppMetadata;
