@@ -53,9 +53,9 @@ export async function decrypt<T = any>(
   return JSON.parse(stuffStr);
 }
 
-export async function encryptJson(stuff: any, key: CryptoKey): Promise<EncryptedPayload> {
+export async function encryptJson(jsonStuff: any, key: CryptoKey): Promise<EncryptedPayload> {
   const encoder = new TextEncoder();
-  const stuffStr = JSON.stringify(stuff);
+  const stuffStr = JSON.stringify(jsonStuff);
   const stuffBytes = encoder.encode(stuffStr);
 
   const iv = crypto.getRandomValues(new Uint8Array(16));

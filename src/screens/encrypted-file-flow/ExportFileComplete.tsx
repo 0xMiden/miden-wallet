@@ -3,7 +3,7 @@ import { useMidenContext } from 'lib/miden/front';
 import { decryptJson, deriveKey, encrypt, encryptJson, generateKey, generateSalt } from 'lib/miden/passworder';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import React, { FC, useEffect, useState } from 'react';
-import { EncryptedWalletFile } from 'screens/shared';
+import { EncryptedWalletFile, ENCRYPTED_WALLET_FILE_PASSWORD_CHECK } from 'screens/shared';
 
 export interface ExportFileCompleteProps {
   onGoBack: () => void;
@@ -34,13 +34,16 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({ filePassword, f
     const derivedKey = await deriveKey(passKey, salt);
 
     const encryptedFile = await encryptJson(walletFile, derivedKey);
+    const encryptedPasswordCheck = await encrypt(ENCRYPTED_WALLET_FILE_PASSWORD_CHECK, derivedKey);
 
     const encoder = new TextEncoder();
+    // TODO: Type the top level json fields here
     const fileBytes = encoder.encode(
       JSON.stringify({
         dt: encryptedFile.dt,
         iv: encryptedFile.iv,
-        salt
+        salt,
+        encryptedPasswordCheck
       })
     );
 

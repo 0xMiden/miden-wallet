@@ -46,7 +46,13 @@ export class MidenClientInterface {
     // Create a new wallet
     const accountStorageMode =
       walletType === WalletType.OnChain ? AccountStorageMode.public() : AccountStorageMode.private();
-    const wallet: Account = await this.webClient.new_wallet(accountStorageMode, true);
+    console.log('doing a little trolling with a new wallet...');
+    try {
+      const wallet: Account = await this.webClient.new_wallet(accountStorageMode, true, null);
+    } catch (e) {
+      console.error('sumn fucked up: ', e);
+      throw new Error('fuck');
+    }
 
     const walletId = wallet.id().to_string();
 
@@ -244,7 +250,7 @@ export class MidenClientInterface {
   }
 
   async importDb(dump: any) {
-    await this.webClient.import_store(dump);
+    await this.webClient.force_import_store(dump);
   }
 }
 

@@ -67,23 +67,28 @@ export class Vault {
         mnemonic = Bip39.generateMnemonic(128);
       }
 
-      const walletSeed = deriveClientSeed(walletType, mnemonic, []);
+      // const walletSeed = deriveClientSeed(walletType, mnemonic, []);
 
       const midenClient = await MidenClientInterface.create();
+
+      console.log('created miden client');
 
       let accPublicKey;
       if (ownMnemonic) {
         try {
           // accPublicKey = await midenClient.importMidenWalletFromSeed(walletType, walletSeed);
-          accPublicKey = await midenClient.createMidenWallet(walletType, walletSeed);
+          accPublicKey = await midenClient.createMidenWallet(walletType);
         } catch (e) {
           // TODO: Propagate this error up somehow to user indicating the import failed
           console.error('Failed to import wallet from seed, creating new wallet instead');
-          accPublicKey = await midenClient.createMidenWallet(walletType, walletSeed);
+          accPublicKey = await midenClient.createMidenWallet(walletType);
         }
       } else {
-        accPublicKey = await midenClient.createMidenWallet(walletType, walletSeed);
+        console.log('creating the wallet oh shit!!');
+        accPublicKey = await midenClient.createMidenWallet(walletType);
       }
+
+      console.log({ accPublicKey });
 
       const initialAccount: WalletAccount = {
         publicKey: accPublicKey,
@@ -93,6 +98,8 @@ export class Vault {
       };
       const newAccounts = [initialAccount];
       const passKey = await Passworder.generateKey(password);
+
+      console.log({ passKey });
 
       await clearStorage();
       await encryptAndSaveMany(
