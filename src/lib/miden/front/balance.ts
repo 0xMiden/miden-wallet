@@ -20,7 +20,7 @@ const midenClient = await MidenClientInterface.create();
 export function useBalance(accountId: string, faucetId: string, opts: UseBalanceOptions = {}) {
   const fetchBalanceLocal = useCallback(async () => {
     const account = await midenClient.getAccount(accountId);
-    const balance = account.vault().get_balance(accountIdStringToSdk(faucetId));
+    const balance = account!.vault().get_balance(accountIdStringToSdk(faucetId));
     return new BigNumber(balance.toString());
   }, [accountId, faucetId]);
 

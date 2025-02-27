@@ -1,5 +1,10 @@
 import { v4 as uuid } from 'uuid';
 
+export interface IInputNote {
+  noteId: string;
+  noteBytes: Uint8Array;
+}
+
 export enum ITransactionStatus {
   Queued,
   GeneratingTransaction,
@@ -28,6 +33,9 @@ export interface ITransaction {
   completedAt?: number;
   displayMessage?: string;
   displayIcon: ITransactionIcon;
+  inputNoteIds?: string[];
+  outputNoteIds?: string[];
+  extraInputs?: any;
 }
 
 export class Transaction implements ITransaction {
@@ -38,6 +46,8 @@ export class Transaction implements ITransaction {
   noteType?: INoteType;
   transactionId?: string;
   requestBytes?: Uint8Array;
+  inputNoteIds?: string[];
+  outputNoteIds?: string[];
   status: ITransactionStatus;
   initiatedAt: number;
   processingStartedAt?: number;
@@ -45,12 +55,12 @@ export class Transaction implements ITransaction {
   displayMessage?: string;
   displayIcon: ITransactionIcon;
 
-  constructor(type: ITransactionType, accountId: string, requestBytes?: Uint8Array, amount?: bigint) {
+  constructor(accountId: string, requestBytes: Uint8Array, inputNoteIds?: string[]) {
     this.id = uuid();
-    this.type = type;
+    this.type = 'execute';
     this.accountId = accountId;
     this.requestBytes = requestBytes;
-    this.amount = amount;
+    this.inputNoteIds = inputNoteIds;
     this.status = ITransactionStatus.Queued;
     this.initiatedAt = Date.now();
     this.displayIcon = 'DEFAULT';
@@ -73,6 +83,7 @@ export class SendTransaction implements ITransaction {
   completedAt?: number;
   displayMessage?: string;
   displayIcon: ITransactionIcon;
+  extraInputs: { recallBlocks?: number } = { recallBlocks: undefined };
 
   constructor(
     accountId: string,
@@ -80,7 +91,7 @@ export class SendTransaction implements ITransaction {
     recipientId: string,
     faucetId: string,
     noteType: INoteType,
-    status: ITransactionStatus = ITransactionStatus.GeneratingTransaction
+    recallBlocks?: number
   ) {
     this.id = uuid();
     this.type = 'send';
@@ -89,10 +100,11 @@ export class SendTransaction implements ITransaction {
     this.secondaryAccountId = recipientId;
     this.faucetId = faucetId;
     this.noteType = noteType;
-    this.status = status;
+    this.status = ITransactionStatus.Queued;
     this.initiatedAt = Date.now();
     this.displayIcon = 'SEND';
     this.displayMessage = 'Sending';
+    this.extraInputs.recallBlocks = recallBlocks;
   }
 }
 
@@ -112,67 +124,23 @@ export class ConsumeTransaction implements ITransaction {
   displayMessage?: string;
   displayIcon: ITransactionIcon;
 
-  constructor(accountId: string, noteId: string, amount?: bigint, faucetId?: string, senderId?: string) {
+  constructor(
+    accountId: string,
+    noteId: string,
+    status: ITransactionStatus = ITransactionStatus.GeneratingTransaction
+  ) {
     this.id = uuid();
     this.type = 'consume';
     this.accountId = accountId;
-    this.amount = amount;
     this.noteId = noteId;
-    this.faucetId = faucetId;
-    this.secondaryAccountId = senderId;
-    this.status = ITransactionStatus.GeneratingTransaction;
+    this.status = status;
     this.initiatedAt = Date.now();
     this.displayIcon = 'RECEIVE';
     this.displayMessage = 'Consuming';
   }
 }
 
-export enum ITransactionRequestStatus {
-  Queued,
-  GeneratingTransaction,
-  Completed,
-  Failed
-}
-
 export function formatTransactionStatus(status: ITransactionStatus): string {
   const words = ITransactionStatus[status].split(/(?=[A-Z])/);
   return words.join(' ');
-}
-
-// DEPRECATED
-
-export type ITransactionRequestIcon = 'SEND' | 'RECEIVE' | 'SWAP' | 'REJECTED' | 'MINT' | 'DEFAULT';
-
-export interface ITransactionRequest {
-  id: string;
-  accountId: string;
-  requestBytes: Uint8Array;
-  status: ITransactionRequestStatus;
-  initiatedAt: number;
-  processingStartedAt?: number;
-  completedAt?: number;
-  displayMessage?: string;
-  displayIcon: ITransactionRequestIcon;
-}
-
-export class TransactionRequest implements ITransactionRequest {
-  id: string;
-  accountId: string;
-  requestBytes: Uint8Array;
-  status: ITransactionRequestStatus;
-  initiatedAt: number;
-  processingStartedAt?: number;
-  completedAt?: number;
-  displayMessage?: string;
-  displayIcon: ITransactionRequestIcon;
-
-  constructor(accountId: string, requestBytes: Uint8Array) {
-    this.id = uuid();
-    this.accountId = accountId;
-    this.requestBytes = requestBytes;
-    console.log('TransactionRequest', this.requestBytes);
-    this.status = ITransactionRequestStatus.Queued;
-    this.initiatedAt = Date.now();
-    this.displayIcon = 'DEFAULT';
-  }
 }

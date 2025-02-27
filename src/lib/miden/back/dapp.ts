@@ -1,7 +1,6 @@
 import {
   DecryptPermission,
   MidenCustomTransaction,
-  MintTransaction,
   SendTransaction,
   TransactionType
 } from '@demox-labs/miden-wallet-adapter-base';
@@ -12,16 +11,15 @@ import {
   MidenDAppDisconnectRequest,
   MidenDAppDisconnectResponse,
   MidenDAppErrorType,
-  MidenDAppExecutionRequest,
-  MidenDAppExecutionResponse,
   MidenDAppGetCurrentPermissionResponse,
   MidenDAppMessageType,
   MidenDAppPermissionRequest,
   MidenDAppPermissionResponse,
+  MidenDAppSendTransactionRequest,
+  MidenDAppSendTransactionResponse,
   MidenDAppTransactionRequest,
   MidenDAppTransactionResponse
 } from 'lib/adapter/types';
-import * as Actions from 'lib/miden/back/actions';
 import { intercom } from 'lib/miden/back/defaults';
 import { Vault } from 'lib/miden/back/vault';
 import { NETWORKS } from 'lib/miden/networks';
@@ -31,15 +29,13 @@ import {
   MidenDAppSession,
   MidenDAppSessions,
   MidenMessageType,
-  MidenRequest,
-  QueuedTransactionType
+  MidenRequest
 } from 'lib/miden/types';
 import { WalletStatus } from 'lib/shared/types';
 
-import { requestCustomTransaction } from '../activity/transactions';
-import { fetchFromStorage, putToStorage } from '../front';
-import { QUEUED_TRANSACTIONS_KEY } from '../front/queued-transactions';
+import { initiateSendTransaction, requestCustomTransaction } from '../activity/transactions';
 import { store, withUnlocked } from './store';
+import { resolve } from 'path';
 
 const CONFIRM_WINDOW_WIDTH = 380;
 const CONFIRM_WINDOW_HEIGHT = 632;
@@ -217,69 +213,26 @@ export async function requestTransaction(
   );
 }
 
-type CorrespondingResponse<T> = T extends MidenDAppExecutionRequest
-  ? MidenDAppExecutionResponse
-  : T extends MidenDAppTransactionRequest
-  ? MidenDAppTransactionResponse
-  : never;
-
-type CorrespondingResponseMessageType<T> = T extends MidenDAppExecutionResponse
-  ? MidenDAppMessageType.ExecutionResponse
-  : T extends MidenDAppTransactionResponse
-  ? MidenDAppMessageType.TransactionResponse
-  : never;
-
-const generatePromisifyTransaction = async <
-  TRequest extends MidenDAppExecutionRequest | MidenDAppTransactionRequest,
-  TResponse extends CorrespondingResponse<TRequest>,
-  TMessageType extends CorrespondingResponseMessageType<TResponse>
->(
-  resolve: (value: TResponse | PromiseLike<TResponse>) => void,
+const generatePromisifyTransaction = async (
+  resolve: (value: MidenDAppTransactionResponse | PromiseLike<MidenDAppTransactionResponse>) => void,
   reject: (reason?: any) => void,
   dApp: MidenDAppSession,
-  req: TRequest,
-  messageType: TMessageType
+  req: MidenDAppTransactionRequest,
+  messageType: MidenDAppMessageType.TransactionResponse
 ) => {
-  // const current = await getCurrentMidenNetwork();
-  // const currentChainId = loadChainId(current.rpcBaseURL);
   const id = nanoid();
   const networkRpc = await getNetworkRPC(dApp.network);
-
-  // if (req.transaction.chainId !== currentChainId) {
-  //   reject(
-  //     new Error(
-  //       `${MidenDAppErrorType.InvalidParams}: Wallet Using Network ${currentChainId}, Transaction Requested: ${req.transaction.chainId}`
-  //     )
-  //   );
-  // }
 
   let transactionMessages: string[] = [];
   try {
     transactionMessages = await withUnlocked(async () => {
-      const { type, payload } = req.transaction;
-      switch (type) {
-        case TransactionType.Send:
-          const sendTransaction = payload as SendTransaction;
-          if (!sendTransaction.recipientAccountId || !sendTransaction.amount || !sendTransaction.noteType) {
-            reject(new Error(`${MidenDAppErrorType.InvalidParams}: Invalid SendTransaction payload`));
-          }
-
-          return formatSendTransactionPreview(sendTransaction);
-        case TransactionType.Mint:
-          const mintTransaction = payload as MintTransaction;
-          if (!mintTransaction.recipientAccountId || !mintTransaction.amount || !mintTransaction.noteType) {
-            reject(new Error(`${MidenDAppErrorType.InvalidParams}: Invalid MintTransaction payload`));
-          }
-
-          return formatMintTransactionPreview(mintTransaction);
-        case TransactionType.Custom:
-          const customTransaction = payload as MidenCustomTransaction;
-          if (!customTransaction.accountId || !customTransaction.transactionRequest) {
-            reject(new Error(`${MidenDAppErrorType.InvalidParams}: Invalid CustomTransaction payload`));
-          }
-
-          return formatCustomTransactionPreview(customTransaction);
+      const { payload } = req.transaction;
+      const customTransaction = payload as MidenCustomTransaction;
+      if (!customTransaction.accountId || !customTransaction.transactionRequest) {
+        reject(new Error(`${MidenDAppErrorType.InvalidParams}: Invalid CustomTransaction payload`));
       }
+
+      return formatCustomTransactionPreview(customTransaction);
     });
   } catch (e) {
     reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
@@ -304,32 +257,124 @@ const generatePromisifyTransaction = async <
         if (confirmReq.confirmed) {
           try {
             const { type, payload } = req.transaction;
+            let transactionId = '';
             switch (type) {
               case TransactionType.Send:
-                const queuedTransactions = await fetchFromStorage(QUEUED_TRANSACTIONS_KEY);
-                const newQueuedTransactions = [
-                  ...queuedTransactions,
-                  {
-                    type: QueuedTransactionType.SendTransaction,
-                    data: { ...req.transaction.payload }
-                  }
-                ];
-                await putToStorage(QUEUED_TRANSACTIONS_KEY, newQueuedTransactions);
+                const { senderAccountId, recipientAccountId, faucetId, noteType, amount, recallBlocks } =
+                  payload as SendTransaction;
+                transactionId = await initiateSendTransaction(
+                  senderAccountId,
+                  recipientAccountId,
+                  faucetId,
+                  noteType,
+                  BigInt(amount),
+                  recallBlocks
+                );
                 resolve({
                   type: messageType,
-                  transactionId: ''
+                  transactionId
                 } as any);
                 break;
-              case TransactionType.Mint:
-                await Actions.requestMintTransaction(payload as MintTransaction);
-                break;
               case TransactionType.Custom:
-                const { accountId, transactionRequest } = payload as MidenCustomTransaction;
-                await requestCustomTransaction(accountId, transactionRequest);
+                const { accountId, transactionRequest, inputNoteIds, importNotes } = payload as MidenCustomTransaction;
+                transactionId = await requestCustomTransaction(accountId, transactionRequest, importNotes);
+                resolve({
+                  type: messageType,
+                  transactionId
+                } as any);
                 break;
               default:
                 throw new Error('Unable to create transaction');
             }
+          } catch (e) {
+            reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+          }
+        } else {
+          decline();
+        }
+
+        return {
+          type: MidenMessageType.DAppTransactionConfirmationResponse
+        };
+      }
+      return undefined;
+    }
+  });
+};
+
+export async function requestSendTransaction(
+  origin: string,
+  req: MidenDAppSendTransactionRequest
+): Promise<MidenDAppSendTransactionResponse> {
+  if (!req?.transaction) {
+    throw new Error(MidenDAppErrorType.InvalidParams);
+  }
+
+  const dApp = await getDApp(origin, req.sourcePublicKey);
+
+  if (!dApp) {
+    throw new Error(MidenDAppErrorType.NotGranted);
+  }
+
+  if (req.sourcePublicKey !== dApp.publicKey) {
+    throw new Error(MidenDAppErrorType.NotFound);
+  }
+
+  return new Promise((resolve, reject) =>
+    generatePromisifySendTransaction(resolve, reject, dApp, req, MidenDAppMessageType.SendTransactionResponse)
+  );
+}
+
+const generatePromisifySendTransaction = async (
+  resolve: (value: MidenDAppSendTransactionResponse | PromiseLike<MidenDAppSendTransactionResponse>) => void,
+  reject: (reason?: any) => void,
+  dApp: MidenDAppSession,
+  req: MidenDAppSendTransactionRequest,
+  messageType: MidenDAppMessageType.SendTransactionResponse
+) => {
+  const id = nanoid();
+  const networkRpc = await getNetworkRPC(dApp.network);
+
+  let transactionMessages: string[] = [];
+  try {
+    transactionMessages = await withUnlocked(async () => {
+      return formatSendTransactionPreview(req.transaction);
+    });
+  } catch (e) {
+    reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+  }
+
+  await requestConfirm({
+    id,
+    payload: {
+      type: 'transaction',
+      origin,
+      networkRpc,
+      appMeta: dApp.appMeta,
+      sourcePublicKey: req.sourcePublicKey,
+      transactionMessages,
+      preview: null
+    },
+    onDecline: () => {
+      reject(new Error(MidenDAppErrorType.NotGranted));
+    },
+    handleIntercomRequest: async (confirmReq, decline) => {
+      if (confirmReq?.type === MidenMessageType.DAppTransactionConfirmationRequest && confirmReq?.id === id) {
+        if (confirmReq.confirmed) {
+          try {
+            const { senderAccountId, recipientAccountId, faucetId, noteType, amount, recallBlocks } = req.transaction;
+            const transactionId = await initiateSendTransaction(
+              senderAccountId,
+              recipientAccountId,
+              faucetId,
+              noteType,
+              BigInt(amount),
+              recallBlocks
+            );
+            resolve({
+              type: messageType,
+              transactionId
+            } as any);
           } catch (e) {
             reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
           }
@@ -527,17 +572,6 @@ function formatSendTransactionPreview(transaction: SendTransaction): string[] {
     `Amount: ${transaction.amount}`,
     `NoteType: ${transaction.noteType}`,
     `${transaction.recallBlocks}`
-  ];
-
-  return tsTexts;
-}
-
-function formatMintTransactionPreview(transaction: MintTransaction): string[] {
-  const tsTexts = [
-    `Mint note from faucet: ${transaction.faucetId} with inputs:`,
-    `Recipient: ${transaction.recipientAccountId}`,
-    `Amount: ${transaction.amount}`,
-    `NoteType: ${transaction.noteType}`
   ];
 
   return tsTexts;

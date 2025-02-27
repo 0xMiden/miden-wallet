@@ -1,6 +1,6 @@
 import Dexie, { Transaction } from 'dexie';
 
-import { ITransactionRequest, ITransaction } from './db/types';
+import { ITransaction } from './db/types';
 
 export enum Table {
   Transactions = 'transactions'
@@ -13,7 +13,7 @@ db.version(1)
     transactionRequests: indexes('id', 'accountId', 'initiatedAt', 'completedAt')
   })
   .upgrade(async (tx: Transaction) => {
-    await tx.db.table<ITransactionRequest, string>('transactionRequests').clear();
+    await tx.db.table<any, string>('transactionRequests').clear();
   });
 
 db.version(1.1)
@@ -22,7 +22,7 @@ db.version(1.1)
     transactionRequests: null
   })
   .upgrade(async (tx: Transaction) => {
-    await tx.db.table<ITransactionRequest, string>('transactionRequests').clear();
+    await tx.db.table<any, string>('transactionRequests').clear();
     await tx.db.table<ITransaction, string>(Table.Transactions).clear();
   });
 

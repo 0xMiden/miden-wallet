@@ -1,30 +1,61 @@
 import { NoteType } from '@demox-labs/miden-sdk';
 import { TransactionResult } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
 
+import { ampApi } from 'lib/amp/amp-interface';
+import { consumeNoteId } from 'lib/miden-worker/consumeNoteId';
+import { sendTransaction } from 'lib/miden-worker/sendTransaction';
 import { submitTransactionRequest } from 'lib/miden-worker/submitTransactionRequest';
 import * as Repo from 'lib/miden/repo';
 import { logger } from 'shared/logger';
 
-import { ConsumeTransaction, ITransaction, ITransactionStatus, SendTransaction, Transaction } from '../db/types';
+import {
+  ConsumeTransaction,
+  INoteType,
+  ITransaction,
+  ITransactionStatus,
+  SendTransaction,
+  Transaction
+} from '../db/types';
+import { NoteExportType } from '../sdk/constants';
+import { MidenClientInterface } from '../sdk/miden-client-interface';
 import { toNoteTypeString } from './helpers';
+import { queueNoteImport, regiserOutputNote } from './notes';
 
 export const MAX_WAIT_BEFORE_CANCEL = 30 * 60_000; // 30 minutes
 
-export const requestCustomTransaction = async (accountId: string, transactionRequestBytes: string) => {
+export const requestCustomTransaction = async (
+  accountId: string,
+  transactionRequestBytes: string,
+  inputNoteIds?: string[],
+  importNotes?: string[]
+): Promise<string> => {
   console.log('storing custom transaction', transactionRequestBytes);
   const byteArray = new Uint8Array(Buffer.from(transactionRequestBytes, 'base64'));
-  console.log(byteArray);
-  const transaction = new Transaction('execute', accountId, byteArray);
+  const transaction = new Transaction(accountId, byteArray, inputNoteIds);
   await Repo.transactions.add(transaction);
+
+  if (importNotes) {
+    importNotes.forEach(noteBytes => {
+      queueNoteImport(noteBytes);
+    });
+  }
+
+  return transaction.id;
 };
 
-export const requestMintTransaction = async (
-  recipientAccountId: string,
-  faucetId: string,
-  noteType: string,
-  amount: bigint
-) => {
-  // add transaction request to db
+export const completeCustomTransaction = async (id: string, result: TransactionResult) => {
+  const inputNotes = result.consumed_notes().notes();
+  const outputNotes = result.created_notes().notes();
+  const outputNoteIds = outputNotes.map(note => note.id().to_string());
+  outputNoteIds.forEach(noteId => regiserOutputNote(noteId));
+  const executedTransaction = result.executed_transaction();
+
+  await updateTransactionStatus(id, ITransactionStatus.Completed, {
+    transactionId: executedTransaction.id().to_hex(),
+    inputNoteIds: inputNotes.map(note => note.id().to_string()),
+    outputNoteIds,
+    completedAt: Date.now() / 1000 // Convert to seconds.
+  });
 };
 
 export const initiateConsumeTransaction = async (accountId: string, noteId: string): Promise<string> => {
@@ -43,11 +74,16 @@ export const completeConsumeTransaction = async (id: string, result: Transaction
   const reclaimed = dbTransaction?.accountId === sender;
   const displayMessage = reclaimed ? 'Reclaimed' : 'Received';
   const secondaryAccountId = reclaimed ? undefined : sender;
+  const asset = note.assets().assets()[0];
+  const faucetId = asset.faucet_id().to_string();
+  const amount = asset.amount();
 
   await updateTransactionStatus(id, ITransactionStatus.Completed, {
     displayMessage,
     transactionId: executedTransaction.id().to_hex(),
     secondaryAccountId,
+    faucetId,
+    amount,
     noteType: toNoteTypeString(note.metadata().note_type()),
     completedAt: Date.now() / 1000 // Convert to seconds.
   });
@@ -57,25 +93,46 @@ export const initiateSendTransaction = async (
   senderAccountId: string,
   recipientAccountId: string,
   faucetId: string,
-  noteType: NoteType,
-  amount: bigint
+  noteType: INoteType,
+  amount: bigint,
+  recallBlocks?: number
 ): Promise<string> => {
   const dbTransaction = new SendTransaction(
     senderAccountId,
     amount,
     recipientAccountId,
     faucetId,
-    toNoteTypeString(noteType)
+    noteType,
+    recallBlocks
   );
   await Repo.transactions.add(dbTransaction);
 
   return dbTransaction.id;
 };
 
-export const completeSendTransaction = async (id: string, result: TransactionResult) => {
-  await updateTransactionStatus(id, ITransactionStatus.Completed, {
+export const completeSendTransaction = async (tx: SendTransaction, result: TransactionResult) => {
+  const outputNote = result.created_notes().notes()[0];
+  const noteId = result.created_notes().notes()[0].id().to_string();
+  if (outputNote.metadata().note_type() === NoteType.private()) {
+    const midenClient = await MidenClientInterface.create();
+    const noteBytes = await midenClient.exportNote(noteId, NoteExportType.PARTIAL);
+    regiserOutputNote(noteId);
+
+    // TODO: Potentially unhook this from export process
+    try {
+      await ampApi.postMessage({
+        recipient: tx.secondaryAccountId,
+        body: noteBytes.toString()
+      });
+      console.log('Sent note to AMP');
+    } catch (e) {
+      console.error('Failed to send note to AMP', e);
+    }
+  }
+  await updateTransactionStatus(tx.id, ITransactionStatus.Completed, {
     displayMessage: 'Sent',
     transactionId: result.executed_transaction().id().to_hex(),
+    outputNoteIds: [noteId],
     completedAt: Date.now() / 1000 // Convert to seconds.
   });
 };
@@ -171,8 +228,6 @@ export const cancelStuckTransactions = async () => {
   await Promise.all(cancelTransactionUpdates);
 };
 
-export type SubmitTransaction = (accPublicKey: string, transactionRequestBytes: Uint8Array) => Promise<void>;
-
 export const generateTransaction = async (transaction: Transaction) => {
   // Mark transaction as in progress
   await updateTransactionStatus(transaction.id, ITransactionStatus.GeneratingTransaction, {
@@ -180,13 +235,23 @@ export const generateTransaction = async (transaction: Transaction) => {
   });
 
   // Process transaction
-  const result = await submitTransactionRequest(transaction.accountId, new Uint8Array(transaction.requestBytes!));
-  console.log('Transaction result', result);
-
-  // Mark transaction as completed
-  await updateTransactionStatus(transaction.id, ITransactionStatus.Completed, {
-    completedAt: Date.now() / 1000 // Convert to seconds.
-  });
+  let result: TransactionResult;
+  switch (transaction.type) {
+    case 'send':
+      result = await sendTransaction(transaction as SendTransaction);
+      await completeSendTransaction(transaction as SendTransaction, result);
+      break;
+    case 'consume':
+      console.log('consuming note id', (transaction as ConsumeTransaction).noteId);
+      result = await consumeNoteId(transaction as ConsumeTransaction);
+      await completeConsumeTransaction(transaction.id, result);
+      break;
+    case 'execute':
+    default:
+      result = await submitTransactionRequest(transaction.accountId, new Uint8Array(transaction.requestBytes!));
+      await completeCustomTransaction(transaction.id, result);
+      break;
+  }
 };
 
 export const cancelTransaction = async (transaction: Transaction) => {

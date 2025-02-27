@@ -13,7 +13,7 @@ import { ReactComponent as PendingIcon } from 'app/icons/rotate.svg';
 import { ReactComponent as SendIcon } from 'app/icons/send.svg';
 import { ReactComponent as WarningIcon } from 'app/icons/warning.svg';
 import { ExploreSelectors } from 'app/pages/Explore.selectors';
-import { ITransactionRequestIcon } from 'lib/miden/db/types';
+import { ITransactionIcon } from 'lib/miden/db/types';
 
 import { ActivityType, IActivity } from './IActivity';
 
@@ -34,7 +34,7 @@ const iconGrabber = (activityType: ActivityType, iconFillAndStroke: string) => {
   }
 };
 
-const transactionIconGrabber = (transactionIcon: ITransactionRequestIcon, iconFillAndStroke: string) => {
+const transactionIconGrabber = (transactionIcon: ITransactionIcon, iconFillAndStroke: string) => {
   switch (transactionIcon) {
     case 'SEND':
       return (
@@ -56,8 +56,6 @@ const transactionIconGrabber = (transactionIcon: ITransactionRequestIcon, iconFi
           fill={iconFillAndStroke}
         />
       );
-    case 'REJECTED':
-      return <WarningIcon height={'24px'} width={'24px'} />;
     case 'MINT':
       return <MintIcon height={'24px'} width={'24px'} />;
     case 'SWAP':
