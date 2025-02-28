@@ -49,11 +49,18 @@ export const completeCustomTransaction = async (id: string, result: TransactionR
   const outputNoteIds = outputNotes.map(note => note.id().to_string());
   outputNoteIds.forEach(noteId => regiserOutputNote(noteId));
   const executedTransaction = result.executed_transaction();
+  let faucetId: string | undefined;
+  if (inputNotes.length > 0) {
+    faucetId = inputNotes[0].note().assets().assets()[0].faucet_id().to_string();
+  } else if (outputNotes.length > 0) {
+    faucetId = outputNotes[0].assets()?.assets()[0].faucet_id().to_string();
+  }
 
   await updateTransactionStatus(id, ITransactionStatus.Completed, {
     transactionId: executedTransaction.id().to_hex(),
     inputNoteIds: inputNotes.map(note => note.id().to_string()),
     outputNoteIds,
+    faucetId,
     completedAt: Date.now() / 1000 // Convert to seconds.
   });
 };

@@ -1,8 +1,3 @@
-import memoize from 'micro-memoize';
-
-import { IRecord } from './db/types';
-import { NETWORKS } from './networks';
-
 // TODO: implement address checks
 export function isAddressValid(address: string) {
   return true;

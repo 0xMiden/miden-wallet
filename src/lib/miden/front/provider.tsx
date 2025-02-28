@@ -1,8 +1,8 @@
 import React, { FC, useMemo } from 'react';
 
+import { FiatCurrencyProvider } from 'lib/fiat-curency';
 import { MidenContextProvider, useMidenContext } from 'lib/miden/front/client';
 import { ReadyMidenProvider } from 'lib/miden/front/ready';
-import { FiatCurrencyProvider } from 'lib/fiat-curency';
 import { PropsWithChildren } from 'lib/props-with-children';
 
 import { TokensMetadataProvider } from './assets';

@@ -56,7 +56,6 @@ const Form: FC<FormProps> = ({ nft, fee, feePrivate, setConfirmStatus }) => {
   const account = useAccount();
   const { fullPage } = useAppEnv();
   const delegateTransaction = isDelegateProofEnabled();
-  const { authorizeTransaction } = useMidenContext();
   /**
    * Form
    */
@@ -84,16 +83,7 @@ const Form: FC<FormProps> = ({ nft, fee, feePrivate, setConfirmStatus }) => {
       // Human delay.
       await new Promise(res => setTimeout(res, 300));
     }
-  }, [
-    formState.isSubmitting,
-    account,
-    setConfirmStatus,
-    nft,
-    fee,
-    feePrivate,
-    authorizeTransaction,
-    delegateTransaction
-  ]);
+  }, [formState.isSubmitting, account, setConfirmStatus, nft, fee, feePrivate, delegateTransaction]);
 
   const publicNFTSection = (
     <div className="flex items-center">

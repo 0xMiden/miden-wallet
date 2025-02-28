@@ -3,15 +3,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useRecommendedFee } from 'app/constants';
 import { Loader } from 'components/Loader';
 import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
-import {
-  useAccount,
-  useMidenContext,
-  useUnspentAleoRecords,
-  useAllBalances,
-  useAllTokensBaseMetadata,
-  useBalance,
-  useDisplayedFungibleTokens
-} from 'lib/miden/front';
+import { useAccount, useMidenContext, useAllTokensBaseMetadata } from 'lib/miden/front';
 import { useFilteredContacts } from 'lib/miden/front/use-filtered-contacts.hook';
 import { getANSAddress, isAddressValid } from 'lib/miden/helpers';
 import { formatBigInt, stringToAleoMicrocredits, stringToBigInt } from 'lib/i18n/numbers';
@@ -22,7 +14,6 @@ import { UIContact, UIFeeType, UIFees, UIForm, UIToken, UITransactionType } from
 export const SendTokens = () => {
   const { search } = useLocation();
   const account = useAccount();
-  const { authorizeTransaction } = useMidenContext();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
 
@@ -72,7 +63,7 @@ export const SendTokens = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [account, authorizeTransaction]);
+  }, []);
 
   const onNavigateTo = useCallback((url: 'buy-tokens' | 'transfer-tokens' | 'faucet') => {
     switch (url) {
