@@ -11,21 +11,13 @@ import {
   isAleoAsset,
   AssetMetadata,
   ALEO_METADATA,
-  fetchDisplayedFungibleTokens,
-  fetchFungibleTokens,
-  fetchAllKnownFungibleTokenSlugs,
   onStorageChanged,
   putToStorage,
   fetchFromStorage,
-  fetchCollectibleTokens,
-  fetchAllKnownCollectibleTokenSlugs,
   DetailedAssetMetdata,
   AssetTypesEnum,
-  useAccount,
-  isTokenDisplayed,
   fetchTokenMetadata
 } from 'lib/miden/front';
-import { ITokenStatus } from 'lib/miden/repo';
 import { createQueue } from 'lib/queue';
 import { useRetryableSWR } from 'lib/swr';
 
@@ -34,41 +26,9 @@ import { ALEO_TOKEN_ID } from '../assets/constants';
 
 export const ALL_TOKENS_BASE_METADATA_STORAGE_KEY = 'tokens_base_metadata';
 
-export function useDisplayedFungibleTokens(chainId: string, account: string) {
-  return useRetryableSWR(
-    ['displayed-fungible-tokens', chainId, account],
-    () => fetchDisplayedFungibleTokens(chainId, account),
-    {
-      revalidateOnMount: true,
-      refreshInterval: 20_000,
-      dedupingInterval: 1_000
-    }
-  );
-}
-
 export function useFungibleTokens(account: string) {}
 
 export function useCollectibleTokens(account: string, isDisplayed: boolean) {}
-
-export function useAllKnownFungibleTokenSlugs(chainId: string) {
-  return useRetryableSWR(['all-known-fungible-token-slugs', chainId], () => fetchAllKnownFungibleTokenSlugs(chainId), {
-    revalidateOnMount: true,
-    refreshInterval: 60_000,
-    dedupingInterval: 10_000
-  });
-}
-
-export function useAllKnownCollectibleTokenSlugs(chainId: string) {
-  return useRetryableSWR(
-    ['all-known-collectible-token-slugs', chainId],
-    () => fetchAllKnownCollectibleTokenSlugs(chainId),
-    {
-      revalidateOnMount: true,
-      refreshInterval: 60_000,
-      dedupingInterval: 10_000
-    }
-  );
-}
 
 const enqueueAutoFetchMetadata = createQueue();
 const autoFetchMetadataFails = new Set<string>();

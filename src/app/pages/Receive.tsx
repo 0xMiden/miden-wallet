@@ -65,8 +65,8 @@ export const Receive: React.FC<ReceiveProps> = () => {
   }, []);
 
   const consumeNote = useCallback(
-    (noteId: string) => {
-      initiateConsumeTransaction(account.publicKey, noteId);
+    async (noteId: string) => {
+      await initiateConsumeTransaction(account.publicKey, noteId);
       openLoadingFullPage();
 
       const index = claimableNotes?.findIndex(note => note.id === noteId);

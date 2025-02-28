@@ -1241,7 +1241,7 @@
   resolved "https://registry.yarnpkg.com/@demox-labs/amp-core/-/amp-core-0.1.0.tgz#7a401fc856b28a98168d38b28e787846fdc3cc49"
   integrity sha512-L10JKzw32Z5geDHytb5ApVDUBRQ+T6/pfSaM5oeeaOrM5V7Rmbizoa0D3xzEaE6eDcm6X6U+bc0cun3cznJL+g==
 
-"@demox-labs/miden-sdk@^0.7.3":
+"@demox-labs/miden-sdk@0.7.3":
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/@demox-labs/miden-sdk/-/miden-sdk-0.7.3.tgz#b3637d3f4c1a4000645c01e10af76bee2d891f7b"
   integrity sha512-coUx8p+EAjjCy3/Gqm0x/5eonJZlszvv16YR+cDQKuBTuYTjj9M0HTRZLbM3rNqqjRX5Jp6gpTsXbNKSyRMn3A==
@@ -1250,14 +1250,14 @@
     dexie "^4.0.1"
     glob "^11.0.0"
 
-"@demox-labs/miden-wallet-adapter-base@^0.1.0":
+"@demox-labs/miden-wallet-adapter-base@^0.1.0", "@demox-labs/miden-wallet-adapter-base@^0.1.2":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-base/-/miden-wallet-adapter-base-0.1.2.tgz#e3621f104c4c1ed4867b243cf9092dd8d6eccfac"
   integrity sha512-M97wH/nEI6pqW18q4wgVv6Be8YmZvfjyYIL5I4MLpiYEzg6pPROXTzNfyH3bQrLWosp94IeuKIfmeOhD6TElCw==
   dependencies:
     eventemitter3 "^5.0.1"
 
-"@demox-labs/miden-wallet-adapter-trident@^0.1.0":
+"@demox-labs/miden-wallet-adapter-trident@^0.1.1":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-trident/-/miden-wallet-adapter-trident-0.1.1.tgz#165996b3524fbb03096bac38b28fe8af6df06542"
   integrity sha512-jNW4MoFG9XrmtBtWjOXlxZsz/pD97jLOqdJE9dEQftmGZ8ts2CKvK08d0xrR4e9DIvgsEukFj/jGfPUQG2f4tA==

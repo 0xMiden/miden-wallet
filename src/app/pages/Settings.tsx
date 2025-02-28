@@ -100,15 +100,6 @@ const TABS: Tab[] = [
     insertHR: false
   }
   // {
-  //   slug: 'file-settings',
-  //   titleI18nKey: 'fileSettings',
-  //   Icon: FileIcon,
-  //   Component: FileSettings,
-  //   descriptionI18nKey: 'fileSettingsDescription',
-  //   testID: SettingsSelectors.FileSettingsButton,
-  //   insertHR: false
-  // },
-  // {
   //   slug: 'advanced-settings',
   //   titleI18nKey: 'advancedSettings',
   //   Icon: ToolIcon,

@@ -6,7 +6,8 @@ import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 
 async function sendTransaction(transaction: SendTransaction): Promise<TransactionResult> {
   const midenClient = await MidenClientInterface.create();
-  return await midenClient.sendTransaction(transaction);
+  const result = await midenClient.sendTransaction(transaction);
+  return result;
 }
 
 expose(sendTransaction);
