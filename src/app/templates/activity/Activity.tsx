@@ -6,9 +6,9 @@ import { formatTransactionStatus, ITransactionStatus, ITransactionType } from 'l
 import { useRetryableSWR } from 'lib/swr';
 import useSafeState from 'lib/ui/useSafeState';
 
+import { getFaucetIdSetting } from '../EditMidenFaucetId';
 import ActivityView from './ActivityView';
 import { ActivityType, IActivity } from './IActivity';
-import { getFaucetIdSetting } from '../EditMidenFaucetId';
 
 type ActivityProps = {
   address: string;

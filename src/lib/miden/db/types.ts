@@ -1,5 +1,7 @@
 import { v4 as uuid } from 'uuid';
 
+import { NoteType } from '../types';
+
 export interface IInputNote {
   noteId: string;
   noteBytes: Uint8Array;
@@ -14,7 +16,6 @@ export enum ITransactionStatus {
 
 export type ITransactionIcon = 'SEND' | 'RECEIVE' | 'SWAP' | 'FAILED' | 'MINT' | 'DEFAULT';
 export type ITransactionType = 'send' | 'consume' | 'execute';
-export type INoteType = 'public' | 'private';
 
 export interface ITransaction {
   id: string;
@@ -24,7 +25,7 @@ export interface ITransaction {
   secondaryAccountId?: string;
   faucetId?: string;
   noteId?: string;
-  noteType?: INoteType;
+  noteType?: NoteType;
   transactionId?: string;
   requestBytes?: Uint8Array;
   status: ITransactionStatus;
@@ -43,7 +44,7 @@ export class Transaction implements ITransaction {
   type: ITransactionType;
   accountId: string;
   amount?: bigint;
-  noteType?: INoteType;
+  noteType?: NoteType;
   transactionId?: string;
   requestBytes?: Uint8Array;
   inputNoteIds?: string[];
@@ -75,7 +76,7 @@ export class SendTransaction implements ITransaction {
   amount: bigint;
   secondaryAccountId: string;
   faucetId: string;
-  noteType: INoteType;
+  noteType: NoteType;
   transactionId?: string;
   status: ITransactionStatus;
   initiatedAt: number;
@@ -90,7 +91,7 @@ export class SendTransaction implements ITransaction {
     amount: bigint,
     recipientId: string,
     faucetId: string,
-    noteType: INoteType,
+    noteType: NoteType,
     recallBlocks?: number
   ) {
     this.id = uuid();
@@ -124,16 +125,12 @@ export class ConsumeTransaction implements ITransaction {
   displayMessage?: string;
   displayIcon: ITransactionIcon;
 
-  constructor(
-    accountId: string,
-    noteId: string,
-    status: ITransactionStatus = ITransactionStatus.GeneratingTransaction
-  ) {
+  constructor(accountId: string, noteId: string) {
     this.id = uuid();
     this.type = 'consume';
     this.accountId = accountId;
     this.noteId = noteId;
-    this.status = status;
+    this.status = ITransactionStatus.Queued;
     this.initiatedAt = Date.now();
     this.displayIcon = 'RECEIVE';
     this.displayMessage = 'Consuming';

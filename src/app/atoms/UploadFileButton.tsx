@@ -1,7 +1,9 @@
 import React, { FC } from 'react';
-import { Button } from './Button';
+
 import classNames from 'clsx';
 import { t } from 'i18next';
+
+import { Button } from './Button';
 
 type UploadFileButtonProps = {
   uploadFile: () => void;

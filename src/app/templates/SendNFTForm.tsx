@@ -10,13 +10,13 @@ import NoSpaceField from 'app/atoms/NoSpaceField';
 import Spinner from 'app/atoms/Spinner/Spinner';
 import { RECOMMENDED_FEES } from 'app/constants';
 import { useAppEnv } from 'app/env';
+import { ALEO_DECIMALS } from 'lib/fiat-curency/consts';
+import { formatBigInt } from 'lib/i18n/numbers';
+import { T, t } from 'lib/i18n/react';
 import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
 import { isAddressValid, useAccount, useBalance } from 'lib/miden/front';
 import { useFilteredContacts } from 'lib/miden/front/use-filtered-contacts.hook';
 import { validateDelegate } from 'lib/miden/front/validate-delegate';
-import { ALEO_DECIMALS } from 'lib/fiat-curency/consts';
-import { formatBigInt } from 'lib/i18n/numbers';
-import { T, t } from 'lib/i18n/react';
 import useTippy from 'lib/ui/useTippy';
 import Link from 'lib/woozie/Link';
 

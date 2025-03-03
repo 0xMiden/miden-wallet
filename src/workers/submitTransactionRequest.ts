@@ -1,4 +1,3 @@
-import { TransactionResult } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
 import { expose } from 'threads/worker';
 
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
@@ -9,10 +8,11 @@ const SubmitTransactionRequest = {
   transferTransactionRequest: (buffer: ArrayBuffer) => {
     transactionRequest = new Uint8Array(buffer);
   },
-  submitTransactionRequest: async (address: string): Promise<TransactionResult> => {
+  submitTransactionRequest: async (address: string): Promise<Uint8Array> => {
     const midenClientInterface = await MidenClientInterface.create();
     const result = await midenClientInterface.submitTransaction(address, transactionRequest);
-    return result;
+    const resultBytes = result.serialize();
+    return resultBytes;
   }
 };
 

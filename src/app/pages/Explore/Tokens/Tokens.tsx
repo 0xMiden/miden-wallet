@@ -11,6 +11,7 @@ import { ReactComponent as SearchIcon } from 'app/icons/search.svg';
 import { AssetIcon } from 'app/templates/AssetIcon';
 import Balance from 'app/templates/Balance';
 import InFiat from 'app/templates/InFiat';
+import { T } from 'lib/i18n/react';
 import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
 import {
   useAccount,
@@ -22,7 +23,6 @@ import {
   searchAssets
 } from 'lib/miden/front';
 import { useFungibleTokensBalances } from 'lib/miden/front/fungible-tokens-balances';
-import { T } from 'lib/i18n/react';
 import { useIntersectionDetection } from 'lib/ui/use-intersection-detection';
 import { Link, navigate } from 'lib/woozie';
 

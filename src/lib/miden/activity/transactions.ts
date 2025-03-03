@@ -1,5 +1,4 @@
-import { NoteType } from '@demox-labs/miden-sdk';
-import { TransactionResult } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
+import { NoteType, TransactionResult } from '@demox-labs/miden-sdk';
 
 import { ampApi } from 'lib/amp/amp-interface';
 import { consumeNoteId } from 'lib/miden-worker/consumeNoteId';
@@ -8,18 +7,13 @@ import { submitTransactionRequest } from 'lib/miden-worker/submitTransactionRequ
 import * as Repo from 'lib/miden/repo';
 import { logger } from 'shared/logger';
 
-import {
-  ConsumeTransaction,
-  INoteType,
-  ITransaction,
-  ITransactionStatus,
-  SendTransaction,
-  Transaction
-} from '../db/types';
+import { ConsumeTransaction, ITransaction, ITransactionStatus, SendTransaction, Transaction } from '../db/types';
+import { toNoteTypeString } from '../helpers';
 import { NoteExportType } from '../sdk/constants';
 import { MidenClientInterface } from '../sdk/miden-client-interface';
-import { toNoteTypeString } from './helpers';
-import { queueNoteImport, regiserOutputNote } from './notes';
+import { NoteTypeEnum, NoteType as NoteTypeString } from '../types';
+import { importAllNotes, queueNoteImport, registerOutputNote } from './notes';
+import { interpretTransactionResult } from './helpers';
 
 export const MAX_WAIT_BEFORE_CANCEL = 30 * 60_000; // 30 minutes
 
@@ -29,40 +23,34 @@ export const requestCustomTransaction = async (
   inputNoteIds?: string[],
   importNotes?: string[]
 ): Promise<string> => {
-  console.log('storing custom transaction', transactionRequestBytes);
   const byteArray = new Uint8Array(Buffer.from(transactionRequestBytes, 'base64'));
   const transaction = new Transaction(accountId, byteArray, inputNoteIds);
   await Repo.transactions.add(transaction);
 
   if (importNotes) {
-    importNotes.forEach(noteBytes => {
+    const imports = importNotes.map(async noteBytes => {
       queueNoteImport(noteBytes);
     });
+
+    await Promise.all(imports);
   }
 
   return transaction.id;
 };
 
-export const completeCustomTransaction = async (id: string, result: TransactionResult) => {
-  const inputNotes = result.consumed_notes().notes();
+export const completeCustomTransaction = async (transaction: ITransaction, result: TransactionResult) => {
   const outputNotes = result.created_notes().notes();
-  const outputNoteIds = outputNotes.map(note => note.id().to_string());
-  outputNoteIds.forEach(noteId => regiserOutputNote(noteId));
-  const executedTransaction = result.executed_transaction();
-  let faucetId: string | undefined;
-  if (inputNotes.length > 0) {
-    faucetId = inputNotes[0].note().assets().assets()[0].faucet_id().to_string();
-  } else if (outputNotes.length > 0) {
-    faucetId = outputNotes[0].assets()?.assets()[0].faucet_id().to_string();
-  }
-
-  await updateTransactionStatus(id, ITransactionStatus.Completed, {
-    transactionId: executedTransaction.id().to_hex(),
-    inputNoteIds: inputNotes.map(note => note.id().to_string()),
-    outputNoteIds,
-    faucetId,
-    completedAt: Date.now() / 1000 // Convert to seconds.
+  const registerExports = outputNotes.map(async note => {
+    if (toNoteTypeString(note.metadata().note_type()) === NoteTypeEnum.Private) {
+      registerOutputNote(note.id().to_string());
+    }
   });
+  await Promise.all(registerExports);
+
+  const updatedTransaction = interpretTransactionResult(transaction, result);
+  updatedTransaction.completedAt = Date.now() / 1000; // Convert to seconds
+
+  await updateTransactionStatus(transaction.id, ITransactionStatus.Completed, updatedTransaction);
 };
 
 export const initiateConsumeTransaction = async (accountId: string, noteId: string): Promise<string> => {
@@ -100,7 +88,7 @@ export const initiateSendTransaction = async (
   senderAccountId: string,
   recipientAccountId: string,
   faucetId: string,
-  noteType: INoteType,
+  noteType: NoteTypeString,
   amount: bigint,
   recallBlocks?: number
 ): Promise<string> => {
@@ -118,13 +106,12 @@ export const initiateSendTransaction = async (
 };
 
 export const completeSendTransaction = async (tx: SendTransaction, result: TransactionResult) => {
-  const outputNote = result.created_notes().notes()[0];
   const noteId = result.created_notes().notes()[0].id().to_string();
-  if (outputNote.metadata().note_type() === NoteType.private()) {
+  if (tx.noteType === NoteTypeEnum.Private) {
     const midenClient = await MidenClientInterface.create();
     const noteBytes = await midenClient.exportNote(noteId, NoteExportType.PARTIAL);
-    regiserOutputNote(noteId);
-
+    console.log('registering output note', noteId);
+    await registerOutputNote(noteId);
     // TODO: Potentially unhook this from export process
     try {
       await ampApi.postMessage({
@@ -242,21 +229,24 @@ export const generateTransaction = async (transaction: Transaction) => {
   });
 
   // Process transaction
+  let resultBytes: Uint8Array;
   let result: TransactionResult;
   switch (transaction.type) {
     case 'send':
-      result = await sendTransaction(transaction as SendTransaction);
+      resultBytes = await sendTransaction(transaction as SendTransaction);
+      result = TransactionResult.deserialize(resultBytes);
       await completeSendTransaction(transaction as SendTransaction, result);
       break;
     case 'consume':
-      console.log('consuming note id', (transaction as ConsumeTransaction).noteId);
-      result = await consumeNoteId(transaction as ConsumeTransaction);
+      resultBytes = await consumeNoteId(transaction as ConsumeTransaction);
+      result = TransactionResult.deserialize(resultBytes);
       await completeConsumeTransaction(transaction.id, result);
       break;
     case 'execute':
     default:
-      result = await submitTransactionRequest(transaction.accountId, new Uint8Array(transaction.requestBytes!));
-      await completeCustomTransaction(transaction.id, result);
+      resultBytes = await submitTransactionRequest(transaction.accountId, new Uint8Array(transaction.requestBytes!));
+      result = TransactionResult.deserialize(resultBytes);
+      await completeCustomTransaction(transaction, result);
       break;
   }
 };
@@ -276,6 +266,9 @@ export const cancelTransactionById = async (id: string) => {
 
 export const generateTransactionsLoop = async () => {
   await cancelStuckTransactions();
+
+  // Import any notes needed for queued transactions
+  await importAllNotes();
 
   // Wait for other in progress transactions
   const inProgressTransactions = await getTransactionsInProgress();

@@ -16,6 +16,8 @@ export enum NoteTypeEnum {
   Private = 'private'
 }
 
+export type NoteType = NoteTypeEnum.Public | NoteTypeEnum.Private;
+
 export interface ExportedNote {
   noteId: string;
   noteBytes: Uint8Array;

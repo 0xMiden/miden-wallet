@@ -2,8 +2,8 @@ import React, { FC, useCallback, useMemo, useState } from 'react';
 
 import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { Button, ButtonVariant } from 'components/Button';
-import { useAccount, useNetwork } from 'lib/miden/front';
 import { t } from 'lib/i18n/react';
+import { useAccount, useNetwork } from 'lib/miden/front';
 
 const AdvancedSettings: FC = () => {
   const account = useAccount();

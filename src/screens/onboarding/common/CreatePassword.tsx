@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -95,6 +95,7 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
     specialChar: false,
     strongPasswordLength: false
   });
+  const verifyPasswordRef = useRef<HTMLInputElement>(null);
 
   const onTermsAcceptedToggle = (value: boolean) => {
     setTermsAccepted(value);
@@ -119,6 +120,13 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
     [passwordValidation, password, verifyPassword]
   );
 
+  const handleTabKey = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      verifyPasswordRef.current?.focus();
+    }
+  }, []);
+
   const onPasswordSubmit = useCallback(() => {
     if (isValidPassword && onSubmit) {
       onSubmit(password);
@@ -133,7 +141,7 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
     setIsVerifyPasswordVisible(prev => !prev);
   }, []);
 
-  const handleKeyDown = useCallback(
+  const handleEnterKey = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
         e.preventDefault();
@@ -165,13 +173,14 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
               </button>
             }
             onChange={onPasswordChange}
-            onKeyDown={handleKeyDown}
+            onKeyDown={handleTabKey}
           />
           <PasswordStrengthIndicator password={password} validation={passwordValidation} />
         </div>
 
         <div className="flex flex-col w-[360px] gap-y-2">
           <Input
+            ref={verifyPasswordRef}
             type={isVerifyPasswordVisible ? 'text' : 'password'}
             label={t('verifyPassword')}
             value={verifyPassword}
@@ -182,15 +191,23 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
               </button>
             }
             onChange={e => setVerifyPassword(e.target.value)}
-            onKeyDown={handleKeyDown}
+            onKeyDown={handleEnterKey}
           />
           <p
             className={classNames(
               'h-4 text-green-500 text-xs',
-              isValidPassword && password === verifyPassword ? 'opacity-100' : 'opacity-0'
+              isValidPassword && password === verifyPassword ? 'block' : 'hidden'
             )}
           >
             {t('itsAMatch')}
+          </p>
+          <p
+            className={classNames(
+              'h-4 text-red-500 text-xs',
+              verifyPassword.length >= password.length && password !== verifyPassword ? 'block' : 'hidden'
+            )}
+          >
+            {t('passwordsDoNotMatch')}
           </p>
         </div>
       </article>

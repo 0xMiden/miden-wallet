@@ -1,4 +1,3 @@
-import { TransactionResult } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
 import { spawn, Thread, Transfer, Worker } from 'threads';
 
 import { SubmitTransactionRequest } from 'workers/submitTransactionRequest';
@@ -6,7 +5,7 @@ import { SubmitTransactionRequest } from 'workers/submitTransactionRequest';
 export const submitTransactionRequest = async (
   address: string,
   transactionRequestBytes: Uint8Array
-): Promise<TransactionResult> => {
+): Promise<Uint8Array> => {
   const worker = await spawn<SubmitTransactionRequest>(new Worker('./submitTransactionRequest.js'));
 
   try {

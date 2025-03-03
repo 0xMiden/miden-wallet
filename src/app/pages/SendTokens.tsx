@@ -2,11 +2,11 @@ import React, { useCallback, useMemo, useState } from 'react';
 
 import { useRecommendedFee } from 'app/constants';
 import { Loader } from 'components/Loader';
+import { formatBigInt, stringToAleoMicrocredits, stringToBigInt } from 'lib/i18n/numbers';
 import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
 import { useAccount, useMidenContext, useAllTokensBaseMetadata } from 'lib/miden/front';
 import { useFilteredContacts } from 'lib/miden/front/use-filtered-contacts.hook';
 import { getANSAddress, isAddressValid } from 'lib/miden/helpers';
-import { formatBigInt, stringToAleoMicrocredits, stringToBigInt } from 'lib/i18n/numbers';
 import { navigate, useLocation } from 'lib/woozie';
 import { IndexScreen as SendTokensFlow } from 'screens/send-tokens';
 import { UIContact, UIFeeType, UIFees, UIForm, UIToken, UITransactionType } from 'screens/send-tokens/types';

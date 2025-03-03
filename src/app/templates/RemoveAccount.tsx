@@ -6,8 +6,8 @@ import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { ReactComponent as InfoIcon } from 'app/icons/info-alert.svg';
 import AccountBanner from 'app/templates/AccountBanner';
-import { useMidenContext, useAccount } from 'lib/miden/front';
 import { T, t } from 'lib/i18n/react';
+import { useMidenContext, useAccount } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
 
 const SUBMIT_ERROR_TYPE = 'submit-error';

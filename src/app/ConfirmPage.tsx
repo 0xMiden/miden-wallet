@@ -2,17 +2,19 @@
 
 import React, { FC, Fragment, Suspense, useCallback, useMemo, useState } from 'react';
 
+import { DecryptPermission } from '@demox-labs/miden-wallet-adapter-base';
 import classNames from 'clsx';
 
 import Spinner from 'app/atoms/Spinner/Spinner';
 import ErrorBoundary from 'app/ErrorBoundary';
 import ContentContainer from 'app/layouts/ContentContainer';
 import Unlock from 'app/pages/Unlock';
-import { useAccount, useMidenContext } from 'lib/miden/front';
 import { CustomRpsContext } from 'lib/analytics';
 import { ALEO_DECIMALS } from 'lib/fiat-curency';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { T, t } from 'lib/i18n/react';
+import { useAccount, useMidenContext } from 'lib/miden/front';
+import { MidenDAppPayload } from 'lib/miden/types';
 import { useRetryableSWR } from 'lib/swr';
 import useSafeState from 'lib/ui/useSafeState';
 import { useLocation } from 'lib/woozie';
@@ -31,8 +33,6 @@ import DecryptPermissionBanner from './templates/DecryptPermissionBanner';
 import DecryptPermissionCheckbox from './templates/DecryptPermissionCheckbox';
 import { isDelegateProofEnabled } from './templates/DelegateSettings';
 import NetworkBanner from './templates/NetworkBanner';
-import { MidenDAppPayload } from 'lib/miden/types';
-import { DecryptPermission } from '@demox-labs/miden-wallet-adapter-base';
 
 const ConfirmPage: FC = () => {
   const { ready } = useMidenContext();

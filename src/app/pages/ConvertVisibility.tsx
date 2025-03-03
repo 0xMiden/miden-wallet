@@ -2,11 +2,10 @@ import React, { FC, useCallback, useLayoutEffect, useState } from 'react';
 
 import { useRecommendedConvertFee } from 'app/constants';
 import { useAppEnv } from 'app/env';
-
-import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
-import { useAccount, useFungibleTokens, useAssetMetadata, useMidenContext, useBalance } from 'lib/miden/front';
 import { useAssetFiatCurrencyPrice } from 'lib/fiat-curency';
 import { formatBigInt, stringToAleoMicrocredits, stringToBigInt } from 'lib/i18n/numbers';
+import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
+import { useAccount, useFungibleTokens, useAssetMetadata, useMidenContext, useBalance } from 'lib/miden/front';
 import { HistoryAction, navigate } from 'lib/woozie';
 import { IndexScreen as ConvertTokensFlow } from 'screens/convert-tokens';
 import { UIFeeType, UIFees, UIForm, UIToken } from 'screens/convert-tokens/types';
