@@ -19,7 +19,6 @@ import RevealSecret from 'app/templates/RevealSecret';
 import { t } from 'lib/i18n/react';
 import { useAccount } from 'lib/miden/front';
 
-import NetworksSettings from './Networks';
 import { SettingsSelectors } from './Settings.selectors';
 
 type SettingsProps = {
@@ -135,16 +134,7 @@ const TABS: Tab[] = [
     descriptionI18nKey: 'aboutDescription',
     testID: SettingsSelectors.AboutButton,
     insertHR: false
-  },
-  {
-    slug: 'networks',
-    titleI18nKey: 'networks',
-    Icon: ExtensionIcon,
-    Component: NetworksSettings,
-    descriptionI18nKey: 'networkDescription',
-    testID: SettingsSelectors.NetworksButton,
-    insertHR: false
-  } */
+  }*/
 ];
 
 // TODO: Consider passing tabs in as a prop

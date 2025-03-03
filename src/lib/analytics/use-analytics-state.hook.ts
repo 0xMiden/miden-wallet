@@ -2,9 +2,9 @@ import { nanoid } from 'nanoid';
 
 import { AnalyticsEventCategory, PerformanceTimings } from 'lib/miden/analytics-types';
 import { useLocalStorage } from 'lib/miden/front/local-storage';
+import { WalletMessageType } from 'lib/shared/types';
 
 import { assertResponse, request } from '../miden/front';
-import { WalletMessageType } from 'lib/shared/types';
 
 interface AnalyticsStateInterface {
   enabled?: boolean;

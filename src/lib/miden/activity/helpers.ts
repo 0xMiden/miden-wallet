@@ -1,7 +1,7 @@
-import { NoteType } from '@demox-labs/miden-sdk';
+import { TransactionResult } from '@demox-labs/miden-sdk';
 import BigNumber from 'bignumber.js';
 
-import { INoteType } from '../db/types';
+import { ITransaction } from '../db/types';
 
 export function tryParseTokenTransfers(
   parameters: any,
@@ -86,6 +86,66 @@ const checkIfIntString = (x: any) => (typeof x.int === 'string' ? x.int : undefi
 const checkDestination = (x: any, destination: string) =>
   typeof x.int === 'string' ? toTokenId(destination, x.int) : undefined;
 
-export const toNoteTypeString = (noteType: NoteType) => (noteType === NoteType.public() ? 'public' : 'private');
+export const interpretTransactionResult = <K extends keyof ITransaction>(
+  transaction: ITransaction,
+  result: TransactionResult
+): Pick<ITransaction, K> => {
+  let type = transaction.type;
+  let displayMessage = transaction.displayMessage;
+  let displayIcon = transaction.displayIcon;
+  let secondaryAccountId = transaction.secondaryAccountId;
+  const inputNotes = result.consumed_notes().notes();
+  const outputNotes = result.created_notes().notes();
 
-export const toNoteType = (noteType: INoteType) => (noteType === 'public' ? NoteType.public() : NoteType.private());
+  const inputFaucetIds: string[] = [];
+  const outputFaucetIds: string[] = [];
+  let faucetId: string | undefined;
+  let inputAmount = BigInt(0);
+  let outputAmount = BigInt(0);
+  inputNotes.forEach(inputNote => {
+    const assets = inputNote.note().assets().assets();
+    inputAmount = assets.reduce((acc, asset) => acc + BigInt(asset.amount()), BigInt(0));
+    const faucetIds = [...new Set(assets.map(asset => asset.faucet_id().to_string()))];
+    inputFaucetIds.push(...faucetIds);
+  });
+  outputNotes.forEach(outputNote => {
+    const assets = outputNote.assets()!.assets();
+    outputAmount = assets.reduce((acc, asset) => acc + BigInt(asset.amount()), BigInt(0));
+    const faucetIds = [...new Set(assets.map(asset => asset.faucet_id().to_string()))];
+    outputFaucetIds.push(...faucetIds);
+  });
+  const transactionAmount = inputAmount - outputAmount;
+
+  if (inputFaucetIds.length === 1 && outputFaucetIds.length === 0) {
+    type = 'consume';
+    const sender = inputNotes[0].note().metadata().sender().to_string();
+    displayMessage = sender === transaction.accountId ? 'Reclaimed' : 'Received';
+    if (sender !== transaction.accountId) {
+      secondaryAccountId = sender;
+    }
+
+    faucetId = inputFaucetIds[0];
+    displayIcon = 'RECEIVE';
+  } else if (outputFaucetIds.length === 1 && inputFaucetIds.length === 0) {
+    type = 'send';
+    displayMessage = 'Sent';
+    displayIcon = 'SEND';
+    faucetId = outputFaucetIds[0];
+  } else {
+    displayMessage = 'Executed';
+  }
+
+  const updates = {
+    type,
+    displayMessage,
+    displayIcon,
+    secondaryAccountId,
+    transactionId: result.executed_transaction().id().to_hex(),
+    inputNoteIds: inputNotes.map(note => note.id().to_string()),
+    amount: transactionAmount !== BigInt(0) ? transactionAmount : undefined,
+    outputNoteIds: outputNotes.map(note => note.id().to_string()),
+    faucetId
+  };
+
+  return Object.assign(transaction, updates);
+};

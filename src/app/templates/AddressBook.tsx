@@ -9,15 +9,15 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import Name from 'app/atoms/Name';
 import { useAppEnv } from 'app/env';
 import { ReactComponent as CloseIcon } from 'app/icons/close.svg';
+import { t, T } from 'lib/i18n/react';
 import { useContacts, isAddressValid, getANSAddress } from 'lib/miden/front';
 import { useFilteredContacts } from 'lib/miden/front/use-filtered-contacts.hook';
-import { t, T } from 'lib/i18n/react';
+import { WalletContact } from 'lib/shared/types';
 import { useConfirm } from 'lib/ui/dialog';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
 import CustomSelect, { OptionRenderProps } from './CustomSelect';
 import HashChip from './HashChip';
-import { WalletContact } from 'lib/shared/types';
 
 type ContactActions = {
   remove: (address: string) => void;

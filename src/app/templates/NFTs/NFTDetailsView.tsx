@@ -3,7 +3,6 @@ import React, { FC } from 'react';
 import { useAppEnv } from 'app/env';
 import { ReactComponent as PublicGlobeIcon } from 'app/icons/globe.svg';
 import { ReactComponent as PrivateLockIcon } from 'app/icons/lock.svg';
-
 import { T, t } from 'lib/i18n/react';
 import { Link } from 'lib/woozie';
 

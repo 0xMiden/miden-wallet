@@ -3,6 +3,7 @@ import React from 'react';
 import { useArgs } from '@storybook/preview-api';
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { SelectAmount, SelectAmountProps } from 'screens/send-flow/SelectAmount';
 import {
   SendFlowAction,
   SendFlowActionId,
@@ -10,7 +11,6 @@ import {
   SendTokensActionId,
   UITransactionType
 } from 'screens/send-tokens/types';
-import { SelectAmount, SelectAmountProps } from 'screens/send-flow/SelectAmount';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta: Meta<typeof SelectAmount> = {

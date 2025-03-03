@@ -9,8 +9,8 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { getAccountBadgeTitle } from 'app/defaults';
 import { Icon, IconName } from 'app/icons/v2';
 import AccountBanner from 'app/templates/AccountBanner';
-import { useAccount, useSecretState, useMidenContext } from 'lib/miden/front';
 import { T, t } from 'lib/i18n/react';
+import { useAccount, useSecretState, useMidenContext } from 'lib/miden/front';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 
 const SUBMIT_ERROR_TYPE = 'submit-error';

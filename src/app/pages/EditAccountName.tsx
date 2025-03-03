@@ -6,9 +6,9 @@ import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { ACCOUNT_NAME_PATTERN } from 'app/defaults';
 import PageLayout from 'app/layouts/PageLayout';
-import { useAccount, useMidenContext } from 'lib/miden/front';
 import { useFormAnalytics } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
+import { useAccount, useMidenContext } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
 
 type FormData = {

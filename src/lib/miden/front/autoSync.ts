@@ -6,6 +6,8 @@ import { logger } from 'shared/logger';
 
 import { MidenClientInterface } from '../sdk/miden-client-interface';
 
+import * as Repo from 'lib/miden/repo';
+
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 const midenClient = await MidenClientInterface.create();
 

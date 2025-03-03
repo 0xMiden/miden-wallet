@@ -1,9 +1,4 @@
-import {
-  DecryptPermission,
-  MidenCustomTransaction,
-  SendTransaction,
-  TransactionType
-} from '@demox-labs/miden-wallet-adapter-base';
+import { DecryptPermission, MidenCustomTransaction, SendTransaction } from '@demox-labs/miden-wallet-adapter-base';
 import { nanoid } from 'nanoid';
 import browser, { Runtime } from 'webextension-polyfill';
 
@@ -35,7 +30,6 @@ import { WalletStatus } from 'lib/shared/types';
 
 import { initiateSendTransaction, requestCustomTransaction } from '../activity/transactions';
 import { store, withUnlocked } from './store';
-import { resolve } from 'path';
 
 const CONFIRM_WINDOW_WIDTH = 380;
 const CONFIRM_WINDOW_HEIGHT = 632;
@@ -208,17 +202,14 @@ export async function requestTransaction(
     throw new Error(MidenDAppErrorType.NotFound);
   }
 
-  return new Promise((resolve, reject) =>
-    generatePromisifyTransaction(resolve, reject, dApp, req, MidenDAppMessageType.TransactionResponse)
-  );
+  return new Promise((resolve, reject) => generatePromisifyTransaction(resolve, reject, dApp, req));
 }
 
 const generatePromisifyTransaction = async (
   resolve: (value: MidenDAppTransactionResponse | PromiseLike<MidenDAppTransactionResponse>) => void,
   reject: (reason?: any) => void,
   dApp: MidenDAppSession,
-  req: MidenDAppTransactionRequest,
-  messageType: MidenDAppMessageType.TransactionResponse
+  req: MidenDAppTransactionRequest
 ) => {
   const id = nanoid();
   const networkRpc = await getNetworkRPC(dApp.network);
@@ -256,36 +247,15 @@ const generatePromisifyTransaction = async (
       if (confirmReq?.type === MidenMessageType.DAppTransactionConfirmationRequest && confirmReq?.id === id) {
         if (confirmReq.confirmed) {
           try {
-            const { type, payload } = req.transaction;
-            let transactionId = '';
-            switch (type) {
-              case TransactionType.Send:
-                const { senderAccountId, recipientAccountId, faucetId, noteType, amount, recallBlocks } =
-                  payload as SendTransaction;
-                transactionId = await initiateSendTransaction(
-                  senderAccountId,
-                  recipientAccountId,
-                  faucetId,
-                  noteType,
-                  BigInt(amount),
-                  recallBlocks
-                );
-                resolve({
-                  type: messageType,
-                  transactionId
-                } as any);
-                break;
-              case TransactionType.Custom:
-                const { accountId, transactionRequest, inputNoteIds, importNotes } = payload as MidenCustomTransaction;
-                transactionId = await requestCustomTransaction(accountId, transactionRequest, importNotes);
-                resolve({
-                  type: messageType,
-                  transactionId
-                } as any);
-                break;
-              default:
-                throw new Error('Unable to create transaction');
-            }
+            const transactionId = withUnlocked(async () => {
+              const { payload } = req.transaction;
+              const { accountId, transactionRequest, inputNoteIds, importNotes } = payload as MidenCustomTransaction;
+              return await requestCustomTransaction(accountId, transactionRequest, inputNoteIds, importNotes);
+            });
+            resolve({
+              type: MidenDAppMessageType.TransactionResponse,
+              transactionId
+            } as any);
           } catch (e) {
             reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
           }
@@ -320,17 +290,14 @@ export async function requestSendTransaction(
     throw new Error(MidenDAppErrorType.NotFound);
   }
 
-  return new Promise((resolve, reject) =>
-    generatePromisifySendTransaction(resolve, reject, dApp, req, MidenDAppMessageType.SendTransactionResponse)
-  );
+  return new Promise((resolve, reject) => generatePromisifySendTransaction(resolve, reject, dApp, req));
 }
 
 const generatePromisifySendTransaction = async (
   resolve: (value: MidenDAppSendTransactionResponse | PromiseLike<MidenDAppSendTransactionResponse>) => void,
   reject: (reason?: any) => void,
   dApp: MidenDAppSession,
-  req: MidenDAppSendTransactionRequest,
-  messageType: MidenDAppMessageType.SendTransactionResponse
+  req: MidenDAppSendTransactionRequest
 ) => {
   const id = nanoid();
   const networkRpc = await getNetworkRPC(dApp.network);
@@ -362,17 +329,19 @@ const generatePromisifySendTransaction = async (
       if (confirmReq?.type === MidenMessageType.DAppTransactionConfirmationRequest && confirmReq?.id === id) {
         if (confirmReq.confirmed) {
           try {
-            const { senderAccountId, recipientAccountId, faucetId, noteType, amount, recallBlocks } = req.transaction;
-            const transactionId = await initiateSendTransaction(
-              senderAccountId,
-              recipientAccountId,
-              faucetId,
-              noteType,
-              BigInt(amount),
-              recallBlocks
-            );
+            const transactionId = withUnlocked(async () => {
+              const { senderAccountId, recipientAccountId, faucetId, noteType, amount, recallBlocks } = req.transaction;
+              return await initiateSendTransaction(
+                senderAccountId,
+                recipientAccountId,
+                faucetId,
+                noteType as any,
+                BigInt(amount),
+                recallBlocks
+              );
+            });
             resolve({
-              type: messageType,
+              type: MidenDAppMessageType.SendTransactionResponse,
               transactionId
             } as any);
           } catch (e) {

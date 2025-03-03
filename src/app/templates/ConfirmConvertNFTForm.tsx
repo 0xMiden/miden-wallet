@@ -9,11 +9,10 @@ import Spinner from 'app/atoms/Spinner/Spinner';
 import { openLoadingFullPage, useAppEnv } from 'app/env';
 import { ReactComponent as PublicGlobeIcon } from 'app/icons/globe.svg';
 import { ReactComponent as PrivateLockIcon } from 'app/icons/lock.svg';
-
-import { useAccount, useMidenContext } from 'lib/miden/front';
 import { ALEO_DECIMALS } from 'lib/fiat-curency/consts';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { t, T } from 'lib/i18n/react';
+import { useAccount, useMidenContext } from 'lib/miden/front';
 import Link from 'lib/woozie/Link';
 
 import { ConvertNFTVisibilityFormSelectors } from './ConvertNFTForm.selectors';

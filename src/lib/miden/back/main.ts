@@ -1,7 +1,6 @@
 import { Runtime } from 'webextension-polyfill';
 
 import * as Actions from 'lib/miden/back/actions';
-import * as Analytics from 'lib/miden/back/analytics';
 import { intercom } from 'lib/miden/back/defaults';
 import { store, toFront } from 'lib/miden/back/store';
 import { WalletMessageType, WalletRequest, WalletResponse } from 'lib/shared/types';

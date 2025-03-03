@@ -4,10 +4,10 @@ import classNames from 'clsx';
 
 import { useAppEnv } from 'app/env';
 import PageLayout from 'app/layouts/PageLayout';
-import Activity from 'app/templates/activity/Activity';
-import { useAccount } from 'lib/miden/front';
-import { T } from 'lib/i18n/react';
 import Footer from 'app/layouts/PageLayout/Footer';
+import Activity from 'app/templates/activity/Activity';
+import { T } from 'lib/i18n/react';
+import { useAccount } from 'lib/miden/front';
 
 type AllActivityProps = {
   programId?: string | null;

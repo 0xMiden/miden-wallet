@@ -1,4 +1,3 @@
-import { NoteType } from '@demox-labs/miden-sdk';
 import { SendTransaction } from '@demox-labs/miden-wallet-adapter-base';
 import * as Bip39 from 'bip39';
 

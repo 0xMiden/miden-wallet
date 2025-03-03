@@ -1,11 +1,11 @@
-import { TransactionResult } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
+import { TransactionResult } from '@demox-labs/miden-sdk';
 import { spawn, Thread, Worker } from 'threads';
 
 import { SendTransaction } from 'lib/miden/db/types';
 
-export type SendTransactionWorker = (transaction: SendTransaction) => Promise<TransactionResult>;
+import { SendTransactionWorker } from 'workers/sendTransaction';
 
-export const sendTransaction = async (transaction: SendTransaction): Promise<TransactionResult> => {
+export const sendTransaction = async (transaction: SendTransaction): Promise<Uint8Array> => {
   const worker = await spawn<SendTransactionWorker>(new Worker('./sendTransaction.js'));
 
   try {

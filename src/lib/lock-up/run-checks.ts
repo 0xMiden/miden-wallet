@@ -1,11 +1,11 @@
 import browser from 'webextension-polyfill';
 
 import { CHECK_ALEO_PAGES_EXIST, WALLET_AUTOLOCK_TIME } from 'lib/fixed-times';
-
-import { getIsLockUpEnabled } from './index';
 import { assertResponse, request } from 'lib/miden/front';
 import { MidenMessageType } from 'lib/miden/types';
 import { WalletMessageType } from 'lib/shared/types';
+
+import { getIsLockUpEnabled } from './index';
 
 if (window.location.href.includes('extension://') === false)
   throw new Error('Lock-up checks are meant for extension pages only.');

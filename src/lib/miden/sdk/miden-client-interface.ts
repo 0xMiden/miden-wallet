@@ -5,15 +5,15 @@ import {
   ConsumableNoteRecord,
   TransactionFilter,
   TransactionRequest,
+  TransactionResult,
   WebClient
 } from '@demox-labs/miden-sdk';
-import { TransactionResult } from '@demox-labs/miden-sdk/dist/crates/miden_client_web';
 
 import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
-import { toNoteType } from 'lib/miden/activity';
 import { WalletType } from 'screens/onboarding/types';
 
 import { ConsumeTransaction, SendTransaction } from '../db/types';
+import { toNoteType } from '../helpers';
 import { NoteExportType } from './constants';
 
 export class MidenClientInterface {
@@ -67,7 +67,7 @@ export class MidenClientInterface {
     return result;
   }
 
-  async consumeNoteId(transaction: ConsumeTransaction) {
+  async consumeNoteId(transaction: ConsumeTransaction): Promise<TransactionResult> {
     const { accountId, noteId } = transaction;
 
     await this.fetchCacheAccountAuth(accountId);

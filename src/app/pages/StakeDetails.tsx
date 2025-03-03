@@ -1,16 +1,17 @@
 import React, { FC } from 'react';
 
+import BigNumber from 'bignumber.js';
+
 import { PrimaryButton, SecondaryButton } from 'app/atoms/ActionButtons';
 import HashShortView from 'app/atoms/HashShortView';
 import { useAppEnv } from 'app/env';
 import PageLayout from 'app/layouts/PageLayout';
 import PreviewTransactionAmount from 'app/templates/PreviewTransactionAmount';
 import Validator from 'app/templates/Staking/Validator';
+import { t } from 'lib/i18n/react';
 import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
 import { useAccount, useStakedBalance, useUnstakedBalance } from 'lib/miden/front';
-import { t } from 'lib/i18n/react';
 import { Link } from 'lib/woozie';
-import BigNumber from 'bignumber.js';
 
 export interface StakeDetailsProps {
   assetSlug?: string;

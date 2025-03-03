@@ -4,6 +4,7 @@ import constate from 'constate';
 
 import { usePassiveStorage, useMidenContext } from 'lib/miden/front';
 import { WalletStatus } from 'lib/shared/types';
+
 import { MidenState, ReadyMidenState } from '../types';
 
 export enum ActivationStatus {

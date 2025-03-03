@@ -15,9 +15,11 @@ import { Button, ButtonVariant } from 'components/Button';
 import { useAnalytics } from 'lib/analytics';
 import { t } from 'lib/i18n/react';
 import { safeGenerateTransactionsLoop as dbTransactionsLoop, getAllUncompletedTransactions } from 'lib/miden/activity';
-import { useExportNotes, useImportNotes } from 'lib/miden/activity/notes';
+import { useExportNotes } from 'lib/miden/activity/notes';
 import { useRetryableSWR } from 'lib/swr';
 import { navigate } from 'lib/woozie';
+import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
+import { NoteExportType } from 'lib/miden/sdk/constants';
 
 export interface GeneratingTransactionPageProps {
   keepOpen?: boolean;
@@ -25,8 +27,7 @@ export interface GeneratingTransactionPageProps {
 
 export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ keepOpen = true }) => {
   const { pageEvent, trackEvent } = useAnalytics();
-  const [inputNotes, importAllNotes] = useImportNotes();
-  const outputNotes = useExportNotes();
+  const [outputNotes, downloadAll] = useExportNotes();
 
   const { data: txs, mutate: mutateTx } = useRetryableSWR(
     [`all-latest-generating-transactions`],
@@ -53,7 +54,6 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
 
   const transactions = useMemo(() => txs || [], [txs]);
   const prevTransactionsLength = useRef<number>();
-  const lastDownloadedNote = useRef<number | null>(null);
   useEffect(() => {
     if (
       outputNotes.length === 0 &&
@@ -67,40 +67,18 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
       });
     }
 
-    if (
-      outputNotes.length > 0 &&
-      (!lastDownloadedNote.current || lastDownloadedNote.current < outputNotes.length - 1)
-    ) {
-      new Promise(res => setTimeout(res, 1_000)).then(async () => {
-        const downloadLinks = document.getElementsByClassName('generating-transaction-page-note-download-link flex');
-        const startIndex = lastDownloadedNote.current === null ? 0 : lastDownloadedNote.current + 1;
-        if (downloadLinks.length > 0) {
-          for (let i = startIndex; i < outputNotes.length; i++) {
-            (downloadLinks[i] as HTMLAnchorElement).click();
-          }
-          lastDownloadedNote.current = outputNotes.length - 1;
-        }
-      });
-    }
-
     prevTransactionsLength.current = transactions.length;
   }, [transactions, trackEvent, outputNotes, onClose]);
 
   useEffect(() => {
-    if (inputNotes.length > 0) {
-      importAllNotes();
-    }
     dbTransactionsLoop();
     setInterval(() => {
-      if (inputNotes.length > 0) {
-        importAllNotes();
-      }
       dbTransactionsLoop();
       mutateTx();
     }, 5_000);
-  }, [transactions, mutateTx, importAllNotes, inputNotes]);
+  }, [transactions, mutateTx]);
 
-  useBeforeUnload(t('generatingTransactionWarning'), transactions.length !== 0);
+  useBeforeUnload(t('generatingTransactionWarning'), transactions.length !== 0, downloadAll);
   const progress = transactions.length > 0 ? (1 / transactions.length) * 80 : 0;
 
   return (
@@ -116,7 +94,6 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
     >
       <div className={classNames('flex flex-1 flex-col w-full')}>
         <GeneratingTransaction
-          exportedNotes={outputNotes}
           progress={progress}
           onDoneClick={onClose}
           transactionComplete={transactions.length === 0}
@@ -127,7 +104,6 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
 };
 
 export interface GeneratingTransactionProps {
-  exportedNotes: any[];
   onDoneClick: () => void;
   transactionComplete: boolean;
   progress?: number;
@@ -135,13 +111,13 @@ export interface GeneratingTransactionProps {
 }
 
 export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
-  exportedNotes,
   progress = 80,
   error,
   onDoneClick,
   transactionComplete
 }) => {
   const { t } = useTranslation();
+  const [outputNotes, downloadAll] = useExportNotes();
 
   const renderIcon = useCallback(() => {
     if (transactionComplete) {
@@ -189,18 +165,14 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
           </div>
         </div>
         <div className="mt-8 flex flex-col gap-y-4">
-          {exportedNotes.length > 0 &&
-            transactionComplete &&
-            exportedNotes.map(note => (
-              <a
-                href={note.downloadUrl}
-                key={note.noteId}
-                download={`midenNote${note.noteId.slice(0, 6)}.mno`}
-                className="generating-transaction-page-note-download-link flex"
-              >
-                <Button title="Download Transaction File" variant={ButtonVariant.Secondary} className="flex-1" />
-              </a>
-            ))}
+          {outputNotes.length > 0 && transactionComplete && (
+            <Button
+              title="Download Transaction Files"
+              variant={ButtonVariant.Secondary}
+              className="flex-1"
+              onClick={downloadAll}
+            />
+          )}
           <Button
             title={t('done')}
             variant={ButtonVariant.Primary}

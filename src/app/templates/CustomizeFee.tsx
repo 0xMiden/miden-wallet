@@ -8,11 +8,11 @@ import AssetField from 'app/atoms/AssetField';
 import { Button } from 'app/atoms/Button';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { useAppEnv } from 'app/env';
-import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
-import { useAccount, useBalance, useFee } from 'lib/miden/front';
 import { ALEO_DECIMALS, ALEO_MICROCREDITS_TO_CREDITS } from 'lib/fiat-curency/consts';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { T, t } from 'lib/i18n/react';
+import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
+import { useAccount, useBalance, useFee } from 'lib/miden/front';
 import { useAlert } from 'lib/ui/dialog';
 
 interface FormData {
