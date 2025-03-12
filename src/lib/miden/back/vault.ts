@@ -66,25 +66,24 @@ export class Vault {
         mnemonic = Bip39.generateMnemonic(128);
       }
 
-      // const walletSeed = deriveClientSeed(walletType, mnemonic, []);
-
       const midenClient = await MidenClientInterface.create();
       const hdAccIndex = 0;
+      const walletSeed = deriveClientSeed(WalletType.OnChain, mnemonic, []);
 
       console.log('created miden client');
 
       let accPublicKey;
       if (ownMnemonic) {
         try {
-          // accPublicKey = await midenClient.importMidenWalletFromSeed(walletType, walletSeed);
-          accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain);
+          accPublicKey = await midenClient.importPublicMidenWalletFromSeed(walletSeed);
+          // accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain);
         } catch (e) {
-          // TODO: Propagate this error up somehow to user indicating the import failed
+          // TODO: Need some way to propagate this up. Should we fail the entire process or just log it?
           console.error('Failed to import wallet from seed, creating new wallet instead');
           accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain);
         }
       } else {
-        accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain);
+        accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain, walletSeed);
       }
 
       console.log({ accPublicKey });
@@ -187,7 +186,6 @@ export class Vault {
         try {
           walletId = await midenClient.importPublicMidenWalletFromSeed(walletSeed);
         } catch (e) {
-          // TODO: Need some way to propagate this up. Should we fail the entire process or just log it?
           walletId = await midenClient.createMidenWallet(walletType, walletSeed);
         }
       } else {
