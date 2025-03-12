@@ -8,9 +8,9 @@ import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import SimplePageLayout from 'app/layouts/SimplePageLayout';
 import LogoVerticalTitle from 'app/misc/logo-vertical-title.svg';
-import { useLocalStorage, useMidenContext } from 'lib/miden/front';
 import { useFormAnalytics } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
+import { useLocalStorage, useMidenContext } from 'lib/miden/front';
 import { Link } from 'lib/woozie';
 
 interface UnlockProps {

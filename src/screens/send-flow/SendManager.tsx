@@ -4,13 +4,10 @@ import classNames from 'clsx';
 import { OnSubmit, useForm } from 'react-hook-form';
 
 import { openLoadingFullPage, useAppEnv } from 'app/env';
-import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { getFaucetIdSetting } from 'app/templates/EditMidenFaucetId';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
-import { MidenTokens, TOKEN_MAPPING } from 'lib/miden-chain/constants';
+import { initiateSendTransaction } from 'lib/miden/activity';
 import { useAccount } from 'lib/miden/front';
-import { useQueuedTransactions } from 'lib/miden/front/queued-transactions';
-import { NoteTypeEnum, QueuedTransactionType, SendTransactionTransaction } from 'lib/miden/types';
 import { navigate } from 'lib/woozie';
 import { SendFlowAction, SendFlowActionId, SendFlowForm, SendFlowStep } from 'screens/send-tokens/types';
 
@@ -54,8 +51,6 @@ export interface SendManagerProps {
 export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const { navigateTo, goBack } = useNavigator();
   const { publicKey } = useAccount();
-  const [, queueTransaction] = useQueuedTransactions();
-  const isDelegatedProvingEnabled = isDelegateProofEnabled();
   const faucetId = getFaucetIdSetting();
   const { fullPage } = useAppEnv();
 
@@ -128,17 +123,14 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       }
       try {
         clearError('submit');
-        const payload: SendTransactionTransaction = {
-          senderAccountId: publicKey!,
-          recipientAccountId: recipientAddress!,
-          faucetId: faucetId, // TODO: add more robust way to change faucet id
-          noteType: sharePrivately ? NoteTypeEnum.Private : NoteTypeEnum.Public,
-          amount: amount!,
-          recallBlocks: recallBlocks ? parseInt(recallBlocks) : undefined,
-          delegateTransaction: isDelegatedProvingEnabled
-        };
-        const transaction = { type: QueuedTransactionType.SendTransaction, data: payload };
-        queueTransaction(transaction);
+        await initiateSendTransaction(
+          publicKey!,
+          recipientAddress!,
+          faucetId,
+          sharePrivately ? 'private' : 'public',
+          BigInt(amount!),
+          recallBlocks ? parseInt(recallBlocks) : undefined
+        );
         onAction({ id: SendFlowActionId.GenerateTransaction });
       } catch (e: any) {
         if (e.message) {
@@ -156,9 +148,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       sharePrivately,
       amount,
       recallBlocks,
-      queueTransaction,
       setError,
-      isDelegatedProvingEnabled,
       faucetId
     ]
   );

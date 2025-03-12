@@ -9,11 +9,11 @@ import HashShortView from 'app/atoms/HashShortView';
 import Spinner from 'app/atoms/Spinner/Spinner';
 import { openLoadingFullPage, useAppEnv } from 'app/env';
 import PreviewTransactionAmount from 'app/templates/PreviewTransactionAmount';
-import { CREDITS_PROGRAM_ID } from 'lib/miden/assets/constants';
-import { useAccount, useMidenContext } from 'lib/miden/front';
 import { ALEO_DECIMALS, ALEO_MICROCREDITS_TO_CREDITS } from 'lib/fiat-curency/consts';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { t, T } from 'lib/i18n/react';
+import { CREDITS_PROGRAM_ID } from 'lib/miden/assets/constants';
+import { useAccount, useMidenContext } from 'lib/miden/front';
 import Link from 'lib/woozie/Link';
 
 import { isDelegateProofEnabled } from '../DelegateSettings';
@@ -107,7 +107,7 @@ const Form: FC<FormProps> = ({
   const { fullPage } = useAppEnv();
   const assetSymbol = assetSlug.toUpperCase() || 'ALEO';
   const delegateTransaction = isDelegateProofEnabled();
-  const { authorizeTransaction } = useMidenContext();
+  // const { authorizeTransaction } = useMidenContext();
 
   /**
    * Form
@@ -144,8 +144,8 @@ const Form: FC<FormProps> = ({
     fee,
     feePrivate,
     validator,
-    delegateTransaction,
-    authorizeTransaction
+    delegateTransaction
+    // authorizeTransaction
   ]);
 
   const amountFormatted = new BigNumber(Number(amount) / ALEO_MICROCREDITS_TO_CREDITS);

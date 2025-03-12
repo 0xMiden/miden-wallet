@@ -9,8 +9,8 @@ import FormSecondaryButton from 'app/atoms/FormSecondaryButton';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import HashShortView from 'app/atoms/HashShortView';
 import ModalWithTitle from 'app/templates/ModalWithTitle';
-import { useContacts } from 'lib/miden/front';
 import { T, t } from 'lib/i18n/react';
+import { useContacts } from 'lib/miden/front';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
 type AddContactModalProps = {

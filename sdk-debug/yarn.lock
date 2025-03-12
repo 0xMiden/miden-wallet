@@ -201,7 +201,11 @@ content-disposition@0.5.2:
   resolved "https://registry.yarnpkg.com/content-disposition/-/content-disposition-0.5.2.tgz#0cf68bb9ddf5f2be7961c3a85178cb85dba78cb4"
   integrity sha512-kRGRZw3bLlFISDBgwTSA1TMBFN6J6GWDeubmDE3AF+3+yXL8hTWv8r5rkLbqYXY4RjPk/EzHnClI3zQf1cFmHA==
 
+<<<<<<< HEAD
 cross-spawn@^7.0.3, cross-spawn@^7.0.6:
+=======
+cross-spawn@^7.0.0, cross-spawn@^7.0.3:
+>>>>>>> next
   version "7.0.6"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.6.tgz#8a58fe78f00dcd70c370451759dfbfaf03e8ee9f"
   integrity sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==
@@ -258,11 +262,19 @@ fast-deep-equal@^3.1.1:
   integrity sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==
 
 foreground-child@^3.1.0:
+<<<<<<< HEAD
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/foreground-child/-/foreground-child-3.3.1.tgz#32e8e9ed1b68a3497befb9ac2b6adf92a638576f"
   integrity sha512-gIXjKqtFuWEgzFRJA9WCQeSJLZDjgJUOMCMzxtvFq/37KojM1BFGufqsCy0r4qSQmYLsZYMeyRqzIWOMup03sw==
   dependencies:
     cross-spawn "^7.0.6"
+=======
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/foreground-child/-/foreground-child-3.3.0.tgz#0ac8644c06e431439f8561db8ecf29a7b5519c77"
+  integrity sha512-Ld2g8rrAyMYFXBhEqMz8ZAHBi4J4uS1i/CxGMDnjyFWddMXLVcDp051DZfu+t7+ab7Wv6SMqpWmyFIj5UbfFvg==
+  dependencies:
+    cross-spawn "^7.0.0"
+>>>>>>> next
     signal-exit "^4.0.1"
 
 get-stream@^6.0.0:
@@ -330,9 +342,15 @@ isexe@^2.0.0:
   integrity sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==
 
 jackspeak@^4.0.1:
+<<<<<<< HEAD
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/jackspeak/-/jackspeak-4.1.0.tgz#c489c079f2b636dc4cbe9b0312a13ff1282e561b"
   integrity sha512-9DDdhb5j6cpeitCbvLO7n7J4IxnbM6hoF6O1g4HQ5TfhvvKN8ywDM7668ZhMHRqVmxqhps/F6syWK2KcPxYlkw==
+=======
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/jackspeak/-/jackspeak-4.0.3.tgz#8a21082b8c019e7a0a8187ad8b736609bc85ab18"
+  integrity sha512-oSwM7q8PTHQWuZAlp995iPpPJ4Vkl7qT0ZRD+9duL9j2oBy6KcTfyxc8mEuHJYC+z/kbps80aJLkaNzTOrf/kw==
+>>>>>>> next
   dependencies:
     "@isaacs/cliui" "^8.0.2"
 

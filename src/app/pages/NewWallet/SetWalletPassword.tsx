@@ -5,7 +5,6 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { useMidenContext } from 'lib/miden/front/client';
 import { navigate } from 'lib/woozie';
-import { WalletType } from 'screens/onboarding/types';
 
 import { AnalyticsEventCategory, useAnalytics, useAnalyticsSettings } from '../../../lib/analytics';
 import { T, t } from '../../../lib/i18n/react';
@@ -101,7 +100,7 @@ export const SetWalletPassword: FC<SetWalletPasswordProps> = ({
         setAnalyticsEnabled(data.analytics);
         setOnboardingCompleted(true);
 
-        await registerWallet(WalletType.OnChain, password!, formatMnemonic(seedPhrase), ownMnemonic); // TODO: This will change when import flow is hashed out
+        await registerWallet(password!, formatMnemonic(seedPhrase), ownMnemonic); // TODO: This will change when import flow is hashed out
         trackEvent(
           'WalletCreated',
           AnalyticsEventCategory.General,

@@ -28,7 +28,6 @@ const Welcome: FC = () => {
       if (!importedWithFile) {
         try {
           await registerWallet(
-            WalletType.OnChain,
             password,
             seedPhraseFormatted,
             onboardingType === OnboardingType.Import // might be able to leverage ownMnemonic to determine whther to attempt imports in general
@@ -52,9 +51,10 @@ const Welcome: FC = () => {
     let eventProperties = {};
 
     switch (action.id) {
-      case 'select-wallet-type':
+      case 'create-wallet':
+        setSeedPhrase(generateMnemonic(128).split(' '));
         setOnboardingType(OnboardingType.Create);
-        navigate('/#select-wallet-type');
+        navigate('/#backup-seed-phrase');
         break;
       case 'select-import-type':
         setOnboardingType(OnboardingType.Import);
@@ -102,8 +102,6 @@ const Welcome: FC = () => {
       case 'back':
         if (step === OnboardingStep.SelectImportType || step === OnboardingStep.SelectWalletType) {
           navigate('/');
-        } else if (step === OnboardingStep.BackupSeedPhrase) {
-          navigate('/#select-wallet-type');
         } else if (step === OnboardingStep.VerifySeedPhrase) {
           navigate('/#backup-seed-phrase');
         } else if (step === OnboardingStep.CreatePassword) {
@@ -143,6 +141,7 @@ const Welcome: FC = () => {
         setStep(OnboardingStep.ImportFromFile);
         break;
       case '#backup-seed-phrase':
+        setOnboardingType(OnboardingType.Create);
         setStep(OnboardingStep.BackupSeedPhrase);
         break;
       case '#verify-seed-phrase':
@@ -168,7 +167,6 @@ const Welcome: FC = () => {
       wordslist={wordslist}
       seedPhrase={seedPhrase}
       onboardingType={onboardingType}
-      walletType={walletType}
       step={step}
       isLoading={isLoading}
       onAction={onAction}

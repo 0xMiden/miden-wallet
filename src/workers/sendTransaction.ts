@@ -1,50 +1,15 @@
-import { NoteType } from '@demox-labs/miden-sdk';
+import { TransactionResult } from '@demox-labs/miden-sdk';
 import { expose } from 'threads/worker';
 
-import { NoteExportType } from 'lib/miden/sdk/constants';
+import { SendTransaction } from 'lib/miden/db/types';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
-import { ExportedNote } from 'lib/miden/types';
-import { ampApi } from 'lib/amp/amp-interface';
 
-async function sendTransaction(
-  senderAccountId: string,
-  recipientAccountId: string,
-  faucetId: string,
-  noteType: string,
-  amount: string,
-  recallBlocks?: number,
-  delegateProving?: boolean
-): Promise<ExportedNote | null> {
-  const midenClient = await MidenClientInterface.create({ delegateProving });
-  const noteTypeObj = noteType === 'public' ? NoteType.public() : NoteType.private();
-  const result = await midenClient.sendTransaction(
-    senderAccountId,
-    recipientAccountId,
-    faucetId,
-    noteTypeObj,
-    BigInt(amount),
-    recallBlocks
-  );
-
-  if (noteType === 'private') {
-    const noteId = result.createdNotes().notes()[0].id().toString();
-    const noteBytes = await midenClient.exportNote(noteId, NoteExportType.PARTIAL);
-
-    // TODO: Potentially unhook this from export process
-    try {
-      await ampApi.postMessage({
-        recipient: recipientAccountId,
-        body: noteBytes.toString()
-      });
-      console.log('Sent note to AMP');
-    } catch (e) {
-      console.error('Failed to send note to AMP', e);
-    }
-
-    return { noteId, noteBytes };
-  }
-
-  return null;
+async function sendTransaction(transaction: SendTransaction): Promise<Uint8Array> {
+  const midenClient = await MidenClientInterface.create();
+  const result = await midenClient.sendTransaction(transaction);
+  return result.serialize();
 }
+
+export type SendTransactionWorker = typeof sendTransaction;
 
 expose(sendTransaction);

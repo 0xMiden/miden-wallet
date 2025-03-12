@@ -1,19 +1,20 @@
 import React, { useCallback, useRef } from 'react';
 
 import FormField from 'app/atoms/FormField';
-import { openLoadingFullPage } from 'app/env';
+import { openLoadingFullPage, useAppEnv } from 'app/env';
 import { Icon, IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
 import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Button, ButtonVariant } from 'components/Button';
 import { T } from 'lib/i18n/react';
+import { initiateConsumeTransaction } from 'lib/miden/activity';
 import { useAccount } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
-import { useQueuedTransactions } from 'lib/miden/front/queued-transactions';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
-import { QueuedTransactionType } from 'lib/miden/types';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 import { HistoryAction, navigate } from 'lib/woozie';
+
+import AddressChip from './Explore/AddressChip';
 
 export interface ReceiveProps {}
 
@@ -25,8 +26,8 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const { fieldRef, copy } = useCopyToClipboard();
   const { data: claimableNotes } = useClaimableNotes(address);
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
-  const [, queueTransaction] = useQueuedTransactions();
-  const fileInputRef = useRef(null);
+  const { popup } = useAppEnv();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const pageTitle = (
     <>
@@ -64,24 +65,16 @@ export const Receive: React.FC<ReceiveProps> = () => {
   }, []);
 
   const consumeNote = useCallback(
-    (noteId: string) => {
-      const transaction = {
-        type: QueuedTransactionType.ConsumeNoteId,
-        data: {
-          address: account.publicKey,
-          noteId,
-          delegateTransaction: isDelegatedProvingEnabled
-        }
-      };
-
-      queueTransaction(transaction);
+    async (noteId: string) => {
+      await initiateConsumeTransaction(account.publicKey, noteId);
       openLoadingFullPage();
+
       const index = claimableNotes?.findIndex(note => note.id === noteId);
       if (index !== undefined && index !== -1) {
         claimableNotes?.splice(index, 1);
       }
     },
-    [account, isDelegatedProvingEnabled, queueTransaction, claimableNotes]
+    [account, claimableNotes]
   );
 
   return (
@@ -101,10 +94,14 @@ export const Receive: React.FC<ReceiveProps> = () => {
         <div className="flex flex-col justify-start">
           <div className="flex justify-center items-center gap-24 pb-6">
             <div className="flex flex-col">
-              <p className="text-xs text-gray-400">Your address</p>
-              <p className="text-sm">{address}</p>
+              <p className="text-sm md:text-xs text-gray-400 pl-2 md:pl-0">Your address</p>
+              {popup ? (
+                <AddressChip publicKey={address} trim={false} className="text-sm" />
+              ) : (
+                <p className="text-sm">{address}</p>
+              )}
             </div>
-            <Icon name={IconName.Copy} onClick={copy} style={{ cursor: 'pointer' }} />
+            {!popup && <Icon name={IconName.Copy} onClick={copy} style={{ cursor: 'pointer' }} />}
           </div>
         </div>
         <div className="w-5/6 md:w-1/2 mx-auto" style={{ borderBottom: '1px solid #E9EBEF' }}></div>

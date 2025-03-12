@@ -19,7 +19,6 @@ import RevealSecret from 'app/templates/RevealSecret';
 import { t } from 'lib/i18n/react';
 import { useAccount } from 'lib/miden/front';
 
-import NetworksSettings from './Networks';
 import { SettingsSelectors } from './Settings.selectors';
 import { EncryptedFileFlow, EncryptedFileManager } from 'screens/encrypted-file-flow/EncryptedFileManager';
 
@@ -110,15 +109,6 @@ const TABS: Tab[] = [
     insertHR: false
   }
   // {
-  //   slug: 'file-settings',
-  //   titleI18nKey: 'fileSettings',
-  //   Icon: FileIcon,
-  //   Component: FileSettings,
-  //   descriptionI18nKey: 'fileSettingsDescription',
-  //   testID: SettingsSelectors.FileSettingsButton,
-  //   insertHR: false
-  // },
-  // {
   //   slug: 'advanced-settings',
   //   titleI18nKey: 'advancedSettings',
   //   Icon: ToolIcon,
@@ -154,16 +144,7 @@ const TABS: Tab[] = [
     descriptionI18nKey: 'aboutDescription',
     testID: SettingsSelectors.AboutButton,
     insertHR: false
-  },
-  {
-    slug: 'networks',
-    titleI18nKey: 'networks',
-    Icon: ExtensionIcon,
-    Component: NetworksSettings,
-    descriptionI18nKey: 'networkDescription',
-    testID: SettingsSelectors.NetworksButton,
-    insertHR: false
-  } */
+  }*/
 ];
 
 // TODO: Consider passing tabs in as a prop
@@ -184,7 +165,10 @@ const Settings: FC<SettingsProps> = ({ tabSlug }) => {
   }, [popup]);
 
   return (
-    <PageLayout pageTitle={activeTab ? t(activeTab.titleI18nKey) : t('settings')}>
+    <PageLayout
+      pageTitle={activeTab ? t(activeTab.titleI18nKey) : t('settings')}
+      hasBackAction={activeTab ? true : false}
+    >
       <div className={classNames('flex flex-col flex-1', activeTab ? '' : 'pb-4')} style={{ minHeight: '458px' }}>
         <div className="px-4 overflow-y-auto" style={fullPage ? {} : { maxHeight: '458px' }}>
           {activeTab ? (
@@ -221,7 +205,7 @@ const Settings: FC<SettingsProps> = ({ tabSlug }) => {
           )}
         </div>
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </PageLayout>
   );
 };

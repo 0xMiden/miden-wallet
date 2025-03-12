@@ -16,36 +16,11 @@ export enum NoteTypeEnum {
   Private = 'private'
 }
 
+export type NoteType = NoteTypeEnum.Public | NoteTypeEnum.Private;
+
 export interface ExportedNote {
   noteId: string;
   noteBytes: Uint8Array;
-}
-
-export interface QueuedTransaction {
-  type: QueuedTransactionType;
-  data: any;
-  id?: number;
-}
-
-export enum QueuedTransactionType {
-  ConsumeNoteId,
-  SendTransaction
-}
-
-export interface ConsumedNoteIdTransaction {
-  address: string;
-  noteId: string;
-  delegateTransaction: boolean;
-}
-
-export interface SendTransactionTransaction {
-  senderAccountId: string;
-  recipientAccountId: string;
-  faucetId: string;
-  noteType: string;
-  amount: string;
-  recallBlocks?: number;
-  delegateTransaction: boolean;
 }
 
 export interface MidenDAppSession {

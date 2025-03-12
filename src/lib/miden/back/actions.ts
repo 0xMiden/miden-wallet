@@ -1,5 +1,3 @@
-import { MidenMintTransaction } from '@demox-labs/miden-wallet-adapter-base';
-
 import { MidenDAppMessageType, MidenDAppRequest, MidenDAppResponse } from 'lib/adapter/types';
 import {
   toFront,
@@ -10,7 +8,8 @@ import {
   withInited,
   withUnlocked,
   settingsUpdated,
-  accountsUpdated
+  accountsUpdated,
+  currentAccountUpdated
 } from 'lib/miden/back/store';
 import { Vault } from 'lib/miden/back/vault';
 import { createQueue } from 'lib/queue';
@@ -23,6 +22,7 @@ import {
   removeDApp,
   requestDisconnect,
   requestPermission,
+  requestSendTransaction,
   requestTransaction
 } from './dapp';
 
@@ -50,10 +50,10 @@ export async function isDAppEnabled() {
   return true;
 }
 
-export function registerNewWallet(walletType: WalletType, password: string, mnemonic?: string, ownMnemonic?: boolean) {
+export function registerNewWallet(password: string, mnemonic?: string, ownMnemonic?: boolean) {
   return withInited(async () => {
     // TODO: Conditional here with Miden / Aleo wallet types
-    await Vault.spawn(walletType, password, mnemonic, ownMnemonic);
+    await Vault.spawn(password, mnemonic, ownMnemonic);
     await unlock(password);
   });
 }
@@ -84,7 +84,12 @@ export function unlock(password: string) {
   );
 }
 
-export function updateCurrentAccount(accPublicKey: string) {}
+export function updateCurrentAccount(accPublicKey: string) {
+  return withUnlocked(async ({ vault }) => {
+    const currentAccount = await vault.setCurrentAccount(accPublicKey);
+    currentAccountUpdated(currentAccount);
+  });
+}
 
 export function getCurrentAccount() {
   return withUnlocked(async ({ vault }) => {
@@ -93,17 +98,17 @@ export function getCurrentAccount() {
   });
 }
 
-export function createHDAccount(name?: string) {
+export function createHDAccount(walletType: WalletType, name?: string) {
   return withUnlocked(async ({ vault }) => {
     if (name) {
       name = name.trim();
       if (!ACCOUNT_NAME_PATTERN.test(name)) {
         throw new Error('Invalid name. It should be: 1-16 characters, without special');
       }
-
-      const accounts = await vault.createHDAccount(name);
-      accountsUpdated({ accounts });
     }
+
+    const accounts = await vault.createHDAccount(walletType, name);
+    accountsUpdated({ accounts });
   });
 }
 
@@ -177,13 +182,10 @@ export async function processDApp(origin: string, req: MidenDAppRequest): Promis
 
     case MidenDAppMessageType.TransactionRequest:
       return withInited(() => enqueueDApp(() => requestTransaction(origin, req)));
-  }
-}
 
-export async function requestMintTransaction(req: MidenMintTransaction) {
-  return withUnlocked(async ({ vault }) => {
-    vault.mintTransaction(req.recipientAccountId, req.faucetId, req.noteType, BigInt(req.amount));
-  });
+    case MidenDAppMessageType.SendTransactionRequest:
+      return withInited(() => enqueueDApp(() => requestSendTransaction(origin, req)));
+  }
 }
 
 // async function createCustomNetworksSnapshot(settings: WalletSettings) {

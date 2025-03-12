@@ -1,13 +1,17 @@
-import { spawn, Worker, Thread } from 'threads';
+import { TransactionResult } from '@demox-labs/miden-sdk';
+import { spawn, Thread, Worker } from 'threads';
 
-export type ConsumeNoteIdWorker = (address: string, noteId: string, delegateProof: boolean) => Promise<void>;
+import { ConsumeTransaction } from 'lib/miden/db/types';
 
-export const consumeNoteId = async (address: string, noteId: string, delegateProof: boolean): Promise<void> => {
+import { ConsumeNoteIdWorker } from 'workers/consumeNoteId';
+
+export const consumeNoteId = async (transaction: ConsumeTransaction): Promise<Uint8Array> => {
   const worker = await spawn<ConsumeNoteIdWorker>(new Worker('./consumeNoteId.js'));
 
   try {
-    await worker(address, noteId, delegateProof);
+    const result = await worker(transaction);
     await Thread.terminate(worker);
+    return result;
   } catch (e) {
     await Thread.terminate(worker);
     throw e;

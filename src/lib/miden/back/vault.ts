@@ -1,4 +1,3 @@
-import { NoteType } from '@demox-labs/miden-sdk';
 import { SendTransaction } from '@demox-labs/miden-wallet-adapter-base';
 import * as Bip39 from 'bip39';
 
@@ -61,7 +60,7 @@ export class Vault {
     });
   }
 
-  static async spawn(walletType: WalletType, password: string, mnemonic?: string, ownMnemonic?: boolean) {
+  static async spawn(password: string, mnemonic?: string, ownMnemonic?: boolean) {
     return withError('Failed to create wallet', async () => {
       if (!mnemonic) {
         mnemonic = Bip39.generateMnemonic(128);
@@ -70,6 +69,7 @@ export class Vault {
       // const walletSeed = deriveClientSeed(walletType, mnemonic, []);
 
       const midenClient = await MidenClientInterface.create();
+      const hdAccIndex = 0;
 
       console.log('created miden client');
 
@@ -77,14 +77,14 @@ export class Vault {
       if (ownMnemonic) {
         try {
           // accPublicKey = await midenClient.importMidenWalletFromSeed(walletType, walletSeed);
-          accPublicKey = await midenClient.createMidenWallet(walletType);
+          accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain);
         } catch (e) {
           // TODO: Propagate this error up somehow to user indicating the import failed
           console.error('Failed to import wallet from seed, creating new wallet instead');
-          accPublicKey = await midenClient.createMidenWallet(walletType);
+          accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain);
         }
       } else {
-        accPublicKey = await midenClient.createMidenWallet(walletType);
+        accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain);
       }
 
       console.log({ accPublicKey });
@@ -92,8 +92,9 @@ export class Vault {
       const initialAccount: WalletAccount = {
         publicKey: accPublicKey,
         name: 'Miden Account 1',
-        isPublic: walletType === WalletType.OnChain,
-        type: WalletType.OnChain
+        isPublic: true,
+        type: WalletType.OnChain,
+        hdIndex: hdAccIndex
       };
       const newAccounts = [initialAccount];
       const passKey = await Passworder.generateKey(password);
@@ -104,7 +105,8 @@ export class Vault {
       await encryptAndSaveMany(
         [
           [checkStrgKey, generateCheck()],
-          [mnemonicStrgKey, mnemonic ?? ''],
+          [mnemonicStrgKey, mnemonic],
+          [accPubKeyStrgKey(accPublicKey), accPublicKey],
           [accountsStrgKey, newAccounts]
         ],
         passKey
@@ -158,7 +160,7 @@ export class Vault {
     return DEFAULT_SETTINGS;
   }
 
-  async createHDAccount(name?: string, walletType: WalletType = WalletType.OnChain) {
+  async createHDAccount(walletType: WalletType, name?: string, hdAccIndex?: number): Promise<WalletAccount[]> {
     return withError('Failed to create account', async () => {
       const [mnemonic, allAccounts] = await Promise.all([
         fetchAndDecryptOneWithLegacyFallBack<string>(mnemonicStrgKey, this.passKey),
@@ -168,6 +170,16 @@ export class Vault {
       const isOwnMnemonic = await this.isOwnMnemonic();
 
       const walletSeed = deriveClientSeed(walletType, mnemonic, allAccounts);
+      // TODO: duplicated index code within the derive seed?
+      if (!hdAccIndex) {
+        let accounts;
+        if (walletType === WalletType.OnChain) {
+          accounts = allAccounts.filter(acc => acc.isPublic);
+        } else {
+          accounts = allAccounts.filter(acc => !acc.isPublic);
+        }
+        hdAccIndex = accounts.length;
+      }
 
       const midenClient = await MidenClientInterface.create();
       let walletId;
@@ -188,7 +200,8 @@ export class Vault {
         type: walletType,
         name: accName,
         publicKey: walletId,
-        isPublic: walletType === WalletType.OnChain
+        isPublic: walletType === WalletType.OnChain,
+        hdIndex: hdAccIndex
       };
 
       const newAllAcounts = concatAccount(allAccounts, newAccount);
@@ -244,12 +257,6 @@ export class Vault {
       await encryptAndSaveMany([[settingsStrgKey, newSettings]], this.passKey);
       return newSettings;
     });
-  }
-
-  async mintTransaction(recipientAccountId: string, faucetId: string, noteType: string, amount: bigint) {
-    const midenClient = await MidenClientInterface.create();
-    const noteTypeObj = noteType === 'public' ? NoteType.public() : NoteType.private();
-    await midenClient.mintTransaction(recipientAccountId, faucetId, noteTypeObj, amount);
   }
 
   async authorize(sendTransaction: SendTransaction) {}

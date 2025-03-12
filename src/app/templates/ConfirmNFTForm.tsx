@@ -7,10 +7,10 @@ import { Button } from 'app/atoms/Button';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import Spinner from 'app/atoms/Spinner/Spinner';
 import { openLoadingFullPage, useAppEnv } from 'app/env';
-import { useAccount, useMidenContext } from 'lib/miden/front';
 import { ALEO_DECIMALS } from 'lib/fiat-curency/consts';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { t, T } from 'lib/i18n/react';
+import { useAccount, useMidenContext } from 'lib/miden/front';
 import Link from 'lib/woozie/Link';
 
 import { isDelegateProofEnabled } from './DelegateSettings';
@@ -56,7 +56,6 @@ const Form: FC<FormProps> = ({ nft, to, fee, feePrivate, setConfirmStatus }) => 
   const account = useAccount();
   const { fullPage } = useAppEnv();
   const delegateTransaction = isDelegateProofEnabled();
-  const { authorizeTransaction } = useMidenContext();
 
   /**
    * Form
@@ -86,18 +85,7 @@ const Form: FC<FormProps> = ({ nft, to, fee, feePrivate, setConfirmStatus }) => 
       // Human delay.
       await new Promise(res => setTimeout(res, 300));
     }
-  }, [
-    formState.isSubmitting,
-    account,
-
-    setConfirmStatus,
-    nft,
-    to,
-    fee,
-    feePrivate,
-    authorizeTransaction,
-    delegateTransaction
-  ]);
+  }, [formState.isSubmitting, account, setConfirmStatus, nft, to, fee, feePrivate, delegateTransaction]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

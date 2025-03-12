@@ -6,6 +6,8 @@ import { logger } from 'shared/logger';
 
 import { MidenClientInterface } from '../sdk/miden-client-interface';
 
+import * as Repo from 'lib/miden/repo';
+
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 const midenClient = await MidenClientInterface.create();
 
@@ -50,7 +52,10 @@ class Sync {
 
   async syncChain() {
     try {
-      await midenClient.syncState();
+      const summary = await midenClient.syncState();
+      if (summary.updatedAccounts().some(id => id.toString() === this.state?.currentAccount?.publicKey)) {
+        // get the transaction ids and filter by the current account
+      }
     } catch (e) {
       logger.error(`Failed to sync chain: ${e}`);
     }

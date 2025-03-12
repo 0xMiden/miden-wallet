@@ -5,8 +5,8 @@ import Confirmation from 'app/templates/Confirmation';
 import ConfirmNFTForm from 'app/templates/ConfirmNFTForm';
 import SendNFTForm from 'app/templates/SendNFTForm';
 import { SendNFTFormSelectors } from 'app/templates/SendNFTForm.selectors';
-import { ConfirmStatus } from 'lib/miden/front/send-types';
 import { t } from 'lib/i18n/react';
+import { ConfirmStatus } from 'lib/miden/front/send-types';
 import { useLocation } from 'lib/woozie';
 
 interface SendNFTInfo {

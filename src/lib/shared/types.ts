@@ -150,6 +150,7 @@ export interface WalletAccount {
   name: string;
   isPublic: boolean;
   type: WalletType;
+  hdIndex: number;
 }
 
 export interface WalletNetwork {
@@ -165,7 +166,6 @@ export interface LoadingResponse extends WalletMessageBase {
 
 export interface NewWalletRequest extends WalletMessageBase {
   type: WalletMessageType.NewWalletRequest;
-  walletType: WalletType;
   password: string;
   mnemonic?: string;
   ownMnemonic?: boolean;
@@ -194,6 +194,7 @@ export interface LockResponse extends WalletMessageBase {
 
 export interface CreateAccountRequest extends WalletMessageBase {
   type: WalletMessageType.CreateAccountRequest;
+  walletType: WalletType;
   name?: string;
 }
 

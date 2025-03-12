@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
 
+import { WalletContact } from 'lib/shared/types';
+
 import { useMidenContext } from './client';
 import { useAllAccounts, useSettings } from './ready';
-import { WalletContact } from 'lib/shared/types';
 
 export function useFilteredContacts() {
   const { updateSettings } = useMidenContext();

@@ -1,22 +1,32 @@
 import Dexie, { Transaction } from 'dexie';
 
-import { ITransactionRequest } from './db/types';
+import { ITransaction } from './db/types';
 
 export enum Table {
-  TransactionRequests = 'transactionRequests'
+  Transactions = 'transactions'
 }
 
 export const db = new Dexie('TridentMain');
 
 db.version(1)
   .stores({
-    [Table.TransactionRequests]: indexes('id', 'accountId', 'initiatedAt', 'completedAt')
+    transactionRequests: indexes('id', 'accountId', 'initiatedAt', 'completedAt')
   })
   .upgrade(async (tx: Transaction) => {
-    await tx.db.table<ITransactionRequest, string>(Table.TransactionRequests).clear();
+    await tx.db.table<any, string>('transactionRequests').clear();
   });
 
-export const transactionRequests = db.table<ITransactionRequest, string>(Table.TransactionRequests);
+db.version(1.1)
+  .stores({
+    [Table.Transactions]: indexes('id', 'accountId', 'transactionId', 'initiatedAt', 'completedAt'),
+    transactionRequests: null
+  })
+  .upgrade(async (tx: Transaction) => {
+    await tx.db.table<any, string>('transactionRequests').clear();
+    await tx.db.table<ITransaction, string>(Table.Transactions).clear();
+  });
+
+export const transactions = db.table<ITransaction, string>(Table.Transactions);
 
 function indexes(...items: string[]) {
   return items.join(',');

@@ -25,10 +25,11 @@ export enum OnboardingStep {
   SelectTransactionType = 'select-transaction-type',
   Confirmation = 'confirmation'
 }
-
 export type OnboardingActionId =
   | 'select-wallet-type'
   | 'select-import-type'
+  | 'create-wallet'
+  | 'import-wallet'
   | 'backup-seed-phrase'
   | 'verify-seed-phrase'
   | 'create-password'
@@ -38,8 +39,8 @@ export type OnboardingActionId =
   | 'import-from-file'
   | 'import-from-seed';
 
-export type SelectWalletTypeAction = {
-  id: 'select-wallet-type';
+export type CreateWalletAction = {
+  id: 'create-wallet';
 };
 
 export type SelectImportTypeAction = {
@@ -96,7 +97,7 @@ export type BackAction = {
 };
 
 export type OnboardingAction =
-  | SelectWalletTypeAction
+  | CreateWalletAction
   | BackupSeedPhraseAction
   | SelectImportTypeAction
   | VerifySeedPhraseAction

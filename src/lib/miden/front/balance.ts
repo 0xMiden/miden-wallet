@@ -2,8 +2,9 @@ import { useCallback } from 'react';
 
 import BigNumber from 'bignumber.js';
 
-import { ALEO_METADATA, AssetMetadata, useAssetMetadata } from 'lib/miden/front';
+import { AssetMetadata } from 'lib/miden/front';
 import { useRetryableSWR } from 'lib/swr';
+
 import { accountIdStringToSdk, MidenClientInterface } from '../sdk/miden-client-interface';
 
 type UseBalanceOptions = {
@@ -16,14 +17,14 @@ type UseBalanceOptions = {
 
 const midenClient = await MidenClientInterface.create();
 
-export function useBalance(accountId: string, faucetId: string) {
+export function useBalance(accountId: string, faucetId: string, opts: UseBalanceOptions = {}) {
   const fetchBalanceLocal = useCallback(async () => {
     const account = await midenClient.getAccount(accountId);
-    const balance = account?.vault().getBalance(accountIdStringToSdk(faucetId));
-    return new BigNumber(balance?.toString() || 0);
+    const balance = account!.vault().getBalance(accountIdStringToSdk(faucetId));
+    return new BigNumber(balance.toString());
   }, [accountId, faucetId]);
 
-  return useRetryableSWR(faucetId, fetchBalanceLocal, {
+  return useRetryableSWR([accountId, faucetId].join('_'), fetchBalanceLocal, {
     revalidateOnFocus: false,
     dedupingInterval: 20_000,
     refreshInterval: 5_000

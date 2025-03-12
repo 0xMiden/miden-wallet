@@ -5,12 +5,11 @@ import classNames from 'clsx';
 import AccountTypeBadge from 'app/atoms/AccountTypeBadge';
 import ColorIdenticon from 'app/atoms/ColorIdenticon';
 import Name from 'app/atoms/Name';
-
 import { t } from 'lib/i18n/react';
 import { WalletAccount } from 'lib/shared/types';
 
 type AccountBannerProps = HTMLAttributes<HTMLDivElement> & {
-  account: WalletAccount;
+  account?: WalletAccount;
   displayBalance?: boolean;
   networkRpc?: string;
   label?: ReactNode;

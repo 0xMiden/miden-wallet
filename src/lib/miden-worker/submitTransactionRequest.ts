@@ -4,15 +4,15 @@ import { SubmitTransactionRequest } from 'workers/submitTransactionRequest';
 
 export const submitTransactionRequest = async (
   address: string,
-  transactionRequestBytes: Uint8Array,
-  delegateProof?: boolean
-): Promise<void> => {
+  transactionRequestBytes: Uint8Array
+): Promise<Uint8Array> => {
   const worker = await spawn<SubmitTransactionRequest>(new Worker('./submitTransactionRequest.js'));
 
   try {
     await worker.transferTransactionRequest(Transfer(transactionRequestBytes.buffer));
-    await worker.submitTransactionRequest(address, delegateProof);
+    const result = await worker.submitTransactionRequest(address);
     await Thread.terminate(worker);
+    return result;
   } catch (e) {
     await Thread.terminate(worker);
     throw e;

@@ -9,7 +9,6 @@ import { getFaucetIdSetting } from 'app/templates/EditMidenFaucetId';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { MidenTokens, TOKEN_MAPPING } from 'lib/miden-chain/constants';
 import { useAccount } from 'lib/miden/front';
-import { useQueuedTransactions } from 'lib/miden/front/queued-transactions';
 import { navigate } from 'lib/woozie';
 import { EncryptedFileAction, EncryptedFileActionId, EncryptedFileForm, EncryptedFileStep } from './types';
 import EncryptedWalletFileWalletPassword from 'screens/encrypted-file-flow/EncryptedWalletFileWalletPassword';
@@ -46,7 +45,6 @@ export interface EncryptedFileManagerProps {}
 export const EncryptedFileManager: React.FC<{}> = () => {
   const { navigateTo, goBack } = useNavigator();
   const { publicKey } = useAccount();
-  const [, queueTransaction] = useQueuedTransactions();
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
   const faucetId = getFaucetIdSetting();
   const { fullPage } = useAppEnv();
@@ -115,17 +113,7 @@ export const EncryptedFileManager: React.FC<{}> = () => {
         console.error(e);
       }
     },
-    [
-      formState.isSubmitting,
-      clearError,
-      onAction,
-      publicKey,
-      fileName,
-      queueTransaction,
-      setError,
-      isDelegatedProvingEnabled,
-      faucetId
-    ]
+    [formState.isSubmitting, clearError, onAction, publicKey, fileName, setError, isDelegatedProvingEnabled, faucetId]
   );
 
   const goToStep = useCallback(

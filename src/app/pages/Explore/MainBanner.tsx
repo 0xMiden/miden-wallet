@@ -1,4 +1,4 @@
-import React, { memo, FC, ReactNode, useMemo } from 'react';
+import React, { FC, memo, ReactNode, useMemo } from 'react';
 
 import BigNumber from 'bignumber.js';
 import classNames from 'clsx';
@@ -9,8 +9,6 @@ import { useAppEnv } from 'app/env';
 import { ReactComponent as DollarIcon } from 'app/icons/dollar.svg';
 import Balance from 'app/templates/Balance';
 import InFiat from 'app/templates/InFiat';
-import { ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
-import { getAssetName, useAssetMetadata, useDisplayedFungibleTokens, useBalance, useAccount } from 'lib/miden/front';
 import { useAssetFiatCurrencyPrice } from 'lib/fiat-curency';
 import { T } from 'lib/i18n/react';
 import { PropsWithChildren } from 'lib/props-with-children';

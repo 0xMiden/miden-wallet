@@ -7,7 +7,8 @@ for (const db of databases) {
   indexedDB.deleteDatabase(db.name);
 }
 
-const webClient = await WebClient.createClient('http://localhost:57291');
+// Your rpc should automatically be configured to this port, but if not you can set it here
+const webClient = await WebClient.create_client('http://localhost:57291');
 
 console.log('creating faucet...');
 const faucet = await webClient.newFaucet(AccountStorageMode.public(), false, 'TEST', 10, BigInt(1000000));

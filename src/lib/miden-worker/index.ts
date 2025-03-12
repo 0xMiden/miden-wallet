@@ -1,1 +1,3 @@
-export * from './buildTransaction';
+export * from './consumeNoteId';
+export * from './sendTransaction';
+export * from './submitTransactionRequest';

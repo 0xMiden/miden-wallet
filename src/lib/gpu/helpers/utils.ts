@@ -1,4 +1,3 @@
-import { bech32m } from 'bech32';
 import BN from 'bn.js';
 import bs58 from 'bs58';
 
@@ -47,35 +46,10 @@ export const u32ArrayToBigInts = (u32Array: Uint32Array): bigint[] => {
   return bigInts;
 };
 
-export const parseAddressToXCoordinate = (address: string): bigint => {
-  const bytes = parseToBytes(address, 'aleo', 63);
-  return BigInt(convertBytesToFieldElement(bytes));
-};
-
 export const parseViewKeyToScalar = (viewKey: string): bigint => {
   let bytes = bs58.decode(viewKey);
   bytes = bytes.slice(7);
   return BigInt(convertBytesToFieldElement(bytes));
-};
-
-const parseToBytes = (stringToParse: string, stringPrefix: string, expectedLength: number): Uint8Array => {
-  // Ensure the address string length is 63 characters.
-  if (stringToParse.length !== expectedLength) {
-    throw new Error(`Invalid length: found ${stringToParse.length}, expected ${expectedLength}`);
-  }
-
-  // Decode the address string from bech32m.
-  const { prefix, words: data } = bech32m.decode(stringToParse);
-
-  if (prefix !== stringPrefix) {
-    throw new Error(`Failed to decode address: '${prefix}' is an invalid prefix`);
-  } else if (data.length === 0) {
-    throw new Error('Failed to decode address: data field is empty');
-  }
-
-  const u8Data = bech32m.fromWords(data);
-  // Decode the address data from u5 to u8, and into an account address.
-  return new Uint8Array(u8Data);
 };
 
 const convertBytesToFieldElement = (bytes: Uint8Array): string => {

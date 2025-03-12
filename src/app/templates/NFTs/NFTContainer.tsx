@@ -1,7 +1,6 @@
 import React, { RefObject, memo, useEffect, useMemo, useState } from 'react';
 
 import { NFT_PAGE_SIZE } from 'app/defaults';
-
 import { useAccount } from 'lib/miden/front';
 import { useRetryableSWR } from 'lib/swr';
 import useSafeState from 'lib/ui/useSafeState';

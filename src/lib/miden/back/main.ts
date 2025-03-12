@@ -1,10 +1,10 @@
 import { Runtime } from 'webextension-polyfill';
 
 import * as Actions from 'lib/miden/back/actions';
-import * as Analytics from 'lib/miden/back/analytics';
 import { intercom } from 'lib/miden/back/defaults';
 import { store, toFront } from 'lib/miden/back/store';
 import { WalletMessageType, WalletRequest, WalletResponse } from 'lib/shared/types';
+
 import { MidenMessageType } from '../types';
 
 const frontStore = store.map(toFront);
@@ -36,7 +36,7 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
         state
       };
     case WalletMessageType.NewWalletRequest:
-      await Actions.registerNewWallet(req.walletType, req.password, req.mnemonic, req.ownMnemonic);
+      await Actions.registerNewWallet(req.password, req.mnemonic, req.ownMnemonic);
       return { type: WalletMessageType.NewWalletResponse };
     case WalletMessageType.ImportFromClientRequest:
       await Actions.registerImportedWallet(req.password, req.mnemonic);
@@ -48,12 +48,13 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
       await Actions.lock();
       return { type: WalletMessageType.LockResponse };
     case WalletMessageType.CreateAccountRequest:
-      await Actions.createHDAccount(req.name);
+      await Actions.createHDAccount(req.walletType, req.name);
       return { type: WalletMessageType.CreateAccountResponse };
     // case WalletMessageType.DecryptCiphertextsRequest:
     //   const texts = await Actions.decryptCiphertexts(req.accPublicKey, req.ciphertexts);
     //   return { type: WalletMessageType.DecryptCiphertextsResponse, texts: texts };
     case WalletMessageType.UpdateCurrentAccountRequest:
+      await Actions.updateCurrentAccount(req.accountPublicKey);
       return { type: WalletMessageType.UpdateCurrentAccountResponse };
     // case WalletMessageType.RevealPublicKeyRequest:
     //   const publicKey = await Actions.revealPublicKey(req.accountPublicKey);

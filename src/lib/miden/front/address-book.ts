@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 
-import { useMidenContext } from 'lib/miden/front';
 import { getMessage } from 'lib/i18n';
+import { useMidenContext } from 'lib/miden/front';
+import { WalletContact } from 'lib/shared/types';
 
 import { useFilteredContacts } from './use-filtered-contacts.hook';
-import { WalletContact } from 'lib/shared/types';
 
 export function useContacts() {
   const { updateSettings } = useMidenContext();

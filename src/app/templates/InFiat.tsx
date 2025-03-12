@@ -3,8 +3,8 @@ import React, { FC, ReactElement, ReactNode, useMemo } from 'react';
 import BigNumber from 'bignumber.js';
 
 import Money from 'app/atoms/Money';
-import { useNetwork } from 'lib/miden/front';
 import { useAssetFiatCurrencyPrice, useFiatCurrency } from 'lib/fiat-curency';
+import { useNetwork } from 'lib/miden/front';
 
 type OutputProps = {
   balance: ReactNode;

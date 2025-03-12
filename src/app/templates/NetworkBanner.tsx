@@ -3,8 +3,8 @@ import React, { FC, useMemo } from 'react';
 import classNames from 'clsx';
 
 import Name from 'app/atoms/Name';
-import { useAllNetworks } from 'lib/miden/front';
 import { T } from 'lib/i18n/react';
+import { useAllNetworks } from 'lib/miden/front';
 
 type NetworkBannerProps = {
   rpc: string;

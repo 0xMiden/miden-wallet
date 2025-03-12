@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { DecryptPermission } from '@demox-labs/miden-wallet-adapter-base';
 import constate from 'constate';
 
 import { IntercomClient } from 'lib/intercom';
@@ -16,11 +17,8 @@ import { useRetryableSWR } from 'lib/swr';
 import { retryWithTimeout } from 'lib/utility/retry';
 import { WalletType } from 'screens/onboarding/types';
 
-import { AutoSync } from './autoSync';
 import { MidenMessageType, MidenState } from '../types';
-import { DecryptPermission } from '@demox-labs/miden-wallet-adapter-base';
-
-export type ChainApiStatus = 'up' | 'warning' | 'down' | 'unknown';
+import { AutoSync } from './autoSync';
 
 type Confirmation = {
   id: string;
@@ -66,7 +64,6 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
 
   const state = data!;
   const [confirmation, setConfirmation] = useState<Confirmation | null>(null);
-  const [chainStatus, setChainStatus] = useState<ChainApiStatus>('unknown');
   const confirmationIdRef = useRef<string | null>(null);
   const resetConfirmation = useCallback(() => {
     confirmationIdRef.current = null;
@@ -87,26 +84,6 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     AutoSync.updateState(state);
   }, [state]);
 
-  useEffect(() => {
-    const fetchChainStatus = async () => {
-      try {
-        // TODO: Change what our health check endpoint is
-        const response = await fetch('https://testnetbeta.aleorpc.com/blockHeightIsCurrent');
-        setChainStatus(response.ok ? 'up' : 'down');
-      } catch (error) {
-        console.log('Failed to get status:', error);
-      }
-    };
-
-    const statusInterval = setInterval(fetchChainStatus, 5 * 1000);
-
-    fetchChainStatus();
-
-    return () => {
-      clearInterval(statusInterval);
-    };
-  }, []);
-
   /**
    * Aliases
    */
@@ -121,19 +98,15 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   Actions
   */
   // TODO: Make this take some sort of enum for multi wallet support
-  const registerWallet = useCallback(
-    async (walletType: WalletType, password: string, mnemonic?: string, ownMnemonic?: boolean) => {
-      const res = await request({
-        type: WalletMessageType.NewWalletRequest,
-        walletType,
-        password,
-        mnemonic,
-        ownMnemonic
-      });
-      assertResponse(res.type === WalletMessageType.NewWalletResponse);
-    },
-    []
-  );
+  const registerWallet = useCallback(async (password: string, mnemonic?: string, ownMnemonic?: boolean) => {
+    const res = await request({
+      type: WalletMessageType.NewWalletRequest,
+      password,
+      mnemonic,
+      ownMnemonic
+    });
+    assertResponse(res.type === WalletMessageType.NewWalletResponse);
+  }, []);
 
   const importWalletFromClient = useCallback(async (password: string, mnemonic: string) => {
     const res = await request({
@@ -152,9 +125,22 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     assertResponse(res.type === WalletMessageType.UnlockResponse);
   }, []);
 
-  const createAccount = useCallback(async (name?: string) => {}, []);
+  const createAccount = useCallback(async (walletType: WalletType, name?: string) => {
+    const res = await request({
+      type: WalletMessageType.CreateAccountRequest,
+      walletType: walletType,
+      name: name
+    });
+    assertResponse(res.type === WalletMessageType.CreateAccountResponse);
+  }, []);
 
-  const updateCurrentAccount = useCallback(async (accountPublicKey: string) => {}, []);
+  const updateCurrentAccount = useCallback(async (accountPublicKey: string) => {
+    const res = await request({
+      type: WalletMessageType.UpdateCurrentAccountRequest,
+      accountPublicKey
+    });
+    assertResponse(res.type === WalletMessageType.UpdateCurrentAccountResponse);
+  }, []);
 
   const decryptCiphertexts = useCallback(async (accPublicKey: string, ciphertexts: string[]) => {}, []);
 
@@ -254,8 +240,6 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
 
   return {
     state,
-    chainStatus,
-
     // Aliases
     status,
     defaultNetworks,
