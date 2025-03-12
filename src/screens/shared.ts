@@ -1,7 +1,15 @@
-// TODO: Add more here / change
-export type EncryptedWalletFile = {
+import { EncryptedPayload } from 'lib/miden/passworder';
+
+export type DecryptedWalletFile = {
   seedPhrase: string;
-  dbContent: string;
+  dbContent: any;
+};
+
+export type EncryptedWalletFile = {
+  dt: string;
+  iv: string;
+  salt: Uint8Array<ArrayBuffer>;
+  encryptedPasswordCheck: EncryptedPayload;
 };
 
 // Use a constant string to quickly check that the enc/dec works i.e. the password is correct

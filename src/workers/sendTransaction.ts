@@ -27,7 +27,7 @@ async function sendTransaction(
   );
 
   if (noteType === 'private') {
-    const noteId = result.created_notes().notes()[0].id().to_string();
+    const noteId = result.createdNotes().notes()[0].id().toString();
     const noteBytes = await midenClient.exportNote(noteId, NoteExportType.PARTIAL);
 
     // TODO: Potentially unhook this from export process

@@ -1,9 +1,22 @@
 import FormField, { PASSWORD_ERROR_CAPTION } from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
+import {
+  lettersNumbersMixtureRegx,
+  PASSWORD_PATTERN,
+  specialCharacterRegx,
+  uppercaseLowercaseMixtureRegx
+} from 'app/defaults';
+import { MIN_PASSWORD_LENGTH } from 'app/pages/NewWallet/SetWalletPassword';
 import { T } from 'lib/i18n/react';
-import React, { FC } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import {
+  PasswordStrengthIndicator,
+  PasswordValidation,
+  STRONG_PASSWORD_LENGTH
+} from 'screens/onboarding/common/CreatePassword';
+import classNames from 'clsx';
 
 interface FormData {
   shouldUseKeystorePassword?: boolean;
@@ -29,6 +42,16 @@ const ExportFilePassword: React.FC<ExportFilePasswordProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  const [verifyPassword, setVerifyPassword] = useState('');
+
+  const [passwordValidation, setPasswordValidation] = useState<PasswordValidation>({
+    minChar: false,
+    cases: false,
+    number: false,
+    specialChar: false,
+    strongPasswordLength: passwordValue.length >= STRONG_PASSWORD_LENGTH
+  });
+
   const { register, handleSubmit, formState, errors } = useForm<FormData>({
     mode: 'onChange' // Validate on change
   });
@@ -36,6 +59,21 @@ const ExportFilePassword: React.FC<ExportFilePasswordProps> = ({
   const onSubmit = () => {
     onGoNext();
   };
+
+  useEffect(() => {
+    setPasswordValidation({
+      minChar: passwordValue.length >= MIN_PASSWORD_LENGTH,
+      cases: uppercaseLowercaseMixtureRegx.test(passwordValue),
+      number: lettersNumbersMixtureRegx.test(passwordValue),
+      specialChar: specialCharacterRegx.test(passwordValue),
+      strongPasswordLength: passwordValue.length >= STRONG_PASSWORD_LENGTH
+    });
+  }, [passwordValue]);
+
+  const isValidPassword = useMemo(
+    () => Object.values(passwordValidation).filter(Boolean).length > 1 && passwordValue === verifyPassword,
+    [passwordValidation, passwordValue, verifyPassword]
+  );
 
   return (
     <div className="w-full max-w-sm p-2 mx-auto">
@@ -45,35 +83,49 @@ const ExportFilePassword: React.FC<ExportFilePasswordProps> = ({
         </p>
       </div>
 
-      <div className="flex flex-col mt-8 mb-4">
-        <FormField
-          ref={register({
-            required: PASSWORD_ERROR_CAPTION
-          })}
-          label={t('password')}
-          id="newwallet-password"
-          type="password"
-          name="password"
-          placeholder="********"
-          errorCaption={errors.password?.message}
-          onChange={handlePasswordChange}
-          containerClassName="mx-2"
-          value={passwordValue}
-        />
+      <div className="w-full justify-center items-center flex flex-col gap-y-4 px-6">
+        <div className="flex flex-col w-[360px] gap-y-2">
+          <FormField
+            ref={register({
+              required: PASSWORD_ERROR_CAPTION
+            })}
+            label={t('password')}
+            id="exportfile-password"
+            type="password"
+            name="password"
+            placeholder="********"
+            errorCaption={errors.password?.message}
+            onChange={handlePasswordChange}
+            containerClassName="mx-2"
+            value={passwordValue}
+          />
+          <PasswordStrengthIndicator password={passwordValue} validation={passwordValidation} />
+        </div>
+        <div className="flex flex-col w-[360px] gap-y-2">
+          <FormField
+            ref={register({
+              required: t('required'),
+              validate: val => val === passwordValue || t('mustBeEqualToPasswordAbove')
+            })}
+            label={t('repeatPassword')}
+            id="exportfile-repassword"
+            type="password"
+            name="repeatPassword"
+            placeholder="********"
+            onChange={e => setVerifyPassword(e.target.value)}
+            errorCaption={errors.repeatPassword?.message}
+            containerClassName="mx-2"
+          />
 
-        <FormField
-          ref={register({
-            required: t('required'),
-            validate: val => val === passwordValue || t('mustBeEqualToPasswordAbove')
-          })}
-          label={t('repeatPassword')}
-          id="newwallet-repassword"
-          type="password"
-          name="repeatPassword"
-          placeholder="********"
-          errorCaption={errors.repeatPassword?.message}
-          containerClassName="mx-2"
-        />
+          <p
+            className={classNames(
+              'h-4 text-green-500 text-xs',
+              isValidPassword && passwordValue === verifyPassword ? 'opacity-100' : 'opacity-0'
+            )}
+          >
+            {t('itsAMatch')}
+          </p>
+        </div>
       </div>
 
       <T id="continue">
@@ -89,7 +141,7 @@ const ExportFilePassword: React.FC<ExportFilePasswordProps> = ({
               paddingBottom: '12px'
             }}
             type="submit"
-            disabled={!formState.isValid}
+            disabled={!formState.isValid || !isValidPassword}
             onClick={onSubmit}
           >
             {message}

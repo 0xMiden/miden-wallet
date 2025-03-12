@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Icon, IconName } from 'app/icons/v2';
 import { Button } from 'components/Button';
 import { ONE_MB_IN_BYTES } from 'utils/crypto';
-import { EncryptedWalletFile, ENCRYPTED_WALLET_FILE_PASSWORD_CHECK } from 'screens/shared';
+import { EncryptedWalletFile, ENCRYPTED_WALLET_FILE_PASSWORD_CHECK, DecryptedWalletFile } from 'screens/shared';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import { decrypt, decryptJson, deriveKey, generateKey } from 'lib/miden/passworder';
 import FormField, { PASSWORD_ERROR_CAPTION } from 'app/atoms/FormField';
@@ -45,7 +45,7 @@ type ImportPasswordValidation = PasswordValidation & {
 export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ className, onSubmit }) => {
   const { t } = useTranslation();
   const walletFileRef = useRef<HTMLInputElement>(null);
-  const [walletFile, setWalletFile] = useState<any | null>(null);
+  const [walletFile, setWalletFile] = useState<WalletFile | null>(null);
   const [isWrongPassword, setIsWrongPassword] = useState(false);
 
   const { control, watch, register, handleSubmit, errors, triggerValidation, formState } = useForm<FormData>({
@@ -57,30 +57,6 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
   const handleClear = () => {
     setWalletFile(null);
   };
-
-  // const handleImportSubmit = async () => {
-  //   // TODO: Hook this into the password validation
-
-  //   if (walletFile !== null && onSubmit) {
-  //     const passKey = await generateKey(filePassword);
-  //     const saltByteArray = Object.values(walletFile.salt) as number[];
-  //     const saltU8 = new Uint8Array(saltByteArray);
-
-  //     const derivedKey = await deriveKey(passKey, saltU8);
-
-  //     const decryptedWallet = await decryptJson({ dt: walletFile.dt, iv: walletFile.iv }, derivedKey);
-  //     const dbContent = decryptedWallet.dbContent;
-  //     const seedPhrase = decryptedWallet.seedPhrase;
-
-  //     console.log({ seedPhrase });
-
-  //     console.log({ dbContent });
-
-  //     await midenClient.importDb(dbContent);
-
-  //     onSubmit(seedPhrase);
-  //   }
-  // };
 
   const handleImportSubmit = async () => {
     if (!walletFile || !onSubmit) return;
@@ -103,11 +79,12 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
       setIsWrongPassword(false);
 
       // Proceed with full decryption
-      const decryptedWallet = await decryptJson({ dt: walletFile.dt, iv: walletFile.iv }, derivedKey);
+      const decryptedWallet: DecryptedWalletFile = await decryptJson(
+        { dt: walletFile.dt, iv: walletFile.iv },
+        derivedKey
+      );
       const dbContent = decryptedWallet.dbContent;
       const seedPhrase = decryptedWallet.seedPhrase;
-
-      console.log({ seedPhrase, dbContent });
 
       await midenClient.importDb(dbContent);
 

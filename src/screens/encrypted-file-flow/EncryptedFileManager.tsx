@@ -207,6 +207,7 @@ export const EncryptedFileManager: React.FC<{}> = () => {
               filePassword={filePassword ?? ''}
               fileName={fileName}
               walletPassword={walletPassword ?? ''}
+              onDone={onClose}
             />
           );
         default:
@@ -228,19 +229,7 @@ export const EncryptedFileManager: React.FC<{}> = () => {
   );
 
   return (
-    <div
-      // className={classNames(
-      //   fullPage
-      //     ? 'h-[640px] max-h-[640px] w-[600px] max-w-[600px]'
-      //     : 'h-[600px] max-h-[600px] w-[340px] max-w-[340px]',
-      //   'mx-auto overflow-hidden ',
-      //   'flex flex-1',
-      //   'flex-col bg-white',
-      //   fullPage && 'border rounded-3xl',
-      //   'overflow-hidden relative'
-      // )}
-      data-testid="encrypted-file-manager-flow"
-    >
+    <div data-testid="encrypted-file-manager-flow">
       <form onSubmit={handleSubmit(onSubmit)} className="flex-1 flex">
         <Navigator renderRoute={renderStep} initialRouteName={EncryptedFileStep.WalletPassword} />
       </form>

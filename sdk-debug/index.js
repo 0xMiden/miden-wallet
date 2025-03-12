@@ -7,23 +7,20 @@ for (const db of databases) {
   indexedDB.deleteDatabase(db.name);
 }
 
-const webClient = new WebClient();
-
-// Your rpc should automatically be configured to this port, but if not you can set it here
-await webClient.create_client('http://localhost:57291');
+const webClient = await WebClient.createClient('http://localhost:57291');
 
 console.log('creating faucet...');
-const faucet = await webClient.new_faucet(AccountStorageMode.public(), false, 'TEST', 10, BigInt(1000000));
+const faucet = await webClient.newFaucet(AccountStorageMode.public(), false, 'TEST', 10, BigInt(1000000));
 const faucetId = faucet.id();
-console.log('created faucet id:', faucetId.to_string());
+console.log('created faucet id:', faucetId.toString());
 
 console.log('syncing state');
-await webClient.sync_state();
+await webClient.syncState();
 console.log('synced state');
 
 document.getElementById('loading').style.display = 'none';
 document.getElementById('faucetIdTitle').style.display = 'block';
-document.getElementById('faucetId').innerText = faucetId.to_string();
+document.getElementById('faucetId').innerText = faucetId.toString();
 
 document.getElementById('publicKeyForm').addEventListener('submit', async event => {
   event.preventDefault();
@@ -38,25 +35,25 @@ document.getElementById('publicKeyForm').addEventListener('submit', async event 
     alert('Please enter a digit amount');
     return;
   }
-  const accountId = AccountId.from_hex(accountIdString);
+  const accountId = AccountId.fromHex(accountIdString);
 
   console.log('fetching account auth...');
-  await webClient.fetch_and_cache_account_auth_by_pub_key(faucetId);
+  await webClient.fetchAndCacheAccountAuthByAccountId(faucetId);
   console.log('fetched account auth');
 
   console.log('creating mint txn...');
-  const mintTxn = await webClient.new_mint_transaction(
+  const mintTxn = await webClient.newMintTransaction(
     accountId,
     faucetId,
     isPrivate ? NoteType.private() : NoteType.public(),
     BigInt(amount)
   );
-  const noteId = mintTxn.created_notes().notes()[0].id();
+  const noteId = mintTxn.createdNotes().notes()[0].id();
   console.log('created mint txn');
 
   if (isPrivate) {
     console.log('exporting note...');
-    const result = await webClient.export_note(noteId.to_string(), 'Partial');
+    const result = await webClient.exportNote(noteId.toString(), 'Partial');
     const noteBytes = new Uint8Array(result);
 
     const blob = new Blob([noteBytes], { type: 'application/octet-stream' });
@@ -82,7 +79,7 @@ document.getElementById('publicKeyForm').addEventListener('submit', async event 
     URL.revokeObjectURL(url);
   }
 
-  await webClient.sync_state();
+  await webClient.syncState();
   console.log('synced state complete');
 });
 
@@ -93,15 +90,10 @@ document.getElementById('transactionRequestForm').addEventListener('submit', asy
     alert('Please enter a public key');
     return;
   }
-  const accountId = AccountId.from_hex(accountIdString);
+  const accountId = AccountId.fromHex(accountIdString);
 
   console.log('creating transaction request...');
-  const transactionRequest = await webClient.create_mint_transaction_request(
-    accountId,
-    faucetId,
-    NoteType.public(),
-    BigInt(100)
-  );
+  const transactionRequest = await webClient.newMintTransaction(accountId, faucetId, NoteType.public(), BigInt(100));
   console.log('created transaction request');
   console.log('exporting transaction request...');
   const bytes = transactionRequest.serialize();
@@ -128,7 +120,7 @@ document.getElementById('transactionRequestForm').addEventListener('submit', asy
   // Revoke the object URL to free up resources
   URL.revokeObjectURL(url);
 
-  await webClient.sync_state();
+  await webClient.syncState();
   console.log('synced state complete');
 });
 

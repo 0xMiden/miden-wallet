@@ -84,7 +84,6 @@ export class Vault {
           accPublicKey = await midenClient.createMidenWallet(walletType);
         }
       } else {
-        console.log('creating the wallet oh shit!!');
         accPublicKey = await midenClient.createMidenWallet(walletType);
       }
 
@@ -120,7 +119,7 @@ export class Vault {
       const midenClient = await MidenClientInterface.create();
       const accountHeaders = await midenClient.getAccounts();
       const accounts = await Promise.all(
-        accountHeaders.map(accountHeader => midenClient.getAccount(accountHeader.id().to_string()))
+        accountHeaders.map(accountHeader => midenClient.getAccount(accountHeader.id().toString()))
       );
 
       const newAccounts = [];
@@ -128,9 +127,9 @@ export class Vault {
         const acc = accounts[i];
         if (acc) {
           newAccounts.push({
-            publicKey: acc.id().to_string(),
+            publicKey: acc.id().toString(),
             name: 'Miden Account ' + (i + 1),
-            isPublic: acc.is_public(),
+            isPublic: acc.isPublic(),
             type: WalletType.OnChain
           });
         }
@@ -172,21 +171,11 @@ export class Vault {
 
       const midenClient = await MidenClientInterface.create();
       let walletId;
-      if (isOwnMnemonic) {
+      if (isOwnMnemonic && walletType === WalletType.OnChain) {
         try {
-          // walletId = await midenClient.importMidenWalletFromSeed(walletType, walletSeed);
-          walletId = await midenClient.createMidenWallet(walletType, walletSeed);
+          walletId = await midenClient.importPublicMidenWalletFromSeed(walletSeed);
         } catch (e) {
-          // This is a weird case at the moment. If the user has their own mnemonic, we have to
-          // try importing every time since we dont know whether the account already exists on-chain. If this process fails,
-          // its actually fine, as the seed / account hasn't been used before. (Barring any other failures from the sdk)
-
-          // Off-chain accounts work just fine, since there's nothing to retrieve anyway. It effectively just runs the
-          // createMidenWallet
-
-          // Long-term it might be worth it to expose the key pair generation on the sdk, and the ability to check the chain to see if
-          // the account exists before attempting the import, but this will work for now.
-
+          // TODO: Need some way to propagate this up. Should we fail the entire process or just log it?
           walletId = await midenClient.createMidenWallet(walletType, walletSeed);
         }
       } else {
