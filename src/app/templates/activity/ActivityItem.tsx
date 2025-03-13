@@ -3,6 +3,8 @@ import React, { FC, memo, useEffect, useState } from 'react';
 import classNames from 'clsx';
 
 import { Button } from 'app/atoms/Button';
+import HashShortView from 'app/atoms/HashShortView';
+import { useAppEnv } from 'app/env';
 import { ReactComponent as BoxIcon } from 'app/icons/box.svg';
 import { ReactComponent as ExploreIcon } from 'app/icons/chevron-right.svg';
 import { ReactComponent as CloseIcon } from 'app/icons/close.svg';
@@ -11,7 +13,6 @@ import { ReactComponent as MintIcon } from 'app/icons/mint.svg';
 import { ReactComponent as ReceiveIcon } from 'app/icons/receive.svg';
 import { ReactComponent as PendingIcon } from 'app/icons/rotate.svg';
 import { ReactComponent as SendIcon } from 'app/icons/send.svg';
-import { ReactComponent as WarningIcon } from 'app/icons/warning.svg';
 import { ExploreSelectors } from 'app/pages/Explore.selectors';
 import { ITransactionIcon } from 'lib/miden/db/types';
 
@@ -71,11 +72,12 @@ const ActivityContent: FC<ActivityItemProps> = ({ className, fullHistory, activi
     : transactionIconGrabber(activity.transactionIcon, iconFillAndStroke);
   const animateSpin = activity.type === ActivityType.ProcessingTransaction ? 'animate-spin' : '';
   const isReceive = activity.transactionIcon === 'RECEIVE';
+  const { popup } = useAppEnv();
 
   return (
-    <div className="w-full flex px-6 m-auto py-3 hover:bg-gray-800 focus:bg-gray-800 transition-colors duration-500 ease-in-out cursor-pointer">
+    <div className="w-full flex px-4 md:px-6 m-auto py-3 gap-x-2 md:gap-x-4 hover:bg-gray-800 focus:bg-gray-800 transition-colors duration-500 ease-in-out cursor-pointer">
       <div
-        className={`flex mr-3 items-center ${animateSpin}`}
+        className={`flex items-center ${animateSpin}`}
         style={{
           backgroundColor: '#F2F3F6',
           borderRadius: '20px',
@@ -95,8 +97,12 @@ const ActivityContent: FC<ActivityItemProps> = ({ className, fullHistory, activi
             <span>{activity.message}</span>
           </div>
 
-          <div className="flex text-xs text-[#656565]">
-            <div>{activity.secondaryAddress && <span>{activity.secondaryAddress}</span>}</div>
+          <div className="flex text-xs text-gray-600">
+            <div>
+              {activity.secondaryAddress && (
+                <HashShortView hash={activity.secondaryAddress} trim={popup} firstCharsCount={13} lastCharsCount={7} />
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -105,7 +111,9 @@ const ActivityContent: FC<ActivityItemProps> = ({ className, fullHistory, activi
           <div className={`text-sm font-medium ${isReceive ? 'text-green-500' : ''}`}>{activity.amount}</div>
           {activity.token && (
             <div>
-              <span className="text-[#656565]">{activity.token}</span>
+              <span className="text-gray-600">
+                <HashShortView hash={activity.token} />
+              </span>
             </div>
           )}
         </div>

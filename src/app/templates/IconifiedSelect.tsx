@@ -192,7 +192,7 @@ const SelectButton = forwardRef<HTMLButtonElement, SelectButtonProps>(
         type="button"
         className={classNames(
           'w-full p-2',
-          'border border-gray-600 rounded-lg',
+          'border border-gray-100 rounded-lg',
           'flex items-center',
           dropdown ? 'cursor-pointer' : 'cursor-default',
           className

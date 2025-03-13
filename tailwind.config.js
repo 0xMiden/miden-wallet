@@ -32,13 +32,13 @@ module.exports = {
 
         gray: {
           50: '#F3F3F3',
-          100: '#f7fafc',
+          100: '#EBEBEB',
           200: '#59657C',
           250: '#484848',
           300: '#e2e8f0',
           400: '#969EAD',
           500: '#a0aec0',
-          600: '#D3D7DE',
+          600: '#656565',
           700: '#E9EBEF',
           800: '#F2F3F6',
           900: '#F8F9FA'
@@ -228,7 +228,8 @@ module.exports = {
       DEFAULT: '0.25rem',
       md: '0.375rem',
       lg: '0.5rem',
-      '2xl': '0.75rem',
+      xl: '0.75rem',
+      '2xl': '1rem',
       '3xl': '1.5rem',
       full: '9999px'
     },

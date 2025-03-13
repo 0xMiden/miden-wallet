@@ -4,7 +4,6 @@ import { useRecommendedConvertFee } from 'app/constants';
 import { useAppEnv } from 'app/env';
 import { useAssetFiatCurrencyPrice } from 'lib/fiat-curency';
 import { formatBigInt, stringToAleoMicrocredits, stringToBigInt } from 'lib/i18n/numbers';
-import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
 import { useAccount, useFungibleTokens, useAssetMetadata, useMidenContext, useBalance } from 'lib/miden/front';
 import { HistoryAction, navigate } from 'lib/woozie';
 import { IndexScreen as ConvertTokensFlow } from 'screens/convert-tokens';
@@ -17,14 +16,13 @@ type ConvertVisibilityProps = {
 
 const ConvertVisibility: FC<ConvertVisibilityProps> = ({ assetSlug, assetId }) => {
   const { registerBackHandler } = useAppEnv();
-  const { authorizeTransaction } = useMidenContext();
 
   const account = useAccount();
 
   const assetMetadata = useAssetMetadata(assetSlug!, assetId!);
 
   useLayoutEffect(() => {
-    const backUrl = assetSlug === ALEO_SLUG ? '/tokens/aleo' : `/tokens/${assetId}`;
+    const backUrl = assetSlug === 'aleo' ? '/tokens/aleo' : `/tokens/${assetId}`;
     return registerBackHandler(() => {
       navigate(backUrl, HistoryAction.Replace);
     });
@@ -43,7 +41,7 @@ const ConvertVisibility: FC<ConvertVisibilityProps> = ({ assetSlug, assetId }) =
         private: 0,
         public: 0
       }}
-      aleoTokenId={ALEO_TOKEN_ID}
+      aleoTokenId={''}
       isLoading={isLoading}
       onClose={onClose}
       onSubmitForm={data => {

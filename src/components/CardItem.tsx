@@ -59,7 +59,7 @@ export const CardItem: React.FC<CardItemProps> = ({
     'gap-x-2 bg-white', // Gap and background classes
     'rounded-lg transition', // Shape and transition classes
     'duration-300 ease-in-out', // Transition duration and timing function classes
-    'hover:bg-grey-50 cursor-pointer', // Hover and cursor classes
+    //'hover:bg-grey-50 cursor-pointer', // Hover and cursor classes
     'overflow-hidden',
     className // User-defined classes
   );
@@ -69,7 +69,7 @@ export const CardItem: React.FC<CardItemProps> = ({
       <div className="shrink-0">{iconLeft && <LeftIconOrComponent icon={iconLeft} color="black" />}</div>
       <div className="flex flex-1 overflow-hidden">
         <div className="flex-1 flex-col flex justify-center overflow-hidden">
-          {title && <p className="text-sm font-medium text-black truncate text-ellipsis">{title}</p>}
+          {title && <p className="text-sm font-medium text-black truncate text-ellipsis text-left">{title}</p>}
           {subtitle && <p className="text-xs text-grey-600 truncate text-ellipsis">{subtitle}</p>}
         </div>
         {(titleRight || subtitleRight) && (

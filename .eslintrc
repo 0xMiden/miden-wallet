@@ -14,6 +14,7 @@
     "import/ignore": ["framer-motion"]
   },
   "parser": "@typescript-eslint/parser",
+  "ignorePatterns": ["**.css"],
   "rules": {
     "import/no-named-as-default": 0,
     "import/no-named-as-default-member": 0,

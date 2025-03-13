@@ -182,7 +182,7 @@ const Faucet: FC = () => {
               `mt-2 flex-1`,
               'py-4 px-2',
               'hover:bg-gray-700',
-              'active:bg-gray-600',
+              'active:bg-gray-100',
               'flex items-center justify-center',
               'text-black bg-gray-800 rounded-lg',
               'font-semibold',

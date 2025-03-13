@@ -3,7 +3,8 @@ import React, { FC } from 'react';
 import { DecryptPermission } from '@demox-labs/miden-wallet-adapter-base';
 import classNames from 'clsx';
 
-import { T, t } from 'lib/i18n/react';
+import { Icon, IconName } from 'app/icons/v2';
+import colors from 'utils/tailwind-colors';
 
 type DecryptPermissionBannerProps = {
   decryptPermission: DecryptPermission;
@@ -11,27 +12,22 @@ type DecryptPermissionBannerProps = {
 };
 
 const DecryptPermissionBanner: FC<DecryptPermissionBannerProps> = ({ programs }) => {
-  let programsMessage = programs && programs.length > 0 ? programs.join(', ') : t('allPrograms');
-  programsMessage = `${t('connectFor')} ${programsMessage}`;
+  const checkboxIcon = (
+    <Icon name={IconName.CheckboxCircle} size="sm" fill={colors.primary[500]} className="shrink-0 mr-3" />
+  );
   return (
     <div className={classNames('w-full', 'mb-4', 'flex flex-col')}>
-      <h2 className={classNames('leading-tight', 'flex flex-col')}>
-        <T id="decryptPermission">
-          {message => (
-            <span
-              className={classNames('mb-2', 'text-black font-medium')}
-              style={{ fontSize: '14px', lineHeight: '20px' }}
-            >
-              {message}
-            </span>
-          )}
-        </T>
-      </h2>
-      <div className={classNames('mb-1', 'flex items-center')}>
-        <T id={'TODO'}>{message => <span className="text-black text-sm">{message}</span>}</T>
+      <div className={classNames('flex', 'mb-4')}>
+        {checkboxIcon}
+        <p className="text-sm">Let it see your wallet balance and activity</p>
       </div>
-      <div className={classNames('mb-1', 'flex items-center')}>
-        <span className="text-black text-sm underline">{programsMessage}</span>
+      <div className={classNames('flex', 'mb-4')}>
+        {checkboxIcon}
+        <p className="text-sm">Let it send you requests for transactions</p>
+      </div>
+      <div className={classNames('flex')}>
+        {checkboxIcon}
+        <p className="text-sm">Funds will not leave your wallet until you execute a transaction</p>
       </div>
     </div>
   );

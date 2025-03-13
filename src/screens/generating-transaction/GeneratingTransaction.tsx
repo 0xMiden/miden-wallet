@@ -18,8 +18,6 @@ import { safeGenerateTransactionsLoop as dbTransactionsLoop, getAllUncompletedTr
 import { useExportNotes } from 'lib/miden/activity/notes';
 import { useRetryableSWR } from 'lib/swr';
 import { navigate } from 'lib/woozie';
-import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
-import { NoteExportType } from 'lib/miden/sdk/constants';
 
 export interface GeneratingTransactionPageProps {
   keepOpen?: boolean;

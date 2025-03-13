@@ -279,7 +279,7 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
                 'w-full mt-2 mb-6',
                 'py-4 px-2 w-40',
                 'hover:bg-gray-700',
-                'active:bg-gray-600',
+                'active:bg-gray-100',
                 'flex items-center justify-center',
                 'text-black bg-gray-800 rounded-lg',
                 'font-semibold',

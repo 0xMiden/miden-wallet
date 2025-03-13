@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js';
 
 import { searchAssets, useAllTokensBaseMetadata } from 'lib/miden/front';
 
+import { DEFAULT_FAUCET_ID, FAUCET_ID_STORAGE_KEY } from './constants';
 import { Asset, Token, FA2Token } from './types';
 
 export async function toTransferParams(assetSlug: string, toPublicKey: string, amount: BigNumber.Value) {
@@ -62,3 +63,16 @@ export function useFilteredAssets(assets: { slug: string; id: string }[]) {
 function useDebounce(arg0: string, arg1: number): [any] {
   throw new Error('Function not implemented.');
 }
+
+export function getFaucetIdSetting() {
+  const faucetId = localStorage.getItem(FAUCET_ID_STORAGE_KEY);
+  return faucetId ?? DEFAULT_FAUCET_ID;
+}
+
+export function setFaucetIdSetting(faucetId: string) {
+  localStorage.setItem(FAUCET_ID_STORAGE_KEY, faucetId);
+}
+
+export const getTokenId = (faucetId: string) => {
+  return faucetId === getFaucetIdSetting() ? 'MIDEN' : faucetId;
+};

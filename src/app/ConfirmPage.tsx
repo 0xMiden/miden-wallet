@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 
-import React, { FC, Fragment, Suspense, useCallback, useMemo, useState } from 'react';
+import React, { FC, Suspense, useCallback, useMemo, useState } from 'react';
 
 import { DecryptPermission } from '@demox-labs/miden-wallet-adapter-base';
 import classNames from 'clsx';
@@ -9,9 +9,8 @@ import Spinner from 'app/atoms/Spinner/Spinner';
 import ErrorBoundary from 'app/ErrorBoundary';
 import ContentContainer from 'app/layouts/ContentContainer';
 import Unlock from 'app/pages/Unlock';
+import { Button, ButtonVariant } from 'components/Button';
 import { CustomRpsContext } from 'lib/analytics';
-import { ALEO_DECIMALS } from 'lib/fiat-curency';
-import { formatBigInt } from 'lib/i18n/numbers';
 import { T, t } from 'lib/i18n/react';
 import { useAccount, useMidenContext } from 'lib/miden/front';
 import { MidenDAppPayload } from 'lib/miden/types';
@@ -20,10 +19,8 @@ import useSafeState from 'lib/ui/useSafeState';
 import { useLocation } from 'lib/woozie';
 
 import Alert from './atoms/Alert';
-import FormSecondaryButton from './atoms/FormSecondaryButton';
 import FormSubmitButton from './atoms/FormSubmitButton';
 import Name from './atoms/Name';
-import SubTitle from './atoms/SubTitle';
 import { ConfirmPageSelectors } from './ConfirmPage.selectors';
 import { openLoadingFullPage } from './env';
 import AccountBanner from './templates/AccountBanner';
@@ -32,7 +29,8 @@ import DAppLogo from './templates/DAppLogo';
 import DecryptPermissionBanner from './templates/DecryptPermissionBanner';
 import DecryptPermissionCheckbox from './templates/DecryptPermissionCheckbox';
 import { isDelegateProofEnabled } from './templates/DelegateSettings';
-import NetworkBanner from './templates/NetworkBanner';
+import { Icon, IconName } from './icons/v2';
+import { WalletAccount } from 'lib/shared/types';
 
 const ConfirmPage: FC = () => {
   const { ready } = useMidenContext();
@@ -81,23 +79,40 @@ function downloadData(filename: string, data: string) {
 
 interface PayloadContentProps {
   payload: MidenDAppPayload;
+  account?: WalletAccount;
   viewKey?: string;
   error?: any;
 }
 
-const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error }) => {
+const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account }) => {
   let content: string | React.ReactNode = t('noPreview');
   switch (payload.type) {
     case 'transaction': {
       content = (
-        <div style={{ height: '200px', overflowY: 'auto' }}>
+        <div>
           <div className="text-sm" key={0}>
-            {payload.transactionMessages[0]}
+            {payload.transactionMessages[0]} <br />
+            {payload.transactionMessages[1]}
           </div>
-          {payload.transactionMessages.slice(1).map((message, i) => {
+          {account && (
+            <>
+              <hr className="h-px bg-grey-100 my-4" />
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600">{t('account')}</span>
+                <div className="text-black flex flex-col items-end">
+                  <span>{account.name}</span>
+                  <span>{account.publicKey}</span>
+                </div>
+              </div>
+            </>
+          )}
+          <hr className="h-px bg-grey-100 my-4" />
+          {payload.transactionMessages.slice(2).map((message, i) => {
+            const messageParts = message.split(', ');
             return (
-              <div className="my-2 text-xs" key={i + 2}>
-                {message}
+              <div className="flex justify-between my-2 text-sm" key={i + 2}>
+                <span className="text-gray-600">{messageParts[0]}</span>
+                <span className="text-black">{messageParts[1]}</span>
               </div>
             );
           })}
@@ -119,9 +134,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error }) => {
           </T>
         </h2>
       )}
-      <span className="text-sm text-black break-all" style={{ whiteSpace: 'pre-line' }}>
-        {!!error ? error : content}
-      </span>
+      <span className="text-sm text-black">{!!error ? error : content}</span>
     </div>
   );
 };
@@ -220,56 +233,35 @@ const ConfirmDAppForm: FC = () => {
     switch (payload.type) {
       case 'connect':
         return {
-          title: t('confirmAction', t('connection').toLowerCase()),
-          declineActionTitle: t('cancel'),
+          title: 'Connect to website',
+          declineActionTitle: 'Deny',
           declineActionTestID: ConfirmPageSelectors.ConnectAction_CancelButton,
           confirmActionTitle: error ? t('retry') : t('connect'),
           confirmActionTestID: error
             ? ConfirmPageSelectors.ConnectAction_RetryButton
             : ConfirmPageSelectors.ConnectAction_ConnectButton,
-          want: (
-            <T
-              id="appWouldLikeToConnectToYourWallet"
-              substitutions={[
-                <Fragment key="appName">
-                  <span className="font-medium" style={{ fontSize: '14px', lineHeight: '20px' }}>
-                    {payload.origin}
-                  </span>
-                  <br />
-                </Fragment>
-              ]}
-            >
-              {message => (
-                <p className="mb-2 text-left text-black" style={{ fontSize: '12px', lineHeight: '16px' }}>
-                  {message}
-                </p>
-              )}
-            </T>
-          )
+          want: <DecryptPermissionBanner decryptPermission={decryptPermission} programs={payload.programs} />
         };
       case 'transaction':
         return {
-          title: t('confirmAction', t('transactionAction').toLowerCase()),
-          declineActionTitle: t('reject'),
+          title: t('confirmAction', t('transactionAction')),
+          declineActionTitle: t('cancel'),
           declineActionTestID: ConfirmPageSelectors.TransactionAction_RejectButton,
           confirmActionTitle: t('confirm'),
           confirmActionTestID: ConfirmPageSelectors.TransactionAction_AcceptButton,
           want: (
-            <div className={classNames('text-sm text-left text-black', 'flex flex-col items-center')}>
-              <div className="flex items-center justify-center">
-                <DAppLogo icon={payload.appMeta.icon} origin={payload.origin} size={16} className="mr-1" />
-                <Name className="font-semibold" style={{ maxWidth: '10rem' }}>
-                  {payload.appMeta.name}
-                </Name>
+            <div
+              className={classNames(
+                'text-sm text-left text-black',
+                'flex w-full gap-x-3 items-center p-4',
+                'border border-gray-100 rounded-2xl mb-4'
+              )}
+            >
+              <Icon name={IconName.Globe} fill="black" size="md" />
+              <div className="flex flex-col">
+                <Name className="font-semibold">{payload.origin}</Name>
+                <span>Requests a transaction</span>
               </div>
-              <T
-                id="appRequestsTransaction"
-                substitutions={[
-                  <Name className="max-w-full text-xs italic" key="origin">
-                    {payload.origin}
-                  </Name>
-                ]}
-              />
             </div>
           )
         };
@@ -285,28 +277,14 @@ const ConfirmDAppForm: FC = () => {
           height: 610
         }}
       >
-        <div className="flex flex-col items-left px-4 py-2">
-          <SubTitle small className={payload.type === 'connect' ? 'mt-4 mb-6' : 'mt-4 mb-2'}>
-            {content.title}
-          </SubTitle>
+        <div className="flex flex-col items-left px-4">
+          <h2 className="py-6 flex text-black text-lg font-semibold">{content.title}</h2>
 
           {payload.type === 'connect' && (
-            <ConnectBanner type={payload.type} origin={payload.origin} appMeta={payload.appMeta} className="mb-8" />
+            <ConnectBanner type={payload.type} origin={payload.origin} appMeta={payload.appMeta} />
           )}
 
           {content.want}
-
-          {payload.type === 'connect' && (
-            <T id="viewAccountAddressWarning">
-              {message => <p className="mb-4 text-xs  text-left text-black">{message}</p>}
-            </T>
-          )}
-
-          {payload.type === 'connect' && (
-            <DecryptPermissionBanner decryptPermission={decryptPermission} programs={payload.programs} />
-          )}
-
-          {requireDecryptCheckbox && <DecryptPermissionCheckbox setChecked={setDecryptChecked} />}
 
           {error ? (
             <Alert
@@ -320,17 +298,18 @@ const ConfirmDAppForm: FC = () => {
             />
           ) : (
             <>
-              {payload.type !== 'connect' && account && (
-                <AccountBanner
-                  account={account}
-                  networkRpc={payload.networkRpc}
-                  labelIndent="sm"
-                  className="w-full my-2"
-                />
+              {payload.type === 'connect' ? (
+                account && (
+                  <AccountBanner
+                    account={account}
+                    networkRpc={payload.networkRpc}
+                    labelIndent="sm"
+                    className="w-full my-2"
+                  />
+                )
+              ) : (
+                <PayloadContent payload={payload} error={payloadError} account={account} />
               )}
-
-              <NetworkBanner rpc={payload.networkRpc} narrow={payload.type === 'connect'} />
-              {payload.type !== 'connect' && <PayloadContent payload={payload} error={payloadError} />}
             </>
           )}
         </div>
@@ -338,34 +317,24 @@ const ConfirmDAppForm: FC = () => {
         <div className="flex-1" />
 
         <div
-          className={classNames('sticky bottom-0 w-full', 'bg-white shadow-md', 'flex items-stretch', 'px-4 pt-2 pb-8')}
+          className={classNames('sticky bottom-0 w-full', 'bg-white shadow-md', 'flex items-stretch', 'px-4 pt-2 pb-6')}
         >
           <div className="w-1/2 pr-2">
-            <FormSecondaryButton
+            <Button
               type="button"
-              className={classNames(
-                'w-full justify-center',
-                'px-8',
-                'rounded-lg',
-                'bg-gray-800',
-                'hover:bg-gray-700',
-                'active:bg-gray-600',
-                'flex items-center',
-                'text-black',
-                'font-semibold',
-                'transition duration-200 ease-in-out'
-              )}
+              variant={ButtonVariant.Secondary}
+              className={classNames('w-full', 'px-8', 'text-black font-medium', 'transition duration-200 ease-in-out')}
               style={{
                 fontSize: '16px',
                 lineHeight: '24px',
                 padding: '14px 0px',
                 border: 'none'
               }}
-              loading={declining}
+              isLoading={declining}
               onClick={handleDeclineClick}
             >
               {content.declineActionTitle}
-            </FormSecondaryButton>
+            </Button>
           </div>
 
           <div className="w-1/2 pl-2">

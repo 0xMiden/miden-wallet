@@ -13,62 +13,11 @@ import { useAssetFiatCurrencyPrice } from 'lib/fiat-curency';
 import { T } from 'lib/i18n/react';
 import { PropsWithChildren } from 'lib/props-with-children';
 
-type MainBannerProps = {
-  balance: BigNumber;
-};
-
-const MainBanner = memo<MainBannerProps>(({}) => {
+const MainBanner = memo(() => {
   return <AssetBanner />;
 });
 
 export default MainBanner;
-
-type AleoVolumeBannerProps = {
-  balance: BigNumber;
-};
-
-const AleoVolumeBanner: FC<AleoVolumeBannerProps> = ({ balance }) => {
-  // TODO: This just returns 1 for now
-  const tokenPrice = useAssetFiatCurrencyPrice('miden');
-
-  const volumeInUSD = useMemo(() => {
-    if (balance && tokenPrice) {
-      const balanceInUsd = balance.times(tokenPrice);
-
-      return balanceInUsd;
-    }
-
-    return null;
-  }, [balance, tokenPrice]);
-
-  return (
-    <BannerLayout name={<T id="totalBalance" />}>
-      <div className="h-12 w-full flex items-stretch justify-start">
-        {volumeInUSD && (
-          <>
-            <div className="flex-1 flex items-center justify-end">
-              <DollarIcon
-                className={classNames('flex-shrink-0', 'h-10 w-auto -mr-2', 'stroke-current text-gray-500')}
-              />
-            </div>
-
-            <h3 className="text-3xl  text-black flex items-center">
-              <Money fiat>{volumeInUSD}</Money>
-            </h3>
-
-            <div className="flex-1" />
-          </>
-        )}
-      </div>
-    </BannerLayout>
-  );
-};
-
-type AssetBannerProps = {
-  // assetSlug?: string | null;
-  // assetId?: string | null;
-  // accountPk: string;
-};
 
 const BalanceBanner: FC<{ balance: BigNumber; assetSlug?: string | null }> = ({ balance, assetSlug }) => {
   if (assetSlug) {
@@ -95,7 +44,7 @@ const BalanceBanner: FC<{ balance: BigNumber; assetSlug?: string | null }> = ({ 
   );
 };
 
-const AssetBanner: FC<AssetBannerProps> = ({}) => {
+const AssetBanner: FC = () => {
   const { popup } = useAppEnv();
 
   return (

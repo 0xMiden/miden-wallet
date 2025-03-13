@@ -6,9 +6,9 @@ import { formatTransactionStatus, ITransactionStatus, ITransactionType } from 'l
 import { useRetryableSWR } from 'lib/swr';
 import useSafeState from 'lib/ui/useSafeState';
 
-import { getFaucetIdSetting } from '../EditMidenFaucetId';
 import ActivityView from './ActivityView';
 import { ActivityType, IActivity } from './IActivity';
+import { getTokenId } from 'lib/miden/assets';
 
 type ActivityProps = {
   address: string;
@@ -172,8 +172,4 @@ const formatAmount = (amount: bigint, transactionType: ITransactionType) => {
     return `+${amount}`;
   }
   return amount;
-};
-
-const getTokenId = (faucetId: string) => {
-  return faucetId === getFaucetIdSetting() ? 'MIDEN' : faucetId;
 };

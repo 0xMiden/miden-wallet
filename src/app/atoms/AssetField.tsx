@@ -19,7 +19,7 @@ const AssetExtraInner = (
       <span className="mr-2 font-medium text-black cursor-pointer">{assetSymbol}</span>
       {showMax && (
         <button
-          className="mr-2 font-medium text-black bg-gray-800 hover:bg-gray-700 active:bg-gray-600 py-2 px-2 rounded-lg cursor-pointer"
+          className="mr-2 font-medium text-black bg-gray-800 hover:bg-gray-700 active:bg-gray-100 py-2 px-2 rounded-lg cursor-pointer"
           style={{ width: '50px' }}
           onClick={setMax}
         >

@@ -536,12 +536,16 @@ function assertDAppNetworkValid(dApp: MidenDAppSession | undefined, currentChain
 
 function formatSendTransactionPreview(transaction: SendTransaction): string[] {
   const tsTexts = [
-    `Transfer note from faucet: ${transaction.faucetId} with inputs:`,
-    `Recipient: ${transaction.recipientAccountId}`,
-    `Amount: ${transaction.amount}`,
-    `NoteType: ${transaction.noteType}`,
-    `${transaction.recallBlocks}`
+    'Transfer note from faucet:',
+    `${transaction.faucetId}`,
+    `Amount, ${transaction.amount}`,
+    `Recipient, ${transaction.recipientAccountId}`,
+    `NoteType, ${transaction.noteType}`
   ];
+
+  if (transaction.recallBlocks) {
+    tsTexts.push(`Recall Blocks, ${transaction.recallBlocks}`);
+  }
 
   return tsTexts;
 }

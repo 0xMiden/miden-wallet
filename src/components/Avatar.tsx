@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import classNames from 'clsx';
+
+import Identicon from 'app/atoms/Identicon';
+import { CollectiblePlaceholder } from 'app/icons';
 
 export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
-  image: string;
+  isCollectible?: boolean;
+  image?: string;
+  identiconPublicKey?: string;
 }
 
 const classPerSize = {
@@ -17,10 +22,32 @@ const classPerSize = {
   xxl: 'w-16 h-16'
 };
 
-export const Avatar: React.FC<AvatarProps> = ({ className, size = 'md', image, ...props }) => {
+export const Avatar: React.FC<AvatarProps> = ({
+  className,
+  size = 'md',
+  image,
+  isCollectible,
+  identiconPublicKey,
+  ...props
+}) => {
+  const imageComponent = useCallback(() => {
+    if (image) {
+      return <img src={image} alt="avatar" className={classNames('')} />;
+    }
+
+    if (!image && isCollectible) {
+      <CollectiblePlaceholder />;
+    }
+
+    if (identiconPublicKey) {
+      return <Identicon type="initials" publicKey={identiconPublicKey} size={32} />;
+    }
+
+    return null;
+  }, [image, identiconPublicKey, isCollectible]);
   return (
     <div {...props} className={classNames('rounded-full overflow-hidden', classPerSize[size], className)}>
-      <img src={image} alt="avatar" className={classNames('')} />
+      {imageComponent()}
     </div>
   );
 };

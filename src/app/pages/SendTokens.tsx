@@ -3,7 +3,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useRecommendedFee } from 'app/constants';
 import { Loader } from 'components/Loader';
 import { formatBigInt, stringToAleoMicrocredits, stringToBigInt } from 'lib/i18n/numbers';
-import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
 import { useAccount, useMidenContext, useAllTokensBaseMetadata } from 'lib/miden/front';
 import { useFilteredContacts } from 'lib/miden/front/use-filtered-contacts.hook';
 import { getANSAddress, isAddressValid } from 'lib/miden/helpers';
@@ -20,22 +19,22 @@ export const SendTokens = () => {
   const recommendedFees: UIFees = {
     ALEO: {
       [UITransactionType.Public]: {
-        [UITransactionType.Public]: formatBigInt(useRecommendedFee(ALEO_SLUG, false, false)),
-        [UITransactionType.Private]: formatBigInt(useRecommendedFee(ALEO_SLUG, false, true))
+        [UITransactionType.Public]: formatBigInt(BigInt(0)),
+        [UITransactionType.Private]: formatBigInt(BigInt(0))
       },
       [UITransactionType.Private]: {
-        [UITransactionType.Public]: formatBigInt(useRecommendedFee(ALEO_SLUG, true, false)),
-        [UITransactionType.Private]: formatBigInt(useRecommendedFee(ALEO_SLUG, true, true))
+        [UITransactionType.Public]: formatBigInt(BigInt(0)),
+        [UITransactionType.Private]: formatBigInt(BigInt(0))
       }
     },
     OTHER: {
       [UITransactionType.Public]: {
-        [UITransactionType.Public]: formatBigInt(useRecommendedFee('', false, false)),
-        [UITransactionType.Private]: formatBigInt(useRecommendedFee('', false, true))
+        [UITransactionType.Public]: formatBigInt(BigInt(0)),
+        [UITransactionType.Private]: formatBigInt(BigInt(0))
       },
       [UITransactionType.Private]: {
-        [UITransactionType.Public]: formatBigInt(useRecommendedFee('', true, false)),
-        [UITransactionType.Private]: formatBigInt(useRecommendedFee('', true, true))
+        [UITransactionType.Public]: formatBigInt(BigInt(0)),
+        [UITransactionType.Private]: formatBigInt(BigInt(0))
       }
     }
   };
@@ -83,7 +82,7 @@ export const SendTokens = () => {
         public: 0
       }}
       aleoRecordCount={1}
-      aleoTokenId={ALEO_TOKEN_ID}
+      aleoTokenId={''}
       contacts={[]}
       accountWallet={account.publicKey}
       recommendedFees={recommendedFees}

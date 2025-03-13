@@ -23,7 +23,7 @@ export class MidenClientInterface {
   }
 
   static async create() {
-    const webClient = await WebClient.create_client(MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!);
+    const webClient = await WebClient.create_client(MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!);
 
     return new MidenClientInterface(webClient);
   }
