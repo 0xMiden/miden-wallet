@@ -12,7 +12,6 @@ import PreviewTransactionAmount from 'app/templates/PreviewTransactionAmount';
 import { StakeFormSelectors } from 'app/templates/StakeForm.selectors';
 import { ALEO_MICROCREDITS_TO_CREDITS } from 'lib/fiat-curency';
 import { t } from 'lib/i18n/react';
-import { ALEO_SLUG, ALEO_TOKEN_ID, CREDITS_PROGRAM_ID } from 'lib/miden/assets/constants';
 import { useAccount, useMidenContext, useUnstakedBalance } from 'lib/miden/front';
 import { ConfirmStatus } from 'lib/miden/front/send-types';
 import { HistoryAction, navigate } from 'lib/woozie';
@@ -22,13 +21,11 @@ interface ClaimUnstakedProps {
   assetId?: string;
 }
 
-const ClaimUnstaked: FC<ClaimUnstakedProps> = ({ assetSlug = ALEO_SLUG, assetId = ALEO_TOKEN_ID }) => {
+const ClaimUnstaked: FC<ClaimUnstakedProps> = ({ assetSlug = '', assetId = '' }) => {
   const account = useAccount();
   const [confirmStatus, setConfirmStatus] = useState<ConfirmStatus>({ confirmed: false, delegated: false });
   const confirmed = confirmStatus.confirmed;
   const [feePrivate, setFeePrivate] = useState<boolean>(true);
-  const delegateTransaction = isDelegateProofEnabled();
-  const { authorizeTransaction } = useMidenContext();
 
   let pageTitle = `${t('claim')} ${assetSlug.toUpperCase()}`;
 

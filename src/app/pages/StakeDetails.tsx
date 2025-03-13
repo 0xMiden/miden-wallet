@@ -9,7 +9,6 @@ import PageLayout from 'app/layouts/PageLayout';
 import PreviewTransactionAmount from 'app/templates/PreviewTransactionAmount';
 import Validator from 'app/templates/Staking/Validator';
 import { t } from 'lib/i18n/react';
-import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
 import { useAccount, useStakedBalance, useUnstakedBalance } from 'lib/miden/front';
 import { Link } from 'lib/woozie';
 
@@ -18,7 +17,7 @@ export interface StakeDetailsProps {
   assetId?: string;
 }
 
-const StakeDetails: FC<StakeDetailsProps> = ({ assetSlug = ALEO_SLUG, assetId = ALEO_TOKEN_ID }) => {
+const StakeDetails: FC<StakeDetailsProps> = ({ assetSlug = '', assetId = '' }) => {
   const account = useAccount();
 
   const { fullPage } = useAppEnv();

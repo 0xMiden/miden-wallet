@@ -1,6 +1,5 @@
 import browser from 'webextension-polyfill';
 
-import { CREDITS_PROGRAM_ID, MTSP_PROGRAM_ID } from '../assets/constants';
 import { AssetMetadata } from './types';
 
 // TODO: Make this miden data
@@ -8,7 +7,7 @@ export const ALEO_METADATA: AssetMetadata = {
   decimals: 6,
   symbol: 'MIDEN',
   name: 'Miden',
-  programId: CREDITS_PROGRAM_ID,
+  programId: '',
   mappingName: 'account',
   thumbnailUri: browser.runtime.getURL('misc/token-logos/usds.svg')
 };
@@ -29,7 +28,7 @@ export const DEFAULT_TOKEN_METADATA: AssetMetadata = {
   decimals: 0,
   symbol: '',
   name: '',
-  programId: MTSP_PROGRAM_ID,
+  programId: '',
   mappingName: 'authorized_balances',
   thumbnailUri: browser.runtime.getURL('misc/token-logos/default.svg'),
   externalAuthorizationRequired: 'false'

@@ -122,7 +122,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
           <div className="flex justify-center">
             <div className="relative left-[-33%] md:left-[-19%]">
               {claimableNotes !== undefined && claimableNotes.length > 0 && (
-                <p className="text-md text-gray-600">Ready to claim</p>
+                <p className="text-md text-gray-100">Ready to claim</p>
               )}
             </div>
           </div>
@@ -133,7 +133,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
                   <Icon name={IconName.ArrowRightDownFilledCircle} size="lg" />
                   <div className="flex flex-col">
                     <p className="text-md font-bold">{`${note.amount} MIDEN`}</p>
-                    <p className="text-xs text-gray-600">{note.senderAddress}</p>
+                    <p className="text-xs text-gray-100">{note.senderAddress}</p>
                   </div>
                 </div>
                 <Button

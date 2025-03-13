@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import BigNumber from 'bignumber.js';
 
@@ -10,8 +10,7 @@ import { StakeFormSelectors } from 'app/templates/StakeForm.selectors';
 import ConfirmStakeForm from 'app/templates/Staking/ConfirmStake';
 import StakeForm from 'app/templates/Staking/StakeForm';
 import { t } from 'lib/i18n/react';
-import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
-import { useAccount, useStakedBalance } from 'lib/miden/front';
+import { useAccount } from 'lib/miden/front';
 import { ConfirmStatus } from 'lib/miden/front/send-types';
 
 interface UnstakeInfo {
@@ -25,7 +24,7 @@ type UnstakeProps = {
   assetId?: string;
 };
 
-const Unstake: FC<UnstakeProps> = ({ assetSlug = ALEO_SLUG, assetId = ALEO_TOKEN_ID }) => {
+const Unstake: FC<UnstakeProps> = ({ assetSlug = '', assetId = '' }) => {
   const account = useAccount();
   const [stakeInfo, setStakeInfo] = useState<UnstakeInfo | null>(null);
   const [confirmStatus, setConfirmStatus] = useState<ConfirmStatus>({ confirmed: false, delegated: false });

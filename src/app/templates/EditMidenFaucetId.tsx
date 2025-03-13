@@ -5,23 +5,13 @@ import { OnSubmit, useForm } from 'react-hook-form';
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { t, T } from 'lib/i18n/react';
+import { getFaucetIdSetting, setFaucetIdSetting } from 'lib/miden/assets';
 
-const FAUCET_ID_STORAGE_KEY = 'miden_faucet_id';
-const DEFAULT_FAUCET_ID = '0x29b86f9443ad907a';
 const SUBMIT_ERROR_TYPE = 'submit-error';
 
 type FormData = {
   faucetId: string;
 };
-
-export function getFaucetIdSetting() {
-  const faucetId = localStorage.getItem(FAUCET_ID_STORAGE_KEY);
-  return faucetId ?? DEFAULT_FAUCET_ID;
-}
-
-export function setFaucetIdSetting(faucetId: string) {
-  localStorage.setItem(FAUCET_ID_STORAGE_KEY, faucetId);
-}
 
 const EditMidenFaucetId: FC = () => {
   const faucetId = getFaucetIdSetting();

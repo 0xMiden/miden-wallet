@@ -21,7 +21,7 @@ const meta: Meta<typeof HomeScreen> = {
     Story => {
       return (
         <div className="flex h-full justify-center overflow-hidden items-center bg-[#BFBFDF]">
-          <div className="flex rounded-2xl overflow-hidden w-[600px] h-[860px]">
+          <div className="flex rounded-xl overflow-hidden w-[600px] h-[860px]">
             <Story />
           </div>
         </div>

@@ -1,7 +1,5 @@
 import React, { FC, Suspense, useEffect, useState } from 'react';
 
-import BigNumber from 'bignumber.js';
-
 import Spinner from 'app/atoms/Spinner/Spinner';
 import { RECOMMENDED_FEES } from 'app/constants';
 import { ReactComponent as PublicGlobeIcon } from 'app/icons/globe.svg';
@@ -9,8 +7,7 @@ import { ReactComponent as PrivateLockIcon } from 'app/icons/lock.svg';
 import { ALEO_DECIMALS } from 'lib/fiat-curency/consts';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { t } from 'lib/i18n/react';
-import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
-import { useAccount, useBalance } from 'lib/miden/front';
+import { useAccount } from 'lib/miden/front';
 
 import CustomizeFee from './CustomizeFee';
 import { INFT } from './NFTs/INFT';

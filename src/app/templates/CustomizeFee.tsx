@@ -1,6 +1,5 @@
 import React, { FC, FocusEventHandler, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-import BigNumber from 'bignumber.js';
 import classNames from 'clsx';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -11,8 +10,7 @@ import { useAppEnv } from 'app/env';
 import { ALEO_DECIMALS, ALEO_MICROCREDITS_TO_CREDITS } from 'lib/fiat-curency/consts';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { T, t } from 'lib/i18n/react';
-import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
-import { useAccount, useBalance, useFee } from 'lib/miden/front';
+import { useAccount } from 'lib/miden/front';
 import { useAlert } from 'lib/ui/dialog';
 
 interface FormData {
@@ -237,7 +235,7 @@ const Form: FC<FormProps> = ({
                   'rounded-lg',
                   'bg-gray-800',
                   'hover:bg-gray-700',
-                  'active:bg-gray-600',
+                  'active:bg-gray-100',
                   'flex items-center',
                   'text-black',
                   'font-semibold',

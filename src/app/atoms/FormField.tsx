@@ -172,7 +172,7 @@ const FormField = forwardRef<FormFieldRef, FormFieldProps>(
               'w-full',
               'py-2 pl-4',
               getInnerClassName(isPasswordInput, extraInner),
-              errorCaption ? 'border-red-500' : 'border-gray-600',
+              errorCaption ? 'border-red-500' : 'border-gray-100',
               secretBannerDisplayed ? 'border border-gray-800' : 'border',
               'bg-white focus:bg-transparent',
               'focus:border-primary-purple active:border-primary-purple',

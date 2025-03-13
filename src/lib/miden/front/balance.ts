@@ -40,14 +40,7 @@ export interface TokenBalanceData {
   fiatPrice: number;
 }
 
-export function useAllBalances(
-  chainId: string,
-  tokenIds: string[],
-  tokenMetadatas: Record<string, AssetMetadata>,
-  includePublic: boolean = true,
-  includePrivate: boolean = true,
-  unlocked: boolean = false
-) {}
+export function useAllBalances(accountId: string, opts: UseBalanceOptions = {}) {}
 
 const fetchBalances = async (
   tokenIds: string[],

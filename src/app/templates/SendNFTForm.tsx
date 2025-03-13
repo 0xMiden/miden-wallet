@@ -1,6 +1,5 @@
-import React, { FC, Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, Suspense, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
-import BigNumber from 'bignumber.js';
 import classNames from 'clsx';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -13,10 +12,8 @@ import { useAppEnv } from 'app/env';
 import { ALEO_DECIMALS } from 'lib/fiat-curency/consts';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { T, t } from 'lib/i18n/react';
-import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
-import { isAddressValid, useAccount, useBalance } from 'lib/miden/front';
+import { useAccount } from 'lib/miden/front';
 import { useFilteredContacts } from 'lib/miden/front/use-filtered-contacts.hook';
-import { validateDelegate } from 'lib/miden/front/validate-delegate';
 import useTippy from 'lib/ui/useTippy';
 import Link from 'lib/woozie/Link';
 
@@ -255,7 +252,7 @@ const Form: FC<FormProps> = ({ nft, fee, feePrivate, editFee, setSendInfo, onAdd
                     'rounded-lg',
                     'bg-gray-800',
                     'hover:bg-gray-700',
-                    'active:bg-gray-600',
+                    'active:bg-gray-100',
                     'flex items-center',
                     'text-black',
                     'font-semibold',

@@ -4,10 +4,10 @@ import classNames from 'clsx';
 import { OnSubmit, useForm } from 'react-hook-form';
 
 import { openLoadingFullPage, useAppEnv } from 'app/env';
-import { getFaucetIdSetting } from 'app/templates/EditMidenFaucetId';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { initiateSendTransaction } from 'lib/miden/activity';
-import { useAccount } from 'lib/miden/front';
+import { getFaucetIdSetting, useAccount } from 'lib/miden/front';
+import { NoteTypeEnum } from 'lib/miden/types';
 import { navigate } from 'lib/woozie';
 import { SendFlowAction, SendFlowActionId, SendFlowForm, SendFlowStep } from 'screens/send-tokens/types';
 
@@ -127,7 +127,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
           publicKey!,
           recipientAddress!,
           faucetId,
-          sharePrivately ? 'private' : 'public',
+          sharePrivately ? NoteTypeEnum.Private : NoteTypeEnum.Public,
           BigInt(amount!),
           recallBlocks ? parseInt(recallBlocks) : undefined
         );

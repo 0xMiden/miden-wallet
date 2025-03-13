@@ -17,7 +17,7 @@ interface PasswordStrengthIndicatorProps {
 const PasswordStrengthIndicator: FC<PasswordStrengthIndicatorProps> = ({
   validation: { minChar, cases, number, specialChar }
 }) => (
-  <div className={'mx-2 mb-4 text-black p-4 text-black border-2 border-gray-600 rounded-lg'}>
+  <div className={'mx-2 mb-4 text-black p-4 text-black border-2 border-gray-100 rounded-lg'}>
     <T id="requirements">
       {message => (
         <PasswordStrengthIndicatorItem isValid={minChar && cases && number && specialChar} message={message} title />

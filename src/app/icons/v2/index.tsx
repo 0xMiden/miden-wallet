@@ -66,6 +66,7 @@ import { ReactComponent as LeoLogoAndName } from './leo-logo-and-name-horizontal
 import { ReactComponent as List } from './list.svg';
 import { ReactComponent as Loader } from './loader.svg';
 import { ReactComponent as Lock } from './lock.svg';
+import { ReactComponent as MidenLogoPurple } from './miden-logo-purple.svg';
 import { ReactComponent as MidenLogo } from './miden-logo.svg';
 import { ReactComponent as More } from './more.svg';
 import { ReactComponent as Pencil } from './pencil.svg';
@@ -170,6 +171,7 @@ export enum IconName {
   WarningFill = 'warning-fill',
   Warning = 'warning',
   MidenLogo = 'miden-logo',
+  MidenLogoPurple = 'miden-logo-purple',
   UploadFile = 'upload-file',
   UploadedFile = 'uploaded-file'
 }
@@ -345,6 +347,8 @@ const IconSwitch = (props: IconProps) => {
       return <Warning {...props} />;
     case IconName.MidenLogo:
       return <MidenLogo {...props} />;
+    case IconName.MidenLogoPurple:
+      return <MidenLogoPurple {...props} />;
     case IconName.UploadFile:
       return <UploadFile {...props} />;
     case IconName.UploadedFile:

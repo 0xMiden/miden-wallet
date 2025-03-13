@@ -2,13 +2,11 @@ import React, { useCallback } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import { getFaucetIdSetting } from 'app/templates/EditMidenFaucetId';
 import { Button, ButtonVariant } from 'components/Button';
 import { Chip } from 'components/Chip';
 import { InputAmount } from 'components/InputAmount';
 import { NavigationHeader } from 'components/NavigationHeader';
-import { MidenTokens, TOKEN_MAPPING } from 'lib/miden-chain/constants';
-import { useAccount, useBalance } from 'lib/miden/front';
+import { getFaucetIdSetting, useAccount, useBalance } from 'lib/miden/front';
 import { SendFlowAction, SendFlowActionId } from 'screens/send-tokens/types';
 
 export interface SelectAmountProps {

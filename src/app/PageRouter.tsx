@@ -92,8 +92,6 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   ['/settings/:tabSlug?', onlyReady(({ tabSlug }) => <Settings tabSlug={tabSlug} />)],
   ['/nfts', onlyReady(() => <NFTs />)],
   ['/nfts/details', onlyReady(() => <NFTDetails />)],
-  ['/tokens/aleo', onlyReady(() => <Explore assetSlug="aleo" assetId={'defaultaleotokenid'} />)],
-  ['/tokens/:assetId?', onlyReady(({ assetId }) => <Explore assetId={assetId} />)],
   ['/generating-transaction', onlyReady(() => <GeneratingTransactionPage />)],
   ['/generating-transaction-full', onlyReady(() => <GeneratingTransactionPage keepOpen={true} />)],
   ['/stake', onlyReady(() => <Stake />)],

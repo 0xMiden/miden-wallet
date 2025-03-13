@@ -72,7 +72,7 @@ const Confirmation: FC<ConfirmationProps> = ({ delegated, testId }) => {
                   'rounded-lg',
                   'bg-gray-800',
                   'hover:bg-gray-700',
-                  'active:bg-gray-600',
+                  'active:bg-gray-100',
                   'flex items-center',
                   'text-black',
                   'font-semibold',

@@ -101,7 +101,7 @@ export const SeedWordInput: FC<SeedWordInputProps> = ({
         className={classNames(
           'appearance-none',
           'w-full py-3 border-2',
-          isError ? 'border-red-500' : 'border-gray-600',
+          isError ? 'border-red-500' : 'border-gray-100',
           'rounded-lg',
           'focus:border-primary-purple',
           'bg-white focus:bg-transparent',

@@ -100,7 +100,7 @@ export const Button: React.FC<ButtonProps> = ({
         hoverBackgroundColor,
         isLoading ? 'pointer-events-none' : '',
         'flex justify-center items-center gap-x-2',
-        'py-3 px-4 rounded-md',
+        'py-3 px-4 rounded-lg',
         'transition duration-300 ease-in-out',
         className
       )}

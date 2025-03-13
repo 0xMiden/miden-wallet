@@ -10,7 +10,6 @@ import ConfirmStakeForm from 'app/templates/Staking/ConfirmStake';
 import StakeForm from 'app/templates/Staking/StakeForm';
 import Validator from 'app/templates/Staking/Validator';
 import { t } from 'lib/i18n/react';
-import { ALEO_SLUG, ALEO_TOKEN_ID } from 'lib/miden/assets/constants';
 import { useAccount, useBalance, useStakedBalance } from 'lib/miden/front';
 import { ConfirmStatus } from 'lib/miden/front/send-types';
 
@@ -27,7 +26,7 @@ type StakeProps = {
   assetId?: string;
 };
 
-const Stake: FC<StakeProps> = ({ assetSlug = ALEO_SLUG, assetId = ALEO_TOKEN_ID }) => {
+const Stake: FC<StakeProps> = ({ assetSlug = '', assetId = '' }) => {
   const account = useAccount();
 
   const [stakeInfo, setStakeInfo] = useState<StakeInfo | null>(null);

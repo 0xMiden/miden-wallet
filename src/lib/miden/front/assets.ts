@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
+import { FungibleAsset } from '@demox-labs/miden-sdk';
 import constate from 'constate';
 import deepEqual from 'fast-deep-equal';
 import Fuse from 'fuse.js';
@@ -22,11 +23,43 @@ import { createQueue } from 'lib/queue';
 import { useRetryableSWR } from 'lib/swr';
 
 import { useGasToken } from '../../../app/hooks/useGasToken';
-import { ALEO_TOKEN_ID } from '../assets/constants';
+import { MidenClientInterface } from '../sdk/miden-client-interface';
+import BigNumber from 'bignumber.js';
 
 export const ALL_TOKENS_BASE_METADATA_STORAGE_KEY = 'tokens_base_metadata';
 
-export function useFungibleTokens(account: string) {}
+const midenClient = await MidenClientInterface.create();
+
+export type TokenBalance = {
+  faucetId: string;
+  balance: BigNumber;
+};
+
+export type TokenBalanceData = {
+  tokens: TokenBalance[];
+  totalBalance: BigNumber;
+};
+
+export function useFungibleTokens(accountId: string) {
+  const fetchBalanceLocal = useCallback(async () => {
+    const account = await midenClient.getAccount(accountId);
+    const assets = account!.vault().assets() as FungibleAsset[];
+    const balances = assets.map(asset => ({
+      faucetId: asset.faucet_id().to_string(),
+      balance: new BigNumber(asset.amount().toString())
+    }));
+    return {
+      tokens: balances,
+      totalBalance: balances.reduce((acc, { balance }) => acc.plus(balance), new BigNumber(0))
+    } as TokenBalanceData;
+  }, [accountId]);
+
+  return useRetryableSWR([accountId, 'asset_vault'].join('_'), fetchBalanceLocal, {
+    revalidateOnFocus: false,
+    dedupingInterval: 20_000,
+    refreshInterval: 5_000
+  });
+}
 
 export function useCollectibleTokens(account: string, isDisplayed: boolean) {}
 
@@ -129,10 +162,6 @@ export async function setTokensBaseMetadata(toSet: Record<string, AssetMetadata>
 export const getTokensBaseMetadata = async (assetId: string) => {
   const allTokensBaseMetadata: Record<string, AssetMetadata> =
     (await fetchFromStorage(ALL_TOKENS_BASE_METADATA_STORAGE_KEY)) || defaultAllTokensBaseMetadata;
-
-  if (assetId === ALEO_TOKEN_ID) {
-    return ALEO_METADATA;
-  }
 
   return allTokensBaseMetadata[assetId];
 };
