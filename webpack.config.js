@@ -116,7 +116,7 @@ const appConfig = {
     publicAssetsPlugin(PUBLIC_PATH, OUTPUT_PATH, MANIFEST, TARGET_BROWSER),
 
     new WebpackBar({
-      name: 'Trident Wallet',
+      name: 'Miden Wallet',
       color: '#634CFF'
     })
   ],
@@ -273,7 +273,7 @@ const workerConfig = {
     }),
 
     new WebpackBar({
-      name: 'Trident Wallet Workers',
+      name: 'Miden Wallet Workers',
       color: '#634CFF'
     })
   ],

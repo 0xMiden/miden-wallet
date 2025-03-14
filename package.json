@@ -1,6 +1,6 @@
 {
-  "name": "leo-wallet",
-  "version": "1.0.7",
+  "name": "miden-wallet",
+  "version": "1.0.8",
   "private": true,
   "scripts": {
     "start": "yarn watch:src",
