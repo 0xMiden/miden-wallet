@@ -74,5 +74,9 @@ export function setFaucetIdSetting(faucetId: string) {
 }
 
 export const getTokenId = (faucetId: string) => {
-  return faucetId === getFaucetIdSetting() ? 'MIDEN' : faucetId;
+  return isMidenFaucet(faucetId) ? 'MIDEN' : faucetId;
+};
+
+export const isMidenFaucet = (faucetId: string) => {
+  return faucetId === getFaucetIdSetting();
 };

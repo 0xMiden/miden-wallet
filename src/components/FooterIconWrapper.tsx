@@ -18,7 +18,9 @@ export const FooterIconWrapper: React.FC<FooterIconWrapperProps> = ({ linkTo, on
   const currentPath = location.pathname;
   const pathSegments = currentPath.split('/');
   const currentPathSegment = pathSegments[1];
-  const active = currentPathSegment === linkTo.replace('/', '');
+  const active =
+    currentPathSegment === linkTo.replace('/', '') ||
+    (currentPathSegment === 'activity-details' && linkTo === '/activity');
 
   return (
     <Link to={linkTo} onClick={onClick}>

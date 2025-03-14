@@ -15,6 +15,7 @@ import { ReactComponent as PendingIcon } from 'app/icons/rotate.svg';
 import { ReactComponent as SendIcon } from 'app/icons/send.svg';
 import { ExploreSelectors } from 'app/pages/Explore.selectors';
 import { ITransactionIcon } from 'lib/miden/db/types';
+import { Link } from 'lib/woozie';
 
 import { ActivityType, IActivity } from './IActivity';
 
@@ -148,7 +149,7 @@ const ActivityItem = memo<ActivityItemProps>(({ className, fullHistory, activity
           {ActivityContent({ className, fullHistory, activity })}
         </a>
       ) : (
-        <>{ActivityContent({ className, fullHistory, activity })}</>
+        <Link to={`/activity-details/${activity.txId}`}>{ActivityContent({ className, fullHistory, activity })}</Link>
       )}
     </div>
   );

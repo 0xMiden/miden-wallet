@@ -2,13 +2,13 @@ import React, { memo, RefObject, useMemo, useState } from 'react';
 
 import { ACTIVITY_PAGE_SIZE } from 'app/defaults';
 import { cancelTransactionById, getCompletedTransactions, getUncompletedTransactions } from 'lib/miden/activity';
+import { getTokenId } from 'lib/miden/assets';
 import { formatTransactionStatus, ITransactionStatus, ITransactionType } from 'lib/miden/db/types';
 import { useRetryableSWR } from 'lib/swr';
 import useSafeState from 'lib/ui/useSafeState';
 
 import ActivityView from './ActivityView';
 import { ActivityType, IActivity } from './IActivity';
-import { getTokenId } from 'lib/miden/assets';
 
 type ActivityProps = {
   address: string;
@@ -111,7 +111,7 @@ async function fetchTransactionsAsActivities(address: string, offset?: number, l
     const activity = {
       address: address,
       key: `completed-${tx.id}`,
-      timestamp: Date.now(),
+      timestamp: tx.completedAt,
       message: updateMessageForFailed,
       type: ActivityType.CompletedTransaction,
       transactionIcon: icon,
@@ -165,7 +165,7 @@ function mergeAndSort(base?: IActivity[], toAppend: IActivity[] = []) {
   return uniques;
 }
 
-const formatAmount = (amount: bigint, transactionType: ITransactionType) => {
+export const formatAmount = (amount: bigint, transactionType: ITransactionType) => {
   if (transactionType === 'send') {
     return `-${amount}`;
   } else if (transactionType === 'consume') {

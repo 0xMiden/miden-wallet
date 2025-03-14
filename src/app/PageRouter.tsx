@@ -32,6 +32,7 @@ import SelectAccount from './pages/SelectAccount';
 import Stake from './pages/Stake';
 import StakeDetails from './pages/StakeDetails';
 import Unstake from './pages/Unstake';
+import { ActivityDetails } from './templates/activity/ActivityDetails';
 
 interface RouteContext {
   popup: boolean;
@@ -83,6 +84,10 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   ['/receive', onlyReady(() => <Receive />)],
   ['/faucet', onlyReady(() => <Faucet />)],
   ['/activity/:programId?', onlyReady(({ programId }) => <AllActivity programId={programId} />)],
+  [
+    '/activity-details/:transactionId',
+    onlyReady(({ transactionId }) => <ActivityDetails transactionId={transactionId!} />)
+  ],
   ['/manage-assets/:assetType?', onlyReady(({ assetType }) => <ManageAssets assetType={assetType!} />)],
   ['/send', onlyReady(() => <SendFlow isLoading={false} />)],
   ['/send-nft', onlyReady(() => <SendNFT />)],

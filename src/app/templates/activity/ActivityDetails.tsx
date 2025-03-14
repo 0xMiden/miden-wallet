@@ -1,0 +1,133 @@
+import React, { FC, useCallback, useEffect, useState } from 'react';
+
+import { ActivitySpinner } from 'app/atoms/ActivitySpinner';
+import { useAppEnv } from 'app/env';
+import PageLayout from 'app/layouts/PageLayout';
+import Footer from 'app/layouts/PageLayout/Footer';
+import { getCurrentLocale } from 'lib/i18n';
+import { t } from 'lib/i18n/react';
+import { getTransactionById } from 'lib/miden/activity';
+import { getTokenId, useAccount } from 'lib/miden/front';
+
+import { formatAmount } from './Activity';
+import { IActivity } from './IActivity';
+
+interface ActivityDetailsProps {
+  transactionId: string;
+}
+
+export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => {
+  const account = useAccount();
+  const { fullPage } = useAppEnv();
+  const height = fullPage ? '491px' : '459px';
+  const [activity, setActivity] = useState<IActivity | null>(null);
+
+  const loadTransaction = useCallback(async () => {
+    const tx = await getTransactionById(transactionId);
+
+    const activity = {
+      address: tx.accountId,
+      key: `completed-${tx.id}`,
+      timestamp: tx.completedAt,
+      message: tx.displayMessage,
+      transactionIcon: tx.displayIcon,
+      amount: tx.amount ? formatAmount(tx.amount, tx.type) : undefined,
+      token: tx.faucetId ? getTokenId(tx.faucetId) : undefined,
+      secondaryAddress: tx.secondaryAccountId,
+      txId: tx.id
+    } as IActivity;
+
+    setActivity(activity);
+  }, [transactionId, setActivity]);
+
+  useEffect(() => {
+    if (!activity) loadTransaction();
+  }, [loadTransaction, activity]);
+
+  return (
+    <PageLayout pageTitle={activity?.message} hasBackAction={true}>
+      {activity === null ? (
+        <ActivitySpinner />
+      ) : (
+        <div className="flex-1 flex flex-col">
+          <div className="flex flex-col flex-1 py-2 px-4 gap-y-4 md:w-[460px] md:mx-auto">
+            <div className="flex flex-col items-center justify-center mb-8">
+              <p className="text-4xl font-semibold leading-tight">{activity.amount}</p>
+              <p className="text-base leading-normal text-gray-600">{activity.token}</p>
+            </div>
+
+            <div className="flex flex-col gap-y-2">
+              <span className="flex flex-row justify-between">
+                <label className="text-sm text-grey-600">Status</label>
+                <p className="text-sm text-green-500">Completed</p>
+              </span>
+              <span className="flex flex-row justify-between whitespace-pre-line">
+                <label className="text-sm text-grey-600">Timestamp</label>
+                <p className="text-sm text-right">{formatDate(activity.timestamp)}</p>
+              </span>
+            </div>
+
+            <hr className="h-px bg-grey-100" />
+
+            <div className="flex flex-col gap-y-2">
+              <span className="flex flex-row justify-between">
+                <label className="text-sm text-grey-600">From</label>
+                <p className="text-sm">{activity.address}</p>
+              </span>
+              <span className="flex flex-row justify-between whitespace-pre-line">
+                <label className="text-sm text-grey-600">To</label>
+                <p className="text-sm text-right">{activity.secondaryAddress}</p>
+              </span>
+            </div>
+
+            <hr className="h-px bg-grey-100" />
+          </div>
+        </div>
+      )}
+      <div className="flex-none w-full absolute bottom-0">
+        <Footer />
+      </div>
+    </PageLayout>
+  );
+};
+
+const formatDate = (timestamp: number | string): string => {
+  let date: Date;
+
+  if (typeof timestamp === 'number') {
+    // Ensure the timestamp is in milliseconds
+    date = new Date(timestamp * 1000);
+  } else if (typeof timestamp === 'string') {
+    // Attempt to parse string as number if possible
+    const numericTimestamp = parseFloat(timestamp);
+    if (!isNaN(numericTimestamp)) {
+      date = new Date(numericTimestamp * 1000);
+    } else {
+      date = new Date(timestamp);
+    }
+  } else {
+    return t('invalidDate');
+  }
+
+  // Check if the date is valid
+  if (isNaN(date.getTime())) {
+    console.error(t('invalidDate'), timestamp);
+    return t('invalidDate');
+  }
+
+  const currentLanguage = getCurrentLocale();
+
+  const datePart = date.toLocaleString(currentLanguage, {
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric'
+  });
+
+  const timePart = date.toLocaleString(currentLanguage, {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true
+  });
+
+  return `${datePart}, ${timePart}`;
+};

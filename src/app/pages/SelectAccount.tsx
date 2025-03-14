@@ -37,24 +37,24 @@ const SelectAccount: FC = () => {
 
   const actions = useMemo(() => {
     const items = [
-      {
-        key: 'maximise',
-        Icon: MaximiseIcon,
-        i18nKey: appEnv.fullPage ? 'openNewTab' : 'maximiseView',
-        linkTo: '/fullpage.html',
-        onClick: handleMaximiseViewClick,
-        includeHR: false,
-        linksOutsideOfWallet: true,
-        selector: SelectAccountSelectors.MaximizeButton,
-        fullPage: false,
-        iconStyle: {}
-      }
+      // {
+      //   key: 'maximise',
+      //   Icon: MaximiseIcon,
+      //   i18nKey: appEnv.fullPage ? 'openNewTab' : 'maximiseView',
+      //   linkTo: '/fullpage.html',
+      //   onClick: handleMaximiseViewClick,
+      //   includeHR: false,
+      //   linksOutsideOfWallet: true,
+      //   selector: SelectAccountSelectors.MaximizeButton,
+      //   fullPage: false,
+      //   iconStyle: {}
+      // }
     ].filter(Boolean as any as ExcludesFalse);
     return items.filter((item, index) => {
       // if (index === 0) {
       //   return true;
       // }
-      return !appEnv.fullPage || item.fullPage !== false;
+      return !appEnv.fullPage || (item as any).fullPage !== false;
     });
   }, [appEnv.fullPage, handleMaximiseViewClick]);
 

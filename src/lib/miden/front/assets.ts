@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { FungibleAsset } from '@demox-labs/miden-sdk';
+import BigNumber from 'bignumber.js';
 import constate from 'constate';
 import deepEqual from 'fast-deep-equal';
 import Fuse from 'fuse.js';
@@ -8,23 +9,22 @@ import useForceUpdate from 'use-force-update';
 import browser from 'webextension-polyfill';
 
 import {
-  usePassiveStorage,
-  isAleoAsset,
-  AssetMetadata,
   ALEO_METADATA,
+  AssetMetadata,
+  AssetTypesEnum,
+  DetailedAssetMetdata,
+  fetchFromStorage,
+  fetchTokenMetadata,
+  isAleoAsset,
   onStorageChanged,
   putToStorage,
-  fetchFromStorage,
-  DetailedAssetMetdata,
-  AssetTypesEnum,
-  fetchTokenMetadata
+  usePassiveStorage
 } from 'lib/miden/front';
 import { createQueue } from 'lib/queue';
 import { useRetryableSWR } from 'lib/swr';
 
 import { useGasToken } from '../../../app/hooks/useGasToken';
 import { MidenClientInterface } from '../sdk/miden-client-interface';
-import BigNumber from 'bignumber.js';
 
 export const ALL_TOKENS_BASE_METADATA_STORAGE_KEY = 'tokens_base_metadata';
 

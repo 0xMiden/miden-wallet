@@ -247,7 +247,7 @@ const generatePromisifyTransaction = async (
       if (confirmReq?.type === MidenMessageType.DAppTransactionConfirmationRequest && confirmReq?.id === id) {
         if (confirmReq.confirmed) {
           try {
-            const transactionId = withUnlocked(async () => {
+            const transactionId = await withUnlocked(async () => {
               const { payload } = req.transaction;
               const { accountId, transactionRequest, inputNoteIds, importNotes } = payload as MidenCustomTransaction;
               return await requestCustomTransaction(accountId, transactionRequest, inputNoteIds, importNotes);
@@ -329,7 +329,7 @@ const generatePromisifySendTransaction = async (
       if (confirmReq?.type === MidenMessageType.DAppTransactionConfirmationRequest && confirmReq?.id === id) {
         if (confirmReq.confirmed) {
           try {
-            const transactionId = withUnlocked(async () => {
+            const transactionId = await withUnlocked(async () => {
               const { senderAccountId, recipientAccountId, faucetId, noteType, amount, recallBlocks } = req.transaction;
               return await initiateSendTransaction(
                 senderAccountId,

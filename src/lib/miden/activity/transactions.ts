@@ -12,8 +12,8 @@ import { toNoteTypeString } from '../helpers';
 import { NoteExportType } from '../sdk/constants';
 import { MidenClientInterface } from '../sdk/miden-client-interface';
 import { NoteTypeEnum, NoteType as NoteTypeString } from '../types';
-import { importAllNotes, queueNoteImport, registerOutputNote } from './notes';
 import { interpretTransactionResult } from './helpers';
+import { importAllNotes, queueNoteImport, registerOutputNote } from './notes';
 
 export const MAX_WAIT_BEFORE_CANCEL = 30 * 60_000; // 30 minutes
 
@@ -262,6 +262,12 @@ export const cancelTransaction = async (transaction: Transaction) => {
 export const cancelTransactionById = async (id: string) => {
   const tx = await Repo.transactions.where({ id }).first();
   if (tx) await cancelTransaction(tx);
+};
+
+export const getTransactionById = async (id: string) => {
+  const tx = await Repo.transactions.where({ id }).first();
+  if (!tx) throw new Error('Transaction not found');
+  return tx;
 };
 
 export const generateTransactionsLoop = async () => {

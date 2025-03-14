@@ -13,7 +13,7 @@ import { CardItem } from 'components/CardItem';
 import { TestIDProps } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { hasQueuedTransactions } from 'lib/miden/activity';
-import { getTokenId, TokenBalance, useAccount, useFungibleTokens } from 'lib/miden/front';
+import { getTokenId, isMidenFaucet, TokenBalance, useAccount, useFungibleTokens } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { useRetryableSWR } from 'lib/swr';
 import useTippy, { TippyProps } from 'lib/ui/useTippy';
@@ -107,24 +107,26 @@ const Explore: FC = () => {
           </div>
           <div className="flex-1 flex flex-col pb-4 space-y-2">
             {tokens.length > 0 &&
-              tokens.map((token: TokenBalance) => {
-                const tokenId = getTokenId(token.faucetId);
-                const isMiden = tokenId === 'MIDEN';
-                return (
-                  <div key={token.faucetId} className="flex">
-                    <CardItem
-                      iconLeft={
-                        <Avatar size="lg" image={isMiden ? '/misc/miden.png' : '/misc/token-logos/default.svg'} />
-                      }
-                      title={tokenId}
-                      subtitle={isMiden ? token.faucetId : undefined}
-                      titleRight={`$${token.balance.toFixed(2)}`}
-                      subtitleRight={token.balance.toFixed(2)}
-                      className="flex-1 border border-grey-50 rounded-lg "
-                    />
-                  </div>
-                );
-              })}
+              tokens
+                .sort(a => (isMidenFaucet(a.faucetId) ? -1 : 1))
+                .map((token: TokenBalance) => {
+                  const tokenId = getTokenId(token.faucetId);
+                  const isMiden = tokenId === 'MIDEN';
+                  return (
+                    <div key={token.faucetId} className="flex">
+                      <CardItem
+                        iconLeft={
+                          <Avatar size="lg" image={isMiden ? '/misc/miden.png' : '/misc/token-logos/default.svg'} />
+                        }
+                        title={tokenId}
+                        subtitle={isMiden ? token.faucetId : undefined}
+                        titleRight={`$${token.balance.toFixed(2)}`}
+                        subtitleRight={token.balance.toFixed(2)}
+                        className="flex-1 border border-grey-50 rounded-lg "
+                      />
+                    </div>
+                  );
+                })}
           </div>
         </div>
       </div>
