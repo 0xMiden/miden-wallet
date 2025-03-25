@@ -9,13 +9,14 @@ import { getFaucetIdSetting } from 'app/templates/EditMidenFaucetId';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { MidenTokens, TOKEN_MAPPING } from 'lib/miden-chain/constants';
 import { useAccount } from 'lib/miden/front';
+import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import { navigate } from 'lib/woozie';
-import { EncryptedFileAction, EncryptedFileActionId, EncryptedFileForm, EncryptedFileStep } from './types';
 import EncryptedWalletFileWalletPassword from 'screens/encrypted-file-flow/EncryptedWalletFileWalletPassword';
+
+import ExportFileComplete from './ExportFileComplete';
 import ExportFileName from './ExportFileName';
 import ExportFilePassword from './ExportFilePassword';
-import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
-import ExportFileComplete from './ExportFileComplete';
+import { EncryptedFileAction, EncryptedFileActionId, EncryptedFileForm, EncryptedFileStep } from './types';
 
 const ROUTES: Route[] = [
   {

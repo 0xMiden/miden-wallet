@@ -87,7 +87,10 @@ export class SendTransaction implements ITransaction {
   completedAt?: number;
   displayMessage?: string;
   displayIcon: ITransactionIcon;
-  extraInputs: { recallBlocks?: number, delegateTransaction?: boolean } = { recallBlocks: undefined, delegateTransaction: undefined };
+  extraInputs: { recallBlocks?: number; delegateTransaction?: boolean } = {
+    recallBlocks: undefined,
+    delegateTransaction: undefined
+  };
 
   constructor(
     accountId: string,
@@ -96,7 +99,7 @@ export class SendTransaction implements ITransaction {
     faucetId: string,
     noteType: NoteType,
     recallBlocks?: number,
-    delegateTransaction?: boolean,
+    delegateTransaction?: boolean
   ) {
     this.id = uuid();
     this.type = 'send';

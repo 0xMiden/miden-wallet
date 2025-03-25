@@ -4,10 +4,12 @@ import classNames from 'clsx';
 import { OnSubmit, useForm } from 'react-hook-form';
 
 import { openLoadingFullPage, useAppEnv } from 'app/env';
+import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { getFaucetIdSetting } from 'app/templates/EditMidenFaucetId';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { initiateSendTransaction } from 'lib/miden/activity';
 import { useAccount } from 'lib/miden/front';
+import { NoteTypeEnum } from 'lib/miden/types';
 import { navigate } from 'lib/woozie';
 import { SendFlowAction, SendFlowActionId, SendFlowForm, SendFlowStep } from 'screens/send-tokens/types';
 
@@ -15,8 +17,6 @@ import { ReviewTransaction } from './ReviewTransaction';
 import { SelectAmount } from './SelectAmount';
 import { SelectRecipient } from './SelectRecipient';
 import { TransactionInitiated } from './TransactionInitiated';
-import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
-import { NoteTypeEnum } from 'lib/miden/types';
 
 const ROUTES: Route[] = [
   {
@@ -227,7 +227,18 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
           return <></>;
       }
     },
-    [amount, goBack, goToStep, onAction, onAddressChange, onClearAddress, onClose, recipientAddress, sharePrivately, delegateTransaction]
+    [
+      amount,
+      goBack,
+      goToStep,
+      onAction,
+      onAddressChange,
+      onClearAddress,
+      onClose,
+      recipientAddress,
+      sharePrivately,
+      delegateTransaction
+    ]
   );
 
   return (

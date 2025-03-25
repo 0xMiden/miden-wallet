@@ -2,12 +2,12 @@ import React, { FC, useCallback, useLayoutEffect, useMemo, useRef, useState } fr
 
 import { OnSubmit, useForm } from 'react-hook-form';
 
+import Alert from 'app/atoms/Alert';
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
-import { t, T } from 'lib/i18n/react';
 import { Checkbox } from 'components/Checkbox';
+import { t, T } from 'lib/i18n/react';
 import { useLocalStorage, useMidenContext } from 'lib/miden/front';
-import Alert from 'app/atoms/Alert';
 
 const SUBMIT_ERROR_TYPE = 'submit-error';
 const LOCK_TIME = 60_000;

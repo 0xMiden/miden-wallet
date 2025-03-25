@@ -1,26 +1,26 @@
 import React, { useState, useRef } from 'react';
 
 import classNames from 'clsx';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { Icon, IconName } from 'app/icons/v2';
-import { Button } from 'components/Button';
-import { ONE_MB_IN_BYTES } from 'utils/crypto';
-import { EncryptedWalletFile, ENCRYPTED_WALLET_FILE_PASSWORD_CHECK, DecryptedWalletFile } from 'screens/shared';
-import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
-import { decrypt, decryptJson, deriveKey, generateKey } from 'lib/miden/passworder';
 import FormField, { PASSWORD_ERROR_CAPTION } from 'app/atoms/FormField';
+import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import {
   lettersNumbersMixtureRegx,
   PASSWORD_PATTERN,
   specialCharacterRegx,
   uppercaseLowercaseMixtureRegx
 } from 'app/defaults';
-import { useForm } from 'react-hook-form';
-import PasswordStrengthIndicator, { PasswordValidation } from 'lib/ui/PasswordStrengthIndicator';
+import { Icon, IconName } from 'app/icons/v2';
 import { MIN_PASSWORD_LENGTH } from 'app/pages/NewWallet/SetWalletPassword';
-import FormSubmitButton from 'app/atoms/FormSubmitButton';
+import { Button } from 'components/Button';
 import { T } from 'lib/i18n/react';
+import { decrypt, decryptJson, deriveKey, generateKey } from 'lib/miden/passworder';
+import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
+import PasswordStrengthIndicator, { PasswordValidation } from 'lib/ui/PasswordStrengthIndicator';
+import { EncryptedWalletFile, ENCRYPTED_WALLET_FILE_PASSWORD_CHECK, DecryptedWalletFile } from 'screens/shared';
+import { ONE_MB_IN_BYTES } from 'utils/crypto';
 
 interface FormData {
   password?: string;

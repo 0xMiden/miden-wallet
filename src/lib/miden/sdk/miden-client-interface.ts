@@ -61,8 +61,16 @@ export class MidenClientInterface {
 
   async consumeTransaction(accountId: string, listOfNoteIds: string[], delegateTransaction?: boolean) {
     const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest(listOfNoteIds);
-    let consumeTransactionResult = await this.webClient.newTransaction(accountIdStringToSdk(accountId), consumeTransactionRequest);
-    await this.webClient.submitTransaction(consumeTransactionResult, delegateTransaction ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!) : undefined);
+    let consumeTransactionResult = await this.webClient.newTransaction(
+      accountIdStringToSdk(accountId),
+      consumeTransactionRequest
+    );
+    await this.webClient.submitTransaction(
+      consumeTransactionResult,
+      delegateTransaction
+        ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!)
+        : undefined
+    );
     return consumeTransactionResult;
   }
 
@@ -77,8 +85,16 @@ export class MidenClientInterface {
     const { accountId, noteId, delegateTransaction } = transaction;
 
     const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest([noteId]);
-    let consumeTransactionResult = await this.webClient.newTransaction(accountIdStringToSdk(accountId), consumeTransactionRequest);
-    await this.webClient.submitTransaction(consumeTransactionResult, delegateTransaction ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!) : undefined);
+    let consumeTransactionResult = await this.webClient.newTransaction(
+      accountIdStringToSdk(accountId),
+      consumeTransactionRequest
+    );
+    await this.webClient.submitTransaction(
+      consumeTransactionResult,
+      delegateTransaction
+        ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!)
+        : undefined
+    );
 
     return consumeTransactionResult;
   }
@@ -146,8 +162,16 @@ export class MidenClientInterface {
       amount,
       recallHeight
     );
-    let sendTransactionResult = await this.webClient.newTransaction(accountIdStringToSdk(senderAccountId), sendTransactionRequest);
-    await this.webClient.submitTransaction(sendTransactionResult, delegateTransaction ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!) : undefined)
+    let sendTransactionResult = await this.webClient.newTransaction(
+      accountIdStringToSdk(senderAccountId),
+      sendTransactionRequest
+    );
+    await this.webClient.submitTransaction(
+      sendTransactionResult,
+      delegateTransaction
+        ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!)
+        : undefined
+    );
 
     return sendTransactionResult;
   }
@@ -162,11 +186,20 @@ export class MidenClientInterface {
     await this.webClient.forceImportStore(dump);
   }
 
-  async submitTransaction(accountId: string, transactionRequestBytes: Uint8Array, delegateTransaction?: boolean): Promise<TransactionResult> {
+  async submitTransaction(
+    accountId: string,
+    transactionRequestBytes: Uint8Array,
+    delegateTransaction?: boolean
+  ): Promise<TransactionResult> {
     await this.syncState();
     const transactionRequest = TransactionRequest.deserialize(new Uint8Array(transactionRequestBytes));
     const transactionResult = await this.webClient.newTransaction(accountIdStringToSdk(accountId), transactionRequest);
-    await this.webClient.submitTransaction(transactionResult, delegateTransaction ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!) : undefined);
+    await this.webClient.submitTransaction(
+      transactionResult,
+      delegateTransaction
+        ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!)
+        : undefined
+    );
     return transactionResult;
   }
 

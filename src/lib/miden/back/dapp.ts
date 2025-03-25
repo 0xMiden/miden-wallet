@@ -249,8 +249,15 @@ const generatePromisifyTransaction = async (
           try {
             const transactionId = withUnlocked(async () => {
               const { payload } = req.transaction;
-              const { accountId, transactionRequest, inputNoteIds, importNotes, delegateTransaction } = payload as MidenCustomTransaction;
-              return await requestCustomTransaction(accountId, transactionRequest, inputNoteIds, importNotes, delegateTransaction);
+              const { accountId, transactionRequest, inputNoteIds, importNotes, delegateTransaction } =
+                payload as MidenCustomTransaction;
+              return await requestCustomTransaction(
+                accountId,
+                transactionRequest,
+                inputNoteIds,
+                importNotes,
+                delegateTransaction
+              );
             });
             resolve({
               type: MidenDAppMessageType.TransactionResponse,
@@ -330,7 +337,15 @@ const generatePromisifySendTransaction = async (
         if (confirmReq.confirmed) {
           try {
             const transactionId = withUnlocked(async () => {
-              const { senderAccountId, recipientAccountId, faucetId, noteType, amount, recallBlocks, delegateTransaction } = req.transaction;
+              const {
+                senderAccountId,
+                recipientAccountId,
+                faucetId,
+                noteType,
+                amount,
+                recallBlocks,
+                delegateTransaction
+              } = req.transaction;
               return await initiateSendTransaction(
                 senderAccountId,
                 recipientAccountId,

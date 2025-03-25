@@ -18,9 +18,9 @@ import MenuItem from 'app/templates/MenuItem';
 import RevealSecret from 'app/templates/RevealSecret';
 import { t } from 'lib/i18n/react';
 import { useAccount } from 'lib/miden/front';
+import { EncryptedFileFlow, EncryptedFileManager } from 'screens/encrypted-file-flow/EncryptedFileManager';
 
 import { SettingsSelectors } from './Settings.selectors';
-import { EncryptedFileFlow, EncryptedFileManager } from 'screens/encrypted-file-flow/EncryptedFileManager';
 
 type SettingsProps = {
   tabSlug?: string | null;

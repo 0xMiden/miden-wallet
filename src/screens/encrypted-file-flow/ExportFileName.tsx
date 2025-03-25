@@ -4,10 +4,9 @@ import { OnSubmit, useForm } from 'react-hook-form';
 
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
-import { t, T } from 'lib/i18n/react';
-import { Alert } from 'components/Alert';
-import { AlertVariant } from 'components/Alert';
+import { Alert, AlertVariant } from 'components/Alert';
 import { TextArea } from 'components/TextArea';
+import { t, T } from 'lib/i18n/react';
 
 type FormData = {
   fileName: string;

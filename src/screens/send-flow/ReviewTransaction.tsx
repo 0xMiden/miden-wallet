@@ -5,13 +5,13 @@ import { useTranslation } from 'react-i18next';
 
 import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { Icon, IconName } from 'app/icons/v2';
+import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Button, ButtonVariant } from 'components/Button';
 import { NavigationHeader } from 'components/NavigationHeader';
 import { useAccount } from 'lib/miden/front';
 import { SendFlowAction, SendFlowActionId } from 'screens/send-tokens/types';
 
 import { RecallBlocksModal } from './RecallBlocksModal';
-import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 
 const TOKEN_NAME = 'MIDEN';
 

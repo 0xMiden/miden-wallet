@@ -1,4 +1,5 @@
 import { NoteType } from '@demox-labs/miden-sdk';
+
 import { NoteTypeEnum, NoteType as NoteTypeString } from './types';
 
 // TODO: implement address checks
