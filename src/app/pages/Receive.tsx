@@ -66,7 +66,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
 
   const consumeNote = useCallback(
     async (noteId: string) => {
-      await initiateConsumeTransaction(account.publicKey, noteId);
+      await initiateConsumeTransaction(account.publicKey, noteId, isDelegatedProvingEnabled);
       openLoadingFullPage();
 
       const index = claimableNotes?.findIndex(note => note.id === noteId);

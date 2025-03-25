@@ -5,12 +5,13 @@ import {
   ConsumableNoteRecord,
   NoteType,
   TransactionFilter,
+  TransactionProver,
   TransactionRequest,
   TransactionResult,
   WebClient
 } from '@demox-labs/miden-sdk';
 
-import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
+import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';
 import { WalletType } from 'screens/onboarding/types';
 
 import { ConsumeTransaction, SendTransaction } from '../db/types';
@@ -58,9 +59,11 @@ export class MidenClientInterface {
     return account.id().toString();
   }
 
-  async consumeTransaction(accountId: string, listOfNoteIds: string[]) {
-    const result = await this.webClient.newConsumeTransaction(accountIdStringToSdk(accountId), listOfNoteIds);
-    return result;
+  async consumeTransaction(accountId: string, listOfNoteIds: string[], delegateTransaction?: boolean) {
+    const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest(listOfNoteIds);
+    let consumeTransactionResult = await this.webClient.newTransaction(accountIdStringToSdk(accountId), consumeTransactionRequest);
+    await this.webClient.submitTransaction(consumeTransactionResult, delegateTransaction ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!) : undefined);
+    return consumeTransactionResult;
   }
 
   async importNoteBytes(noteBytes: Uint8Array) {
@@ -71,28 +74,13 @@ export class MidenClientInterface {
   }
 
   async consumeNoteId(transaction: ConsumeTransaction): Promise<TransactionResult> {
-    const { accountId, noteId } = transaction;
+    const { accountId, noteId, delegateTransaction } = transaction;
 
-    await this.fetchCacheAccountAuth(accountId);
+    const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest([noteId]);
+    let consumeTransactionResult = await this.webClient.newTransaction(accountIdStringToSdk(accountId), consumeTransactionRequest);
+    await this.webClient.submitTransaction(consumeTransactionResult, delegateTransaction ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!) : undefined);
 
-    const result = await this.webClient.newConsumeTransaction(accountIdStringToSdk(accountId), [noteId]);
-
-    return result;
-  }
-
-  async consumeNoteBytes(accountId: string, noteBytes: Uint8Array) {
-    await this.syncState();
-    const noteId = await this.importNoteBytes(noteBytes);
-
-    await this.fetchCacheAccountAuth(accountId);
-
-    await this.syncState();
-
-    console.log('Consuming note:', noteId);
-    const result = await this.webClient.newConsumeTransaction(accountIdStringToSdk(accountId), [noteId]);
-    console.log('Consumed note:', result);
-
-    return result;
+    return consumeTransactionResult;
   }
 
   async getAccount(accountId: string) {
@@ -106,20 +94,7 @@ export class MidenClientInterface {
   }
 
   async syncState() {
-    const syncSummary = await this.webClient.syncState();
-    // console.log('blockNum: ', syncSummary.blockNum());
-    // console.log('comitted notes: ', syncSummary.committedNotes());
-    // console.log('committed_transactions: ', syncSummary.committedTransactions());
-    // console.log('consumed_notes: ', syncSummary.consumedNotes());
-    // console.log('received_notes: ', syncSummary.receivedNotes());
-    // console.log('updated_accounts: ', syncSummary.updatedAccounts());
-
-    return syncSummary;
-  }
-
-  async fetchCacheAccountAuth(accountId: string) {
-    const result = await this.webClient.fetchAndCacheAccountAuthByAccountId(accountIdStringToSdk(accountId));
-    return result;
+    return await this.webClient.syncState();
   }
 
   async exportNote(noteId: string, exportType: NoteExportType): Promise<Uint8Array> {
@@ -153,7 +128,7 @@ export class MidenClientInterface {
       faucetId,
       noteType,
       amount,
-      extraInputs: { recallBlocks }
+      extraInputs: { recallBlocks, delegateTransaction }
     } = dbTransaction;
 
     let recallHeight = undefined;
@@ -163,8 +138,7 @@ export class MidenClientInterface {
       recallHeight = blockNum + recallBlocks;
     }
 
-    await this.fetchCacheAccountAuth(senderAccountId);
-    const result = await this.webClient.newSendTransaction(
+    let sendTransactionRequest = this.webClient.newSendTransactionRequest(
       accountIdStringToSdk(senderAccountId),
       accountIdStringToSdk(recipientAccountId),
       accountIdStringToSdk(faucetId),
@@ -172,8 +146,10 @@ export class MidenClientInterface {
       amount,
       recallHeight
     );
+    let sendTransactionResult = await this.webClient.newTransaction(accountIdStringToSdk(senderAccountId), sendTransactionRequest);
+    await this.webClient.submitTransaction(sendTransactionResult, delegateTransaction ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!) : undefined)
 
-    return result;
+    return sendTransactionResult;
   }
 
   async exportDb() {
@@ -186,12 +162,11 @@ export class MidenClientInterface {
     await this.webClient.forceImportStore(dump);
   }
 
-  async submitTransaction(accountId: string, transactionRequestBytes: Uint8Array): Promise<TransactionResult> {
+  async submitTransaction(accountId: string, transactionRequestBytes: Uint8Array, delegateTransaction?: boolean): Promise<TransactionResult> {
     await this.syncState();
-    await this.fetchCacheAccountAuth(accountId);
     const transactionRequest = TransactionRequest.deserialize(new Uint8Array(transactionRequestBytes));
     const transactionResult = await this.webClient.newTransaction(accountIdStringToSdk(accountId), transactionRequest);
-    await this.webClient.submitTransaction(transactionResult);
+    await this.webClient.submitTransaction(transactionResult, delegateTransaction ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!) : undefined);
     return transactionResult;
   }
 

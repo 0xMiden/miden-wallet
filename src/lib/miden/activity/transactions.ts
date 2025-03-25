@@ -21,10 +21,11 @@ export const requestCustomTransaction = async (
   accountId: string,
   transactionRequestBytes: string,
   inputNoteIds?: string[],
-  importNotes?: string[]
+  importNotes?: string[],
+  delegateTransaction?: boolean
 ): Promise<string> => {
   const byteArray = new Uint8Array(Buffer.from(transactionRequestBytes, 'base64'));
-  const transaction = new Transaction(accountId, byteArray, inputNoteIds);
+  const transaction = new Transaction(accountId, byteArray, inputNoteIds, delegateTransaction);
   await Repo.transactions.add(transaction);
 
   if (importNotes) {
@@ -53,8 +54,8 @@ export const completeCustomTransaction = async (transaction: ITransaction, resul
   await updateTransactionStatus(transaction.id, ITransactionStatus.Completed, updatedTransaction);
 };
 
-export const initiateConsumeTransaction = async (accountId: string, noteId: string): Promise<string> => {
-  const dbTransaction = new ConsumeTransaction(accountId, noteId);
+export const initiateConsumeTransaction = async (accountId: string, noteId: string, delegateTransaction?: boolean): Promise<string> => {
+  const dbTransaction = new ConsumeTransaction(accountId, noteId, delegateTransaction);
   await Repo.transactions.add(dbTransaction);
 
   return dbTransaction.id;
@@ -90,7 +91,8 @@ export const initiateSendTransaction = async (
   faucetId: string,
   noteType: NoteTypeString,
   amount: bigint,
-  recallBlocks?: number
+  recallBlocks?: number,
+  delegateTransaction?: boolean,
 ): Promise<string> => {
   const dbTransaction = new SendTransaction(
     senderAccountId,
@@ -98,7 +100,8 @@ export const initiateSendTransaction = async (
     recipientAccountId,
     faucetId,
     noteType,
-    recallBlocks
+    recallBlocks,
+    delegateTransaction
   );
   await Repo.transactions.add(dbTransaction);
 
@@ -244,7 +247,7 @@ export const generateTransaction = async (transaction: Transaction) => {
       break;
     case 'execute':
     default:
-      resultBytes = await submitTransactionRequest(transaction.accountId, new Uint8Array(transaction.requestBytes!));
+      resultBytes = await submitTransactionRequest(transaction.accountId, new Uint8Array(transaction.requestBytes!), transaction.delegateTransaction);
       result = TransactionResult.deserialize(resultBytes);
       await completeCustomTransaction(transaction, result);
       break;

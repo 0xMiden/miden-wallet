@@ -11,6 +11,7 @@ export type SendFlowForm = {
   sharePrivately: boolean;
   recipientAddress?: string;
   recallBlocks?: string;
+  delegateTransaction: boolean;
 };
 
 export enum SendFlowActionId {

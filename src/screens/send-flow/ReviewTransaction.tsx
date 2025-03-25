@@ -11,6 +11,7 @@ import { useAccount } from 'lib/miden/front';
 import { SendFlowAction, SendFlowActionId } from 'screens/send-tokens/types';
 
 import { RecallBlocksModal } from './RecallBlocksModal';
+import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 
 const TOKEN_NAME = 'MIDEN';
 
@@ -19,6 +20,7 @@ export interface ReviewTransactionProps {
   onAction: (action: SendFlowAction) => void;
   onGoBack: () => void;
   sharePrivately: boolean;
+  delegateTransaction: boolean;
   recipientAddress?: string;
   recallBlocks?: string;
 }
@@ -27,6 +29,7 @@ export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
   amount,
   recipientAddress,
   sharePrivately,
+  delegateTransaction,
   recallBlocks,
   onAction,
   onGoBack
@@ -37,6 +40,21 @@ export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
   const [recallBlocksInput, setRecallBlocksInput] = useState<string>(recallBlocks || '');
   const [recallBlocksDisplay, setRecallBlocksDisplay] = useState<string>(recallBlocks || ''); // TODO: remove workaround for SetFormValues not rerendering recallBlocks
   const changingRef = useRef(false);
+  const delegateTransactionChangingRef = useRef(false);
+
+  const handleDelegateTransactionToggle = useCallback(
+    (evt: React.ChangeEvent<HTMLInputElement>) => {
+      if (delegateTransactionChangingRef.current) return;
+      delegateTransactionChangingRef.current = true;
+
+      onAction({
+        id: SendFlowActionId.SetFormValues,
+        payload: { delegateTransaction: evt.target.checked }
+      });
+      delegateTransactionChangingRef.current = false;
+    },
+    [onAction]
+  );
 
   const handleSharePrivatelyToggle = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,6 +127,22 @@ export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
                 fill="black"
                 className="cursor-pointer"
                 onClick={() => setRecallBlocksModalIsOpen(true)}
+              />
+            </div>
+          </span>
+        </div>
+
+        <hr className="h-px bg-grey-100" />
+
+        <div className="flex flex-col gap-y-2">
+          <span className="flex flex-row items-center justify-between py-2">
+            <label className="text-sm text-grey-600">Delegate Transaction</label>
+            <div className="flex flex-row items-center">
+              <ToggleSwitch
+                checked={delegateTransaction}
+                onChange={handleDelegateTransactionToggle}
+                name="delegateTransaction"
+                containerClassName="my-1"
               />
             </div>
           </span>
