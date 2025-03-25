@@ -1,12 +1,11 @@
 import { MessageHttpOutput } from '@demox-labs/amp-core/script/http-types';
 
 import { ampApi } from 'lib/amp/amp-interface';
+import * as Repo from 'lib/miden/repo';
 import { WalletState } from 'lib/shared/types';
 import { logger } from 'shared/logger';
 
 import { MidenClientInterface } from '../sdk/miden-client-interface';
-
-import * as Repo from 'lib/miden/repo';
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 const midenClient = await MidenClientInterface.create();

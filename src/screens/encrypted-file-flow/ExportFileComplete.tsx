@@ -1,13 +1,15 @@
-import { useMidenClient } from 'app/hooks/useMidenClient';
-import { useMidenContext } from 'lib/miden/front';
-import { decryptJson, deriveKey, encrypt, encryptJson, generateKey, generateSalt } from 'lib/miden/passworder';
-import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import React, { FC, useEffect, useState } from 'react';
-import { EncryptedWalletFile, ENCRYPTED_WALLET_FILE_PASSWORD_CHECK, DecryptedWalletFile } from 'screens/shared';
+
 import classNames from 'clsx';
+
+import { useMidenClient } from 'app/hooks/useMidenClient';
 import { Icon, IconName } from 'app/icons/v2';
 import { Button, ButtonVariant } from 'components/Button';
 import { t } from 'lib/i18n/react';
+import { useMidenContext } from 'lib/miden/front';
+import { decryptJson, deriveKey, encrypt, encryptJson, generateKey, generateSalt } from 'lib/miden/passworder';
+import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
+import { EncryptedWalletFile, ENCRYPTED_WALLET_FILE_PASSWORD_CHECK, DecryptedWalletFile } from 'screens/shared';
 
 export interface ExportFileCompleteProps {
   onGoBack: () => void;

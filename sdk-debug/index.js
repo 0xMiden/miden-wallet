@@ -8,7 +8,7 @@ for (const db of databases) {
 }
 
 // Your rpc should automatically be configured to this port, but if not you can set it here
-const webClient = await WebClient.create_client('http://localhost:57291');
+const webClient = await WebClient.createClient('http://localhost:57291');
 
 console.log('creating faucet...');
 const faucet = await webClient.newFaucet(AccountStorageMode.public(), false, 'TEST', 10, BigInt(1000000));
@@ -38,18 +38,16 @@ document.getElementById('publicKeyForm').addEventListener('submit', async event 
   }
   const accountId = AccountId.fromHex(accountIdString);
 
-  console.log('fetching account auth...');
-  await webClient.fetchAndCacheAccountAuthByAccountId(faucetId);
-  console.log('fetched account auth');
-
   console.log('creating mint txn...');
-  const mintTxn = await webClient.newMintTransaction(
-    accountId,
-    faucetId,
-    isPrivate ? NoteType.private() : NoteType.public(),
+  const mintTxnRequest = webClient.newMintTransactionRequest(
+    accountId, 
+    faucetId, 
+    isPrivate ? NoteType.private() : NoteType.public(), 
     BigInt(amount)
   );
-  const noteId = mintTxn.createdNotes().notes()[0].id();
+  let mintTxnResult = await webClient.newTransaction(faucetId, mintTxnRequest)
+  await webClient.submitTransaction(mintTxnResult);
+  const noteId = mintTxnResult.createdNotes().notes()[0].id();
   console.log('created mint txn');
 
   if (isPrivate) {
@@ -94,10 +92,10 @@ document.getElementById('transactionRequestForm').addEventListener('submit', asy
   const accountId = AccountId.fromHex(accountIdString);
 
   console.log('creating transaction request...');
-  const transactionRequest = await webClient.newMintTransaction(accountId, faucetId, NoteType.public(), BigInt(100));
+  const mintTransactionRequest = webClient.newMintTransactionRequest(accountId, faucetId, NoteType.public(), BigInt(100));
   console.log('created transaction request');
   console.log('exporting transaction request...');
-  const bytes = transactionRequest.serialize();
+  const bytes = mintTransactionRequest.serialize();
 
   const blob = new Blob([bytes], { type: 'application/octet-stream' });
 

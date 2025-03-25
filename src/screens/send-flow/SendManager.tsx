@@ -4,10 +4,12 @@ import classNames from 'clsx';
 import { OnSubmit, useForm } from 'react-hook-form';
 
 import { openLoadingFullPage, useAppEnv } from 'app/env';
+import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { getFaucetIdSetting } from 'app/templates/EditMidenFaucetId';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { initiateSendTransaction } from 'lib/miden/activity';
 import { useAccount } from 'lib/miden/front';
+import { NoteTypeEnum } from 'lib/miden/types';
 import { navigate } from 'lib/woozie';
 import { SendFlowAction, SendFlowActionId, SendFlowForm, SendFlowStep } from 'screens/send-tokens/types';
 
@@ -53,6 +55,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const { publicKey } = useAccount();
   const faucetId = getFaucetIdSetting();
   const { fullPage } = useAppEnv();
+  const delegateEnabled = isDelegateProofEnabled();
 
   const onClose = useCallback(() => {
     navigate('/');
@@ -73,7 +76,8 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       amount: undefined,
       sharePrivately: false,
       recipientAddress: undefined,
-      recallBlocks: undefined
+      recallBlocks: undefined,
+      delegateTransaction: delegateEnabled
     }
   });
 
@@ -82,12 +86,14 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     register('sharePrivately');
     register('recipientAddress');
     register('recallBlocks');
+    register('delegateTransaction');
   }, [register]);
 
   const amount = watch('amount');
   const sharePrivately = watch('sharePrivately');
   const recipientAddress = watch('recipientAddress');
   const recallBlocks = watch('recallBlocks');
+  const delegateTransaction = watch('delegateTransaction');
 
   const onAction = useCallback(
     (action: SendFlowAction) => {
@@ -127,9 +133,10 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
           publicKey!,
           recipientAddress!,
           faucetId,
-          sharePrivately ? 'private' : 'public',
+          sharePrivately ? NoteTypeEnum.Private : NoteTypeEnum.Public,
           BigInt(amount!),
-          recallBlocks ? parseInt(recallBlocks) : undefined
+          recallBlocks ? parseInt(recallBlocks) : undefined,
+          delegateTransaction
         );
         onAction({ id: SendFlowActionId.GenerateTransaction });
       } catch (e: any) {
@@ -146,6 +153,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       publicKey,
       recipientAddress,
       sharePrivately,
+      delegateTransaction,
       amount,
       recallBlocks,
       setError,
@@ -210,6 +218,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
               amount={amount}
               recipientAddress={recipientAddress}
               sharePrivately={sharePrivately}
+              delegateTransaction={delegateTransaction}
             />
           );
         case SendFlowStep.TransactionInitiated:
@@ -218,7 +227,18 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
           return <></>;
       }
     },
-    [amount, goBack, goToStep, onAction, onAddressChange, onClearAddress, onClose, recipientAddress, sharePrivately]
+    [
+      amount,
+      goBack,
+      goToStep,
+      onAction,
+      onAddressChange,
+      onClearAddress,
+      onClose,
+      recipientAddress,
+      sharePrivately,
+      delegateTransaction
+    ]
   );
 
   return (

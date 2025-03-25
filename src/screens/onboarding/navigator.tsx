@@ -13,10 +13,10 @@ import { WelcomeScreen } from './common/Welcome';
 import { BackUpSeedPhraseScreen } from './create-wallet-flow/BackUpSeedPhrase';
 import { SelectTransactionTypeScreen } from './create-wallet-flow/SelectTransactionType';
 import { VerifySeedPhraseScreen } from './create-wallet-flow/VerifySeedPhrase';
-import { ImportType, OnboardingAction, OnboardingStep, OnboardingType, WalletType } from './types';
 import { ImportSeedPhraseScreen } from './import-wallet-flow/ImportSeedPhrase';
-import { SelectImportTypeScreen } from './import-wallet-flow/SelectImportType';
 import { ImportWalletFileScreen } from './import-wallet-flow/ImportWalletFile';
+import { SelectImportTypeScreen } from './import-wallet-flow/SelectImportType';
+import { ImportType, OnboardingAction, OnboardingStep, OnboardingType, WalletType } from './types';
 
 export interface OnboardingFlowProps {
   wordslist: string[];

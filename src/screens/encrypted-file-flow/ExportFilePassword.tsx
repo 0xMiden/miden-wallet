@@ -1,3 +1,9 @@
+import React, { FC, useEffect, useMemo, useState } from 'react';
+
+import classNames from 'clsx';
+import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+
 import FormField, { PASSWORD_ERROR_CAPTION } from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import {
@@ -8,15 +14,11 @@ import {
 } from 'app/defaults';
 import { MIN_PASSWORD_LENGTH } from 'app/pages/NewWallet/SetWalletPassword';
 import { T } from 'lib/i18n/react';
-import React, { FC, useEffect, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
 import {
   PasswordStrengthIndicator,
   PasswordValidation,
   STRONG_PASSWORD_LENGTH
 } from 'screens/onboarding/common/CreatePassword';
-import classNames from 'clsx';
 
 interface FormData {
   shouldUseKeystorePassword?: boolean;
