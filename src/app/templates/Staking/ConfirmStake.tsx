@@ -107,7 +107,7 @@ const Form: FC<FormProps> = ({
   const { fullPage } = useAppEnv();
   const assetSymbol = assetSlug.toUpperCase() || 'ALEO';
   const delegateTransaction = isDelegateProofEnabled();
-  const { authorizeTransaction } = useMidenContext();
+  // const { authorizeTransaction } = useMidenContext();
 
   /**
    * Form
@@ -144,8 +144,8 @@ const Form: FC<FormProps> = ({
     fee,
     feePrivate,
     validator,
-    delegateTransaction,
-    authorizeTransaction
+    delegateTransaction
+    // authorizeTransaction
   ]);
 
   const amountFormatted = new BigNumber(Number(amount) / ALEO_MICROCREDITS_TO_CREDITS);

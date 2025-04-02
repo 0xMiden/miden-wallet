@@ -36,9 +36,9 @@ const meta: Meta<typeof OnboardingFlow> = {
         case 'backup-seed-phrase':
           updateArgs({ step: OnboardingStep.BackupSeedPhrase, onboardingType: OnboardingType.Create });
           break;
-        case 'import-wallet':
-          updateArgs({ step: OnboardingStep.ImportWallet, onboardingType: OnboardingType.Import });
-          break;
+        // case 'import-wallet':
+        //   updateArgs({ step: OnboardingStep.ImportWallet, onboardingType: OnboardingType.Import });
+        //   break;
         case 'verify-seed-phrase':
           updateArgs({ step: OnboardingStep.VerifySeedPhrase });
           break;
@@ -59,18 +59,20 @@ const meta: Meta<typeof OnboardingFlow> = {
         case 'confirmation':
           updateArgs({ step: OnboardingStep.Welcome });
           break;
-        // case 'import-seed-phrase-submit':
-        //   updateArgs({ step: OnboardingStep.CreatePassword });
-        //   break;
+        case 'import-seed-phrase-submit':
+          updateArgs({ step: OnboardingStep.CreatePassword });
+          break;
         case 'back':
-          if (step === OnboardingStep.BackupSeedPhrase || step === OnboardingStep.ImportWallet) {
+          if (step === OnboardingStep.BackupSeedPhrase || step === OnboardingStep.SelectImportType) {
             updateArgs({ step: OnboardingStep.Welcome });
           } else if (step === OnboardingStep.VerifySeedPhrase) {
             updateArgs({ step: OnboardingStep.BackupSeedPhrase });
           } else if (step === OnboardingStep.CreatePassword) {
             updateArgs({
               step:
-                onboardingType === OnboardingType.Create ? OnboardingStep.BackupSeedPhrase : OnboardingStep.ImportWallet
+                onboardingType === OnboardingType.Create
+                  ? OnboardingStep.BackupSeedPhrase
+                  : OnboardingStep.SelectImportType
             });
           } else if (step === OnboardingStep.SelectTransactionType) {
             updateArgs({ step: OnboardingStep.CreatePassword });

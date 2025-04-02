@@ -2,7 +2,6 @@ import { TransactionResult } from '@demox-labs/miden-sdk';
 import { spawn, Thread, Worker } from 'threads';
 
 import { ConsumeTransaction } from 'lib/miden/db/types';
-
 import { ConsumeNoteIdWorker } from 'workers/consumeNoteId';
 
 export const consumeNoteId = async (transaction: ConsumeTransaction): Promise<Uint8Array> => {

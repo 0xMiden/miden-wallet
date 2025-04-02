@@ -6,6 +6,7 @@ import classNames from 'clsx';
 import { openLoadingFullPage, useAppEnv } from 'app/env';
 import { ReactComponent as ReceiveIcon } from 'app/icons/receive.svg';
 import { ReactComponent as SendIcon } from 'app/icons/send.svg';
+import { Icon, IconName } from 'app/icons/v2';
 import Footer from 'app/layouts/PageLayout/Footer';
 import Header from 'app/layouts/PageLayout/Header';
 import { Avatar } from 'components/Avatar';
@@ -22,7 +23,6 @@ import { Link, To } from 'lib/woozie';
 import { ExploreSelectors } from './Explore.selectors';
 import AddressChip from './Explore/AddressChip';
 import MainBanner from './Explore/MainBanner';
-import { Icon, IconName } from 'app/icons/v2';
 
 const tippyPropsMock = {
   trigger: 'mouseenter',

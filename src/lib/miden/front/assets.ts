@@ -43,9 +43,9 @@ export type TokenBalanceData = {
 export function useFungibleTokens(accountId: string) {
   const fetchBalanceLocal = useCallback(async () => {
     const account = await midenClient.getAccount(accountId);
-    const assets = account!.vault().assets() as FungibleAsset[];
+    const assets = account!.vault().fungibleAssets() as FungibleAsset[];
     const balances = assets.map(asset => ({
-      faucetId: asset.faucet_id().to_string(),
+      faucetId: asset.faucetId().toString(),
       balance: new BigNumber(asset.amount().toString())
     }));
     return {

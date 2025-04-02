@@ -22,6 +22,7 @@ export interface ITransaction {
   type: ITransactionType;
   accountId: string;
   amount?: bigint;
+  delegateTransaction?: boolean;
   secondaryAccountId?: string;
   faucetId?: string;
   noteId?: string;
@@ -45,6 +46,7 @@ export class Transaction implements ITransaction {
   accountId: string;
   amount?: bigint;
   noteType?: NoteType;
+  delegateTransaction?: boolean;
   transactionId?: string;
   requestBytes?: Uint8Array;
   inputNoteIds?: string[];
@@ -56,12 +58,13 @@ export class Transaction implements ITransaction {
   displayMessage?: string;
   displayIcon: ITransactionIcon;
 
-  constructor(accountId: string, requestBytes: Uint8Array, inputNoteIds?: string[]) {
+  constructor(accountId: string, requestBytes: Uint8Array, inputNoteIds?: string[], delegateTransaction?: boolean) {
     this.id = uuid();
     this.type = 'execute';
     this.accountId = accountId;
     this.requestBytes = requestBytes;
     this.inputNoteIds = inputNoteIds;
+    this.delegateTransaction = delegateTransaction;
     this.status = ITransactionStatus.Queued;
     this.initiatedAt = Date.now();
     this.displayIcon = 'DEFAULT';
@@ -84,7 +87,10 @@ export class SendTransaction implements ITransaction {
   completedAt?: number;
   displayMessage?: string;
   displayIcon: ITransactionIcon;
-  extraInputs: { recallBlocks?: number } = { recallBlocks: undefined };
+  extraInputs: { recallBlocks?: number; delegateTransaction?: boolean } = {
+    recallBlocks: undefined,
+    delegateTransaction: undefined
+  };
 
   constructor(
     accountId: string,
@@ -92,7 +98,8 @@ export class SendTransaction implements ITransaction {
     recipientId: string,
     faucetId: string,
     noteType: NoteType,
-    recallBlocks?: number
+    recallBlocks?: number,
+    delegateTransaction?: boolean
   ) {
     this.id = uuid();
     this.type = 'send';
@@ -106,6 +113,7 @@ export class SendTransaction implements ITransaction {
     this.displayIcon = 'SEND';
     this.displayMessage = 'Sending';
     this.extraInputs.recallBlocks = recallBlocks;
+    this.extraInputs.delegateTransaction = delegateTransaction;
   }
 }
 
@@ -124,8 +132,9 @@ export class ConsumeTransaction implements ITransaction {
   completedAt?: number;
   displayMessage?: string;
   displayIcon: ITransactionIcon;
+  delegateTransaction?: boolean;
 
-  constructor(accountId: string, noteId: string) {
+  constructor(accountId: string, noteId: string, delegateTransaction?: boolean) {
     this.id = uuid();
     this.type = 'consume';
     this.accountId = accountId;
@@ -134,6 +143,7 @@ export class ConsumeTransaction implements ITransaction {
     this.initiatedAt = Date.now();
     this.displayIcon = 'RECEIVE';
     this.displayMessage = 'Consuming';
+    this.delegateTransaction = delegateTransaction;
   }
 }
 

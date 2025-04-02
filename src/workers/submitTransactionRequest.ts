@@ -8,9 +8,9 @@ const SubmitTransactionRequest = {
   transferTransactionRequest: (buffer: ArrayBuffer) => {
     transactionRequest = new Uint8Array(buffer);
   },
-  submitTransactionRequest: async (address: string): Promise<Uint8Array> => {
+  submitTransactionRequest: async (address: string, delegateTransaction?: boolean): Promise<Uint8Array> => {
     const midenClientInterface = await MidenClientInterface.create();
-    const result = await midenClientInterface.submitTransaction(address, transactionRequest);
+    const result = await midenClientInterface.submitTransaction(address, transactionRequest, delegateTransaction);
     const resultBytes = result.serialize();
     return resultBytes;
   }

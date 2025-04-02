@@ -1,15 +1,18 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useMemo } from 'react';
 
 import classNames from 'clsx';
 import ICurrencyInput, { CurrencyInputProps as ICurrencyInputProps } from 'react-currency-input-field';
 
 type Props = {
   label?: string;
+  prefix?: string;
   icon?: React.ReactNode;
   containerClassName?: string;
   inputClassName?: string;
   labelClassName?: string;
   iconClassName?: string;
+  isError?: boolean;
+  id?: string;
 };
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>, Props {}

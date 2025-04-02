@@ -4,11 +4,11 @@ import classNames from 'clsx';
 
 import AccountTypeBadge from 'app/atoms/AccountTypeBadge';
 import ColorIdenticon from 'app/atoms/ColorIdenticon';
+import HashShortView from 'app/atoms/HashShortView';
 import Name from 'app/atoms/Name';
+import { Icon, IconName } from 'app/icons/v2';
 import { t } from 'lib/i18n/react';
 import { WalletAccount } from 'lib/shared/types';
-import HashShortView from 'app/atoms/HashShortView';
-import { Icon, IconName } from 'app/icons/v2';
 
 type AccountBannerProps = HTMLAttributes<HTMLDivElement> & {
   account: WalletAccount;

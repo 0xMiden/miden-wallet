@@ -53,6 +53,66 @@ export async function decrypt<T = any>(
   return JSON.parse(stuffStr);
 }
 
+export async function encryptJson(jsonStuff: any, key: CryptoKey): Promise<EncryptedPayload> {
+  const encoder = new TextEncoder();
+  const stuffStr = JSON.stringify(jsonStuff);
+  const stuffBytes = encoder.encode(stuffStr);
+
+  const iv = crypto.getRandomValues(new Uint8Array(16));
+
+  const encryptedStuff = await crypto.subtle.encrypt(
+    {
+      name: 'AES-GCM',
+      iv: iv.buffer
+    },
+    key,
+    stuffBytes
+  );
+
+  const arrayBufferToBase64 = (buffer: ArrayBuffer | Uint8Array) => {
+    const bytes = buffer instanceof Uint8Array ? buffer : new Uint8Array(buffer);
+    let binary = '';
+    bytes.forEach(b => (binary += String.fromCharCode(b)));
+    return btoa(binary);
+  };
+
+  return {
+    dt: arrayBufferToBase64(encryptedStuff),
+    iv: arrayBufferToBase64(iv)
+  };
+}
+
+export async function decryptJson(payload: EncryptedPayload, key: CryptoKey): Promise<any> {
+  const { dt, iv } = payload;
+
+  // Convert Base64 to ArrayBuffer
+  const base64ToArrayBuffer = (base64: string) => {
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    return bytes.buffer;
+  };
+
+  const encryptedData = base64ToArrayBuffer(dt);
+  const ivBytes = base64ToArrayBuffer(iv);
+
+  const decryptedStuff = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: ivBytes }, key, encryptedData);
+
+  const decoder = new TextDecoder();
+  const decryptedStr = decoder.decode(decryptedStuff);
+
+  try {
+    const parsedData = JSON.parse(decryptedStr);
+    return parsedData;
+  } catch (err) {
+    console.error('Failed to parse decrypted JSON:', err);
+    throw new Error('Decryption succeeded but JSON parsing failed.');
+  }
+}
+
+// This is deterministic given the string, per Evan
 export async function generateKey(password: string) {
   const hash = await crypto.subtle.digest('SHA-256', Buffer.from(password, 'utf-8'));
   return importKey(hash);

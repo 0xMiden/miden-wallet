@@ -8,17 +8,26 @@ export enum WalletType {
   OnChain = 'on-chain'
 }
 
+export enum ImportType {
+  SeedPhrase = 'seed-phrase',
+  WalletFile = 'wallet-file'
+}
+
 export enum OnboardingStep {
   Welcome = 'welcome',
+  SelectWalletType = 'select-wallet-type',
   BackupSeedPhrase = 'backup-seed-phrase',
   VerifySeedPhrase = 'verify-seed-phrase',
-  ImportWallet = 'import-wallet',
+  SelectImportType = 'select-import-type',
+  ImportFromSeed = 'import-from-seed',
+  ImportFromFile = 'import-from-file',
   CreatePassword = 'create-password',
   SelectTransactionType = 'select-transaction-type',
   Confirmation = 'confirmation'
 }
-
 export type OnboardingActionId =
+  | 'select-wallet-type'
+  | 'select-import-type'
   | 'create-wallet'
   | 'import-wallet'
   | 'backup-seed-phrase'
@@ -26,14 +35,24 @@ export type OnboardingActionId =
   | 'create-password'
   | 'create-password-submit'
   | 'select-transaction-type'
-  | 'confirmation';
+  | 'confirmation'
+  | 'import-from-file'
+  | 'import-from-seed';
 
 export type CreateWalletAction = {
   id: 'create-wallet';
 };
 
-export type ImportWalletAction = {
-  id: 'import-wallet';
+export type SelectImportTypeAction = {
+  id: 'select-import-type';
+};
+
+export type ImportFromFileAction = {
+  id: 'import-from-file';
+};
+
+export type ImportFromSeedAction = {
+  id: 'import-from-seed';
 };
 
 export type BackupSeedPhraseAction = {
@@ -46,6 +65,7 @@ export type VerifySeedPhraseAction = {
 
 export type CreatePasswordAction = {
   id: 'create-password';
+  payload: WalletType;
 };
 
 export type CreatePasswordSubmitAction = {
@@ -64,7 +84,12 @@ export type ConfirmationAction = {
 
 export type ImportWalletFileSubmitAction = {
   id: 'import-wallet-file-submit';
-  payload: Uint8Array;
+  payload: string;
+};
+
+export type ImportSeedPhraseSubmitAction = {
+  id: 'import-seed-phrase-submit';
+  payload: string;
 };
 
 export type BackAction = {
@@ -74,14 +99,17 @@ export type BackAction = {
 export type OnboardingAction =
   | CreateWalletAction
   | BackupSeedPhraseAction
-  | ImportWalletAction
+  | SelectImportTypeAction
   | VerifySeedPhraseAction
   | CreatePasswordAction
   | CreatePasswordSubmitAction
   | SelectTransactionTypeAction
   | ConfirmationAction
-  | ImportWalletFileSubmitAction
-  | BackAction;
+  | ImportSeedPhraseSubmitAction
+  | BackAction
+  | ImportFromFileAction
+  | ImportFromSeedAction
+  | ImportWalletFileSubmitAction;
 
 // TODO: Potentially make this into what the onboarding flows use to render the
 // steps rather than hardcode the path in onboarding flow

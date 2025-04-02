@@ -1035,6 +1035,19 @@
   "setNewFaucetIdDescription": {
     "message": "Enter the ID of a miden faucet"
   },
+  "encryptedWalletFile": {
+    "message": "Encrypted Wallet File"
+  },
+  "encryptedWalletFileDescription": {
+    "message": "Enter your password to access your Encrypted Wallet File. Turn off screen sharing. Don't share it with anyone."
+  },
+  "encryptedWalletFileConfirmation": {
+    "message": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet."
+  },
+  "encryptedWalletFilePassword": {
+    "message": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
+  },
+
   "editMidenFaucetId": {
     "message": "Edit Miden Faucet ID"
   },

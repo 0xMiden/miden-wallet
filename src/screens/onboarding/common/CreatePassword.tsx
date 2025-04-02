@@ -9,7 +9,7 @@ import { Checkbox } from 'components/Checkbox';
 import { Input } from 'components/Input';
 import { Link } from 'components/Link';
 
-interface PasswordValidation {
+export interface PasswordValidation {
   minChar: boolean;
   cases: boolean;
   number: boolean;
@@ -18,7 +18,7 @@ interface PasswordValidation {
 }
 
 const MIN_PASSWORD_LENGTH = 8;
-const STRONG_PASSWORD_LENGTH = 12;
+export const STRONG_PASSWORD_LENGTH = 12;
 const uppercaseLowercaseMixtureRegx = /(?=.*[a-z])(?=.*[A-Z])/;
 const lettersNumbersMixtureRegx = /(?=.*\d)(?=.*[A-Za-z])/;
 const specialCharacterRegx = /[!@#$%^&*()_+\-=\]{};':"\\|,.<>?]/;
@@ -27,7 +27,13 @@ export interface CreatePasswordScreenProps extends Omit<React.ButtonHTMLAttribut
   onSubmit?: (password: string) => void;
 }
 
-const PasswordStrengthIndicator = ({ password, validation }: { password: string; validation: PasswordValidation }) => {
+export const PasswordStrengthIndicator = ({
+  password,
+  validation
+}: {
+  password: string;
+  validation: PasswordValidation;
+}) => {
   const { t } = useTranslation();
   const validationChecks = useMemo(() => Object.values(validation).filter(Boolean).length, [validation]);
   const validationMessage = useMemo(() => {

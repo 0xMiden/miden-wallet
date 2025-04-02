@@ -3,18 +3,24 @@ import {
   AccountId,
   AccountStorageMode,
   ConsumableNoteRecord,
+  NoteType,
   TransactionFilter,
+  TransactionProver,
   TransactionRequest,
   TransactionResult,
   WebClient
 } from '@demox-labs/miden-sdk';
 
-import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
+import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';
 import { WalletType } from 'screens/onboarding/types';
 
 import { ConsumeTransaction, SendTransaction } from '../db/types';
 import { toNoteType } from '../helpers';
 import { NoteExportType } from './constants';
+
+export type MidenClientCreateOptions = {
+  seed?: Uint8Array;
+};
 
 export class MidenClientInterface {
   webClient: WebClient;
@@ -22,95 +28,110 @@ export class MidenClientInterface {
     this.webClient = webClient;
   }
 
-  static async create() {
-    const webClient = await WebClient.create_client(MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!);
+  static async create(options: MidenClientCreateOptions = {}) {
+    const seed = options.seed?.toString();
+    const webClient = await WebClient.createClient(MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!, seed);
 
     return new MidenClientInterface(webClient);
   }
 
-  async createMidenWallet(walletType: WalletType) {
+  async createMidenWallet(walletType: WalletType, seed?: Uint8Array): Promise<string> {
     // Create a new wallet
     const accountStorageMode =
       walletType === WalletType.OnChain ? AccountStorageMode.public() : AccountStorageMode.private();
-    const wallet: Account = await this.webClient.new_wallet(accountStorageMode, true);
 
-    const walletId = wallet.id().to_string();
-
-    console.log({ walletId });
+    const wallet: Account = await this.webClient.newWallet(accountStorageMode, true, seed);
+    const walletId = wallet.id().toString();
 
     return walletId;
   }
 
   async importMidenWallet(accountBytes: Uint8Array): Promise<string> {
-    console.log('Importing wallet...');
-    console.log({ accountBytes });
-    console.log({ accountBytesString: accountBytes.toString() });
-
-    const wallet: Account = await this.webClient.import_account(accountBytes);
-    const walletIdString = wallet.id().to_string();
-
-    console.log({ walletId: wallet.id() });
-    console.log({ walletIdString });
+    const wallet: Account = await this.webClient.importAccount(accountBytes);
+    const walletIdString = wallet.id().toString();
 
     return walletIdString;
   }
 
-  async consumeTransaction(accountId: string, listOfNoteIds: string[]) {
-    const result = await this.webClient.new_consume_transaction(accountIdStringToSdk(accountId), listOfNoteIds);
-    return result;
+  async importPublicMidenWalletFromSeed(seed: Uint8Array) {
+    const account = await this.webClient.importPublicAccountFromSeed(seed, true);
+
+    return account.id().toString();
+  }
+
+  async consumeTransaction(accountId: string, listOfNoteIds: string[], delegateTransaction?: boolean) {
+    console.log('Consuming transaction...');
+    console.log('listOfNoteIds', listOfNoteIds);
+    const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest(listOfNoteIds);
+    let consumeTransactionResult = await this.webClient.newTransaction(
+      accountIdStringToSdk(accountId),
+      consumeTransactionRequest
+    );
+    await this.webClient.submitTransaction(
+      consumeTransactionResult,
+      delegateTransaction
+        ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!)
+        : undefined
+    );
+    return consumeTransactionResult;
   }
 
   async importNoteBytes(noteBytes: Uint8Array) {
     console.log('Importing note...');
-    const result = await this.webClient.import_note(noteBytes);
+    const result = await this.webClient.importNote(noteBytes);
     console.log('Imported note:', result);
     return result;
   }
 
   async consumeNoteId(transaction: ConsumeTransaction): Promise<TransactionResult> {
-    const { accountId, noteId } = transaction;
+    const { accountId, noteId, delegateTransaction } = transaction;
+    console.log('Consuming note:', noteId);
+    console.log('accountId', accountId);
 
-    await this.fetchCacheAccountAuth(accountId);
+    const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest([noteId]);
+    let consumeTransactionResult = await this.webClient.newTransaction(
+      accountIdStringToSdk(accountId),
+      consumeTransactionRequest
+    );
+    await this.webClient.submitTransaction(
+      consumeTransactionResult,
+      delegateTransaction
+        ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!)
+        : undefined
+    );
 
-    const result = await this.webClient.new_consume_transaction(accountIdStringToSdk(accountId), [noteId]);
-
-    return result;
+    return consumeTransactionResult;
   }
 
   async getAccount(accountId: string) {
-    const result = await this.webClient.get_account(accountIdStringToSdk(accountId));
+    const result = await this.webClient.getAccount(accountIdStringToSdk(accountId));
     return result;
   }
 
   async getAccounts() {
-    const result = await this.webClient.get_accounts();
+    const result = await this.webClient.getAccounts();
     return result;
   }
 
   async syncState() {
-    return await this.webClient.sync_state();
-  }
-
-  async fetchCacheAccountAuth(accountId: string) {
-    const result = await this.webClient.fetch_and_cache_account_auth_by_pub_key(accountIdStringToSdk(accountId));
-    return result;
+    return await this.webClient.syncState();
   }
 
   async exportNote(noteId: string, exportType: NoteExportType): Promise<Uint8Array> {
-    const result = await this.webClient.export_note(noteId, exportType);
+    const result = await this.webClient.exportNote(noteId, exportType);
     const byteArray = new Uint8Array(result);
 
     return byteArray;
   }
 
   async getConsumableNotes(accountId: string, currentBlockHeight: number): Promise<ConsumableNoteRecord[]> {
-    const result = await this.webClient.get_consumable_notes();
+    const result = await this.webClient.getConsumableNotes();
     const notes = result.filter(note => {
-      const consumability = note.note_consumability();
+      const consumability = note.noteConsumability();
       if (consumability.length === 0) {
         return false;
       }
-      const consumableAfterBlock = note.note_consumability()[0].consumable_after_block();
+      const consumableAfterBlock = note.noteConsumability()[0].consumableAfterBlock();
       if (consumableAfterBlock === undefined) {
         return true;
       }
@@ -127,18 +148,17 @@ export class MidenClientInterface {
       faucetId,
       noteType,
       amount,
-      extraInputs: { recallBlocks }
+      extraInputs: { recallBlocks, delegateTransaction }
     } = dbTransaction;
 
     let recallHeight = undefined;
     if (recallBlocks) {
       const syncState = await this.syncState();
-      const blockNum = syncState.block_num();
+      const blockNum = syncState.blockNum();
       recallHeight = blockNum + recallBlocks;
     }
 
-    await this.fetchCacheAccountAuth(senderAccountId);
-    const result = await this.webClient.new_send_transaction(
+    let sendTransactionRequest = this.webClient.newSendTransactionRequest(
       accountIdStringToSdk(senderAccountId),
       accountIdStringToSdk(recipientAccountId),
       accountIdStringToSdk(faucetId),
@@ -146,25 +166,53 @@ export class MidenClientInterface {
       amount,
       recallHeight
     );
+    let sendTransactionResult = await this.webClient.newTransaction(
+      accountIdStringToSdk(senderAccountId),
+      sendTransactionRequest
+    );
+    await this.webClient.submitTransaction(
+      sendTransactionResult,
+      delegateTransaction
+        ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!)
+        : undefined
+    );
 
-    return result;
+    return sendTransactionResult;
   }
 
-  async submitTransaction(accountId: string, transactionRequestBytes: Uint8Array): Promise<TransactionResult> {
+  async exportDb() {
+    const dump = await this.webClient.exportStore();
+    console.log('type of dump', typeof dump);
+    return dump;
+  }
+
+  async importDb(dump: any) {
+    await this.webClient.forceImportStore(dump);
+  }
+
+  async submitTransaction(
+    accountId: string,
+    transactionRequestBytes: Uint8Array,
+    delegateTransaction?: boolean
+  ): Promise<TransactionResult> {
     await this.syncState();
-    await this.fetchCacheAccountAuth(accountId);
     const transactionRequest = TransactionRequest.deserialize(new Uint8Array(transactionRequestBytes));
-    const transactionResult = await this.webClient.new_transaction(accountIdStringToSdk(accountId), transactionRequest);
-    await this.webClient.submit_transaction(transactionResult);
+    const transactionResult = await this.webClient.newTransaction(accountIdStringToSdk(accountId), transactionRequest);
+    await this.webClient.submitTransaction(
+      transactionResult,
+      delegateTransaction
+        ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!)
+        : undefined
+    );
     return transactionResult;
   }
 
   async getTransactionsForAccount(accountId: string) {
-    const transactions = await this.webClient.get_transactions(TransactionFilter.all());
-    return transactions.filter(tx => tx.account_id().to_string() === accountId);
+    const transactions = await this.webClient.getTransactions(TransactionFilter.all());
+    return transactions.filter(tx => tx.accountId().toString() === accountId);
   }
 }
 
 export const accountIdStringToSdk = (accountId: string) => {
-  return AccountId.from_hex(accountId);
+  return AccountId.fromHex(accountId);
 };

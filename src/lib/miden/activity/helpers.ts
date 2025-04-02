@@ -94,8 +94,8 @@ export const interpretTransactionResult = <K extends keyof ITransaction>(
   let displayMessage = transaction.displayMessage;
   let displayIcon = transaction.displayIcon;
   let secondaryAccountId = transaction.secondaryAccountId;
-  const inputNotes = result.consumed_notes().notes();
-  const outputNotes = result.created_notes().notes();
+  const inputNotes = result.consumedNotes().notes();
+  const outputNotes = result.createdNotes().notes();
 
   const inputFaucetIds: string[] = [];
   const outputFaucetIds: string[] = [];
@@ -103,22 +103,22 @@ export const interpretTransactionResult = <K extends keyof ITransaction>(
   let inputAmount = BigInt(0);
   let outputAmount = BigInt(0);
   inputNotes.forEach(inputNote => {
-    const assets = inputNote.note().assets().assets();
+    const assets = inputNote.note().assets().fungibleAssets();
     inputAmount = assets.reduce((acc, asset) => acc + BigInt(asset.amount()), BigInt(0));
-    const faucetIds = [...new Set(assets.map(asset => asset.faucet_id().to_string()))];
+    const faucetIds = [...new Set(assets.map(asset => asset.faucetId().toString()))];
     inputFaucetIds.push(...faucetIds);
   });
   outputNotes.forEach(outputNote => {
-    const assets = outputNote.assets()!.assets();
+    const assets = outputNote.assets()!.fungibleAssets();
     outputAmount = assets.reduce((acc, asset) => acc + BigInt(asset.amount()), BigInt(0));
-    const faucetIds = [...new Set(assets.map(asset => asset.faucet_id().to_string()))];
+    const faucetIds = [...new Set(assets.map(asset => asset.faucetId().toString()))];
     outputFaucetIds.push(...faucetIds);
   });
   const transactionAmount = inputAmount - outputAmount;
 
   if (inputFaucetIds.length === 1 && outputFaucetIds.length === 0) {
     type = 'consume';
-    const sender = inputNotes[0].note().metadata().sender().to_string();
+    const sender = inputNotes[0].note().metadata().sender().toString();
     displayMessage = sender === transaction.accountId ? 'Reclaimed' : 'Received';
     if (sender !== transaction.accountId) {
       secondaryAccountId = sender;
@@ -140,10 +140,10 @@ export const interpretTransactionResult = <K extends keyof ITransaction>(
     displayMessage,
     displayIcon,
     secondaryAccountId,
-    transactionId: result.executed_transaction().id().to_hex(),
-    inputNoteIds: inputNotes.map(note => note.id().to_string()),
+    transactionId: result.executedTransaction().id().toHex(),
+    inputNoteIds: inputNotes.map(note => note.id().toString()),
     amount: transactionAmount !== BigInt(0) ? transactionAmount : undefined,
-    outputNoteIds: outputNotes.map(note => note.id().to_string()),
+    outputNoteIds: outputNotes.map(note => note.id().toString()),
     faucetId
   };
 

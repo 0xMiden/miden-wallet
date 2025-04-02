@@ -5,11 +5,12 @@
   "version": "1.0.0",
   "type": "module",
   "dependencies": {
+    "cpr": "^3.0.1",
     "rimraf": "^6.0.1",
     "serve": "^14.2.3"
   },
   "scripts": {
-    "build": "rimraf libs && mkdir libs && cp -r ../node_modules/@demox-labs/miden-sdk/ libs/ ",
+    "build": "rimraf libs && mkdir libs && cpr ../node_modules/@demox-labs/miden-sdk/ libs/ ",
     "start": "serve ."
   }
 }

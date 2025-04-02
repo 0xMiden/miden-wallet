@@ -14,6 +14,7 @@ import { CustomRpsContext } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { useAccount, useMidenContext } from 'lib/miden/front';
 import { MidenDAppPayload } from 'lib/miden/types';
+import { WalletAccount } from 'lib/shared/types';
 import { useRetryableSWR } from 'lib/swr';
 import useSafeState from 'lib/ui/useSafeState';
 import { useLocation } from 'lib/woozie';
@@ -23,14 +24,13 @@ import FormSubmitButton from './atoms/FormSubmitButton';
 import Name from './atoms/Name';
 import { ConfirmPageSelectors } from './ConfirmPage.selectors';
 import { openLoadingFullPage } from './env';
+import { Icon, IconName } from './icons/v2';
 import AccountBanner from './templates/AccountBanner';
 import ConnectBanner from './templates/ConnectBanner';
 import DAppLogo from './templates/DAppLogo';
 import DecryptPermissionBanner from './templates/DecryptPermissionBanner';
 import DecryptPermissionCheckbox from './templates/DecryptPermissionCheckbox';
 import { isDelegateProofEnabled } from './templates/DelegateSettings';
-import { Icon, IconName } from './icons/v2';
-import { WalletAccount } from 'lib/shared/types';
 
 const ConfirmPage: FC = () => {
   const { ready } = useMidenContext();

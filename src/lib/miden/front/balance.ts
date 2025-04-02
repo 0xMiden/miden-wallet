@@ -20,7 +20,7 @@ const midenClient = await MidenClientInterface.create();
 export function useBalance(accountId: string, faucetId: string, opts: UseBalanceOptions = {}) {
   const fetchBalanceLocal = useCallback(async () => {
     const account = await midenClient.getAccount(accountId);
-    const balance = account!.vault().get_balance(accountIdStringToSdk(faucetId));
+    const balance = account!.vault().getBalance(accountIdStringToSdk(faucetId));
     return new BigNumber(balance.toString());
   }, [accountId, faucetId]);
 
@@ -29,15 +29,6 @@ export function useBalance(accountId: string, faucetId: string, opts: UseBalance
     dedupingInterval: 20_000,
     refreshInterval: 5_000
   });
-}
-
-export interface TokenBalanceData {
-  tokenId: string;
-  tokenSlug: string;
-  metadata: AssetMetadata;
-  privateBalance: number;
-  publicBalance: number;
-  fiatPrice: number;
 }
 
 export function useAllBalances(accountId: string, opts: UseBalanceOptions = {}) {}

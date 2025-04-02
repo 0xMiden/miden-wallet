@@ -3,14 +3,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { IconName } from 'app/icons/v2';
-import { Button } from 'components/Button';
+import { Button, ButtonVariant } from 'components/Button';
 import { Message } from 'components/Message';
 
 export interface WelcomeScreenProps extends Omit<React.ButtonHTMLAttributes<HTMLDivElement>, 'onSubmit'> {
   onSubmit?: (action: Actions) => void;
 }
 
-export type Actions = 'create' | 'import';
+export type Actions = 'select-wallet-type' | 'select-import-type';
 
 export const WelcomeScreen = ({ onSubmit, ...props }: WelcomeScreenProps) => {
   const { t } = useTranslation();
@@ -24,13 +24,13 @@ export const WelcomeScreen = ({ onSubmit, ...props }: WelcomeScreenProps) => {
         />
       </div>
       <div className="w-[360px] flex flex-col gap-2">
-        <Button tabIndex={0} autoFocus title={t('createANewWallet')} onClick={() => onSubmit?.('create')} />
-        {/* <Button
+        <Button tabIndex={0} autoFocus title={t('createANewWallet')} onClick={() => onSubmit?.('select-wallet-type')} />
+        <Button
           id={'import-link'}
           title={t('iAlreadyHaveAWallet')}
           variant={ButtonVariant.Ghost}
-          onClick={() => onSubmit?.('import')}
-        /> */}
+          onClick={() => onSubmit?.('select-import-type')}
+        />
       </div>
     </div>
   );

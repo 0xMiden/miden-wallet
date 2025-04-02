@@ -18,6 +18,7 @@ import MenuItem from 'app/templates/MenuItem';
 import RevealSecret from 'app/templates/RevealSecret';
 import { t } from 'lib/i18n/react';
 import { useAccount } from 'lib/miden/front';
+import { EncryptedFileFlow, EncryptedFileManager } from 'screens/encrypted-file-flow/EncryptedFileManager';
 
 import { SettingsSelectors } from './Settings.selectors';
 
@@ -96,6 +97,15 @@ const TABS: Tab[] = [
     Component: EditMidenFaucetId,
     descriptionI18nKey: 'editMidenFaucetIdDescription',
     testID: SettingsSelectors.EditMidenFaucetButton,
+    insertHR: false
+  },
+  {
+    slug: 'encrypted-wallet-file',
+    titleI18nKey: 'encryptedWalletFile',
+    Icon: SettingsIcon,
+    Component: EncryptedFileFlow,
+    descriptionI18nKey: 'encryptedWalletFileDescription',
+    testID: SettingsSelectors.EncryptedWalletFile,
     insertHR: false
   }
   // {
