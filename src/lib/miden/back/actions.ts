@@ -23,7 +23,8 @@ import {
   requestDisconnect,
   requestPermission,
   requestSendTransaction,
-  requestTransaction
+  requestTransaction,
+  requestConsumeTransaction
 } from './dapp';
 
 const ACCOUNT_NAME_PATTERN = /^.{0,16}$/;
@@ -185,6 +186,9 @@ export async function processDApp(origin: string, req: MidenDAppRequest): Promis
 
     case MidenDAppMessageType.SendTransactionRequest:
       return withInited(() => enqueueDApp(() => requestSendTransaction(origin, req)));
+
+    case MidenDAppMessageType.ConsumeRequest:
+      return withInited(() => enqueueDApp(() => requestConsumeTransaction(origin, req)));
   }
 }
 

@@ -1326,7 +1326,7 @@
     "message": "Address or domain name of a registered baker."
   },
   "bakerInputPlaceholder": {
-    "message": "e.g. aleo13u9kfm2..."
+    "message": "e.g. 0xb3d1df68..."
   },
   "minDelegationAmountTitle": {
     "message": "Minimal delegation amount"
@@ -1694,10 +1694,10 @@
     "message": "Address or Aleo domain of the account or smart contract."
   },
   "recipientInputPlaceholder": {
-    "message": "e.g. aleo13u9kfm2..."
+    "message": "e.g. 0xb3d1df68..."
   },
   "recipientInputPlaceholderWithDomain": {
-    "message": "e.g. alice.aleo or aleo13u9kfm2...",
+    "message": "e.g. alice.aleo or 0xb3d1df68...",
     "description": "alice.aleo = domain like google.com"
   },
   "tryingToTransferToYourself": {

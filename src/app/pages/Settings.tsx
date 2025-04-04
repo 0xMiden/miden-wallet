@@ -191,16 +191,18 @@ const Settings: FC<SettingsProps> = ({ tabSlug }) => {
                   />
                 );
               })}
-              <MenuItem
-                key={'maximise'}
-                Icon={MaximiseIcon}
-                titleI18nKey={fullPage ? 'openNewTab' : 'maximiseView'}
-                slug={'/fullpage.html'}
-                onClick={handleMaximiseViewClick}
-                insertHR={false}
-                linksOutsideOfWallet={true}
-                testID={''}
-              />
+              {popup && (
+                <MenuItem
+                  key={'maximise'}
+                  Icon={MaximiseIcon}
+                  titleI18nKey={fullPage ? 'openNewTab' : 'maximiseView'}
+                  slug={'/fullpage.html'}
+                  onClick={handleMaximiseViewClick}
+                  insertHR={false}
+                  linksOutsideOfWallet={true}
+                  testID={''}
+                />
+              )}
             </div>
           )}
         </div>

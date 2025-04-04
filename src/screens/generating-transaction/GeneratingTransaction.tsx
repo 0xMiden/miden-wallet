@@ -25,7 +25,7 @@ export interface GeneratingTransactionPageProps {
   keepOpen?: boolean;
 }
 
-export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ keepOpen = true }) => {
+export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ keepOpen = false }) => {
   const { pageEvent, trackEvent } = useAnalytics();
   const [outputNotes, downloadAll] = useExportNotes();
 
@@ -167,15 +167,16 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
         <div className="mt-8 flex flex-col gap-y-4">
           {outputNotes.length > 0 && transactionComplete && (
             <Button
-              title="Download Transaction Files"
-              variant={ButtonVariant.Secondary}
+              title="Download Generated Files"
+              iconLeft={IconName.Download}
+              variant={ButtonVariant.Primary}
               className="flex-1"
               onClick={downloadAll}
             />
           )}
           <Button
             title={t('done')}
-            variant={ButtonVariant.Primary}
+            variant={outputNotes.length > 0 ? ButtonVariant.Primary : ButtonVariant.Secondary}
             onClick={onDoneClick}
             disabled={!transactionComplete && !error}
           />

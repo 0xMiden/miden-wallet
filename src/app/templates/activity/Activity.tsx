@@ -118,7 +118,8 @@ async function fetchTransactionsAsActivities(address: string, offset?: number, l
       amount: tx.amount ? formatAmount(tx.amount, tx.type) : undefined,
       token: tx.faucetId ? getTokenId(tx.faucetId) : undefined,
       secondaryAddress: tx.secondaryAccountId,
-      txId: tx.id
+      txId: tx.id,
+      noteType: tx.noteType
     } as IActivity;
 
     return activity;
@@ -143,7 +144,8 @@ async function fetchPendingTransactionsAsActivities(address: string): Promise<IA
       token: tx.faucetId ? getTokenId(tx.faucetId) : undefined,
       secondaryAddress: tx.secondaryAccountId,
       txId: tx.id,
-      type: activityType
+      type: activityType,
+      noteType: tx.noteType
     } as IActivity;
   });
   const activities = await Promise.all(activityPromises);

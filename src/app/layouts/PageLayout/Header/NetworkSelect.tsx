@@ -51,34 +51,20 @@ const NetworkSelect: FC<NetworkSelectProps> = () => {
         <Button
           ref={ref}
           className={classNames(
-            'mt-1',
             'text-black',
             'hover:bg-gray-900',
             'active:bg-gray-800',
             'transition ease-in-out duration-200',
-            'px-3',
+            'px-2',
             opened ? 'opacity-100' : 'opacity-90 hover:opacity-100 focus:opacity-100',
-            'flex items-center',
-            'select-none'
+            'flex items-center text-[10px] leading-4 gap-2',
+            'select-none border border-grey-200 rounded-3xl'
           )}
-          style={{
-            border: '1px solid #969EAD',
-            borderRadius: '20px',
-            fontSize: '10px',
-            lineHeight: '12px'
-          }}
           // Disabled until we redo screen & add more networks
           // onClick={toggleOpened}
           testID={NetworkSelectSelectors.SelectedNetworkButton}
         >
-          <div
-            className={classNames('mr-2 -mt-0.5', 'rounded-full', 'shadow-xs')}
-            style={{
-              backgroundColor: '#00DB8C',
-              width: '8px',
-              height: '8px'
-            }}
-          />
+          <div className={classNames('h-2 w-2', 'rounded-full', 'shadow-xs', 'bg-green-500 border-none')} />
           <Name style={{ maxWidth: '7rem' }}>{uiNetwork.name}</Name>
         </Button>
       )}

@@ -24,7 +24,6 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, on
   const { publicKey } = useAccount();
   const faucetId = getFaucetIdSetting();
 
-  // TODO: More robust way to toggle faucet type
   const { data: balance } = useBalance(publicKey, faucetId);
 
   const onAmountChangeHandler = useCallback(

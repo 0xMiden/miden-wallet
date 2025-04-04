@@ -2,7 +2,8 @@ import {
   MidenTransaction,
   DecryptPermission,
   WalletAdapterNetwork,
-  MidenSendTransaction
+  MidenSendTransaction,
+  MidenConsumeTransaction
 } from '@demox-labs/miden-wallet-adapter-base';
 
 export type MidenDAppMessage = MidenDAppRequest | MidenDAppResponse;
@@ -12,14 +13,16 @@ export type MidenDAppRequest =
   | MidenDAppPermissionRequest
   | MidenDAppDisconnectRequest
   | MidenDAppTransactionRequest
-  | MidenDAppSendTransactionRequest;
+  | MidenDAppSendTransactionRequest
+  | MidenDAppConsumeRequest;
 
 export type MidenDAppResponse =
   | MidenDAppGetCurrentPermissionResponse
   | MidenDAppPermissionResponse
   | MidenDAppDisconnectResponse
   | MidenDAppTransactionResponse
-  | MidenDAppSendTransactionResponse;
+  | MidenDAppSendTransactionResponse
+  | MidenDAppConsumeResponse;
 
 export interface MidenDAppMessageBase {
   type: MidenDAppMessageType;
@@ -35,7 +38,9 @@ export enum MidenDAppMessageType {
   TransactionRequest = 'TRANSACTION_REQUEST',
   TransactionResponse = 'TRANSACTION_RESPONSE',
   SendTransactionRequest = 'SEND_TRANSACTION_REQUEST',
-  SendTransactionResponse = 'SEND_TRANSACTION_RESPONSE'
+  SendTransactionResponse = 'SEND_TRANSACTION_RESPONSE',
+  ConsumeRequest = 'CONSUME_REQUEST',
+  ConsumeResponse = 'CONSUME_RESPONSE'
 }
 
 /**
@@ -95,6 +100,17 @@ export interface MidenDAppSendTransactionRequest extends MidenDAppMessageBase {
 
 export interface MidenDAppSendTransactionResponse extends MidenDAppMessageBase {
   type: MidenDAppMessageType.SendTransactionResponse;
+  transactionId?: string;
+}
+
+export interface MidenDAppConsumeRequest extends MidenDAppMessageBase {
+  type: MidenDAppMessageType.ConsumeRequest;
+  sourcePublicKey: string;
+  transaction: MidenConsumeTransaction;
+}
+
+export interface MidenDAppConsumeResponse extends MidenDAppMessageBase {
+  type: MidenDAppMessageType.ConsumeResponse;
   transactionId?: string;
 }
 

@@ -2,7 +2,8 @@ import {
   WalletAdapterNetwork,
   DecryptPermission,
   MidenSendTransaction,
-  MidenTransaction
+  MidenTransaction,
+  MidenConsumeTransaction
 } from '@demox-labs/miden-wallet-adapter-base';
 import { nanoid } from 'nanoid';
 
@@ -131,6 +132,16 @@ export async function requestTransaction(sourcePublicKey: string, transaction: M
     transaction
   });
   assertResponse(res.type === MidenDAppMessageType.TransactionResponse);
+  return res.transactionId;
+}
+
+export async function requestConsume(sourcePublicKey: string, transaction: MidenConsumeTransaction) {
+  const res = await request({
+    type: MidenDAppMessageType.ConsumeRequest,
+    sourcePublicKey,
+    transaction
+  });
+  assertResponse(res.type === MidenDAppMessageType.ConsumeResponse);
   return res.transactionId;
 }
 

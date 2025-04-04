@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 
 import FormField from 'app/atoms/FormField';
 import { openLoadingFullPage, useAppEnv } from 'app/env';
@@ -13,6 +13,7 @@ import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 import { HistoryAction, navigate } from 'lib/woozie';
+import { shortenAddress } from 'utils/string';
 
 import AddressChip from './Explore/AddressChip';
 
@@ -28,6 +29,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
   const { popup } = useAppEnv();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [consumingNotes, setConsumingNotes] = useState<Set<string>>(new Set());
 
   const pageTitle = (
     <>
@@ -66,16 +68,20 @@ export const Receive: React.FC<ReceiveProps> = () => {
 
   const consumeNote = useCallback(
     async (noteId: string) => {
-      console.log('Consuming note:', noteId);
-      await initiateConsumeTransaction(account.publicKey, noteId, isDelegatedProvingEnabled);
-      openLoadingFullPage();
-
-      const index = claimableNotes?.findIndex(note => note.id === noteId);
-      if (index !== undefined && index !== -1) {
-        claimableNotes?.splice(index, 1);
+      setConsumingNotes(prev => new Set(prev).add(noteId));
+      try {
+        await initiateConsumeTransaction(account.publicKey, noteId, isDelegatedProvingEnabled);
+        openLoadingFullPage();
+      } catch (error) {
+        console.error('Error consuming note:', error);
+        setConsumingNotes(prev => {
+          const next = new Set(prev);
+          next.delete(noteId);
+          return next;
+        });
       }
     },
-    [account, claimableNotes]
+    [account, isDelegatedProvingEnabled]
   );
 
   return (
@@ -134,15 +140,21 @@ export const Receive: React.FC<ReceiveProps> = () => {
                   <Icon name={IconName.ArrowRightDownFilledCircle} size="lg" />
                   <div className="flex flex-col">
                     <p className="text-md font-bold">{`${note.amount} MIDEN`}</p>
-                    <p className="text-xs text-gray-100">{note.senderAddress}</p>
+                    <p className="text-xs text-gray-100">{shortenAddress(note.senderAddress)}</p>
                   </div>
                 </div>
-                <Button
-                  className="w-[75px] h-[36px] text-md"
-                  variant={ButtonVariant.Primary}
-                  onClick={() => consumeNote(note.id)}
-                  title="Claim"
-                />
+                {consumingNotes.has(note.id) ? (
+                  <div className="w-[75px] h-[36px] flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
+                  </div>
+                ) : (
+                  <Button
+                    className="w-[75px] h-[36px] text-md"
+                    variant={ButtonVariant.Primary}
+                    onClick={() => consumeNote(note.id)}
+                    title="Claim"
+                  />
+                )}
               </div>
             ))}
         </div>

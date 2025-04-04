@@ -3,7 +3,8 @@ import {
   WalletAdapterNetwork,
   DecryptPermission,
   MidenTransaction,
-  MidenSendTransaction
+  MidenSendTransaction,
+  MidenConsumeTransaction
 } from '@demox-labs/miden-wallet-adapter-base';
 import { TridentWallet, TridentWalletEvents } from '@demox-labs/miden-wallet-adapter-trident';
 
@@ -13,7 +14,8 @@ import {
   requestDisconnect,
   onPermissionChange,
   isAvailable,
-  requestSend
+  requestSend,
+  requestConsume
 } from 'lib/adapter/client';
 import { MidenDAppPermission } from 'lib/adapter/types';
 
@@ -30,6 +32,11 @@ export class TridentWindowObject extends EventEmitter<TridentWalletEvents> imple
 
   async requestSend(transaction: MidenSendTransaction): Promise<{ transactionId?: string | undefined }> {
     const res = await requestSend(this.publicKey!, transaction);
+    return { transactionId: res };
+  }
+
+  async requestConsume(transaction: MidenConsumeTransaction): Promise<{ transactionId?: string }> {
+    const res = await requestConsume(this.publicKey!, transaction);
     return { transactionId: res };
   }
 

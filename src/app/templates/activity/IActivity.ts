@@ -16,6 +16,8 @@ export interface IActivity {
   transactionIcon?: ITransactionIcon;
   txId?: string;
   fee?: string;
+  noteType?: string;
+  noteId?: string;
 }
 
 /// The activity type. For sorting purposes, the order of the activity type matters. In a given transaction

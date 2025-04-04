@@ -5,8 +5,9 @@ import classNames from 'clsx';
 import { Button } from 'app/atoms/Button';
 import ColorIdenticon from 'app/atoms/ColorIdenticon';
 import Name from 'app/atoms/Name';
-import { useAppEnv } from 'app/env';
+import { openInFullPage, useAppEnv } from 'app/env';
 import { ReactComponent as ChevronDownIcon } from 'app/icons/chevron-down.svg';
+import { ReactComponent as MaximiseIcon } from 'app/icons/maximise.svg';
 import { ReactComponent as SettingsIcon } from 'app/icons/settings.svg';
 import ContentContainer from 'app/layouts/ContentContainer';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
@@ -37,9 +38,17 @@ export default Header;
 const Control: FC = () => {
   const account = useAccount();
   const { trackEvent } = useAnalytics();
+  const { popup } = useAppEnv();
 
   const onSettingsClick = () => {
     trackEvent(HeaderSelectors.Settings, AnalyticsEventCategory.ButtonPress, { type: 'settings' });
+  };
+
+  const handleMaximiseViewClick = () => {
+    openInFullPage();
+    if (popup) {
+      window.close();
+    }
   };
 
   return (
@@ -66,8 +75,23 @@ const Control: FC = () => {
             </Button>
           </Link>
         </div>
-        <div className="flex">
+        <div className="flex items-center gap-2">
           <NetworkSelect className="self-end" />
+          {popup && (
+            <Button
+              className={classNames(
+                'flex items-center justify-center',
+                'rounded-md',
+                'transition ease-in-out duration-200',
+                'cursor-pointer',
+                'opacity-90 hover:opacity-100',
+                'h-8 w-8'
+              )}
+              onClick={handleMaximiseViewClick}
+            >
+              <MaximiseIcon className="h-5 w-6" style={{ stroke: '#000', strokeWidth: '2px' }} />
+            </Button>
+          )}
         </div>
       </div>
     </>

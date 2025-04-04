@@ -59,7 +59,7 @@ const ActivityView = memo<ActivityViewProps>(
     // Handle full page view from AllActivity
     return (
       <>
-        <div className={classNames('w-full pb-6', 'flex flex-col', className)}>
+        <div className={classNames('w-full pb-6', 'flex flex-col ', className)}>
           <InfiniteScroll
             loadMore={loadMore}
             hasMore={hasMore}

@@ -29,7 +29,6 @@ export const getMtspRecordAmount = () => {};
 export const getTokenIdFromFinalize = (finalizeString: string) => {};
 
 export const toNoteTypeString = (noteType: NoteType) =>
-  noteType === NoteType.public() ? NoteTypeEnum.Public : NoteTypeEnum.Private;
+  noteType === NoteType.Public ? NoteTypeEnum.Public : NoteTypeEnum.Private;
 
-export const toNoteType = (noteType: NoteTypeString) =>
-  noteType === 'public' ? NoteType.public() : NoteType.private();
+export const toNoteType = (noteType: NoteTypeString) => (noteType === 'public' ? NoteType.Public : NoteType.Private);

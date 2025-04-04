@@ -2,12 +2,17 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import { ActivitySpinner } from 'app/atoms/ActivitySpinner';
 import { useAppEnv } from 'app/env';
+import { Icon, IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
 import Footer from 'app/layouts/PageLayout/Footer';
+import { Button, ButtonVariant } from 'components/Button';
 import { getCurrentLocale } from 'lib/i18n';
 import { t } from 'lib/i18n/react';
 import { getTransactionById } from 'lib/miden/activity';
 import { getTokenId, useAccount } from 'lib/miden/front';
+import { NoteExportType } from 'lib/miden/sdk/constants';
+import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
+import { capitalizeFirstLetter } from 'utils/string';
 
 import { formatAmount } from './Activity';
 import { IActivity } from './IActivity';
@@ -21,6 +26,7 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
   const { fullPage } = useAppEnv();
   const height = fullPage ? '491px' : '459px';
   const [activity, setActivity] = useState<IActivity | null>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const loadTransaction = useCallback(async () => {
     const tx = await getTransactionById(transactionId);
@@ -34,15 +40,43 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
       amount: tx.amount ? formatAmount(tx.amount, tx.type) : undefined,
       token: tx.faucetId ? getTokenId(tx.faucetId) : undefined,
       secondaryAddress: tx.secondaryAccountId,
-      txId: tx.id
+      txId: tx.id,
+      noteType: tx.noteType,
+      noteId: tx.outputNoteIds?.[0]
     } as IActivity;
 
     setActivity(activity);
   }, [transactionId, setActivity]);
 
+  const handleDownload = useCallback(async () => {
+    if (!activity?.noteId) return;
+
+    try {
+      setIsDownloading(true);
+      const midenClient = await MidenClientInterface.create();
+      const noteBytes = await midenClient.exportNote(activity.noteId, NoteExportType.PARTIAL);
+
+      const blob = new Blob([noteBytes], { type: 'application/octet-stream' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `midenNote${activity.noteId.slice(0, 6)}.mno`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Failed to export note:', error);
+    } finally {
+      setIsDownloading(false);
+    }
+  }, [activity?.noteId]);
+
   useEffect(() => {
     if (!activity) loadTransaction();
   }, [loadTransaction, activity]);
+
+  const showDownloadButton = activity?.message === 'Sent' && activity?.noteType === 'private' && activity?.noteId;
 
   return (
     <PageLayout pageTitle={activity?.message} hasBackAction={true}>
@@ -81,6 +115,28 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
             </div>
 
             <hr className="h-px bg-grey-100" />
+
+            {activity.noteType && (
+              <div className="flex flex-col gap-y-2">
+                <span className="flex flex-row justify-between">
+                  <label className="text-sm text-grey-600">Note Type</label>
+                  <p className="text-sm">{capitalizeFirstLetter(activity.noteType)}</p>
+                </span>
+              </div>
+            )}
+            {showDownloadButton && (
+              <div className="mt-24 w-full">
+                <Button
+                  title="Download Generated File"
+                  iconLeft={IconName.Download}
+                  variant={ButtonVariant.Secondary}
+                  className="flex-1 w-full"
+                  onClick={handleDownload}
+                  isLoading={isDownloading}
+                  disabled={isDownloading}
+                />
+              </div>
+            )}
           </div>
         </div>
       )}

@@ -109,7 +109,7 @@ const ActivityContent: FC<ActivityItemProps> = ({ className, fullHistory, activi
       </div>
       {activity.amount && (
         <div className="flex items-center flex-col justify-end">
-          <div className={`text-sm font-medium ${isReceive ? 'text-green-500' : ''}`}>{activity.amount}</div>
+          <div className={`text-sm self-end font-medium ${isReceive ? 'text-green-500' : ''}`}>{activity.amount}</div>
           {activity.token && (
             <div>
               <span className="text-gray-600">

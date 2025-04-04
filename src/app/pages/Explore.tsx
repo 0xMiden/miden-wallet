@@ -19,6 +19,7 @@ import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { useRetryableSWR } from 'lib/swr';
 import useTippy, { TippyProps } from 'lib/ui/useTippy';
 import { Link, To } from 'lib/woozie';
+import { shortenAddress } from 'utils/string';
 
 import { ExploreSelectors } from './Explore.selectors';
 import AddressChip from './Explore/AddressChip';
@@ -100,10 +101,10 @@ const Explore: FC = () => {
         </div>
       </div>
 
-      <div className="flex-grow overflow-y-auto">
-        <div className={classNames('bg-transparent', 'rounded-lg px-4')}>
+      <div className="flex-grow overflow-y-auto relative">
+        <div className={classNames('bg-transparent', 'md:w-[460px] md:mx-auto px-4')}>
           <div className={classNames('w-full pt-3 mb-2', 'flex justify-start', 'text-sm font-semibold text-black')}>
-            {totalBalance.isGreaterThan(0) && <span>{t('account')}</span>}
+            {totalBalance.isGreaterThan(0) && <span>{t('tokens')}</span>}
           </div>
           <div className="flex-1 flex flex-col pb-4 space-y-2">
             {tokens.length > 0 &&
@@ -119,9 +120,9 @@ const Explore: FC = () => {
                           <Avatar size="lg" image={isMiden ? '/misc/miden.png' : '/misc/token-logos/default.svg'} />
                         }
                         title={tokenId}
-                        subtitle={isMiden ? token.faucetId : undefined}
+                        subtitle={shortenAddress(token.faucetId, 13, 7)}
                         titleRight={`$${token.balance.toFixed(2)}`}
-                        subtitleRight={token.balance.toFixed(2)}
+                        subtitleRight={token.balance.toString()}
                         className="flex-1 border border-grey-50 rounded-lg "
                       />
                     </div>

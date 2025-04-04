@@ -40,12 +40,12 @@ document.getElementById('publicKeyForm').addEventListener('submit', async event 
 
   console.log('creating mint txn...');
   const mintTxnRequest = webClient.newMintTransactionRequest(
-    accountId, 
-    faucetId, 
-    isPrivate ? NoteType.private() : NoteType.public(), 
+    accountId,
+    faucetId,
+    isPrivate ? NoteType.Private : NoteType.Public,
     BigInt(amount)
   );
-  let mintTxnResult = await webClient.newTransaction(faucetId, mintTxnRequest)
+  let mintTxnResult = await webClient.newTransaction(faucetId, mintTxnRequest);
   await webClient.submitTransaction(mintTxnResult);
   const noteId = mintTxnResult.createdNotes().notes()[0].id();
   console.log('created mint txn');
@@ -92,7 +92,7 @@ document.getElementById('transactionRequestForm').addEventListener('submit', asy
   const accountId = AccountId.fromHex(accountIdString);
 
   console.log('creating transaction request...');
-  const mintTransactionRequest = webClient.newMintTransactionRequest(accountId, faucetId, NoteType.public(), BigInt(100));
+  const mintTransactionRequest = webClient.newMintTransactionRequest(accountId, faucetId, NoteType.Public, BigInt(100));
   console.log('created transaction request');
   console.log('exporting transaction request...');
   const bytes = mintTransactionRequest.serialize();

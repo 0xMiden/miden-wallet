@@ -1,4 +1,9 @@
-import { DecryptPermission, MidenCustomTransaction, SendTransaction } from '@demox-labs/miden-wallet-adapter-base';
+import {
+  DecryptPermission,
+  MidenConsumeTransaction,
+  MidenCustomTransaction,
+  SendTransaction
+} from '@demox-labs/miden-wallet-adapter-base';
 import { nanoid } from 'nanoid';
 import browser, { Runtime } from 'webextension-polyfill';
 
@@ -13,7 +18,9 @@ import {
   MidenDAppSendTransactionRequest,
   MidenDAppSendTransactionResponse,
   MidenDAppTransactionRequest,
-  MidenDAppTransactionResponse
+  MidenDAppTransactionResponse,
+  MidenDAppConsumeRequest,
+  MidenDAppConsumeResponse
 } from 'lib/adapter/types';
 import { intercom } from 'lib/miden/back/defaults';
 import { Vault } from 'lib/miden/back/vault';
@@ -27,8 +34,14 @@ import {
   MidenRequest
 } from 'lib/miden/types';
 import { WalletStatus } from 'lib/shared/types';
+import { capitalizeFirstLetter, shortenAddress } from 'utils/string';
 
-import { initiateSendTransaction, requestCustomTransaction } from '../activity/transactions';
+import { queueNoteImport } from '../activity';
+import {
+  initiateSendTransaction,
+  requestCustomTransaction,
+  initiateConsumeTransaction
+} from '../activity/transactions';
 import { store, withUnlocked } from './store';
 
 const CONFIRM_WINDOW_WIDTH = 380;
@@ -249,15 +262,8 @@ const generatePromisifyTransaction = async (
           try {
             const transactionId = await withUnlocked(async () => {
               const { payload } = req.transaction;
-              const { accountId, transactionRequest, inputNoteIds, importNotes, delegateTransaction } =
-                payload as MidenCustomTransaction;
-              return await requestCustomTransaction(
-                accountId,
-                transactionRequest,
-                inputNoteIds,
-                importNotes,
-                delegateTransaction
-              );
+              const { accountId, transactionRequest, inputNoteIds, importNotes } = payload as MidenCustomTransaction;
+              return await requestCustomTransaction(accountId, transactionRequest, inputNoteIds, importNotes);
             });
             resolve({
               type: MidenDAppMessageType.TransactionResponse,
@@ -337,29 +343,104 @@ const generatePromisifySendTransaction = async (
         if (confirmReq.confirmed) {
           try {
             const transactionId = withUnlocked(async () => {
-              const {
-                senderAccountId,
-                recipientAccountId,
-                faucetId,
-                noteType,
-                amount,
-                recallBlocks,
-                delegateTransaction
-              } = req.transaction;
+              const { senderAccountId, recipientAccountId, faucetId, noteType, amount, recallBlocks } = req.transaction;
               return await initiateSendTransaction(
                 senderAccountId,
                 recipientAccountId,
                 faucetId,
                 noteType as any,
                 BigInt(amount),
-                recallBlocks,
-                delegateTransaction
+                recallBlocks
               );
             });
             resolve({
               type: MidenDAppMessageType.SendTransactionResponse,
               transactionId
             } as any);
+          } catch (e) {
+            reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+          }
+        } else {
+          decline();
+        }
+
+        return {
+          type: MidenMessageType.DAppTransactionConfirmationResponse
+        };
+      }
+      return undefined;
+    }
+  });
+};
+
+export async function requestConsumeTransaction(
+  origin: string,
+  req: MidenDAppConsumeRequest
+): Promise<MidenDAppConsumeResponse> {
+  if (!req?.sourcePublicKey || !req?.transaction) {
+    throw new Error(MidenDAppErrorType.InvalidParams);
+  }
+
+  const dApp = await getDApp(origin, req.sourcePublicKey);
+
+  if (!dApp) {
+    throw new Error(MidenDAppErrorType.NotGranted);
+  }
+
+  if (req.sourcePublicKey !== dApp.publicKey) {
+    throw new Error(MidenDAppErrorType.NotFound);
+  }
+
+  return new Promise((resolve, reject) => generatePromisifyConsumeTransaction(resolve, reject, dApp, req));
+}
+
+const generatePromisifyConsumeTransaction = async (
+  resolve: (value: MidenDAppConsumeResponse | PromiseLike<MidenDAppConsumeResponse>) => void,
+  reject: (reason?: any) => void,
+  dApp: MidenDAppSession,
+  req: MidenDAppConsumeRequest
+) => {
+  const id = nanoid();
+  const networkRpc = await getNetworkRPC(dApp.network);
+
+  let transactionMessages: string[] = [];
+  try {
+    transactionMessages = await withUnlocked(async () => {
+      return formatConsumeTransactionPreview(req.transaction);
+    });
+  } catch (e) {
+    reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+  }
+
+  await requestConfirm({
+    id,
+    payload: {
+      type: 'transaction',
+      origin,
+      networkRpc,
+      appMeta: dApp.appMeta,
+      sourcePublicKey: req.sourcePublicKey,
+      transactionMessages,
+      preview: null
+    },
+    onDecline: () => {
+      reject(new Error(MidenDAppErrorType.NotGranted));
+    },
+    handleIntercomRequest: async (confirmReq, decline) => {
+      if (confirmReq?.type === MidenMessageType.DAppTransactionConfirmationRequest && confirmReq?.id === id) {
+        if (confirmReq.confirmed) {
+          try {
+            const transactionId = await withUnlocked(async () => {
+              const { noteId, noteBytes } = req.transaction;
+              if (noteBytes) {
+                await queueNoteImport(noteBytes);
+              }
+              return await initiateConsumeTransaction(req.sourcePublicKey, noteId);
+            });
+            resolve({
+              type: MidenDAppMessageType.ConsumeResponse,
+              transactionId
+            });
           } catch (e) {
             reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
           }
@@ -553,10 +634,10 @@ function assertDAppNetworkValid(dApp: MidenDAppSession | undefined, currentChain
 function formatSendTransactionPreview(transaction: SendTransaction): string[] {
   const tsTexts = [
     'Transfer note from faucet:',
-    `${transaction.faucetId}`,
+    transaction.faucetId,
     `Amount, ${transaction.amount}`,
     `Recipient, ${transaction.recipientAccountId}`,
-    `NoteType, ${transaction.noteType}`
+    `Note Type, ${capitalizeFirstLetter(transaction.noteType)}`
   ];
 
   if (transaction.recallBlocks) {
@@ -564,6 +645,16 @@ function formatSendTransactionPreview(transaction: SendTransaction): string[] {
   }
 
   return tsTexts;
+}
+
+function formatConsumeTransactionPreview(transaction: MidenConsumeTransaction): string[] {
+  return [
+    'Consuming note from faucet',
+    transaction.faucetId,
+    `Amount, ${transaction.amount}`,
+    `Note ID, ${shortenAddress(transaction.noteId)}`,
+    `Note Type, ${capitalizeFirstLetter(transaction.noteType)}`
+  ];
 }
 
 function formatCustomTransactionPreview(payload: MidenCustomTransaction): string[] {

@@ -23,6 +23,7 @@ export const importAllNotes = async () => {
     await midenClient.importNoteBytes(byteArray);
   });
   await Promise.all(imports);
+  await new Promise(resolve => setTimeout(resolve, 2000));
   await midenClient.syncState();
   await putToStorage(IMPORT_NOTES_KEY, []);
 };
