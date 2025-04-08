@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 
 import classNames from 'clsx';
+import { t } from 'i18next';
 import { useForm } from 'react-hook-form';
 
 import ColorIdenticon from 'app/atoms/ColorIdenticon';
@@ -9,7 +10,6 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import Name from 'app/atoms/Name';
 import { useAppEnv } from 'app/env';
 import { ReactComponent as CloseIcon } from 'app/icons/close.svg';
-import { t, T } from 'lib/i18n/react';
 import { useContacts, isAddressValid, getANSAddress } from 'lib/miden/front';
 import { useFilteredContacts } from 'lib/miden/front/use-filtered-contacts.hook';
 import { WalletContact } from 'lib/shared/types';
@@ -58,7 +58,7 @@ const AddressBook: React.FC = () => {
 
       <div className="mb-4 flex flex-col">
         <span className="text-black font-medium text-black" style={{ fontSize: '14px', lineHeight: '20px' }}>
-          <T id="currentContacts" />
+          {t('currentContacts')}
         </span>
       </div>
       <CustomSelect
@@ -164,7 +164,7 @@ const AddNewContactForm: React.FC<{ className?: string }> = ({ className }) => {
         }}
         testID="AddressBook/AddNewContact"
       >
-        <T id="addContact" />
+        {t('addContact')}
       </FormSubmitButton>
     </form>
   );
@@ -198,7 +198,7 @@ const ContactContent: React.FC<OptionRenderProps<WalletContact, string, ContactA
           )}
           style={{ fontSize: '0.6rem' }}
         >
-          <T id="ownAccount" />
+          {t('ownAccount')}
         </span>
       </div>
     ) : (
