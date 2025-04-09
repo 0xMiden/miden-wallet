@@ -30,7 +30,7 @@ export class MidenClientInterface {
 
   static async create(options: MidenClientCreateOptions = {}) {
     const seed = options.seed?.toString();
-    const webClient = await WebClient.createClient(MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!, seed);
+    const webClient = await WebClient.createClient(MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!, seed);
 
     return new MidenClientInterface(webClient);
   }
@@ -70,7 +70,7 @@ export class MidenClientInterface {
     await this.webClient.submitTransaction(
       consumeTransactionResult,
       delegateTransaction
-        ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!)
+        ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!)
         : undefined
     );
     return consumeTransactionResult;
@@ -96,7 +96,7 @@ export class MidenClientInterface {
     await this.webClient.submitTransaction(
       consumeTransactionResult,
       delegateTransaction
-        ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!)
+        ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!)
         : undefined
     );
 
@@ -173,7 +173,7 @@ export class MidenClientInterface {
     await this.webClient.submitTransaction(
       sendTransactionResult,
       delegateTransaction
-        ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!)
+        ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!)
         : undefined
     );
 
@@ -201,7 +201,7 @@ export class MidenClientInterface {
     await this.webClient.submitTransaction(
       transactionResult,
       delegateTransaction
-        ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!)
+        ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.LOCALNET)!)
         : undefined
     );
     return transactionResult;
