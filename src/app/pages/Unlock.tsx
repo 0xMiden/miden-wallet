@@ -103,7 +103,7 @@ const Unlock: FC<UnlockProps> = ({ canImportNew = false }) => {
     <SimplePageLayout
       icon={
         <>
-          <img alt="Leo Wallet Logo" src={`${LogoVerticalTitle}`} />
+          <img alt="Miden Wallet Logo" src={`${LogoVerticalTitle}`} />
         </>
       }
     >
