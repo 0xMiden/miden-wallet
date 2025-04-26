@@ -31,11 +31,7 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ classNam
     <div {...props} className="flex-1 flex flex-col h-full justify-between bg-white px-10 py-6 gap-y-8">
       <div className="flex flex-col items-center justify-center flex-grow">
         <Message icon={IconName.CheckboxCircleFill} title={t('yourWalletHasBeenCreated')} description={''} />
-        <div className="flex items-center justify-center gap-x-1">
-          <Icon name={IconName.MidenLogo} size="md" />
-          <h1 className="font-semibold text-lg">polygon</h1>
-          <p className="text-lg">Miden</p>
-        </div>
+        <div className="flex items-center justify-center gap-x-1" />
       </div>
       <div className="flex mt-auto justify-center">
         <Button
