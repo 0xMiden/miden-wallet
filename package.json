@@ -1,6 +1,6 @@
 {
   "name": "miden-wallet",
-  "version": "1.0.8",
+  "version": "1.0.10",
   "private": true,
   "scripts": {
     "start": "yarn watch:src",
