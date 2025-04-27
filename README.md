@@ -26,7 +26,7 @@ mv ./.env.example ./.env
 ### 1) Clone the repository
 
 ```bash
-git clone TODO && cd miden-wallet
+git clone https://github.com/demox-labs/miden-wallet.git && cd miden-wallet
 ```
 
 ### 2) Install dependencies
