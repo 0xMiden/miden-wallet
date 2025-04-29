@@ -85,28 +85,6 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
           accountBanner: (
             <AccountBanner labelDescription={t('ifYouWantToRevealViewKeyFromOtherAccount')} className="mb-6" />
           ),
-          derivationPathBanner: 'account.derivationPath' && (
-            <div className="mb-6 flex flex-col">
-              <label className="mb-4 flex flex-col">
-                <span className="text-black font-semibold">
-                  <T id="derivationPath" />
-                </span>
-              </label>
-              <input
-                className={classNames(
-                  'appearance-none',
-                  'w-full',
-                  'py-3 pl-4',
-                  'border-2',
-                  'border-gray-300',
-                  'bg-transparent',
-                  'rounded-md',
-                  'text-black text-lg leading-tight'
-                )}
-                disabled={true}
-              />
-            </div>
-          ),
           attention: (
             <div className="flex flex-col text-left text-black">
               <span className="font-medium" style={{ fontSize: '14px', lineHeight: '20px', marginBottom: '4px' }}>
@@ -123,28 +101,6 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
           name: t('privateKey'),
           accountBanner: (
             <AccountBanner labelDescription={t('ifYouWantToRevealPrivateKeyFromOtherAccount')} className="mb-6" />
-          ),
-          derivationPathBanner: 'account.derivationPath' && (
-            <div className="mb-6 flex flex-col">
-              <label className="mb-4 flex flex-col">
-                <span className="text-black font-semibold">
-                  <T id="derivationPath" />
-                </span>
-              </label>
-              <input
-                className={classNames(
-                  'appearance-none',
-                  'w-full',
-                  'py-3 pl-4',
-                  'border-2',
-                  'border-gray-300',
-                  'bg-transparent',
-                  'rounded-md',
-                  'text-black text-lg leading-tight'
-                )}
-                disabled={true}
-              />
-            </div>
           ),
           attention: (
             <div className="flex flex-col text-left text-black">
@@ -358,8 +314,6 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
   return (
     <div className="w-full max-w-sm p-2 mx-auto">
       {texts.accountBanner}
-
-      {texts.derivationPathBanner}
 
       {mainContent}
     </div>
