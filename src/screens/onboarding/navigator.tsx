@@ -204,7 +204,7 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
         'w-[37.5rem] h-[40rem] mx-auto',
         'flex flex-col',
         'rounded-3xl',
-        step === OnboardingStep.Welcome ? 'bg-gradient-to-br from-purple-200 via-white to-white' : 'bg-white',
+        'bg-white',
         'overflow-hidden'
       )}
     >
