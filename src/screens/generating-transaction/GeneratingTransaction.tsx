@@ -176,7 +176,7 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
           )}
           <Button
             title={t('done')}
-            variant={outputNotes.length > 0 ? ButtonVariant.Primary : ButtonVariant.Secondary}
+            variant={outputNotes.length > 0 ? ButtonVariant.Secondary : ButtonVariant.Primary}
             onClick={onDoneClick}
             disabled={!transactionComplete && !error}
           />

@@ -15,10 +15,11 @@ export type Actions = 'select-wallet-type' | 'select-import-type';
 export const WelcomeScreen = ({ onSubmit, ...props }: WelcomeScreenProps) => {
   const { t } = useTranslation();
   return (
-    <div className="flex-1 flex flex-col items-center justify-around bg-transparent gap-8 p-6 h-full">
+    <div className="flex-1 flex flex-col items-center justify-around bg-transparent gap-8 p-6 h-[calc(100%-64px)]">
       <div className="mt-6">
         <Message
           icon={IconName.MidenLogo}
+          iconClassName="w-[218px] h-[218px]"
           title={t('privacyScalesBetter')}
           description={t('privateTransactionsAnytimeAnywhere')}
         />
