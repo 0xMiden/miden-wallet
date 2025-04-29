@@ -101,7 +101,15 @@ const ActivityContent: FC<ActivityItemProps> = ({ className, fullHistory, activi
           <div className="flex text-xs text-gray-600">
             <div>
               {activity.secondaryAddress && (
-                <HashShortView hash={activity.secondaryAddress} trim={popup} firstCharsCount={13} lastCharsCount={7} />
+                <>
+                  {`${isReceive ? 'From' : 'To'} `}
+                  <HashShortView
+                    hash={activity.secondaryAddress}
+                    trim={popup}
+                    firstCharsCount={13}
+                    lastCharsCount={7}
+                  />
+                </>
               )}
             </div>
           </div>

@@ -14,7 +14,14 @@ import { CardItem } from 'components/CardItem';
 import { TestIDProps } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { hasQueuedTransactions } from 'lib/miden/activity';
-import { getTokenId, isMidenFaucet, TokenBalance, useAccount, useFungibleTokens } from 'lib/miden/front';
+import {
+  getFaucetIdSetting,
+  getTokenId,
+  isMidenFaucet,
+  TokenBalance,
+  useAccount,
+  useFungibleTokens
+} from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { useRetryableSWR } from 'lib/swr';
 import useTippy, { TippyProps } from 'lib/ui/useTippy';
@@ -128,6 +135,18 @@ const Explore: FC = () => {
                     </div>
                   );
                 })}
+            {tokens.length === 0 && (
+              <div className="flex">
+                <CardItem
+                  iconLeft={<Avatar size="lg" image="/misc/miden.png" />}
+                  title="MIDEN"
+                  subtitle={shortenAddress(getFaucetIdSetting(), 13, 7)}
+                  titleRight="$0.00"
+                  subtitleRight="0"
+                  className="flex-1 border border-grey-50 rounded-lg "
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
