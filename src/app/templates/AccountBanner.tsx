@@ -11,7 +11,7 @@ import { t } from 'lib/i18n/react';
 import { WalletAccount } from 'lib/shared/types';
 
 type AccountBannerProps = HTMLAttributes<HTMLDivElement> & {
-  account: WalletAccount;
+  account?: WalletAccount;
   displayBalance?: boolean;
   networkRpc?: string;
   label?: ReactNode;
@@ -26,8 +26,8 @@ const AccountBanner = memo<AccountBannerProps>(({ className, account }) => {
         <Icon name={IconName.Wallet} fill="black" size="sm" />
 
         <div className="flex items-center ml-3 text-sm">
-          <Name className="text-gray-600 mr-3">{account.name}</Name>
-          <HashShortView hash={account.publicKey} />
+          <Name className="text-gray-600 mr-3">{account!.name}</Name>
+          <HashShortView hash={account!.publicKey} />
         </div>
       </div>
     </div>

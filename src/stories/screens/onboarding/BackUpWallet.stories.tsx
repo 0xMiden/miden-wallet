@@ -23,6 +23,6 @@ type Story = StoryObj<typeof BackUpSeedPhraseScreen>;
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Example: Story = {
   args: {
-    words: ['hello', 'world', 'foo', 'bar', 'baz', 'qux', 'quux', 'corge', 'grault', 'garply', 'waldo', 'fred']
+    seedPhrase: ['hello', 'world', 'foo', 'bar', 'baz', 'qux', 'quux', 'corge', 'grault', 'garply', 'waldo', 'fred']
   }
 };

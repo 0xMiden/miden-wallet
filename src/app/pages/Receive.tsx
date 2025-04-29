@@ -30,6 +30,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const { popup } = useAppEnv();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [consumingNotes, setConsumingNotes] = useState<Set<string>>(new Set());
+  const safeClaimableNotes = (claimableNotes ?? []).filter((n): n is NonNullable<typeof n> => n != null);
 
   const pageTitle = (
     <>
@@ -133,30 +134,29 @@ export const Receive: React.FC<ReceiveProps> = () => {
               )}
             </div>
           </div>
-          {claimableNotes !== undefined &&
-            claimableNotes.map(note => (
-              <div key={note.id} className="flex justify-center items-center gap-8">
-                <div className="flex items-center gap-x-2">
-                  <Icon name={IconName.ArrowRightDownFilledCircle} size="lg" />
-                  <div className="flex flex-col">
-                    <p className="text-md font-bold">{`${note.amount} MIDEN`}</p>
-                    <p className="text-xs text-gray-100">{shortenAddress(note.senderAddress)}</p>
-                  </div>
+          {safeClaimableNotes.map(note => (
+            <div key={note.id} className="flex justify-center items-center gap-8">
+              <div className="flex items-center gap-x-2">
+                <Icon name={IconName.ArrowRightDownFilledCircle} size="lg" />
+                <div className="flex flex-col">
+                  <p className="text-md font-bold">{`${note.amount} MIDEN`}</p>
+                  <p className="text-xs text-gray-100">{shortenAddress(note.senderAddress)}</p>
                 </div>
-                {consumingNotes.has(note.id) ? (
-                  <div className="w-[75px] h-[36px] flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
-                  </div>
-                ) : (
-                  <Button
-                    className="w-[75px] h-[36px] text-md"
-                    variant={ButtonVariant.Primary}
-                    onClick={() => consumeNote(note.id)}
-                    title="Claim"
-                  />
-                )}
               </div>
-            ))}
+              {consumingNotes.has(note.id) ? (
+                <div className="w-[75px] h-[36px] flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
+                </div>
+              ) : (
+                <Button
+                  className="w-[75px] h-[36px] text-md"
+                  variant={ButtonVariant.Primary}
+                  onClick={() => consumeNote(note.id)}
+                  title="Claim"
+                />
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </PageLayout>
