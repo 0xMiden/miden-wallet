@@ -63,6 +63,8 @@ const transactionIconGrabber = (transactionIcon: ITransactionIcon, iconFillAndSt
     case 'SWAP':
     case 'DEFAULT':
       return <CodeIcon height={'24px'} width={'24px'} fill={iconFillAndStroke} stroke={iconFillAndStroke} />;
+    default:
+      return <CodeIcon height={'24px'} width={'24px'} fill={iconFillAndStroke} stroke={iconFillAndStroke} />;
   }
 };
 

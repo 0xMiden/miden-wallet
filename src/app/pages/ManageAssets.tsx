@@ -15,13 +15,11 @@ import { AssetTypesEnum } from 'lib/miden/assets/types';
 import {
   getAssetName,
   getAssetSymbol,
-  setTokenStatus,
   useAccount,
   useAssetMetadata,
   useAvailableAssets,
   useFilteredAssets
 } from 'lib/miden/front';
-import { ITokenStatus, ITokenType } from 'lib/miden/repo';
 import { useConfirm } from 'lib/ui/dialog';
 import { Link } from 'lib/woozie';
 
@@ -86,7 +84,7 @@ type ListItemProps = {
   assetId: string;
   last: boolean;
   checked: boolean;
-  onUpdate: (assetSlug: string, assetId: string, status: ITokenStatus) => void;
+  onUpdate: (assetSlug: string, assetId: string) => void;
   assetType: string;
 };
 
@@ -95,7 +93,7 @@ const ListItem = memo<ListItemProps>(({ assetSlug, assetId, last, checked, onUpd
 
   const handleCheckboxChange = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) => {
-      onUpdate(assetSlug, assetId, evt.target.checked ? ITokenStatus.Enabled : ITokenStatus.Disabled);
+      onUpdate(assetSlug, assetId);
     },
     [assetSlug, assetId, onUpdate]
   );
@@ -140,7 +138,7 @@ const ListItem = memo<ListItemProps>(({ assetSlug, assetId, last, checked, onUpd
         )}
         onClick={evt => {
           evt.preventDefault();
-          onUpdate(assetSlug, assetId, ITokenStatus.Removed);
+          onUpdate(assetSlug, assetId);
         }}
       >
         <CloseIcon className="w-auto h-4 stroke-current stroke-2" title={t('delete')} />
