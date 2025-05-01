@@ -41,7 +41,7 @@ const ContactsDropdownItem: FC<ContactsDropdownItemProps> = ({ active, testID, t
       tabIndex={-1}
       {...rest}
     >
-      <ColorIdenticon publicKey={'contact.address'} size={20} className="flex-shrink-0 shadow-xs" />
+      <ColorIdenticon publicKey={'contact.address'} className="flex-shrink-0" />
 
       <div className="ml-3 flex flex-1 w-full">
         <div className="flex flex-col justify-between flex-1">

@@ -95,7 +95,7 @@ const SelectAccount: FC = () => {
                   style={{ height: '64px' }}
                   onClick={handleAccountClick}
                 >
-                  <ColorIdenticon publicKey={acc.publicKey} size={20} className="flex-shrink-0 shadow-xs-white" />
+                  <ColorIdenticon publicKey={acc.publicKey} className="flex-shrink-0" />
 
                   <div className="flex flex-col items-start ml-2">
                     <div className="flex flex-col text-left">

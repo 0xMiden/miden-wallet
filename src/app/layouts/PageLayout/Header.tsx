@@ -59,12 +59,12 @@ const Control: FC = () => {
             <Button
               className={classNames(
                 'flex-shrink-0 flex',
-                'rounded-md',
+                'rounded-md items-center',
                 'transition ease-in-out duration-200',
                 'cursor-pointer'
               )}
             >
-              <ColorIdenticon publicKey={account.publicKey} size={20} />
+              <ColorIdenticon publicKey={account.publicKey} />
               <div className="self-start flex overflow-x-hidden ml-2 leading-9">
                 <Name className={classNames('font-bold', 'text-black', 'text-sm', 'opacity-90')}>{account.name}</Name>
                 <ChevronDownIcon

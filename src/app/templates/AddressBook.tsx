@@ -171,7 +171,7 @@ const AddNewContactForm: React.FC<{ className?: string }> = ({ className }) => {
 };
 
 const ContactIcon: React.FC<OptionRenderProps<WalletContact, string, ContactActions>> = ({ item }) => (
-  <ColorIdenticon publicKey={item.address} size={20} className="flex-shrink-0 shadow-xs" />
+  <ColorIdenticon publicKey={item.address} className="flex-shrink-0" />
 );
 
 const ContactContent: React.FC<OptionRenderProps<WalletContact, string, ContactActions>> = ({ item, actions }) => (
