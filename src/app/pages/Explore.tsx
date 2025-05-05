@@ -6,7 +6,6 @@ import classNames from 'clsx';
 import { openLoadingFullPage, useAppEnv } from 'app/env';
 import { ReactComponent as ReceiveIcon } from 'app/icons/receive.svg';
 import { ReactComponent as SendIcon } from 'app/icons/send.svg';
-import { Icon, IconName } from 'app/icons/v2';
 import Footer from 'app/layouts/PageLayout/Footer';
 import Header from 'app/layouts/PageLayout/Header';
 import { Avatar } from 'components/Avatar';
@@ -63,6 +62,7 @@ const Explore: FC = () => {
   }, [queuedDbTransactions]);
 
   const size = fullPage ? { height: '640px', width: '600px' } : { height: '600px', width: '360px' };
+  const sendLink = tokens.length > 0 ? '/send' : '/get-tokens';
 
   return (
     <div
@@ -84,7 +84,7 @@ const Explore: FC = () => {
             <ActionButton
               label={<T id="send" />}
               Icon={SendIcon}
-              to={'/send'}
+              to={sendLink}
               disabled={false}
               tippyProps={tippyPropsMock}
               testID={ExploreSelectors.SendButton}

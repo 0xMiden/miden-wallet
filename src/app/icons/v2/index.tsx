@@ -33,6 +33,7 @@ import { ReactComponent as CloseCircleFill } from './close-circle-fill.svg';
 import { ReactComponent as CloseCircle } from './close-circle.svg';
 import { ReactComponent as Close } from './close.svg';
 import { ReactComponent as Code } from './code.svg';
+import { ReactComponent as CoinsFill } from './coins-fill.svg';
 import { ReactComponent as Coins } from './coins.svg';
 import { ReactComponent as ContactsBook } from './contacts-book.svg';
 import { ReactComponent as Convert } from './convert.svg';
@@ -120,6 +121,7 @@ export enum IconName {
   Close = 'close',
   Code = 'code',
   Coins = 'coins',
+  CoinsFill = 'coins-fill',
   ContactsBook = 'contacts-book',
   Convert = 'convert',
   Copy = 'copy',
@@ -245,6 +247,8 @@ const IconSwitch = (props: IconProps) => {
       return <Code {...props} />;
     case IconName.Coins:
       return <Coins {...props} />;
+    case IconName.CoinsFill:
+      return <CoinsFill {...props} />;
     case IconName.ContactsBook:
       return <ContactsBook {...props} />;
     case IconName.Convert:

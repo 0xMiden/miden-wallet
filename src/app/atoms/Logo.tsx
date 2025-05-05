@@ -16,8 +16,8 @@ const Logo = memo<LogoProps>(({ hasTitle, white, style = {}, ...rest }) => {
   return (
     <img
       src={imageUri!}
-      title="Leo - Aleo Wallet"
-      alt="Leo - Aleo Wallet"
+      title="Miden Wallet"
+      alt="Miden Wallet"
       style={{
         height: 40,
         width: 'auto',

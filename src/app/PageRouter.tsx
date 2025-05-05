@@ -23,6 +23,7 @@ import ClaimUnstaked from './pages/ClaimUnstaked';
 import ConvertNFT from './pages/ConvertNFT';
 import ConvertVisibility from './pages/ConvertVisibility';
 import EditAccountName from './pages/EditAccountName';
+import { GetTokens } from './pages/GetTokens';
 import ImportNotePending from './pages/ImportNotePending';
 import ImportNoteResult from './pages/ImportNoteResult';
 import ManageAssets from './pages/ManageAssets';
@@ -83,6 +84,7 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   ['/import-account/:tabSlug?', onlyReady(({ tabSlug }) => <ImportAccount tabSlug={tabSlug} />)],
   ['/receive', onlyReady(() => <Receive />)],
   ['/faucet', onlyReady(() => <Faucet />)],
+  ['/get-tokens', onlyReady(() => <GetTokens />)],
   ['/activity/:programId?', onlyReady(({ programId }) => <AllActivity programId={programId} />)],
   [
     '/activity-details/:transactionId',

@@ -27,9 +27,7 @@ import { openLoadingFullPage } from './env';
 import { Icon, IconName } from './icons/v2';
 import AccountBanner from './templates/AccountBanner';
 import ConnectBanner from './templates/ConnectBanner';
-import DAppLogo from './templates/DAppLogo';
 import DecryptPermissionBanner from './templates/DecryptPermissionBanner';
-import DecryptPermissionCheckbox from './templates/DecryptPermissionCheckbox';
 import { isDelegateProofEnabled } from './templates/DelegateSettings';
 
 const ConfirmPage: FC = () => {
