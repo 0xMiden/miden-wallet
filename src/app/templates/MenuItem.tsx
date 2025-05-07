@@ -31,7 +31,6 @@ const ClickableContent: FC<Partial<MenuItemProps>> = ({
   const width = fullPage ? '' : 'w-full';
   const hrStyle = insertHR ? { borderTop: '1px solid #E9EBEF' } : { borderTop: '1px solid #FFF' };
 
-  iconStyle = iconStyle ?? { stroke: '#000', strokeWidth: '2px' };
   return (
     <div>
       <hr className={`${width} m-auto my-1`} style={hrStyle}></hr>

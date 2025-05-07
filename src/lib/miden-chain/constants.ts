@@ -1,5 +1,7 @@
 import { MidenNetwork } from 'lib/miden/types';
 
+export const NETWORK_STORAGE_ID = 'network_id';
+
 export enum MIDEN_NETWORK_NAME {
   MAINNET = 'mainnet',
   TESTNET = 'testnet',
@@ -19,7 +21,7 @@ export const MIDEN_PROVING_ENDPOINTS = new Map<string, string>([
 
 export const MIDEN_NETWORKS: MidenNetwork[] = [
   {
-    rpcBaseURL: 'TODO',
+    rpcBaseURL: 'https://rpc.testnet.miden.io',
     id: MIDEN_NETWORK_NAME.TESTNET,
     name: 'Testnet',
     autoSync: true

@@ -3,7 +3,6 @@ import {
   AccountId,
   AccountStorageMode,
   ConsumableNoteRecord,
-  NoteType,
   TransactionFilter,
   TransactionProver,
   TransactionRequest,
@@ -11,7 +10,13 @@ import {
   WebClient
 } from '@demox-labs/miden-sdk';
 
-import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';
+import {
+  MIDEN_NETWORK_ENDPOINTS,
+  MIDEN_NETWORK_NAME,
+  MIDEN_PROVING_ENDPOINTS,
+  NETWORK_STORAGE_ID
+} from 'lib/miden-chain/constants';
+import { fetchFromStorage } from 'lib/miden/front';
 import { WalletType } from 'screens/onboarding/types';
 
 import { ConsumeTransaction, SendTransaction } from '../db/types';
@@ -24,15 +29,19 @@ export type MidenClientCreateOptions = {
 
 export class MidenClientInterface {
   webClient: WebClient;
-  private constructor(webClient: WebClient) {
+  network: string;
+
+  private constructor(webClient: WebClient, network: string) {
     this.webClient = webClient;
+    this.network = network;
   }
 
   static async create(options: MidenClientCreateOptions = {}) {
     const seed = options.seed?.toString();
-    const webClient = await WebClient.createClient(MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!, seed);
+    const network = (await fetchFromStorage(NETWORK_STORAGE_ID)) || MIDEN_NETWORK_NAME.TESTNET;
+    const webClient = await WebClient.createClient(MIDEN_NETWORK_ENDPOINTS.get(network)!, seed);
 
-    return new MidenClientInterface(webClient);
+    return new MidenClientInterface(webClient, network);
   }
 
   async createMidenWallet(walletType: WalletType, seed?: Uint8Array): Promise<string> {
@@ -69,9 +78,7 @@ export class MidenClientInterface {
     );
     await this.webClient.submitTransaction(
       consumeTransactionResult,
-      delegateTransaction
-        ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!)
-        : undefined
+      delegateTransaction ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(this.network)!) : undefined
     );
     return consumeTransactionResult;
   }
@@ -95,9 +102,7 @@ export class MidenClientInterface {
     );
     await this.webClient.submitTransaction(
       consumeTransactionResult,
-      delegateTransaction
-        ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!)
-        : undefined
+      delegateTransaction ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(this.network)!) : undefined
     );
 
     return consumeTransactionResult;
@@ -172,9 +177,7 @@ export class MidenClientInterface {
     );
     await this.webClient.submitTransaction(
       sendTransactionResult,
-      delegateTransaction
-        ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!)
-        : undefined
+      delegateTransaction ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(this.network)!) : undefined
     );
 
     return sendTransactionResult;
@@ -200,9 +203,7 @@ export class MidenClientInterface {
     const transactionResult = await this.webClient.newTransaction(accountIdStringToSdk(accountId), transactionRequest);
     await this.webClient.submitTransaction(
       transactionResult,
-      delegateTransaction
-        ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!)
-        : undefined
+      delegateTransaction ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(this.network)!) : undefined
     );
     return transactionResult;
   }

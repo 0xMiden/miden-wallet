@@ -8,6 +8,7 @@ import { ReactComponent as ExtensionIcon } from 'app/icons/extension.svg';
 import { ReactComponent as FileIcon } from 'app/icons/file.svg';
 import { ReactComponent as MaximiseIcon } from 'app/icons/maximise.svg';
 import { ReactComponent as SettingsIcon } from 'app/icons/settings.svg';
+import { ReactComponent as ToolIcon } from 'app/icons/tool.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import Footer from 'app/layouts/PageLayout/Footer';
 import About from 'app/templates/About';
@@ -20,6 +21,8 @@ import { t } from 'lib/i18n/react';
 import { useAccount } from 'lib/miden/front';
 import { EncryptedFileFlow, EncryptedFileManager } from 'screens/encrypted-file-flow/EncryptedFileManager';
 
+import AdvancedSettings from './AdvancedSettings';
+import NetworksSettings from './Networks';
 import { SettingsSelectors } from './Settings.selectors';
 
 type SettingsProps = {
@@ -107,16 +110,17 @@ const TABS: Tab[] = [
     descriptionI18nKey: 'encryptedWalletFileDescription',
     testID: SettingsSelectors.EncryptedWalletFile,
     insertHR: false
-  }
-  // {
-  //   slug: 'advanced-settings',
-  //   titleI18nKey: 'advancedSettings',
-  //   Icon: ToolIcon,
-  //   Component: AdvancedSettings,
-  //   descriptionI18nKey: 'advancedSettingsDescription',
-  //   testID: SettingsSelectors.AdvancedSettingsButton,
-  //   insertHR: false
-  // },
+  },
+  {
+    slug: 'advanced-settings',
+    titleI18nKey: 'advancedSettings',
+    Icon: ToolIcon,
+    Component: AdvancedSettings,
+    descriptionI18nKey: 'advancedSettingsDescription',
+    testID: SettingsSelectors.AdvancedSettingsButton,
+    insertHR: false,
+    iconStyle: { stroke: '#000', strokeWidth: '2px' }
+  },
   // {
   //   slug: 'remove-account',
   //   titleI18nKey: 'removeAccount',
@@ -145,12 +149,21 @@ const TABS: Tab[] = [
     testID: SettingsSelectors.AboutButton,
     insertHR: false
   }*/
+  {
+    slug: 'networks',
+    titleI18nKey: 'networks',
+    Icon: ExtensionIcon,
+    Component: NetworksSettings,
+    descriptionI18nKey: 'networkDescription',
+    testID: SettingsSelectors.NetworksButton,
+    insertHR: false
+  }
 ];
 
 // TODO: Consider passing tabs in as a prop
 const Settings: FC<SettingsProps> = ({ tabSlug }) => {
   const activeTab = useMemo(() => TABS.find(t => t.slug === tabSlug) || null, [tabSlug]);
-  let listMenuItems = TABS.filter(t => t.slug !== 'networks');
+  let listMenuItems = TABS.filter(t => t.slug !== 'networks' && t.slug !== 'edit-miden-faucet-id');
   const { fullPage, popup } = useAppEnv();
   const account = useAccount();
   if (!account.isPublic) {
@@ -176,7 +189,6 @@ const Settings: FC<SettingsProps> = ({ tabSlug }) => {
           ) : (
             <div className="flex flex-col w-full pt-2">
               {listMenuItems.map(({ slug, titleI18nKey, Icon, testID, insertHR, iconStyle }, i) => {
-                const style = iconStyle ?? { stroke: 'none' };
                 const linkTo = `/settings/${slug}`;
                 return (
                   <MenuItem
@@ -184,7 +196,7 @@ const Settings: FC<SettingsProps> = ({ tabSlug }) => {
                     slug={linkTo}
                     titleI18nKey={titleI18nKey}
                     Icon={Icon}
-                    iconStyle={style}
+                    iconStyle={iconStyle}
                     testID={testID?.toString() || ''}
                     insertHR={insertHR}
                     linksOutsideOfWallet={false}

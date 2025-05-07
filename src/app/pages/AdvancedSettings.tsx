@@ -1,65 +1,63 @@
-import React, { FC, ReactNode, useState } from 'react';
+import React, { FC, useMemo } from 'react';
 
-import classNames from 'clsx';
+import ToggleSwitch from 'app/atoms/ToggleSwitch';
+import { IconName } from 'app/icons/v2';
+import { ListItem } from 'components/ListItem';
+import { getFaucetIdSetting, useNetwork } from 'lib/miden/front';
+import { NETWORKS } from 'lib/miden/networks';
+import { Link } from 'lib/woozie';
 
-import { ReactComponent as VectorIcon } from 'app/icons/vector.svg';
+const AdvancedSettings: FC = () => {
+  const network = useNetwork();
+  const uiNetwork = NETWORKS.find(n => n.id === network.id);
+  const faucetId = getFaucetIdSetting();
+  const faucetIdShortened = useMemo(() => `${faucetId.slice(0, 7)}...${faucetId.slice(-3)} `, [faucetId]);
 
-type AdvancedSettingsProps = {
-  children: ReactNode;
-};
-
-const popupListClassNames = [
-  'absolute',
-  'top-100',
-  'right-0',
-  'rounded',
-  'bg-white',
-  'z-50',
-  'overflow-visible',
-  'mt-1'
-];
-
-const evenLiStyles = ['hover:bg-black hover:bg-opacity-5', 'cursor-pointer'];
-const oddLiStyles = ['bg-black', 'bg-opacity-5', 'hover:bg-opacity-10', 'cursor-pointer'];
-
-const AdvancedSettings: FC<AdvancedSettingsProps> = ({ children }) => {
-  const [settingsClicked, setSettingsClicked] = useState(false);
+  const listItems = useMemo(
+    () => [
+      {
+        title: 'Auto Close Generating Transaction Page',
+        subtitle: 'Configure auto close of the generating transaction page after the transaction is generated',
+        value: false
+      }
+    ],
+    []
+  );
 
   return (
-    <div className="relative">
-      <div
-        className={classNames(
-          'px-3 py-3',
-          'rounded',
-          'flex',
-          'text-black font-bold text-shadow-black',
-          'hover:bg-black hover:bg-opacity-5',
-          'transition duration-300 ease-in-out',
-          'opacity-90 hover:opacity-100',
-          'cursor-pointer'
-        )}
-        style={{ fontSize: 16, lineHeight: '20px' }}
-        onClick={() => setSettingsClicked(!settingsClicked)}
-      >
-        <VectorIcon />
-      </div>
-      {settingsClicked && (
-        <div
-          className={classNames(...popupListClassNames)}
-          style={{ width: 143, boxShadow: '0px 3px 32px 0px #0C0C0D29' }}
-        >
-          <ul className="list-none p-2 m-0">
-            {React.Children.map(children, (child, index) => {
-              let styles = index % 2 === 0 ? evenLiStyles : oddLiStyles;
-              return (
-                <li key={index} className={classNames(...styles)}>
-                  {child}
-                </li>
-              );
-            })}
+    <div className="flex justify-center py-6">
+      <div className="flex flex-col w-[328px] gap-y-4">
+        {/* <Link to={'/settings/networks'}>
+          <ListItem title="Networks" subtitle={uiNetwork?.name} iconRight={IconName.ChevronRight} />
+        </Link> */}
+
+        <Link to={'settings/edit-miden-faucet-id'}>
+          <ListItem title="Edit Miden Faucet ID" subtitle={faucetIdShortened} iconRight={IconName.ChevronRight} />
+        </Link>
+
+        <hr className="bg-grey-100" />
+        <div className="mt-2 flex flex-col">
+          <ul className="flex flex-col gap-y-4">
+            {listItems.map((item, index) => (
+              <li className="flex gap-x-2" key={`list-item-${index}`}>
+                <div className="flex flex-col gap-y-2">
+                  <p className="font-medium text-sm text-black">{item.title}</p>
+                  <p className="text-xs text-black">{item.subtitle}</p>
+                </div>
+                {item.value !== undefined && (
+                  <div>
+                    <ToggleSwitch
+                      checked={true}
+                      // onChange={handlePopupModeChange}
+                      name="popupEnabled"
+                    />
+                  </div>
+                )}
+              </li>
+            ))}
           </ul>
         </div>
-      )}
+      </div>
     </div>
   );
 };

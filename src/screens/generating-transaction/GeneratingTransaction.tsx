@@ -97,6 +97,7 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
           progress={progress}
           onDoneClick={onClose}
           transactionComplete={transactions.length === 0}
+          keepOpen={keepOpen}
         />
       </div>
     </div>
@@ -106,6 +107,7 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
 export interface GeneratingTransactionProps {
   onDoneClick: () => void;
   transactionComplete: boolean;
+  keepOpen?: boolean;
   progress?: number;
   error?: boolean;
 }
@@ -113,6 +115,7 @@ export interface GeneratingTransactionProps {
 export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
   progress = 80,
   error,
+  keepOpen,
   onDoneClick,
   transactionComplete
 }) => {
@@ -140,12 +143,17 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
     return 'Generating Transaction';
   }, [transactionComplete, error]);
 
+  const alertText = useCallback(() => {
+    if (keepOpen) {
+      return 'Do not close this window. You will be navigated back to the home page after the transaction is generated';
+    }
+
+    return 'Do not close this window. Window will auto-close after the transaction is generated';
+  }, [keepOpen]);
+
   return (
     <>
-      <Alert
-        variant={AlertVariant.Warning}
-        title="Do not close this window. Window will auto-close after the transaction is generated"
-      />
+      <Alert variant={AlertVariant.Warning} title={alertText()} />
       <div className="flex-1 flex flex-col justify-center md:w-[460px] md:mx-auto">
         <div className="flex flex-col justify-center items-center">
           <div
