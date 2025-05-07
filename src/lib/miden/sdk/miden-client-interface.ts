@@ -16,7 +16,6 @@ import {
   MIDEN_PROVING_ENDPOINTS,
   NETWORK_STORAGE_ID
 } from 'lib/miden-chain/constants';
-import { fetchFromStorage } from 'lib/miden/front';
 import { WalletType } from 'screens/onboarding/types';
 
 import { ConsumeTransaction, SendTransaction } from '../db/types';
@@ -38,7 +37,7 @@ export class MidenClientInterface {
 
   static async create(options: MidenClientCreateOptions = {}) {
     const seed = options.seed?.toString();
-    const network = (await fetchFromStorage(NETWORK_STORAGE_ID)) || MIDEN_NETWORK_NAME.TESTNET;
+    const network = MIDEN_NETWORK_NAME.TESTNET;
     const webClient = await WebClient.createClient(MIDEN_NETWORK_ENDPOINTS.get(network)!, seed);
 
     return new MidenClientInterface(webClient, network);
