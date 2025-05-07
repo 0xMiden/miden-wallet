@@ -1245,10 +1245,10 @@
   resolved "https://registry.yarnpkg.com/@demox-labs/amp-core/-/amp-core-0.1.0.tgz#7a401fc856b28a98168d38b28e787846fdc3cc49"
   integrity sha512-L10JKzw32Z5geDHytb5ApVDUBRQ+T6/pfSaM5oeeaOrM5V7Rmbizoa0D3xzEaE6eDcm6X6U+bc0cun3cznJL+g==
 
-"@demox-labs/miden-sdk@0.8.3":
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/@demox-labs/miden-sdk/-/miden-sdk-0.8.3.tgz#73b388dd549f3fd7d29d3ff335d741ef5f15cb77"
-  integrity sha512-OcvX5WR6J9NSnSa1Q6YFAgutMfF3W50GNTcFr4T4FNp0tBnZA6Uhew6UImHauRKlR79tD6t+Ock9Nlaeoiev/A==
+"@demox-labs/miden-sdk@0.8.1-next.1":
+  version "0.8.1-next.1"
+  resolved "https://registry.yarnpkg.com/@demox-labs/miden-sdk/-/miden-sdk-0.8.1-next.1.tgz#55c4d47197299be6a209795fe28e1d0b3664308d"
+  integrity sha512-BvX5w3nji0Hfklr5QdPIFkbgIj0blmaUInPGQOtB1wQOWc49xmas7OJhi54v6eupR0gNAOKx9n2q17p3aR8LXg==
   dependencies:
     chai-as-promised "^8.0.0"
     dexie "^4.0.1"
