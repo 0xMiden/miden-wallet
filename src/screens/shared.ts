@@ -8,7 +8,7 @@ export type DecryptedWalletFile = {
 export type EncryptedWalletFile = {
   dt: string;
   iv: string;
-  salt: Uint8Array<ArrayBuffer>;
+  salt: Uint8Array;
   encryptedPasswordCheck: EncryptedPayload;
 };
 

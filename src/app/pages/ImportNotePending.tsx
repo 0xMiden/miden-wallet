@@ -30,7 +30,7 @@ const ImportNotePending: FC<ImportNotePendingProps> = ({ noteId }) => {
       if (!polling) return;
 
       // Check if the noteId is in the current claimable notes
-      if (claimableNotes?.some(note => note.id === noteId)) {
+      if (claimableNotes?.some(note => note !== null && note.id === noteId)) {
         setIsNoteFound(true);
         setIsPolling(false);
         return;
