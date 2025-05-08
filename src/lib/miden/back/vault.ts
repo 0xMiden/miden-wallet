@@ -377,13 +377,16 @@ function deriveClientSeed(walletType: WalletType, mnemonic: string, allAccounts:
   const seed = Bip39.mnemonicToSeedSync(mnemonic);
   const hdAccIndex = allAccounts.reduce((acc, curr) => {
     if (curr.type === walletType) {
+      console.log('acc', acc);
       return acc + 1;
     } else {
-      return 0;
+      return acc;
     }
   }, 0);
+  console.log({ hdAccIndex });
 
   const path = getMainDerivationPath(walletType, hdAccIndex);
+  console.log({ path });
   const { seed: childSeed } = derivePath(path, seed.toString('hex'));
   return new Uint8Array(childSeed);
 }
