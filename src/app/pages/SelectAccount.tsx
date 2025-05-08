@@ -1,63 +1,25 @@
-import React, { FC, useCallback, useMemo } from 'react';
+import React, { FC } from 'react';
 
 import classNames from 'clsx';
 
 import ColorIdenticon from 'app/atoms/ColorIdenticon';
 import Name from 'app/atoms/Name';
-import { openInFullPage, useAppEnv } from 'app/env';
 import { ReactComponent as Checkmark } from 'app/icons/checkmark-alt.svg';
-import { ReactComponent as MaximiseIcon } from 'app/icons/maximise.svg';
 import PageLayout from 'app/layouts/PageLayout';
-import MenuItem from 'app/templates/MenuItem';
 import { Button, ButtonVariant } from 'components/Button';
 import { T } from 'lib/i18n/react';
-import { useAccount, useMidenContext, useAllAccounts } from 'lib/miden/front';
+import { useAccount, useAllAccounts, useMidenContext } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
 import { shortenAddress } from 'utils/string';
 
-import { SelectAccountSelectors } from './SelectAccount.selectors';
-
-type ExcludesFalse = <T>(x: T | false) => x is T;
-
 const SelectAccount: FC = () => {
-  const appEnv = useAppEnv();
   const { updateCurrentAccount } = useMidenContext();
   const allAccounts = useAllAccounts();
   const account = useAccount();
 
-  const handleMaximiseViewClick = useCallback(() => {
-    openInFullPage();
-    if (appEnv.popup) {
-      window.close();
-    }
-  }, [appEnv.popup]);
-
   const onAddAccountClick = () => {
     navigate('/create-account');
   };
-
-  const actions = useMemo(() => {
-    const items = [
-      // {
-      //   key: 'maximise',
-      //   Icon: MaximiseIcon,
-      //   i18nKey: appEnv.fullPage ? 'openNewTab' : 'maximiseView',
-      //   linkTo: '/fullpage.html',
-      //   onClick: handleMaximiseViewClick,
-      //   includeHR: false,
-      //   linksOutsideOfWallet: true,
-      //   selector: SelectAccountSelectors.MaximizeButton,
-      //   fullPage: false,
-      //   iconStyle: {}
-      // }
-    ].filter(Boolean as any as ExcludesFalse);
-    return items.filter((item, index) => {
-      // if (index === 0) {
-      //   return true;
-      // }
-      return !appEnv.fullPage || (item as any).fullPage !== false;
-    });
-  }, [appEnv.fullPage, handleMaximiseViewClick]);
 
   return (
     <PageLayout
@@ -120,26 +82,6 @@ const SelectAccount: FC = () => {
             })}
           </div>
         </div>
-      </div>
-
-      <div className="flex flex-col w-full pt-2">
-        {actions.map(
-          ({ key, Icon, i18nKey, linkTo, onClick, selector, includeHR, iconStyle, linksOutsideOfWallet }) => {
-            return (
-              <MenuItem
-                key={key}
-                slug={linkTo || ''}
-                onClick={onClick}
-                titleI18nKey={i18nKey}
-                Icon={Icon}
-                testID={selector ?? ''}
-                insertHR={includeHR}
-                linksOutsideOfWallet={linksOutsideOfWallet ?? false}
-                iconStyle={iconStyle}
-              />
-            );
-          }
-        )}
       </div>
 
       <div className="flex flex-col w-full p-6 md:px-8 m-auto">
