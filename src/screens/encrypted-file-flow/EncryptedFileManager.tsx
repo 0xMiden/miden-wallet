@@ -1,14 +1,11 @@
 import React, { ChangeEvent, useCallback, useEffect } from 'react';
 
-import classNames from 'clsx';
 import { OnSubmit, useForm } from 'react-hook-form';
 
-import { openLoadingFullPage, useAppEnv } from 'app/env';
+import { useAppEnv } from 'app/env';
 import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
-import { MidenTokens, TOKEN_MAPPING } from 'lib/miden-chain/constants';
 import { getFaucetIdSetting, useAccount } from 'lib/miden/front';
-import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import { navigate } from 'lib/woozie';
 import EncryptedWalletFileWalletPassword from 'screens/encrypted-file-flow/EncryptedWalletFileWalletPassword';
 
