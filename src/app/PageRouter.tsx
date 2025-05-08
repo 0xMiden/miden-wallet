@@ -20,15 +20,12 @@ import { SendFlow } from 'screens/send-flow/SendManager';
 import RootSuspenseFallback from './a11y/RootSuspenseFallback';
 import AllActivity from './pages/AllActivity';
 import ClaimUnstaked from './pages/ClaimUnstaked';
-import ConvertNFT from './pages/ConvertNFT';
 import ConvertVisibility from './pages/ConvertVisibility';
 import EditAccountName from './pages/EditAccountName';
 import { GetTokens } from './pages/GetTokens';
 import ImportNotePending from './pages/ImportNotePending';
 import ImportNoteResult from './pages/ImportNoteResult';
 import ManageAssets from './pages/ManageAssets';
-import NFTDetails from './pages/NFTDetails';
-import NFTs from './pages/NFTs';
 import SelectAccount from './pages/SelectAccount';
 import Stake from './pages/Stake';
 import StakeDetails from './pages/StakeDetails';
@@ -93,12 +90,9 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   ['/manage-assets/:assetType?', onlyReady(({ assetType }) => <ManageAssets assetType={assetType!} />)],
   ['/send', onlyReady(() => <SendFlow isLoading={false} />)],
   ['/send-nft', onlyReady(() => <SendNFT />)],
-  ['/convert-nft', onlyReady(() => <ConvertNFT />)],
   ['/convert-visibility/aleo', onlyReady(() => <ConvertVisibility assetSlug="aleo" assetId={'defaultaleotokenid'} />)],
   ['/convert-visibility/:assetId', onlyReady(({ assetId }) => <ConvertVisibility assetId={assetId!} />)],
   ['/settings/:tabSlug?', onlyReady(({ tabSlug }) => <Settings tabSlug={tabSlug} />)],
-  ['/nfts', onlyReady(() => <NFTs />)],
-  ['/nfts/details', onlyReady(() => <NFTDetails />)],
   ['/generating-transaction', onlyReady(() => <GeneratingTransactionPage />)],
   ['/generating-transaction-full', onlyReady(() => <GeneratingTransactionPage keepOpen={true} />)],
   ['/stake', onlyReady(() => <Stake />)],
