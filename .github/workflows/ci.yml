@@ -16,50 +16,38 @@ env:
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
 jobs:
-  # ci:
-  # name: Test
-  # runs-on: ubuntu-latest
-  # environment: ${{ inputs.environment }}
+  ci:
+    name: Test
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
 
-  # steps:
-  #   - name: Check Out Code
-  #     uses: actions/checkout@v3
+    steps:
+      - name: Check Out Code
+        uses: actions/checkout@v3
 
-  #   - name: Use Node 18
-  #     uses: actions/setup-node@v3
-  #     with:
-  #       node-version: 18
+      - name: Use Node 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
-  #   - name: Create Dotenv File
-  #     run: |
-  #       echo "${{ secrets.ENV }}" > .env
+      - name: Create Dotenv File
+        run: |
+          echo "${{ secrets.ENV }}" > .env
 
-  #   - name: Run Install
-  #     uses: borales/actions-yarn@v4
-  #     with:
-  #       cmd: install
+      - name: Run Install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
 
-  #   - name: Run Unit Tests
-  #     uses: borales/actions-yarn@v4
-  #     with:
-  #       cmd: test
+      - name: Run Unit Tests
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: test
 
-  #   - name: Install Chrome
-  #     uses: browser-actions/setup-chrome@v1
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@v1
 
-  #   - name: Build chrome
-  #     uses: borales/actions-yarn@v4
-  #     with:
-  #       cmd: build:chrome
-
-  #   - name: Run E2E install
-  #     uses: borales/actions-yarn@v4
-  #     with:
-  #       dir: ./e2e
-  #       cmd: install
-
-  #   - name: Run E2E Tests
-  #     uses: borales/actions-yarn@v4
-  #     with:
-  #       dir: ./e2e
-  #       cmd: start
+      - name: Build chrome
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: build:chrome

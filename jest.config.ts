@@ -16,6 +16,7 @@ export default {
     '.+\\.ts$': 'ts-jest'
   },
   moduleFileExtensions: ['ts', 'js'],
+  modulePathIgnorePatterns: ['<rootDir>/sdk-debug/'],
   setupFiles: ['dotenv/config', '@serh11p/jest-webextension-mock', 'fake-indexeddb/auto'],
   setupFilesAfterEnv: ['./jest.setup.js']
 };
