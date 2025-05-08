@@ -4,13 +4,13 @@ on:
   workflow_call:
     inputs:
       environment:
-        required: true
+        required: false
         type: string
     secrets:
       ENV:
-        required: true
+        required: false
       SSH_DEPLOY_KEY:
-        required: true
+        required: false
 
 env:
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
@@ -30,9 +30,9 @@ jobs:
         with:
           node-version: 18
 
-      - name: Create Dotenv File
-        run: |
-          echo "${{ secrets.ENV }}" > .env
+      # - name: Create Dotenv File
+      #   run: |
+      #     echo "${{ secrets.ENV }}" > .env
 
       - name: Run install
         uses: borales/actions-yarn@v4
