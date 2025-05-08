@@ -114,6 +114,18 @@ const Explore: FC = () => {
             {totalBalance.isGreaterThan(0) && <span>{t('tokens')}</span>}
           </div>
           <div className="flex-1 flex flex-col pb-4 space-y-2">
+            {tokens.filter(a => isMidenFaucet(a.faucetId)).length === 0 && (
+              <div className="flex">
+                <CardItem
+                  iconLeft={<Avatar size="lg" image="/misc/miden.png" />}
+                  title="MIDEN"
+                  subtitle={shortenAddress(getFaucetIdSetting(), 13, 7)}
+                  titleRight="$0.00"
+                  subtitleRight="0"
+                  className="flex-1 border border-grey-50 rounded-lg "
+                />
+              </div>
+            )}
             {tokens.length > 0 &&
               tokens
                 .sort(a => (isMidenFaucet(a.faucetId) ? -1 : 1))
@@ -135,18 +147,6 @@ const Explore: FC = () => {
                     </div>
                   );
                 })}
-            {tokens.length === 0 && (
-              <div className="flex">
-                <CardItem
-                  iconLeft={<Avatar size="lg" image="/misc/miden.png" />}
-                  title="MIDEN"
-                  subtitle={shortenAddress(getFaucetIdSetting(), 13, 7)}
-                  titleRight="$0.00"
-                  subtitleRight="0"
-                  className="flex-1 border border-grey-50 rounded-lg "
-                />
-              </div>
-            )}
           </div>
         </div>
       </div>

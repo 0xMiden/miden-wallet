@@ -68,7 +68,7 @@ export class Vault {
 
       const midenClient = await MidenClientInterface.create();
       const hdAccIndex = 0;
-      const walletSeed = deriveClientSeed(WalletType.OnChain, mnemonic, []);
+      const walletSeed = deriveClientSeed(WalletType.OnChain, mnemonic, 0);
 
       console.log('created miden client');
 
@@ -159,7 +159,7 @@ export class Vault {
     return DEFAULT_SETTINGS;
   }
 
-  async createHDAccount(walletType: WalletType, name?: string, hdAccIndex?: number): Promise<WalletAccount[]> {
+  async createHDAccount(walletType: WalletType, name?: string): Promise<WalletAccount[]> {
     return withError('Failed to create account', async () => {
       const [mnemonic, allAccounts] = await Promise.all([
         fetchAndDecryptOneWithLegacyFallBack<string>(mnemonicStrgKey, this.passKey),
@@ -168,17 +168,16 @@ export class Vault {
 
       const isOwnMnemonic = await this.isOwnMnemonic();
 
-      const walletSeed = deriveClientSeed(walletType, mnemonic, allAccounts);
-      // TODO: duplicated index code within the derive seed?
-      if (!hdAccIndex) {
-        let accounts;
-        if (walletType === WalletType.OnChain) {
-          accounts = allAccounts.filter(acc => acc.isPublic);
-        } else {
-          accounts = allAccounts.filter(acc => !acc.isPublic);
-        }
-        hdAccIndex = accounts.length;
+      let hdAccIndex;
+      let accounts;
+      if (walletType === WalletType.OnChain) {
+        accounts = allAccounts.filter(acc => acc.isPublic);
+      } else {
+        accounts = allAccounts.filter(acc => !acc.isPublic);
       }
+      hdAccIndex = accounts.length;
+
+      const walletSeed = deriveClientSeed(walletType, mnemonic, hdAccIndex);
 
       const midenClient = await MidenClientInterface.create();
       let walletId;
@@ -373,20 +372,9 @@ function getMainDerivationPath(walletType: WalletType, accIndex: number) {
 
 async function seedToPrivateKey(chainId: string, seed: Buffer) {}
 
-function deriveClientSeed(walletType: WalletType, mnemonic: string, allAccounts: WalletAccount[]) {
+function deriveClientSeed(walletType: WalletType, mnemonic: string, hdAccIndex: number) {
   const seed = Bip39.mnemonicToSeedSync(mnemonic);
-  const hdAccIndex = allAccounts.reduce((acc, curr) => {
-    if (curr.type === walletType) {
-      console.log('acc', acc);
-      return acc + 1;
-    } else {
-      return acc;
-    }
-  }, 0);
-  console.log({ hdAccIndex });
-
   const path = getMainDerivationPath(walletType, hdAccIndex);
-  console.log({ path });
   const { seed: childSeed } = derivePath(path, seed.toString('hex'));
   return new Uint8Array(childSeed);
 }
