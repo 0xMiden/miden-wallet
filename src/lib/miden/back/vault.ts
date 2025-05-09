@@ -79,7 +79,7 @@ export class Vault {
           // accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain);
         } catch (e) {
           // TODO: Need some way to propagate this up. Should we fail the entire process or just log it?
-          console.error('Failed to import wallet from seed, creating new wallet instead');
+          console.error('Failed to import wallet from seed in spawn, creating new wallet instead', e);
           accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain);
         }
       } else {
@@ -119,9 +119,13 @@ export class Vault {
     return withError('Failed to spawn from miden client', async () => {
       const midenClient = await MidenClientInterface.create();
       const accountHeaders = await midenClient.getAccounts();
-      const accounts = await Promise.all(
-        accountHeaders.map(accountHeader => midenClient.getAccount(accountHeader.id().toString()))
-      );
+      const accounts = [];
+
+      // Have to do this sequentially else the wasm fails
+      for (const accountHeader of accountHeaders) {
+        const account = await midenClient.getAccount(accountHeader.id().toString());
+        accounts.push(account);
+      }
 
       const newAccounts = [];
       for (let i = 0; i < accounts.length; i++) {
@@ -185,6 +189,7 @@ export class Vault {
         try {
           walletId = await midenClient.importPublicMidenWalletFromSeed(walletSeed);
         } catch (e) {
+          console.error('Failed to import wallet from seed, creating new wallet instead', e);
           walletId = await midenClient.createMidenWallet(walletType, walletSeed);
         }
       } else {
