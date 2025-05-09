@@ -11,7 +11,6 @@ type Props = {
   inputClassName?: string;
   labelClassName?: string;
   iconClassName?: string;
-  isError?: boolean;
   id?: string;
 };
 

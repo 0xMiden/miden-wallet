@@ -1,4 +1,4 @@
-import { NoteType, TransactionResult } from '@demox-labs/miden-sdk';
+import { TransactionResult } from '@demox-labs/miden-sdk';
 
 import { ampApi } from 'lib/amp/amp-interface';
 import { consumeNoteId } from 'lib/miden-worker/consumeNoteId';

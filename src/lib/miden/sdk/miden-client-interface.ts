@@ -135,7 +135,10 @@ export class MidenClientInterface {
       if (consumability.length === 0) {
         return false;
       }
-      const consumableAfterBlock = note.noteConsumability()[0].consumableAfterBlock();
+      if (consumability[0].accountId().toString() !== accountId) {
+        return false;
+      }
+      const consumableAfterBlock = consumability[0].consumableAfterBlock();
       if (consumableAfterBlock === undefined) {
         return true;
       }
