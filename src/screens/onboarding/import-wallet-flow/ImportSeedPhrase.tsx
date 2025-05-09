@@ -76,7 +76,6 @@ export const ImportSeedPhraseScreen: React.FC<ImportSeedPhraseScreenProps> = ({
               newSeedPhrase[index] = event.target.value;
               setSeedPhrase(newSeedPhrase);
             }}
-            isError={errorsMap[index]}
           />
         ))}
       </div>

@@ -12,12 +12,12 @@ import { FungibleTokensBalancesProvider } from './fungible-tokens-balances';
 export const MidenProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <MidenContextProvider>
-      <ConditionalReadyLeo>{children}</ConditionalReadyLeo>
+      <ConditionalReadyMiden>{children}</ConditionalReadyMiden>
     </MidenContextProvider>
   );
 };
 
-const ConditionalReadyLeo: FC<PropsWithChildren> = ({ children }) => {
+const ConditionalReadyMiden: FC<PropsWithChildren> = ({ children }) => {
   const { ready } = useMidenContext();
 
   return useMemo(

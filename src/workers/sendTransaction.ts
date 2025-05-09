@@ -1,4 +1,3 @@
-import { TransactionResult } from '@demox-labs/miden-sdk';
 import { expose } from 'threads/worker';
 
 import { SendTransaction } from 'lib/miden/db/types';

@@ -1,4 +1,3 @@
-import { TransactionResult } from '@demox-labs/miden-sdk';
 import { spawn, Thread, Worker } from 'threads';
 
 import { ConsumeTransaction } from 'lib/miden/db/types';
