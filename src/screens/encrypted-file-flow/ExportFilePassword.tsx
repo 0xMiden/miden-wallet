@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import classNames from 'clsx';
 import { useForm } from 'react-hook-form';
@@ -6,12 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import FormField, { PASSWORD_ERROR_CAPTION } from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
-import {
-  lettersNumbersMixtureRegx,
-  PASSWORD_PATTERN,
-  specialCharacterRegx,
-  uppercaseLowercaseMixtureRegx
-} from 'app/defaults';
+import { lettersNumbersMixtureRegx, specialCharacterRegx, uppercaseLowercaseMixtureRegx } from 'app/defaults';
 import { MIN_PASSWORD_LENGTH } from 'app/pages/NewWallet/SetWalletPassword';
 import { T } from 'lib/i18n/react';
 import {
@@ -54,7 +49,7 @@ const ExportFilePassword: React.FC<ExportFilePasswordProps> = ({
     strongPasswordLength: passwordValue.length >= STRONG_PASSWORD_LENGTH
   });
 
-  const { register, handleSubmit, formState, errors } = useForm<FormData>({
+  const { register, formState, errors } = useForm<FormData>({
     mode: 'onChange' // Validate on change
   });
 
@@ -99,7 +94,6 @@ const ExportFilePassword: React.FC<ExportFilePasswordProps> = ({
             errorCaption={errors.password?.message}
             onChange={handlePasswordChange}
             containerClassName="mx-2"
-            value={passwordValue}
           />
           <PasswordStrengthIndicator password={passwordValue} validation={passwordValidation} />
         </div>

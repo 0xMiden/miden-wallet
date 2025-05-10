@@ -171,7 +171,6 @@ export class Vault {
       ]);
 
       const isOwnMnemonic = await this.isOwnMnemonic();
-      console.log({ isOwnMnemonic });
 
       let hdAccIndex;
       let accounts;
@@ -181,10 +180,8 @@ export class Vault {
         accounts = allAccounts.filter(acc => !acc.isPublic);
       }
       hdAccIndex = accounts.length;
-      console.log({ hdAccIndex });
 
       const walletSeed = deriveClientSeed(walletType, mnemonic, hdAccIndex);
-      console.log({ walletSeed });
 
       const midenClient = await MidenClientInterface.create();
       let walletId;
@@ -192,7 +189,7 @@ export class Vault {
         try {
           walletId = await midenClient.importPublicMidenWalletFromSeed(walletSeed);
         } catch (e) {
-          console.error('Failed to import wallet from seed, creating new wallet instead', e);
+          console.warn('Failed to import wallet from seed, creating new wallet instead', e);
           walletId = await midenClient.createMidenWallet(walletType, walletSeed);
         }
       } else {
@@ -384,7 +381,6 @@ function deriveClientSeed(walletType: WalletType, mnemonic: string, hdAccIndex: 
   const seed = Bip39.mnemonicToSeedSync(mnemonic);
   const path = getMainDerivationPath(walletType, hdAccIndex);
   const { seed: childSeed } = derivePath(path, seed.toString('hex'));
-  console.log({ childSeed });
   return new Uint8Array(childSeed);
 }
 

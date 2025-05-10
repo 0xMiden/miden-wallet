@@ -1,16 +1,9 @@
-import React, { ChangeEvent, FC, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { ChangeEvent } from 'react';
 
-import { OnSubmit, useForm } from 'react-hook-form';
-
-import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { Alert, AlertVariant } from 'components/Alert';
 import { TextArea } from 'components/TextArea';
-import { t, T } from 'lib/i18n/react';
-
-type FormData = {
-  fileName: string;
-};
+import { T } from 'lib/i18n/react';
 
 export interface ExportFileNameProps {
   onGoNext: () => void;
@@ -22,8 +15,6 @@ export interface ExportFileNameProps {
 const DEFAULT_FILE_NAME = 'Encrypted Wallet File.json';
 
 const ExportFileName: React.FC<ExportFileNameProps> = ({ onGoNext, onGoBack, onFileNameChange, fileName }) => {
-  const { register, handleSubmit, errors, setError, clearError, formState } = useForm<FormData>();
-
   return (
     <div className="w-full max-w-sm p-2 mx-auto">
       <Alert
@@ -41,7 +32,6 @@ const ExportFileName: React.FC<ExportFileNameProps> = ({ onGoNext, onGoBack, onF
         {message => (
           <FormSubmitButton
             className="capitalize w-full justify-center mt-6"
-            //   loading={submitting}
             style={{
               fontSize: '18px',
               lineHeight: '24px',
