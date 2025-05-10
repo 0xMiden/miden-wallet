@@ -44,7 +44,6 @@ export const EncryptedFileManager: React.FC<{}> = () => {
   const { publicKey } = useAccount();
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
   const faucetId = getFaucetIdSetting();
-  const { fullPage } = useAppEnv();
 
   const onClose = useCallback(() => {
     navigate('/settings');
@@ -99,10 +98,6 @@ export const EncryptedFileManager: React.FC<{}> = () => {
       }
       try {
         clearError('submit');
-
-        // const transaction = { type: QueuedTransactionType.SendTransaction, data: payload };
-        // queueTransaction(transaction);
-        // onAction({ id: SendFlowActionId.GenerateTransaction });
       } catch (e: any) {
         if (e.message) {
           setError('submit', 'manual', e.message);
