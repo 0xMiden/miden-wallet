@@ -26,6 +26,17 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, on
 
   const { data: balance } = useBalance(publicKey, faucetId);
 
+  const onTransactionAmountKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        e.stopPropagation();
+        onGoNext();
+      }
+    },
+    [onGoNext]
+  );
+
   const onAmountChangeHandler = useCallback(
     (
       value: string | undefined,
@@ -51,7 +62,10 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, on
     <div className="flex-1 flex flex-col relative">
       <NavigationHeader mode="back" title={`Send ${TOKEN_NAME}`} onBack={onGoBack} />
       <div className="flex-1 flex flex-col p-4 md:w-[460px] md:mx-auto">
-        <div className="flex-1 flex flex-col items-center justify-center gap-y-2">
+        <div
+          onKeyDown={onTransactionAmountKeyDown}
+          className="flex-1 flex flex-col items-center justify-center gap-y-2"
+        >
           <InputAmount
             className="self-stretch"
             value={amount}
