@@ -1147,7 +1147,7 @@
     "message": "p. ex. aleo13u9kfm2…"
   },
   "recipientInputPlaceholderWithDomain": {
-    "message": "p. ex. alice.aleo or aleo13u9kfm2…",
+    "message": "p. ex. alice.aleo or 0xb3d1df68...
     "description": "alice.aleo = domain like google.com"
   },
   "tryingToTransferToYourself": {

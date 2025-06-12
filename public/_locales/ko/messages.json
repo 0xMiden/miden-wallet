@@ -783,7 +783,7 @@
     "message": "등록한 베이커의 주소입니다."
   },
   "bakerInputPlaceholder": {
-    "message": "예 aleo13u9kfm2..."
+    "message": "예 0xb3d1df68..."
   },
   "minDelegationAmountTitle": {
     "message": "최소 위임 계정"
@@ -1070,10 +1070,10 @@
     "message": "계정의 테조스 도메인 혹은 스마트 계약의 주소입니다."
   },
   "recipientInputPlaceholder": {
-    "message": "예) aleo13u9kfm2..."
+    "message": "예) 0xb3d1df68..."
   },
   "recipientInputPlaceholderWithDomain": {
-    "message": "예) alice.aleo or aleo13u9kfm2...",
+    "message": "예) alice.aleo or 0xb3d1df68...",
     "description": "alice.aleo = domain like google.com"
   },
   "tryingToTransferToYourself": {

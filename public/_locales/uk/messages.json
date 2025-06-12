@@ -1,6 +1,6 @@
 {
   "appName": {
-    "message": "Aleo - Aleo Wallet"
+    "message": "Miden - Miden Wallet"
   },
   "showIncomingTransactions": {
     "message": "Показати вхідні транзакції"
@@ -857,7 +857,7 @@
     "message": "Адреса зареєстрованого пекаря."
   },
   "bakerInputPlaceholder": {
-    "message": "e.g. aleo13u9kfm2..."
+    "message": "e.g. 0xb3d1df68..."
   },
   "minDelegationAmountTitle": {
     "message": "Мінімальна сума делегування"
@@ -1162,10 +1162,10 @@
     "message": "Адреса або Aleo домен аккаунту або смарт контракту."
   },
   "recipientInputPlaceholder": {
-    "message": "e.g. aleo13u9kfm2..."
+    "message": "e.g. 0xb3d1df68..."
   },
   "recipientInputPlaceholderWithDomain": {
-    "message": "e.g. alice.aleo or aleo13u9kfm2...",
+    "message": "e.g. alice.aleo or 0xb3d1df68...",
     "description": "alice.aleo = домен як google.com"
   },
   "tryingToTransferToYourself": {
