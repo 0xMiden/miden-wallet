@@ -1,5 +1,5 @@
 {
-  "appName": "Aleo - Aleo钱包",
+  "appName": "Miden - Miden钱包",
   "showIncomingTransactions": "显示进账交易",
   "appDesc": "🔐💰浏览器扩展程序，适用于Aleo区块链的数字加密货币钱包。",
   "importAccount": "导入账户",
@@ -308,7 +308,7 @@
   "addressInputDescription": "Aleo账户或智能合约的地址。",
   "addressInputDescriptionWithDomain": "帐户或智能合约的地址或Aleo域名。",
   "recipientInputPlaceholder": "例如：0xb3d1df68...",
-  "recipientInputPlaceholderWithDomain": "例如：alice.aleo或0xb3d1df68...
+  "recipientInputPlaceholderWithDomain": "例如：或0xb3d1df68...",
   "tryingToTransferToYourself": "您正在尝试向自己转账。\n请确认您确实想这样做。",
   "amount": "金额",
   "availableToSend": "可发送（最大）：",

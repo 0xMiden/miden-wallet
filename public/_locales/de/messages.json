@@ -1225,7 +1225,7 @@
     "message": "z. B. 0xb3d1df68..."
   },
   "recipientInputPlaceholderWithDomain": {
-    "message": "z. B. alice.aleo oder 0xb3d1df68...",
+    "message": "z. B. 0xb3d1df68...",
     "description": "alice.aleo = domain like google.com"
   },
   "tryingToTransferToYourself": {

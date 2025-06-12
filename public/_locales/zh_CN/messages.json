@@ -1,6 +1,6 @@
 {
   "appName": {
-    "message": "Aleo - Aleo钱包"
+    "message": "Miden - Miden钱包"
   },
   "showIncomingTransactions": {
     "message": "显示进账交易"
@@ -1138,7 +1138,7 @@
     "message": "例如：0xb3d1df68..."
   },
   "recipientInputPlaceholderWithDomain": {
-    "message": "例如：alice.aleo或0xb3d1df68...
+    "message": "例如：alice.aleo或0xb3d1df68...",
     "description": "alice.aleo = domain like google.com"
   },
   "tryingToTransferToYourself": {
