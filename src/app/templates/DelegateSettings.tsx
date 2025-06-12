@@ -6,7 +6,7 @@ import { T } from 'lib/i18n/react';
 import { GeneralSettingsSelectors } from './GeneralSettings.selectors';
 
 export const DELEGATE_PROOF_STORAGE_KEY = 'delegate_proof_setting_key';
-export const DEFAULT_DELEGATE_PROOF = true;
+export const DEFAULT_DELEGATE_PROOF = false;
 
 export function setDelegateProofSetting(enabled: boolean) {
   try {
