@@ -1,5 +1,5 @@
 {
-  "appName": "Aleo - Portefeuille Aleo",
+  "appName": "Miden - Portefeuille Miden",
   "showIncomingTransactions": "Afficher les transactions entrantes",
   "appDesc": "🔐💰Portefeuille de cryptomonnaie pour le blockchain Aleo en tant qu'extension Web pour votre navigateur.",
   "importAccount": "Importer un compte",
@@ -227,7 +227,7 @@
   "delegation": "Délégation",
   "baker": "Baker",
   "bakerInputDescription": "Adresse d'un baker inscrit.",
-  "bakerInputPlaceholder": "p. ex. 0xb3d1df68...
+  "bakerInputPlaceholder": "p. ex. 0xb3d1df68...",
   "minDelegationAmountTitle": "Montant minimum de délégation",
   "unknownBakerTitle": "Baker inconnu",
   "unknownBakerDescription": "Nous ne connaissons pas l'adresse fournie en tant que baker ! Ne lui déléguez vos fonds qu'à vos risques et périls.",
@@ -308,8 +308,8 @@
   "tokensRecepientInputDescriptionWithDomain": "Adresse ou domaine Aleo auquel envoyer des fonds $assetSymbol$.",
   "addressInputDescription": "Adresse du compte ou contrat intelligent Aleo.",
   "addressInputDescriptionWithDomain": "Adresse ou domaine Aleo du compte ou contrat intelligent.",
-  "recipientInputPlaceholder": "p. ex. 0xb3d1df68...
-  "recipientInputPlaceholderWithDomain": "p. ex. alice.aleo or 0xb3d1df68...
+  "recipientInputPlaceholder": "p. ex. 0xb3d1df68...",
+  "recipientInputPlaceholderWithDomain": "p. ex. alice.aleo or 0xb3d1df68...",
   "tryingToTransferToYourself": "Vous essayez de transférer des fonds à vous-même. Veuillez vous assurer que c'est exactement ce que vous voulez faire.",
   "amount": "Montant",
   "availableToSend": "Disponible à l'envoi (max) :",

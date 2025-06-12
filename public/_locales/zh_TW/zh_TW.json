@@ -1,5 +1,5 @@
 {
-  "appName": "Aleo - Aleo 錢包",
+  "appName": "Miden - Miden 錢包",
   "showIncomingTransactions": "顯示新進交易",
   "appDesc": "🔐💰這是 Aleo 區塊鏈加密貨幣錢包，是一項瀏覽器網頁擴充功能。 ",
   "importAccount": "匯入帳戶",
@@ -227,7 +227,7 @@
   "delegation": "委託",
   "baker": "烘焙師",
   "bakerInputDescription": "已註冊烘焙師的地址。",
-  "bakerInputPlaceholder": "例如 0xb3d1df68...
+  "bakerInputPlaceholder": "例如 0xb3d1df68...",
   "minDelegationAmountTitle": "最低委託金額",
   "unknownBakerTitle": "未知的烘焙師",
   "unknownBakerDescription": "所提供的地址並不是我們已知的烘焙師！若向此地址委託資金，您須自行承擔風險。",
