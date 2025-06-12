@@ -1135,10 +1135,10 @@
     "message": "帳戶或智慧合約的地址或 Aleo 網域。"
   },
   "recipientInputPlaceholder": {
-    "message": "例如 aleo13u9kfm2..."
+    "message": "例如 0xb3d1df68..."
   },
   "recipientInputPlaceholderWithDomain": {
-    "message": "例如 alice.aleo or aleo13u9kfm2...",
+    "message": "例如 alice.aleo or 0xb3d1df68...",
     "description": "alice.aleo = domain like google.com"
   },
   "tryingToTransferToYourself": {

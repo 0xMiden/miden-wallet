@@ -1,6 +1,6 @@
 {
   "appName": {
-    "message": "Aleo - Aleo Wallet"
+    "message": "Miden - Miden Wallet"
   },
   "showIncomingTransactions": {
     "message": "Eingehende Transaktionen anzeigen"
@@ -893,7 +893,7 @@
     "message": "Adresse oder Domainname eines registrierten Bakers."
   },
   "bakerInputPlaceholder": {
-    "message": "z. B. aleo13u9kfm2..."
+    "message": "z. B. 0xb3d1df68..."
   },
   "minDelegationAmountTitle": {
     "message": "Minimaler Delegationsbetrag"
@@ -1222,10 +1222,10 @@
     "message": "Adresse oder Aleo-Domain des Kontos oder Smart Kontrakts."
   },
   "recipientInputPlaceholder": {
-    "message": "z. B. aleo13u9kfm2..."
+    "message": "z. B. 0xb3d1df68..."
   },
   "recipientInputPlaceholderWithDomain": {
-    "message": "z. B. alice.aleo oder aleo13u9kfm2...",
+    "message": "z. B. alice.aleo oder 0xb3d1df68...",
     "description": "alice.aleo = domain like google.com"
   },
   "tryingToTransferToYourself": {

@@ -848,7 +848,7 @@
     "message": "登録したベーカーのアドレス"
   },
   "bakerInputPlaceholder": {
-    "message": "例: aleo13u9kfm2..."
+    "message": "例: 0xb3d1df68..."
   },
   "minDelegationAmountTitle": {
     "message": "最少委任額"
@@ -1135,10 +1135,10 @@
     "message": "アカウントまたはスマートコントラクトのアドレスまたはテゾスドメイン。"
   },
   "recipientInputPlaceholder": {
-    "message": "例: aleo13u9kfm2..."
+    "message": "例: 0xb3d1df68..."
   },
   "recipientInputPlaceholderWithDomain": {
-    "message": "例: alice.aleo、または aleo13u9kfm2...",
+    "message": "例: alice.aleo、または 0xb3d1df68...",
     "description": "alice.aleo = domain like google.com"
   },
   "tryingToTransferToYourself": {

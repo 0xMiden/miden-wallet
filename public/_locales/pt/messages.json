@@ -893,7 +893,7 @@
     "message": "Endereço ou nome de domínio de um baker registado."
   },
   "bakerInputPlaceholder": {
-    "message": "por exemplo, aleo13u9kfm2..."
+    "message": "por exemplo, 0xb3d1df68..."
   },
   "minDelegationAmountTitle": {
     "message": "Montante mínimo de delegação"
@@ -1222,10 +1222,10 @@
     "message": "Endereço ou domínio Aleo da conta ou contrato inteligente."
   },
   "recipientInputPlaceholder": {
-    "message": "por exemplo, aleo13u9kfm2..."
+    "message": "por exemplo, 0xb3d1df68..."
   },
   "recipientInputPlaceholderWithDomain": {
-    "message": "por exemplo, alice.aleo ou aleo13u9kfm2...",
+    "message": "por exemplo, alice.aleo ou 0xb3d1df68...",
     "description": "alice.aleo = domain like google.com"
   },
   "tryingToTransferToYourself": {

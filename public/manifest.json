@@ -18,8 +18,7 @@
     "http://localhost:4180/",
     "http://localhost:3000/",
     "https://*.leo.app/*",
-    "https://*.aleorpc.com/",
-    "https://*.aleo.org/*"
+    "https://*.miden.fi/*"
   ],
 
   "content_security_policy": {

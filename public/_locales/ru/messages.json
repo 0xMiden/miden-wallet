@@ -1081,7 +1081,7 @@
     "message": "Адрес или доменное имя зарегистрированного пекаря."
   },
   "bakerInputPlaceholder": {
-    "message": "например aleo13u9kfm2..."
+    "message": "например 0xb3d1df68..."
   },
   "minDelegationAmountTitle": {
     "message": "Минимальная сумма делегирования"
@@ -1398,10 +1398,10 @@
     "message": "Адрес или домен Aleo учетной записи или смарт-контракта."
   },
   "recipientInputPlaceholder": {
-    "message": "например aleo13u9kfm2..."
+    "message": "например 0xb3d1df68..."
   },
   "recipientInputPlaceholderWithDomain": {
-    "message": "например alice.aleo или aleo13u9kfm2...",
+    "message": "например alice.aleo или 0xb3d1df68...",
     "description": "alice.aleo = domain like google.com"
   },
   "tryingToTransferToYourself": {
