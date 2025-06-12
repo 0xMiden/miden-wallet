@@ -6,6 +6,7 @@ on:
       - 'mw-**'
       - 'feat/**'
       - 'dev'
+      - 'next'
 
 jobs:
   ci:
