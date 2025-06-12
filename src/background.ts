@@ -7,6 +7,12 @@ import { start } from 'lib/miden/back/main';
 
 runtime.onInstalled.addListener(({ reason }) => (reason === 'install' ? openFullPage() : null));
 
+runtime.onUpdateAvailable.addListener(details => {
+  console.log('Applying update to version', details.version);
+  // Swaps in the new version immediately
+  runtime.reload();
+});
+
 start();
 
 if (process.env.TARGET_BROWSER === 'safari') {
