@@ -6774,11 +6774,11 @@ fragment-cache@^0.2.1:
     map-cache "^0.2.2"
 
 framer-motion@^12.9.2:
-  version "12.17.0"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-12.17.0.tgz#1f4c68e396f5f28860a84e102d92f28db44a85de"
-  integrity sha512-2hISKgDk49yCLStwG1wf4Kdy/D6eBw9/eRNaWFIYoI9vMQ/Mqd1Fz+gzVlEtxJmtQ9y4IWnXm19/+UXD3dAYAA==
+  version "12.17.3"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-12.17.3.tgz#9f39d051d6d1d57d93dee991047b6ddf537f42d9"
+  integrity sha512-+1GMxQvZGUu20clzYdUWQY+iUWGBFc6UmpxvZBJjWu++rPdj7imXcQITzVs+QLKyjOpLoPOOar2KAOeYL88YQg==
   dependencies:
-    motion-dom "^12.17.0"
+    motion-dom "^12.17.3"
     motion-utils "^12.12.1"
     tslib "^2.4.0"
 
@@ -9408,10 +9408,10 @@ mkdirp@~0.5.1:
   dependencies:
     minimist "^1.2.6"
 
-motion-dom@^12.17.0:
-  version "12.17.0"
-  resolved "https://registry.yarnpkg.com/motion-dom/-/motion-dom-12.17.0.tgz#69661708d0a0859042c3003cddf31d544c46d9fd"
-  integrity sha512-FA6/c70R9NKs3g41XDVONzmUUrEmyaifLVGCWtAmHP0usDnX9W+RN/tmbC4EUl0w6yLGvMTOwnWCFVgA5luhRg==
+motion-dom@^12.17.3:
+  version "12.17.3"
+  resolved "https://registry.yarnpkg.com/motion-dom/-/motion-dom-12.17.3.tgz#4d56225a6a9ef51c40a329f5a9174a511b2dafee"
+  integrity sha512-nJrH4O9Z6lBSgllD5t+2lF1O8LkBxOq9QSUUmygHJVzHiTLaYpZRgd+U70919IL0CMbFBaFGEJ8hDSwnrmcyZw==
   dependencies:
     motion-utils "^12.12.1"
 
