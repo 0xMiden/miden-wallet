@@ -7,7 +7,8 @@ import { TextArea } from 'components/TextArea';
 
 export interface SelectRecipientProps {
   address?: string;
-  onGoBack: () => void;
+  isValidAddress: boolean;
+  error?: string;
   onGoNext: () => void;
   onAddressChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
   onClear: () => void;
@@ -16,9 +17,11 @@ export interface SelectRecipientProps {
 }
 
 export const SelectRecipient: React.FC<SelectRecipientProps> = ({
-  onGoNext,
   address,
+  isValidAddress,
+  error,
   onAddressChange,
+  onGoNext,
   onClear,
   onClose,
   onCancel
@@ -34,6 +37,7 @@ export const SelectRecipient: React.FC<SelectRecipientProps> = ({
               className="w-full pr-10"
               value={address}
               onChange={onAddressChange}
+              autoFocus
             />
             {address && (
               <button
@@ -46,6 +50,7 @@ export const SelectRecipient: React.FC<SelectRecipientProps> = ({
               </button>
             )}
           </div>
+          {error && <p className="text-red-500 text-xs">{error}</p>}
         </div>
         <div></div>
         <div className="flex flex-row gap-x-2">
@@ -54,7 +59,7 @@ export const SelectRecipient: React.FC<SelectRecipientProps> = ({
             className="flex-1"
             title={'Next'}
             variant={ButtonVariant.Primary}
-            disabled={false}
+            disabled={!isValidAddress}
             onClick={onGoNext}
           />
         </div>

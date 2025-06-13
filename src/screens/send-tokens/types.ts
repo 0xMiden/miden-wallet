@@ -9,7 +9,7 @@ export enum SendFlowStep {
 export type SendFlowForm = {
   amount: string;
   sharePrivately: boolean;
-  recipientAddress?: string;
+  recipientAddress: string;
   recallBlocks?: string;
   delegateTransaction: boolean;
 };

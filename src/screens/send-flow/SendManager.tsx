@@ -2,15 +2,17 @@ import React, { ChangeEvent, useCallback, useEffect } from 'react';
 
 import classNames from 'clsx';
 import { OnSubmit, useForm } from 'react-hook-form';
+import * as yup from 'yup';
 
 import { openLoadingFullPage, useAppEnv } from 'app/env';
 import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { initiateSendTransaction } from 'lib/miden/activity';
-import { getFaucetIdSetting, useAccount } from 'lib/miden/front';
+import { getFaucetIdSetting, useAccount, useBalance } from 'lib/miden/front';
 import { NoteTypeEnum } from 'lib/miden/types';
 import { navigate } from 'lib/woozie';
 import { SendFlowAction, SendFlowActionId, SendFlowForm, SendFlowStep } from 'screens/send-tokens/types';
+import { isValidMidenAddress } from 'utils/miden';
 
 import { ReviewTransaction } from './ReviewTransaction';
 import { SelectAmount } from './SelectAmount';
@@ -45,6 +47,24 @@ const ROUTES: Route[] = [
   }
 ];
 
+const validations = {
+  amount: yup
+    .string()
+    .required()
+    .test('is-greater-than-zero', 'Amount must be greater than 0', value => {
+      return parseFloat(value) > 0;
+    }),
+  sharePrivately: yup.boolean().required(),
+  recipientAddress: yup
+    .string()
+    .required()
+    .test('is-valid-address', 'Invalid address', value => isValidMidenAddress(value)),
+  recallBlocks: yup.number(),
+  delegateTransaction: yup.boolean().required()
+};
+
+const validationSchema = yup.object<SendFlowForm>().shape(validations).required();
+
 export interface SendManagerProps {
   isLoading: boolean;
 }
@@ -55,6 +75,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const faucetId = getFaucetIdSetting();
   const { fullPage } = useAppEnv();
   const delegateEnabled = isDelegateProofEnabled();
+  const { data: balance } = useBalance(publicKey, faucetId);
 
   const onClose = useCallback(() => {
     navigate('/');
@@ -70,15 +91,17 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     navigateTo(SendFlowStep.TransactionInitiated);
   }, [fullPage, navigateTo]);
 
-  const { register, watch, handleSubmit, formState, setError, clearError, setValue } = useForm<SendFlowForm>({
-    defaultValues: {
-      amount: undefined,
-      sharePrivately: false,
-      recipientAddress: undefined,
-      recallBlocks: undefined,
-      delegateTransaction: delegateEnabled
-    }
-  });
+  const { register, watch, handleSubmit, formState, setError, clearError, errors, setValue, triggerValidation } =
+    useForm<SendFlowForm>({
+      defaultValues: {
+        amount: undefined,
+        sharePrivately: false,
+        recipientAddress: undefined,
+        recallBlocks: undefined,
+        delegateTransaction: delegateEnabled
+      },
+      validationSchema
+    });
 
   useEffect(() => {
     register('amount');
@@ -110,6 +133,9 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
           Object.entries(action.payload).forEach(([key, value]) => {
             setValue(key, value);
           });
+          if (action.triggerValidation) {
+            triggerValidation();
+          }
           break;
         case SendFlowActionId.GenerateTransaction:
           onGenerateTransaction();
@@ -118,7 +144,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
           break;
       }
     },
-    [navigateTo, goBack, onClose, setValue, onGenerateTransaction]
+    [navigateTo, goBack, onClose, onGenerateTransaction, setValue, triggerValidation]
   );
 
   const onSubmit = useCallback<OnSubmit<SendFlowForm>>(
@@ -162,12 +188,37 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
 
   const onAddressChange = useCallback(
     (event: ChangeEvent<HTMLTextAreaElement>) => {
+      const address = event.target.value;
       onAction({
         id: SendFlowActionId.SetFormValues,
-        payload: { recipientAddress: event.target.value }
+        payload: { recipientAddress: address }
       });
+      if (!isValidMidenAddress(address)) {
+        setError('recipientAddress', 'manual', 'Invalid Miden address');
+      } else {
+        clearError('recipientAddress');
+      }
     },
-    [onAction]
+    [onAction, setError, clearError]
+  );
+
+  const onAmountChange = useCallback(
+    (amountString: string | undefined) => {
+      onAction({
+        id: SendFlowActionId.SetFormValues,
+        payload: { amount: amountString }
+      });
+
+      const amount = parseFloat(amountString || '0');
+      if (!validations.amount.isValidSync(amountString)) {
+        setError('amount', 'manual', 'Invalid amount');
+      } else if (amount > balance!.toNumber()) {
+        setError('amount', 'manual', 'Amount must be less than balance');
+      } else {
+        clearError('amount');
+      }
+    },
+    [onAction, balance, setError, clearError]
   );
 
   const goToStep = useCallback(
@@ -190,8 +241,9 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
         case SendFlowStep.SelectRecipient:
           return (
             <SelectRecipient
-              onGoBack={goBack}
               address={recipientAddress}
+              isValidAddress={!errors.recipientAddress && validations.recipientAddress.isValidSync(recipientAddress)}
+              error={errors.recipientAddress?.message?.toString()}
               onAddressChange={onAddressChange}
               onGoNext={() => goToStep(SendFlowStep.SelectAmount)}
               onClear={onClearAddress}
@@ -202,11 +254,14 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
         case SendFlowStep.SelectAmount:
           return (
             <SelectAmount
+              amount={amount}
+              balance={balance!}
+              isValidAmount={!errors.amount && validations.amount.isValidSync(amount)}
+              error={errors.amount?.message?.toString()}
               onGoBack={goBack}
               onGoNext={() => goToStep(SendFlowStep.ReviewTransaction)}
-              amount={amount}
               onCancel={onClose}
-              onAction={onAction}
+              onAmountChange={onAmountChange}
             />
           );
         case SendFlowStep.ReviewTransaction:
@@ -227,16 +282,20 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       }
     },
     [
-      amount,
-      goBack,
-      goToStep,
-      onAction,
+      recipientAddress,
       onAddressChange,
       onClearAddress,
       onClose,
-      recipientAddress,
+      errors.recipientAddress,
+      errors.amount,
+      amount,
+      balance,
+      goBack,
+      onAmountChange,
+      onAction,
       sharePrivately,
-      delegateTransaction
+      delegateTransaction,
+      goToStep
     ]
   );
 
