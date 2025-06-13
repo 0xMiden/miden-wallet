@@ -1,30 +1,38 @@
 import React, { useCallback } from 'react';
 
+import { BigNumber } from 'bignumber.js';
 import { useTranslation } from 'react-i18next';
 
+import { Icon, IconName } from 'app/icons/v2';
 import { Button, ButtonVariant } from 'components/Button';
 import { Chip } from 'components/Chip';
 import { InputAmount } from 'components/InputAmount';
 import { NavigationHeader } from 'components/NavigationHeader';
-import { getFaucetIdSetting, useAccount, useBalance } from 'lib/miden/front';
-import { SendFlowAction, SendFlowActionId } from 'screens/send-tokens/types';
-
+import colors from 'utils/tailwind-colors';
 export interface SelectAmountProps {
   amount: string;
+  balance: BigNumber;
+  isValidAmount: boolean;
+  error?: string;
   onGoBack: () => void;
   onGoNext: () => void;
-  onAction?: (action: SendFlowAction) => void;
   onCancel: () => void;
+  onAmountChange: (amount: string | undefined) => void;
 }
 
 const TOKEN_NAME = 'MIDEN';
 
-export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, onGoNext, onAction, onCancel }) => {
+export const SelectAmount: React.FC<SelectAmountProps> = ({
+  amount,
+  balance,
+  isValidAmount,
+  error,
+  onGoBack,
+  onGoNext,
+  onCancel,
+  onAmountChange
+}) => {
   const { t } = useTranslation();
-  const { publicKey } = useAccount();
-  const faucetId = getFaucetIdSetting();
-
-  const { data: balance } = useBalance(publicKey, faucetId);
 
   const onTransactionAmountKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -47,15 +55,9 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, on
         value: string;
       }
     ) => {
-      onAction?.({
-        id: SendFlowActionId.SetFormValues,
-        payload: {
-          amount: value ? values?.formatted : undefined
-        },
-        triggerValidation: true
-      });
+      onAmountChange(value ? values?.formatted : undefined);
     },
-    [onAction]
+    [onAmountChange]
   );
 
   return (
@@ -73,6 +75,14 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, on
             onValueChange={onAmountChangeHandler}
             autoFocus
           />
+          <div className="min-h-[24px] w-full flex items-center justify-center">
+            {error && (
+              <span className="flex flex-row items-center gap-x-2">
+                <Icon name={IconName.InformationFill} fill={colors.red[500]} size={'xs'} />
+                <p className="text-red-500 text-sm">{error}</p>
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-col gap-y-2 ">
@@ -81,18 +91,7 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, on
               <p className="text-sm text-gray-400">Available balance</p>
               <p className="text-sm text-black">{`${balance?.toString()} MIDEN`}</p>
             </div>
-            <button
-              onClick={() => {
-                onAction?.({
-                  id: SendFlowActionId.SetFormValues,
-                  payload: {
-                    amount: balance?.toString()
-                  },
-                  triggerValidation: false
-                });
-              }}
-              type="button"
-            >
+            <button onClick={() => onAmountChange(balance?.toString())} type="button">
               <Chip label="Max" className="cursor-pointer font-bold" />
             </button>
           </div>
@@ -103,7 +102,7 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({ amount, onGoBack, on
             className="flex-1"
             title={t('next')}
             variant={ButtonVariant.Primary}
-            disabled={false}
+            disabled={!isValidAmount}
             onClick={onGoNext}
           />
         </div>

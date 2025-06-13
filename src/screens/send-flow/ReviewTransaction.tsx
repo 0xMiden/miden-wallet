@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { Icon, IconName } from 'app/icons/v2';
-import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Button, ButtonVariant } from 'components/Button';
 import { NavigationHeader } from 'components/NavigationHeader';
 import { useAccount } from 'lib/miden/front';
