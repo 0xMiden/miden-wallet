@@ -75,10 +75,7 @@ export class MidenClientInterface {
       accountIdStringToSdk(accountId),
       consumeTransactionRequest
     );
-    await this.webClient.submitTransaction(
-      consumeTransactionResult,
-      delegateTransaction ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(this.network)!) : undefined
-    );
+    await this.submitTransactionWithFallback(consumeTransactionResult, delegateTransaction);
     return consumeTransactionResult;
   }
 
@@ -99,10 +96,7 @@ export class MidenClientInterface {
       accountIdStringToSdk(accountId),
       consumeTransactionRequest
     );
-    await this.webClient.submitTransaction(
-      consumeTransactionResult,
-      delegateTransaction ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(this.network)!) : undefined
-    );
+    await this.submitTransactionWithFallback(consumeTransactionResult, delegateTransaction);
 
     return consumeTransactionResult;
   }
@@ -177,10 +171,7 @@ export class MidenClientInterface {
       accountIdStringToSdk(senderAccountId),
       sendTransactionRequest
     );
-    await this.webClient.submitTransaction(
-      sendTransactionResult,
-      delegateTransaction ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(this.network)!) : undefined
-    );
+    await this.submitTransactionWithFallback(sendTransactionResult, delegateTransaction);
 
     return sendTransactionResult;
   }
@@ -203,16 +194,33 @@ export class MidenClientInterface {
     await this.syncState();
     const transactionRequest = TransactionRequest.deserialize(new Uint8Array(transactionRequestBytes));
     const transactionResult = await this.webClient.newTransaction(accountIdStringToSdk(accountId), transactionRequest);
-    await this.webClient.submitTransaction(
-      transactionResult,
-      delegateTransaction ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(this.network)!) : undefined
-    );
+    await this.submitTransactionWithFallback(transactionResult, delegateTransaction);
     return transactionResult;
   }
 
   async getTransactionsForAccount(accountId: string) {
     const transactions = await this.webClient.getTransactions(TransactionFilter.all());
     return transactions.filter(tx => tx.accountId().toString() === accountId);
+  }
+
+  private async submitTransactionWithFallback(transactionResult: TransactionResult, delegateTransaction?: boolean) {
+    try {
+      if (delegateTransaction) {
+        try {
+          await this.webClient.submitTransaction(
+            transactionResult,
+            TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(this.network)!)
+          );
+        } catch (error) {
+          console.log('Error submitting delegated transaction, falling back to local prover:', error);
+          await this.webClient.submitTransaction(transactionResult, undefined);
+        }
+      } else {
+        await this.webClient.submitTransaction(transactionResult, undefined);
+      }
+    } catch (error) {
+      console.error('Error submitting transaction:', error);
+    }
   }
 }
 
