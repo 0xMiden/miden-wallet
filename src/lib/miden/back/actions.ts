@@ -53,7 +53,6 @@ export async function isDAppEnabled() {
 
 export function registerNewWallet(password: string, mnemonic?: string, ownMnemonic?: boolean) {
   return withInited(async () => {
-    // TODO: Conditional here with Miden / Aleo wallet types
     await Vault.spawn(password, mnemonic, ownMnemonic);
     await unlock(password);
   });
