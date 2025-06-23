@@ -49,14 +49,14 @@ export class MidenClientInterface {
       walletType === WalletType.OnChain ? AccountStorageMode.public() : AccountStorageMode.private();
 
     const wallet: Account = await this.webClient.newWallet(accountStorageMode, true, seed);
-    const walletId = wallet.id().toString();
+    const walletId = wallet.id().toBech32();
 
     return walletId;
   }
 
   async importMidenWallet(accountBytes: Uint8Array): Promise<string> {
     const wallet: Account = await this.webClient.importAccount(accountBytes);
-    const walletIdString = wallet.id().toString();
+    const walletIdString = wallet.id().toBech32();
 
     return walletIdString;
   }
@@ -64,7 +64,7 @@ export class MidenClientInterface {
   async importPublicMidenWalletFromSeed(seed: Uint8Array) {
     const account = await this.webClient.importPublicAccountFromSeed(seed, true);
 
-    return account.id().toString();
+    return account.id().toBech32();
   }
 
   async consumeTransaction(accountId: string, listOfNoteIds: string[], delegateTransaction?: boolean) {
@@ -135,7 +135,7 @@ export class MidenClientInterface {
       if (consumability.length === 0) {
         return false;
       }
-      if (consumability[0].accountId().toString() !== accountId) {
+      if (consumability[0].accountId().toBech32() !== accountId) {
         return false;
       }
       const consumableAfterBlock = consumability[0].consumableAfterBlock();
@@ -212,10 +212,10 @@ export class MidenClientInterface {
 
   async getTransactionsForAccount(accountId: string) {
     const transactions = await this.webClient.getTransactions(TransactionFilter.all());
-    return transactions.filter(tx => tx.accountId().toString() === accountId);
+    return transactions.filter(tx => tx.accountId().toBech32() === accountId);
   }
 }
 
 export const accountIdStringToSdk = (accountId: string) => {
-  return AccountId.fromHex(accountId);
+  return AccountId.fromBech32(accountId);
 };

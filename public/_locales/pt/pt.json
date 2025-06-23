@@ -934,5 +934,13 @@
   "chainUnstable": "Devido à instabilidade do Aleo Testnet3, as transações podem falhar.",
   "dataReset": "Redefinição de dados.",
   "transactionHistoryLost": "Queremos informar que todo o histórico de transações foi perdido devido a uma recente redefinição do Aleo Testnet3.",
-  "learnMore": "Saiba mais"
+  "learnMore": "Saiba mais",
+  "resetRequired": "Reposição da carteira necessária",
+  "resetRequiredDescription": "A Testnet Miden foi atualizada para IDs de conta bech32 para melhorar a sua experiência. Para continuar a usar a sua carteira, restaure-a a partir de um ficheiro de backup ou frase Seed, ou crie uma nova.",
+  "resetRequiredSecondDescription": "Pedimos desculpa pelo incómodo.",
+  "reset": "Repor carteira",
+  "forgotPassword": "Esqueceu-se da palavra-passe?",
+  "forgotPasswordDescription": "Se se esqueceu da palavra-passe, tem de terminar a sessão e reimportar a sua conta. Depois disso, pode criar uma nova palavra-passe.",
+  "forgotPasswordSecondDescription": "Não termine a sessão a menos que conheça a sua frase Seed de 12 palavras ou tenha um ficheiro de backup encriptado.",
+  "signOut": "Terminar sessão"
 }

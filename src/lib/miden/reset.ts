@@ -7,3 +7,8 @@ export async function clearStorage() {
   await Repo.db.open();
   await browser.storage.local.clear();
 }
+
+export function clearClientStorage() {
+  localStorage.clear();
+  sessionStorage.clear();
+}

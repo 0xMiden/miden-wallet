@@ -927,5 +927,13 @@
   "chainUnstable": "Aufgrund der Instabilität von Aleo Testnet3 können Transaktionen fehlschlagen.",
   "dataReset": "Daten zurücksetzen.",
   "transactionHistoryLost": "Wir möchten Sie informieren, dass alle Transaktionshistorien aufgrund eines kürzlichen Resets des Aleo Testnet3 verloren gegangen sind.",
-  "learnMore": "Erfahren Sie mehr"
+  "learnMore": "Erfahren Sie mehr",
+  "resetRequired": "Wallet-Zurücksetzung erforderlich",
+  "resetRequiredDescription": "Das Miden-Testnetz wurde auf bech32-Konto-IDs aktualisiert, um deine Erfahrung zu verbessern. Um deine Wallet weiter zu nutzen, stelle sie bitte über eine Sicherungsdatei oder Seed-Phrase wieder her oder erstelle eine neue.",
+  "resetRequiredSecondDescription": "Wir entschuldigen uns für die Unannehmlichkeiten.",
+  "reset": "Wallet zurücksetzen",
+  "forgotPassword": "Passwort vergessen?",
+  "forgotPasswordDescription": "Wenn du dein Passwort vergessen hast, musst du dich abmelden und dein Konto erneut importieren. Danach kannst du ein neues Passwort erstellen.",
+  "forgotPasswordSecondDescription": "Melde dich nur ab, wenn du deine 12-Wort-Seed-Phrase kennst oder eine verschlüsselte Sicherungsdatei hast.",
+  "signOut": "Abmelden"
 }

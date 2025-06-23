@@ -30,14 +30,10 @@ const meta: Meta<typeof SelectAmount> = {
   ),
   render: function Render(args) {
     const [, updateArgs] = useArgs<SelectAmountProps>();
-    const onAction = (action: SendFlowAction) => {
-      if (action.id === SendFlowActionId.SetFormValues) {
-        Object.entries(action.payload).forEach(([key, value]) => {
-          updateArgs({ [key]: value });
-        });
-      }
+    const onAmountChange = (amount: string | undefined) => {
+      updateArgs({ amount });
     };
-    return <SelectAmount {...args} onAction={onAction} />;
+    return <SelectAmount {...args} onAmountChange={onAmountChange} />;
   }
 };
 

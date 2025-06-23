@@ -934,5 +934,13 @@
   "chainUnstable": "Aleo Testnet3의 불안정성으로 인해 트랜잭션이 실패할 수 있습니다.",
   "dataReset": "데이터 초기화.",
   "transactionHistoryLost": "최근 Aleo Testnet3의 초기화로 인해 모든 거래 기록이 손실되었음을 알려드립니다.",
-  "learnMore": "더 알아보기"
+  "learnMore": "더 알아보기",
+  "resetRequired": "지갑 초기화 필요",
+  "resetRequiredDescription": "Miden 테스트넷이 사용자 경험 향상을 위해 bech32 계정 ID로 업그레이드되었습니다. 지갑을 계속 사용하려면 백업 파일이나 시드 문구로 복원하거나 새 지갑을 생성하세요.",
+  "resetRequiredSecondDescription": "불편을 드려 죄송합니다.",
+  "reset": "지갑 초기화",
+  "forgotPassword": "비밀번호를 잊으셨나요?",
+  "forgotPasswordDescription": "비밀번호를 잊은 경우, 로그아웃 후 계정을 다시 가져와야 합니다. 이후 새 비밀번호를 생성할 수 있습니다.",
+  "forgotPasswordSecondDescription": "12단어 시드 문구를 알고 있거나 암호화된 백업 파일이 없는 경우 로그아웃하지 마세요.",
+  "signOut": "로그아웃"
 }

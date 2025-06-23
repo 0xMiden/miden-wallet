@@ -105,20 +105,20 @@ export const interpretTransactionResult = <K extends keyof ITransaction>(
   inputNotes.forEach(inputNote => {
     const assets = inputNote.note().assets().fungibleAssets();
     inputAmount = assets.reduce((acc, asset) => acc + BigInt(asset.amount()), BigInt(0));
-    const faucetIds = [...new Set(assets.map(asset => asset.faucetId().toString()))];
+    const faucetIds = [...new Set(assets.map(asset => asset.faucetId().toBech32()))];
     inputFaucetIds.push(...faucetIds);
   });
   outputNotes.forEach(outputNote => {
     const assets = outputNote.assets()!.fungibleAssets();
     outputAmount = assets.reduce((acc, asset) => acc + BigInt(asset.amount()), BigInt(0));
-    const faucetIds = [...new Set(assets.map(asset => asset.faucetId().toString()))];
+    const faucetIds = [...new Set(assets.map(asset => asset.faucetId().toBech32()))];
     outputFaucetIds.push(...faucetIds);
   });
   const transactionAmount = inputAmount - outputAmount;
 
   if (inputFaucetIds.length === 1 && outputFaucetIds.length === 0) {
     type = 'consume';
-    const sender = inputNotes[0].note().metadata().sender().toString();
+    const sender = inputNotes[0].note().metadata().sender().toBech32();
     displayMessage = sender === transaction.accountId ? 'Reclaimed' : 'Received';
     if (sender !== transaction.accountId) {
       secondaryAccountId = sender;

@@ -934,5 +934,13 @@
   "chainUnstable": "Aleo Testnet3'ün istikrarsızlığı nedeniyle, işlemler başarısız olabilir.",
   "dataReset": "Veri Sıfırlama.",
   "transactionHistoryLost": "Son Aleo Testnet3 sıfırlaması nedeniyle tüm işlem geçmişinin kaybolduğunu bildirmek isteriz.",
-  "learnMore": "Daha fazla bilgi edinin"
+  "learnMore": "Daha fazla bilgi edinin",
+  "resetRequired": "Cüzdan Sıfırlama Gerekli",
+  "resetRequiredDescription": "Miden Testnet, deneyiminizi geliştirmek için bech32 hesap kimliklerine yükseltildi. Cüzdanınızı kullanmaya devam etmek için yedek dosyanızdan veya Seed ifadenizden geri yükleyin ya da yeni bir tane oluşturun.",
+  "resetRequiredSecondDescription": "Verdiğimiz rahatsızlıktan dolayı üzgünüz.",
+  "reset": "Cüzdanı Sıfırla",
+  "forgotPassword": "Şifrenizi mi unuttunuz?",
+  "forgotPasswordDescription": "Şifrenizi unuttuysanız, çıkış yapıp hesabınızı yeniden içe aktarmanız gerekir. Ardından yeni bir şifre oluşturabilirsiniz.",
+  "forgotPasswordSecondDescription": "12 kelimelik Seed ifadenizi bilmiyor ya da şifreli bir yedek dosyanız yoksa çıkış yapmayın.",
+  "signOut": "Çıkış yap"
 }

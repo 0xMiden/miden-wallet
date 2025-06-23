@@ -36,9 +36,7 @@ export function toFront({
  */
 
 export const inited = createEvent<boolean>('Inited');
-
 export const locked = createEvent('Locked');
-
 export const unlocked = createEvent<{
   vault: Vault;
   accounts: WalletAccount[];

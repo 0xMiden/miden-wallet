@@ -22,10 +22,13 @@ import AllActivity from './pages/AllActivity';
 import ClaimUnstaked from './pages/ClaimUnstaked';
 import ConvertVisibility from './pages/ConvertVisibility';
 import EditAccountName from './pages/EditAccountName';
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
+import ForgotPasswordInfo from './pages/ForgotPassword/ForgotPasswordInfo';
 import { GetTokens } from './pages/GetTokens';
 import ImportNotePending from './pages/ImportNotePending';
 import ImportNoteResult from './pages/ImportNoteResult';
 import ManageAssets from './pages/ManageAssets';
+import ResetRequired from './pages/ResetRequired';
 import SelectAccount from './pages/SelectAccount';
 import Stake from './pages/Stake';
 import StakeDetails from './pages/StakeDetails';
@@ -54,6 +57,35 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
 
         default:
           return <ImportWallet key={p.tabSlug ?? ''} tabSlug={p.tabSlug ?? undefined} />;
+      }
+    }
+  ],
+  ['/reset-required', () => <ResetRequired />],
+  [
+    '/reset-wallet',
+    (_p, ctx) => {
+      switch (true) {
+        case !ctx.fullPage:
+          return <OpenInFullPage />;
+
+        default:
+          return <ForgotPassword />;
+      }
+    }
+  ],
+  ['/forgot-password-info', () => <ForgotPasswordInfo />],
+  [
+    '/forgot-password',
+    (_p, ctx) => {
+      switch (true) {
+        case ctx.ready:
+          return Woozie.Router.SKIP;
+
+        case !ctx.fullPage:
+          return <OpenInFullPage />;
+
+        default:
+          return <ForgotPassword />;
       }
     }
   ],
@@ -129,7 +161,7 @@ const PageRouter: FC = () => {
       ready: miden.ready,
       locked: miden.locked
     }),
-    [appEnv.popup, appEnv.fullPage, miden.ready, miden.locked]
+    [appEnv.popup, appEnv.fullPage, miden]
   );
 
   return useMemo(() => Woozie.Router.resolve(ROUTE_MAP, pathname, ctx), [pathname, ctx]);

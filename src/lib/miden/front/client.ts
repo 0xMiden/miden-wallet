@@ -98,15 +98,19 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   Actions
   */
   // TODO: Make this take some sort of enum for multi wallet support
-  const registerWallet = useCallback(async (password: string, mnemonic?: string, ownMnemonic?: boolean) => {
-    const res = await request({
-      type: WalletMessageType.NewWalletRequest,
-      password,
-      mnemonic,
-      ownMnemonic
-    });
-    assertResponse(res.type === WalletMessageType.NewWalletResponse);
-  }, []);
+  const registerWallet = useCallback(
+    async (password: string, mnemonic?: string, ownMnemonic?: boolean) => {
+      const res = await request({
+        type: WalletMessageType.NewWalletRequest,
+        password,
+        mnemonic,
+        ownMnemonic
+      });
+      assertResponse(res.type === WalletMessageType.NewWalletResponse);
+      await mutate();
+    },
+    [mutate]
+  );
 
   const importWalletFromClient = useCallback(async (password: string, mnemonic: string) => {
     const res = await request({
@@ -160,7 +164,6 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   const removeAccount = useCallback(async (accountPublicKey: string, password: string) => {}, []);
 
   const editAccountName = useCallback(async (accountPublicKey: string, name: string) => {
-    console.log('miden/front/client.ts editAccountName');
     const res = await request({
       type: WalletMessageType.EditAccountRequest,
       accountPublicKey,

@@ -45,7 +45,7 @@ export function useFungibleTokens(accountId: string) {
     const account = await midenClient.getAccount(accountId);
     const assets = account!.vault().fungibleAssets() as FungibleAsset[];
     const balances = assets.map(asset => ({
-      faucetId: asset.faucetId().toString(),
+      faucetId: asset.faucetId().toBech32(),
       balance: new BigNumber(asset.amount().toString())
     }));
     return {

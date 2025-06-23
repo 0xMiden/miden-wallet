@@ -67,7 +67,7 @@ export const initiateConsumeTransaction = async (
 
 export const completeConsumeTransaction = async (id: string, result: TransactionResult) => {
   const note = result.consumedNotes().getNote(0).note();
-  const sender = note.metadata().sender().toString();
+  const sender = note.metadata().sender().toBech32();
   const executedTransaction = result.executedTransaction();
 
   const dbTransaction = await Repo.transactions.where({ id }).first();
@@ -75,7 +75,7 @@ export const completeConsumeTransaction = async (id: string, result: Transaction
   const displayMessage = reclaimed ? 'Reclaimed' : 'Received';
   const secondaryAccountId = reclaimed ? undefined : sender;
   const asset = note.assets().fungibleAssets()[0];
-  const faucetId = asset.faucetId().toString();
+  const faucetId = asset.faucetId().toBech32();
   const amount = asset.amount();
 
   await updateTransactionStatus(id, ITransactionStatus.Completed, {

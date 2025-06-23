@@ -24,7 +24,8 @@ import {
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { useRetryableSWR } from 'lib/swr';
 import useTippy, { TippyProps } from 'lib/ui/useTippy';
-import { Link, To } from 'lib/woozie';
+import { Link, navigate, To } from 'lib/woozie';
+import { isHexAddress } from 'utils/miden';
 import { shortenAddress } from 'utils/string';
 
 import { ExploreSelectors } from './Explore.selectors';
@@ -60,6 +61,17 @@ const Explore: FC = () => {
   useEffect(() => {
     if (queuedDbTransactions) openLoadingFullPage();
   }, [queuedDbTransactions]);
+
+  useEffect(() => {
+    // 6-17-25 Force wallet reset if account is still using hex address
+    if (isHexAddress(address)) {
+      navigate('/reset-required');
+    }
+  }, [address]);
+
+  if (isHexAddress(address)) {
+    return null;
+  }
 
   const size = fullPage ? { height: '640px', width: '600px' } : { height: '600px', width: '360px' };
   const sendLink = tokens.length > 0 ? '/send' : '/get-tokens';

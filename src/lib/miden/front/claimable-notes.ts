@@ -33,7 +33,7 @@ export function useClaimableNotes(publicAddress: string) {
           return {
             id: inputNoteRecord.id().toString(),
             amount: asset.amount().toString(),
-            senderAddress: metadata?.sender()?.toString() || ''
+            senderAddress: metadata?.sender()?.toBech32() || ''
           };
         } catch (error) {
           console.error('Error processing note:', error);

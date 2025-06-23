@@ -933,5 +933,13 @@
   "chainUnstable": "En raison de l'instabilité d'Aleo Testnet3, les transactions peuvent échouer.",
   "dataReset": "Réinitialisation des données.",
   "transactionHistoryLost": "Nous souhaitons vous informer que tout l'historique des transactions a été perdu en raison d'une réinitialisation récente de l'Aleo Testnet3.",
-  "learnMore": "En savoir plus"
+  "learnMore": "En savoir plus",
+  "resetRequired": "Réinitialisation du portefeuille requise",
+  "resetRequiredDescription": "Le testnet Miden a été mis à niveau vers des identifiants de compte bech32 pour améliorer votre expérience. Pour continuer à utiliser votre portefeuille, veuillez le restaurer à partir d’un fichier de sauvegarde ou d’une phrase Seed, ou créez-en un nouveau.",
+  "resetRequiredSecondDescription": "Nous sommes désolés pour ce désagrément.",
+  "reset": "Réinitialiser le portefeuille",
+  "forgotPassword": "Mot de passe oublié ?",
+  "forgotPasswordDescription": "Si vous avez oublié votre mot de passe, vous devez vous déconnecter et réimporter votre compte. Ensuite, vous pourrez créer un nouveau mot de passe.",
+  "forgotPasswordSecondDescription": "Ne vous déconnectez pas à moins de connaître votre phrase Seed de 12 mots ou de posséder un fichier de sauvegarde chiffré.",
+  "signOut": "Se déconnecter"
 }

@@ -1,21 +1,17 @@
 import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import classNames from 'clsx';
 import { OnSubmit, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import Alert from 'app/atoms/Alert';
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import SimplePageLayout from 'app/layouts/SimplePageLayout';
 import LogoVerticalTitle from 'app/misc/logo-vertical-title.svg';
+import { Button, ButtonVariant } from 'components/Button';
 import { useFormAnalytics } from 'lib/analytics';
-import { T, t } from 'lib/i18n/react';
 import { useLocalStorage, useMidenContext } from 'lib/miden/front';
-import { Link } from 'lib/woozie';
-
-interface UnlockProps {
-  canImportNew?: boolean;
-}
+import { navigate } from 'lib/woozie';
 
 type FormData = {
   password: string;
@@ -35,7 +31,8 @@ const getTimeLeft = (start: number, end: number) => {
   return `${checkTime(minutes)}:${checkTime(seconds)}`;
 };
 
-const Unlock: FC<UnlockProps> = ({ canImportNew = false }) => {
+const Unlock: FC = () => {
+  const { t } = useTranslation();
   const { unlock } = useMidenContext();
   const formAnalytics = useFormAnalytics('UnlockWallet');
 
@@ -83,6 +80,8 @@ const Unlock: FC<UnlockProps> = ({ canImportNew = false }) => {
     },
     [submitting, clearError, setError, unlock, focusPasswordField, formAnalytics, attempt, setAttempt, setTimeLock]
   );
+
+  const onForgotPasswordClick = useCallback(() => navigate('/forgot-password-info'), []);
 
   const isDisabled = useMemo(() => Date.now() - timelock <= lockLevel, [timelock, lockLevel]);
 
@@ -147,22 +146,14 @@ const Unlock: FC<UnlockProps> = ({ canImportNew = false }) => {
         >
           {t('unlock')}
         </FormSubmitButton>
-
-        {canImportNew && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '524px',
-              left: 'calc(50% - 132px)',
-              width: '264px',
-              textAlign: 'center',
-              fontSize: '12px',
-              lineHeight: '16px'
-            }}
-          >
-            <T id="importNewAccountTitle">{message => <h3 className="text-black">{message}</h3>}</T>
-          </div>
-        )}
+        <Button
+          id={'forgot-password'}
+          title={t('forgotPassword')}
+          variant={ButtonVariant.Ghost}
+          onClick={onForgotPasswordClick}
+          className="w-full justify-center mt-2"
+          style={{ fontSize: '16px', lineHeight: '24px', padding: '12px 0px' }}
+        />
       </form>
     </SimplePageLayout>
   );

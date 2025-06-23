@@ -929,5 +929,13 @@
   "chainUnstable": "由于Aleo Testnet3的不稳定，交易可能会失败.",
   "dataReset": "数据重置。",
   "transactionHistoryLost": "我们想通知您，由于最近的 Aleo Testnet3 重置，所有交易历史记录都已丢失。",
-  "learnMore": "了解更多"
+  "learnMore": "了解更多",
+  "resetRequired": "需要重置钱包",
+  "resetRequiredDescription": "Miden 测试网已升级为 bech32 账户 ID，以提升您的体验。如需继续使用钱包，请通过备份文件或种子短语恢复，或创建新钱包。",
+  "resetRequiredSecondDescription": "很抱歉给您带来不便。",
+  "reset": "重置钱包",
+  "forgotPassword": "忘记密码？",
+  "forgotPasswordDescription": "如果您忘记了密码，请先退出登录并重新导入账户。之后，您可以创建一个新密码。",
+  "forgotPasswordSecondDescription": "除非您知道 12 个单词的种子短语或拥有加密的备份文件，否则请不要退出登录。",
+  "signOut": "退出登录"
 }
