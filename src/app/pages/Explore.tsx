@@ -10,6 +10,7 @@ import Footer from 'app/layouts/PageLayout/Footer';
 import Header from 'app/layouts/PageLayout/Header';
 import { Avatar } from 'components/Avatar';
 import { CardItem } from 'components/CardItem';
+import { ConnectivityIssueBanner } from 'components/ConnectivityIssueBanner';
 import { TestIDProps } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { hasQueuedTransactions } from 'lib/miden/activity';
@@ -73,6 +74,7 @@ const Explore: FC = () => {
       )}
       style={size}
     >
+      <ConnectivityIssueBanner />
       <div className="flex-none">
         <Header />
         <div className={classNames('flex flex-col justify-start mt-6')}>

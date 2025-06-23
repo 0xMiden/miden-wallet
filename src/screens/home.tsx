@@ -10,7 +10,7 @@ import { Button, ButtonVariant } from 'components/Button';
 import { CardItem } from 'components/CardItem';
 import { CircleButton } from 'components/CircleButton';
 import { SquareButton } from 'components/SquareButton';
-import { SyncBanner } from 'components/SyncBanner';
+import { ConnectivityIssueBanner } from 'components/ConnectivityIssueBanner';
 import { TabBar } from 'components/TabBar';
 import colors from 'utils/tailwind-colors';
 
@@ -66,7 +66,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
     <div className={classNames('flex-1 flex flex-col bg-white max-w-[600px] h-full', className)}>
       {/* Sync Banner */}
       {syncing && (
-        <SyncBanner className="" progress={syncProgress ?? 0} isFullScreen={isFullScreen} onClick={() => {}} />
+        <ConnectivityIssueBanner className="" progress={syncProgress ?? 0} isFullScreen={isFullScreen} onClick={() => {}} />
       )}
       <div className="relative flex-1 bg-[url('/public/misc/bg.svg')] bg-top bg-no-repeat  flex flex-col overflow-hidden">
         <header className="absolute right-[1rem] left-0 top-0 left-8 flex flex-col backdrop-blur-lg z-20">

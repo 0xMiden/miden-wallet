@@ -2,12 +2,12 @@ import React from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { SyncBanner } from 'components/SyncBanner';
+import { ConnectivityIssueBanner } from 'components/ConnectivityIssueBanner';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
-const meta: Meta<typeof SyncBanner> = {
+const meta: Meta<typeof ConnectivityIssueBanner> = {
   title: 'Components/Sync Banner',
-  component: SyncBanner,
+  component: ConnectivityIssueBanner,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: 'centered',
@@ -28,7 +28,7 @@ const meta: Meta<typeof SyncBanner> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof SyncBanner>;
+type Story = StoryObj<typeof ConnectivityIssueBanner>;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Example: Story = {
