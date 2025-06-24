@@ -10,12 +10,7 @@ import {
   WebClient
 } from '@demox-labs/miden-sdk';
 
-import {
-  MIDEN_NETWORK_ENDPOINTS,
-  MIDEN_NETWORK_NAME,
-  MIDEN_PROVING_ENDPOINTS,
-  NETWORK_STORAGE_ID
-} from 'lib/miden-chain/constants';
+import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';
 import { WalletType } from 'screens/onboarding/types';
 
 import { ConsumeTransaction, SendTransaction } from '../db/types';
@@ -213,6 +208,14 @@ export class MidenClientInterface {
           );
         } catch (error) {
           console.log('Error submitting delegated transaction, falling back to local prover:', error);
+
+          chrome.runtime.sendMessage({
+            type: 'CONNECTIVITY_ISSUE',
+            payload: {
+              timestamp: Date.now()
+            }
+          });
+
           await this.webClient.submitTransaction(transactionResult, undefined);
         }
       } else {
