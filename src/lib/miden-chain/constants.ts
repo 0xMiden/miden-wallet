@@ -15,7 +15,7 @@ export const MIDEN_NETWORK_ENDPOINTS = new Map<string, string>([
 ]);
 
 export const MIDEN_PROVING_ENDPOINTS = new Map<string, string>([
-  [MIDEN_NETWORK_NAME.TESTNET, 'htt://tx-prover.testnet.miden.io'],
+  [MIDEN_NETWORK_NAME.TESTNET, 'https://tx-prover.testnet.miden.io'],
   [MIDEN_NETWORK_NAME.LOCALNET, 'http://localhost:50051']
 ]);
 
