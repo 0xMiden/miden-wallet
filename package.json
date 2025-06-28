@@ -184,6 +184,7 @@
     "@storybook/react-webpack5": "^8.1.5",
     "@storybook/test": "^8.1.5",
     "@storybook/theming": "^8.1.11",
+    "@types/chrome": "^0.0.326",
     "@types/semver": "^7.3.9",
     "@typescript-eslint/eslint-plugin": "7.8.0",
     "@typescript-eslint/parser": "7.8.0",

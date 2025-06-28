@@ -76,11 +76,10 @@ export class Vault {
       if (ownMnemonic) {
         try {
           accPublicKey = await midenClient.importPublicMidenWalletFromSeed(walletSeed);
-          // accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain);
         } catch (e) {
           // TODO: Need some way to propagate this up. Should we fail the entire process or just log it?
           console.error('Failed to import wallet from seed in spawn, creating new wallet instead', e);
-          accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain);
+          accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain, walletSeed);
         }
       } else {
         accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain, walletSeed);
