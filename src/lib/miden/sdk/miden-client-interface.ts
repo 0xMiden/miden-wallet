@@ -10,12 +10,7 @@ import {
   WebClient
 } from '@demox-labs/miden-sdk';
 
-import {
-  MIDEN_NETWORK_ENDPOINTS,
-  MIDEN_NETWORK_NAME,
-  MIDEN_PROVING_ENDPOINTS,
-  NETWORK_STORAGE_ID
-} from 'lib/miden-chain/constants';
+import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';
 import { WalletType } from 'screens/onboarding/types';
 
 import { ConsumeTransaction, SendTransaction } from '../db/types';
@@ -24,15 +19,18 @@ import { NoteExportType } from './constants';
 
 export type MidenClientCreateOptions = {
   seed?: Uint8Array;
+  onConnectivityIssue?: () => void;
 };
 
 export class MidenClientInterface {
   webClient: WebClient;
   network: string;
+  onConnectivityIssue?: () => void;
 
-  private constructor(webClient: WebClient, network: string) {
+  private constructor(webClient: WebClient, network: string, onConnectivityIssue?: () => void) {
     this.webClient = webClient;
     this.network = network;
+    this.onConnectivityIssue = onConnectivityIssue;
   }
 
   static async create(options: MidenClientCreateOptions = {}) {
@@ -40,7 +38,7 @@ export class MidenClientInterface {
     const network = MIDEN_NETWORK_NAME.TESTNET;
     const webClient = await WebClient.createClient(MIDEN_NETWORK_ENDPOINTS.get(network)!, seed);
 
-    return new MidenClientInterface(webClient, network);
+    return new MidenClientInterface(webClient, network, options.onConnectivityIssue);
   }
 
   async createMidenWallet(walletType: WalletType, seed?: Uint8Array): Promise<string> {
@@ -213,6 +211,7 @@ export class MidenClientInterface {
           );
         } catch (error) {
           console.log('Error submitting delegated transaction, falling back to local prover:', error);
+          this.onConnectivityIssue?.();
           await this.webClient.submitTransaction(transactionResult, undefined);
         }
       } else {

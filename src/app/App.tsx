@@ -19,6 +19,8 @@ import '../i18n';
 
 import ConfirmPage from './ConfirmPage';
 
+import { ExtensionMessageListener } from 'components/ConnectivityIssueBanner';
+
 interface AppProps extends Partial<PropsWithChildren> {
   env: ComponentProps<typeof AppEnvProvider>;
 }
@@ -51,6 +53,7 @@ const AppProvider: FC<AppProps> = ({ children, env }) => {
   return (
     <AppEnvProvider {...env}>
       <Woozie.Provider>
+        <ExtensionMessageListener />
         <MidenProvider>{children}</MidenProvider>
       </Woozie.Provider>
     </AppEnvProvider>
