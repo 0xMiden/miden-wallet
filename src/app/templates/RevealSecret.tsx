@@ -24,7 +24,7 @@ type RevealSecretProps = {
 };
 
 const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
-  const { revealViewKey, revealPrivateKey, revealMnemonic } = useMidenContext();
+  const { revealMnemonic } = useMidenContext();
   const account = useAccount();
   const { fieldRef: secretFieldRef, copy, copied } = useCopyToClipboard();
 
@@ -159,7 +159,7 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
           )
         };
     }
-  }, [reveal, account]);
+  }, [reveal]);
 
   const forbidPrivateKeyRevealing = reveal === 'private-key';
   const mainContent = useMemo(() => {
@@ -296,7 +296,6 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
       </form>
     );
   }, [
-    account,
     forbidPrivateKeyRevealing,
     errors,
     handleSubmit,

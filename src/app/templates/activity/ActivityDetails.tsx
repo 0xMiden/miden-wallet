@@ -1,15 +1,14 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import { ActivitySpinner } from 'app/atoms/ActivitySpinner';
-import { useAppEnv } from 'app/env';
-import { Icon, IconName } from 'app/icons/v2';
+import { IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
 import Footer from 'app/layouts/PageLayout/Footer';
 import { Button, ButtonVariant } from 'components/Button';
 import { getCurrentLocale } from 'lib/i18n';
 import { t } from 'lib/i18n/react';
 import { getTransactionById } from 'lib/miden/activity';
-import { getTokenId, useAccount } from 'lib/miden/front';
+import { getTokenId } from 'lib/miden/front';
 import { NoteExportType } from 'lib/miden/sdk/constants';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import { capitalizeFirstLetter } from 'utils/string';
@@ -22,9 +21,6 @@ interface ActivityDetailsProps {
 }
 
 export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => {
-  const account = useAccount();
-  const { fullPage } = useAppEnv();
-  const height = fullPage ? '491px' : '459px';
   const [activity, setActivity] = useState<IActivity | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
 

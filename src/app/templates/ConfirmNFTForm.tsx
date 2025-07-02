@@ -10,7 +10,7 @@ import { openLoadingFullPage, useAppEnv } from 'app/env';
 import { ALEO_DECIMALS } from 'lib/fiat-curency/consts';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { t, T } from 'lib/i18n/react';
-import { useAccount, useMidenContext } from 'lib/miden/front';
+import { useAccount } from 'lib/miden/front';
 import Link from 'lib/woozie/Link';
 
 import { isDelegateProofEnabled } from './DelegateSettings';
@@ -85,7 +85,7 @@ const Form: FC<FormProps> = ({ nft, to, fee, feePrivate, setConfirmStatus }) => 
       // Human delay.
       await new Promise(res => setTimeout(res, 300));
     }
-  }, [formState.isSubmitting, account, setConfirmStatus, nft, to, fee, feePrivate, delegateTransaction]);
+  }, [formState.isSubmitting, setConfirmStatus, delegateTransaction]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

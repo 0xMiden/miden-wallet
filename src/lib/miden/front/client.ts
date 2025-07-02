@@ -10,7 +10,6 @@ import {
   WalletRequest,
   WalletResponse,
   WalletSettings,
-  WalletState,
   WalletStatus
 } from 'lib/shared/types';
 import { useRetryableSWR } from 'lib/swr';

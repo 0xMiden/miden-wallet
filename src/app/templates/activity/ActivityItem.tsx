@@ -1,4 +1,4 @@
-import React, { FC, memo, useEffect, useState } from 'react';
+import React, { FC, memo } from 'react';
 
 import classNames from 'clsx';
 
@@ -68,7 +68,7 @@ const transactionIconGrabber = (transactionIcon: ITransactionIcon, iconFillAndSt
   }
 };
 
-const ActivityContent: FC<ActivityItemProps> = ({ className, fullHistory, activity }) => {
+const ActivityContent: FC<ActivityItemProps> = ({ fullHistory, activity }) => {
   const iconFillAndStroke = fullHistory ? 'currentColor' : 'black';
   const icon = !activity.transactionIcon
     ? iconGrabber(activity.type, iconFillAndStroke)
@@ -166,33 +166,3 @@ const ActivityItem = memo<ActivityItemProps>(({ className, fullHistory, activity
 });
 
 export default ActivityItem;
-
-type TimeProps = {
-  children: () => React.ReactElement;
-};
-
-const Time: React.FC<TimeProps> = ({ children }) => {
-  const [value, setValue] = useState(children);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setValue(children());
-    }, 5_000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [setValue, children]);
-
-  return value;
-};
-
-const addressTippyPropsMock = (content: string) => {
-  return {
-    trigger: 'mouseenter',
-    hideOnClick: false,
-    content: content,
-    animation: 'shift-away-subtle',
-    interactive: true
-  };
-};

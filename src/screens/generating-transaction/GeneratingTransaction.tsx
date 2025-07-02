@@ -16,8 +16,6 @@ import { useAnalytics } from 'lib/analytics';
 import { t } from 'lib/i18n/react';
 import { safeGenerateTransactionsLoop as dbTransactionsLoop, getAllUncompletedTransactions } from 'lib/miden/activity';
 import { useExportNotes } from 'lib/miden/activity/notes';
-import { NoteExportType } from 'lib/miden/sdk/constants';
-import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import { useRetryableSWR } from 'lib/swr';
 import { navigate } from 'lib/woozie';
 

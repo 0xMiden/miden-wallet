@@ -2,10 +2,7 @@ import React, { ChangeEvent, useCallback, useEffect } from 'react';
 
 import { OnSubmit, useForm } from 'react-hook-form';
 
-import { useAppEnv } from 'app/env';
-import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
-import { getFaucetIdSetting, useAccount } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
 import EncryptedWalletFileWalletPassword from 'screens/encrypted-file-flow/EncryptedWalletFileWalletPassword';
 
@@ -41,9 +38,6 @@ export interface EncryptedFileManagerProps {}
 
 export const EncryptedFileManager: React.FC<{}> = () => {
   const { navigateTo, goBack } = useNavigator();
-  const { publicKey } = useAccount();
-  const isDelegatedProvingEnabled = isDelegateProofEnabled();
-  const faucetId = getFaucetIdSetting();
 
   const onClose = useCallback(() => {
     navigate('/settings');
@@ -105,7 +99,7 @@ export const EncryptedFileManager: React.FC<{}> = () => {
         console.error(e);
       }
     },
-    [formState.isSubmitting, clearError, onAction, publicKey, fileName, setError, isDelegatedProvingEnabled, faucetId]
+    [formState.isSubmitting, clearError, setError]
   );
 
   const goToStep = useCallback(
@@ -196,15 +190,14 @@ export const EncryptedFileManager: React.FC<{}> = () => {
     },
     [
       goBack,
-      goToStep,
-      onAction,
-      onClose,
-      fileName,
+      onWalletPasswordChange,
       onFileNameChange,
-      filePassword,
+      fileName,
       onFilePasswordChange,
+      filePassword,
       walletPassword,
-      onFilePasswordChange
+      onClose,
+      goToStep
     ]
   );
 

@@ -12,8 +12,6 @@ import { useAppEnv } from 'app/env';
 import { ALEO_DECIMALS } from 'lib/fiat-curency/consts';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { T, t } from 'lib/i18n/react';
-import { useAccount } from 'lib/miden/front';
-import { useFilteredContacts } from 'lib/miden/front/use-filtered-contacts.hook';
 import useTippy from 'lib/ui/useTippy';
 import Link from 'lib/woozie/Link';
 
@@ -41,8 +39,6 @@ const SendNFTForm: FC<SendNFTFormProps> = ({ nft, setSendInfo }) => {
   const [feePrivate, setFeePrivate] = useState<boolean>(true);
   const [editingFee, setEditingFee] = useState(false);
 
-  const account = useAccount();
-
   const handleAddContactRequested = useCallback(
     (address: string) => {
       setAddContactModalAddress(address);
@@ -62,7 +58,6 @@ const SendNFTForm: FC<SendNFTFormProps> = ({ nft, setSendInfo }) => {
             fee={fee}
             feePrivate={feePrivate}
             recommendedFee={RECOMMENDED_FEE}
-            allowOneCreditRecord={true}
             setFee={(amount: bigint) => {
               setFee(amount);
               setEditingFee(false);
@@ -99,12 +94,9 @@ type FormProps = {
   onAddContactRequested: (address: string) => void;
 };
 
-const Form: FC<FormProps> = ({ nft, fee, feePrivate, editFee, setSendInfo, onAddContactRequested }) => {
+const Form: FC<FormProps> = ({ nft, fee, feePrivate, editFee, setSendInfo }) => {
   const { fullPage, registerBackHandler } = useAppEnv();
   const assetSymbol = 'ALEO';
-  const { allContacts } = useFilteredContacts();
-  const acc = useAccount();
-  const accountPk = acc.publicKey;
   const feeRef = useTippy<HTMLSpanElement>(feeTippyPropsMock);
 
   /**
@@ -167,11 +159,6 @@ const Form: FC<FormProps> = ({ nft, fee, feePrivate, editFee, setSendInfo, onAdd
       triggerValidation('to');
     },
     [setValue, triggerValidation]
-  );
-
-  const allContactsWithoutCurrent = useMemo(
-    () => allContacts.filter(c => 'c.address' !== accountPk),
-    [allContacts, accountPk]
   );
 
   const calculatedHeight = 4.25 - (errors.to?.message ? 0.9 : 0);

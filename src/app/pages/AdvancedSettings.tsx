@@ -4,23 +4,16 @@ import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { IconName } from 'app/icons/v2';
 import AutoCloseSettings from 'app/templates/AutoCloseSettings';
 import { ListItem } from 'components/ListItem';
-import { getFaucetIdSetting, useNetwork } from 'lib/miden/front';
-import { NETWORKS } from 'lib/miden/networks';
+import { getFaucetIdSetting } from 'lib/miden/front';
 import { Link } from 'lib/woozie';
 
 const AdvancedSettings: FC = () => {
-  const network = useNetwork();
-  const uiNetwork = NETWORKS.find(n => n.id === network.id);
   const faucetId = getFaucetIdSetting();
   const faucetIdShortened = useMemo(() => `${faucetId.slice(0, 7)}...${faucetId.slice(-3)} `, [faucetId]);
 
   return (
     <div className="flex justify-center py-6">
       <div className="flex flex-col w-[328px] gap-y-4">
-        {/* <Link to={'/settings/networks'}>
-          <ListItem title="Networks" subtitle={uiNetwork?.name} iconRight={IconName.ChevronRight} />
-        </Link> */}
-
         <Link to={'settings/edit-miden-faucet-id'}>
           <ListItem title="Edit Miden Faucet ID" subtitle={faucetIdShortened} iconRight={IconName.ChevronRight} />
         </Link>

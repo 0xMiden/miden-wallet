@@ -116,7 +116,6 @@ const Toolbar: FC<ToolbarProps> = ({
   const { historyPosition, pathname } = useLocation();
   const { registerBackHandler, onBack } = useAppEnv();
   const { setOnboardingCompleted } = useOnboardingProgress();
-  const { fullPage } = useAppEnv();
 
   const onStepBack = () => {
     if (step && setStep && step > 0) {

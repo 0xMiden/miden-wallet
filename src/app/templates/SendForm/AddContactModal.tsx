@@ -10,7 +10,6 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import HashShortView from 'app/atoms/HashShortView';
 import ModalWithTitle from 'app/templates/ModalWithTitle';
 import { T, t } from 'lib/i18n/react';
-import { useContacts } from 'lib/miden/front';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
 type AddContactModalProps = {
@@ -19,8 +18,6 @@ type AddContactModalProps = {
 };
 
 const AddContactModal: FC<AddContactModalProps> = ({ address, onClose }) => {
-  const { addContact } = useContacts();
-
   const {
     register,
     reset: resetForm,
@@ -45,7 +42,7 @@ const AddContactModal: FC<AddContactModalProps> = ({ address, onClose }) => {
         await withErrorHumanDelay(err, () => setError('address', 'submit-error', err.message));
       }
     },
-    [submitting, clearError, addContact, address, resetForm, onClose, setError]
+    [submitting, clearError, resetForm, onClose, setError]
   );
 
   return (

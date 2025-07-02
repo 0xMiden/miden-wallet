@@ -5,7 +5,6 @@ import classNames from 'clsx';
 import { ReactComponent as ContactBookIcon } from 'app/icons/contact-book.svg';
 import { TestIDProps } from 'lib/analytics';
 import { T } from 'lib/i18n/react';
-import { searchContacts } from 'lib/miden/front';
 
 import ContactsDropdownItem from './ContactsDropdownItem';
 
@@ -18,7 +17,7 @@ export type ContactsDropdownProps = TestIDProps & {
 const ContactsDropdown = memo<ContactsDropdownProps>(({ onSelect, searchTerm, fullPage, testID, testIDProperties }) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-  const filteredContacts: any[] = [];
+  const filteredContacts: any[] = useMemo(() => [], []);
 
   const activeItem = useMemo(
     () => (activeIndex !== null ? filteredContacts[activeIndex] : null),

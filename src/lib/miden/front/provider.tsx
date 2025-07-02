@@ -6,7 +6,6 @@ import { ReadyMidenProvider } from 'lib/miden/front/ready';
 import { PropsWithChildren } from 'lib/props-with-children';
 
 import { TokensMetadataProvider } from './assets';
-import { FungibleTokensBalancesProvider } from './fungible-tokens-balances';
 
 // TODO: This can likely be a more general wallet state provider, rather than just for Miden
 export const MidenProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -25,9 +24,7 @@ const ConditionalReadyMiden: FC<PropsWithChildren> = ({ children }) => {
       ready ? (
         <ReadyMidenProvider>
           <TokensMetadataProvider>
-            <FiatCurrencyProvider>
-              <FungibleTokensBalancesProvider>{children}</FungibleTokensBalancesProvider>
-            </FiatCurrencyProvider>
+            <FiatCurrencyProvider>{children}</FiatCurrencyProvider>
           </TokensMetadataProvider>
         </ReadyMidenProvider>
       ) : (

@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 
-import React, { FC, Suspense, useCallback, useMemo, useState } from 'react';
+import React, { FC, Suspense, useCallback, useMemo } from 'react';
 
 import { DecryptPermission } from '@demox-labs/miden-wallet-adapter-base';
 import classNames from 'clsx';
@@ -60,20 +60,6 @@ const ConfirmPage: FC = () => {
     [ready]
   );
 };
-
-function downloadData(filename: string, data: string) {
-  const blob = new Blob([data], { type: 'application/json' });
-  const link = document.createElement('a');
-
-  link.href = URL.createObjectURL(blob);
-  link.download = filename;
-
-  document.body.appendChild(link);
-
-  link.click();
-
-  document.body.removeChild(link);
-}
 
 interface PayloadContentProps {
   payload: MidenDAppPayload;
@@ -170,7 +156,6 @@ const ConfirmDAppForm: FC = () => {
     }
   }
   requireDecryptCheckbox = decryptPermission === DecryptPermission.OnChainHistory;
-  const [isDecryptChecked, setDecryptChecked] = useState(false);
   const delegate = isDelegateProofEnabled();
 
   const onConfirm = useCallback(
@@ -194,7 +179,7 @@ const ConfirmDAppForm: FC = () => {
     async (confirmed: boolean) => {
       setError(null);
       try {
-        if (confirmed && requireDecryptCheckbox && !isDecryptChecked) {
+        if (confirmed && requireDecryptCheckbox) {
           throw new Error(t('confirmError'));
         }
         await onConfirm(confirmed);
@@ -206,7 +191,7 @@ const ConfirmDAppForm: FC = () => {
         setError(err);
       }
     },
-    [onConfirm, setError, isDecryptChecked, requireDecryptCheckbox]
+    [onConfirm, setError, requireDecryptCheckbox]
   );
 
   const handleConfirmClick = useCallback(async () => {
@@ -264,7 +249,7 @@ const ConfirmDAppForm: FC = () => {
           )
         };
     }
-  }, [error, payload]);
+  }, [error, payload, decryptPermission]);
 
   return (
     <CustomRpsContext.Provider value={'TODO'}>

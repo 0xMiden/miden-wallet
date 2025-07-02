@@ -12,7 +12,7 @@ import PreviewTransactionAmount from 'app/templates/PreviewTransactionAmount';
 import { ALEO_DECIMALS, ALEO_MICROCREDITS_TO_CREDITS } from 'lib/fiat-curency/consts';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { t, T } from 'lib/i18n/react';
-import { useAccount, useMidenContext } from 'lib/miden/front';
+import { useAccount } from 'lib/miden/front';
 import Link from 'lib/woozie/Link';
 
 import { isDelegateProofEnabled } from '../DelegateSettings';
@@ -134,18 +134,7 @@ const Form: FC<FormProps> = ({
       // Human delay.
       await new Promise(res => setTimeout(res, 300));
     }
-  }, [
-    amount,
-    account,
-    formState.isSubmitting,
-    setConfirmStatus,
-    initiateTransaction,
-    fee,
-    feePrivate,
-    validator,
-    delegateTransaction
-    // authorizeTransaction
-  ]);
+  }, [formState.isSubmitting, setConfirmStatus, delegateTransaction]);
 
   const amountFormatted = new BigNumber(Number(amount) / ALEO_MICROCREDITS_TO_CREDITS);
 

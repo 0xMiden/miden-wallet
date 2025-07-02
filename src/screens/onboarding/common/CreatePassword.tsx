@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import { Icon, IconName } from 'app/icons/v2';
 import { Button } from 'components/Button';
-import { Checkbox } from 'components/Checkbox';
 import { Input } from 'components/Input';
 import { Link } from 'components/Link';
 
@@ -89,7 +88,6 @@ export const PasswordStrengthIndicator = ({
 
 export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ className, onSubmit, ...props }) => {
   const { t } = useTranslation();
-  const [termsAccepted, setTermsAccepted] = useState(false);
   const [password, setPassword] = useState('');
   const [verifyPassword, setVerifyPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -102,10 +100,6 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
     strongPasswordLength: false
   });
   const verifyPasswordRef = useRef<HTMLInputElement>(null);
-
-  const onTermsAcceptedToggle = (value: boolean) => {
-    setTermsAccepted(value);
-  };
 
   const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);

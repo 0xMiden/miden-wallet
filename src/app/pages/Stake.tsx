@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import BigNumber from 'bignumber.js';
 
@@ -10,7 +10,6 @@ import ConfirmStakeForm from 'app/templates/Staking/ConfirmStake';
 import StakeForm from 'app/templates/Staking/StakeForm';
 import Validator from 'app/templates/Staking/Validator';
 import { t } from 'lib/i18n/react';
-import { useAccount, useBalance, useStakedBalance } from 'lib/miden/front';
 import { ConfirmStatus } from 'lib/miden/front/send-types';
 
 const VALIDATOR_KEY = 'aleo1q6qstg8q8shwqf5m6q5fcenuwsdqsvp4hhsgfnx5chzjm3secyzqt9mxm8';
@@ -27,8 +26,6 @@ type StakeProps = {
 };
 
 const Stake: FC<StakeProps> = ({ assetSlug = '', assetId = '' }) => {
-  const account = useAccount();
-
   const [stakeInfo, setStakeInfo] = useState<StakeInfo | null>(null);
   const [confirmStatus, setConfirmStatus] = useState<ConfirmStatus>({ confirmed: false, delegated: false });
 

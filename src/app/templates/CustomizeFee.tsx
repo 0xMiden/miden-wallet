@@ -10,7 +10,6 @@ import { useAppEnv } from 'app/env';
 import { ALEO_DECIMALS, ALEO_MICROCREDITS_TO_CREDITS } from 'lib/fiat-curency/consts';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { T, t } from 'lib/i18n/react';
-import { useAccount } from 'lib/miden/front';
 import { useAlert } from 'lib/ui/dialog';
 
 interface FormData {
@@ -21,27 +20,15 @@ type FormProps = {
   fee: bigint;
   feePrivate: boolean;
   recommendedFee: bigint;
-  allowOneCreditRecord: boolean;
   setFee: (amount: bigint) => void;
   setFeePrivate: (feePrivate: boolean) => void;
   cancel: () => void;
   submitAction?: string;
 };
 
-const Form: FC<FormProps> = ({
-  fee,
-  feePrivate,
-  recommendedFee,
-  allowOneCreditRecord,
-  setFee,
-  setFeePrivate,
-  cancel,
-  submitAction
-}) => {
+const Form: FC<FormProps> = ({ fee, feePrivate, recommendedFee, setFee, setFeePrivate, cancel, submitAction }) => {
   const { registerBackHandler } = useAppEnv();
   const { fullPage } = useAppEnv();
-
-  const account = useAccount();
 
   const [privateFeeEnabled, setPrivateFeeEnabled] = useState(true);
   const [publicFeeEnabled, setPublicFeeEnabled] = useState(true);

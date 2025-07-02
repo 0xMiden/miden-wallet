@@ -37,9 +37,7 @@ enum StorageEntity {
 
 const checkStrgKey = createStorageKey(StorageEntity.Check);
 const mnemonicStrgKey = createStorageKey(StorageEntity.Mnemonic);
-const accPrivKeyStrgKey = createDynamicStorageKey(StorageEntity.AccPrivKey);
 const accPubKeyStrgKey = createDynamicStorageKey(StorageEntity.AccPubKey);
-const accViewKeyStrgKey = createDynamicStorageKey(StorageEntity.AccViewKey);
 const currentAccPubKeyStrgKey = createStorageKey(StorageEntity.CurrentAccPubKey);
 const accountsStrgKey = createStorageKey(StorageEntity.Accounts);
 const settingsStrgKey = createStorageKey(StorageEntity.Settings);
@@ -220,14 +218,6 @@ export class Vault {
     });
   }
 
-  async importAccount(chainId: string, accPrivateKey: string) {
-    const errMessage = 'Failed to import account.\nThis may happen because provided Key is invalid';
-  }
-
-  async importWatchOnlyAccount(chainId: string, viewKey: string) {
-    const errMessage = 'Failed to import watch only account.';
-  }
-
   async importMnemonicAccount(chainId: string, mnemonic: string, password?: string, derivationPath?: string) {}
 
   async importFundraiserAccount(chainId: string, email: string, password: string, mnemonic: string) {}
@@ -360,8 +350,6 @@ function getNewAccountName(allAccounts: WalletAccount[], templateI18nKey = 'defa
   return getMessage(templateI18nKey, String(allAccounts.length + 1));
 }
 
-async function getPublicKeyAndViewKey(privateKey: string) {}
-
 function getMainDerivationPath(walletType: WalletType, accIndex: number) {
   let walletTypeIndex = 0;
   if (walletType === WalletType.OnChain) {
@@ -373,8 +361,6 @@ function getMainDerivationPath(walletType: WalletType, accIndex: number) {
   }
   return `m/44'/0'/${walletTypeIndex}'/${accIndex}'`;
 }
-
-async function seedToPrivateKey(chainId: string, seed: Buffer) {}
 
 function deriveClientSeed(walletType: WalletType, mnemonic: string, hdAccIndex: number) {
   const seed = Bip39.mnemonicToSeedSync(mnemonic);

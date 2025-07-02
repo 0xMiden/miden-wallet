@@ -1,7 +1,6 @@
 import { MessageHttpOutput } from '@demox-labs/amp-core/script/http-types';
 
 import { ampApi } from 'lib/amp/amp-interface';
-import * as Repo from 'lib/miden/repo';
 import { WalletState } from 'lib/shared/types';
 import { logger } from 'shared/logger';
 

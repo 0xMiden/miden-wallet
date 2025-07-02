@@ -2,7 +2,6 @@ import { useCallback } from 'react';
 
 import BigNumber from 'bignumber.js';
 
-import { AssetMetadata } from 'lib/miden/front';
 import { useRetryableSWR } from 'lib/swr';
 
 import { accountIdStringToSdk, MidenClientInterface } from '../sdk/miden-client-interface';
@@ -30,22 +29,6 @@ export function useBalance(accountId: string, faucetId: string, opts: UseBalance
     refreshInterval: 5_000
   });
 }
-
-export function useAllBalances(accountId: string, opts: UseBalanceOptions = {}) {}
-
-const fetchBalances = async (
-  tokenIds: string[],
-  tokenMetadatas: Record<string, AssetMetadata>,
-  includePublic: boolean = true,
-  includePrivate: boolean = true,
-  unlocked: boolean = false
-) => {};
-
-export const useOwnedRecords = () => {};
-
-export const useUnspentAleoRecords = () => {};
-
-export function useFee() {}
 
 export function useBalanceSWRKey(
   assetSlug: string,
