@@ -55,7 +55,7 @@ const ConfirmPage: FC = () => {
           </ErrorBoundary>
         </ContentContainer>
       ) : (
-        <Unlock canImportNew={false} />
+        <Unlock />
       ),
     [ready]
   );
