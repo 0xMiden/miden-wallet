@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { Icon, IconName } from 'app/icons/v2';
 import { CardItem } from 'components/CardItem';
-import { useAccount, useNetwork, useSetNetworkId } from 'lib/miden/front';
+import { useNetwork, useSetNetworkId } from 'lib/miden/front';
 import { NETWORKS } from 'lib/miden/networks';
 
 const ListGroups = [
@@ -16,7 +16,6 @@ const ListGroups = [
 const NetworksSettings: FC = () => {
   const setNetworkId = useSetNetworkId();
   const network = useNetwork();
-  const account = useAccount();
 
   const onNetworkSelect = async (networkId: string) => {
     setNetworkId(networkId);

@@ -10,7 +10,7 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import Name from 'app/atoms/Name';
 import { useAppEnv } from 'app/env';
 import { ReactComponent as CloseIcon } from 'app/icons/close.svg';
-import { useContacts, isAddressValid, getANSAddress } from 'lib/miden/front';
+import { useContacts, isAddressValid } from 'lib/miden/front';
 import { useFilteredContacts } from 'lib/miden/front/use-filtered-contacts.hook';
 import { WalletContact } from 'lib/shared/types';
 import { useConfirm } from 'lib/ui/dialog';

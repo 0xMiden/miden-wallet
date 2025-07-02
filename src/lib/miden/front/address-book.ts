@@ -44,10 +44,3 @@ export function useContacts() {
 }
 
 export const CONTACT_FIELDS_TO_SEARCH = ['name', 'address'] as const;
-
-export function searchContacts<T>(contacts: T[], searchValue: string) {
-  if (!searchValue) return contacts;
-
-  const loweredSearchValue = searchValue.toLowerCase();
-  return [];
-}

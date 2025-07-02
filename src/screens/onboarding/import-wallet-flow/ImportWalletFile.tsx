@@ -6,13 +6,10 @@ import { useTranslation } from 'react-i18next';
 
 import FormField, { PASSWORD_ERROR_CAPTION } from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
-import { lettersNumbersMixtureRegx, specialCharacterRegx, uppercaseLowercaseMixtureRegx } from 'app/defaults';
 import { Icon, IconName } from 'app/icons/v2';
-import { MIN_PASSWORD_LENGTH } from 'app/pages/NewWallet/SetWalletPassword';
 import { T } from 'lib/i18n/react';
 import { decrypt, decryptJson, deriveKey, generateKey } from 'lib/miden/passworder';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
-import { PasswordValidation } from 'lib/ui/PasswordStrengthIndicator';
 import { DecryptedWalletFile, ENCRYPTED_WALLET_FILE_PASSWORD_CHECK, EncryptedWalletFile } from 'screens/shared';
 
 interface FormData {
@@ -30,10 +27,6 @@ type WalletFile = EncryptedWalletFile & {
 
 const midenClient = await MidenClientInterface.create();
 
-type ImportPasswordValidation = PasswordValidation & {
-  validDecryption: boolean;
-};
-
 // TODO: This needs to move forward in the onboarding steps, likely needs some sort of next thing feature
 export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ className, onSubmit }) => {
   const { t } = useTranslation();
@@ -41,7 +34,7 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
   const [walletFile, setWalletFile] = useState<WalletFile | null>(null);
   const [isWrongPassword, setIsWrongPassword] = useState(false);
 
-  const { control, watch, register, handleSubmit, errors, triggerValidation, formState } = useForm<FormData>({
+  const { watch, register, handleSubmit, errors, formState } = useForm<FormData>({
     mode: 'onChange'
   });
 
@@ -85,38 +78,6 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
     } catch (error) {
       console.error('Decryption failed:', error);
       setIsWrongPassword(true); // Ensure error appears in case of failure
-    }
-  };
-
-  const handlePasswordChange = async (
-    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const tempValue = e.target.value;
-
-    // Basic password validation
-    const minChar = tempValue.length >= MIN_PASSWORD_LENGTH;
-    const cases = uppercaseLowercaseMixtureRegx.test(tempValue);
-    const number = lettersNumbersMixtureRegx.test(tempValue);
-    const specialChar = specialCharacterRegx.test(tempValue);
-
-    let validDecryption = false;
-
-    if (walletFile?.encryptedPasswordCheck) {
-      try {
-        const passKey = await generateKey(tempValue);
-        const saltByteArray = Object.values(walletFile.salt) as number[];
-        const saltU8 = new Uint8Array(saltByteArray);
-
-        const derivedKey = await deriveKey(passKey, saltU8);
-
-        // Decrypt the encryptedPasswordCheck field
-        const decryptedCheck = await decrypt(walletFile.encryptedPasswordCheck, derivedKey);
-
-        // Compare with expected string
-        validDecryption = decryptedCheck === ENCRYPTED_WALLET_FILE_PASSWORD_CHECK;
-      } catch (error) {
-        console.error('Decryption failed:', error);
-      }
     }
   };
 
@@ -229,7 +190,6 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
             placeholder="********"
             // TODO: Determine error caption? Could also be "the import fucked up"-type error
             errorCaption={isWrongPassword ? 'Wrong password' : errors.password?.message}
-            onChange={handlePasswordChange}
             containerClassName="mb-4"
           />
         </div>

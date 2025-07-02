@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import classNames from 'clsx';
 
@@ -7,8 +7,7 @@ import { Icon, IconName } from 'app/icons/v2';
 import { Button, ButtonVariant } from 'components/Button';
 import { t } from 'lib/i18n/react';
 import { useMidenContext } from 'lib/miden/front';
-import { decryptJson, deriveKey, encrypt, encryptJson, generateKey, generateSalt } from 'lib/miden/passworder';
-import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
+import { deriveKey, encrypt, encryptJson, generateKey, generateSalt } from 'lib/miden/passworder';
 import { EncryptedWalletFile, ENCRYPTED_WALLET_FILE_PASSWORD_CHECK, DecryptedWalletFile } from 'screens/shared';
 
 export interface ExportFileCompleteProps {
@@ -23,7 +22,7 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({ filePassword, f
   const { midenClient, midenClientLoading } = useMidenClient();
   const { revealMnemonic } = useMidenContext();
 
-  const getExportFile = async () => {
+  const getExportFile = useCallback(async () => {
     const dbDump = await midenClient?.exportDb();
 
     const seedPhrase = await revealMnemonic(walletPassword);
@@ -71,13 +70,13 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({ filePassword, f
 
     // Revoke the object URL to free up resources
     URL.revokeObjectURL(url);
-  };
+  }, [midenClient, walletPassword, filePassword, fileName, revealMnemonic]);
 
   useEffect(() => {
     if (midenClientLoading) return;
 
     getExportFile();
-  }, [midenClientLoading]);
+  }, [getExportFile, midenClientLoading]);
 
   return (
     <div className="flex-1 flex flex-col justify-between md:w-[460px] md:mx-auto items-center">

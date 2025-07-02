@@ -625,12 +625,6 @@ function isAllowedNetwork() {
   //return NETWORKS.some(n => !n.disabled && n.id === net.toString());
 }
 
-function assertDAppNetworkValid(dApp: MidenDAppSession | undefined, currentChainId: string | undefined) {
-  if (dApp?.network?.toString() !== currentChainId) {
-    throw new Error(MidenDAppErrorType.NetworkNotGranted);
-  }
-}
-
 function formatSendTransactionPreview(transaction: SendTransaction): string[] {
   const tsTexts = [
     'Transfer note from faucet:',

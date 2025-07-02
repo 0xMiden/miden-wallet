@@ -6,7 +6,7 @@ import { Button } from 'app/atoms/Button';
 import { useAppEnv } from 'app/env';
 import ContentContainer from 'app/layouts/ContentContainer';
 import { T } from 'lib/i18n/react';
-import { useMidenContext, useStorage } from 'lib/miden/front';
+import { useStorage } from 'lib/miden/front';
 
 import { changelogData, ChangelogItem } from './ChangelogOverlay.data';
 import s from './ChangelogOverlay.module.css';

@@ -107,24 +107,6 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
       }
     };
 
-    const onSelectWalletTypeSubmit = (payload: WalletType) => {
-      switch (payload) {
-        case WalletType.OnChain:
-          onForwardAction?.({
-            id: 'backup-seed-phrase'
-          });
-          break;
-        case WalletType.OffChain:
-          onForwardAction?.({
-            id: 'create-password',
-            payload: payload
-          });
-          break;
-        default:
-          break;
-      }
-    };
-
     const onSelectImportTypeSubmit = (payload: ImportType) => {
       switch (payload) {
         case ImportType.SeedPhrase:
@@ -191,7 +173,7 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
       default:
         return <></>;
     }
-  }, [step, isLoading, onForwardAction, seedPhrase]);
+  }, [step, isLoading, onForwardAction, seedPhrase, wordslist]);
 
   const onBack = () => {
     setNavigationDirection('backward');

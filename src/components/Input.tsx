@@ -1,4 +1,4 @@
-import React, { forwardRef, useMemo } from 'react';
+import React, { forwardRef } from 'react';
 
 import classNames from 'clsx';
 import ICurrencyInput, { CurrencyInputProps as ICurrencyInputProps } from 'react-currency-input-field';

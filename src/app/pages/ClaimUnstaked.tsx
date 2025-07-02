@@ -1,18 +1,14 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import BigNumber from 'bignumber.js';
 
 import { RECOMMENDED_FEES } from 'app/constants';
-import { openLoadingFullPage } from 'app/env';
 import PageLayout from 'app/layouts/PageLayout';
 import Confirmation from 'app/templates/Confirmation';
 import CustomizeFee from 'app/templates/CustomizeFee';
-import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import PreviewTransactionAmount from 'app/templates/PreviewTransactionAmount';
 import { StakeFormSelectors } from 'app/templates/StakeForm.selectors';
-import { ALEO_MICROCREDITS_TO_CREDITS } from 'lib/fiat-curency';
 import { t } from 'lib/i18n/react';
-import { useAccount, useMidenContext, useUnstakedBalance } from 'lib/miden/front';
 import { ConfirmStatus } from 'lib/miden/front/send-types';
 import { HistoryAction, navigate } from 'lib/woozie';
 
@@ -22,8 +18,7 @@ interface ClaimUnstakedProps {
 }
 
 const ClaimUnstaked: FC<ClaimUnstakedProps> = ({ assetSlug = '', assetId = '' }) => {
-  const account = useAccount();
-  const [confirmStatus, setConfirmStatus] = useState<ConfirmStatus>({ confirmed: false, delegated: false });
+  const [confirmStatus] = useState<ConfirmStatus>({ confirmed: false, delegated: false });
   const confirmed = confirmStatus.confirmed;
   const [feePrivate, setFeePrivate] = useState<boolean>(true);
 
@@ -44,7 +39,6 @@ const ClaimUnstaked: FC<ClaimUnstakedProps> = ({ assetSlug = '', assetId = '' })
                 fee={RECOMMENDED_FEES.CLAIM_UNSTAKED}
                 feePrivate={feePrivate}
                 recommendedFee={RECOMMENDED_FEES.CLAIM_UNSTAKED}
-                allowOneCreditRecord={false}
                 setFee={(amount: bigint) => {}}
                 setFeePrivate={(privateFee: boolean) => {
                   setFeePrivate(privateFee);

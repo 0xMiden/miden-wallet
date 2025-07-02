@@ -1,13 +1,8 @@
 import React, { FC, useCallback, useLayoutEffect, useState } from 'react';
 
-import { useRecommendedConvertFee } from 'app/constants';
 import { useAppEnv } from 'app/env';
-import { useAssetFiatCurrencyPrice } from 'lib/fiat-curency';
-import { formatBigInt, stringToAleoMicrocredits, stringToBigInt } from 'lib/i18n/numbers';
-import { useAccount, useFungibleTokens, useAssetMetadata, useMidenContext, useBalance } from 'lib/miden/front';
 import { HistoryAction, navigate } from 'lib/woozie';
 import { IndexScreen as ConvertTokensFlow } from 'screens/convert-tokens';
-import { UIFeeType, UIFees, UIForm, UIToken } from 'screens/convert-tokens/types';
 
 type ConvertVisibilityProps = {
   assetSlug?: string | null;
@@ -17,10 +12,6 @@ type ConvertVisibilityProps = {
 const ConvertVisibility: FC<ConvertVisibilityProps> = ({ assetSlug, assetId }) => {
   const { registerBackHandler } = useAppEnv();
 
-  const account = useAccount();
-
-  const assetMetadata = useAssetMetadata(assetSlug!, assetId!);
-
   useLayoutEffect(() => {
     const backUrl = assetSlug === 'aleo' ? '/tokens/aleo' : `/tokens/${assetId}`;
     return registerBackHandler(() => {
@@ -28,7 +19,7 @@ const ConvertVisibility: FC<ConvertVisibilityProps> = ({ assetSlug, assetId }) =
     });
   }, [registerBackHandler, assetSlug, assetId]);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
 
   const onClose = useCallback(() => {
     const backUrl = `/tokens/${assetId}`;

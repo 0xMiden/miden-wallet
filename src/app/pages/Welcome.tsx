@@ -8,7 +8,7 @@ import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
 import { useMidenContext } from 'lib/miden/front';
 import { navigate, useLocation } from 'lib/woozie';
 import { OnboardingFlow } from 'screens/onboarding/navigator';
-import { OnboardingAction, OnboardingStep, OnboardingType, WalletType } from 'screens/onboarding/types';
+import { OnboardingAction, OnboardingStep, OnboardingType } from 'screens/onboarding/types';
 
 const Welcome: FC = () => {
   const { hash } = useLocation();
@@ -17,7 +17,6 @@ const Welcome: FC = () => {
   const [onboardingType, setOnboardingType] = useState<OnboardingType | null>(null);
   const [password, setPassword] = useState<string | null>(null);
   const [importedWithFile, setImportedWithFile] = useState(false);
-  const [walletType] = useState<WalletType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { registerWallet, importWalletFromClient } = useMidenContext();
   const { trackEvent } = useAnalytics();
@@ -44,7 +43,7 @@ const Welcome: FC = () => {
         }
       }
     }
-  }, [password, onboardingType, registerWallet, seedPhrase]);
+  }, [password, seedPhrase, importedWithFile, registerWallet, onboardingType, importWalletFromClient]);
 
   const onAction = async (action: OnboardingAction) => {
     let eventCategory = AnalyticsEventCategory.ButtonPress;
@@ -110,7 +109,7 @@ const Welcome: FC = () => {
           } else {
             navigate('/#import-wallet');
           }
-        } else if (step == OnboardingStep.ImportFromFile || step == OnboardingStep.ImportFromSeed) {
+        } else if (step === OnboardingStep.ImportFromFile || step === OnboardingStep.ImportFromSeed) {
           navigate('/#select-import-type');
         }
         break;

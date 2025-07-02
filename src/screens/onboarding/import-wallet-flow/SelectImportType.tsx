@@ -3,7 +3,6 @@ import React, { useMemo } from 'react';
 import classNames from 'clsx';
 
 import { ReactComponent as ArrowRightIcon } from 'app/icons/arrow-right.svg';
-import { Alert, AlertVariant } from 'components/Alert';
 
 import { ImportType } from '../types';
 

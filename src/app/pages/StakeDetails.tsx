@@ -9,7 +9,7 @@ import PageLayout from 'app/layouts/PageLayout';
 import PreviewTransactionAmount from 'app/templates/PreviewTransactionAmount';
 import Validator from 'app/templates/Staking/Validator';
 import { t } from 'lib/i18n/react';
-import { useAccount, useStakedBalance, useUnstakedBalance } from 'lib/miden/front';
+import { useAccount } from 'lib/miden/front';
 import { Link } from 'lib/woozie';
 
 export interface StakeDetailsProps {

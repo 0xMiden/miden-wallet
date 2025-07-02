@@ -11,7 +11,6 @@ import browser from 'webextension-polyfill';
 import {
   ALEO_METADATA,
   AssetMetadata,
-  AssetTypesEnum,
   DetailedAssetMetdata,
   fetchFromStorage,
   fetchTokenMetadata,
@@ -209,10 +208,6 @@ export function useAllTokensBaseMetadata() {
 
   return allTokensBaseMetadataRef.current;
 }
-
-type TokenStatuses = Record<string, { displayed: boolean; removed: boolean }>;
-
-export const useAvailableAssets = (assetType: AssetTypesEnum) => {};
 
 export function searchAssets(
   searchValue: string,

@@ -18,12 +18,6 @@ export const RECOMMENDED_FEES = {
   CONVERT_NFT: BigInt(1_600_000)
 };
 
-type TransferType =
-  | 'transfer_public'
-  | 'transfer_private'
-  | 'transfer_private_to_public'
-  | 'transfer_public_to_private';
-
 export const useRecommendedFee = (tokenSlug: string, sendPrivate: boolean, receivePrivate: boolean) => {};
 
 export const useRecommendedConvertFee = (tokenSlug: string, convertPrivate: boolean) => {};

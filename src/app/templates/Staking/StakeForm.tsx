@@ -56,7 +56,6 @@ const StakeForm: FC<React.PropsWithChildren<StakeFormProps>> = ({
             fee={fee}
             feePrivate={feePrivate}
             recommendedFee={recommendedFee}
-            allowOneCreditRecord={false}
             setFee={(amount: bigint) => {
               setFee(amount);
               setEditingFee(false);
