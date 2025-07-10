@@ -11,6 +11,7 @@ import { AppEnvProvider } from 'app/env';
 import ErrorBoundary from 'app/ErrorBoundary';
 import Dialogs from 'app/layouts/Dialogs';
 import PageRouter from 'app/PageRouter';
+import { ExtensionMessageListener } from 'components/ConnectivityIssueBanner';
 import { MidenProvider } from 'lib/miden/front';
 import { PropsWithChildren } from 'lib/props-with-children';
 import { DialogsProvider } from 'lib/ui/dialog';
@@ -18,8 +19,6 @@ import * as Woozie from 'lib/woozie';
 import '../i18n';
 
 import ConfirmPage from './ConfirmPage';
-
-import { ExtensionMessageListener } from 'components/ConnectivityIssueBanner';
 
 interface AppProps extends Partial<PropsWithChildren> {
   env: ComponentProps<typeof AppEnvProvider>;

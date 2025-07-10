@@ -1,6 +1,5 @@
 import React, { FC, useMemo } from 'react';
 
-import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { IconName } from 'app/icons/v2';
 import AutoCloseSettings from 'app/templates/AutoCloseSettings';
 import { ListItem } from 'components/ListItem';

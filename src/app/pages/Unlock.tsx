@@ -1,6 +1,5 @@
 import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import classNames from 'clsx';
 import { OnSubmit, useForm } from 'react-hook-form';
 
 import Alert from 'app/atoms/Alert';
@@ -11,7 +10,6 @@ import LogoVerticalTitle from 'app/misc/logo-vertical-title.svg';
 import { useFormAnalytics } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { useLocalStorage, useMidenContext } from 'lib/miden/front';
-import { Link } from 'lib/woozie';
 
 interface UnlockProps {
   canImportNew?: boolean;
