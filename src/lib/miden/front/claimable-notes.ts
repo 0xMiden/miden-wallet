@@ -47,8 +47,8 @@ export function useClaimableNotes(publicAddress: string) {
 
   return useRetryableSWR(publicAddress, fetchClaimableNotes, {
     revalidateOnFocus: false,
-    dedupingInterval: 20_000,
-    refreshInterval: 15_000,
+    dedupingInterval: 10_000,
+    refreshInterval: 5_000,
     onError: error => {
       console.error('Error fetching claimable notes:', error);
     }

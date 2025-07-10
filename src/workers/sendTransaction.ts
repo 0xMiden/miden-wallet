@@ -1,12 +1,27 @@
+import { Observable } from 'threads/observable';
 import { expose } from 'threads/worker';
 
 import { SendTransaction } from 'lib/miden/db/types';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 
-async function sendTransaction(transaction: SendTransaction): Promise<Uint8Array> {
-  const midenClient = await MidenClientInterface.create();
-  const result = await midenClient.sendTransaction(transaction);
-  return result.serialize();
+export type WorkerMessage = { type: 'connectivity_issue' } | { type: 'result'; payload: Uint8Array };
+
+function sendTransaction(transaction: SendTransaction): Observable<WorkerMessage> {
+  return new Observable(observer => {
+    (async () => {
+      try {
+        const midenClient = await MidenClientInterface.create({
+          onConnectivityIssue: () => {
+            observer.next({ type: 'connectivity_issue' });
+          }
+        });
+        const result = await midenClient.sendTransaction(transaction);
+        observer.next({ type: 'result', payload: result.serialize() });
+      } catch (err) {
+        observer.error(err);
+      }
+    })();
+  });
 }
 
 export type SendTransactionWorker = typeof sendTransaction;
