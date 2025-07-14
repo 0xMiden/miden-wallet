@@ -41,8 +41,6 @@ class Sync {
     if (isGeneratingUrl) {
       return;
     }
-
-    await this.syncChain();
     await this.syncAmp();
     await sleep(3000);
     await this.sync();
