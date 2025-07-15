@@ -9,15 +9,15 @@ import useForceUpdate from 'use-force-update';
 import browser from 'webextension-polyfill';
 
 import {
-  ALEO_METADATA,
+  MIDEN_METADATA,
   AssetMetadata,
   DetailedAssetMetdata,
   fetchFromStorage,
   fetchTokenMetadata,
-  isAleoAsset,
   onStorageChanged,
   putToStorage,
-  usePassiveStorage
+  usePassiveStorage,
+  isMidenAsset
 } from 'lib/miden/front';
 import { createQueue } from 'lib/queue';
 import { useRetryableSWR } from 'lib/swr';
@@ -83,12 +83,12 @@ export function useAssetMetadata(slug: string, assetId: string) {
     [slug, assetId, allTokensBaseMetadataRef, forceUpdate]
   );
 
-  const aleoAsset = isAleoAsset(slug);
+  const aleoAsset = isMidenAsset(slug);
   const tokenMetadata = allTokensBaseMetadataRef.current[assetId] ?? null;
   const exist = Boolean(tokenMetadata);
 
   useEffect(() => {
-    if (!isAleoAsset(slug) && !exist && !autoFetchMetadataFails.has(assetId)) {
+    if (!isMidenAsset(slug) && !exist && !autoFetchMetadataFails.has(assetId)) {
       enqueueAutoFetchMetadata(() => fetchMetadata(assetId))
         .then(metadata =>
           Promise.all([
@@ -171,7 +171,7 @@ export const useGetTokenMetadata = () => {
 
   return useCallback(
     (slug: string, id: string) => {
-      if (isAleoAsset(slug)) {
+      if (isMidenAsset(slug)) {
         return metadata;
       }
 
@@ -220,7 +220,7 @@ export function searchAssets(
     assets.map(({ slug, id }) => ({
       slug,
       id,
-      metadata: isAleoAsset(slug) ? ALEO_METADATA : allTokensBaseMetadata[id]
+      metadata: isMidenAsset(slug) ? MIDEN_METADATA : allTokensBaseMetadata[id]
     })),
     {
       keys: [

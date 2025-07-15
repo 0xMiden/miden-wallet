@@ -1,6 +1,6 @@
-import { isAleoAsset } from 'lib/miden/assets';
+import { isMidenAsset } from 'lib/miden/assets';
 
-import { ALEO_METADATA } from './defaults';
+import { MIDEN_METADATA } from './defaults';
 import { AssetMetadata, DetailedAssetMetdata } from './types';
 
 export async function fetchTokenMetadata(
@@ -8,8 +8,8 @@ export async function fetchTokenMetadata(
 ): Promise<{ base: AssetMetadata; detailed: DetailedAssetMetdata }> {
   const [contractAddress] = assetSlug.split('_');
 
-  if (isAleoAsset(contractAddress)) {
-    return { base: ALEO_METADATA, detailed: ALEO_METADATA };
+  if (isMidenAsset(contractAddress)) {
+    return { base: MIDEN_METADATA, detailed: MIDEN_METADATA };
   }
 
   try {

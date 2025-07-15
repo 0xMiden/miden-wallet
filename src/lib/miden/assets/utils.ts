@@ -11,7 +11,7 @@ import { Asset, Token, FA2Token } from './types';
 export async function toTransferParams(assetSlug: string, toPublicKey: string, amount: BigNumber.Value) {
   const asset = assetSlug;
 
-  if (isAleoAsset(asset)) {
+  if (isMidenAsset(asset)) {
     return {
       to: toPublicKey,
       amount: amount as any
@@ -32,12 +32,12 @@ export function isFA2Token(token: Token): token is FA2Token {
   return typeof token.id !== 'undefined';
 }
 
-export function isAleoAsset(asset: Asset | string): asset is 'aleo' {
-  return asset === 'aleo';
+export function isMidenAsset(asset: Asset | string): asset is 'miden' {
+  return asset === 'miden';
 }
 
 export function isTokenAsset(asset: Asset): asset is Token {
-  return asset !== 'aleo';
+  return asset !== 'miden';
 }
 
 export function useFilteredAssets(assets: { slug: string; id: string }[]) {
