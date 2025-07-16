@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 
+import { getUncompletedTransactions } from 'lib/miden/activity';
 import { useRetryableSWR } from 'lib/swr';
 
 import { MidenClientInterface } from '../sdk/miden-client-interface';
@@ -10,11 +11,16 @@ export function useClaimableNotes(publicAddress: string) {
     const syncSummary = await midenClient.syncState();
     const b = syncSummary.blockNum();
     const notes = await midenClient.getConsumableNotes(publicAddress, b);
+    const uncompletedTransactions = await getUncompletedTransactions(publicAddress);
+    const notesBeingClaimed = new Set(
+      uncompletedTransactions.filter(tx => tx.type === 'consume' && tx.noteId != null).map(tx => tx.noteId!)
+    );
 
     const processedNotes = notes
       .map(note => {
         try {
           const inputNoteRecord = note.inputNoteRecord();
+          const noteId = inputNoteRecord.id().toString();
           const metadata = inputNoteRecord.metadata();
           const details = inputNoteRecord.details();
           const noteAssets = details.assets();
@@ -31,9 +37,10 @@ export function useClaimableNotes(publicAddress: string) {
           }
 
           return {
-            id: inputNoteRecord.id().toString(),
+            id: noteId,
             amount: asset.amount().toString(),
-            senderAddress: metadata?.sender()?.toBech32() || ''
+            senderAddress: metadata?.sender()?.toBech32() || '',
+            isBeingClaimed: notesBeingClaimed.has(noteId)
           };
         } catch (error) {
           console.error('Error processing note:', error);
