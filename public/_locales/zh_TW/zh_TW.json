@@ -937,5 +937,18 @@
   "forgotPassword": "忘記密碼？",
   "forgotPasswordDescription": "如果您忘記了密碼，請先登出並重新匯入帳戶。之後您可以建立新密碼。",
   "forgotPasswordSecondDescription": "除非您知道 12 個單詞的種子短語或擁有加密備份檔案，否則請勿登出。",
-  "signOut": "登出"
+  "signOut": "登出",
+  "privacyScalesBetter": "隱私更具擴展性",
+  "yourWalletHasBeenCreated": "您的錢包已建立。",
+  "noSeedPhrase": "無種子短語",
+  "recovery": "恢復",
+  "yourAccountIsProtected": "您的帳戶是透過加密文件而非種子短語來保護的。",
+  "downloadAndSecurelyStore": "下載並安全地儲存您加密文件的最新版本。該文件對帳戶恢復至關重要。",
+  "chooseFromDevice": "從裝置中選擇",
+  "chooseImportType": "選擇匯入類型",
+  "chooseImportTypeDescription": "使用您的 12 字種子短語還原公共餘額。如需還原私密資產，請上傳加密備份檔。",
+  "importWithSeedPhrase": "使用種子短語匯入",
+  "importWithSeedPhraseDescription": "使用既有的 12 字復原短語。您也可以匯入其他錢包提供者的錢包。",
+  "importWithEncryptedWalletFile": "使用加密錢包檔匯入",
+  "importWithEncryptedWalletFileDescription": "上傳您的加密錢包檔案以安全匯入帳戶。您的資料將保持私密，區塊鏈上僅儲存雜湊資訊。"
 }

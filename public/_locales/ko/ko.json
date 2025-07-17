@@ -942,5 +942,18 @@
   "forgotPassword": "비밀번호를 잊으셨나요?",
   "forgotPasswordDescription": "비밀번호를 잊은 경우, 로그아웃 후 계정을 다시 가져와야 합니다. 이후 새 비밀번호를 생성할 수 있습니다.",
   "forgotPasswordSecondDescription": "12단어 시드 문구를 알고 있거나 암호화된 백업 파일이 없는 경우 로그아웃하지 마세요.",
-  "signOut": "로그아웃"
+  "signOut": "로그아웃",
+  "privacyScalesBetter": "프라이버시는 더 잘 확장됩니다",
+  "yourWalletHasBeenCreated": "지갑이 생성되었습니다.",
+  "noSeedPhrase": "시드 문구 없음",
+  "recovery": "복구",
+  "yourAccountIsProtected": "계정은 시드 문구 대신 암호화된 파일로 보호됩니다.",
+  "downloadAndSecurelyStore": "암호화된 파일의 최신 버전을 다운로드하여 안전하게 보관하세요. 이 파일은 계정 복구에 필수입니다.",
+  "chooseFromDevice": "디바이스에서 선택",
+  "chooseImportType": "가져오기 유형 선택",
+  "chooseImportTypeDescription": "12단어 문구로 공개 잔액을 복원하세요. 개인 자산을 복원하려면 암호화된 백업 파일을 업로드하세요.",
+  "importWithSeedPhrase": "시드 문구로 가져오기",
+  "importWithSeedPhraseDescription": "기존의 12단어 복구 문구를 사용하세요. 다른 지갑 제공업체의 지갑도 가져올 수 있습니다.",
+  "importWithEncryptedWalletFile": "암호화된 지갑 파일로 가져오기",
+  "importWithEncryptedWalletFileDescription": "암호화된 지갑 파일을 업로드하여 안전하게 계정을 가져오세요. 데이터는 개인적으로 유지되며 해시된 정보만 온체인에 저장됩니다."
 }

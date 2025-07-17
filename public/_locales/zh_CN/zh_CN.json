@@ -937,5 +937,18 @@
   "forgotPassword": "忘记密码？",
   "forgotPasswordDescription": "如果您忘记了密码，请先退出登录并重新导入账户。之后，您可以创建一个新密码。",
   "forgotPasswordSecondDescription": "除非您知道 12 个单词的种子短语或拥有加密的备份文件，否则请不要退出登录。",
-  "signOut": "退出登录"
+  "signOut": "退出登录",
+  "privacyScalesBetter": "隐私更具扩展性",
+  "yourWalletHasBeenCreated": "您的钱包已创建。",
+  "noSeedPhrase": "无种子短语",
+  "recovery": "恢复",
+  "yourAccountIsProtected": "您的账户通过加密文件而非种子短语进行保护。",
+  "downloadAndSecurelyStore": "请下载并安全保存您最新的加密文件。该文件对账户恢复至关重要。",
+  "chooseFromDevice": "从设备中选择",
+  "chooseImportType": "选择导入方式",
+  "chooseImportTypeDescription": "使用您的 12 个单词短语恢复公共余额。如需恢复私密资产，请上传加密备份文件。",
+  "importWithSeedPhrase": "通过种子短语导入",
+  "importWithSeedPhraseDescription": "使用已有的 12 个单词恢复短语。您也可以导入其他钱包服务提供商的钱包。",
+  "importWithEncryptedWalletFile": "通过加密钱包文件导入",
+  "importWithEncryptedWalletFileDescription": "上传您的加密钱包文件以安全导入账户。您的数据保持私密，链上仅存储哈希信息。"
 }

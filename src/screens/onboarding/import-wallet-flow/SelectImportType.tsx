@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as ArrowRightIcon } from 'app/icons/arrow-right.svg';
 
@@ -18,30 +19,30 @@ type ImportTypeOption = {
 };
 
 export const SelectImportTypeScreen = ({ onSubmit, ...props }: SelectImportTypeScreenProps) => {
+  const { t } = useTranslation();
+
   const ImportTypeOptions: ImportTypeOption[] = useMemo(
     () => [
       {
         id: ImportType.SeedPhrase,
-        title: 'Import with Seed Phrase',
-        description: 'Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers.'
+        title: t('importWithSeedPhrase'),
+        description: t('importWithSeedPhraseDescription')
       },
       {
         id: ImportType.WalletFile,
-        title: 'Import with Encrypted Wallet File',
-        description: 'Upload your encrypted wallet file to securetly restore your account.',
+        title: t('importWithEncryptedWalletFile'),
+        description: t('importWithEncryptedWalletFileDescription'),
         isLast: true
       }
     ],
-    []
+    [t]
   );
 
   return (
     <div className="flex-1 flex flex-col items-center bg-transparent p-8 h-full">
       <div className="flex flex-col items-center w-4/5 pb-8">
-        <h1 className="font-semibold text-2xl lh-title">Choose Your Account Type</h1>
-        <p className="text-base text-center lh-title">
-          Select a method to securely restore your existing wallet and regain access to your account
-        </p>
+        <h1 className="font-semibold text-2xl lh-title">{t('chooseImportType')}</h1>
+        <p className="text-base text-center lh-title">{t('chooseImportTypeDescription')}</p>
       </div>
       {ImportTypeOptions.map(option => (
         <div

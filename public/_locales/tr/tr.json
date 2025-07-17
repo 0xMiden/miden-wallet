@@ -942,5 +942,18 @@
   "forgotPassword": "Şifrenizi mi unuttunuz?",
   "forgotPasswordDescription": "Şifrenizi unuttuysanız, çıkış yapıp hesabınızı yeniden içe aktarmanız gerekir. Ardından yeni bir şifre oluşturabilirsiniz.",
   "forgotPasswordSecondDescription": "12 kelimelik Seed ifadenizi bilmiyor ya da şifreli bir yedek dosyanız yoksa çıkış yapmayın.",
-  "signOut": "Çıkış yap"
+  "signOut": "Çıkış yap",
+  "privacyScalesBetter": "Gizlilik daha iyi ölçeklenir",
+  "yourWalletHasBeenCreated": "Cüzdanınız oluşturuldu.",
+  "noSeedPhrase": "Seed ifadesi yok",
+  "recovery": "Kurtarma",
+  "yourAccountIsProtected": "Hesabınız seed ifadesi yerine şifreli bir dosya ile korunur.",
+  "downloadAndSecurelyStore": "Şifreli dosyanızın en son sürümünü indirin ve güvenli bir şekilde saklayın. Bu dosya, hesabınızı kurtarmak için gereklidir.",
+  "chooseFromDevice": "Cihazdan seç",
+  "chooseImportType": "İçe Aktarma Türünü Seçin",
+  "chooseImportTypeDescription": "12 kelimelik ifadenizle genel bakiyenizi geri yükleyin. Özel varlıklar için şifreli yedek dosyasını yükleyin.",
+  "importWithSeedPhrase": "Seed İfadesi ile İçe Aktar",
+  "importWithSeedPhraseDescription": "Var olan 12 kelimelik kurtarma ifadesini kullanın. Diğer cüzdan sağlayıcılarından da içe aktarabilirsiniz.",
+  "importWithEncryptedWalletFile": "Şifreli Cüzdan Dosyası ile İçe Aktar",
+  "importWithEncryptedWalletFileDescription": "Hesabınızı güvenle içe aktarmak için şifreli cüzdan dosyanızı yükleyin. Verileriniz gizli kalır; yalnızca hashlenmiş bilgiler zincirde saklanır."
 }

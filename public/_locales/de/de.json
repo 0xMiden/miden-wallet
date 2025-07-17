@@ -935,5 +935,18 @@
   "forgotPassword": "Passwort vergessen?",
   "forgotPasswordDescription": "Wenn du dein Passwort vergessen hast, musst du dich abmelden und dein Konto erneut importieren. Danach kannst du ein neues Passwort erstellen.",
   "forgotPasswordSecondDescription": "Melde dich nur ab, wenn du deine 12-Wort-Seed-Phrase kennst oder eine verschlüsselte Sicherungsdatei hast.",
-  "signOut": "Abmelden"
+  "signOut": "Abmelden",
+  "privacyScalesBetter": "Privatsphäre skaliert besser",
+  "yourWalletHasBeenCreated": "Deine Wallet wurde erstellt.",
+  "noSeedPhrase": "Keine Seed-Phrase",
+  "recovery": "Wiederherstellung",
+  "yourAccountIsProtected": "Dein Konto ist durch eine verschlüsselte Datei statt einer Seed-Phrase geschützt.",
+  "downloadAndSecurelyStore": "Lade die neueste Version deiner verschlüsselten Datei herunter und bewahre sie sicher auf. Diese Datei ist entscheidend für die Wiederherstellung deines Kontos.",
+  "chooseFromDevice": "Vom Gerät auswählen",
+  "chooseImportType": "Importtyp wählen",
+  "chooseImportTypeDescription": "Stelle dein öffentliches Guthaben mit deiner 12-Wort-Phrase wieder her. Um private Mittel wiederherzustellen, lade die verschlüsselte Backup-Datei hoch.",
+  "importWithSeedPhrase": "Mit Seed-Phrase importieren",
+  "importWithSeedPhraseDescription": "Verwende eine bestehende 12-Wort-Wiederherstellungsphrase. Du kannst auch Wallets anderer Anbieter importieren.",
+  "importWithEncryptedWalletFile": "Mit verschlüsselter Wallet-Datei importieren",
+  "importWithEncryptedWalletFileDescription": "Lade deine verschlüsselte Wallet-Datei hoch, um dein Konto sicher zu importieren. Deine Daten bleiben privat, es wird nur gehashte Information on-chain gespeichert."
 }

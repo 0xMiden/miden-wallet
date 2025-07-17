@@ -942,5 +942,18 @@
   "forgotPassword": "Esqueceu-se da palavra-passe?",
   "forgotPasswordDescription": "Se se esqueceu da palavra-passe, tem de terminar a sessão e reimportar a sua conta. Depois disso, pode criar uma nova palavra-passe.",
   "forgotPasswordSecondDescription": "Não termine a sessão a menos que conheça a sua frase Seed de 12 palavras ou tenha um ficheiro de backup encriptado.",
-  "signOut": "Terminar sessão"
+  "signOut": "Terminar sessão",
+  "privacyScalesBetter": "A privacidade escala melhor",
+  "yourWalletHasBeenCreated": "A sua carteira foi criada.",
+  "noSeedPhrase": "Sem frase Seed",
+  "recovery": "Recuperação",
+  "yourAccountIsProtected": "A sua conta está protegida por um ficheiro encriptado em vez de uma frase Seed.",
+  "downloadAndSecurelyStore": "Descarregue e guarde com segurança a versão mais recente do seu ficheiro encriptado. Este ficheiro é essencial para recuperar a conta.",
+  "chooseFromDevice": "Escolher do dispositivo",
+  "chooseImportType": "Escolher tipo de importação",
+  "chooseImportTypeDescription": "Recupere o saldo público com a sua frase de 12 palavras. Para fundos privados, carregue o ficheiro de backup encriptado.",
+  "importWithSeedPhrase": "Importar com frase Seed",
+  "importWithSeedPhraseDescription": "Use uma frase de recuperação de 12 palavras existente. Pode também importar carteiras de outros fornecedores.",
+  "importWithEncryptedWalletFile": "Importar com ficheiro de carteira encriptado",
+  "importWithEncryptedWalletFileDescription": "Carregue o seu ficheiro de carteira encriptado para importar a sua conta com segurança. Os seus dados permanecem privados, sendo apenas armazenada informação encriptada na blockchain."
 }

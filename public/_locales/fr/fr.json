@@ -941,5 +941,18 @@
   "forgotPassword": "Mot de passe oublié ?",
   "forgotPasswordDescription": "Si vous avez oublié votre mot de passe, vous devez vous déconnecter et réimporter votre compte. Ensuite, vous pourrez créer un nouveau mot de passe.",
   "forgotPasswordSecondDescription": "Ne vous déconnectez pas à moins de connaître votre phrase Seed de 12 mots ou de posséder un fichier de sauvegarde chiffré.",
-  "signOut": "Se déconnecter"
+  "signOut": "Se déconnecter",
+  "privacyScalesBetter": "La confidentialité passe à l’échelle",
+  "yourWalletHasBeenCreated": "Votre portefeuille a été créé.",
+  "noSeedPhrase": "Aucune phrase Seed",
+  "recovery": "Récupération",
+  "yourAccountIsProtected": "Votre compte est protégé par un fichier chiffré au lieu d’une phrase Seed.",
+  "downloadAndSecurelyStore": "Téléchargez et stockez en toute sécurité la dernière version de votre fichier chiffré. Ce fichier est essentiel pour récupérer votre compte.",
+  "chooseFromDevice": "Choisir depuis l'appareil",
+  "chooseImportType": "Choisissez votre type d'importation",
+  "chooseImportTypeDescription": "Restaurez le solde public avec votre phrase de 12 mots. Pour les fonds privés, téléversez le fichier de sauvegarde chiffré.",
+  "importWithSeedPhrase": "Importer avec une phrase Seed",
+  "importWithSeedPhraseDescription": "Utilisez une phrase de récupération de 12 mots existante. Vous pouvez également importer des portefeuilles d'autres fournisseurs.",
+  "importWithEncryptedWalletFile": "Importer avec un fichier de portefeuille chiffré",
+  "importWithEncryptedWalletFileDescription": "Téléversez votre fichier chiffré pour importer votre compte en toute sécurité. Vos données restent privées, seules des informations hachées sont stockées sur la chaîne."
 }

@@ -941,5 +941,18 @@
   "forgotPassword": "パスワードを忘れましたか？",
   "forgotPasswordDescription": "パスワードを忘れた場合は、サインアウトしてアカウントを再インポートする必要があります。その後、新しいパスワードを作成できます。",
   "forgotPasswordSecondDescription": "12語のシードフレーズを知っている、または暗号化されたバックアップファイルを持っていない限り、サインアウトしないでください。",
-  "signOut": "サインアウト"
+  "signOut": "サインアウト",
+  "privacyScalesBetter": "プライバシーはスケーラブル",
+  "yourWalletHasBeenCreated": "ウォレットが作成されました。",
+  "noSeedPhrase": "シードフレーズなし",
+  "recovery": "復元",
+  "yourAccountIsProtected": "アカウントはシードフレーズではなく暗号化されたファイルで保護されています。",
+  "downloadAndSecurelyStore": "暗号化されたファイルの最新版をダウンロードして安全に保管してください。このファイルはアカウント復元に不可欠です。",
+  "chooseFromDevice": "デバイスから選択",
+  "chooseImportType": "インポート方法を選択",
+  "chooseImportTypeDescription": "12語のフレーズで公開残高を復元します。プライベート資産を復元するには暗号化されたバックアップファイルをアップロードしてください。",
+  "importWithSeedPhrase": "シードフレーズでインポート",
+  "importWithSeedPhraseDescription": "既存の12語のリカバリーフレーズを使用します。他のウォレットからもインポート可能です。",
+  "importWithEncryptedWalletFile": "暗号化されたウォレットファイルでインポート",
+  "importWithEncryptedWalletFileDescription": "暗号化されたウォレットファイルをアップロードして安全にアカウントをインポートします。データはプライベートに保たれ、ハッシュ情報のみがオンチェーンに保存されます。"
 }
