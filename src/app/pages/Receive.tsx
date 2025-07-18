@@ -6,9 +6,10 @@ import { Icon, IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
 import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Button, ButtonVariant } from 'components/Button';
+import { formatBigInt } from 'lib/i18n/numbers';
 import { T } from 'lib/i18n/react';
 import { initiateConsumeTransaction } from 'lib/miden/activity';
-import { useAccount } from 'lib/miden/front';
+import { MIDEN_METADATA, useAccount } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
@@ -139,7 +140,10 @@ export const Receive: React.FC<ReceiveProps> = () => {
               <div className="flex items-center gap-x-2">
                 <Icon name={IconName.ArrowRightDownFilledCircle} size="lg" />
                 <div className="flex flex-col">
-                  <p className="text-md font-bold">{`${note.amount} MIDEN`}</p>
+                  <p className="text-md font-bold">{`${formatBigInt(
+                    BigInt(note.amount),
+                    MIDEN_METADATA.decimals
+                  )} MIDEN`}</p>
                   <p className="text-xs text-gray-100">{shortenAddress(note.senderAddress)}</p>
                 </div>
               </div>

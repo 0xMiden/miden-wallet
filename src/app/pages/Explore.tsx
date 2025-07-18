@@ -164,7 +164,7 @@ const Explore: FC = () => {
                         title={tokenId}
                         subtitle={shortenAddress(token.faucetId, 13, 7)}
                         titleRight={`$${token.balance.toFixed(2)}`}
-                        subtitleRight={token.balance.toString()}
+                        subtitleRight={token.balance.toFixed(2)}
                         className="flex-1 border border-grey-50 rounded-lg "
                       />
                     </div>

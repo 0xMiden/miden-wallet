@@ -1,9 +1,11 @@
 import React, { memo, RefObject, useMemo, useState } from 'react';
 
 import { ACTIVITY_PAGE_SIZE } from 'app/defaults';
+import { formatBigInt } from 'lib/i18n/numbers';
 import { cancelTransactionById, getCompletedTransactions, getUncompletedTransactions } from 'lib/miden/activity';
 import { getTokenId } from 'lib/miden/assets';
 import { formatTransactionStatus, ITransactionStatus, ITransactionType } from 'lib/miden/db/types';
+import { MIDEN_METADATA } from 'lib/miden/metadata';
 import { useRetryableSWR } from 'lib/swr';
 import useSafeState from 'lib/ui/useSafeState';
 
@@ -168,10 +170,11 @@ function mergeAndSort(base?: IActivity[], toAppend: IActivity[] = []) {
 }
 
 export const formatAmount = (amount: bigint, transactionType: ITransactionType) => {
+  const normalizedAmount = formatBigInt(amount, MIDEN_METADATA.decimals);
   if (transactionType === 'send') {
-    return `-${amount}`;
+    return `-${normalizedAmount}`;
   } else if (transactionType === 'consume') {
-    return `+${amount}`;
+    return `+${normalizedAmount}`;
   }
-  return amount;
+  return normalizedAmount;
 };

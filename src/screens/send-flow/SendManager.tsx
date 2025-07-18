@@ -7,8 +7,9 @@ import * as yup from 'yup';
 import { openLoadingFullPage, useAppEnv } from 'app/env';
 import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
+import { stringToBigInt } from 'lib/i18n/numbers';
 import { initiateSendTransaction } from 'lib/miden/activity';
-import { getFaucetIdSetting, useAccount, useBalance } from 'lib/miden/front';
+import { getFaucetIdSetting, MIDEN_METADATA, useAccount, useBalance } from 'lib/miden/front';
 import { NoteTypeEnum } from 'lib/miden/types';
 import { navigate } from 'lib/woozie';
 import { SendFlowAction, SendFlowActionId, SendFlowForm, SendFlowStep } from 'screens/send-tokens/types';
@@ -159,7 +160,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
           recipientAddress!,
           faucetId,
           sharePrivately ? NoteTypeEnum.Private : NoteTypeEnum.Public,
-          BigInt(amount!),
+          stringToBigInt(amount!, MIDEN_METADATA.decimals),
           recallBlocks ? parseInt(recallBlocks) : undefined,
           delegateTransaction
         );
