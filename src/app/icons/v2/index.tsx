@@ -44,6 +44,7 @@ import { ReactComponent as EmotionSad } from './emotion-sad.svg';
 import { ReactComponent as EyeOff } from './eye-off.svg';
 import { ReactComponent as Eye } from './eye.svg';
 import { ReactComponent as FaceId } from './face-id.svg';
+import { ReactComponent as FaucetFill } from './faucet-fill.svg';
 import { ReactComponent as Faucet } from './faucet.svg';
 import { ReactComponent as FileCopy } from './file-copy.svg';
 import { ReactComponent as FileSettings } from './file-settings.svg';
@@ -133,6 +134,7 @@ export enum IconName {
   Eye = 'eye',
   FaceId = 'face-id',
   Faucet = 'faucet',
+  FaucetFill = 'faucet-fill',
   FileCopy = 'file-copy',
   FileSettings = 'file-settings',
   File = 'file',
@@ -271,6 +273,8 @@ const IconSwitch = (props: IconProps) => {
       return <FaceId {...props} />;
     case IconName.Faucet:
       return <Faucet {...props} />;
+    case IconName.FaucetFill:
+      return <FaucetFill {...props} />;
     case IconName.FileCopy:
       return <FileCopy {...props} />;
     case IconName.FileSettings:
