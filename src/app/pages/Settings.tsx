@@ -5,11 +5,14 @@ import classNames from 'clsx';
 import { openInFullPage, useAppEnv } from 'app/env';
 import { ReactComponent as ContactBookIcon } from 'app/icons/contact-book.svg';
 import { ReactComponent as ExtensionIcon } from 'app/icons/extension.svg';
+import { ReactComponent as InfoIcon } from 'app/icons/information.svg';
+import { ReactComponent as KeyIcon } from 'app/icons/key.svg';
 import { ReactComponent as MaximiseIcon } from 'app/icons/maximise.svg';
 import { ReactComponent as SettingsIcon } from 'app/icons/settings.svg';
 import { ReactComponent as ToolIcon } from 'app/icons/tool.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import Footer from 'app/layouts/PageLayout/Footer';
+import About from 'app/templates/About';
 import AddressBook from 'app/templates/AddressBook';
 import EditMidenFaucetId from 'app/templates/EditMidenFaucetId';
 import GeneralSettings from 'app/templates/GeneralSettings';
@@ -85,11 +88,12 @@ const TABS: Tab[] = [
   {
     slug: 'reveal-seed-phrase',
     titleI18nKey: 'revealSeedPhrase',
-    Icon: SettingsIcon,
+    Icon: KeyIcon,
     Component: RevealSeedPhrase,
     descriptionI18nKey: 'revealSeedPhraseDescription',
     testID: SettingsSelectors.RevealSeedPhraseButton,
-    insertHR: false
+    insertHR: false,
+    iconStyle: { fill: '#000', strokeWidth: '2px' }
   },
   {
     slug: 'edit-miden-faucet-id',
@@ -128,25 +132,26 @@ const TABS: Tab[] = [
   //   testID: SettingsSelectors.RemoveAccountButton,
   //   insertHR: true
   // },
-  /* {
-    slug: 'reveal-seed-phrase',
-    titleI18nKey: 'exportWalletFile',
-    Icon: FileIcon,
-    Component: RevealSeedPhrase,
-    descriptionI18nKey: 'revealSeedPhraseDescription',
-    testID: SettingsSelectors.RevealSeedPhraseButton,
-    insertHR: false,
-    iconStyle: { stroke: '#000', strokeWidth: '0px' }
-  },
+  // {
+  //   slug: 'reveal-seed-phrase',
+  //   titleI18nKey: 'exportWalletFile',
+  //   Icon: FileIcon,
+  //   Component: RevealSeedPhrase,
+  //   descriptionI18nKey: 'revealSeedPhraseDescription',
+  //   testID: SettingsSelectors.RevealSeedPhraseButton,
+  //   insertHR: false,
+  //   iconStyle: { stroke: '#000', strokeWidth: '0px' }
+  // },
   {
     slug: 'about',
     titleI18nKey: 'about',
-    Icon: ExtensionIcon,
+    Icon: InfoIcon,
     Component: About,
     descriptionI18nKey: 'aboutDescription',
     testID: SettingsSelectors.AboutButton,
-    insertHR: false
-  }*/
+    insertHR: false,
+    iconStyle: { fill: '#000' }
+  },
   {
     slug: 'networks',
     titleI18nKey: 'networks',
@@ -185,7 +190,7 @@ const Settings: FC<SettingsProps> = ({ tabSlug }) => {
           {activeTab ? (
             <activeTab.Component />
           ) : (
-            <div className="flex flex-col w-full pt-2">
+            <div className="flex flex-col w-full">
               {listMenuItems.map(({ slug, titleI18nKey, Icon, testID, insertHR, iconStyle }, i) => {
                 const linkTo = `/settings/${slug}`;
                 return (
@@ -209,6 +214,7 @@ const Settings: FC<SettingsProps> = ({ tabSlug }) => {
                   slug={'/fullpage.html'}
                   onClick={handleMaximiseViewClick}
                   insertHR={false}
+                  iconStyle={{ stroke: '#000', strokeWidth: '2px' }}
                   linksOutsideOfWallet={true}
                   testID={''}
                 />

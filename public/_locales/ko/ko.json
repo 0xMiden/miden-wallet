@@ -12,7 +12,7 @@
   "selectFileOfFormat": "$format$ 파일 선택",
   "authorizedDApps": "인증된 분산 앱",
   "clickIconToResetPermissions": "X 아이콘을 클릭하여 접근 권한을 초기화하세요.",
-  "versionLabel": "버전: $version$",
+  "versionLabel": "버전: {{version}}",
   "madeWithLove": "$companyName$ 옆에 $loveIcon$ 포함하여 제작",
   "feeInputDescription": "이 운영에 대한 기본 비용은 $fee$입니다\n추가 - 확인에 따라 속도 상승",
   "resetPermissionsConfirmation": "$origin$에 대한 접근 권한을 정말로 초기화하시겠습니까?",
@@ -730,7 +730,7 @@
   "waitingOnAleo": "Aleo는 현재 이 기능을 지원하지 않습니다.",
   "buildForPrivacy": "개인 정보 보호를 위해 구축",
   "buildForAleo": "알레오를 위해 제작",
-  "poweredBy": "에 의해 구동 $companyName$ ",
+  "poweredBy": "에 의해 구동 {{companyName}}",
   "copySomeTokenId": "복사 \" $tokenSymbol$ \" ID",
   "defaultAccountName": "계정 $accountNumber$ ",
   "defaultManagedKTAccountName": "매니지드 KT $accountNumber$ ",
@@ -955,5 +955,7 @@
   "importWithSeedPhrase": "시드 문구로 가져오기",
   "importWithSeedPhraseDescription": "기존의 12단어 복구 문구를 사용하세요. 다른 지갑 제공업체의 지갑도 가져올 수 있습니다.",
   "importWithEncryptedWalletFile": "암호화된 지갑 파일로 가져오기",
-  "importWithEncryptedWalletFileDescription": "암호화된 지갑 파일을 업로드하여 안전하게 계정을 가져오세요. 데이터는 개인적으로 유지되며 해시된 정보만 온체인에 저장됩니다."
+  "importWithEncryptedWalletFileDescription": "암호화된 지갑 파일을 업로드하여 안전하게 계정을 가져오세요. 데이터는 개인적으로 유지되며 해시된 정보만 온체인에 저장됩니다.",
+  "twitter": "X (Twitter)",
+  "encryptedWalletFile": "암호화된 지갑 파일"
 }

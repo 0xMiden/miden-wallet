@@ -12,7 +12,7 @@
   "selectFileOfFormat": "Sélectionner un fichier $format$",
   "authorizedDApps": "Applications décentralisées autorisées",
   "clickIconToResetPermissions": "Cliquez sur l'icône X pour réinitialiser les permissions.",
-  "versionLabel": "version : $version$",
+  "versionLabel": "version : {{version}}",
   "madeWithLove": "Créée avec $loveIcon$ par $companyName$",
   "feeInputDescription": "Frais de base pour cette opération : $fee$\nSupplémentaires - accélère sa confirmation",
   "resetPermissionsConfirmation": "Voulez-vous vraiment réinitialiser les permissions pour $origin$ ?",
@@ -746,7 +746,7 @@
   "waitingOnAleo": "Aleo ne prend actuellement pas en charge cette fonctionnalité.",
   "buildForPrivacy": "Conçu pour la confidentialité",
   "buildForAleo": "Construit pour Aleo",
-  "poweredBy": "Alimenté par $companyName$ ",
+  "poweredBy": "Alimenté par {{companyName}}",
   "doNotSharePrivateKey1": "NE PAS partager avec qui que ce soit !",
   "doNotSharePrivateKey2": "Il peut être utilisé pour voler votre compte actuel.",
   "doNotShareViewKey1": "Ne partagez qu'avec des personnes de confiance !",
@@ -954,5 +954,7 @@
   "importWithSeedPhrase": "Importer avec une phrase Seed",
   "importWithSeedPhraseDescription": "Utilisez une phrase de récupération de 12 mots existante. Vous pouvez également importer des portefeuilles d'autres fournisseurs.",
   "importWithEncryptedWalletFile": "Importer avec un fichier de portefeuille chiffré",
-  "importWithEncryptedWalletFileDescription": "Téléversez votre fichier chiffré pour importer votre compte en toute sécurité. Vos données restent privées, seules des informations hachées sont stockées sur la chaîne."
+  "importWithEncryptedWalletFileDescription": "Téléversez votre fichier chiffré pour importer votre compte en toute sécurité. Vos données restent privées, seules des informations hachées sont stockées sur la chaîne.",
+  "twitter": "X (Twitter)",
+  "encryptedWalletFile": "Fichier de portefeuille chiffré"
 }

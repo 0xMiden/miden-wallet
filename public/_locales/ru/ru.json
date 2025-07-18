@@ -13,7 +13,7 @@
   "selectFileOfFormat": "Выбирать $format$ файл",
   "authorizedDApps": "Авторизованные DApps",
   "clickIconToResetPermissions": "Нажмите на значок X, чтобы сбросить разрешения.",
-  "versionLabel": "версия: $version$ ",
+  "versionLabel": "версия: {{version}} ",
   "madeWithLove": "Сделано с $loveIcon$ по $companyName$ ",
   "feeInputDescription": "Базовая комиссия за эту операцию составляет: $fee$ Дополнительно - ускоряет его подтверждение",
   "resetPermissionsConfirmation": "Вы уверены, что хотите сбросить разрешения для $origin$ ?",
@@ -732,7 +732,7 @@
   "waitingOnAleo": "В настоящее время Aleo не поддерживает эту функцию.",
   "buildForPrivacy": "Создан для конфиденциальности",
   "buildForAleo": "Создан для Алео",
-  "poweredBy": "Питаться от $companyName$ ",
+  "poweredBy": "Питаться от {{companyName}} ",
   "doNotSharePrivateKey1": "НЕ ДЕЛИТЬСЯ ни с кем!",
   "doNotSharePrivateKey2": "Его можно использовать для кражи вашей текущей учетной записи.",
   "doNotShareViewKey1": "Делитесь только с теми, кому вы доверяете!",
@@ -944,5 +944,7 @@
   "importWithSeedPhrase": "Импорт с Seed-фразой",
   "importWithSeedPhraseDescription": "Используйте существующую 12-словную фразу восстановления. Также можно импортировать кошельки от других провайдеров.",
   "importWithEncryptedWalletFile": "Импорт с зашифрованным файлом",
-  "importWithEncryptedWalletFileDescription": "Загрузите зашифрованный файл, чтобы безопасно импортировать аккаунт. Ваши данные остаются конфиденциальными — в блокчейн сохраняется только хэшированная информация."
+  "importWithEncryptedWalletFileDescription": "Загрузите зашифрованный файл, чтобы безопасно импортировать аккаунт. Ваши данные остаются конфиденциальными — в блокчейн сохраняется только хэшированная информация.",
+  "twitter": "X (Twitter)",
+  "encryptedWalletFile": "Зашифрованный файл кошелька"
 }

@@ -13,7 +13,7 @@
   "selectFileOfFormat": "$format$ dosyası seç",
   "authorizedDApps": "İzin Verilen DApps",
   "clickIconToResetPermissions": "İzinleri sıfırlamak için X simgesine tıklayın.",
-  "versionLabel": "sürüm: $version$",
+  "versionLabel": "sürüm: {{version}}",
   "madeWithLove": "$companyName$ tarafından $loveIcon$ ile oluşturulmuştur",
   "feeInputDescription": "Bu işlem için Taban Ücret: $fee$\nEk - konfirmasyonu hızlandırır",
   "resetPermissionsConfirmation": "$origin$ için izinleri sıfırlamak\nistediğinizden emin misiniz?",
@@ -746,7 +746,7 @@
   "waitingOnAleo": "Aleo şu anda bu işlevi desteklemiyor.",
   "buildForPrivacy": "Gizlilik İçin Üretildi",
   "buildForAleo": "Aleo için üretildi",
-  "poweredBy": "Tarafından desteklenmektedir $companyName$ ",
+  "poweredBy": "Tarafından desteklenmektedir {{companyName}}",
   "doNotSharePrivateKey1": "kimseyle PAYLAŞMAYIN!",
   "doNotSharePrivateKey2": "Cari hesabınızı çalmak için kullanılabilir.",
   "doNotShareViewKey1": "Sadece güvendiğiniz kişilerle paylaşın!",
@@ -955,5 +955,7 @@
   "importWithSeedPhrase": "Seed İfadesi ile İçe Aktar",
   "importWithSeedPhraseDescription": "Var olan 12 kelimelik kurtarma ifadesini kullanın. Diğer cüzdan sağlayıcılarından da içe aktarabilirsiniz.",
   "importWithEncryptedWalletFile": "Şifreli Cüzdan Dosyası ile İçe Aktar",
-  "importWithEncryptedWalletFileDescription": "Hesabınızı güvenle içe aktarmak için şifreli cüzdan dosyanızı yükleyin. Verileriniz gizli kalır; yalnızca hashlenmiş bilgiler zincirde saklanır."
+  "importWithEncryptedWalletFileDescription": "Hesabınızı güvenle içe aktarmak için şifreli cüzdan dosyanızı yükleyin. Verileriniz gizli kalır; yalnızca hashlenmiş bilgiler zincirde saklanır.",
+  "twitter": "X (Twitter)",
+  "encryptedWalletFile": "Şifreli Cüzdan Dosyası"
 }

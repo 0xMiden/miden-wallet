@@ -12,7 +12,7 @@
   "selectFileOfFormat": "Select $format$ file",
   "authorizedDApps": "Авторизовані Dapp`ки",
   "clickIconToResetPermissions": "Натисни X іконку щоб скинути дозволи.",
-  "versionLabel": "version: $version$",
+  "versionLabel": "version: {{version}}",
   "madeWithLove": "Зроблено з $loveIcon$ компанією $companyName$",
   "feeInputDescription": "Базова комісія блокчейну за цю операцію становить: $fee$\nДодаткова комісія може пришвидшити обробку транзакції",
   "resetPermissionsConfirmation": "Ви впевнені, що бажаєте скинути дозволи для\n$origin$?",
@@ -754,7 +754,7 @@
   "waitingOnAleo": "Наразі Aleo не підтримує цю функцію.",
   "buildForPrivacy": "Створено для конфіденційності",
   "buildForAleo": "Створено для Алео",
-  "poweredBy": "Працює на $companyName$ ",
+  "poweredBy": "Працює на {{companyName}}",
   "doNotSharePrivateKey1": "НЕ діліться ні з ким!",
   "doNotSharePrivateKey2": "Його можна використати для викрадення вашого поточного рахунку.",
   "doNotShareViewKey1": "Діліться лише з людьми, яким довіряєте!",
@@ -962,5 +962,7 @@
   "importWithSeedPhrase": "Імпортувати за Seed-фразою",
   "importWithSeedPhraseDescription": "Використовуйте наявну 12-слівну фразу відновлення. Також можна імпортувати гаманці з інших сервісів.",
   "importWithEncryptedWalletFile": "Імпортувати за зашифрованим файлом гаманця",
-  "importWithEncryptedWalletFileDescription": "Завантажте зашифрований файл, щоб безпечно імпортувати акаунт. Ваші дані залишаються конфіденційними — у ланцюжку зберігаються лише хешовані дані."
+  "importWithEncryptedWalletFileDescription": "Завантажте зашифрований файл, щоб безпечно імпортувати акаунт. Ваші дані залишаються конфіденційними — у ланцюжку зберігаються лише хешовані дані.",
+  "twitter": "X (Twitter)",
+  "encryptedWalletFile": "Зашифрований файл гаманця"
 }

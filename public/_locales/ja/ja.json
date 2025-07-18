@@ -12,7 +12,7 @@
   "selectFileOfFormat": "$format$ファイルを選択",
   "authorizedDApps": "認証済みDApps",
   "clickIconToResetPermissions": "Xアイコンをクリックして権限をリセットします。",
-  "versionLabel": "バージョン: $version$",
+  "versionLabel": "バージョン: {{version}}",
   "madeWithLove": "$companyName$が$loveIcon$で作成",
   "feeInputDescription": "このオペレーションの基本手数料: $fee$\n追加 - 確認を高速化します",
   "resetPermissionsConfirmation": "$origin$?\nの権限をリセットしますか？",
@@ -746,7 +746,7 @@
   "waitingOnAleo": "現在、Aleo はこの機能をサポートしていません。",
   "buildForPrivacy": "プライバシーのために構築",
   "buildForAleo": "アレオ用に構築",
-  "poweredBy": "搭載 $companyName$ ",
+  "poweredBy": "搭載 {{companyName}}",
   "doNotSharePrivateKey1": "誰とも共有しないでください。",
   "doNotSharePrivateKey2": "現在のアカウントを盗むために使用できます。",
   "doNotShareViewKey1": "信頼できる人とのみ共有してください。",
@@ -954,5 +954,7 @@
   "importWithSeedPhrase": "シードフレーズでインポート",
   "importWithSeedPhraseDescription": "既存の12語のリカバリーフレーズを使用します。他のウォレットからもインポート可能です。",
   "importWithEncryptedWalletFile": "暗号化されたウォレットファイルでインポート",
-  "importWithEncryptedWalletFileDescription": "暗号化されたウォレットファイルをアップロードして安全にアカウントをインポートします。データはプライベートに保たれ、ハッシュ情報のみがオンチェーンに保存されます。"
+  "importWithEncryptedWalletFileDescription": "暗号化されたウォレットファイルをアップロードして安全にアカウントをインポートします。データはプライベートに保たれ、ハッシュ情報のみがオンチェーンに保存されます。",
+  "twitter": "X (Twitter)",
+  "encryptedWalletFile": "暗号化されたウォレットファイル"
 }

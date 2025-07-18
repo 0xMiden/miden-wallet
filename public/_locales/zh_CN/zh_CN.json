@@ -12,7 +12,7 @@
   "selectFileOfFormat": "选择$format$文件",
   "authorizedDApps": "授权DApps",
   "clickIconToResetPermissions": "点击X图标来重置权限。",
-  "versionLabel": "版本：$version$",
+  "versionLabel": "版本：{{version}}",
   "madeWithLove": "$companyName$的用$loveIcon$之作",
   "feeInputDescription": "此操作的基本费用为：$fee$\n附加 - 加快其确认流程",
   "resetPermissionsConfirmation": "确定要为\n$origin$重置权限吗？",
@@ -741,7 +741,7 @@
   "waitingOnAleo": "Aleo 目前不支持此功能。",
   "buildForPrivacy": "专为隐私而建",
   "buildForAleo": "专为 Aleo 打造",
-  "poweredBy": "供电 $companyName$ ",
+  "poweredBy": "供电 {{companyName}}",
   "doNotSharePrivateKey1": "不要与任何人分享！",
   "doNotSharePrivateKey2": "它可以用来窃取您的当前帐户。",
   "doNotShareViewKey1": "只与您信任的人分享！",
@@ -950,5 +950,7 @@
   "importWithSeedPhrase": "通过种子短语导入",
   "importWithSeedPhraseDescription": "使用已有的 12 个单词恢复短语。您也可以导入其他钱包服务提供商的钱包。",
   "importWithEncryptedWalletFile": "通过加密钱包文件导入",
-  "importWithEncryptedWalletFileDescription": "上传您的加密钱包文件以安全导入账户。您的数据保持私密，链上仅存储哈希信息。"
+  "importWithEncryptedWalletFileDescription": "上传您的加密钱包文件以安全导入账户。您的数据保持私密，链上仅存储哈希信息。",
+  "twitter": "X (Twitter)",
+  "encryptedWalletFile": "加密钱包文件"
 }

@@ -13,7 +13,7 @@
   "selectFileOfFormat": "Datei $format$ auswählen",
   "authorizedDApps": "Autorisierte DApps",
   "clickIconToResetPermissions": "Klicken Sie auf das X-Symbol, um die Berechtigungen zurückzusetzen.",
-  "versionLabel": "Version: $version$",
+  "versionLabel": "Version: {{version}}",
   "madeWithLove": "Erstellt mit $loveIcon$ von $companyName$",
   "feeInputDescription": "Die Grundgebühr für diesen Vorgang beträgt: $fee$\nZusätzlich - beschleunigt die Bestätigung",
   "resetPermissionsConfirmation": "Möchten Sie die Berechtigungen für\n$origin$ wirklich zurücksetzen?",
@@ -746,7 +746,7 @@
   "waitingOnAleo": "Aleo unterstützt diese Funktionalität derzeit nicht.",
   "buildForPrivacy": "Gebaut für Privatsphäre",
   "buildForAleo": "Gebaut für Aleo",
-  "poweredBy": "Bereitgestellt von $companyName$ ",
+  "poweredBy": "Bereitgestellt von {{companyName}} ",
   "doNotSharePrivateKey1": "NICHT mit jemandem teilen!",
   "doNotSharePrivateKey2": "Es kann verwendet werden, um Ihr Girokonto zu stehlen.",
   "doNotShareViewKey1": "Teile nur mit Personen, denen du vertraust!",
@@ -948,5 +948,7 @@
   "importWithSeedPhrase": "Mit Seed-Phrase importieren",
   "importWithSeedPhraseDescription": "Verwende eine bestehende 12-Wort-Wiederherstellungsphrase. Du kannst auch Wallets anderer Anbieter importieren.",
   "importWithEncryptedWalletFile": "Mit verschlüsselter Wallet-Datei importieren",
-  "importWithEncryptedWalletFileDescription": "Lade deine verschlüsselte Wallet-Datei hoch, um dein Konto sicher zu importieren. Deine Daten bleiben privat, es wird nur gehashte Information on-chain gespeichert."
+  "importWithEncryptedWalletFileDescription": "Lade deine verschlüsselte Wallet-Datei hoch, um dein Konto sicher zu importieren. Deine Daten bleiben privat, es wird nur gehashte Information on-chain gespeichert.",
+  "twitter": "X (Twitter)",
+  "encryptedWalletFile": "Verschlüsselte Wallet-Datei"
 }
