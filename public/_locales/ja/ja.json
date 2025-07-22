@@ -699,7 +699,7 @@
   "fixedRate": "固定レート:",
   "transactionId": "取引ID:",
   "atomDepositMemo": "アトム預金メモ",
-  "recipientAddress": "受取人住所:",
+  "recipientAddress": "受取人住所",
   "recipientXtzAddress": "受信者 XTZ アドレス:",
   "inputHash": "入力ハッシュ:",
   "youSend": "あなたが送る：",
@@ -956,5 +956,13 @@
   "importWithEncryptedWalletFile": "暗号化されたウォレットファイルでインポート",
   "importWithEncryptedWalletFileDescription": "暗号化されたウォレットファイルをアップロードして安全にアカウントをインポートします。データはプライベートに保たれ、ハッシュ情報のみがオンチェーンに保存されます。",
   "twitter": "X (Twitter)",
-  "encryptedWalletFile": "暗号化されたウォレットファイル"
+  "encryptedWalletFile": "暗号化されたウォレットファイル",
+  "recipientAccountId": "受取人のアカウントID",
+  "yourAccounts": "あなたのアカウント",
+  "noOtherAccounts": "他のアカウントはありません",
+  "noOtherAccountsDescription": "まだ他のアカウントを作成していません",
+  "invalidMidenAccountId": "無効なMidenアカウントID",
+  "invalidAmount": "無効な金額",
+  "amountMustBeLessThanBalance": "金額は残高未満である必要があります",
+  "availableBalance": "利用可能残高"
 }

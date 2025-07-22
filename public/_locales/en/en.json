@@ -809,7 +809,7 @@
   "fixedRate": "Fixed rate:",
   "transactionId": "Transaction ID:",
   "atomDepositMemo": "Atom Deposit Memo",
-  "recipientAddress": "Recipient address:",
+  "recipientAddress": "Recipient address",
   "recipientXtzAddress": "Recipient XTZ address:",
   "inputHash": "Input hash:",
   "youSend": "You send:",
@@ -951,5 +951,13 @@
   "importWithEncryptedWalletFile": "Import with Encrypted Wallet File",
   "importWithEncryptedWalletFileDescription": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain",
   "twitter": "X (Twitter)",
-  "encryptedWalletFile": "Encrypted Wallet File"
+  "encryptedWalletFile": "Encrypted Wallet File",
+  "recipientAccountId": "Recipient account ID",
+  "yourAccounts": "Your Accounts",
+  "noOtherAccounts": "No other accounts",
+  "noOtherAccountsDescription": "You have not created any other accounts yet",
+  "invalidMidenAccountId": "Invalid Miden account ID",
+  "invalidAmount": "Invalid amount",
+  "amountMustBeLessThanBalance": "Amount must be less than balance",
+  "availableBalance": "Available balance"
 }

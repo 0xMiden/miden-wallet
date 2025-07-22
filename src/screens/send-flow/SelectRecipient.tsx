@@ -1,5 +1,7 @@
 import React, { ChangeEvent } from 'react';
 
+import { useTranslation } from 'react-i18next';
+
 import { Icon, IconName } from 'app/icons/v2';
 import { Button, ButtonVariant } from 'components/Button';
 import { NavigationHeader } from 'components/NavigationHeader';
@@ -11,6 +13,7 @@ export interface SelectRecipientProps {
   error?: string;
   onGoNext: () => void;
   onAddressChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
+  onYourAccounts: () => void;
   onClear: () => void;
   onClose: () => void;
   onCancel: () => void;
@@ -21,11 +24,14 @@ export const SelectRecipient: React.FC<SelectRecipientProps> = ({
   isValidAddress,
   error,
   onAddressChange,
+  onYourAccounts,
   onGoNext,
   onClear,
   onClose,
   onCancel
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex-1 flex flex-col">
       <NavigationHeader title="Recipient" onClose={onClose} />
@@ -33,7 +39,7 @@ export const SelectRecipient: React.FC<SelectRecipientProps> = ({
         <div className="flex-1 flex flex-col justify-stretch gap-y-2">
           <div className="relative">
             <TextArea
-              placeholder={'Recipient Address'}
+              placeholder={t('recipientAccountId')}
               className="w-full pr-10"
               value={address}
               onChange={onAddressChange}
@@ -50,14 +56,20 @@ export const SelectRecipient: React.FC<SelectRecipientProps> = ({
               </button>
             )}
           </div>
-          {error && <p className="text-red-500 text-xs">{error}</p>}
+          {error && <p className="text-red-500 text-xs">{t(`${error}`)}</p>}
+          <Button
+            title={t('yourAccounts')}
+            iconLeft={IconName.ContactsBook}
+            variant={ButtonVariant.Ghost}
+            onClick={onYourAccounts}
+          />
         </div>
         <div></div>
         <div className="flex flex-row gap-x-2">
-          <Button className="flex-1" title={'Cancel'} variant={ButtonVariant.Secondary} onClick={onCancel} />
+          <Button className="flex-1" title={t('cancel')} variant={ButtonVariant.Secondary} onClick={onCancel} />
           <Button
             className="flex-1"
-            title={'Next'}
+            title={t('next')}
             variant={ButtonVariant.Primary}
             disabled={!isValidAddress}
             onClick={onGoNext}

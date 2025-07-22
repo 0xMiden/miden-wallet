@@ -565,7 +565,7 @@
   "fixedRate": "Taxa fixa:",
   "transactionId": "ID de transação:",
   "atomDepositMemo": "Memorando de depósito de átomo",
-  "recipientAddress": "Endereço do destinatário:",
+  "recipientAddress": "Endereço do destinatário",
   "recipientXtzAddress": "Endereço XTZ do destinatário:",
   "inputHash": "Hash de entrada:",
   "youSend": "Envia:",
@@ -957,5 +957,13 @@
   "importWithEncryptedWalletFile": "Importar com ficheiro de carteira encriptado",
   "importWithEncryptedWalletFileDescription": "Carregue o seu ficheiro de carteira encriptado para importar a sua conta com segurança. Os seus dados permanecem privados, sendo apenas armazenada informação encriptada na blockchain.",
   "twitter": "X (Twitter)",
-  "encryptedWalletFile": "Ficheiro de carteira encriptado"
+  "encryptedWalletFile": "Ficheiro de carteira encriptado",
+  "recipientAccountId": "ID da conta do destinatário",
+  "yourAccounts": "As suas contas",
+  "noOtherAccounts": "Sem outras contas",
+  "noOtherAccountsDescription": "Ainda não criou outras contas",
+  "invalidMidenAccountId": "ID de conta Miden inválido",
+  "invalidAmount": "Montante inválido",
+  "amountMustBeLessThanBalance": "O montante deve ser inferior ao saldo",
+  "availableBalance": "Saldo disponível"
 }

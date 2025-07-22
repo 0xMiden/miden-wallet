@@ -694,7 +694,7 @@
   "fixedRate": "固定利率：",
   "transactionId": "交易编号：",
   "atomDepositMemo": "Atom 存款备忘录",
-  "recipientAddress": "收件人地址：",
+  "recipientAddress": "收件人地址",
   "recipientXtzAddress": "收件人XTZ地址：",
   "inputHash": "输入哈希：",
   "youSend": "您发送：",
@@ -952,5 +952,13 @@
   "importWithEncryptedWalletFile": "通过加密钱包文件导入",
   "importWithEncryptedWalletFileDescription": "上传您的加密钱包文件以安全导入账户。您的数据保持私密，链上仅存储哈希信息。",
   "twitter": "X (Twitter)",
-  "encryptedWalletFile": "加密钱包文件"
+  "encryptedWalletFile": "加密钱包文件",
+  "recipientAccountId": "收款账户 ID",
+  "yourAccounts": "您的账户",
+  "noOtherAccounts": "无其他账户",
+  "noOtherAccountsDescription": "您尚未创建其他账户",
+  "invalidMidenAccountId": "无效的 Miden 账户 ID",
+  "invalidAmount": "无效金额",
+  "amountMustBeLessThanBalance": "金额必须小于余额",
+  "availableBalance": "可用余额"
 }

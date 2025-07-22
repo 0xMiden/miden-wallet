@@ -682,7 +682,7 @@
   "fixedRate": "Фиксированная ставка:",
   "transactionId": "ID транзакции:",
   "atomDepositMemo": "Памятка о депозите атома",
-  "recipientAddress": "Адрес получателя:",
+  "recipientAddress": "Адрес получателя",
   "recipientXtzAddress": "Адрес получателя XTZ:",
   "inputHash": "Введите хэш:",
   "youSend": "Вы посылаете:",
@@ -946,5 +946,13 @@
   "importWithEncryptedWalletFile": "Импорт с зашифрованным файлом",
   "importWithEncryptedWalletFileDescription": "Загрузите зашифрованный файл, чтобы безопасно импортировать аккаунт. Ваши данные остаются конфиденциальными — в блокчейн сохраняется только хэшированная информация.",
   "twitter": "X (Twitter)",
-  "encryptedWalletFile": "Зашифрованный файл кошелька"
+  "encryptedWalletFile": "Зашифрованный файл кошелька",
+  "recipientAccountId": "ID счёта получателя",
+  "yourAccounts": "Ваши аккаунты",
+  "noOtherAccounts": "Нет других аккаунтов",
+  "noOtherAccountsDescription": "Вы ещё не создали другие аккаунты",
+  "invalidMidenAccountId": "Недействительный ID аккаунта Miden",
+  "invalidAmount": "Недопустимая сумма",
+  "amountMustBeLessThanBalance": "Сумма должна быть меньше остатка",
+  "availableBalance": "Доступный баланс"
 }

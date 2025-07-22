@@ -62,7 +62,7 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({
 
   return (
     <div className="flex-1 flex flex-col relative">
-      <NavigationHeader mode="back" title={`Send ${TOKEN_NAME}`} onBack={onGoBack} />
+      <NavigationHeader mode="back" title={`${t('send')} ${TOKEN_NAME}`} onBack={onGoBack} />
       <div className="flex-1 flex flex-col p-4 md:w-[460px] md:mx-auto">
         <div
           onKeyDown={onTransactionAmountKeyDown}
@@ -79,7 +79,7 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({
             {error && (
               <span className="flex flex-row items-center gap-x-2">
                 <Icon name={IconName.InformationFill} fill={colors.red[500]} size={'xs'} />
-                <p className="text-red-500 text-sm">{error}</p>
+                <p className="text-red-500 text-sm">{t(`${error}`)}</p>
               </span>
             )}
           </div>
@@ -88,8 +88,8 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({
         <div className="flex flex-col gap-y-2 ">
           <div className="flex flex-row items-center py-4">
             <div className="flex-1 flex-col gap-y-1">
-              <p className="text-sm text-gray-400">Available balance</p>
-              <p className="text-sm text-black">{`${balance?.toString()} MIDEN`}</p>
+              <p className="text-sm text-gray-400">{t('availableBalance')}</p>
+              <p className="text-sm text-black">{`${balance?.toString()} ${TOKEN_NAME}`}</p>
             </div>
             <button onClick={() => onAmountChange(balance?.toString())} type="button">
               <Chip label="Max" className="cursor-pointer font-bold" />

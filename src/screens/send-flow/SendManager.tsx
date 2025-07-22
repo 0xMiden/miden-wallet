@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useMemo } from 'react';
 
 import classNames from 'clsx';
 import { OnSubmit, useForm } from 'react-hook-form';
@@ -8,22 +8,28 @@ import { openLoadingFullPage, useAppEnv } from 'app/env';
 import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { initiateSendTransaction } from 'lib/miden/activity';
-import { getFaucetIdSetting, useAccount, useBalance } from 'lib/miden/front';
+import { getFaucetIdSetting, useAccount, useAllAccounts, useBalance } from 'lib/miden/front';
 import { NoteTypeEnum } from 'lib/miden/types';
 import { navigate } from 'lib/woozie';
-import { SendFlowAction, SendFlowActionId, SendFlowForm, SendFlowStep } from 'screens/send-tokens/types';
 import { isValidMidenAddress } from 'utils/miden';
 
+import { AccountsList } from './AccountsList';
 import { ReviewTransaction } from './ReviewTransaction';
 import { SelectAmount } from './SelectAmount';
 import { SelectRecipient } from './SelectRecipient';
 import { TransactionInitiated } from './TransactionInitiated';
+import { Contact, SendFlowAction, SendFlowActionId, SendFlowForm, SendFlowStep } from './types';
 
 const ROUTES: Route[] = [
   {
     name: SendFlowStep.SelectRecipient,
     animationIn: 'push',
     animationOut: 'pop'
+  },
+  {
+    name: SendFlowStep.AccountsList,
+    animationIn: 'present',
+    animationOut: 'dismiss'
   },
   {
     name: SendFlowStep.SelectAmount,
@@ -71,11 +77,27 @@ export interface SendManagerProps {
 
 export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const { navigateTo, goBack } = useNavigator();
+  const allAccounts = useAllAccounts();
   const { publicKey } = useAccount();
   const faucetId = getFaucetIdSetting();
   const { fullPage } = useAppEnv();
   const delegateEnabled = isDelegateProofEnabled();
   const { data: balance } = useBalance(publicKey, faucetId);
+
+  const otherAccounts: Contact[] = useMemo(
+    () =>
+      allAccounts
+        .filter(c => c.publicKey !== publicKey)
+        .map(
+          contact =>
+            ({
+              id: contact.publicKey,
+              name: contact.name,
+              isOwned: true
+            } as Contact)
+        ),
+    [allAccounts, publicKey]
+  );
 
   const onClose = useCallback(() => {
     navigate('/');
@@ -194,12 +216,23 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
         payload: { recipientAddress: address }
       });
       if (!isValidMidenAddress(address)) {
-        setError('recipientAddress', 'manual', 'Invalid Miden address');
+        setError('recipientAddress', 'manual', 'invalidMidenAccountId');
       } else {
         clearError('recipientAddress');
       }
     },
     [onAction, setError, clearError]
+  );
+
+  const onSelectContact = useCallback(
+    (contact: Contact) => {
+      onAction({
+        id: SendFlowActionId.SetFormValues,
+        payload: { recipientAddress: contact.id }
+      });
+      setTimeout(() => goBack(), 300);
+    },
+    [onAction, goBack]
   );
 
   const onAmountChange = useCallback(
@@ -211,9 +244,9 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
 
       const amount = parseFloat(amountString || '0');
       if (!validations.amount.isValidSync(amountString)) {
-        setError('amount', 'manual', 'Invalid amount');
+        setError('amount', 'manual', 'invalidAmount');
       } else if (amount > balance!.toNumber()) {
-        setError('amount', 'manual', 'Amount must be less than balance');
+        setError('amount', 'manual', 'amountMustBeLessThanBalance');
       } else {
         clearError('amount');
       }
@@ -245,10 +278,20 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
               isValidAddress={!errors.recipientAddress && validations.recipientAddress.isValidSync(recipientAddress)}
               error={errors.recipientAddress?.message?.toString()}
               onAddressChange={onAddressChange}
+              onYourAccounts={() => goToStep(SendFlowStep.AccountsList)}
               onGoNext={() => goToStep(SendFlowStep.SelectAmount)}
               onClear={onClearAddress}
               onClose={onClose}
               onCancel={onClose}
+            />
+          );
+        case SendFlowStep.AccountsList:
+          return (
+            <AccountsList
+              recipientAccountId={recipientAddress}
+              accounts={otherAccounts}
+              onClose={goBack}
+              onSelectContact={onSelectContact}
             />
           );
         case SendFlowStep.SelectAmount:
@@ -283,14 +326,16 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     },
     [
       recipientAddress,
+      otherAccounts,
+      errors.recipientAddress,
+      errors.amount,
       onAddressChange,
       onClearAddress,
       onClose,
-      errors.recipientAddress,
-      errors.amount,
+      goBack,
+      onSelectContact,
       amount,
       balance,
-      goBack,
       onAmountChange,
       onAction,
       sharePrivately,

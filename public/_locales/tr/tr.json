@@ -565,7 +565,7 @@
   "fixedRate": "Sabit oran:",
   "transactionId": "İşlem Kimliği:",
   "atomDepositMemo": "Atom Yatırma Notu",
-  "recipientAddress": "Alıcı adresi:",
+  "recipientAddress": "Alıcı adresi",
   "recipientXtzAddress": "Alıcı XTZ adresi:",
   "inputHash": "Girilen kriptografik özet:",
   "youSend": "Gönderdiğiniz:",
@@ -957,5 +957,13 @@
   "importWithEncryptedWalletFile": "Şifreli Cüzdan Dosyası ile İçe Aktar",
   "importWithEncryptedWalletFileDescription": "Hesabınızı güvenle içe aktarmak için şifreli cüzdan dosyanızı yükleyin. Verileriniz gizli kalır; yalnızca hashlenmiş bilgiler zincirde saklanır.",
   "twitter": "X (Twitter)",
-  "encryptedWalletFile": "Şifreli Cüzdan Dosyası"
+  "encryptedWalletFile": "Şifreli Cüzdan Dosyası",
+  "recipientAccountId": "Alıcı hesap kimliği",
+  "yourAccounts": "Hesaplarınız",
+  "noOtherAccounts": "Başka hesap yok",
+  "noOtherAccountsDescription": "Henüz başka bir hesap oluşturmadınız",
+  "invalidMidenAccountId": "Geçersiz Miden hesap kimliği",
+  "invalidAmount": "Geçersiz tutar",
+  "amountMustBeLessThanBalance": "Tutar bakiyeden az olmalıdır",
+  "availableBalance": "Kullanılabilir bakiye"
 }

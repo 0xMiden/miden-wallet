@@ -565,7 +565,7 @@
   "fixedRate": "Festpreis:",
   "transactionId": "Transaktions-ID:",
   "atomDepositMemo": "Atom Deposit Memo",
-  "recipientAddress": "Empfängeradresse:",
+  "recipientAddress": "Empfängeradresse",
   "recipientXtzAddress": "Empfänger-XTZ-Adresse:",
   "inputHash": "Eingabe-Hash:",
   "youSend": "Sie senden:",
@@ -950,5 +950,13 @@
   "importWithEncryptedWalletFile": "Mit verschlüsselter Wallet-Datei importieren",
   "importWithEncryptedWalletFileDescription": "Lade deine verschlüsselte Wallet-Datei hoch, um dein Konto sicher zu importieren. Deine Daten bleiben privat, es wird nur gehashte Information on-chain gespeichert.",
   "twitter": "X (Twitter)",
-  "encryptedWalletFile": "Verschlüsselte Wallet-Datei"
+  "encryptedWalletFile": "Verschlüsselte Wallet-Datei",
+  "recipientAccountId": "Empfänger-Konto-ID",
+  "yourAccounts": "Deine Konten",
+  "noOtherAccounts": "Keine weiteren Konten",
+  "noOtherAccountsDescription": "Du hast noch keine weiteren Konten erstellt",
+  "invalidMidenAccountId": "Ungültige Miden-Konto-ID",
+  "invalidAmount": "Ungültiger Betrag",
+  "amountMustBeLessThanBalance": "Der Betrag muss kleiner als das Guthaben sein",
+  "availableBalance": "Verfügbares Guthaben"
 }

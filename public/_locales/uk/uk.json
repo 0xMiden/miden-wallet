@@ -707,7 +707,7 @@
   "fixedRate": "Фіксована ставка:",
   "transactionId": "ID транзакції:",
   "atomDepositMemo": "Депозитна записка Atom",
-  "recipientAddress": "Адреса отримувача:",
+  "recipientAddress": "Адреса отримувача",
   "recipientXtzAddress": "Адреса одержувача XTZ:",
   "inputHash": "Вхідний хеш:",
   "youSend": "Ви посилаєте:",
@@ -964,5 +964,13 @@
   "importWithEncryptedWalletFile": "Імпортувати за зашифрованим файлом гаманця",
   "importWithEncryptedWalletFileDescription": "Завантажте зашифрований файл, щоб безпечно імпортувати акаунт. Ваші дані залишаються конфіденційними — у ланцюжку зберігаються лише хешовані дані.",
   "twitter": "X (Twitter)",
-  "encryptedWalletFile": "Зашифрований файл гаманця"
+  "encryptedWalletFile": "Зашифрований файл гаманця",
+  "recipientAccountId": "ID акаунта отримувача",
+  "yourAccounts": "Ваші акаунти",
+  "noOtherAccounts": "Інших акаунтів немає",
+  "noOtherAccountsDescription": "Ви ще не створили інші акаунти",
+  "invalidMidenAccountId": "Недійсний ID акаунта Miden",
+  "invalidAmount": "Недійсна сума",
+  "amountMustBeLessThanBalance": "Сума має бути меншою за баланс",
+  "availableBalance": "Доступний баланс"
 }
