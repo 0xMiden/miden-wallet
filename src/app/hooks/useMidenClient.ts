@@ -14,7 +14,7 @@ export const useMidenClient = () => {
     };
 
     initializeClient();
-  });
+  }, []);
 
   return { midenClient, midenClientLoading: isLoading };
 };

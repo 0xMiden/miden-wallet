@@ -8,6 +8,7 @@ import { Button, ButtonVariant } from 'components/Button';
 import { t } from 'lib/i18n/react';
 import { useMidenContext } from 'lib/miden/front';
 import { deriveKey, encrypt, encryptJson, generateKey, generateSalt } from 'lib/miden/passworder';
+import { exportDb } from 'lib/miden/repo';
 import { EncryptedWalletFile, ENCRYPTED_WALLET_FILE_PASSWORD_CHECK, DecryptedWalletFile } from 'screens/shared';
 
 export interface ExportFileCompleteProps {
@@ -23,13 +24,15 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({ filePassword, f
   const { revealMnemonic } = useMidenContext();
 
   const getExportFile = useCallback(async () => {
-    const dbDump = await midenClient?.exportDb();
+    const midenClientDbDump = await midenClient?.exportDb();
+    const walletDbDump = await exportDb();
 
     const seedPhrase = await revealMnemonic(walletPassword);
 
     const filePayload: DecryptedWalletFile = {
       seedPhrase,
-      dbContent: dbDump
+      midenClientDbContent: midenClientDbDump,
+      walletDbContent: walletDbDump
     };
 
     const salt = generateSalt();

@@ -138,7 +138,7 @@ export class Vault {
       }
       const passKey = await Passworder.generateKey(password);
 
-      await clearStorage();
+      await clearStorage(false);
       await encryptAndSaveMany(
         [
           [checkStrgKey, generateCheck()],

@@ -9,6 +9,7 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { Icon, IconName } from 'app/icons/v2';
 import { T } from 'lib/i18n/react';
 import { decrypt, decryptJson, deriveKey, generateKey } from 'lib/miden/passworder';
+import { importDb } from 'lib/miden/repo';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import { DecryptedWalletFile, ENCRYPTED_WALLET_FILE_PASSWORD_CHECK, EncryptedWalletFile } from 'screens/shared';
 
@@ -69,10 +70,12 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
         { dt: walletFile.dt, iv: walletFile.iv },
         derivedKey
       );
-      const dbContent = decryptedWallet.dbContent;
+      const midenClientDbContent = decryptedWallet.midenClientDbContent;
+      const walletDbContent = decryptedWallet.walletDbContent;
       const seedPhrase = decryptedWallet.seedPhrase;
 
-      await midenClient.importDb(dbContent);
+      await midenClient.importDb(midenClientDbContent);
+      await importDb(walletDbContent);
 
       onSubmit(seedPhrase);
     } catch (error) {
