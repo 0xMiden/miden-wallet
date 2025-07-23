@@ -1,6 +1,8 @@
 import { WebClient, AccountStorageMode, AccountId, NoteType, TransactionRequest } from './libs/dist/index.js';
 console.log('script loaded');
 
+const MIDEN_DECIMALS = 6;
+
 const databases = await indexedDB.databases();
 for (const db of databases) {
   // Delete each database by name
@@ -11,7 +13,13 @@ for (const db of databases) {
 const webClient = await WebClient.createClient('http://localhost:57291');
 
 console.log('creating faucet...');
-const faucet = await webClient.newFaucet(AccountStorageMode.public(), false, 'TEST', 10, BigInt(1000000));
+const faucet = await webClient.newFaucet(
+  AccountStorageMode.public(),
+  false,
+  'TEST',
+  10,
+  BigInt(1000000 * 10 ** MIDEN_DECIMALS)
+);
 const faucetId = faucet.id();
 console.log('created faucet id:', faucetId.toBech32());
 
@@ -43,7 +51,7 @@ document.getElementById('publicKeyForm').addEventListener('submit', async event 
     accountId,
     faucetId,
     isPrivate ? NoteType.Private : NoteType.Public,
-    BigInt(amount)
+    BigInt(amount * 10 ** MIDEN_DECIMALS)
   );
   let mintTxnResult = await webClient.newTransaction(faucetId, mintTxnRequest);
   await webClient.submitTransaction(mintTxnResult);
@@ -92,7 +100,12 @@ document.getElementById('transactionRequestForm').addEventListener('submit', asy
   const accountId = AccountId.fromBech32(accountIdString);
 
   console.log('creating transaction request...');
-  const mintTransactionRequest = webClient.newMintTransactionRequest(accountId, faucetId, NoteType.Public, BigInt(100));
+  const mintTransactionRequest = webClient.newMintTransactionRequest(
+    accountId,
+    faucetId,
+    NoteType.Public,
+    BigInt(100 * 10 ** MIDEN_DECIMALS)
+  );
   console.log('created transaction request');
   console.log('exporting transaction request...');
   const bytes = mintTransactionRequest.serialize();
