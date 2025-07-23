@@ -1,6 +1,5 @@
-import { UIForm } from 'screens/send-tokens/types';
-
 export enum SendFlowStep {
+  SelectToken = 'SelectToken',
   SelectRecipient = 'SelectRecipient',
   AccountsList = 'AccountsList',
   SelectAmount = 'SelectAmount',
@@ -15,6 +14,7 @@ export type SendFlowForm = {
   recipientAddress: string;
   recallBlocks?: string;
   delegateTransaction: boolean;
+  token?: UIToken;
 };
 
 export enum SendFlowActionId {
@@ -54,4 +54,80 @@ export type Contact = {
   id: string;
   name: string;
   isOwned: boolean;
+};
+
+export enum UIFeeType {
+  Public = 'public',
+  Private = 'private'
+}
+export type UIToken = {
+  id: string;
+  name: string;
+  balance: number;
+  fiatPrice: number;
+};
+
+export type UIContact = {
+  id: string;
+  name: string;
+  address: string;
+  isOwned: boolean;
+};
+
+export enum UITransactionType {
+  Public = 'public',
+  Private = 'private'
+}
+
+export type UIForm = {
+  amount: string;
+  sendType: UITransactionType;
+  sharePrivately: boolean;
+  receiveType: UITransactionType;
+  recallBlocks?: string;
+  recipientAddress?: string;
+  recipientAddressInput?: string;
+  recipientAnsName?: string;
+  token?: UIToken;
+  feeAmount: string;
+  feeType: UIFeeType;
+  delegateTransaction: boolean;
+};
+
+export const TransactionTypeNameMapping: Record<UITransactionType, string> = {
+  [UITransactionType.Public]: 'Public',
+  [UITransactionType.Private]: 'Private'
+};
+
+export type UIBalance = {
+  public: number;
+  private: number;
+};
+
+export type UIRecords = {
+  public: number;
+  private: number;
+};
+
+export type UIFees = {
+  ALEO: {
+    [UITransactionType.Public]: {
+      [UITransactionType.Public]: string;
+      [UITransactionType.Private]: string;
+    };
+    [UITransactionType.Private]: {
+      [UITransactionType.Public]: string;
+      [UITransactionType.Private]: string;
+    };
+  };
+  OTHER: {
+    [UITransactionType.Public]: {
+      [UITransactionType.Public]: string;
+      [UITransactionType.Private]: string;
+    };
+    [UITransactionType.Private]: {
+      [UITransactionType.Public]: string;
+      [UITransactionType.Private]: string;
+    };
+  };
 };

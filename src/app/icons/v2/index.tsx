@@ -5,7 +5,6 @@ import classNames from 'clsx';
 import { ReactComponent as LeoLogo } from '../leo-logo-blue.svg';
 import { ReactComponent as AddCircle } from './add-circle.svg';
 import { ReactComponent as Add } from './add.svg';
-import { ReactComponent as Aleo } from './aleo.svg';
 import { ReactComponent as Apps } from './apps.svg';
 import { ReactComponent as ArrowDown } from './arrow-down.svg';
 import { ReactComponent as ArrowLeft } from './arrow-left.svg';
@@ -44,6 +43,7 @@ import { ReactComponent as EmotionSad } from './emotion-sad.svg';
 import { ReactComponent as EyeOff } from './eye-off.svg';
 import { ReactComponent as Eye } from './eye.svg';
 import { ReactComponent as FaceId } from './face-id.svg';
+import { ReactComponent as FaucetFill } from './faucet-fill.svg';
 import { ReactComponent as Faucet } from './faucet.svg';
 import { ReactComponent as FileCopy } from './file-copy.svg';
 import { ReactComponent as FileSettings } from './file-settings.svg';
@@ -93,7 +93,6 @@ import { ReactComponent as Warning } from './warning.svg';
 export enum IconName {
   AddCircle = 'add-circle',
   Add = 'add',
-  Aleo = 'aleo',
   Apps = 'apps',
   ArrowDown = 'arrow-down',
   ArrowLeft = 'arrow-left',
@@ -133,6 +132,7 @@ export enum IconName {
   Eye = 'eye',
   FaceId = 'face-id',
   Faucet = 'faucet',
+  FaucetFill = 'faucet-fill',
   FileCopy = 'file-copy',
   FileSettings = 'file-settings',
   File = 'file',
@@ -193,8 +193,6 @@ const IconSwitch = (props: IconProps) => {
       return <AddCircle {...props} />;
     case IconName.Add:
       return <Add {...props} />;
-    case IconName.Aleo:
-      return <Aleo {...props} />;
     case IconName.Apps:
       return <Apps {...props} />;
     case IconName.ArrowDown:
@@ -271,6 +269,8 @@ const IconSwitch = (props: IconProps) => {
       return <FaceId {...props} />;
     case IconName.Faucet:
       return <Faucet {...props} />;
+    case IconName.FaucetFill:
+      return <FaucetFill {...props} />;
     case IconName.FileCopy:
       return <FileCopy {...props} />;
     case IconName.FileSettings:

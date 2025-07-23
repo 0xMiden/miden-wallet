@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js';
 import classNames from 'clsx';
 
 import { openLoadingFullPage, useAppEnv } from 'app/env';
+import { ReactComponent as FaucetIcon } from 'app/icons/faucet.svg';
 import { ReactComponent as ReceiveIcon } from 'app/icons/receive.svg';
 import { ReactComponent as SendIcon } from 'app/icons/send.svg';
 import Footer from 'app/layouts/PageLayout/Footer';
@@ -113,11 +114,19 @@ const Explore: FC = () => {
                 className="w-1/2 mx-1"
               />
               {claimableNotes !== undefined && claimableNotes.length > 0 && (
-                <div className="absolute top-[20%] left-[60%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">
+                <div className="absolute top-[25%] left-[95%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full border-2 border-white">
                   {claimableNotes.length}
                 </div>
               )}
             </div>
+            <ActionButton
+              label={<T id="faucet" />}
+              Icon={FaucetIcon}
+              to="/faucet"
+              testID={ExploreSelectors.FaucetButton}
+              className="w-1/2 mx-1"
+              iconStyle={{ height: '20px', width: '20px', stroke: 'none' }}
+            />
           </div>
         </div>
       </div>
@@ -155,7 +164,7 @@ const Explore: FC = () => {
                         title={tokenId}
                         subtitle={shortenAddress(token.faucetId, 13, 7)}
                         titleRight={`$${token.balance.toFixed(2)}`}
-                        subtitleRight={token.balance.toString()}
+                        subtitleRight={token.balance.toFixed(2)}
                         className="flex-1 border border-grey-50 rounded-lg "
                       />
                     </div>

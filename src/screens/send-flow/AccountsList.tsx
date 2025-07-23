@@ -49,7 +49,7 @@ export const AccountsList: React.FC<AccountsListProps> = ({
               iconLeft={<Avatar image="/misc/avatars/leo-green.jpg" size="lg" />}
               iconRight={c.id === recipientAccountId ? IconName.CheckboxCircleFill : undefined}
               onClick={() => onSelectContact(c)}
-              animateHover={true}
+              hoverable={true}
             />
           ))
         )}

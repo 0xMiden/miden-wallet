@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js';
 
 import { useRetryableSWR } from 'lib/swr';
 
+import { MIDEN_METADATA } from '../metadata';
 import { accountIdStringToSdk, MidenClientInterface } from '../sdk/miden-client-interface';
 
 type UseBalanceOptions = {
@@ -20,7 +21,9 @@ export function useBalance(accountId: string, faucetId: string, opts: UseBalance
   const fetchBalanceLocal = useCallback(async () => {
     const account = await midenClient.getAccount(accountId);
     const balance = account!.vault().getBalance(accountIdStringToSdk(faucetId));
-    return new BigNumber(balance.toString());
+    let balanceNumber = new BigNumber(balance.toString());
+    balanceNumber = balanceNumber.isNaN() ? new BigNumber(0) : balanceNumber;
+    return balanceNumber.div(10 ** MIDEN_METADATA.decimals);
   }, [accountId, faucetId]);
 
   return useRetryableSWR([accountId, faucetId].join('_'), fetchBalanceLocal, {

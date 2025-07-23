@@ -35,7 +35,7 @@ export class MidenClientInterface {
 
   static async create(options: MidenClientCreateOptions = {}) {
     const seed = options.seed?.toString();
-    const network = MIDEN_NETWORK_NAME.LOCALNET;
+    const network = MIDEN_NETWORK_NAME.TESTNET;
     const webClient = await WebClient.createClient(MIDEN_NETWORK_ENDPOINTS.get(network)!, seed);
 
     return new MidenClientInterface(webClient, network, options.onConnectivityIssue);
@@ -101,6 +101,11 @@ export class MidenClientInterface {
 
   async getAccount(accountId: string) {
     const result = await this.webClient.getAccount(accountIdStringToSdk(accountId));
+    return result;
+  }
+
+  async importAccountById(accountId: string) {
+    const result = await this.webClient.importAccountById(accountIdStringToSdk(accountId));
     return result;
   }
 
