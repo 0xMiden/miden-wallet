@@ -8,7 +8,7 @@ export const MIDEN_METADATA: AssetMetadata = {
   name: 'Miden',
   programId: '',
   mappingName: 'account',
-  thumbnailUri: browser.runtime.getURL('misc/token-logos/usds.svg')
+  thumbnailUri: browser.runtime.getURL('misc/token-logos/miden.svg')
 };
 
 export const EMPTY_ASSET_METADATA: AssetMetadata = {

@@ -83,7 +83,7 @@ export function useAssetMetadata(slug: string, assetId: string) {
     [slug, assetId, allTokensBaseMetadataRef, forceUpdate]
   );
 
-  const aleoAsset = isMidenAsset(slug);
+  const midenAsset = isMidenAsset(slug);
   const tokenMetadata = allTokensBaseMetadataRef.current[assetId] ?? null;
   const exist = Boolean(tokenMetadata);
 
@@ -100,8 +100,8 @@ export function useAssetMetadata(slug: string, assetId: string) {
     }
   }, [slug, assetId, exist, fetchMetadata, setTokensBaseMetadata, setTokensDetailedMetadata]);
 
-  // Aleo
-  if (aleoAsset) {
+  // MIDEN
+  if (midenAsset) {
     return metadata;
   }
 

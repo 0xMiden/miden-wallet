@@ -104,6 +104,11 @@ export class MidenClientInterface {
     return result;
   }
 
+  async importAccountById(accountId: string) {
+    const result = await this.webClient.importAccountById(accountIdStringToSdk(accountId));
+    return result;
+  }
+
   async getAccounts() {
     const result = await this.webClient.getAccounts();
     return result;

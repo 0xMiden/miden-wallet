@@ -16,6 +16,7 @@ export interface CardItemProps extends React.ComponentProps<'div'> {
   subtitle?: string;
   titleRight?: string;
   subtitleRight?: string;
+  hoverable?: boolean;
 }
 
 export const LeftIconOrComponent = ({
@@ -51,6 +52,7 @@ export const CardItem: React.FC<CardItemProps> = ({
   iconRight,
   titleRight,
   subtitleRight,
+  hoverable = false,
   ...props
 }) => {
   const cardItemClasses = classNames(
@@ -59,7 +61,7 @@ export const CardItem: React.FC<CardItemProps> = ({
     'gap-x-2 bg-white', // Gap and background classes
     'rounded-lg transition', // Shape and transition classes
     'duration-300 ease-in-out', // Transition duration and timing function classes
-    //'hover:bg-grey-50 cursor-pointer', // Hover and cursor classes
+    hoverable && 'hover:bg-grey-50 cursor-pointer', // Hover and cursor classes
     'overflow-hidden',
     className // User-defined classes
   );

@@ -8,9 +8,9 @@ import { Icon, IconName } from 'app/icons/v2';
 import { Button, ButtonVariant } from 'components/Button';
 import { NavigationHeader } from 'components/NavigationHeader';
 import { useAccount } from 'lib/miden/front';
-import { SendFlowAction, SendFlowActionId } from 'screens/send-tokens/types';
 
 import { RecallBlocksModal } from './RecallBlocksModal';
+import { SendFlowAction, SendFlowActionId } from './types';
 
 const TOKEN_NAME = 'MIDEN';
 

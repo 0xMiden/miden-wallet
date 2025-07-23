@@ -5,7 +5,6 @@ import classNames from 'clsx';
 import { ReactComponent as LeoLogo } from '../leo-logo-blue.svg';
 import { ReactComponent as AddCircle } from './add-circle.svg';
 import { ReactComponent as Add } from './add.svg';
-import { ReactComponent as Aleo } from './aleo.svg';
 import { ReactComponent as Apps } from './apps.svg';
 import { ReactComponent as ArrowDown } from './arrow-down.svg';
 import { ReactComponent as ArrowLeft } from './arrow-left.svg';
@@ -94,7 +93,6 @@ import { ReactComponent as Warning } from './warning.svg';
 export enum IconName {
   AddCircle = 'add-circle',
   Add = 'add',
-  Aleo = 'aleo',
   Apps = 'apps',
   ArrowDown = 'arrow-down',
   ArrowLeft = 'arrow-left',
@@ -195,8 +193,6 @@ const IconSwitch = (props: IconProps) => {
       return <AddCircle {...props} />;
     case IconName.Add:
       return <Add {...props} />;
-    case IconName.Aleo:
-      return <Aleo {...props} />;
     case IconName.Apps:
       return <Apps {...props} />;
     case IconName.ArrowDown:

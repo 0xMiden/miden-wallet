@@ -1,26 +1,31 @@
+import browser from 'webextension-polyfill';
+
 import { isMidenAsset } from 'lib/miden/assets';
 
+import { MidenClientInterface } from '../sdk/miden-client-interface';
 import { MIDEN_METADATA } from './defaults';
 import { AssetMetadata, DetailedAssetMetdata } from './types';
 
 export async function fetchTokenMetadata(
-  assetSlug: string
+  assetId: string
 ): Promise<{ base: AssetMetadata; detailed: DetailedAssetMetdata }> {
-  const [contractAddress] = assetSlug.split('_');
-
-  if (isMidenAsset(contractAddress)) {
+  if (isMidenAsset(assetId)) {
     return { base: MIDEN_METADATA, detailed: MIDEN_METADATA };
   }
 
   try {
-    // TODO: add validation
+    const midenClient = await MidenClientInterface.create();
+    await midenClient.importAccountById(assetId);
+    const account = await midenClient.getAccount(assetId);
+
     const base: AssetMetadata = {
       decimals: 5,
       symbol: 'ASSET SYMBOL',
       name: 'ASSET NAME',
       shouldPreferSymbol: true,
       programId: '',
-      mappingName: ''
+      mappingName: '',
+      thumbnailUri: browser.runtime.getURL('misc/token-logos/default.svg')
     };
 
     const detailed: DetailedAssetMetdata = {
