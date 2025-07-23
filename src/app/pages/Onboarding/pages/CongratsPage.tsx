@@ -66,8 +66,8 @@ const CongratsPage: FC = () => {
       <p className={styles['description']} style={{ marginTop: 20, marginBottom: 0 }}>
         <T id={'congratsDescription4'} />
       </p>
-      <a href={'https://leo.app/leo-wallet'} target="_blank" rel="noreferrer" className={styles['link']}>
-        https://leo.app/leo-wallet
+      <a href={'https://miden.fi/'} target="_blank" rel="noreferrer" className={styles['link']}>
+        https://miden.fi/
       </a>
       <p className={styles['description']} style={{ marginTop: 20, marginBottom: 10, fontWeight: 'bold' }}>
         <T id={'congratsDescription5'} />

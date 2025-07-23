@@ -203,7 +203,7 @@ export const EncryptedFileManager: React.FC<{}> = () => {
 
   return (
     <div data-testid="encrypted-file-manager-flow">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex-1 flex">
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Navigator renderRoute={renderStep} initialRouteName={EncryptedFileStep.WalletPassword} />
       </form>
     </div>

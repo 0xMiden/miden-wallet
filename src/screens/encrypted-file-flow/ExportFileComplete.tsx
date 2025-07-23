@@ -89,7 +89,7 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({ filePassword, f
         <Icon name={IconName.CheckboxCircleFill} size="xxl" />
       </div>
       <div className="flex flex-col items-center">
-        <h1 className="font-semibold text-2xl lh-title">{'Encrypted Wallet File Exported'}</h1>
+        <h1 className="font-semibold text-2xl lh-title text-center">{'Encrypted Wallet File Exported'}</h1>
         <p className="text-base text-center lh-title">
           {
             'Your encrypted wallet file has been downloaded. Keep it and your password safe, as losing them means losing access to your wallet.'
