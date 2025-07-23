@@ -2,11 +2,9 @@ import React, { FC, useState } from 'react';
 
 import classNames from 'clsx';
 
-import Identicon from 'app/atoms/Identicon';
-import { ReactComponent as CollectiblePlaceholder } from 'app/icons/collectible-placeholder.svg';
 import { Icon, IconName } from 'app/icons/v2';
-import { formatObjktSmallAssetUri, formatAssetUri } from 'lib/image-uri';
-import { AssetMetadata, getAssetSymbol, useAssetMetadata } from 'lib/miden/front';
+import { formatAssetUri } from 'lib/image-uri';
+import { AssetMetadata, useAssetMetadata } from 'lib/miden/front';
 
 interface AssetIconPlaceholderProps {
   metadata: AssetMetadata | null;

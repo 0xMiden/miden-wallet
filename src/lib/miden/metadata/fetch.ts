@@ -16,7 +16,6 @@ export async function fetchTokenMetadata(
   try {
     const midenClient = await MidenClientInterface.create();
     await midenClient.importAccountById(assetId);
-    const account = await midenClient.getAccount(assetId);
 
     const base: AssetMetadata = {
       decimals: 5,
