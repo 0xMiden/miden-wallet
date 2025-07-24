@@ -33,6 +33,7 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
   const walletFileRef = useRef<HTMLInputElement>(null);
   const [walletFile, setWalletFile] = useState<WalletFile | null>(null);
   const [isWrongPassword, setIsWrongPassword] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   const { watch, register, handleSubmit, errors, formState } = useForm<FormData>({
     mode: 'onChange'
@@ -81,9 +82,29 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
     }
   };
 
+  const onDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const onDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (e.currentTarget.contains(e.relatedTarget as Node)) return; // Ignore if the drag is over a childelement
+    setIsDragging(false);
+  };
+
+  const onDropFile = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    processFiles(e.dataTransfer.files);
+    setIsDragging(false);
+  };
+
   const onUploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     // TODO error modals/alerts
-    const { files } = e.target;
+    processFiles(e.target.files);
+  };
+
+  const processFiles = (files: FileList | null) => {
     if (files && files.length) {
       const file = files[0];
       const parts = file.name.split('.');
@@ -120,12 +141,8 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
   };
 
   const uploadFileComponent = (): JSX.Element => {
-    const style = {
-      color: '#0000EE',
-      cursor: 'pointer'
-    };
     return (
-      <span onClick={onUploadFileClick} style={style}>
+      <span onClick={onUploadFileClick} className="cursor-pointer text-blue-500">
         {t('chooseFromDevice')}
       </span>
     );
@@ -148,14 +165,21 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
       onSubmit={handleSubmit(handleImportSubmit)}
     >
       <h1 className="text-2xl font-semibold">{t('importWallet')}</h1>
-      <p className="text-sm text-center">{t('uploadYourEncryptedWalletFile')}</p>
+      <p className="text-sm text-center mb-6">{t('uploadYourEncryptedWalletFile')}</p>
       {walletFile == null ? (
         <div
           className={classNames(
             'p-10',
-            'flex flex-col items-center gap-y-2',
-            'border-2 border-dashed border-grey-200 rounded-lg'
+            'flex flex-col items-center gap-y-2 mb-6',
+            'border border-dashed border-grey-200 rounded-2xl',
+            isDragging && 'border-blue-500'
           )}
+          onDrop={onDropFile}
+          onDragEnter={onDragEnter}
+          onDragLeave={onDragLeave}
+          onDragOver={e => {
+            e.preventDefault();
+          }}
         >
           <Icon name={IconName.UploadFile} size="xxl" />
           <p className="text-sm">Drag and drop file or {uploadFileComponent()}</p>
@@ -165,20 +189,29 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
           </div>
         </div>
       ) : (
-        <div className={classNames('flex justify-between items-center', 'bg-gray-50 rounded-lg', 'w-full py-6 px-3')}>
+        <div
+          className={classNames(
+            'flex justify-between items-center',
+            'bg-grey-25 rounded-2xl',
+            'w-[360px] py-5 px-3',
+            'mx-auto'
+          )}
+        >
           <div className="flex">
-            <Icon name={IconName.UploadedFile} size="lg" />
+            <Icon name={IconName.UploadedFile} size="md" />
             <div className="flex items-center pl-4">{walletFile.name}</div>
           </div>
-          {/* <progress color="blue" value={100} max={100} /> */}
           <button type="button" onClick={handleClear}>
-            <Icon name={IconName.CloseCircle} fill="black" size="md" />
+            <Icon name={IconName.Close} fill="black" size="md" />
           </button>
         </div>
       )}
 
       {walletFile != null && (
-        <div className="flex mt-8 mb-4">
+        <div className="flex flex-col w-[360px]">
+          <p className="text-sm text-black my-3">
+            Enter the password you set when exporting your wallet. This will decrypt the file and restore access.
+          </p>
           <FormField
             ref={register({
               required: PASSWORD_ERROR_CAPTION
@@ -197,7 +230,7 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
 
       <FormSubmitButton
         loading={formState.isSubmitting}
-        className="w-full text-base pt-4 mx-auto"
+        className="w-[360px] text-base pt-4 mx-auto"
         style={{ display: 'block', fontWeight: 500, padding: '12px 0px' }}
         disabled={!formState.isValid || !walletFile}
       >

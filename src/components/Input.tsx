@@ -17,7 +17,7 @@ type Props = {
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>, Props {}
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, icon, containerClassName, inputClassName, labelClassName, iconClassName, ...props }, ref) => {
+  ({ label, prefix, icon, containerClassName, inputClassName, labelClassName, iconClassName, ...props }, ref) => {
     return (
       <div className={classNames('flex flex-col gap-2', containerClassName)}>
         {label && <label className={classNames('text-sm font-medium', labelClassName)}>{label}</label>}
@@ -30,6 +30,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             'has-[:focus]:outline-none has-[:focus]:border-primary-500 has-[:focus]:ring-1 has-[:focus]:ring-primary-500'
           )}
         >
+          {prefix && <div className="flex text-gray-400 ml-4 text-base">{prefix}</div>}
           <input
             ref={ref}
             className={classNames(
@@ -38,7 +39,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               'placeholder-grey-400',
               'text-base',
               'outline-none',
-              // 'focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500',
+              prefix ? 'pl-2' : 'pl-4',
               inputClassName
             )}
             {...props}

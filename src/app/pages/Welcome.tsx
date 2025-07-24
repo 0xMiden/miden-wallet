@@ -8,13 +8,14 @@ import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
 import { useMidenContext } from 'lib/miden/front';
 import { navigate, useLocation } from 'lib/woozie';
 import { OnboardingFlow } from 'screens/onboarding/navigator';
-import { OnboardingAction, OnboardingStep, OnboardingType } from 'screens/onboarding/types';
+import { ImportType, OnboardingAction, OnboardingStep, OnboardingType } from 'screens/onboarding/types';
 
 const Welcome: FC = () => {
   const { hash } = useLocation();
   const [step, setStep] = useState(OnboardingStep.Welcome);
   const [seedPhrase, setSeedPhrase] = useState<string[] | null>(null);
   const [onboardingType, setOnboardingType] = useState<OnboardingType | null>(null);
+  const [importType, setImportType] = useState<ImportType | null>(null);
   const [password, setPassword] = useState<string | null>(null);
   const [importedWithFile, setImportedWithFile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -60,6 +61,7 @@ const Welcome: FC = () => {
         navigate('/#select-import-type');
         break;
       case 'import-from-file':
+        setImportType(ImportType.WalletFile);
         navigate('/#import-from-file');
         break;
       case 'import-wallet-file-submit':
@@ -70,6 +72,7 @@ const Welcome: FC = () => {
         navigate('/#create-password');
         break;
       case 'import-from-seed':
+        setImportType(ImportType.SeedPhrase);
         navigate('/#import-from-seed');
         break;
       case 'import-seed-phrase-submit':
@@ -99,7 +102,11 @@ const Welcome: FC = () => {
         navigate('/');
         break;
       case 'back':
-        if (step === OnboardingStep.SelectImportType || step === OnboardingStep.SelectWalletType) {
+        if (
+          step === OnboardingStep.SelectImportType ||
+          step === OnboardingStep.SelectWalletType ||
+          step === OnboardingStep.BackupSeedPhrase
+        ) {
           navigate('/');
         } else if (step === OnboardingStep.VerifySeedPhrase) {
           navigate('/#backup-seed-phrase');
@@ -107,7 +114,11 @@ const Welcome: FC = () => {
           if (onboardingType === OnboardingType.Create) {
             navigate('/#verify-seed-phrase');
           } else {
-            navigate('/#import-wallet');
+            if (importType === ImportType.WalletFile) {
+              navigate('/#import-from-file');
+            } else {
+              navigate('/#import-from-seed');
+            }
           }
         } else if (step === OnboardingStep.ImportFromFile || step === OnboardingStep.ImportFromSeed) {
           navigate('/#select-import-type');

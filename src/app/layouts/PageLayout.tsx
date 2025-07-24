@@ -13,7 +13,7 @@ import { T } from 'lib/i18n/react';
 import { PropsWithChildren } from 'lib/props-with-children';
 import { goBack, HistoryAction, navigate, useLocation } from 'lib/woozie';
 
-import { useOnboardingProgress } from '../pages/Onboarding/hooks/useOnboardingProgress.hook';
+import { useOnboardingProgress } from '../hooks/useOnboardingProgress';
 import { PageLayoutSelectors } from './PageLayout.selectors';
 import { ChangelogOverlay } from './PageLayout/ChangelogOverlay/ChangelogOverlay';
 
