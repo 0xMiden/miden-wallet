@@ -75,13 +75,13 @@ const ExportFilePassword: React.FC<ExportFilePasswordProps> = ({
   return (
     <div className="w-full max-w-sm p-2 mx-auto">
       <div className="flex flex-col items-center">
-        <p className="text-sm text-center font-normal mt-2 w-[500px]">
+        <p className="text-sm text-center font-normal mt-2 mb-4">
           Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later.
         </p>
       </div>
 
-      <div className="w-full justify-center items-center flex flex-col gap-y-4 px-6">
-        <div className="flex flex-col w-[360px] gap-y-2">
+      <div className="w-full justify-center items-center flex flex-col gap-y-4">
+        <div className="w-full flex flex-col gap-y-2">
           <FormField
             ref={register({
               required: PASSWORD_ERROR_CAPTION
@@ -93,11 +93,10 @@ const ExportFilePassword: React.FC<ExportFilePasswordProps> = ({
             placeholder="********"
             errorCaption={errors.password?.message}
             onChange={handlePasswordChange}
-            containerClassName="mx-2"
           />
           <PasswordStrengthIndicator password={passwordValue} validation={passwordValidation} />
         </div>
-        <div className="flex flex-col w-[360px] gap-y-2">
+        <div className="w-full flex flex-col gap-y-2">
           <FormField
             ref={register({
               required: t('required'),
@@ -110,7 +109,6 @@ const ExportFilePassword: React.FC<ExportFilePasswordProps> = ({
             placeholder="********"
             onChange={e => setVerifyPassword(e.target.value)}
             errorCaption={errors.repeatPassword?.message}
-            containerClassName="mx-2"
           />
 
           <p

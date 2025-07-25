@@ -91,7 +91,7 @@ const EncryptedWalletFileWalletPassword: React.FC<EncryptedWalletFileWalletPassw
         onChange={onPasswordChange}
         disabled={isDisabled}
       />
-      <div className="flex gap-x-2 w-[360px] text-sm text-left">
+      <div className="flex gap-x-2 text-sm text-left">
         <button className="flex items-center gap-x-2 text-left" onClick={() => setConfirmed(!confirmed)}>
           <Checkbox id="help-us" value={confirmed} />
           <label className="text-black cursor-pointer text-left">{t('encryptedWalletFileConfirmation')}</label>

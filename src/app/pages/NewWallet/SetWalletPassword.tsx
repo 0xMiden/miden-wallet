@@ -19,7 +19,7 @@ import {
   specialCharacterRegx,
   uppercaseLowercaseMixtureRegx
 } from '../../defaults';
-import { useOnboardingProgress } from '../Onboarding/hooks/useOnboardingProgress.hook';
+import { useOnboardingProgress } from '../../hooks/useOnboardingProgress';
 
 export const MIN_PASSWORD_LENGTH = 8;
 

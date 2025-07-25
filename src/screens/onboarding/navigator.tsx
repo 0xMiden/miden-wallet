@@ -31,7 +31,7 @@ const Header: React.FC<{
   onBack: () => void;
   step: OnboardingStep;
   onboardingType?: 'import' | 'create' | null;
-}> = ({ onboardingType, step, onBack }) => {
+}> = ({ step, onBack }) => {
   if (step === OnboardingStep.Confirmation || step === OnboardingStep.SelectTransactionType) {
     return null;
   }
@@ -47,8 +47,9 @@ const Header: React.FC<{
     currentStep = 1;
   } else if (step === OnboardingStep.CreatePassword) {
     currentStep = 3;
+  } else if (step === OnboardingStep.ImportFromSeed || step === OnboardingStep.ImportFromFile) {
+    currentStep = 2;
   }
-  const steps = onboardingType === 'import' ? 2 : 3;
 
   return (
     <div className="flex justify-between items-center pt-6 px-6">
@@ -66,7 +67,7 @@ const Header: React.FC<{
         }}
       />
 
-      <ProgressIndicator currentStep={currentStep || 1} steps={steps} className={currentStep ? '' : 'opacity-0'} />
+      <ProgressIndicator currentStep={currentStep || 1} steps={3} className={currentStep ? '' : 'opacity-0'} />
     </div>
   );
 };

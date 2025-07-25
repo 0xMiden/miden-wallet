@@ -211,27 +211,15 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
           </p>
         </div>
       </article>
-
-      {/* <div className="flex gap-x-2 w-[360px] text-sm self-center">
-        <button className="flex gap-x-2 items-center " onClick={() => onTermsAcceptedToggle(!termsAccepted)}>
-          <Checkbox id="help-us" value={termsAccepted} />
-          <label className="text-black cursor-pointer">{t('helpUsToImproveLeoWallet')}</label>
-        </button>
-        <Link target="_blank" href="https://www.leo.app/privacy">
-          ({t('readMoreOnboarding')})
-        </Link>
-      </div> */}
-
-      {/* TODO: add link component */}
       <div className="w-[360px] flex flex-col gap-2 self-center">
         <Button title={t('continue')} disabled={!isValidPassword} onClick={onPasswordSubmit} />
         <p className="text-grey-600 text-xs text-center px-4">
           By proceeding, you agree to the{' '}
-          <Link target="_blank" href="https://www.leo.app/terms">
+          <Link target="_blank" href="https://www.miden.fi/terms">
             Terms of Usage
           </Link>{' '}
           and{' '}
-          <Link target="_blank" href="https://www.leo.app/privacy">
+          <Link target="_blank" href="https://www.miden.fi/privacy">
             Privacy Policy
           </Link>
           .
