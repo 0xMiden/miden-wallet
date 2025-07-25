@@ -6,7 +6,7 @@ import {
   MidenSendTransaction,
   MidenConsumeTransaction
 } from '@demox-labs/miden-wallet-adapter-base';
-import { TridentWallet, TridentWalletEvents } from '@demox-labs/miden-wallet-adapter-trident';
+import { MidenWallet, MidenWalletEvents } from '@demox-labs/miden-wallet-adapter-miden';
 
 import {
   requestPermission,
@@ -19,7 +19,7 @@ import {
 } from 'lib/adapter/client';
 import { MidenDAppPermission } from 'lib/adapter/types';
 
-export class TridentWindowObject extends EventEmitter<TridentWalletEvents> implements TridentWallet {
+export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implements MidenWallet {
   publicKey?: string | undefined;
   permission?: MidenDAppPermission | undefined;
   appName?: string | undefined;
