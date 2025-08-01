@@ -884,7 +884,7 @@
   "popular": "Популярные",
   "verifyMessagePrefix": "Подтвердите, что вы сохранили свою секретную фразу восстановления. Выберите слово #10",
   "enterYourWalletSeedPhrase": "Введите секретную фразу вашего кошелька из 12 слов.",
-  "onlyAleoSeedPhrasesAreSupported": "Поддерживаются только секретные фразы Aleo.",
+  "onlyMidenSeedPhrasesAreSupported": "Поддерживаются только секретные фразы Miden.",
   "seedPhrasePlaceholder": "Секретная фраза из 12 слов",
   "join": "Присоединиться",
   "follow": "Следовать",
@@ -954,5 +954,6 @@
   "invalidMidenAccountId": "Недействительный ID аккаунта Miden",
   "invalidAmount": "Недопустимая сумма",
   "amountMustBeLessThanBalance": "Сумма должна быть меньше остатка",
-  "availableBalance": "Доступный баланс"
+  "availableBalance": "Доступный баланс",
+  "uploadYourEncryptedWalletFile": "Загрузите зашифрованный файл кошелька, чтобы безопасно восстановить свой аккаунт. Ваши данные остаются конфиденциальными — в блокчейне хранится только хэшированная информация."
 }

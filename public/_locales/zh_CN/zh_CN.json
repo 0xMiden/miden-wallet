@@ -890,7 +890,7 @@
   "popular": "流行",
   "verifyMessagePrefix": "确认您已保存您的秘密恢复短语。选择第10个单词",
   "enterYourWalletSeedPhrase": "输入你钱包的12个单词的种子短语。",
-  "onlyAleoSeedPhrasesAreSupported": "只支持Aleo种子短语。",
+  "onlyMidenSeedPhrasesAreSupported": "只支持Miden种子短语。",
   "seedPhrasePlaceholder": "12个单词的种子短语",
   "join": "加入",
   "follow": "关注",
@@ -960,5 +960,6 @@
   "invalidMidenAccountId": "无效的 Miden 账户 ID",
   "invalidAmount": "无效金额",
   "amountMustBeLessThanBalance": "金额必须小于余额",
-  "availableBalance": "可用余额"
+  "availableBalance": "可用余额",
+  "uploadYourEncryptedWalletFile": "上传您的加密钱包文件以安全地恢复账户。您的数据保持私密，仅有哈希信息存储在链上。"
 }

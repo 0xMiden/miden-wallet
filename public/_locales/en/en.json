@@ -889,7 +889,7 @@
   "popular": "Popular",
   "verifyMessagePrefix": "Confirm you've saved your secret recovery phrase. Select word #10",
   "enterYourWalletSeedPhrase": "Enter your wallet's 12-word Seed phrase.",
-  "onlyAleoSeedPhrasesAreSupported": "Only Aleo Seed phrases are supported.",
+  "onlyMidenSeedPhrasesAreSupported": "Only Miden Seed phrases are supported.",
   "seedPhrasePlaceholder": "12-word Seed phrase",
   "join": "Join",
   "follow": "Follow",
@@ -959,5 +959,6 @@
   "invalidMidenAccountId": "Invalid Miden account ID",
   "invalidAmount": "Invalid amount",
   "amountMustBeLessThanBalance": "Amount must be less than balance",
-  "availableBalance": "Available balance"
+  "availableBalance": "Available balance",
+  "uploadYourEncryptedWalletFile": "Upload your encrypted wallet file to securely restore your account. Your data remains private, with only hashed information stored on-chain."
 }

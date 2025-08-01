@@ -895,7 +895,7 @@
   "popular": "Popüler",
   "verifyMessagePrefix": "Gizli kurtarma cümlenizi kaydettiğinizi onaylayın. #10 kelimeyi seçin",
   "enterYourWalletSeedPhrase": "Cüzdanınızın 12 kelime Seed cümlesini girin.",
-  "onlyAleoSeedPhrasesAreSupported": "Yalnızca Aleo Seed cümleleri desteklenir.",
+  "onlyMidenSeedPhrasesAreSupported": "Yalnızca Miden Seed cümleleri desteklenir.",
   "seedPhrasePlaceholder": "12 kelime Seed cümlesi",
   "join": "Katıl",
   "follow": "Takip et",
@@ -965,5 +965,6 @@
   "invalidMidenAccountId": "Geçersiz Miden hesap kimliği",
   "invalidAmount": "Geçersiz tutar",
   "amountMustBeLessThanBalance": "Tutar bakiyeden az olmalıdır",
-  "availableBalance": "Kullanılabilir bakiye"
+  "availableBalance": "Kullanılabilir bakiye",
+  "uploadYourEncryptedWalletFile": "Hesabınızı güvenli bir şekilde geri yüklemek için şifreli cüzdan dosyanızı yükleyin. Verileriniz gizli kalır; yalnızca hashlenmiş bilgiler zincire kaydedilir."
 }
