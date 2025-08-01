@@ -888,7 +888,7 @@
   "popular": "Beliebt",
   "verifyMessagePrefix": "Bestätigen Sie, dass Sie Ihren geheimen Wiederherstellungscode gespeichert haben. Wählen Sie Wort #10",
   "enterYourWalletSeedPhrase": "Geben Sie den 12-Wörter-Seed-Satz Ihres Wallets ein.",
-  "onlyAleoSeedPhrasesAreSupported": "Es werden nur Aleo-Seed-Sätze unterstützt.",
+  "onlyMidenSeedPhrasesAreSupported": "Es werden nur Miden-Seed-Sätze unterstützt.",
   "seedPhrasePlaceholder": "12-Wörter-Seed-Satz",
   "join": "Beitreten",
   "follow": "Folgen",
@@ -958,5 +958,6 @@
   "invalidMidenAccountId": "Ungültige Miden-Konto-ID",
   "invalidAmount": "Ungültiger Betrag",
   "amountMustBeLessThanBalance": "Der Betrag muss kleiner als das Guthaben sein",
-  "availableBalance": "Verfügbares Guthaben"
+  "availableBalance": "Verfügbares Guthaben",
+  "uploadYourEncryptedWalletFile": "Lade deine verschlüsselte Wallet-Datei hoch, um dein Konto sicher wiederherzustellen. Deine Daten bleiben privat, es wird nur gehashte Information on-chain gespeichert."
 }

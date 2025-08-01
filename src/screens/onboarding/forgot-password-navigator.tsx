@@ -13,7 +13,7 @@ import { ImportWalletFileScreen } from './import-wallet-flow/ImportWalletFile';
 import { SelectImportTypeScreen } from './import-wallet-flow/SelectImportType';
 import { ForgotPasswordAction, ForgotPasswordStep, ImportType, OnboardingType, WalletType } from './types';
 
-const TOTAL_STEPS = 2;
+const TOTAL_STEPS = 3;
 
 export interface ForgotPasswordFlowProps {
   step: ForgotPasswordStep;
@@ -34,9 +34,30 @@ export const ForgotPasswordFlow: FC<ForgotPasswordFlowProps> = ({
 }) => {
   const [navigationDirection, setNavigationDirection] = useState<'forward' | 'backward'>('forward');
 
-  const currentStep = useMemo(() => (step === ForgotPasswordStep.ImportFromSeed ? 1 : 2), [step]);
   const showHeader = useMemo(() => step !== ForgotPasswordStep.Confirmation, [step]);
-  const showBackButton = step === ForgotPasswordStep.CreatePassword;
+  const showBackButton = step !== ForgotPasswordStep.Welcome;
+  const showProgressIndicator = step !== ForgotPasswordStep.Welcome;
+  const currentStep = useMemo(() => {
+    if (onboardingType === OnboardingType.Create) {
+      if (step === ForgotPasswordStep.BackupSeedPhrase) {
+        return 1;
+      } else if (step === ForgotPasswordStep.VerifySeedPhrase) {
+        return 2;
+      } else if (step === ForgotPasswordStep.CreatePassword) {
+        return 3;
+      }
+    } else {
+      if (step === ForgotPasswordStep.SelectImportType) {
+        return 1;
+      } else if (step === ForgotPasswordStep.ImportFromSeed || step === ForgotPasswordStep.ImportFromFile) {
+        return 2;
+      } else if (step === ForgotPasswordStep.CreatePassword) {
+        return 3;
+      }
+    }
+
+    return 0;
+  }, [onboardingType, step]);
 
   const onForwardAction = useCallback(
     (forgotPasswordAction: ForgotPasswordAction) => {
@@ -57,13 +78,13 @@ export const ForgotPasswordFlow: FC<ForgotPasswordFlowProps> = ({
         onBack={onBack}
         currentStep={currentStep}
         showBackButton={showBackButton}
-        showProgressIndicator={true}
+        showProgressIndicator={showProgressIndicator}
         steps={TOTAL_STEPS}
       />
     ) : (
       <></>
     );
-  }, [currentStep, onBack, showBackButton, showHeader]);
+  }, [currentStep, onBack, showBackButton, showHeader, showProgressIndicator]);
 
   const renderStep = useCallback(() => {
     const onWelcomeAction = (action: 'select-wallet-type' | 'select-import-type') => {

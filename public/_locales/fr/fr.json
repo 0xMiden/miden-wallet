@@ -894,7 +894,7 @@
   "popular": "Populaire",
   "verifyMessagePrefix": "Confirmez que vous avez sauvegardé votre phrase secrète de récupération. Sélectionnez le mot #10",
   "enterYourWalletSeedPhrase": "Entrez la phrase de graine de 12 mots de votre portefeuille.",
-  "onlyAleoSeedPhrasesAreSupported": "Seules les phrases de graine Aleo sont prises en charge.",
+  "onlyMidenSeedPhrasesAreSupported": "Seules les phrases de graine Miden sont prises en charge.",
   "seedPhrasePlaceholder": "Phrase de graine de 12 mots",
   "join": "Rejoindre",
   "follow": "Suivre",
@@ -964,5 +964,6 @@
   "invalidMidenAccountId": "ID de compte Miden invalide",
   "invalidAmount": "Montant invalide",
   "amountMustBeLessThanBalance": "Le montant doit être inférieur au solde",
-  "availableBalance": "Solde disponible"
+  "availableBalance": "Solde disponible",
+  "uploadYourEncryptedWalletFile": "Téléversez votre fichier de portefeuille chiffré pour restaurer votre compte en toute sécurité. Vos données restent privées, seules des informations hachées sont stockées sur la chaîne."
 }

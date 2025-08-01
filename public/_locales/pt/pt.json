@@ -895,7 +895,7 @@
   "popular": "Popular",
   "verifyMessagePrefix": "Confirme que você salvou sua frase secreta de recuperação. Selecione a palavra #10",
   "enterYourWalletSeedPhrase": "Digite a frase semente de 12 palavras da sua carteira.",
-  "onlyAleoSeedPhrasesAreSupported": "Apenas frases semente Aleo são suportadas.",
+  "onlyMidenSeedPhrasesAreSupported": "Apenas frases semente Miden são suportadas.",
   "seedPhrasePlaceholder": "Frase semente de 12 palavras",
   "join": "Junte-se",
   "follow": "Siga",
@@ -965,5 +965,6 @@
   "invalidMidenAccountId": "ID de conta Miden inválido",
   "invalidAmount": "Montante inválido",
   "amountMustBeLessThanBalance": "O montante deve ser inferior ao saldo",
-  "availableBalance": "Saldo disponível"
+  "availableBalance": "Saldo disponível",
+  "uploadYourEncryptedWalletFile": "Carregue o seu ficheiro de carteira encriptado para restaurar a sua conta com segurança. Os seus dados permanecem privados, sendo apenas armazenada informação encriptada na blockchain."
 }

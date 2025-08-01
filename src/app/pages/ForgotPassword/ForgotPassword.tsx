@@ -100,6 +100,8 @@ const ForgotPassword: FC = () => {
             setStep(ForgotPasswordStep.Welcome);
           } else if (step === ForgotPasswordStep.VerifySeedPhrase) {
             setStep(ForgotPasswordStep.BackupSeedPhrase);
+          } else if (step === ForgotPasswordStep.BackupSeedPhrase) {
+            setStep(ForgotPasswordStep.Welcome);
           } else if (step === ForgotPasswordStep.CreatePassword) {
             if (onboardingType === OnboardingType.Create) {
               setStep(ForgotPasswordStep.VerifySeedPhrase);

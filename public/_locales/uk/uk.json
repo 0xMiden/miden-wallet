@@ -902,7 +902,7 @@
   "popular": "Популярний",
   "verifyMessagePrefix": "Підтвердіть, що ви зберегли свою секретну фразу відновлення. Виберіть слово #10",
   "enterYourWalletSeedPhrase": "Введіть 12-слівну фразу-зерно вашого гаманця.",
-  "onlyAleoSeedPhrasesAreSupported": "Підтримуються лише фрази-зерна Aleo.",
+  "onlyMidenSeedPhrasesAreSupported": "Підтримуються лише фрази-зерна Miden.",
   "seedPhrasePlaceholder": "12-слівна фраза-зерно",
   "join": "Приєднатися",
   "follow": "Слідкуйте",
@@ -972,5 +972,6 @@
   "invalidMidenAccountId": "Недійсний ID акаунта Miden",
   "invalidAmount": "Недійсна сума",
   "amountMustBeLessThanBalance": "Сума має бути меншою за баланс",
-  "availableBalance": "Доступний баланс"
+  "availableBalance": "Доступний баланс",
+  "uploadYourEncryptedWalletFile": "Завантажте зашифрований файл гаманця, щоб безпечно відновити свій акаунт. Ваші дані залишаються приватними — на блокчейн потрапляє лише хешована інформація."
 }

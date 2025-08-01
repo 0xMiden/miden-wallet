@@ -894,7 +894,7 @@
   "popular": "人気",
   "verifyMessagePrefix": "秘密の回復フレーズを保存したことを確認します。単語#10を選択してください",
   "enterYourWalletSeedPhrase": "ウォレットの12ワードのシードフレーズを入力してください。",
-  "onlyAleoSeedPhrasesAreSupported": "Aleoのシードフレーズのみがサポートされています。",
+  "onlyMidenSeedPhrasesAreSupported": "Midenのシードフレーズのみがサポートされています。",
   "seedPhrasePlaceholder": "12ワードのシードフレーズ",
   "join": "参加する",
   "follow": "フォローする",
@@ -964,5 +964,6 @@
   "invalidMidenAccountId": "無効なMidenアカウントID",
   "invalidAmount": "無効な金額",
   "amountMustBeLessThanBalance": "金額は残高未満である必要があります",
-  "availableBalance": "利用可能残高"
+  "availableBalance": "利用可能残高",
+  "uploadYourEncryptedWalletFile": "暗号化されたウォレットファイルをアップロードして、アカウントを安全に復元します。データはプライベートに保たれ、ハッシュ化された情報のみがオンチェーンに保存されます。"
 }
