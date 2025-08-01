@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill';
 
 import { isMidenAsset } from 'lib/miden/assets';
 
-import { MidenClientInterface } from '../sdk/miden-client-interface';
+import { getFaucetDetails, MidenClientInterface } from '../sdk/miden-client-interface';
 import { MIDEN_METADATA } from './defaults';
 import { AssetMetadata, DetailedAssetMetdata } from './types';
 
@@ -15,12 +15,20 @@ export async function fetchTokenMetadata(
 
   try {
     const midenClient = await MidenClientInterface.create();
-    await midenClient.importAccountById(assetId);
+    try {
+      await midenClient.importAccountById(assetId);
+    } catch (err: any) {
+      console.log(err);
+    }
+    const account = await midenClient.getAccount(assetId);
+    const faucetDetails = getFaucetDetails(account!);
+    console.log(faucetDetails.symbol().toString());
+    console.log(faucetDetails.decimals());
 
     const base: AssetMetadata = {
-      decimals: 5,
-      symbol: 'ASSET SYMBOL',
-      name: 'ASSET NAME',
+      decimals: faucetDetails.decimals(),
+      symbol: faucetDetails.symbol().toString(),
+      name: faucetDetails.symbol().toString(),
       shouldPreferSymbol: true,
       programId: '',
       mappingName: '',

@@ -67,15 +67,21 @@ export const initiateConsumeTransaction = async (
 
 export const completeConsumeTransaction = async (id: string, result: TransactionResult) => {
   const note = result.consumedNotes().getNote(0).note();
-  const sender = note.metadata().sender().toBech32();
+  const sender = note.metadata().sender().toBech32('mtst');
   const executedTransaction = result.executedTransaction();
-
+  const accountDelta = result.accountDelta();
+  const addedAssets = accountDelta.vault().addedFungibleAssets();
+  for (const asset of addedAssets) {
+    const assetId = asset.faucetId().toBech32('mtst');
+    const amount = asset.amount();
+    console.log(assetId, amount);
+  }
   const dbTransaction = await Repo.transactions.where({ id }).first();
   const reclaimed = dbTransaction?.accountId === sender;
   const displayMessage = reclaimed ? 'Reclaimed' : 'Received';
   const secondaryAccountId = reclaimed ? undefined : sender;
   const asset = note.assets().fungibleAssets()[0];
-  const faucetId = asset.faucetId().toBech32();
+  const faucetId = asset.faucetId().toBech32('mtst');
   const amount = asset.amount();
 
   await updateTransactionStatus(id, ITransactionStatus.Completed, {
@@ -114,6 +120,13 @@ export const initiateSendTransaction = async (
 
 export const completeSendTransaction = async (tx: SendTransaction, result: TransactionResult) => {
   const noteId = result.createdNotes().notes()[0].id().toString();
+  const accountDelta = result.accountDelta();
+  const removedAssets = accountDelta.vault().removedFungibleAssets();
+  for (const asset of removedAssets) {
+    const assetId = asset.faucetId().toBech32('mtst');
+    const amount = asset.amount();
+    console.log(assetId, amount);
+  }
   if (tx.noteType === NoteTypeEnum.Private) {
     const midenClient = await MidenClientInterface.create();
     const noteBytes = await midenClient.exportNote(noteId, NoteExportType.PARTIAL);

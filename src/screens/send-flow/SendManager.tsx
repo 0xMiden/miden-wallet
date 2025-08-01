@@ -94,7 +94,6 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const { navigateTo, goBack } = useNavigator();
   const allAccounts = useAllAccounts();
   const { publicKey } = useAccount();
-  const faucetId = getFaucetIdSetting();
   const { fullPage } = useAppEnv();
   const delegateEnabled = isDelegateProofEnabled();
   const { data: balanceData } = useFungibleTokens(publicKey);
@@ -207,7 +206,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
         await initiateSendTransaction(
           publicKey!,
           recipientAddress!,
-          faucetId,
+          token!.id,
           sharePrivately ? NoteTypeEnum.Private : NoteTypeEnum.Public,
           stringToBigInt(amount!, MIDEN_METADATA.decimals),
           recallBlocks ? parseInt(recallBlocks) : undefined,
@@ -232,7 +231,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       amount,
       recallBlocks,
       setError,
-      faucetId
+      token
     ]
   );
 

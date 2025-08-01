@@ -120,7 +120,7 @@ export class Vault {
 
       // Have to do this sequentially else the wasm fails
       for (const accountHeader of accountHeaders) {
-        const account = await midenClient.getAccount(accountHeader.id().toBech32());
+        const account = await midenClient.getAccount(accountHeader.id().toBech32('mtst'));
         accounts.push(account);
       }
 
@@ -129,7 +129,7 @@ export class Vault {
         const acc = accounts[i];
         if (acc) {
           newAccounts.push({
-            publicKey: acc.id().toBech32(),
+            publicKey: acc.id().toBech32('mtst'),
             name: 'Miden Account ' + (i + 1),
             isPublic: acc.isPublic(),
             type: WalletType.OnChain

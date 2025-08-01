@@ -39,7 +39,7 @@ export function useClaimableNotes(publicAddress: string) {
           return {
             id: noteId,
             amount: asset.amount().toString(),
-            senderAddress: metadata?.sender()?.toBech32() || '',
+            senderAddress: metadata?.sender()?.toBech32('mtst') || '',
             isBeingClaimed: notesBeingClaimed.has(noteId)
           };
         } catch (error) {
