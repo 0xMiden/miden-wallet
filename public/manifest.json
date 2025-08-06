@@ -10,14 +10,13 @@
     "128": "misc/logo-white-bg-128.png"
   },
   "description": "__MSG_appDesc__",
-  "__chrome|firefox|opera__homepage_url": "https://leo.app",
+  "__chrome|firefox|opera__homepage_url": "https://miden.fi",
   "short_name": "Miden Wallet",
 
   "permissions": ["storage", "clipboardWrite", "unlimitedStorage", "activeTab", "tabs"],
   "host_permissions": [
     "http://localhost:4180/",
     "http://localhost:3000/",
-    "https://*.leo.app/*",
     "https://*.miden.fi/*"
   ],
 
@@ -38,7 +37,7 @@
 
   "__firefox__browser_specific_settings": {
     "gecko": {
-      "id": "support@leo.app"
+      "id": "support@miden.fi"
     }
   },
 
