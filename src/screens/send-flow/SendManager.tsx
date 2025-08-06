@@ -372,7 +372,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       className={classNames(
         fullPage
           ? 'h-[640px] max-h-[640px] w-[600px] max-w-[600px]'
-          : 'h-[600px] max-h-[600px] w-[340px] max-w-[340px]',
+          : 'h-[600px] max-h-[600px] w-[360px] max-w-[360px]',
         'mx-auto overflow-hidden ',
         'flex flex-1',
         'flex-col bg-white',
