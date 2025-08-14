@@ -168,7 +168,7 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
       onSubmit={handleSubmit(handleImportSubmit)}
     >
       <h1 className="text-2xl font-semibold">{t('importWallet')}</h1>
-      <p className="text-sm text-center mb-6">{t('uploadYourEncryptedWalletFile')}</p>
+      <p className="text-sm text-center mb-6">{t('importWithEncryptedWalletFileDescription')}</p>
       {walletFile == null ? (
         <div
           className={classNames(

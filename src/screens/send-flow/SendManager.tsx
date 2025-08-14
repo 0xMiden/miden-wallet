@@ -9,14 +9,7 @@ import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { stringToBigInt } from 'lib/i18n/numbers';
 import { initiateSendTransaction } from 'lib/miden/activity';
-import {
-  getFaucetIdSetting,
-  isMidenFaucet,
-  MIDEN_METADATA,
-  useAccount,
-  useAllAccounts,
-  useFungibleTokens
-} from 'lib/miden/front';
+import { isMidenFaucet, MIDEN_METADATA, useAccount, useAllAccounts, useFungibleTokens } from 'lib/miden/front';
 import { NoteTypeEnum } from 'lib/miden/types';
 import { navigate } from 'lib/woozie';
 import { isValidMidenAddress } from 'utils/miden';
@@ -94,7 +87,6 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const { navigateTo, goBack } = useNavigator();
   const allAccounts = useAllAccounts();
   const { publicKey } = useAccount();
-  const faucetId = getFaucetIdSetting();
   const { fullPage } = useAppEnv();
   const delegateEnabled = isDelegateProofEnabled();
   const { data: balanceData } = useFungibleTokens(publicKey);
@@ -207,7 +199,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
         await initiateSendTransaction(
           publicKey!,
           recipientAddress!,
-          faucetId,
+          token!.id,
           sharePrivately ? NoteTypeEnum.Private : NoteTypeEnum.Public,
           stringToBigInt(amount!, MIDEN_METADATA.decimals),
           recallBlocks ? parseInt(recallBlocks) : undefined,
@@ -232,7 +224,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       amount,
       recallBlocks,
       setError,
-      faucetId
+      token
     ]
   );
 
@@ -380,7 +372,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       className={classNames(
         fullPage
           ? 'h-[640px] max-h-[640px] w-[600px] max-w-[600px]'
-          : 'h-[600px] max-h-[600px] w-[340px] max-w-[340px]',
+          : 'h-[600px] max-h-[600px] w-[360px] max-w-[360px]',
         'mx-auto overflow-hidden ',
         'flex flex-1',
         'flex-col bg-white',

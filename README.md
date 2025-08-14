@@ -1,12 +1,10 @@
-# Leo - Miden Wallet
-
-TODO
+# Miden Wallet
 
 <hr />
 
 ## ▶️ Install
 
-You can install Leo Wallet right now: https://leo.app/download.
+You can install Miden Wallet right now: https://miden.fi/.
 
 ## 🚀 Quick Start
 

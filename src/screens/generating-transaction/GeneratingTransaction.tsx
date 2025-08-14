@@ -38,6 +38,12 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
   );
 
   const onClose = useCallback(() => {
+    const { hash } = window.location;
+    if (!hash.includes('generating-transaction')) {
+      // If we're not on the generating transaction page, don't close the window
+      return;
+    }
+
     if (keepOpen) {
       navigate('/');
       return;

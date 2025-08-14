@@ -44,11 +44,6 @@ jobs:
         with:
           cmd: build:chrome
 
-      - name: Build firefox
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: build:firefox
-
       - name: Set current date as env variable
         id: get-datetime
         run: |
@@ -58,10 +53,9 @@ jobs:
         run: |
           mkdir output
           mv dist/chrome.zip output/chrome.zip
-          mv dist/firefox.xpi output/firefox.xpi
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: builds
-          path: output/
+          name: miden-wallet-build
+          path: output/chrome.zip

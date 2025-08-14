@@ -1,5 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 
+import classNames from 'clsx';
+
 import FormField from 'app/atoms/FormField';
 import { openLoadingFullPage, useAppEnv } from 'app/env';
 import { Icon, IconName } from 'app/icons/v2';
@@ -32,6 +34,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [attemptedNoteIds, setAttemptedNoteIds] = useState(new Set<string>());
   const safeClaimableNotes = (claimableNotes ?? []).filter((n): n is NonNullable<typeof n> => n != null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const pageTitle = (
     <>
@@ -46,27 +49,57 @@ export const Receive: React.FC<ReceiveProps> = () => {
     }
   };
 
-  const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files ? event.target.files[0] : null;
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = async (e: ProgressEvent<FileReader>) => {
-        try {
-          if (e.target?.result instanceof ArrayBuffer) {
-            const noteBytesAsUint8Array = new Uint8Array(e.target.result);
+  const handleFileChange = useCallback((file: File) => {
+    const reader = new FileReader();
+    reader.onload = async (e: ProgressEvent<FileReader>) => {
+      try {
+        if (e.target?.result instanceof ArrayBuffer) {
+          const noteBytesAsUint8Array = new Uint8Array(e.target.result);
 
-            const noteId = await midenClient.importNoteBytes(noteBytesAsUint8Array);
-            await midenClient.syncState();
-            navigate(`/import-note-pending/${noteId}`);
-          }
-        } catch (error) {
-          console.error('Error during note import:', error);
-          navigate('/import-note-failure');
+          const noteId = await midenClient.importNoteBytes(noteBytesAsUint8Array);
+          await midenClient.syncState();
+          navigate(`/import-note-pending/${noteId}`);
         }
-      };
-      reader.readAsArrayBuffer(file);
-    }
+      } catch (error) {
+        console.error('Error during note import:', error);
+        navigate('/import-note-failure');
+      }
+    };
+    reader.readAsArrayBuffer(file);
   }, []);
+
+  const onDropFile = useCallback(
+    (e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      const file = e.dataTransfer.files[0];
+      if (file) {
+        handleFileChange(file);
+        setIsDragging(false);
+      }
+    },
+    [handleFileChange]
+  );
+
+  const onDragEnter = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+  }, []);
+
+  const onDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (e.currentTarget.contains(e.relatedTarget as Node)) return; // Ignore if the drag is over a childelement
+    setIsDragging(false);
+  }, []);
+
+  const onUploadFile = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        handleFileChange(file);
+      }
+    },
+    [handleFileChange]
+  );
 
   const consumeNote = useCallback(
     async (noteId: string) => {
@@ -94,7 +127,13 @@ export const Receive: React.FC<ReceiveProps> = () => {
       }}
       skip={false}
     >
-      <div className="p-4">
+      <div
+        className="p-4"
+        onDrop={onDropFile}
+        onDragOver={e => e.preventDefault()}
+        onDragEnter={onDragEnter}
+        onDragLeave={onDragLeave}
+      >
         <FormField ref={fieldRef} value={address} style={{ display: 'none' }} />
         <div className="flex flex-col justify-start">
           <div className="flex justify-center items-center gap-24 pb-6">
@@ -113,14 +152,14 @@ export const Receive: React.FC<ReceiveProps> = () => {
         <div className="flex flex-col justify-center items-center gap-y-2 p-6">
           <p className="text-xs text-gray-400">Already have a transaction file?</p>
           <Button
-            className="w-5/6 md:w-1/2"
-            variant={ButtonVariant.Secondary}
+            className={classNames('w-5/6 md:w-1/2')}
+            variant={isDragging ? ButtonVariant.Primary : ButtonVariant.Secondary}
             onClick={handleButtonClick}
             title="Upload file"
             style={{ cursor: 'pointer' }}
             iconLeft={true ? IconName.File : null}
           />
-          <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleFileChange} />
+          <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={onUploadFile} />
         </div>
         <div className="w-5/6 md:w-1/2 mx-auto" style={{ borderBottom: '1px solid #E9EBEF' }}></div>
         <div className="flex flex-col gap-y-4 p-6">
