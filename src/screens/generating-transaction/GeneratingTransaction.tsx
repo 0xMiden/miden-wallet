@@ -128,13 +128,18 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
 
   const renderIcon = useCallback(() => {
     if (transactionComplete) {
-      return <Icon name={IconName.CheckboxCircleFill} size="xxl" />;
+      return <Icon name={IconName.Success} size="3xl" />;
     }
     if (error) {
-      return <Icon name={IconName.CloseCircleFill} size="xxl" />;
+      return <Icon name={IconName.Failed} size="3xl" />;
     }
 
-    return <CircularProgress borderWeight={6} progress={progress} circleColor="black" circleSize={50} spin={true} />;
+    return (
+      <div className="flex items-center justify-center">
+        <Icon name={IconName.YellowProgress} className="absolute" size="3xl" />
+        <CircularProgress borderWeight={2} progress={progress} circleColor="black" circleSize={55} spin={true} />
+      </div>
+    );
   }, [transactionComplete, error, progress]);
 
   const headerText = useCallback(() => {
@@ -160,14 +165,7 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
       <Alert variant={AlertVariant.Warning} title={alertText()} />
       <div className="flex-1 flex flex-col justify-center md:w-[460px] md:mx-auto">
         <div className="flex flex-col justify-center items-center">
-          <div
-            className={classNames(
-              'w-40 aspect-square flex items-center justify-center',
-              'rounded-full bg-gradient-to-t from-white to-[#F9F9F9]'
-            )}
-          >
-            {renderIcon()}
-          </div>
+          <div className={classNames('w-40 aspect-square flex items-center justify-center mb-8')}>{renderIcon()}</div>
           <div className="flex flex-col items-center">
             <h1 className="font-semibold text-2xl lh-title">{headerText()}</h1>
             <p className="text-base text-center lh-title">

@@ -2,13 +2,17 @@ import React, { Component, ErrorInfo } from 'react';
 
 import classNames from 'clsx';
 
-import { ReactComponent as DangerIcon } from 'app/icons/danger.svg';
-import { T } from 'lib/i18n/react';
+import { Button, ButtonVariant } from 'components/Button';
+import { t, T } from 'lib/i18n/react';
 import { PropsWithChildren } from 'lib/props-with-children';
+
+import { WindowType } from './env';
+import { Icon, IconName } from './icons/v2';
 
 interface ErrorBoundaryProps extends PropsWithChildren {
   className?: string;
   whileMessage?: string;
+  windowType?: WindowType;
 }
 
 type ErrorBoundaryState = {
@@ -41,11 +45,19 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps> {
   render() {
     if (this.state.error) {
       const online = getOnlineStatus();
+      const fullPage = this.props.windowType === WindowType.FullPage;
 
       return (
-        <div className={classNames('w-full', 'flex items-center justify-center', this.props.className)}>
-          <div className={classNames('max-w-xs', 'p-4', 'flex flex-col items-center', 'text-red-600')}>
-            <DangerIcon className="h-16 w-auto stroke-current" />
+        <div
+          className={classNames(
+            'w-full',
+            'flex items-center justify-center',
+            this.props.className,
+            fullPage && 'bg-white mt-[-24px]'
+          )}
+        >
+          <div className={classNames('p-4', 'flex flex-col items-center', 'text-black')}>
+            <Icon name={IconName.Frown} size="3xl" className="mb-8" />
 
             <T id="oops">{message => <h2 className="mb-1 text-2xl">{message}</h2>}</T>
 
@@ -67,27 +79,7 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps> {
               )}
             </p>
 
-            <T id="tryAgain">
-              {message => (
-                <button
-                  className={classNames(
-                    'mb-6',
-                    'px-4 py-1',
-                    'bg-red-500 rounded',
-                    'border border-black border-opacity-5',
-                    'flex items-center',
-                    'text-white text-shadow-black',
-                    'text-sm font-semibold',
-                    'transition duration-300 ease-in-out',
-                    'opacity-90 hover:opacity-100',
-                    'shadow-sm hover:shadow'
-                  )}
-                  onClick={() => this.tryAgain()}
-                >
-                  {message}
-                </button>
-              )}
-            </T>
+            <Button variant={ButtonVariant.Primary} title={t('tryAgain')} className="w-full mt-4" />
           </div>
         </div>
       );

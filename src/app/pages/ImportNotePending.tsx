@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 
 import CircularProgress from 'app/atoms/CircularProgress';
+import { Icon, IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
 import { useAccount } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
@@ -71,8 +72,9 @@ const ImportNotePending: FC<ImportNotePendingProps> = ({ noteId }) => {
     <PageLayout pageTitle="Transaction file" showBottomBorder={false} hasBackAction={false}>
       <div className="flex m-auto">
         <div className="flex-1 flex flex-col justify-center items-center md:w-[460px] md:mx-auto">
-          <div className="w-40 aspect-square flex items-center justify-center mb-8 rounded-full bg-gradient-to-t from-white to-[#F9F9F9]">
-            <CircularProgress borderWeight={6} progress={80} circleColor="black" circleSize={50} spin={true} />
+          <div className="w-40 aspect-square flex items-center justify-center mb-8">
+            <Icon name={IconName.YellowProgress} className="absolute" size="3xl" />
+            <CircularProgress borderWeight={2} progress={80} circleColor="black" circleSize={55} spin={true} />
           </div>
           <h1 className="flex flex-col font-semibold text-2xl lh-title text-center text-balance pb-4">
             Verifying transaction
