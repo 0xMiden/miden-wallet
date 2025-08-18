@@ -1,9 +1,11 @@
+import { MidenClientInterface } from '../sdk/miden-client-interface';
+import { NoteFilter, NoteFilterTypes, NoteType } from '@demox-labs/miden-sdk';
 import {
   DecryptPermission,
   MidenConsumeTransaction,
   MidenCustomTransaction,
   SendTransaction
-} from '@demox-labs/miden-wallet-adapter-base';
+} from '@demox-labs/miden-wallet-adapter';
 import { nanoid } from 'nanoid';
 import browser, { Runtime } from 'webextension-polyfill';
 
@@ -20,7 +22,9 @@ import {
   MidenDAppTransactionRequest,
   MidenDAppTransactionResponse,
   MidenDAppConsumeRequest,
-  MidenDAppConsumeResponse
+  MidenDAppConsumeResponse,
+  MidenDAppPrivateNotesResponse,
+  MidenDAppPrivateNotesRequest
 } from 'lib/adapter/types';
 import { intercom } from 'lib/miden/back/defaults';
 import { Vault } from 'lib/miden/back/vault';
@@ -195,6 +199,108 @@ export async function generatePromisifyRequestPermission(
     });
   });
 }
+
+export async function requestPrivateNotes(
+  origin: string,
+  req: MidenDAppPrivateNotesRequest
+): Promise<MidenDAppPrivateNotesResponse> {
+  if (!req?.sourcePublicKey) {
+    throw new Error(MidenDAppErrorType.InvalidParams);
+  }
+
+  const dApp = await getDApp(origin, req.sourcePublicKey);
+  if (!dApp) {
+    throw new Error(MidenDAppErrorType.NotGranted);
+  }
+
+  if (req.sourcePublicKey !== dApp.publicKey) {
+    throw new Error(MidenDAppErrorType.NotFound);
+  }
+
+  return new Promise((resolve, reject) => generatePromisifyRequestPrivateNotes(resolve, reject, dApp, req));
+}
+
+const generatePromisifyRequestPrivateNotes = async (
+  resolve: (value: MidenDAppPrivateNotesResponse | PromiseLike<MidenDAppPrivateNotesResponse>) => void,
+  reject: (reason?: any) => void,
+  dApp: MidenDAppSession,
+  req: MidenDAppPrivateNotesRequest
+) => {
+  if (dApp.decryptPermission === DecryptPermission.AutoDecrypt ||
+      dApp.decryptPermission === DecryptPermission.OnChainHistory)
+  {
+    try {
+      let privateNotes = await withUnlocked(async () => {
+        const midenClient = await MidenClientInterface.create();
+        const noteFilter = new NoteFilter(NoteFilterTypes.All); // Unsure if we want All or a different type?
+        let allNotes = await midenClient.getInputNotes(noteFilter);
+        let privateNotes = allNotes.filter(note => note.metadata()?.noteType() === NoteType.Private);
+        let privateNoteIds = privateNotes.map(note => note.id().toString());
+        return privateNoteIds;
+      });
+      resolve({
+        type: MidenDAppMessageType.PrivateNotesResponse,
+        privateNotes: privateNotes
+      });
+    } catch (e) {
+      reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+    }
+  } else {
+    const id = nanoid();
+    const networkRpc = await getNetworkRPC(dApp.network);
+
+    let privateNotes: any[] = [];
+    try {
+      privateNotes = await withUnlocked(async () => {
+        const midenClient = await MidenClientInterface.create();
+        const noteFilter = new NoteFilter(NoteFilterTypes.All); // Unsure if we want All or a different type?
+        let allNotes = await midenClient.getInputNotes(noteFilter);
+        let privateNotes = allNotes.filter(note => note.metadata()?.noteType() === NoteType.Private);
+        let privateNoteIds = privateNotes.map(note => note.id().toString());
+        return privateNoteIds;
+      });
+    } catch (e) {
+      reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+    }
+
+    await requestConfirm({
+      id,
+      payload: {
+        type: 'privateNotes',
+        origin,
+        networkRpc,
+        appMeta: dApp.appMeta,
+        sourcePublicKey: req.sourcePublicKey,
+        privateNotes: privateNotes,
+        preview: null
+      },
+      onDecline: () => {
+        reject(new Error(MidenDAppErrorType.NotGranted));
+      },
+      handleIntercomRequest: async (confirmReq, decline) => {
+        if (confirmReq?.type === MidenMessageType.DAppPrivateNotesConfirmationRequest && confirmReq?.id === id) {
+          if (confirmReq.confirmed) {
+            try {
+              resolve({
+                type: MidenDAppMessageType.PrivateNotesResponse,
+                privateNotes
+              } as any);
+            } catch (e) {
+              reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+            }
+          } else {
+            decline();
+          }
+
+          return {
+            type: MidenMessageType.DAppPrivateNotesConfirmationResponse
+          };
+        }
+        return undefined;
+      }
+    });
+  }
+};
 
 export async function requestTransaction(
   origin: string,

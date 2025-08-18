@@ -4,7 +4,7 @@ import {
   MidenSendTransaction,
   MidenTransaction,
   MidenConsumeTransaction
-} from '@demox-labs/miden-wallet-adapter-base';
+} from '@demox-labs/miden-wallet-adapter';
 import { nanoid } from 'nanoid';
 
 import {
@@ -143,6 +143,15 @@ export async function requestConsume(sourcePublicKey: string, transaction: Miden
   });
   assertResponse(res.type === MidenDAppMessageType.ConsumeResponse);
   return res.transactionId;
+}
+
+export async function requestPrivateNotes(sourcePublicKey: string) {
+  const res = await request({
+    type: MidenDAppMessageType.PrivateNotesRequest,
+    sourcePublicKey
+  });
+  assertResponse(res.type === MidenDAppMessageType.PrivateNotesResponse);
+  return res.privateNotes;
 }
 
 function request(payload: MidenDAppRequest) {

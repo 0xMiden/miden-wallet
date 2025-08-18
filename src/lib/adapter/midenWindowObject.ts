@@ -5,8 +5,8 @@ import {
   MidenTransaction,
   MidenSendTransaction,
   MidenConsumeTransaction
-} from '@demox-labs/miden-wallet-adapter-base';
-import { MidenWallet, MidenWalletEvents } from '@demox-labs/miden-wallet-adapter-miden';
+} from '@demox-labs/miden-wallet-adapter';
+import { MidenWallet, MidenWalletEvents } from '@demox-labs/miden-wallet-adapter';
 
 import {
   requestPermission,
@@ -15,7 +15,8 @@ import {
   onPermissionChange,
   isAvailable,
   requestSend,
-  requestConsume
+  requestConsume,
+  requestPrivateNotes
 } from 'lib/adapter/client';
 import { MidenDAppPermission } from 'lib/adapter/types';
 
@@ -43,6 +44,11 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
   async requestTransaction(transaction: MidenTransaction): Promise<{ transactionId?: string | undefined }> {
     const res = await requestTransaction(this.accountId!, transaction);
     return { transactionId: res };
+  }
+
+  async requestPrivateNotes(): Promise<{ privateNotes: any[] }> {
+    const res = await requestPrivateNotes(this.publicKey!);
+    return { privateNotes: res };
   }
 
   async connect(

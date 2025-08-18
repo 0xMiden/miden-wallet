@@ -49,7 +49,7 @@ class Sync {
   async syncChain() {
     try {
       const summary = await midenClient.syncState();
-      if (summary.updatedAccounts().some(id => id.toBech32() === this.state?.currentAccount?.publicKey)) {
+      if (summary.updatedAccounts().some(id => id.toBech32('mtst') === this.state?.currentAccount?.publicKey)) {
         // get the transaction ids and filter by the current account
       }
     } catch (e) {
