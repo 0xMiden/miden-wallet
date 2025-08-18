@@ -26,7 +26,7 @@ interface AppProps extends Partial<PropsWithChildren> {
 
 const App: FC<AppProps> = ({ env }) => {
   return (
-    <ErrorBoundary whileMessage="booting a wallet" className="min-h-screen">
+    <ErrorBoundary whileMessage="booting a wallet" className="min-h-screen" windowType={env.windowType}>
       <DialogsProvider>
         <Suspense fallback={<RootSuspenseFallback />}>
           <AppProvider env={env}>

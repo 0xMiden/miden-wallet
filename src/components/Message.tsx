@@ -2,7 +2,7 @@ import React from 'react';
 
 import classNames from 'clsx';
 
-import { Icon, IconName } from 'app/icons/v2';
+import { Icon, IconName, IconSize } from 'app/icons/v2';
 
 export interface MessageProps extends React.ButtonHTMLAttributes<HTMLDivElement> {
   icon: IconName;
@@ -12,6 +12,7 @@ export interface MessageProps extends React.ButtonHTMLAttributes<HTMLDivElement>
   descriptionClasses?: string;
   iconBackgroundClassName?: string;
   iconClassName?: string;
+  iconSize?: IconSize;
 }
 
 export const Message: React.FC<MessageProps> = ({
@@ -23,12 +24,13 @@ export const Message: React.FC<MessageProps> = ({
   secondDescription,
   iconClassName,
   descriptionClasses,
+  iconSize = 'xxl',
   ...props
 }) => {
   return (
     <div {...props} className="flex flex-col justify-center items-center">
       <div className={classNames('w-40 aspect-square flex items-center justify-center', iconBackgroundClassName)}>
-        <Icon name={icon} size="xxl" className={iconClassName} />
+        <Icon name={icon} size={iconSize} className={iconClassName} />
       </div>
       <div className="flex flex-col items-center">
         <h1 className="font-semibold text-2xl lh-title">{title}</h1>
