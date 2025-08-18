@@ -1,7 +1,8 @@
 import React, { FC, useCallback, useRef } from 'react';
 
+import { useTranslation } from 'react-i18next';
+
 import ToggleSwitch from 'app/atoms/ToggleSwitch';
-import { T } from 'lib/i18n/react';
 
 import { GeneralSettingsSelectors } from './GeneralSettings.selectors';
 
@@ -22,7 +23,7 @@ export function isAutoCloseEnabled() {
 const AutoCloseSettings: FC<{}> = () => {
   const gpuEnabled = isAutoCloseEnabled();
   const changingRef = useRef(false);
-
+  const { t } = useTranslation();
   const handleAutoCloseChange = useCallback((evt: React.ChangeEvent<HTMLInputElement>) => {
     if (changingRef.current) return;
     changingRef.current = true;
@@ -32,7 +33,7 @@ const AutoCloseSettings: FC<{}> = () => {
   }, []);
 
   return (
-    <div className="flex w-full justify-between mb-8 mt-6">
+    <div className="flex w-full justify-between mt-6">
       <div className="flex flex-col w-5/6">
         <label className="leading-tight flex flex-col" htmlFor="gpuEnabled">
           <span
@@ -42,11 +43,11 @@ const AutoCloseSettings: FC<{}> = () => {
               lineHeight: '20px'
             }}
           >
-            <T id="autoCloseSettings" />
+            {t('autoCloseSettings')}
           </span>
 
           <span className="mt-1 text-black" style={{ fontSize: '12px', lineHeight: '16px' }}>
-            <T id="autoCloseSettingsDescription" />
+            {t('autoCloseSettingsDescription')}
           </span>
         </label>
       </div>

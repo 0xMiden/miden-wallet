@@ -962,5 +962,7 @@
   "availableBalance": "Available balance",
   "uploadYourEncryptedWalletFile": "Upload your encrypted wallet file to securely restore your account. Your data remains private, with only hashed information stored on-chain.",
   "goToFaucet": "Go to Faucet",
-  "explorePrivateAssets": "Explore the world of private assets."
+  "explorePrivateAssets": "Explore the world of private assets.",
+  "autoConsumeSettings": "Auto Consume MIDEN notes",
+  "autoConsumeSettingsDescription": "Auto Consume will automatically consume notes from the official Miden Faucet."
 }

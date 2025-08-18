@@ -13,7 +13,6 @@ import { isAutoCloseEnabled } from 'app/templates/AutoCloseSettings';
 import { Alert, AlertVariant } from 'components/Alert';
 import { Button, ButtonVariant } from 'components/Button';
 import { useAnalytics } from 'lib/analytics';
-import { t } from 'lib/i18n/react';
 import { safeGenerateTransactionsLoop as dbTransactionsLoop, getAllUncompletedTransactions } from 'lib/miden/activity';
 import { useExportNotes } from 'lib/miden/activity/notes';
 import { useRetryableSWR } from 'lib/swr';
@@ -26,6 +25,7 @@ export interface GeneratingTransactionPageProps {
 export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ keepOpen = false }) => {
   const { pageEvent, trackEvent } = useAnalytics();
   const [outputNotes, downloadAll] = useExportNotes();
+  const { t } = useTranslation();
 
   const { data: txs, mutate: mutateTx } = useRetryableSWR(
     [`all-latest-generating-transactions`],

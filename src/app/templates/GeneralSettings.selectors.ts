@@ -5,5 +5,6 @@ export enum GeneralSettingsSelectors {
   DelegateToggle = 'General Settings/DelegateToggle',
   LockUpToggle = 'General Settings/LockUpToggle',
   PopupToggle = 'General Settings/PopupToggle',
-  AutoCloseToggle = 'General Settings/AutoCloseToggle'
+  AutoCloseToggle = 'General Settings/AutoCloseToggle',
+  AutoConsumeToggle = 'General Settings/AutoConsumeToggle'
 }

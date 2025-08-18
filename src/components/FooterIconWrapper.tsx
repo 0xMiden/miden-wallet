@@ -11,9 +11,10 @@ export interface FooterIconWrapperProps {
   onClick: () => void;
   icon: IconName;
   iconFill: IconName;
+  badge?: boolean;
 }
 
-export const FooterIconWrapper: React.FC<FooterIconWrapperProps> = ({ linkTo, onClick, icon, iconFill }) => {
+export const FooterIconWrapper: React.FC<FooterIconWrapperProps> = ({ linkTo, onClick, icon, iconFill, badge }) => {
   const location = useLocation();
   const currentPath = location.pathname;
   const pathSegments = currentPath.split('/');
@@ -26,11 +27,21 @@ export const FooterIconWrapper: React.FC<FooterIconWrapperProps> = ({ linkTo, on
     <Link to={linkTo} onClick={onClick}>
       <div
         className={classNames(
-          'flex flex-col items-center p-3 rounded-full hover:bg-grey-25',
+          'flex relative flex-col items-center p-3 rounded-full hover:bg-grey-25',
           active ? 'bg-grey-25' : ''
         )}
       >
         <Icon name={active ? iconFill : icon} size="sm" fill={active ? colors.primary[600] : 'black'} />
+        {badge && (
+          <div
+            className={classNames(
+              'absolute top-[30%] left-[70%] -translate-x-1/2 -translate-y-1/2',
+              'flex items-center justify-center',
+              'w-4 h-4 bg-red-500 rounded-full',
+              'border-2 border-white'
+            )}
+          />
+        )}
       </div>
     </Link>
   );

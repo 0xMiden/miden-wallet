@@ -40,7 +40,7 @@ import { queueNoteImport } from '../activity';
 import {
   initiateSendTransaction,
   requestCustomTransaction,
-  initiateConsumeTransaction
+  initiateConsumeTransactionFromId
 } from '../activity/transactions';
 import { store, withUnlocked } from './store';
 
@@ -435,7 +435,7 @@ const generatePromisifyConsumeTransaction = async (
               if (noteBytes) {
                 await queueNoteImport(noteBytes);
               }
-              return await initiateConsumeTransaction(req.sourcePublicKey, noteId);
+              return await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId);
             });
             resolve({
               type: MidenDAppMessageType.ConsumeResponse,

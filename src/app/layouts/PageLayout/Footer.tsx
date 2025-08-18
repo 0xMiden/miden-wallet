@@ -4,7 +4,11 @@ import { IconName } from 'app/icons/v2';
 import { FooterIconWrapper } from 'components/FooterIconWrapper';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
 
-const Footer: FC = () => {
+interface FooterProps {
+  activityBadge?: boolean;
+}
+
+const Footer: FC<FooterProps> = ({ activityBadge }) => {
   const { trackEvent } = useAnalytics();
   const onSettingsClick = () => {
     trackEvent('Footer/Settings', AnalyticsEventCategory.ButtonPress, { type: 'settings' });
@@ -27,6 +31,7 @@ const Footer: FC = () => {
           iconFill={IconName.List}
           linkTo={'/activity'}
           onClick={onActivityClick}
+          badge={activityBadge}
         />
         <FooterIconWrapper
           icon={IconName.Settings}
