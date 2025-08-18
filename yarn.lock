@@ -1270,13 +1270,17 @@
     dexie "^4.0.1"
     glob "^11.0.0"
 
-"@demox-labs/miden-wallet-adapter-base@^0.2.0", "@demox-labs/miden-wallet-adapter-base@file:../miden-wallet-adapter/packages/core/base":
+"@demox-labs/miden-wallet-adapter-base@0.2.0", "@demox-labs/miden-wallet-adapter-base@^0.2.0":
   version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-base/-/miden-wallet-adapter-base-0.2.0.tgz#a50738f447f8e3f9d57de25fd73464f3e4a0fd07"
+  integrity sha512-vhx+Ji8axzC9LZh/GbyMr4rAXC8/QY+CGKs3WnOJcvOhfGsrnVVjOL8DT7+/XfTAPptLPOLe4hn6daFa9BgW6Q==
   dependencies:
     eventemitter3 "^5.0.1"
 
-"@demox-labs/miden-wallet-adapter-miden@file:../miden-wallet-adapter/packages/wallets/miden":
+"@demox-labs/miden-wallet-adapter-miden@0.2.0":
   version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-miden/-/miden-wallet-adapter-miden-0.2.0.tgz#7da2f2f89bdf2131c310da4cadb8e45544a667e2"
+  integrity sha512-FV1VP0ctcO6Z5/5+TJu6MlONFyT2Iwha/tIqzYkahg6qjo2yBt40YPjjjV98hXXkWYCqrH+yvj+F56tj/Tc6/Q==
   dependencies:
     "@demox-labs/miden-wallet-adapter-base" "^0.2.0"
     nanoid "^5.0.9"
@@ -4398,12 +4402,12 @@ browserslist@4.14.2:
     node-releases "^1.1.61"
 
 browserslist@^4.0.0, browserslist@^4.19.1, browserslist@^4.21.4, browserslist@^4.24.0, browserslist@^4.24.4, browserslist@^4.25.1:
-  version "4.25.2"
-  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.25.2.tgz#90c1507143742d743544ae6e92bca3348adff667"
-  integrity sha512-0si2SJK3ooGzIawRu61ZdPCO1IncZwS8IzuX73sPZsXW6EQ/w/DAfPyKI8l1ETTCr2MnvqWitmlCUxgdul45jA==
+  version "4.25.3"
+  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.25.3.tgz#9167c9cbb40473f15f75f85189290678b99b16c5"
+  integrity sha512-cDGv1kkDI4/0e5yON9yM5G/0A5u8sf5TnmdX5C9qHzI9PPu++sQ9zjm1k9NiOrf3riY4OkK0zSGqfvJyJsgCBQ==
   dependencies:
-    caniuse-lite "^1.0.30001733"
-    electron-to-chromium "^1.5.199"
+    caniuse-lite "^1.0.30001735"
+    electron-to-chromium "^1.5.204"
     node-releases "^2.0.19"
     update-browserslist-db "^1.1.3"
 
@@ -4560,7 +4564,7 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001125, caniuse-lite@^1.0.30001297, caniuse-lite@^1.0.30001702, caniuse-lite@^1.0.30001733:
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001125, caniuse-lite@^1.0.30001297, caniuse-lite@^1.0.30001702, caniuse-lite@^1.0.30001735:
   version "1.0.30001735"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001735.tgz#ba658fd3fd24a4106fd68d5ce472a2c251494dbe"
   integrity sha512-EV/laoX7Wq2J9TQlyIXRxTJqIw4sxfXS4OYgudGxBYRuTv0q7AM6yMEpU/Vo1I94thg9U6EZ2NfZx9GJq83u7w==
@@ -5856,7 +5860,7 @@ ejs@^3.1.6:
   dependencies:
     jake "^10.8.5"
 
-electron-to-chromium@^1.3.564, electron-to-chromium@^1.5.199:
+electron-to-chromium@^1.3.564, electron-to-chromium@^1.5.204:
   version "1.5.204"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.204.tgz#45ffed15ea3ca5d43e3205b52082721bc988d0ba"
   integrity sha512-s9VbBXWxfDrl67PlO4avwh0/GU2vcwx8Fph3wlR8LJl7ySGYId59EFE17VWVcuC3sLWNPENm6Z/uGqKbkPCcXA==

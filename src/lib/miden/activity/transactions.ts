@@ -11,7 +11,7 @@ import { ConsumeTransaction, ITransaction, ITransactionStatus, SendTransaction, 
 import { toNoteTypeString } from '../helpers';
 import { NoteExportType } from '../sdk/constants';
 import { MidenClientInterface } from '../sdk/miden-client-interface';
-import { NoteTypeEnum, NoteType as NoteTypeString } from '../types';
+import { ConsumableNote, NoteTypeEnum, NoteType as NoteTypeString } from '../types';
 import { interpretTransactionResult } from './helpers';
 import { importAllNotes, queueNoteImport, registerOutputNote } from './notes';
 
@@ -54,12 +54,34 @@ export const completeCustomTransaction = async (transaction: ITransaction, resul
   await updateTransactionStatus(transaction.id, ITransactionStatus.Completed, updatedTransaction);
 };
 
-export const initiateConsumeTransaction = async (
+export const initiateConsumeTransactionFromId = async (
   accountId: string,
   noteId: string,
   delegateTransaction?: boolean
 ): Promise<string> => {
-  const dbTransaction = new ConsumeTransaction(accountId, noteId, delegateTransaction);
+  const note: ConsumableNote = {
+    id: noteId,
+    faucetId: '',
+    amount: '',
+    senderAddress: '',
+    isBeingClaimed: false
+  };
+
+  return await initiateConsumeTransaction(accountId, note, delegateTransaction);
+};
+
+export const initiateConsumeTransaction = async (
+  accountId: string,
+  note: ConsumableNote,
+  delegateTransaction?: boolean
+): Promise<string> => {
+  const dbTransaction = new ConsumeTransaction(accountId, note, delegateTransaction);
+  const uncompletedTransactions = await getUncompletedTransactions(accountId);
+  const existingTransaction = uncompletedTransactions.find(tx => tx.type === 'consume' && tx.noteId === note.id);
+  if (existingTransaction) {
+    return existingTransaction.id;
+  }
+
   await Repo.transactions.add(dbTransaction);
 
   return dbTransaction.id;

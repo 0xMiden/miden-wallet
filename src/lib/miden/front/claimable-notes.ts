@@ -4,6 +4,7 @@ import { getUncompletedTransactions } from 'lib/miden/activity';
 import { useRetryableSWR } from 'lib/swr';
 
 import { MidenClientInterface } from '../sdk/miden-client-interface';
+import { ConsumableNote } from '../types';
 
 export function useClaimableNotes(publicAddress: string) {
   const fetchClaimableNotes = useCallback(async () => {
@@ -38,10 +39,11 @@ export function useClaimableNotes(publicAddress: string) {
 
           return {
             id: noteId,
+            faucetId: asset.faucetId().toBech32(),
             amount: asset.amount().toString(),
             senderAddress: metadata?.sender()?.toBech32() || '',
             isBeingClaimed: notesBeingClaimed.has(noteId)
-          };
+          } as ConsumableNote;
         } catch (error) {
           console.error('Error processing note:', error);
           return null;

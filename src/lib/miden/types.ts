@@ -23,6 +23,14 @@ export interface ExportedNote {
   noteBytes: Uint8Array;
 }
 
+export interface ConsumableNote {
+  id: string;
+  faucetId: string;
+  amount: string;
+  senderAddress: string;
+  isBeingClaimed: boolean;
+}
+
 export interface MidenDAppSession {
   network: string; // TODO: replace with MidenChainId
   appMeta: MidenDAppMetadata;

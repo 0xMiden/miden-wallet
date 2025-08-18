@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 
-import { NoteType } from '../types';
+import { ConsumableNote, NoteType } from '../types';
 
 export interface IInputNote {
   noteId: string;
@@ -124,7 +124,7 @@ export class ConsumeTransaction implements ITransaction {
   amount?: bigint;
   noteId: string;
   secondaryAccountId?: string;
-  faucetId?: string;
+  faucetId: string;
   transactionId?: string;
   status: ITransactionStatus;
   initiatedAt: number;
@@ -134,11 +134,14 @@ export class ConsumeTransaction implements ITransaction {
   displayIcon: ITransactionIcon;
   delegateTransaction?: boolean;
 
-  constructor(accountId: string, noteId: string, delegateTransaction?: boolean) {
+  constructor(accountId: string, note: ConsumableNote, delegateTransaction?: boolean) {
     this.id = uuid();
     this.type = 'consume';
     this.accountId = accountId;
-    this.noteId = noteId;
+    this.noteId = note.id;
+    this.faucetId = note.faucetId;
+    this.secondaryAccountId = note.senderAddress;
+    this.amount = note.amount !== '' ? BigInt(note.amount) : undefined;
     this.status = ITransactionStatus.Queued;
     this.initiatedAt = Date.now();
     this.displayIcon = 'RECEIVE';
