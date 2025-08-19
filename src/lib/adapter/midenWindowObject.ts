@@ -20,7 +20,7 @@ import {
 import { MidenDAppPermission } from 'lib/adapter/types';
 
 export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implements MidenWallet {
-  publicKey?: string | undefined;
+  accountId?: string | undefined;
   permission?: MidenDAppPermission | undefined;
   appName?: string | undefined;
   network?: WalletAdapterNetwork | undefined;
@@ -31,17 +31,17 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
   }
 
   async requestSend(transaction: MidenSendTransaction): Promise<{ transactionId?: string | undefined }> {
-    const res = await requestSend(this.publicKey!, transaction);
+    const res = await requestSend(this.accountId!, transaction);
     return { transactionId: res };
   }
 
   async requestConsume(transaction: MidenConsumeTransaction): Promise<{ transactionId?: string }> {
-    const res = await requestConsume(this.publicKey!, transaction);
+    const res = await requestConsume(this.accountId!, transaction);
     return { transactionId: res };
   }
 
   async requestTransaction(transaction: MidenTransaction): Promise<{ transactionId?: string | undefined }> {
-    const res = await requestTransaction(this.publicKey!, transaction);
+    const res = await requestTransaction(this.accountId!, transaction);
     return { transactionId: res };
   }
 
@@ -58,7 +58,7 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
       programs
     );
     this.permission = perm;
-    this.publicKey = perm.publicKey;
+    this.accountId = perm.publicKey;
     this.network = network;
     this.clearAccountChangeInterval = onPermissionChange((perm: MidenDAppPermission) => {
       this.emit('accountChange', perm);
@@ -67,7 +67,7 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
 
   async disconnect(): Promise<void> {
     await requestDisconnect();
-    this.publicKey = undefined;
+    this.accountId = undefined;
     this.permission = undefined;
     this.clearAccountChangeInterval && this.clearAccountChangeInterval();
   }
