@@ -72,7 +72,7 @@ const ActivityContent: FC<ActivityItemProps> = ({ fullHistory, activity }) => {
     ? iconGrabber(activity.type, iconFillAndStroke)
     : transactionIconGrabber(activity.transactionIcon, iconFillAndStroke);
   const animateSpin = activity.type === ActivityType.ProcessingTransaction ? 'animate-spin' : '';
-  const isReceive = activity.transactionIcon === 'RECEIVE';
+  const isReceive = activity.transactionIcon === 'RECEIVE' || activity.message === 'Consuming';
   const { popup } = useAppEnv();
 
   return (
