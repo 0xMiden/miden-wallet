@@ -135,19 +135,13 @@ const Explore: FC = () => {
   }
 
   const size = fullPage ? { height: '640px', width: '600px' } : { height: '600px', width: '360px' };
+  const background = 'url(/misc/bg.png) white 0px -2.504px / 100% 137.401% no-repeat';
   const sendLink = tokens.length > 0 ? '/send' : '/get-tokens';
 
   return (
-    <div
-      className={classNames(
-        'flex flex-col m-auto',
-        'bg-gradient-to-br from-purple-200 via-white to-white',
-        fullPage && 'rounded-3xl'
-      )}
-      style={size}
-    >
+    <div className={classNames('flex flex-col m-auto bg-white', fullPage && 'rounded-3xl')} style={size}>
       <ConnectivityIssueBanner />
-      <div className="flex-none">
+      <div className={classNames('flex-none', fullPage && 'rounded-t-3xl')} style={{ background }}>
         <Header />
         <div className={classNames('flex flex-col justify-start mt-6')}>
           <div className="flex flex-col w-full justify-center items-center">

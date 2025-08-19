@@ -17,14 +17,6 @@ const AdvancedSettings: FC = () => {
         <Link to={'settings/edit-miden-faucet-id'}>
           <ListItem title="Edit Miden Faucet ID" subtitle={faucetIdShortened} iconRight={IconName.ChevronRight} />
         </Link>
-
-        <hr className="bg-grey-100" />
-        <div className="mt-2 flex flex-col">
-          <ul className="flex flex-col gap-y-4">
-            <AutoCloseSettings />
-            <AutoConsumeSettings />
-          </ul>
-        </div>
       </div>
     </div>
   );
