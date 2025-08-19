@@ -117,7 +117,7 @@ const Explore: FC = () => {
     fetch('https://faucet.testnet.miden.io/get_metadata')
       .then(response => response.json())
       .then(data => {
-        if (data.id === midenFaucetId) {
+        if (data.id !== midenFaucetId) {
           setFaucetIdSetting(data.id);
         }
       })
