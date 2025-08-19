@@ -1,6 +1,6 @@
 {
   "name": "miden-wallet",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "private": true,
   "scripts": {
     "start": "yarn watch:src",
@@ -34,8 +34,8 @@
     "@demox-labs/aleo-hd-key": "^0.0.1",
     "@demox-labs/amp-core": "0.1.0",
     "@demox-labs/miden-sdk": "0.10.1",
-    "@demox-labs/miden-wallet-adapter-base": "^0.1.5",
-    "@demox-labs/miden-wallet-adapter-miden": "0.1.1",
+    "@demox-labs/miden-wallet-adapter-base": "0.2.0",
+    "@demox-labs/miden-wallet-adapter-miden": "0.2.0",
     "@dicebear/avatars": "4.2.5",
     "@dicebear/avatars-bottts-sprites": "4.2.5",
     "@dicebear/avatars-jdenticon-sprites": "4.2.5",
