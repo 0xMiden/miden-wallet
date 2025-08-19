@@ -30,7 +30,7 @@ const iconGrabber = (activityType: ActivityType, iconFillAndStroke: string) => {
   switch (activityType) {
     case ActivityType.PendingTransaction:
     case ActivityType.ProcessingTransaction:
-      return <PendingIcon height={'24px'} width={'24px'} stroke={iconFillAndStroke} />;
+      return <PendingIcon height={'24px'} width={'24px'} />;
     default:
       return <BoxIcon height={'24px'} width={'24px'} fill={iconFillAndStroke} stroke={iconFillAndStroke} />;
   }
@@ -44,7 +44,6 @@ const transactionIconGrabber = (transactionIcon: ITransactionIcon, iconFillAndSt
           height={'24px'}
           width={'24px'}
           style={{ paddingLeft: '6px', paddingRight: '6px' }}
-          stroke={iconFillAndStroke}
           fill={iconFillAndStroke}
         />
       );
@@ -54,7 +53,6 @@ const transactionIconGrabber = (transactionIcon: ITransactionIcon, iconFillAndSt
           height={'24px'}
           width={'24px'}
           style={{ paddingLeft: '6px', paddingRight: '6px' }}
-          stroke={iconFillAndStroke}
           fill={iconFillAndStroke}
         />
       );
@@ -74,7 +72,7 @@ const ActivityContent: FC<ActivityItemProps> = ({ fullHistory, activity }) => {
     ? iconGrabber(activity.type, iconFillAndStroke)
     : transactionIconGrabber(activity.transactionIcon, iconFillAndStroke);
   const animateSpin = activity.type === ActivityType.ProcessingTransaction ? 'animate-spin' : '';
-  const isReceive = activity.transactionIcon === 'RECEIVE';
+  const isReceive = activity.transactionIcon === 'RECEIVE' || activity.message === 'Consuming';
   const { popup } = useAppEnv();
 
   return (

@@ -18,8 +18,10 @@ export const WelcomeScreen = ({ onSubmit, ...props }: WelcomeScreenProps) => {
     <div className="flex-1 flex flex-col items-center justify-around bg-transparent gap-8 p-6 h-[calc(100%-64px)]">
       <div className="mt-6">
         <Message
-          icon={IconName.MidenLogo}
-          iconClassName="w-[218px] h-[218px]"
+          icon={IconName.WalletWelcome}
+          iconSize="5xl"
+          iconClassName="mb-10"
+          iconBackgroundClassName="!w-64"
           title={t('privacyScalesBetter')}
           description={t('privateTransactionsAnytimeAnywhere')}
         />

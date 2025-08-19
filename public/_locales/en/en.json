@@ -893,7 +893,7 @@
   "seedPhrasePlaceholder": "12-word Seed phrase",
   "join": "Join",
   "follow": "Follow",
-  "yourWalletIsReady": "Your wallet is ready",
+  "yourWalletIsReady": "Your wallet is ready!",
   "joinOurDiscord": "Join our Leo Wallet Discord",
   "joinOurTwitter": "Follow us on X (Twitter)",
   "exploreTheWorldOfPrivateAssets": "Explore the world of private assets",
@@ -960,5 +960,9 @@
   "invalidAmount": "Invalid amount",
   "amountMustBeLessThanBalance": "Amount must be less than balance",
   "availableBalance": "Available balance",
-  "uploadYourEncryptedWalletFile": "Upload your encrypted wallet file to securely restore your account. Your data remains private, with only hashed information stored on-chain."
+  "uploadYourEncryptedWalletFile": "Upload your encrypted wallet file to securely restore your account. Your data remains private, with only hashed information stored on-chain.",
+  "goToFaucet": "Go to Faucet",
+  "explorePrivateAssets": "Explore the world of private assets.",
+  "autoConsumeSettings": "Auto Consume MIDEN notes",
+  "autoConsumeSettingsDescription": "Auto Consume will automatically consume notes from the official Miden Faucet."
 }

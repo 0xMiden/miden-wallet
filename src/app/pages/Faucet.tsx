@@ -1,11 +1,12 @@
 import React, { FC, useCallback, useState } from 'react';
 
+import { useTranslation } from 'react-i18next';
+
 import { IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
 import { Button } from 'components/Button';
 import { Message } from 'components/Message';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
-import { T } from 'lib/i18n/react';
 import { useAccount } from 'lib/miden/front';
 
 async function copyTextToClipboard(text: string): Promise<void> {
@@ -22,6 +23,7 @@ async function copyTextToClipboard(text: string): Promise<void> {
 }
 
 const Faucet: FC = () => {
+  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const account = useAccount();
   const address = account.publicKey;
@@ -35,34 +37,21 @@ const Faucet: FC = () => {
   }, [address, trackEvent]);
 
   return (
-    <PageLayout
-      pageTitle={
-        <>
-          <T id="faucet" />
-        </>
-      }
-    >
+    <PageLayout pageTitle={<span>{t('faucet')}</span>}>
       <div className="flex-1 flex flex-col">
         <div className="flex-1 flex flex-col justify-center bg-white p-4 md:w-[460px] md:mx-auto">
           <Message
             className="flex-1"
             title="Miden Faucet"
             description="Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet."
-            icon={IconName.FaucetFill}
-            iconBackgroundClassName="bg-gradient-to-b from-gray-25 to-white rounded-full"
+            icon={IconName.Tokens}
+            iconSize="3xl"
+            iconClassName="mb-8"
           />
         </div>
         <div className="p-4 flex flex-col gap-y-4">
           <Button onClick={onFaucetClick}>
-            <span className="text-base font-medium text-white">
-              {copied ? (
-                <T id="copiedAddress" />
-              ) : (
-                <>
-                  <T id="faucet" />
-                </>
-              )}
-            </span>
+            <span className="text-base font-medium text-white">{copied ? t('copiedAddress') : t('goToFaucet')}</span>
           </Button>
         </div>
       </div>

@@ -14,6 +14,7 @@ import { initiateConsumeTransaction } from 'lib/miden/activity';
 import { MIDEN_METADATA, useAccount } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
+import { ConsumableNote } from 'lib/miden/types';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 import { HistoryAction, navigate } from 'lib/woozie';
 import { shortenAddress } from 'utils/string';
@@ -102,12 +103,12 @@ export const Receive: React.FC<ReceiveProps> = () => {
   );
 
   const consumeNote = useCallback(
-    async (noteId: string) => {
+    async (note: ConsumableNote) => {
       try {
-        await initiateConsumeTransaction(account.publicKey, noteId, isDelegatedProvingEnabled);
+        await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
         await mutateClaimableNotes();
         openLoadingFullPage();
-        setAttemptedNoteIds(prev => new Set(prev).add(noteId));
+        setAttemptedNoteIds(prev => new Set(prev).add(note.id));
       } catch (error) {
         console.error('Error consuming note:', error);
       }
@@ -192,7 +193,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
                   <Button
                     className="w-[75px] h-[36px] text-md"
                     variant={ButtonVariant.Primary}
-                    onClick={() => consumeNote(note.id)}
+                    onClick={() => consumeNote(note)}
                     title={claimHasFailed ? 'Retry' : 'Claim'}
                   />
                 )}

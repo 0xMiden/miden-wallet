@@ -1,4 +1,4 @@
-import React, { FC, FunctionComponent, SVGProps, useEffect, useMemo } from 'react';
+import React, { FC, FunctionComponent, SVGProps, useCallback, useEffect, useMemo } from 'react';
 
 import BigNumber from 'bignumber.js';
 import classNames from 'clsx';
@@ -9,17 +9,20 @@ import { ReactComponent as ReceiveIcon } from 'app/icons/receive.svg';
 import { ReactComponent as SendIcon } from 'app/icons/send.svg';
 import Footer from 'app/layouts/PageLayout/Footer';
 import Header from 'app/layouts/PageLayout/Header';
+import { isAutoConsumeEnabled } from 'app/templates/AutoConsumeSettings';
+import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Avatar } from 'components/Avatar';
 import { CardItem } from 'components/CardItem';
 import { ChainInstabilityBanner } from 'components/ChainInstabilityBanner';
 import { ConnectivityIssueBanner } from 'components/ConnectivityIssueBanner';
 import { TestIDProps } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
-import { hasQueuedTransactions } from 'lib/miden/activity';
+import { hasQueuedTransactions, initiateConsumeTransaction } from 'lib/miden/activity';
 import {
   getFaucetIdSetting,
   getTokenId,
   isMidenFaucet,
+  setFaucetIdSetting,
   TokenBalance,
   useAccount,
   useFungibleTokens
@@ -44,12 +47,51 @@ const tippyPropsMock = {
 
 const Explore: FC = () => {
   const account = useAccount();
-  const { data: claimableNotes } = useClaimableNotes(account.publicKey);
+  const midenFaucetId = getFaucetIdSetting();
+  const { data: claimableNotes, mutate: mutateClaimableNotes } = useClaimableNotes(account.publicKey);
   const { data: balanceData } = useFungibleTokens(account.publicKey);
   const { tokens, totalBalance } = balanceData || { tokens: [], totalBalance: new BigNumber(0) };
+  const isDelegatedProvingEnabled = isDelegateProofEnabled();
+  const shouldAutoConsume = isAutoConsumeEnabled();
 
   const address = account.publicKey;
   const { fullPage } = useAppEnv();
+
+  const midenNotes = useMemo(() => {
+    if (!shouldAutoConsume) {
+      return [];
+    }
+
+    return claimableNotes?.filter(note => note!.faucetId === midenFaucetId);
+  }, [claimableNotes, midenFaucetId, shouldAutoConsume]);
+
+  const selfClaimableNotes = useMemo(() => {
+    if (!shouldAutoConsume) {
+      return claimableNotes;
+    }
+
+    return claimableNotes?.filter(note => note!.faucetId !== midenFaucetId);
+  }, [claimableNotes, midenFaucetId, shouldAutoConsume]);
+
+  const autoConsumeMidenNotes = useCallback(async () => {
+    if (!shouldAutoConsume) {
+      return;
+    }
+
+    if (midenNotes && midenNotes.length > 0) {
+      const promises = midenNotes.map(async note => {
+        if (!note!.isBeingClaimed) {
+          initiateConsumeTransaction(account.publicKey, note!, isDelegatedProvingEnabled);
+        }
+      });
+      await Promise.all(promises);
+      mutateClaimableNotes();
+    }
+  }, [midenNotes, isDelegatedProvingEnabled, mutateClaimableNotes, account.publicKey, shouldAutoConsume]);
+
+  useEffect(() => {
+    autoConsumeMidenNotes();
+  }, [autoConsumeMidenNotes]);
 
   const { data: queuedDbTransactions } = useRetryableSWR(
     [`has-queued-transactions`, address],
@@ -71,6 +113,23 @@ const Explore: FC = () => {
       navigate('/reset-required');
     }
   }, [address]);
+
+  const fetchFaucetState = useCallback(async () => {
+    fetch('https://faucet.testnet.miden.io/get_metadata')
+      .then(response => response.json())
+      .then(data => {
+        if (data.id === midenFaucetId) {
+          setFaucetIdSetting(data.id);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching faucet metadata:', error);
+      });
+  }, [midenFaucetId]);
+
+  useEffect(() => {
+    fetchFaucetState();
+  }, [fetchFaucetState]);
 
   if (isHexAddress(address)) {
     return null;
@@ -115,9 +174,9 @@ const Explore: FC = () => {
                 testID={ExploreSelectors.ReceiveButton}
                 className="w-1/2 mx-1"
               />
-              {claimableNotes !== undefined && claimableNotes.length > 0 && (
+              {selfClaimableNotes !== undefined && selfClaimableNotes.length > 0 && (
                 <div className="absolute top-[25%] left-[95%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full border-2 border-white">
-                  {claimableNotes.length}
+                  {selfClaimableNotes.length}
                 </div>
               )}
             </div>
@@ -176,7 +235,7 @@ const Explore: FC = () => {
         </div>
       </div>
       <div className="flex-none">
-        <Footer />
+        <Footer activityBadge={midenNotes !== undefined && midenNotes.length > 0} />
       </div>
     </div>
   );
