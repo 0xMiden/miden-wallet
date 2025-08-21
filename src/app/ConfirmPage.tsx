@@ -206,7 +206,16 @@ const ConfirmDAppForm: FC = () => {
           return confirmDAppPrivateNotes(id, confirmed);
       }
     },
-    [id, payload.type, confirmDAppPermission, account.publicKey, decryptPermission, confirmDAppTransaction, confirmDAppPrivateNotes, delegate]
+    [
+      id,
+      payload.type,
+      confirmDAppPermission,
+      account.publicKey,
+      decryptPermission,
+      confirmDAppTransaction,
+      confirmDAppPrivateNotes,
+      delegate
+    ]
   );
 
   const [error, setError] = useSafeState<any>(null);

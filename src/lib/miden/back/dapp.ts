@@ -226,9 +226,10 @@ const generatePromisifyRequestPrivateNotes = async (
   dApp: MidenDAppSession,
   req: MidenDAppPrivateNotesRequest
 ) => {
-  if (dApp.decryptPermission === DecryptPermission.AutoDecrypt ||
-      dApp.decryptPermission === DecryptPermission.OnChainHistory)
-  {
+  if (
+    dApp.decryptPermission === DecryptPermission.AutoDecrypt ||
+    dApp.decryptPermission === DecryptPermission.OnChainHistory
+  ) {
     try {
       let privateNotes = await withUnlocked(async () => {
         const midenClient = await MidenClientInterface.create();
