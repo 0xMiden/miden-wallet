@@ -9,6 +9,7 @@ import { ReactComponent as InfoIcon } from 'app/icons/information.svg';
 import { ReactComponent as KeyIcon } from 'app/icons/key.svg';
 import { ReactComponent as MaximiseIcon } from 'app/icons/maximise.svg';
 import { ReactComponent as SettingsIcon } from 'app/icons/settings.svg';
+import { ReactComponent as StickerIcon } from 'app/icons/sticker.svg';
 import { ReactComponent as ToolIcon } from 'app/icons/tool.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import Footer from 'app/layouts/PageLayout/Footer';
@@ -43,6 +44,7 @@ type Tab = {
   testID?: SettingsSelectors;
   insertHR: boolean;
   iconStyle?: React.CSSProperties;
+  fullDialog?: boolean;
 };
 
 const TABS: Tab[] = [
@@ -107,11 +109,13 @@ const TABS: Tab[] = [
   {
     slug: 'encrypted-wallet-file',
     titleI18nKey: 'encryptedWalletFile',
-    Icon: SettingsIcon,
+    Icon: StickerIcon,
     Component: EncryptedFileFlow,
     descriptionI18nKey: 'encryptedWalletFileDescription',
     testID: SettingsSelectors.EncryptedWalletFile,
-    insertHR: false
+    insertHR: false,
+    iconStyle: { stroke: '#000', strokeWidth: '2px' },
+    fullDialog: true
   },
   {
     slug: 'advanced-settings',
@@ -191,8 +195,8 @@ const Settings: FC<SettingsProps> = ({ tabSlug }) => {
             <activeTab.Component />
           ) : (
             <div className="flex flex-col w-full">
-              {listMenuItems.map(({ slug, titleI18nKey, Icon, testID, insertHR, iconStyle }, i) => {
-                const linkTo = `/settings/${slug}`;
+              {listMenuItems.map(({ slug, titleI18nKey, Icon, testID, insertHR, iconStyle, fullDialog }, i) => {
+                const linkTo = fullDialog ? slug : `/settings/${slug}`;
                 return (
                   <MenuItem
                     key={titleI18nKey}

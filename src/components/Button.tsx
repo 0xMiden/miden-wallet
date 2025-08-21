@@ -25,30 +25,34 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 const propsPerButtonVariant = {
   [ButtonVariant.Primary]: {
     color: 'text-white',
+    disabledColor: 'text-grey-400',
     backgroundColor: 'bg-primary-500 focus:bg-primary-500',
     hoverBackgroundColor: 'hover:bg-primary-600',
-    disabledBackgroundColor: 'bg-grey-300',
+    disabledBackgroundColor: 'bg-grey-200',
     iconColor: 'white'
   },
   [ButtonVariant.Secondary]: {
     color: 'text-black',
+    disabledColor: 'text-grey-400',
     backgroundColor: 'bg-grey-50',
     hoverBackgroundColor: 'hover:bg-grey-100',
-    disabledBackgroundColor: 'bg-grey-300',
+    disabledBackgroundColor: 'bg-grey-200',
     iconColor: 'black'
   },
   [ButtonVariant.Ghost]: {
     color: 'text-black',
+    disabledColor: 'text-grey-400',
     backgroundColor: 'bg-transparent',
     hoverBackgroundColor: 'hover:bg-grey-50',
-    disabledBackgroundColor: 'bg-grey-300',
+    disabledBackgroundColor: 'bg-grey-200',
     iconColor: 'black'
   },
   [ButtonVariant.Danger]: {
     color: 'text-white',
+    disabledColor: 'text-grey-400',
     backgroundColor: 'bg-red-500',
     hoverBackgroundColor: 'hover:bg-red-600',
-    disabledBackgroundColor: 'bg-grey-300',
+    disabledBackgroundColor: 'bg-grey-200',
     iconColor: 'white'
   }
 };
@@ -64,13 +68,14 @@ export const Button: React.FC<ButtonProps> = ({
   children,
   ...props
 }) => {
-  const color = propsPerButtonVariant[variant].color;
+  let color = propsPerButtonVariant[variant].color;
   let backgroundColor = propsPerButtonVariant[variant].backgroundColor;
   let hoverBackgroundColor = propsPerButtonVariant[variant].hoverBackgroundColor;
   const iconColor = propsPerButtonVariant[variant].iconColor;
 
   if (disabled) {
     backgroundColor = propsPerButtonVariant[variant].disabledBackgroundColor;
+    color = propsPerButtonVariant[variant].disabledColor;
     hoverBackgroundColor = '';
   }
 
@@ -100,7 +105,7 @@ export const Button: React.FC<ButtonProps> = ({
         hoverBackgroundColor,
         isLoading ? 'pointer-events-none' : '',
         'flex justify-center items-center gap-x-2',
-        'py-3 px-4 rounded-lg',
+        'py-3 px-4 rounded-4xl',
         'transition duration-300 ease-in-out',
         className
       )}

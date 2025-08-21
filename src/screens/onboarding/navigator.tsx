@@ -4,8 +4,8 @@ import classNames from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import { Icon, IconName } from 'app/icons/v2';
+import { CircleButton } from 'components/CircleButton';
 import { ProgressIndicator } from 'components/ProgressIndicator';
-import { SquareButton } from 'components/SquareButton';
 
 import { ConfirmationScreen } from './common/Confirmation';
 import { CreatePasswordScreen } from './common/CreatePassword';
@@ -53,7 +53,7 @@ const Header: React.FC<{
 
   return (
     <div className="flex justify-between items-center pt-6 px-6">
-      <SquareButton
+      <CircleButton
         icon={IconName.ArrowLeft}
         onClick={onBack}
         className={shouldRenderBackButton ? '' : 'opacity-0 pointer-events-none'}

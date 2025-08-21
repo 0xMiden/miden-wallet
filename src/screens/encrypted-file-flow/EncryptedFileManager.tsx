@@ -1,24 +1,20 @@
 import React, { ChangeEvent, useCallback, useEffect } from 'react';
 
+import classNames from 'clsx';
 import { OnSubmit, useForm } from 'react-hook-form';
 
+import { useAppEnv } from 'app/env';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { navigate } from 'lib/woozie';
 import EncryptedWalletFileWalletPassword from 'screens/encrypted-file-flow/EncryptedWalletFileWalletPassword';
 
 import ExportFileComplete from './ExportFileComplete';
-import ExportFileName from './ExportFileName';
-import ExportFilePassword from './ExportFilePassword';
+import ExportFilePassword from './ExportFileSetNamePassword';
 import { EncryptedFileAction, EncryptedFileActionId, EncryptedFileForm, EncryptedFileStep } from './types';
 
 const ROUTES: Route[] = [
   {
     name: EncryptedFileStep.WalletPassword,
-    animationIn: 'push',
-    animationOut: 'pop'
-  },
-  {
-    name: EncryptedFileStep.ExportFileName,
     animationIn: 'push',
     animationOut: 'pop'
   },
@@ -38,6 +34,7 @@ export interface EncryptedFileManagerProps {}
 
 export const EncryptedFileManager: React.FC<{}> = () => {
   const { navigateTo, goBack } = useNavigator();
+  const { fullPage } = useAppEnv();
 
   const onClose = useCallback(() => {
     navigate('/settings');
@@ -45,9 +42,9 @@ export const EncryptedFileManager: React.FC<{}> = () => {
 
   const { register, watch, handleSubmit, formState, setError, clearError, setValue } = useForm<EncryptedFileForm>({
     defaultValues: {
-      walletPassword: undefined,
-      filePassword: undefined,
-      fileName: 'Encrypted Wallet File.json'
+      walletPassword: '',
+      filePassword: '',
+      fileName: 'Encrypted Wallet File'
     }
   });
 
@@ -110,7 +107,7 @@ export const EncryptedFileManager: React.FC<{}> = () => {
   );
 
   const onFileNameChange = useCallback(
-    (event: ChangeEvent<HTMLTextAreaElement>) => {
+    (event: ChangeEvent<HTMLInputElement>) => {
       onAction({
         id: EncryptedFileActionId.SetFormValues,
         payload: { fileName: event.target.value }
@@ -139,28 +136,17 @@ export const EncryptedFileManager: React.FC<{}> = () => {
     [onAction]
   );
 
-  // TODO: Add the components here!
   const renderStep = useCallback(
     (route: Route) => {
       switch (route.name) {
         case EncryptedFileStep.WalletPassword:
-          const onGoNext = () => goToStep(EncryptedFileStep.ExportFileName);
+          const onGoNext = () => goToStep(EncryptedFileStep.ExportFilePassword);
           return (
             <EncryptedWalletFileWalletPassword
               onGoNext={onGoNext}
               onGoBack={goBack}
               onPasswordChange={onWalletPasswordChange}
-            />
-          );
-        case EncryptedFileStep.ExportFileName:
-          return (
-            <ExportFileName
-              onGoBack={goBack}
-              onGoNext={() => {
-                goToStep(EncryptedFileStep.ExportFilePassword);
-              }}
-              onFileNameChange={onFileNameChange}
-              fileName={fileName}
+              walletPassword={walletPassword}
             />
           );
         case EncryptedFileStep.ExportFilePassword:
@@ -172,6 +158,8 @@ export const EncryptedFileManager: React.FC<{}> = () => {
               }}
               handlePasswordChange={onFilePasswordChange}
               passwordValue={filePassword ?? ''}
+              fileName={fileName}
+              onFileNameChange={onFileNameChange}
             />
           );
         case EncryptedFileStep.ExportFileComplete:
@@ -202,8 +190,20 @@ export const EncryptedFileManager: React.FC<{}> = () => {
   );
 
   return (
-    <div data-testid="encrypted-file-manager-flow">
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div
+      className={classNames(
+        fullPage
+          ? 'h-[640px] max-h-[640px] w-[600px] max-w-[600px]'
+          : 'h-[600px] max-h-[600px] w-[360px] max-w-[360px]',
+        'mx-auto overflow-hidden ',
+        'flex flex-1',
+        'flex-col bg-white',
+        fullPage && 'border rounded-3xl',
+        'overflow-hidden relative'
+      )}
+      data-testid="encrypted-file-manager-flow"
+    >
+      <form onSubmit={handleSubmit(onSubmit)} className="flex-1 flex">
         <Navigator renderRoute={renderStep} initialRouteName={EncryptedFileStep.WalletPassword} />
       </form>
     </div>

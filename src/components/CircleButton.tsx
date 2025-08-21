@@ -2,17 +2,26 @@ import React from 'react';
 
 import classNames from 'clsx';
 
-import { Icon, IconName } from 'app/icons/v2';
+import { Icon, IconName, IconSize } from 'app/icons/v2';
 import colors from 'utils/tailwind-colors';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  title: string;
   icon: IconName;
+  size?: IconSize;
+  color?: string;
+  isLoading?: boolean;
 }
 
-export const CircleButton: React.FC<ButtonProps> = ({ className, title, disabled, icon, ...props }) => {
-  const iconColor = disabled ? colors.grey[400] : 'white';
-
+export const CircleButton: React.FC<ButtonProps> = ({
+  className,
+  disabled,
+  isLoading,
+  icon,
+  size,
+  color,
+  ...props
+}) => {
+  const iconColor = disabled ? colors.grey[300] : color || 'black';
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.blur();
     props.onClick?.(e);
@@ -21,9 +30,11 @@ export const CircleButton: React.FC<ButtonProps> = ({ className, title, disabled
   return (
     <button
       className={classNames(
-        'flex flex-col justify-center items-center gap-y-2',
-        'py-2 px-4 group',
-        'focus:outline-none shadow-none',
+        isLoading ? 'pointer-events-none' : '',
+        'flex justify-center items-center',
+        'aspect-square rounded-full p-[8px]',
+        'transition duration-300 ease-in-out focus:outline-none shadow-none',
+        'hover:bg-grey-50 focus:bg-grey-100 disabled:bg-grey-200',
         className
       )}
       disabled={disabled}
@@ -31,16 +42,11 @@ export const CircleButton: React.FC<ButtonProps> = ({ className, title, disabled
       {...props}
       onClick={onClick}
     >
-      <div
-        className={classNames(
-          'flex items-center justify-center p-4 rounded-full',
-          'transition duration-300 ease-in-out',
-          'bg-primary-500 hover:bg-primary-600 group-disabled:bg-grey-200'
-        )}
-      >
-        <Icon name={icon} fill={iconColor} size={'xs'} />
-      </div>
-      <p className="text-sm font-medium">{title}</p>
+      {isLoading ? (
+        <Icon name={IconName.Loader} fill={iconColor} size={size || 'md'} className="animate-spin" />
+      ) : (
+        <Icon name={icon} fill={iconColor} size={size || 'md'} />
+      )}
     </button>
   );
 };
