@@ -902,6 +902,7 @@
   "verifyPassword": "Verify password",
   "enterPasswordAgain": "Enter password again",
   "itsAMatch": "It's a match!",
+  "passwordsDoNotMatch": "Passwords do not match",
   "readMoreOnboarding": "Read More",
   "helpUsToImproveLeoWallet": "Help us to improve Leo Wallet",
   "createPassword": "Create password",
@@ -952,6 +953,9 @@
   "importWithEncryptedWalletFileDescription": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain",
   "twitter": "X (Twitter)",
   "encryptedWalletFile": "Encrypted Wallet File",
+  "encryptedWalletFileDescription": "Enter your password to access your Encrypted Wallet File. Turn off screen sharing. Don't share it with anyone.",
+  "encryptedWalletFileConfirmation": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet.",
+  "enterPasswordToEncrypt": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later.",
   "recipientAccountId": "Recipient account ID",
   "yourAccounts": "Your Accounts",
   "noOtherAccounts": "No other accounts",
@@ -964,5 +968,9 @@
   "goToFaucet": "Go to Faucet",
   "explorePrivateAssets": "Explore the world of private assets.",
   "autoConsumeSettings": "Auto Consume MIDEN notes",
-  "autoConsumeSettingsDescription": "Auto Consume will automatically consume notes from the official Miden Faucet."
+  "autoConsumeSettingsDescription": "Auto Consume will automatically consume notes from the official Miden Faucet.",
+  "encryptedWalletFileExported": "Encrypted Wallet File Exported",
+  "encryptedWalletFileExportedDescription": "Your encrypted wallet file has been downloaded. Keep it and your password safe, as losing them means losing access to your wallet.",
+  "doNotShareEncryptedWalletFile": "Do not share your Encrypted Wallet File!",
+  "doNotShareEncryptedWalletFileDescription": "With the file and password, anyone can access your wallet."
 }

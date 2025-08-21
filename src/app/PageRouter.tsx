@@ -13,6 +13,7 @@ import Unlock from 'app/pages/Unlock';
 import Welcome from 'app/pages/Welcome';
 import { useMidenContext } from 'lib/miden/front';
 import * as Woozie from 'lib/woozie';
+import { EncryptedFileFlow } from 'screens/encrypted-file-flow/EncryptedFileManager';
 import { GeneratingTransactionPage } from 'screens/generating-transaction/GeneratingTransaction';
 import { SendFlow } from 'screens/send-flow/SendManager';
 
@@ -116,6 +117,7 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   ['/manage-assets/:assetType?', onlyReady(({ assetType }) => <ManageAssets assetType={assetType!} />)],
   ['/send', onlyReady(() => <SendFlow isLoading={false} />)],
   ['/settings/:tabSlug?', onlyReady(({ tabSlug }) => <Settings tabSlug={tabSlug} />)],
+  ['/encrypted-wallet-file', onlyReady(() => <EncryptedFileFlow />)],
   ['/generating-transaction', onlyReady(() => <GeneratingTransactionPage />)],
   ['/generating-transaction-full', onlyReady(() => <GeneratingTransactionPage keepOpen={true} />)],
   ['/import-note-pending/:noteId', onlyReady(({ noteId }) => <ImportNotePending noteId={noteId!} />)],

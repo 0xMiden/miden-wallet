@@ -1,15 +1,14 @@
 export enum EncryptedFileStep {
   WalletPassword = 'WalletPassword',
-  ExportFileName = 'ExportFileName',
   ExportFilePassword = 'ExportFilePassword',
   ExportFileComplete = 'ExportFileComplete',
   Navigate = 'Navigate'
 }
 
 export type EncryptedFileForm = {
-  walletPassword?: string;
+  walletPassword: string;
   fileName: string;
-  filePassword?: string;
+  filePassword: string;
 };
 
 export enum EncryptedFileActionId {

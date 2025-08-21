@@ -1,8 +1,6 @@
 import React, { FC, useMemo } from 'react';
 
 import { IconName } from 'app/icons/v2';
-import AutoCloseSettings from 'app/templates/AutoCloseSettings';
-import AutoConsumeSettings from 'app/templates/AutoConsumeSettings';
 import { ListItem } from 'components/ListItem';
 import { getFaucetIdSetting } from 'lib/miden/front';
 import { Link } from 'lib/woozie';

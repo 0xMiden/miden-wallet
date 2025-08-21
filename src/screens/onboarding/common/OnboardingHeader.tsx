@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 
 import { IconName, Icon } from 'app/icons/v2';
+import { CircleButton } from 'components/CircleButton';
 import { ProgressIndicator } from 'components/ProgressIndicator';
-import { SquareButton } from 'components/SquareButton';
 
 interface OnboardingHeaderProps {
   currentStep: number;
@@ -21,7 +21,7 @@ const OnboardingHeader: FC<OnboardingHeaderProps> = ({
 }) => {
   return (
     <div className="flex justify-between items-center pt-6 px-6">
-      <SquareButton
+      <CircleButton
         icon={IconName.ArrowLeft}
         onClick={onBack}
         className={showBackButton ? '' : 'opacity-0 pointer-events-none'}

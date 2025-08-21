@@ -7,8 +7,8 @@ import { Icon, IconName } from 'app/icons/v2';
 import { Alert, AlertVariant } from 'components/Alert';
 import { AmountLabel } from 'components/AmountLabel';
 import { Button, ButtonVariant } from 'components/Button';
+import { CircleButton } from 'components/CircleButton';
 import { NavigationHeader } from 'components/NavigationHeader';
-import { SquareButton } from 'components/SquareButton';
 import { Toggle } from 'components/Toggle';
 import { Tooltip } from 'components/Tooltip';
 import { shortenAddress } from 'utils/string';
@@ -128,7 +128,7 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
               <p className="text-sm">{feeAmount} ALEO</p>
             </span>
           </div>
-          <SquareButton className="self-center" icon={IconName.Settings} onClick={onFeeOptionsClick} color="black" />
+          <CircleButton className="self-center" icon={IconName.Settings} onClick={onFeeOptionsClick} color="black" />
         </div>
         {error ? <Alert title={error} variant={AlertVariant.Error} /> : null}
 

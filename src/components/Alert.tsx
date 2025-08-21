@@ -67,5 +67,3 @@ export const Alert: React.FC<AlertProps> = ({
     </div>
   );
 };
-
-// <Icon className={`w-6 text-center text-${propsPerVariant[variant].color}-500`} />
