@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { DecryptPermission } from '@demox-labs/miden-wallet-adapter-base';
+import { DecryptPermission } from '@demox-labs/miden-wallet-adapter';
 import constate from 'constate';
 
 import { IntercomClient } from 'lib/intercom';
@@ -201,12 +201,12 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   }, []);
 
   const confirmDAppPermission = useCallback(
-    async (id: string, confirmed: boolean, publicKey: string, decryptPermission: DecryptPermission) => {
+    async (id: string, confirmed: boolean, accountId: string, decryptPermission: DecryptPermission) => {
       const res = await request({
         type: MidenMessageType.DAppPermConfirmationRequest,
         id,
         confirmed,
-        accountPublicKey: confirmed ? publicKey : '',
+        accountPublicKey: confirmed ? accountId : '',
         decryptPermission
       });
       assertResponse(res.type === MidenMessageType.DAppPermConfirmationResponse);
@@ -218,7 +218,14 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
 
   const confirmDAppDecrypt = useCallback(async (id: string, confirmed: boolean) => {}, []);
 
-  const confirmDAppRecords = useCallback(async (id: string, confirmed: boolean) => {}, []);
+  const confirmDAppPrivateNotes = useCallback(async (id: string, confirmed: boolean) => {
+    const res = await request({
+      type: MidenMessageType.DAppPrivateNotesConfirmationRequest,
+      id,
+      confirmed
+    });
+    assertResponse(res.type === MidenMessageType.DAppPrivateNotesConfirmationResponse);
+  }, []);
 
   const confirmDAppTransaction = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {
     const res = await request({
@@ -278,7 +285,7 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     confirmDAppPermission,
     confirmDAppSign,
     confirmDAppDecrypt,
-    confirmDAppRecords,
+    confirmDAppPrivateNotes,
     confirmDAppTransaction,
     confirmDAppBulkTransactions,
     confirmDAppDeploy,

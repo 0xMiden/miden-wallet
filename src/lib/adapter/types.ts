@@ -4,7 +4,7 @@ import {
   WalletAdapterNetwork,
   MidenSendTransaction,
   MidenConsumeTransaction
-} from '@demox-labs/miden-wallet-adapter-base';
+} from '@demox-labs/miden-wallet-adapter';
 
 export type MidenDAppMessage = MidenDAppRequest | MidenDAppResponse;
 
@@ -14,7 +14,8 @@ export type MidenDAppRequest =
   | MidenDAppDisconnectRequest
   | MidenDAppTransactionRequest
   | MidenDAppSendTransactionRequest
-  | MidenDAppConsumeRequest;
+  | MidenDAppConsumeRequest
+  | MidenDAppPrivateNotesRequest;
 
 export type MidenDAppResponse =
   | MidenDAppGetCurrentPermissionResponse
@@ -22,7 +23,8 @@ export type MidenDAppResponse =
   | MidenDAppDisconnectResponse
   | MidenDAppTransactionResponse
   | MidenDAppSendTransactionResponse
-  | MidenDAppConsumeResponse;
+  | MidenDAppConsumeResponse
+  | MidenDAppPrivateNotesResponse;
 
 export interface MidenDAppMessageBase {
   type: MidenDAppMessageType;
@@ -40,7 +42,9 @@ export enum MidenDAppMessageType {
   SendTransactionRequest = 'SEND_TRANSACTION_REQUEST',
   SendTransactionResponse = 'SEND_TRANSACTION_RESPONSE',
   ConsumeRequest = 'CONSUME_REQUEST',
-  ConsumeResponse = 'CONSUME_RESPONSE'
+  ConsumeResponse = 'CONSUME_RESPONSE',
+  PrivateNotesRequest = 'PRIVATE_NOTES_REQUEST',
+  PrivateNotesResponse = 'PRIVATE_NOTES_RESPONSE'
 }
 
 /**
@@ -67,7 +71,7 @@ export interface MidenDAppPermissionRequest extends MidenDAppMessageBase {
 
 export interface MidenDAppPermissionResponse extends MidenDAppMessageBase {
   type: MidenDAppMessageType.PermissionResponse;
-  publicKey: string;
+  accountId: string;
   network: string;
   decryptPermission: DecryptPermission;
   programs?: string[];
@@ -114,6 +118,16 @@ export interface MidenDAppConsumeResponse extends MidenDAppMessageBase {
   transactionId?: string;
 }
 
+export interface MidenDAppPrivateNotesRequest extends MidenDAppMessageBase {
+  type: MidenDAppMessageType.PrivateNotesRequest;
+  sourcePublicKey: string;
+}
+
+export interface MidenDAppPrivateNotesResponse extends MidenDAppMessageBase {
+  type: MidenDAppMessageType.PrivateNotesResponse;
+  privateNotes: any[];
+}
+
 /**
  * Errors
  */
@@ -130,7 +144,7 @@ export enum MidenDAppErrorType {
 
 export type MidenDAppPermission = {
   rpc?: string;
-  publicKey: string;
+  accountId: string;
   decryptPermission: DecryptPermission;
   programs?: string[];
 } | null;

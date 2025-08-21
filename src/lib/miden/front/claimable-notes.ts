@@ -39,9 +39,9 @@ export function useClaimableNotes(publicAddress: string) {
 
           return {
             id: noteId,
-            faucetId: asset.faucetId().toBech32(),
+            faucetId: asset.faucetId().toBech32('mtst'),
             amount: asset.amount().toString(),
-            senderAddress: metadata?.sender()?.toBech32() || '',
+            senderAddress: metadata?.sender()?.toBech32('mtst') || '',
             isBeingClaimed: notesBeingClaimed.has(noteId)
           } as ConsumableNote;
         } catch (error) {

@@ -52,7 +52,10 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
       const midenClient = await MidenClientInterface.create();
       const noteBytes = await midenClient.exportNote(activity.noteId, NoteExportType.PARTIAL);
 
-      const blob = new Blob([noteBytes], { type: 'application/octet-stream' });
+      const ab = new ArrayBuffer(noteBytes.byteLength);
+      new Uint8Array(ab).set(noteBytes);
+
+      const blob = new Blob([ab], { type: 'application/octet-stream' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;

@@ -5,8 +5,8 @@ import {
   MidenTransaction,
   MidenSendTransaction,
   MidenConsumeTransaction
-} from '@demox-labs/miden-wallet-adapter-base';
-import { MidenWallet, MidenWalletEvents } from '@demox-labs/miden-wallet-adapter-miden';
+} from '@demox-labs/miden-wallet-adapter';
+import { MidenWallet, MidenWalletEvents } from '@demox-labs/miden-wallet-adapter';
 
 import {
   requestPermission,
@@ -15,7 +15,8 @@ import {
   onPermissionChange,
   isAvailable,
   requestSend,
-  requestConsume
+  requestConsume,
+  requestPrivateNotes
 } from 'lib/adapter/client';
 import { MidenDAppPermission } from 'lib/adapter/types';
 
@@ -45,6 +46,11 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
     return { transactionId: res };
   }
 
+  async requestPrivateNotes(): Promise<{ privateNotes: any[] }> {
+    const res = await requestPrivateNotes(this.accountId!);
+    return { privateNotes: res };
+  }
+
   async connect(
     decryptPermission: DecryptPermission,
     network: WalletAdapterNetwork,
@@ -58,7 +64,7 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
       programs
     );
     this.permission = perm;
-    this.accountId = perm.publicKey;
+    this.accountId = perm.accountId;
     this.network = network;
     this.clearAccountChangeInterval = onPermissionChange((perm: MidenDAppPermission) => {
       this.emit('accountChange', perm);
