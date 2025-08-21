@@ -71,7 +71,7 @@ export interface MidenDAppPermissionRequest extends MidenDAppMessageBase {
 
 export interface MidenDAppPermissionResponse extends MidenDAppMessageBase {
   type: MidenDAppMessageType.PermissionResponse;
-  publicKey: string;
+  accountId: string;
   network: string;
   decryptPermission: DecryptPermission;
   programs?: string[];
@@ -144,7 +144,7 @@ export enum MidenDAppErrorType {
 
 export type MidenDAppPermission = {
   rpc?: string;
-  publicKey: string;
+  accountId: string;
   decryptPermission: DecryptPermission;
   programs?: string[];
 } | null;

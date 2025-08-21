@@ -59,7 +59,7 @@ export async function getCurrentPermission(origin: string): Promise<MidenDAppGet
   const permission = dApp
     ? {
         rpc: await getNetworkRPC(dApp.network),
-        publicKey: dApp.publicKey,
+        accountId: dApp.accountId,
         decryptPermission: dApp.decryptPermission
       }
     : null;
@@ -124,7 +124,7 @@ export async function requestPermission(
     return {
       type: MidenDAppMessageType.PermissionResponse,
       network: reqChainId,
-      publicKey: dApp.publicKey,
+      accountId: dApp.accountId,
       decryptPermission: dApp.decryptPermission,
       programs: dApp.programs
     };
@@ -175,13 +175,13 @@ export async function generatePromisifyRequestPermission(
               await setDApp(origin, {
                 network,
                 appMeta,
-                publicKey: accountPublicKey,
+                accountId: accountPublicKey,
                 decryptPermission: decryptPermission || DecryptPermission.NoDecrypt,
                 programs: programs
               });
             resolve({
               type: MidenDAppMessageType.PermissionResponse,
-              publicKey: accountPublicKey,
+              accountId: accountPublicKey,
               network,
               decryptPermission: decryptPermission,
               programs
@@ -213,7 +213,7 @@ export async function requestPrivateNotes(
     throw new Error(MidenDAppErrorType.NotGranted);
   }
 
-  if (req.sourcePublicKey !== dApp.publicKey) {
+  if (req.sourcePublicKey !== dApp.accountId) {
     throw new Error(MidenDAppErrorType.NotFound);
   }
 
@@ -317,7 +317,7 @@ export async function requestTransaction(
     throw new Error(MidenDAppErrorType.NotGranted);
   }
 
-  if (req.sourcePublicKey !== dApp.publicKey) {
+  if (req.sourcePublicKey !== dApp.accountId) {
     throw new Error(MidenDAppErrorType.NotFound);
   }
 
@@ -405,7 +405,7 @@ export async function requestSendTransaction(
     throw new Error(MidenDAppErrorType.NotGranted);
   }
 
-  if (req.sourcePublicKey !== dApp.publicKey) {
+  if (req.sourcePublicKey !== dApp.accountId) {
     throw new Error(MidenDAppErrorType.NotFound);
   }
 
@@ -493,7 +493,7 @@ export async function requestConsumeTransaction(
     throw new Error(MidenDAppErrorType.NotGranted);
   }
 
-  if (req.sourcePublicKey !== dApp.publicKey) {
+  if (req.sourcePublicKey !== dApp.accountId) {
     throw new Error(MidenDAppErrorType.NotFound);
   }
 
@@ -568,15 +568,15 @@ export async function getAllDApps(): Promise<MidenDAppSessions> {
   return dAppsSessions;
 }
 
-export async function getDApp(origin: string, publicKey: string): Promise<MidenDAppSession | undefined> {
+export async function getDApp(origin: string, accountId: string): Promise<MidenDAppSession | undefined> {
   const sessions: MidenDAppSession[] = (await getAllDApps())[origin] || [];
-  return sessions.find(session => session.publicKey === publicKey);
+  return sessions.find(session => session.accountId === accountId);
 }
 
 export async function setDApp(origin: string, permissions: MidenDAppSession) {
   const current = await getAllDApps();
   let currentDAppSessions: MidenDAppSession[] = current[origin] || [];
-  let currentDAppSessionIdx = currentDAppSessions.findIndex(session => session.publicKey === permissions.publicKey);
+  let currentDAppSessionIdx = currentDAppSessions.findIndex(session => session.accountId === permissions.accountId);
   if (currentDAppSessionIdx >= 0) {
     currentDAppSessions[currentDAppSessionIdx] = permissions;
   } else {
@@ -588,9 +588,9 @@ export async function setDApp(origin: string, permissions: MidenDAppSession) {
   return newDApps;
 }
 
-export async function removeDApp(origin: string, publicKey: string) {
+export async function removeDApp(origin: string, accountId: string) {
   const { [origin]: permissionsToRemove, ...restDApps } = await getAllDApps();
-  const newPermissions = permissionsToRemove.filter(session => session.publicKey !== publicKey);
+  const newPermissions = permissionsToRemove.filter(session => session.accountId !== accountId);
   await setDApps({ ...restDApps, [origin]: newPermissions });
   return restDApps;
 }

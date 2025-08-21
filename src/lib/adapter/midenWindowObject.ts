@@ -47,7 +47,7 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
   }
 
   async requestPrivateNotes(): Promise<{ privateNotes: any[] }> {
-    const res = await requestPrivateNotes(this.publicKey!);
+    const res = await requestPrivateNotes(this.accountId!);
     return { privateNotes: res };
   }
 
@@ -64,7 +64,7 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
       programs
     );
     this.permission = perm;
-    this.accountId = perm.publicKey;
+    this.accountId = perm.accountId;
     this.network = network;
     this.clearAccountChangeInterval = onPermissionChange((perm: MidenDAppPermission) => {
       this.emit('accountChange', perm);

@@ -1261,29 +1261,54 @@
   resolved "https://registry.yarnpkg.com/@demox-labs/amp-core/-/amp-core-0.1.0.tgz#7a401fc856b28a98168d38b28e787846fdc3cc49"
   integrity sha512-L10JKzw32Z5geDHytb5ApVDUBRQ+T6/pfSaM5oeeaOrM5V7Rmbizoa0D3xzEaE6eDcm6X6U+bc0cun3cznJL+g==
 
-"@demox-labs/miden-sdk@0.10.1":
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/@demox-labs/miden-sdk/-/miden-sdk-0.10.1.tgz#1eb59dae60e7d850118fe76405468bedda844ccc"
-  integrity sha512-2fdTkifJ1H+HTfc0QKUcSr5bK++jYw4W/m0kWt//DeQoZeg3RORMo8POG2eDMLakxgLDZy7WRYLRScGguTaLAQ==
+"@demox-labs/miden-sdk@0.11.0-next.19":
+  version "0.11.0-next.19"
+  resolved "https://registry.yarnpkg.com/@demox-labs/miden-sdk/-/miden-sdk-0.11.0-next.19.tgz#aea7ac014833731444b58e5fa840fb1b9a85f8c5"
+  integrity sha512-cjP8V6W7veOwG9q7kDnArMG5BGRw/nSKAbnI71ICOkUdFMYBo2JSmnQMIWj5f5uGlaaYNjL55sr8bwbqDPKaoQ==
   dependencies:
     chai-as-promised "^8.0.0"
     dexie "^4.0.1"
     glob "^11.0.0"
 
-"@demox-labs/miden-wallet-adapter-base@0.2.0", "@demox-labs/miden-wallet-adapter-base@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-base/-/miden-wallet-adapter-base-0.2.0.tgz#a50738f447f8e3f9d57de25fd73464f3e4a0fd07"
-  integrity sha512-vhx+Ji8axzC9LZh/GbyMr4rAXC8/QY+CGKs3WnOJcvOhfGsrnVVjOL8DT7+/XfTAPptLPOLe4hn6daFa9BgW6Q==
+"@demox-labs/miden-wallet-adapter-base@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-base/-/miden-wallet-adapter-base-0.3.0.tgz#b11e998d277f6755d177794efa4f04d4e0b9a9e7"
+  integrity sha512-pzGOwddVHH2MWxGRHlkGwlEXgb14vYuyxKRR6wrlkbmWyyYUKR7gR16v7zweo/27qMkkhkW9YxH2a+I8F3eGOQ==
   dependencies:
     eventemitter3 "^5.0.1"
 
-"@demox-labs/miden-wallet-adapter-miden@0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-miden/-/miden-wallet-adapter-miden-0.2.0.tgz#7da2f2f89bdf2131c310da4cadb8e45544a667e2"
-  integrity sha512-FV1VP0ctcO6Z5/5+TJu6MlONFyT2Iwha/tIqzYkahg6qjo2yBt40YPjjjV98hXXkWYCqrH+yvj+F56tj/Tc6/Q==
+"@demox-labs/miden-wallet-adapter-miden@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-miden/-/miden-wallet-adapter-miden-0.3.0.tgz#48437f3d5688de08f907b39e877fab692a76b182"
+  integrity sha512-aeHNMnmq1Qel434g95lSWOiEjKbmzXo0h3rmjmvvCMyrAkO0tDxIYlkkSEqYlIkwN5sf+cVzTrXaT9oTldRecw==
   dependencies:
-    "@demox-labs/miden-wallet-adapter-base" "^0.2.0"
+    "@demox-labs/miden-wallet-adapter-base" "^0.3.0"
     nanoid "^5.0.9"
+
+"@demox-labs/miden-wallet-adapter-react@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-react/-/miden-wallet-adapter-react-0.3.0.tgz#1e61690f55abbf527863f75aaa4df1dd5a9a3164"
+  integrity sha512-EfPO6AaqwzFdDUFvBhCEQaBGzGcv3BcYMyi2cDd8FQnl1u5Eb3kDsHWa8z9osx2aTimV16Vm6JjXR0ea0xVBTQ==
+  dependencies:
+    "@demox-labs/miden-wallet-adapter-base" "^0.3.0"
+
+"@demox-labs/miden-wallet-adapter-reactui@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-reactui/-/miden-wallet-adapter-reactui-0.3.0.tgz#66e6c91916ecdaeeec83aa7ac4b3ecc5da4eef43"
+  integrity sha512-OPLQ98Zute68YSnS7GxLKUY9JXkafd+EMbtDeAhd2hDP4jj8qWt4xsHaQw6VLpekRLVHJ2Zm34yLseY5MmXr0A==
+  dependencies:
+    "@demox-labs/miden-wallet-adapter-base" "^0.3.0"
+    "@demox-labs/miden-wallet-adapter-react" "^0.3.0"
+
+"@demox-labs/miden-wallet-adapter@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter/-/miden-wallet-adapter-0.3.0.tgz#4bd1b99f881d397b6f711ff4a985a46f0f7711a8"
+  integrity sha512-LEWJrEqCbZc9/AizQUn4DS7z74PRIfL+6K7kawX2VZDjd2UwprELcDA/uTJxhuo+TZpn7vy1BFP24F7K/2PyGQ==
+  dependencies:
+    "@demox-labs/miden-wallet-adapter-base" "^0.3.0"
+    "@demox-labs/miden-wallet-adapter-miden" "^0.3.0"
+    "@demox-labs/miden-wallet-adapter-react" "^0.3.0"
+    "@demox-labs/miden-wallet-adapter-reactui" "^0.3.0"
 
 "@dicebear/avatars-bottts-sprites@4.2.5":
   version "4.2.5"
@@ -4401,7 +4426,7 @@ browserslist@4.14.2:
     escalade "^3.0.2"
     node-releases "^1.1.61"
 
-browserslist@^4.0.0, browserslist@^4.19.1, browserslist@^4.21.4, browserslist@^4.24.0, browserslist@^4.24.4, browserslist@^4.25.1:
+browserslist@^4.0.0, browserslist@^4.19.1, browserslist@^4.21.4, browserslist@^4.24.0, browserslist@^4.24.4, browserslist@^4.25.3:
   version "4.25.3"
   resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.25.3.tgz#9167c9cbb40473f15f75f85189290678b99b16c5"
   integrity sha512-cDGv1kkDI4/0e5yON9yM5G/0A5u8sf5TnmdX5C9qHzI9PPu++sQ9zjm1k9NiOrf3riY4OkK0zSGqfvJyJsgCBQ==
@@ -5022,16 +5047,16 @@ copy-webpack-plugin@^10.2.4:
     serialize-javascript "^6.0.0"
 
 core-js-compat@^3.43.0:
-  version "3.45.0"
-  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.45.0.tgz#bc0017525dcb7a42ba3241d02f6fce9bae8e5c33"
-  integrity sha512-gRoVMBawZg0OnxaVv3zpqLLxaHmsubEGyTnqdpI/CEBvX4JadI1dMSHxagThprYRtSVbuQxvi6iUatdPxohHpA==
+  version "3.45.1"
+  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.45.1.tgz#424f3f4af30bf676fd1b67a579465104f64e9c7a"
+  integrity sha512-tqTt5T4PzsMIZ430XGviK4vzYSoeNJ6CXODi6c/voxOT6IZqBht5/EKaSNnYiEjjRYxjVz7DQIsOsY0XNi8PIA==
   dependencies:
-    browserslist "^4.25.1"
+    browserslist "^4.25.3"
 
 core-js-pure@^3.43.0:
-  version "3.45.0"
-  resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.45.0.tgz#c753b80daf1bf732e56bf0b8cbd62797c0c1f235"
-  integrity sha512-OtwjqcDpY2X/eIIg1ol/n0y/X8A9foliaNt1dSK0gV3J2/zw+89FcNG3mPK+N8YWts4ZFUPxnrAzsxs/lf8yDA==
+  version "3.45.1"
+  resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.45.1.tgz#b129d86a5f7f8380378577c7eaee83608570a05a"
+  integrity sha512-OHnWFKgTUshEU8MK+lOs1H8kC8GkTi9Z1tvNkxrCcw9wl3MJIO7q2ld77wjWn4/xuGrVu2X+nME1iIIPBSdyEQ==
 
 core-js@^2.4.0, core-js@^2.5.0:
   version "2.6.12"
@@ -5861,9 +5886,9 @@ ejs@^3.1.6:
     jake "^10.8.5"
 
 electron-to-chromium@^1.3.564, electron-to-chromium@^1.5.204:
-  version "1.5.204"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.204.tgz#45ffed15ea3ca5d43e3205b52082721bc988d0ba"
-  integrity sha512-s9VbBXWxfDrl67PlO4avwh0/GU2vcwx8Fph3wlR8LJl7ySGYId59EFE17VWVcuC3sLWNPENm6Z/uGqKbkPCcXA==
+  version "1.5.207"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.207.tgz#0fedde3eec615065ee95531c09a10578644c5552"
+  integrity sha512-mryFrrL/GXDTmAtIVMVf+eIXM09BBPlO5IQ7lUyKmK8d+A4VpRGG+M3ofoVef6qyF8s60rJei8ymlJxjUA8Faw==
 
 elliptic@^6.5.4:
   version "6.6.1"
@@ -12865,9 +12890,9 @@ typeson@^6.0.0, typeson@^6.1.0:
   integrity sha512-6FTtyGr8ldU0pfbvW/eOZrEtEkczHRUtduBnA90Jh9kMPCiFNnXIon3vF41N0S4tV1HHQt4Hk1j4srpESziCaA==
 
 ua-parser-js@^1.0.35:
-  version "1.0.40"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-1.0.40.tgz#ac6aff4fd8ea3e794a6aa743ec9c2fc29e75b675"
-  integrity sha512-z6PJ8Lml+v3ichVojCiB8toQJBuwR42ySM4ezjXIqXK3M0HczmKQ3LF4rhU55PfD99KEEXQG6yb7iOMyvYuHew==
+  version "1.0.41"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-1.0.41.tgz#bd04dc9ec830fcf9e4fad35cf22dcedd2e3b4e9c"
+  integrity sha512-LbBDqdIC5s8iROCUjMbW1f5dJQTEFB1+KO9ogbvlb3nm9n4YHa5p4KTvFPWvh2Hs8gZMBuiB1/8+pdfe/tDPug==
 
 unbox-primitive@^1.1.0:
   version "1.1.0"

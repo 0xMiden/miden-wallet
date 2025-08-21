@@ -201,12 +201,12 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   }, []);
 
   const confirmDAppPermission = useCallback(
-    async (id: string, confirmed: boolean, publicKey: string, decryptPermission: DecryptPermission) => {
+    async (id: string, confirmed: boolean, accountId: string, decryptPermission: DecryptPermission) => {
       const res = await request({
         type: MidenMessageType.DAppPermConfirmationRequest,
         id,
         confirmed,
-        accountPublicKey: confirmed ? publicKey : '',
+        accountPublicKey: confirmed ? accountId : '',
         decryptPermission
       });
       assertResponse(res.type === MidenMessageType.DAppPermConfirmationResponse);

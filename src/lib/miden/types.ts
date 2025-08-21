@@ -34,7 +34,7 @@ export interface ConsumableNote {
 export interface MidenDAppSession {
   network: string; // TODO: replace with MidenChainId
   appMeta: MidenDAppMetadata;
-  publicKey: string;
+  accountId: string;
   decryptPermission: DecryptPermission;
   programs?: string[];
 }
