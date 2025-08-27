@@ -20,6 +20,7 @@ import useSafeState from 'lib/ui/useSafeState';
 import { useLocation } from 'lib/woozie';
 
 import Alert from './atoms/Alert';
+import FormSecondaryButton from './atoms/FormSecondaryButton';
 import FormSubmitButton from './atoms/FormSubmitButton';
 import Name from './atoms/Name';
 import { ConfirmPageSelectors } from './ConfirmPage.selectors';
@@ -29,7 +30,6 @@ import AccountBanner from './templates/AccountBanner';
 import ConnectBanner from './templates/ConnectBanner';
 import DecryptPermissionBanner from './templates/DecryptPermissionBanner';
 import { isDelegateProofEnabled } from './templates/DelegateSettings';
-import FormSecondaryButton from './atoms/FormSecondaryButton';
 
 const ConfirmPage: FC = () => {
   const { ready } = useMidenContext();

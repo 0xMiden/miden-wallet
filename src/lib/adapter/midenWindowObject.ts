@@ -4,9 +4,10 @@ import {
   DecryptPermission,
   MidenTransaction,
   MidenSendTransaction,
-  MidenConsumeTransaction
+  MidenConsumeTransaction,
+  MidenWallet,
+  MidenWalletEvents
 } from '@demox-labs/miden-wallet-adapter';
-import { MidenWallet, MidenWalletEvents } from '@demox-labs/miden-wallet-adapter';
 
 import {
   requestPermission,

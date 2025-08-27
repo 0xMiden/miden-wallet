@@ -3,6 +3,7 @@ import React, { FC, useCallback, useMemo } from 'react';
 import classNames from 'clsx';
 
 import { openInFullPage, useAppEnv } from 'app/env';
+import { ReactComponent as AppsIcon } from 'app/icons/apps.svg';
 import { ReactComponent as ContactBookIcon } from 'app/icons/contact-book.svg';
 import { ReactComponent as ExtensionIcon } from 'app/icons/extension.svg';
 import { ReactComponent as InfoIcon } from 'app/icons/information.svg';
@@ -14,6 +15,7 @@ import PageLayout from 'app/layouts/PageLayout';
 import Footer from 'app/layouts/PageLayout/Footer';
 import About from 'app/templates/About';
 import AddressBook from 'app/templates/AddressBook';
+import DAppSettings from 'app/templates/DAppSettings';
 import EditMidenFaucetId from 'app/templates/EditMidenFaucetId';
 import GeneralSettings from 'app/templates/GeneralSettings';
 import MenuItem from 'app/templates/MenuItem';
@@ -142,6 +144,16 @@ const TABS: Tab[] = [
   //   insertHR: false,
   //   iconStyle: { stroke: '#000', strokeWidth: '0px' }
   // },
+  {
+    slug: 'dapps',
+    titleI18nKey: 'authorizedDApps',
+    Icon: AppsIcon,
+    Component: DAppSettings,
+    descriptionI18nKey: 'dAppsDescription',
+    testID: SettingsSelectors.DAppsButton,
+    insertHR: true,
+    iconStyle: { stroke: '#000', strokeWidth: '1px' }
+  },
   {
     slug: 'about',
     titleI18nKey: 'about',

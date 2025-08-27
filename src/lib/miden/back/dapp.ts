@@ -1,4 +1,3 @@
-import { MidenClientInterface } from '../sdk/miden-client-interface';
 import { NoteFilter, NoteFilterTypes, NoteType } from '@demox-labs/miden-sdk';
 import {
   DecryptPermission,
@@ -46,6 +45,7 @@ import {
   requestCustomTransaction,
   initiateConsumeTransactionFromId
 } from '../activity/transactions';
+import { MidenClientInterface } from '../sdk/miden-client-interface';
 import { store, withUnlocked } from './store';
 
 const CONFIRM_WINDOW_WIDTH = 380;

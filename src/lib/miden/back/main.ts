@@ -117,18 +117,18 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
     //     type: WalletMessageType.AuthorizeDeployResponse,
     //     ...authDeploy
     //   };
-    // case WalletMessageType.DAppGetAllSessionsRequest:
-    //   const allSessions = await Actions.getAllDAppSessions();
-    //   return {
-    //     type: WalletMessageType.DAppGetAllSessionsResponse,
-    //     sessions: allSessions
-    //   };
-    // case WalletMessageType.DAppRemoveSessionRequest:
-    //   const sessions = await Actions.removeDAppSession(req.origin);
-    //   return {
-    //     type: WalletMessageType.DAppRemoveSessionResponse,
-    //     sessions
-    //   };
+    case MidenMessageType.DAppGetAllSessionsRequest:
+      const allSessions = await Actions.getAllDAppSessions();
+      return {
+        type: MidenMessageType.DAppGetAllSessionsResponse,
+        sessions: allSessions
+      };
+    case MidenMessageType.DAppRemoveSessionRequest:
+      const sessions = await Actions.removeDAppSession(req.origin);
+      return {
+        type: MidenMessageType.DAppRemoveSessionResponse,
+        sessions
+      };
     case MidenMessageType.PageRequest:
       const dAppEnabled = await Actions.isDAppEnabled();
       if (dAppEnabled) {

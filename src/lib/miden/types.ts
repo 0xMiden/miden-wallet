@@ -31,6 +31,12 @@ export interface ConsumableNote {
   isBeingClaimed: boolean;
 }
 
+export enum MidenSharedStorageKey {
+  DAppEnabled = 'DAppEnabled',
+  PasswordAttempts = 'PasswordAttempts',
+  TimeLock = 'TimeLock'
+}
+
 export interface MidenDAppSession {
   network: string; // TODO: replace with MidenChainId
   appMeta: MidenDAppMetadata;

@@ -241,9 +241,21 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
 
   const confirmDAppDeploy = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {}, []);
 
-  const getAllDAppSessions = useCallback(async () => {}, []);
+  const getAllDAppSessions = useCallback(async () => {
+    const res = await request({
+      type: MidenMessageType.DAppGetAllSessionsRequest
+    });
+    assertResponse(res.type === MidenMessageType.DAppGetAllSessionsResponse);
+    return res.sessions;
+  }, []);
 
-  const removeDAppSession = useCallback(async (origin: string) => {}, []);
+  const removeDAppSession = useCallback(async (origin: string) => {
+    const res = await request({
+      type: MidenMessageType.DAppRemoveSessionRequest,
+      origin
+    });
+    assertResponse(res.type === MidenMessageType.DAppRemoveSessionResponse);
+  }, []);
 
   const getOwnedRecords = useCallback(async (accPublicKey: string) => {}, []);
 

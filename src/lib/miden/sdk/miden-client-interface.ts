@@ -5,7 +5,6 @@ import {
   ConsumableNoteRecord,
   InputNoteRecord,
   NoteFilter,
-  NoteFilterTypes,
   TransactionFilter,
   TransactionProver,
   TransactionRequest,
