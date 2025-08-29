@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "yarn watch:src",
-    "dev": "rimraf ./dist && concurrently yarn:watch:*",
+    "dev": "rimraf ./dist && concurrently \"yarn:watch:*\"",
     "watch:src": "cross-env NODE_ENV=development MODE_ENV=development MANIFEST_VERSION=3 webpack --watch --progress",
     "watch:dist": "mv3-hot-reload",
     "build": "cross-env NODE_ENV=development MODE_ENV=production MANIFEST_VERSION=3 webpack",
@@ -26,7 +26,9 @@
     "clean:install": "rimraf node_modules yarn.lock && yarn",
     "createTranslationFile": "ts-node --project ./tsconfig-utility.json ./utility/generateLanguageFiles.ts && ts-node --project ./tsconfig-utility.json ./utility/generateLanguageFiles.ts -e",
     "storybook": "storybook dev -p 6006",
-    "build:storybook": "storybook build -c .storybook -o storybook-deploy/public"
+    "build:storybook": "storybook build -c .storybook -o storybook-deploy/public",
+    "link:adapter": "yarn link ../miden-wallet-adapter/packages/core/base --private && yarn link ../miden-wallet-adapter/packages/core/react --private && yarn link ../miden-wallet-adapter/packages/ui --private && yarn link ../miden-wallet-adapter/packages/wallets/miden --private",
+    "unlink:adapter": "yarn unlink @demox-labs/miden-wallet-adapter-base @demox-labs/miden-wallet-adapter-react @demox-labs/miden-wallet-adapter-reactui @demox-labs/miden-wallet-adapter-miden"
   },
   "dependencies": {
     "@babel/core": "^7.17.2",
@@ -59,7 +61,7 @@
     "@types/react-collapse": "5.0.1",
     "@types/react-dom": "18.0.6",
     "@types/react-infinite-scroller": "^1.2.3",
-    "@types/react-modal": "3.13.1",
+    "@types/react-modal": "^3.16.3",
     "@types/react-transition-group": "^4.4.5",
     "@types/react-virtualized": "^9.21.21",
     "@types/seedrandom": "^3.0.3",
@@ -133,7 +135,7 @@
     "react-i18next": "^14.1.2",
     "react-infinite-scroller": "^1.2.6",
     "react-json-view": "1.21.3",
-    "react-modal": "3.15.1",
+    "react-modal": "^3.16.3",
     "react-qr-svg": "2.2.2",
     "react-transition-group": "4.4.2",
     "react-virtualized": "^9.22.3",
@@ -230,9 +232,7 @@
   },
   "resolutions": {
     "webpack": "^5",
-    "**/@types/react": "18.2.76",
-    "**/@types/react-dom": "18.0.6",
     "@types/minimatch": "^5.0.0"
   },
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+  "packageManager": "yarn@4.9.4"
 }
