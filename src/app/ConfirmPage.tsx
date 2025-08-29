@@ -164,7 +164,7 @@ const ConfirmDAppForm: FC = () => {
         case 'connect':
           return confirmDAppPermission(id, confirmed, account.publicKey, decryptPermission);
         case 'transaction':
-          !delegate && openLoadingFullPage();
+          openLoadingFullPage();
           return confirmDAppTransaction(id, confirmed, delegate);
       }
     },
