@@ -33,7 +33,7 @@
     "@babel/preset-env": "^7.16.11",
     "@demox-labs/aleo-hd-key": "^0.0.1",
     "@demox-labs/amp-core": "0.1.0",
-    "@demox-labs/miden-sdk": "0.11.0-next.19",
+    "@demox-labs/miden-sdk": "next",
     "@demox-labs/miden-wallet-adapter": "0.3.0",
     "@dicebear/avatars": "4.2.5",
     "@dicebear/avatars-bottts-sprites": "4.2.5",
