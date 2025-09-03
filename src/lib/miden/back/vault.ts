@@ -1,3 +1,4 @@
+import { AccountInterface, NetworkId } from '@demox-labs/miden-sdk';
 import { derivePath } from '@demox-labs/aleo-hd-key';
 import { SendTransaction } from '@demox-labs/miden-wallet-adapter';
 import * as Bip39 from 'bip39';
@@ -120,7 +121,9 @@ export class Vault {
 
       // Have to do this sequentially else the wasm fails
       for (const accountHeader of accountHeaders) {
-        const account = await midenClient.getAccount(accountHeader.id().toBech32('mtst'));
+        const account = await midenClient.getAccount(
+          accountHeader.id().toBech32(NetworkId.Devnet, AccountInterface.BasicWallet)
+        );
         accounts.push(account);
       }
 
@@ -129,7 +132,7 @@ export class Vault {
         const acc = accounts[i];
         if (acc) {
           newAccounts.push({
-            publicKey: acc.id().toBech32('mtst'),
+            publicKey: acc.id().toBech32(NetworkId.Devnet, AccountInterface.BasicWallet),
             name: 'Miden Account ' + (i + 1),
             isPublic: acc.isPublic(),
             type: WalletType.OnChain
