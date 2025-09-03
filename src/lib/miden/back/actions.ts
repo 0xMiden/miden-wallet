@@ -1,3 +1,5 @@
+import browser from 'webextension-polyfill';
+
 import { MidenDAppMessageType, MidenDAppRequest, MidenDAppResponse } from 'lib/adapter/types';
 import {
   toFront,
@@ -16,6 +18,7 @@ import { createQueue } from 'lib/queue';
 import { WalletSettings, WalletState } from 'lib/shared/types';
 import { WalletType } from 'screens/onboarding/types';
 
+import { MidenSharedStorageKey } from '../types';
 import {
   getAllDApps,
   getCurrentPermission,
@@ -24,7 +27,8 @@ import {
   requestPermission,
   requestSendTransaction,
   requestTransaction,
-  requestConsumeTransaction
+  requestConsumeTransaction,
+  requestPrivateNotes
 } from './dapp';
 
 const ACCOUNT_NAME_PATTERN = /^.{0,16}$/;
@@ -48,7 +52,17 @@ export async function getFrontState(): Promise<WalletState> {
 }
 
 export async function isDAppEnabled() {
-  return true;
+  const bools = await Promise.all([
+    Vault.isExist(),
+    (async () => {
+      const key = MidenSharedStorageKey.DAppEnabled;
+      const items = await browser.storage.local.get([key]);
+      console.log('items', items);
+      return key in items ? items[key] : true;
+    })()
+  ]);
+
+  return bools.every(Boolean);
 }
 
 export function registerNewWallet(password: string, mnemonic?: string, ownMnemonic?: boolean) {
@@ -188,6 +202,9 @@ export async function processDApp(origin: string, req: MidenDAppRequest): Promis
 
     case MidenDAppMessageType.ConsumeRequest:
       return withInited(() => enqueueDApp(() => requestConsumeTransaction(origin, req)));
+
+    case MidenDAppMessageType.PrivateNotesRequest:
+      return withInited(() => enqueueDApp(() => requestPrivateNotes(origin, req)));
   }
 }
 

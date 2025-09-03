@@ -21,7 +21,7 @@ const faucet = await webClient.newFaucet(
   BigInt(1000000 * 10 ** MIDEN_DECIMALS)
 );
 const faucetId = faucet.id();
-console.log('created faucet id:', faucetId.toBech32());
+console.log('created faucet id:', faucetId.toBech32('mtst'));
 
 console.log('syncing state');
 await webClient.syncState();
@@ -29,7 +29,7 @@ console.log('synced state');
 
 document.getElementById('loading').style.display = 'none';
 document.getElementById('faucetIdTitle').style.display = 'block';
-document.getElementById('faucetId').innerText = faucetId.toBech32();
+document.getElementById('faucetId').innerText = faucetId.toBech32('mtst');
 
 document.getElementById('publicKeyForm').addEventListener('submit', async event => {
   event.preventDefault();
@@ -60,7 +60,7 @@ document.getElementById('publicKeyForm').addEventListener('submit', async event 
 
   if (isPrivate) {
     console.log('exporting note...');
-    const result = await webClient.exportNote(noteId.toString(), 'Partial');
+    const result = await webClient.exportNoteFile(noteId.toString(), 'Partial');
     const noteBytes = new Uint8Array(result);
 
     const blob = new Blob([noteBytes], { type: 'application/octet-stream' });

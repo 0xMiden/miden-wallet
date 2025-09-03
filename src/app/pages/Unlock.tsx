@@ -11,6 +11,7 @@ import LogoVerticalTitle from 'app/misc/logo-vertical-title.svg';
 import { Button, ButtonVariant } from 'components/Button';
 import { useFormAnalytics } from 'lib/analytics';
 import { useLocalStorage, useMidenContext } from 'lib/miden/front';
+import { MidenSharedStorageKey } from 'lib/miden/types';
 import { navigate } from 'lib/woozie';
 
 type FormData = {
@@ -36,8 +37,8 @@ const Unlock: FC = () => {
   const { unlock } = useMidenContext();
   const formAnalytics = useFormAnalytics('UnlockWallet');
 
-  const [attempt, setAttempt] = useLocalStorage<number>('AleoSharedStorageKey.PasswordAttempts', 1);
-  const [timelock, setTimeLock] = useLocalStorage<number>('AleoSharedStorageKey.TimeLock', 0);
+  const [attempt, setAttempt] = useLocalStorage<number>(MidenSharedStorageKey.PasswordAttempts, 1);
+  const [timelock, setTimeLock] = useLocalStorage<number>(MidenSharedStorageKey.TimeLock, 0);
   const lockLevel = LOCK_TIME * Math.floor(attempt / 3);
 
   const [timeleft, setTimeleft] = useState(getTimeLeft(timelock, lockLevel));

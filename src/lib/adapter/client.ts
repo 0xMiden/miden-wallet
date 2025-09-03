@@ -4,7 +4,7 @@ import {
   MidenSendTransaction,
   MidenTransaction,
   MidenConsumeTransaction
-} from '@demox-labs/miden-wallet-adapter-base';
+} from '@demox-labs/miden-wallet-adapter';
 import { nanoid } from 'nanoid';
 
 import {
@@ -101,7 +101,7 @@ export async function requestPermission(
   assertResponse(res.type === MidenDAppMessageType.PermissionResponse);
   return {
     rpc: res.network,
-    publicKey: res.publicKey,
+    accountId: res.accountId,
     decryptPermission: res.decryptPermission,
     programs: res.programs
   };
@@ -145,6 +145,15 @@ export async function requestConsume(sourcePublicKey: string, transaction: Miden
   return res.transactionId;
 }
 
+export async function requestPrivateNotes(sourcePublicKey: string) {
+  const res = await request({
+    type: MidenDAppMessageType.PrivateNotesRequest,
+    sourcePublicKey
+  });
+  assertResponse(res.type === MidenDAppMessageType.PrivateNotesResponse);
+  return res.privateNotes;
+}
+
 function request(payload: MidenDAppRequest) {
   return new Promise<MidenDAppResponse>((resolve, reject) => {
     const reqId = nanoid();
@@ -178,7 +187,7 @@ function request(payload: MidenDAppRequest) {
 
 function permissionsAreEqual(aPerm: MidenDAppPermission, bPerm: MidenDAppPermission) {
   if (aPerm === null) return bPerm === null;
-  return aPerm.publicKey === bPerm?.publicKey && aPerm.rpc === bPerm?.rpc;
+  return aPerm.accountId === bPerm?.accountId && aPerm.rpc === bPerm?.rpc;
 }
 
 function createError(payload: any) {

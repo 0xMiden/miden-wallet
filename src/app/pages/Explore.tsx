@@ -13,6 +13,7 @@ import { isAutoConsumeEnabled } from 'app/templates/AutoConsumeSettings';
 import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Avatar } from 'components/Avatar';
 import { CardItem } from 'components/CardItem';
+import { ChainInstabilityBanner } from 'components/ChainInstabilityBanner';
 import { ConnectivityIssueBanner } from 'components/ConnectivityIssueBanner';
 import { TestIDProps } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
@@ -141,6 +142,7 @@ const Explore: FC = () => {
   return (
     <div className={classNames('flex flex-col m-auto bg-white', fullPage && 'rounded-3xl')} style={size}>
       <ConnectivityIssueBanner />
+      <ChainInstabilityBanner />
       <div className={classNames('flex-none', fullPage && 'rounded-t-3xl')} style={{ background }}>
         <Header />
         <div className={classNames('flex flex-col justify-start mt-6')}>

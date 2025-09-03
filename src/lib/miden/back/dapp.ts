@@ -1,9 +1,10 @@
+import { NoteFilter, NoteFilterTypes, NoteType } from '@demox-labs/miden-sdk';
 import {
   DecryptPermission,
   MidenConsumeTransaction,
   MidenCustomTransaction,
   SendTransaction
-} from '@demox-labs/miden-wallet-adapter-base';
+} from '@demox-labs/miden-wallet-adapter';
 import { nanoid } from 'nanoid';
 import browser, { Runtime } from 'webextension-polyfill';
 
@@ -20,7 +21,9 @@ import {
   MidenDAppTransactionRequest,
   MidenDAppTransactionResponse,
   MidenDAppConsumeRequest,
-  MidenDAppConsumeResponse
+  MidenDAppConsumeResponse,
+  MidenDAppPrivateNotesResponse,
+  MidenDAppPrivateNotesRequest
 } from 'lib/adapter/types';
 import { intercom } from 'lib/miden/back/defaults';
 import { Vault } from 'lib/miden/back/vault';
@@ -42,6 +45,7 @@ import {
   requestCustomTransaction,
   initiateConsumeTransactionFromId
 } from '../activity/transactions';
+import { MidenClientInterface } from '../sdk/miden-client-interface';
 import { store, withUnlocked } from './store';
 
 const CONFIRM_WINDOW_WIDTH = 380;
@@ -55,7 +59,7 @@ export async function getCurrentPermission(origin: string): Promise<MidenDAppGet
   const permission = dApp
     ? {
         rpc: await getNetworkRPC(dApp.network),
-        publicKey: dApp.publicKey,
+        accountId: dApp.accountId,
         decryptPermission: dApp.decryptPermission
       }
     : null;
@@ -120,7 +124,7 @@ export async function requestPermission(
     return {
       type: MidenDAppMessageType.PermissionResponse,
       network: reqChainId,
-      publicKey: dApp.publicKey,
+      accountId: dApp.accountId,
       decryptPermission: dApp.decryptPermission,
       programs: dApp.programs
     };
@@ -171,13 +175,13 @@ export async function generatePromisifyRequestPermission(
               await setDApp(origin, {
                 network,
                 appMeta,
-                publicKey: accountPublicKey,
+                accountId: accountPublicKey,
                 decryptPermission: decryptPermission || DecryptPermission.NoDecrypt,
                 programs: programs
               });
             resolve({
               type: MidenDAppMessageType.PermissionResponse,
-              publicKey: accountPublicKey,
+              accountId: accountPublicKey,
               network,
               decryptPermission: decryptPermission,
               programs
@@ -196,6 +200,109 @@ export async function generatePromisifyRequestPermission(
   });
 }
 
+export async function requestPrivateNotes(
+  origin: string,
+  req: MidenDAppPrivateNotesRequest
+): Promise<MidenDAppPrivateNotesResponse> {
+  if (!req?.sourcePublicKey) {
+    throw new Error(MidenDAppErrorType.InvalidParams);
+  }
+
+  const dApp = await getDApp(origin, req.sourcePublicKey);
+  if (!dApp) {
+    throw new Error(MidenDAppErrorType.NotGranted);
+  }
+
+  if (req.sourcePublicKey !== dApp.accountId) {
+    throw new Error(MidenDAppErrorType.NotFound);
+  }
+
+  return new Promise((resolve, reject) => generatePromisifyRequestPrivateNotes(resolve, reject, dApp, req));
+}
+
+const generatePromisifyRequestPrivateNotes = async (
+  resolve: (value: MidenDAppPrivateNotesResponse | PromiseLike<MidenDAppPrivateNotesResponse>) => void,
+  reject: (reason?: any) => void,
+  dApp: MidenDAppSession,
+  req: MidenDAppPrivateNotesRequest
+) => {
+  if (
+    dApp.decryptPermission === DecryptPermission.AutoDecrypt ||
+    dApp.decryptPermission === DecryptPermission.OnChainHistory
+  ) {
+    try {
+      let privateNotes = await withUnlocked(async () => {
+        const midenClient = await MidenClientInterface.create();
+        const noteFilter = new NoteFilter(NoteFilterTypes.All); // Unsure if we want All or a different type?
+        let allNotes = await midenClient.getInputNotes(noteFilter);
+        let privateNotes = allNotes.filter(note => note.metadata()?.noteType() === NoteType.Private);
+        let privateNoteIds = privateNotes.map(note => note.id().toString());
+        return privateNoteIds;
+      });
+      resolve({
+        type: MidenDAppMessageType.PrivateNotesResponse,
+        privateNotes: privateNotes
+      });
+    } catch (e) {
+      reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+    }
+  } else {
+    const id = nanoid();
+    const networkRpc = await getNetworkRPC(dApp.network);
+
+    let privateNotes: any[] = [];
+    try {
+      privateNotes = await withUnlocked(async () => {
+        const midenClient = await MidenClientInterface.create();
+        const noteFilter = new NoteFilter(NoteFilterTypes.All); // Unsure if we want All or a different type?
+        let allNotes = await midenClient.getInputNotes(noteFilter);
+        let privateNotes = allNotes.filter(note => note.metadata()?.noteType() === NoteType.Private);
+        let privateNoteIds = privateNotes.map(note => note.id().toString());
+        return privateNoteIds;
+      });
+    } catch (e) {
+      reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+    }
+
+    await requestConfirm({
+      id,
+      payload: {
+        type: 'privateNotes',
+        origin,
+        networkRpc,
+        appMeta: dApp.appMeta,
+        sourcePublicKey: req.sourcePublicKey,
+        privateNotes: privateNotes,
+        preview: null
+      },
+      onDecline: () => {
+        reject(new Error(MidenDAppErrorType.NotGranted));
+      },
+      handleIntercomRequest: async (confirmReq, decline) => {
+        if (confirmReq?.type === MidenMessageType.DAppPrivateNotesConfirmationRequest && confirmReq?.id === id) {
+          if (confirmReq.confirmed) {
+            try {
+              resolve({
+                type: MidenDAppMessageType.PrivateNotesResponse,
+                privateNotes
+              } as any);
+            } catch (e) {
+              reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+            }
+          } else {
+            decline();
+          }
+
+          return {
+            type: MidenMessageType.DAppPrivateNotesConfirmationResponse
+          };
+        }
+        return undefined;
+      }
+    });
+  }
+};
+
 export async function requestTransaction(
   origin: string,
   req: MidenDAppTransactionRequest
@@ -211,7 +318,7 @@ export async function requestTransaction(
     throw new Error(MidenDAppErrorType.NotGranted);
   }
 
-  if (req.sourcePublicKey !== dApp.publicKey) {
+  if (req.sourcePublicKey !== dApp.accountId) {
     throw new Error(MidenDAppErrorType.NotFound);
   }
 
@@ -299,7 +406,7 @@ export async function requestSendTransaction(
     throw new Error(MidenDAppErrorType.NotGranted);
   }
 
-  if (req.sourcePublicKey !== dApp.publicKey) {
+  if (req.sourcePublicKey !== dApp.accountId) {
     throw new Error(MidenDAppErrorType.NotFound);
   }
 
@@ -387,7 +494,7 @@ export async function requestConsumeTransaction(
     throw new Error(MidenDAppErrorType.NotGranted);
   }
 
-  if (req.sourcePublicKey !== dApp.publicKey) {
+  if (req.sourcePublicKey !== dApp.accountId) {
     throw new Error(MidenDAppErrorType.NotFound);
   }
 
@@ -462,15 +569,15 @@ export async function getAllDApps(): Promise<MidenDAppSessions> {
   return dAppsSessions;
 }
 
-export async function getDApp(origin: string, publicKey: string): Promise<MidenDAppSession | undefined> {
+export async function getDApp(origin: string, accountId: string): Promise<MidenDAppSession | undefined> {
   const sessions: MidenDAppSession[] = (await getAllDApps())[origin] || [];
-  return sessions.find(session => session.publicKey === publicKey);
+  return sessions.find(session => session.accountId === accountId);
 }
 
 export async function setDApp(origin: string, permissions: MidenDAppSession) {
   const current = await getAllDApps();
   let currentDAppSessions: MidenDAppSession[] = current[origin] || [];
-  let currentDAppSessionIdx = currentDAppSessions.findIndex(session => session.publicKey === permissions.publicKey);
+  let currentDAppSessionIdx = currentDAppSessions.findIndex(session => session.accountId === permissions.accountId);
   if (currentDAppSessionIdx >= 0) {
     currentDAppSessions[currentDAppSessionIdx] = permissions;
   } else {
@@ -482,9 +589,9 @@ export async function setDApp(origin: string, permissions: MidenDAppSession) {
   return newDApps;
 }
 
-export async function removeDApp(origin: string, publicKey: string) {
+export async function removeDApp(origin: string, accountId: string) {
   const { [origin]: permissionsToRemove, ...restDApps } = await getAllDApps();
-  const newPermissions = permissionsToRemove.filter(session => session.publicKey !== publicKey);
+  const newPermissions = permissionsToRemove.filter(session => session.accountId !== accountId);
   await setDApps({ ...restDApps, [origin]: newPermissions });
   return restDApps;
 }
