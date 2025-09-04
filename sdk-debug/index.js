@@ -60,7 +60,7 @@ document.getElementById('publicKeyForm').addEventListener('submit', async event 
 
   if (isPrivate) {
     console.log('exporting note...');
-    const result = await webClient.exportNoteFile(noteId.toString(), 'Partial');
+    const result = await webClient.exportNoteFile(noteId.toString(), 'Details');
     const noteBytes = new Uint8Array(result);
 
     const blob = new Blob([noteBytes], { type: 'application/octet-stream' });

@@ -138,7 +138,7 @@ export const completeSendTransaction = async (tx: SendTransaction, result: Trans
   const noteId = result.createdNotes().notes()[0].id().toString();
   if (tx.noteType === NoteTypeEnum.Private) {
     const midenClient = await MidenClientInterface.create();
-    const noteBytes = await midenClient.exportNote(noteId, NoteExportType.PARTIAL);
+    const noteBytes = await midenClient.exportNote(noteId, NoteExportType.DETAILS);
     console.log('registering output note', noteId);
     await registerOutputNote(noteId);
     // TODO: Potentially unhook this from export process

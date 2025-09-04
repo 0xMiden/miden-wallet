@@ -6,5 +6,5 @@ export enum MidenWalletStorageType {
 export enum NoteExportType {
   ID = 'Id',
   FULL = 'Full',
-  PARTIAL = 'Partial'
+  DETAILS = 'Details'
 }

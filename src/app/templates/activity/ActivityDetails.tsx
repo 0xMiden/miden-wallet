@@ -50,7 +50,7 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
     try {
       setIsDownloading(true);
       const midenClient = await MidenClientInterface.create();
-      const noteBytes = await midenClient.exportNote(activity.noteId, NoteExportType.PARTIAL);
+      const noteBytes = await midenClient.exportNote(activity.noteId, NoteExportType.DETAILS);
 
       const ab = new ArrayBuffer(noteBytes.byteLength);
       new Uint8Array(ab).set(noteBytes);
@@ -76,6 +76,8 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
   }, [loadTransaction, activity]);
 
   const showDownloadButton = activity?.message === 'Sent' && activity?.noteType === 'private' && activity?.noteId;
+  const fromAddress = activity?.message === 'Sent' ? activity?.address : activity?.secondaryAddress;
+  const toAddress = activity?.message === 'Sent' ? activity?.secondaryAddress : activity?.address;
 
   return (
     <PageLayout pageTitle={activity?.message} hasBackAction={true}>
@@ -105,11 +107,11 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
             <div className="flex flex-col gap-y-2">
               <span className="flex flex-row justify-between">
                 <label className="text-sm text-grey-600">From</label>
-                <p className="text-sm">{activity.address}</p>
+                <p className="text-sm">{fromAddress}</p>
               </span>
               <span className="flex flex-row justify-between whitespace-pre-line">
                 <label className="text-sm text-grey-600">To</label>
-                <p className="text-sm text-right">{activity.secondaryAddress}</p>
+                <p className="text-sm text-right">{toAddress}</p>
               </span>
             </div>
 
