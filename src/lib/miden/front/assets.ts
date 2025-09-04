@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
-import { FungibleAsset } from '@demox-labs/miden-sdk';
+import { AccountInterface, FungibleAsset, NetworkId } from '@demox-labs/miden-sdk';
 import BigNumber from 'bignumber.js';
 import constate from 'constate';
 import deepEqual from 'fast-deep-equal';
@@ -9,16 +9,15 @@ import useForceUpdate from 'use-force-update';
 import browser from 'webextension-polyfill';
 
 import {
-  ALEO_METADATA,
+  MIDEN_METADATA,
   AssetMetadata,
-  AssetTypesEnum,
   DetailedAssetMetdata,
   fetchFromStorage,
   fetchTokenMetadata,
-  isAleoAsset,
   onStorageChanged,
   putToStorage,
-  usePassiveStorage
+  usePassiveStorage,
+  isMidenAsset
 } from 'lib/miden/front';
 import { createQueue } from 'lib/queue';
 import { useRetryableSWR } from 'lib/swr';
@@ -45,8 +44,8 @@ export function useFungibleTokens(accountId: string) {
     const account = await midenClient.getAccount(accountId);
     const assets = account!.vault().fungibleAssets() as FungibleAsset[];
     const balances = assets.map(asset => ({
-      faucetId: asset.faucetId().toString(),
-      balance: new BigNumber(asset.amount().toString())
+      faucetId: asset.faucetId().toBech32(NetworkId.Devnet, AccountInterface.BasicWallet),
+      balance: new BigNumber(asset.amount().toString()).div(10 ** MIDEN_METADATA.decimals)
     }));
     return {
       tokens: balances,
@@ -84,12 +83,12 @@ export function useAssetMetadata(slug: string, assetId: string) {
     [slug, assetId, allTokensBaseMetadataRef, forceUpdate]
   );
 
-  const aleoAsset = isAleoAsset(slug);
+  const midenAsset = isMidenAsset(slug);
   const tokenMetadata = allTokensBaseMetadataRef.current[assetId] ?? null;
   const exist = Boolean(tokenMetadata);
 
   useEffect(() => {
-    if (!isAleoAsset(slug) && !exist && !autoFetchMetadataFails.has(assetId)) {
+    if (!isMidenAsset(slug) && !exist && !autoFetchMetadataFails.has(assetId)) {
       enqueueAutoFetchMetadata(() => fetchMetadata(assetId))
         .then(metadata =>
           Promise.all([
@@ -101,8 +100,8 @@ export function useAssetMetadata(slug: string, assetId: string) {
     }
   }, [slug, assetId, exist, fetchMetadata, setTokensBaseMetadata, setTokensDetailedMetadata]);
 
-  // Aleo
-  if (aleoAsset) {
+  // MIDEN
+  if (midenAsset) {
     return metadata;
   }
 
@@ -172,7 +171,7 @@ export const useGetTokenMetadata = () => {
 
   return useCallback(
     (slug: string, id: string) => {
-      if (isAleoAsset(slug)) {
+      if (isMidenAsset(slug)) {
         return metadata;
       }
 
@@ -210,10 +209,6 @@ export function useAllTokensBaseMetadata() {
   return allTokensBaseMetadataRef.current;
 }
 
-type TokenStatuses = Record<string, { displayed: boolean; removed: boolean }>;
-
-export const useAvailableAssets = (assetType: AssetTypesEnum) => {};
-
 export function searchAssets(
   searchValue: string,
   assets: { slug: string; id: string }[],
@@ -225,7 +220,7 @@ export function searchAssets(
     assets.map(({ slug, id }) => ({
       slug,
       id,
-      metadata: isAleoAsset(slug) ? ALEO_METADATA : allTokensBaseMetadata[id]
+      metadata: isMidenAsset(slug) ? MIDEN_METADATA : allTokensBaseMetadata[id]
     })),
     {
       keys: [

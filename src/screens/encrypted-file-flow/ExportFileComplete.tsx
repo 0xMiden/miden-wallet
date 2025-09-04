@@ -1,14 +1,16 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
+import { useAppEnv } from 'app/env';
 import { useMidenClient } from 'app/hooks/useMidenClient';
 import { Icon, IconName } from 'app/icons/v2';
+import { Alert, AlertVariant } from 'components/Alert';
 import { Button, ButtonVariant } from 'components/Button';
-import { t } from 'lib/i18n/react';
 import { useMidenContext } from 'lib/miden/front';
-import { decryptJson, deriveKey, encrypt, encryptJson, generateKey, generateSalt } from 'lib/miden/passworder';
-import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
+import { deriveKey, encrypt, encryptJson, generateKey, generateSalt } from 'lib/miden/passworder';
+import { exportDb } from 'lib/miden/repo';
 import { EncryptedWalletFile, ENCRYPTED_WALLET_FILE_PASSWORD_CHECK, DecryptedWalletFile } from 'screens/shared';
 
 export interface ExportFileCompleteProps {
@@ -19,18 +21,30 @@ export interface ExportFileCompleteProps {
   walletPassword: string;
 }
 
-const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({ filePassword, fileName, walletPassword, onDone }) => {
+const EXTENSION = '.json';
+
+const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({
+  filePassword,
+  fileName,
+  walletPassword,
+  onDone,
+  onGoBack
+}) => {
+  const { t } = useTranslation();
   const { midenClient, midenClientLoading } = useMidenClient();
   const { revealMnemonic } = useMidenContext();
+  const { fullPage } = useAppEnv();
 
-  const getExportFile = async () => {
-    const dbDump = await midenClient?.exportDb();
+  const getExportFile = useCallback(async () => {
+    const midenClientDbDump = await midenClient?.exportDb();
+    const walletDbDump = await exportDb();
 
     const seedPhrase = await revealMnemonic(walletPassword);
 
     const filePayload: DecryptedWalletFile = {
       seedPhrase,
-      dbContent: dbDump
+      midenClientDbContent: midenClientDbDump,
+      walletDbContent: walletDbDump
     };
 
     const salt = generateSalt();
@@ -58,7 +72,7 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({ filePassword, f
     // Create a temporary anchor element
     const a = document.createElement('a');
     a.href = url;
-    a.download = fileName;
+    a.download = `${fileName}${EXTENSION}`;
 
     // Append the anchor to the document
     document.body.appendChild(a);
@@ -71,34 +85,42 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({ filePassword, f
 
     // Revoke the object URL to free up resources
     URL.revokeObjectURL(url);
-  };
+  }, [midenClient, walletPassword, filePassword, fileName, revealMnemonic]);
 
   useEffect(() => {
     if (midenClientLoading) return;
 
     getExportFile();
-  }, [midenClientLoading]);
+  }, [getExportFile, midenClientLoading]);
 
   return (
-    <div className="flex-1 flex flex-col justify-between md:w-[460px] md:mx-auto items-center">
-      <div
-        className={classNames(
-          'w-40 aspect-square flex items-center justify-center',
-          'rounded-full bg-gradient-to-t from-white to-[#F9F9F9]'
-        )}
-      >
-        <Icon name={IconName.CheckboxCircleFill} size="xxl" />
+    <div className="flex flex-col justify-between md:w-[460px] mx-auto items-center">
+      <div className="flex flex-col w-full items-center p-4 justify-center flex-1">
+        <div className="w-40 aspect-square flex items-center justify-center">
+          <Icon name={IconName.Success} size="3xl" />
+        </div>
+        <div className="flex flex-col items-center mt-8 max-w-sm">
+          <h1 className="font-semibold text-2xl lh-title text-center">{t('encryptedWalletFileExported')}</h1>
+          <p className="mt-2 text-sm text-center lh-title">{t('encryptedWalletFileExportedDescription')}</p>
+          <Alert
+            variant={AlertVariant.Warning}
+            className={classNames('mt-4 text-left', fullPage ? 'text-sm' : 'text-xs')}
+            title={
+              <>
+                <p className="font-medium">{t('doNotShareEncryptedWalletFile')}</p>
+                <p>{t('doNotShareEncryptedWalletFileDescription')}</p>
+              </>
+            }
+          />
+        </div>
       </div>
-      <div className="flex flex-col items-center">
-        <h1 className="font-semibold text-2xl lh-title">{'Encrypted Wallet File Exported'}</h1>
-        <p className="text-base text-center lh-title">
-          {
-            'Your encrypted wallet file has been downloaded. Keep it and your password safe, as losing them means losing access to your wallet.'
-          }
-        </p>
-      </div>
-      <div className="mt-8 flex flex-col gap-y-4 w-64">
-        <Button title={t('done')} variant={ButtonVariant.Primary} onClick={onDone} />
+      <div className="w-full pb-4 px-4">
+        <Button
+          className="w-full justify-center"
+          title={t('done')}
+          variant={ButtonVariant.Secondary}
+          onClick={onDone}
+        />
       </div>
     </div>
   );

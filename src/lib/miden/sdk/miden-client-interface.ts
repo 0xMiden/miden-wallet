@@ -1,8 +1,12 @@
 import {
   Account,
   AccountId,
+  AccountInterface,
   AccountStorageMode,
   ConsumableNoteRecord,
+  InputNoteRecord,
+  NetworkId,
+  NoteFilter,
   TransactionFilter,
   TransactionProver,
   TransactionRequest,
@@ -35,7 +39,7 @@ export class MidenClientInterface {
 
   static async create(options: MidenClientCreateOptions = {}) {
     const seed = options.seed?.toString();
-    const network = MIDEN_NETWORK_NAME.TESTNET;
+    const network = MIDEN_NETWORK_NAME.DEVNET;
     const webClient = await WebClient.createClient(MIDEN_NETWORK_ENDPOINTS.get(network)!, seed);
 
     return new MidenClientInterface(webClient, network, options.onConnectivityIssue);
@@ -47,14 +51,14 @@ export class MidenClientInterface {
       walletType === WalletType.OnChain ? AccountStorageMode.public() : AccountStorageMode.private();
 
     const wallet: Account = await this.webClient.newWallet(accountStorageMode, true, seed);
-    const walletId = wallet.id().toString();
+    const walletId = wallet.id().toBech32(NetworkId.Devnet, AccountInterface.BasicWallet);
 
     return walletId;
   }
 
   async importMidenWallet(accountBytes: Uint8Array): Promise<string> {
-    const wallet: Account = await this.webClient.importAccount(accountBytes);
-    const walletIdString = wallet.id().toString();
+    const wallet: Account = await this.webClient.importAccountFile(accountBytes);
+    const walletIdString = wallet.id().toBech32(NetworkId.Devnet, AccountInterface.BasicWallet);
 
     return walletIdString;
   }
@@ -62,7 +66,7 @@ export class MidenClientInterface {
   async importPublicMidenWalletFromSeed(seed: Uint8Array) {
     const account = await this.webClient.importPublicAccountFromSeed(seed, true);
 
-    return account.id().toString();
+    return account.id().toBech32(NetworkId.Devnet, AccountInterface.BasicWallet);
   }
 
   async consumeTransaction(accountId: string, listOfNoteIds: string[], delegateTransaction?: boolean) {
@@ -79,7 +83,7 @@ export class MidenClientInterface {
 
   async importNoteBytes(noteBytes: Uint8Array) {
     console.log('Importing note...');
-    const result = await this.webClient.importNote(noteBytes);
+    const result = await this.webClient.importNoteFile(noteBytes);
     console.log('Imported note:', result);
     return result;
   }
@@ -104,8 +108,18 @@ export class MidenClientInterface {
     return result;
   }
 
+  async importAccountById(accountId: string) {
+    const result = await this.webClient.importAccountById(accountIdStringToSdk(accountId));
+    return result;
+  }
+
   async getAccounts() {
     const result = await this.webClient.getAccounts();
+    return result;
+  }
+
+  async getInputNotes(noteFilter: NoteFilter): Promise<InputNoteRecord[]> {
+    const result = await this.webClient.getInputNotes(noteFilter);
     return result;
   }
 
@@ -114,7 +128,7 @@ export class MidenClientInterface {
   }
 
   async exportNote(noteId: string, exportType: NoteExportType): Promise<Uint8Array> {
-    const result = await this.webClient.exportNote(noteId, exportType);
+    const result = await this.webClient.exportNoteFile(noteId, exportType);
     const byteArray = new Uint8Array(result);
 
     return byteArray;
@@ -127,7 +141,7 @@ export class MidenClientInterface {
       if (consumability.length === 0) {
         return false;
       }
-      if (consumability[0].accountId().toString() !== accountId) {
+      if (consumability[0].accountId().toBech32(NetworkId.Devnet, AccountInterface.BasicWallet) !== accountId) {
         return false;
       }
       const consumableAfterBlock = consumability[0].consumableAfterBlock();
@@ -198,7 +212,9 @@ export class MidenClientInterface {
 
   async getTransactionsForAccount(accountId: string) {
     const transactions = await this.webClient.getTransactions(TransactionFilter.all());
-    return transactions.filter(tx => tx.accountId().toString() === accountId);
+    return transactions.filter(
+      tx => tx.accountId().toBech32(NetworkId.Devnet, AccountInterface.BasicWallet) === accountId
+    );
   }
 
   private async submitTransactionWithFallback(transactionResult: TransactionResult, delegateTransaction?: boolean) {
@@ -224,5 +240,5 @@ export class MidenClientInterface {
 }
 
 export const accountIdStringToSdk = (accountId: string) => {
-  return AccountId.fromHex(accountId);
+  return AccountId.fromBech32(accountId);
 };

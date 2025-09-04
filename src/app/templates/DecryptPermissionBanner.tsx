@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { DecryptPermission } from '@demox-labs/miden-wallet-adapter-base';
+import { DecryptPermission } from '@demox-labs/miden-wallet-adapter';
 import classNames from 'clsx';
 
 import { Icon, IconName } from 'app/icons/v2';

@@ -7,13 +7,13 @@ import { Button } from 'app/atoms/Button';
 import Spinner from 'app/atoms/Spinner/Spinner';
 import { useAppEnv } from 'app/env';
 import ErrorBoundary from 'app/ErrorBoundary';
-import { ReactComponent as CloseIcon } from 'app/icons/close.svg';
+import { Icon, IconName } from 'app/icons/v2';
 import ContentContainer from 'app/layouts/ContentContainer';
 import { T } from 'lib/i18n/react';
 import { PropsWithChildren } from 'lib/props-with-children';
 import { goBack, HistoryAction, navigate, useLocation } from 'lib/woozie';
 
-import { useOnboardingProgress } from '../pages/Onboarding/hooks/useOnboardingProgress.hook';
+import { useOnboardingProgress } from '../hooks/useOnboardingProgress';
 import { PageLayoutSelectors } from './PageLayout.selectors';
 import { ChangelogOverlay } from './PageLayout/ChangelogOverlay/ChangelogOverlay';
 
@@ -116,7 +116,6 @@ const Toolbar: FC<ToolbarProps> = ({
   const { historyPosition, pathname } = useLocation();
   const { registerBackHandler, onBack } = useAppEnv();
   const { setOnboardingCompleted } = useOnboardingProgress();
-  const { fullPage } = useAppEnv();
 
   const onStepBack = () => {
     if (step && setStep && step > 0) {
@@ -200,8 +199,8 @@ const Toolbar: FC<ToolbarProps> = ({
           {isBackButtonAvailable && (
             <Button
               className={classNames(
-                'px-3 py-3',
-                'rounded',
+                'p-2',
+                'rounded-full',
                 'flex',
                 'text-black font-bold text-shadow-black',
                 'hover:bg-black hover:bg-opacity-5',
@@ -212,7 +211,7 @@ const Toolbar: FC<ToolbarProps> = ({
               onClick={step ? onStepBack : onBack}
               testID={PageLayoutSelectors.BackButton}
             >
-              <CloseIcon height={'13px'} width={'13px'} className={classNames('h-5 w-auto')} stroke={'black'} />
+              <Icon name={IconName.Close} fill={'black'} />
             </Button>
           )}
         </div>

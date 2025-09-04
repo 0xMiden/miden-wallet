@@ -1,16 +1,12 @@
-import React, { FC, memo, ReactNode, useMemo } from 'react';
+import React, { FC, memo, ReactNode } from 'react';
 
 import BigNumber from 'bignumber.js';
 import classNames from 'clsx';
 
-import Money from 'app/atoms/Money';
 import Name from 'app/atoms/Name';
 import { useAppEnv } from 'app/env';
-import { ReactComponent as DollarIcon } from 'app/icons/dollar.svg';
 import Balance from 'app/templates/Balance';
 import InFiat from 'app/templates/InFiat';
-import { useAssetFiatCurrencyPrice } from 'lib/fiat-curency';
-import { T } from 'lib/i18n/react';
 import { PropsWithChildren } from 'lib/props-with-children';
 
 const MainBanner = memo(() => {

@@ -1,5 +1,6 @@
+import { AccountInterface, NetworkId } from '@demox-labs/miden-sdk';
 import { derivePath } from '@demox-labs/aleo-hd-key';
-import { SendTransaction } from '@demox-labs/miden-wallet-adapter-base';
+import { SendTransaction } from '@demox-labs/miden-wallet-adapter';
 import * as Bip39 from 'bip39';
 
 import { getMessage } from 'lib/i18n';
@@ -37,9 +38,7 @@ enum StorageEntity {
 
 const checkStrgKey = createStorageKey(StorageEntity.Check);
 const mnemonicStrgKey = createStorageKey(StorageEntity.Mnemonic);
-const accPrivKeyStrgKey = createDynamicStorageKey(StorageEntity.AccPrivKey);
 const accPubKeyStrgKey = createDynamicStorageKey(StorageEntity.AccPubKey);
-const accViewKeyStrgKey = createDynamicStorageKey(StorageEntity.AccViewKey);
 const currentAccPubKeyStrgKey = createStorageKey(StorageEntity.CurrentAccPubKey);
 const accountsStrgKey = createStorageKey(StorageEntity.Accounts);
 const settingsStrgKey = createStorageKey(StorageEntity.Settings);
@@ -122,7 +121,9 @@ export class Vault {
 
       // Have to do this sequentially else the wasm fails
       for (const accountHeader of accountHeaders) {
-        const account = await midenClient.getAccount(accountHeader.id().toString());
+        const account = await midenClient.getAccount(
+          accountHeader.id().toBech32(NetworkId.Devnet, AccountInterface.BasicWallet)
+        );
         accounts.push(account);
       }
 
@@ -131,7 +132,7 @@ export class Vault {
         const acc = accounts[i];
         if (acc) {
           newAccounts.push({
-            publicKey: acc.id().toString(),
+            publicKey: acc.id().toBech32(NetworkId.Devnet, AccountInterface.BasicWallet),
             name: 'Miden Account ' + (i + 1),
             isPublic: acc.isPublic(),
             type: WalletType.OnChain
@@ -140,7 +141,7 @@ export class Vault {
       }
       const passKey = await Passworder.generateKey(password);
 
-      await clearStorage();
+      await clearStorage(false);
       await encryptAndSaveMany(
         [
           [checkStrgKey, generateCheck()],
@@ -218,14 +219,6 @@ export class Vault {
 
       return newAllAcounts;
     });
-  }
-
-  async importAccount(chainId: string, accPrivateKey: string) {
-    const errMessage = 'Failed to import account.\nThis may happen because provided Key is invalid';
-  }
-
-  async importWatchOnlyAccount(chainId: string, viewKey: string) {
-    const errMessage = 'Failed to import watch only account.';
   }
 
   async importMnemonicAccount(chainId: string, mnemonic: string, password?: string, derivationPath?: string) {}
@@ -360,8 +353,6 @@ function getNewAccountName(allAccounts: WalletAccount[], templateI18nKey = 'defa
   return getMessage(templateI18nKey, String(allAccounts.length + 1));
 }
 
-async function getPublicKeyAndViewKey(privateKey: string) {}
-
 function getMainDerivationPath(walletType: WalletType, accIndex: number) {
   let walletTypeIndex = 0;
   if (walletType === WalletType.OnChain) {
@@ -373,8 +364,6 @@ function getMainDerivationPath(walletType: WalletType, accIndex: number) {
   }
   return `m/44'/0'/${walletTypeIndex}'/${accIndex}'`;
 }
-
-async function seedToPrivateKey(chainId: string, seed: Buffer) {}
 
 function deriveClientSeed(walletType: WalletType, mnemonic: string, hdAccIndex: number) {
   const seed = Bip39.mnemonicToSeedSync(mnemonic);

@@ -12,15 +12,7 @@ import { AssetIcon } from 'app/templates/AssetIcon';
 import SearchAssetField from 'app/templates/SearchAssetField';
 import { T, t } from 'lib/i18n/react';
 import { AssetTypesEnum } from 'lib/miden/assets/types';
-import {
-  getAssetName,
-  getAssetSymbol,
-  useAccount,
-  useAssetMetadata,
-  useAvailableAssets,
-  useFilteredAssets
-} from 'lib/miden/front';
-import { useConfirm } from 'lib/ui/dialog';
+import { getAssetName, getAssetSymbol, useAssetMetadata } from 'lib/miden/front';
 import { Link } from 'lib/woozie';
 
 import styles from './ManageAssets.module.css';
@@ -46,11 +38,6 @@ const ManageAssets: FC<Props> = ({ assetType }) => (
 export default ManageAssets;
 
 const ManageAssetsContent: FC<Props> = ({ assetType }) => {
-  const account = useAccount();
-  const address = account.publicKey;
-
-  const confirm = useConfirm();
-
   return (
     <div className="w-full max-w-sm mx-auto mb-6">
       <div className="mt-1 mb-3 w-full flex items-strech">
@@ -88,6 +75,7 @@ type ListItemProps = {
   assetType: string;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ListItem = memo<ListItemProps>(({ assetSlug, assetId, last, checked, onUpdate, assetType }) => {
   const metadata = useAssetMetadata(assetSlug, assetId);
 

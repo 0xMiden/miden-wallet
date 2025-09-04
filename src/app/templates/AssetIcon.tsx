@@ -2,10 +2,9 @@ import React, { FC, useState } from 'react';
 
 import classNames from 'clsx';
 
-import Identicon from 'app/atoms/Identicon';
-import { ReactComponent as CollectiblePlaceholder } from 'app/icons/collectible-placeholder.svg';
-import { formatObjktSmallAssetUri, formatAssetUri } from 'lib/image-uri';
-import { AssetMetadata, getAssetSymbol, useAssetMetadata } from 'lib/miden/front';
+import { Icon, IconName } from 'app/icons/v2';
+import { formatAssetUri } from 'lib/image-uri';
+import { AssetMetadata, useAssetMetadata } from 'lib/miden/front';
 
 interface AssetIconPlaceholderProps {
   metadata: AssetMetadata | null;
@@ -13,13 +12,7 @@ interface AssetIconPlaceholderProps {
 }
 
 const AssetIconPlaceholder: FC<AssetIconPlaceholderProps> = ({ metadata, size }) => {
-  const isCollectible = Boolean(metadata?.artifactUri);
-
-  return isCollectible ? (
-    <CollectiblePlaceholder style={{ maxWidth: `${size}px`, width: '100%', height: '100%' }} />
-  ) : (
-    <Identicon type="initials" publicKey={getAssetSymbol(metadata)} size={size} />
-  );
+  return <Icon name={IconName.MidenLogo} size="lg" />;
 };
 
 interface AssetIconProps {
@@ -36,12 +29,6 @@ interface LoadStrategy {
 }
 
 const tokenLoadStrategy: Array<LoadStrategy> = [
-  { type: 'thumbnailUri', formatUriFn: formatAssetUri, field: 'thumbnailUri' }
-];
-const collectibleLoadStrategy: Array<LoadStrategy> = [
-  { type: 'objktSmall', formatUriFn: formatObjktSmallAssetUri, field: 'assetSlug' },
-  { type: 'displayUri', formatUriFn: formatAssetUri, field: 'displayUri' },
-  { type: 'artifactUri', formatUriFn: formatAssetUri, field: 'artifactUri' },
   { type: 'thumbnailUri', formatUriFn: formatAssetUri, field: 'thumbnailUri' }
 ];
 
@@ -63,8 +50,7 @@ const getFirstFallback = (
 export const AssetIcon: FC<AssetIconProps> = ({ assetSlug, assetId, className, size }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const metadata: AssetMetadata | null = useAssetMetadata(assetSlug, assetId);
-  const isCollectible = Boolean(metadata?.artifactUri);
-  const loadStrategy = isCollectible ? collectibleLoadStrategy : tokenLoadStrategy;
+  const loadStrategy = tokenLoadStrategy;
   const [isLoadingFailed, setIsLoadingFailed] = useState(
     loadStrategy.reduce<Record<string, boolean>>((acc, cur) => ({ ...acc, [cur.type]: false }), {})
   );
@@ -82,7 +68,7 @@ export const AssetIcon: FC<AssetIconProps> = ({ assetSlug, assetId, className, s
       style={{
         border: '1px solid #E9EBEF',
         borderRadius: '20px',
-        padding: assetSlug === 'aleo' ? '10px' : '0',
+        padding: assetSlug === 'miden' ? '4px 6px' : '0',
         height: '36px'
       }}
     >

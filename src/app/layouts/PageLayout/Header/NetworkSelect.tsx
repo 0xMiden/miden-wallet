@@ -1,4 +1,4 @@
-import React, { FC, HTMLAttributes, useCallback } from 'react';
+import React, { FC, HTMLAttributes } from 'react';
 
 import classNames from 'clsx';
 
@@ -7,7 +7,7 @@ import DropdownWrapper from 'app/atoms/DropdownWrapper';
 import Name from 'app/atoms/Name';
 import { ReactComponent as SignalAltIcon } from 'app/icons/signal-alt.svg';
 import { T } from 'lib/i18n/react';
-import { BLOCK_EXPLORERS, useAllNetworks, useBlockExplorer, useNetwork, useSetNetworkId } from 'lib/miden/front';
+import { useNetwork } from 'lib/miden/front';
 import { NETWORKS } from 'lib/miden/networks';
 import Popper from 'lib/ui/Popper';
 
@@ -17,12 +17,8 @@ import { NetworkSelectSelectors } from './NetworkSelect.selectors';
 type NetworkSelectProps = HTMLAttributes<HTMLDivElement>;
 
 const NetworkSelect: FC<NetworkSelectProps> = () => {
-  const allNetworks = useAllNetworks();
   const network = useNetwork();
   const uiNetwork = NETWORKS.find(n => n.id === network.id)!;
-  const setNetworkId = useSetNetworkId();
-
-  const { setExplorerId } = useBlockExplorer();
 
   return (
     <Popper

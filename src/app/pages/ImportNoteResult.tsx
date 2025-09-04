@@ -14,8 +14,9 @@ const ImportNoteResult: FC<ImportNoteResultProps> = ({ success }) => {
     <PageLayout pageTitle="Transaction file" showBottomBorder={false} hasBackAction={false}>
       <div className="flex m-auto">
         <div className="flex-1 flex flex-col justify-center items-center md:w-[460px] md:mx-auto">
-          <div className="w-40 aspect-square flex items-center justify-center mb-8 rounded-full bg-gradient-to-t from-white to-[#F9F9F9]">
-            <Icon name={IconName.CheckboxCircleFill} size="xxl" />
+          <div className="w-40 aspect-square flex items-center justify-center mb-8">
+            {success && <Icon name={IconName.Success} size="3xl" />}
+            {!success && <Icon name={IconName.Failed} size="3xl" />}
           </div>
           <h1 className="flex flex-col font-semibold text-2xl lh-title text-center text-balance pb-4">
             {success && <>Available to claim</>}

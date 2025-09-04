@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { DecryptPermission } from '@demox-labs/miden-wallet-adapter-base';
+import { DecryptPermission } from '@demox-labs/miden-wallet-adapter';
 import constate from 'constate';
 
 import { IntercomClient } from 'lib/intercom';
@@ -10,7 +10,6 @@ import {
   WalletRequest,
   WalletResponse,
   WalletSettings,
-  WalletState,
   WalletStatus
 } from 'lib/shared/types';
 import { useRetryableSWR } from 'lib/swr';
@@ -98,15 +97,19 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   Actions
   */
   // TODO: Make this take some sort of enum for multi wallet support
-  const registerWallet = useCallback(async (password: string, mnemonic?: string, ownMnemonic?: boolean) => {
-    const res = await request({
-      type: WalletMessageType.NewWalletRequest,
-      password,
-      mnemonic,
-      ownMnemonic
-    });
-    assertResponse(res.type === WalletMessageType.NewWalletResponse);
-  }, []);
+  const registerWallet = useCallback(
+    async (password: string, mnemonic?: string, ownMnemonic?: boolean) => {
+      const res = await request({
+        type: WalletMessageType.NewWalletRequest,
+        password,
+        mnemonic,
+        ownMnemonic
+      });
+      assertResponse(res.type === WalletMessageType.NewWalletResponse);
+      await mutate();
+    },
+    [mutate]
+  );
 
   const importWalletFromClient = useCallback(async (password: string, mnemonic: string) => {
     const res = await request({
@@ -160,7 +163,6 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   const removeAccount = useCallback(async (accountPublicKey: string, password: string) => {}, []);
 
   const editAccountName = useCallback(async (accountPublicKey: string, name: string) => {
-    console.log('miden/front/client.ts editAccountName');
     const res = await request({
       type: WalletMessageType.EditAccountRequest,
       accountPublicKey,
@@ -199,12 +201,12 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   }, []);
 
   const confirmDAppPermission = useCallback(
-    async (id: string, confirmed: boolean, publicKey: string, decryptPermission: DecryptPermission) => {
+    async (id: string, confirmed: boolean, accountId: string, decryptPermission: DecryptPermission) => {
       const res = await request({
         type: MidenMessageType.DAppPermConfirmationRequest,
         id,
         confirmed,
-        accountPublicKey: confirmed ? publicKey : '',
+        accountPublicKey: confirmed ? accountId : '',
         decryptPermission
       });
       assertResponse(res.type === MidenMessageType.DAppPermConfirmationResponse);
@@ -216,7 +218,14 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
 
   const confirmDAppDecrypt = useCallback(async (id: string, confirmed: boolean) => {}, []);
 
-  const confirmDAppRecords = useCallback(async (id: string, confirmed: boolean) => {}, []);
+  const confirmDAppPrivateNotes = useCallback(async (id: string, confirmed: boolean) => {
+    const res = await request({
+      type: MidenMessageType.DAppPrivateNotesConfirmationRequest,
+      id,
+      confirmed
+    });
+    assertResponse(res.type === MidenMessageType.DAppPrivateNotesConfirmationResponse);
+  }, []);
 
   const confirmDAppTransaction = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {
     const res = await request({
@@ -232,9 +241,21 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
 
   const confirmDAppDeploy = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {}, []);
 
-  const getAllDAppSessions = useCallback(async () => {}, []);
+  const getAllDAppSessions = useCallback(async () => {
+    const res = await request({
+      type: MidenMessageType.DAppGetAllSessionsRequest
+    });
+    assertResponse(res.type === MidenMessageType.DAppGetAllSessionsResponse);
+    return res.sessions;
+  }, []);
 
-  const removeDAppSession = useCallback(async (origin: string) => {}, []);
+  const removeDAppSession = useCallback(async (origin: string) => {
+    const res = await request({
+      type: MidenMessageType.DAppRemoveSessionRequest,
+      origin
+    });
+    assertResponse(res.type === MidenMessageType.DAppRemoveSessionResponse);
+  }, []);
 
   const getOwnedRecords = useCallback(async (accPublicKey: string) => {}, []);
 
@@ -276,7 +297,7 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     confirmDAppPermission,
     confirmDAppSign,
     confirmDAppDecrypt,
-    confirmDAppRecords,
+    confirmDAppPrivateNotes,
     confirmDAppTransaction,
     confirmDAppBulkTransactions,
     confirmDAppDeploy,

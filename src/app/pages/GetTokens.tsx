@@ -34,8 +34,9 @@ export const GetTokens: React.FC<GetTokensProps> = ({ className, ...props }) => 
             className="flex-1"
             title="Get tokens"
             description="You can get tokens from the faucet or transfer them from another wallet or account."
-            icon={IconName.CoinsFill}
-            iconBackgroundClassName="bg-gradient-to-b from-gray-25 to-white rounded-full"
+            icon={IconName.Tokens}
+            iconSize="3xl"
+            iconClassName="mb-8"
           />
         </div>
         <div className="p-4 flex flex-col gap-y-4">

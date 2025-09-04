@@ -1,4 +1,4 @@
-import React, { FC, memo, useEffect, useState } from 'react';
+import React, { FC, memo } from 'react';
 
 import classNames from 'clsx';
 
@@ -30,7 +30,7 @@ const iconGrabber = (activityType: ActivityType, iconFillAndStroke: string) => {
   switch (activityType) {
     case ActivityType.PendingTransaction:
     case ActivityType.ProcessingTransaction:
-      return <PendingIcon height={'24px'} width={'24px'} stroke={iconFillAndStroke} />;
+      return <PendingIcon height={'24px'} width={'24px'} />;
     default:
       return <BoxIcon height={'24px'} width={'24px'} fill={iconFillAndStroke} stroke={iconFillAndStroke} />;
   }
@@ -44,7 +44,6 @@ const transactionIconGrabber = (transactionIcon: ITransactionIcon, iconFillAndSt
           height={'24px'}
           width={'24px'}
           style={{ paddingLeft: '6px', paddingRight: '6px' }}
-          stroke={iconFillAndStroke}
           fill={iconFillAndStroke}
         />
       );
@@ -54,7 +53,6 @@ const transactionIconGrabber = (transactionIcon: ITransactionIcon, iconFillAndSt
           height={'24px'}
           width={'24px'}
           style={{ paddingLeft: '6px', paddingRight: '6px' }}
-          stroke={iconFillAndStroke}
           fill={iconFillAndStroke}
         />
       );
@@ -68,13 +66,13 @@ const transactionIconGrabber = (transactionIcon: ITransactionIcon, iconFillAndSt
   }
 };
 
-const ActivityContent: FC<ActivityItemProps> = ({ className, fullHistory, activity }) => {
+const ActivityContent: FC<ActivityItemProps> = ({ fullHistory, activity }) => {
   const iconFillAndStroke = fullHistory ? 'currentColor' : 'black';
   const icon = !activity.transactionIcon
     ? iconGrabber(activity.type, iconFillAndStroke)
     : transactionIconGrabber(activity.transactionIcon, iconFillAndStroke);
   const animateSpin = activity.type === ActivityType.ProcessingTransaction ? 'animate-spin' : '';
-  const isReceive = activity.transactionIcon === 'RECEIVE';
+  const isReceive = activity.transactionIcon === 'RECEIVE' || activity.message === 'Consuming';
   const { popup } = useAppEnv();
 
   return (
@@ -166,33 +164,3 @@ const ActivityItem = memo<ActivityItemProps>(({ className, fullHistory, activity
 });
 
 export default ActivityItem;
-
-type TimeProps = {
-  children: () => React.ReactElement;
-};
-
-const Time: React.FC<TimeProps> = ({ children }) => {
-  const [value, setValue] = useState(children);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setValue(children());
-    }, 5_000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [setValue, children]);
-
-  return value;
-};
-
-const addressTippyPropsMock = (content: string) => {
-  return {
-    trigger: 'mouseenter',
-    hideOnClick: false,
-    content: content,
-    animation: 'shift-away-subtle',
-    interactive: true
-  };
-};

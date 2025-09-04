@@ -1,11 +1,12 @@
-// @estlint-disable
-import { sendLog, ILog } from 'lib/miden-chain/client';
-
 import manifestJson from '../../public/manifest.json';
 
-class ServerLogger {
-  constructor() {}
+export interface ILog {
+  level: string;
+  message: string;
+  meta: object;
+}
 
+class ServerLogger {
   private censorKeys(input: string): string {
     const privateKeyPattern = /APrivateKey[\w\d]{48}/g;
     const privateKeyreplacementText = 'APrivateKey****';
@@ -50,8 +51,10 @@ class ServerLogger {
       meta: JSON.parse(censoredMeta)
     };
 
-    await sendLog(log);
+    await this.sendLogToServer(log);
   }
+
+  private async sendLogToServer(log: ILog) {}
 }
 
 const envLogger = new ServerLogger();

@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 
-import { BigNumber } from 'bignumber.js';
 import { useTranslation } from 'react-i18next';
 
 import { Icon, IconName } from 'app/icons/v2';
@@ -9,10 +8,12 @@ import { Chip } from 'components/Chip';
 import { InputAmount } from 'components/InputAmount';
 import { NavigationHeader } from 'components/NavigationHeader';
 import colors from 'utils/tailwind-colors';
+
+import { UIToken } from './types';
 export interface SelectAmountProps {
   amount: string;
-  balance: BigNumber;
   isValidAmount: boolean;
+  token: UIToken;
   error?: string;
   onGoBack: () => void;
   onGoNext: () => void;
@@ -20,13 +21,11 @@ export interface SelectAmountProps {
   onAmountChange: (amount: string | undefined) => void;
 }
 
-const TOKEN_NAME = 'MIDEN';
-
 export const SelectAmount: React.FC<SelectAmountProps> = ({
   amount,
-  balance,
   isValidAmount,
   error,
+  token,
   onGoBack,
   onGoNext,
   onCancel,
@@ -62,7 +61,7 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({
 
   return (
     <div className="flex-1 flex flex-col relative">
-      <NavigationHeader mode="back" title={`Send ${TOKEN_NAME}`} onBack={onGoBack} />
+      <NavigationHeader mode="back" title={`${t('send')} ${token.name}`} onBack={onGoBack} />
       <div className="flex-1 flex flex-col p-4 md:w-[460px] md:mx-auto">
         <div
           onKeyDown={onTransactionAmountKeyDown}
@@ -71,7 +70,7 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({
           <InputAmount
             className="self-stretch"
             value={amount}
-            label={TOKEN_NAME}
+            label={token.name}
             onValueChange={onAmountChangeHandler}
             autoFocus
           />
@@ -79,7 +78,7 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({
             {error && (
               <span className="flex flex-row items-center gap-x-2">
                 <Icon name={IconName.InformationFill} fill={colors.red[500]} size={'xs'} />
-                <p className="text-red-500 text-sm">{error}</p>
+                <p className="text-red-500 text-sm">{t(`${error}`)}</p>
               </span>
             )}
           </div>
@@ -88,10 +87,10 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({
         <div className="flex flex-col gap-y-2 ">
           <div className="flex flex-row items-center py-4">
             <div className="flex-1 flex-col gap-y-1">
-              <p className="text-sm text-gray-400">Available balance</p>
-              <p className="text-sm text-black">{`${balance?.toString()} MIDEN`}</p>
+              <p className="text-sm text-gray-400">{t('availableBalance')}</p>
+              <p className="text-sm text-black">{`${token.balance?.toString()} ${token.name}`}</p>
             </div>
-            <button onClick={() => onAmountChange(balance?.toString())} type="button">
+            <button onClick={() => onAmountChange(token.balance?.toString())} type="button">
               <Chip label="Max" className="cursor-pointer font-bold" />
             </button>
           </div>

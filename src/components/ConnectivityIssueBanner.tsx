@@ -27,7 +27,7 @@ export const ConnectivityIssueBanner: React.FC<ConnectivitiyIssueBannerProps> = 
   }
 
   return (
-    <div className={classNames('h-[56px] flex items-center bg-white  px-4 gap-x-2', className)}>
+    <div className={classNames('h-[56px] flex items-center bg-white  px-4 gap-x-2 rounded-t-3xl', className)}>
       <div className="flex items-center">
         <Icon name={IconName.WarningFill} size="md" fill="#FEA644" />
       </div>

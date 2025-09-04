@@ -1,15 +1,19 @@
-export const isValidHexAddress = (address: string) => {
-  return address.length === 32 && address.startsWith('0x');
+export const isHexAddress = (address: string) => {
+  return address.startsWith('0x');
 };
 
 const MIDEN_MAINNET_PREFIX = 'mm1';
 const MIDEN_TESTNET_PREFIX = 'mtst1';
-const MIDEN_BECH32_PREFIXES = [MIDEN_MAINNET_PREFIX, MIDEN_TESTNET_PREFIX];
+const MIDEN_DEVNET_PREFIX = 'mdev1';
+const MIDEN_BECH32_PREFIXES = [MIDEN_MAINNET_PREFIX, MIDEN_TESTNET_PREFIX, MIDEN_DEVNET_PREFIX];
 
-export const isValidBech32Address = (address: string) => {
-  return MIDEN_BECH32_PREFIXES.some(prefix => address.startsWith(prefix) && address.length === prefix.length + 30);
+const isValidBech32Address = (address: string) => {
+  return MIDEN_BECH32_PREFIXES.some(
+    prefix =>
+      address.startsWith(prefix) && address.length === prefix.length + (prefix === MIDEN_DEVNET_PREFIX ? 35 : 32)
+  );
 };
 
 export const isValidMidenAddress = (address: string) => {
-  return isValidHexAddress(address) || isValidBech32Address(address);
+  return isValidBech32Address(address);
 };

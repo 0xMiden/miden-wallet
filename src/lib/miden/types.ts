@@ -1,4 +1,4 @@
-import { DecryptPermission } from '@demox-labs/miden-wallet-adapter-base';
+import { DecryptPermission } from '@demox-labs/miden-wallet-adapter';
 
 import { MidenDAppMetadata } from 'lib/adapter/types';
 import { ReadyWalletState, WalletMessageBase, WalletNetwork, WalletState } from 'lib/shared/types';
@@ -23,10 +23,24 @@ export interface ExportedNote {
   noteBytes: Uint8Array;
 }
 
+export interface ConsumableNote {
+  id: string;
+  faucetId: string;
+  amount: string;
+  senderAddress: string;
+  isBeingClaimed: boolean;
+}
+
+export enum MidenSharedStorageKey {
+  DAppEnabled = 'DAppEnabled',
+  PasswordAttempts = 'PasswordAttempts',
+  TimeLock = 'TimeLock'
+}
+
 export interface MidenDAppSession {
   network: string; // TODO: replace with MidenChainId
   appMeta: MidenDAppMetadata;
-  publicKey: string;
+  accountId: string;
   decryptPermission: DecryptPermission;
   programs?: string[];
 }
@@ -63,7 +77,14 @@ export interface MidenDAppTransactionPayload extends MidenDAppPayloadBase {
   transactionMessages: string[];
 }
 
-export type MidenDAppPayload = MidenDAppConnectPayload | MidenDAppTransactionPayload;
+export interface MidenDAppPrivateNotesPayload extends MidenDAppPayloadBase {
+  type: 'privateNotes';
+  sourcePublicKey: string;
+  privateNotes: any[];
+  preview: any;
+}
+
+export type MidenDAppPayload = MidenDAppConnectPayload | MidenDAppTransactionPayload | MidenDAppPrivateNotesPayload;
 
 /**
  * Messages
@@ -80,7 +101,9 @@ export enum MidenMessageType {
   DAppGetAllSessionsRequest = 'MIDEN_DAPP_GET_ALL_SESSIONS_REQUEST',
   DAppGetAllSessionsResponse = 'MIDEN_DAPP_GET_ALL_SESSIONS_RESPONSE',
   DAppRemoveSessionRequest = 'MIDEN_DAPP_REMOVE_SESSION_REQUEST',
-  DAppRemoveSessionResponse = 'MIDEN_DAPP_REMOVE_SESSION_RESPONSE'
+  DAppRemoveSessionResponse = 'MIDEN_DAPP_REMOVE_SESSION_RESPONSE',
+  DAppPrivateNotesConfirmationRequest = 'MIDEN_DAPP_PRIVATE_NOTES_CONFIRMATION_REQUEST',
+  DAppPrivateNotesConfirmationResponse = 'MIDEN_DAPP_PRIVATE_NOTES_CONFIRMATION_RESPONSE'
 }
 
 export type MidenRequest =
@@ -89,7 +112,8 @@ export type MidenRequest =
   | MidenDAppPermConfirmationRequest
   | MidenDAppTransactionConfirmationRequest
   | MidenGetAllDAppSessionsRequest
-  | MidenRemoveDAppSessionRequest;
+  | MidenRemoveDAppSessionRequest
+  | MidenDAppPrivateNotesConfirmationRequest;
 
 export type MidenResponse =
   | MidenPageResponse
@@ -97,7 +121,8 @@ export type MidenResponse =
   | MidenDAppPermConfirmationResponse
   | MidenDAppTransactionConfirmationResponse
   | MidenGetAllDAppSessionsResponse
-  | MidenRemoveDAppSessionResponse;
+  | MidenRemoveDAppSessionResponse
+  | MidenDAppPrivateNotesConfirmationResponse;
 
 export interface MidenPageRequest extends WalletMessageBase {
   type: MidenMessageType.PageRequest;
@@ -165,4 +190,14 @@ export interface MidenRemoveDAppSessionRequest extends WalletMessageBase {
 export interface MidenRemoveDAppSessionResponse extends WalletMessageBase {
   type: MidenMessageType.DAppRemoveSessionResponse;
   sessions: MidenDAppSessions;
+}
+
+export interface MidenDAppPrivateNotesConfirmationRequest extends WalletMessageBase {
+  type: MidenMessageType.DAppPrivateNotesConfirmationRequest;
+  id: string;
+  confirmed: boolean;
+}
+
+export interface MidenDAppPrivateNotesConfirmationResponse extends WalletMessageBase {
+  type: MidenMessageType.DAppPrivateNotesConfirmationResponse;
 }

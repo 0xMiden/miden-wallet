@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import { Icon, IconName } from 'app/icons/v2';
 import { Button } from 'components/Button';
-import { Checkbox } from 'components/Checkbox';
 import { Input } from 'components/Input';
 import { Link } from 'components/Link';
 
@@ -89,7 +88,6 @@ export const PasswordStrengthIndicator = ({
 
 export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ className, onSubmit, ...props }) => {
   const { t } = useTranslation();
-  const [termsAccepted, setTermsAccepted] = useState(false);
   const [password, setPassword] = useState('');
   const [verifyPassword, setVerifyPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -102,10 +100,6 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
     strongPasswordLength: false
   });
   const verifyPasswordRef = useRef<HTMLInputElement>(null);
-
-  const onTermsAcceptedToggle = (value: boolean) => {
-    setTermsAccepted(value);
-  };
 
   const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -217,27 +211,15 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
           </p>
         </div>
       </article>
-
-      {/* <div className="flex gap-x-2 w-[360px] text-sm self-center">
-        <button className="flex gap-x-2 items-center " onClick={() => onTermsAcceptedToggle(!termsAccepted)}>
-          <Checkbox id="help-us" value={termsAccepted} />
-          <label className="text-black cursor-pointer">{t('helpUsToImproveLeoWallet')}</label>
-        </button>
-        <Link target="_blank" href="https://www.leo.app/privacy">
-          ({t('readMoreOnboarding')})
-        </Link>
-      </div> */}
-
-      {/* TODO: add link component */}
       <div className="w-[360px] flex flex-col gap-2 self-center">
         <Button title={t('continue')} disabled={!isValidPassword} onClick={onPasswordSubmit} />
         <p className="text-grey-600 text-xs text-center px-4">
           By proceeding, you agree to the{' '}
-          <Link target="_blank" href="https://www.leo.app/terms">
+          <Link target="_blank" href="https://www.miden.fi/terms">
             Terms of Usage
           </Link>{' '}
           and{' '}
-          <Link target="_blank" href="https://www.leo.app/privacy">
+          <Link target="_blank" href="https://www.miden.fi/privacy">
             Privacy Policy
           </Link>
           .

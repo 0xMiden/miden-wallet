@@ -5,7 +5,6 @@ import classNames from 'clsx';
 import { ReactComponent as LeoLogo } from '../leo-logo-blue.svg';
 import { ReactComponent as AddCircle } from './add-circle.svg';
 import { ReactComponent as Add } from './add.svg';
-import { ReactComponent as Aleo } from './aleo.svg';
 import { ReactComponent as Apps } from './apps.svg';
 import { ReactComponent as ArrowDown } from './arrow-down.svg';
 import { ReactComponent as ArrowLeft } from './arrow-left.svg';
@@ -44,10 +43,13 @@ import { ReactComponent as EmotionSad } from './emotion-sad.svg';
 import { ReactComponent as EyeOff } from './eye-off.svg';
 import { ReactComponent as Eye } from './eye.svg';
 import { ReactComponent as FaceId } from './face-id.svg';
+import { ReactComponent as Failed } from './failed.svg';
+import { ReactComponent as FaucetFill } from './faucet-fill.svg';
 import { ReactComponent as Faucet } from './faucet.svg';
 import { ReactComponent as FileCopy } from './file-copy.svg';
 import { ReactComponent as FileSettings } from './file-settings.svg';
 import { ReactComponent as File } from './file.svg';
+import { ReactComponent as Frown } from './frown.svg';
 import { ReactComponent as Fullscreen } from './fullscreen.svg';
 import { ReactComponent as GlobalFill } from './global-fill.svg';
 import { ReactComponent as Globe } from './globe.svg';
@@ -82,18 +84,21 @@ import { ReactComponent as SettingsFill } from './settings-fill.svg';
 import { ReactComponent as Settings } from './settings.svg';
 import { ReactComponent as Share } from './share.svg';
 import { ReactComponent as SmileSad } from './smile-sad.svg';
+import { ReactComponent as Success } from './success.svg';
+import { ReactComponent as Tokens } from './tokens.svg';
 import { ReactComponent as UploadFile } from './upload-file.svg';
 import { ReactComponent as UploadedFile } from './uploaded-file.svg';
 import { ReactComponent as User } from './user.svg';
 import { ReactComponent as Users } from './users.svg';
+import { ReactComponent as WalletWelcome } from './wallet-welcome.svg';
 import { ReactComponent as Wallet } from './wallet.svg';
 import { ReactComponent as WarningFill } from './warning-fill.svg';
 import { ReactComponent as Warning } from './warning.svg';
+import { ReactComponent as YellowProgress } from './yellow-progress.svg';
 
 export enum IconName {
   AddCircle = 'add-circle',
   Add = 'add',
-  Aleo = 'aleo',
   Apps = 'apps',
   ArrowDown = 'arrow-down',
   ArrowLeft = 'arrow-left',
@@ -133,9 +138,11 @@ export enum IconName {
   Eye = 'eye',
   FaceId = 'face-id',
   Faucet = 'faucet',
+  FaucetFill = 'faucet-fill',
   FileCopy = 'file-copy',
   FileSettings = 'file-settings',
   File = 'file',
+  Frown = 'frown',
   Fullscreen = 'fullscreen',
   GlobalFill = 'global-fill',
   Globe = 'globe',
@@ -171,16 +178,21 @@ export enum IconName {
   User = 'user',
   Users = 'users',
   Wallet = 'wallet',
+  WalletWelcome = 'wallet-welcome',
   WarningFill = 'warning-fill',
   Warning = 'warning',
   MidenLogo = 'miden-logo',
   MidenLogoWhite = 'miden-logo-white',
   MidenLogoOrange = 'miden-logo-orange',
   UploadFile = 'upload-file',
-  UploadedFile = 'uploaded-file'
+  UploadedFile = 'uploaded-file',
+  YellowProgress = 'yellow-progress',
+  Failed = 'failed',
+  Success = 'success',
+  Tokens = 'tokens'
 }
 
-export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | '3xl' | '5xl';
 
 export interface IconProps extends React.SVGAttributes<SVGElement> {
   name: IconName;
@@ -193,8 +205,6 @@ const IconSwitch = (props: IconProps) => {
       return <AddCircle {...props} />;
     case IconName.Add:
       return <Add {...props} />;
-    case IconName.Aleo:
-      return <Aleo {...props} />;
     case IconName.Apps:
       return <Apps {...props} />;
     case IconName.ArrowDown:
@@ -271,12 +281,16 @@ const IconSwitch = (props: IconProps) => {
       return <FaceId {...props} />;
     case IconName.Faucet:
       return <Faucet {...props} />;
+    case IconName.FaucetFill:
+      return <FaucetFill {...props} />;
     case IconName.FileCopy:
       return <FileCopy {...props} />;
     case IconName.FileSettings:
       return <FileSettings {...props} />;
     case IconName.File:
       return <File {...props} />;
+    case IconName.Frown:
+      return <Frown {...props} />;
     case IconName.Fullscreen:
       return <Fullscreen {...props} />;
     case IconName.GlobalFill:
@@ -347,6 +361,8 @@ const IconSwitch = (props: IconProps) => {
       return <Users {...props} />;
     case IconName.Wallet:
       return <Wallet {...props} />;
+    case IconName.WalletWelcome:
+      return <WalletWelcome {...props} />;
     case IconName.WarningFill:
       return <WarningFill {...props} />;
     case IconName.Warning:
@@ -363,6 +379,14 @@ const IconSwitch = (props: IconProps) => {
       return <UploadedFile {...props} />;
     case IconName.ArrowRightDownFilledCircle:
       return <ArrowRightDownFilledCircle {...props} />;
+    case IconName.YellowProgress:
+      return <YellowProgress {...props} />;
+    case IconName.Failed:
+      return <Failed {...props} />;
+    case IconName.Success:
+      return <Success {...props} />;
+    case IconName.Tokens:
+      return <Tokens {...props} />;
     default:
       return null;
   }
@@ -374,7 +398,9 @@ const iconClassNamePerSize = {
   md: 'w-6 h-6',
   lg: 'w-8 h-8',
   xl: 'w-12 h-12',
-  xxl: 'w-16 h-16'
+  xxl: 'w-16 h-16',
+  '3xl': 'w-40 h-40',
+  '5xl': 'w-64 h-64'
 };
 
 export const Icon: React.FC<IconProps> = ({ className, size = 'md', ...props }) => {

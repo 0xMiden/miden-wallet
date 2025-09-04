@@ -8,10 +8,8 @@ import Name from 'app/atoms/Name';
 import { openInFullPage, useAppEnv } from 'app/env';
 import { ReactComponent as ChevronDownIcon } from 'app/icons/chevron-down.svg';
 import { ReactComponent as MaximiseIcon } from 'app/icons/maximise.svg';
-import { ReactComponent as SettingsIcon } from 'app/icons/settings.svg';
 import ContentContainer from 'app/layouts/ContentContainer';
-import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
-import { useMidenContext, useAccount } from 'lib/miden/front';
+import { useAccount } from 'lib/miden/front';
 import { Link } from 'lib/woozie';
 
 import { HeaderSelectors } from './Header.selectors';
@@ -37,12 +35,7 @@ export default Header;
 
 const Control: FC = () => {
   const account = useAccount();
-  const { trackEvent } = useAnalytics();
   const { popup } = useAppEnv();
-
-  const onSettingsClick = () => {
-    trackEvent(HeaderSelectors.Settings, AnalyticsEventCategory.ButtonPress, { type: 'settings' });
-  };
 
   const handleMaximiseViewClick = () => {
     openInFullPage();

@@ -4,7 +4,6 @@ import BigNumber from 'bignumber.js';
 
 import Money from 'app/atoms/Money';
 import { useAssetFiatCurrencyPrice, useFiatCurrency } from 'lib/fiat-curency';
-import { useNetwork } from 'lib/miden/front';
 
 type OutputProps = {
   balance: ReactNode;
@@ -34,10 +33,9 @@ const InFiat: FC<InFiatProps> = ({
 }) => {
   const price = useAssetFiatCurrencyPrice(assetSlug ?? 'aleo');
   const { selectedFiatCurrency } = useFiatCurrency();
-  const walletNetwork = useNetwork();
 
   if (mainnet === undefined) {
-    mainnet = 'main' === 'main';
+    mainnet = true;
   }
   const roundedInFiat = useMemo(() => {
     if (!price) {

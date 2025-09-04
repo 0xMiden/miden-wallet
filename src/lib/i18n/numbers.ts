@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import memoize from 'micro-memoize';
 
-import { ALEO_METADATA } from 'lib/miden/metadata';
+import { MIDEN_METADATA } from 'lib/miden/metadata';
 
 import { getCurrentLocale, getNumberSymbols } from './core';
 import { t } from './react';
@@ -57,7 +57,7 @@ export function getPluralKey(keyPrefix: string, amount: number) {
   return `${keyPrefix}_${rules.select(amount)}`;
 }
 
-export function formatBigInt(amount: bigint, decimals: number = ALEO_METADATA.decimals): string {
+export function formatBigInt(amount: bigint, decimals: number = MIDEN_METADATA.decimals): string {
   if (amount === BigInt(0)) {
     return '0';
   }

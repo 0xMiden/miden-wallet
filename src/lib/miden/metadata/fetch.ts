@@ -1,26 +1,30 @@
-import { isAleoAsset } from 'lib/miden/assets';
+import browser from 'webextension-polyfill';
 
-import { ALEO_METADATA } from './defaults';
+import { isMidenAsset } from 'lib/miden/assets';
+
+import { MidenClientInterface } from '../sdk/miden-client-interface';
+import { MIDEN_METADATA } from './defaults';
 import { AssetMetadata, DetailedAssetMetdata } from './types';
 
 export async function fetchTokenMetadata(
-  assetSlug: string
+  assetId: string
 ): Promise<{ base: AssetMetadata; detailed: DetailedAssetMetdata }> {
-  const [contractAddress] = assetSlug.split('_');
-
-  if (isAleoAsset(contractAddress)) {
-    return { base: ALEO_METADATA, detailed: ALEO_METADATA };
+  if (isMidenAsset(assetId)) {
+    return { base: MIDEN_METADATA, detailed: MIDEN_METADATA };
   }
 
   try {
-    // TODO: add validation
+    const midenClient = await MidenClientInterface.create();
+    await midenClient.importAccountById(assetId);
+
     const base: AssetMetadata = {
       decimals: 5,
       symbol: 'ASSET SYMBOL',
       name: 'ASSET NAME',
       shouldPreferSymbol: true,
       programId: '',
-      mappingName: ''
+      mappingName: '',
+      thumbnailUri: browser.runtime.getURL('misc/token-logos/default.svg')
     };
 
     const detailed: DetailedAssetMetdata = {

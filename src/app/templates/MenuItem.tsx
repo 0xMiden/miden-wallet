@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import { useAppEnv } from 'app/env';
 import { ReactComponent as ArrowIcon } from 'app/icons/arrow-right-top-alt.svg';
 import { ReactComponent as ChevronRightIcon } from 'app/icons/chevron-right.svg';
-import { T } from 'lib/i18n/react';
 import { Link } from 'lib/woozie';
 
 type MenuItemProps = {
@@ -27,13 +27,14 @@ const ClickableContent: FC<Partial<MenuItemProps>> = ({
   insertHR
 }) => {
   const { fullPage } = useAppEnv();
+  const { t } = useTranslation();
 
   const width = fullPage ? '' : 'w-full';
   const hrStyle = insertHR ? { borderTop: '1px solid #E9EBEF' } : { borderTop: '1px solid #FFF' };
 
   return (
     <div>
-      <hr className={`${width} m-auto my-1`} style={hrStyle}></hr>
+      <hr className={`${width} m-auto mb-1`} style={hrStyle}></hr>
       <div
         className={`${width} md:px-8 lg:px-16 m-auto py-4 hover:bg-gray-800 focus:bg-gray-800 transition-colors duration-500 ease-in-out cursor-pointer`}
         style={{ borderRadius: '8px' }}
@@ -57,23 +58,19 @@ const ClickableContent: FC<Partial<MenuItemProps>> = ({
             )}
 
             <div className="ml-4">
-              <T id={titleI18nKey || ''}>
-                {message => (
-                  <div
-                    className={classNames(
-                      'text-lg text-black leading-7 font-medium',
-                      'filter-brightness-75',
-                      'transition ease-in-out duration-200'
-                    )}
-                    style={{
-                      fontSize: '14px',
-                      lineHeight: '24px'
-                    }}
-                  >
-                    {message}
-                  </div>
+              <div
+                className={classNames(
+                  'text-lg text-black leading-7 font-medium',
+                  'filter-brightness-75',
+                  'transition ease-in-out duration-200'
                 )}
-              </T>
+                style={{
+                  fontSize: '14px',
+                  lineHeight: '24px'
+                }}
+              >
+                {t(titleI18nKey || '')}
+              </div>
             </div>
           </div>
           <div className="ml-4 self-end pr-4">

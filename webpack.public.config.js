@@ -9,7 +9,20 @@ module.exports = (publicPath, outputPath, manifestFile, targetBrowser) => {
       {
         from: publicPath,
         to: outputPath,
-        filter: file => !file.endsWith('.html') && !file.endsWith('manifest.v2.json')
+        filter: resourcePath => {
+          if (resourcePath.endsWith('.html') || resourcePath.endsWith('manifest.v2.json')) {
+            return false;
+          }
+
+          // Exclude non-EN locales
+          const localesDirectory = path.join(publicPath, '_locales');
+          if (resourcePath.startsWith(localesDirectory + path.sep)) {
+            const enLocaleDirectory = path.join(localesDirectory, 'en');
+            return resourcePath.startsWith(enLocaleDirectory + path.sep);
+          }
+
+          return true;
+        }
       },
       {
         from: path.join(publicPath, manifestFile),

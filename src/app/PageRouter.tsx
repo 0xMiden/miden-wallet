@@ -8,28 +8,26 @@ import ImportAccount from 'app/pages/ImportAccount';
 import { CreateWallet } from 'app/pages/NewWallet/CreateWallet';
 import { ImportWallet } from 'app/pages/NewWallet/ImportWallet';
 import { Receive } from 'app/pages/Receive';
-import SendNFT from 'app/pages/SendNFT';
 import Settings from 'app/pages/Settings';
 import Unlock from 'app/pages/Unlock';
 import Welcome from 'app/pages/Welcome';
 import { useMidenContext } from 'lib/miden/front';
 import * as Woozie from 'lib/woozie';
+import { EncryptedFileFlow } from 'screens/encrypted-file-flow/EncryptedFileManager';
 import { GeneratingTransactionPage } from 'screens/generating-transaction/GeneratingTransaction';
 import { SendFlow } from 'screens/send-flow/SendManager';
 
 import RootSuspenseFallback from './a11y/RootSuspenseFallback';
 import AllActivity from './pages/AllActivity';
-import ClaimUnstaked from './pages/ClaimUnstaked';
-import ConvertVisibility from './pages/ConvertVisibility';
 import EditAccountName from './pages/EditAccountName';
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
+import ForgotPasswordInfo from './pages/ForgotPassword/ForgotPasswordInfo';
 import { GetTokens } from './pages/GetTokens';
 import ImportNotePending from './pages/ImportNotePending';
 import ImportNoteResult from './pages/ImportNoteResult';
 import ManageAssets from './pages/ManageAssets';
+import ResetRequired from './pages/ResetRequired';
 import SelectAccount from './pages/SelectAccount';
-import Stake from './pages/Stake';
-import StakeDetails from './pages/StakeDetails';
-import Unstake from './pages/Unstake';
 import { ActivityDetails } from './templates/activity/ActivityDetails';
 
 interface RouteContext {
@@ -54,6 +52,35 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
 
         default:
           return <ImportWallet key={p.tabSlug ?? ''} tabSlug={p.tabSlug ?? undefined} />;
+      }
+    }
+  ],
+  ['/reset-required', () => <ResetRequired />],
+  [
+    '/reset-wallet',
+    (_p, ctx) => {
+      switch (true) {
+        case !ctx.fullPage:
+          return <OpenInFullPage />;
+
+        default:
+          return <ForgotPassword />;
+      }
+    }
+  ],
+  ['/forgot-password-info', () => <ForgotPasswordInfo />],
+  [
+    '/forgot-password',
+    (_p, ctx) => {
+      switch (true) {
+        case ctx.ready:
+          return Woozie.Router.SKIP;
+
+        case !ctx.fullPage:
+          return <OpenInFullPage />;
+
+        default:
+          return <ForgotPassword />;
       }
     }
   ],
@@ -89,16 +116,10 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   ],
   ['/manage-assets/:assetType?', onlyReady(({ assetType }) => <ManageAssets assetType={assetType!} />)],
   ['/send', onlyReady(() => <SendFlow isLoading={false} />)],
-  ['/send-nft', onlyReady(() => <SendNFT />)],
-  ['/convert-visibility/aleo', onlyReady(() => <ConvertVisibility assetSlug="aleo" assetId={'defaultaleotokenid'} />)],
-  ['/convert-visibility/:assetId', onlyReady(({ assetId }) => <ConvertVisibility assetId={assetId!} />)],
   ['/settings/:tabSlug?', onlyReady(({ tabSlug }) => <Settings tabSlug={tabSlug} />)],
+  ['/encrypted-wallet-file', onlyReady(() => <EncryptedFileFlow />)],
   ['/generating-transaction', onlyReady(() => <GeneratingTransactionPage />)],
   ['/generating-transaction-full', onlyReady(() => <GeneratingTransactionPage keepOpen={true} />)],
-  ['/stake', onlyReady(() => <Stake />)],
-  ['/unstake', onlyReady(() => <Unstake />)],
-  ['/stake-details', onlyReady(() => <StakeDetails />)],
-  ['/claim', onlyReady(() => <ClaimUnstaked />)],
   ['/import-note-pending/:noteId', onlyReady(({ noteId }) => <ImportNotePending noteId={noteId!} />)],
   ['/import-note-success', onlyReady(() => <ImportNoteResult success={true} />)],
   ['/import-note-failure', onlyReady(() => <ImportNoteResult success={false} />)],
@@ -129,7 +150,7 @@ const PageRouter: FC = () => {
       ready: miden.ready,
       locked: miden.locked
     }),
-    [appEnv.popup, appEnv.fullPage, miden.ready, miden.locked]
+    [appEnv.popup, appEnv.fullPage, miden]
   );
 
   return useMemo(() => Woozie.Router.resolve(ROUTE_MAP, pathname, ctx), [pathname, ctx]);

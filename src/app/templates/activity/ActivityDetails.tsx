@@ -1,15 +1,14 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import { ActivitySpinner } from 'app/atoms/ActivitySpinner';
-import { useAppEnv } from 'app/env';
-import { Icon, IconName } from 'app/icons/v2';
+import { IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
 import Footer from 'app/layouts/PageLayout/Footer';
 import { Button, ButtonVariant } from 'components/Button';
 import { getCurrentLocale } from 'lib/i18n';
 import { t } from 'lib/i18n/react';
 import { getTransactionById } from 'lib/miden/activity';
-import { getTokenId, useAccount } from 'lib/miden/front';
+import { getTokenId } from 'lib/miden/front';
 import { NoteExportType } from 'lib/miden/sdk/constants';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import { capitalizeFirstLetter } from 'utils/string';
@@ -22,9 +21,6 @@ interface ActivityDetailsProps {
 }
 
 export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => {
-  const account = useAccount();
-  const { fullPage } = useAppEnv();
-  const height = fullPage ? '491px' : '459px';
   const [activity, setActivity] = useState<IActivity | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
 
@@ -54,9 +50,12 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
     try {
       setIsDownloading(true);
       const midenClient = await MidenClientInterface.create();
-      const noteBytes = await midenClient.exportNote(activity.noteId, NoteExportType.PARTIAL);
+      const noteBytes = await midenClient.exportNote(activity.noteId, NoteExportType.DETAILS);
 
-      const blob = new Blob([noteBytes], { type: 'application/octet-stream' });
+      const ab = new ArrayBuffer(noteBytes.byteLength);
+      new Uint8Array(ab).set(noteBytes);
+
+      const blob = new Blob([ab], { type: 'application/octet-stream' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -77,6 +76,8 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
   }, [loadTransaction, activity]);
 
   const showDownloadButton = activity?.message === 'Sent' && activity?.noteType === 'private' && activity?.noteId;
+  const fromAddress = activity?.message === 'Sent' ? activity?.address : activity?.secondaryAddress;
+  const toAddress = activity?.message === 'Sent' ? activity?.secondaryAddress : activity?.address;
 
   return (
     <PageLayout pageTitle={activity?.message} hasBackAction={true}>
@@ -106,11 +107,11 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
             <div className="flex flex-col gap-y-2">
               <span className="flex flex-row justify-between">
                 <label className="text-sm text-grey-600">From</label>
-                <p className="text-sm">{activity.address}</p>
+                <p className="text-sm">{fromAddress}</p>
               </span>
               <span className="flex flex-row justify-between whitespace-pre-line">
                 <label className="text-sm text-grey-600">To</label>
-                <p className="text-sm text-right">{activity.secondaryAddress}</p>
+                <p className="text-sm text-right">{toAddress}</p>
               </span>
             </div>
 

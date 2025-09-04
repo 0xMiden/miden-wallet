@@ -6,13 +6,11 @@ import { useTranslation } from 'react-i18next';
 
 import FormField, { PASSWORD_ERROR_CAPTION } from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
-import { lettersNumbersMixtureRegx, specialCharacterRegx, uppercaseLowercaseMixtureRegx } from 'app/defaults';
 import { Icon, IconName } from 'app/icons/v2';
-import { MIN_PASSWORD_LENGTH } from 'app/pages/NewWallet/SetWalletPassword';
 import { T } from 'lib/i18n/react';
 import { decrypt, decryptJson, deriveKey, generateKey } from 'lib/miden/passworder';
+import { importDb } from 'lib/miden/repo';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
-import { PasswordValidation } from 'lib/ui/PasswordStrengthIndicator';
 import { DecryptedWalletFile, ENCRYPTED_WALLET_FILE_PASSWORD_CHECK, EncryptedWalletFile } from 'screens/shared';
 
 interface FormData {
@@ -30,18 +28,15 @@ type WalletFile = EncryptedWalletFile & {
 
 const midenClient = await MidenClientInterface.create();
 
-type ImportPasswordValidation = PasswordValidation & {
-  validDecryption: boolean;
-};
-
 // TODO: This needs to move forward in the onboarding steps, likely needs some sort of next thing feature
 export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ className, onSubmit }) => {
   const { t } = useTranslation();
   const walletFileRef = useRef<HTMLInputElement>(null);
   const [walletFile, setWalletFile] = useState<WalletFile | null>(null);
   const [isWrongPassword, setIsWrongPassword] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
-  const { control, watch, register, handleSubmit, errors, triggerValidation, formState } = useForm<FormData>({
+  const { watch, register, handleSubmit, errors, formState } = useForm<FormData>({
     mode: 'onChange'
   });
 
@@ -76,10 +71,12 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
         { dt: walletFile.dt, iv: walletFile.iv },
         derivedKey
       );
-      const dbContent = decryptedWallet.dbContent;
+      const midenClientDbContent = decryptedWallet.midenClientDbContent;
+      const walletDbContent = decryptedWallet.walletDbContent;
       const seedPhrase = decryptedWallet.seedPhrase;
 
-      await midenClient.importDb(dbContent);
+      await midenClient.importDb(midenClientDbContent);
+      await importDb(walletDbContent);
 
       onSubmit(seedPhrase);
     } catch (error) {
@@ -88,41 +85,29 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
     }
   };
 
-  const handlePasswordChange = async (
-    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const tempValue = e.target.value;
+  const onDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
 
-    // Basic password validation
-    const minChar = tempValue.length >= MIN_PASSWORD_LENGTH;
-    const cases = uppercaseLowercaseMixtureRegx.test(tempValue);
-    const number = lettersNumbersMixtureRegx.test(tempValue);
-    const specialChar = specialCharacterRegx.test(tempValue);
+  const onDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (e.currentTarget.contains(e.relatedTarget as Node)) return; // Ignore if the drag is over a childelement
+    setIsDragging(false);
+  };
 
-    let validDecryption = false;
-
-    if (walletFile?.encryptedPasswordCheck) {
-      try {
-        const passKey = await generateKey(tempValue);
-        const saltByteArray = Object.values(walletFile.salt) as number[];
-        const saltU8 = new Uint8Array(saltByteArray);
-
-        const derivedKey = await deriveKey(passKey, saltU8);
-
-        // Decrypt the encryptedPasswordCheck field
-        const decryptedCheck = await decrypt(walletFile.encryptedPasswordCheck, derivedKey);
-
-        // Compare with expected string
-        validDecryption = decryptedCheck === ENCRYPTED_WALLET_FILE_PASSWORD_CHECK;
-      } catch (error) {
-        console.error('Decryption failed:', error);
-      }
-    }
+  const onDropFile = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    processFiles(e.dataTransfer.files);
+    setIsDragging(false);
   };
 
   const onUploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     // TODO error modals/alerts
-    const { files } = e.target;
+    processFiles(e.target.files);
+  };
+
+  const processFiles = (files: FileList | null) => {
     if (files && files.length) {
       const file = files[0];
       const parts = file.name.split('.');
@@ -159,12 +144,8 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
   };
 
   const uploadFileComponent = (): JSX.Element => {
-    const style = {
-      color: '#0000EE',
-      cursor: 'pointer'
-    };
     return (
-      <span onClick={onUploadFileClick} style={style}>
+      <span onClick={onUploadFileClick} className="cursor-pointer text-blue-500">
         {t('chooseFromDevice')}
       </span>
     );
@@ -187,14 +168,21 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
       onSubmit={handleSubmit(handleImportSubmit)}
     >
       <h1 className="text-2xl font-semibold">{t('importWallet')}</h1>
-      <p className="text-sm text-center">{t('uploadYourEncryptedWalletFile')}</p>
+      <p className="text-sm text-center mb-6">{t('importWithEncryptedWalletFileDescription')}</p>
       {walletFile == null ? (
         <div
           className={classNames(
             'p-10',
-            'flex flex-col items-center gap-y-2',
-            'border-2 border-dashed border-grey-200 rounded-lg'
+            'flex flex-col items-center gap-y-2 mb-6',
+            'border border-dashed border-grey-200 rounded-2xl',
+            isDragging && 'border-blue-500'
           )}
+          onDrop={onDropFile}
+          onDragEnter={onDragEnter}
+          onDragLeave={onDragLeave}
+          onDragOver={e => {
+            e.preventDefault();
+          }}
         >
           <Icon name={IconName.UploadFile} size="xxl" />
           <p className="text-sm">Drag and drop file or {uploadFileComponent()}</p>
@@ -204,20 +192,29 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
           </div>
         </div>
       ) : (
-        <div className={classNames('flex justify-between items-center', 'bg-gray-50 rounded-lg', 'w-full py-6 px-3')}>
+        <div
+          className={classNames(
+            'flex justify-between items-center',
+            'bg-grey-25 rounded-2xl',
+            'w-[360px] py-5 px-3',
+            'mx-auto'
+          )}
+        >
           <div className="flex">
-            <Icon name={IconName.UploadedFile} size="lg" />
+            <Icon name={IconName.UploadedFile} size="md" />
             <div className="flex items-center pl-4">{walletFile.name}</div>
           </div>
-          {/* <progress color="blue" value={100} max={100} /> */}
           <button type="button" onClick={handleClear}>
-            <Icon name={IconName.CloseCircle} fill="black" size="md" />
+            <Icon name={IconName.Close} fill="black" size="md" />
           </button>
         </div>
       )}
 
       {walletFile != null && (
-        <div className="flex mt-8 mb-4">
+        <div className="flex flex-col w-[360px]">
+          <p className="text-sm text-black my-3">
+            Enter the password you set when exporting your wallet. This will decrypt the file and restore access.
+          </p>
           <FormField
             ref={register({
               required: PASSWORD_ERROR_CAPTION
@@ -229,7 +226,6 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
             placeholder="********"
             // TODO: Determine error caption? Could also be "the import fucked up"-type error
             errorCaption={isWrongPassword ? 'Wrong password' : errors.password?.message}
-            onChange={handlePasswordChange}
             containerClassName="mb-4"
           />
         </div>
@@ -237,7 +233,7 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
 
       <FormSubmitButton
         loading={formState.isSubmitting}
-        className="w-full text-base pt-4 mx-auto"
+        className="w-[360px] text-base pt-4 mx-auto"
         style={{ display: 'block', fontWeight: 500, padding: '12px 0px' }}
         disabled={!formState.isValid || !walletFile}
       >

@@ -9,7 +9,7 @@ export interface FA2Token extends Token {
   id: BigNumber.Value;
 }
 
-export type Asset = Token | 'aleo';
+export type Asset = Token | 'miden';
 
 export type TokenStandard = 'fa1.2' | 'fa2';
 

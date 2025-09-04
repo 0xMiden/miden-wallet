@@ -1,7 +1,7 @@
+import { AccountInterface, NetworkId } from '@demox-labs/miden-sdk';
 import { MessageHttpOutput } from '@demox-labs/amp-core/script/http-types';
 
 import { ampApi } from 'lib/amp/amp-interface';
-import * as Repo from 'lib/miden/repo';
 import { WalletState } from 'lib/shared/types';
 import { logger } from 'shared/logger';
 
@@ -42,8 +42,6 @@ class Sync {
     if (isGeneratingUrl) {
       return;
     }
-
-    await this.syncChain();
     await this.syncAmp();
     await sleep(3000);
     await this.sync();
@@ -52,7 +50,13 @@ class Sync {
   async syncChain() {
     try {
       const summary = await midenClient.syncState();
-      if (summary.updatedAccounts().some(id => id.toString() === this.state?.currentAccount?.publicKey)) {
+      if (
+        summary
+          .updatedAccounts()
+          .some(
+            id => id.toBech32(NetworkId.Devnet, AccountInterface.BasicWallet) === this.state?.currentAccount?.publicKey
+          )
+      ) {
         // get the transaction ids and filter by the current account
       }
     } catch (e) {

@@ -4,8 +4,8 @@ import classNames from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import { Icon, IconName } from 'app/icons/v2';
+import { CircleButton } from 'components/CircleButton';
 import { ProgressIndicator } from 'components/ProgressIndicator';
-import { SquareButton } from 'components/SquareButton';
 
 import { ConfirmationScreen } from './common/Confirmation';
 import { CreatePasswordScreen } from './common/CreatePassword';
@@ -31,7 +31,7 @@ const Header: React.FC<{
   onBack: () => void;
   step: OnboardingStep;
   onboardingType?: 'import' | 'create' | null;
-}> = ({ onboardingType, step, onBack }) => {
+}> = ({ step, onBack }) => {
   if (step === OnboardingStep.Confirmation || step === OnboardingStep.SelectTransactionType) {
     return null;
   }
@@ -47,12 +47,13 @@ const Header: React.FC<{
     currentStep = 1;
   } else if (step === OnboardingStep.CreatePassword) {
     currentStep = 3;
+  } else if (step === OnboardingStep.ImportFromSeed || step === OnboardingStep.ImportFromFile) {
+    currentStep = 2;
   }
-  const steps = onboardingType === 'import' ? 2 : 3;
 
   return (
     <div className="flex justify-between items-center pt-6 px-6">
-      <SquareButton
+      <CircleButton
         icon={IconName.ArrowLeft}
         onClick={onBack}
         className={shouldRenderBackButton ? '' : 'opacity-0 pointer-events-none'}
@@ -66,7 +67,7 @@ const Header: React.FC<{
         }}
       />
 
-      <ProgressIndicator currentStep={currentStep || 1} steps={steps} className={currentStep ? '' : 'opacity-0'} />
+      <ProgressIndicator currentStep={currentStep || 1} steps={3} className={currentStep ? '' : 'opacity-0'} />
     </div>
   );
 };
@@ -100,24 +101,6 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
         case 'select-import-type':
           onForwardAction?.({
             id: 'select-import-type'
-          });
-          break;
-        default:
-          break;
-      }
-    };
-
-    const onSelectWalletTypeSubmit = (payload: WalletType) => {
-      switch (payload) {
-        case WalletType.OnChain:
-          onForwardAction?.({
-            id: 'backup-seed-phrase'
-          });
-          break;
-        case WalletType.OffChain:
-          onForwardAction?.({
-            id: 'create-password',
-            payload: payload
           });
           break;
         default:
@@ -191,7 +174,7 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
       default:
         return <></>;
     }
-  }, [step, isLoading, onForwardAction, seedPhrase]);
+  }, [step, isLoading, onForwardAction, seedPhrase, wordslist]);
 
   const onBack = () => {
     setNavigationDirection('backward');

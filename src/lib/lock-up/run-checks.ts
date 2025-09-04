@@ -2,7 +2,6 @@ import browser from 'webextension-polyfill';
 
 import { CHECK_ALEO_PAGES_EXIST, WALLET_AUTOLOCK_TIME } from 'lib/fixed-times';
 import { assertResponse, request } from 'lib/miden/front';
-import { MidenMessageType } from 'lib/miden/types';
 import { WalletMessageType } from 'lib/shared/types';
 
 import { getIsLockUpEnabled } from './index';

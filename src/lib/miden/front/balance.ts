@@ -2,9 +2,9 @@ import { useCallback } from 'react';
 
 import BigNumber from 'bignumber.js';
 
-import { AssetMetadata } from 'lib/miden/front';
 import { useRetryableSWR } from 'lib/swr';
 
+import { MIDEN_METADATA } from '../metadata';
 import { accountIdStringToSdk, MidenClientInterface } from '../sdk/miden-client-interface';
 
 type UseBalanceOptions = {
@@ -21,7 +21,9 @@ export function useBalance(accountId: string, faucetId: string, opts: UseBalance
   const fetchBalanceLocal = useCallback(async () => {
     const account = await midenClient.getAccount(accountId);
     const balance = account!.vault().getBalance(accountIdStringToSdk(faucetId));
-    return new BigNumber(balance.toString());
+    let balanceNumber = new BigNumber(balance.toString());
+    balanceNumber = balanceNumber.isNaN() ? new BigNumber(0) : balanceNumber;
+    return balanceNumber.div(10 ** MIDEN_METADATA.decimals);
   }, [accountId, faucetId]);
 
   return useRetryableSWR([accountId, faucetId].join('_'), fetchBalanceLocal, {
@@ -30,22 +32,6 @@ export function useBalance(accountId: string, faucetId: string, opts: UseBalance
     refreshInterval: 5_000
   });
 }
-
-export function useAllBalances(accountId: string, opts: UseBalanceOptions = {}) {}
-
-const fetchBalances = async (
-  tokenIds: string[],
-  tokenMetadatas: Record<string, AssetMetadata>,
-  includePublic: boolean = true,
-  includePrivate: boolean = true,
-  unlocked: boolean = false
-) => {};
-
-export const useOwnedRecords = () => {};
-
-export const useUnspentAleoRecords = () => {};
-
-export function useFee() {}
 
 export function useBalanceSWRKey(
   assetSlug: string,

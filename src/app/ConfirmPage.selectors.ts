@@ -13,5 +13,7 @@ export enum ConfirmPageSelectors {
   BulkTransactionsAction_RejectButton = 'ConfirmPage/BulkTransactionsAction/RejectButton',
   BulkTransactionsAction_AcceptButton = 'ConfirmPage/BulkTransactionsAction/AcceptButton',
   DeployAction_RejectButton = 'ConfirmPage/DeployAction/RejectButton',
-  DeployAction_AcceptButton = 'ConfirmPage/DeployAction/AcceptButton'
+  DeployAction_AcceptButton = 'ConfirmPage/DeployAction/AcceptButton',
+  RequestPrivateNotes_RejectButton = 'ConfirmPage/RequestPrivateNotes/RejectButton',
+  RequestPrivateNotes_AcceptButton = 'ConfirmPage/RequestPrivateNotes/AcceptButton'
 }

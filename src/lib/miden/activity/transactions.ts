@@ -1,4 +1,4 @@
-import { TransactionResult } from '@demox-labs/miden-sdk';
+import { AccountInterface, NetworkId, TransactionResult } from '@demox-labs/miden-sdk';
 
 import { ampApi } from 'lib/amp/amp-interface';
 import { consumeNoteId } from 'lib/miden-worker/consumeNoteId';
@@ -11,7 +11,7 @@ import { ConsumeTransaction, ITransaction, ITransactionStatus, SendTransaction, 
 import { toNoteTypeString } from '../helpers';
 import { NoteExportType } from '../sdk/constants';
 import { MidenClientInterface } from '../sdk/miden-client-interface';
-import { NoteTypeEnum, NoteType as NoteTypeString } from '../types';
+import { ConsumableNote, NoteTypeEnum, NoteType as NoteTypeString } from '../types';
 import { interpretTransactionResult } from './helpers';
 import { importAllNotes, queueNoteImport, registerOutputNote } from './notes';
 
@@ -54,12 +54,34 @@ export const completeCustomTransaction = async (transaction: ITransaction, resul
   await updateTransactionStatus(transaction.id, ITransactionStatus.Completed, updatedTransaction);
 };
 
-export const initiateConsumeTransaction = async (
+export const initiateConsumeTransactionFromId = async (
   accountId: string,
   noteId: string,
   delegateTransaction?: boolean
 ): Promise<string> => {
-  const dbTransaction = new ConsumeTransaction(accountId, noteId, delegateTransaction);
+  const note: ConsumableNote = {
+    id: noteId,
+    faucetId: '',
+    amount: '',
+    senderAddress: '',
+    isBeingClaimed: false
+  };
+
+  return await initiateConsumeTransaction(accountId, note, delegateTransaction);
+};
+
+export const initiateConsumeTransaction = async (
+  accountId: string,
+  note: ConsumableNote,
+  delegateTransaction?: boolean
+): Promise<string> => {
+  const dbTransaction = new ConsumeTransaction(accountId, note, delegateTransaction);
+  const uncompletedTransactions = await getUncompletedTransactions(accountId);
+  const existingTransaction = uncompletedTransactions.find(tx => tx.type === 'consume' && tx.noteId === note.id);
+  if (existingTransaction) {
+    return existingTransaction.id;
+  }
+
   await Repo.transactions.add(dbTransaction);
 
   return dbTransaction.id;
@@ -67,7 +89,7 @@ export const initiateConsumeTransaction = async (
 
 export const completeConsumeTransaction = async (id: string, result: TransactionResult) => {
   const note = result.consumedNotes().getNote(0).note();
-  const sender = note.metadata().sender().toString();
+  const sender = note.metadata().sender().toBech32(NetworkId.Devnet, AccountInterface.BasicWallet);
   const executedTransaction = result.executedTransaction();
 
   const dbTransaction = await Repo.transactions.where({ id }).first();
@@ -75,7 +97,7 @@ export const completeConsumeTransaction = async (id: string, result: Transaction
   const displayMessage = reclaimed ? 'Reclaimed' : 'Received';
   const secondaryAccountId = reclaimed ? undefined : sender;
   const asset = note.assets().fungibleAssets()[0];
-  const faucetId = asset.faucetId().toString();
+  const faucetId = asset.faucetId().toBech32(NetworkId.Devnet, AccountInterface.BasicWallet);
   const amount = asset.amount();
 
   await updateTransactionStatus(id, ITransactionStatus.Completed, {
@@ -116,7 +138,7 @@ export const completeSendTransaction = async (tx: SendTransaction, result: Trans
   const noteId = result.createdNotes().notes()[0].id().toString();
   if (tx.noteType === NoteTypeEnum.Private) {
     const midenClient = await MidenClientInterface.create();
-    const noteBytes = await midenClient.exportNote(noteId, NoteExportType.PARTIAL);
+    const noteBytes = await midenClient.exportNote(noteId, NoteExportType.DETAILS);
     console.log('registering output note', noteId);
     await registerOutputNote(noteId);
     // TODO: Potentially unhook this from export process

@@ -1,8 +1,8 @@
 /* eslint-disable no-restricted-globals */
 
-import React, { FC, Suspense, useCallback, useMemo, useState } from 'react';
+import React, { FC, Suspense, useCallback, useMemo } from 'react';
 
-import { DecryptPermission } from '@demox-labs/miden-wallet-adapter-base';
+import { DecryptPermission } from '@demox-labs/miden-wallet-adapter';
 import classNames from 'clsx';
 
 import Spinner from 'app/atoms/Spinner/Spinner';
@@ -20,6 +20,7 @@ import useSafeState from 'lib/ui/useSafeState';
 import { useLocation } from 'lib/woozie';
 
 import Alert from './atoms/Alert';
+import FormSecondaryButton from './atoms/FormSecondaryButton';
 import FormSubmitButton from './atoms/FormSubmitButton';
 import Name from './atoms/Name';
 import { ConfirmPageSelectors } from './ConfirmPage.selectors';
@@ -55,7 +56,7 @@ const ConfirmPage: FC = () => {
           </ErrorBoundary>
         </ContentContainer>
       ) : (
-        <Unlock canImportNew={false} />
+        <Unlock />
       ),
     [ready]
   );
@@ -85,6 +86,27 @@ interface PayloadContentProps {
 const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account }) => {
   let content: string | React.ReactNode = t('noPreview');
   switch (payload.type) {
+    case 'privateNotes': {
+      content = (
+        <>
+          <div className="text-md text-center my-6">
+            {`Share all private note data for account ${payload.sourcePublicKey}?`}
+          </div>
+          <div className="flex items-center justify-center">
+            <FormSecondaryButton
+              type="button"
+              className="justify-center w-3/5 bg-gray-800 hover:bg-gray-700 text-black"
+              style={{ fontWeight: '400', color: 'black', border: 'none' }}
+              onClick={() => downloadData('privateNotes.json', JSON.stringify(payload.privateNotes, null, 2))}
+              small={true}
+            >
+              Download Private Note Data
+            </FormSecondaryButton>
+          </div>
+        </>
+      );
+      break;
+    }
     case 'transaction': {
       content = (
         <div>
@@ -140,7 +162,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
 export default ConfirmPage;
 
 const ConfirmDAppForm: FC = () => {
-  const { getDAppPayload, confirmDAppPermission, confirmDAppTransaction } = useMidenContext();
+  const { getDAppPayload, confirmDAppPermission, confirmDAppTransaction, confirmDAppPrivateNotes } = useMidenContext();
   const account = useAccount();
 
   const loc = useLocation();
@@ -170,7 +192,6 @@ const ConfirmDAppForm: FC = () => {
     }
   }
   requireDecryptCheckbox = decryptPermission === DecryptPermission.OnChainHistory;
-  const [isDecryptChecked, setDecryptChecked] = useState(false);
   const delegate = isDelegateProofEnabled();
 
   const onConfirm = useCallback(
@@ -179,11 +200,22 @@ const ConfirmDAppForm: FC = () => {
         case 'connect':
           return confirmDAppPermission(id, confirmed, account.publicKey, decryptPermission);
         case 'transaction':
-          !delegate && openLoadingFullPage();
+          openLoadingFullPage();
           return confirmDAppTransaction(id, confirmed, delegate);
+        case 'privateNotes':
+          return confirmDAppPrivateNotes(id, confirmed);
       }
     },
-    [id, payload.type, confirmDAppPermission, account.publicKey, decryptPermission, confirmDAppTransaction, delegate]
+    [
+      id,
+      payload.type,
+      confirmDAppPermission,
+      account.publicKey,
+      decryptPermission,
+      confirmDAppTransaction,
+      confirmDAppPrivateNotes,
+      delegate
+    ]
   );
 
   const [error, setError] = useSafeState<any>(null);
@@ -194,7 +226,7 @@ const ConfirmDAppForm: FC = () => {
     async (confirmed: boolean) => {
       setError(null);
       try {
-        if (confirmed && requireDecryptCheckbox && !isDecryptChecked) {
+        if (confirmed && requireDecryptCheckbox) {
           throw new Error(t('confirmError'));
         }
         await onConfirm(confirmed);
@@ -206,7 +238,7 @@ const ConfirmDAppForm: FC = () => {
         setError(err);
       }
     },
-    [onConfirm, setError, isDecryptChecked, requireDecryptCheckbox]
+    [onConfirm, setError, requireDecryptCheckbox]
   );
 
   const handleConfirmClick = useCallback(async () => {
@@ -263,8 +295,31 @@ const ConfirmDAppForm: FC = () => {
             </div>
           )
         };
+      case 'privateNotes':
+        return {
+          title: 'Request Private Notes',
+          declineActionTitle: t('cancel'),
+          declineActionTestID: ConfirmPageSelectors.RequestPrivateNotes_RejectButton,
+          confirmActionTitle: t('confirm'),
+          confirmActionTestID: ConfirmPageSelectors.RequestPrivateNotes_AcceptButton,
+          want: (
+            <div
+              className={classNames(
+                'text-sm text-left text-black',
+                'flex w-full gap-x-3 items-center p-4',
+                'border border-gray-100 rounded-2xl mb-4'
+              )}
+            >
+              <Icon name={IconName.Globe} fill="black" size="md" />
+              <div className="flex flex-col">
+                <Name className="font-semibold">{payload.origin}</Name>
+                <span>Requests private notes</span>
+              </div>
+            </div>
+          )
+        };
     }
-  }, [error, payload]);
+  }, [error, payload, decryptPermission]);
 
   return (
     <CustomRpsContext.Provider value={'TODO'}>

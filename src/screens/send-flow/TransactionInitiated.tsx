@@ -6,7 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { IconName } from 'app/icons/v2';
 import { Button, ButtonVariant } from 'components/Button';
 import { Message } from 'components/Message';
-import { SendFlowAction, SendFlowActionId } from 'screens/send-tokens/types';
+
+import { SendFlowAction, SendFlowActionId } from './types';
 
 export interface TransactionInitiatedProps extends HTMLAttributes<HTMLDivElement> {
   onAction?: (action: SendFlowAction) => void;

@@ -1,13 +1,16 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { OnSubmit, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import Alert from 'app/atoms/Alert';
-import FormField from 'app/atoms/FormField';
-import FormSubmitButton from 'app/atoms/FormSubmitButton';
+import { Icon, IconName } from 'app/icons/v2';
+import { Button, ButtonVariant } from 'components/Button';
 import { Checkbox } from 'components/Checkbox';
-import { t, T } from 'lib/i18n/react';
+import { Input } from 'components/Input';
+import { NavigationHeader } from 'components/NavigationHeader';
 import { useLocalStorage, useMidenContext } from 'lib/miden/front';
+import { goBack } from 'lib/woozie';
 
 const SUBMIT_ERROR_TYPE = 'submit-error';
 const LOCK_TIME = 60_000;
@@ -32,100 +35,114 @@ export interface EncryptedWalletFileWalletPasswordProps {
   onGoNext: () => void;
   onGoBack: () => void;
   onPasswordChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  walletPassword?: string;
 }
 
 const EncryptedWalletFileWalletPassword: React.FC<EncryptedWalletFileWalletPasswordProps> = ({
   onGoNext,
-  onPasswordChange
+  onPasswordChange,
+  walletPassword
 }) => {
   const { unlock } = useMidenContext();
-
-  const { register, handleSubmit, errors, setError, clearError, formState } = useForm<FormData>();
+  const { t } = useTranslation();
+  const { errors, setError, clearError, formState } = useForm<FormData>();
   const submitting = formState.isSubmitting;
   const [confirmed, setConfirmed] = useState(false);
   const [attempt, setAttempt] = useLocalStorage<number>('TridentSharedStorageKey.PasswordAttempts', 1);
   const [timelock, setTimeLock] = useLocalStorage<number>('TridentSharedStorageKey.TimeLock', 0);
   const lockLevel = LOCK_TIME * Math.floor(attempt / 3);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const onPasswordVisibilityToggle = useCallback(() => {
+    setIsPasswordVisible(prev => !prev);
+  }, []);
 
   const [timeleft, setTimeleft] = useState(getTimeLeft(timelock, lockLevel));
 
   const isDisabled = useMemo(() => Date.now() - timelock <= lockLevel, [timelock, lockLevel]);
 
-  const onSubmit = useCallback<OnSubmit<FormData>>(
-    async ({ password }) => {
-      if (submitting) return;
+  const onSubmit = useCallback(async () => {
+    if (submitting) return;
 
-      clearError('password');
-      try {
-        if (attempt > LAST_ATTEMPT) await new Promise(res => setTimeout(res, Math.random() * 2000 + 1000));
-        await unlock(password);
+    clearError('password');
+    try {
+      if (attempt > LAST_ATTEMPT) await new Promise(res => setTimeout(res, Math.random() * 2000 + 1000));
+      await unlock(walletPassword!);
 
-        setAttempt(1);
-        onGoNext();
-      } catch (err: any) {
-        if (attempt >= LAST_ATTEMPT) setTimeLock(Date.now());
-        setAttempt(attempt + 1);
-        setTimeleft(getTimeLeft(Date.now(), LOCK_TIME * Math.floor((attempt + 1) / 3)));
+      setAttempt(1);
+      onGoNext();
+    } catch (err: any) {
+      if (attempt >= LAST_ATTEMPT) setTimeLock(Date.now());
+      setAttempt(attempt + 1);
+      setTimeleft(getTimeLeft(Date.now(), LOCK_TIME * Math.floor((attempt + 1) / 3)));
 
-        console.error(err);
+      console.error(err);
 
-        // Human delay.
-        await new Promise(res => setTimeout(res, 300));
-        setError('password', SUBMIT_ERROR_TYPE, err.message);
+      // Human delay.
+      await new Promise(res => setTimeout(res, 300));
+      setError('password', SUBMIT_ERROR_TYPE, err.message);
+    }
+  }, [submitting, clearError, setError, unlock, attempt, setAttempt, setTimeLock, onGoNext, walletPassword]);
+
+  const handleEnterKey = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter' && confirmed) {
+        e.preventDefault();
+        onSubmit();
       }
     },
-    [submitting, clearError, setError, unlock, attempt, setAttempt, setTimeLock, onGoNext]
+    [onSubmit, confirmed]
   );
 
   return (
-    <div className="w-full max-w-sm p-2 mx-auto">
-      <FormField
-        ref={register({ required: t('required') })}
-        label={t('password')}
-        labelDescription={t('encryptedWalletFileDescription')}
-        id="encrypted-wallet-file-password"
-        type="password"
-        name="password"
-        errorCaption={errors.password && errors.password.message}
-        containerClassName="mb-4"
-        onChange={onPasswordChange}
-        disabled={isDisabled}
-      />
-      <div className="flex gap-x-2 w-[360px] text-sm text-left">
-        <button className="flex items-center gap-x-2 text-left" onClick={() => setConfirmed(!confirmed)}>
-          <Checkbox id="help-us" value={confirmed} />
-          <label className="text-black cursor-pointer text-left">{t('encryptedWalletFileConfirmation')}</label>
-        </button>
-      </div>
-      <T id="continue">
-        {message => (
-          <FormSubmitButton
-            className="capitalize w-full justify-center mt-6"
-            loading={submitting}
-            style={{
-              fontSize: '18px',
-              lineHeight: '24px',
-              paddingLeft: '0.5rem',
-              paddingRight: '0.5rem',
-              paddingTop: '12px',
-              paddingBottom: '12px'
-            }}
-            disabled={isDisabled || !confirmed}
-            onClick={handleSubmit(onSubmit)}
-          >
-            {message}
-          </FormSubmitButton>
-        )}
-      </T>
-      {isDisabled && (
-        <Alert
-          type="error"
-          title={t('error')}
-          description={`${t('unlockPasswordErrorDelay')} ${timeleft}`}
-          className="mt-8 rounded-lg text-black mx-auto"
-          style={{ width: '80%' }}
+    <div className="flex-1 flex flex-col">
+      <NavigationHeader title={t('encryptedWalletFile')} onBack={goBack} mode="back" />
+      <div className="flex flex-col flex-1 p-4 md:w-[460px] md:mx-auto">
+        <div className="flex-1 flex flex-col justify-stretch gap-y-4">
+          <p className="text-sm">{t('encryptedWalletFileDescription')}</p>
+          <div className="flex flex-col gap-y-2">
+            <Input
+              type={isPasswordVisible ? 'text' : 'password'}
+              label={t('password')}
+              value={walletPassword}
+              disabled={isDisabled}
+              placeholder={t('enterPassword')}
+              icon={
+                <button className="flex-1" onClick={onPasswordVisibilityToggle}>
+                  <Icon name={isPasswordVisible ? IconName.EyeOff : IconName.Eye} fill="black" />
+                </button>
+              }
+              onChange={onPasswordChange}
+              onKeyDown={handleEnterKey}
+            />
+            {errors.password && <p className="h-4 text-red-500 text-xs">{errors.password.message}</p>}
+          </div>
+          <div className="flex gap-x-2 text-sm text-left">
+            <button className="flex mt-3 gap-x-2 text-left" onClick={() => setConfirmed(!confirmed)}>
+              <Checkbox id="help-us" value={confirmed} />
+              <span className="text-black cursor-pointer text-left mt-[-4px]">
+                {t('encryptedWalletFileConfirmation')}
+              </span>
+            </button>
+          </div>
+          {isDisabled && (
+            <Alert
+              type="error"
+              title={t('error')}
+              description={`${t('unlockPasswordErrorDelay')} ${timeleft}`}
+              className="mt-8 rounded-lg text-black mx-auto"
+              style={{ width: '80%' }}
+            />
+          )}
+        </div>
+        <Button
+          className="w-full justify-center mt-6"
+          variant={ButtonVariant.Primary}
+          title={t('continue')}
+          disabled={isDisabled || !confirmed}
+          onClick={onSubmit}
+          isLoading={submitting}
         />
-      )}
+      </div>
     </div>
   );
 };
