@@ -8,12 +8,11 @@ import { Button, ButtonVariant } from 'components/Button';
 import { getCurrentLocale } from 'lib/i18n';
 import { t } from 'lib/i18n/react';
 import { getTransactionById } from 'lib/miden/activity';
-import { getTokenId } from 'lib/miden/front';
 import { NoteExportType } from 'lib/miden/sdk/constants';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import { capitalizeFirstLetter } from 'utils/string';
 
-import { formatAmount } from './Activity';
+import { formatAmount, getTokenSymbol } from './Activity';
 import { IActivity } from './IActivity';
 
 interface ActivityDetailsProps {
@@ -34,7 +33,7 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
       message: tx.displayMessage,
       transactionIcon: tx.displayIcon,
       amount: tx.amount ? formatAmount(tx.amount, tx.type) : undefined,
-      token: tx.faucetId ? getTokenId(tx.faucetId) : undefined,
+      token: tx.faucetId ? await getTokenSymbol(tx.faucetId) : undefined,
       secondaryAddress: tx.secondaryAccountId,
       txId: tx.id,
       noteType: tx.noteType,

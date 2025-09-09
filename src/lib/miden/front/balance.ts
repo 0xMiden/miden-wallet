@@ -1,10 +1,12 @@
 import { useCallback } from 'react';
 
+import { AccountInterface, FungibleAsset, NetworkId } from '@demox-labs/miden-sdk';
 import BigNumber from 'bignumber.js';
 
 import { useRetryableSWR } from 'lib/swr';
 
-import { MIDEN_METADATA } from '../metadata';
+import { getFaucetIdSetting } from '../assets';
+import { AssetMetadata, MIDEN_METADATA } from '../metadata';
 import { accountIdStringToSdk, MidenClientInterface } from '../sdk/miden-client-interface';
 
 type UseBalanceOptions = {
@@ -33,32 +35,75 @@ export function useBalance(accountId: string, faucetId: string, opts: UseBalance
   });
 }
 
-export function useBalanceSWRKey(
-  assetSlug: string,
-  address: string,
-  includePublic: boolean,
-  includePrivate: boolean,
-  unlocked: boolean
-) {
-  return getBalanceSWRKey(assetSlug, address, includePublic, includePrivate, unlocked);
+export interface TokenBalanceData {
+  tokenId: string;
+  tokenSlug: string;
+  metadata: AssetMetadata;
+  balance: number;
+  fiatPrice: number;
 }
 
-export function getBalanceSWRKey(
-  assetSlug: string,
-  address: string,
-  includePublic: boolean,
-  includePrivate: boolean,
-  unlocked: boolean
-) {
-  return ['balance', assetSlug, address, includePublic, includePrivate, unlocked].join('_');
+export function useAllBalances(address: string, tokenMetadatas: Record<string, AssetMetadata>) {
+  const fetchBalancesLocal = useCallback(() => fetchBalances(address, tokenMetadatas), [address, tokenMetadatas]);
+
+  return useRetryableSWR(getAllBalanceSWRKey(address), fetchBalancesLocal, {
+    suspense: true,
+    revalidateOnFocus: true,
+    revalidateOnMount: true,
+    dedupingInterval: 10_000,
+    refreshInterval: 5_000,
+    fallbackData: []
+  });
 }
 
-export function getAllBalanceSWRKey(
-  address: string,
-  chainId: string,
-  includePublic: boolean,
-  includePrivate: boolean,
-  unlocked: boolean
-) {
-  return ['allBalance', address, chainId, includePublic, includePrivate, unlocked].join('_');
+const fetchBalances = async (address: string, tokenMetadatas: Record<string, AssetMetadata>) => {
+  const balances: TokenBalanceData[] = [];
+
+  const account = await midenClient.getAccount(address);
+  const assets = account!.vault().fungibleAssets() as FungibleAsset[];
+  const midenFaucetId = getFaucetIdSetting();
+  let hasMiden = false;
+  for (const asset of assets) {
+    const tokenId = asset.faucetId().toBech32(NetworkId.Devnet, AccountInterface.BasicWallet);
+    const isMiden = tokenId === midenFaucetId;
+    if (isMiden) {
+      hasMiden = true;
+    }
+    const tokenMetadata = isMiden ? MIDEN_METADATA : tokenMetadatas[tokenId];
+    if (!tokenMetadata) {
+      continue;
+    }
+    const balance = new BigNumber(asset.amount().toString()).div(10 ** tokenMetadata.decimals);
+    balances.push({
+      tokenId,
+      tokenSlug: tokenMetadata.symbol,
+      metadata: tokenMetadata,
+      fiatPrice: 1,
+      balance: balance.toNumber()
+    });
+  }
+
+  if (!hasMiden) {
+    balances.push({
+      tokenId: midenFaucetId,
+      tokenSlug: 'MIDEN',
+      metadata: MIDEN_METADATA,
+      fiatPrice: 1,
+      balance: 0
+    });
+  }
+
+  return balances;
+};
+
+export function useBalanceSWRKey(assetSlug: string, address: string) {
+  return getBalanceSWRKey(assetSlug, address);
+}
+
+export function getBalanceSWRKey(assetSlug: string, address: string) {
+  return ['balance', assetSlug, address].join('_');
+}
+
+export function getAllBalanceSWRKey(address: string) {
+  return ['allBalance', address].join('_');
 }
