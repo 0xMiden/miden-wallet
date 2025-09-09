@@ -17,7 +17,8 @@ import {
   onStorageChanged,
   putToStorage,
   usePassiveStorage,
-  isMidenAsset
+  isMidenAsset,
+  isMidenFaucet
 } from 'lib/miden/front';
 import { createQueue } from 'lib/queue';
 import { useRetryableSWR } from 'lib/swr';
@@ -34,11 +35,6 @@ export type TokenBalance = {
   balance: BigNumber;
 };
 
-export type TokenBalanceData = {
-  tokens: TokenBalance[];
-  totalBalance: BigNumber;
-};
-
 export function useFungibleTokens(accountId: string) {
   const fetchBalanceLocal = useCallback(async () => {
     const account = await midenClient.getAccount(accountId);
@@ -50,7 +46,7 @@ export function useFungibleTokens(accountId: string) {
     return {
       tokens: balances,
       totalBalance: balances.reduce((acc, { balance }) => acc.plus(balance), new BigNumber(0))
-    } as TokenBalanceData;
+    };
   }, [accountId]);
 
   return useRetryableSWR([accountId, 'asset_vault'].join('_'), fetchBalanceLocal, {
@@ -59,8 +55,6 @@ export function useFungibleTokens(accountId: string) {
     refreshInterval: 5_000
   });
 }
-
-export function useCollectibleTokens(account: string, isDisplayed: boolean) {}
 
 const enqueueAutoFetchMetadata = createQueue();
 const autoFetchMetadataFails = new Set<string>();
@@ -83,12 +77,12 @@ export function useAssetMetadata(slug: string, assetId: string) {
     [slug, assetId, allTokensBaseMetadataRef, forceUpdate]
   );
 
-  const midenAsset = isMidenAsset(slug);
+  const midenAsset = isMidenFaucet(assetId);
   const tokenMetadata = allTokensBaseMetadataRef.current[assetId] ?? null;
   const exist = Boolean(tokenMetadata);
 
   useEffect(() => {
-    if (!isMidenAsset(slug) && !exist && !autoFetchMetadataFails.has(assetId)) {
+    if (!isMidenFaucet(assetId) && !exist && !autoFetchMetadataFails.has(assetId)) {
       enqueueAutoFetchMetadata(() => fetchMetadata(assetId))
         .then(metadata =>
           Promise.all([
@@ -96,7 +90,7 @@ export function useAssetMetadata(slug: string, assetId: string) {
             setTokensDetailedMetadata({ [assetId]: metadata.detailed })
           ])
         )
-        .catch(() => autoFetchMetadataFails.add(slug));
+        .catch(() => autoFetchMetadataFails.add(assetId));
     }
   }, [slug, assetId, exist, fetchMetadata, setTokensBaseMetadata, setTokensDetailedMetadata]);
 

@@ -9,11 +9,10 @@ import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { stringToBigInt } from 'lib/i18n/numbers';
 import { initiateSendTransaction } from 'lib/miden/activity';
-import { isMidenFaucet, MIDEN_METADATA, useAccount, useAllAccounts, useFungibleTokens } from 'lib/miden/front';
+import { MIDEN_METADATA, useAccount, useAllAccounts } from 'lib/miden/front';
 import { NoteTypeEnum } from 'lib/miden/types';
 import { navigate } from 'lib/woozie';
 import { isValidMidenAddress } from 'utils/miden';
-import { shortenAddress } from 'utils/string';
 
 import { AccountsList } from './AccountsList';
 import { ReviewTransaction } from './ReviewTransaction';
@@ -89,17 +88,6 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const { publicKey } = useAccount();
   const { fullPage } = useAppEnv();
   const delegateEnabled = isDelegateProofEnabled();
-  const { data: balanceData } = useFungibleTokens(publicKey);
-  const tokens = useMemo(() => {
-    return (
-      balanceData?.tokens.map(token => ({
-        id: token.faucetId,
-        name: isMidenFaucet(token.faucetId) ? 'MIDEN' : shortenAddress(token.faucetId, 7, 4),
-        balance: token.balance.toNumber(),
-        fiatPrice: 1
-      })) || []
-    );
-  }, [balanceData]);
 
   const otherAccounts: Contact[] = useMemo(
     () =>
@@ -292,7 +280,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     (route: Route) => {
       switch (route.name) {
         case SendFlowStep.SelectToken:
-          return <SelectToken onAction={onAction} tokens={tokens} />;
+          return <SelectToken onAction={onAction} />;
         case SendFlowStep.SelectRecipient:
           return (
             <SelectRecipient
@@ -348,7 +336,6 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     },
     [
       token,
-      tokens,
       recipientAddress,
       otherAccounts,
       errors.recipientAddress,

@@ -22,6 +22,12 @@ export const MIDEN_PROVING_ENDPOINTS = new Map<string, string>([
   [MIDEN_NETWORK_NAME.LOCALNET, 'http://localhost:50051']
 ]);
 
+export const MIDEN_FAUCET_ENDPOINTS = new Map<string, string>([
+  [MIDEN_NETWORK_NAME.TESTNET, 'https://faucet.testnet.miden.io'],
+  [MIDEN_NETWORK_NAME.DEVNET, 'https://faucet.devnet.miden.io'],
+  [MIDEN_NETWORK_NAME.LOCALNET, 'http://localhost:57291']
+]);
+
 export const MIDEN_NETWORKS: MidenNetwork[] = [
   {
     rpcBaseURL: 'https://rpc.testnet.miden.io',

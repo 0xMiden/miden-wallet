@@ -18,8 +18,6 @@ export function toBaseMetadata(data: DetailedAssetMetdata | AssetMetadata): Asse
     shouldPreferSymbol: data.shouldPreferSymbol,
     thumbnailUri: data.thumbnailUri,
     displayUri: data.displayUri,
-    artifactUri: data.artifactUri,
-    programId: data.programId,
-    mappingName: data.mappingName
+    artifactUri: data.artifactUri
   };
 }
