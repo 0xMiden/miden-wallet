@@ -106,7 +106,7 @@ export const interpretTransactionResult = <K extends keyof ITransaction>(
     const assets = inputNote.note().assets().fungibleAssets();
     inputAmount = assets.reduce((acc, asset) => acc + BigInt(asset.amount()), BigInt(0));
     const faucetIds = [
-      ...new Set(assets.map(asset => asset.faucetId().toBech32(NetworkId.Mainnet, AccountInterface.BasicWallet)))
+      ...new Set(assets.map(asset => asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet)))
     ];
     inputFaucetIds.push(...faucetIds);
   });
@@ -114,7 +114,7 @@ export const interpretTransactionResult = <K extends keyof ITransaction>(
     const assets = outputNote.assets()!.fungibleAssets();
     outputAmount = assets.reduce((acc, asset) => acc + BigInt(asset.amount()), BigInt(0));
     const faucetIds = [
-      ...new Set(assets.map(asset => asset.faucetId().toBech32(NetworkId.Mainnet, AccountInterface.BasicWallet)))
+      ...new Set(assets.map(asset => asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet)))
     ];
     outputFaucetIds.push(...faucetIds);
   });
@@ -122,7 +122,7 @@ export const interpretTransactionResult = <K extends keyof ITransaction>(
 
   if (inputFaucetIds.length === 1 && outputFaucetIds.length === 0) {
     type = 'consume';
-    const sender = inputNotes[0].note().metadata().sender().toBech32(NetworkId.Mainnet, AccountInterface.BasicWallet);
+    const sender = inputNotes[0].note().metadata().sender().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet);
     displayMessage = sender === transaction.accountId ? 'Reclaimed' : 'Received';
     if (sender !== transaction.accountId) {
       secondaryAccountId = sender;

@@ -39,7 +39,7 @@ export class MidenClientInterface {
 
   static async create(options: MidenClientCreateOptions = {}) {
     const seed = options.seed?.toString();
-    const network = MIDEN_NETWORK_NAME.MAINNET;
+    const network = MIDEN_NETWORK_NAME.TESTNET;
     const webClient = await WebClient.createClient(MIDEN_NETWORK_ENDPOINTS.get(network)!, seed);
 
     return new MidenClientInterface(webClient, network, options.onConnectivityIssue);
@@ -51,14 +51,14 @@ export class MidenClientInterface {
       walletType === WalletType.OnChain ? AccountStorageMode.public() : AccountStorageMode.private();
 
     const wallet: Account = await this.webClient.newWallet(accountStorageMode, true, seed);
-    const walletId = wallet.id().toBech32(NetworkId.Mainnet, AccountInterface.BasicWallet);
+    const walletId = wallet.id().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet);
 
     return walletId;
   }
 
   async importMidenWallet(accountBytes: Uint8Array): Promise<string> {
     const wallet: Account = await this.webClient.importAccountFile(accountBytes);
-    const walletIdString = wallet.id().toBech32(NetworkId.Mainnet, AccountInterface.BasicWallet);
+    const walletIdString = wallet.id().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet);
 
     return walletIdString;
   }
@@ -66,7 +66,7 @@ export class MidenClientInterface {
   async importPublicMidenWalletFromSeed(seed: Uint8Array) {
     const account = await this.webClient.importPublicAccountFromSeed(seed, true);
 
-    return account.id().toBech32(NetworkId.Mainnet, AccountInterface.BasicWallet);
+    return account.id().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet);
   }
 
   async consumeTransaction(accountId: string, listOfNoteIds: string[], delegateTransaction?: boolean) {
@@ -141,7 +141,7 @@ export class MidenClientInterface {
       if (consumability.length === 0) {
         return false;
       }
-      if (consumability[0].accountId().toBech32(NetworkId.Mainnet, AccountInterface.BasicWallet) !== accountId) {
+      if (consumability[0].accountId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet) !== accountId) {
         return false;
       }
       const consumableAfterBlock = consumability[0].consumableAfterBlock();
@@ -213,7 +213,7 @@ export class MidenClientInterface {
   async getTransactionsForAccount(accountId: string) {
     const transactions = await this.webClient.getTransactions(TransactionFilter.all());
     return transactions.filter(
-      tx => tx.accountId().toBech32(NetworkId.Mainnet, AccountInterface.BasicWallet) === accountId
+      tx => tx.accountId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet) === accountId
     );
   }
 

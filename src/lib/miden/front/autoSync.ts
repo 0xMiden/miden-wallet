@@ -54,7 +54,7 @@ class Sync {
         summary
           .updatedAccounts()
           .some(
-            id => id.toBech32(NetworkId.Mainnet, AccountInterface.BasicWallet) === this.state?.currentAccount?.publicKey
+            id => id.toBech32(NetworkId.Testnet, AccountInterface.BasicWallet) === this.state?.currentAccount?.publicKey
           )
       ) {
         // get the transaction ids and filter by the current account
