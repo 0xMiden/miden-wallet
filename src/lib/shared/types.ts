@@ -381,7 +381,6 @@ export interface DAppPermConfirmationRequest extends WalletMessageBase {
   id: string;
   confirmed: boolean;
   accountPublicKey: string;
-  // decryptPermission: DecryptPermission;
 }
 
 export interface DAppPermConfirmationResponse extends WalletMessageBase {

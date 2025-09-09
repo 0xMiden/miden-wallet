@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { DecryptPermission } from '@demox-labs/miden-wallet-adapter';
+import { AllowedPrivateData, PrivateDataPermission } from '@demox-labs/miden-wallet-adapter-base';
 import constate from 'constate';
 
 import { IntercomClient } from 'lib/intercom';
@@ -201,13 +201,20 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   }, []);
 
   const confirmDAppPermission = useCallback(
-    async (id: string, confirmed: boolean, accountId: string, decryptPermission: DecryptPermission) => {
+    async (
+      id: string,
+      confirmed: boolean,
+      accountId: string,
+      privateDataPermission: PrivateDataPermission,
+      allowedPrivateData: AllowedPrivateData
+    ) => {
       const res = await request({
         type: MidenMessageType.DAppPermConfirmationRequest,
         id,
         confirmed,
         accountPublicKey: confirmed ? accountId : '',
-        decryptPermission
+        privateDataPermission,
+        allowedPrivateData
       });
       assertResponse(res.type === MidenMessageType.DAppPermConfirmationResponse);
     },

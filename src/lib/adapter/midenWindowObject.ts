@@ -1,13 +1,13 @@
 import {
   EventEmitter,
   WalletAdapterNetwork,
-  DecryptPermission,
+  PrivateDataPermission,
   MidenTransaction,
   MidenSendTransaction,
   MidenConsumeTransaction,
-  MidenWallet,
-  MidenWalletEvents
-} from '@demox-labs/miden-wallet-adapter';
+  AllowedPrivateData
+} from '@demox-labs/miden-wallet-adapter-base';
+import { MidenWallet, MidenWalletEvents } from '@demox-labs/miden-wallet-adapter-miden';
 
 import {
   requestPermission,
@@ -53,16 +53,16 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
   }
 
   async connect(
-    decryptPermission: DecryptPermission,
+    privateDataPermission: PrivateDataPermission,
     network: WalletAdapterNetwork,
-    programs?: string[]
+    allowedPrivateData?: AllowedPrivateData
   ): Promise<void> {
     const perm = await requestPermission(
       { name: window.location.hostname },
       false,
-      decryptPermission,
+      privateDataPermission,
       network,
-      programs
+      allowedPrivateData
     );
     this.permission = perm;
     this.accountId = perm.accountId;

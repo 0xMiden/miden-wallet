@@ -1,6 +1,6 @@
 import { derivePath } from '@demox-labs/aleo-hd-key';
 import { AccountInterface, NetworkId } from '@demox-labs/miden-sdk';
-import { SendTransaction } from '@demox-labs/miden-wallet-adapter';
+import { SendTransaction } from '@demox-labs/miden-wallet-adapter-base';
 import * as Bip39 from 'bip39';
 
 import { getMessage } from 'lib/i18n';

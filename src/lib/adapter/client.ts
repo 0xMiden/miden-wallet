@@ -1,10 +1,11 @@
 import {
   WalletAdapterNetwork,
-  DecryptPermission,
+  PrivateDataPermission,
   MidenSendTransaction,
   MidenTransaction,
-  MidenConsumeTransaction
-} from '@demox-labs/miden-wallet-adapter';
+  MidenConsumeTransaction,
+  AllowedPrivateData
+} from '@demox-labs/miden-wallet-adapter-base';
 import { nanoid } from 'nanoid';
 
 import {
@@ -86,24 +87,24 @@ export async function getCurrentPermission() {
 export async function requestPermission(
   appMeta: MidenDAppMetadata,
   force: boolean,
-  decryptPermission: DecryptPermission,
+  privateDataPermission: PrivateDataPermission,
   network: WalletAdapterNetwork,
-  programs?: string[]
+  allowedPrivateData?: AllowedPrivateData
 ) {
   const res = await request({
     type: MidenDAppMessageType.PermissionRequest,
     appMeta,
     force,
-    decryptPermission,
+    privateDataPermission,
     network,
-    programs
+    allowedPrivateData
   });
   assertResponse(res.type === MidenDAppMessageType.PermissionResponse);
   return {
     rpc: res.network,
     accountId: res.accountId,
-    decryptPermission: res.decryptPermission,
-    programs: res.programs
+    privateDataPermission: res.privateDataPermission,
+    allowedPrivateData: res.allowedPrivateData
   };
 }
 

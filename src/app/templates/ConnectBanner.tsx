@@ -15,7 +15,7 @@ type ConnectBannerProps = {
 
 const ConnectBanner: FC<ConnectBannerProps> = ({ type, origin }) => {
   return (
-    <div className={classNames('w-full', 'mt-6 mb-8', 'flex flex-col')}>
+    <div className={classNames('w-full', 'mb-4', 'flex flex-col')}>
       <div className={classNames('w-full flex items-center justify-center mb-4')}>
         <div className={classNames('border border-gray-100 rounded-3xl', 'flex flex-col items-center', 'p-6')}>
           <Logo className="mb-1" style={{ height: 32, margin: 'auto', filter: '' }} />

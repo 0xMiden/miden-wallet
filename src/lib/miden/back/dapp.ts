@@ -1,10 +1,11 @@
 import { NoteFilter, NoteFilterTypes, NoteType } from '@demox-labs/miden-sdk';
 import {
-  DecryptPermission,
+  PrivateDataPermission,
   MidenConsumeTransaction,
   MidenCustomTransaction,
-  SendTransaction
-} from '@demox-labs/miden-wallet-adapter';
+  SendTransaction,
+  AllowedPrivateData
+} from '@demox-labs/miden-wallet-adapter-base';
 import { nanoid } from 'nanoid';
 import browser, { Runtime } from 'webextension-polyfill';
 
@@ -60,7 +61,8 @@ export async function getCurrentPermission(origin: string): Promise<MidenDAppGet
     ? {
         rpc: await getNetworkRPC(dApp.network),
         accountId: dApp.accountId,
-        decryptPermission: dApp.decryptPermission
+        privateDataPermission: dApp.privateDataPermission,
+        allowedPrivateData: dApp.allowedPrivateData
       }
     : null;
   return {
@@ -117,16 +119,16 @@ export async function requestPermission(
         networkRpc,
         dApp.appMeta,
         !!dApp,
-        dApp.decryptPermission,
-        dApp.programs
+        dApp.privateDataPermission,
+        dApp.allowedPrivateData
       );
     }
     return {
       type: MidenDAppMessageType.PermissionResponse,
       network: reqChainId,
       accountId: dApp.accountId,
-      decryptPermission: dApp.decryptPermission,
-      programs: dApp.programs
+      privateDataPermission: dApp.privateDataPermission,
+      allowedPrivateData: dApp.allowedPrivateData
     };
   }
 
@@ -136,8 +138,8 @@ export async function requestPermission(
     networkRpc,
     req.appMeta,
     !!dApp,
-    req.decryptPermission,
-    req.programs
+    req.privateDataPermission,
+    req.allowedPrivateData
   );
 }
 
@@ -147,8 +149,8 @@ export async function generatePromisifyRequestPermission(
   networkRpc: string,
   appMeta: DappMetadata,
   existingPermission: boolean,
-  decryptPermission?: DecryptPermission,
-  programs?: string[]
+  privateDataPermission?: PrivateDataPermission,
+  allowedPrivateData?: AllowedPrivateData
 ): Promise<MidenDAppPermissionResponse> {
   return new Promise(async (resolve, reject) => {
     const id = nanoid();
@@ -160,8 +162,8 @@ export async function generatePromisifyRequestPermission(
         origin,
         networkRpc,
         appMeta,
-        decryptPermission: decryptPermission || DecryptPermission.NoDecrypt,
-        programs,
+        privateDataPermission: privateDataPermission || PrivateDataPermission.UponRequest,
+        allowedPrivateData: allowedPrivateData || AllowedPrivateData.None,
         existingPermission
       },
       onDecline: () => {
@@ -169,22 +171,22 @@ export async function generatePromisifyRequestPermission(
       },
       handleIntercomRequest: async (confirmReq, decline) => {
         if (confirmReq?.type === MidenMessageType.DAppPermConfirmationRequest && confirmReq?.id === id) {
-          const { confirmed, accountPublicKey, decryptPermission } = confirmReq;
+          const { confirmed, accountPublicKey, privateDataPermission } = confirmReq;
           if (confirmed && accountPublicKey) {
             if (!existingPermission)
               await setDApp(origin, {
                 network,
                 appMeta,
                 accountId: accountPublicKey,
-                decryptPermission: decryptPermission || DecryptPermission.NoDecrypt,
-                programs: programs
+                privateDataPermission: privateDataPermission || PrivateDataPermission.UponRequest,
+                allowedPrivateData: allowedPrivateData || AllowedPrivateData.None
               });
             resolve({
               type: MidenDAppMessageType.PermissionResponse,
               accountId: accountPublicKey,
               network,
-              decryptPermission: decryptPermission,
-              programs
+              privateDataPermission: privateDataPermission || PrivateDataPermission.UponRequest,
+              allowedPrivateData: allowedPrivateData || AllowedPrivateData.None
             });
           } else {
             decline();
@@ -227,8 +229,8 @@ const generatePromisifyRequestPrivateNotes = async (
   req: MidenDAppPrivateNotesRequest
 ) => {
   if (
-    dApp.decryptPermission === DecryptPermission.AutoDecrypt ||
-    dApp.decryptPermission === DecryptPermission.OnChainHistory
+    dApp.privateDataPermission === PrivateDataPermission.Auto &&
+    (dApp.allowedPrivateData & AllowedPrivateData.Notes) !== 0
   ) {
     try {
       let privateNotes = await withUnlocked(async () => {

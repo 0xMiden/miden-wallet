@@ -64,7 +64,7 @@ const DAppSettings: FC = () => {
       if (
         await confirm({
           title: t('actionConfirmation'),
-          children: t('resetPermissionsConfirmation', origin)
+          children: t('resetPermissionsConfirmation', { origin: origin })
         })
       ) {
         await removeDAppSession(origin);
@@ -145,7 +145,7 @@ const DAppDescription: FC<OptionRenderProps<DAppEntry, string, DAppActions>> = p
   const { t } = useTranslation();
   const {
     actions,
-    item: [origin, { network, accountId, decryptPermission }]
+    item: [origin, { network, accountId, privateDataPermission }]
   } = props;
   const { remove: onRemove } = actions!;
 
@@ -186,11 +186,11 @@ const DAppDescription: FC<OptionRenderProps<DAppEntry, string, DAppActions>> = p
       },
       {
         key: 'permissionLabel',
-        value: t(`${decryptPermission.toString()}_SHORT`),
+        value: t(`${privateDataPermission.toString()}_SHORT`),
         Component: 'span'
       }
     ],
-    [origin, network, accountId, decryptPermission, t]
+    [origin, network, accountId, privateDataPermission, t]
   );
 
   return (

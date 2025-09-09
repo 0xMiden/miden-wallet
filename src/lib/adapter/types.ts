@@ -1,10 +1,11 @@
 import {
+  AllowedPrivateData,
   MidenTransaction,
-  DecryptPermission,
+  PrivateDataPermission,
   WalletAdapterNetwork,
   MidenSendTransaction,
   MidenConsumeTransaction
-} from '@demox-labs/miden-wallet-adapter';
+} from '@demox-labs/miden-wallet-adapter-base';
 
 export type MidenDAppMessage = MidenDAppRequest | MidenDAppResponse;
 
@@ -65,16 +66,16 @@ export interface MidenDAppPermissionRequest extends MidenDAppMessageBase {
   appMeta: MidenDAppMetadata;
   network: WalletAdapterNetwork;
   force?: boolean;
-  decryptPermission?: DecryptPermission;
-  programs?: string[];
+  privateDataPermission?: PrivateDataPermission;
+  allowedPrivateData?: AllowedPrivateData;
 }
 
 export interface MidenDAppPermissionResponse extends MidenDAppMessageBase {
   type: MidenDAppMessageType.PermissionResponse;
   accountId: string;
   network: string;
-  decryptPermission: DecryptPermission;
-  programs?: string[];
+  privateDataPermission: PrivateDataPermission;
+  allowedPrivateData: AllowedPrivateData;
 }
 
 export interface MidenDAppDisconnectRequest extends MidenDAppMessageBase {
@@ -145,8 +146,8 @@ export enum MidenDAppErrorType {
 export type MidenDAppPermission = {
   rpc?: string;
   accountId: string;
-  decryptPermission: DecryptPermission;
-  programs?: string[];
+  privateDataPermission: PrivateDataPermission;
+  allowedPrivateData: AllowedPrivateData;
 } | null;
 
 export interface MidenDAppMetadata {

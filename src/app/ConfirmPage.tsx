@@ -1,8 +1,8 @@
 /* eslint-disable no-restricted-globals */
 
-import React, { FC, Suspense, useCallback, useMemo } from 'react';
+import React, { FC, Suspense, useCallback, useMemo, useState } from 'react';
 
-import { DecryptPermission } from '@demox-labs/miden-wallet-adapter';
+import { PrivateDataPermission } from '@demox-labs/miden-wallet-adapter-base';
 import classNames from 'clsx';
 
 import Spinner from 'app/atoms/Spinner/Spinner';
@@ -28,8 +28,9 @@ import { openLoadingFullPage } from './env';
 import { Icon, IconName } from './icons/v2';
 import AccountBanner from './templates/AccountBanner';
 import ConnectBanner from './templates/ConnectBanner';
-import DecryptPermissionBanner from './templates/DecryptPermissionBanner';
 import { isDelegateProofEnabled } from './templates/DelegateSettings';
+import PrivateDataPermissionBanner from './templates/PrivateDataPermissionBanner';
+import PrivateDataPermissionCheckbox from './templates/PrivateDataPermissionCheckbox';
 
 const ConfirmPage: FC = () => {
   const { ready } = useMidenContext();
@@ -164,6 +165,7 @@ export default ConfirmPage;
 const ConfirmDAppForm: FC = () => {
   const { getDAppPayload, confirmDAppPermission, confirmDAppTransaction, confirmDAppPrivateNotes } = useMidenContext();
   const account = useAccount();
+  const isPublicAccount = account.isPublic;
 
   const loc = useLocation();
   const id = useMemo(() => {
@@ -183,24 +185,31 @@ const ConfirmDAppForm: FC = () => {
   });
   const payload = data!;
   const payloadError = data!.error;
-  let requireDecryptCheckbox = false;
-  let decryptPermission = DecryptPermission.NoDecrypt;
+  let requirePrivateDataCheckbox = false;
+  let privateDataPermission = PrivateDataPermission.UponRequest;
   if (payload.type === 'connect') {
-    decryptPermission = payload.decryptPermission;
+    privateDataPermission = payload.privateDataPermission;
     if (payload.existingPermission) {
-      confirmDAppPermission(id, true, account.publicKey, decryptPermission);
+      confirmDAppPermission(id, true, account.publicKey, privateDataPermission, payload.allowedPrivateData);
     }
   }
-  requireDecryptCheckbox = decryptPermission === DecryptPermission.OnChainHistory;
+  requirePrivateDataCheckbox = privateDataPermission === PrivateDataPermission.Auto && !isPublicAccount;
+  const [isPrivateDataChecked, setIsPrivateDataChecked] = useState(false);
   const delegate = isDelegateProofEnabled();
 
   const onConfirm = useCallback(
     async (confirmed: boolean) => {
       switch (payload.type) {
         case 'connect':
-          return confirmDAppPermission(id, confirmed, account.publicKey, decryptPermission);
+          return confirmDAppPermission(
+            id,
+            confirmed,
+            account.publicKey,
+            privateDataPermission,
+            payload.allowedPrivateData
+          );
         case 'transaction':
-          openLoadingFullPage();
+          !delegate && openLoadingFullPage();
           return confirmDAppTransaction(id, confirmed, delegate);
         case 'privateNotes':
           return confirmDAppPrivateNotes(id, confirmed);
@@ -208,10 +217,10 @@ const ConfirmDAppForm: FC = () => {
     },
     [
       id,
-      payload.type,
+      payload,
       confirmDAppPermission,
       account.publicKey,
-      decryptPermission,
+      privateDataPermission,
       confirmDAppTransaction,
       confirmDAppPrivateNotes,
       delegate
@@ -226,7 +235,7 @@ const ConfirmDAppForm: FC = () => {
     async (confirmed: boolean) => {
       setError(null);
       try {
-        if (confirmed && requireDecryptCheckbox) {
+        if (confirmed && requirePrivateDataCheckbox && !isPrivateDataChecked) {
           throw new Error(t('confirmError'));
         }
         await onConfirm(confirmed);
@@ -238,7 +247,7 @@ const ConfirmDAppForm: FC = () => {
         setError(err);
       }
     },
-    [onConfirm, setError, requireDecryptCheckbox]
+    [onConfirm, setError, requirePrivateDataCheckbox, isPrivateDataChecked]
   );
 
   const handleConfirmClick = useCallback(async () => {
@@ -270,7 +279,13 @@ const ConfirmDAppForm: FC = () => {
           confirmActionTestID: error
             ? ConfirmPageSelectors.ConnectAction_RetryButton
             : ConfirmPageSelectors.ConnectAction_ConnectButton,
-          want: <DecryptPermissionBanner decryptPermission={decryptPermission} programs={payload.programs} />
+          want: (
+            <PrivateDataPermissionBanner
+              privateDataPermission={privateDataPermission}
+              allowedPrivateData={payload.allowedPrivateData}
+              isPublicAccount={isPublicAccount}
+            />
+          )
         };
       case 'transaction':
         return {
@@ -319,7 +334,7 @@ const ConfirmDAppForm: FC = () => {
           )
         };
     }
-  }, [error, payload, decryptPermission]);
+  }, [error, payload, privateDataPermission, isPublicAccount]);
 
   return (
     <CustomRpsContext.Provider value={'TODO'}>
@@ -365,6 +380,8 @@ const ConfirmDAppForm: FC = () => {
               )}
             </>
           )}
+
+          {requirePrivateDataCheckbox && <PrivateDataPermissionCheckbox setChecked={setIsPrivateDataChecked} />}
         </div>
 
         <div className="flex-1" />

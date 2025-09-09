@@ -1,4 +1,4 @@
-import { DecryptPermission } from '@demox-labs/miden-wallet-adapter';
+import { AllowedPrivateData, PrivateDataPermission } from '@demox-labs/miden-wallet-adapter-base';
 
 import { MidenDAppMetadata } from 'lib/adapter/types';
 import { ReadyWalletState, WalletMessageBase, WalletNetwork, WalletState } from 'lib/shared/types';
@@ -41,8 +41,8 @@ export interface MidenDAppSession {
   network: string; // TODO: replace with MidenChainId
   appMeta: MidenDAppMetadata;
   accountId: string;
-  decryptPermission: DecryptPermission;
-  programs?: string[];
+  privateDataPermission: PrivateDataPermission;
+  allowedPrivateData: AllowedPrivateData;
 }
 
 export type MidenDAppSessions = Record<string, MidenDAppSession[]>;
@@ -65,9 +65,9 @@ export interface MidenDAppPayloadBase {
 
 export interface MidenDAppConnectPayload extends MidenDAppPayloadBase {
   type: 'connect';
-  decryptPermission: DecryptPermission;
+  privateDataPermission: PrivateDataPermission;
   existingPermission: boolean;
-  programs?: string[];
+  allowedPrivateData: AllowedPrivateData;
 }
 
 export interface MidenDAppTransactionPayload extends MidenDAppPayloadBase {
@@ -146,7 +146,7 @@ export interface MidenDAppGetPayloadRequest extends WalletMessageBase {
 export interface MidenDAppGetPayloadResponse extends WalletMessageBase {
   type: MidenMessageType.DAppGetPayloadResponse;
   payload: MidenDAppPayload;
-  decryptPermission: DecryptPermission;
+  privateDataPermission: PrivateDataPermission;
 }
 
 export interface MidenDAppPermConfirmationRequest extends WalletMessageBase {
@@ -154,7 +154,8 @@ export interface MidenDAppPermConfirmationRequest extends WalletMessageBase {
   id: string;
   confirmed: boolean;
   accountPublicKey: string;
-  decryptPermission: DecryptPermission;
+  privateDataPermission: PrivateDataPermission;
+  allowedPrivateData: AllowedPrivateData;
 }
 
 export interface MidenDAppPermConfirmationResponse extends WalletMessageBase {

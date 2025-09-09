@@ -57,7 +57,6 @@ export async function isDAppEnabled() {
     (async () => {
       const key = MidenSharedStorageKey.DAppEnabled;
       const items = await browser.storage.local.get([key]);
-      console.log('items', items);
       return key in items ? items[key] : true;
     })()
   ]);
