@@ -128,7 +128,7 @@ const Explore: FC = () => {
   }, [midenFaucetId]);
 
   useEffect(() => {
-    fetchFaucetState();
+    //fetchFaucetState();
   }, [fetchFaucetState]);
 
   if (isHexAddress(address)) {
