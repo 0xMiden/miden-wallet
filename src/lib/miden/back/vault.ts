@@ -1,5 +1,5 @@
-import { AccountInterface, NetworkId } from '@demox-labs/miden-sdk';
 import { derivePath } from '@demox-labs/aleo-hd-key';
+import { AccountInterface, NetworkId } from '@demox-labs/miden-sdk';
 import { SendTransaction } from '@demox-labs/miden-wallet-adapter';
 import * as Bip39 from 'bip39';
 
@@ -95,8 +95,6 @@ export class Vault {
       };
       const newAccounts = [initialAccount];
       const passKey = await Passworder.generateKey(password);
-
-      console.log({ passKey });
 
       await clearStorage();
       await encryptAndSaveMany(

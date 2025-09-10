@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+
 import { AccountInterface, NetworkId } from '@demox-labs/miden-sdk';
 
 import { getUncompletedTransactions } from 'lib/miden/activity';
