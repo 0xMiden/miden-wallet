@@ -28,7 +28,8 @@ import {
   requestSendTransaction,
   requestTransaction,
   requestConsumeTransaction,
-  requestPrivateNotes
+  requestPrivateNotes,
+  requestSign
 } from './dapp';
 
 const ACCOUNT_NAME_PATTERN = /^.{0,16}$/;
@@ -204,6 +205,9 @@ export async function processDApp(origin: string, req: MidenDAppRequest): Promis
 
     case MidenDAppMessageType.PrivateNotesRequest:
       return withInited(() => enqueueDApp(() => requestPrivateNotes(origin, req)));
+
+    case MidenDAppMessageType.SignRequest:
+      return withInited(() => enqueueDApp(() => requestSign(origin, req)));
   }
 }
 

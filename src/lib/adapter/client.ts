@@ -155,6 +155,16 @@ export async function requestPrivateNotes(sourcePublicKey: string) {
   return res.privateNotes;
 }
 
+export async function signMessage(sourcePublicKey: string, message: string) {
+  const res = await request({
+    type: MidenDAppMessageType.SignRequest,
+    sourcePublicKey,
+    payload: message
+  });
+  assertResponse(res.type === MidenDAppMessageType.SignResponse);
+  return res.signature;
+}
+
 function request(payload: MidenDAppRequest) {
   return new Promise<MidenDAppResponse>((resolve, reject) => {
     const reqId = nanoid();

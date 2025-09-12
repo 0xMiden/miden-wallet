@@ -255,7 +255,9 @@ export class Vault {
 
   async authorizeDeploy() {}
 
-  async sign(accPublicKey: string, bytes: string) {}
+  async sign(accPublicKey: string, bytes: string) {
+    // TODO : Implement sign method
+  }
 
   async decrypt(accPublicKey: string, cipherTexts: string[]) {}
 

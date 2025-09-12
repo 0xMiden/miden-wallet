@@ -87,6 +87,17 @@ interface PayloadContentProps {
 const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account }) => {
   let content: string | React.ReactNode = t('noPreview');
   switch (payload.type) {
+    case 'sign': {
+      content = (
+        <>
+          <div className="text-md text-center my-6">
+            {/* {`Sign the following data ${btoa(String.fromCharCode(...payload.payload))}?`} */}
+            Sign some data
+          </div>
+        </>
+      );
+      break;
+    }
     case 'privateNotes': {
       content = (
         <>
@@ -163,7 +174,8 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
 export default ConfirmPage;
 
 const ConfirmDAppForm: FC = () => {
-  const { getDAppPayload, confirmDAppPermission, confirmDAppTransaction, confirmDAppPrivateNotes } = useMidenContext();
+  const { getDAppPayload, confirmDAppPermission, confirmDAppTransaction, confirmDAppPrivateNotes, confirmDAppSign } =
+    useMidenContext();
   const account = useAccount();
   const isPublicAccount = account.isPublic;
 
@@ -213,6 +225,8 @@ const ConfirmDAppForm: FC = () => {
           return confirmDAppTransaction(id, confirmed, delegate);
         case 'privateNotes':
           return confirmDAppPrivateNotes(id, confirmed);
+        case 'sign':
+          return confirmDAppSign(id, confirmed);
       }
     },
     [
@@ -223,6 +237,7 @@ const ConfirmDAppForm: FC = () => {
       privateDataPermission,
       confirmDAppTransaction,
       confirmDAppPrivateNotes,
+      confirmDAppSign,
       delegate
     ]
   );
@@ -329,6 +344,29 @@ const ConfirmDAppForm: FC = () => {
               <div className="flex flex-col">
                 <Name className="font-semibold">{payload.origin}</Name>
                 <span>Requests private notes</span>
+              </div>
+            </div>
+          )
+        };
+      case 'sign':
+        return {
+          title: 'Sign Data',
+          declineActionTitle: t('cancel'),
+          declineActionTestID: ConfirmPageSelectors.SignData_RejectButton,
+          confirmActionTitle: t('confirm'),
+          confirmActionTestID: ConfirmPageSelectors.SignData_AcceptButton,
+          want: (
+            <div
+              className={classNames(
+                'text-sm text-left text-black',
+                'flex w-full gap-x-3 items-center p-4',
+                'border border-gray-100 rounded-2xl mb-4'
+              )}
+            >
+              <Icon name={IconName.Globe} fill="black" size="md" />
+              <div className="flex flex-col">
+                <Name className="font-semibold">{payload.origin}</Name>
+                <span>Sign Data</span>
               </div>
             </div>
           )

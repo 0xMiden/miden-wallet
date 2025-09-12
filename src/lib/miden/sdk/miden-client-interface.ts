@@ -7,11 +7,13 @@ import {
   InputNoteRecord,
   NetworkId,
   NoteFilter,
+  SecretKey,
   TransactionFilter,
   TransactionProver,
   TransactionRequest,
   TransactionResult,
-  WebClient
+  WebClient,
+  Word
 } from '@demox-labs/miden-sdk';
 
 import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';
@@ -105,6 +107,11 @@ export class MidenClientInterface {
 
   async getAccount(accountId: string) {
     const result = await this.webClient.getAccount(accountIdStringToSdk(accountId));
+    return result;
+  }
+
+  async getAccountAuthByPubKey(accountPublicKey: Word): Promise<SecretKey> {
+    const result = await this.webClient.getAccountAuthByPubKey(accountPublicKey);
     return result;
   }
 
