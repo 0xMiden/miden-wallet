@@ -5,7 +5,8 @@ import {
   MidenCustomTransaction,
   SendTransaction,
   AllowedPrivateData,
-  Asset
+  Asset,
+  InputNoteDetails
 } from '@demox-labs/miden-wallet-adapter-base';
 import { nanoid } from 'nanoid';
 import browser, { Runtime } from 'webextension-polyfill';
@@ -329,42 +330,28 @@ const generatePromisifyRequestPrivateNotes = async (
   dApp: MidenDAppSession,
   req: MidenDAppPrivateNotesRequest
 ) => {
+  let privateNotes: InputNoteDetails[] = [];
   if (
     dApp.privateDataPermission === PrivateDataPermission.Auto &&
     (dApp.allowedPrivateData & AllowedPrivateData.Notes) !== 0
   ) {
     try {
-      let privateNotes = await withUnlocked(async () => {
-        const midenClient = await MidenClientInterface.create();
-        const noteFilter = new NoteFilter(NoteFilterTypes.All); // Unsure if we want All or a different type?
-        let allNotes = await midenClient.getInputNotes(noteFilter);
-        let privateNotes = allNotes.filter(note => note.metadata()?.noteType() === NoteType.Private);
-        let privateNoteIds = privateNotes.map(note => note.id().toString());
-        return privateNoteIds;
-      });
+      privateNotes = await getPrivateNoteDetails();
       resolve({
         type: MidenDAppMessageType.PrivateNotesResponse,
         privateNotes: privateNotes
       });
     } catch (e) {
-      reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+      reject(e);
     }
   } else {
     const id = nanoid();
     const networkRpc = await getNetworkRPC(dApp.network);
 
-    let privateNotes: any[] = [];
     try {
-      privateNotes = await withUnlocked(async () => {
-        const midenClient = await MidenClientInterface.create();
-        const noteFilter = new NoteFilter(NoteFilterTypes.All); // Unsure if we want All or a different type?
-        let allNotes = await midenClient.getInputNotes(noteFilter);
-        let privateNotes = allNotes.filter(note => note.metadata()?.noteType() === NoteType.Private);
-        let privateNoteIds = privateNotes.map(note => note.id().toString());
-        return privateNoteIds;
-      });
+      privateNotes = await getPrivateNoteDetails();
     } catch (e) {
-      reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+      reject(e);
     }
 
     await requestConfirm({
@@ -405,6 +392,22 @@ const generatePromisifyRequestPrivateNotes = async (
     });
   }
 };
+
+async function getPrivateNoteDetails(): Promise<InputNoteDetails[]> {
+  let privateNotes: InputNoteDetails[] = [];
+  try {
+    privateNotes = await withUnlocked(async () => {
+      const midenClient = await MidenClientInterface.create();
+      const noteFilter = new NoteFilter(NoteFilterTypes.All); // Unsure if we want All or a different type?
+      let allNotes = await midenClient.getInputNoteDetails(noteFilter);
+      let privateNotes = allNotes.filter(note => note.noteType === NoteType.Private);
+      return privateNotes;
+    });
+    return privateNotes;
+  } catch (e) {
+    throw new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`);
+  }
+}
 
 export async function requestAssets(origin: string, req: MidenDAppAssetsRequest): Promise<MidenDAppAssetsResponse> {
   if (!req?.sourcePublicKey) {

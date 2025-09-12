@@ -5,7 +5,8 @@ import {
   MidenTransaction,
   MidenSendTransaction,
   MidenConsumeTransaction,
-  AllowedPrivateData
+  AllowedPrivateData,
+  InputNoteDetails
 } from '@demox-labs/miden-wallet-adapter-base';
 import { MidenWallet, MidenWalletEvents } from '@demox-labs/miden-wallet-adapter-miden';
 
@@ -51,7 +52,7 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
     return { transactionId: res };
   }
 
-  async requestPrivateNotes(): Promise<{ privateNotes: any[] }> {
+  async requestPrivateNotes(): Promise<{ privateNotes: InputNoteDetails[] }> {
     const res = await requestPrivateNotes(this.accountId!);
     return { privateNotes: res };
   }

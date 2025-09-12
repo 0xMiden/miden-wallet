@@ -8,6 +8,8 @@ import {
 } from '@demox-labs/miden-wallet-adapter-base';
 import { nanoid } from 'nanoid';
 
+import { b64ToU8 } from 'lib/shared/helpers';
+
 import {
   MidenDAppErrorType,
   MidenDAppMessageType,
@@ -18,7 +20,6 @@ import {
   MidenPageMessage,
   MidenPageMessageType
 } from './types';
-import { b64ToU8 } from 'lib/shared/helpers';
 
 export function isAvailable() {
   return new Promise<boolean>(resolve => {

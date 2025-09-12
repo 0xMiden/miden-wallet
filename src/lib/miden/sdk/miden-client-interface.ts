@@ -8,12 +8,14 @@ import {
   NetworkId,
   NoteFilter,
   SecretKey,
+  NoteType,
   TransactionFilter,
   TransactionProver,
   TransactionRequest,
   TransactionResult,
   WebClient,
-  Word
+  Word,
+  AccountInterface
 } from '@demox-labs/miden-sdk';
 
 import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';
@@ -26,6 +28,18 @@ import { NoteExportType } from './constants';
 export type MidenClientCreateOptions = {
   seed?: Uint8Array;
   onConnectivityIssue?: () => void;
+};
+
+export type InputNoteDetails = {
+  noteId: string;
+  senderAccountId: string | undefined;
+  assets: FungibleAssetDetails[];
+  noteType: NoteType | undefined;
+};
+
+export type FungibleAssetDetails = {
+  amount: string;
+  faucetId: string;
 };
 
 export class MidenClientInterface {
@@ -128,6 +142,28 @@ export class MidenClientInterface {
   async getInputNotes(noteFilter: NoteFilter): Promise<InputNoteRecord[]> {
     const result = await this.webClient.getInputNotes(noteFilter);
     return result;
+  }
+
+  async getInputNoteDetails(noteFilter: NoteFilter): Promise<InputNoteDetails[]> {
+    const result = await this.webClient.getInputNotes(noteFilter);
+    const details = result.map(note => {
+      const assets = note
+        .details()
+        .assets()
+        .fungibleAssets()
+        .map(asset => ({
+          amount: asset.amount().toString(),
+          faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet)
+        }));
+      const details = {
+        noteId: note.id().toString(),
+        noteType: note.metadata()?.noteType(),
+        senderAccountId: note.metadata()?.sender()?.toBech32(NetworkId.Testnet, AccountInterface.BasicWallet),
+        assets: assets
+      };
+      return details;
+    });
+    return details;
   }
 
   async syncState() {

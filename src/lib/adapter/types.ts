@@ -5,7 +5,8 @@ import {
   WalletAdapterNetwork,
   MidenSendTransaction,
   MidenConsumeTransaction,
-  Asset
+  Asset,
+  InputNoteDetails
 } from '@demox-labs/miden-wallet-adapter-base';
 
 export type MidenDAppMessage = MidenDAppRequest | MidenDAppResponse;
@@ -136,7 +137,7 @@ export interface MidenDAppPrivateNotesRequest extends MidenDAppMessageBase {
 
 export interface MidenDAppPrivateNotesResponse extends MidenDAppMessageBase {
   type: MidenDAppMessageType.PrivateNotesResponse;
-  privateNotes: any[];
+  privateNotes: InputNoteDetails[];
 }
 
 export interface MidenDAppSignRequest extends MidenDAppMessageBase {
