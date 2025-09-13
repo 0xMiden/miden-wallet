@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
-import { AccountInterface, FungibleAsset, NetworkId } from '@demox-labs/miden-sdk';
+import { FungibleAsset } from '@demox-labs/miden-sdk';
 import BigNumber from 'bignumber.js';
 import constate from 'constate';
 import deepEqual from 'fast-deep-equal';
@@ -23,7 +23,7 @@ import { createQueue } from 'lib/queue';
 import { useRetryableSWR } from 'lib/swr';
 
 import { useGasToken } from '../../../app/hooks/useGasToken';
-import { MidenClientInterface } from '../sdk/miden-client-interface';
+import { getBech32AddressFromAccountId, MidenClientInterface } from '../sdk/miden-client-interface';
 
 export const ALL_TOKENS_BASE_METADATA_STORAGE_KEY = 'tokens_base_metadata';
 
@@ -44,7 +44,7 @@ export function useFungibleTokens(accountId: string) {
     const account = await midenClient.getAccount(accountId);
     const assets = account!.vault().fungibleAssets() as FungibleAsset[];
     const balances = assets.map(asset => ({
-      faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet),
+      faucetId: getBech32AddressFromAccountId(asset.faucetId()),
       balance: new BigNumber(asset.amount().toString()).div(10 ** MIDEN_METADATA.decimals)
     }));
     return {

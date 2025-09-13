@@ -2,6 +2,7 @@
 
 import React, { FC, Suspense, useCallback, useMemo, useState } from 'react';
 
+import { Word } from '@demox-labs/miden-sdk';
 import { PrivateDataPermission } from '@demox-labs/miden-wallet-adapter-base';
 import classNames from 'clsx';
 
@@ -12,7 +13,7 @@ import Unlock from 'app/pages/Unlock';
 import { Button, ButtonVariant } from 'components/Button';
 import { CustomRpsContext } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
-import { useAccount, useMidenContext } from 'lib/miden/front';
+import { b64ToU8, useAccount, useMidenContext } from 'lib/miden/front';
 import { MidenDAppPayload } from 'lib/miden/types';
 import { WalletAccount } from 'lib/shared/types';
 import { useRetryableSWR } from 'lib/swr';
@@ -88,12 +89,18 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
   let content: string | React.ReactNode = t('noPreview');
   switch (payload.type) {
     case 'sign': {
+      // let wordHex = '(invalid payload)';
+      // try {
+      //   const bytes = b64ToU8(payload.payload);
+      //   const word = Word.deserialize(bytes);
+      //   wordHex = word.toHex();
+      // } catch (e) {
+      //   console.error('Failed to deserialize payload for sign:', e);
+      // }
       content = (
         <>
-          <div className="text-md text-center my-6">
-            {/* {`Sign the following data ${btoa(String.fromCharCode(...payload.payload))}?`} */}
-            Sign some data
-          </div>
+          {/* <div className="text-md text-center my-6">{`Sign the following Word ${wordHex}?`}</div> */}
+          Sign the following data
         </>
       );
       break;

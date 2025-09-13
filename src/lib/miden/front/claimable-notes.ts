@@ -1,11 +1,9 @@
 import { useCallback } from 'react';
 
-import { AccountInterface, NetworkId } from '@demox-labs/miden-sdk';
-
 import { getUncompletedTransactions } from 'lib/miden/activity';
 import { useRetryableSWR } from 'lib/swr';
 
-import { MidenClientInterface } from '../sdk/miden-client-interface';
+import { getBech32AddressFromAccountId, MidenClientInterface } from '../sdk/miden-client-interface';
 import { ConsumableNote } from '../types';
 
 export function useClaimableNotes(publicAddress: string) {
@@ -41,9 +39,9 @@ export function useClaimableNotes(publicAddress: string) {
 
           return {
             id: noteId,
-            faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet),
+            faucetId: getBech32AddressFromAccountId(asset.faucetId()),
             amount: asset.amount().toString(),
-            senderAddress: metadata?.sender()?.toBech32(NetworkId.Testnet, AccountInterface.BasicWallet) || '',
+            senderAddress: metadata ? getBech32AddressFromAccountId(metadata.sender()) : '',
             isBeingClaimed: notesBeingClaimed.has(noteId)
           } as ConsumableNote;
         } catch (error) {

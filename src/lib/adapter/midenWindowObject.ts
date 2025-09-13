@@ -21,26 +21,7 @@ import {
   signMessage
 } from 'lib/adapter/client';
 import { MidenDAppPermission } from 'lib/adapter/types';
-
-import { Word } from '@demox-labs/miden-sdk';
-
-// sender
-export function u8ToB64(u8: Uint8Array): string {
-  let s = '';
-  const CHUNK = 0x8000;
-  for (let i = 0; i < u8.length; i += CHUNK) {
-    s += String.fromCharCode(...u8.subarray(i, i + CHUNK));
-  }
-  return btoa(s);
-}
-
-// receiver
-export function b64ToU8(b64: string): Uint8Array {
-  const s = atob(b64);
-  const u8 = new Uint8Array(s.length);
-  for (let i = 0; i < s.length; i++) u8[i] = s.charCodeAt(i);
-  return u8;
-}
+import { b64ToU8, u8ToB64 } from 'lib/miden/front';
 
 export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implements MidenWallet {
   accountId?: string | undefined;

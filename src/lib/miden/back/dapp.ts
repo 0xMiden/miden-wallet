@@ -1,4 +1,4 @@
-import { NoteFilter, NoteFilterTypes, NoteType, SigningInputs, Word } from '@demox-labs/miden-sdk';
+import { NoteFilter, NoteFilterTypes, NoteType, Word } from '@demox-labs/miden-sdk';
 import {
   PrivateDataPermission,
   MidenConsumeTransaction,
@@ -48,9 +48,9 @@ import {
   requestCustomTransaction,
   initiateConsumeTransactionFromId
 } from '../activity/transactions';
+import { b64ToU8, u8ToB64 } from '../helpers';
 import { MidenClientInterface } from '../sdk/miden-client-interface';
 import { store, withUnlocked } from './store';
-import { u8ToB64, b64ToU8 } from 'lib/adapter/midenWindowObject';
 
 const CONFIRM_WINDOW_WIDTH = 380;
 const CONFIRM_WINDOW_HEIGHT = 632;
@@ -448,7 +448,6 @@ const generatePromisifyTransaction = async (
       reject(new Error(MidenDAppErrorType.NotGranted));
     },
     handleIntercomRequest: async (confirmReq, decline) => {
-      console.log('handleIntercomRequest, dapp.ts', confirmReq, id);
       if (confirmReq?.type === MidenMessageType.DAppTransactionConfirmationRequest && confirmReq?.id === id) {
         if (confirmReq.confirmed) {
           try {
