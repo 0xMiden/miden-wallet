@@ -1,4 +1,4 @@
-import { WebClient, AccountStorageMode, AccountId, NoteType, TransactionRequest } from './libs/dist/index.js';
+import { WebClient, AccountStorageMode, AccountId, Address, NetworkId, NoteType, TransactionRequest } from './libs/dist/index.js';
 console.log('script loaded');
 
 const MIDEN_DECIMALS = 6;
@@ -21,7 +21,9 @@ const faucet = await webClient.newFaucet(
   BigInt(1000000 * 10 ** MIDEN_DECIMALS)
 );
 const faucetId = faucet.id();
-console.log('created faucet id:', faucetId.toBech32('mtst'));
+const faucetAddress = Address.fromAccountId(faucetId, 'Unspecified');
+const faucetAddressAsBech32 = faucetAddress.toBech32(NetworkId.Testnet)
+console.log('created faucet id:', faucetAddressAsBech32);
 
 console.log('syncing state');
 await webClient.syncState();
@@ -29,7 +31,7 @@ console.log('synced state');
 
 document.getElementById('loading').style.display = 'none';
 document.getElementById('faucetIdTitle').style.display = 'block';
-document.getElementById('faucetId').innerText = faucetId.toBech32('mtst');
+document.getElementById('faucetId').innerText = faucetAddressAsBech32;
 
 document.getElementById('publicKeyForm').addEventListener('submit', async event => {
   event.preventDefault();

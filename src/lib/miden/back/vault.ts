@@ -1,5 +1,4 @@
 import { derivePath } from '@demox-labs/aleo-hd-key';
-import { AccountInterface, NetworkId } from '@demox-labs/miden-sdk';
 import { SendTransaction } from '@demox-labs/miden-wallet-adapter-base';
 import * as Bip39 from 'bip39';
 
@@ -17,7 +16,7 @@ import { clearStorage } from 'lib/miden/reset';
 import { WalletAccount, WalletSettings } from 'lib/shared/types';
 import { WalletType } from 'screens/onboarding/types';
 
-import { MidenClientInterface } from '../sdk/miden-client-interface';
+import { getBech32AddressFromAccountId, MidenClientInterface } from '../sdk/miden-client-interface';
 
 const STORAGE_KEY_PREFIX = 'vault';
 const DEFAULT_SETTINGS = {};
@@ -119,9 +118,7 @@ export class Vault {
 
       // Have to do this sequentially else the wasm fails
       for (const accountHeader of accountHeaders) {
-        const account = await midenClient.getAccount(
-          accountHeader.id().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet)
-        );
+        const account = await midenClient.getAccount(getBech32AddressFromAccountId(accountHeader.id()));
         accounts.push(account);
       }
 
@@ -130,7 +127,7 @@ export class Vault {
         const acc = accounts[i];
         if (acc) {
           newAccounts.push({
-            publicKey: acc.id().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet),
+            publicKey: getBech32AddressFromAccountId(acc.id()),
             name: 'Miden Account ' + (i + 1),
             isPublic: acc.isPublic(),
             type: WalletType.OnChain
@@ -255,7 +252,9 @@ export class Vault {
 
   async authorizeDeploy() {}
 
-  async sign(accPublicKey: string, bytes: string) {}
+  async sign(accPublicKey: string, bytes: string) {
+    // TODO : Implement sign method
+  }
 
   async decrypt(accPublicKey: string, cipherTexts: string[]) {}
 

@@ -1,4 +1,4 @@
-import { NoteFilter, NoteFilterTypes, NoteType } from '@demox-labs/miden-sdk';
+import { NoteFilter, NoteFilterTypes, NoteType, Word } from '@demox-labs/miden-sdk';
 import {
   PrivateDataPermission,
   MidenConsumeTransaction,
@@ -24,7 +24,9 @@ import {
   MidenDAppConsumeRequest,
   MidenDAppConsumeResponse,
   MidenDAppPrivateNotesResponse,
-  MidenDAppPrivateNotesRequest
+  MidenDAppPrivateNotesRequest,
+  MidenDAppSignRequest,
+  MidenDAppSignResponse
 } from 'lib/adapter/types';
 import { intercom } from 'lib/miden/back/defaults';
 import { Vault } from 'lib/miden/back/vault';
@@ -48,6 +50,7 @@ import {
 } from '../activity/transactions';
 import { MidenClientInterface } from '../sdk/miden-client-interface';
 import { store, withUnlocked } from './store';
+import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
 
 const CONFIRM_WINDOW_WIDTH = 380;
 const CONFIRM_WINDOW_HEIGHT = 632;
@@ -201,6 +204,85 @@ export async function generatePromisifyRequestPermission(
     });
   });
 }
+
+export async function requestSign(origin: string, req: MidenDAppSignRequest): Promise<MidenDAppSignResponse> {
+  console.log('requestSign, dapp.ts');
+  if (!req?.sourcePublicKey) {
+    throw new Error(MidenDAppErrorType.InvalidParams);
+  }
+
+  const dApp = await getDApp(origin, req.sourcePublicKey);
+  if (!dApp) {
+    throw new Error(MidenDAppErrorType.NotGranted);
+  }
+
+  if (req.sourcePublicKey !== dApp.accountId) {
+    throw new Error(MidenDAppErrorType.NotFound);
+  }
+
+  return new Promise((resolve, reject) => generatePromisifySign(resolve, reject, dApp, req));
+}
+
+const generatePromisifySign = async (
+  resolve: (value: MidenDAppSignResponse | PromiseLike<MidenDAppSignResponse>) => void,
+  reject: (reason?: any) => void,
+  dApp: MidenDAppSession,
+  req: MidenDAppSignRequest
+) => {
+  const id = nanoid();
+  const networkRpc = await getNetworkRPC(dApp.network);
+
+  await requestConfirm({
+    id,
+    payload: {
+      type: 'sign',
+      origin,
+      networkRpc,
+      appMeta: dApp.appMeta,
+      sourcePublicKey: req.sourcePublicKey,
+      payload: req.payload,
+      preview: null
+    },
+    onDecline: () => {
+      reject(new Error(MidenDAppErrorType.NotGranted));
+    },
+    handleIntercomRequest: async (confirmReq, decline) => {
+      if (confirmReq?.type === MidenMessageType.DAppSignConfirmationRequest && confirmReq?.id === id) {
+        if (confirmReq.confirmed) {
+          try {
+            let signature = await withUnlocked(async () => {
+              const midenClient = await MidenClientInterface.create();
+              const account = await midenClient.getAccount(req.sourcePublicKey);
+              const publicKeys = account!.getPublicKeys();
+              const secretKey = await midenClient.getAccountAuthByPubKey(publicKeys[0]);
+
+              const payloadAsUint8Array = b64ToU8(req.payload);
+              let word = Word.deserialize(payloadAsUint8Array);
+              const signature = secretKey.sign(word);
+              const signatureBytes = signature.serialize();
+              const signatureAsB64 = u8ToB64(signatureBytes);
+
+              return signatureAsB64;
+            });
+            resolve({
+              type: MidenDAppMessageType.SignResponse,
+              signature
+            });
+          } catch (e) {
+            reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+          }
+        } else {
+          decline();
+        }
+
+        return {
+          type: MidenMessageType.DAppSignConfirmationResponse
+        };
+      }
+      return undefined;
+    }
+  });
+};
 
 export async function requestPrivateNotes(
   origin: string,

@@ -84,7 +84,18 @@ export interface MidenDAppPrivateNotesPayload extends MidenDAppPayloadBase {
   preview: any;
 }
 
-export type MidenDAppPayload = MidenDAppConnectPayload | MidenDAppTransactionPayload | MidenDAppPrivateNotesPayload;
+export interface MidenDAppSignPayload extends MidenDAppPayloadBase {
+  type: 'sign';
+  sourcePublicKey: string;
+  payload: string;
+  preview: any;
+}
+
+export type MidenDAppPayload =
+  | MidenDAppConnectPayload
+  | MidenDAppTransactionPayload
+  | MidenDAppPrivateNotesPayload
+  | MidenDAppSignPayload;
 
 /**
  * Messages
@@ -103,7 +114,9 @@ export enum MidenMessageType {
   DAppRemoveSessionRequest = 'MIDEN_DAPP_REMOVE_SESSION_REQUEST',
   DAppRemoveSessionResponse = 'MIDEN_DAPP_REMOVE_SESSION_RESPONSE',
   DAppPrivateNotesConfirmationRequest = 'MIDEN_DAPP_PRIVATE_NOTES_CONFIRMATION_REQUEST',
-  DAppPrivateNotesConfirmationResponse = 'MIDEN_DAPP_PRIVATE_NOTES_CONFIRMATION_RESPONSE'
+  DAppPrivateNotesConfirmationResponse = 'MIDEN_DAPP_PRIVATE_NOTES_CONFIRMATION_RESPONSE',
+  DAppSignConfirmationRequest = 'MIDEN_DAPP_SIGN_CONFIRMATION_REQUEST',
+  DAppSignConfirmationResponse = 'MIDEN_DAPP_SIGN_CONFIRMATION_RESPONSE'
 }
 
 export type MidenRequest =
@@ -113,7 +126,8 @@ export type MidenRequest =
   | MidenDAppTransactionConfirmationRequest
   | MidenGetAllDAppSessionsRequest
   | MidenRemoveDAppSessionRequest
-  | MidenDAppPrivateNotesConfirmationRequest;
+  | MidenDAppPrivateNotesConfirmationRequest
+  | MidenDAppSignConfirmationRequest;
 
 export type MidenResponse =
   | MidenPageResponse
@@ -122,7 +136,8 @@ export type MidenResponse =
   | MidenDAppTransactionConfirmationResponse
   | MidenGetAllDAppSessionsResponse
   | MidenRemoveDAppSessionResponse
-  | MidenDAppPrivateNotesConfirmationResponse;
+  | MidenDAppPrivateNotesConfirmationResponse
+  | MidenDAppSignConfirmationResponse;
 
 export interface MidenPageRequest extends WalletMessageBase {
   type: MidenMessageType.PageRequest;
@@ -201,4 +216,15 @@ export interface MidenDAppPrivateNotesConfirmationRequest extends WalletMessageB
 
 export interface MidenDAppPrivateNotesConfirmationResponse extends WalletMessageBase {
   type: MidenMessageType.DAppPrivateNotesConfirmationResponse;
+}
+
+export interface MidenDAppSignConfirmationRequest extends WalletMessageBase {
+  type: MidenMessageType.DAppSignConfirmationRequest;
+  id: string;
+  confirmed: boolean;
+}
+
+export interface MidenDAppSignConfirmationResponse extends WalletMessageBase {
+  type: MidenMessageType.DAppSignConfirmationResponse;
+  signature: string;
 }

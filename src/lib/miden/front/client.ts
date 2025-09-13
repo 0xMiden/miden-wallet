@@ -221,7 +221,14 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     []
   );
 
-  const confirmDAppSign = useCallback(async (id: string, confirmed: boolean) => {}, []);
+  const confirmDAppSign = useCallback(async (id: string, confirmed: boolean) => {
+    const res = await request({
+      type: MidenMessageType.DAppSignConfirmationRequest,
+      id,
+      confirmed
+    });
+    assertResponse(res.type === MidenMessageType.DAppSignConfirmationResponse);
+  }, []);
 
   const confirmDAppDecrypt = useCallback(async (id: string, confirmed: boolean) => {}, []);
 

@@ -16,7 +16,8 @@ export type MidenDAppRequest =
   | MidenDAppTransactionRequest
   | MidenDAppSendTransactionRequest
   | MidenDAppConsumeRequest
-  | MidenDAppPrivateNotesRequest;
+  | MidenDAppPrivateNotesRequest
+  | MidenDAppSignRequest;
 
 export type MidenDAppResponse =
   | MidenDAppGetCurrentPermissionResponse
@@ -25,7 +26,8 @@ export type MidenDAppResponse =
   | MidenDAppTransactionResponse
   | MidenDAppSendTransactionResponse
   | MidenDAppConsumeResponse
-  | MidenDAppPrivateNotesResponse;
+  | MidenDAppPrivateNotesResponse
+  | MidenDAppSignResponse;
 
 export interface MidenDAppMessageBase {
   type: MidenDAppMessageType;
@@ -45,7 +47,9 @@ export enum MidenDAppMessageType {
   ConsumeRequest = 'CONSUME_REQUEST',
   ConsumeResponse = 'CONSUME_RESPONSE',
   PrivateNotesRequest = 'PRIVATE_NOTES_REQUEST',
-  PrivateNotesResponse = 'PRIVATE_NOTES_RESPONSE'
+  PrivateNotesResponse = 'PRIVATE_NOTES_RESPONSE',
+  SignRequest = 'SIGN_REQUEST',
+  SignResponse = 'SIGN_RESPONSE'
 }
 
 /**
@@ -127,6 +131,17 @@ export interface MidenDAppPrivateNotesRequest extends MidenDAppMessageBase {
 export interface MidenDAppPrivateNotesResponse extends MidenDAppMessageBase {
   type: MidenDAppMessageType.PrivateNotesResponse;
   privateNotes: any[];
+}
+
+export interface MidenDAppSignRequest extends MidenDAppMessageBase {
+  type: MidenDAppMessageType.SignRequest;
+  sourcePublicKey: string;
+  payload: string;
+}
+
+export interface MidenDAppSignResponse extends MidenDAppMessageBase {
+  type: MidenDAppMessageType.SignResponse;
+  signature: string;
 }
 
 /**

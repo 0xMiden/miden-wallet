@@ -1,7 +1,8 @@
-import { AccountInterface, NetworkId, TransactionResult } from '@demox-labs/miden-sdk';
+import { TransactionResult } from '@demox-labs/miden-sdk';
 import BigNumber from 'bignumber.js';
 
 import { ITransaction } from '../db/types';
+import { getBech32AddressFromAccountId } from '../sdk/miden-client-interface';
 
 export function tryParseTokenTransfers(
   parameters: any,
@@ -105,24 +106,20 @@ export const interpretTransactionResult = <K extends keyof ITransaction>(
   inputNotes.forEach(inputNote => {
     const assets = inputNote.note().assets().fungibleAssets();
     inputAmount = assets.reduce((acc, asset) => acc + BigInt(asset.amount()), BigInt(0));
-    const faucetIds = [
-      ...new Set(assets.map(asset => asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet)))
-    ];
+    const faucetIds = [...new Set(assets.map(asset => getBech32AddressFromAccountId(asset.faucetId())))];
     inputFaucetIds.push(...faucetIds);
   });
   outputNotes.forEach(outputNote => {
     const assets = outputNote.assets()!.fungibleAssets();
     outputAmount = assets.reduce((acc, asset) => acc + BigInt(asset.amount()), BigInt(0));
-    const faucetIds = [
-      ...new Set(assets.map(asset => asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet)))
-    ];
+    const faucetIds = [...new Set(assets.map(asset => getBech32AddressFromAccountId(asset.faucetId())))];
     outputFaucetIds.push(...faucetIds);
   });
   const transactionAmount = inputAmount - outputAmount;
 
   if (inputFaucetIds.length === 1 && outputFaucetIds.length === 0) {
     type = 'consume';
-    const sender = inputNotes[0].note().metadata().sender().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet);
+    const sender = getBech32AddressFromAccountId(inputNotes[0].note().metadata().sender());
     displayMessage = sender === transaction.accountId ? 'Reclaimed' : 'Received';
     if (sender !== transaction.accountId) {
       secondaryAccountId = sender;

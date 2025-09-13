@@ -1,4 +1,4 @@
-import { AccountInterface, NetworkId, TransactionResult } from '@demox-labs/miden-sdk';
+import { TransactionResult } from '@demox-labs/miden-sdk';
 
 import { ampApi } from 'lib/amp/amp-interface';
 import { consumeNoteId } from 'lib/miden-worker/consumeNoteId';
@@ -10,7 +10,7 @@ import { logger } from 'shared/logger';
 import { ConsumeTransaction, ITransaction, ITransactionStatus, SendTransaction, Transaction } from '../db/types';
 import { toNoteTypeString } from '../helpers';
 import { NoteExportType } from '../sdk/constants';
-import { MidenClientInterface } from '../sdk/miden-client-interface';
+import { getBech32AddressFromAccountId, MidenClientInterface } from '../sdk/miden-client-interface';
 import { ConsumableNote, NoteTypeEnum, NoteType as NoteTypeString } from '../types';
 import { interpretTransactionResult } from './helpers';
 import { importAllNotes, queueNoteImport, registerOutputNote } from './notes';
@@ -89,7 +89,7 @@ export const initiateConsumeTransaction = async (
 
 export const completeConsumeTransaction = async (id: string, result: TransactionResult) => {
   const note = result.consumedNotes().getNote(0).note();
-  const sender = note.metadata().sender().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet);
+  const sender = getBech32AddressFromAccountId(note.metadata().sender());
   const executedTransaction = result.executedTransaction();
 
   const dbTransaction = await Repo.transactions.where({ id }).first();
@@ -97,7 +97,7 @@ export const completeConsumeTransaction = async (id: string, result: Transaction
   const displayMessage = reclaimed ? 'Reclaimed' : 'Received';
   const secondaryAccountId = reclaimed ? undefined : sender;
   const asset = note.assets().fungibleAssets()[0];
-  const faucetId = asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet);
+  const faucetId = getBech32AddressFromAccountId(asset.faucetId());
   const amount = asset.amount();
 
   await updateTransactionStatus(id, ITransactionStatus.Completed, {
