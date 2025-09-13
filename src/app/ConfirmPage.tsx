@@ -13,7 +13,7 @@ import Unlock from 'app/pages/Unlock';
 import { Button, ButtonVariant } from 'components/Button';
 import { CustomRpsContext } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
-import { b64ToU8, useAccount, useMidenContext } from 'lib/miden/front';
+import { useAccount, useMidenContext } from 'lib/miden/front';
 import { MidenDAppPayload } from 'lib/miden/types';
 import { WalletAccount } from 'lib/shared/types';
 import { useRetryableSWR } from 'lib/swr';
@@ -32,6 +32,7 @@ import ConnectBanner from './templates/ConnectBanner';
 import { isDelegateProofEnabled } from './templates/DelegateSettings';
 import PrivateDataPermissionBanner from './templates/PrivateDataPermissionBanner';
 import PrivateDataPermissionCheckbox from './templates/PrivateDataPermissionCheckbox';
+import { b64ToU8 } from 'lib/shared/helpers';
 
 const ConfirmPage: FC = () => {
   const { ready } = useMidenContext();
@@ -78,6 +79,11 @@ function downloadData(filename: string, data: string) {
   document.body.removeChild(link);
 }
 
+function truncateHash(hash: string, front = 7, back = 4): string {
+  if (!hash) return '';
+  return `${hash.slice(0, front)}…${hash.slice(-back)}`;
+}
+
 interface PayloadContentProps {
   payload: MidenDAppPayload;
   account?: WalletAccount;
@@ -89,18 +95,17 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
   let content: string | React.ReactNode = t('noPreview');
   switch (payload.type) {
     case 'sign': {
-      // let wordHex = '(invalid payload)';
-      // try {
-      //   const bytes = b64ToU8(payload.payload);
-      //   const word = Word.deserialize(bytes);
-      //   wordHex = word.toHex();
-      // } catch (e) {
-      //   console.error('Failed to deserialize payload for sign:', e);
-      // }
+      let wordHex = '(invalid payload)';
+      try {
+        const bytes = b64ToU8(payload.payload);
+        const word = Word.deserialize(bytes);
+        wordHex = word.toHex();
+      } catch (e) {
+        console.error('Failed to deserialize payload for sign:', e);
+      }
       content = (
         <>
-          {/* <div className="text-md text-center my-6">{`Sign the following Word ${wordHex}?`}</div> */}
-          Sign the following data
+          <div className="text-md text-center my-6">{`Sign the following Word ${truncateHash(wordHex)}?`}</div>
         </>
       );
       break;

@@ -48,9 +48,9 @@ import {
   requestCustomTransaction,
   initiateConsumeTransactionFromId
 } from '../activity/transactions';
-import { b64ToU8, u8ToB64 } from '../helpers';
 import { MidenClientInterface } from '../sdk/miden-client-interface';
 import { store, withUnlocked } from './store';
+import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
 
 const CONFIRM_WINDOW_WIDTH = 380;
 const CONFIRM_WINDOW_HEIGHT = 632;

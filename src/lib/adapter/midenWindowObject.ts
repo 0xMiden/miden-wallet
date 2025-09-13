@@ -21,7 +21,7 @@ import {
   signMessage
 } from 'lib/adapter/client';
 import { MidenDAppPermission } from 'lib/adapter/types';
-import { b64ToU8, u8ToB64 } from 'lib/miden/front';
+import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
 
 export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implements MidenWallet {
   accountId?: string | undefined;
