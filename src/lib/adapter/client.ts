@@ -167,6 +167,15 @@ export async function signMessage(sourcePublicKey: string, message: string) {
   return res.signature;
 }
 
+export async function requestAssets(sourcePublicKey: string) {
+  const res = await request({
+    type: MidenDAppMessageType.AssetsRequest,
+    sourcePublicKey
+  });
+  assertResponse(res.type === MidenDAppMessageType.AssetsResponse);
+  return res.assets;
+}
+
 function request(payload: MidenDAppRequest) {
   return new Promise<MidenDAppResponse>((resolve, reject) => {
     const reqId = nanoid();

@@ -4,7 +4,8 @@ import {
   PrivateDataPermission,
   WalletAdapterNetwork,
   MidenSendTransaction,
-  MidenConsumeTransaction
+  MidenConsumeTransaction,
+  Asset
 } from '@demox-labs/miden-wallet-adapter-base';
 
 export type MidenDAppMessage = MidenDAppRequest | MidenDAppResponse;
@@ -17,7 +18,8 @@ export type MidenDAppRequest =
   | MidenDAppSendTransactionRequest
   | MidenDAppConsumeRequest
   | MidenDAppPrivateNotesRequest
-  | MidenDAppSignRequest;
+  | MidenDAppSignRequest
+  | MidenDAppAssetsRequest;
 
 export type MidenDAppResponse =
   | MidenDAppGetCurrentPermissionResponse
@@ -27,7 +29,8 @@ export type MidenDAppResponse =
   | MidenDAppSendTransactionResponse
   | MidenDAppConsumeResponse
   | MidenDAppPrivateNotesResponse
-  | MidenDAppSignResponse;
+  | MidenDAppSignResponse
+  | MidenDAppAssetsResponse;
 
 export interface MidenDAppMessageBase {
   type: MidenDAppMessageType;
@@ -49,7 +52,9 @@ export enum MidenDAppMessageType {
   PrivateNotesRequest = 'PRIVATE_NOTES_REQUEST',
   PrivateNotesResponse = 'PRIVATE_NOTES_RESPONSE',
   SignRequest = 'SIGN_REQUEST',
-  SignResponse = 'SIGN_RESPONSE'
+  SignResponse = 'SIGN_RESPONSE',
+  AssetsRequest = 'ASSETS_REQUEST',
+  AssetsResponse = 'ASSETS_RESPONSE'
 }
 
 /**
@@ -143,6 +148,16 @@ export interface MidenDAppSignRequest extends MidenDAppMessageBase {
 export interface MidenDAppSignResponse extends MidenDAppMessageBase {
   type: MidenDAppMessageType.SignResponse;
   signature: string;
+}
+
+export interface MidenDAppAssetsRequest extends MidenDAppMessageBase {
+  type: MidenDAppMessageType.AssetsRequest;
+  sourcePublicKey: string;
+}
+
+export interface MidenDAppAssetsResponse extends MidenDAppMessageBase {
+  type: MidenDAppMessageType.AssetsResponse;
+  assets: Asset[];
 }
 
 /**

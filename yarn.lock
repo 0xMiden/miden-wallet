@@ -1262,19 +1262,19 @@
     dexie "^4.0.1"
     glob "^11.0.0"
 
-"@demox-labs/miden-wallet-adapter-base@0.5.1", "@demox-labs/miden-wallet-adapter-base@^0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-base/-/miden-wallet-adapter-base-0.5.1.tgz#7de2a6c1ab896da5327cbba63be64b7ac0b3f388"
-  integrity sha512-2P13ONHBMKeTsygzBA95INjqRQBFjvIjgX8PsXKzdRUOO3aA2vzAiFe8+Ue1ELDu7tjKYeg7dJWFugJSryrV4A==
+"@demox-labs/miden-wallet-adapter-base@0.6.0", "@demox-labs/miden-wallet-adapter-base@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-base/-/miden-wallet-adapter-base-0.6.0.tgz#9deabe3cbdf4830b97cca8b7de4a827bef32bf18"
+  integrity sha512-fe/RukRzZgBabUl+wxO4WZT+rcn8fp2PuNjyzZQrgj4ttSzz4tHpsbe6CTjeETeWIrV823aWqOFPDU0Icmnt3Q==
   dependencies:
     eventemitter3 "^5.0.1"
 
-"@demox-labs/miden-wallet-adapter-miden@0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-miden/-/miden-wallet-adapter-miden-0.5.1.tgz#20a82e39adeb381cd7bed451084870f9570375ac"
-  integrity sha512-iX9CiXEjrIlXM61ACCWUgFbkn78bApGhwIbL+COZuz56mnoUyl1Z+GLK3aoXVhCuqyc7m7PvJoOo0LPkmk8RhQ==
+"@demox-labs/miden-wallet-adapter-miden@0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-miden/-/miden-wallet-adapter-miden-0.6.0.tgz#81a87c53af75bdf6db15ba56439effef807c4c93"
+  integrity sha512-yOz3AlTVTlL7Wu9L8ry2su5AX2Dq+HQOokL1XWcKf/6hMf1bgJpZBbo3iQK0kcWYvc+le7DuCNHP3Psx8paiJQ==
   dependencies:
-    "@demox-labs/miden-wallet-adapter-base" "^0.5.1"
+    "@demox-labs/miden-wallet-adapter-base" "^0.6.0"
     nanoid "^5.0.9"
 
 "@dicebear/avatars-bottts-sprites@4.2.5":

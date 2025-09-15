@@ -1,10 +1,11 @@
-import { NoteFilter, NoteFilterTypes, NoteType, Word } from '@demox-labs/miden-sdk';
+import { AccountInterface, NetworkId, NoteFilter, NoteFilterTypes, NoteType, Word } from '@demox-labs/miden-sdk';
 import {
   PrivateDataPermission,
   MidenConsumeTransaction,
   MidenCustomTransaction,
   SendTransaction,
-  AllowedPrivateData
+  AllowedPrivateData,
+  Asset
 } from '@demox-labs/miden-wallet-adapter-base';
 import { nanoid } from 'nanoid';
 import browser, { Runtime } from 'webextension-polyfill';
@@ -26,7 +27,9 @@ import {
   MidenDAppPrivateNotesResponse,
   MidenDAppPrivateNotesRequest,
   MidenDAppSignRequest,
-  MidenDAppSignResponse
+  MidenDAppSignResponse,
+  MidenDAppAssetsResponse,
+  MidenDAppAssetsRequest
 } from 'lib/adapter/types';
 import { intercom } from 'lib/miden/back/defaults';
 import { Vault } from 'lib/miden/back/vault';
@@ -402,6 +405,113 @@ const generatePromisifyRequestPrivateNotes = async (
     });
   }
 };
+
+export async function requestAssets(origin: string, req: MidenDAppAssetsRequest): Promise<MidenDAppAssetsResponse> {
+  if (!req?.sourcePublicKey) {
+    throw new Error(MidenDAppErrorType.InvalidParams);
+  }
+
+  const dApp = await getDApp(origin, req.sourcePublicKey);
+  if (!dApp) {
+    throw new Error(MidenDAppErrorType.NotGranted);
+  }
+
+  if (req.sourcePublicKey !== dApp.accountId) {
+    throw new Error(MidenDAppErrorType.NotFound);
+  }
+
+  return new Promise((resolve, reject) => generatePromisifyRequestAssets(resolve, reject, dApp, req));
+}
+
+export const generatePromisifyRequestAssets = async (
+  resolve: (value: MidenDAppAssetsResponse | PromiseLike<MidenDAppAssetsResponse>) => void,
+  reject: (reason?: any) => void,
+  dApp: MidenDAppSession,
+  req: MidenDAppAssetsRequest
+) => {
+  if (
+    dApp.privateDataPermission === PrivateDataPermission.Auto &&
+    (dApp.allowedPrivateData & AllowedPrivateData.Assets) !== 0
+  ) {
+    let assets: Asset[] = [];
+    try {
+      assets = await getAssets(dApp.accountId);
+      resolve({
+        type: MidenDAppMessageType.AssetsResponse,
+        assets
+      });
+    } catch (e) {
+      reject(e);
+    }
+  } else {
+    const id = nanoid();
+    const networkRpc = await getNetworkRPC(dApp.network);
+
+    let assets: Asset[] = [];
+    try {
+      assets = await getAssets(dApp.accountId);
+    } catch (e) {
+      reject(e);
+    }
+
+    await requestConfirm({
+      id,
+      payload: {
+        type: 'assets',
+        origin,
+        networkRpc,
+        appMeta: dApp.appMeta,
+        sourcePublicKey: req.sourcePublicKey,
+        assets,
+        preview: null
+      },
+      onDecline: () => {
+        reject(new Error(MidenDAppErrorType.NotGranted));
+      },
+      handleIntercomRequest: async (confirmReq, decline) => {
+        if (confirmReq?.type === MidenMessageType.DAppAssetsConfirmationRequest && confirmReq?.id === id) {
+          if (confirmReq.confirmed) {
+            try {
+              resolve({
+                type: MidenDAppMessageType.AssetsResponse,
+                assets
+              } as any);
+            } catch (e) {
+              reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+            }
+          } else {
+            decline();
+          }
+
+          return {
+            type: MidenMessageType.DAppAssetsConfirmationResponse
+          };
+        }
+        return undefined;
+      }
+    });
+  }
+};
+
+async function getAssets(accountId: string): Promise<Asset[]> {
+  let assets: Asset[] = [];
+  try {
+    assets = await withUnlocked(async () => {
+      const midenClient = await MidenClientInterface.create();
+      const account = await midenClient.getAccount(accountId);
+      const fungibleAssets = account?.vault().fungibleAssets() || [];
+      const balances = fungibleAssets.map(asset => ({
+        faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet),
+        amount: asset.amount().toString()
+      })) as Asset[];
+      return balances;
+    });
+
+    return assets;
+  } catch (e) {
+    throw new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`);
+  }
+}
 
 export async function requestTransaction(
   origin: string,

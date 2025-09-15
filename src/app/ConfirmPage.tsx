@@ -186,8 +186,14 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
 export default ConfirmPage;
 
 const ConfirmDAppForm: FC = () => {
-  const { getDAppPayload, confirmDAppPermission, confirmDAppTransaction, confirmDAppPrivateNotes, confirmDAppSign } =
-    useMidenContext();
+  const {
+    getDAppPayload,
+    confirmDAppPermission,
+    confirmDAppTransaction,
+    confirmDAppPrivateNotes,
+    confirmDAppSign,
+    confirmDAppAssets
+  } = useMidenContext();
   const account = useAccount();
   const isPublicAccount = account.isPublic;
 
@@ -239,6 +245,8 @@ const ConfirmDAppForm: FC = () => {
           return confirmDAppPrivateNotes(id, confirmed);
         case 'sign':
           return confirmDAppSign(id, confirmed);
+        case 'assets':
+          return confirmDAppAssets(id, confirmed);
       }
     },
     [
@@ -250,6 +258,7 @@ const ConfirmDAppForm: FC = () => {
       confirmDAppTransaction,
       confirmDAppPrivateNotes,
       confirmDAppSign,
+      confirmDAppAssets,
       delegate
     ]
   );
@@ -379,6 +388,29 @@ const ConfirmDAppForm: FC = () => {
               <div className="flex flex-col">
                 <Name className="font-semibold">{payload.origin}</Name>
                 <span>Sign Data</span>
+              </div>
+            </div>
+          )
+        };
+      case 'assets':
+        return {
+          title: 'Request Assets',
+          declineActionTitle: t('cancel'),
+          declineActionTestID: ConfirmPageSelectors.RequestAssets_RejectButton,
+          confirmActionTitle: t('confirm'),
+          confirmActionTestID: ConfirmPageSelectors.RequestAssets_AcceptButton,
+          want: (
+            <div
+              className={classNames(
+                'text-sm text-left text-black',
+                'flex w-full gap-x-3 items-center p-4',
+                'border border-gray-100 rounded-2xl mb-4'
+              )}
+            >
+              <Icon name={IconName.Globe} fill="black" size="md" />
+              <div className="flex flex-col">
+                <Name className="font-semibold">{payload.origin}</Name>
+                <span>Requests assets</span>
               </div>
             </div>
           )

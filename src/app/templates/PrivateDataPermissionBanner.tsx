@@ -63,9 +63,9 @@ const PrivateDataAccess: FC<PrivateDataAccessProps> = ({ privateDataPermission, 
 
   const allowedPrivateDataToString = (data: AllowedPrivateData): string => {
     const parts: string[] = [];
-    if (data & AllowedPrivateData.Balance) parts.push('balance');
-    if (data & AllowedPrivateData.Notes) parts.push('notes');
-    if (data & AllowedPrivateData.Storage) parts.push('storage');
+    if (data & AllowedPrivateData.Assets) parts.push('Assets');
+    if (data & AllowedPrivateData.Notes) parts.push('Notes');
+    if (data & AllowedPrivateData.Storage) parts.push('Storage');
     return parts.join(', ');
   };
 

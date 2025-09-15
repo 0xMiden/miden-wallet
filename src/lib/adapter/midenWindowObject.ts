@@ -18,7 +18,8 @@ import {
   requestSend,
   requestConsume,
   requestPrivateNotes,
-  signMessage
+  signMessage,
+  requestAssets
 } from 'lib/adapter/client';
 import { MidenDAppPermission } from 'lib/adapter/types';
 import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
@@ -61,6 +62,11 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
     const signatureAsB64 = await signMessage(this.accountId!, messageAsB64);
     const signatureAsU8Array = b64ToU8(signatureAsB64);
     return { signature: signatureAsU8Array };
+  }
+
+  async requestAssets(): Promise<{ assets: any[] }> {
+    const res = await requestAssets(this.accountId!);
+    return { assets: res };
   }
 
   async connect(
