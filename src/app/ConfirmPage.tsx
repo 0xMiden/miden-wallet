@@ -15,6 +15,7 @@ import { CustomRpsContext } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { useAccount, useMidenContext } from 'lib/miden/front';
 import { MidenDAppPayload } from 'lib/miden/types';
+import { b64ToU8 } from 'lib/shared/helpers';
 import { WalletAccount } from 'lib/shared/types';
 import { useRetryableSWR } from 'lib/swr';
 import useSafeState from 'lib/ui/useSafeState';
@@ -32,7 +33,6 @@ import ConnectBanner from './templates/ConnectBanner';
 import { isDelegateProofEnabled } from './templates/DelegateSettings';
 import PrivateDataPermissionBanner from './templates/PrivateDataPermissionBanner';
 import PrivateDataPermissionCheckbox from './templates/PrivateDataPermissionCheckbox';
-import { b64ToU8 } from 'lib/shared/helpers';
 
 const ConfirmPage: FC = () => {
   const { ready } = useMidenContext();

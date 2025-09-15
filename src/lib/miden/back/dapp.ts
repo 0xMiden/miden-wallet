@@ -39,6 +39,7 @@ import {
   MidenMessageType,
   MidenRequest
 } from 'lib/miden/types';
+import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
 import { WalletStatus } from 'lib/shared/types';
 import { capitalizeFirstLetter, shortenAddress } from 'utils/string';
 
@@ -50,7 +51,6 @@ import {
 } from '../activity/transactions';
 import { MidenClientInterface } from '../sdk/miden-client-interface';
 import { store, withUnlocked } from './store';
-import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
 
 const CONFIRM_WINDOW_WIDTH = 380;
 const CONFIRM_WINDOW_HEIGHT = 632;
