@@ -80,6 +80,7 @@ export interface MidenDAppPermissionResponse extends MidenDAppMessageBase {
   network: string;
   privateDataPermission: PrivateDataPermission;
   allowedPrivateData: AllowedPrivateData;
+  publicKey: string;
 }
 
 export interface MidenDAppDisconnectRequest extends MidenDAppMessageBase {

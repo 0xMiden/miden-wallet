@@ -18,6 +18,7 @@ import {
   MidenPageMessage,
   MidenPageMessageType
 } from './types';
+import { b64ToU8 } from 'lib/shared/helpers';
 
 export function isAvailable() {
   return new Promise<boolean>(resolve => {
@@ -104,7 +105,8 @@ export async function requestPermission(
     rpc: res.network,
     accountId: res.accountId,
     privateDataPermission: res.privateDataPermission,
-    allowedPrivateData: res.allowedPrivateData
+    allowedPrivateData: res.allowedPrivateData,
+    publicKey: b64ToU8(res.publicKey)
   };
 }
 
