@@ -131,7 +131,8 @@ export async function requestPermission(
       network: reqChainId,
       accountId: dApp.accountId,
       privateDataPermission: dApp.privateDataPermission,
-      allowedPrivateData: dApp.allowedPrivateData
+      allowedPrivateData: dApp.allowedPrivateData,
+      publicKey: dApp.publicKey
     };
   }
 
@@ -176,20 +177,35 @@ export async function generatePromisifyRequestPermission(
         if (confirmReq?.type === MidenMessageType.DAppPermConfirmationRequest && confirmReq?.id === id) {
           const { confirmed, accountPublicKey, privateDataPermission } = confirmReq;
           if (confirmed && accountPublicKey) {
+            let publicKey = null;
+            try {
+              publicKey = await withUnlocked(async () => {
+                const midenClient = await MidenClientInterface.create();
+                const account = await midenClient.getAccount(accountPublicKey);
+                const publicKeys = account!.getPublicKeys();
+                const publicKeyAsB64 = u8ToB64(publicKeys[0].serialize());
+
+                return publicKeyAsB64;
+              });
+            } catch {
+              console.error('Error fetching account public key');
+            }
             if (!existingPermission)
               await setDApp(origin, {
                 network,
                 appMeta,
                 accountId: accountPublicKey,
                 privateDataPermission: privateDataPermission || PrivateDataPermission.UponRequest,
-                allowedPrivateData: allowedPrivateData || AllowedPrivateData.None
+                allowedPrivateData: allowedPrivateData || AllowedPrivateData.None,
+                publicKey: publicKey!
               });
             resolve({
               type: MidenDAppMessageType.PermissionResponse,
               accountId: accountPublicKey,
               network,
               privateDataPermission: privateDataPermission || PrivateDataPermission.UponRequest,
-              allowedPrivateData: allowedPrivateData || AllowedPrivateData.None
+              allowedPrivateData: allowedPrivateData || AllowedPrivateData.None,
+              publicKey: publicKey!
             });
           } else {
             decline();

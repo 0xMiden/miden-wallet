@@ -43,6 +43,7 @@ export interface MidenDAppSession {
   accountId: string;
   privateDataPermission: PrivateDataPermission;
   allowedPrivateData: AllowedPrivateData;
+  publicKey: string;
 }
 
 export type MidenDAppSessions = Record<string, MidenDAppSession[]>;

@@ -25,6 +25,7 @@ import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
 
 export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implements MidenWallet {
   accountId?: string | undefined;
+  publicKey?: Uint8Array | undefined;
   permission?: MidenDAppPermission | undefined;
   appName?: string | undefined;
   network?: WalletAdapterNetwork | undefined;
@@ -77,6 +78,7 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
     this.permission = perm;
     this.accountId = perm.accountId;
     this.network = network;
+    this.publicKey = perm.publicKey;
     this.clearAccountChangeInterval = onPermissionChange((perm: MidenDAppPermission) => {
       this.emit('accountChange', perm);
     });
