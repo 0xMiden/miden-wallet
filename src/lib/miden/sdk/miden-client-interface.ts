@@ -55,7 +55,7 @@ export class MidenClientInterface {
 
   static async create(options: MidenClientCreateOptions = {}) {
     const seed = options.seed?.toString();
-    const network = MIDEN_NETWORK_NAME.TESTNET;
+    const network = MIDEN_NETWORK_NAME.LOCALNET;
     const webClient = await WebClient.createClient(MIDEN_NETWORK_ENDPOINTS.get(network)!, seed);
 
     return new MidenClientInterface(webClient, network, options.onConnectivityIssue);
@@ -153,12 +153,12 @@ export class MidenClientInterface {
         .fungibleAssets()
         .map(asset => ({
           amount: asset.amount().toString(),
-          faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet)
+          faucetId: getBech32AddressFromAccountId(asset.faucetId())
         }));
       const details = {
         noteId: note.id().toString(),
         noteType: note.metadata()?.noteType(),
-        senderAccountId: note.metadata()?.sender()?.toBech32(NetworkId.Testnet, AccountInterface.BasicWallet),
+        senderAccountId: getBech32AddressFromAccountId(note.metadata()!.sender()),
         assets: assets
       };
       return details;

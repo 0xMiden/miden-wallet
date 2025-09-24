@@ -53,7 +53,7 @@ import {
   requestCustomTransaction,
   initiateConsumeTransactionFromId
 } from '../activity/transactions';
-import { MidenClientInterface } from '../sdk/miden-client-interface';
+import { getBech32AddressFromAccountId, MidenClientInterface } from '../sdk/miden-client-interface';
 import { store, withUnlocked } from './store';
 
 const CONFIRM_WINDOW_WIDTH = 380;
@@ -504,7 +504,7 @@ async function getAssets(accountId: string): Promise<Asset[]> {
       const account = await midenClient.getAccount(accountId);
       const fungibleAssets = account?.vault().fungibleAssets() || [];
       const balances = fungibleAssets.map(asset => ({
-        faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet),
+        faucetId: getBech32AddressFromAccountId(asset.faucetId()),
         amount: asset.amount().toString()
       })) as Asset[];
       return balances;

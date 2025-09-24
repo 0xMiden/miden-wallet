@@ -46,16 +46,17 @@ document.getElementById('publicKeyForm').addEventListener('submit', async event 
     alert('Please enter a digit amount');
     return;
   }
-  const accountId = AccountId.fromBech32(accountIdString);
+  const accountAddress = Address.fromBech32(accountIdString);
+  const accountId = accountAddress.accountId();
 
   console.log('creating mint txn...');
   const mintTxnRequest = webClient.newMintTransactionRequest(
     accountId,
-    faucetId,
+    faucetAddress.accountId(),
     isPrivate ? NoteType.Private : NoteType.Public,
     BigInt(amount * 10 ** MIDEN_DECIMALS)
   );
-  let mintTxnResult = await webClient.newTransaction(faucetId, mintTxnRequest);
+  let mintTxnResult = await webClient.newTransaction(faucetAddress.accountId(), mintTxnRequest);
   await webClient.submitTransaction(mintTxnResult);
   const noteId = mintTxnResult.createdNotes().notes()[0].id();
   console.log('created mint txn');
