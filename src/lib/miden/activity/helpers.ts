@@ -116,6 +116,7 @@ export const interpretTransactionResult = <K extends keyof ITransaction>(
     outputFaucetIds.push(...faucetIds);
   });
   const transactionAmount = inputAmount - outputAmount;
+  const absoluteTransactionAmount = transactionAmount > 0n ? transactionAmount : -transactionAmount;
 
   if (inputFaucetIds.length === 1 && outputFaucetIds.length === 0) {
     type = 'consume';
@@ -143,7 +144,7 @@ export const interpretTransactionResult = <K extends keyof ITransaction>(
     secondaryAccountId,
     transactionId: result.executedTransaction().id().toHex(),
     inputNoteIds: inputNotes.map(note => note.id().toString()),
-    amount: transactionAmount !== BigInt(0) ? transactionAmount : undefined,
+    amount: absoluteTransactionAmount !== BigInt(0) ? absoluteTransactionAmount : undefined,
     outputNoteIds: outputNotes.map(note => note.id().toString()),
     faucetId
   };

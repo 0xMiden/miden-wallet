@@ -13,7 +13,7 @@ import Unlock from 'app/pages/Unlock';
 import { Button, ButtonVariant } from 'components/Button';
 import { CustomRpsContext } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
-import { useAccount, useMidenContext } from 'lib/miden/front';
+import { MIDEN_METADATA, useAccount, useMidenContext } from 'lib/miden/front';
 import { MidenDAppPayload } from 'lib/miden/types';
 import { b64ToU8 } from 'lib/shared/helpers';
 import { WalletAccount } from 'lib/shared/types';
@@ -145,7 +145,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
                 <span className="text-gray-600">{t('account')}</span>
                 <div className="text-black flex flex-col items-end">
                   <span>{account.name}</span>
-                  <span>{account.publicKey}</span>
+                  <span>{truncateHash(account.publicKey)}</span>
                 </div>
               </div>
             </>
@@ -153,10 +153,18 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
           <hr className="h-px bg-grey-100 my-4" />
           {payload.transactionMessages.slice(2).map((message, i) => {
             const messageParts = message.split(', ');
+            let value = messageParts[1];
+            if (messageParts[0] === 'Amount') {
+              const microcredits = Number(value);
+              const amount = microcredits / 10 ** MIDEN_METADATA.decimals;
+              value = amount.toString();
+            } else if (messageParts[0] === 'Recipient') {
+              value = truncateHash(value);
+            }
             return (
               <div className="flex justify-between my-2 text-sm" key={i + 2}>
                 <span className="text-gray-600">{messageParts[0]}</span>
-                <span className="text-black">{messageParts[1]}</span>
+                <span className="text-black">{value}</span>
               </div>
             );
           })}
