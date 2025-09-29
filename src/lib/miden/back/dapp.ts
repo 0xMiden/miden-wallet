@@ -1,4 +1,4 @@
-import { AccountInterface, NetworkId, NoteFilter, NoteFilterTypes, NoteType, Word } from '@demox-labs/miden-sdk';
+import { NoteFilter, NoteFilterTypes, NoteType, Word } from '@demox-labs/miden-sdk';
 import {
   PrivateDataPermission,
   MidenConsumeTransaction,

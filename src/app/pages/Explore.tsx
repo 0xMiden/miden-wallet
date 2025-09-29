@@ -49,6 +49,7 @@ const Explore: FC = () => {
   const shouldAutoConsume = isAutoConsumeEnabled();
 
   const allTokensBaseMetadata = useAllTokensBaseMetadata();
+
   const { data: allTokenBalances = [] } = useAllBalances(account.publicKey, allTokensBaseMetadata);
 
   const address = account.publicKey;

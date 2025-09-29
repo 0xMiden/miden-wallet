@@ -12,10 +12,9 @@ import { useAccount } from 'lib/miden/front';
 import { RecallBlocksModal } from './RecallBlocksModal';
 import { SendFlowAction, SendFlowActionId } from './types';
 
-const TOKEN_NAME = 'MIDEN';
-
 export interface ReviewTransactionProps {
   amount: string;
+  token: string;
   onAction: (action: SendFlowAction) => void;
   onGoBack: () => void;
   sharePrivately: boolean;
@@ -26,6 +25,7 @@ export interface ReviewTransactionProps {
 
 export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
   amount,
+  token,
   recipientAddress,
   sharePrivately,
   delegateTransaction,
@@ -98,7 +98,7 @@ export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
       <NavigationHeader mode="back" title="Review" onBack={onGoBack} />
       <div className="flex flex-col flex-1 p-4 gap-y-4 md:w-[460px] md:mx-auto">
         <span className="flex flex-row items-end gap-x-2 justify-center p-6">
-          <p className="text-2xl leading-8">{`${amount} ${TOKEN_NAME}`}</p>
+          <p className="text-2xl leading-8">{`${amount} ${token}`}</p>
         </span>
 
         <div className="flex flex-col gap-y-2">

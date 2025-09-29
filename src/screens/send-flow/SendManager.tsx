@@ -9,7 +9,7 @@ import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { stringToBigInt } from 'lib/i18n/numbers';
 import { initiateSendTransaction } from 'lib/miden/activity';
-import { MIDEN_METADATA, useAccount, useAllAccounts } from 'lib/miden/front';
+import { useAccount, useAllAccounts } from 'lib/miden/front';
 import { NoteTypeEnum } from 'lib/miden/types';
 import { navigate } from 'lib/woozie';
 import { isValidMidenAddress } from 'utils/miden';
@@ -189,7 +189,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
           recipientAddress!,
           token!.id,
           sharePrivately ? NoteTypeEnum.Private : NoteTypeEnum.Public,
-          stringToBigInt(amount!, MIDEN_METADATA.decimals),
+          stringToBigInt(amount!, token!.decimals),
           recallBlocks ? parseInt(recallBlocks) : undefined,
           delegateTransaction
         );
@@ -323,6 +323,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
               onAction={onAction}
               onGoBack={goBack}
               amount={amount}
+              token={token!.name}
               recipientAddress={recipientAddress}
               sharePrivately={sharePrivately}
               delegateTransaction={delegateTransaction}

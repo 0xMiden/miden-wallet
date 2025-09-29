@@ -12,7 +12,7 @@ import { NoteExportType } from 'lib/miden/sdk/constants';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import { capitalizeFirstLetter } from 'utils/string';
 
-import { formatAmount, getTokenSymbol } from './Activity';
+import { formatAmount, getTokenMetadata } from './Activity';
 import { IActivity } from './IActivity';
 
 interface ActivityDetailsProps {
@@ -25,6 +25,7 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
 
   const loadTransaction = useCallback(async () => {
     const tx = await getTransactionById(transactionId);
+    const tokenMetadata = tx.faucetId ? await getTokenMetadata(tx.faucetId) : undefined;
 
     const activity = {
       address: tx.accountId,
@@ -32,8 +33,8 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
       timestamp: tx.completedAt,
       message: tx.displayMessage,
       transactionIcon: tx.displayIcon,
-      amount: tx.amount ? formatAmount(tx.amount, tx.type) : undefined,
-      token: tx.faucetId ? await getTokenSymbol(tx.faucetId) : undefined,
+      amount: tx.amount ? formatAmount(tx.amount, tx.type, tokenMetadata?.decimals) : undefined,
+      token: tokenMetadata ? tokenMetadata.symbol : undefined,
       secondaryAddress: tx.secondaryAccountId,
       txId: tx.id,
       noteType: tx.noteType,

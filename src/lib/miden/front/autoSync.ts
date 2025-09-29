@@ -1,5 +1,4 @@
 import { MessageHttpOutput } from '@demox-labs/amp-core/script/http-types';
-import { AccountInterface, NetworkId } from '@demox-labs/miden-sdk';
 
 import { ampApi } from 'lib/amp/amp-interface';
 import { WalletState } from 'lib/shared/types';

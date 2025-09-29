@@ -132,11 +132,32 @@ export const [TokensMetadataProvider, useTokensMetadata] = constate(() => {
     []
   );
 
+  // Deduplicate in-flight metadata fetches across the app lifetime
+  const inFlightRef = useRef<Set<string>>(new Set());
+
+  // Fire-and-forget prefetch that writes to storage once per faucet id
+  const prefetchMetadataIfMissing = useCallback(async (id: string) => {
+    if (isMidenAsset(id)) return;
+    if (allTokensBaseMetadataRef.current?.[id]) return; // already cached
+    if (inFlightRef.current.has(id)) return; // already fetching
+
+    inFlightRef.current.add(id);
+    try {
+      const { base } = await fetchTokenMetadata(id);
+      await setTokensBaseMetadata({ [id]: base });
+    } catch (e) {
+      console.warn('metadata prefetch failed for', id, e);
+    } finally {
+      inFlightRef.current.delete(id);
+    }
+  }, []);
+
   return {
     allTokensBaseMetadataRef,
     fetchMetadata,
     setTokensBaseMetadata,
-    setTokensDetailedMetadata
+    setTokensDetailedMetadata,
+    prefetchMetadataIfMissing
   };
 });
 

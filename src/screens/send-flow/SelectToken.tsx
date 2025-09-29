@@ -24,6 +24,7 @@ export const SelectToken: React.FC<SelectTokenScreenProps> = ({ className, onAct
       balanceData?.map(token => ({
         id: token.tokenId,
         name: token.metadata.symbol,
+        decimals: token.metadata.decimals,
         balance: token.balance,
         fiatPrice: token.fiatPrice
       })) || []

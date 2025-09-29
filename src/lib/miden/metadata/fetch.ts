@@ -18,7 +18,6 @@ export async function fetchTokenMetadata(
     const midenClient = await MidenClientInterface.create();
     await midenClient.importAccountById(assetId);
     const account = await midenClient.getAccount(assetId);
-    console.log('account', account);
     if (!account) {
       return { base: DEFAULT_TOKEN_METADATA, detailed: DEFAULT_TOKEN_METADATA };
     }
