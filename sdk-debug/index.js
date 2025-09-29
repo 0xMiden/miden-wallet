@@ -16,7 +16,7 @@ console.log('creating faucet...');
 const faucet = await webClient.newFaucet(
   AccountStorageMode.public(),
   false,
-  'DENNIS',
+  'TEST',
   FAUCET_DECIMALS,
   BigInt(1000000 * 10 ** FAUCET_DECIMALS)
 );
