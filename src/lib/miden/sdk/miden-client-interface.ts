@@ -14,8 +14,7 @@ import {
   TransactionRequest,
   TransactionResult,
   WebClient,
-  Word,
-  AccountInterface
+  Word
 } from '@demox-labs/miden-sdk';
 
 import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';

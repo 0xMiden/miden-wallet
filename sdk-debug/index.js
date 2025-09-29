@@ -1,7 +1,7 @@
 import { WebClient, AccountStorageMode, AccountId, Address, NetworkId, NoteType, TransactionRequest } from './libs/dist/index.js';
 console.log('script loaded');
 
-const MIDEN_DECIMALS = 6;
+const FAUCET_DECIMALS = 6;
 
 const databases = await indexedDB.databases();
 for (const db of databases) {
@@ -17,8 +17,8 @@ const faucet = await webClient.newFaucet(
   AccountStorageMode.public(),
   false,
   'TEST',
-  10,
-  BigInt(1000000 * 10 ** MIDEN_DECIMALS)
+  FAUCET_DECIMALS,
+  BigInt(1000000 * 10 ** FAUCET_DECIMALS)
 );
 const faucetId = faucet.id();
 const faucetAddress = Address.fromAccountId(faucetId, 'Unspecified');
@@ -54,7 +54,7 @@ document.getElementById('publicKeyForm').addEventListener('submit', async event 
     accountId,
     faucetAddress.accountId(),
     isPrivate ? NoteType.Private : NoteType.Public,
-    BigInt(amount * 10 ** MIDEN_DECIMALS)
+    BigInt(amount * 10 ** FAUCET_DECIMALS)
   );
   let mintTxnResult = await webClient.newTransaction(faucetAddress.accountId(), mintTxnRequest);
   await webClient.submitTransaction(mintTxnResult);
@@ -100,7 +100,8 @@ document.getElementById('transactionRequestForm').addEventListener('submit', asy
     alert('Please enter a public key');
     return;
   }
-  const accountId = AccountId.fromBech32(accountIdString);
+  const accountAddress = Address.fromBech32(accountIdString);
+  const accountId = accountAddress.accountId();
 
   console.log('creating transaction request...');
   const mintTransactionRequest = webClient.newMintTransactionRequest(

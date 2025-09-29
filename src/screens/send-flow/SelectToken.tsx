@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useCallback } from 'react';
+import React, { HTMLAttributes, useCallback, useMemo } from 'react';
 
 import classNames from 'clsx';
 import { formatValue } from 'react-currency-input-field';
@@ -7,15 +7,29 @@ import { AssetIcon } from 'app/templates/AssetIcon';
 import { Button, ButtonVariant } from 'components/Button';
 import { CardItem } from 'components/CardItem';
 import { NavigationHeader } from 'components/NavigationHeader';
+import { useAccount, useAllBalances, useAllTokensBaseMetadata } from 'lib/miden/front';
 
 import { SendFlowAction, SendFlowActionId, SendFlowStep, UIToken } from './types';
 
 export interface SelectTokenScreenProps extends HTMLAttributes<HTMLDivElement> {
-  tokens?: UIToken[];
   onAction?: (action: SendFlowAction) => void;
 }
 
-export const SelectToken: React.FC<SelectTokenScreenProps> = ({ className, tokens, onAction, ...props }) => {
+export const SelectToken: React.FC<SelectTokenScreenProps> = ({ className, onAction, ...props }) => {
+  const { publicKey } = useAccount();
+  const allTokensBaseMetadata = useAllTokensBaseMetadata();
+  const { data: balanceData } = useAllBalances(publicKey, allTokensBaseMetadata);
+  const tokens = useMemo(() => {
+    return (
+      balanceData?.map(token => ({
+        id: token.tokenId,
+        name: token.metadata.symbol,
+        decimals: token.metadata.decimals,
+        balance: token.balance,
+        fiatPrice: token.fiatPrice
+      })) || []
+    );
+  }, [balanceData]);
   const onCancel = useCallback(() => {
     onAction?.({
       id: SendFlowActionId.Finish

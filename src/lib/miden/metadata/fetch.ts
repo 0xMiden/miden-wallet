@@ -1,9 +1,10 @@
+import { BasicFungibleFaucetComponent } from '@demox-labs/miden-sdk';
 import browser from 'webextension-polyfill';
 
 import { isMidenAsset } from 'lib/miden/assets';
 
 import { MidenClientInterface } from '../sdk/miden-client-interface';
-import { MIDEN_METADATA } from './defaults';
+import { DEFAULT_TOKEN_METADATA, MIDEN_METADATA } from './defaults';
 import { AssetMetadata, DetailedAssetMetdata } from './types';
 
 export async function fetchTokenMetadata(
@@ -16,14 +17,17 @@ export async function fetchTokenMetadata(
   try {
     const midenClient = await MidenClientInterface.create();
     await midenClient.importAccountById(assetId);
+    const account = await midenClient.getAccount(assetId);
+    if (!account) {
+      return { base: DEFAULT_TOKEN_METADATA, detailed: DEFAULT_TOKEN_METADATA };
+    }
+    const faucetDetails = BasicFungibleFaucetComponent.fromAccount(account);
 
     const base: AssetMetadata = {
-      decimals: 5,
-      symbol: 'ASSET SYMBOL',
-      name: 'ASSET NAME',
+      decimals: faucetDetails.decimals(),
+      symbol: faucetDetails.symbol().toString(),
+      name: faucetDetails.symbol().toString(),
       shouldPreferSymbol: true,
-      programId: '',
-      mappingName: '',
       thumbnailUri: browser.runtime.getURL('misc/token-logos/default.svg')
     };
 
