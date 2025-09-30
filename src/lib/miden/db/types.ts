@@ -47,6 +47,7 @@ export class Transaction implements ITransaction {
   amount?: bigint;
   noteType?: NoteType;
   delegateTransaction?: boolean;
+  secondaryAccountId?: string;
   transactionId?: string;
   requestBytes?: Uint8Array;
   inputNoteIds?: string[];
@@ -58,13 +59,20 @@ export class Transaction implements ITransaction {
   displayMessage?: string;
   displayIcon: ITransactionIcon;
 
-  constructor(accountId: string, requestBytes: Uint8Array, inputNoteIds?: string[], delegateTransaction?: boolean) {
+  constructor(
+    accountId: string,
+    requestBytes: Uint8Array,
+    inputNoteIds?: string[],
+    delegateTransaction?: boolean,
+    recipientAccountId?: string
+  ) {
     this.id = uuid();
     this.type = 'execute';
     this.accountId = accountId;
     this.requestBytes = requestBytes;
     this.inputNoteIds = inputNoteIds;
     this.delegateTransaction = delegateTransaction;
+    this.secondaryAccountId = recipientAccountId;
     this.status = ITransactionStatus.Queued;
     this.initiatedAt = Date.now();
     this.displayIcon = 'DEFAULT';

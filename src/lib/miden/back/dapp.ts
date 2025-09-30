@@ -582,8 +582,16 @@ const generatePromisifyTransaction = async (
           try {
             const transactionId = await withUnlocked(async () => {
               const { payload } = req.transaction;
-              const { accountId, transactionRequest, inputNoteIds, importNotes } = payload as MidenCustomTransaction;
-              return await requestCustomTransaction(accountId, transactionRequest, inputNoteIds, importNotes);
+              const { accountId, recipientAccountId, transactionRequest, inputNoteIds, importNotes } =
+                payload as MidenCustomTransaction;
+              return await requestCustomTransaction(
+                accountId,
+                transactionRequest,
+                inputNoteIds,
+                importNotes,
+                undefined,
+                recipientAccountId || undefined
+              );
             });
             resolve({
               type: MidenDAppMessageType.TransactionResponse,
@@ -974,6 +982,7 @@ function formatConsumeTransactionPreview(transaction: MidenConsumeTransaction): 
 function formatCustomTransactionPreview(payload: MidenCustomTransaction): string[] {
   return [
     'This dApp is requesting a custom transaction,',
-    'please ensure you know the details of the transaction before proceeding.'
+    'please ensure you know the details of the transaction before proceeding.',
+    `Recipient, ${shortenAddress(payload.recipientAccountId)}`
   ];
 }

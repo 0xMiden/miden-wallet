@@ -1262,19 +1262,19 @@
     dexie "^4.0.1"
     glob "^11.0.0"
 
-"@demox-labs/miden-wallet-adapter-base@0.6.2", "@demox-labs/miden-wallet-adapter-base@^0.6.2":
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-base/-/miden-wallet-adapter-base-0.6.2.tgz#c6d67a4c4929f30d80998d116e66b074dee0c536"
-  integrity sha512-ZK1MdD4U/BXjBEHmYZTmguz6JsO0OEyP/rADrdk4q/zWja+fUEt1+WC2D186X811jDJB160ddn5xmY+kOZkWTg==
+"@demox-labs/miden-wallet-adapter-base@0.6.4", "@demox-labs/miden-wallet-adapter-base@^0.6.4":
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-base/-/miden-wallet-adapter-base-0.6.4.tgz#10e275c38203875e2a502e9436279ec6c8a6be77"
+  integrity sha512-9+ou2J2cOknoZzZn1STP5fGKjky+DiZF0P7KrpiIR2Xiec5K+cajjgrMNkoWVlSHnaLlpercE7On+TzroK5uRw==
   dependencies:
     eventemitter3 "^5.0.1"
 
-"@demox-labs/miden-wallet-adapter-miden@0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-miden/-/miden-wallet-adapter-miden-0.6.1.tgz#a86aea0a22e8d0c3cbd6d526c2a1344d7d52b9a8"
-  integrity sha512-frgDwoz+r76osP7oqd9yF0zMcQZgM+2UN3prjMjZYQbTiQe4m/7O9n+MwtmfNxswelHpSq+oYXLA/OIVhC7h/Q==
+"@demox-labs/miden-wallet-adapter-miden@0.6.3":
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-miden/-/miden-wallet-adapter-miden-0.6.3.tgz#05ccd4d9b740f24c0a073ceb4dcd7c5f2226cf36"
+  integrity sha512-X9TRR2d5mfkZsP5HTJ/50ehLN9BOI/LLIFgwVXHjkAcHuxLpZdB3NzmMFKHQFnCSWiPk/rYaHrldD/6ULpbapQ==
   dependencies:
-    "@demox-labs/miden-wallet-adapter-base" "^0.6.2"
+    "@demox-labs/miden-wallet-adapter-base" "^0.6.4"
     nanoid "^5.0.9"
 
 "@dicebear/avatars-bottts-sprites@4.2.5":
@@ -9517,9 +9517,9 @@ nanoid@^4.0.0:
   integrity sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==
 
 nanoid@^5.0.9:
-  version "5.1.5"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-5.1.5.tgz#f7597f9d9054eb4da9548cdd53ca70f1790e87de"
-  integrity sha512-Ir/+ZpE9fDsNH0hQ3C68uyThDXzYcim2EqcZ8zn8Chtt1iylPT9xXJB0kPCnqzgcEGikO9RxSrh63MsmVCU7Fw==
+  version "5.1.6"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-5.1.6.tgz#30363f664797e7d40429f6c16946d6bd7a3f26c9"
+  integrity sha512-c7+7RQ+dMB5dPwwCp4ee1/iV/q2P6aK1mTZcfr1BTuVlyW9hJYiMPybJCcnBlQtuSmTIWNeazm/zqNoZSSElBg==
 
 nanomatch@^1.2.9:
   version "1.2.13"

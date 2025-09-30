@@ -22,10 +22,11 @@ export const requestCustomTransaction = async (
   transactionRequestBytes: string,
   inputNoteIds?: string[],
   importNotes?: string[],
-  delegateTransaction?: boolean
+  delegateTransaction?: boolean,
+  recipientAccountId?: string
 ): Promise<string> => {
   const byteArray = new Uint8Array(Buffer.from(transactionRequestBytes, 'base64'));
-  const transaction = new Transaction(accountId, byteArray, inputNoteIds, delegateTransaction);
+  const transaction = new Transaction(accountId, byteArray, inputNoteIds, delegateTransaction, recipientAccountId);
   await Repo.transactions.add(transaction);
 
   if (importNotes) {
