@@ -20,7 +20,8 @@ export type MidenDAppRequest =
   | MidenDAppConsumeRequest
   | MidenDAppPrivateNotesRequest
   | MidenDAppSignRequest
-  | MidenDAppAssetsRequest;
+  | MidenDAppAssetsRequest
+  | MidenDAppImportPrivateNoteRequest;
 
 export type MidenDAppResponse =
   | MidenDAppGetCurrentPermissionResponse
@@ -31,7 +32,8 @@ export type MidenDAppResponse =
   | MidenDAppConsumeResponse
   | MidenDAppPrivateNotesResponse
   | MidenDAppSignResponse
-  | MidenDAppAssetsResponse;
+  | MidenDAppAssetsResponse
+  | MidenDAppImportPrivateNoteResponse;
 
 export interface MidenDAppMessageBase {
   type: MidenDAppMessageType;
@@ -55,7 +57,9 @@ export enum MidenDAppMessageType {
   SignRequest = 'SIGN_REQUEST',
   SignResponse = 'SIGN_RESPONSE',
   AssetsRequest = 'ASSETS_REQUEST',
-  AssetsResponse = 'ASSETS_RESPONSE'
+  AssetsResponse = 'ASSETS_RESPONSE',
+  ImportPrivateNoteRequest = 'IMPORT_PRIVATE_NOTE_REQUEST',
+  ImportPrivateNoteResponse = 'IMPORT_PRIVATE_NOTE_RESPONSE'
 }
 
 /**
@@ -159,6 +163,17 @@ export interface MidenDAppAssetsRequest extends MidenDAppMessageBase {
 export interface MidenDAppAssetsResponse extends MidenDAppMessageBase {
   type: MidenDAppMessageType.AssetsResponse;
   assets: Asset[];
+}
+
+export interface MidenDAppImportPrivateNoteRequest extends MidenDAppMessageBase {
+  type: MidenDAppMessageType.ImportPrivateNoteRequest;
+  sourcePublicKey: string;
+  note: string;
+}
+
+export interface MidenDAppImportPrivateNoteResponse extends MidenDAppMessageBase {
+  type: MidenDAppMessageType.ImportPrivateNoteResponse;
+  noteId: string;
 }
 
 /**

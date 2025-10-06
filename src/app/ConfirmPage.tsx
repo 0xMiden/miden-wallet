@@ -200,7 +200,8 @@ const ConfirmDAppForm: FC = () => {
     confirmDAppTransaction,
     confirmDAppPrivateNotes,
     confirmDAppSign,
-    confirmDAppAssets
+    confirmDAppAssets,
+    confirmDAppImportPrivateNote
   } = useMidenContext();
   const account = useAccount();
   const isPublicAccount = account.isPublic;
@@ -255,6 +256,8 @@ const ConfirmDAppForm: FC = () => {
           return confirmDAppSign(id, confirmed);
         case 'assets':
           return confirmDAppAssets(id, confirmed);
+        case 'importPrivateNote':
+          return confirmDAppImportPrivateNote(id, confirmed);
       }
     },
     [
@@ -267,6 +270,7 @@ const ConfirmDAppForm: FC = () => {
       confirmDAppPrivateNotes,
       confirmDAppSign,
       confirmDAppAssets,
+      confirmDAppImportPrivateNote,
       delegate
     ]
   );
@@ -419,6 +423,29 @@ const ConfirmDAppForm: FC = () => {
               <div className="flex flex-col">
                 <Name className="font-semibold">{payload.origin}</Name>
                 <span>Requests assets</span>
+              </div>
+            </div>
+          )
+        };
+      case 'importPrivateNote':
+        return {
+          title: 'Request Import Private Note',
+          declineActionTitle: t('cancel'),
+          declineActionTestID: ConfirmPageSelectors.RequestImportPrivateNote_RejectButton,
+          confirmActionTitle: t('confirm'),
+          confirmActionTestID: ConfirmPageSelectors.RequestImportPrivateNote_AcceptButton,
+          want: (
+            <div
+              className={classNames(
+                'text-sm text-left text-black',
+                'flex w-full gap-x-3 items-center p-4',
+                'border border-gray-100 rounded-2xl mb-4'
+              )}
+            >
+              <Icon name={IconName.Globe} fill="black" size="md" />
+              <div className="flex flex-col">
+                <Name className="font-semibold">{payload.origin}</Name>
+                <span>Import private note</span>
               </div>
             </div>
           )
