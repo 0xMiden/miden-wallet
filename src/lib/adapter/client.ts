@@ -177,6 +177,16 @@ export async function requestAssets(sourcePublicKey: string) {
   return res.assets;
 }
 
+export async function importPrivateNote(sourcePublicKey: string, note: string) {
+  const res = await request({
+    type: MidenDAppMessageType.ImportPrivateNoteRequest,
+    sourcePublicKey,
+    note
+  });
+  assertResponse(res.type === MidenDAppMessageType.ImportPrivateNoteResponse);
+  return res.noteId;
+}
+
 function request(payload: MidenDAppRequest) {
   return new Promise<MidenDAppResponse>((resolve, reject) => {
     const reqId = nanoid();

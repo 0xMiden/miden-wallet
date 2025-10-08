@@ -30,7 +30,9 @@ import {
   MidenDAppSignRequest,
   MidenDAppSignResponse,
   MidenDAppAssetsResponse,
-  MidenDAppAssetsRequest
+  MidenDAppAssetsRequest,
+  MidenDAppImportPrivateNoteRequest,
+  MidenDAppImportPrivateNoteResponse
 } from 'lib/adapter/types';
 import { intercom } from 'lib/miden/back/defaults';
 import { Vault } from 'lib/miden/back/vault';
@@ -516,6 +518,80 @@ async function getAssets(accountId: string): Promise<Asset[]> {
   }
 }
 
+export async function requestImportPrivateNote(
+  origin: string,
+  req: MidenDAppImportPrivateNoteRequest
+): Promise<MidenDAppImportPrivateNoteResponse> {
+  if (!req?.sourcePublicKey || !req?.note) {
+    throw new Error(MidenDAppErrorType.InvalidParams);
+  }
+
+  const dApp = await getDApp(origin, req.sourcePublicKey);
+  if (!dApp) {
+    throw new Error(MidenDAppErrorType.NotGranted);
+  }
+
+  if (req.sourcePublicKey !== dApp.accountId) {
+    throw new Error(MidenDAppErrorType.NotFound);
+  }
+
+  return new Promise((resolve, reject) => generatePromisifyImportPrivateNote(resolve, reject, dApp, req));
+}
+
+export const generatePromisifyImportPrivateNote = async (
+  resolve: (value: MidenDAppImportPrivateNoteResponse | PromiseLike<MidenDAppImportPrivateNoteResponse>) => void,
+  reject: (reason?: any) => void,
+  dApp: MidenDAppSession,
+  req: MidenDAppImportPrivateNoteRequest
+) => {
+  const id = nanoid();
+  const networkRpc = await getNetworkRPC(dApp.network);
+
+  await requestConfirm({
+    id,
+    payload: {
+      type: 'importPrivateNote',
+      origin,
+      networkRpc,
+      appMeta: dApp.appMeta,
+      sourcePublicKey: req.sourcePublicKey,
+      note: req.note,
+      preview: null
+    },
+    onDecline: () => {
+      reject(new Error(MidenDAppErrorType.NotGranted));
+    },
+    handleIntercomRequest: async (confirmReq, decline) => {
+      if (confirmReq?.type === MidenMessageType.DAppImportPrivateNoteConfirmationRequest && confirmReq?.id === id) {
+        if (confirmReq.confirmed) {
+          try {
+            let noteId = await withUnlocked(async () => {
+              const midenClient = await MidenClientInterface.create();
+              const noteAsUint8Array = b64ToU8(req.note);
+              const noteId = await midenClient.importNoteBytes(noteAsUint8Array);
+              await midenClient.syncState();
+              return noteId;
+            });
+            resolve({
+              type: MidenDAppMessageType.ImportPrivateNoteResponse,
+              noteId: noteId
+            });
+          } catch (e) {
+            reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+          }
+        } else {
+          decline();
+        }
+
+        return {
+          type: MidenMessageType.DAppImportPrivateNoteConfirmationResponse
+        };
+      }
+      return undefined;
+    }
+  });
+};
+
 export async function requestTransaction(
   origin: string,
   req: MidenDAppTransactionRequest
@@ -582,8 +658,16 @@ const generatePromisifyTransaction = async (
           try {
             const transactionId = await withUnlocked(async () => {
               const { payload } = req.transaction;
-              const { accountId, transactionRequest, inputNoteIds, importNotes } = payload as MidenCustomTransaction;
-              return await requestCustomTransaction(accountId, transactionRequest, inputNoteIds, importNotes);
+              const { accountId, recipientAccountId, transactionRequest, inputNoteIds, importNotes } =
+                payload as MidenCustomTransaction;
+              return await requestCustomTransaction(
+                accountId,
+                transactionRequest,
+                inputNoteIds,
+                importNotes,
+                undefined,
+                recipientAccountId || undefined
+              );
             });
             resolve({
               type: MidenDAppMessageType.TransactionResponse,
@@ -974,6 +1058,7 @@ function formatConsumeTransactionPreview(transaction: MidenConsumeTransaction): 
 function formatCustomTransactionPreview(payload: MidenCustomTransaction): string[] {
   return [
     'This dApp is requesting a custom transaction,',
-    'please ensure you know the details of the transaction before proceeding.'
+    'please ensure you know the details of the transaction before proceeding.',
+    `Recipient, ${shortenAddress(payload.recipientAccountId)}`
   ];
 }

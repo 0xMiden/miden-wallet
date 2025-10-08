@@ -99,12 +99,20 @@ export interface MidenDAppAssetsPayload extends MidenDAppPayloadBase {
   preview: any;
 }
 
+export interface MidenDAppImportPrivateNotePayload extends MidenDAppPayloadBase {
+  type: 'importPrivateNote';
+  sourcePublicKey: string;
+  note: string;
+  preview: any;
+}
+
 export type MidenDAppPayload =
   | MidenDAppConnectPayload
   | MidenDAppTransactionPayload
   | MidenDAppPrivateNotesPayload
   | MidenDAppSignPayload
-  | MidenDAppAssetsPayload;
+  | MidenDAppAssetsPayload
+  | MidenDAppImportPrivateNotePayload;
 
 /**
  * Messages
@@ -127,7 +135,9 @@ export enum MidenMessageType {
   DAppSignConfirmationRequest = 'MIDEN_DAPP_SIGN_CONFIRMATION_REQUEST',
   DAppSignConfirmationResponse = 'MIDEN_DAPP_SIGN_CONFIRMATION_RESPONSE',
   DAppAssetsConfirmationRequest = 'MIDEN_DAPP_ASSETS_CONFIRMATION_REQUEST',
-  DAppAssetsConfirmationResponse = 'MIDEN_DAPP_ASSETS_CONFIRMATION_RESPONSE'
+  DAppAssetsConfirmationResponse = 'MIDEN_DAPP_ASSETS_CONFIRMATION_RESPONSE',
+  DAppImportPrivateNoteConfirmationRequest = 'MIDEN_DAPP_IMPORT_PRIVATE_NOTE_CONFIRMATION_REQUEST',
+  DAppImportPrivateNoteConfirmationResponse = 'MIDEN_DAPP_IMPORT_PRIVATE_NOTE_CONFIRMATION_RESPONSE'
 }
 
 export type MidenRequest =
@@ -139,7 +149,8 @@ export type MidenRequest =
   | MidenRemoveDAppSessionRequest
   | MidenDAppPrivateNotesConfirmationRequest
   | MidenDAppSignConfirmationRequest
-  | MidenDAppAssetsConfirmationRequest;
+  | MidenDAppAssetsConfirmationRequest
+  | MidenDAppImportPrivateNoteConfirmationRequest;
 
 export type MidenResponse =
   | MidenPageResponse
@@ -150,7 +161,8 @@ export type MidenResponse =
   | MidenRemoveDAppSessionResponse
   | MidenDAppPrivateNotesConfirmationResponse
   | MidenDAppSignConfirmationResponse
-  | MidenDAppAssetsConfirmationResponse;
+  | MidenDAppAssetsConfirmationResponse
+  | MidenDAppImportPrivateNoteConfirmationResponse;
 
 export interface MidenPageRequest extends WalletMessageBase {
   type: MidenMessageType.PageRequest;
@@ -236,17 +248,28 @@ export interface MidenDAppSignConfirmationRequest extends WalletMessageBase {
   id: string;
   confirmed: boolean;
 }
-export interface MidenDAppAssetsConfirmationRequest extends WalletMessageBase {
-  type: MidenMessageType.DAppAssetsConfirmationRequest;
-  id: string;
-  confirmed: boolean;
-}
 
 export interface MidenDAppSignConfirmationResponse extends WalletMessageBase {
   type: MidenMessageType.DAppSignConfirmationResponse;
   signature: string;
 }
 
+export interface MidenDAppAssetsConfirmationRequest extends WalletMessageBase {
+  type: MidenMessageType.DAppAssetsConfirmationRequest;
+  id: string;
+  confirmed: boolean;
+}
+
 export interface MidenDAppAssetsConfirmationResponse extends WalletMessageBase {
   type: MidenMessageType.DAppAssetsConfirmationResponse;
+}
+
+export interface MidenDAppImportPrivateNoteConfirmationRequest extends WalletMessageBase {
+  type: MidenMessageType.DAppImportPrivateNoteConfirmationRequest;
+  id: string;
+  confirmed: boolean;
+}
+
+export interface MidenDAppImportPrivateNoteConfirmationResponse extends WalletMessageBase {
+  type: MidenMessageType.DAppImportPrivateNoteConfirmationResponse;
 }

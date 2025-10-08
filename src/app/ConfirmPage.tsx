@@ -13,7 +13,7 @@ import Unlock from 'app/pages/Unlock';
 import { Button, ButtonVariant } from 'components/Button';
 import { CustomRpsContext } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
-import { useAccount, useMidenContext } from 'lib/miden/front';
+import { MIDEN_METADATA, useAccount, useMidenContext } from 'lib/miden/front';
 import { MidenDAppPayload } from 'lib/miden/types';
 import { b64ToU8 } from 'lib/shared/helpers';
 import { WalletAccount } from 'lib/shared/types';
@@ -145,7 +145,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
                 <span className="text-gray-600">{t('account')}</span>
                 <div className="text-black flex flex-col items-end">
                   <span>{account.name}</span>
-                  <span>{account.publicKey}</span>
+                  <span>{truncateHash(account.publicKey)}</span>
                 </div>
               </div>
             </>
@@ -153,10 +153,18 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
           <hr className="h-px bg-grey-100 my-4" />
           {payload.transactionMessages.slice(2).map((message, i) => {
             const messageParts = message.split(', ');
+            let value = messageParts[1];
+            if (messageParts[0] === 'Amount') {
+              const microcredits = Number(value);
+              const amount = microcredits / 10 ** MIDEN_METADATA.decimals;
+              value = amount.toString();
+            } else if (messageParts[0] === 'Recipient') {
+              value = truncateHash(value);
+            }
             return (
               <div className="flex justify-between my-2 text-sm" key={i + 2}>
                 <span className="text-gray-600">{messageParts[0]}</span>
-                <span className="text-black">{messageParts[1]}</span>
+                <span className="text-black">{value}</span>
               </div>
             );
           })}
@@ -192,7 +200,8 @@ const ConfirmDAppForm: FC = () => {
     confirmDAppTransaction,
     confirmDAppPrivateNotes,
     confirmDAppSign,
-    confirmDAppAssets
+    confirmDAppAssets,
+    confirmDAppImportPrivateNote
   } = useMidenContext();
   const account = useAccount();
   const isPublicAccount = account.isPublic;
@@ -247,6 +256,8 @@ const ConfirmDAppForm: FC = () => {
           return confirmDAppSign(id, confirmed);
         case 'assets':
           return confirmDAppAssets(id, confirmed);
+        case 'importPrivateNote':
+          return confirmDAppImportPrivateNote(id, confirmed);
       }
     },
     [
@@ -259,6 +270,7 @@ const ConfirmDAppForm: FC = () => {
       confirmDAppPrivateNotes,
       confirmDAppSign,
       confirmDAppAssets,
+      confirmDAppImportPrivateNote,
       delegate
     ]
   );
@@ -411,6 +423,29 @@ const ConfirmDAppForm: FC = () => {
               <div className="flex flex-col">
                 <Name className="font-semibold">{payload.origin}</Name>
                 <span>Requests assets</span>
+              </div>
+            </div>
+          )
+        };
+      case 'importPrivateNote':
+        return {
+          title: 'Request Import Private Note',
+          declineActionTitle: t('cancel'),
+          declineActionTestID: ConfirmPageSelectors.RequestImportPrivateNote_RejectButton,
+          confirmActionTitle: t('confirm'),
+          confirmActionTestID: ConfirmPageSelectors.RequestImportPrivateNote_AcceptButton,
+          want: (
+            <div
+              className={classNames(
+                'text-sm text-left text-black',
+                'flex w-full gap-x-3 items-center p-4',
+                'border border-gray-100 rounded-2xl mb-4'
+              )}
+            >
+              <Icon name={IconName.Globe} fill="black" size="md" />
+              <div className="flex flex-col">
+                <Name className="font-semibold">{payload.origin}</Name>
+                <span>Import private note</span>
               </div>
             </div>
           )
