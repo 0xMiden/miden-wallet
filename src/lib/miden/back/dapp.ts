@@ -11,6 +11,7 @@ import {
 import { nanoid } from 'nanoid';
 import browser, { Runtime } from 'webextension-polyfill';
 
+import { formatAmount, getTokenMetadata } from 'app/templates/activity/Activity';
 import {
   MidenDAppDisconnectRequest,
   MidenDAppDisconnectResponse,
@@ -810,7 +811,7 @@ const generatePromisifyConsumeTransaction = async (
   let transactionMessages: string[] = [];
   try {
     transactionMessages = await withUnlocked(async () => {
-      return formatConsumeTransactionPreview(req.transaction);
+      return await formatConsumeTransactionPreview(req.transaction);
     });
   } catch (e) {
     reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
@@ -1045,11 +1046,14 @@ function formatSendTransactionPreview(transaction: SendTransaction): string[] {
   return tsTexts;
 }
 
-function formatConsumeTransactionPreview(transaction: MidenConsumeTransaction): string[] {
+async function formatConsumeTransactionPreview(transaction: MidenConsumeTransaction): Promise<string[]> {
+  const faucetId = transaction.faucetId;
+  const tokenMetadata = await getTokenMetadata(faucetId);
+  const amount = formatAmount(BigInt(transaction.amount), 'consume', tokenMetadata?.decimals);
   return [
     'Consuming note from faucet',
     transaction.faucetId,
-    `Amount, ${transaction.amount}`,
+    `Amount, ${amount}`,
     `Note ID, ${shortenAddress(transaction.noteId)}`,
     `Note Type, ${capitalizeFirstLetter(transaction.noteType)}`
   ];
