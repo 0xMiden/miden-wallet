@@ -27,3 +27,12 @@ export function b64ToU8(b64: string): Uint8Array {
   if (Buf) return new Uint8Array(Buf.from(b64, 'base64'));
   throw new Error('No base64 decoder available in this environment');
 }
+
+export function bytesToHex(u8: Uint8Array): string {
+  let s = '';
+  for (let i = 0; i < u8.length; i++) {
+    const h = u8[i].toString(16).padStart(2, '0');
+    s += h;
+  }
+  return s;
+}
