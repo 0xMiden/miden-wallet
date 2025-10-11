@@ -40,8 +40,8 @@ const Options: FC = () => {
           className={classNames(
             'relative',
             'px-2 py-1',
-            'bg-primary-purple rounded',
-            'border-2 border-primary-purple',
+            'bg-primary-orange rounded',
+            'border-2 border-primary-orange',
             'flex items-center',
             'text-white',
             'text-sm font-semibold',

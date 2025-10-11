@@ -74,7 +74,7 @@ export const ContactsListScreen: React.FC<ContactsListScreenProps> = ({
                   key={el.id}
                   title={el.name}
                   subtitle={shortenAddress(el.address)}
-                  iconLeft={<Avatar image="/misc/avatars/leo-green.jpg" size="lg" />}
+                  iconLeft={<Avatar image="/misc/avatars/miden-orange.jpg" size="lg" />}
                   iconRight={el.address === recipientAddress ? IconName.CheckboxCircleFill : undefined}
                   onClick={() => onSelectContact(el)}
                 />

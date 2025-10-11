@@ -65,14 +65,14 @@ const ToggleSwitch = forwardRef<HTMLInputElement, ToggleSwitchProps>(
           htmlFor={rest.id}
           className={classNames(
             'toggle-label block overflow-hidden h-6 rounded-full cursor-pointer',
-            localChecked ? 'bg-primary-purple' : 'bg-white',
+            localChecked ? 'bg-primary-orange' : 'bg-white',
             'transition ease-in-out duration-200'
           )}
           style={{ border: localChecked ? '' : '2px solid #E5E7EB' }}
         >
           <div
             className={`dot absolute rounded-full transform-gpu transition-transform duration-200 ease-in ${
-              localChecked ? 'bg-white translate-x-full' : 'bg-primary-purple'
+              localChecked ? 'bg-white translate-x-full' : 'bg-primary-orange'
             }`}
             style={{
               height: '14px',

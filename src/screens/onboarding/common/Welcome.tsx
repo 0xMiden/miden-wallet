@@ -27,7 +27,7 @@ export const WelcomeScreen = ({ onSubmit, ...props }: WelcomeScreenProps) => {
         />
       </div>
       <div className="w-[360px] flex flex-col gap-2">
-        <Button tabIndex={0} autoFocus title={t('createANewWallet')} onClick={() => onSubmit?.('select-wallet-type')} />
+        <Button tabIndex={0} title={t('createANewWallet')} onClick={() => onSubmit?.('select-wallet-type')} />
         <Button
           id={'import-link'}
           title={t('iAlreadyHaveAWallet')}

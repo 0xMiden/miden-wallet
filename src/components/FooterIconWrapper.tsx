@@ -4,7 +4,6 @@ import classNames from 'clsx';
 
 import { Icon, IconName } from 'app/icons/v2';
 import { Link, useLocation } from 'lib/woozie';
-import colors from 'utils/tailwind-colors';
 
 export interface FooterIconWrapperProps {
   linkTo: string;
@@ -31,7 +30,7 @@ export const FooterIconWrapper: React.FC<FooterIconWrapperProps> = ({ linkTo, on
           active ? 'bg-grey-25' : ''
         )}
       >
-        <Icon name={active ? iconFill : icon} size="sm" fill={active ? colors.primary[600] : 'black'} />
+        <Icon name={active ? iconFill : icon} size="sm" fill="black" />
         {badge && (
           <div
             className={classNames(

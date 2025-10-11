@@ -41,15 +41,15 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       <div
         className={classNames(
           'h-6 w-6 flex-shrink-0',
-          localChecked ? 'bg-primary-purple' : 'bg-black-40',
+          localChecked ? 'bg-primary-orange' : 'bg-black-40',
           'border',
           (() => {
             switch (true) {
               case localChecked:
-                return 'border-primary-purple-dark';
+                return 'border-primary-orange-dark';
 
               case localFocused:
-                return 'border-primary-purple';
+                return 'border-primary-orange';
 
               case Boolean(errored):
                 return 'border-red-400';

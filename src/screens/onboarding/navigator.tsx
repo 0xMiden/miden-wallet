@@ -185,6 +185,7 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
     <div
       className={classNames(
         'w-[37.5rem] h-[40rem] mx-auto',
+        'border border-gray-100',
         'flex flex-col',
         'rounded-3xl',
         'bg-white',

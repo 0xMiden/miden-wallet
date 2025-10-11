@@ -15,7 +15,7 @@ const UploadFileButton: FC<UploadFileButtonProps> = ({ uploadFile }) => {
       className={classNames(
         'relative w-full',
         'rounded-lg border-2',
-        'bg-primary-500 border-primary-purple',
+        'bg-primary-500 border-primary-orange',
         'flex justify-center',
         'font-medium',
         'transition duration-200 ease-in-out',

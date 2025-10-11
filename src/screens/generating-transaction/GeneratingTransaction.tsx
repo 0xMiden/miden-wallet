@@ -136,7 +136,7 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
 
     return (
       <div className="flex items-center justify-center">
-        <Icon name={IconName.YellowProgress} className="absolute" size="3xl" />
+        <Icon name={IconName.InProgress} className="absolute" size="3xl" />
         <CircularProgress borderWeight={2} progress={progress} circleColor="black" circleSize={55} spin={true} />
       </div>
     );

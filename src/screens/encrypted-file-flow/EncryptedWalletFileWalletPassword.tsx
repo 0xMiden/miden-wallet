@@ -113,6 +113,7 @@ const EncryptedWalletFileWalletPassword: React.FC<EncryptedWalletFileWalletPassw
               }
               onChange={onPasswordChange}
               onKeyDown={handleEnterKey}
+              autoFocus
             />
             {errors.password && <p className="h-4 text-red-500 text-xs">{errors.password.message}</p>}
           </div>

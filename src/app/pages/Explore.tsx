@@ -136,7 +136,7 @@ const Explore: FC = () => {
   }
 
   const size = fullPage ? { height: '640px', width: '600px' } : { height: '600px', width: '360px' };
-  const background = 'url(/misc/bg.png) white 0px -2.504px / 100% 137.401% no-repeat';
+  const background = 'url(/misc/bg.svg) white center top / cover no-repeat';
   const sendLink = tokens.length > 0 ? '/send' : '/get-tokens';
 
   return (

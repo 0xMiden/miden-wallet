@@ -80,7 +80,7 @@ const ActivityContent: FC<ActivityItemProps> = ({ fullHistory, activity }) => {
       <div
         className={`flex items-center ${animateSpin}`}
         style={{
-          backgroundColor: '#F2F3F6',
+          backgroundColor: '#FFE6D9',
           borderRadius: '20px',
           padding: '6px',
           paddingLeft: '8px',

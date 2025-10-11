@@ -27,8 +27,8 @@ const Footer: FC<FooterProps> = ({ activityBadge }) => {
       <div className="flex justify-between">
         <FooterIconWrapper icon={IconName.Home} iconFill={IconName.HomeFill} linkTo={'/'} onClick={onHomeClick} />
         <FooterIconWrapper
-          icon={IconName.List}
-          iconFill={IconName.List}
+          icon={IconName.Time}
+          iconFill={IconName.TimeFill}
           linkTo={'/activity'}
           onClick={onActivityClick}
           badge={activityBadge}

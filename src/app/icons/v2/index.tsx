@@ -60,6 +60,7 @@ import { ReactComponent as ImageFill } from './image-fill.svg';
 import { ReactComponent as ImagePrivate } from './image-private.svg';
 import { ReactComponent as ImagePublic } from './image-public.svg';
 import { ReactComponent as Image } from './image.svg';
+import { ReactComponent as InProgress } from './in-progress.svg';
 import { ReactComponent as IndeterminateCircle } from './indeterminate-circle.svg';
 import { ReactComponent as InformationFill } from './information-fill.svg';
 import { ReactComponent as Information } from './information.svg';
@@ -85,6 +86,8 @@ import { ReactComponent as Settings } from './settings.svg';
 import { ReactComponent as Share } from './share.svg';
 import { ReactComponent as SmileSad } from './smile-sad.svg';
 import { ReactComponent as Success } from './success.svg';
+import { ReactComponent as TimeFill } from './time-fill.svg';
+import { ReactComponent as Time } from './time.svg';
 import { ReactComponent as Tokens } from './tokens.svg';
 import { ReactComponent as UploadFile } from './upload-file.svg';
 import { ReactComponent as UploadedFile } from './uploaded-file.svg';
@@ -94,7 +97,6 @@ import { ReactComponent as WalletWelcome } from './wallet-welcome.svg';
 import { ReactComponent as Wallet } from './wallet.svg';
 import { ReactComponent as WarningFill } from './warning-fill.svg';
 import { ReactComponent as Warning } from './warning.svg';
-import { ReactComponent as YellowProgress } from './yellow-progress.svg';
 
 export enum IconName {
   AddCircle = 'add-circle',
@@ -175,6 +177,8 @@ export enum IconName {
   Settings = 'settings',
   Share = 'share',
   SmileSad = 'smile-sad',
+  Time = 'time',
+  TimeFill = 'time-fill',
   User = 'user',
   Users = 'users',
   Wallet = 'wallet',
@@ -186,7 +190,7 @@ export enum IconName {
   MidenLogoOrange = 'miden-logo-orange',
   UploadFile = 'upload-file',
   UploadedFile = 'uploaded-file',
-  YellowProgress = 'yellow-progress',
+  InProgress = 'in-progress',
   Failed = 'failed',
   Success = 'success',
   Tokens = 'tokens'
@@ -355,6 +359,10 @@ const IconSwitch = (props: IconProps) => {
       return <Share {...props} />;
     case IconName.SmileSad:
       return <SmileSad {...props} />;
+    case IconName.Time:
+      return <Time {...props} />;
+    case IconName.TimeFill:
+      return <TimeFill {...props} />;
     case IconName.User:
       return <User {...props} />;
     case IconName.Users:
@@ -379,8 +387,8 @@ const IconSwitch = (props: IconProps) => {
       return <UploadedFile {...props} />;
     case IconName.ArrowRightDownFilledCircle:
       return <ArrowRightDownFilledCircle {...props} />;
-    case IconName.YellowProgress:
-      return <YellowProgress {...props} />;
+    case IconName.InProgress:
+      return <InProgress {...props} />;
     case IconName.Failed:
       return <Failed {...props} />;
     case IconName.Success:

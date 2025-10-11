@@ -6,9 +6,9 @@
 
 const colors = {
   primary: {
-    50: '#FBF6FF',
-    500: '#634CFF',
-    600: '#4A37DB'
+    50: '#FFF0E5',
+    500: '#FF5500',
+    600: '#CC4400'
   },
   grey: {
     25: '#F9F9F9',

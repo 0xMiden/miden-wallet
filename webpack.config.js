@@ -115,7 +115,7 @@ const appConfig = {
 
     new WebpackBar({
       name: 'Miden Wallet',
-      color: '#634CFF'
+      color: '#FF5500'
     })
   ],
   module: {
@@ -296,7 +296,7 @@ const backgroundConfig = {
 
     new WebpackBar({
       name: 'Miden Wallet Background',
-      color: '#634CFF'
+      color: '#FF5500'
     })
   ],
   module: {
@@ -452,7 +452,7 @@ const workerConfig = {
 
     new WebpackBar({
       name: 'Miden Wallet Workers',
-      color: '#634CFF'
+      color: '#FF5500'
     })
   ],
   module: {

@@ -29,7 +29,6 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ classNam
       <div className="flex mt-auto justify-center">
         <Button
           tabIndex={0}
-          autoFocus
           title={t('getStarted')}
           className="w-[360px] self-center"
           onClick={onSubmit}

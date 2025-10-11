@@ -11,7 +11,7 @@ interface OnboardingViewProps {
 
 const OnboardingView: FC<OnboardingViewProps> = ({ renderHeader, renderStep, step, navigationDirection }) => {
   return (
-    <div className="w-[37.5rem] h-[40rem] mx-auto flex flex-col bg-white rounded-3xl overflow-hidden">
+    <div className="w-[37.5rem] h-[40rem] border border-gray-100 mx-auto flex flex-col bg-white rounded-3xl overflow-hidden">
       <AnimatePresence mode={'wait'} initial={false}>
         {renderHeader()}
       </AnimatePresence>
