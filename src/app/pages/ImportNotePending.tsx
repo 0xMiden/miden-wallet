@@ -73,7 +73,7 @@ const ImportNotePending: FC<ImportNotePendingProps> = ({ noteId }) => {
       <div className="flex m-auto">
         <div className="flex-1 flex flex-col justify-center items-center md:w-[460px] md:mx-auto">
           <div className="w-40 aspect-square flex items-center justify-center mb-8">
-            <Icon name={IconName.YellowProgress} className="absolute" size="3xl" />
+            <Icon name={IconName.InProgress} className="absolute" size="3xl" />
             <CircularProgress borderWeight={2} progress={80} circleColor="black" circleSize={55} spin={true} />
           </div>
           <h1 className="flex flex-col font-semibold text-2xl lh-title text-center text-balance pb-4">

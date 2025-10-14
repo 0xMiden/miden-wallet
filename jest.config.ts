@@ -9,7 +9,7 @@ export default {
   moduleNameMapper: {
     '^lib/(.*)$': '<rootDir>/src/lib/$1',
     '^shared/(.*)$': '<rootDir>/src/shared/$1',
-    '@demox-labs/aleo-sdk': '<rootDir>/__mocks__/wasmMock.js'
+    '@demox-labs/miden-sdk': '<rootDir>/__mocks__/wasmMock.js'
   },
   testEnvironment: 'jsdom',
   transform: {

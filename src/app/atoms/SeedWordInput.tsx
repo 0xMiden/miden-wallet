@@ -103,7 +103,7 @@ export const SeedWordInput: FC<SeedWordInputProps> = ({
           'w-full py-3 border-2',
           isError ? 'border-red-500' : 'border-gray-100',
           'rounded-lg',
-          'focus:border-primary-purple',
+          'focus:border-primary-orange',
           'bg-white focus:bg-transparent',
           'focus:outline-none focus:shadow-outline',
           'transition ease-in-out duration-200',

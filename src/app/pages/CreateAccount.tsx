@@ -118,6 +118,7 @@ const CreateAccount: FC = () => {
             name="name"
             placeholder={computedDefaultName}
             errorCaption={errors.name?.message}
+            autoFocus
           />
           <div className="text-gray-200 mb-8" style={{ fontSize: '12px', lineHeight: '16px' }}>
             {t('accountNameInputDescription')}

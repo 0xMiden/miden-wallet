@@ -109,6 +109,8 @@ const ExportFilePassword: React.FC<ExportFilePasswordProps> = ({
           onChange={onFileNameChange}
           suffix={EXTENSION}
           onKeyDown={handleNameInputTab}
+          tabIndex={0}
+          autoFocus
         />
 
         <div className="w-full items-center flex flex-col gap-y-4 flex-1">
@@ -127,6 +129,7 @@ const ExportFilePassword: React.FC<ExportFilePasswordProps> = ({
               }
               onChange={handlePasswordChange}
               onKeyDown={handlePasswordInputTab}
+              tabIndex={1}
             />
             <PasswordStrengthIndicator password={passwordValue} validation={passwordValidation} />
           </div>
@@ -144,6 +147,7 @@ const ExportFilePassword: React.FC<ExportFilePasswordProps> = ({
               }
               onChange={e => setVerifyPassword(e.target.value)}
               onKeyDown={handleEnterKey}
+              tabIndex={2}
             />
             <p
               className={classNames(

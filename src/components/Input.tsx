@@ -31,7 +31,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             'transition duration-300 ease-in-out',
             'overflow-hidden',
             'border border-grey-200 hover:border-grey-300 rounded-lg',
-            'has-[:focus]:outline-none has-[:focus]:border-primary-500 has-[:focus]:ring-1 has-[:focus]:ring-primary-500'
+            'has-[:focus]:outline-none has-[:focus]:border-black has-[:focus]:ring-1 has-[:focus]:ring-black'
           )}
         >
           {prefix && <div className="flex text-gray-400 ml-4 text-base">{prefix}</div>}

@@ -46,7 +46,7 @@ export const AccountsList: React.FC<AccountsListProps> = ({
               key={c.id}
               title={c.name}
               subtitle={shortenAddress(c.id)}
-              iconLeft={<Avatar image="/misc/avatars/leo-green.jpg" size="lg" />}
+              iconLeft={<Avatar image="/misc/avatars/miden-orange.jpg" size="lg" />}
               iconRight={c.id === recipientAccountId ? IconName.CheckboxCircleFill : undefined}
               onClick={() => onSelectContact(c)}
               hoverable={true}

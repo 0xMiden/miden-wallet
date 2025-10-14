@@ -115,12 +115,7 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({
         </div>
       </div>
       <div className="w-full pb-4 px-4">
-        <Button
-          className="w-full justify-center"
-          title={t('done')}
-          variant={ButtonVariant.Secondary}
-          onClick={onDone}
-        />
+        <Button className="w-full justify-center" title={t('done')} variant={ButtonVariant.Primary} onClick={onDone} />
       </div>
     </div>
   );
