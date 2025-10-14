@@ -1253,29 +1253,18 @@
   resolved "https://registry.yarnpkg.com/@demox-labs/amp-core/-/amp-core-0.1.0.tgz#7a401fc856b28a98168d38b28e787846fdc3cc49"
   integrity sha512-L10JKzw32Z5geDHytb5ApVDUBRQ+T6/pfSaM5oeeaOrM5V7Rmbizoa0D3xzEaE6eDcm6X6U+bc0cun3cznJL+g==
 
-"@demox-labs/miden-sdk@0.11.6":
-  version "0.11.6"
-  resolved "https://registry.yarnpkg.com/@demox-labs/miden-sdk/-/miden-sdk-0.11.6.tgz#f63434c59fe27d0f77d1e70c4c5ba67f77d38bc0"
-  integrity sha512-z5EUXCjGOQ6TZDzYu9q9nwHSu0auJyBQ0LeDJ6oetg7N1WzFiCnzhofzwfMjuADCrEFqZzl7h4jV0lIHE/Pryw==
+"@demox-labs/miden-sdk@file:../miden-client/crates/web-client":
+  version "0.11.8"
   dependencies:
     chai-as-promised "^8.0.0"
     dexie "^4.0.1"
     glob "^11.0.0"
 
-"@demox-labs/miden-wallet-adapter-base@0.7.0", "@demox-labs/miden-wallet-adapter-base@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-base/-/miden-wallet-adapter-base-0.7.0.tgz#36b308725f5cb54eec9350bb72a83fc3c0aa037f"
-  integrity sha512-watHGjdx698J2leNFmGksCK8KbYBJXUhXw8zvCu8LkAg+QhtCwlvrwyVaM/3Q7O3hNdnrBEEg3CzofMqBzGN0A==
-  dependencies:
-    eventemitter3 "^5.0.1"
+"@demox-labs/miden-wallet-adapter-base@file:../miden-wallet-adapter/packages/core/base/dist":
+  version "0.0.0"
 
-"@demox-labs/miden-wallet-adapter-miden@0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-miden/-/miden-wallet-adapter-miden-0.7.0.tgz#3288bd9579ac7026c2db38680fd2ceff8ae43ded"
-  integrity sha512-uXAz5sYtBPiO/b5scvhiYRHA9vROlPgeLjZJbbziuuv9LQbKNGhLzTAvJ9s2yYXG93C5n9MgeBveMW7+fQjGKw==
-  dependencies:
-    "@demox-labs/miden-wallet-adapter-base" "^0.7.0"
-    nanoid "^5.0.9"
+"@demox-labs/miden-wallet-adapter-miden@file:../miden-wallet-adapter/packages/wallets/miden/dist":
+  version "0.0.0"
 
 "@dicebear/avatars-bottts-sprites@4.2.5":
   version "4.2.5"
@@ -5609,9 +5598,9 @@ dexie@^3.2.2:
   integrity sha512-2a+BXvVhY5op+smDRLxeBAivE7YcYaneXJ1la3HOkUfX9zKkE/AJ8CNgjiXbtXepFyFmJNGSbmjOwqbT749r/w==
 
 dexie@^4.0.1:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/dexie/-/dexie-4.2.0.tgz#c4df27c68f862dd833bf510415595bf4955148df"
-  integrity sha512-OSeyyWOUetDy9oFWeddJgi83OnRA3hSFh3RrbltmPgqHszE9f24eUCVLI4mPg0ifsWk0lQTdnS+jyGNrPMvhDA==
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/dexie/-/dexie-4.2.1.tgz#70d111ae8d2dabf53f424fca79f6f918c407e6db"
+  integrity sha512-Ckej0NS6jxQ4Po3OrSQBFddayRhTCic2DoCAG5zacOfOVB9P2Q5Xc5uL/nVa7ZVs+HdMnvUPzLFCB/JwpB6Csg==
 
 didyoumean@^1.2.2:
   version "1.2.2"
@@ -6429,11 +6418,6 @@ eventemitter3@^2.0.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-2.0.3.tgz#b5e1079b59fb5e1ba2771c0a993be060a58c99ba"
   integrity sha512-jLN68Dx5kyFHaePoXWPsCGW5qdyZQtLYHkxkg02/Mz6g0kYpDx4FyP6XfArhQdlOC4b8Mv+EMxPo/8La7Tzghg==
-
-eventemitter3@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-5.0.1.tgz#53f5ffd0a492ac800721bb42c66b841de96423c4"
-  integrity sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==
 
 events@^3.2.0:
   version "3.3.0"
@@ -9515,11 +9499,6 @@ nanoid@^4.0.0:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-4.0.2.tgz#140b3c5003959adbebf521c170f282c5e7f9fb9e"
   integrity sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==
-
-nanoid@^5.0.9:
-  version "5.1.6"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-5.1.6.tgz#30363f664797e7d40429f6c16946d6bd7a3f26c9"
-  integrity sha512-c7+7RQ+dMB5dPwwCp4ee1/iV/q2P6aK1mTZcfr1BTuVlyW9hJYiMPybJCcnBlQtuSmTIWNeazm/zqNoZSSElBg==
 
 nanomatch@^1.2.9:
   version "1.2.13"

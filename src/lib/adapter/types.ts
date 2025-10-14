@@ -1,12 +1,13 @@
 import {
   AllowedPrivateData,
+  Asset,
+  InputNoteDetails,
+  MidenConsumeTransaction,
+  MidenSendTransaction,
   MidenTransaction,
   PrivateDataPermission,
-  WalletAdapterNetwork,
-  MidenSendTransaction,
-  MidenConsumeTransaction,
-  Asset,
-  InputNoteDetails
+  SignKind,
+  WalletAdapterNetwork
 } from '@demox-labs/miden-wallet-adapter-base';
 
 export type MidenDAppMessage = MidenDAppRequest | MidenDAppResponse;
@@ -148,6 +149,7 @@ export interface MidenDAppSignRequest extends MidenDAppMessageBase {
   type: MidenDAppMessageType.SignRequest;
   sourcePublicKey: string;
   payload: string;
+  kind: SignKind;
 }
 
 export interface MidenDAppSignResponse extends MidenDAppMessageBase {

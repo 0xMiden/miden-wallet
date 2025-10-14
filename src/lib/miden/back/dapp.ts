@@ -1,12 +1,20 @@
-import { AccountInterface, NetworkId, NoteFilter, NoteFilterTypes, NoteType, Word } from '@demox-labs/miden-sdk';
 import {
-  PrivateDataPermission,
-  MidenConsumeTransaction,
-  MidenCustomTransaction,
-  SendTransaction,
+  AccountInterface,
+  NetworkId,
+  NoteFilter,
+  NoteFilterTypes,
+  NoteType,
+  SigningInputs,
+  Word
+} from '@demox-labs/miden-sdk';
+import {
   AllowedPrivateData,
   Asset,
-  InputNoteDetails
+  InputNoteDetails,
+  MidenConsumeTransaction,
+  MidenCustomTransaction,
+  PrivateDataPermission,
+  SendTransaction
 } from '@demox-labs/miden-wallet-adapter-base';
 import { nanoid } from 'nanoid';
 import browser, { Runtime } from 'webextension-polyfill';
@@ -263,6 +271,7 @@ const generatePromisifySign = async (
       appMeta: dApp.appMeta,
       sourcePublicKey: req.sourcePublicKey,
       payload: req.payload,
+      kind: req.kind,
       preview: null
     },
     onDecline: () => {
@@ -279,9 +288,20 @@ const generatePromisifySign = async (
               const secretKey = await midenClient.getAccountAuthByPubKey(publicKeys[0]);
 
               const payloadAsUint8Array = b64ToU8(req.payload);
-              let word = Word.deserialize(payloadAsUint8Array);
-              const signature = secretKey.sign(word);
-              const signatureBytes = signature.serialize();
+
+              let signature = null;
+              switch (req.kind) {
+                case 'word':
+                  let word = Word.deserialize(payloadAsUint8Array);
+                  signature = secretKey.sign(word);
+                  break;
+                case 'signingInputs':
+                  let signingInputs = SigningInputs.deserialize(payloadAsUint8Array);
+                  signature = secretKey.signData(signingInputs);
+                  break;
+              }
+
+              const signatureBytes = signature!.serialize();
               const signatureAsB64 = u8ToB64(signatureBytes);
 
               return signatureAsB64;

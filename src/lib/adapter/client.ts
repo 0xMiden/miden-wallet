@@ -1,10 +1,11 @@
 import {
-  WalletAdapterNetwork,
-  PrivateDataPermission,
+  AllowedPrivateData,
+  MidenConsumeTransaction,
   MidenSendTransaction,
   MidenTransaction,
-  MidenConsumeTransaction,
-  AllowedPrivateData
+  PrivateDataPermission,
+  SignKind,
+  WalletAdapterNetwork
 } from '@demox-labs/miden-wallet-adapter-base';
 import { nanoid } from 'nanoid';
 
@@ -158,11 +159,12 @@ export async function requestPrivateNotes(sourcePublicKey: string) {
   return res.privateNotes;
 }
 
-export async function signMessage(sourcePublicKey: string, message: string) {
+export async function signBytes(sourcePublicKey: string, message: string, kind: SignKind) {
   const res = await request({
     type: MidenDAppMessageType.SignRequest,
     sourcePublicKey,
-    payload: message
+    payload: message,
+    kind: kind
   });
   assertResponse(res.type === MidenDAppMessageType.SignResponse);
   return res.signature;
