@@ -246,13 +246,14 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
 
   const onSelectContact = useCallback(
     (contact: Contact) => {
+      clearError('recipientAddress');
       onAction({
         id: SendFlowActionId.SetFormValues,
         payload: { recipientAddress: contact.id }
       });
       setTimeout(() => goBack(), 300);
     },
-    [onAction, goBack]
+    [onAction, goBack, clearError]
   );
 
   const onAmountChange = useCallback(
@@ -286,7 +287,8 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       id: SendFlowActionId.SetFormValues,
       payload: { recipientAddress: '' }
     });
-  }, [onAction]);
+    clearError('recipientAddress');
+  }, [onAction, clearError]);
 
   const renderStep = useCallback(
     (route: Route) => {
