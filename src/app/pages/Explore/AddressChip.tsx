@@ -14,7 +14,7 @@ type AddressChipProps = {
 const AddressChip: FC<AddressChipProps> = ({ publicKey, className, small, trim }) => {
   return (
     <div className={classNames('flex items-center', className)}>
-      <HashChip hash={publicKey} small={small} trim={trim} />
+      <HashChip hash={publicKey} small={small} trimHash={trim} />
     </div>
   );
 };

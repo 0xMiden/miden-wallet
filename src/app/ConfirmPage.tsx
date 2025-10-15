@@ -15,7 +15,7 @@ import { CustomRpsContext } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { MIDEN_METADATA, useAccount, useMidenContext } from 'lib/miden/front';
 import { MidenDAppPayload } from 'lib/miden/types';
-import { b64ToU8 } from 'lib/shared/helpers';
+import { b64ToU8, truncateHash } from 'lib/shared/helpers';
 import { WalletAccount } from 'lib/shared/types';
 import { useRetryableSWR } from 'lib/swr';
 import useSafeState from 'lib/ui/useSafeState';
@@ -77,11 +77,6 @@ function downloadData(filename: string, data: string) {
   link.click();
 
   document.body.removeChild(link);
-}
-
-function truncateHash(hash: string, front = 7, back = 4): string {
-  if (!hash) return '';
-  return `${hash.slice(0, front)}…${hash.slice(-back)}`;
 }
 
 interface PayloadContentProps {

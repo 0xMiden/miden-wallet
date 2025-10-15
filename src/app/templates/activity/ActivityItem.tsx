@@ -105,7 +105,7 @@ const ActivityContent: FC<ActivityItemProps> = ({ fullHistory, activity }) => {
                   {`${isReceive ? 'From' : 'To'} `}
                   <HashShortView
                     hash={activity.secondaryAddress}
-                    trim={popup}
+                    trimHash={popup}
                     firstCharsCount={13}
                     lastCharsCount={7}
                   />

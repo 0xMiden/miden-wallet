@@ -36,3 +36,8 @@ export function bytesToHex(u8: Uint8Array): string {
   }
   return s;
 }
+
+export function truncateHash(hash: string, front = 7, back = 4): string {
+  if (!hash) return '';
+  return `${hash.slice(0, front)}…${hash.slice(-back)}`;
+}

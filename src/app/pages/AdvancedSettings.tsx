@@ -32,7 +32,7 @@ const AdvancedSettings: FC = () => {
       <div className="flex flex-col w-[328px] gap-y-4">
         <div className="flex flex-row gap-x-2 px-2 justify-between">
           <span className="text-black text-sm py-1">Account Public Key</span>
-          <HashChip hash={publicKey || ''} small={false} trim={true} />
+          <HashChip hash={publicKey || ''} small={false} trimHash={true} />
         </div>
         <Link to={'settings/edit-miden-faucet-id'}>
           <ListItem title="Edit Miden Faucet ID" subtitle={faucetIdShortened} iconRight={IconName.ChevronRight} />
