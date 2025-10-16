@@ -344,9 +344,11 @@ export const safeGenerateTransactionsLoop = async () => {
       if (!lock) return;
 
       await generateTransactionsLoop();
+      return true;
     })
     .catch(e => {
       console.log(e);
       logger.error('Error in safe generate transactions loop', e);
+      return false;
     });
 };

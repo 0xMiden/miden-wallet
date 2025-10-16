@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import React, { FC, useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -25,7 +25,7 @@ export interface GeneratingTransactionPageProps {
 export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ keepOpen = false }) => {
   const { pageEvent, trackEvent } = useAnalytics();
   const [outputNotes, downloadAll] = useExportNotes();
-  const { t } = useTranslation();
+  const [error, setError] = useState(false);
 
   const { data: txs, mutate: mutateTx } = useRetryableSWR(
     [`all-latest-generating-transactions`],
@@ -74,15 +74,23 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
     prevTransactionsLength.current = transactions.length;
   }, [transactions, trackEvent, outputNotes, onClose]);
 
-  useEffect(() => {
-    dbTransactionsLoop();
-    setInterval(() => {
-      dbTransactionsLoop();
-      mutateTx();
-    }, 5_000);
-  }, [transactions, mutateTx]);
+  const generateTransaction = useCallback(async () => {
+    const success = await dbTransactionsLoop();
+    if (success === false) {
+      setError(true);
+    }
 
-  useBeforeUnload(t('generatingTransactionWarning'), transactions.length !== 0, downloadAll);
+    mutateTx();
+  }, [mutateTx, setError]);
+
+  useEffect(() => {
+    generateTransaction();
+    setInterval(() => {
+      generateTransaction();
+    }, 5_000);
+  }, [transactions, generateTransaction]);
+
+  useBeforeUnload(!error && transactions.length !== 0, downloadAll);
   const progress = transactions.length > 0 ? (1 / transactions.length) * 80 : 0;
 
   return (
@@ -102,6 +110,7 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
           onDoneClick={onClose}
           transactionComplete={transactions.length === 0}
           keepOpen={keepOpen}
+          error={error}
         />
       </div>
     </div>
@@ -111,17 +120,17 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
 export interface GeneratingTransactionProps {
   onDoneClick: () => void;
   transactionComplete: boolean;
+  error: boolean;
   keepOpen?: boolean;
   progress?: number;
-  error?: boolean;
 }
 
 export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
-  progress = 80,
+  onDoneClick,
+  transactionComplete,
   error,
   keepOpen,
-  onDoneClick,
-  transactionComplete
+  progress = 80
 }) => {
   const { t } = useTranslation();
   const [outputNotes, downloadAll] = useExportNotes();
@@ -162,14 +171,16 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
 
   return (
     <>
-      <Alert variant={AlertVariant.Warning} title={alertText()} />
+      {!transactionComplete && !error && <Alert variant={AlertVariant.Warning} title={alertText()} />}
       <div className="flex-1 flex flex-col justify-center md:w-[460px] md:mx-auto">
         <div className="flex flex-col justify-center items-center">
           <div className={classNames('w-40 aspect-square flex items-center justify-center mb-8')}>{renderIcon()}</div>
           <div className="flex flex-col items-center">
             <h1 className="font-semibold text-2xl lh-title">{headerText()}</h1>
             <p className="text-base text-center lh-title">
-              {transactionComplete && 'Your transaction was successfully processed and confirmed on the network.'}
+              {!error &&
+                transactionComplete &&
+                'Your transaction was successfully processed and confirmed on the network.'}
               {error && 'There was an error processing your transaction. Please try again.'}
             </p>
           </div>
