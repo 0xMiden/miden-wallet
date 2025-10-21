@@ -180,7 +180,9 @@ export const Receive: React.FC<ReceiveProps> = () => {
                   <div className="flex flex-col">
                     <p className="text-md font-bold">
                       {claimHasFailed ? 'Error Claiming: ' : ''}
-                      {`${formatBigInt(BigInt(note.amount), note.metadata.decimals)} ${note.metadata.symbol}`}
+                      {`${formatBigInt(BigInt(note.amount), note.metadata?.decimals || 6)} ${
+                        note.metadata?.symbol || 'UNKNOWN'
+                      }`}
                     </p>
                     <p className="text-xs text-gray-100">{shortenAddress(note.senderAddress)}</p>
                   </div>
