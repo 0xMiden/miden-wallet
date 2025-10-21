@@ -186,10 +186,25 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     assertResponse(res.type === WalletMessageType.UpdateSettingsResponse);
   }, []);
 
-  const authorizeDeploy = useCallback(
-    async (accPublicKey: string, deployment: string, feeCredits: number, feeRecord?: string) => {},
-    []
-  );
+  const signData = useCallback(async (publicKey: Uint8Array, signingInputs: Uint8Array) => {
+    const res = await request({
+      type: WalletMessageType.SignDataRequest,
+      publicKey,
+      signingInputs
+    });
+    assertResponse(res.type === WalletMessageType.SignDataResponse);
+    return res.signature;
+  }, []);
+
+  const signTransaction = useCallback(async (publicKey: Uint8Array, signingInputs: Uint8Array) => {
+    const res = await request({
+      type: WalletMessageType.SignTransactionRequest,
+      publicKey,
+      signingInputs
+    });
+    assertResponse(res.type === WalletMessageType.SignTransactionResponse);
+    return res.signature;
+  }, []);
 
   const getDAppPayload = useCallback(async (id: string) => {
     const res = await request({
@@ -324,7 +339,8 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     importWatchOnlyAccount,
     importMnemonicAccount,
     updateSettings,
-    authorizeDeploy,
+    signData,
+    signTransaction,
     getDAppPayload,
     confirmDAppPermission,
     confirmDAppSign,

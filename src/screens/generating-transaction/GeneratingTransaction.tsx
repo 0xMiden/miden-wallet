@@ -15,6 +15,7 @@ import { Button, ButtonVariant } from 'components/Button';
 import { useAnalytics } from 'lib/analytics';
 import { safeGenerateTransactionsLoop as dbTransactionsLoop, getAllUncompletedTransactions } from 'lib/miden/activity';
 import { useExportNotes } from 'lib/miden/activity/notes';
+import { useMidenContext } from 'lib/miden/front';
 import { useRetryableSWR } from 'lib/swr';
 import { navigate } from 'lib/woozie';
 
@@ -23,6 +24,7 @@ export interface GeneratingTransactionPageProps {
 }
 
 export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ keepOpen = false }) => {
+  const { signTransaction } = useMidenContext();
   const { pageEvent, trackEvent } = useAnalytics();
   const [outputNotes, downloadAll] = useExportNotes();
   const { t } = useTranslation();
@@ -75,12 +77,12 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
   }, [transactions, trackEvent, outputNotes, onClose]);
 
   useEffect(() => {
-    dbTransactionsLoop();
+    dbTransactionsLoop(signTransaction);
     setInterval(() => {
-      dbTransactionsLoop();
+      dbTransactionsLoop(signTransaction);
       mutateTx();
     }, 5_000);
-  }, [transactions, mutateTx]);
+  }, [transactions, mutateTx, signTransaction]);
 
   useBeforeUnload(t('generatingTransactionWarning'), transactions.length !== 0, downloadAll);
   const progress = transactions.length > 0 ? (1 / transactions.length) * 80 : 0;

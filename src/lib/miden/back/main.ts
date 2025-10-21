@@ -111,12 +111,12 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
       return {
         type: WalletMessageType.UpdateSettingsResponse
       };
-    // case WalletMessageType.AuthorizeDeployRequest:
-    //   const authDeploy = await Actions.authorizeDeploy(req.accPublicKey, req.deployment, req.feeCredits, req.feeRecord);
-    //   return {
-    //     type: WalletMessageType.AuthorizeDeployResponse,
-    //     ...authDeploy
-    //   };
+    case WalletMessageType.SignTransactionRequest:
+      const signature = await Actions.signTransaction(req.publicKey, req.signingInputs);
+      return {
+        type: WalletMessageType.SignTransactionResponse,
+        signature
+      };
     case MidenMessageType.DAppGetAllSessionsRequest:
       const allSessions = await Actions.getAllDAppSessions();
       return {

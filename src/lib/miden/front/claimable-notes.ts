@@ -5,7 +5,11 @@ import { useRetryableSWR } from 'lib/swr';
 
 import { isMidenFaucet } from '../assets';
 import { AssetMetadata, MIDEN_METADATA } from '../metadata';
-import { getBech32AddressFromAccountId, MidenClientInterface } from '../sdk/miden-client-interface';
+import {
+  getBech32AddressFromAccountId,
+  MidenClientCreateOptions,
+  MidenClientInterface
+} from '../sdk/miden-client-interface';
 import { ConsumableNote } from '../types';
 import { useTokensMetadata } from './assets';
 
@@ -136,7 +140,13 @@ export function useClaimableNotes(publicAddress: string) {
   const { allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata } = useTokensMetadata();
 
   const fetchClaimableNotes = useCallback(async () => {
-    const midenClient = await MidenClientInterface.create();
+    const options: MidenClientCreateOptions = {
+      getKeyCallback: (key: string) => {
+        console.log('getKeyCallback', key);
+        return key;
+      }
+    };
+    const midenClient = await MidenClientInterface.create(options);
 
     const syncSummary = await midenClient.syncState();
     const latestBlock = syncSummary.blockNum();
@@ -145,6 +155,8 @@ export function useClaimableNotes(publicAddress: string) {
       midenClient.getConsumableNotes(publicAddress, latestBlock),
       getUncompletedTransactions(publicAddress)
     ]);
+
+    console.log('rawNotes', rawNotes);
 
     const notesBeingClaimed = new Set(
       uncompletedTxs.filter(tx => tx.type === 'consume' && tx.noteId != null).map(tx => tx.noteId!)
