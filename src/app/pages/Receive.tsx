@@ -29,7 +29,6 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const account = useAccount();
   const address = account.publicKey;
   const { fieldRef, copy } = useCopyToClipboard();
-  console.log('account', account);
   const { data: claimableNotes, mutate: mutateClaimableNotes } = useClaimableNotes(address);
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
   const { popup } = useAppEnv();

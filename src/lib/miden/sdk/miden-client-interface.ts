@@ -28,7 +28,7 @@ import { NoteExportType } from './constants';
 export type MidenClientCreateOptions = {
   seed?: Uint8Array;
   insertKeyCallback?: (key: Uint8Array, secretKey: Uint8Array) => void;
-  getKeyCallback?: (key: string) => string;
+  getKeyCallback?: (key: Uint8Array) => Promise<Uint8Array>;
   signCallback?: (publicKey: Uint8Array, signingInputs: Uint8Array) => Promise<string[]>;
   onConnectivityIssue?: () => void;
 };
@@ -188,7 +188,6 @@ export class MidenClientInterface {
 
   async getConsumableNotes(accountId: string, currentBlockHeight: number): Promise<ConsumableNoteRecord[]> {
     const result = await this.webClient.getConsumableNotes();
-    console.log('result', result);
     const notes = result.filter(note => {
       const consumability = note.noteConsumability();
       if (consumability.length === 0) {

@@ -74,13 +74,16 @@ export class Vault {
         mnemonic = Bip39.generateMnemonic(128);
       }
 
+      // Clear storage before any inserts to avoid wiping newly inserted keys later
+      await clearStorage();
+
       const insertKeyCallback = async (key: Uint8Array, secretKey: Uint8Array) => {
         const pubKeyHex = Buffer.from(key).toString('hex');
         const secretKeyHex = Buffer.from(secretKey).toString('hex');
         await encryptAndSaveMany(
           [
             [accAuthPubKeyStrgKey(pubKeyHex), pubKeyHex],
-            [accAuthSecretKeyStrgKey(secretKeyHex), secretKeyHex]
+            [accAuthSecretKeyStrgKey(pubKeyHex), secretKeyHex]
           ],
           passKey
         );
@@ -91,8 +94,6 @@ export class Vault {
       const midenClient = await MidenClientInterface.create(options);
       const hdAccIndex = 0;
       const walletSeed = deriveClientSeed(WalletType.OnChain, mnemonic, 0);
-
-      console.log('created miden client');
 
       let accPublicKey;
       if (ownMnemonic) {
@@ -107,8 +108,6 @@ export class Vault {
         accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain, walletSeed);
       }
 
-      console.log({ accPublicKey });
-
       const initialAccount: WalletAccount = {
         publicKey: accPublicKey,
         name: 'Miden Account 1',
@@ -118,7 +117,6 @@ export class Vault {
       };
       const newAccounts = [initialAccount];
 
-      await clearStorage();
       await encryptAndSaveMany(
         [
           [checkStrgKey, generateCheck()],
@@ -207,7 +205,7 @@ export class Vault {
         await encryptAndSaveMany(
           [
             [accAuthPubKeyStrgKey(pubKeyHex), pubKeyHex],
-            [accAuthSecretKeyStrgKey(secretKeyHex), secretKeyHex]
+            [accAuthSecretKeyStrgKey(pubKeyHex), secretKeyHex]
           ],
           this.passKey
         );
@@ -287,32 +285,35 @@ export class Vault {
 
   async authorize(sendTransaction: SendTransaction) {}
 
-  async signData(publicKey: Uint8Array, signingInputs: Uint8Array): Promise<Uint8Array> {
-    const publicKeyHex = Buffer.from(publicKey).toString('hex');
+  async signData(publicKey: string, signingInputs: string): Promise<string> {
     const secretKey = await fetchAndDecryptOneWithLegacyFallBack<string>(
-      accAuthSecretKeyStrgKey(publicKeyHex),
+      accAuthSecretKeyStrgKey(publicKey),
       this.passKey
     );
     const secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
-    const wasmSigningInputs = SigningInputs.deserialize(signingInputs);
+    const wasmSigningInputs = SigningInputs.deserialize(new Uint8Array(Buffer.from(signingInputs, 'hex')));
     const wasmSecretKey = SecretKey.deserialize(secretKeyBytes);
     const signature = wasmSecretKey.signData(wasmSigningInputs);
-    return signature.serialize();
+    return Buffer.from(signature.serialize()).toString('hex');
   }
 
-  async signTransaction(publicKey: Uint8Array, signingInputs: Uint8Array): Promise<string[]> {
-    const publicKeyHex = Buffer.from(publicKey).toString('hex');
+  async signTransaction(publicKey: string, signingInputs: string): Promise<string[]> {
     const secretKey = await fetchAndDecryptOneWithLegacyFallBack<string>(
-      accAuthSecretKeyStrgKey(publicKeyHex),
+      accAuthSecretKeyStrgKey(publicKey),
       this.passKey
     );
-    const secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
-    const wasmSigningInputs = SigningInputs.deserialize(signingInputs);
+    let secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
+    const wasmSigningInputs = SigningInputs.deserialize(new Uint8Array(Buffer.from(signingInputs, 'hex')));
     const wasmSecretKey = SecretKey.deserialize(secretKeyBytes);
     const signature = wasmSecretKey.signData(wasmSigningInputs);
     const preparedSignature = signature.toPreparedSignature();
     const felts = preparedSignature.map((felt: any) => felt.toString());
     return felts;
+  }
+
+  async getAuthSecretKey(key: string) {
+    const secretKey = await fetchAndDecryptOneWithLegacyFallBack<string>(accAuthSecretKeyStrgKey(key), this.passKey);
+    return secretKey;
   }
 
   async decrypt(accPublicKey: string, cipherTexts: string[]) {}

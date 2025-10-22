@@ -186,7 +186,7 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     assertResponse(res.type === WalletMessageType.UpdateSettingsResponse);
   }, []);
 
-  const signData = useCallback(async (publicKey: Uint8Array, signingInputs: Uint8Array) => {
+  const signData = useCallback(async (publicKey: string, signingInputs: string) => {
     const res = await request({
       type: WalletMessageType.SignDataRequest,
       publicKey,
@@ -196,7 +196,7 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     return res.signature;
   }, []);
 
-  const signTransaction = useCallback(async (publicKey: Uint8Array, signingInputs: Uint8Array) => {
+  const signTransaction = useCallback(async (publicKey: string, signingInputs: string) => {
     const res = await request({
       type: WalletMessageType.SignTransactionRequest,
       publicKey,
@@ -204,6 +204,15 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     });
     assertResponse(res.type === WalletMessageType.SignTransactionResponse);
     return res.signature;
+  }, []);
+
+  const getAuthSecretKey = useCallback(async (key: string) => {
+    const res = await request({
+      type: WalletMessageType.GetAuthSecretKeyRequest,
+      key
+    });
+    assertResponse(res.type === WalletMessageType.GetAuthSecretKeyResponse);
+    return res.key;
   }, []);
 
   const getDAppPayload = useCallback(async (id: string) => {
@@ -341,6 +350,7 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     updateSettings,
     signData,
     signTransaction,
+    getAuthSecretKey,
     getDAppPayload,
     confirmDAppPermission,
     confirmDAppSign,

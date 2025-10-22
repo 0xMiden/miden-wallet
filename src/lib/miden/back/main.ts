@@ -117,6 +117,12 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
         type: WalletMessageType.SignTransactionResponse,
         signature
       };
+    case WalletMessageType.GetAuthSecretKeyRequest:
+      const key = await Actions.getAuthSecretKey(req.key);
+      return {
+        type: WalletMessageType.GetAuthSecretKeyResponse,
+        key
+      };
     case MidenMessageType.DAppGetAllSessionsRequest:
       const allSessions = await Actions.getAllDAppSessions();
       return {

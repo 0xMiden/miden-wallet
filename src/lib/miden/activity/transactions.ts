@@ -258,7 +258,7 @@ export const cancelStuckTransactions = async () => {
 
 export const generateTransaction = async (
   transaction: Transaction,
-  signCallback: (publicKey: Uint8Array, signingInputs: Uint8Array) => Promise<string[]>
+  signCallback: (publicKey: string, signingInputs: string) => Promise<string[]>
 ) => {
   // Mark transaction as in progress
   await updateTransactionStatus(transaction.id, ITransactionStatus.GeneratingTransaction, {
@@ -270,7 +270,11 @@ export const generateTransaction = async (
   let result: TransactionResult;
   let transactionResultBytes: Uint8Array;
   const options: MidenClientCreateOptions = {
-    signCallback
+    signCallback: async (publicKey: Uint8Array, signingInputs: Uint8Array) => {
+      const keyString = Buffer.from(publicKey).toString('hex');
+      const signingInputsString = Buffer.from(signingInputs).toString('hex');
+      return await signCallback(keyString, signingInputsString);
+    }
   };
   const midenClient = await MidenClientInterface.create(options);
   switch (transaction.type) {
@@ -316,7 +320,7 @@ export const getTransactionById = async (id: string) => {
 };
 
 export const generateTransactionsLoop = async (
-  signCallback: (publicKey: Uint8Array, signingInputs: Uint8Array) => Promise<string[]>
+  signCallback: (publicKey: string, signingInputs: string) => Promise<string[]>
 ) => {
   await cancelStuckTransactions();
 
@@ -352,7 +356,7 @@ export const generateTransactionsLoop = async (
 };
 
 export const safeGenerateTransactionsLoop = async (
-  signCallback: (publicKey: Uint8Array, signingInputs: Uint8Array) => Promise<string[]>
+  signCallback: (publicKey: string, signingInputs: string) => Promise<string[]>
 ) => {
   return navigator.locks
     .request(`generate-transactions-loop`, { ifAvailable: true }, async lock => {

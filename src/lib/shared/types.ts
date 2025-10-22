@@ -56,6 +56,8 @@ export enum WalletMessageType {
   SignDataResponse = 'SIGN_DATA_RESPONSE',
   SignTransactionRequest = 'SIGN_TRANSACTION_REQUEST',
   SignTransactionResponse = 'SIGN_TRANSACTION_RESPONSE',
+  GetAuthSecretKeyRequest = 'GET_AUTH_SECRET_KEY_REQUEST',
+  GetAuthSecretKeyResponse = 'GET_AUTH_SECRET_KEY_RESPONSE',
   SubmitTransactionRequest = 'SUBMIT_TRANSACTION_REQUEST',
   SubmitTransactionResponse = 'SUBMIT_TRANSACTION_RESPONSE',
   ConfirmationRequest = 'CONFIRMATION_REQUEST',
@@ -329,24 +331,34 @@ export interface UpdateSettingsResponse extends WalletMessageBase {
 
 export interface SignDataRequest extends WalletMessageBase {
   type: WalletMessageType.SignDataRequest;
-  publicKey: Uint8Array;
-  signingInputs: Uint8Array;
+  publicKey: string;
+  signingInputs: string;
 }
 
 export interface SignDataResponse extends WalletMessageBase {
   type: WalletMessageType.SignDataResponse;
-  signature: Uint8Array;
+  signature: string;
 }
 
 export interface SignTransactionRequest extends WalletMessageBase {
   type: WalletMessageType.SignTransactionRequest;
-  publicKey: Uint8Array;
-  signingInputs: Uint8Array;
+  publicKey: string;
+  signingInputs: string;
 }
 
 export interface SignTransactionResponse extends WalletMessageBase {
   type: WalletMessageType.SignTransactionResponse;
   signature: string[];
+}
+
+export interface GetAuthSecretKeyRequest extends WalletMessageBase {
+  type: WalletMessageType.GetAuthSecretKeyRequest;
+  key: string;
+}
+
+export interface GetAuthSecretKeyResponse extends WalletMessageBase {
+  type: WalletMessageType.GetAuthSecretKeyResponse;
+  key: string;
 }
 
 export interface ConfirmationRequest extends WalletMessageBase {
@@ -537,6 +549,7 @@ export type WalletRequest =
   | UpdateSettingsRequest
   | SignDataRequest
   | SignTransactionRequest
+  | GetAuthSecretKeyRequest
   | PageRequest
   | DAppGetPayloadRequest
   | DAppPermConfirmationRequest
@@ -578,6 +591,7 @@ export type WalletResponse =
   | UpdateSettingsResponse
   | SignDataResponse
   | SignTransactionResponse
+  | GetAuthSecretKeyResponse
   | PageResponse
   //   | DAppGetPayloadResponse
   | DAppPermConfirmationResponse

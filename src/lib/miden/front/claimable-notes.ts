@@ -12,6 +12,7 @@ import {
 } from '../sdk/miden-client-interface';
 import { ConsumableNote } from '../types';
 import { useTokensMetadata } from './assets';
+import { useMidenContext } from './client';
 
 // -------------------- Types --------------------
 
@@ -138,12 +139,20 @@ async function persistMetadataIfAny(
 
 export function useClaimableNotes(publicAddress: string) {
   const { allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata } = useTokensMetadata();
+  const { getAuthSecretKey, signTransaction } = useMidenContext();
 
   const fetchClaimableNotes = useCallback(async () => {
     const options: MidenClientCreateOptions = {
-      getKeyCallback: (key: string) => {
-        console.log('getKeyCallback', key);
-        return key;
+      getKeyCallback: async (key: Uint8Array) => {
+        const keyString = Buffer.from(key).toString('hex');
+        const secretKey = await getAuthSecretKey(keyString);
+        return new Uint8Array(Buffer.from(secretKey, 'hex'));
+      },
+      signCallback: async (publicKey: Uint8Array, signingInputs: Uint8Array) => {
+        const keyString = Buffer.from(publicKey).toString('hex');
+        const signingInputsString = Buffer.from(signingInputs).toString('hex');
+        const result = await signTransaction(keyString, signingInputsString);
+        return result;
       }
     };
     const midenClient = await MidenClientInterface.create(options);
@@ -155,8 +164,6 @@ export function useClaimableNotes(publicAddress: string) {
       midenClient.getConsumableNotes(publicAddress, latestBlock),
       getUncompletedTransactions(publicAddress)
     ]);
-
-    console.log('rawNotes', rawNotes);
 
     const notesBeingClaimed = new Set(
       uncompletedTxs.filter(tx => tx.type === 'consume' && tx.noteId != null).map(tx => tx.noteId!)
@@ -178,7 +185,14 @@ export function useClaimableNotes(publicAddress: string) {
 
     // 4) Return notes enriched with metadata
     return attachMetadataToNotes(parsedNotes, metadataByFaucetId);
-  }, [publicAddress, allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata]);
+  }, [
+    publicAddress,
+    allTokensBaseMetadataRef,
+    fetchMetadata,
+    setTokensBaseMetadata,
+    getAuthSecretKey,
+    signTransaction
+  ]);
 
   return useRetryableSWR(publicAddress, fetchClaimableNotes, {
     revalidateOnFocus: false,

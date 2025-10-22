@@ -172,10 +172,15 @@ export function updateSettings(settings: Partial<WalletSettings>) {
   });
 }
 
-export function signTransaction(publicKey: Uint8Array, signingInputs: Uint8Array) {
+export function signTransaction(publicKey: string, signingInputs: string) {
   return withUnlocked(async ({ vault }) => {
-    const signature = await vault.signTransaction(publicKey, signingInputs);
-    return signature;
+    return await vault.signTransaction(publicKey, signingInputs);
+  });
+}
+
+export function getAuthSecretKey(key: string) {
+  return withUnlocked(async ({ vault }) => {
+    return await vault.getAuthSecretKey(key);
   });
 }
 
