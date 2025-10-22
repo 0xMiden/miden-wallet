@@ -3,6 +3,7 @@ import {
   NetworkId,
   NoteFilter,
   NoteFilterTypes,
+  NoteId,
   NoteType,
   SigningInputs,
   Word
@@ -358,7 +359,7 @@ const generatePromisifyRequestPrivateNotes = async (
     (dApp.allowedPrivateData & AllowedPrivateData.Notes) !== 0
   ) {
     try {
-      privateNotes = await getPrivateNoteDetails();
+      privateNotes = await getPrivateNoteDetails(req.notefilterType, req.noteIds);
       resolve({
         type: MidenDAppMessageType.PrivateNotesResponse,
         privateNotes: privateNotes
@@ -371,7 +372,7 @@ const generatePromisifyRequestPrivateNotes = async (
     const networkRpc = await getNetworkRPC(dApp.network);
 
     try {
-      privateNotes = await getPrivateNoteDetails();
+      privateNotes = await getPrivateNoteDetails(req.notefilterType, req.noteIds);
     } catch (e) {
       reject(e);
     }
@@ -415,12 +416,13 @@ const generatePromisifyRequestPrivateNotes = async (
   }
 };
 
-async function getPrivateNoteDetails(): Promise<InputNoteDetails[]> {
+async function getPrivateNoteDetails(notefilterType: NoteFilterTypes, noteIds?: string[]): Promise<InputNoteDetails[]> {
   let privateNotes: InputNoteDetails[] = [];
   try {
     privateNotes = await withUnlocked(async () => {
       const midenClient = await MidenClientInterface.create();
-      const noteFilter = new NoteFilter(NoteFilterTypes.All); // Unsure if we want All or a different type?
+      const midenNoteIds = noteIds ? noteIds.map(id => NoteId.fromHex(id)) : undefined;
+      const noteFilter = new NoteFilter(notefilterType, midenNoteIds);
       let allNotes = await midenClient.getInputNoteDetails(noteFilter);
       let privateNotes = allNotes.filter(note => note.noteType === NoteType.Private);
       return privateNotes;

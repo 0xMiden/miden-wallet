@@ -15,7 +15,8 @@ import {
   TransactionResult,
   WebClient,
   Word,
-  AccountInterface
+  AccountInterface,
+  InputNoteState
 } from '@demox-labs/miden-sdk';
 
 import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';
@@ -35,6 +36,8 @@ export type InputNoteDetails = {
   senderAccountId: string | undefined;
   assets: FungibleAssetDetails[];
   noteType: NoteType | undefined;
+  nullifier: string;
+  state: InputNoteState;
 };
 
 export type FungibleAssetDetails = {
@@ -159,6 +162,8 @@ export class MidenClientInterface {
         noteId: note.id().toString(),
         noteType: note.metadata()?.noteType(),
         senderAccountId: note.metadata()?.sender()?.toBech32(NetworkId.Testnet, AccountInterface.BasicWallet),
+        nullifier: note.nullifier(),
+        state: note.state(),
         assets: assets
       };
       return details;

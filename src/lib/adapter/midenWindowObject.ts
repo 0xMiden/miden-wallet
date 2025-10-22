@@ -1,3 +1,4 @@
+import { NoteFilterTypes } from '@demox-labs/miden-sdk';
 import {
   AllowedPrivateData,
   EventEmitter,
@@ -54,8 +55,11 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
     return { transactionId: res };
   }
 
-  async requestPrivateNotes(): Promise<{ privateNotes: InputNoteDetails[] }> {
-    const res = await requestPrivateNotes(this.accountId!);
+  async requestPrivateNotes(
+    notefilterType: NoteFilterTypes,
+    noteIds?: string[]
+  ): Promise<{ privateNotes: InputNoteDetails[] }> {
+    const res = await requestPrivateNotes(this.accountId!, notefilterType, noteIds);
     return { privateNotes: res };
   }
 

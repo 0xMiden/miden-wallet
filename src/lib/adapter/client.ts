@@ -1,3 +1,4 @@
+import { NoteFilterTypes } from '@demox-labs/miden-sdk';
 import {
   AllowedPrivateData,
   MidenConsumeTransaction,
@@ -150,10 +151,16 @@ export async function requestConsume(sourcePublicKey: string, transaction: Miden
   return res.transactionId;
 }
 
-export async function requestPrivateNotes(sourcePublicKey: string) {
+export async function requestPrivateNotes(
+  sourcePublicKey: string,
+  notefilterType: NoteFilterTypes,
+  noteIds?: string[]
+) {
   const res = await request({
     type: MidenDAppMessageType.PrivateNotesRequest,
-    sourcePublicKey
+    sourcePublicKey,
+    notefilterType,
+    noteIds
   });
   assertResponse(res.type === MidenDAppMessageType.PrivateNotesResponse);
   return res.privateNotes;

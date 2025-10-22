@@ -1,3 +1,4 @@
+import { NoteFilterTypes } from '@demox-labs/miden-sdk';
 import {
   AllowedPrivateData,
   Asset,
@@ -138,6 +139,8 @@ export interface MidenDAppConsumeResponse extends MidenDAppMessageBase {
 export interface MidenDAppPrivateNotesRequest extends MidenDAppMessageBase {
   type: MidenDAppMessageType.PrivateNotesRequest;
   sourcePublicKey: string;
+  notefilterType: NoteFilterTypes;
+  noteIds?: string[];
 }
 
 export interface MidenDAppPrivateNotesResponse extends MidenDAppMessageBase {
