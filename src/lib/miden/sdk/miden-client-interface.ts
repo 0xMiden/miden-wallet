@@ -14,7 +14,8 @@ import {
   TransactionRequest,
   TransactionResult,
   WebClient,
-  Word
+  Word,
+  AccountFile
 } from '@demox-labs/miden-sdk';
 
 import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';
@@ -26,6 +27,9 @@ import { NoteExportType } from './constants';
 
 export type MidenClientCreateOptions = {
   seed?: Uint8Array;
+  insertKeyCallback?: (key: Uint8Array, secretKey: Uint8Array) => void;
+  getKeyCallback?: (key: Uint8Array) => Promise<Uint8Array>;
+  signCallback?: (publicKey: Uint8Array, signingInputs: Uint8Array) => Promise<string[]>;
   onConnectivityIssue?: () => void;
 };
 
@@ -55,7 +59,13 @@ export class MidenClientInterface {
   static async create(options: MidenClientCreateOptions = {}) {
     const seed = options.seed?.toString();
     const network = MIDEN_NETWORK_NAME.LOCALNET;
-    const webClient = await WebClient.createClient(MIDEN_NETWORK_ENDPOINTS.get(network)!, seed);
+    const webClient = await WebClient.createClientWithExternalKeystore(
+      MIDEN_NETWORK_ENDPOINTS.get(network)!,
+      seed,
+      options.getKeyCallback,
+      options.insertKeyCallback,
+      options.signCallback
+    );
 
     return new MidenClientInterface(webClient, network, options.onConnectivityIssue);
   }
@@ -72,7 +82,8 @@ export class MidenClientInterface {
   }
 
   async importMidenWallet(accountBytes: Uint8Array): Promise<string> {
-    const wallet: Account = await this.webClient.importAccountFile(accountBytes);
+    const accountFile = AccountFile.deserialize(accountBytes);
+    const wallet: Account = await this.webClient.importAccountFile(accountFile);
     const walletIdString = getBech32AddressFromAccountId(wallet.id());
 
     return walletIdString;
@@ -103,8 +114,8 @@ export class MidenClientInterface {
     return result;
   }
 
-  async consumeNoteId(transaction: ConsumeTransaction): Promise<TransactionResult> {
-    const { accountId, noteId, delegateTransaction } = transaction;
+  async consumeNoteId(transaction: ConsumeTransaction): Promise<Uint8Array> {
+    const { accountId, noteId } = transaction;
     console.log('Consuming note:', noteId);
     console.log('accountId', accountId);
 
@@ -113,9 +124,8 @@ export class MidenClientInterface {
       accountIdStringToSdk(accountId),
       consumeTransactionRequest
     );
-    await this.submitTransactionWithFallback(consumeTransactionResult, delegateTransaction);
 
-    return consumeTransactionResult;
+    return consumeTransactionResult.serialize();
   }
 
   async getAccount(accountId: string) {
@@ -203,7 +213,7 @@ export class MidenClientInterface {
       faucetId,
       noteType,
       amount,
-      extraInputs: { recallBlocks, delegateTransaction }
+      extraInputs: { recallBlocks }
     } = dbTransaction;
 
     let recallHeight = undefined;
@@ -225,9 +235,8 @@ export class MidenClientInterface {
       accountIdStringToSdk(senderAccountId),
       sendTransactionRequest
     );
-    await this.submitTransactionWithFallback(sendTransactionResult, delegateTransaction);
 
-    return sendTransactionResult;
+    return sendTransactionResult.serialize();
   }
 
   async exportDb() {
@@ -240,14 +249,18 @@ export class MidenClientInterface {
     await this.webClient.forceImportStore(dump);
   }
 
+  async newTransaction(accountId: string, requestBytes: Uint8Array) {
+    const transactionRequest = TransactionRequest.deserialize(requestBytes);
+    const transactionResult = await this.webClient.newTransaction(accountIdStringToSdk(accountId), transactionRequest);
+    return transactionResult.serialize();
+  }
+
   async submitTransaction(
-    accountId: string,
-    transactionRequestBytes: Uint8Array,
+    transactionResultBytes: Uint8Array,
     delegateTransaction?: boolean
   ): Promise<TransactionResult> {
     await this.syncState();
-    const transactionRequest = TransactionRequest.deserialize(new Uint8Array(transactionRequestBytes));
-    const transactionResult = await this.webClient.newTransaction(accountIdStringToSdk(accountId), transactionRequest);
+    const transactionResult = TransactionResult.deserialize(transactionResultBytes);
     await this.submitTransactionWithFallback(transactionResult, delegateTransaction);
     return transactionResult;
   }

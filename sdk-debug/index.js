@@ -2,6 +2,7 @@ import { WebClient, AccountStorageMode, AccountId, Address, NetworkId, NoteType,
 console.log('script loaded');
 
 const FAUCET_DECIMALS = 6;
+const MIDEN_DECIMALS = 6;
 
 const databases = await indexedDB.databases();
 for (const db of databases) {

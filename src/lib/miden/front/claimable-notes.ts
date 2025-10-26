@@ -5,9 +5,14 @@ import { useRetryableSWR } from 'lib/swr';
 
 import { isMidenFaucet } from '../assets';
 import { AssetMetadata, MIDEN_METADATA } from '../metadata';
-import { getBech32AddressFromAccountId, MidenClientInterface } from '../sdk/miden-client-interface';
+import {
+  getBech32AddressFromAccountId,
+  MidenClientCreateOptions,
+  MidenClientInterface
+} from '../sdk/miden-client-interface';
 import { ConsumableNote } from '../types';
 import { useTokensMetadata } from './assets';
+import { useMidenContext } from './client';
 
 // -------------------- Types --------------------
 
@@ -134,9 +139,23 @@ async function persistMetadataIfAny(
 
 export function useClaimableNotes(publicAddress: string) {
   const { allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata } = useTokensMetadata();
+  const { getAuthSecretKey, signTransaction } = useMidenContext();
 
   const fetchClaimableNotes = useCallback(async () => {
-    const midenClient = await MidenClientInterface.create();
+    const options: MidenClientCreateOptions = {
+      getKeyCallback: async (key: Uint8Array) => {
+        const keyString = Buffer.from(key).toString('hex');
+        const secretKey = await getAuthSecretKey(keyString);
+        return new Uint8Array(Buffer.from(secretKey, 'hex'));
+      },
+      signCallback: async (publicKey: Uint8Array, signingInputs: Uint8Array) => {
+        const keyString = Buffer.from(publicKey).toString('hex');
+        const signingInputsString = Buffer.from(signingInputs).toString('hex');
+        const result = await signTransaction(keyString, signingInputsString);
+        return result;
+      }
+    };
+    const midenClient = await MidenClientInterface.create(options);
 
     const syncSummary = await midenClient.syncState();
     const latestBlock = syncSummary.blockNum();
@@ -166,7 +185,14 @@ export function useClaimableNotes(publicAddress: string) {
 
     // 4) Return notes enriched with metadata
     return attachMetadataToNotes(parsedNotes, metadataByFaucetId);
-  }, [publicAddress, allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata]);
+  }, [
+    publicAddress,
+    allTokensBaseMetadataRef,
+    fetchMetadata,
+    setTokensBaseMetadata,
+    getAuthSecretKey,
+    signTransaction
+  ]);
 
   return useRetryableSWR(publicAddress, fetchClaimableNotes, {
     revalidateOnFocus: false,

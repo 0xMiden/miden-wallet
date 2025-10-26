@@ -172,7 +172,17 @@ export function updateSettings(settings: Partial<WalletSettings>) {
   });
 }
 
-export function authorizeDeploy(accPublicKey: string, deployment: string, feeCredits: number, feeRecord?: string) {}
+export function signTransaction(publicKey: string, signingInputs: string) {
+  return withUnlocked(async ({ vault }) => {
+    return await vault.signTransaction(publicKey, signingInputs);
+  });
+}
+
+export function getAuthSecretKey(key: string) {
+  return withUnlocked(async ({ vault }) => {
+    return await vault.getAuthSecretKey(key);
+  });
+}
 
 export function getAllDAppSessions() {
   return getAllDApps();
