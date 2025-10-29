@@ -148,20 +148,21 @@ export class MidenClientInterface {
   }
 
   async getInputNoteDetails(noteFilter: NoteFilter): Promise<InputNoteDetails[]> {
-    const result = await this.webClient.getInputNotes(noteFilter);
-    const details = result.map(note => {
+    const allInputNotes = await this.webClient.getInputNotes(noteFilter);
+    const details = allInputNotes.map(note => {
       const assets = note
         .details()
         .assets()
         .fungibleAssets()
         .map(asset => ({
           amount: asset.amount().toString(),
-          faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet)
+          faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.Unspecified)
         }));
       const details = {
         noteId: note.id().toString(),
         noteType: note.metadata()?.noteType(),
-        senderAccountId: note.metadata()?.sender()?.toBech32(NetworkId.Testnet, AccountInterface.BasicWallet),
+        senderAccountId:
+          note.metadata()?.sender()?.toBech32(NetworkId.Testnet, AccountInterface.Unspecified) || undefined,
         nullifier: note.nullifier(),
         state: note.state(),
         assets: assets
