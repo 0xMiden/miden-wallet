@@ -15,6 +15,7 @@ import { CustomRpsContext } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { getTokenId, MIDEN_METADATA, useAccount, useMidenContext } from 'lib/miden/front';
 import { MidenDAppPayload } from 'lib/miden/types';
+import { isDelegateProofEnabled } from 'lib/settings/helpers';
 import { b64ToU8, truncateHash } from 'lib/shared/helpers';
 import { WalletAccount } from 'lib/shared/types';
 import { useRetryableSWR } from 'lib/swr';
@@ -32,7 +33,6 @@ import { Icon, IconName } from './icons/v2';
 import AccountBanner from './templates/AccountBanner';
 import { formatAmount } from './templates/activity/Activity';
 import ConnectBanner from './templates/ConnectBanner';
-import { isDelegateProofEnabled } from './templates/DelegateSettings';
 import PrivateDataPermissionBanner from './templates/PrivateDataPermissionBanner';
 import PrivateDataPermissionCheckbox from './templates/PrivateDataPermissionCheckbox';
 

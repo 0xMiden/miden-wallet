@@ -528,7 +528,7 @@ async function getAssets(accountId: string): Promise<Asset[]> {
       const account = await midenClient.getAccount(accountId);
       const fungibleAssets = account?.vault().fungibleAssets() || [];
       const balances = fungibleAssets.map(asset => ({
-        faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet),
+        faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.Unspecified),
         amount: asset.amount().toString()
       })) as Asset[];
       return balances;
@@ -687,7 +687,7 @@ const generatePromisifyTransaction = async (
                 transactionRequest,
                 inputNoteIds,
                 importNotes,
-                undefined,
+                confirmReq.delegate,
                 recipientAccountId || undefined
               );
             });
@@ -776,7 +776,8 @@ const generatePromisifySendTransaction = async (
                 faucetId,
                 noteType as any,
                 BigInt(amount),
-                recallBlocks
+                recallBlocks,
+                confirmReq.delegate
               );
             });
             resolve({
@@ -861,7 +862,7 @@ const generatePromisifyConsumeTransaction = async (
               if (noteBytes) {
                 await queueNoteImport(noteBytes);
               }
-              return await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId);
+              return await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId, confirmReq.delegate);
             });
             resolve({
               type: MidenDAppMessageType.ConsumeResponse,

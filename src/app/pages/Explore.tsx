@@ -9,8 +9,6 @@ import { ReactComponent as ReceiveIcon } from 'app/icons/receive.svg';
 import { ReactComponent as SendIcon } from 'app/icons/send.svg';
 import Footer from 'app/layouts/PageLayout/Footer';
 import Header from 'app/layouts/PageLayout/Header';
-import { isAutoConsumeEnabled } from 'app/templates/AutoConsumeSettings';
-import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Avatar } from 'components/Avatar';
 import { CardItem } from 'components/CardItem';
 import { ChainInstabilityBanner } from 'components/ChainInstabilityBanner';
@@ -28,6 +26,7 @@ import {
   useFungibleTokens
 } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
+import { isAutoConsumeEnabled, isDelegateProofEnabled } from 'lib/settings/helpers';
 import { useRetryableSWR } from 'lib/swr';
 import useTippy, { TippyProps } from 'lib/ui/useTippy';
 import { Link, navigate, To } from 'lib/woozie';

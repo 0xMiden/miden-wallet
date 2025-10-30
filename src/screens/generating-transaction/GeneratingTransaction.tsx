@@ -9,12 +9,12 @@ import CircularProgress from 'app/atoms/CircularProgress';
 import { closeLoadingFullPage } from 'app/env';
 import useBeforeUnload from 'app/hooks/useBeforeUnload';
 import { Icon, IconName } from 'app/icons/v2';
-import { isAutoCloseEnabled } from 'app/templates/AutoCloseSettings';
 import { Alert, AlertVariant } from 'components/Alert';
 import { Button, ButtonVariant } from 'components/Button';
 import { useAnalytics } from 'lib/analytics';
 import { safeGenerateTransactionsLoop as dbTransactionsLoop, getAllUncompletedTransactions } from 'lib/miden/activity';
 import { useExportNotes } from 'lib/miden/activity/notes';
+import { isAutoCloseEnabled } from 'lib/settings/helpers';
 import { useRetryableSWR } from 'lib/swr';
 import { navigate } from 'lib/woozie';
 

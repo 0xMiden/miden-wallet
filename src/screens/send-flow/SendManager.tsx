@@ -5,12 +5,12 @@ import { OnSubmit, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { openLoadingFullPage, useAppEnv } from 'app/env';
-import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { stringToBigInt } from 'lib/i18n/numbers';
 import { initiateSendTransaction } from 'lib/miden/activity';
 import { isMidenFaucet, MIDEN_METADATA, useAccount, useAllAccounts, useFungibleTokens } from 'lib/miden/front';
 import { NoteTypeEnum } from 'lib/miden/types';
+import { isDelegateProofEnabled } from 'lib/settings/helpers';
 import { navigate } from 'lib/woozie';
 import { isValidMidenAddress } from 'utils/miden';
 import { shortenAddress } from 'utils/string';
