@@ -17,6 +17,7 @@ import {
   isAvailable,
   onPermissionChange,
   requestAssets,
+  requestConsumableNotes,
   requestConsume,
   requestDisconnect,
   requestPermission,
@@ -81,6 +82,11 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
   async requestAssets(): Promise<{ assets: any[] }> {
     const res = await requestAssets(this.accountId!);
     return { assets: res };
+  }
+
+  async requestConsumableNotes(): Promise<{ consumableNotes: InputNoteDetails[] }> {
+    const res = await requestConsumableNotes(this.accountId!);
+    return { consumableNotes: res };
   }
 
   async connect(

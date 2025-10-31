@@ -41,7 +41,9 @@ import {
   MidenDAppAssetsResponse,
   MidenDAppAssetsRequest,
   MidenDAppImportPrivateNoteRequest,
-  MidenDAppImportPrivateNoteResponse
+  MidenDAppImportPrivateNoteResponse,
+  MidenDAppConsumableNotesRequest,
+  MidenDAppConsumableNotesResponse
 } from 'lib/adapter/types';
 import { intercom } from 'lib/miden/back/defaults';
 import { Vault } from 'lib/miden/back/vault';
@@ -428,6 +430,133 @@ async function getPrivateNoteDetails(notefilterType: NoteFilterTypes, noteIds?: 
       return privateNotes;
     });
     return privateNotes;
+  } catch (e) {
+    throw new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`);
+  }
+}
+
+export async function requestConsumableNotes(
+  origin: string,
+  req: MidenDAppConsumableNotesRequest
+): Promise<MidenDAppConsumableNotesResponse> {
+  if (!req?.sourcePublicKey) {
+    throw new Error(MidenDAppErrorType.InvalidParams);
+  }
+
+  const dApp = await getDApp(origin, req.sourcePublicKey);
+  if (!dApp) {
+    throw new Error(MidenDAppErrorType.NotGranted);
+  }
+
+  if (req.sourcePublicKey !== dApp.accountId) {
+    throw new Error(MidenDAppErrorType.NotFound);
+  }
+
+  return new Promise((resolve, reject) => generatePromisifyRequestConsumableNotes(resolve, reject, dApp, req));
+}
+
+export const generatePromisifyRequestConsumableNotes = async (
+  resolve: (value: MidenDAppConsumableNotesResponse | PromiseLike<MidenDAppConsumableNotesResponse>) => void,
+  reject: (reason?: any) => void,
+  dApp: MidenDAppSession,
+  req: MidenDAppConsumableNotesRequest
+) => {
+  let consumableNotes: InputNoteDetails[] = [];
+  if (
+    dApp.privateDataPermission === PrivateDataPermission.Auto &&
+    (dApp.allowedPrivateData & AllowedPrivateData.Notes) !== 0
+  ) {
+    try {
+      consumableNotes = await getConsumableNotes(dApp.accountId);
+      resolve({
+        type: MidenDAppMessageType.ConsumableNotesResponse,
+        consumableNotes
+      });
+    } catch (e) {
+      reject(e);
+    }
+  } else {
+    const id = nanoid();
+    const networkRpc = await getNetworkRPC(dApp.network);
+
+    try {
+      consumableNotes = await getConsumableNotes(dApp.accountId);
+    } catch (e) {
+      reject(e);
+    }
+
+    await requestConfirm({
+      id,
+      payload: {
+        type: 'consumableNotes',
+        origin,
+        networkRpc,
+        appMeta: dApp.appMeta,
+        sourcePublicKey: req.sourcePublicKey,
+        consumableNotes,
+        preview: null
+      },
+      onDecline: () => {
+        reject(new Error(MidenDAppErrorType.NotGranted));
+      },
+      handleIntercomRequest: async (confirmReq, decline) => {
+        if (confirmReq?.type === MidenMessageType.DAppConsumableNotesConfirmationRequest && confirmReq?.id === id) {
+          if (confirmReq.confirmed) {
+            try {
+              resolve({
+                type: MidenDAppMessageType.ConsumableNotesResponse,
+                consumableNotes
+              } as any);
+            } catch (e) {
+              reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+            }
+          } else {
+            decline();
+          }
+
+          return {
+            type: MidenMessageType.DAppConsumableNotesConfirmationResponse
+          };
+        }
+        return undefined;
+      }
+    });
+  }
+};
+
+async function getConsumableNotes(accountId: string): Promise<InputNoteDetails[]> {
+  let consumableNotes: InputNoteDetails[] = [];
+  try {
+    consumableNotes = await withUnlocked(async () => {
+      const midenClient = await MidenClientInterface.create();
+      const syncSummary = await midenClient.syncState();
+      const blockNum = syncSummary.blockNum();
+      const consumableNotes = await midenClient.getConsumableNotes(accountId, blockNum);
+      const consumableNotesDetails = consumableNotes.map(note => {
+        const assets = note
+          .inputNoteRecord()
+          .details()
+          .assets()
+          .fungibleAssets()
+          .map(asset => ({
+            amount: asset.amount().toString(),
+            faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.Unspecified)
+          }));
+        const inputNoteRecord = note.inputNoteRecord();
+        return {
+          noteId: inputNoteRecord.id().toString(),
+          noteType: inputNoteRecord.metadata()?.noteType(),
+          senderAccountId:
+            inputNoteRecord.metadata()?.sender()?.toBech32(NetworkId.Testnet, AccountInterface.Unspecified) ||
+            undefined,
+          nullifier: inputNoteRecord.nullifier(),
+          state: inputNoteRecord.state(),
+          assets: assets
+        };
+      });
+      return consumableNotesDetails;
+    });
+    return consumableNotes;
   } catch (e) {
     throw new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`);
   }

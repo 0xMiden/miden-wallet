@@ -357,7 +357,8 @@ const ConfirmDAppForm: FC = () => {
     confirmDAppPrivateNotes,
     confirmDAppSign,
     confirmDAppAssets,
-    confirmDAppImportPrivateNote
+    confirmDAppImportPrivateNote,
+    confirmDAppConsumableNotes
   } = useMidenContext();
   const account = useAccount();
   const isPublicAccount = account.isPublic;
@@ -414,6 +415,8 @@ const ConfirmDAppForm: FC = () => {
           return confirmDAppAssets(id, confirmed);
         case 'importPrivateNote':
           return confirmDAppImportPrivateNote(id, confirmed);
+        case 'consumableNotes':
+          return confirmDAppConsumableNotes(id, confirmed);
       }
     },
     [
@@ -427,6 +430,7 @@ const ConfirmDAppForm: FC = () => {
       confirmDAppSign,
       confirmDAppAssets,
       confirmDAppImportPrivateNote,
+      confirmDAppConsumableNotes,
       delegate
     ]
   );
@@ -602,6 +606,29 @@ const ConfirmDAppForm: FC = () => {
               <div className="flex flex-col">
                 <Name className="font-semibold">{payload.origin}</Name>
                 <span>Import private note</span>
+              </div>
+            </div>
+          )
+        };
+      case 'consumableNotes':
+        return {
+          title: 'Request Consumable Notes',
+          declineActionTitle: t('cancel'),
+          declineActionTestID: ConfirmPageSelectors.RequestConsumableNotes_RejectButton,
+          confirmActionTitle: t('confirm'),
+          confirmActionTestID: ConfirmPageSelectors.RequestConsumableNotes_AcceptButton,
+          want: (
+            <div
+              className={classNames(
+                'text-sm text-left text-black',
+                'flex w-full gap-x-3 items-center p-4',
+                'border border-gray-100 rounded-2xl mb-4'
+              )}
+            >
+              <Icon name={IconName.Globe} fill="black" size="md" />
+              <div className="flex flex-col">
+                <Name className="font-semibold">{payload.origin}</Name>
+                <span>Request consumable notes</span>
               </div>
             </div>
           )

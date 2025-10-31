@@ -107,13 +107,21 @@ export interface MidenDAppImportPrivateNotePayload extends MidenDAppPayloadBase 
   preview: any;
 }
 
+export interface MidenDAppConsumableNotesPayload extends MidenDAppPayloadBase {
+  type: 'consumableNotes';
+  sourcePublicKey: string;
+  consumableNotes: any[];
+  preview: any;
+}
+
 export type MidenDAppPayload =
   | MidenDAppConnectPayload
   | MidenDAppTransactionPayload
   | MidenDAppPrivateNotesPayload
   | MidenDAppSignPayload
   | MidenDAppAssetsPayload
-  | MidenDAppImportPrivateNotePayload;
+  | MidenDAppImportPrivateNotePayload
+  | MidenDAppConsumableNotesPayload;
 
 /**
  * Messages
@@ -138,7 +146,9 @@ export enum MidenMessageType {
   DAppAssetsConfirmationRequest = 'MIDEN_DAPP_ASSETS_CONFIRMATION_REQUEST',
   DAppAssetsConfirmationResponse = 'MIDEN_DAPP_ASSETS_CONFIRMATION_RESPONSE',
   DAppImportPrivateNoteConfirmationRequest = 'MIDEN_DAPP_IMPORT_PRIVATE_NOTE_CONFIRMATION_REQUEST',
-  DAppImportPrivateNoteConfirmationResponse = 'MIDEN_DAPP_IMPORT_PRIVATE_NOTE_CONFIRMATION_RESPONSE'
+  DAppImportPrivateNoteConfirmationResponse = 'MIDEN_DAPP_IMPORT_PRIVATE_NOTE_CONFIRMATION_RESPONSE',
+  DAppConsumableNotesConfirmationRequest = 'MIDEN_DAPP_CONSUMABLE_NOTES_CONFIRMATION_REQUEST',
+  DAppConsumableNotesConfirmationResponse = 'MIDEN_DAPP_CONSUMABLE_NOTES_CONFIRMATION_RESPONSE'
 }
 
 export type MidenRequest =
@@ -151,7 +161,8 @@ export type MidenRequest =
   | MidenDAppPrivateNotesConfirmationRequest
   | MidenDAppSignConfirmationRequest
   | MidenDAppAssetsConfirmationRequest
-  | MidenDAppImportPrivateNoteConfirmationRequest;
+  | MidenDAppImportPrivateNoteConfirmationRequest
+  | MidenDAppConsumableNotesConfirmationRequest;
 
 export type MidenResponse =
   | MidenPageResponse
@@ -163,7 +174,8 @@ export type MidenResponse =
   | MidenDAppPrivateNotesConfirmationResponse
   | MidenDAppSignConfirmationResponse
   | MidenDAppAssetsConfirmationResponse
-  | MidenDAppImportPrivateNoteConfirmationResponse;
+  | MidenDAppImportPrivateNoteConfirmationResponse
+  | MidenDAppConsumableNotesConfirmationResponse;
 
 export interface MidenPageRequest extends WalletMessageBase {
   type: MidenMessageType.PageRequest;
@@ -273,4 +285,14 @@ export interface MidenDAppImportPrivateNoteConfirmationRequest extends WalletMes
 
 export interface MidenDAppImportPrivateNoteConfirmationResponse extends WalletMessageBase {
   type: MidenMessageType.DAppImportPrivateNoteConfirmationResponse;
+}
+
+export interface MidenDAppConsumableNotesConfirmationRequest extends WalletMessageBase {
+  type: MidenMessageType.DAppConsumableNotesConfirmationRequest;
+  id: string;
+  confirmed: boolean;
+}
+
+export interface MidenDAppConsumableNotesConfirmationResponse extends WalletMessageBase {
+  type: MidenMessageType.DAppConsumableNotesConfirmationResponse;
 }
