@@ -4,10 +4,10 @@ import { ampApi } from 'lib/amp/amp-interface';
 import { WalletState } from 'lib/shared/types';
 import { logger } from 'shared/logger';
 
-import { getBech32AddressFromAccountId, MidenClientInterface } from '../sdk/miden-client-interface';
+import { getBech32AddressFromAccountId } from '../sdk/helpers';
+import { getMidenClient } from '../sdk/miden-client';
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
-const midenClient = await MidenClientInterface.create();
 
 export const AMP_SYNC_STORAGE_KEY = 'amp-sync-storage-key';
 export const DEFAULT_ENABLE_AMP = false;
@@ -48,6 +48,7 @@ class Sync {
 
   async syncChain() {
     try {
+      const midenClient = await getMidenClient();
       const summary = await midenClient.syncState();
       if (
         summary
@@ -72,6 +73,7 @@ class Sync {
       if (messages.length > 0) {
         console.log('Syncing amp...');
 
+        const midenClient = await getMidenClient();
         // TOOD: Need a way to clear the messages once they're recieved
         for (let message of messages) {
           // TODO: Potentially tweak upstream to make this cleaner

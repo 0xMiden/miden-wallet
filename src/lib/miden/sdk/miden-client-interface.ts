@@ -1,8 +1,6 @@
 import {
   Account,
-  AccountId,
   AccountStorageMode,
-  Address,
   ConsumableNoteRecord,
   InputNoteRecord,
   NetworkId,
@@ -25,6 +23,7 @@ import { WalletType } from 'screens/onboarding/types';
 import { ConsumeTransaction, SendTransaction } from '../db/types';
 import { toNoteType } from '../helpers';
 import { NoteExportType } from './constants';
+import { accountIdStringToSdk, getBech32AddressFromAccountId } from './helpers';
 
 export type MidenClientCreateOptions = {
   seed?: Uint8Array;
@@ -56,12 +55,23 @@ export class MidenClientInterface {
     this.onConnectivityIssue = onConnectivityIssue;
   }
 
+  /**
+   * Do not use this method directly. Use getMidenClient instead.
+   * Creates a new Miden client instance.
+   * @param options - The options for creating the Miden client.
+   * @returns The Miden client instance.
+   * @note A new web worker is created for each invocation. Each worker must be manually disposed of.
+   */
   static async create(options: MidenClientCreateOptions = {}) {
     const seed = options.seed?.toString();
     const network = MIDEN_NETWORK_NAME.TESTNET;
     const webClient = await WebClient.createClient(MIDEN_NETWORK_ENDPOINTS.get(network)!, seed);
 
     return new MidenClientInterface(webClient, network, options.onConnectivityIssue);
+  }
+
+  free() {
+    this.webClient.free();
   }
 
   async createMidenWallet(walletType: WalletType, seed?: Uint8Array): Promise<string> {
@@ -285,13 +295,3 @@ export class MidenClientInterface {
     }
   }
 }
-
-export function getBech32AddressFromAccountId(accountId: AccountId): string {
-  const accountAddress = Address.fromAccountId(accountId, 'Unspecified');
-  return accountAddress.toBech32(NetworkId.Testnet);
-}
-
-export const accountIdStringToSdk = (accountId: string) => {
-  const accountAddress = Address.fromBech32(accountId);
-  return accountAddress.accountId();
-};

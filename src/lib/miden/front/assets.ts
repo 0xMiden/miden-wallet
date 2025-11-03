@@ -23,11 +23,10 @@ import { createQueue } from 'lib/queue';
 import { useRetryableSWR } from 'lib/swr';
 
 import { useGasToken } from '../../../app/hooks/useGasToken';
-import { getBech32AddressFromAccountId, MidenClientInterface } from '../sdk/miden-client-interface';
+import { getBech32AddressFromAccountId } from '../sdk/helpers';
+import { getMidenClient } from '../sdk/miden-client';
 
 export const ALL_TOKENS_BASE_METADATA_STORAGE_KEY = 'tokens_base_metadata';
-
-const midenClient = await MidenClientInterface.create();
 
 export type TokenBalance = {
   faucetId: string;
@@ -41,6 +40,7 @@ export type TokenBalanceData = {
 
 export function useFungibleTokens(accountId: string) {
   const fetchBalanceLocal = useCallback(async () => {
+    const midenClient = await getMidenClient();
     const account = await midenClient.getAccount(accountId);
     const assets = account!.vault().fungibleAssets() as FungibleAsset[];
     const balances = assets.map(asset => ({

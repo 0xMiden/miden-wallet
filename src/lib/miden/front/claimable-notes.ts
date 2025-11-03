@@ -3,12 +3,13 @@ import { useCallback } from 'react';
 import { getUncompletedTransactions } from 'lib/miden/activity';
 import { useRetryableSWR } from 'lib/swr';
 
-import { getBech32AddressFromAccountId, MidenClientInterface } from '../sdk/miden-client-interface';
+import { getBech32AddressFromAccountId } from '../sdk/helpers';
+import { getMidenClient } from '../sdk/miden-client';
 import { ConsumableNote } from '../types';
 
 export function useClaimableNotes(publicAddress: string) {
   const fetchClaimableNotes = useCallback(async () => {
-    const midenClient = await MidenClientInterface.create();
+    const midenClient = await getMidenClient();
     const syncSummary = await midenClient.syncState();
     const b = syncSummary.blockNum();
     const notes = await midenClient.getConsumableNotes(publicAddress, b);

@@ -5,7 +5,8 @@ import BigNumber from 'bignumber.js';
 import { useRetryableSWR } from 'lib/swr';
 
 import { MIDEN_METADATA } from '../metadata';
-import { accountIdStringToSdk, MidenClientInterface } from '../sdk/miden-client-interface';
+import { accountIdStringToSdk } from '../sdk/helpers';
+import { getMidenClient } from '../sdk/miden-client';
 
 type UseBalanceOptions = {
   suspense?: boolean;
@@ -15,10 +16,9 @@ type UseBalanceOptions = {
   refreshInterval?: number;
 };
 
-const midenClient = await MidenClientInterface.create();
-
 export function useBalance(accountId: string, faucetId: string, opts: UseBalanceOptions = {}) {
   const fetchBalanceLocal = useCallback(async () => {
+    const midenClient = await getMidenClient();
     const account = await midenClient.getAccount(accountId);
     const balance = account!.vault().getBalance(accountIdStringToSdk(faucetId));
     let balanceNumber = new BigNumber(balance.toString());

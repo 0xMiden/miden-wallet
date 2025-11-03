@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useEffect, useState, memo } from 'react';
 
 import { ActivitySpinner } from 'app/atoms/ActivitySpinner';
+import { useMidenClient } from 'app/hooks/useMidenClient';
 import { IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
 import { Button, ButtonVariant } from 'components/Button';
@@ -9,7 +10,6 @@ import { t } from 'lib/i18n/react';
 import { getTransactionById } from 'lib/miden/activity';
 import { useAllAccounts, getTokenId, useAccount } from 'lib/miden/front';
 import { NoteExportType } from 'lib/miden/sdk/constants';
-import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import { WalletAccount } from 'lib/shared/types';
 import { capitalizeFirstLetter } from 'utils/string';
 
@@ -65,6 +65,7 @@ const AccountDisplay: FC<{
 export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => {
   const allAccounts = useAllAccounts();
   const account = useAccount();
+  const { midenClient } = useMidenClient();
   const [activity, setActivity] = useState<IActivity | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
 
@@ -90,10 +91,10 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
 
   const handleDownload = useCallback(async () => {
     if (!activity?.noteId) return;
+    if (!midenClient) return;
 
     try {
       setIsDownloading(true);
-      const midenClient = await MidenClientInterface.create();
       const noteBytes = await midenClient.exportNote(activity.noteId, NoteExportType.DETAILS);
 
       const ab = new ArrayBuffer(noteBytes.byteLength);
@@ -113,7 +114,7 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
     } finally {
       setIsDownloading(false);
     }
-  }, [activity?.noteId]);
+  }, [activity?.noteId, midenClient]);
 
   const handleViewOnExplorer = useCallback(() => {
     if (!activity?.externalTxId) return;

@@ -1,6 +1,6 @@
 import { expose } from 'threads/worker';
 
-import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
+import { getMidenClient } from 'lib/miden/sdk/miden-client';
 
 var transactionRequest: Uint8Array;
 
@@ -9,7 +9,7 @@ const SubmitTransactionRequest = {
     transactionRequest = new Uint8Array(buffer);
   },
   submitTransactionRequest: async (address: string, delegateTransaction?: boolean): Promise<Uint8Array> => {
-    const midenClientInterface = await MidenClientInterface.create();
+    const midenClientInterface = await getMidenClient();
     const result = await midenClientInterface.submitTransaction(address, transactionRequest, delegateTransaction);
     const resultBytes = result.serialize();
     return resultBytes;

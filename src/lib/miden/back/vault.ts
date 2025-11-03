@@ -16,7 +16,8 @@ import { clearStorage } from 'lib/miden/reset';
 import { WalletAccount, WalletSettings } from 'lib/shared/types';
 import { WalletType } from 'screens/onboarding/types';
 
-import { getBech32AddressFromAccountId, MidenClientInterface } from '../sdk/miden-client-interface';
+import { getBech32AddressFromAccountId } from '../sdk/helpers';
+import { getMidenClient } from '../sdk/miden-client';
 
 const STORAGE_KEY_PREFIX = 'vault';
 const DEFAULT_SETTINGS = {};
@@ -64,7 +65,7 @@ export class Vault {
         mnemonic = Bip39.generateMnemonic(128);
       }
 
-      const midenClient = await MidenClientInterface.create();
+      const midenClient = await getMidenClient();
       const hdAccIndex = 0;
       const walletSeed = deriveClientSeed(WalletType.OnChain, mnemonic, 0);
 
@@ -112,7 +113,7 @@ export class Vault {
 
   static async spawnFromMidenClient(password: string, mnemonic: string) {
     return withError('Failed to spawn from miden client', async () => {
-      const midenClient = await MidenClientInterface.create();
+      const midenClient = await getMidenClient();
       const accountHeaders = await midenClient.getAccounts();
       const accounts = [];
 
@@ -178,7 +179,7 @@ export class Vault {
 
       const walletSeed = deriveClientSeed(walletType, mnemonic, hdAccIndex);
 
-      const midenClient = await MidenClientInterface.create();
+      const midenClient = await getMidenClient();
       let walletId;
       if (isOwnMnemonic && walletType === WalletType.OnChain) {
         try {

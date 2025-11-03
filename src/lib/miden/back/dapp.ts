@@ -66,7 +66,7 @@ import {
   requestCustomTransaction,
   initiateConsumeTransactionFromId
 } from '../activity/transactions';
-import { MidenClientInterface } from '../sdk/miden-client-interface';
+import { getMidenClient } from '../sdk/miden-client';
 import { store, withUnlocked } from './store';
 
 const CONFIRM_WINDOW_WIDTH = 380;
@@ -197,7 +197,7 @@ export async function generatePromisifyRequestPermission(
             let publicKey = null;
             try {
               publicKey = await withUnlocked(async () => {
-                const midenClient = await MidenClientInterface.create();
+                const midenClient = await getMidenClient();
                 const account = await midenClient.getAccount(accountPublicKey);
                 const publicKeys = account!.getPublicKeys();
                 const publicKeyAsB64 = u8ToB64(publicKeys[0].serialize());
@@ -285,7 +285,7 @@ const generatePromisifySign = async (
         if (confirmReq.confirmed) {
           try {
             let signature = await withUnlocked(async () => {
-              const midenClient = await MidenClientInterface.create();
+              const midenClient = await getMidenClient();
               const account = await midenClient.getAccount(req.sourcePublicKey);
               const publicKeys = account!.getPublicKeys();
               const secretKey = await midenClient.getAccountAuthByPubKey(publicKeys[0]);
@@ -422,7 +422,7 @@ async function getPrivateNoteDetails(notefilterType: NoteFilterTypes, noteIds?: 
   let privateNotes: InputNoteDetails[] = [];
   try {
     privateNotes = await withUnlocked(async () => {
-      const midenClient = await MidenClientInterface.create();
+      const midenClient = await getMidenClient();
       const midenNoteIds = noteIds ? noteIds.map(id => NoteId.fromHex(id)) : undefined;
       const noteFilter = new NoteFilter(notefilterType, midenNoteIds);
       let allNotes = await midenClient.getInputNoteDetails(noteFilter);
@@ -528,7 +528,7 @@ async function getConsumableNotes(accountId: string): Promise<InputNoteDetails[]
   let consumableNotes: InputNoteDetails[] = [];
   try {
     consumableNotes = await withUnlocked(async () => {
-      const midenClient = await MidenClientInterface.create();
+      const midenClient = await getMidenClient();
       const syncSummary = await midenClient.syncState();
       const blockNum = syncSummary.blockNum();
       const consumableNotes = await midenClient.getConsumableNotes(accountId, blockNum);
@@ -653,7 +653,7 @@ async function getAssets(accountId: string): Promise<Asset[]> {
   let assets: Asset[] = [];
   try {
     assets = await withUnlocked(async () => {
-      const midenClient = await MidenClientInterface.create();
+      const midenClient = await getMidenClient();
       const account = await midenClient.getAccount(accountId);
       const fungibleAssets = account?.vault().fungibleAssets() || [];
       const balances = fungibleAssets.map(asset => ({
@@ -717,7 +717,7 @@ export const generatePromisifyImportPrivateNote = async (
         if (confirmReq.confirmed) {
           try {
             let noteId = await withUnlocked(async () => {
-              const midenClient = await MidenClientInterface.create();
+              const midenClient = await getMidenClient();
               const noteAsUint8Array = b64ToU8(req.note);
               const noteId = await midenClient.importNoteBytes(noteAsUint8Array);
               await midenClient.syncState();
