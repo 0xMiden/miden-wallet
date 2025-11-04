@@ -81,7 +81,7 @@
 
   "web_accessible_resources": [
     {
-      "resources": ["addToWindow.js"],
+      "resources": ["addToWindow.js", "static/wasm/*.wasm"],
       "matches": ["http://localhost/*", "http://127.0.0.1/*", "https://*/*"]
     }
   ]
