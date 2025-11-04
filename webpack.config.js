@@ -52,7 +52,7 @@ const appConfig = {
   output: {
     pathinfo: false,
     path: OUTPUT_PATH,
-    publicPath: '',
+    publicPath: '/',
     assetModuleFilename: `static/media/${fileFormat}`,
     chunkLoading: 'jsonp',
     chunkFormat: 'array-push',
