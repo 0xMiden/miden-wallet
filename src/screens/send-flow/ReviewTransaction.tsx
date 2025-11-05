@@ -8,6 +8,7 @@ import { Icon, IconName } from 'app/icons/v2';
 import { Button, ButtonVariant } from 'components/Button';
 import { NavigationHeader } from 'components/NavigationHeader';
 import { useAccount } from 'lib/miden/front';
+import { truncateHash } from 'lib/shared/helpers';
 
 import { RecallBlocksModal } from './RecallBlocksModal';
 import { SendFlowAction, SendFlowActionId } from './types';
@@ -104,11 +105,11 @@ export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
         <div className="flex flex-col gap-y-2">
           <span className="flex flex-row justify-between">
             <label className="text-sm text-grey-600">From</label>
-            <p className="text-sm">{publicKey}</p>
+            <p className="text-sm">{truncateHash(publicKey)}</p>
           </span>
           <span className="flex flex-row justify-between whitespace-pre-line">
             <label className="text-sm text-grey-600">To</label>
-            <p className="text-sm text-right">{recipientAddress}</p>
+            <p className="text-sm text-right">{truncateHash(recipientAddress || '')}</p>
           </span>
         </div>
 

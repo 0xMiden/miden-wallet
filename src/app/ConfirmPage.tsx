@@ -268,7 +268,9 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
       content = (
         <>
           <div className="text-md text-center my-6">
-            {`Share all private note data for account ${payload.sourcePublicKey}?`}
+            {'Share all private note data for account'}
+            <br />
+            {`${truncateHash(payload.sourcePublicKey)}?`}
           </div>
           <div className="flex items-center justify-center">
             <FormSecondaryButton
