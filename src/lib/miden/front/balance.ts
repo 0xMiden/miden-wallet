@@ -8,10 +8,9 @@ import { useRetryableSWR } from 'lib/swr';
 
 import { getFaucetIdSetting } from '../assets';
 import { AssetMetadata, fetchTokenMetadata, MIDEN_METADATA } from '../metadata';
-import { getBech32AddressFromAccountId, MidenClientInterface } from '../sdk/miden-client-interface';
+import { getBech32AddressFromAccountId } from '../sdk/helpers';
+import { getMidenClient } from '../sdk/miden-client';
 import { setTokensBaseMetadata } from './assets';
-
-const midenClient = await MidenClientInterface.create();
 
 export interface TokenBalanceData {
   tokenId: string;
@@ -49,6 +48,7 @@ const prefetchMetadataIfMissing = (id: string) => {
 const fetchBalances = async (address: string, tokenMetadatas: Record<string, AssetMetadata>) => {
   const balances: TokenBalanceData[] = [];
 
+  const midenClient = await getMidenClient();
   const account = await midenClient.getAccount(address);
   const assets = account!.vault().fungibleAssets() as FungibleAsset[];
   const midenFaucetId = getFaucetIdSetting();

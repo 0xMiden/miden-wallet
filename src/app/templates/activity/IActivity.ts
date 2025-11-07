@@ -18,6 +18,7 @@ export interface IActivity {
   fee?: string;
   noteType?: string;
   noteId?: string;
+  externalTxId?: string;
 }
 
 /// The activity type. For sorting purposes, the order of the activity type matters. In a given transaction

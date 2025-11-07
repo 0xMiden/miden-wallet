@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { getMidenClient } from 'lib/miden/sdk/miden-client';
 import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 
 export const useMidenClient = () => {
@@ -8,9 +9,14 @@ export const useMidenClient = () => {
 
   useEffect(() => {
     const initializeClient = async () => {
-      const client = await MidenClientInterface.create();
-      setMidenClient(client);
-      setIsLoading(false);
+      try {
+        const client = await getMidenClient();
+        setMidenClient(client);
+      } catch (error) {
+        console.error('Failed to initialize Miden client:', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     initializeClient();

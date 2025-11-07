@@ -31,7 +31,10 @@ export const TextArea: React.FC<TextAreaProps> = ({ className, value, ...props }
         'resize-none overflow-hidden',
         'placeholder-grey-400 font-base text-base',
         'border border-grey-200 hover:border-grey-300 rounded-lg',
-        'hover:border-grey-300 focus:outline-0 focus:border-primary-500 focus:ring-1 focus:ring-primary-500',
+        'hover:border-grey-300',
+        'outline-none',
+        'focus:border-black focus:ring-1 focus:ring-black',
+        'active:border-black',
         className
       )}
     />

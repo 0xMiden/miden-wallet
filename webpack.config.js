@@ -52,9 +52,11 @@ const appConfig = {
   output: {
     pathinfo: false,
     path: OUTPUT_PATH,
+    publicPath: '/',
     assetModuleFilename: `static/media/${fileFormat}`,
     chunkLoading: 'jsonp',
-    chunkFormat: 'array-push'
+    chunkFormat: 'array-push',
+    uniqueName: 'app'
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.wasm'],
@@ -120,6 +122,13 @@ const appConfig = {
   ],
   module: {
     rules: [
+      {
+        test: /\.wasm$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: `static/wasm/[name].[hash][ext]`
+        }
+      },
       {
         test: /\.(woff|woff2)$/i,
         type: 'asset/resource',
@@ -224,8 +233,9 @@ const backgroundConfig = {
     syncWebAssembly: true,
     topLevelAwait: true
   },
+  target: 'webworker',
   entry: {
-    background: './src/background.ts',
+    background: './src/background.ts'
   },
   devServer: {
     hot: true
@@ -233,9 +243,12 @@ const backgroundConfig = {
   output: {
     pathinfo: false,
     path: OUTPUT_PATH,
+    publicPath: '',
     assetModuleFilename: `static/media/${fileFormat}`,
     chunkLoading: 'import-scripts',
-    chunkFormat: 'array-push'
+    chunkFormat: 'array-push',
+    chunkFilename: 'background.[name].[id].[contenthash].js',
+    uniqueName: 'background'
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.wasm'],
@@ -285,14 +298,12 @@ const backgroundConfig = {
       chunkFilename: 'static/styles/[name].chunk.css'
     }),
     new ForkTsCheckerWebpackPlugin(),
-    ...htmlTemplatesPlugins(PUBLIC_PATH),
     new ESLintPlugin({
       extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
       cache: true,
       resolvePluginsRelativeTo: __dirname,
       formatter: require.resolve('react-dev-utils/eslintFormatter')
     }),
-    publicAssetsPlugin(PUBLIC_PATH, OUTPUT_PATH, MANIFEST, TARGET_BROWSER),
 
     new WebpackBar({
       name: 'Miden Wallet Background',
@@ -301,6 +312,13 @@ const backgroundConfig = {
   ],
   module: {
     rules: [
+      {
+        test: /\.wasm$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: `static/wasm/[name].[hash][ext]`
+        }
+      },
       {
         test: /\.(woff|woff2)$/i,
         type: 'asset/resource',
@@ -390,7 +408,7 @@ const backgroundConfig = {
   }
 };
 const workerConfig = {
-  mode: process.env.NODE_ENV,
+  mode: process.env.MODE_ENV,
   devtool: process.env.MODE_ENV === 'development' ? 'inline-source-map' : false,
   cache: {
     type: 'filesystem',
@@ -412,7 +430,13 @@ const workerConfig = {
   },
   output: {
     pathinfo: false,
-    path: OUTPUT_PATH
+    path: OUTPUT_PATH,
+    publicPath: '',
+    assetModuleFilename: `static/media/${fileFormat}`,
+    chunkLoading: 'import-scripts',
+    chunkFormat: 'array-push',
+    chunkFilename: 'workers.[name].[id].[contenthash].js',
+    uniqueName: 'workers'
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.wasm'],
@@ -457,6 +481,13 @@ const workerConfig = {
   ],
   module: {
     rules: [
+      {
+        test: /\.wasm$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: `static/wasm/[name].[hash][ext]`
+        }
+      },
       {
         test: /\.m?js$/i,
         exclude: /node_modules/,

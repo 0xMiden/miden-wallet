@@ -3,22 +3,9 @@ import React, { FC, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ToggleSwitch from 'app/atoms/ToggleSwitch';
+import { isAutoCloseEnabled, setAutoCloseSetting } from 'lib/settings/helpers';
 
 import { GeneralSettingsSelectors } from './GeneralSettings.selectors';
-
-export const AUTO_CLOSE_STORAGE_KEY = 'auto_close_setting';
-export const DEFAULT_AUTO_CLOSE = true;
-
-function setAutoCloseSetting(enabled: boolean) {
-  try {
-    localStorage.setItem(AUTO_CLOSE_STORAGE_KEY, JSON.stringify(enabled));
-  } catch {}
-}
-
-export function isAutoCloseEnabled() {
-  const stored = localStorage.getItem(AUTO_CLOSE_STORAGE_KEY);
-  return stored ? (JSON.parse(stored) as boolean) : DEFAULT_AUTO_CLOSE;
-}
 
 const AutoCloseSettings: FC<{}> = () => {
   const gpuEnabled = isAutoCloseEnabled();

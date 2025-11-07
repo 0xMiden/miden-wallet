@@ -122,6 +122,10 @@ const AddNewContactForm: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <form className={className} onSubmit={handleSubmit(onAddContactSubmit)}>
       <FormField
+        ref={register({
+          required: t('required'),
+          maxLength: { value: 50, message: t('maximalAmount', '50') }
+        })}
         label={
           <div className="font-medium -mb-2" style={{ fontSize: '14px', lineHeight: '20px' }}>
             {t('address')}

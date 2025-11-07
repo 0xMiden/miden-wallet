@@ -1,11 +1,8 @@
 import {
   Account,
-  AccountId,
   AccountStorageMode,
-  Address,
   ConsumableNoteRecord,
   InputNoteRecord,
-  NetworkId,
   NoteFilter,
   SecretKey,
   NoteType,
@@ -16,7 +13,8 @@ import {
   WebClient,
   Word,
   AccountFile,
-  NoteFile
+  NoteFile,
+  InputNoteState
 } from '@demox-labs/miden-sdk';
 
 import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';
@@ -25,6 +23,7 @@ import { WalletType } from 'screens/onboarding/types';
 import { ConsumeTransaction, SendTransaction } from '../db/types';
 import { toNoteType } from '../helpers';
 import { NoteExportType } from './constants';
+import { accountIdStringToSdk, getBech32AddressFromAccountId } from './helpers';
 
 export type MidenClientCreateOptions = {
   seed?: Uint8Array;
@@ -39,6 +38,8 @@ export type InputNoteDetails = {
   senderAccountId: string | undefined;
   assets: FungibleAssetDetails[];
   noteType: NoteType | undefined;
+  nullifier: string;
+  state: InputNoteState;
 };
 
 export type FungibleAssetDetails = {
@@ -57,6 +58,13 @@ export class MidenClientInterface {
     this.onConnectivityIssue = onConnectivityIssue;
   }
 
+  /**
+   * Do not use this method directly. Use getMidenClient instead.
+   * Creates a new Miden client instance.
+   * @param options - The options for creating the Miden client.
+   * @returns The Miden client instance.
+   * @note A new web worker is created for each invocation. Each worker must be manually disposed of.
+   */
   static async create(options: MidenClientCreateOptions = {}) {
     const seed = options.seed?.toString();
     const network = MIDEN_NETWORK_NAME.LOCALNET;
@@ -70,6 +78,10 @@ export class MidenClientInterface {
     );
 
     return new MidenClientInterface(webClient, network, options.onConnectivityIssue);
+  }
+
+  free() {
+    this.webClient.free();
   }
 
   async createMidenWallet(walletType: WalletType, seed?: Uint8Array): Promise<string> {
@@ -158,8 +170,8 @@ export class MidenClientInterface {
   }
 
   async getInputNoteDetails(noteFilter: NoteFilter): Promise<InputNoteDetails[]> {
-    const result = await this.webClient.getInputNotes(noteFilter);
-    const details = result.map(note => {
+    const allInputNotes = await this.webClient.getInputNotes(noteFilter);
+    const details = allInputNotes.map(note => {
       const assets = note
         .details()
         .assets()
@@ -172,6 +184,8 @@ export class MidenClientInterface {
         noteId: note.id().toString(),
         noteType: note.metadata()?.noteType(),
         senderAccountId: getBech32AddressFromAccountId(note.metadata()!.sender()),
+        nullifier: note.nullifier(),
+        state: note.state(),
         assets: assets
       };
       return details;
@@ -345,13 +359,3 @@ export class MidenClientInterface {
     return transactionResult;
   }
 }
-
-export function getBech32AddressFromAccountId(accountId: AccountId): string {
-  const accountAddress = Address.fromAccountId(accountId, 'Unspecified');
-  return accountAddress.toBech32(NetworkId.Testnet);
-}
-
-export const accountIdStringToSdk = (accountId: string) => {
-  const accountAddress = Address.fromBech32(accountId);
-  return accountAddress.accountId();
-};

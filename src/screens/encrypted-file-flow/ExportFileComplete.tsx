@@ -36,7 +36,9 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({
   const { fullPage } = useAppEnv();
 
   const getExportFile = useCallback(async () => {
-    const midenClientDbDump = await midenClient?.exportDb();
+    if (!midenClient) return;
+
+    const midenClientDbDump = await midenClient.exportDb();
     const walletDbDump = await exportDb();
 
     const seedPhrase = await revealMnemonic(walletPassword);
@@ -88,10 +90,10 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({
   }, [midenClient, walletPassword, filePassword, fileName, revealMnemonic]);
 
   useEffect(() => {
-    if (midenClientLoading) return;
+    if (midenClientLoading || !midenClient) return;
 
     getExportFile();
-  }, [getExportFile, midenClientLoading]);
+  }, [getExportFile, midenClient, midenClientLoading]);
 
   return (
     <div className="flex flex-col justify-between md:w-[460px] mx-auto items-center">

@@ -5,12 +5,12 @@ import { OnSubmit, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { openLoadingFullPage, useAppEnv } from 'app/env';
-import { isDelegateProofEnabled } from 'app/templates/DelegateSettings';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { stringToBigInt } from 'lib/i18n/numbers';
 import { initiateSendTransaction } from 'lib/miden/activity';
 import { useAccount, useAllAccounts } from 'lib/miden/front';
 import { NoteTypeEnum } from 'lib/miden/types';
+import { isDelegateProofEnabled } from 'lib/settings/helpers';
 import { navigate } from 'lib/woozie';
 import { isValidMidenAddress } from 'utils/miden';
 
@@ -234,13 +234,14 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
 
   const onSelectContact = useCallback(
     (contact: Contact) => {
+      clearError('recipientAddress');
       onAction({
         id: SendFlowActionId.SetFormValues,
         payload: { recipientAddress: contact.id }
       });
       setTimeout(() => goBack(), 300);
     },
-    [onAction, goBack]
+    [onAction, goBack, clearError]
   );
 
   const onAmountChange = useCallback(
@@ -274,7 +275,8 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       id: SendFlowActionId.SetFormValues,
       payload: { recipientAddress: '' }
     });
-  }, [onAction]);
+    clearError('recipientAddress');
+  }, [onAction, clearError]);
 
   const renderStep = useCallback(
     (route: Route) => {

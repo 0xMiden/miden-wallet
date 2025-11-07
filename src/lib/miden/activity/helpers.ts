@@ -2,7 +2,7 @@ import { TransactionResult } from '@demox-labs/miden-sdk';
 import BigNumber from 'bignumber.js';
 
 import { ITransaction } from '../db/types';
-import { getBech32AddressFromAccountId } from '../sdk/miden-client-interface';
+import { getBech32AddressFromAccountId } from '../sdk/helpers';
 
 export function tryParseTokenTransfers(
   parameters: any,

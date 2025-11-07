@@ -3,22 +3,9 @@ import React, { FC, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ToggleSwitch from 'app/atoms/ToggleSwitch';
+import { isAutoConsumeEnabled, setAutoConsumeSetting } from 'lib/settings/helpers';
 
 import { GeneralSettingsSelectors } from './GeneralSettings.selectors';
-
-export const AUTO_CONSUME_STORAGE_KEY = 'auto_consume_setting';
-export const DEFAULT_AUTO_CONSUME = true;
-
-function setAutoConsumeSetting(enabled: boolean) {
-  try {
-    localStorage.setItem(AUTO_CONSUME_STORAGE_KEY, JSON.stringify(enabled));
-  } catch {}
-}
-
-export function isAutoConsumeEnabled() {
-  const stored = localStorage.getItem(AUTO_CONSUME_STORAGE_KEY);
-  return stored ? (JSON.parse(stored) as boolean) : DEFAULT_AUTO_CONSUME;
-}
 
 const AutoConsumeSettings: FC<{}> = () => {
   const consumeEnabled = isAutoConsumeEnabled();

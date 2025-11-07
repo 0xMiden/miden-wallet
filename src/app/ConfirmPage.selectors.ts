@@ -21,5 +21,7 @@ export enum ConfirmPageSelectors {
   RequestAssets_RejectButton = 'ConfirmPage/RequestAssets/RejectButton',
   RequestAssets_AcceptButton = 'ConfirmPage/RequestAssets/AcceptButton',
   RequestImportPrivateNote_RejectButton = 'ConfirmPage/RequestImportPrivateNote/RejectButton',
-  RequestImportPrivateNote_AcceptButton = 'ConfirmPage/RequestImportPrivateNote/AcceptButton'
+  RequestImportPrivateNote_AcceptButton = 'ConfirmPage/RequestImportPrivateNote/AcceptButton',
+  RequestConsumableNotes_RejectButton = 'ConfirmPage/RequestConsumableNotes/RejectButton',
+  RequestConsumableNotes_AcceptButton = 'ConfirmPage/RequestConsumableNotes/AcceptButton'
 }

@@ -1,10 +1,12 @@
+import { NoteFilterTypes } from '@demox-labs/miden-sdk';
 import {
-  WalletAdapterNetwork,
-  PrivateDataPermission,
+  AllowedPrivateData,
+  MidenConsumeTransaction,
   MidenSendTransaction,
   MidenTransaction,
-  MidenConsumeTransaction,
-  AllowedPrivateData
+  PrivateDataPermission,
+  SignKind,
+  WalletAdapterNetwork
 } from '@demox-labs/miden-wallet-adapter-base';
 import { nanoid } from 'nanoid';
 
@@ -149,20 +151,27 @@ export async function requestConsume(sourcePublicKey: string, transaction: Miden
   return res.transactionId;
 }
 
-export async function requestPrivateNotes(sourcePublicKey: string) {
+export async function requestPrivateNotes(
+  sourcePublicKey: string,
+  notefilterType: NoteFilterTypes,
+  noteIds?: string[]
+) {
   const res = await request({
     type: MidenDAppMessageType.PrivateNotesRequest,
-    sourcePublicKey
+    sourcePublicKey,
+    notefilterType,
+    noteIds
   });
   assertResponse(res.type === MidenDAppMessageType.PrivateNotesResponse);
   return res.privateNotes;
 }
 
-export async function signMessage(sourcePublicKey: string, message: string) {
+export async function signBytes(sourcePublicKey: string, message: string, kind: SignKind) {
   const res = await request({
     type: MidenDAppMessageType.SignRequest,
     sourcePublicKey,
-    payload: message
+    payload: message,
+    kind: kind
   });
   assertResponse(res.type === MidenDAppMessageType.SignResponse);
   return res.signature;
@@ -185,6 +194,15 @@ export async function importPrivateNote(sourcePublicKey: string, note: string) {
   });
   assertResponse(res.type === MidenDAppMessageType.ImportPrivateNoteResponse);
   return res.noteId;
+}
+
+export async function requestConsumableNotes(sourcePublicKey: string) {
+  const res = await request({
+    type: MidenDAppMessageType.ConsumableNotesRequest,
+    sourcePublicKey
+  });
+  assertResponse(res.type === MidenDAppMessageType.ConsumableNotesResponse);
+  return res.consumableNotes;
 }
 
 function request(payload: MidenDAppRequest) {

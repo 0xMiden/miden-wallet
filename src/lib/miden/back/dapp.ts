@@ -1,12 +1,21 @@
-import { NoteFilter, NoteFilterTypes, NoteType, Word } from '@demox-labs/miden-sdk';
 import {
-  PrivateDataPermission,
-  MidenConsumeTransaction,
-  MidenCustomTransaction,
-  SendTransaction,
+  AccountInterface,
+  NetworkId,
+  NoteFilter,
+  NoteFilterTypes,
+  NoteId,
+  NoteType,
+  SigningInputs,
+  Word
+} from '@demox-labs/miden-sdk';
+import {
   AllowedPrivateData,
   Asset,
-  InputNoteDetails
+  InputNoteDetails,
+  MidenConsumeTransaction,
+  MidenCustomTransaction,
+  PrivateDataPermission,
+  SendTransaction
 } from '@demox-labs/miden-wallet-adapter-base';
 import { nanoid } from 'nanoid';
 import browser, { Runtime } from 'webextension-polyfill';
@@ -32,7 +41,9 @@ import {
   MidenDAppAssetsResponse,
   MidenDAppAssetsRequest,
   MidenDAppImportPrivateNoteRequest,
-  MidenDAppImportPrivateNoteResponse
+  MidenDAppImportPrivateNoteResponse,
+  MidenDAppConsumableNotesRequest,
+  MidenDAppConsumableNotesResponse
 } from 'lib/adapter/types';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { getFaucetIdSetting } from 'lib/miden/assets/utils';
@@ -59,7 +70,8 @@ import {
   requestCustomTransaction,
   initiateConsumeTransactionFromId
 } from '../activity/transactions';
-import { getBech32AddressFromAccountId, MidenClientInterface } from '../sdk/miden-client-interface';
+import { getBech32AddressFromAccountId } from '../sdk/helpers';
+import { getMidenClient } from '../sdk/miden-client';
 import { store, withUnlocked } from './store';
 
 const CONFIRM_WINDOW_WIDTH = 380;
@@ -190,7 +202,7 @@ export async function generatePromisifyRequestPermission(
             let publicKey = null;
             try {
               publicKey = await withUnlocked(async () => {
-                const midenClient = await MidenClientInterface.create();
+                const midenClient = await getMidenClient();
                 const account = await midenClient.getAccount(accountPublicKey);
                 const publicKeys = account!.getPublicKeys();
                 const publicKeyAsB64 = u8ToB64(publicKeys[0].serialize());
@@ -267,6 +279,7 @@ const generatePromisifySign = async (
       appMeta: dApp.appMeta,
       sourcePublicKey: req.sourcePublicKey,
       payload: req.payload,
+      kind: req.kind,
       preview: null
     },
     onDecline: () => {
@@ -277,15 +290,26 @@ const generatePromisifySign = async (
         if (confirmReq.confirmed) {
           try {
             let signature = await withUnlocked(async () => {
-              const midenClient = await MidenClientInterface.create();
+              const midenClient = await getMidenClient();
               const account = await midenClient.getAccount(req.sourcePublicKey);
               const publicKeys = account!.getPublicKeys();
               const secretKey = await midenClient.getAccountAuthByPubKey(publicKeys[0]);
 
               const payloadAsUint8Array = b64ToU8(req.payload);
-              let word = Word.deserialize(payloadAsUint8Array);
-              const signature = secretKey.sign(word);
-              const signatureBytes = signature.serialize();
+
+              let signature = null;
+              switch (req.kind) {
+                case 'word':
+                  let word = Word.deserialize(payloadAsUint8Array);
+                  signature = secretKey.sign(word);
+                  break;
+                case 'signingInputs':
+                  let signingInputs = SigningInputs.deserialize(payloadAsUint8Array);
+                  signature = secretKey.signData(signingInputs);
+                  break;
+              }
+
+              const signatureBytes = signature!.serialize();
               const signatureAsB64 = u8ToB64(signatureBytes);
 
               return signatureAsB64;
@@ -342,7 +366,7 @@ const generatePromisifyRequestPrivateNotes = async (
     (dApp.allowedPrivateData & AllowedPrivateData.Notes) !== 0
   ) {
     try {
-      privateNotes = await getPrivateNoteDetails();
+      privateNotes = await getPrivateNoteDetails(req.notefilterType, req.noteIds);
       resolve({
         type: MidenDAppMessageType.PrivateNotesResponse,
         privateNotes: privateNotes
@@ -355,7 +379,7 @@ const generatePromisifyRequestPrivateNotes = async (
     const networkRpc = await getNetworkRPC(dApp.network);
 
     try {
-      privateNotes = await getPrivateNoteDetails();
+      privateNotes = await getPrivateNoteDetails(req.notefilterType, req.noteIds);
     } catch (e) {
       reject(e);
     }
@@ -399,17 +423,145 @@ const generatePromisifyRequestPrivateNotes = async (
   }
 };
 
-async function getPrivateNoteDetails(): Promise<InputNoteDetails[]> {
+async function getPrivateNoteDetails(notefilterType: NoteFilterTypes, noteIds?: string[]): Promise<InputNoteDetails[]> {
   let privateNotes: InputNoteDetails[] = [];
   try {
     privateNotes = await withUnlocked(async () => {
-      const midenClient = await MidenClientInterface.create();
-      const noteFilter = new NoteFilter(NoteFilterTypes.All); // Unsure if we want All or a different type?
+      const midenClient = await getMidenClient();
+      const midenNoteIds = noteIds ? noteIds.map(id => NoteId.fromHex(id)) : undefined;
+      const noteFilter = new NoteFilter(notefilterType, midenNoteIds);
       let allNotes = await midenClient.getInputNoteDetails(noteFilter);
       let privateNotes = allNotes.filter(note => note.noteType === NoteType.Private);
       return privateNotes;
     });
     return privateNotes;
+  } catch (e) {
+    throw new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`);
+  }
+}
+
+export async function requestConsumableNotes(
+  origin: string,
+  req: MidenDAppConsumableNotesRequest
+): Promise<MidenDAppConsumableNotesResponse> {
+  if (!req?.sourcePublicKey) {
+    throw new Error(MidenDAppErrorType.InvalidParams);
+  }
+
+  const dApp = await getDApp(origin, req.sourcePublicKey);
+  if (!dApp) {
+    throw new Error(MidenDAppErrorType.NotGranted);
+  }
+
+  if (req.sourcePublicKey !== dApp.accountId) {
+    throw new Error(MidenDAppErrorType.NotFound);
+  }
+
+  return new Promise((resolve, reject) => generatePromisifyRequestConsumableNotes(resolve, reject, dApp, req));
+}
+
+export const generatePromisifyRequestConsumableNotes = async (
+  resolve: (value: MidenDAppConsumableNotesResponse | PromiseLike<MidenDAppConsumableNotesResponse>) => void,
+  reject: (reason?: any) => void,
+  dApp: MidenDAppSession,
+  req: MidenDAppConsumableNotesRequest
+) => {
+  let consumableNotes: InputNoteDetails[] = [];
+  if (
+    dApp.privateDataPermission === PrivateDataPermission.Auto &&
+    (dApp.allowedPrivateData & AllowedPrivateData.Notes) !== 0
+  ) {
+    try {
+      consumableNotes = await getConsumableNotes(dApp.accountId);
+      resolve({
+        type: MidenDAppMessageType.ConsumableNotesResponse,
+        consumableNotes
+      });
+    } catch (e) {
+      reject(e);
+    }
+  } else {
+    const id = nanoid();
+    const networkRpc = await getNetworkRPC(dApp.network);
+
+    try {
+      consumableNotes = await getConsumableNotes(dApp.accountId);
+    } catch (e) {
+      reject(e);
+    }
+
+    await requestConfirm({
+      id,
+      payload: {
+        type: 'consumableNotes',
+        origin,
+        networkRpc,
+        appMeta: dApp.appMeta,
+        sourcePublicKey: req.sourcePublicKey,
+        consumableNotes,
+        preview: null
+      },
+      onDecline: () => {
+        reject(new Error(MidenDAppErrorType.NotGranted));
+      },
+      handleIntercomRequest: async (confirmReq, decline) => {
+        if (confirmReq?.type === MidenMessageType.DAppConsumableNotesConfirmationRequest && confirmReq?.id === id) {
+          if (confirmReq.confirmed) {
+            try {
+              resolve({
+                type: MidenDAppMessageType.ConsumableNotesResponse,
+                consumableNotes
+              } as any);
+            } catch (e) {
+              reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+            }
+          } else {
+            decline();
+          }
+
+          return {
+            type: MidenMessageType.DAppConsumableNotesConfirmationResponse
+          };
+        }
+        return undefined;
+      }
+    });
+  }
+};
+
+async function getConsumableNotes(accountId: string): Promise<InputNoteDetails[]> {
+  let consumableNotes: InputNoteDetails[] = [];
+  try {
+    consumableNotes = await withUnlocked(async () => {
+      const midenClient = await getMidenClient();
+      const syncSummary = await midenClient.syncState();
+      const blockNum = syncSummary.blockNum();
+      const consumableNotes = await midenClient.getConsumableNotes(accountId, blockNum);
+      const consumableNotesDetails = consumableNotes.map(note => {
+        const assets = note
+          .inputNoteRecord()
+          .details()
+          .assets()
+          .fungibleAssets()
+          .map(asset => ({
+            amount: asset.amount().toString(),
+            faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.Unspecified)
+          }));
+        const inputNoteRecord = note.inputNoteRecord();
+        return {
+          noteId: inputNoteRecord.id().toString(),
+          noteType: inputNoteRecord.metadata()?.noteType(),
+          senderAccountId:
+            inputNoteRecord.metadata()?.sender()?.toBech32(NetworkId.Testnet, AccountInterface.Unspecified) ||
+            undefined,
+          nullifier: inputNoteRecord.nullifier(),
+          state: inputNoteRecord.state(),
+          assets: assets
+        };
+      });
+      return consumableNotesDetails;
+    });
+    return consumableNotes;
   } catch (e) {
     throw new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`);
   }
@@ -506,7 +658,7 @@ async function getAssets(accountId: string): Promise<Asset[]> {
   let assets: Asset[] = [];
   try {
     assets = await withUnlocked(async () => {
-      const midenClient = await MidenClientInterface.create();
+      const midenClient = await getMidenClient();
       const account = await midenClient.getAccount(accountId);
       const fungibleAssets = account?.vault().fungibleAssets() || [];
       const balances = fungibleAssets.map(asset => ({
@@ -570,7 +722,7 @@ export const generatePromisifyImportPrivateNote = async (
         if (confirmReq.confirmed) {
           try {
             let noteId = await withUnlocked(async () => {
-              const midenClient = await MidenClientInterface.create();
+              const midenClient = await getMidenClient();
               const noteAsUint8Array = b64ToU8(req.note);
               const noteId = await midenClient.importNoteBytes(noteAsUint8Array);
               await midenClient.syncState();
@@ -669,7 +821,7 @@ const generatePromisifyTransaction = async (
                 transactionRequest,
                 inputNoteIds,
                 importNotes,
-                undefined,
+                confirmReq.delegate,
                 recipientAccountId || undefined
               );
             });
@@ -758,7 +910,8 @@ const generatePromisifySendTransaction = async (
                 faucetId,
                 noteType as any,
                 BigInt(amount),
-                recallBlocks
+                recallBlocks,
+                confirmReq.delegate
               );
             });
             resolve({
@@ -843,7 +996,7 @@ const generatePromisifyConsumeTransaction = async (
               if (noteBytes) {
                 await queueNoteImport(noteBytes);
               }
-              return await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId);
+              return await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId, confirmReq.delegate);
             });
             resolve({
               type: MidenDAppMessageType.ConsumeResponse,

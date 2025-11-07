@@ -5,11 +5,9 @@ import { useRetryableSWR } from 'lib/swr';
 
 import { isMidenFaucet } from '../assets';
 import { AssetMetadata, MIDEN_METADATA } from '../metadata';
-import {
-  getBech32AddressFromAccountId,
-  MidenClientCreateOptions,
-  MidenClientInterface
-} from '../sdk/miden-client-interface';
+import { getBech32AddressFromAccountId } from '../sdk/helpers';
+import { getMidenClient } from '../sdk/miden-client';
+import { MidenClientCreateOptions } from '../sdk/miden-client-interface';
 import { ConsumableNote } from '../types';
 import { useTokensMetadata } from './assets';
 import { useMidenContext } from './client';
@@ -155,7 +153,7 @@ export function useClaimableNotes(publicAddress: string) {
         return result;
       }
     };
-    const midenClient = await MidenClientInterface.create(options);
+    const midenClient = await getMidenClient(options);
 
     const syncSummary = await midenClient.syncState();
     const latestBlock = syncSummary.blockNum();

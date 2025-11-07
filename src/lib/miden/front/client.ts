@@ -283,6 +283,15 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     assertResponse(res.type === MidenMessageType.DAppImportPrivateNoteConfirmationResponse);
   }, []);
 
+  const confirmDAppConsumableNotes = useCallback(async (id: string, confirmed: boolean) => {
+    const res = await request({
+      type: MidenMessageType.DAppConsumableNotesConfirmationRequest,
+      id,
+      confirmed
+    });
+    assertResponse(res.type === MidenMessageType.DAppConsumableNotesConfirmationResponse);
+  }, []);
+
   const confirmDAppTransaction = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {
     const res = await request({
       type: MidenMessageType.DAppTransactionConfirmationRequest,
@@ -358,6 +367,7 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     confirmDAppPrivateNotes,
     confirmDAppAssets,
     confirmDAppImportPrivateNote,
+    confirmDAppConsumableNotes,
     confirmDAppTransaction,
     confirmDAppBulkTransactions,
     confirmDAppDeploy,

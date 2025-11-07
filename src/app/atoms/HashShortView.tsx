@@ -2,18 +2,20 @@ import React, { memo } from 'react';
 
 type HashShortViewProps = {
   hash: string;
-  trim?: boolean;
+  trimHash?: boolean;
   trimAfter?: number;
   firstCharsCount?: number;
   lastCharsCount?: number;
+  displayName?: string;
 };
 
 const HashShortView = memo<HashShortViewProps>(
-  ({ hash, trim = true, trimAfter = 20, firstCharsCount = 7, lastCharsCount = 4 }) => {
+  ({ hash, trimHash = true, trimAfter = 20, firstCharsCount = 7, lastCharsCount = 4, displayName }) => {
     if (!hash) return null;
 
-    const trimmedHash = (() => {
-      if (!trim) return hash;
+    const trimmedDisplayValue = (() => {
+      if (displayName) return displayName;
+      if (!trimHash) return hash;
 
       const ln = hash.length;
       return ln > trimAfter ? (
@@ -27,7 +29,7 @@ const HashShortView = memo<HashShortViewProps>(
       );
     })();
 
-    return <>{trimmedHash}</>;
+    return <>{trimmedDisplayValue}</>;
   }
 );
 

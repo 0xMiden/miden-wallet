@@ -10,11 +10,9 @@ import { logger } from 'shared/logger';
 import { ConsumeTransaction, ITransaction, ITransactionStatus, SendTransaction, Transaction } from '../db/types';
 import { toNoteTypeString } from '../helpers';
 import { NoteExportType } from '../sdk/constants';
-import {
-  getBech32AddressFromAccountId,
-  MidenClientCreateOptions,
-  MidenClientInterface
-} from '../sdk/miden-client-interface';
+import { getBech32AddressFromAccountId } from '../sdk/helpers';
+import { getMidenClient } from '../sdk/miden-client';
+import { MidenClientCreateOptions } from '../sdk/miden-client-interface';
 import { ConsumableNote, NoteTypeEnum, NoteType as NoteTypeString } from '../types';
 import { interpretTransactionResult } from './helpers';
 import { importAllNotes, queueNoteImport, registerOutputNote } from './notes';
@@ -142,7 +140,7 @@ export const initiateSendTransaction = async (
 export const completeSendTransaction = async (tx: SendTransaction, result: TransactionResult) => {
   const noteId = result.executedTransaction().outputNotes().notes()[0].id().toString();
   if (tx.noteType === NoteTypeEnum.Private) {
-    const midenClient = await MidenClientInterface.create();
+    const midenClient = await getMidenClient();
     const noteBytes = await midenClient.exportNote(noteId, NoteExportType.DETAILS);
     console.log('registering output note', noteId);
     await registerOutputNote(noteId);
@@ -276,7 +274,7 @@ export const generateTransaction = async (
       return await signCallback(keyString, signingInputsString);
     }
   };
-  const midenClient = await MidenClientInterface.create(options);
+  const midenClient = await getMidenClient(options);
   switch (transaction.type) {
     case 'send':
       transactionResultBytes = await midenClient.sendTransaction(transaction as SendTransaction);
@@ -363,9 +361,11 @@ export const safeGenerateTransactionsLoop = async (
       if (!lock) return;
 
       await generateTransactionsLoop(signCallback);
+      return true;
     })
     .catch(e => {
       console.log(e);
       logger.error('Error in safe generate transactions loop', e);
+      return false;
     });
 };

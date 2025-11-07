@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import { fetchFromStorage, putToStorage, useStorage } from '../front';
 import { NoteExportType } from '../sdk/constants';
-import { MidenClientInterface } from '../sdk/miden-client-interface';
+import { getMidenClient } from '../sdk/miden-client';
 
 const IMPORT_NOTES_KEY = 'miden-notes-pending-import';
 const OUTPUT_NOTES_KEY = 'miden-export-note-ids';
@@ -17,7 +17,7 @@ export const importAllNotes = async () => {
   if (queuedImports.length === 0) {
     return;
   }
-  const midenClient = await MidenClientInterface.create();
+  const midenClient = await getMidenClient();
   const imports = queuedImports.map(async noteBytes => {
     const byteArray = new Uint8Array(Buffer.from(noteBytes, 'base64'));
     await midenClient.importNoteBytes(byteArray);
@@ -37,7 +37,7 @@ export const useExportNotes = (): [string[], () => Promise<void>] => {
   const [exportedNotes] = useStorage<string[]>(OUTPUT_NOTES_KEY, []);
 
   const downloadAll = useCallback(async () => {
-    const midenClient = await MidenClientInterface.create();
+    const midenClient = await getMidenClient();
     const noteExportPromises = exportedNotes.map(async noteId => {
       const noteBytes = await midenClient.exportNote(noteId, NoteExportType.DETAILS);
       const blob = new Blob([new Uint8Array(noteBytes)], { type: 'application/octet-stream' });
