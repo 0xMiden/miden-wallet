@@ -45,7 +45,7 @@ export const requestCustomTransaction = async (
 };
 
 export const completeCustomTransaction = async (transaction: ITransaction, result: TransactionResult) => {
-  const outputNotes = result.createdNotes().notes();
+  const outputNotes = result.executedTransaction().outputNotes().notes();
   const registerExports = outputNotes.map(async note => {
     if (toNoteTypeString(note.metadata().noteType()) === NoteTypeEnum.Private) {
       registerOutputNote(note.id().toString());
@@ -93,7 +93,7 @@ export const initiateConsumeTransaction = async (
 };
 
 export const completeConsumeTransaction = async (id: string, result: TransactionResult) => {
-  const note = result.consumedNotes().getNote(0).note();
+  const note = result.executedTransaction().inputNotes().notes()[0].note();
   const sender = getBech32AddressFromAccountId(note.metadata().sender());
   const executedTransaction = result.executedTransaction();
 
@@ -140,7 +140,7 @@ export const initiateSendTransaction = async (
 };
 
 export const completeSendTransaction = async (tx: SendTransaction, result: TransactionResult) => {
-  const noteId = result.createdNotes().notes()[0].id().toString();
+  const noteId = result.executedTransaction().outputNotes().notes()[0].id().toString();
   if (tx.noteType === NoteTypeEnum.Private) {
     const midenClient = await MidenClientInterface.create();
     const noteBytes = await midenClient.exportNote(noteId, NoteExportType.DETAILS);

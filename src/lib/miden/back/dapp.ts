@@ -578,7 +578,7 @@ export const generatePromisifyImportPrivateNote = async (
             });
             resolve({
               type: MidenDAppMessageType.ImportPrivateNoteResponse,
-              noteId: noteId
+              noteId: noteId.toString()
             });
           } catch (e) {
             reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));

@@ -40,7 +40,7 @@ export const useExportNotes = (): [string[], () => Promise<void>] => {
     const midenClient = await MidenClientInterface.create();
     const noteExportPromises = exportedNotes.map(async noteId => {
       const noteBytes = await midenClient.exportNote(noteId, NoteExportType.DETAILS);
-      const blob = new Blob([noteBytes], { type: 'application/octet-stream' });
+      const blob = new Blob([new Uint8Array(noteBytes)], { type: 'application/octet-stream' });
       // Create a URL for the Blob
       const url = URL.createObjectURL(blob);
       // Create a temporary anchor element

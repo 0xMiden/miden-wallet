@@ -15,7 +15,8 @@ import {
   TransactionResult,
   WebClient,
   Word,
-  AccountFile
+  AccountFile,
+  NoteFile
 } from '@demox-labs/miden-sdk';
 
 import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';
@@ -59,6 +60,7 @@ export class MidenClientInterface {
   static async create(options: MidenClientCreateOptions = {}) {
     const seed = options.seed?.toString();
     const network = MIDEN_NETWORK_NAME.LOCALNET;
+    // TODO: update web client typings
     const webClient = await WebClient.createClientWithExternalKeystore(
       MIDEN_NETWORK_ENDPOINTS.get(network)!,
       seed,
@@ -95,21 +97,23 @@ export class MidenClientInterface {
     return getBech32AddressFromAccountId(account.id());
   }
 
+  // TODO: is this method even used?
   async consumeTransaction(accountId: string, listOfNoteIds: string[], delegateTransaction?: boolean) {
     console.log('Consuming transaction...');
     console.log('listOfNoteIds', listOfNoteIds);
     const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest(listOfNoteIds);
-    let consumeTransactionResult = await this.webClient.newTransaction(
-      accountIdStringToSdk(accountId),
-      consumeTransactionRequest
+    const consumeTransactionResult = await this.executeProveAndSubmitTransactionWithFallback(
+      accountId,
+      consumeTransactionRequest,
+      delegateTransaction
     );
-    await this.submitTransactionWithFallback(consumeTransactionResult, delegateTransaction);
     return consumeTransactionResult;
   }
 
   async importNoteBytes(noteBytes: Uint8Array) {
     console.log('Importing note...');
-    const result = await this.webClient.importNoteFile(noteBytes);
+    const noteFile = NoteFile.deserialize(noteBytes);
+    const result = await this.webClient.importNoteFile(noteFile);
     console.log('Imported note:', result);
     return result;
   }
@@ -120,7 +124,7 @@ export class MidenClientInterface {
     console.log('accountId', accountId);
 
     const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest([noteId]);
-    let consumeTransactionResult = await this.webClient.newTransaction(
+    let consumeTransactionResult = await this.webClient.executeTransaction(
       accountIdStringToSdk(accountId),
       consumeTransactionRequest
     );
@@ -181,7 +185,7 @@ export class MidenClientInterface {
 
   async exportNote(noteId: string, exportType: NoteExportType): Promise<Uint8Array> {
     const result = await this.webClient.exportNoteFile(noteId, exportType);
-    const byteArray = new Uint8Array(result);
+    const byteArray = result.serialize();
 
     return byteArray;
   }
@@ -231,7 +235,7 @@ export class MidenClientInterface {
       amount,
       recallHeight
     );
-    let sendTransactionResult = await this.webClient.newTransaction(
+    let sendTransactionResult = await this.webClient.executeTransaction(
       accountIdStringToSdk(senderAccountId),
       sendTransactionRequest
     );
@@ -251,7 +255,10 @@ export class MidenClientInterface {
 
   async newTransaction(accountId: string, requestBytes: Uint8Array) {
     const transactionRequest = TransactionRequest.deserialize(requestBytes);
-    const transactionResult = await this.webClient.newTransaction(accountIdStringToSdk(accountId), transactionRequest);
+    const transactionResult = await this.webClient.executeTransaction(
+      accountIdStringToSdk(accountId),
+      transactionRequest
+    );
     return transactionResult.serialize();
   }
 
@@ -261,7 +268,7 @@ export class MidenClientInterface {
   ): Promise<TransactionResult> {
     await this.syncState();
     const transactionResult = TransactionResult.deserialize(transactionResultBytes);
-    await this.submitTransactionWithFallback(transactionResult, delegateTransaction);
+    await this.proveAndSubmitTransactionWithFallback(transactionResult, delegateTransaction);
     return transactionResult;
   }
 
@@ -270,25 +277,72 @@ export class MidenClientInterface {
     return transactions.filter(tx => getBech32AddressFromAccountId(tx.accountId()) === accountId);
   }
 
-  private async submitTransactionWithFallback(transactionResult: TransactionResult, delegateTransaction?: boolean) {
+  private async proveAndSubmitTransactionWithFallback(
+    transactionResult: TransactionResult,
+    delegateTransaction?: boolean
+  ) {
     try {
-      if (delegateTransaction) {
-        try {
-          await this.webClient.submitTransaction(
-            transactionResult,
-            TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(this.network)!)
-          );
-        } catch (error) {
-          console.log('Error submitting delegated transaction, falling back to local prover:', error);
+      try {
+        await this.proveAndSubmitTransaction(transactionResult, delegateTransaction);
+      } catch (error) {
+        if (delegateTransaction) {
+          console.log('Error proving delegated transaction, falling back to local prover:', error);
           this.onConnectivityIssue?.();
-          await this.webClient.submitTransaction(transactionResult, undefined);
+          await this.proveAndSubmitTransaction(transactionResult, false);
         }
-      } else {
-        await this.webClient.submitTransaction(transactionResult, undefined);
       }
     } catch (error) {
       console.error('Error submitting transaction:', error);
     }
+  }
+
+  private async proveAndSubmitTransaction(transactionResult: TransactionResult, delegateTransaction?: boolean) {
+    const transactionProver = delegateTransaction
+      ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(this.network)!)
+      : TransactionProver.newLocalProver();
+    const provenTransaction = await this.webClient.proveTransaction(transactionResult, transactionProver);
+    const submissionHeight = await this.webClient.submitProvenTransaction(provenTransaction, transactionResult);
+    await this.webClient.applyTransaction(transactionResult, submissionHeight);
+    return;
+  }
+
+  private async executeProveAndSubmitTransactionWithFallback(
+    accountId: string,
+    transactionRequest: TransactionRequest,
+    delegateTransaction?: boolean
+  ) {
+    try {
+      if (delegateTransaction) {
+        try {
+          // TODO: how to get transaction result here?
+          await this.webClient.submitNewTransaction(accountIdStringToSdk(accountId), transactionRequest);
+          return;
+        } catch (error) {
+          console.log('Error proving delegated transaction, falling back to local prover:', error);
+          this.onConnectivityIssue?.();
+          const transactionResult = await this.executeProveAndSubmitTransactionLocal(accountId, transactionRequest);
+          return transactionResult;
+        }
+      } else {
+        const transactionResult = await this.executeProveAndSubmitTransactionLocal(accountId, transactionRequest);
+        return transactionResult;
+      }
+    } catch (error) {
+      console.error('Error submitting transaction:', error);
+      return undefined;
+    }
+  }
+
+  private async executeProveAndSubmitTransactionLocal(accountId: string, transactionRequest: TransactionRequest) {
+    const wasmAccountId = accountIdStringToSdk(accountId);
+    const transactionResult = await this.webClient.executeTransaction(wasmAccountId, transactionRequest);
+    const provenTransaction = await this.webClient.proveTransaction(
+      transactionResult,
+      TransactionProver.newLocalProver()
+    );
+    const submissionHeight = await this.webClient.submitProvenTransaction(provenTransaction, transactionResult);
+    await this.webClient.applyTransaction(transactionResult, submissionHeight);
+    return transactionResult;
   }
 }
 
