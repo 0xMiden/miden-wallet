@@ -30,7 +30,7 @@ const faucet = await webClient.newFaucet(
   BigInt(1000000 * 10 ** FAUCET_DECIMALS)
 );
 const faucetId = faucet.id();
-const faucetAddress = Address.fromAccountId(faucetId, 'Unspecified');
+const faucetAddress = Address.fromAccountId(faucetId, 'BasicWallet');
 const faucetAddressAsBech32 = faucetAddress.toBech32(NetworkId.Testnet);
 console.log('created faucet id:', faucetAddressAsBech32);
 

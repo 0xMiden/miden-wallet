@@ -284,7 +284,7 @@ const SigningInputsPayloadContent: React.FC<{ bytes: Uint8Array }> = ({ bytes })
       case SigningInputsType.TransactionSummary: {
         const ts = signingInputs.transactionSummaryPayload();
         const accountDelta = ts.accountDelta();
-        const accountAddress = Address.fromAccountId(accountDelta.id(), 'Unspecified');
+        const accountAddress = Address.fromAccountId(accountDelta.id(), 'BasicWallet');
         const accountAddressAsBech32 = accountAddress.toBech32(NetworkId.Testnet);
         const vault = accountDelta.vault();
         const addedFungibleAssets = vault.addedFungibleAssets();

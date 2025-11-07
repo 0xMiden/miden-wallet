@@ -153,23 +153,27 @@ export function useClaimableNotes(publicAddress: string) {
         return result;
       }
     };
+    console.log('Options', options);
     const midenClient = await getMidenClient(options);
-
+    console.log('Miden client', midenClient);
     const syncSummary = await midenClient.syncState();
+    console.log('Sync summary', syncSummary);
     const latestBlock = syncSummary.blockNum();
+    console.log('Latest block', latestBlock);
 
     const [rawNotes, uncompletedTxs] = await Promise.all([
       midenClient.getConsumableNotes(publicAddress, latestBlock),
       getUncompletedTransactions(publicAddress)
     ]);
-
+    console.log('Raw notes', rawNotes);
+    console.log('Uncompleted transactions', uncompletedTxs);
     const notesBeingClaimed = new Set(
       uncompletedTxs.filter(tx => tx.type === 'consume' && tx.noteId != null).map(tx => tx.noteId!)
     );
-
+    console.log('Notes being claimed', notesBeingClaimed);
     // 1) Parse notes and collect faucet ids
     const parsedNotes = parseNotes(rawNotes, notesBeingClaimed);
-
+    console.log('Parsed notes', parsedNotes);
     // 2) Seed metadata map from cache (and baked-in MIDEN)
     const metadataByFaucetId = buildMetadataMapFromCache(parsedNotes, allTokensBaseMetadataRef.current);
 

@@ -96,6 +96,7 @@ export class Vault {
       let accPublicKey;
       if (ownMnemonic) {
         try {
+          console.log('Importing public wallet from seed');
           accPublicKey = await midenClient.importPublicMidenWalletFromSeed(walletSeed);
         } catch (e) {
           // TODO: Need some way to propagate this up. Should we fail the entire process or just log it?
@@ -103,6 +104,7 @@ export class Vault {
           accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain, walletSeed);
         }
       } else {
+        console.log('Creating new wallet');
         accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain, walletSeed);
       }
 
@@ -288,10 +290,16 @@ export class Vault {
       accAuthSecretKeyStrgKey(publicKey),
       this.passKey
     );
+    console.log('Secret key', secretKey);
     const secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
+    console.log('Secret key bytes', secretKeyBytes);
     const wasmSigningInputs = SigningInputs.deserialize(new Uint8Array(Buffer.from(signingInputs, 'hex')));
+    console.log('Wasm signing inputs', wasmSigningInputs);
     const wasmSecretKey = SecretKey.deserialize(secretKeyBytes);
+    console.log('Wasm secret key', wasmSecretKey);
     const signature = wasmSecretKey.signData(wasmSigningInputs);
+    console.log('Signature', signature);
+    console.log('Signature bytes', Buffer.from(signature.serialize()).toString('hex'));
     return Buffer.from(signature.serialize()).toString('hex');
   }
 
@@ -300,11 +308,17 @@ export class Vault {
       accAuthSecretKeyStrgKey(publicKey),
       this.passKey
     );
+    console.log('Secret key', secretKey);
     let secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
+    console.log('Secret key bytes', secretKeyBytes);
     const wasmSigningInputs = SigningInputs.deserialize(new Uint8Array(Buffer.from(signingInputs, 'hex')));
+    console.log('Wasm signing inputs', wasmSigningInputs);
     const wasmSecretKey = SecretKey.deserialize(secretKeyBytes);
     const signature = wasmSecretKey.signData(wasmSigningInputs);
+    console.log('Signature', signature);
+    console.log('Signature bytes', Buffer.from(signature.serialize()).toString('hex'));
     const preparedSignature = signature.toPreparedSignature();
+    console.log('Prepared signature', preparedSignature);
     const felts = preparedSignature.map((felt: any) => felt.toString());
     return felts;
   }
