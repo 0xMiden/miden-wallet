@@ -114,12 +114,7 @@ export class MidenClientInterface {
     console.log('Consuming transaction...');
     console.log('listOfNoteIds', listOfNoteIds);
     const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest(listOfNoteIds);
-    const consumeTransactionResult = await this.executeProveAndSubmitTransactionWithFallback(
-      accountId,
-      consumeTransactionRequest,
-      delegateTransaction
-    );
-    return consumeTransactionResult;
+    await this.executeProveAndSubmitTransactionWithFallback(accountId, consumeTransactionRequest, delegateTransaction);
   }
 
   async importNoteBytes(noteBytes: Uint8Array) {
@@ -330,20 +325,16 @@ export class MidenClientInterface {
         try {
           // TODO: how to get transaction result here?
           await this.webClient.submitNewTransaction(accountIdStringToSdk(accountId), transactionRequest);
-          return;
         } catch (error) {
           console.log('Error proving delegated transaction, falling back to local prover:', error);
           this.onConnectivityIssue?.();
-          const transactionResult = await this.executeProveAndSubmitTransactionLocal(accountId, transactionRequest);
-          return transactionResult;
+          await this.executeProveAndSubmitTransactionLocal(accountId, transactionRequest);
         }
       } else {
-        const transactionResult = await this.executeProveAndSubmitTransactionLocal(accountId, transactionRequest);
-        return transactionResult;
+        await this.executeProveAndSubmitTransactionLocal(accountId, transactionRequest);
       }
     } catch (error) {
       console.error('Error submitting transaction:', error);
-      return undefined;
     }
   }
 
@@ -356,6 +347,5 @@ export class MidenClientInterface {
     );
     const submissionHeight = await this.webClient.submitProvenTransaction(provenTransaction, transactionResult);
     await this.webClient.applyTransaction(transactionResult, submissionHeight);
-    return transactionResult;
   }
 }

@@ -13,9 +13,9 @@ import { NoteExportType } from 'lib/miden/sdk/constants';
 import { WalletAccount } from 'lib/shared/types';
 import { capitalizeFirstLetter } from 'utils/string';
 
+import HashChip from '../HashChip';
 import { formatAmount, getTokenMetadata } from './Activity';
 import { IActivity } from './IActivity';
-import HashChip from '../HashChip';
 
 interface ActivityDetailsProps {
   transactionId: string;
