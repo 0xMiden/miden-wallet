@@ -1,8 +1,8 @@
 /* eslint-disable no-restricted-globals */
 
-import React, { FC, Suspense, useCallback, useMemo, useState } from 'react';
+import React, { FC, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 
-import { Address, NetworkId, SigningInputs, SigningInputsType, Word } from '@demox-labs/miden-sdk';
+import { Address, FungibleAsset, NetworkId, SigningInputs, SigningInputsType, Word } from '@demox-labs/miden-sdk';
 import { PrivateDataPermission } from '@demox-labs/miden-wallet-adapter-base';
 import classNames from 'clsx';
 
@@ -13,7 +13,7 @@ import Unlock from 'app/pages/Unlock';
 import { Button, ButtonVariant } from 'components/Button';
 import { CustomRpsContext } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
-import { getTokenId, MIDEN_METADATA, useAccount, useMidenContext } from 'lib/miden/front';
+import { AssetMetadata, getTokenId, MIDEN_METADATA, useAccount, useMidenContext } from 'lib/miden/front';
 import { MidenDAppPayload } from 'lib/miden/types';
 import { isDelegateProofEnabled } from 'lib/settings/helpers';
 import { b64ToU8, truncateHash } from 'lib/shared/helpers';
@@ -31,7 +31,7 @@ import { ConfirmPageSelectors } from './ConfirmPage.selectors';
 import { openLoadingFullPage } from './env';
 import { Icon, IconName } from './icons/v2';
 import AccountBanner from './templates/AccountBanner';
-import { formatAmount } from './templates/activity/Activity';
+import { formatAmount, getTokenMetadata } from './templates/activity/Activity';
 import ConnectBanner from './templates/ConnectBanner';
 import PrivateDataPermissionBanner from './templates/PrivateDataPermissionBanner';
 import PrivateDataPermissionCheckbox from './templates/PrivateDataPermissionCheckbox';
@@ -138,126 +138,128 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
         }
 
         case 'signingInputs': {
-          try {
-            const signingInputs = SigningInputs.deserialize(bytes);
-            const variant = signingInputs.variantType;
-
-            switch (variant) {
-              case SigningInputsType.TransactionSummary: {
-                const ts = signingInputs.transactionSummaryPayload();
-                const accountDelta = ts.accountDelta();
-                const accountAddress = Address.fromAccountId(accountDelta.id(), 'Unspecified');
-                const accountAddressAsBech32 = accountAddress.toBech32(NetworkId.Testnet);
-                const vault = accountDelta.vault();
-                const addedFungibleAssets = vault.addedFungibleAssets();
-                const removedFungibleAssets = vault.removedFungibleAssets();
-                const storage = accountDelta.storage();
-                const inputNotes = ts.inputNotes();
-                const numNotes = inputNotes.numNotes();
-                const outputNotes = ts.outputNotes();
-                const numOutputNotes = outputNotes.numNotes();
-
-                content = (
-                  <div className="flex flex-col items-center justify-center">
-                    <div className="flex flex-col border border-gray-100 rounded-2xl mb-4 w-full p-4">
-                      <div
-                        className={`flex flex-row w-full items-center justify-between border-gray-100 ${
-                          vault.isEmpty() ? '' : 'border-b pb-4'
-                        }`}
-                      >
-                        <div className="flex flex-row text-md text-center items-center gap-x-3">
-                          <Icon name={IconName.Globe} fill="black" size="md" />
-                          <span className="text-gray-600">Account</span>
-                        </div>
-                        <div>{`${truncateHash(accountAddressAsBech32)}`}</div>
-                      </div>
-
-                      {!vault.isEmpty() && (
-                        <div className="flex flex-col w-full pt-4">
-                          <span className="text-gray-600">Asset changes</span>
-                          {removedFungibleAssets.length > 0 &&
-                            removedFungibleAssets.map(asset => (
-                              <div key={asset.faucetId().toString()} className="flex flex-col w-full my-2 text-sm">
-                                <span className="text-black-500 text-lg font-semibold">
-                                  {`${formatAmount(asset.amount(), 'send')} ${getTokenId(asset.faucetId().toString())}`}
-                                </span>
-                                <span className="text-gray-600">{`~$${asset.amount()}`}</span>
-                              </div>
-                            ))}
-
-                          {addedFungibleAssets.length > 0 &&
-                            addedFungibleAssets.map(asset => (
-                              <div key={asset.faucetId().toString()} className="flex flex-col w-full my-2 text-sm">
-                                <span className="text-green-500 text-lg font-semibold">
-                                  {`${formatAmount(asset.amount(), 'consume')} ${getTokenId(
-                                    asset.faucetId().toString()
-                                  )}`}
-                                </span>
-                                <span className="text-gray-600">{`~$${asset.amount()}`}</span>
-                              </div>
-                            ))}
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex flex-col w-full border-b border-gray-100 pb-4">
-                      <div className="flex flex-row w-full items-center justify-between pb-1">
-                        <span className="text-gray-600">Input notes consumed</span>
-                        <span>{numNotes}</span>
-                      </div>
-                      <div className="flex flex-row w-full items-center justify-between pb-1">
-                        <span className="text-gray-600">Output notes created</span>
-                        <span>{numOutputNotes}</span>
-                      </div>
-                      <div className="flex flex-row w-full items-center justify-between">
-                        <span className="text-gray-600">Storage changed</span>
-                        {storage.isEmpty() ? (
-                          <span>No</span>
-                        ) : (
-                          <div className="flex flex-row items-center gap-x-2">
-                            <span ref={iconAnchorRef} className="inline-flex align-middle">
-                              <Icon name={IconName.WarningFill} fill="orange" size="md" />
-                            </span>
-                            <span>Yes</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    <Button
-                      type="button"
-                      variant={ButtonVariant.Ghost}
-                      className={classNames(
-                        'w-full mt-2',
-                        'rounded-4xl hover:rounded-4xl',
-                        'transition-all duration-200 ease-in-out',
-                        'hover:bg-gray-100',
-                        'focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-300',
-                        'py-4 px-0'
-                      )}
-                      onClick={() => downloadBytes('transaction_summary.bin', bytes)}
-                    >
-                      <span className="flex flex-row items-center justify-center gap-x-2">
-                        <Icon name={IconName.Download} fill="black" size="md" />
-                        <span className="text-lg text-black font-medium">Download full summary (bytes)</span>
-                      </span>
-                    </Button>
-                  </div>
-                );
-                break;
-              }
-              case SigningInputsType.Arbitrary: {
-                content = <div className="text-md text-center my-6">{`Sign the Arbitrary payload?`}</div>;
-                break;
-              }
-              case SigningInputsType.Blind: {
-                content = <div className="text-md text-center my-6">{`Sign the Blind commitment?`}</div>;
-                break;
-              }
-            }
-          } catch (e) {
-            console.error('Failed to deserialize payload for sign:', e);
-            content = <div className="text-md text-center my-6">{`Failed to parse signing payload`}</div>;
-          }
+          content = <SigningInputsPayloadContent bytes={bytes} />;
           break;
+        //   try {
+        //     const signingInputs = SigningInputs.deserialize(bytes);
+        //     const variant = signingInputs.variantType;
+
+        //     switch (variant) {
+        //       case SigningInputsType.TransactionSummary: {
+        //         const ts = signingInputs.transactionSummaryPayload();
+        //         const accountDelta = ts.accountDelta();
+        //         const accountAddress = Address.fromAccountId(accountDelta.id(), 'Unspecified');
+        //         const accountAddressAsBech32 = accountAddress.toBech32(NetworkId.Testnet);
+        //         const vault = accountDelta.vault();
+        //         const addedFungibleAssets = vault.addedFungibleAssets();
+        //         const removedFungibleAssets = vault.removedFungibleAssets();
+        //         const storage = accountDelta.storage();
+        //         const inputNotes = ts.inputNotes();
+        //         const numNotes = inputNotes.numNotes();
+        //         const outputNotes = ts.outputNotes();
+        //         const numOutputNotes = outputNotes.numNotes();
+
+        //         content = (
+        //           <div className="flex flex-col items-center justify-center">
+        //             <div className="flex flex-col border border-gray-100 rounded-2xl mb-4 w-full p-4">
+        //               <div
+        //                 className={`flex flex-row w-full items-center justify-between border-gray-100 ${
+        //                   vault.isEmpty() ? '' : 'border-b pb-4'
+        //                 }`}
+        //               >
+        //                 <div className="flex flex-row text-md text-center items-center gap-x-3">
+        //                   <Icon name={IconName.Globe} fill="black" size="md" />
+        //                   <span className="text-gray-600">Account</span>
+        //                 </div>
+        //                 <div>{`${truncateHash(accountAddressAsBech32)}`}</div>
+        //               </div>
+
+        //               {!vault.isEmpty() && (
+        //                 <div className="flex flex-col w-full pt-4">
+        //                   <span className="text-gray-600">Asset changes</span>
+        //                   {removedFungibleAssets.length > 0 &&
+        //                     removedFungibleAssets.map(asset => (
+        //                       <div key={asset.faucetId().toString()} className="flex flex-col w-full my-2 text-sm">
+        //                         <span className="text-black-500 text-lg font-semibold">
+        //                           {`${formatAmount(asset.amount(), 'send')} ${getTokenId(asset.faucetId().toString())}`}
+        //                         </span>
+        //                         <span className="text-gray-600">{`~$${asset.amount()}`}</span>
+        //                       </div>
+        //                     ))}
+
+        //                   {addedFungibleAssets.length > 0 &&
+        //                     addedFungibleAssets.map(asset => (
+        //                       <div key={asset.faucetId().toString()} className="flex flex-col w-full my-2 text-sm">
+        //                         <span className="text-green-500 text-lg font-semibold">
+        //                           {`${formatAmount(asset.amount(), 'consume')} ${getTokenId(
+        //                             asset.faucetId().toString()
+        //                           )}`}
+        //                         </span>
+        //                         <span className="text-gray-600">{`~$${asset.amount()}`}</span>
+        //                       </div>
+        //                     ))}
+        //                 </div>
+        //               )}
+        //             </div>
+        //             <div className="flex flex-col w-full border-b border-gray-100 pb-4">
+        //               <div className="flex flex-row w-full items-center justify-between pb-1">
+        //                 <span className="text-gray-600">Input notes consumed</span>
+        //                 <span>{numNotes}</span>
+        //               </div>
+        //               <div className="flex flex-row w-full items-center justify-between pb-1">
+        //                 <span className="text-gray-600">Output notes created</span>
+        //                 <span>{numOutputNotes}</span>
+        //               </div>
+        //               <div className="flex flex-row w-full items-center justify-between">
+        //                 <span className="text-gray-600">Storage changed</span>
+        //                 {storage.isEmpty() ? (
+        //                   <span>No</span>
+        //                 ) : (
+        //                   <div className="flex flex-row items-center gap-x-2">
+        //                     <span ref={iconAnchorRef} className="inline-flex align-middle">
+        //                       <Icon name={IconName.WarningFill} fill="orange" size="md" />
+        //                     </span>
+        //                     <span>Yes</span>
+        //                   </div>
+        //                 )}
+        //               </div>
+        //             </div>
+        //             <Button
+        //               type="button"
+        //               variant={ButtonVariant.Ghost}
+        //               className={classNames(
+        //                 'w-full mt-2',
+        //                 'rounded-4xl hover:rounded-4xl',
+        //                 'transition-all duration-200 ease-in-out',
+        //                 'hover:bg-gray-100',
+        //                 'focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-300',
+        //                 'py-4 px-0'
+        //               )}
+        //               onClick={() => downloadBytes('transaction_summary.bin', bytes)}
+        //             >
+        //               <span className="flex flex-row items-center justify-center gap-x-2">
+        //                 <Icon name={IconName.Download} fill="black" size="md" />
+        //                 <span className="text-lg text-black font-medium">Download full summary (bytes)</span>
+        //               </span>
+        //             </Button>
+        //           </div>
+        //         );
+        //         break;
+        //       }
+        //       case SigningInputsType.Arbitrary: {
+        //         content = <div className="text-md text-center my-6">{`Sign the Arbitrary payload?`}</div>;
+        //         break;
+        //       }
+        //       case SigningInputsType.Blind: {
+        //         content = <div className="text-md text-center my-6">{`Sign the Blind commitment?`}</div>;
+        //         break;
+        //       }
+        //     }
+        //   } catch (e) {
+        //     console.error('Failed to deserialize payload for sign:', e);
+        //     content = <div className="text-md text-center my-6">{`Failed to parse signing payload`}</div>;
+        //   }
+        //   break;
         }
       }
 
@@ -348,6 +350,182 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
     </div>
   );
 };
+
+type FungibleAssetDetails = {
+  asset: FungibleAsset;
+  metadata: AssetMetadata;
+};
+
+const SigningInputsPayloadContent: React.FC<{ bytes: Uint8Array }> = ({ bytes }) => {
+  const [removedFungibleAssets, setRemovedFungibleAssets] = useState<FungibleAsset[]>([]);
+  const [addedFungibleAssets, setAddedFungibleAssets] = useState<FungibleAsset[]>([]);
+  const [removedFungibleAssetsDetails, setRemovedFungibleAssetsDetails] = useState<FungibleAssetDetails[]>([]);
+  const [addedFungibleAssetsDetails, setAddedFungibleAssetsDetails] = useState<FungibleAssetDetails[]>([]);
+
+  let content: string | React.ReactNode = t('noPreview');
+  const tippyProps = {
+    trigger: 'mouseenter',
+    hideOnClick: false,
+    content: 'This transaction affects your account storage. Review the raw summary to verify',
+    animation: 'shift-away-subtle'
+  };
+
+  const iconAnchorRef = useTippy<HTMLElement>(tippyProps);
+
+  useEffect(() => {
+    const fetchFungibleAssets = async () => {
+      const removedFungibleAssetsDetails = await Promise.all(removedFungibleAssets.map(async asset => {
+        const metadata = await getTokenMetadata(asset.faucetId().toString());
+        return {
+          asset,
+          metadata
+        };
+      }));
+      setRemovedFungibleAssetsDetails(removedFungibleAssetsDetails);
+    };
+    fetchFungibleAssets();
+  }, [removedFungibleAssets]);
+
+  useEffect(() => {
+    const fetchFungibleAssets = async () => {
+      const addedFungibleAssetsDetails = await Promise.all(addedFungibleAssets.map(async asset => {
+        const metadata   = await getTokenMetadata(asset.faucetId().toString());
+        return {
+          asset,
+          metadata
+        };
+      }));
+      setAddedFungibleAssetsDetails(addedFungibleAssetsDetails);
+    };
+    fetchFungibleAssets();
+  }, [addedFungibleAssets]);
+
+  try {
+    const signingInputs = SigningInputs.deserialize(bytes);
+    const variant = signingInputs.variantType;
+
+    switch (variant) {
+      case SigningInputsType.TransactionSummary: {
+        const ts = signingInputs.transactionSummaryPayload();
+        const accountDelta = ts.accountDelta();
+        const accountAddress = Address.fromAccountId(accountDelta.id(), 'Unspecified');
+        const accountAddressAsBech32 = accountAddress.toBech32(NetworkId.Testnet);
+        const vault = accountDelta.vault();
+        const addedFungibleAssets = vault.addedFungibleAssets();
+        setAddedFungibleAssets(addedFungibleAssets);
+        const removedFungibleAssets = vault.removedFungibleAssets();
+        setRemovedFungibleAssets(removedFungibleAssets);
+        const storage = accountDelta.storage();
+        const inputNotes = ts.inputNotes();
+        const numNotes = inputNotes.numNotes();
+        const outputNotes = ts.outputNotes();
+        const numOutputNotes = outputNotes.numNotes();
+
+        content = (
+          <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col border border-gray-100 rounded-2xl mb-4 w-full p-4">
+              <div
+                className={`flex flex-row w-full items-center justify-between border-gray-100 ${
+                  vault.isEmpty() ? '' : 'border-b pb-4'
+                }`}
+              >
+                <div className="flex flex-row text-md text-center items-center gap-x-3">
+                  <Icon name={IconName.Globe} fill="black" size="md" />
+                  <span className="text-gray-600">Account</span>
+                </div>
+                <div>{`${truncateHash(accountAddressAsBech32)}`}</div>
+              </div>
+
+              {!vault.isEmpty() && (
+                <div className="flex flex-col w-full pt-4">
+                  <span className="text-gray-600">Asset changes</span>
+                  {removedFungibleAssets.length > 0 &&
+                    removedFungibleAssetsDetails.map(details => (
+                      <div key={details.asset.faucetId().toString()} className="flex flex-col w-full my-2 text-sm">
+                        <span className="text-black-500 text-lg font-semibold">
+                          {`${formatAmount(details.asset.amount(), 'send', details.metadata.decimals)} ${getTokenId(
+                            details.asset.faucetId().toString()
+                          )}`}
+                        </span>
+                        <span className="text-gray-600">{`~$${details.asset.amount()}`}</span>
+                      </div>
+                    ))}
+
+                  {addedFungibleAssets.length > 0 &&
+                    addedFungibleAssetsDetails.map(details => (
+                      <div key={details.asset.faucetId().toString()} className="flex flex-col w-full my-2 text-sm">
+                        <span className="text-green-500 text-lg font-semibold">
+                          {`${formatAmount(details.asset.amount(), 'consume', details.metadata.decimals)} ${getTokenId(
+                            details.asset.faucetId().toString()
+                          )}`}
+                        </span>
+                        <span className="text-gray-600">{`~$${details.asset.amount()}`}</span>
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col w-full border-b border-gray-100 pb-4">
+              <div className="flex flex-row w-full items-center justify-between pb-1">
+                <span className="text-gray-600">Input notes consumed</span>
+                <span>{numNotes}</span>
+              </div>
+              <div className="flex flex-row w-full items-center justify-between pb-1">
+                <span className="text-gray-600">Output notes created</span>
+                <span>{numOutputNotes}</span>
+              </div>
+              <div className="flex flex-row w-full items-center justify-between">
+                <span className="text-gray-600">Storage changed</span>
+                {storage.isEmpty() ? (
+                  <span>No</span>
+                ) : (
+                  <div className="flex flex-row items-center gap-x-2">
+                    <span ref={iconAnchorRef} className="inline-flex align-middle">
+                      <Icon name={IconName.WarningFill} fill="orange" size="md" />
+                    </span>
+                    <span>Yes</span>
+                  </div>
+                )}
+              </div>
+            </div>
+            <Button
+              type="button"
+              variant={ButtonVariant.Ghost}
+              className={classNames(
+                'w-full mt-2',
+                'rounded-4xl hover:rounded-4xl',
+                'transition-all duration-200 ease-in-out',
+                'hover:bg-gray-100',
+                'focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-300',
+                'py-4 px-0'
+              )}
+              onClick={() => downloadBytes('transaction_summary.bin', bytes)}
+            >
+              <span className="flex flex-row items-center justify-center gap-x-2">
+                <Icon name={IconName.Download} fill="black" size="md" />
+                <span className="text-lg text-black font-medium">Download full summary (bytes)</span>
+              </span>
+            </Button>
+          </div>
+        );
+        break;
+      }
+      case SigningInputsType.Arbitrary: {
+        content = <div className="text-md text-center my-6">{`Sign the Arbitrary payload?`}</div>;
+        break;
+      }
+      case SigningInputsType.Blind: {
+        content = <div className="text-md text-center my-6">{`Sign the Blind commitment?`}</div>;
+        break;
+      }
+    }
+  } catch (e) {
+    console.error('Failed to deserialize payload for sign:', e);
+    content = <div className="text-md text-center my-6">{`Failed to parse signing payload`}</div>;
+  }
+
+  return content;
+}
 
 export default ConfirmPage;
 
