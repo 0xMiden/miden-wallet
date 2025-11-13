@@ -67,7 +67,6 @@ export class MidenClientInterface {
    */
   static async create(options: MidenClientCreateOptions = {}) {
     const seed = options.seed?.toString();
-    console.log('seed', seed);
     const network = MIDEN_NETWORK_NAME.LOCALNET;
     // TODO: update web client typings
     const webClient = await WebClient.createClientWithExternalKeystore(
@@ -91,9 +90,7 @@ export class MidenClientInterface {
     const accountStorageMode =
       walletType === WalletType.OnChain ? AccountStorageMode.public() : AccountStorageMode.private();
 
-    console.log('Creating new wallet');
     const wallet: Account = await this.webClient.newWallet(accountStorageMode, true, seed);
-    console.log('New wallet created');
     const walletId = getBech32AddressFromAccountId(wallet.id());
 
     return walletId;
@@ -277,15 +274,9 @@ export class MidenClientInterface {
     transactionResultBytes: Uint8Array,
     delegateTransaction?: boolean
   ): Promise<TransactionResult> {
-    console.log('Submitting transaction');
-    console.log('Transaction result bytes', transactionResultBytes);
-    console.log('Delegate transaction', delegateTransaction);
     await this.syncState();
-    console.log('Sync state');
     const transactionResult = TransactionResult.deserialize(transactionResultBytes);
-    console.log('Transaction result', transactionResult);
     await this.proveAndSubmitTransactionWithFallback(transactionResult, delegateTransaction);
-    console.log('Transaction submitted');
     return transactionResult;
   }
 
@@ -300,9 +291,6 @@ export class MidenClientInterface {
   ) {
     try {
       try {
-        console.log('Proving and submitting transaction with fallback');
-        console.log('Transaction result', transactionResult);
-        console.log('Delegate transaction', delegateTransaction);
         await this.proveAndSubmitTransaction(transactionResult, delegateTransaction);
       } catch (error) {
         if (delegateTransaction) {
@@ -317,17 +305,11 @@ export class MidenClientInterface {
   }
 
   private async proveAndSubmitTransaction(transactionResult: TransactionResult, delegateTransaction?: boolean) {
-    console.log('Proving and submitting transaction');
-    console.log('Transaction result', transactionResult);
-    console.log('Delegate transaction', delegateTransaction);
     const transactionProver = delegateTransaction
       ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(this.network)!)
       : TransactionProver.newLocalProver();
-    console.log('Transaction prover', transactionProver);
     const provenTransaction = await this.webClient.proveTransaction(transactionResult, transactionProver);
-    console.log('Proven transaction', provenTransaction);
     const submissionHeight = await this.webClient.submitProvenTransaction(provenTransaction, transactionResult);
-    console.log('Submission height', submissionHeight);
     await this.webClient.applyTransaction(transactionResult, submissionHeight);
     return;
   }

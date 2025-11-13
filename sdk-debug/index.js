@@ -74,9 +74,7 @@ document.getElementById('publicKeyForm').addEventListener('submit', async event 
   if (isPrivate) {
     console.log('exporting note...');
     const noteId = mintTxnResult.executedTransaction().outputNotes().notes()[0].id().toString();
-    console.log('note id:', noteId);
     const result = await webClient.exportNoteFile(noteId, 'Details');
-    console.log('exported note file');
     const noteBytes = result.serialize();
 
     const blob = new Blob([noteBytes], { type: 'application/octet-stream' });

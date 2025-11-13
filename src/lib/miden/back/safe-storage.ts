@@ -11,22 +11,15 @@ export async function isStored(storageKey: string) {
 }
 
 export async function fetchAndDecryptOne<T>(storageKey: string, passKey: CryptoKey) {
-  console.log('fetchAndDecryptOne', { storageKey, passKey });
   storageKey = await wrapStorageKey(storageKey);
-  console.log('fetchAndDecryptOne 2');
   const payload = await fetchEncryptedOne<string>(storageKey);
-  console.log('fetchAndDecryptOne 3');
   let cursor = 0;
   const [saltHex, iv, dt] = [64, 32, -1].map(length =>
     payload.slice(cursor, length !== -1 ? (cursor += length) : undefined)
   );
-  console.log('fetchAndDecryptOne 4');
   const encrypted = { dt, iv };
   const salt = Buffer.from(saltHex, 'hex');
-  console.log('fetchAndDecryptOne 5');
   let derivedPassKey = await Passworder.deriveKey(passKey, salt);
-  console.log('fetchAndDecryptOne 6');
-  console.log('derivedPassKey', derivedPassKey);
   return Passworder.decrypt<T>(encrypted, derivedPassKey);
 }
 

@@ -78,7 +78,6 @@ export class Vault {
 
       const insertKeyCallback = async (key: Uint8Array, secretKey: Uint8Array) => {
         const pubKeyHex = Buffer.from(key).toString('hex');
-        console.log('pubKeyHex', pubKeyHex);
         const secretKeyHex = Buffer.from(secretKey).toString('hex');
         await encryptAndSaveMany(
           [
@@ -98,7 +97,6 @@ export class Vault {
       let accPublicKey;
       if (ownMnemonic) {
         try {
-          console.log('Importing public wallet from seed');
           accPublicKey = await midenClient.importPublicMidenWalletFromSeed(walletSeed);
         } catch (e) {
           // TODO: Need some way to propagate this up. Should we fail the entire process or just log it?
@@ -106,7 +104,6 @@ export class Vault {
           accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain, walletSeed);
         }
       } else {
-        console.log('Creating new wallet');
         accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain, walletSeed);
       }
 
@@ -288,28 +285,20 @@ export class Vault {
   async authorize(sendTransaction: SendTransaction) {}
 
   async signData(publicKey: string, data: string, signKind: SignKind): Promise<string> {
-    console.log('signData', { publicKey, data, signKind });
     const secretKey = await fetchAndDecryptOneWithLegacyFallBack<string>(
       accAuthSecretKeyStrgKey(publicKey),
       this.passKey
     );
-    console.log('secretKey', secretKey);
     const secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
-    console.log('secretKeyBytes', secretKeyBytes);
     const wasmSecretKey = SecretKey.deserialize(secretKeyBytes);
-    console.log('wasmSecretKey', wasmSecretKey);
 
     const dataAsUint8Array = b64ToU8(data);
-    console.log('dataAsUint8Array', dataAsUint8Array);
 
     let signature = null;
     switch (signKind) {
       case 'word':
-        console.log('Signing word');
         let word = Word.deserialize(dataAsUint8Array);
-        console.log('word', word);
         signature = wasmSecretKey.sign(word);
-        console.log('signature', signature);
         break;
       case 'signingInputs':
         let signingInputs = SigningInputs.deserialize(dataAsUint8Array);
@@ -318,13 +307,10 @@ export class Vault {
     }
 
     let signatureAsBytes = signature.serialize();
-    console.log('signatureAsBytes', signatureAsBytes);
-    console.log('signatureAsBase64', u8ToB64(signatureAsBytes));
     return u8ToB64(signatureAsBytes);
   }
 
   async signTransaction(publicKey: string, signingInputs: string): Promise<string> {
-    console.log('signTransaction', { publicKey, signingInputs });
     const secretKey = await fetchAndDecryptOneWithLegacyFallBack<string>(
       accAuthSecretKeyStrgKey(publicKey),
       this.passKey

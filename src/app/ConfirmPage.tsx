@@ -130,6 +130,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
         }
 
         case 'signingInputs': {
+          console.log('Signing inputs payload', bytes);
           content = <SigningInputsPayloadContent bytes={bytes} />;
           break;
         }
@@ -244,6 +245,33 @@ const SigningInputsPayloadContent: React.FC<{ bytes: Uint8Array }> = ({ bytes })
 
   const iconAnchorRef = useTippy<HTMLElement>(tippyProps);
 
+  const signingInputs = useMemo(() => {
+    try {
+      return SigningInputs.deserialize(bytes);
+    } catch (e) {
+      console.error('Failed to deserialize payload for sign:', e);
+      return null;
+    }
+  }, [bytes]);
+
+  // Derive asset arrays from signing inputs variant; avoid setState during render
+  useEffect(() => {
+    if (!signingInputs) {
+      setAddedFungibleAssets([]);
+      setRemovedFungibleAssets([]);
+      return;
+    }
+    if (signingInputs.variantType === SigningInputsType.TransactionSummary) {
+      const ts = signingInputs.transactionSummaryPayload();
+      const vault = ts.accountDelta().vault();
+      setAddedFungibleAssets(vault.addedFungibleAssets());
+      setRemovedFungibleAssets(vault.removedFungibleAssets());
+    } else {
+      setAddedFungibleAssets([]);
+      setRemovedFungibleAssets([]);
+    }
+  }, [signingInputs]);
+
   useEffect(() => {
     const fetchFungibleAssets = async () => {
       const removedFungibleAssetsDetails = await Promise.all(
@@ -276,26 +304,25 @@ const SigningInputsPayloadContent: React.FC<{ bytes: Uint8Array }> = ({ bytes })
     fetchFungibleAssets();
   }, [addedFungibleAssets]);
 
-  try {
-    const signingInputs = SigningInputs.deserialize(bytes);
+  if (!signingInputs) {
+    content = <div className="text-md text-center my-6">{`Failed to parse signing payload`}</div>;
+  } else {
     const variant = signingInputs.variantType;
 
     switch (variant) {
       case SigningInputsType.TransactionSummary: {
+        console.log('starting case SigningInputsType.TransactionSummary');
         const ts = signingInputs.transactionSummaryPayload();
         const accountDelta = ts.accountDelta();
         const accountAddress = Address.fromAccountId(accountDelta.id(), 'BasicWallet');
         const accountAddressAsBech32 = accountAddress.toBech32(NetworkId.Testnet);
         const vault = accountDelta.vault();
-        const addedFungibleAssets = vault.addedFungibleAssets();
-        setAddedFungibleAssets(addedFungibleAssets);
-        const removedFungibleAssets = vault.removedFungibleAssets();
-        setRemovedFungibleAssets(removedFungibleAssets);
         const storage = accountDelta.storage();
         const inputNotes = ts.inputNotes();
         const numNotes = inputNotes.numNotes();
         const outputNotes = ts.outputNotes();
         const numOutputNotes = outputNotes.numNotes();
+        console.log('end case SigningInputsType.TransactionSummary');
 
         content = (
           <div className="flex flex-col items-center justify-center">
@@ -395,9 +422,6 @@ const SigningInputsPayloadContent: React.FC<{ bytes: Uint8Array }> = ({ bytes })
         break;
       }
     }
-  } catch (e) {
-    console.error('Failed to deserialize payload for sign:', e);
-    content = <div className="text-md text-center my-6">{`Failed to parse signing payload`}</div>;
   }
 
   return content;

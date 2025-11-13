@@ -167,7 +167,6 @@ export async function requestPrivateNotes(
 }
 
 export async function signBytes(sourceAccountId: string, sourcePublicKey: string, message: string, kind: SignKind) {
-  console.log('before sending postMessage request');
   const res = await request({
     type: MidenDAppMessageType.SignRequest,
     sourceAccountId,

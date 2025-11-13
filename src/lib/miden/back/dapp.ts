@@ -4,10 +4,7 @@ import {
   NoteFilter,
   NoteFilterTypes,
   NoteId,
-  NoteType,
-  PublicKey,
-  SigningInputs,
-  Word
+  NoteType
 } from '@demox-labs/miden-sdk';
 import {
   AllowedPrivateData,
@@ -206,12 +203,6 @@ export async function generatePromisifyRequestPermission(
                 const midenClient = await getMidenClient();
                 const account = await midenClient.getAccount(accountPublicKey);
                 const publicKeys = account!.getPublicKeys();
-                const publicKey = publicKeys[0];
-                const serializedPublicKey = publicKey.serialize();
-                console.log('serialized public key', serializedPublicKey);
-                console.log('just making sure this gets logged');
-                // const deserializedPublicKey = PublicKey.deserialize(serializedPublicKey);
-                console.log('deserialization of the public key passed');
                 const publicKeyAsB64 = u8ToB64(publicKeys[0].serialize());
 
                 return publicKeyAsB64;
@@ -251,22 +242,18 @@ export async function generatePromisifyRequestPermission(
 }
 
 export async function requestSign(origin: string, req: MidenDAppSignRequest): Promise<MidenDAppSignResponse> {
-  console.log('requestSign, dapp.ts');
   if (!req?.sourcePublicKey) {
     throw new Error(MidenDAppErrorType.InvalidParams);
   }
-  console.log('requestSign, dapp.ts 2');
 
   const dApp = await getDApp(origin, req.sourceAccountId);
   if (!dApp) {
     throw new Error(MidenDAppErrorType.NotGranted);
   }
-  console.log('requestSign, dapp.ts 3');
 
   if (req.sourceAccountId !== dApp.accountId) {
     throw new Error(MidenDAppErrorType.NotFound);
   }
-  console.log('requestSign, dapp.ts 4');
 
   return new Promise((resolve, reject) => generatePromisifySign(resolve, reject, dApp, req));
 }
@@ -277,11 +264,8 @@ const generatePromisifySign = async (
   dApp: MidenDAppSession,
   req: MidenDAppSignRequest
 ) => {
-  console.log('generatePromisifySign, dapp.ts');
   const id = nanoid();
   const networkRpc = await getNetworkRPC(dApp.network);
-  console.log('generatePromisifySign, dapp.ts 2');
-  console.log(req);
 
   await requestConfirm({
     id,
@@ -299,17 +283,11 @@ const generatePromisifySign = async (
       reject(new Error(MidenDAppErrorType.NotGranted));
     },
     handleIntercomRequest: async (confirmReq, decline) => {
-      console.log('handleIntercomRequest, dapp.ts');
       if (confirmReq?.type === MidenMessageType.DAppSignConfirmationRequest && confirmReq?.id === id) {
-        console.log('handleIntercomRequest, dapp.ts 2');
         if (confirmReq.confirmed) {
-          console.log('handleIntercomRequest, dapp.ts 3');
           try {
-            console.log('handleIntercomRequest, dapp.ts 4');
             let signature = await withUnlocked(async ({ vault }) => {
-              console.log('calling vault.signData');
               const signDataResult = await vault.signData(req.sourcePublicKey, req.payload, req.kind);
-              console.log('signDataResult', signDataResult);
               return signDataResult;
             });
             resolve({

@@ -65,9 +65,7 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
   }
 
   async signBytes(data: Uint8Array, kind: SignKind): Promise<{ signature: Uint8Array }> {
-    console.log('signBytes', { data, kind });
     const publicKeyAsHex = bytesToHex(this.publicKey!);
-    console.log('signBytes 2', { publicKeyAsHex });
     const messageAsB64 = u8ToB64(data);
 
     const signatureAsB64 = await signBytes(this.accountId!, publicKeyAsHex, messageAsB64, kind);
