@@ -1,6 +1,6 @@
 import { derivePath } from '@demox-labs/aleo-hd-key';
-import { SecretKey, SigningInputs } from '@demox-labs/miden-sdk';
-import { SendTransaction } from '@demox-labs/miden-wallet-adapter-base';
+import { SecretKey, SigningInputs, Word } from '@demox-labs/miden-sdk';
+import { SendTransaction, SignKind } from '@demox-labs/miden-wallet-adapter-base';
 import * as Bip39 from 'bip39';
 
 import { getMessage } from 'lib/i18n';
@@ -14,6 +14,7 @@ import {
 } from 'lib/miden/back/safe-storage';
 import * as Passworder from 'lib/miden/passworder';
 import { clearStorage } from 'lib/miden/reset';
+import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
 import { WalletAccount, WalletSettings } from 'lib/shared/types';
 import { WalletType } from 'screens/onboarding/types';
 
@@ -77,6 +78,7 @@ export class Vault {
 
       const insertKeyCallback = async (key: Uint8Array, secretKey: Uint8Array) => {
         const pubKeyHex = Buffer.from(key).toString('hex');
+        console.log('pubKeyHex', pubKeyHex);
         const secretKeyHex = Buffer.from(secretKey).toString('hex');
         await encryptAndSaveMany(
           [
@@ -285,42 +287,53 @@ export class Vault {
 
   async authorize(sendTransaction: SendTransaction) {}
 
-  async signData(publicKey: string, signingInputs: string): Promise<string> {
+  async signData(publicKey: string, data: string, signKind: SignKind): Promise<string> {
+    console.log('signData', { publicKey, data, signKind });
     const secretKey = await fetchAndDecryptOneWithLegacyFallBack<string>(
       accAuthSecretKeyStrgKey(publicKey),
       this.passKey
     );
-    console.log('Secret key', secretKey);
+    console.log('secretKey', secretKey);
     const secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
-    console.log('Secret key bytes', secretKeyBytes);
-    const wasmSigningInputs = SigningInputs.deserialize(new Uint8Array(Buffer.from(signingInputs, 'hex')));
-    console.log('Wasm signing inputs', wasmSigningInputs);
+    console.log('secretKeyBytes', secretKeyBytes);
     const wasmSecretKey = SecretKey.deserialize(secretKeyBytes);
-    console.log('Wasm secret key', wasmSecretKey);
-    const signature = wasmSecretKey.signData(wasmSigningInputs);
-    console.log('Signature', signature);
-    console.log('Signature bytes', Buffer.from(signature.serialize()).toString('hex'));
-    return Buffer.from(signature.serialize()).toString('hex');
+    console.log('wasmSecretKey', wasmSecretKey);
+
+    const dataAsUint8Array = b64ToU8(data);
+    console.log('dataAsUint8Array', dataAsUint8Array);
+
+    let signature = null;
+    switch (signKind) {
+      case 'word':
+        console.log('Signing word');
+        let word = Word.deserialize(dataAsUint8Array);
+        console.log('word', word);
+        signature = wasmSecretKey.sign(word);
+        console.log('signature', signature);
+        break;
+      case 'signingInputs':
+        let signingInputs = SigningInputs.deserialize(dataAsUint8Array);
+        signature = wasmSecretKey.signData(signingInputs);
+        break;
+    }
+
+    let signatureAsBytes = signature.serialize();
+    console.log('signatureAsBytes', signatureAsBytes);
+    console.log('signatureAsBase64', u8ToB64(signatureAsBytes));
+    return u8ToB64(signatureAsBytes);
   }
 
-  async signTransaction(publicKey: string, signingInputs: string): Promise<string[]> {
+  async signTransaction(publicKey: string, signingInputs: string): Promise<string> {
+    console.log('signTransaction', { publicKey, signingInputs });
     const secretKey = await fetchAndDecryptOneWithLegacyFallBack<string>(
       accAuthSecretKeyStrgKey(publicKey),
       this.passKey
     );
-    console.log('Secret key', secretKey);
     let secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
-    console.log('Secret key bytes', secretKeyBytes);
     const wasmSigningInputs = SigningInputs.deserialize(new Uint8Array(Buffer.from(signingInputs, 'hex')));
-    console.log('Wasm signing inputs', wasmSigningInputs);
     const wasmSecretKey = SecretKey.deserialize(secretKeyBytes);
     const signature = wasmSecretKey.signData(wasmSigningInputs);
-    console.log('Signature', signature);
-    console.log('Signature bytes', Buffer.from(signature.serialize()).toString('hex'));
-    const preparedSignature = signature.toPreparedSignature();
-    console.log('Prepared signature', preparedSignature);
-    const felts = preparedSignature.map((felt: any) => felt.toString());
-    return felts;
+    return Buffer.from(signature.serialize()).toString('hex');
   }
 
   async getAuthSecretKey(key: string) {

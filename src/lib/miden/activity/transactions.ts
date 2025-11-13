@@ -256,7 +256,7 @@ export const cancelStuckTransactions = async () => {
 
 export const generateTransaction = async (
   transaction: Transaction,
-  signCallback: (publicKey: string, signingInputs: string) => Promise<string[]>
+  signCallback: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
 ) => {
   // Mark transaction as in progress
   await updateTransactionStatus(transaction.id, ITransactionStatus.GeneratingTransaction, {
@@ -318,7 +318,7 @@ export const getTransactionById = async (id: string) => {
 };
 
 export const generateTransactionsLoop = async (
-  signCallback: (publicKey: string, signingInputs: string) => Promise<string[]>
+  signCallback: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
 ) => {
   await cancelStuckTransactions();
 
@@ -354,7 +354,7 @@ export const generateTransactionsLoop = async (
 };
 
 export const safeGenerateTransactionsLoop = async (
-  signCallback: (publicKey: string, signingInputs: string) => Promise<string[]>
+  signCallback: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
 ) => {
   return navigator.locks
     .request(`generate-transactions-loop`, { ifAvailable: true }, async lock => {

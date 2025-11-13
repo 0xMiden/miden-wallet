@@ -154,6 +154,7 @@ export interface MidenDAppPrivateNotesResponse extends MidenDAppMessageBase {
 
 export interface MidenDAppSignRequest extends MidenDAppMessageBase {
   type: MidenDAppMessageType.SignRequest;
+  sourceAccountId: string;
   sourcePublicKey: string;
   payload: string;
   kind: SignKind;

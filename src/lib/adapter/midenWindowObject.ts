@@ -27,7 +27,7 @@ import {
   signBytes
 } from 'lib/adapter/client';
 import { MidenDAppPermission } from 'lib/adapter/types';
-import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
+import { b64ToU8, bytesToHex, u8ToB64 } from 'lib/shared/helpers';
 
 export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implements MidenWallet {
   accountId?: string | undefined;
@@ -65,9 +65,12 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
   }
 
   async signBytes(data: Uint8Array, kind: SignKind): Promise<{ signature: Uint8Array }> {
+    console.log('signBytes', { data, kind });
+    const publicKeyAsHex = bytesToHex(this.publicKey!);
+    console.log('signBytes 2', { publicKeyAsHex });
     const messageAsB64 = u8ToB64(data);
 
-    const signatureAsB64 = await signBytes(this.accountId!, messageAsB64, kind);
+    const signatureAsB64 = await signBytes(this.accountId!, publicKeyAsHex, messageAsB64, kind);
     const signatureAsU8Array = b64ToU8(signatureAsB64);
     return { signature: signatureAsU8Array };
   }

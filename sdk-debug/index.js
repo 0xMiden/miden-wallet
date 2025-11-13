@@ -77,7 +77,7 @@ document.getElementById('publicKeyForm').addEventListener('submit', async event 
     console.log('note id:', noteId);
     const result = await webClient.exportNoteFile(noteId, 'Details');
     console.log('exported note file');
-    const noteBytes = new Uint8Array(result);
+    const noteBytes = result.serialize();
 
     const blob = new Blob([noteBytes], { type: 'application/octet-stream' });
 

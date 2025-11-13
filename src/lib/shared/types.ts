@@ -348,7 +348,7 @@ export interface SignTransactionRequest extends WalletMessageBase {
 
 export interface SignTransactionResponse extends WalletMessageBase {
   type: WalletMessageType.SignTransactionResponse;
-  signature: string[];
+  signature: string;
 }
 
 export interface GetAuthSecretKeyRequest extends WalletMessageBase {

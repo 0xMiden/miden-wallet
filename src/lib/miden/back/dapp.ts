@@ -5,6 +5,7 @@ import {
   NoteFilterTypes,
   NoteId,
   NoteType,
+  PublicKey,
   SigningInputs,
   Word
 } from '@demox-labs/miden-sdk';
@@ -205,6 +206,12 @@ export async function generatePromisifyRequestPermission(
                 const midenClient = await getMidenClient();
                 const account = await midenClient.getAccount(accountPublicKey);
                 const publicKeys = account!.getPublicKeys();
+                const publicKey = publicKeys[0];
+                const serializedPublicKey = publicKey.serialize();
+                console.log('serialized public key', serializedPublicKey);
+                console.log('just making sure this gets logged');
+                // const deserializedPublicKey = PublicKey.deserialize(serializedPublicKey);
+                console.log('deserialization of the public key passed');
                 const publicKeyAsB64 = u8ToB64(publicKeys[0].serialize());
 
                 return publicKeyAsB64;
@@ -248,15 +255,18 @@ export async function requestSign(origin: string, req: MidenDAppSignRequest): Pr
   if (!req?.sourcePublicKey) {
     throw new Error(MidenDAppErrorType.InvalidParams);
   }
+  console.log('requestSign, dapp.ts 2');
 
-  const dApp = await getDApp(origin, req.sourcePublicKey);
+  const dApp = await getDApp(origin, req.sourceAccountId);
   if (!dApp) {
     throw new Error(MidenDAppErrorType.NotGranted);
   }
+  console.log('requestSign, dapp.ts 3');
 
-  if (req.sourcePublicKey !== dApp.accountId) {
+  if (req.sourceAccountId !== dApp.accountId) {
     throw new Error(MidenDAppErrorType.NotFound);
   }
+  console.log('requestSign, dapp.ts 4');
 
   return new Promise((resolve, reject) => generatePromisifySign(resolve, reject, dApp, req));
 }
@@ -267,8 +277,11 @@ const generatePromisifySign = async (
   dApp: MidenDAppSession,
   req: MidenDAppSignRequest
 ) => {
+  console.log('generatePromisifySign, dapp.ts');
   const id = nanoid();
   const networkRpc = await getNetworkRPC(dApp.network);
+  console.log('generatePromisifySign, dapp.ts 2');
+  console.log(req);
 
   await requestConfirm({
     id,
@@ -286,33 +299,18 @@ const generatePromisifySign = async (
       reject(new Error(MidenDAppErrorType.NotGranted));
     },
     handleIntercomRequest: async (confirmReq, decline) => {
+      console.log('handleIntercomRequest, dapp.ts');
       if (confirmReq?.type === MidenMessageType.DAppSignConfirmationRequest && confirmReq?.id === id) {
+        console.log('handleIntercomRequest, dapp.ts 2');
         if (confirmReq.confirmed) {
+          console.log('handleIntercomRequest, dapp.ts 3');
           try {
-            let signature = await withUnlocked(async () => {
-              const midenClient = await getMidenClient();
-              const account = await midenClient.getAccount(req.sourcePublicKey);
-              const publicKeys = account!.getPublicKeys();
-              const secretKey = await midenClient.getAccountAuthByPubKey(publicKeys[0]);
-
-              const payloadAsUint8Array = b64ToU8(req.payload);
-
-              let signature = null;
-              switch (req.kind) {
-                case 'word':
-                  let word = Word.deserialize(payloadAsUint8Array);
-                  signature = secretKey.sign(word);
-                  break;
-                case 'signingInputs':
-                  let signingInputs = SigningInputs.deserialize(payloadAsUint8Array);
-                  signature = secretKey.signData(signingInputs);
-                  break;
-              }
-
-              const signatureBytes = signature!.serialize();
-              const signatureAsB64 = u8ToB64(signatureBytes);
-
-              return signatureAsB64;
+            console.log('handleIntercomRequest, dapp.ts 4');
+            let signature = await withUnlocked(async ({ vault }) => {
+              console.log('calling vault.signData');
+              const signDataResult = await vault.signData(req.sourcePublicKey, req.payload, req.kind);
+              console.log('signDataResult', signDataResult);
+              return signDataResult;
             });
             resolve({
               type: MidenDAppMessageType.SignResponse,

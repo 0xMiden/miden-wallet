@@ -29,7 +29,7 @@ export type MidenClientCreateOptions = {
   seed?: Uint8Array;
   insertKeyCallback?: (key: Uint8Array, secretKey: Uint8Array) => void;
   getKeyCallback?: (key: Uint8Array) => Promise<Uint8Array>;
-  signCallback?: (publicKey: Uint8Array, signingInputs: Uint8Array) => Promise<string[]>;
+  signCallback?: (publicKey: Uint8Array, signingInputs: Uint8Array) => Promise<Uint8Array>;
   onConnectivityIssue?: () => void;
 };
 
@@ -131,8 +131,6 @@ export class MidenClientInterface {
 
   async consumeNoteId(transaction: ConsumeTransaction): Promise<Uint8Array> {
     const { accountId, noteId } = transaction;
-    console.log('Consuming note:', noteId);
-    console.log('accountId', accountId);
 
     const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest([noteId]);
     let consumeTransactionResult = await this.webClient.executeTransaction(
