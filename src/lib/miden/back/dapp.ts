@@ -1,11 +1,4 @@
-import {
-  AccountInterface,
-  NetworkId,
-  NoteFilter,
-  NoteFilterTypes,
-  NoteId,
-  NoteType
-} from '@demox-labs/miden-sdk';
+import { AccountInterface, NetworkId, NoteFilter, NoteFilterTypes, NoteId, NoteType } from '@demox-labs/miden-sdk';
 import {
   AllowedPrivateData,
   Asset,

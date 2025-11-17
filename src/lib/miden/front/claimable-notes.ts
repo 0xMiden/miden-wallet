@@ -142,11 +142,13 @@ export function useClaimableNotes(publicAddress: string) {
   const fetchClaimableNotes = useCallback(async () => {
     const options: MidenClientCreateOptions = {
       getKeyCallback: async (key: Uint8Array) => {
+        console.log('getKeyCallback', key);
         const keyString = Buffer.from(key).toString('hex');
         const secretKey = await getAuthSecretKey(keyString);
         return new Uint8Array(Buffer.from(secretKey, 'hex'));
       },
       signCallback: async (publicKey: Uint8Array, signingInputs: Uint8Array) => {
+        console.log('signCallback', publicKey, signingInputs);
         const keyString = Buffer.from(publicKey).toString('hex');
         const signingInputsString = Buffer.from(signingInputs).toString('hex');
         const result = await signTransaction(keyString, signingInputsString);

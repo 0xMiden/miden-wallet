@@ -57,7 +57,6 @@ export function savePlain<T>(key: string, value: T) {
 }
 
 async function fetchEncryptedOne<T>(key: string) {
-  console.log('fetchEncryptedOne', key);
   const items = await browser.storage.local.get([key]);
   if (items[key] !== undefined) {
     return items[key] as T;
