@@ -67,7 +67,7 @@ export class MidenClientInterface {
    */
   static async create(options: MidenClientCreateOptions = {}) {
     const seed = options.seed?.toString();
-    const network = MIDEN_NETWORK_NAME.DEVNET;
+    const network = MIDEN_NETWORK_NAME.LOCALNET;
     // TODO: update web client typings
     const webClient = await WebClient.createClientWithExternalKeystore(
       MIDEN_NETWORK_ENDPOINTS.get(network)!,
@@ -90,7 +90,7 @@ export class MidenClientInterface {
     const accountStorageMode =
       walletType === WalletType.OnChain ? AccountStorageMode.public() : AccountStorageMode.private();
 
-    const wallet: Account = await this.webClient.newWallet(accountStorageMode, true, seed);
+    const wallet: Account = await this.webClient.newWallet(accountStorageMode, true, 0, seed);
     const walletId = getBech32AddressFromAccountId(wallet.id());
 
     return walletId;
@@ -105,7 +105,7 @@ export class MidenClientInterface {
   }
 
   async importPublicMidenWalletFromSeed(seed: Uint8Array) {
-    const account = await this.webClient.importPublicAccountFromSeed(seed, true);
+    const account = await this.webClient.importPublicAccountFromSeed(seed, true, 0);
 
     return getBech32AddressFromAccountId(account.id());
   }
@@ -140,11 +140,6 @@ export class MidenClientInterface {
 
   async getAccount(accountId: string) {
     const result = await this.webClient.getAccount(accountIdStringToSdk(accountId));
-    return result;
-  }
-
-  async getAccountAuthByPubKey(accountPublicKey: Word): Promise<SecretKey> {
-    const result = await this.webClient.getAccountAuthByPubKey(accountPublicKey);
     return result;
   }
 
