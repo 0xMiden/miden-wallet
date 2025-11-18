@@ -2,22 +2,9 @@ import React, { FC, useCallback, useRef } from 'react';
 
 import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { T } from 'lib/i18n/react';
+import { isDelegateProofEnabled, setDelegateProofSetting } from 'lib/settings/helpers';
 
 import { GeneralSettingsSelectors } from './GeneralSettings.selectors';
-
-export const DELEGATE_PROOF_STORAGE_KEY = 'delegate_proof_setting_key';
-export const DEFAULT_DELEGATE_PROOF = true;
-
-export function setDelegateProofSetting(enabled: boolean) {
-  try {
-    localStorage.setItem(DELEGATE_PROOF_STORAGE_KEY, JSON.stringify(enabled));
-  } catch {}
-}
-
-export function isDelegateProofEnabled() {
-  const stored = localStorage.getItem(DELEGATE_PROOF_STORAGE_KEY);
-  return stored ? (JSON.parse(stored) as boolean) : DEFAULT_DELEGATE_PROOF;
-}
 
 const DelegateSettings: FC<{}> = () => {
   const delegateEnabled = isDelegateProofEnabled();

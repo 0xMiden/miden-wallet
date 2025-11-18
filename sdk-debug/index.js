@@ -1,4 +1,12 @@
-import { WebClient, AccountStorageMode, AccountId, Address, NetworkId, NoteType, TransactionRequest } from './libs/dist/index.js';
+import {
+  WebClient,
+  AccountStorageMode,
+  Address,
+  NetworkId,
+  NoteType,
+  TransactionRequest,
+  TransactionProver
+} from './libs/dist/index.js';
 console.log('script loaded');
 
 const FAUCET_DECIMALS = 6;
@@ -22,8 +30,8 @@ const faucet = await webClient.newFaucet(
   BigInt(1000000 * 10 ** FAUCET_DECIMALS)
 );
 const faucetId = faucet.id();
-const faucetAddress = Address.fromAccountId(faucetId, 'Unspecified');
-const faucetAddressAsBech32 = faucetAddress.toBech32(NetworkId.Testnet)
+const faucetAddress = Address.fromAccountId(faucetId, 'BasicWallet');
+const faucetAddressAsBech32 = faucetAddress.toBech32(NetworkId.Testnet);
 console.log('created faucet id:', faucetAddressAsBech32);
 
 console.log('syncing state');
@@ -57,15 +65,17 @@ document.getElementById('publicKeyForm').addEventListener('submit', async event 
     isPrivate ? NoteType.Private : NoteType.Public,
     BigInt(amount * 10 ** FAUCET_DECIMALS)
   );
-  let mintTxnResult = await webClient.newTransaction(faucetAddress.accountId(), mintTxnRequest);
-  await webClient.submitTransaction(mintTxnResult);
-  const noteId = mintTxnResult.createdNotes().notes()[0].id();
+  let mintTxnResult = await webClient.executeTransaction(faucetAddress.accountId(), mintTxnRequest);
+  let provenTransaction = await webClient.proveTransaction(mintTxnResult, TransactionProver.newLocalProver());
+  let submissionHeight = await webClient.submitProvenTransaction(provenTransaction, mintTxnResult);
+  await webClient.applyTransaction(mintTxnResult, submissionHeight);
   console.log('created mint txn');
 
   if (isPrivate) {
     console.log('exporting note...');
-    const result = await webClient.exportNoteFile(noteId.toString(), 'Details');
-    const noteBytes = new Uint8Array(result);
+    const noteId = mintTxnResult.executedTransaction().outputNotes().notes()[0].id().toString();
+    const result = await webClient.exportNoteFile(noteId, 'Details');
+    const noteBytes = result.serialize();
 
     const blob = new Blob([noteBytes], { type: 'application/octet-stream' });
 

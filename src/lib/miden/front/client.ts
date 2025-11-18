@@ -203,7 +203,11 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
       signingInputs
     });
     assertResponse(res.type === WalletMessageType.SignTransactionResponse);
-    return res.signature;
+    // Convert the signature from hex string to Uint8Array here instead of returning bytes directly
+    // so that postMessage doesn't mess up the type in transition.
+    const signatureAsHex = res.signature;
+    const signatureAsBytes = new Uint8Array(Buffer.from(signatureAsHex, 'hex'));
+    return signatureAsBytes;
   }, []);
 
   const getAuthSecretKey = useCallback(async (key: string) => {
@@ -283,6 +287,15 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     assertResponse(res.type === MidenMessageType.DAppImportPrivateNoteConfirmationResponse);
   }, []);
 
+  const confirmDAppConsumableNotes = useCallback(async (id: string, confirmed: boolean) => {
+    const res = await request({
+      type: MidenMessageType.DAppConsumableNotesConfirmationRequest,
+      id,
+      confirmed
+    });
+    assertResponse(res.type === MidenMessageType.DAppConsumableNotesConfirmationResponse);
+  }, []);
+
   const confirmDAppTransaction = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {
     const res = await request({
       type: MidenMessageType.DAppTransactionConfirmationRequest,
@@ -358,6 +371,7 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     confirmDAppPrivateNotes,
     confirmDAppAssets,
     confirmDAppImportPrivateNote,
+    confirmDAppConsumableNotes,
     confirmDAppTransaction,
     confirmDAppBulkTransactions,
     confirmDAppDeploy,

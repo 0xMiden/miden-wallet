@@ -1,6 +1,6 @@
 import { derivePath } from '@demox-labs/aleo-hd-key';
-import { SecretKey, SigningInputs } from '@demox-labs/miden-sdk';
-import { SendTransaction } from '@demox-labs/miden-wallet-adapter-base';
+import { SecretKey, SigningInputs, Word } from '@demox-labs/miden-sdk';
+import { SendTransaction, SignKind } from '@demox-labs/miden-wallet-adapter-base';
 import * as Bip39 from 'bip39';
 
 import { getMessage } from 'lib/i18n';
@@ -14,14 +14,13 @@ import {
 } from 'lib/miden/back/safe-storage';
 import * as Passworder from 'lib/miden/passworder';
 import { clearStorage } from 'lib/miden/reset';
+import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
 import { WalletAccount, WalletSettings } from 'lib/shared/types';
 import { WalletType } from 'screens/onboarding/types';
 
-import {
-  getBech32AddressFromAccountId,
-  MidenClientCreateOptions,
-  MidenClientInterface
-} from '../sdk/miden-client-interface';
+import { getBech32AddressFromAccountId } from '../sdk/helpers';
+import { getMidenClient } from '../sdk/miden-client';
+import { MidenClientCreateOptions } from '../sdk/miden-client-interface';
 
 const STORAGE_KEY_PREFIX = 'vault';
 const DEFAULT_SETTINGS = {};
@@ -91,7 +90,7 @@ export class Vault {
       const options: MidenClientCreateOptions = {
         insertKeyCallback
       };
-      const midenClient = await MidenClientInterface.create(options);
+      const midenClient = await getMidenClient(options);
       const hdAccIndex = 0;
       const walletSeed = deriveClientSeed(WalletType.OnChain, mnemonic, 0);
 
@@ -133,7 +132,7 @@ export class Vault {
 
   static async spawnFromMidenClient(password: string, mnemonic: string) {
     return withError('Failed to spawn from miden client', async () => {
-      const midenClient = await MidenClientInterface.create();
+      const midenClient = await getMidenClient();
       const accountHeaders = await midenClient.getAccounts();
       const accounts = [];
 
@@ -213,7 +212,7 @@ export class Vault {
       const options: MidenClientCreateOptions = {
         insertKeyCallback
       };
-      const midenClient = await MidenClientInterface.create(options);
+      const midenClient = await getMidenClient(options);
       let walletId;
       if (isOwnMnemonic && walletType === WalletType.OnChain) {
         try {
@@ -285,19 +284,33 @@ export class Vault {
 
   async authorize(sendTransaction: SendTransaction) {}
 
-  async signData(publicKey: string, signingInputs: string): Promise<string> {
+  async signData(publicKey: string, data: string, signKind: SignKind): Promise<string> {
     const secretKey = await fetchAndDecryptOneWithLegacyFallBack<string>(
       accAuthSecretKeyStrgKey(publicKey),
       this.passKey
     );
     const secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
-    const wasmSigningInputs = SigningInputs.deserialize(new Uint8Array(Buffer.from(signingInputs, 'hex')));
     const wasmSecretKey = SecretKey.deserialize(secretKeyBytes);
-    const signature = wasmSecretKey.signData(wasmSigningInputs);
-    return Buffer.from(signature.serialize()).toString('hex');
+
+    const dataAsUint8Array = b64ToU8(data);
+
+    let signature = null;
+    switch (signKind) {
+      case 'word':
+        let word = Word.deserialize(dataAsUint8Array);
+        signature = wasmSecretKey.sign(word);
+        break;
+      case 'signingInputs':
+        let signingInputs = SigningInputs.deserialize(dataAsUint8Array);
+        signature = wasmSecretKey.signData(signingInputs);
+        break;
+    }
+
+    let signatureAsBytes = signature.serialize();
+    return u8ToB64(signatureAsBytes);
   }
 
-  async signTransaction(publicKey: string, signingInputs: string): Promise<string[]> {
+  async signTransaction(publicKey: string, signingInputs: string): Promise<string> {
     const secretKey = await fetchAndDecryptOneWithLegacyFallBack<string>(
       accAuthSecretKeyStrgKey(publicKey),
       this.passKey
@@ -306,9 +319,7 @@ export class Vault {
     const wasmSigningInputs = SigningInputs.deserialize(new Uint8Array(Buffer.from(signingInputs, 'hex')));
     const wasmSecretKey = SecretKey.deserialize(secretKeyBytes);
     const signature = wasmSecretKey.signData(wasmSigningInputs);
-    const preparedSignature = signature.toPreparedSignature();
-    const felts = preparedSignature.map((felt: any) => felt.toString());
-    return felts;
+    return Buffer.from(signature.serialize()).toString('hex');
   }
 
   async getAuthSecretKey(key: string) {

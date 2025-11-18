@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Miden Wallet",
-  "version": "1.0.30",
+  "version": "1.0.36",
 
   "icons": {
     "16": "misc/logo-white-bg-16.png",
@@ -81,7 +81,7 @@
 
   "web_accessible_resources": [
     {
-      "resources": ["addToWindow.js"],
+      "resources": ["addToWindow.js", "static/wasm/*.wasm"],
       "matches": ["http://localhost/*", "http://127.0.0.1/*", "https://*/*"]
     }
   ]

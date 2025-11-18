@@ -6,11 +6,11 @@ import { useTranslation } from 'react-i18next';
 
 import FormField, { PASSWORD_ERROR_CAPTION } from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
+import { useMidenClient } from 'app/hooks/useMidenClient';
 import { Icon, IconName } from 'app/icons/v2';
 import { T } from 'lib/i18n/react';
 import { decrypt, decryptJson, deriveKey, generateKey } from 'lib/miden/passworder';
 import { importDb } from 'lib/miden/repo';
-import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
 import { DecryptedWalletFile, ENCRYPTED_WALLET_FILE_PASSWORD_CHECK, EncryptedWalletFile } from 'screens/shared';
 
 interface FormData {
@@ -26,11 +26,10 @@ type WalletFile = EncryptedWalletFile & {
   name: string;
 };
 
-const midenClient = await MidenClientInterface.create();
-
 // TODO: This needs to move forward in the onboarding steps, likely needs some sort of next thing feature
 export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ className, onSubmit }) => {
   const { t } = useTranslation();
+  const { midenClient } = useMidenClient();
   const walletFileRef = useRef<HTMLInputElement>(null);
   const [walletFile, setWalletFile] = useState<WalletFile | null>(null);
   const [isWrongPassword, setIsWrongPassword] = useState(false);
@@ -48,6 +47,7 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
 
   const handleImportSubmit = async () => {
     if (!walletFile || !onSubmit) return;
+    if (!midenClient) return;
 
     try {
       const passKey = await generateKey(filePassword);

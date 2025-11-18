@@ -5,11 +5,9 @@ import { useRetryableSWR } from 'lib/swr';
 
 import { isMidenFaucet } from '../assets';
 import { AssetMetadata, MIDEN_METADATA } from '../metadata';
-import {
-  getBech32AddressFromAccountId,
-  MidenClientCreateOptions,
-  MidenClientInterface
-} from '../sdk/miden-client-interface';
+import { getBech32AddressFromAccountId } from '../sdk/helpers';
+import { getMidenClient } from '../sdk/miden-client';
+import { MidenClientCreateOptions } from '../sdk/miden-client-interface';
 import { ConsumableNote } from '../types';
 import { useTokensMetadata } from './assets';
 import { useMidenContext } from './client';
@@ -144,19 +142,20 @@ export function useClaimableNotes(publicAddress: string) {
   const fetchClaimableNotes = useCallback(async () => {
     const options: MidenClientCreateOptions = {
       getKeyCallback: async (key: Uint8Array) => {
+        console.log('getKeyCallback', key);
         const keyString = Buffer.from(key).toString('hex');
         const secretKey = await getAuthSecretKey(keyString);
         return new Uint8Array(Buffer.from(secretKey, 'hex'));
       },
       signCallback: async (publicKey: Uint8Array, signingInputs: Uint8Array) => {
+        console.log('signCallback', publicKey, signingInputs);
         const keyString = Buffer.from(publicKey).toString('hex');
         const signingInputsString = Buffer.from(signingInputs).toString('hex');
         const result = await signTransaction(keyString, signingInputsString);
         return result;
       }
     };
-    const midenClient = await MidenClientInterface.create(options);
-
+    const midenClient = await getMidenClient(options);
     const syncSummary = await midenClient.syncState();
     const latestBlock = syncSummary.blockNum();
 
@@ -164,14 +163,11 @@ export function useClaimableNotes(publicAddress: string) {
       midenClient.getConsumableNotes(publicAddress, latestBlock),
       getUncompletedTransactions(publicAddress)
     ]);
-
     const notesBeingClaimed = new Set(
       uncompletedTxs.filter(tx => tx.type === 'consume' && tx.noteId != null).map(tx => tx.noteId!)
     );
-
     // 1) Parse notes and collect faucet ids
     const parsedNotes = parseNotes(rawNotes, notesBeingClaimed);
-
     // 2) Seed metadata map from cache (and baked-in MIDEN)
     const metadataByFaucetId = buildMetadataMapFromCache(parsedNotes, allTokensBaseMetadataRef.current);
 

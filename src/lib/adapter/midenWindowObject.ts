@@ -1,30 +1,33 @@
+import { NoteFilterTypes } from '@demox-labs/miden-sdk';
 import {
-  EventEmitter,
-  WalletAdapterNetwork,
-  PrivateDataPermission,
-  MidenTransaction,
-  MidenSendTransaction,
-  MidenConsumeTransaction,
   AllowedPrivateData,
-  InputNoteDetails
+  EventEmitter,
+  InputNoteDetails,
+  MidenConsumeTransaction,
+  MidenSendTransaction,
+  MidenTransaction,
+  PrivateDataPermission,
+  SignKind,
+  WalletAdapterNetwork
 } from '@demox-labs/miden-wallet-adapter-base';
 import { MidenWallet, MidenWalletEvents } from '@demox-labs/miden-wallet-adapter-miden';
 
 import {
-  requestPermission,
-  requestTransaction,
-  requestDisconnect,
-  onPermissionChange,
+  importPrivateNote,
   isAvailable,
-  requestSend,
-  requestConsume,
-  requestPrivateNotes,
-  signMessage,
+  onPermissionChange,
   requestAssets,
-  importPrivateNote
+  requestConsumableNotes,
+  requestConsume,
+  requestDisconnect,
+  requestPermission,
+  requestPrivateNotes,
+  requestSend,
+  requestTransaction,
+  signBytes
 } from 'lib/adapter/client';
 import { MidenDAppPermission } from 'lib/adapter/types';
-import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
+import { b64ToU8, bytesToHex, u8ToB64 } from 'lib/shared/helpers';
 
 export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implements MidenWallet {
   accountId?: string | undefined;
@@ -53,15 +56,19 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
     return { transactionId: res };
   }
 
-  async requestPrivateNotes(): Promise<{ privateNotes: InputNoteDetails[] }> {
-    const res = await requestPrivateNotes(this.accountId!);
+  async requestPrivateNotes(
+    notefilterType: NoteFilterTypes,
+    noteIds?: string[]
+  ): Promise<{ privateNotes: InputNoteDetails[] }> {
+    const res = await requestPrivateNotes(this.accountId!, notefilterType, noteIds);
     return { privateNotes: res };
   }
 
-  async signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }> {
-    const messageAsB64 = u8ToB64(message);
+  async signBytes(data: Uint8Array, kind: SignKind): Promise<{ signature: Uint8Array }> {
+    const publicKeyAsHex = bytesToHex(this.publicKey!);
+    const messageAsB64 = u8ToB64(data);
 
-    const signatureAsB64 = await signMessage(this.accountId!, messageAsB64);
+    const signatureAsB64 = await signBytes(this.accountId!, publicKeyAsHex, messageAsB64, kind);
     const signatureAsU8Array = b64ToU8(signatureAsB64);
     return { signature: signatureAsU8Array };
   }
@@ -76,6 +83,11 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
   async requestAssets(): Promise<{ assets: any[] }> {
     const res = await requestAssets(this.accountId!);
     return { assets: res };
+  }
+
+  async requestConsumableNotes(): Promise<{ consumableNotes: InputNoteDetails[] }> {
+    const res = await requestConsumableNotes(this.accountId!);
+    return { consumableNotes: res };
   }
 
   async connect(

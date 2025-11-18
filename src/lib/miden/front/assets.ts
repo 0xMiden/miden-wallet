@@ -23,6 +23,7 @@ import { createQueue } from 'lib/queue';
 import { useRetryableSWR } from 'lib/swr';
 
 import { useGasToken } from '../../../app/hooks/useGasToken';
+
 export const ALL_TOKENS_BASE_METADATA_STORAGE_KEY = 'tokens_base_metadata';
 
 export type TokenBalance = {

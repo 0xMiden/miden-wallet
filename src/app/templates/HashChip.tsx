@@ -2,31 +2,37 @@ import React, { ComponentProps, FC, HTMLAttributes } from 'react';
 
 import CopyButton, { CopyButtonProps } from 'app/atoms/CopyButton';
 import HashShortView from 'app/atoms/HashShortView';
-import { ReactComponent as CopyIcon } from 'app/icons/copy.svg';
+import { Icon, IconName } from 'app/icons/v2';
 
 type HashChipProps = HTMLAttributes<HTMLButtonElement> &
   ComponentProps<typeof HashShortView> &
+  Pick<ComponentProps<typeof Icon>, 'size' | 'fill' | 'className'> &
   Pick<CopyButtonProps, 'small' | 'type' | 'bgShade' | 'rounded' | 'textShade'>;
 
 const HashChip: FC<HashChipProps> = ({
   hash,
-  trim,
+  trimHash,
   trimAfter,
   firstCharsCount,
   lastCharsCount,
+  displayName,
   type = 'button',
+  size = 'xs',
+  fill = 'black',
+  className = 'ml-4',
   ...rest
 }) => (
   <CopyButton text={hash} type={type} {...rest}>
     <span className="flex flex-row items-center">
       <HashShortView
         hash={hash}
-        trim={trim}
+        trimHash={trimHash}
         trimAfter={trimAfter}
         firstCharsCount={firstCharsCount}
         lastCharsCount={lastCharsCount}
+        displayName={displayName}
       />
-      <CopyIcon className="w-4 h-4 ml-4" />
+      <Icon name={IconName.Copy} size={size} fill={fill} className={className} />
     </span>
   </CopyButton>
 );

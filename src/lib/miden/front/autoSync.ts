@@ -3,10 +3,9 @@ import { MessageHttpOutput } from '@demox-labs/amp-core/script/http-types';
 import { ampApi } from 'lib/amp/amp-interface';
 import { WalletState } from 'lib/shared/types';
 
-import { MidenClientInterface } from '../sdk/miden-client-interface';
+import { getMidenClient } from '../sdk/miden-client';
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
-const midenClient = await MidenClientInterface.create();
 
 export const AMP_SYNC_STORAGE_KEY = 'amp-sync-storage-key';
 export const DEFAULT_ENABLE_AMP = false;
@@ -56,6 +55,7 @@ class Sync {
       if (messages.length > 0) {
         console.log('Syncing amp...');
 
+        const midenClient = await getMidenClient();
         // TOOD: Need a way to clear the messages once they're recieved
         for (let message of messages) {
           // TODO: Potentially tweak upstream to make this cleaner

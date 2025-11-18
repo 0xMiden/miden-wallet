@@ -3,7 +3,7 @@ import browser from 'webextension-polyfill';
 
 import { isMidenAsset } from 'lib/miden/assets';
 
-import { MidenClientInterface } from '../sdk/miden-client-interface';
+import { getMidenClient } from '../sdk/miden-client';
 import { DEFAULT_TOKEN_METADATA, MIDEN_METADATA } from './defaults';
 import { AssetMetadata, DetailedAssetMetdata } from './types';
 
@@ -15,7 +15,7 @@ export async function fetchTokenMetadata(
   }
 
   try {
-    const midenClient = await MidenClientInterface.create();
+    const midenClient = await getMidenClient();
     await midenClient.importAccountById(assetId);
     const account = await midenClient.getAccount(assetId);
     if (!account) {

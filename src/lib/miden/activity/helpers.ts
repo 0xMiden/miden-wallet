@@ -2,7 +2,7 @@ import { TransactionResult } from '@demox-labs/miden-sdk';
 import BigNumber from 'bignumber.js';
 
 import { ITransaction } from '../db/types';
-import { getBech32AddressFromAccountId } from '../sdk/miden-client-interface';
+import { getBech32AddressFromAccountId } from '../sdk/helpers';
 
 export function tryParseTokenTransfers(
   parameters: any,
@@ -95,8 +95,8 @@ export const interpretTransactionResult = <K extends keyof ITransaction>(
   let displayMessage = transaction.displayMessage;
   let displayIcon = transaction.displayIcon;
   let secondaryAccountId = transaction.secondaryAccountId;
-  const inputNotes = result.consumedNotes().notes();
-  const outputNotes = result.createdNotes().notes();
+  const inputNotes = result.executedTransaction().inputNotes().notes();
+  const outputNotes = result.executedTransaction().outputNotes().notes();
 
   const inputFaucetIds: string[] = [];
   const outputFaucetIds: string[] = [];

@@ -1,8 +1,8 @@
 /* eslint-disable no-restricted-globals */
 
-import React, { FC, Suspense, useCallback, useMemo, useState } from 'react';
+import React, { FC, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 
-import { Word } from '@demox-labs/miden-sdk';
+import { Address, FungibleAsset, NetworkId, SigningInputs, SigningInputsType, Word } from '@demox-labs/miden-sdk';
 import { PrivateDataPermission } from '@demox-labs/miden-wallet-adapter-base';
 import classNames from 'clsx';
 
@@ -13,12 +13,14 @@ import Unlock from 'app/pages/Unlock';
 import { Button, ButtonVariant } from 'components/Button';
 import { CustomRpsContext } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
-import { MIDEN_METADATA, useAccount, useMidenContext } from 'lib/miden/front';
+import { AssetMetadata, getTokenId, MIDEN_METADATA, useAccount, useMidenContext } from 'lib/miden/front';
 import { MidenDAppPayload } from 'lib/miden/types';
-import { b64ToU8 } from 'lib/shared/helpers';
+import { isDelegateProofEnabled } from 'lib/settings/helpers';
+import { b64ToU8, truncateHash } from 'lib/shared/helpers';
 import { WalletAccount } from 'lib/shared/types';
 import { useRetryableSWR } from 'lib/swr';
 import useSafeState from 'lib/ui/useSafeState';
+import useTippy from 'lib/ui/useTippy';
 import { useLocation } from 'lib/woozie';
 
 import Alert from './atoms/Alert';
@@ -29,8 +31,8 @@ import { ConfirmPageSelectors } from './ConfirmPage.selectors';
 import { openLoadingFullPage } from './env';
 import { Icon, IconName } from './icons/v2';
 import AccountBanner from './templates/AccountBanner';
+import { formatAmount, getTokenMetadata } from './templates/activity/Activity';
 import ConnectBanner from './templates/ConnectBanner';
-import { isDelegateProofEnabled } from './templates/DelegateSettings';
 import PrivateDataPermissionBanner from './templates/PrivateDataPermissionBanner';
 import PrivateDataPermissionCheckbox from './templates/PrivateDataPermissionCheckbox';
 
@@ -79,9 +81,23 @@ function downloadData(filename: string, data: string) {
   document.body.removeChild(link);
 }
 
-function truncateHash(hash: string, front = 7, back = 4): string {
-  if (!hash) return '';
-  return `${hash.slice(0, front)}…${hash.slice(-back)}`;
+function downloadBytes(filename: string, data: Uint8Array, mimeType = 'application/octet-stream') {
+  const blob = data instanceof Blob ? data : new Blob([data as BlobPart], { type: mimeType });
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.style.display = 'none';
+  document.body.appendChild(a);
+
+  try {
+    a.click();
+  } finally {
+    a.remove();
+    // Give the browser a microtask to start the download before revoking
+    setTimeout(() => URL.revokeObjectURL(url), 0);
+  }
 }
 
 interface PayloadContentProps {
@@ -93,28 +109,43 @@ interface PayloadContentProps {
 
 const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account }) => {
   let content: string | React.ReactNode = t('noPreview');
+
   switch (payload.type) {
     case 'sign': {
-      let wordHex = '(invalid payload)';
-      try {
-        const bytes = b64ToU8(payload.payload);
-        const word = Word.deserialize(bytes);
-        wordHex = word.toHex();
-      } catch (e) {
-        console.error('Failed to deserialize payload for sign:', e);
+      const bytes = b64ToU8(payload.payload);
+
+      switch (payload.kind) {
+        case 'word': {
+          let wordHex = '(invalid payload)';
+          try {
+            const word = Word.deserialize(bytes);
+            wordHex = word.toHex();
+          } catch (e) {
+            console.error('Failed to deserialize payload for sign:', e);
+          }
+          content = (
+            <div className="text-md text-center my-6">{`Sign the following Word ${truncateHash(wordHex)}?`}</div>
+          );
+          break;
+        }
+
+        case 'signingInputs': {
+          console.log('Signing inputs payload', bytes);
+          content = <SigningInputsPayloadContent bytes={bytes} />;
+          break;
+        }
       }
-      content = (
-        <>
-          <div className="text-md text-center my-6">{`Sign the following Word ${truncateHash(wordHex)}?`}</div>
-        </>
-      );
+
       break;
     }
+
     case 'privateNotes': {
       content = (
         <>
           <div className="text-md text-center my-6">
-            {`Share all private note data for account ${payload.sourcePublicKey}?`}
+            {'Share all private note data for account'}
+            <br />
+            {`${truncateHash(payload.sourcePublicKey)}?`}
           </div>
           <div className="flex items-center justify-center">
             <FormSecondaryButton
@@ -122,7 +153,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
               className="justify-center w-3/5 bg-gray-800 hover:bg-gray-700 text-black"
               style={{ fontWeight: '400', color: 'black', border: 'none' }}
               onClick={() => downloadData('privateNotes.json', JSON.stringify(payload.privateNotes, null, 2))}
-              small={true}
+              small
             >
               Download Private Note Data
             </FormSecondaryButton>
@@ -131,6 +162,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
       );
       break;
     }
+
     case 'transaction': {
       content = (
         <div>
@@ -152,18 +184,18 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
           )}
           <hr className="h-px bg-grey-100 my-4" />
           {payload.transactionMessages.slice(2).map((message, i) => {
-            const messageParts = message.split(', ');
-            let value = messageParts[1];
-            if (messageParts[0] === 'Amount') {
+            const [label, rawValue] = message.split(', ');
+            let value = rawValue;
+            if (label === 'Amount') {
               const microcredits = Number(value);
               const amount = microcredits / 10 ** MIDEN_METADATA.decimals;
               value = amount.toString();
-            } else if (messageParts[0] === 'Recipient') {
+            } else if (label === 'Recipient') {
               value = truncateHash(value);
             }
             return (
               <div className="flex justify-between my-2 text-sm" key={i + 2}>
-                <span className="text-gray-600">{messageParts[0]}</span>
+                <span className="text-gray-600">{label}</span>
                 <span className="text-black">{value}</span>
               </div>
             );
@@ -173,6 +205,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
       break;
     }
   }
+
   return (
     <div className={classNames('w-full', 'flex flex-col')}>
       {t(`Payload`) && (
@@ -186,9 +219,212 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
           </T>
         </h2>
       )}
-      <span className="text-sm text-black">{!!error ? error : content}</span>
+      <span className="text-sm text-black">{error ? error : content}</span>
     </div>
   );
+};
+
+type FungibleAssetDetails = {
+  asset: FungibleAsset;
+  metadata: AssetMetadata;
+};
+
+const SigningInputsPayloadContent: React.FC<{ bytes: Uint8Array }> = ({ bytes }) => {
+  const [removedFungibleAssets, setRemovedFungibleAssets] = useState<FungibleAsset[]>([]);
+  const [addedFungibleAssets, setAddedFungibleAssets] = useState<FungibleAsset[]>([]);
+  const [removedFungibleAssetsDetails, setRemovedFungibleAssetsDetails] = useState<FungibleAssetDetails[]>([]);
+  const [addedFungibleAssetsDetails, setAddedFungibleAssetsDetails] = useState<FungibleAssetDetails[]>([]);
+
+  let content: string | React.ReactNode = t('noPreview');
+  const tippyProps = {
+    trigger: 'mouseenter',
+    hideOnClick: false,
+    content: 'This transaction affects your account storage. Review the raw summary to verify',
+    animation: 'shift-away-subtle'
+  };
+
+  const iconAnchorRef = useTippy<HTMLElement>(tippyProps);
+
+  const signingInputs = useMemo(() => {
+    try {
+      return SigningInputs.deserialize(bytes);
+    } catch (e) {
+      console.error('Failed to deserialize payload for sign:', e);
+      return null;
+    }
+  }, [bytes]);
+
+  // Derive asset arrays from signing inputs variant; avoid setState during render
+  useEffect(() => {
+    if (!signingInputs) {
+      setAddedFungibleAssets([]);
+      setRemovedFungibleAssets([]);
+      return;
+    }
+    if (signingInputs.variantType === SigningInputsType.TransactionSummary) {
+      const ts = signingInputs.transactionSummaryPayload();
+      const vault = ts.accountDelta().vault();
+      setAddedFungibleAssets(vault.addedFungibleAssets());
+      setRemovedFungibleAssets(vault.removedFungibleAssets());
+    } else {
+      setAddedFungibleAssets([]);
+      setRemovedFungibleAssets([]);
+    }
+  }, [signingInputs]);
+
+  useEffect(() => {
+    const fetchFungibleAssets = async () => {
+      const removedFungibleAssetsDetails = await Promise.all(
+        removedFungibleAssets.map(async asset => {
+          const metadata = await getTokenMetadata(asset.faucetId().toString());
+          return {
+            asset,
+            metadata
+          };
+        })
+      );
+      setRemovedFungibleAssetsDetails(removedFungibleAssetsDetails);
+    };
+    fetchFungibleAssets();
+  }, [removedFungibleAssets]);
+
+  useEffect(() => {
+    const fetchFungibleAssets = async () => {
+      const addedFungibleAssetsDetails = await Promise.all(
+        addedFungibleAssets.map(async asset => {
+          const metadata = await getTokenMetadata(asset.faucetId().toString());
+          return {
+            asset,
+            metadata
+          };
+        })
+      );
+      setAddedFungibleAssetsDetails(addedFungibleAssetsDetails);
+    };
+    fetchFungibleAssets();
+  }, [addedFungibleAssets]);
+
+  if (!signingInputs) {
+    content = <div className="text-md text-center my-6">{`Failed to parse signing payload`}</div>;
+  } else {
+    const variant = signingInputs.variantType;
+
+    switch (variant) {
+      case SigningInputsType.TransactionSummary: {
+        console.log('starting case SigningInputsType.TransactionSummary');
+        const ts = signingInputs.transactionSummaryPayload();
+        const accountDelta = ts.accountDelta();
+        const accountAddress = Address.fromAccountId(accountDelta.id(), 'BasicWallet');
+        const accountAddressAsBech32 = accountAddress.toBech32(NetworkId.Testnet);
+        const vault = accountDelta.vault();
+        const storage = accountDelta.storage();
+        const inputNotes = ts.inputNotes();
+        const numNotes = inputNotes.numNotes();
+        const outputNotes = ts.outputNotes();
+        const numOutputNotes = outputNotes.numNotes();
+        console.log('end case SigningInputsType.TransactionSummary');
+
+        content = (
+          <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col border border-gray-100 rounded-2xl mb-4 w-full p-4">
+              <div
+                className={`flex flex-row w-full items-center justify-between border-gray-100 ${
+                  vault.isEmpty() ? '' : 'border-b pb-4'
+                }`}
+              >
+                <div className="flex flex-row text-md text-center items-center gap-x-3">
+                  <Icon name={IconName.Globe} fill="black" size="md" />
+                  <span className="text-gray-600">Account</span>
+                </div>
+                <div>{`${truncateHash(accountAddressAsBech32)}`}</div>
+              </div>
+
+              {!vault.isEmpty() && (
+                <div className="flex flex-col w-full pt-4">
+                  <span className="text-gray-600">Asset changes</span>
+                  {removedFungibleAssets.length > 0 &&
+                    removedFungibleAssetsDetails.map(details => (
+                      <div key={details.asset.faucetId().toString()} className="flex flex-col w-full my-2 text-sm">
+                        <span className="text-black-500 text-lg font-semibold">
+                          {`${formatAmount(details.asset.amount(), 'send', details.metadata.decimals)} ${getTokenId(
+                            details.asset.faucetId().toString()
+                          )}`}
+                        </span>
+                        <span className="text-gray-600">{`~$${details.asset.amount()}`}</span>
+                      </div>
+                    ))}
+
+                  {addedFungibleAssets.length > 0 &&
+                    addedFungibleAssetsDetails.map(details => (
+                      <div key={details.asset.faucetId().toString()} className="flex flex-col w-full my-2 text-sm">
+                        <span className="text-green-500 text-lg font-semibold">
+                          {`${formatAmount(details.asset.amount(), 'consume', details.metadata.decimals)} ${getTokenId(
+                            details.asset.faucetId().toString()
+                          )}`}
+                        </span>
+                        <span className="text-gray-600">{`~$${details.asset.amount()}`}</span>
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col w-full border-b border-gray-100 pb-4">
+              <div className="flex flex-row w-full items-center justify-between pb-1">
+                <span className="text-gray-600">Input notes consumed</span>
+                <span>{numNotes}</span>
+              </div>
+              <div className="flex flex-row w-full items-center justify-between pb-1">
+                <span className="text-gray-600">Output notes created</span>
+                <span>{numOutputNotes}</span>
+              </div>
+              <div className="flex flex-row w-full items-center justify-between">
+                <span className="text-gray-600">Storage changed</span>
+                {storage.isEmpty() ? (
+                  <span>No</span>
+                ) : (
+                  <div className="flex flex-row items-center gap-x-2">
+                    <span ref={iconAnchorRef} className="inline-flex align-middle">
+                      <Icon name={IconName.WarningFill} fill="orange" size="md" />
+                    </span>
+                    <span>Yes</span>
+                  </div>
+                )}
+              </div>
+            </div>
+            <Button
+              type="button"
+              variant={ButtonVariant.Ghost}
+              className={classNames(
+                'w-full mt-2',
+                'rounded-4xl hover:rounded-4xl',
+                'transition-all duration-200 ease-in-out',
+                'hover:bg-gray-100',
+                'focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-300',
+                'py-4 px-0'
+              )}
+              onClick={() => downloadBytes('transaction_summary.bin', bytes)}
+            >
+              <span className="flex flex-row items-center justify-center gap-x-2">
+                <Icon name={IconName.Download} fill="black" size="md" />
+                <span className="text-lg text-black font-medium">Download full summary (bytes)</span>
+              </span>
+            </Button>
+          </div>
+        );
+        break;
+      }
+      case SigningInputsType.Arbitrary: {
+        content = <div className="text-md text-center my-6">{`Sign the Arbitrary payload?`}</div>;
+        break;
+      }
+      case SigningInputsType.Blind: {
+        content = <div className="text-md text-center my-6">{`Sign the Blind commitment?`}</div>;
+        break;
+      }
+    }
+  }
+
+  return content;
 };
 
 export default ConfirmPage;
@@ -201,7 +437,8 @@ const ConfirmDAppForm: FC = () => {
     confirmDAppPrivateNotes,
     confirmDAppSign,
     confirmDAppAssets,
-    confirmDAppImportPrivateNote
+    confirmDAppImportPrivateNote,
+    confirmDAppConsumableNotes
   } = useMidenContext();
   const account = useAccount();
   const isPublicAccount = account.isPublic;
@@ -258,6 +495,8 @@ const ConfirmDAppForm: FC = () => {
           return confirmDAppAssets(id, confirmed);
         case 'importPrivateNote':
           return confirmDAppImportPrivateNote(id, confirmed);
+        case 'consumableNotes':
+          return confirmDAppConsumableNotes(id, confirmed);
       }
     },
     [
@@ -271,6 +510,7 @@ const ConfirmDAppForm: FC = () => {
       confirmDAppSign,
       confirmDAppAssets,
       confirmDAppImportPrivateNote,
+      confirmDAppConsumableNotes,
       delegate
     ]
   );
@@ -383,7 +623,7 @@ const ConfirmDAppForm: FC = () => {
         };
       case 'sign':
         return {
-          title: 'Sign Data',
+          title: 'Confirm Signature',
           declineActionTitle: t('cancel'),
           declineActionTestID: ConfirmPageSelectors.SignData_RejectButton,
           confirmActionTitle: t('confirm'),
@@ -399,7 +639,7 @@ const ConfirmDAppForm: FC = () => {
               <Icon name={IconName.Globe} fill="black" size="md" />
               <div className="flex flex-col">
                 <Name className="font-semibold">{payload.origin}</Name>
-                <span>Sign Data</span>
+                <span className="text-gray-600">Requests your signature</span>
               </div>
             </div>
           )
@@ -446,6 +686,29 @@ const ConfirmDAppForm: FC = () => {
               <div className="flex flex-col">
                 <Name className="font-semibold">{payload.origin}</Name>
                 <span>Import private note</span>
+              </div>
+            </div>
+          )
+        };
+      case 'consumableNotes':
+        return {
+          title: 'Request Consumable Notes',
+          declineActionTitle: t('cancel'),
+          declineActionTestID: ConfirmPageSelectors.RequestConsumableNotes_RejectButton,
+          confirmActionTitle: t('confirm'),
+          confirmActionTestID: ConfirmPageSelectors.RequestConsumableNotes_AcceptButton,
+          want: (
+            <div
+              className={classNames(
+                'text-sm text-left text-black',
+                'flex w-full gap-x-3 items-center p-4',
+                'border border-gray-100 rounded-2xl mb-4'
+              )}
+            >
+              <Icon name={IconName.Globe} fill="black" size="md" />
+              <div className="flex flex-col">
+                <Name className="font-semibold">{payload.origin}</Name>
+                <span>Request consumable notes</span>
               </div>
             </div>
           )

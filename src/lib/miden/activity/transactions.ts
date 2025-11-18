@@ -10,11 +10,9 @@ import { logger } from 'shared/logger';
 import { ConsumeTransaction, ITransaction, ITransactionStatus, SendTransaction, Transaction } from '../db/types';
 import { toNoteTypeString } from '../helpers';
 import { NoteExportType } from '../sdk/constants';
-import {
-  getBech32AddressFromAccountId,
-  MidenClientCreateOptions,
-  MidenClientInterface
-} from '../sdk/miden-client-interface';
+import { getBech32AddressFromAccountId } from '../sdk/helpers';
+import { getMidenClient } from '../sdk/miden-client';
+import { MidenClientCreateOptions } from '../sdk/miden-client-interface';
 import { ConsumableNote, NoteTypeEnum, NoteType as NoteTypeString } from '../types';
 import { interpretTransactionResult } from './helpers';
 import { importAllNotes, queueNoteImport, registerOutputNote } from './notes';
@@ -45,7 +43,7 @@ export const requestCustomTransaction = async (
 };
 
 export const completeCustomTransaction = async (transaction: ITransaction, result: TransactionResult) => {
-  const outputNotes = result.createdNotes().notes();
+  const outputNotes = result.executedTransaction().outputNotes().notes();
   const registerExports = outputNotes.map(async note => {
     if (toNoteTypeString(note.metadata().noteType()) === NoteTypeEnum.Private) {
       registerOutputNote(note.id().toString());
@@ -93,7 +91,7 @@ export const initiateConsumeTransaction = async (
 };
 
 export const completeConsumeTransaction = async (id: string, result: TransactionResult) => {
-  const note = result.consumedNotes().getNote(0).note();
+  const note = result.executedTransaction().inputNotes().notes()[0].note();
   const sender = getBech32AddressFromAccountId(note.metadata().sender());
   const executedTransaction = result.executedTransaction();
 
@@ -140,9 +138,9 @@ export const initiateSendTransaction = async (
 };
 
 export const completeSendTransaction = async (tx: SendTransaction, result: TransactionResult) => {
-  const noteId = result.createdNotes().notes()[0].id().toString();
+  const noteId = result.executedTransaction().outputNotes().notes()[0].id().toString();
   if (tx.noteType === NoteTypeEnum.Private) {
-    const midenClient = await MidenClientInterface.create();
+    const midenClient = await getMidenClient();
     const noteBytes = await midenClient.exportNote(noteId, NoteExportType.DETAILS);
     console.log('registering output note', noteId);
     await registerOutputNote(noteId);
@@ -258,7 +256,7 @@ export const cancelStuckTransactions = async () => {
 
 export const generateTransaction = async (
   transaction: Transaction,
-  signCallback: (publicKey: string, signingInputs: string) => Promise<string[]>
+  signCallback: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
 ) => {
   // Mark transaction as in progress
   await updateTransactionStatus(transaction.id, ITransactionStatus.GeneratingTransaction, {
@@ -276,7 +274,7 @@ export const generateTransaction = async (
       return await signCallback(keyString, signingInputsString);
     }
   };
-  const midenClient = await MidenClientInterface.create(options);
+  const midenClient = await getMidenClient(options);
   switch (transaction.type) {
     case 'send':
       transactionResultBytes = await midenClient.sendTransaction(transaction as SendTransaction);
@@ -320,7 +318,7 @@ export const getTransactionById = async (id: string) => {
 };
 
 export const generateTransactionsLoop = async (
-  signCallback: (publicKey: string, signingInputs: string) => Promise<string[]>
+  signCallback: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
 ) => {
   await cancelStuckTransactions();
 
@@ -356,16 +354,18 @@ export const generateTransactionsLoop = async (
 };
 
 export const safeGenerateTransactionsLoop = async (
-  signCallback: (publicKey: string, signingInputs: string) => Promise<string[]>
+  signCallback: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
 ) => {
   return navigator.locks
     .request(`generate-transactions-loop`, { ifAvailable: true }, async lock => {
       if (!lock) return;
 
       await generateTransactionsLoop(signCallback);
+      return true;
     })
     .catch(e => {
       console.log(e);
       logger.error('Error in safe generate transactions loop', e);
+      return false;
     });
 };

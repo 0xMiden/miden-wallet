@@ -1,17 +1,19 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState, memo } from 'react';
 
 import { ActivitySpinner } from 'app/atoms/ActivitySpinner';
+import { useMidenClient } from 'app/hooks/useMidenClient';
 import { IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
-import Footer from 'app/layouts/PageLayout/Footer';
 import { Button, ButtonVariant } from 'components/Button';
 import { getCurrentLocale } from 'lib/i18n';
 import { t } from 'lib/i18n/react';
 import { getTransactionById } from 'lib/miden/activity';
+import { useAllAccounts, useAccount } from 'lib/miden/front';
 import { NoteExportType } from 'lib/miden/sdk/constants';
-import { MidenClientInterface } from 'lib/miden/sdk/miden-client-interface';
+import { WalletAccount } from 'lib/shared/types';
 import { capitalizeFirstLetter } from 'utils/string';
 
+import HashChip from '../HashChip';
 import { formatAmount, getTokenMetadata } from './Activity';
 import { IActivity } from './IActivity';
 
@@ -19,7 +21,51 @@ interface ActivityDetailsProps {
   transactionId: string;
 }
 
+const StatusDisplay: FC<{ message: string }> = memo(({ message }) => {
+  let displayText = '';
+  let textColorClass = '';
+
+  const isCompleted = message === 'Sent' || message === 'Received';
+
+  if (isCompleted) {
+    displayText = 'Completed';
+    textColorClass = 'text-green-500';
+  } else {
+    displayText = 'In Progress';
+    textColorClass = 'text-blue-500';
+  }
+
+  return <p className={`text-sm ${textColorClass}`}>{displayText}</p>;
+});
+
+const AccountDisplay: FC<{
+  address: string | undefined;
+  account: WalletAccount;
+  allAccounts: WalletAccount[];
+}> = memo(({ address, account, allAccounts }) => {
+  if (!address) return <p className="text-sm">{address}</p>;
+
+  const getDisplayName = (publicKey: string): string | undefined => {
+    if (account?.publicKey === publicKey) {
+      return `You (${account.name})`;
+    }
+
+    const matchingAccount = allAccounts.find(acc => acc.publicKey === publicKey);
+    if (matchingAccount) {
+      return `You (${matchingAccount.name})`;
+    }
+
+    return undefined;
+  };
+  const displayName = getDisplayName(address);
+
+  return <HashChip hash={address} trimHash={true} fill="#9E9E9E" className="ml-2" displayName={displayName} />;
+});
+
 export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => {
+  const allAccounts = useAllAccounts();
+  const account = useAccount();
+  const { midenClient } = useMidenClient();
   const [activity, setActivity] = useState<IActivity | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
 
@@ -38,7 +84,8 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
       secondaryAddress: tx.secondaryAccountId,
       txId: tx.id,
       noteType: tx.noteType,
-      noteId: tx.outputNoteIds?.[0]
+      noteId: tx.outputNoteIds?.[0],
+      externalTxId: tx.transactionId
     } as IActivity;
 
     setActivity(activity);
@@ -46,10 +93,10 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
 
   const handleDownload = useCallback(async () => {
     if (!activity?.noteId) return;
+    if (!midenClient) return;
 
     try {
       setIsDownloading(true);
-      const midenClient = await MidenClientInterface.create();
       const noteBytes = await midenClient.exportNote(activity.noteId, NoteExportType.DETAILS);
 
       const ab = new ArrayBuffer(noteBytes.byteLength);
@@ -69,7 +116,12 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
     } finally {
       setIsDownloading(false);
     }
-  }, [activity?.noteId]);
+  }, [activity?.noteId, midenClient]);
+
+  const handleViewOnExplorer = useCallback(() => {
+    if (!activity?.externalTxId) return;
+    window.open(`https://testnet.midenscan.com/tx/${activity.externalTxId}`, '_blank');
+  }, [activity]);
 
   useEffect(() => {
     if (!activity) loadTransaction();
@@ -85,65 +137,84 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
         <ActivitySpinner />
       ) : (
         <div className="flex-1 flex flex-col">
-          <div className="flex flex-col flex-1 py-2 px-4 gap-y-4 md:w-[460px] md:mx-auto">
-            <div className="flex flex-col items-center justify-center mb-8">
-              <p className="text-4xl font-semibold leading-tight">{activity.amount}</p>
-              <p className="text-base leading-normal text-gray-600">{activity.token}</p>
-            </div>
+          <div className="flex flex-col flex-1 py-2 px-4 justify-between md:w-[460px] md:mx-auto">
+            <div className="flex flex-col gap-y-4">
+              <div className="flex flex-col items-center justify-center mb-8">
+                <p className="text-4xl font-semibold leading-tight">{activity.amount}</p>
+                <p className="text-base leading-normal text-gray-600">{activity.token}</p>
+              </div>
 
-            <div className="flex flex-col gap-y-2">
-              <span className="flex flex-row justify-between">
-                <label className="text-sm text-grey-600">Status</label>
-                <p className="text-sm text-green-500">Completed</p>
-              </span>
-              <span className="flex flex-row justify-between whitespace-pre-line">
-                <label className="text-sm text-grey-600">Timestamp</label>
-                <p className="text-sm text-right">{formatDate(activity.timestamp)}</p>
-              </span>
-            </div>
-
-            <hr className="h-px bg-grey-100" />
-
-            <div className="flex flex-col gap-y-2">
-              <span className="flex flex-row justify-between">
-                <label className="text-sm text-grey-600">From</label>
-                <p className="text-sm">{fromAddress}</p>
-              </span>
-              <span className="flex flex-row justify-between whitespace-pre-line">
-                <label className="text-sm text-grey-600">To</label>
-                <p className="text-sm text-right">{toAddress}</p>
-              </span>
-            </div>
-
-            <hr className="h-px bg-grey-100" />
-
-            {activity.noteType && (
               <div className="flex flex-col gap-y-2">
                 <span className="flex flex-row justify-between">
-                  <label className="text-sm text-grey-600">Note Type</label>
-                  <p className="text-sm">{capitalizeFirstLetter(activity.noteType)}</p>
+                  <label className="text-sm text-grey-600">Status</label>
+                  <StatusDisplay message={activity.message} />
+                </span>
+                <span className="flex flex-row justify-between whitespace-pre-line">
+                  <label className="text-sm text-grey-600">Timestamp</label>
+                  <p className="text-sm text-right">{formatDate(activity.timestamp)}</p>
                 </span>
               </div>
-            )}
-            {showDownloadButton && (
-              <div className="mt-24 w-full">
+
+              <hr className="h-px bg-grey-100" />
+
+              <div className="flex flex-col gap-y-2">
+                <span className="flex flex-row justify-between">
+                  <label className="text-sm text-grey-600">From</label>
+                  <AccountDisplay address={fromAddress} account={account} allAccounts={allAccounts} />
+                </span>
+                <span className="flex flex-row justify-between whitespace-pre-line">
+                  <label className="text-sm text-grey-600">To</label>
+                  <AccountDisplay address={toAddress} account={account} allAccounts={allAccounts} />
+                </span>
+              </div>
+
+              <hr className="h-px bg-grey-100" />
+
+              {activity.noteType && (
+                <div className="flex flex-col gap-y-2">
+                  <span className="flex flex-row justify-between">
+                    <label className="text-sm text-grey-600">Note Type</label>
+                    <p className="text-sm">{capitalizeFirstLetter(activity.noteType)}</p>
+                  </span>
+                </div>
+              )}
+              {activity.noteId && (
+                <div className="flex flex-col gap-y-2">
+                  <span className="flex flex-row justify-between">
+                    <label className="text-sm text-grey-600">Note ID</label>
+                    <HashChip hash={activity.noteId || ''} trimHash={true} fill="#9E9E9E" className="ml-2" />
+                  </span>
+                </div>
+              )}
+            </div>
+
+            <div className="mb-4">
+              {showDownloadButton && (
+                <div className="w-full">
+                  <Button
+                    title="Download Generated File"
+                    iconLeft={IconName.Download}
+                    variant={ButtonVariant.Ghost}
+                    className="flex-1 w-full"
+                    onClick={handleDownload}
+                    isLoading={isDownloading}
+                    disabled={isDownloading}
+                  />
+                </div>
+              )}
+              <div className="mt-2 w-full">
                 <Button
-                  title="Download Generated File"
-                  iconLeft={IconName.Download}
+                  title="View on Explorer"
+                  iconLeft={IconName.Globe}
                   variant={ButtonVariant.Secondary}
                   className="flex-1 w-full"
-                  onClick={handleDownload}
-                  isLoading={isDownloading}
-                  disabled={isDownloading}
+                  onClick={handleViewOnExplorer}
                 />
               </div>
-            )}
+            </div>
           </div>
         </div>
       )}
-      <div className="flex-none w-full absolute bottom-0">
-        <Footer />
-      </div>
     </PageLayout>
   );
 };
