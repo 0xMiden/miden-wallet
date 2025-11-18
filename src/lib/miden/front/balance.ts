@@ -1,64 +1,99 @@
 import { useCallback } from 'react';
 
+import { FungibleAsset } from '@demox-labs/miden-sdk';
 import BigNumber from 'bignumber.js';
+import { mutate } from 'swr';
 
 import { useRetryableSWR } from 'lib/swr';
 
-import { MIDEN_METADATA } from '../metadata';
-import { accountIdStringToSdk } from '../sdk/helpers';
+import { getFaucetIdSetting } from '../assets';
+import { AssetMetadata, fetchTokenMetadata, MIDEN_METADATA } from '../metadata';
+import { getBech32AddressFromAccountId } from '../sdk/helpers';
 import { getMidenClient } from '../sdk/miden-client';
+import { setTokensBaseMetadata } from './assets';
 
-type UseBalanceOptions = {
-  suspense?: boolean;
-  networkRpc?: string;
-  displayed?: boolean;
-  initial?: BigNumber;
-  refreshInterval?: number;
-};
+export interface TokenBalanceData {
+  tokenId: string;
+  tokenSlug: string;
+  metadata: AssetMetadata;
+  balance: number;
+  fiatPrice: number;
+}
 
-export function useBalance(accountId: string, faucetId: string, opts: UseBalanceOptions = {}) {
-  const fetchBalanceLocal = useCallback(async () => {
-    const midenClient = await getMidenClient();
-    const account = await midenClient.getAccount(accountId);
-    const balance = account!.vault().getBalance(accountIdStringToSdk(faucetId));
-    let balanceNumber = new BigNumber(balance.toString());
-    balanceNumber = balanceNumber.isNaN() ? new BigNumber(0) : balanceNumber;
-    return balanceNumber.div(10 ** MIDEN_METADATA.decimals);
-  }, [accountId, faucetId]);
+export function useAllBalances(address: string, tokenMetadatas: Record<string, AssetMetadata>) {
+  const fetchBalancesLocal = useCallback(() => fetchBalances(address, tokenMetadatas), [address, tokenMetadatas]);
 
-  return useRetryableSWR([accountId, faucetId].join('_'), fetchBalanceLocal, {
-    revalidateOnFocus: false,
-    dedupingInterval: 20_000,
-    refreshInterval: 5_000
+  return useRetryableSWR(getAllBalanceSWRKey(address), fetchBalancesLocal, {
+    suspense: true,
+    revalidateOnFocus: true,
+    revalidateOnMount: true,
+    dedupingInterval: 10_000,
+    refreshInterval: 5_000,
+    fallbackData: []
   });
 }
 
-export function useBalanceSWRKey(
-  assetSlug: string,
-  address: string,
-  includePublic: boolean,
-  includePrivate: boolean,
-  unlocked: boolean
-) {
-  return getBalanceSWRKey(assetSlug, address, includePublic, includePrivate, unlocked);
-}
+const inFlight = new Set<string>(); // persists while this module is loaded
+const prefetchMetadataIfMissing = (id: string) => {
+  if (inFlight.has(id)) return;
+  inFlight.add(id);
+  void fetchTokenMetadata(id)
+    .then(async ({ base }) => {
+      await setTokensBaseMetadata({ [id]: base });
+      mutate(getAllBalanceSWRKey(id)); // kick SWR now
+    })
+    .finally(() => inFlight.delete(id));
+};
 
-export function getBalanceSWRKey(
-  assetSlug: string,
-  address: string,
-  includePublic: boolean,
-  includePrivate: boolean,
-  unlocked: boolean
-) {
-  return ['balance', assetSlug, address, includePublic, includePrivate, unlocked].join('_');
-}
+const fetchBalances = async (address: string, tokenMetadatas: Record<string, AssetMetadata>) => {
+  const balances: TokenBalanceData[] = [];
 
-export function getAllBalanceSWRKey(
-  address: string,
-  chainId: string,
-  includePublic: boolean,
-  includePrivate: boolean,
-  unlocked: boolean
-) {
-  return ['allBalance', address, chainId, includePublic, includePrivate, unlocked].join('_');
+  const midenClient = await getMidenClient();
+  const account = await midenClient.getAccount(address);
+  const assets = account!.vault().fungibleAssets() as FungibleAsset[];
+  const midenFaucetId = getFaucetIdSetting();
+  let hasMiden = false;
+
+  for (const asset of assets) {
+    const id = getBech32AddressFromAccountId(asset.faucetId());
+    if (id !== midenFaucetId && !tokenMetadatas[id]) {
+      prefetchMetadataIfMissing(id);
+    }
+  }
+
+  for (const asset of assets) {
+    const tokenId = getBech32AddressFromAccountId(asset.faucetId());
+    const isMiden = tokenId === midenFaucetId;
+    if (isMiden) {
+      hasMiden = true;
+    }
+    const tokenMetadata = isMiden ? MIDEN_METADATA : tokenMetadatas[tokenId];
+    if (!tokenMetadata) {
+      continue;
+    }
+    const balance = new BigNumber(asset.amount().toString()).div(10 ** tokenMetadata.decimals);
+    balances.push({
+      tokenId,
+      tokenSlug: tokenMetadata.symbol,
+      metadata: tokenMetadata,
+      fiatPrice: 1,
+      balance: balance.toNumber()
+    });
+  }
+
+  if (!hasMiden) {
+    balances.push({
+      tokenId: midenFaucetId,
+      tokenSlug: 'MIDEN',
+      metadata: MIDEN_METADATA,
+      fiatPrice: 1,
+      balance: 0
+    });
+  }
+
+  return balances;
+};
+
+export function getAllBalanceSWRKey(address: string) {
+  return ['allBalance', address].join('_');
 }

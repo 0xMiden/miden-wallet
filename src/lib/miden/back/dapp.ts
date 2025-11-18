@@ -1,13 +1,4 @@
-import {
-  AccountInterface,
-  NetworkId,
-  NoteFilter,
-  NoteFilterTypes,
-  NoteId,
-  NoteType,
-  SigningInputs,
-  Word
-} from '@demox-labs/miden-sdk';
+import { AccountInterface, NetworkId, NoteFilter, NoteFilterTypes, NoteId, NoteType } from '@demox-labs/miden-sdk';
 import {
   AllowedPrivateData,
   Asset,
@@ -45,8 +36,12 @@ import {
   MidenDAppConsumableNotesRequest,
   MidenDAppConsumableNotesResponse
 } from 'lib/adapter/types';
+import { formatBigInt } from 'lib/i18n/numbers';
+import { getFaucetIdSetting } from 'lib/miden/assets/utils';
 import { intercom } from 'lib/miden/back/defaults';
 import { Vault } from 'lib/miden/back/vault';
+import { getTokensBaseMetadata } from 'lib/miden/front/assets';
+import { AssetMetadata, MIDEN_METADATA } from 'lib/miden/metadata';
 import { NETWORKS } from 'lib/miden/networks';
 import {
   DappMetadata,
@@ -66,6 +61,7 @@ import {
   requestCustomTransaction,
   initiateConsumeTransactionFromId
 } from '../activity/transactions';
+import { getBech32AddressFromAccountId } from '../sdk/helpers';
 import { getMidenClient } from '../sdk/miden-client';
 import { store, withUnlocked } from './store';
 
@@ -239,17 +235,16 @@ export async function generatePromisifyRequestPermission(
 }
 
 export async function requestSign(origin: string, req: MidenDAppSignRequest): Promise<MidenDAppSignResponse> {
-  console.log('requestSign, dapp.ts');
   if (!req?.sourcePublicKey) {
     throw new Error(MidenDAppErrorType.InvalidParams);
   }
 
-  const dApp = await getDApp(origin, req.sourcePublicKey);
+  const dApp = await getDApp(origin, req.sourceAccountId);
   if (!dApp) {
     throw new Error(MidenDAppErrorType.NotGranted);
   }
 
-  if (req.sourcePublicKey !== dApp.accountId) {
+  if (req.sourceAccountId !== dApp.accountId) {
     throw new Error(MidenDAppErrorType.NotFound);
   }
 
@@ -284,30 +279,9 @@ const generatePromisifySign = async (
       if (confirmReq?.type === MidenMessageType.DAppSignConfirmationRequest && confirmReq?.id === id) {
         if (confirmReq.confirmed) {
           try {
-            let signature = await withUnlocked(async () => {
-              const midenClient = await getMidenClient();
-              const account = await midenClient.getAccount(req.sourcePublicKey);
-              const publicKeys = account!.getPublicKeys();
-              const secretKey = await midenClient.getAccountAuthByPubKey(publicKeys[0]);
-
-              const payloadAsUint8Array = b64ToU8(req.payload);
-
-              let signature = null;
-              switch (req.kind) {
-                case 'word':
-                  let word = Word.deserialize(payloadAsUint8Array);
-                  signature = secretKey.sign(word);
-                  break;
-                case 'signingInputs':
-                  let signingInputs = SigningInputs.deserialize(payloadAsUint8Array);
-                  signature = secretKey.signData(signingInputs);
-                  break;
-              }
-
-              const signatureBytes = signature!.serialize();
-              const signatureAsB64 = u8ToB64(signatureBytes);
-
-              return signatureAsB64;
+            let signature = await withUnlocked(async ({ vault }) => {
+              const signDataResult = await vault.signData(req.sourcePublicKey, req.payload, req.kind);
+              return signDataResult;
             });
             resolve({
               type: MidenDAppMessageType.SignResponse,
@@ -540,14 +514,14 @@ async function getConsumableNotes(accountId: string): Promise<InputNoteDetails[]
           .fungibleAssets()
           .map(asset => ({
             amount: asset.amount().toString(),
-            faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.Unspecified)
+            faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet)
           }));
         const inputNoteRecord = note.inputNoteRecord();
         return {
           noteId: inputNoteRecord.id().toString(),
           noteType: inputNoteRecord.metadata()?.noteType(),
           senderAccountId:
-            inputNoteRecord.metadata()?.sender()?.toBech32(NetworkId.Testnet, AccountInterface.Unspecified) ||
+            inputNoteRecord.metadata()?.sender()?.toBech32(NetworkId.Testnet, AccountInterface.BasicWallet) ||
             undefined,
           nullifier: inputNoteRecord.nullifier(),
           state: inputNoteRecord.state(),
@@ -657,7 +631,7 @@ async function getAssets(accountId: string): Promise<Asset[]> {
       const account = await midenClient.getAccount(accountId);
       const fungibleAssets = account?.vault().fungibleAssets() || [];
       const balances = fungibleAssets.map(asset => ({
-        faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.Unspecified),
+        faucetId: getBech32AddressFromAccountId(asset.faucetId()),
         amount: asset.amount().toString()
       })) as Asset[];
       return balances;
@@ -725,7 +699,7 @@ export const generatePromisifyImportPrivateNote = async (
             });
             resolve({
               type: MidenDAppMessageType.ImportPrivateNoteResponse,
-              noteId: noteId
+              noteId: noteId.toString()
             });
           } catch (e) {
             reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
@@ -962,7 +936,7 @@ const generatePromisifyConsumeTransaction = async (
   let transactionMessages: string[] = [];
   try {
     transactionMessages = await withUnlocked(async () => {
-      return formatConsumeTransactionPreview(req.transaction);
+      return await formatConsumeTransactionPreview(req.transaction);
     });
   } catch (e) {
     reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
@@ -1197,11 +1171,14 @@ function formatSendTransactionPreview(transaction: SendTransaction): string[] {
   return tsTexts;
 }
 
-function formatConsumeTransactionPreview(transaction: MidenConsumeTransaction): string[] {
+async function formatConsumeTransactionPreview(transaction: MidenConsumeTransaction): Promise<string[]> {
+  const faucetId = transaction.faucetId;
+  const tokenMetadata = await getTokenMetadataSafe(faucetId);
+  const amount = formatAmountSafe(BigInt(transaction.amount), 'consume', tokenMetadata?.decimals);
   return [
     'Consuming note from faucet',
     transaction.faucetId,
-    `Amount, ${transaction.amount}`,
+    `Amount, ${amount}`,
     `Note ID, ${shortenAddress(transaction.noteId)}`,
     `Note Type, ${capitalizeFirstLetter(transaction.noteType)}`
   ];
@@ -1213,4 +1190,22 @@ function formatCustomTransactionPreview(payload: MidenCustomTransaction): string
     'please ensure you know the details of the transaction before proceeding.',
     `Recipient, ${shortenAddress(payload.recipientAccountId)}`
   ];
+}
+
+// Background-safe helpers (duplicated from UI without UI deps)
+function formatAmountSafe(amount: bigint, transactionType: 'send' | 'consume', tokenDecimals: number | undefined) {
+  const normalizedAmount = formatBigInt(amount, tokenDecimals ?? MIDEN_METADATA.decimals);
+  if (transactionType === 'send') {
+    return `-${normalizedAmount}`;
+  } else if (transactionType === 'consume') {
+    return `+${normalizedAmount}`;
+  }
+  return normalizedAmount;
+}
+
+async function getTokenMetadataSafe(tokenId: string | null): Promise<AssetMetadata> {
+  const midenFaucetId = getFaucetIdSetting();
+  if (!tokenId || tokenId === midenFaucetId) return MIDEN_METADATA;
+  const tokenMetadata = await getTokensBaseMetadata(tokenId);
+  return tokenMetadata ?? MIDEN_METADATA;
 }

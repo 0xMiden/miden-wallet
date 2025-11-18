@@ -63,6 +63,7 @@ export enum UIFeeType {
 export type UIToken = {
   id: string;
   name: string;
+  decimals: number;
   balance: number;
   fiatPrice: number;
 };

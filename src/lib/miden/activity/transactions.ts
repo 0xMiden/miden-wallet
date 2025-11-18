@@ -3,7 +3,7 @@ import { TransactionResult } from '@demox-labs/miden-sdk';
 import { ampApi } from 'lib/amp/amp-interface';
 import { consumeNoteId } from 'lib/miden-worker/consumeNoteId';
 import { sendTransaction } from 'lib/miden-worker/sendTransaction';
-import { submitTransactionRequest } from 'lib/miden-worker/submitTransactionRequest';
+import { submitTransaction } from 'lib/miden-worker/submitTransaction';
 import * as Repo from 'lib/miden/repo';
 import { logger } from 'shared/logger';
 
@@ -12,6 +12,7 @@ import { toNoteTypeString } from '../helpers';
 import { NoteExportType } from '../sdk/constants';
 import { getBech32AddressFromAccountId } from '../sdk/helpers';
 import { getMidenClient } from '../sdk/miden-client';
+import { MidenClientCreateOptions } from '../sdk/miden-client-interface';
 import { ConsumableNote, NoteTypeEnum, NoteType as NoteTypeString } from '../types';
 import { interpretTransactionResult } from './helpers';
 import { importAllNotes, queueNoteImport, registerOutputNote } from './notes';
@@ -42,7 +43,7 @@ export const requestCustomTransaction = async (
 };
 
 export const completeCustomTransaction = async (transaction: ITransaction, result: TransactionResult) => {
-  const outputNotes = result.createdNotes().notes();
+  const outputNotes = result.executedTransaction().outputNotes().notes();
   const registerExports = outputNotes.map(async note => {
     if (toNoteTypeString(note.metadata().noteType()) === NoteTypeEnum.Private) {
       registerOutputNote(note.id().toString());
@@ -90,7 +91,7 @@ export const initiateConsumeTransaction = async (
 };
 
 export const completeConsumeTransaction = async (id: string, result: TransactionResult) => {
-  const note = result.consumedNotes().getNote(0).note();
+  const note = result.executedTransaction().inputNotes().notes()[0].note();
   const sender = getBech32AddressFromAccountId(note.metadata().sender());
   const executedTransaction = result.executedTransaction();
 
@@ -137,7 +138,7 @@ export const initiateSendTransaction = async (
 };
 
 export const completeSendTransaction = async (tx: SendTransaction, result: TransactionResult) => {
-  const noteId = result.createdNotes().notes()[0].id().toString();
+  const noteId = result.executedTransaction().outputNotes().notes()[0].id().toString();
   if (tx.noteType === NoteTypeEnum.Private) {
     const midenClient = await getMidenClient();
     const noteBytes = await midenClient.exportNote(noteId, NoteExportType.DETAILS);
@@ -253,7 +254,10 @@ export const cancelStuckTransactions = async () => {
   await Promise.all(cancelTransactionUpdates);
 };
 
-export const generateTransaction = async (transaction: Transaction) => {
+export const generateTransaction = async (
+  transaction: Transaction,
+  signCallback: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
+) => {
   // Mark transaction as in progress
   await updateTransactionStatus(transaction.id, ITransactionStatus.GeneratingTransaction, {
     processingStartedAt: Date.now()
@@ -262,24 +266,32 @@ export const generateTransaction = async (transaction: Transaction) => {
   // Process transaction
   let resultBytes: Uint8Array;
   let result: TransactionResult;
+  let transactionResultBytes: Uint8Array;
+  const options: MidenClientCreateOptions = {
+    signCallback: async (publicKey: Uint8Array, signingInputs: Uint8Array) => {
+      const keyString = Buffer.from(publicKey).toString('hex');
+      const signingInputsString = Buffer.from(signingInputs).toString('hex');
+      return await signCallback(keyString, signingInputsString);
+    }
+  };
+  const midenClient = await getMidenClient(options);
   switch (transaction.type) {
     case 'send':
-      resultBytes = await sendTransaction(transaction as SendTransaction);
+      transactionResultBytes = await midenClient.sendTransaction(transaction as SendTransaction);
+      resultBytes = await sendTransaction(transactionResultBytes, transaction.delegateTransaction);
       result = TransactionResult.deserialize(resultBytes);
       await completeSendTransaction(transaction as SendTransaction, result);
       break;
     case 'consume':
-      resultBytes = await consumeNoteId(transaction as ConsumeTransaction);
-      result = TransactionResult.deserialize(resultBytes);
+      transactionResultBytes = await midenClient.consumeNoteId(transaction as ConsumeTransaction);
+      resultBytes = await consumeNoteId(transactionResultBytes, transaction.delegateTransaction);
+      result = TransactionResult.deserialize(transactionResultBytes);
       await completeConsumeTransaction(transaction.id, result);
       break;
     case 'execute':
     default:
-      resultBytes = await submitTransactionRequest(
-        transaction.accountId,
-        new Uint8Array(transaction.requestBytes!),
-        transaction.delegateTransaction
-      );
+      transactionResultBytes = await midenClient.newTransaction(transaction.accountId, transaction.requestBytes!);
+      resultBytes = await submitTransaction(transactionResultBytes, transaction.delegateTransaction);
       result = TransactionResult.deserialize(resultBytes);
       await completeCustomTransaction(transaction, result);
       break;
@@ -305,7 +317,9 @@ export const getTransactionById = async (id: string) => {
   return tx;
 };
 
-export const generateTransactionsLoop = async () => {
+export const generateTransactionsLoop = async (
+  signCallback: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
+) => {
   await cancelStuckTransactions();
 
   // Import any notes needed for queued transactions
@@ -329,7 +343,7 @@ export const generateTransactionsLoop = async () => {
 
   // Call safely to cancel transaction and unlock records if something goes wrong
   try {
-    await generateTransaction(nextTransaction);
+    await generateTransaction(nextTransaction, signCallback);
   } catch (e) {
     logger.warning('Failed to generate transaction', e);
     console.log(e);
@@ -339,12 +353,14 @@ export const generateTransactionsLoop = async () => {
   }
 };
 
-export const safeGenerateTransactionsLoop = async () => {
+export const safeGenerateTransactionsLoop = async (
+  signCallback: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
+) => {
   return navigator.locks
     .request(`generate-transactions-loop`, { ifAvailable: true }, async lock => {
       if (!lock) return;
 
-      await generateTransactionsLoop();
+      await generateTransactionsLoop(signCallback);
       return true;
     })
     .catch(e => {

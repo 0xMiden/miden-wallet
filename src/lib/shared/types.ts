@@ -52,10 +52,14 @@ export enum WalletMessageType {
   ImportMnemonicAccountResponse = 'IMPORT_MNEMONIC_ACCOUNT_RESPONSE',
   UpdateSettingsRequest = 'UPDATE_SETTINGS_REQUEST',
   UpdateSettingsResponse = 'UPDATE_SETTINGS_RESPONSE',
+  SignDataRequest = 'SIGN_DATA_REQUEST',
+  SignDataResponse = 'SIGN_DATA_RESPONSE',
+  SignTransactionRequest = 'SIGN_TRANSACTION_REQUEST',
+  SignTransactionResponse = 'SIGN_TRANSACTION_RESPONSE',
+  GetAuthSecretKeyRequest = 'GET_AUTH_SECRET_KEY_REQUEST',
+  GetAuthSecretKeyResponse = 'GET_AUTH_SECRET_KEY_RESPONSE',
   SubmitTransactionRequest = 'SUBMIT_TRANSACTION_REQUEST',
   SubmitTransactionResponse = 'SUBMIT_TRANSACTION_RESPONSE',
-  AuthorizeDeployRequest = 'AUTHORIZE_DEPLOY_REQUEST',
-  AuthorizeDeployResponse = 'AUTHORIZE_DEPLOY_RESPONSE',
   ConfirmationRequest = 'CONFIRMATION_REQUEST',
   ConfirmationResponse = 'CONFIRMATION_RESPONSE',
   PageRequest = 'PAGE_REQUEST',
@@ -325,19 +329,36 @@ export interface UpdateSettingsResponse extends WalletMessageBase {
   type: WalletMessageType.UpdateSettingsResponse;
 }
 
-export interface AuthorizeDeployRequest extends WalletMessageBase {
-  type: WalletMessageType.AuthorizeDeployRequest;
-  accPublicKey: string;
-  deployment: string;
-  feeCredits: number;
-  feeRecord?: string;
+export interface SignDataRequest extends WalletMessageBase {
+  type: WalletMessageType.SignDataRequest;
+  publicKey: string;
+  signingInputs: string;
 }
 
-export interface AuthorizeDeployResponse extends WalletMessageBase {
-  type: WalletMessageType.AuthorizeDeployResponse;
-  deployment: string;
-  feeAuthorization: string;
-  owner: string;
+export interface SignDataResponse extends WalletMessageBase {
+  type: WalletMessageType.SignDataResponse;
+  signature: string;
+}
+
+export interface SignTransactionRequest extends WalletMessageBase {
+  type: WalletMessageType.SignTransactionRequest;
+  publicKey: string;
+  signingInputs: string;
+}
+
+export interface SignTransactionResponse extends WalletMessageBase {
+  type: WalletMessageType.SignTransactionResponse;
+  signature: string;
+}
+
+export interface GetAuthSecretKeyRequest extends WalletMessageBase {
+  type: WalletMessageType.GetAuthSecretKeyRequest;
+  key: string;
+}
+
+export interface GetAuthSecretKeyResponse extends WalletMessageBase {
+  type: WalletMessageType.GetAuthSecretKeyResponse;
+  key: string;
 }
 
 export interface ConfirmationRequest extends WalletMessageBase {
@@ -526,7 +547,9 @@ export type WalletRequest =
   | ImportMnemonicAccountRequest
   | ConfirmationRequest
   | UpdateSettingsRequest
-  | AuthorizeDeployRequest
+  | SignDataRequest
+  | SignTransactionRequest
+  | GetAuthSecretKeyRequest
   | PageRequest
   | DAppGetPayloadRequest
   | DAppPermConfirmationRequest
@@ -566,7 +589,9 @@ export type WalletResponse =
   | ImportMnemonicAccountResponse
   | ConfirmationResponse
   | UpdateSettingsResponse
-  | AuthorizeDeployResponse
+  | SignDataResponse
+  | SignTransactionResponse
+  | GetAuthSecretKeyResponse
   | PageResponse
   //   | DAppGetPayloadResponse
   | DAppPermConfirmationResponse

@@ -3,9 +3,10 @@ import React, { memo, RefObject, useMemo, useState } from 'react';
 import { ACTIVITY_PAGE_SIZE } from 'app/defaults';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { cancelTransactionById, getCompletedTransactions, getUncompletedTransactions } from 'lib/miden/activity';
-import { getTokenId } from 'lib/miden/assets';
+import { getFaucetIdSetting } from 'lib/miden/assets';
 import { formatTransactionStatus, ITransactionStatus, ITransactionType } from 'lib/miden/db/types';
-import { MIDEN_METADATA } from 'lib/miden/metadata';
+import { getTokensBaseMetadata } from 'lib/miden/front';
+import { AssetMetadata, MIDEN_METADATA } from 'lib/miden/metadata';
 import { useRetryableSWR } from 'lib/swr';
 import useSafeState from 'lib/ui/useSafeState';
 
@@ -105,11 +106,19 @@ const Activity = memo<ActivityProps>(({ address, className, numItems, scrollPare
 
 export default Activity;
 
+export const getTokenMetadata = async (tokenId: string | null): Promise<AssetMetadata> => {
+  const midenFaucetId = getFaucetIdSetting();
+  if (!tokenId || tokenId === midenFaucetId) return MIDEN_METADATA;
+  const tokenMetadata = await getTokensBaseMetadata(tokenId);
+  return tokenMetadata;
+};
+
 async function fetchTransactionsAsActivities(address: string, offset?: number, limit?: number): Promise<IActivity[]> {
   const transactions = await getCompletedTransactions(address, offset, limit);
-  const activities = transactions.map(tx => {
+  const activities = transactions.map(async tx => {
     const updateMessageForFailed = tx.status === ITransactionStatus.Failed ? 'Transaction failed' : tx.displayMessage;
     const icon = tx.status === ITransactionStatus.Failed ? 'FAILED' : tx.displayIcon;
+    const tokenMetadata = tx.faucetId ? await getTokenMetadata(tx.faucetId) : undefined;
     const activity = {
       address: address,
       key: `completed-${tx.id}`,
@@ -117,8 +126,8 @@ async function fetchTransactionsAsActivities(address: string, offset?: number, l
       message: updateMessageForFailed,
       type: ActivityType.CompletedTransaction,
       transactionIcon: icon,
-      amount: tx.amount ? formatAmount(tx.amount, tx.type) : undefined,
-      token: tx.faucetId ? getTokenId(tx.faucetId) : undefined,
+      amount: tx.amount ? formatAmount(tx.amount, tx.type, tokenMetadata?.decimals) : undefined,
+      token: tokenMetadata ? tokenMetadata.symbol : undefined,
       secondaryAddress: tx.secondaryAccountId,
       txId: tx.id,
       noteType: tx.noteType
@@ -127,7 +136,7 @@ async function fetchTransactionsAsActivities(address: string, offset?: number, l
     return activity;
   });
 
-  return activities;
+  return await Promise.all(activities);
 }
 
 async function fetchPendingTransactionsAsActivities(address: string): Promise<IActivity[]> {
@@ -136,14 +145,15 @@ async function fetchPendingTransactionsAsActivities(address: string): Promise<IA
   const activityPromises = pendingTransactions.map(async tx => {
     const activityType =
       tx.status !== ITransactionStatus.Queued ? ActivityType.ProcessingTransaction : ActivityType.PendingTransaction;
+    const tokenMetadata = tx.faucetId ? await getTokenMetadata(tx.faucetId) : undefined;
     return {
       key: `pending-${tx.id}`,
       address: address,
       secondaryMessage: formatTransactionStatus(tx.status),
       timestamp: tx.initiatedAt,
       message: tx.displayMessage || 'Generating transaction',
-      amount: tx.amount ? formatAmount(tx.amount, tx.type) : undefined,
-      token: tx.faucetId ? getTokenId(tx.faucetId) : undefined,
+      amount: tx.amount ? formatAmount(tx.amount, tx.type, tokenMetadata?.decimals) : undefined,
+      token: tokenMetadata ? tokenMetadata.symbol : undefined,
       secondaryAddress: tx.secondaryAccountId,
       txId: tx.id,
       type: activityType,
@@ -169,8 +179,8 @@ function mergeAndSort(base?: IActivity[], toAppend: IActivity[] = []) {
   return uniques;
 }
 
-export const formatAmount = (amount: bigint, transactionType: ITransactionType) => {
-  const normalizedAmount = formatBigInt(amount, MIDEN_METADATA.decimals);
+export const formatAmount = (amount: bigint, transactionType: ITransactionType, tokenDecimals: number | undefined) => {
+  const normalizedAmount = formatBigInt(amount, tokenDecimals ?? MIDEN_METADATA.decimals);
   if (transactionType === 'send') {
     return `-${normalizedAmount}`;
   } else if (transactionType === 'consume') {

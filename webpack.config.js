@@ -426,7 +426,7 @@ const workerConfig = {
   entry: {
     consumeNoteId: './src/workers/consumeNoteId.ts',
     sendTransaction: './src/workers/sendTransaction.ts',
-    submitTransactionRequest: './src/workers/submitTransactionRequest.ts'
+    submitTransaction: './src/workers/submitTransaction.ts'
   },
   output: {
     pathinfo: false,

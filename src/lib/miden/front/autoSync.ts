@@ -2,9 +2,7 @@ import { MessageHttpOutput } from '@demox-labs/amp-core/script/http-types';
 
 import { ampApi } from 'lib/amp/amp-interface';
 import { WalletState } from 'lib/shared/types';
-import { logger } from 'shared/logger';
 
-import { getBech32AddressFromAccountId } from '../sdk/helpers';
 import { getMidenClient } from '../sdk/miden-client';
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
@@ -44,22 +42,6 @@ class Sync {
     await this.syncAmp();
     await sleep(3000);
     await this.sync();
-  }
-
-  async syncChain() {
-    try {
-      const midenClient = await getMidenClient();
-      const summary = await midenClient.syncState();
-      if (
-        summary
-          .updatedAccounts()
-          .some(id => getBech32AddressFromAccountId(id) === this.state?.currentAccount?.publicKey)
-      ) {
-        // get the transaction ids and filter by the current account
-      }
-    } catch (e) {
-      logger.error(`Failed to sync chain: ${e}`);
-    }
   }
 
   async syncAmp() {

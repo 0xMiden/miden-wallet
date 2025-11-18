@@ -1,0 +1,55 @@
+import React, { FC, useMemo } from 'react';
+
+import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
+
+import { Avatar } from 'components/Avatar';
+import { CardItem } from 'components/CardItem';
+import { useAccount, useAllTokensBaseMetadata, getFaucetIdSetting, useAllBalances } from 'lib/miden/front';
+import { shortenAddress } from 'utils/string';
+
+const Tokens: FC = () => {
+  const account = useAccount();
+  const { t } = useTranslation();
+  const allTokensBaseMetadata = useAllTokensBaseMetadata();
+  const { data: allTokenBalances = [] } = useAllBalances(account.publicKey, allTokensBaseMetadata);
+  const midenFaucetId = useMemo(() => getFaucetIdSetting(), []);
+  const totalBalance = useMemo(
+    () => allTokenBalances.reduce((sum, token) => sum + token.balance, 0),
+    [allTokenBalances]
+  );
+
+  return (
+    <>
+      <div className={classNames('w-full pt-3 mb-2', 'flex justify-start', 'text-sm font-semibold text-black')}>
+        {totalBalance > 0 && <span>{t('tokens')}</span>}
+      </div>
+      <div className="flex-1 flex flex-col pb-4 space-y-2">
+        {allTokenBalances.length > 0 &&
+          allTokenBalances
+            .sort(a => (a.tokenId === midenFaucetId ? -1 : 1))
+            .map(asset => {
+              const isMiden = asset.tokenId === midenFaucetId;
+              const balance = asset.balance;
+              const { tokenId, metadata } = asset;
+              return (
+                <div key={tokenId} className="flex">
+                  <CardItem
+                    iconLeft={
+                      <Avatar size="lg" image={isMiden ? '/misc/miden.png' : '/misc/token-logos/default.svg'} />
+                    }
+                    title={metadata.symbol}
+                    subtitle={shortenAddress(tokenId, 13, 7)}
+                    titleRight={`$${balance.toFixed(2)}`}
+                    subtitleRight={balance.toFixed(2)}
+                    className="flex-1 border border-grey-50 rounded-lg "
+                  />
+                </div>
+              );
+            })}
+      </div>
+    </>
+  );
+};
+
+export default Tokens;

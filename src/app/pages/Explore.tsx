@@ -1,6 +1,5 @@
 import React, { FC, FunctionComponent, SVGProps, useCallback, useEffect, useMemo } from 'react';
 
-import BigNumber from 'bignumber.js';
 import classNames from 'clsx';
 
 import { openLoadingFullPage, useAppEnv } from 'app/env';
@@ -9,21 +8,18 @@ import { ReactComponent as ReceiveIcon } from 'app/icons/receive.svg';
 import { ReactComponent as SendIcon } from 'app/icons/send.svg';
 import Footer from 'app/layouts/PageLayout/Footer';
 import Header from 'app/layouts/PageLayout/Header';
-import { Avatar } from 'components/Avatar';
-import { CardItem } from 'components/CardItem';
 import { ChainInstabilityBanner } from 'components/ChainInstabilityBanner';
 import { ConnectivityIssueBanner } from 'components/ConnectivityIssueBanner';
 import { TestIDProps } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
+import { MIDEN_NETWORK_NAME, MIDEN_FAUCET_ENDPOINTS } from 'lib/miden-chain/constants';
 import { hasQueuedTransactions, initiateConsumeTransaction } from 'lib/miden/activity';
 import {
   getFaucetIdSetting,
-  getTokenId,
-  isMidenFaucet,
   setFaucetIdSetting,
-  TokenBalance,
   useAccount,
-  useFungibleTokens
+  useAllBalances,
+  useAllTokensBaseMetadata
 } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { isAutoConsumeEnabled, isDelegateProofEnabled } from 'lib/settings/helpers';
@@ -31,11 +27,11 @@ import { useRetryableSWR } from 'lib/swr';
 import useTippy, { TippyProps } from 'lib/ui/useTippy';
 import { Link, navigate, To } from 'lib/woozie';
 import { isHexAddress } from 'utils/miden';
-import { shortenAddress } from 'utils/string';
 
 import { ExploreSelectors } from './Explore.selectors';
 import AddressChip from './Explore/AddressChip';
 import MainBanner from './Explore/MainBanner';
+import Tokens from './Explore/Tokens';
 
 const tippyPropsMock = {
   trigger: 'mouseenter',
@@ -48,10 +44,12 @@ const Explore: FC = () => {
   const account = useAccount();
   const midenFaucetId = getFaucetIdSetting();
   const { data: claimableNotes, mutate: mutateClaimableNotes } = useClaimableNotes(account.publicKey);
-  const { data: balanceData } = useFungibleTokens(account.publicKey);
-  const { tokens, totalBalance } = balanceData || { tokens: [], totalBalance: new BigNumber(0) };
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
   const shouldAutoConsume = isAutoConsumeEnabled();
+
+  const allTokensBaseMetadata = useAllTokensBaseMetadata();
+
+  const { data: allTokenBalances = [] } = useAllBalances(account.publicKey, allTokensBaseMetadata);
 
   const address = account.publicKey;
   const { fullPage } = useAppEnv();
@@ -114,7 +112,7 @@ const Explore: FC = () => {
   }, [address]);
 
   const fetchFaucetState = useCallback(async () => {
-    fetch('https://faucet.testnet.miden.io/get_metadata')
+    fetch(`${MIDEN_FAUCET_ENDPOINTS.get(MIDEN_NETWORK_NAME.DEVNET)}/get_metadata`)
       .then(response => response.json())
       .then(data => {
         if (data.id !== midenFaucetId) {
@@ -136,7 +134,7 @@ const Explore: FC = () => {
 
   const size = fullPage ? { height: '640px', width: '600px' } : { height: '600px', width: '360px' };
   const background = 'url(/misc/bg.svg) white center top / cover no-repeat';
-  const sendLink = tokens.length > 0 ? '/send' : '/get-tokens';
+  const sendLink = allTokenBalances.length > 0 ? '/send' : '/get-tokens';
 
   return (
     <div className={classNames('flex flex-col m-auto bg-white', fullPage && 'rounded-3xl')} style={size}>
@@ -187,44 +185,7 @@ const Explore: FC = () => {
 
       <div className="flex-grow overflow-y-auto relative">
         <div className={classNames('bg-transparent', 'md:w-[460px] md:mx-auto px-4')}>
-          <div className={classNames('w-full pt-3 mb-2', 'flex justify-start', 'text-sm font-semibold text-black')}>
-            {totalBalance.isGreaterThan(0) && <span>{t('tokens')}</span>}
-          </div>
-          <div className="flex-1 flex flex-col pb-4 space-y-2">
-            {tokens.filter(a => isMidenFaucet(a.faucetId)).length === 0 && (
-              <div className="flex">
-                <CardItem
-                  iconLeft={<Avatar size="lg" image="/misc/miden.png" />}
-                  title="MIDEN"
-                  subtitle={shortenAddress(getFaucetIdSetting(), 13, 7)}
-                  titleRight="$0.00"
-                  subtitleRight="0"
-                  className="flex-1 border border-grey-50 rounded-lg "
-                />
-              </div>
-            )}
-            {tokens.length > 0 &&
-              tokens
-                .sort(a => (isMidenFaucet(a.faucetId) ? -1 : 1))
-                .map((token: TokenBalance) => {
-                  const tokenId = getTokenId(token.faucetId);
-                  const isMiden = tokenId === 'MIDEN';
-                  return (
-                    <div key={token.faucetId} className="flex">
-                      <CardItem
-                        iconLeft={
-                          <Avatar size="lg" image={isMiden ? '/misc/miden.png' : '/misc/token-logos/default.svg'} />
-                        }
-                        title={tokenId}
-                        subtitle={shortenAddress(token.faucetId, 13, 7)}
-                        titleRight={`$${token.balance.toFixed(2)}`}
-                        subtitleRight={token.balance.toFixed(2)}
-                        className="flex-1 border border-grey-50 rounded-lg "
-                      />
-                    </div>
-                  );
-                })}
-          </div>
+          <Tokens />
         </div>
       </div>
       <div className="flex-none">

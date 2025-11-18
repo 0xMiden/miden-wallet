@@ -1,14 +1,16 @@
 import { spawn, Thread, Worker } from 'threads';
 
 import { addConnectivityIssue } from 'lib/miden/activity/connectivity-issues';
-import { SendTransaction } from 'lib/miden/db/types';
 import { SendTransactionWorker } from 'workers/sendTransaction';
 
-export const sendTransaction = async (transaction: SendTransaction): Promise<Uint8Array> => {
+export const sendTransaction = async (
+  transactionResultBytes: Uint8Array,
+  delegateTransaction?: boolean
+): Promise<Uint8Array> => {
   const worker = await spawn<SendTransactionWorker>(new Worker('./sendTransaction.js'));
 
   try {
-    const observable = worker(transaction);
+    const observable = worker(transactionResultBytes, delegateTransaction);
 
     const resultPromise = new Promise<Uint8Array>((resolve, reject) => {
       observable.subscribe({

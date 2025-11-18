@@ -2,22 +2,20 @@ import { MidenClientInterface, MidenClientCreateOptions } from './miden-client-i
 
 /**
  * Singleton manager for MidenClientInterface.
- * Ensures only one instance of the client (and its underlying web worker) exists at a time.
+ * Ensures a bounded number of client instances (and underlying web workers) exist at a time.
  */
 class MidenClientSingleton {
   private instance: MidenClientInterface | null = null;
   private initializingPromise: Promise<MidenClientInterface> | null = null;
-  private currentOptions: MidenClientCreateOptions = {};
+
+  private instanceWithOptions: MidenClientInterface | null = null;
+  private initializingPromiseWithOptions: Promise<MidenClientInterface> | null = null;
 
   /**
    * Get or create the singleton MidenClientInterface instance.
-   * Recreates the client if options are specified and differ from the current options.
+   * This instance does not specify any options and is never disposed.
    */
-  async getInstance(options: MidenClientCreateOptions = {}): Promise<MidenClientInterface> {
-    if (this.instance && this.shouldRecreate(options)) {
-      this.dispose();
-    }
-
+  async getInstance(): Promise<MidenClientInterface> {
     if (this.instance) {
       return this.instance;
     }
@@ -26,9 +24,8 @@ class MidenClientSingleton {
       return this.initializingPromise;
     }
 
-    this.currentOptions = options;
     this.initializingPromise = (async () => {
-      const client = await MidenClientInterface.create(options);
+      const client = await MidenClientInterface.create();
       this.instance = client;
       this.initializingPromise = null;
       return client;
@@ -37,50 +34,47 @@ class MidenClientSingleton {
     return this.initializingPromise;
   }
 
-  private shouldRecreate(newOptions: MidenClientCreateOptions): boolean {
-    const oldSeed = this.currentOptions.seed?.toString();
-    const newSeed = newOptions.seed?.toString();
-    if (oldSeed !== newSeed) {
-      return true;
+  /**
+   * Get or create the singleton MidenClientInterface instance with specified options.
+   * If it already exists, this instance will always be disposed and recreated to ensure option correctness.
+   */
+  async getInstanceWithOptions(options: MidenClientCreateOptions): Promise<MidenClientInterface> {
+    if (this.instanceWithOptions) {
+      this.disposeInstanceWithOptions();
     }
 
-    // Recreate client if onConnectivityIssue callback is present or has been unset
-    const hasCallback = typeof newOptions.onConnectivityIssue === 'function';
-    if (hasCallback) {
-      return true;
+    if (this.initializingPromiseWithOptions) {
+      return this.initializingPromiseWithOptions;
     }
 
-    const hadCallback = typeof this.currentOptions.onConnectivityIssue === 'function';
-    if (hadCallback && !hasCallback) {
-      return true;
-    }
+    this.initializingPromiseWithOptions = (async () => {
+      const client = await MidenClientInterface.create(options);
+      this.instanceWithOptions = client;
+      this.initializingPromiseWithOptions = null;
+      return client;
+    })();
 
-    return false;
+    return this.initializingPromiseWithOptions;
   }
 
-  dispose(): void {
-    if (this.instance) {
-      this.instance.free();
-      this.instance = null;
-      this.initializingPromise = null;
+  disposeInstanceWithOptions(): void {
+    if (this.instanceWithOptions) {
+      this.instanceWithOptions.free();
+      this.instanceWithOptions = null;
+      this.initializingPromiseWithOptions = null;
     }
   }
 }
 
-// Export a single instance of the singleton manager
-export const midenClientSingleton = new MidenClientSingleton();
+const midenClientSingleton = new MidenClientSingleton();
 
 /**
  * Convenience function to get the shared MidenClientInterface instance.
  * Use this in your components and modules instead of calling MidenClientInterface.create().
  */
 export async function getMidenClient(options?: MidenClientCreateOptions): Promise<MidenClientInterface> {
-  return midenClientSingleton.getInstance(options);
-}
-
-/**
- * Dispose the shared client instance.
- */
-export function disposeMidenClient(): void {
-  midenClientSingleton.dispose();
+  if (options) {
+    return midenClientSingleton.getInstanceWithOptions(options);
+  }
+  return midenClientSingleton.getInstance();
 }

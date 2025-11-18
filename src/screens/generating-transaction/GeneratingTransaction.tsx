@@ -14,6 +14,7 @@ import { Button, ButtonVariant } from 'components/Button';
 import { useAnalytics } from 'lib/analytics';
 import { safeGenerateTransactionsLoop as dbTransactionsLoop, getAllUncompletedTransactions } from 'lib/miden/activity';
 import { useExportNotes } from 'lib/miden/activity/notes';
+import { useMidenContext } from 'lib/miden/front';
 import { isAutoCloseEnabled } from 'lib/settings/helpers';
 import { useRetryableSWR } from 'lib/swr';
 import { navigate } from 'lib/woozie';
@@ -23,6 +24,7 @@ export interface GeneratingTransactionPageProps {
 }
 
 export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ keepOpen = false }) => {
+  const { signTransaction } = useMidenContext();
   const { pageEvent, trackEvent } = useAnalytics();
   const [outputNotes, downloadAll] = useExportNotes();
   const [error, setError] = useState(false);
@@ -75,13 +77,13 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
   }, [transactions, trackEvent, outputNotes, onClose]);
 
   const generateTransaction = useCallback(async () => {
-    const success = await dbTransactionsLoop();
+    const success = await dbTransactionsLoop(signTransaction);
     if (success === false) {
       setError(true);
     }
 
     mutateTx();
-  }, [mutateTx, setError]);
+  }, [mutateTx, setError, signTransaction]);
 
   useEffect(() => {
     generateTransaction();
