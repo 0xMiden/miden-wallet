@@ -1,15 +1,17 @@
 import { spawn, Thread, Worker } from 'threads';
 
 import { addConnectivityIssue } from 'lib/miden/activity/connectivity-issues';
-import { ConsumeTransaction } from 'lib/miden/db/types';
 import { ConsumeNoteIdWorker } from 'workers/consumeNoteId';
 // Import the function that can actually modify the frontend state
 
-export const consumeNoteId = async (transaction: ConsumeTransaction): Promise<Uint8Array> => {
+export const consumeNoteId = async (
+  transactionResultBytes: Uint8Array,
+  delegateTransaction?: boolean
+): Promise<Uint8Array> => {
   const worker = await spawn<ConsumeNoteIdWorker>(new Worker('./consumeNoteId.js'));
 
   try {
-    const observable = worker(transaction);
+    const observable = worker(transactionResultBytes, delegateTransaction);
 
     const resultPromise = new Promise<Uint8Array>((resolve, reject) => {
       observable.subscribe({

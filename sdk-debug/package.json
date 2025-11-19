@@ -11,6 +11,8 @@
   },
   "scripts": {
     "build": "rimraf libs && mkdir libs && cpr ../node_modules/@demox-labs/miden-sdk/ libs/ ",
-    "start": "serve ."
+    "reinstall": "yarn install && rimraf node_modules && yarn cache clean && yarn install && yarn build",
+    "start": "serve .",
+    "start-clean": "yarn reinstall && yarn start"
   }
 }

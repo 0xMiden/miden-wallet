@@ -66,7 +66,7 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({
     // TODO: Type the top level json fields here
     const fileBytes = encoder.encode(JSON.stringify(encryptedWalletFile));
 
-    const blob = new Blob([fileBytes], { type: 'application/json' });
+    const blob = new Blob([new Uint8Array(fileBytes)], { type: 'application/json' });
 
     // Create a URL for the Blob
     const url = URL.createObjectURL(blob);

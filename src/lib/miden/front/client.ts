@@ -186,10 +186,38 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     assertResponse(res.type === WalletMessageType.UpdateSettingsResponse);
   }, []);
 
-  const authorizeDeploy = useCallback(
-    async (accPublicKey: string, deployment: string, feeCredits: number, feeRecord?: string) => {},
-    []
-  );
+  const signData = useCallback(async (publicKey: string, signingInputs: string) => {
+    const res = await request({
+      type: WalletMessageType.SignDataRequest,
+      publicKey,
+      signingInputs
+    });
+    assertResponse(res.type === WalletMessageType.SignDataResponse);
+    return res.signature;
+  }, []);
+
+  const signTransaction = useCallback(async (publicKey: string, signingInputs: string) => {
+    const res = await request({
+      type: WalletMessageType.SignTransactionRequest,
+      publicKey,
+      signingInputs
+    });
+    assertResponse(res.type === WalletMessageType.SignTransactionResponse);
+    // Convert the signature from hex string to Uint8Array here instead of returning bytes directly
+    // so that postMessage doesn't mess up the type in transition.
+    const signatureAsHex = res.signature;
+    const signatureAsBytes = new Uint8Array(Buffer.from(signatureAsHex, 'hex'));
+    return signatureAsBytes;
+  }, []);
+
+  const getAuthSecretKey = useCallback(async (key: string) => {
+    const res = await request({
+      type: WalletMessageType.GetAuthSecretKeyRequest,
+      key
+    });
+    assertResponse(res.type === WalletMessageType.GetAuthSecretKeyResponse);
+    return res.key;
+  }, []);
 
   const getDAppPayload = useCallback(async (id: string) => {
     const res = await request({
@@ -333,7 +361,9 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     importWatchOnlyAccount,
     importMnemonicAccount,
     updateSettings,
-    authorizeDeploy,
+    signData,
+    signTransaction,
+    getAuthSecretKey,
     getDAppPayload,
     confirmDAppPermission,
     confirmDAppSign,

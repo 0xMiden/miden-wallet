@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import classNames from 'clsx';
 import CSSTransition from 'react-transition-group/CSSTransition';
 
-import { useAccount, useFungibleTokens } from 'lib/miden/front';
+import { useAccount, useAllBalances, useAllTokensBaseMetadata } from 'lib/miden/front';
 
 type BalanceProps = {
   children: (b: BigNumber) => ReactElement;
@@ -12,10 +12,11 @@ type BalanceProps = {
 
 const Balance = memo<BalanceProps>(({ children }) => {
   const account = useAccount();
-  const { data: balanceData } = useFungibleTokens(account.publicKey);
+  const allTokensBaseMetadata = useAllTokensBaseMetadata();
+  const { data: allTokenBalances = [] } = useAllBalances(account.publicKey, allTokensBaseMetadata);
 
   return useMemo(() => {
-    const childNode = children(balanceData?.totalBalance || new BigNumber(0));
+    const childNode = children(new BigNumber(allTokenBalances.reduce((sum, token) => sum + token.balance, 0)));
     const exist = true;
 
     return (
@@ -33,7 +34,7 @@ const Balance = memo<BalanceProps>(({ children }) => {
         })}
       </CSSTransition>
     );
-  }, [children, balanceData]);
+  }, [children, allTokenBalances]);
 });
 
 export default Balance;

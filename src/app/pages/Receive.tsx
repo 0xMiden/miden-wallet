@@ -11,7 +11,7 @@ import { Button, ButtonVariant } from 'components/Button';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { T } from 'lib/i18n/react';
 import { initiateConsumeTransaction } from 'lib/miden/activity';
-import { MIDEN_METADATA, useAccount } from 'lib/miden/front';
+import { useAccount } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { ConsumableNote } from 'lib/miden/types';
 import { isDelegateProofEnabled } from 'lib/settings/helpers';
@@ -184,7 +184,9 @@ export const Receive: React.FC<ReceiveProps> = () => {
                   <div className="flex flex-col">
                     <p className="text-md font-bold">
                       {claimHasFailed ? 'Error Claiming: ' : ''}
-                      {`${formatBigInt(BigInt(note.amount), MIDEN_METADATA.decimals)} MIDEN`}
+                      {`${formatBigInt(BigInt(note.amount), note.metadata?.decimals || 6)} ${
+                        note.metadata?.symbol || 'UNKNOWN'
+                      }`}
                     </p>
                     <p className="text-xs text-gray-100">{shortenAddress(note.senderAddress)}</p>
                   </div>

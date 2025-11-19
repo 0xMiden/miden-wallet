@@ -3,8 +3,6 @@ export type AssetMetadata = {
   decimals: number;
   symbol: string;
   name: string;
-  programId: string;
-  mappingName: string;
 
   // [default: false]
   // Allows wallets to decide whether or not a symbol should be displayed
@@ -25,9 +23,6 @@ export type AssetMetadata = {
   // [format: uri-reference]
   // A URI to the asset.
   artifactUri?: string;
-
-  // For non-aleo assets, whether the asset requires external authorization
-  externalAuthorizationRequired?: string;
 };
 
 export type DetailedAssetMetdata = AssetMetadata &

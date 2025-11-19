@@ -1,5 +1,6 @@
 import { derivePath } from '@demox-labs/aleo-hd-key';
-import { SendTransaction } from '@demox-labs/miden-wallet-adapter-base';
+import { SecretKey, SigningInputs, Word } from '@demox-labs/miden-sdk';
+import { SendTransaction, SignKind } from '@demox-labs/miden-wallet-adapter-base';
 import * as Bip39 from 'bip39';
 
 import { getMessage } from 'lib/i18n';
@@ -13,11 +14,13 @@ import {
 } from 'lib/miden/back/safe-storage';
 import * as Passworder from 'lib/miden/passworder';
 import { clearStorage } from 'lib/miden/reset';
+import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
 import { WalletAccount, WalletSettings } from 'lib/shared/types';
 import { WalletType } from 'screens/onboarding/types';
 
 import { getBech32AddressFromAccountId } from '../sdk/helpers';
 import { getMidenClient } from '../sdk/miden-client';
+import { MidenClientCreateOptions } from '../sdk/miden-client-interface';
 
 const STORAGE_KEY_PREFIX = 'vault';
 const DEFAULT_SETTINGS = {};
@@ -26,7 +29,8 @@ enum StorageEntity {
   Check = 'check',
   MigrationLevel = 'migration',
   Mnemonic = 'mnemonic',
-  AccPrivKey = 'accprivkey',
+  AccAuthSecretKey = 'accauthsecretkey',
+  AccAuthPubKey = 'accauthpubkey',
   AccPubKey = 'accpubkey',
   AccViewKey = 'accviewkey',
   CurrentAccPubKey = 'curraccpubkey',
@@ -39,6 +43,8 @@ enum StorageEntity {
 const checkStrgKey = createStorageKey(StorageEntity.Check);
 const mnemonicStrgKey = createStorageKey(StorageEntity.Mnemonic);
 const accPubKeyStrgKey = createDynamicStorageKey(StorageEntity.AccPubKey);
+const accAuthSecretKeyStrgKey = createDynamicStorageKey(StorageEntity.AccAuthSecretKey);
+const accAuthPubKeyStrgKey = createDynamicStorageKey(StorageEntity.AccAuthPubKey);
 const currentAccPubKeyStrgKey = createStorageKey(StorageEntity.CurrentAccPubKey);
 const accountsStrgKey = createStorageKey(StorageEntity.Accounts);
 const settingsStrgKey = createStorageKey(StorageEntity.Settings);
@@ -61,15 +67,32 @@ export class Vault {
 
   static async spawn(password: string, mnemonic?: string, ownMnemonic?: boolean) {
     return withError('Failed to create wallet', async () => {
+      const passKey = await Passworder.generateKey(password);
+
       if (!mnemonic) {
         mnemonic = Bip39.generateMnemonic(128);
       }
 
-      const midenClient = await getMidenClient();
+      // Clear storage before any inserts to avoid wiping newly inserted keys later
+      await clearStorage();
+
+      const insertKeyCallback = async (key: Uint8Array, secretKey: Uint8Array) => {
+        const pubKeyHex = Buffer.from(key).toString('hex');
+        const secretKeyHex = Buffer.from(secretKey).toString('hex');
+        await encryptAndSaveMany(
+          [
+            [accAuthPubKeyStrgKey(pubKeyHex), pubKeyHex],
+            [accAuthSecretKeyStrgKey(pubKeyHex), secretKeyHex]
+          ],
+          passKey
+        );
+      };
+      const options: MidenClientCreateOptions = {
+        insertKeyCallback
+      };
+      const midenClient = await getMidenClient(options);
       const hdAccIndex = 0;
       const walletSeed = deriveClientSeed(WalletType.OnChain, mnemonic, 0);
-
-      console.log('created miden client');
 
       let accPublicKey;
       if (ownMnemonic) {
@@ -84,8 +107,6 @@ export class Vault {
         accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain, walletSeed);
       }
 
-      console.log({ accPublicKey });
-
       const initialAccount: WalletAccount = {
         publicKey: accPublicKey,
         name: 'Miden Account 1',
@@ -94,9 +115,7 @@ export class Vault {
         hdIndex: hdAccIndex
       };
       const newAccounts = [initialAccount];
-      const passKey = await Passworder.generateKey(password);
 
-      await clearStorage();
       await encryptAndSaveMany(
         [
           [checkStrgKey, generateCheck()],
@@ -179,7 +198,21 @@ export class Vault {
 
       const walletSeed = deriveClientSeed(walletType, mnemonic, hdAccIndex);
 
-      const midenClient = await getMidenClient();
+      const insertKeyCallback = async (key: Uint8Array, secretKey: Uint8Array) => {
+        const pubKeyHex = Buffer.from(key).toString('hex');
+        const secretKeyHex = Buffer.from(secretKey).toString('hex');
+        await encryptAndSaveMany(
+          [
+            [accAuthPubKeyStrgKey(pubKeyHex), pubKeyHex],
+            [accAuthSecretKeyStrgKey(pubKeyHex), secretKeyHex]
+          ],
+          this.passKey
+        );
+      };
+      const options: MidenClientCreateOptions = {
+        insertKeyCallback
+      };
+      const midenClient = await getMidenClient(options);
       let walletId;
       if (isOwnMnemonic && walletType === WalletType.OnChain) {
         try {
@@ -251,10 +284,47 @@ export class Vault {
 
   async authorize(sendTransaction: SendTransaction) {}
 
-  async authorizeDeploy() {}
+  async signData(publicKey: string, data: string, signKind: SignKind): Promise<string> {
+    const secretKey = await fetchAndDecryptOneWithLegacyFallBack<string>(
+      accAuthSecretKeyStrgKey(publicKey),
+      this.passKey
+    );
+    const secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
+    const wasmSecretKey = SecretKey.deserialize(secretKeyBytes);
 
-  async sign(accPublicKey: string, bytes: string) {
-    // TODO : Implement sign method
+    const dataAsUint8Array = b64ToU8(data);
+
+    let signature = null;
+    switch (signKind) {
+      case 'word':
+        let word = Word.deserialize(dataAsUint8Array);
+        signature = wasmSecretKey.sign(word);
+        break;
+      case 'signingInputs':
+        let signingInputs = SigningInputs.deserialize(dataAsUint8Array);
+        signature = wasmSecretKey.signData(signingInputs);
+        break;
+    }
+
+    let signatureAsBytes = signature.serialize();
+    return u8ToB64(signatureAsBytes);
+  }
+
+  async signTransaction(publicKey: string, signingInputs: string): Promise<string> {
+    const secretKey = await fetchAndDecryptOneWithLegacyFallBack<string>(
+      accAuthSecretKeyStrgKey(publicKey),
+      this.passKey
+    );
+    let secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
+    const wasmSigningInputs = SigningInputs.deserialize(new Uint8Array(Buffer.from(signingInputs, 'hex')));
+    const wasmSecretKey = SecretKey.deserialize(secretKeyBytes);
+    const signature = wasmSecretKey.signData(wasmSigningInputs);
+    return Buffer.from(signature.serialize()).toString('hex');
+  }
+
+  async getAuthSecretKey(key: string) {
+    const secretKey = await fetchAndDecryptOneWithLegacyFallBack<string>(accAuthSecretKeyStrgKey(key), this.passKey);
+    return secretKey;
   }
 
   async decrypt(accPublicKey: string, cipherTexts: string[]) {}

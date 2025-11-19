@@ -1,7 +1,7 @@
 import { AccountId, Address, NetworkId } from '@demox-labs/miden-sdk';
 
 export function getBech32AddressFromAccountId(accountId: AccountId): string {
-  const accountAddress = Address.fromAccountId(accountId, 'Unspecified');
+  const accountAddress = Address.fromAccountId(accountId, 'BasicWallet');
   return accountAddress.toBech32(NetworkId.Testnet);
 }
 

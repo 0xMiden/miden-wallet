@@ -122,3 +122,8 @@ export function toShortened(value: BigNumber.Value) {
   }
   return t(formats[formatIndex], toLocalFixed(bn));
 }
+
+export function toFixedRoundedDown(value: number, precision: number) {
+  const factor = Math.pow(10, precision);
+  return (Math.floor(value * factor) / factor).toFixed(precision);
+}
