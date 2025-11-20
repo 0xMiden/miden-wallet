@@ -67,7 +67,7 @@ export class MidenClientInterface {
    */
   static async create(options: MidenClientCreateOptions = {}) {
     const seed = options.seed?.toString();
-    const network = MIDEN_NETWORK_NAME.LOCALNET;
+    const network = MIDEN_NETWORK_NAME.TESTNET;
     // TODO: update web client typings
     const webClient = await WebClient.createClientWithExternalKeystore(
       MIDEN_NETWORK_ENDPOINTS.get(network)!,
