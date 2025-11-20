@@ -85,7 +85,12 @@ const appConfig = {
     minimizer: [
       `...`, // webpack@5 syntax to extend existing minimizers
       new CssMinimizerPlugin()
-    ]
+    ],
+    chunkIds: 'deterministic',
+    splitChunks: {
+      chunks: 'all',
+      name: false
+    }
   },
   plugins: [
     new Dotenv(),
@@ -247,7 +252,7 @@ const backgroundConfig = {
     assetModuleFilename: `static/media/${fileFormat}`,
     chunkLoading: 'import-scripts',
     chunkFormat: 'array-push',
-    chunkFilename: 'background.[name].[id].[contenthash].js',
+    chunkFilename: 'bg.[id].[contenthash].js',
     uniqueName: 'background'
   },
   resolve: {
@@ -277,7 +282,12 @@ const backgroundConfig = {
     minimizer: [
       `...`, // webpack@5 syntax to extend existing minimizers
       new CssMinimizerPlugin()
-    ]
+    ],
+    chunkIds: 'deterministic',
+    splitChunks: {
+      chunks: 'all',
+      name: false
+    }
   },
   plugins: [
     new Dotenv(),
@@ -435,7 +445,7 @@ const workerConfig = {
     assetModuleFilename: `static/media/${fileFormat}`,
     chunkLoading: 'import-scripts',
     chunkFormat: 'array-push',
-    chunkFilename: 'workers.[name].[id].[contenthash].js',
+    chunkFilename: 'w.[id].[contenthash].js',
     uniqueName: 'workers'
   },
   resolve: {
@@ -504,6 +514,13 @@ const workerConfig = {
         }
       }
     ]
+  },
+  optimization: {
+    chunkIds: 'deterministic',
+    splitChunks: {
+      chunks: 'all',
+      name: false
+    }
   }
 };
 
