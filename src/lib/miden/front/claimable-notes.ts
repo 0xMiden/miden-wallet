@@ -62,13 +62,13 @@ function parseNotes(rawNotes: any[], notesBeingClaimed: Set<string>): ParsedNote
   return parsed;
 }
 
-function buildMetadataMapFromCache(
+async function buildMetadataMapFromCache(
   notes: ParsedNote[],
   cache: Record<string, AssetMetadata> | undefined
-): Record<string, AssetMetadata> {
+): Promise<Record<string, AssetMetadata>> {
   const map: Record<string, AssetMetadata> = {};
   for (const n of notes) {
-    if (isMidenFaucet(n.faucetId)) {
+    if (await isMidenFaucet(n.faucetId)) {
       map[n.faucetId] = MIDEN_METADATA;
     } else {
       const cached = cache?.[n.faucetId];
@@ -78,10 +78,14 @@ function buildMetadataMapFromCache(
   return map;
 }
 
-function findMissingFaucetIds(notes: ParsedNote[], metadataByFaucetId: Record<string, AssetMetadata>): string[] {
+async function findMissingFaucetIds(
+  notes: ParsedNote[],
+  metadataByFaucetId: Record<string, AssetMetadata>
+): Promise<string[]> {
   const missing = new Set<string>();
   for (const n of notes) {
-    if (!isMidenFaucet(n.faucetId) && !metadataByFaucetId[n.faucetId]) {
+    const isMiden = await isMidenFaucet(n.faucetId);
+    if (!isMiden && !metadataByFaucetId[n.faucetId]) {
       missing.add(n.faucetId);
     }
   }
@@ -169,10 +173,10 @@ export function useClaimableNotes(publicAddress: string) {
     // 1) Parse notes and collect faucet ids
     const parsedNotes = parseNotes(rawNotes, notesBeingClaimed);
     // 2) Seed metadata map from cache (and baked-in MIDEN)
-    const metadataByFaucetId = buildMetadataMapFromCache(parsedNotes, allTokensBaseMetadataRef.current);
+    const metadataByFaucetId = await buildMetadataMapFromCache(parsedNotes, allTokensBaseMetadataRef.current);
 
     // 3) Fetch any missing metadata now (blocking), then persist once
-    const missingFaucetIds = findMissingFaucetIds(parsedNotes, metadataByFaucetId);
+    const missingFaucetIds = await findMissingFaucetIds(parsedNotes, metadataByFaucetId);
     if (missingFaucetIds.length > 0) {
       const fetched = await fetchMetadataBatch(missingFaucetIds, fetchMetadata);
       Object.assign(metadataByFaucetId, fetched);

@@ -44,10 +44,13 @@ export function usePassiveStorage<T = any>(key: string, fallback?: T): [T, Dispa
   const prevValue = useRef(value);
 
   useEffect(() => {
-    if (prevValue.current !== value) {
-      putToStorage(key, value);
-    }
-    prevValue.current = value;
+    const put = async () => {
+      if (prevValue.current !== value) {
+        await putToStorage(key, value);
+      }
+      prevValue.current = value;
+    };
+    put();
   }, [key, value]);
 
   return [value, setValue];
@@ -79,5 +82,5 @@ export async function fetchFromStorage(key: string) {
 }
 
 export async function putToStorage<T = any>(key: string, value: T) {
-  return browser.storage.local.set({ [key]: value });
+  return await browser.storage.local.set({ [key]: value });
 }

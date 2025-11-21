@@ -1,12 +1,10 @@
 import React, { memo, RefObject, useMemo, useState } from 'react';
 
 import { ACTIVITY_PAGE_SIZE } from 'app/defaults';
-import { formatBigInt } from 'lib/i18n/numbers';
 import { cancelTransactionById, getCompletedTransactions, getUncompletedTransactions } from 'lib/miden/activity';
-import { getFaucetIdSetting } from 'lib/miden/assets';
-import { formatTransactionStatus, ITransactionStatus, ITransactionType } from 'lib/miden/db/types';
-import { getTokensBaseMetadata } from 'lib/miden/front';
-import { AssetMetadata, MIDEN_METADATA } from 'lib/miden/metadata';
+import { formatTransactionStatus, ITransactionStatus } from 'lib/miden/db/types';
+import { getTokenMetadata } from 'lib/miden/metadata/utils';
+import { formatAmount } from 'lib/shared/format';
 import { useRetryableSWR } from 'lib/swr';
 import useSafeState from 'lib/ui/useSafeState';
 
@@ -106,13 +104,6 @@ const Activity = memo<ActivityProps>(({ address, className, numItems, scrollPare
 
 export default Activity;
 
-export const getTokenMetadata = async (tokenId: string | null): Promise<AssetMetadata> => {
-  const midenFaucetId = getFaucetIdSetting();
-  if (!tokenId || tokenId === midenFaucetId) return MIDEN_METADATA;
-  const tokenMetadata = await getTokensBaseMetadata(tokenId);
-  return tokenMetadata;
-};
-
 async function fetchTransactionsAsActivities(address: string, offset?: number, limit?: number): Promise<IActivity[]> {
   const transactions = await getCompletedTransactions(address, offset, limit);
   const activities = transactions.map(async tx => {
@@ -178,13 +169,3 @@ function mergeAndSort(base?: IActivity[], toAppend: IActivity[] = []) {
   uniques.sort((r1, r2) => r2.timestamp - r1.timestamp || r2.type - r1.type);
   return uniques;
 }
-
-export const formatAmount = (amount: bigint, transactionType: ITransactionType, tokenDecimals: number | undefined) => {
-  const normalizedAmount = formatBigInt(amount, tokenDecimals ?? MIDEN_METADATA.decimals);
-  if (transactionType === 'send') {
-    return `-${normalizedAmount}`;
-  } else if (transactionType === 'consume') {
-    return `+${normalizedAmount}`;
-  }
-  return normalizedAmount;
-};

@@ -3,6 +3,7 @@ import React, { FC, FunctionComponent, SVGProps, useCallback, useEffect, useMemo
 import classNames from 'clsx';
 
 import { openLoadingFullPage, useAppEnv } from 'app/env';
+import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
 import { ReactComponent as FaucetIcon } from 'app/icons/faucet.svg';
 import { ReactComponent as ReceiveIcon } from 'app/icons/receive.svg';
 import { ReactComponent as SendIcon } from 'app/icons/send.svg';
@@ -14,13 +15,7 @@ import { TestIDProps } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { MIDEN_NETWORK_NAME, MIDEN_FAUCET_ENDPOINTS } from 'lib/miden-chain/constants';
 import { hasQueuedTransactions, initiateConsumeTransaction } from 'lib/miden/activity';
-import {
-  getFaucetIdSetting,
-  setFaucetIdSetting,
-  useAccount,
-  useAllBalances,
-  useAllTokensBaseMetadata
-} from 'lib/miden/front';
+import { setFaucetIdSetting, useAccount, useAllBalances, useAllTokensBaseMetadata } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { isAutoConsumeEnabled, isDelegateProofEnabled } from 'lib/settings/helpers';
 import { useRetryableSWR } from 'lib/swr';
@@ -42,7 +37,8 @@ const tippyPropsMock = {
 
 const Explore: FC = () => {
   const account = useAccount();
-  const midenFaucetId = getFaucetIdSetting();
+  const midenFaucetId = useMidenFaucetId();
+
   const { data: claimableNotes, mutate: mutateClaimableNotes } = useClaimableNotes(account.publicKey);
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
   const shouldAutoConsume = isAutoConsumeEnabled();

@@ -37,11 +37,10 @@ import {
   MidenDAppConsumableNotesResponse
 } from 'lib/adapter/types';
 import { formatBigInt } from 'lib/i18n/numbers';
-import { getFaucetIdSetting } from 'lib/miden/assets/utils';
 import { intercom } from 'lib/miden/back/defaults';
 import { Vault } from 'lib/miden/back/vault';
-import { getTokensBaseMetadata } from 'lib/miden/front/assets';
-import { AssetMetadata, MIDEN_METADATA } from 'lib/miden/metadata';
+import { MIDEN_METADATA } from 'lib/miden/metadata';
+import { getTokenMetadata } from 'lib/miden/metadata/utils';
 import { NETWORKS } from 'lib/miden/networks';
 import {
   DappMetadata,
@@ -1173,7 +1172,7 @@ function formatSendTransactionPreview(transaction: SendTransaction): string[] {
 
 async function formatConsumeTransactionPreview(transaction: MidenConsumeTransaction): Promise<string[]> {
   const faucetId = transaction.faucetId;
-  const tokenMetadata = await getTokenMetadataSafe(faucetId);
+  const tokenMetadata = await getTokenMetadata(faucetId);
   const amount = formatAmountSafe(BigInt(transaction.amount), 'consume', tokenMetadata?.decimals);
   return [
     'Consuming note from faucet',
@@ -1201,11 +1200,4 @@ function formatAmountSafe(amount: bigint, transactionType: 'send' | 'consume', t
     return `+${normalizedAmount}`;
   }
   return normalizedAmount;
-}
-
-async function getTokenMetadataSafe(tokenId: string | null): Promise<AssetMetadata> {
-  const midenFaucetId = getFaucetIdSetting();
-  if (!tokenId || tokenId === midenFaucetId) return MIDEN_METADATA;
-  const tokenMetadata = await getTokensBaseMetadata(tokenId);
-  return tokenMetadata ?? MIDEN_METADATA;
 }

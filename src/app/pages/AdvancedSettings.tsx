@@ -1,17 +1,18 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useMidenClient } from 'app/hooks/useMidenClient';
+import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
 import { IconName } from 'app/icons/v2';
 import HashChip from 'app/templates/HashChip';
 import { ListItem } from 'components/ListItem';
-import { getFaucetIdSetting, useAccount } from 'lib/miden/front';
+import { useAccount } from 'lib/miden/front';
 import { bytesToHex } from 'lib/shared/helpers';
 import { Link } from 'lib/woozie';
 
 const AdvancedSettings: FC = () => {
   const walletAccount = useAccount();
   const { midenClient, midenClientLoading } = useMidenClient();
-  const faucetId = getFaucetIdSetting();
+  const faucetId = useMidenFaucetId();
   const faucetIdShortened = useMemo(() => `${faucetId.slice(0, 7)}...${faucetId.slice(-3)} `, [faucetId]);
   const [publicKey, setPublicKey] = useState<string | null>(null);
 

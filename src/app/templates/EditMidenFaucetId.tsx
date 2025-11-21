@@ -4,8 +4,9 @@ import { OnSubmit, useForm } from 'react-hook-form';
 
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
+import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
 import { t, T } from 'lib/i18n/react';
-import { getFaucetIdSetting, setFaucetIdSetting } from 'lib/miden/assets';
+import { setFaucetIdSetting } from 'lib/miden/assets';
 
 const SUBMIT_ERROR_TYPE = 'submit-error';
 
@@ -14,7 +15,7 @@ type FormData = {
 };
 
 const EditMidenFaucetId: FC = () => {
-  const faucetId = getFaucetIdSetting();
+  const faucetId = useMidenFaucetId();
   const { register, handleSubmit, errors, setError, clearError, formState } = useForm<FormData>();
   const submitting = formState.isSubmitting;
 

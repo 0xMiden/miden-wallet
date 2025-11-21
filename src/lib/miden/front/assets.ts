@@ -7,6 +7,8 @@ import Fuse from 'fuse.js';
 import useForceUpdate from 'use-force-update';
 import browser from 'webextension-polyfill';
 
+import { useGasToken } from 'app/hooks/useGasToken';
+import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
 import {
   MIDEN_METADATA,
   AssetMetadata,
@@ -16,13 +18,10 @@ import {
   onStorageChanged,
   putToStorage,
   usePassiveStorage,
-  isMidenAsset,
-  isMidenFaucet
+  isMidenAsset
 } from 'lib/miden/front';
 import { createQueue } from 'lib/queue';
 import { useRetryableSWR } from 'lib/swr';
-
-import { useGasToken } from '../../../app/hooks/useGasToken';
 
 export const ALL_TOKENS_BASE_METADATA_STORAGE_KEY = 'tokens_base_metadata';
 
@@ -37,6 +36,7 @@ const autoFetchMetadataFails = new Set<string>();
 export function useAssetMetadata(slug: string, assetId: string) {
   const forceUpdate = useForceUpdate();
   const { metadata } = useGasToken();
+  const midenFaucetId = useMidenFaucetId();
 
   const { allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata, setTokensDetailedMetadata } =
     useTokensMetadata();
@@ -52,12 +52,12 @@ export function useAssetMetadata(slug: string, assetId: string) {
     [slug, assetId, allTokensBaseMetadataRef, forceUpdate]
   );
 
-  const midenAsset = isMidenFaucet(assetId);
+  const isMidenFaucet = assetId === midenFaucetId;
   const tokenMetadata = allTokensBaseMetadataRef.current[assetId] ?? null;
   const exist = Boolean(tokenMetadata);
 
   useEffect(() => {
-    if (!isMidenFaucet(assetId) && !exist && !autoFetchMetadataFails.has(assetId)) {
+    if (!isMidenFaucet && !exist && !autoFetchMetadataFails.has(assetId)) {
       enqueueAutoFetchMetadata(() => fetchMetadata(assetId))
         .then(metadata =>
           Promise.all([
@@ -67,10 +67,10 @@ export function useAssetMetadata(slug: string, assetId: string) {
         )
         .catch(() => autoFetchMetadataFails.add(assetId));
     }
-  }, [slug, assetId, exist, fetchMetadata, setTokensBaseMetadata, setTokensDetailedMetadata]);
+  }, [slug, assetId, exist, fetchMetadata, setTokensBaseMetadata, setTokensDetailedMetadata, isMidenFaucet]);
 
   // MIDEN
-  if (midenAsset) {
+  if (isMidenFaucet) {
     return metadata;
   }
 
@@ -119,11 +119,12 @@ export async function setTokensBaseMetadata(toSet: Record<string, AssetMetadata>
   const initialAllTokensBaseMetadata: Record<string, AssetMetadata> =
     (await fetchFromStorage(ALL_TOKENS_BASE_METADATA_STORAGE_KEY)) || defaultAllTokensBaseMetadata;
 
-  enqueueSetAllTokensBaseMetadata(() =>
-    putToStorage(ALL_TOKENS_BASE_METADATA_STORAGE_KEY, {
-      ...initialAllTokensBaseMetadata,
-      ...toSet
-    })
+  enqueueSetAllTokensBaseMetadata(
+    async () =>
+      await putToStorage(ALL_TOKENS_BASE_METADATA_STORAGE_KEY, {
+        ...initialAllTokensBaseMetadata,
+        ...toSet
+      })
   );
 }
 

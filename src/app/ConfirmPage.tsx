@@ -13,9 +13,11 @@ import Unlock from 'app/pages/Unlock';
 import { Button, ButtonVariant } from 'components/Button';
 import { CustomRpsContext } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
-import { AssetMetadata, getTokenId, MIDEN_METADATA, useAccount, useMidenContext } from 'lib/miden/front';
+import { AssetMetadata, MIDEN_METADATA, useAccount, useMidenContext } from 'lib/miden/front';
+import { getTokenMetadata } from 'lib/miden/metadata/utils';
 import { MidenDAppPayload } from 'lib/miden/types';
 import { isDelegateProofEnabled } from 'lib/settings/helpers';
+import { formatAmount } from 'lib/shared/format';
 import { b64ToU8, truncateHash } from 'lib/shared/helpers';
 import { WalletAccount } from 'lib/shared/types';
 import { useRetryableSWR } from 'lib/swr';
@@ -31,7 +33,6 @@ import { ConfirmPageSelectors } from './ConfirmPage.selectors';
 import { openLoadingFullPage } from './env';
 import { Icon, IconName } from './icons/v2';
 import AccountBanner from './templates/AccountBanner';
-import { formatAmount, getTokenMetadata } from './templates/activity/Activity';
 import ConnectBanner from './templates/ConnectBanner';
 import PrivateDataPermissionBanner from './templates/PrivateDataPermissionBanner';
 import PrivateDataPermissionCheckbox from './templates/PrivateDataPermissionCheckbox';
@@ -346,9 +347,9 @@ const SigningInputsPayloadContent: React.FC<{ bytes: Uint8Array }> = ({ bytes })
                     removedFungibleAssetsDetails.map(details => (
                       <div key={details.asset.faucetId().toString()} className="flex flex-col w-full my-2 text-sm">
                         <span className="text-black-500 text-lg font-semibold">
-                          {`${formatAmount(details.asset.amount(), 'send', details.metadata.decimals)} ${getTokenId(
-                            details.asset.faucetId().toString()
-                          )}`}
+                          {`${formatAmount(details.asset.amount(), 'send', details.metadata.decimals)} ${
+                            details.metadata.symbol ?? 'Unknown'
+                          }`}
                         </span>
                         <span className="text-gray-600">{`~$${details.asset.amount()}`}</span>
                       </div>
@@ -358,9 +359,9 @@ const SigningInputsPayloadContent: React.FC<{ bytes: Uint8Array }> = ({ bytes })
                     addedFungibleAssetsDetails.map(details => (
                       <div key={details.asset.faucetId().toString()} className="flex flex-col w-full my-2 text-sm">
                         <span className="text-green-500 text-lg font-semibold">
-                          {`${formatAmount(details.asset.amount(), 'consume', details.metadata.decimals)} ${getTokenId(
-                            details.asset.faucetId().toString()
-                          )}`}
+                          {`${formatAmount(details.asset.amount(), 'consume', details.metadata.decimals)} ${
+                            details.metadata.symbol ?? 'Unknown'
+                          }`}
                         </span>
                         <span className="text-gray-600">{`~$${details.asset.amount()}`}</span>
                       </div>

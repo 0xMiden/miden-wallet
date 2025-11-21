@@ -9,12 +9,13 @@ import { getCurrentLocale } from 'lib/i18n';
 import { t } from 'lib/i18n/react';
 import { getTransactionById } from 'lib/miden/activity';
 import { useAllAccounts, useAccount } from 'lib/miden/front';
+import { getTokenMetadata } from 'lib/miden/metadata/utils';
 import { NoteExportType } from 'lib/miden/sdk/constants';
+import { formatAmount } from 'lib/shared/format';
 import { WalletAccount } from 'lib/shared/types';
 import { capitalizeFirstLetter } from 'utils/string';
 
 import HashChip from '../HashChip';
-import { formatAmount, getTokenMetadata } from './Activity';
 import { IActivity } from './IActivity';
 
 interface ActivityDetailsProps {

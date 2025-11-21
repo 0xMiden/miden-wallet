@@ -51,7 +51,7 @@ const fetchBalances = async (address: string, tokenMetadatas: Record<string, Ass
   const midenClient = await getMidenClient();
   const account = await midenClient.getAccount(address);
   const assets = account!.vault().fungibleAssets() as FungibleAsset[];
-  const midenFaucetId = getFaucetIdSetting();
+  const midenFaucetId = await getFaucetIdSetting();
   let hasMiden = false;
 
   for (const asset of assets) {

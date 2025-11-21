@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import BigNumber from 'bignumber.js';
 
 import { MidenTokens, TOKEN_MAPPING } from 'lib/miden-chain/constants';
-import { searchAssets, useAllTokensBaseMetadata } from 'lib/miden/front';
+import { fetchFromStorage, searchAssets, useAllTokensBaseMetadata } from 'lib/miden/front';
 
 import { FAUCET_ID_STORAGE_KEY } from './constants';
 import { Asset, Token, FA2Token } from './types';
@@ -65,8 +65,8 @@ function useDebounce(arg0: string, arg1: number): [any] {
   throw new Error('Function not implemented.');
 }
 
-export function getFaucetIdSetting() {
-  const faucetId = localStorage.getItem(FAUCET_ID_STORAGE_KEY);
+export async function getFaucetIdSetting() {
+  const faucetId = (await fetchFromStorage(FAUCET_ID_STORAGE_KEY)) as string | null;
   return faucetId ?? TOKEN_MAPPING[MidenTokens.Miden].faucetId;
 }
 
@@ -74,10 +74,11 @@ export function setFaucetIdSetting(faucetId: string) {
   localStorage.setItem(FAUCET_ID_STORAGE_KEY, faucetId);
 }
 
-export const getTokenId = (faucetId: string) => {
-  return isMidenFaucet(faucetId) ? 'MIDEN' : 'Unknown';
+export const getTokenId = async (faucetId: string) => {
+  const isMiden = await isMidenFaucet(faucetId);
+  return isMiden ? 'MIDEN' : 'Unknown';
 };
 
-export const isMidenFaucet = (faucetId: string) => {
-  return faucetId === getFaucetIdSetting();
+export const isMidenFaucet = async (faucetId: string) => {
+  return faucetId === (await getFaucetIdSetting());
 };
