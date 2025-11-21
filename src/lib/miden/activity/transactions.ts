@@ -1,6 +1,5 @@
-import { TransactionResult } from '@demox-labs/miden-sdk';
+import { Address, Note, TransactionResult } from '@demox-labs/miden-sdk';
 
-import { ampApi } from 'lib/amp/amp-interface';
 import { consumeNoteId } from 'lib/miden-worker/consumeNoteId';
 import { sendTransaction } from 'lib/miden-worker/sendTransaction';
 import { submitTransaction } from 'lib/miden-worker/submitTransaction';
@@ -9,7 +8,6 @@ import { logger } from 'shared/logger';
 
 import { ConsumeTransaction, ITransaction, ITransactionStatus, SendTransaction, Transaction } from '../db/types';
 import { toNoteTypeString } from '../helpers';
-import { NoteExportType } from '../sdk/constants';
 import { getBech32AddressFromAccountId } from '../sdk/helpers';
 import { getMidenClient } from '../sdk/miden-client';
 import { MidenClientCreateOptions } from '../sdk/miden-client-interface';
@@ -44,15 +42,60 @@ export const requestCustomTransaction = async (
 
 export const completeCustomTransaction = async (transaction: ITransaction, result: TransactionResult) => {
   const outputNotes = result.executedTransaction().outputNotes().notes();
-  const registerExports = outputNotes.map(async note => {
-    if (toNoteTypeString(note.metadata().noteType()) === NoteTypeEnum.Private) {
-      registerOutputNote(note.id().toString());
+
+  const registerExports: Promise<void>[] = outputNotes.map(async note => {
+    // Only care about private notes
+    if (toNoteTypeString(note.metadata().noteType()) !== NoteTypeEnum.Private) {
+      return;
+    }
+
+    console.log('registering output note', note.id().toString());
+    await registerOutputNote(note.id().toString());
+
+    let fullNote: Note;
+
+    // intoFull() can throw or return undefined
+    try {
+      const maybeFullNote = note.intoFull();
+      if (!maybeFullNote) {
+        console.error('intoFull() returned undefined for output note');
+        return;
+      }
+      fullNote = maybeFullNote;
+    } catch (error) {
+      console.error('Failed to convert output note into full note', { error });
+      return;
+    }
+
+    // Get client + send private note
+    try {
+      const midenClient = await getMidenClient();
+
+      try {
+        console.log('Sending private note through the transport layer...');
+        const recipientAccountAddress = Address.fromBech32(
+          transaction.secondaryAccountId! // TODO: Double check this
+        );
+        await midenClient.sendPrivateNote(fullNote, recipientAccountAddress);
+      } catch (error) {
+        console.error('Failed to send private note through the transport layer', {
+          txId: transaction.id,
+          secondaryAccountId: transaction.secondaryAccountId,
+          error
+        });
+      }
+    } catch (error) {
+      console.error('Failed to initialize Miden client for private note send', {
+        txId: transaction.id,
+        error
+      });
     }
   });
+
   await Promise.all(registerExports);
 
   const updatedTransaction = interpretTransactionResult(transaction, result);
-  updatedTransaction.completedAt = Date.now() / 1000; // Convert to seconds
+  updatedTransaction.completedAt = Math.floor(Date.now() / 1000); // seconds
 
   await updateTransactionStatus(transaction.id, ITransactionStatus.Completed, updatedTransaction);
 };
@@ -137,30 +180,73 @@ export const initiateSendTransaction = async (
   return dbTransaction.id;
 };
 
+const extractFullNote = (result: TransactionResult): Note | undefined => {
+  try {
+    const outputNotes = result.executedTransaction().outputNotes().notes();
+
+    if (!outputNotes || outputNotes.length === 0) {
+      console.error('No output notes found for executed transaction');
+      return undefined;
+    }
+
+    const fullNote = outputNotes[0].intoFull();
+
+    if (!fullNote) {
+      console.error('intoFull() returned undefined for first output note');
+      return undefined;
+    }
+
+    return fullNote;
+  } catch (error) {
+    console.error('Failed to extract full note from transaction result', { error });
+    return undefined;
+  }
+};
+
 export const completeSendTransaction = async (tx: SendTransaction, result: TransactionResult) => {
-  const noteId = result.executedTransaction().outputNotes().notes()[0].id().toString();
-  if (tx.noteType === NoteTypeEnum.Private) {
-    const midenClient = await getMidenClient();
-    const noteBytes = await midenClient.exportNote(noteId, NoteExportType.DETAILS);
-    console.log('registering output note', noteId);
-    await registerOutputNote(noteId);
-    // TODO: Potentially unhook this from export process
+  const executedTx = result.executedTransaction();
+  const note = extractFullNote(result);
+  const noteId = note?.id().toString();
+
+  if (tx.noteType === NoteTypeEnum.Private && note && noteId) {
     try {
-      await ampApi.postMessage({
-        recipient: tx.secondaryAccountId,
-        body: noteBytes.toString()
+      const midenClient = await getMidenClient();
+      console.log('registering output note', noteId);
+      await registerOutputNote(noteId);
+
+      try {
+        console.log('Sending private note through the transport layer...');
+        const recipientAccountAddress = Address.fromBech32(tx.secondaryAccountId);
+        await midenClient.sendPrivateNote(note, recipientAccountAddress);
+        console.log('Private note sent!');
+      } catch (error) {
+        console.error('Failed to send private note through the transport layer', {
+          txId: tx.id,
+          secondaryAccountId: tx.secondaryAccountId,
+          error
+        });
+      }
+    } catch (error) {
+      console.error('Failed to initialize Miden client for private note send', {
+        txId: tx.id,
+        error
       });
-      console.log('Sent note to AMP');
-    } catch (e) {
-      console.error('Failed to send note to AMP', e);
     }
   }
-  await updateTransactionStatus(tx.id, ITransactionStatus.Completed, {
-    displayMessage: 'Sent',
-    transactionId: result.executedTransaction().id().toHex(),
-    outputNoteIds: [noteId],
-    completedAt: Date.now() / 1000 // Convert to seconds.
-  });
+
+  try {
+    await updateTransactionStatus(tx.id, ITransactionStatus.Completed, {
+      displayMessage: 'Sent',
+      transactionId: executedTx.id().toHex(),
+      outputNoteIds: noteId ? [noteId] : [],
+      completedAt: Math.floor(Date.now() / 1000) // seconds
+    });
+  } catch (error) {
+    console.error('Failed to update transaction status', {
+      txId: tx.id,
+      error
+    });
+  }
 };
 
 /**

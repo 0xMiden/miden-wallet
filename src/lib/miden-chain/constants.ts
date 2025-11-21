@@ -9,6 +9,11 @@ export enum MIDEN_NETWORK_NAME {
   LOCALNET = 'localnet'
 }
 
+export enum MIDEN_TRANSPORT_LAYER_NAME {
+  TESTNET = 'testnet',
+  LOCALNET = 'localnet'
+}
+
 export const MIDEN_NETWORK_ENDPOINTS = new Map<string, string>([
   [MIDEN_NETWORK_NAME.MAINNET, 'https://api.miden.io'], // Placeholder
   [MIDEN_NETWORK_NAME.TESTNET, 'https://rpc.testnet.miden.io'],
@@ -26,6 +31,11 @@ export const MIDEN_FAUCET_ENDPOINTS = new Map<string, string>([
   [MIDEN_NETWORK_NAME.TESTNET, 'https://faucet.testnet.miden.io'],
   [MIDEN_NETWORK_NAME.DEVNET, 'https://faucet.devnet.miden.io'],
   [MIDEN_NETWORK_NAME.LOCALNET, 'http://localhost:57291']
+]);
+
+export const MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS = new Map<string, string>([
+  [MIDEN_NETWORK_NAME.TESTNET, 'http://transport.miden.io:57292'],
+  [MIDEN_NETWORK_NAME.LOCALNET, 'http://127.0.0.1:57292']
 ]);
 
 export const MIDEN_NETWORKS: MidenNetwork[] = [
