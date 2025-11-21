@@ -9,6 +9,7 @@ const midenWallet = new MidenWindowObject();
 
 // Attach the reference to the window, guarding against errors.
 try {
+  console.log('Adding midenWallet to window');
   Object.defineProperty(window, 'midenWallet', { value: midenWallet, writable: true });
 } catch (error) {
   console.error(error);

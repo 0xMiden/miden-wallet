@@ -247,7 +247,7 @@ const backgroundConfig = {
     assetModuleFilename: `static/media/${fileFormat}`,
     chunkLoading: 'import-scripts',
     chunkFormat: 'array-push',
-    chunkFilename: 'background.[name].[id].[contenthash].js',
+    chunkFilename: 'b.[id].[contenthash].js',
     uniqueName: 'background'
   },
   resolve: {
@@ -435,7 +435,7 @@ const workerConfig = {
     assetModuleFilename: `static/media/${fileFormat}`,
     chunkLoading: 'import-scripts',
     chunkFormat: 'array-push',
-    chunkFilename: 'workers.[name].[id].[contenthash].js',
+    chunkFilename: 'w.[id].[contenthash].js',
     uniqueName: 'workers'
   },
   resolve: {
