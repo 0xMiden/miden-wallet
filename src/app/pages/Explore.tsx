@@ -143,7 +143,7 @@ const Explore: FC = () => {
             <MainBanner />
             <AddressChip publicKey={account.publicKey} />
           </div>
-          <div className="flex justify-between items-center w-full mt-1 px-2 mb-4">
+          <div className="flex justify-evenly items-center w-full mt-1 px-2 mb-4">
             <ActionButton
               label={<T id="send" />}
               Icon={SendIcon}
@@ -151,15 +151,13 @@ const Explore: FC = () => {
               disabled={false}
               tippyProps={tippyPropsMock}
               testID={ExploreSelectors.SendButton}
-              className="w-1/2 mx-1"
             />
-            <div className="flex-1 relative">
+            <div>
               <ActionButton
                 label={<T id="receive" />}
                 Icon={ReceiveIcon}
                 to="/receive"
                 testID={ExploreSelectors.ReceiveButton}
-                className="w-1/2 mx-1"
               />
               {selfClaimableNotes !== undefined && selfClaimableNotes.length > 0 && (
                 <div className="absolute top-[25%] left-[95%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full border-2 border-white">
@@ -172,7 +170,6 @@ const Explore: FC = () => {
               Icon={FaucetIcon}
               to="/faucet"
               testID={ExploreSelectors.FaucetButton}
-              className="w-1/2 mx-1"
               iconStyle={{ height: '20px', width: '20px', stroke: 'none' }}
             />
           </div>

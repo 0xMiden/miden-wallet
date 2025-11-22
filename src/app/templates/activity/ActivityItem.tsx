@@ -1,4 +1,4 @@
-import React, { FC, memo } from 'react';
+import React, { FC, memo, useCallback } from 'react';
 
 import classNames from 'clsx';
 
@@ -75,6 +75,15 @@ const ActivityContent: FC<ActivityItemProps> = ({ fullHistory, activity }) => {
   const isReceive = activity.transactionIcon === 'RECEIVE' || activity.message === 'Consuming';
   const { popup } = useAppEnv();
 
+  const handleCancelClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.preventDefault();
+      e.stopPropagation();
+      activity.cancel?.();
+    },
+    [activity]
+  );
+
   return (
     <div className="w-full flex px-4 md:px-6 m-auto py-3 gap-x-2 md:gap-x-4 hover:bg-gray-800 focus:bg-gray-800 transition-colors duration-500 ease-in-out cursor-pointer">
       <div
@@ -131,7 +140,7 @@ const ActivityContent: FC<ActivityItemProps> = ({ fullHistory, activity }) => {
         <div className="flex justify-end">
           <Button
             className="hover:bg-gray-900 active:bg-gray-800 rounded-md px-1"
-            onClick={activity.cancel}
+            onClick={handleCancelClick}
             testID={ExploreSelectors.CancelTransaction}
           >
             <CloseIcon stroke={iconFillAndStroke} height={'24px'} width={'24px'} />

@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useLayoutEffect, useMemo, useRef } from 'react';
+import React, { FC, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import { OnSubmit, useForm } from 'react-hook-form';
 
@@ -18,6 +18,7 @@ const EditMidenFaucetId: FC = () => {
   const faucetId = useMidenFaucetId();
   const { register, handleSubmit, errors, setError, clearError, formState } = useForm<FormData>();
   const submitting = formState.isSubmitting;
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const formRef = useRef<HTMLFormElement>(null);
   const focusFaucetIdField = useCallback(() => {
@@ -32,9 +33,11 @@ const EditMidenFaucetId: FC = () => {
     async ({ faucetId }) => {
       if (submitting) return;
       clearError('faucetId');
+      setSubmitSuccess(false);
 
       try {
-        setFaucetIdSetting(faucetId);
+        await setFaucetIdSetting(faucetId);
+        setSubmitSuccess(true);
       } catch (err: any) {
         console.error(err);
 
@@ -60,7 +63,12 @@ const EditMidenFaucetId: FC = () => {
           placeholder={faucetId}
           errorCaption={errors.faucetId?.message}
           containerClassName="mb-4"
-          onChange={() => clearError()}
+          onChange={() => {
+            clearError();
+            if (submitSuccess) {
+              setSubmitSuccess(false);
+            }
+          }}
         />
 
         <T id="setNewFaucetId">
@@ -81,9 +89,11 @@ const EditMidenFaucetId: FC = () => {
             </FormSubmitButton>
           )}
         </T>
+
+        {submitSuccess && <div className="mt-4 text-green-600 text-sm font-medium">Faucet ID Updated</div>}
       </form>
     );
-  }, [faucetId, errors, handleSubmit, onSubmit, register, submitting, clearError]);
+  }, [faucetId, errors, handleSubmit, onSubmit, register, submitting, clearError, submitSuccess]);
 
   return <div className="w-full max-w-sm p-2 mx-auto">{content}</div>;
 };
