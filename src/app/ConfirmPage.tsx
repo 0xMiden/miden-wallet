@@ -62,7 +62,7 @@ const ConfirmPage: FC = () => {
           </ErrorBoundary>
         </ContentContainer>
       ) : (
-        <Unlock />
+        <Unlock openForgotPasswordInFullPage={true} />
       ),
     [ready]
   );

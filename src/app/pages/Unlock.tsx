@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import Alert from 'app/atoms/Alert';
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
+import { openInFullPage, useAppEnv } from 'app/env';
 import SimplePageLayout from 'app/layouts/SimplePageLayout';
 import LogoVerticalTitle from 'app/misc/logo-vertical-title.svg';
 import { Button, ButtonVariant } from 'components/Button';
@@ -32,10 +33,16 @@ const getTimeLeft = (start: number, end: number) => {
   return `${checkTime(minutes)}:${checkTime(seconds)}`;
 };
 
-const Unlock: FC = () => {
+interface UnlockProps {
+  openForgotPasswordInFullPage?: boolean;
+}
+
+const Unlock: FC<UnlockProps> = ({ openForgotPasswordInFullPage = false }) => {
   const { t } = useTranslation();
   const { unlock } = useMidenContext();
   const formAnalytics = useFormAnalytics('UnlockWallet');
+  const { popup } = useAppEnv();
+  console.log('popup', popup);
 
   const [attempt, setAttempt] = useLocalStorage<number>(MidenSharedStorageKey.PasswordAttempts, 1);
   const [timelock, setTimeLock] = useLocalStorage<number>(MidenSharedStorageKey.TimeLock, 0);
@@ -82,7 +89,17 @@ const Unlock: FC = () => {
     [submitting, clearError, setError, unlock, focusPasswordField, formAnalytics, attempt, setAttempt, setTimeLock]
   );
 
-  const onForgotPasswordClick = useCallback(() => navigate('/forgot-password-info'), []);
+  const onForgotPasswordClick = useCallback(() => {
+    if (openForgotPasswordInFullPage) {
+      navigate('/forgot-password-info');
+      openInFullPage();
+      if (popup) {
+        window.close();
+      }
+    } else {
+      navigate('/forgot-password-info');
+    }
+  }, [openForgotPasswordInFullPage, popup]);
 
   const isDisabled = useMemo(() => Date.now() - timelock <= lockLevel, [timelock, lockLevel]);
 
