@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import { useMidenClient } from 'app/hooks/useMidenClient';
 import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
@@ -8,12 +8,13 @@ import { ListItem } from 'components/ListItem';
 import { useAccount } from 'lib/miden/front';
 import { bytesToHex } from 'lib/shared/helpers';
 import { Link } from 'lib/woozie';
+import { truncateAddress } from 'utils/string';
 
 const AdvancedSettings: FC = () => {
   const walletAccount = useAccount();
   const { midenClient, midenClientLoading } = useMidenClient();
   const faucetId = useMidenFaucetId();
-  const faucetIdShortened = useMemo(() => `${faucetId.slice(0, 7)}...${faucetId.slice(-3)} `, [faucetId]);
+  const faucetIdShortened = truncateAddress(faucetId, false);
   const [publicKey, setPublicKey] = useState<string | null>(null);
 
   const fetchPublicKey = useCallback(async () => {

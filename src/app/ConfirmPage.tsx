@@ -18,12 +18,13 @@ import { getTokenMetadata } from 'lib/miden/metadata/utils';
 import { MidenDAppPayload } from 'lib/miden/types';
 import { isDelegateProofEnabled } from 'lib/settings/helpers';
 import { formatAmount } from 'lib/shared/format';
-import { b64ToU8, truncateHash } from 'lib/shared/helpers';
+import { b64ToU8 } from 'lib/shared/helpers';
 import { WalletAccount } from 'lib/shared/types';
 import { useRetryableSWR } from 'lib/swr';
 import useSafeState from 'lib/ui/useSafeState';
 import useTippy from 'lib/ui/useTippy';
 import { useLocation } from 'lib/woozie';
+import { truncateAddress } from 'utils/string';
 
 import Alert from './atoms/Alert';
 import FormSecondaryButton from './atoms/FormSecondaryButton';
@@ -125,7 +126,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
             console.error('Failed to deserialize payload for sign:', e);
           }
           content = (
-            <div className="text-md text-center my-6">{`Sign the following Word ${truncateHash(wordHex)}?`}</div>
+            <div className="text-md text-center my-6">{`Sign the following Word ${truncateAddress(wordHex)}?`}</div>
           );
           break;
         }
@@ -146,7 +147,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
           <div className="text-md text-center my-6">
             {'Share all private note data for account'}
             <br />
-            {`${truncateHash(payload.sourcePublicKey)}?`}
+            {`${truncateAddress(payload.sourcePublicKey)}?`}
           </div>
           <div className="flex items-center justify-center">
             <FormSecondaryButton
@@ -178,7 +179,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
                 <span className="text-gray-600">{t('account')}</span>
                 <div className="text-black flex flex-col items-end">
                   <span>{account.name}</span>
-                  <span>{truncateHash(account.publicKey)}</span>
+                  <span>{truncateAddress(account.publicKey)}</span>
                 </div>
               </div>
             </>
@@ -192,7 +193,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
               const amount = microcredits / 10 ** MIDEN_METADATA.decimals;
               value = amount.toString();
             } else if (label === 'Recipient') {
-              value = truncateHash(value);
+              value = truncateAddress(value);
             }
             return (
               <div className="flex justify-between my-2 text-sm" key={i + 2}>
@@ -337,7 +338,7 @@ const SigningInputsPayloadContent: React.FC<{ bytes: Uint8Array }> = ({ bytes })
                   <Icon name={IconName.Globe} fill="black" size="md" />
                   <span className="text-gray-600">Account</span>
                 </div>
-                <div>{`${truncateHash(accountAddressAsBech32)}`}</div>
+                <div>{`${truncateAddress(accountAddressAsBech32)}`}</div>
               </div>
 
               {!vault.isEmpty() && (

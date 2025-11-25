@@ -3,11 +3,11 @@ import React, { FC, useCallback } from 'react';
 import classNames from 'clsx';
 import { useForm } from 'react-hook-form';
 
+import AddressShortView from 'app/atoms/AddressShortView';
 import AnimalIdenticon from 'app/atoms/AnimalIdenticon';
 import FormField from 'app/atoms/FormField';
 import FormSecondaryButton from 'app/atoms/FormSecondaryButton';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
-import HashShortView from 'app/atoms/HashShortView';
 import ModalWithTitle from 'app/templates/ModalWithTitle';
 import { T, t } from 'lib/i18n/react';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
@@ -54,7 +54,7 @@ const AddContactModal: FC<AddContactModalProps> = ({ address, onClose }) => {
 
             <div className="ml-3 flex-1 flex items-center">
               <span className={classNames('text-black text-black')}>
-                <HashShortView hash={address ?? ''} />
+                <AddressShortView address={address ?? ''} />
               </span>
             </div>
           </div>

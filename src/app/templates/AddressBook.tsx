@@ -16,8 +16,8 @@ import { WalletContact } from 'lib/shared/types';
 import { useConfirm } from 'lib/ui/dialog';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
+import AddressChip from './AddressChip';
 import CustomSelect, { OptionRenderProps } from './CustomSelect';
-import HashChip from './HashChip';
 
 type ContactActions = {
   remove: (address: string) => void;
@@ -185,7 +185,7 @@ const ContactContent: React.FC<OptionRenderProps<WalletContact, string, ContactA
       <Name className="mb-px text-sm font-medium leading-tight text-left">{item.name}</Name>
 
       <div className="text-xs  leading-tight text-black">
-        <HashChip hash={item.address} small />
+        <AddressChip address={item.address} small />
       </div>
     </div>
 

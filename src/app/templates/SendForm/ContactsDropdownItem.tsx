@@ -2,9 +2,9 @@ import React, { ComponentProps, FC, useEffect, useRef } from 'react';
 
 import classNames from 'clsx';
 
+import AddressShortView from 'app/atoms/AddressShortView';
 import { Button } from 'app/atoms/Button';
 import ColorIdenticon from 'app/atoms/ColorIdenticon';
-import HashShortView from 'app/atoms/HashShortView';
 import Name from 'app/atoms/Name';
 import { TestIDProps } from 'lib/analytics';
 import { T } from 'lib/i18n/react';
@@ -48,28 +48,26 @@ const ContactsDropdownItem: FC<ContactsDropdownItemProps> = ({ active, testID, t
           <Name className="mb-px text-sm font-medium leading-tight text-left text-black">{'contact.name'}</Name>
 
           <span className={classNames('text-xs leading-tight text-black')}>
-            <HashShortView hash={'contact.address'} />
+            <AddressShortView address={'contact.address'} />
           </span>
         </div>
 
-        {'contact.accountInWallet' ? (
-          <div className="flex items-center">
-            <span
-              className={classNames(
-                'mx-1',
-                'rounded-md',
-                'border-2',
-                'px-2 py-1',
-                'leading-tight',
-                'border-gray-800 bg-gray-800 text-black',
-                'font-medium'
-              )}
-              style={{ fontSize: '0.6rem' }}
-            >
-              <T id="ownAccount" />
-            </span>
-          </div>
-        ) : null}
+        <div className="flex items-center">
+          <span
+            className={classNames(
+              'mx-1',
+              'rounded-md',
+              'border-2',
+              'px-2 py-1',
+              'leading-tight',
+              'border-gray-800 bg-gray-800 text-black',
+              'font-medium'
+            )}
+            style={{ fontSize: '0.6rem' }}
+          >
+            <T id="ownAccount" />
+          </span>
+        </div>
       </div>
     </Button>
   );

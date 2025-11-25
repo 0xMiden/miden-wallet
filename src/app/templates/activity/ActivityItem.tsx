@@ -2,6 +2,7 @@ import React, { FC, memo, useCallback } from 'react';
 
 import classNames from 'clsx';
 
+import AddressShortView from 'app/atoms/AddressShortView';
 import { Button } from 'app/atoms/Button';
 import HashShortView from 'app/atoms/HashShortView';
 import { useAppEnv } from 'app/env';
@@ -112,12 +113,7 @@ const ActivityContent: FC<ActivityItemProps> = ({ fullHistory, activity }) => {
               {activity.secondaryAddress && (
                 <>
                   {`${isReceive ? 'From' : 'To'} `}
-                  <HashShortView
-                    hash={activity.secondaryAddress}
-                    trimHash={popup}
-                    firstCharsCount={13}
-                    lastCharsCount={7}
-                  />
+                  <AddressShortView address={activity.secondaryAddress} trim={popup} />
                 </>
               )}
             </div>

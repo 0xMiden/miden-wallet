@@ -15,6 +15,7 @@ import { formatAmount } from 'lib/shared/format';
 import { WalletAccount } from 'lib/shared/types';
 import { capitalizeFirstLetter } from 'utils/string';
 
+import AddressChip from '../AddressChip';
 import HashChip from '../HashChip';
 import { IActivity } from './IActivity';
 
@@ -60,7 +61,7 @@ const AccountDisplay: FC<{
   };
   const displayName = getDisplayName(address);
 
-  return <HashChip hash={address} trimHash={true} fill="#9E9E9E" className="ml-2" displayName={displayName} />;
+  return <AddressChip address={address} fill="#9E9E9E" className="ml-2" displayName={displayName} />;
 });
 
 export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => {

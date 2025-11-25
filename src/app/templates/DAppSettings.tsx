@@ -8,12 +8,12 @@ import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { ReactComponent as CloseIcon } from 'app/icons/close.svg';
 import CustomSelect, { OptionRenderProps } from 'app/templates/CustomSelect';
 import DAppLogo from 'app/templates/DAppLogo';
-import HashChip from 'app/templates/HashChip';
 import { useStorage, useMidenContext, useAccount } from 'lib/miden/front';
 import { MidenDAppSession, MidenDAppSessions, MidenSharedStorageKey } from 'lib/miden/types';
 import { useRetryableSWR } from 'lib/swr';
 import { useConfirm } from 'lib/ui/dialog';
 
+import AddressChip from './AddressChip';
 import { GeneralSettingsSelectors } from './GeneralSettings.selectors';
 
 type DAppEntry = [string, MidenDAppSession];
@@ -181,7 +181,7 @@ const DAppDescription: FC<OptionRenderProps<DAppEntry, string, DAppActions>> = p
       },
       {
         key: 'pkhLabel',
-        value: <HashChip hash={accountId} type="link" small />,
+        value: <AddressChip address={accountId} type="link" small />,
         Component: 'span'
       },
       {

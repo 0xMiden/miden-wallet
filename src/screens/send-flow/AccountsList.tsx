@@ -8,7 +8,7 @@ import { Avatar } from 'components/Avatar';
 import { CardItem } from 'components/CardItem';
 import { EmptyState } from 'components/EmptyState';
 import { NavigationHeader } from 'components/NavigationHeader';
-import { shortenAddress } from 'utils/string';
+import { truncateAddress } from 'utils/string';
 
 import { Contact } from './types';
 
@@ -45,7 +45,7 @@ export const AccountsList: React.FC<AccountsListProps> = ({
             <CardItem
               key={c.id}
               title={c.name}
-              subtitle={shortenAddress(c.id)}
+              subtitle={truncateAddress(c.id)}
               iconLeft={<Avatar image="/misc/avatars/miden-orange.png" size="lg" />}
               iconRight={c.id === recipientAccountId ? IconName.CheckboxCircleFill : undefined}
               onClick={() => onSelectContact(c)}

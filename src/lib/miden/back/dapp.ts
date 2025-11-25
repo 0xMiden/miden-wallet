@@ -52,7 +52,7 @@ import {
 } from 'lib/miden/types';
 import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
 import { WalletStatus } from 'lib/shared/types';
-import { capitalizeFirstLetter, shortenAddress } from 'utils/string';
+import { capitalizeFirstLetter, truncateAddress, truncateHash } from 'utils/string';
 
 import { queueNoteImport } from '../activity';
 import {
@@ -1178,7 +1178,7 @@ async function formatConsumeTransactionPreview(transaction: MidenConsumeTransact
     'Consuming note from faucet',
     transaction.faucetId,
     `Amount, ${amount}`,
-    `Note ID, ${shortenAddress(transaction.noteId)}`,
+    `Note ID, ${truncateHash(transaction.noteId)}`,
     `Note Type, ${capitalizeFirstLetter(transaction.noteType)}`
   ];
 }
@@ -1187,7 +1187,7 @@ function formatCustomTransactionPreview(payload: MidenCustomTransaction): string
   return [
     'This dApp is requesting a custom transaction,',
     'please ensure you know the details of the transaction before proceeding.',
-    `Recipient, ${shortenAddress(payload.recipientAccountId)}`
+    `Recipient, ${truncateAddress(payload.recipientAccountId)}`
   ];
 }
 

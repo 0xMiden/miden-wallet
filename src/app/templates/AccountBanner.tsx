@@ -2,7 +2,7 @@ import React, { HTMLAttributes, memo, ReactNode } from 'react';
 
 import classNames from 'clsx';
 
-import HashShortView from 'app/atoms/HashShortView';
+import AddressShortView from 'app/atoms/AddressShortView';
 import Name from 'app/atoms/Name';
 import { Icon, IconName } from 'app/icons/v2';
 import { WalletAccount } from 'lib/shared/types';
@@ -24,7 +24,7 @@ const AccountBanner = memo<AccountBannerProps>(({ className, account }) => {
 
         <div className="flex items-center ml-3 text-sm">
           <Name className="text-gray-600 mr-3">{account!.name}</Name>
-          <HashShortView hash={account!.publicKey} />
+          <AddressShortView address={account!.publicKey} />
         </div>
       </div>
     </div>

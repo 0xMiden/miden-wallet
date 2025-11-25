@@ -7,7 +7,7 @@ import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
 import { Avatar } from 'components/Avatar';
 import { CardItem } from 'components/CardItem';
 import { useAccount, useAllTokensBaseMetadata, useAllBalances } from 'lib/miden/front';
-import { shortenAddress } from 'utils/string';
+import { truncateAddress } from 'utils/string';
 
 const Tokens: FC = () => {
   const midenFaucetId = useMidenFaucetId();
@@ -40,7 +40,7 @@ const Tokens: FC = () => {
                       <Avatar size="lg" image={isMiden ? '/misc/miden.png' : '/misc/token-logos/default.svg'} />
                     }
                     title={metadata.symbol}
-                    subtitle={shortenAddress(tokenId, 13, 7)}
+                    subtitle={truncateAddress(tokenId, false)}
                     titleRight={`$${balance.toFixed(2)}`}
                     subtitleRight={balance.toFixed(2)}
                     className="flex-1 border border-grey-50 rounded-lg "

@@ -7,6 +7,7 @@ import { openLoadingFullPage, useAppEnv } from 'app/env';
 import { useMidenClient } from 'app/hooks/useMidenClient';
 import { Icon, IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
+import AddressChip from 'app/templates/AddressChip';
 import { Button, ButtonVariant } from 'components/Button';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { T } from 'lib/i18n/react';
@@ -17,9 +18,7 @@ import { ConsumableNote } from 'lib/miden/types';
 import { isDelegateProofEnabled } from 'lib/settings/helpers';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 import { HistoryAction, navigate } from 'lib/woozie';
-import { shortenAddress } from 'utils/string';
-
-import AddressChip from './Explore/AddressChip';
+import { truncateAddress } from 'utils/string';
 
 export interface ReceiveProps {}
 
@@ -145,7 +144,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
             <div className="flex flex-col">
               <p className="text-sm md:text-xs text-gray-400 pl-2 md:pl-0">Your address</p>
               {popup ? (
-                <AddressChip publicKey={address} trim={false} className="text-sm" />
+                <AddressChip address={address} trim={false} className="flex items-center text-sm" />
               ) : (
                 <p className="text-sm">{address}</p>
               )}
@@ -188,7 +187,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
                         note.metadata?.symbol || 'UNKNOWN'
                       }`}
                     </p>
-                    <p className="text-xs text-gray-100">{shortenAddress(note.senderAddress)}</p>
+                    <p className="text-xs text-gray-100">{truncateAddress(note.senderAddress)}</p>
                   </div>
                 </div>
                 {note.isBeingClaimed ? (

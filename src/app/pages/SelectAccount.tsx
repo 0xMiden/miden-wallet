@@ -10,7 +10,7 @@ import { Button, ButtonVariant } from 'components/Button';
 import { T } from 'lib/i18n/react';
 import { useAccount, useAllAccounts, useMidenContext } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
-import { shortenAddress } from 'utils/string';
+import { truncateAddress } from 'utils/string';
 
 const SelectAccount: FC = () => {
   const { updateCurrentAccount } = useMidenContext();
@@ -69,7 +69,7 @@ const SelectAccount: FC = () => {
                       </Name>
                       <div className="flex w-full items-start">
                         <span style={{ fontSize: '12px', lineHeight: '16px' }}>
-                          {acc.isPublic ? 'Public' : 'Private'} • {shortenAddress(acc.publicKey)}
+                          {acc.isPublic ? 'Public' : 'Private'} • {truncateAddress(acc.publicKey)}
                         </span>
                       </div>
                     </div>

@@ -9,6 +9,7 @@ import { ReactComponent as ReceiveIcon } from 'app/icons/receive.svg';
 import { ReactComponent as SendIcon } from 'app/icons/send.svg';
 import Footer from 'app/layouts/PageLayout/Footer';
 import Header from 'app/layouts/PageLayout/Header';
+import AddressChip from 'app/templates/AddressChip';
 import { ChainInstabilityBanner } from 'components/ChainInstabilityBanner';
 import { ConnectivityIssueBanner } from 'components/ConnectivityIssueBanner';
 import { TestIDProps } from 'lib/analytics';
@@ -24,7 +25,6 @@ import { Link, navigate, To } from 'lib/woozie';
 import { isHexAddress } from 'utils/miden';
 
 import { ExploreSelectors } from './Explore.selectors';
-import AddressChip from './Explore/AddressChip';
 import MainBanner from './Explore/MainBanner';
 import Tokens from './Explore/Tokens';
 
@@ -141,7 +141,7 @@ const Explore: FC = () => {
         <div className={classNames('flex flex-col justify-start mt-6')}>
           <div className="flex flex-col w-full justify-center items-center">
             <MainBanner />
-            <AddressChip publicKey={account.publicKey} />
+            <AddressChip address={account.publicKey} className="flex items-center" />
           </div>
           <div className="flex justify-evenly items-center w-full mt-1 px-2 mb-4">
             <ActionButton
