@@ -1262,20 +1262,11 @@
     dexie "^4.0.1"
     glob "^11.0.0"
 
-"@demox-labs/miden-wallet-adapter-base@0.9.0", "@demox-labs/miden-wallet-adapter-base@^0.9.0":
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-base/-/miden-wallet-adapter-base-0.9.0.tgz#104538cb7e74c8b02d77c1741a8cc2688e585b28"
-  integrity sha512-THKrVtC9LFnTJfjwAeGQtE4Xj3C5Wj1bQ5ezH1FrJxinhWC0vyBXizHQDvcXqKSVnnokzctHt3NW758r1SmcDg==
-  dependencies:
-    eventemitter3 "^5.0.1"
+"@demox-labs/miden-wallet-adapter-base@file:../miden-wallet-adapter/packages/core/base/dist":
+  version "0.0.0"
 
-"@demox-labs/miden-wallet-adapter-miden@0.9.0":
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-miden/-/miden-wallet-adapter-miden-0.9.0.tgz#f2782d2feab0fc2862378ca37e487317afed9b7f"
-  integrity sha512-7igdSGpQ+dls0b/M0ob+JeRryy2gHbKoYFpOPdPZNm9Tw0uua/CS/zioyGF+d72QPlQzx732a9NdETrF1pdl2Q==
-  dependencies:
-    "@demox-labs/miden-wallet-adapter-base" "^0.9.0"
-    nanoid "^5.0.9"
+"@demox-labs/miden-wallet-adapter-miden@file:../miden-wallet-adapter/packages/wallets/miden/dist":
+  version "0.0.0"
 
 "@dicebear/avatars-bottts-sprites@4.2.5":
   version "4.2.5"
@@ -6445,11 +6436,6 @@ eventemitter3@^2.0.0:
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-2.0.3.tgz#b5e1079b59fb5e1ba2771c0a993be060a58c99ba"
   integrity sha512-jLN68Dx5kyFHaePoXWPsCGW5qdyZQtLYHkxkg02/Mz6g0kYpDx4FyP6XfArhQdlOC4b8Mv+EMxPo/8La7Tzghg==
 
-eventemitter3@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-5.0.1.tgz#53f5ffd0a492ac800721bb42c66b841de96423c4"
-  integrity sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==
-
 events@^3.2.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
@@ -9530,11 +9516,6 @@ nanoid@^4.0.0:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-4.0.2.tgz#140b3c5003959adbebf521c170f282c5e7f9fb9e"
   integrity sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==
-
-nanoid@^5.0.9:
-  version "5.1.6"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-5.1.6.tgz#30363f664797e7d40429f6c16946d6bd7a3f26c9"
-  integrity sha512-c7+7RQ+dMB5dPwwCp4ee1/iV/q2P6aK1mTZcfr1BTuVlyW9hJYiMPybJCcnBlQtuSmTIWNeazm/zqNoZSSElBg==
 
 nanomatch@^1.2.9:
   version "1.2.13"

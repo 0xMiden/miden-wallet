@@ -30,7 +30,7 @@ import { MidenDAppPermission } from 'lib/adapter/types';
 import { b64ToU8, bytesToHex, u8ToB64 } from 'lib/shared/helpers';
 
 export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implements MidenWallet {
-  accountId?: string | undefined;
+  address?: string | undefined;
   publicKey?: Uint8Array | undefined;
   permission?: MidenDAppPermission | undefined;
   appName?: string | undefined;
@@ -42,17 +42,17 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
   }
 
   async requestSend(transaction: MidenSendTransaction): Promise<{ transactionId?: string | undefined }> {
-    const res = await requestSend(this.accountId!, transaction);
+    const res = await requestSend(this.address!, transaction);
     return { transactionId: res };
   }
 
   async requestConsume(transaction: MidenConsumeTransaction): Promise<{ transactionId?: string }> {
-    const res = await requestConsume(this.accountId!, transaction);
+    const res = await requestConsume(this.address!, transaction);
     return { transactionId: res };
   }
 
   async requestTransaction(transaction: MidenTransaction): Promise<{ transactionId?: string | undefined }> {
-    const res = await requestTransaction(this.accountId!, transaction);
+    const res = await requestTransaction(this.address!, transaction);
     return { transactionId: res };
   }
 
@@ -60,7 +60,7 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
     notefilterType: NoteFilterTypes,
     noteIds?: string[]
   ): Promise<{ privateNotes: InputNoteDetails[] }> {
-    const res = await requestPrivateNotes(this.accountId!, notefilterType, noteIds);
+    const res = await requestPrivateNotes(this.address!, notefilterType, noteIds);
     return { privateNotes: res };
   }
 
@@ -68,7 +68,7 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
     const publicKeyAsHex = bytesToHex(this.publicKey!);
     const messageAsB64 = u8ToB64(data);
 
-    const signatureAsB64 = await signBytes(this.accountId!, publicKeyAsHex, messageAsB64, kind);
+    const signatureAsB64 = await signBytes(this.address!, publicKeyAsHex, messageAsB64, kind);
     const signatureAsU8Array = b64ToU8(signatureAsB64);
     return { signature: signatureAsU8Array };
   }
@@ -76,17 +76,17 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
   async importPrivateNote(note: Uint8Array): Promise<{ noteId: string }> {
     const noteAsB64 = u8ToB64(note);
 
-    const noteId = await importPrivateNote(this.accountId!, noteAsB64);
+    const noteId = await importPrivateNote(this.address!, noteAsB64);
     return { noteId };
   }
 
   async requestAssets(): Promise<{ assets: any[] }> {
-    const res = await requestAssets(this.accountId!);
+    const res = await requestAssets(this.address!);
     return { assets: res };
   }
 
   async requestConsumableNotes(): Promise<{ consumableNotes: InputNoteDetails[] }> {
-    const res = await requestConsumableNotes(this.accountId!);
+    const res = await requestConsumableNotes(this.address!);
     return { consumableNotes: res };
   }
 
@@ -103,7 +103,7 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
       allowedPrivateData
     );
     this.permission = perm;
-    this.accountId = perm.accountId;
+    this.address = perm.address;
     this.network = network;
     this.publicKey = perm.publicKey;
     this.clearAccountChangeInterval = onPermissionChange((perm: MidenDAppPermission) => {
@@ -113,7 +113,7 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
 
   async disconnect(): Promise<void> {
     await requestDisconnect();
-    this.accountId = undefined;
+    this.address = undefined;
     this.permission = undefined;
     this.clearAccountChangeInterval && this.clearAccountChangeInterval();
   }

@@ -212,7 +212,7 @@ export enum MidenDAppErrorType {
 
 export type MidenDAppPermission = {
   rpc?: string;
-  accountId: string;
+  address: string;
   privateDataPermission: PrivateDataPermission;
   allowedPrivateData: AllowedPrivateData;
 } | null;

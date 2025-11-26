@@ -75,7 +75,7 @@ export async function getCurrentPermission(origin: string): Promise<MidenDAppGet
   const permission = dApp
     ? {
         rpc: await getNetworkRPC(dApp.network),
-        accountId: dApp.accountId,
+        address: dApp.accountId,
         privateDataPermission: dApp.privateDataPermission,
         allowedPrivateData: dApp.allowedPrivateData
       }
@@ -752,7 +752,7 @@ const generatePromisifyTransaction = async (
     transactionMessages = await withUnlocked(async () => {
       const { payload } = req.transaction;
       const customTransaction = payload as MidenCustomTransaction;
-      if (!customTransaction.accountId || !customTransaction.transactionRequest) {
+      if (!customTransaction.address || !customTransaction.transactionRequest) {
         reject(new Error(`${MidenDAppErrorType.InvalidParams}: Invalid CustomTransaction payload`));
       }
 
@@ -782,15 +782,15 @@ const generatePromisifyTransaction = async (
           try {
             const transactionId = await withUnlocked(async () => {
               const { payload } = req.transaction;
-              const { accountId, recipientAccountId, transactionRequest, inputNoteIds, importNotes } =
+              const { address, recipientAddress, transactionRequest, inputNoteIds, importNotes } =
                 payload as MidenCustomTransaction;
               return await requestCustomTransaction(
-                accountId,
+                address,
                 transactionRequest,
                 inputNoteIds,
                 importNotes,
                 confirmReq.delegate,
-                recipientAccountId || undefined
+                recipientAddress || undefined
               );
             });
             resolve({
@@ -871,10 +871,10 @@ const generatePromisifySendTransaction = async (
         if (confirmReq.confirmed) {
           try {
             const transactionId = withUnlocked(async () => {
-              const { senderAccountId, recipientAccountId, faucetId, noteType, amount, recallBlocks } = req.transaction;
+              const { senderAddress, recipientAddress, faucetId, noteType, amount, recallBlocks } = req.transaction;
               return await initiateSendTransaction(
-                senderAccountId,
-                recipientAccountId,
+                senderAddress,
+                recipientAddress,
                 faucetId,
                 noteType as any,
                 BigInt(amount),
@@ -1159,7 +1159,7 @@ function formatSendTransactionPreview(transaction: SendTransaction): string[] {
     'Transfer note from faucet:',
     transaction.faucetId,
     `Amount, ${transaction.amount}`,
-    `Recipient, ${transaction.recipientAccountId}`,
+    `Recipient, ${transaction.recipientAddress}`,
     `Note Type, ${capitalizeFirstLetter(transaction.noteType)}`
   ];
 
@@ -1187,7 +1187,7 @@ function formatCustomTransactionPreview(payload: MidenCustomTransaction): string
   return [
     'This dApp is requesting a custom transaction,',
     'please ensure you know the details of the transaction before proceeding.',
-    `Recipient, ${truncateAddress(payload.recipientAccountId)}`
+    `Recipient, ${truncateAddress(payload.recipientAddress)}`
   ];
 }
 

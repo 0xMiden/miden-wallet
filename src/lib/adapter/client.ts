@@ -106,7 +106,7 @@ export async function requestPermission(
   assertResponse(res.type === MidenDAppMessageType.PermissionResponse);
   return {
     rpc: res.network,
-    accountId: res.accountId,
+    address: res.accountId,
     privateDataPermission: res.privateDataPermission,
     allowedPrivateData: res.allowedPrivateData,
     publicKey: b64ToU8(res.publicKey)
@@ -239,7 +239,7 @@ function request(payload: MidenDAppRequest) {
 
 function permissionsAreEqual(aPerm: MidenDAppPermission, bPerm: MidenDAppPermission) {
   if (aPerm === null) return bPerm === null;
-  return aPerm.accountId === bPerm?.accountId && aPerm.rpc === bPerm?.rpc;
+  return aPerm.address === bPerm?.address && aPerm.rpc === bPerm?.rpc;
 }
 
 function createError(payload: any) {
