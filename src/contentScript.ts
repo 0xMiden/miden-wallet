@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill';
 
 import { MidenPageMessageType, MidenPageMessage } from 'lib/adapter/types';
 import { IntercomClient } from 'lib/intercom/client';
-import { serealizeError } from 'lib/intercom/helpers';
+import { serializeError } from 'lib/intercom/helpers';
 import { MidenMessageType, MidenResponse } from 'lib/miden/types';
 
 enum BeaconMessageTarget {
@@ -95,7 +95,7 @@ function midenRequest(evt: MessageEvent) {
       send(
         {
           type: MidenPageMessageType.ErrorResponse,
-          payload: serealizeError(err),
+          payload: serializeError(err),
           reqId
         },
         evt.origin

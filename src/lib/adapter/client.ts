@@ -244,19 +244,41 @@ function permissionsAreEqual(aPerm: MidenDAppPermission, bPerm: MidenDAppPermiss
 
 function createError(payload: any) {
   console.log('Error: ', payload);
-  switch (true) {
-    case payload === MidenDAppErrorType.NotGranted:
-      return new NotGrantedMidenWalletError();
 
-    case payload === MidenDAppErrorType.NotFound:
-      return new NotFoundMidenWalletError();
+  const getMessage = (value: any): string | undefined => {
+    if (Array.isArray(value)) {
+      return typeof value[0] === 'string' ? value[0] : String(value[0]);
+    }
+    if (typeof value === 'string') {
+      return value;
+    }
+    if (value && typeof value === 'object' && typeof (value as any).message === 'string') {
+      return (value as any).message;
+    }
+    return undefined;
+  };
 
-    case payload === MidenDAppErrorType.InvalidParams:
-      return new InvalidParamsMidenWalletError();
+  const message = getMessage(payload);
+  const includesCode = (code: MidenDAppErrorType) =>
+    payload === code || (typeof message === 'string' && message.includes(code));
 
-    default:
-      return new MidenWalletError();
+  let error: MidenWalletError;
+
+  if (includesCode(MidenDAppErrorType.NotGranted)) {
+    error = new NotGrantedMidenWalletError();
+  } else if (includesCode(MidenDAppErrorType.NotFound)) {
+    error = new NotFoundMidenWalletError();
+  } else if (includesCode(MidenDAppErrorType.InvalidParams)) {
+    error = new InvalidParamsMidenWalletError();
+  } else {
+    error = new MidenWalletError();
   }
+
+  if (message) {
+    error.message = message;
+  }
+
+  return error;
 }
 
 export function assertResponse(condition: any): asserts condition {
