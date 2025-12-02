@@ -870,7 +870,7 @@ const generatePromisifySendTransaction = async (
       if (confirmReq?.type === MidenMessageType.DAppTransactionConfirmationRequest && confirmReq?.id === id) {
         if (confirmReq.confirmed) {
           try {
-            const transactionId = withUnlocked(async () => {
+            const transactionId = await withUnlocked(async () => {
               const { senderAddress, recipientAddress, faucetId, noteType, amount, recallBlocks } = req.transaction;
               return await initiateSendTransaction(
                 senderAddress,
