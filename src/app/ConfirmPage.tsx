@@ -487,7 +487,7 @@ const ConfirmDAppForm: FC = () => {
             payload.allowedPrivateData
           );
         case 'transaction':
-          !delegate && openLoadingFullPage();
+          openLoadingFullPage();
           return confirmDAppTransaction(id, confirmed, delegate);
         case 'privateNotes':
           return confirmDAppPrivateNotes(id, confirmed);
