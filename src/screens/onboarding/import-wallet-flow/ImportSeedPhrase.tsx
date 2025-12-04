@@ -6,10 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { Button } from 'components/Button';
 import { Input } from 'components/Input';
 
-// Define the delimiters used to split the phrase
-const delimiters = /[\s,;.\-:/\\_|]+/;
-// const delimiters = /[\s]+/g
-const phraseLength = 12;
+const DELIMITERS = /[\s,;.\-:/\\_|]+/;
+const PHRASE_LENGTH = 12;
 
 export interface ImportSeedPhraseScreenProps {
   className?: string;
@@ -25,7 +23,7 @@ export const ImportSeedPhraseScreen: React.FC<ImportSeedPhraseScreenProps> = ({
   onSubmit
 }) => {
   const { t } = useTranslation();
-  const [seedPhrase, setSeedPhrase] = useState<string[]>(Array.from({ length: phraseLength }, () => ''));
+  const [seedPhrase, setSeedPhrase] = useState<string[]>(Array.from({ length: PHRASE_LENGTH }, () => ''));
 
   // Map seep phrase words to wordslist.
   // If a word is not in the wordslist, it's index is mapped to true,
@@ -47,15 +45,12 @@ export const ImportSeedPhraseScreen: React.FC<ImportSeedPhraseScreenProps> = ({
   const onInputPaste: React.ClipboardEventHandler = useCallback(
     event => {
       event.preventDefault();
-      const clipboardData = event.clipboardData.getData('text');
-      const words = clipboardData.split(delimiters);
+      const clipboardData = event.clipboardData.getData('text').trim();
+      const words = clipboardData.split(DELIMITERS);
       setSeedPhrase(words);
     },
     [setSeedPhrase]
   );
-
-  // abandon ability able about above absent absorb abstract absurd abuse access accident
-  // abandon ability able ab above absent31 absorb|abstract absurd abuse access accident
 
   return (
     <div className={classNames('flex-1', 'flex flex-col justify-start items-center', 'bg-white p-6', className)}>
@@ -64,7 +59,7 @@ export const ImportSeedPhraseScreen: React.FC<ImportSeedPhraseScreenProps> = ({
       <p className="text-sm">{t('onlyMidenSeedPhrasesAreSupported')}</p>
 
       <div className="grid grid-cols-3 mt-8 gap-2">
-        {Array.from({ length: phraseLength }).map((_, index) => (
+        {Array.from({ length: PHRASE_LENGTH }).map((_, index) => (
           <Input
             id={`seed-phrase-input-${index}`}
             key={index}

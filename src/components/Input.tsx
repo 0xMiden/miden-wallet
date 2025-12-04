@@ -27,6 +27,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && <label className={classNames('text-sm font-medium', labelClassName)}>{label}</label>}
         <div
           className={classNames(
+            'relative',
             'flex flex-row items-center',
             'transition duration-300 ease-in-out',
             'overflow-hidden',
@@ -34,7 +35,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             'has-[:focus]:outline-none has-[:focus]:border-black has-[:focus]:ring-1 has-[:focus]:ring-black'
           )}
         >
-          {prefix && <div className="flex text-gray-400 ml-4 text-base">{prefix}</div>}
+          {prefix && (
+            <div className="absolute inset-y-0 left-0 flex items-center">
+              <span className="w-8 text-right text-gray-400 text-base">{prefix}</span>
+            </div>
+          )}
           <input
             ref={ref}
             className={classNames(
@@ -43,7 +48,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               'placeholder-grey-400',
               'text-base',
               'outline-none',
-              prefix ? 'pl-2' : 'pl-4',
+              prefix ? 'pl-10' : 'pl-4',
               suffix ? 'pr-2' : 'pr-4',
               inputClassName
             )}
