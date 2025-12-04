@@ -51,40 +51,51 @@ const Explore: FC = () => {
   const { fullPage } = useAppEnv();
 
   const midenNotes = useMemo(() => {
-    if (!shouldAutoConsume) {
+    if (!shouldAutoConsume || !claimableNotes) {
       return [];
     }
 
-    return claimableNotes?.filter(note => note!.faucetId === midenFaucetId);
+    return claimableNotes.filter(note => note!.faucetId === midenFaucetId);
   }, [claimableNotes, midenFaucetId, shouldAutoConsume]);
 
   const selfClaimableNotes = useMemo(() => {
-    if (!shouldAutoConsume) {
-      return claimableNotes;
+    if (!shouldAutoConsume || !claimableNotes) {
+      return [];
     }
 
-    return claimableNotes?.filter(note => note!.faucetId !== midenFaucetId);
+    return claimableNotes.filter(note => note!.faucetId !== midenFaucetId);
   }, [claimableNotes, midenFaucetId, shouldAutoConsume]);
 
+  const hasAutoConsumableNotes = useMemo(() => {
+    return midenNotes.length > 0;
+  }, [midenNotes]);
+
   const autoConsumeMidenNotes = useCallback(async () => {
-    if (!shouldAutoConsume) {
+    if (!shouldAutoConsume || !hasAutoConsumableNotes) {
       return;
     }
 
-    if (midenNotes && midenNotes.length > 0) {
-      const promises = midenNotes.map(async note => {
-        if (!note!.isBeingClaimed) {
-          initiateConsumeTransaction(account.publicKey, note!, isDelegatedProvingEnabled);
-        }
-      });
-      await Promise.all(promises);
-      mutateClaimableNotes();
-    }
-  }, [midenNotes, isDelegatedProvingEnabled, mutateClaimableNotes, account.publicKey, shouldAutoConsume]);
+    const promises = midenNotes!.map(async note => {
+      if (!note.isBeingClaimed) {
+        await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
+      }
+    });
+    await Promise.all(promises);
+    mutateClaimableNotes();
+  }, [
+    midenNotes,
+    isDelegatedProvingEnabled,
+    mutateClaimableNotes,
+    account.publicKey,
+    shouldAutoConsume,
+    hasAutoConsumableNotes
+  ]);
 
   useEffect(() => {
-    autoConsumeMidenNotes();
-  }, [autoConsumeMidenNotes]);
+    if (hasAutoConsumableNotes) {
+      autoConsumeMidenNotes();
+    }
+  }, [autoConsumeMidenNotes, hasAutoConsumableNotes]);
 
   const { data: queuedDbTransactions } = useRetryableSWR(
     [`has-queued-transactions`, address],
@@ -159,7 +170,7 @@ const Explore: FC = () => {
                 to="/receive"
                 testID={ExploreSelectors.ReceiveButton}
               />
-              {selfClaimableNotes !== undefined && selfClaimableNotes.length > 0 && (
+              {selfClaimableNotes.length > 0 && (
                 <div className="absolute top-[25%] left-[95%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full border-2 border-white">
                   {selfClaimableNotes.length}
                 </div>
@@ -182,7 +193,7 @@ const Explore: FC = () => {
         </div>
       </div>
       <div className="flex-none">
-        <Footer activityBadge={midenNotes !== undefined && midenNotes.length > 0} />
+        <Footer activityBadge={hasAutoConsumableNotes} />
       </div>
     </div>
   );
