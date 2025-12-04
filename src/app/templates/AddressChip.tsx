@@ -11,6 +11,8 @@ type AddressChipProps = HTMLAttributes<HTMLButtonElement> &
 
 const AddressChip: FC<AddressChipProps> = ({
   address,
+  displayName,
+  trim,
   type = 'button',
   size = 'xs',
   fill = 'black',
@@ -20,7 +22,7 @@ const AddressChip: FC<AddressChipProps> = ({
   <CopyButton text={address} type={type} {...rest}>
     <span className="flex flex-row items-center">
       <span className="mr-1">
-        <AddressShortView address={address} />
+        <AddressShortView address={address} displayName={displayName} trim={trim} />
       </span>
       <Icon name={IconName.Copy} size={size} fill={fill} className={className} />
     </span>
