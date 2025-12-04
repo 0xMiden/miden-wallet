@@ -5,8 +5,6 @@ import CreateAccount from 'app/pages/CreateAccount';
 import Explore from 'app/pages/Explore';
 import Faucet from 'app/pages/Faucet';
 import ImportAccount from 'app/pages/ImportAccount';
-import { CreateWallet } from 'app/pages/NewWallet/CreateWallet';
-import { ImportWallet } from 'app/pages/NewWallet/ImportWallet';
 import { Receive } from 'app/pages/Receive';
 import Settings from 'app/pages/Settings';
 import Unlock from 'app/pages/Unlock';
@@ -40,21 +38,6 @@ interface RouteContext {
 type RouteFactory = Woozie.Router.ResolveResult<RouteContext>;
 
 const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
-  [
-    '/import-wallet/:tabSlug?',
-    (p, ctx) => {
-      switch (true) {
-        case ctx.ready:
-          return Woozie.Router.SKIP;
-
-        case !ctx.fullPage:
-          return <OpenInFullPage />;
-
-        default:
-          return <ImportWallet key={p.tabSlug ?? ''} tabSlug={p.tabSlug ?? undefined} />;
-      }
-    }
-  ],
   ['/reset-required', () => <ResetRequired />],
   [
     '/reset-wallet',
@@ -101,7 +84,6 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   ],
   ['/loading', (_p, ctx) => (ctx.ready ? <Woozie.Redirect to={'/'} /> : <RootSuspenseFallback />)],
   ['/', (_p, ctx) => (ctx.ready ? <Explore /> : <Welcome />)],
-  ['/create-wallet', onlyNotReady(() => <CreateWallet />)],
   ['/select-account', onlyReady(() => <SelectAccount />)],
   ['/create-account', onlyReady(() => <CreateAccount />)],
   ['/edit-name', onlyReady(() => <EditAccountName />)],
@@ -160,8 +142,4 @@ export default PageRouter;
 
 function onlyReady(factory: RouteFactory): RouteFactory {
   return (params, ctx) => (ctx.ready ? factory(params, ctx) : Woozie.Router.SKIP);
-}
-
-function onlyNotReady(factory: RouteFactory): RouteFactory {
-  return (params, ctx) => (ctx.ready ? Woozie.Router.SKIP : factory(params, ctx));
 }

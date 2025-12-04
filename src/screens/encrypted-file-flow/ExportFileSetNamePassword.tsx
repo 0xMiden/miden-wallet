@@ -3,17 +3,13 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
+import { MIN_PASSWORD_LENGTH, STRONG_PASSWORD_LENGTH } from 'app/constants';
 import { lettersNumbersMixtureRegx, specialCharacterRegx, uppercaseLowercaseMixtureRegx } from 'app/defaults';
 import { Icon, IconName } from 'app/icons/v2';
-import { MIN_PASSWORD_LENGTH } from 'app/pages/NewWallet/SetWalletPassword';
 import { Button, ButtonVariant } from 'components/Button';
 import { Input } from 'components/Input';
 import { NavigationHeader } from 'components/NavigationHeader';
-import {
-  PasswordStrengthIndicator,
-  PasswordValidation,
-  STRONG_PASSWORD_LENGTH
-} from 'screens/onboarding/common/CreatePassword';
+import { PasswordStrengthIndicator, PasswordValidation } from 'screens/onboarding/common/CreatePassword';
 
 export interface ExportFilePasswordProps {
   onGoNext: () => void;

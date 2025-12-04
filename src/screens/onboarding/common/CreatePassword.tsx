@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
+import { MIN_PASSWORD_LENGTH, STRONG_PASSWORD_LENGTH } from 'app/constants';
 import { Icon, IconName } from 'app/icons/v2';
 import { Button } from 'components/Button';
 import { Input } from 'components/Input';
@@ -16,8 +17,6 @@ export interface PasswordValidation {
   strongPasswordLength?: boolean;
 }
 
-const MIN_PASSWORD_LENGTH = 8;
-export const STRONG_PASSWORD_LENGTH = 12;
 const uppercaseLowercaseMixtureRegx = /(?=.*[a-z])(?=.*[A-Z])/;
 const lettersNumbersMixtureRegx = /(?=.*\d)(?=.*[A-Za-z])/;
 const specialCharacterRegx = /[!@#$%^&*()_+\-=\]{};':"\\|,.<>?]/;
