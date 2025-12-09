@@ -106,3 +106,31 @@ export async function closeLoadingFullPage() {
 
   browser.tabs.remove(ids);
 }
+
+function createConsumingFullPageUrl(noteId: string) {
+  const url = createUrl('fullpage.html', '', `#/consuming-note/${noteId}`);
+  return browser.runtime.getURL(url);
+}
+
+export async function openConsumingFullPage(noteId: string) {
+  const consumingTransactionUrl = createConsumingFullPageUrl(noteId);
+
+  const openTabs = await browser.tabs.query({});
+  if (openTabs.filter(t => t.url === consumingTransactionUrl).length === 0)
+    browser.tabs.create({
+      url: consumingTransactionUrl,
+      active: false
+    });
+}
+
+export async function closeConsumingFullPage(noteId: string) {
+  const consumingTransactionUrl = createConsumingFullPageUrl(noteId);
+
+  const openTabs = await browser.tabs.query({});
+  const ids = openTabs
+    .filter(t => t.url === consumingTransactionUrl)
+    .map(t => t.id)
+    .filter(id => !!id) as number[];
+
+  browser.tabs.remove(ids);
+}

@@ -319,7 +319,7 @@ export const getTransactionById = async (id: string) => {
 
 export const generateTransactionsLoop = async (
   signCallback: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
-) => {
+): Promise<boolean | void> => {
   await cancelStuckTransactions();
 
   // Import any notes needed for queued transactions
@@ -344,12 +344,14 @@ export const generateTransactionsLoop = async (
   // Call safely to cancel transaction and unlock records if something goes wrong
   try {
     await generateTransaction(nextTransaction, signCallback);
+    return true;
   } catch (e) {
     logger.warning('Failed to generate transaction', e);
     console.log(e);
     // Cancel the transaction if it hasn't already been cancelled
     const tx = await Repo.transactions.where({ id: nextTransaction.id }).first();
     if (tx && tx.status !== ITransactionStatus.Failed) await cancelTransaction(tx);
+    return false;
   }
 };
 
@@ -360,7 +362,13 @@ export const safeGenerateTransactionsLoop = async (
     .request(`generate-transactions-loop`, { ifAvailable: true }, async lock => {
       if (!lock) return;
 
-      await generateTransactionsLoop(signCallback);
+      const result = await generateTransactionsLoop(signCallback);
+      if (result === false) {
+        return false;
+      }
+
+      // Either a transaction was processed successfully (true)
+      // or there was nothing to do / another transaction is in progress (undefined).
       return true;
     })
     .catch(e => {
