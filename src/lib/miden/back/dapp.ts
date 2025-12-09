@@ -52,7 +52,7 @@ import {
 } from 'lib/miden/types';
 import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
 import { WalletStatus } from 'lib/shared/types';
-import { capitalizeFirstLetter, truncateAddress, truncateHash } from 'utils/string';
+import { capitalizeFirstLetter, truncateAddress } from 'utils/string';
 
 import { queueNoteImport } from '../activity';
 import {
@@ -944,13 +944,13 @@ const generatePromisifyConsumeTransaction = async (
   await requestConfirm({
     id,
     payload: {
-      type: 'transaction',
+      type: 'consume',
       origin,
       networkRpc,
       appMeta: dApp.appMeta,
       sourcePublicKey: req.sourcePublicKey,
       transactionMessages,
-      preview: null
+      noteId: req.transaction.noteId
     },
     onDecline: () => {
       reject(new Error(MidenDAppErrorType.NotGranted));
@@ -1175,10 +1175,8 @@ async function formatConsumeTransactionPreview(transaction: MidenConsumeTransact
   const tokenMetadata = await getTokenMetadata(faucetId);
   const amount = formatAmountSafe(BigInt(transaction.amount), 'consume', tokenMetadata?.decimals);
   return [
-    'Consuming note from faucet',
-    transaction.faucetId,
+    `Consuming note from faucet: ${truncateAddress(transaction.faucetId, false)}`,
     `Amount, ${amount}`,
-    `Note ID, ${truncateHash(transaction.noteId)}`,
     `Note Type, ${capitalizeFirstLetter(transaction.noteType)}`
   ];
 }

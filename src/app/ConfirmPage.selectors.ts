@@ -10,6 +10,8 @@ export enum ConfirmPageSelectors {
   RecordsAction_AcceptButton = 'ConfirmPage/RecordsAction/AcceptButton',
   TransactionAction_RejectButton = 'ConfirmPage/TransactionAction/RejectButton',
   TransactionAction_AcceptButton = 'ConfirmPage/TransactionAction/AcceptButton',
+  ConsumeAction_RejectButton = 'ConfirmPage/ConsumeAction/RejectButton',
+  ConsumeAction_AcceptButton = 'ConfirmPage/ConsumeAction/AcceptButton',
   BulkTransactionsAction_RejectButton = 'ConfirmPage/BulkTransactionsAction/RejectButton',
   BulkTransactionsAction_AcceptButton = 'ConfirmPage/BulkTransactionsAction/AcceptButton',
   DeployAction_RejectButton = 'ConfirmPage/DeployAction/RejectButton',

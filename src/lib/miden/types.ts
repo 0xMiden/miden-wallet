@@ -78,6 +78,13 @@ export interface MidenDAppTransactionPayload extends MidenDAppPayloadBase {
   transactionMessages: string[];
 }
 
+export interface MidenDAppConsumePayload extends MidenDAppPayloadBase {
+  type: 'consume';
+  sourcePublicKey: string;
+  transactionMessages: string[];
+  noteId: string;
+}
+
 export interface MidenDAppPrivateNotesPayload extends MidenDAppPayloadBase {
   type: 'privateNotes';
   sourcePublicKey: string;
@@ -117,6 +124,7 @@ export interface MidenDAppConsumableNotesPayload extends MidenDAppPayloadBase {
 export type MidenDAppPayload =
   | MidenDAppConnectPayload
   | MidenDAppTransactionPayload
+  | MidenDAppConsumePayload
   | MidenDAppPrivateNotesPayload
   | MidenDAppSignPayload
   | MidenDAppAssetsPayload
@@ -135,6 +143,8 @@ export enum MidenMessageType {
   DAppPermConfirmationResponse = 'MIDEN_DAPP_PERM_CONFIRMATION_RESPONSE',
   DAppTransactionConfirmationRequest = 'MIDEN_DAPP_TRANSACTION_CONFIRMATION_REQUEST',
   DAppTransactionConfirmationResponse = 'MIDEN_DAPP_TRANSACTION_CONFIRMATION_RESPONSE',
+  DAppConsumeConfirmationRequest = 'MIDEN_DAPP_CONSUME_CONFIRMATION_REQUEST',
+  DAppConsumeConfirmationResponse = 'MIDEN_DAPP_CONSUME_CONFIRMATION_RESPONSE',
   DAppGetAllSessionsRequest = 'MIDEN_DAPP_GET_ALL_SESSIONS_REQUEST',
   DAppGetAllSessionsResponse = 'MIDEN_DAPP_GET_ALL_SESSIONS_RESPONSE',
   DAppRemoveSessionRequest = 'MIDEN_DAPP_REMOVE_SESSION_REQUEST',
@@ -156,6 +166,7 @@ export type MidenRequest =
   | MidenDAppGetPayloadRequest
   | MidenDAppPermConfirmationRequest
   | MidenDAppTransactionConfirmationRequest
+  | MidenDAppConsumeConfirmationRequest
   | MidenGetAllDAppSessionsRequest
   | MidenRemoveDAppSessionRequest
   | MidenDAppPrivateNotesConfirmationRequest
@@ -169,6 +180,7 @@ export type MidenResponse =
   | MidenDAppGetPayloadResponse
   | MidenDAppPermConfirmationResponse
   | MidenDAppTransactionConfirmationResponse
+  | MidenDAppconsumeConfirmationResponse
   | MidenGetAllDAppSessionsResponse
   | MidenRemoveDAppSessionResponse
   | MidenDAppPrivateNotesConfirmationResponse
@@ -225,6 +237,14 @@ export interface MidenDAppTransactionConfirmationRequest extends WalletMessageBa
 
 export interface MidenDAppTransactionConfirmationResponse extends WalletMessageBase {
   type: MidenMessageType.DAppTransactionConfirmationResponse;
+}
+
+export interface MidenDAppConsumeConfirmationRequest extends WalletMessageBase {
+  type: MidenMessageType.DAppConsumeConfirmationRequest;
+}
+
+export interface MidenDAppconsumeConfirmationResponse extends WalletMessageBase {
+  type: MidenMessageType.DAppConsumeConfirmationResponse;
 }
 
 export interface MidenGetAllDAppSessionsRequest extends WalletMessageBase {

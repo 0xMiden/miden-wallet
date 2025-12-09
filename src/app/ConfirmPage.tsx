@@ -24,14 +24,14 @@ import { useRetryableSWR } from 'lib/swr';
 import useSafeState from 'lib/ui/useSafeState';
 import useTippy from 'lib/ui/useTippy';
 import { useLocation } from 'lib/woozie';
-import { truncateAddress } from 'utils/string';
+import { truncateAddress, truncateHash } from 'utils/string';
 
 import Alert from './atoms/Alert';
 import FormSecondaryButton from './atoms/FormSecondaryButton';
 import FormSubmitButton from './atoms/FormSubmitButton';
 import Name from './atoms/Name';
 import { ConfirmPageSelectors } from './ConfirmPage.selectors';
-import { openLoadingFullPage } from './env';
+import { openConsumingFullPage, openLoadingFullPage } from './env';
 import { Icon, IconName } from './icons/v2';
 import AccountBanner from './templates/AccountBanner';
 import ConnectBanner from './templates/ConnectBanner';
@@ -206,6 +206,48 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
       );
       break;
     }
+
+    case 'consume':
+      content = (
+        <div>
+          <div className="text-sm" key={0}>
+            {payload.transactionMessages[0]}
+          </div>
+          {account && (
+            <>
+              <hr className="h-px bg-grey-100 my-4" />
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600">{t('account')}</span>
+                <div className="text-black flex flex-col items-end">
+                  <span>{account.name}</span>
+                  <span>{truncateAddress(account.publicKey)}</span>
+                </div>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600">Note Id</span>
+                <div className="text-black flex flex-col items-end">
+                  <span>{truncateHash(payload.noteId)}</span>
+                </div>
+              </div>
+            </>
+          )}
+          <hr className="h-px bg-grey-100 my-4" />
+          {payload.transactionMessages.slice(1).map((message, i) => {
+            const [label, rawValue] = message.split(', ');
+            let value = rawValue;
+            if (label === 'Recipient') {
+              value = truncateAddress(value);
+            }
+            return (
+              <div className="flex justify-between my-2 text-sm" key={i + 2}>
+                <span className="text-gray-600">{label}</span>
+                <span className="text-black">{value}</span>
+              </div>
+            );
+          })}
+        </div>
+      );
+      break;
   }
 
   return (
@@ -489,6 +531,9 @@ const ConfirmDAppForm: FC = () => {
         case 'transaction':
           openLoadingFullPage();
           return confirmDAppTransaction(id, confirmed, delegate);
+        case 'consume':
+          openConsumingFullPage(payload.noteId);
+          return confirmDAppTransaction(id, confirmed, delegate);
         case 'privateNotes':
           return confirmDAppPrivateNotes(id, confirmed);
         case 'sign':
@@ -596,6 +641,29 @@ const ConfirmDAppForm: FC = () => {
               <div className="flex flex-col">
                 <Name className="font-semibold">{payload.origin}</Name>
                 <span>Requests a transaction</span>
+              </div>
+            </div>
+          )
+        };
+      case 'consume':
+        return {
+          title: t('confirmAction', t('transactionAction')),
+          declineActionTitle: t('cancel'),
+          declineActionTestID: ConfirmPageSelectors.ConsumeAction_RejectButton,
+          confirmActionTitle: t('confirm'),
+          confirmActionTestID: ConfirmPageSelectors.ConsumeAction_AcceptButton,
+          want: (
+            <div
+              className={classNames(
+                'text-sm text-left text-black',
+                'flex w-full gap-x-3 items-center p-4',
+                'border border-gray-100 rounded-2xl mb-4'
+              )}
+            >
+              <Icon name={IconName.Globe} fill="black" size="md" />
+              <div className="flex flex-col">
+                <Name className="font-semibold">{payload.origin}</Name>
+                <span>Requests to consume a note</span>
               </div>
             </div>
           )
