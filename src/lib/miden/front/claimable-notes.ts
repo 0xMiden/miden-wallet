@@ -139,7 +139,7 @@ async function persistMetadataIfAny(
 
 // -------------------- Hook (composes helpers) --------------------
 
-export function useClaimableNotes(publicAddress: string) {
+export function useClaimableNotes(publicAddress: string, enabled: boolean = true) {
   const { allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata } = useTokensMetadata();
   const { getAuthSecretKey, signTransaction } = useMidenContext();
 
@@ -194,7 +194,8 @@ export function useClaimableNotes(publicAddress: string) {
     signTransaction
   ]);
 
-  return useRetryableSWR(publicAddress, fetchClaimableNotes, {
+  const key = enabled ? ['claimable-notes', publicAddress] : null;
+  return useRetryableSWR(key, enabled ? fetchClaimableNotes : null, {
     revalidateOnFocus: false,
     dedupingInterval: 10_000,
     refreshInterval: 5_000,

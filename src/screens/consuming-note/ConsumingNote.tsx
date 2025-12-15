@@ -14,11 +14,12 @@ import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { isDelegateProofEnabled } from 'lib/settings/helpers';
 import { truncateHash } from 'utils/string';
 
+const NOTE_CONSUME_TIMEOUT = 30_000;
 const AUTO_CLOSE_TIMEOUT = 5_000;
 
 const enum ConsumingNoteStatus {
   Waiting,
-  Queued,
+  TxQueued,
   Completed,
   Failed
 }
@@ -28,39 +29,47 @@ export interface ConsumingNotePageProps {
 }
 
 export const ConsumingNotePage: FC<ConsumingNotePageProps> = ({ noteId }) => {
-  const [consumingStatus, setConsumingStatus] = useState(ConsumingNoteStatus.Waiting);
+  const [status, setStatus] = useState(ConsumingNoteStatus.Waiting);
+  const [noteConsumeTimedOut, setNoteConsumeTimedOut] = useState(false);
+  const [noteConsumeTimeoutId, setNoteConsumeTimeoutId] = useState<number | null>(null);
 
   const { signTransaction } = useMidenContext();
   const account = useAccount();
-  const { data: claimableNotes = [] } = useClaimableNotes(account.publicKey);
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
+
+  const shouldFetchClaimableNotes = status === ConsumingNoteStatus.Waiting;
+  const { data: claimableNotes = [] } = useClaimableNotes(account.publicKey, shouldFetchClaimableNotes);
 
   const noteToConsume = useMemo(() => {
     const note = claimableNotes.find(note => note!.id === noteId);
     return note;
   }, [claimableNotes, noteId]);
 
-  const consumeNote = useCallback(async () => {
+  const tryConsumeNote = useCallback(async () => {
+    if (noteConsumeTimedOut) {
+      setStatus(ConsumingNoteStatus.TxQueued);
+      return;
+    }
+
     if (!noteToConsume) {
       return;
     }
 
+    // If isBeingClaimed is true, the note is already queued for transaction generation
     if (!noteToConsume.isBeingClaimed) {
       await initiateConsumeTransaction(account.publicKey, noteToConsume, isDelegatedProvingEnabled);
-      return;
     }
-
-    setConsumingStatus(ConsumingNoteStatus.Queued);
-  }, [account.publicKey, noteToConsume, isDelegatedProvingEnabled]);
+    setStatus(ConsumingNoteStatus.TxQueued);
+  }, [account.publicKey, noteToConsume, isDelegatedProvingEnabled, noteConsumeTimedOut]);
 
   const generateTransaction = useCallback(async () => {
     const success = await dbTransactionsLoop(signTransaction);
     if (success === false) {
-      setConsumingStatus(ConsumingNoteStatus.Failed);
+      setStatus(ConsumingNoteStatus.Failed);
     } else {
-      setConsumingStatus(ConsumingNoteStatus.Completed);
+      setStatus(ConsumingNoteStatus.Completed);
     }
-  }, [setConsumingStatus, signTransaction]);
+  }, [setStatus, signTransaction]);
 
   const onClose = useCallback(() => {
     const { hash } = window.location;
@@ -73,16 +82,23 @@ export const ConsumingNotePage: FC<ConsumingNotePageProps> = ({ noteId }) => {
   }, [noteId]);
 
   useEffect(() => {
-    if (consumingStatus === ConsumingNoteStatus.Waiting) {
-      consumeNote();
-    } else if (consumingStatus === ConsumingNoteStatus.Queued) {
+    if (status === ConsumingNoteStatus.Waiting) {
+      // Notes may be claimed in the background, so the timeout prevents endless waiting
+      if (!noteConsumeTimeoutId) {
+        const timeoutId = setTimeout(() => {
+          setNoteConsumeTimedOut(true);
+        }, NOTE_CONSUME_TIMEOUT);
+        setNoteConsumeTimeoutId(timeoutId);
+      }
+      tryConsumeNote();
+    } else if (status === ConsumingNoteStatus.TxQueued) {
       generateTransaction();
     } else {
       setTimeout(() => {
         onClose();
       }, AUTO_CLOSE_TIMEOUT);
     }
-  }, [consumeNote, consumingStatus, generateTransaction, onClose]);
+  }, [tryConsumeNote, status, generateTransaction, onClose, noteToConsume, noteConsumeTimeoutId]);
 
   return (
     <div
@@ -96,7 +112,7 @@ export const ConsumingNotePage: FC<ConsumingNotePageProps> = ({ noteId }) => {
       )}
     >
       <div className={classNames('flex flex-1 flex-col w-full')}>
-        <ConsumingNote noteId={noteId} onDoneClick={onClose} status={consumingStatus} />
+        <ConsumingNote noteId={noteId} onDoneClick={onClose} status={status} />
       </div>
     </div>
   );
@@ -133,7 +149,7 @@ export const ConsumingNote: React.FC<ConsumingNoteProps> = ({ noteId, onDoneClic
         return `Note Consumed: ${truncateHash(noteId)}`;
       case ConsumingNoteStatus.Failed:
         return 'Note Consumption Failed';
-      case ConsumingNoteStatus.Queued:
+      case ConsumingNoteStatus.TxQueued:
         return `Generating Transaction`;
       case ConsumingNoteStatus.Waiting:
       default:
