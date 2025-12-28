@@ -93,6 +93,20 @@ describe('miden wallet smoke harness', () => {
     expect(res.type).toBe(WalletMessageType.SignTransactionResponse);
     expect((res as any).signature).toBe('signed:payload');
   });
+
+  it('updates settings and broadcasts state', async () => {
+    await ensureWalletReady();
+
+    await waitForStateUpdate(() =>
+      request({
+        type: WalletMessageType.UpdateSettingsRequest,
+        settings: { contacts: [{ address: 'addr1', name: 'Alice' }] }
+      })
+    );
+
+    const state = await getState();
+    expect(state.settings?.contacts?.[0]?.name).toBe('Alice');
+  });
 });
 
 async function getState() {
