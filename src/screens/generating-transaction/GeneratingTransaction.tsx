@@ -78,6 +78,7 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
 
   const generateTransaction = useCallback(async () => {
     const success = await dbTransactionsLoop(signTransaction);
+    console.log('Generated transaction with result:', success);
     if (success === false) {
       setError(true);
     }
@@ -87,10 +88,16 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
 
   useEffect(() => {
     generateTransaction();
-    setInterval(() => {
+    const intervalId = setInterval(() => {
       generateTransaction();
-    }, 5_000);
-  }, [transactions, generateTransaction]);
+    }, 10_000);
+    // if there was a error stop the interval
+    if (error) {
+      clearInterval(intervalId);
+    }
+    // Cleanup useffect
+    return () => clearInterval(intervalId);
+  }, [transactions, generateTransaction, error]);
 
   useBeforeUnload(!error && transactions.length !== 0, downloadAll);
   const progress = transactions.length > 0 ? (1 / transactions.length) * 80 : 0;
@@ -138,7 +145,7 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
   const [outputNotes, downloadAll] = useExportNotes();
 
   const renderIcon = useCallback(() => {
-    if (transactionComplete) {
+    if (transactionComplete && !error) {
       return <Icon name={IconName.Success} size="3xl" />;
     }
     if (error) {
@@ -154,7 +161,7 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
   }, [transactionComplete, error, progress]);
 
   const headerText = useCallback(() => {
-    if (transactionComplete) {
+    if (transactionComplete && !error) {
       return 'Transaction Completed';
     }
     if (error) {
@@ -188,7 +195,7 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
           </div>
         </div>
         <div className="mt-8 flex flex-col gap-y-4">
-          {outputNotes.length > 0 && transactionComplete && (
+          {outputNotes.length > 0 && transactionComplete && !error && (
             <Button
               title="Download Generated Files"
               iconLeft={IconName.Download}
