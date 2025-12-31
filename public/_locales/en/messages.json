@@ -1357,6 +1357,10 @@
     "message": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later.",
     "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
   },
+  "editMidenFaucetId": {
+    "message": "Edit Miden Faucet ID",
+    "englishSource": "Edit Miden Faucet ID"
+  },
   "exportWalletFile": {
     "message": "Export Wallet File",
     "englishSource": "Export Wallet File"
