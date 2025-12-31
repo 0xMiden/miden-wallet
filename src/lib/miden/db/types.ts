@@ -38,7 +38,19 @@ export interface ITransaction {
   inputNoteIds?: string[];
   outputNoteIds?: string[];
   extraInputs?: any;
+  error?: string;
+  resultBytes?: Uint8Array;
 }
+
+export interface ISuccessTransactionOutput {
+  txHash: string;
+  outputNotes: string[];
+}
+export interface IFailedTransactionOutput {
+  errorMessage: string;
+}
+
+export type TransactionOutput = ISuccessTransactionOutput | IFailedTransactionOutput;
 
 export class Transaction implements ITransaction {
   id: string;

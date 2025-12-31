@@ -24,9 +24,11 @@ import {
   requestPrivateNotes,
   requestSend,
   requestTransaction,
-  signBytes
+  signBytes,
+  waitForTransaction
 } from 'lib/adapter/client';
 import { MidenDAppPermission } from 'lib/adapter/types';
+import { TransactionOutput } from 'lib/miden/db/types';
 import { b64ToU8, bytesToHex, u8ToB64 } from 'lib/shared/helpers';
 
 export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implements MidenWallet {
@@ -62,6 +64,11 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
   ): Promise<{ privateNotes: InputNoteDetails[] }> {
     const res = await requestPrivateNotes(this.address!, notefilterType, noteIds);
     return { privateNotes: res };
+  }
+
+  async waitForTransaction(txId: string, interval?: number): Promise<TransactionOutput> {
+    const res = await waitForTransaction(txId, interval);
+    return res;
   }
 
   async signBytes(data: Uint8Array, kind: SignKind): Promise<{ signature: Uint8Array }> {

@@ -34,7 +34,9 @@ import {
   MidenDAppImportPrivateNoteRequest,
   MidenDAppImportPrivateNoteResponse,
   MidenDAppConsumableNotesRequest,
-  MidenDAppConsumableNotesResponse
+  MidenDAppConsumableNotesResponse,
+  MidenDappWaitForTxRequest,
+  MidenDAppWaitForTxResponse
 } from 'lib/adapter/types';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { intercom } from 'lib/miden/back/defaults';
@@ -58,7 +60,8 @@ import { queueNoteImport } from '../activity';
 import {
   initiateSendTransaction,
   requestCustomTransaction,
-  initiateConsumeTransactionFromId
+  initiateConsumeTransactionFromId,
+  waitForTransactionCompletion
 } from '../activity/transactions';
 import { getBech32AddressFromAccountId } from '../sdk/helpers';
 import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
@@ -1000,6 +1003,16 @@ const generatePromisifyConsumeTransaction = async (
   });
 };
 
+export async function waitForTransaction(req: MidenDappWaitForTxRequest): Promise<MidenDAppWaitForTxResponse> {
+  if (!req.txId) {
+    throw new Error(MidenDAppErrorType.InvalidParams);
+  }
+  const res = await waitForTransactionCompletion(req.txId, req.interval);
+  return {
+    type: MidenDAppMessageType.WaitForTransactionResponse,
+    transactionOutput: res
+  };
+}
 export async function getAllDApps(): Promise<MidenDAppSessions> {
   const items = await browser.storage.local.get([STORAGE_KEY]);
   const dAppsSessions = (items[STORAGE_KEY] as MidenDAppSessions) || {};

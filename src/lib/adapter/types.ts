@@ -11,6 +11,8 @@ import {
   WalletAdapterNetwork
 } from '@demox-labs/miden-wallet-adapter-base';
 
+import { TransactionOutput } from 'lib/miden/db/types';
+
 export type MidenDAppMessage = MidenDAppRequest | MidenDAppResponse;
 
 export type MidenDAppRequest =
@@ -24,7 +26,8 @@ export type MidenDAppRequest =
   | MidenDAppSignRequest
   | MidenDAppAssetsRequest
   | MidenDAppImportPrivateNoteRequest
-  | MidenDAppConsumableNotesRequest;
+  | MidenDAppConsumableNotesRequest
+  | MidenDappWaitForTxRequest;
 
 export type MidenDAppResponse =
   | MidenDAppGetCurrentPermissionResponse
@@ -37,7 +40,8 @@ export type MidenDAppResponse =
   | MidenDAppSignResponse
   | MidenDAppAssetsResponse
   | MidenDAppImportPrivateNoteResponse
-  | MidenDAppConsumableNotesResponse;
+  | MidenDAppConsumableNotesResponse
+  | MidenDAppWaitForTxResponse;
 
 export interface MidenDAppMessageBase {
   type: MidenDAppMessageType;
@@ -65,7 +69,9 @@ export enum MidenDAppMessageType {
   ImportPrivateNoteRequest = 'IMPORT_PRIVATE_NOTE_REQUEST',
   ImportPrivateNoteResponse = 'IMPORT_PRIVATE_NOTE_RESPONSE',
   ConsumableNotesRequest = 'CONSUMABLE_NOTES_REQUEST',
-  ConsumableNotesResponse = 'CONSUMABLE_NOTES_RESPONSE'
+  ConsumableNotesResponse = 'CONSUMABLE_NOTES_RESPONSE',
+  WaitForTransactionRequest = 'WAIT_FOR_TRANSACTION_REQUEST',
+  WaitForTransactionResponse = 'WAIT_FOR_TRANSACTION_RESPONSE'
 }
 
 /**
@@ -194,6 +200,17 @@ export interface MidenDAppConsumableNotesRequest extends MidenDAppMessageBase {
 export interface MidenDAppConsumableNotesResponse extends MidenDAppMessageBase {
   type: MidenDAppMessageType.ConsumableNotesResponse;
   consumableNotes: any[];
+}
+
+export interface MidenDappWaitForTxRequest extends MidenDAppMessageBase {
+  type: MidenDAppMessageType.WaitForTransactionRequest;
+  txId: string;
+  interval?: number;
+}
+
+export interface MidenDAppWaitForTxResponse extends MidenDAppMessageBase {
+  type: MidenDAppMessageType.WaitForTransactionResponse;
+  transactionOutput: TransactionOutput;
 }
 
 /**
