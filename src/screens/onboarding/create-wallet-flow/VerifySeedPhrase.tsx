@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
 import classNames from 'clsx';
-import { set, shuffle } from 'lodash';
+import { shuffle } from 'lodash';
 import { useTranslation } from 'react-i18next';
 
 import { Button } from 'components/Button';
@@ -72,12 +72,12 @@ export const VerifySeedPhraseScreen: React.FC<VerifySeedPhraseScreenProps> = ({
           <div className="relative">
             {(!!firstSelectedWordIndex || firstSelectedWordIndex === 0) && index === firstSelectedWordIndex && (
               <div className="absolute -top-3 left-2 -translate-x-2 bg-black text-white px-2 py-0.5 rounded-full text-xs whitespace-nowrap">
-                First
+                {t('first')}
               </div>
             )}
             {(!!secondSelectedWordIndex || secondSelectedWordIndex === 0) && index === secondSelectedWordIndex && (
               <div className="absolute -top-3 left-2 -translate-x-2 bg-black text-white px-2 py-0.5 rounded-full text-xs whitespace-nowrap">
-                Last
+                {t('last')}
               </div>
             )}
             <button onClick={() => onSelectWord(index)} className="w-full">

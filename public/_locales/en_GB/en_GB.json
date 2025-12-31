@@ -888,5 +888,7 @@
   "privateDataAccessAuto": "Private Data Access: Automatic",
   "privateDataAccessUponRequest": "Private Data Access: Upon Request",
   "accessWillBeGranted": "Access to the following data will be granted",
-  "confirmationRequired": "Confirmation is required every time account data is requested"
+  "confirmationRequired": "Confirmation is required every time account data is requested",
+  "first": "First",
+  "last": "Last"
 }
