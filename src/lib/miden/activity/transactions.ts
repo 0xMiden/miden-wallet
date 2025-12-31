@@ -557,17 +557,19 @@ export const safeGenerateTransactionsLoop = async (
     });
 };
 
-export const waitForTransactionCompletion = async (transactionId: string, pollIntervalMs = 2000) => {
+export const waitForTransactionCompletion = async (transactionId: string) => {
   return new Promise<TransactionOutput>(resolve => {
-    const MAX_INTERVALS = 60; // 60 seconds
-    let intervalsPassed = 0;
-    const interval = setInterval(async () => {
-      const tx = await Repo.transactions.where({ id: transactionId }).first();
-      if (tx && tx.status === ITransactionStatus.Completed) {
-        clearInterval(interval);
+    const subscription = liveQuery(() => Repo.transactions.where({ id: transactionId }).first()).subscribe(tx => {
+      if (!tx) {
+        // Transaction not found - resolve with error
+        resolve({ errorMessage: 'Transaction not found' });
+        subscription.unsubscribe();
+        return;
+      }
+
+      if (tx.status === ITransactionStatus.Completed) {
+        subscription.unsubscribe();
         const txResult = TransactionResult.deserialize(tx.resultBytes!);
-        // TODO: Add normal output notes also not just the full ones
-        // They currently do not have a serialisation method
         const res = {
           txHash: tx.transactionId!,
           outputNotes: txResult
@@ -579,21 +581,10 @@ export const waitForTransactionCompletion = async (transactionId: string, pollIn
             .map(fullNote => u8ToB64(fullNote.serialize()))
         };
         resolve(res);
-      } else if (tx && tx.status === ITransactionStatus.Failed) {
-        clearInterval(interval);
-        const res: TransactionOutput = {
-          errorMessage: tx.error || 'Transaction failed'
-        };
-        resolve(res);
+      } else if (tx.status === ITransactionStatus.Failed) {
+        subscription.unsubscribe();
+        resolve({ errorMessage: tx.error || 'Transaction failed' });
       }
-      intervalsPassed++;
-      if (intervalsPassed >= MAX_INTERVALS) {
-        clearInterval(interval);
-        const res: TransactionOutput = {
-          errorMessage: 'Transaction timed out waiting for completion'
-        };
-        resolve(res);
-      }
-    }, pollIntervalMs);
+    });
   });
 };
