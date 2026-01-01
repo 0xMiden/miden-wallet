@@ -2,10 +2,12 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import { generateMnemonic } from 'bip39';
 import wordslist from 'bip39/src/wordlists/english.json';
+import { use } from 'i18next';
 
 import { formatMnemonic } from 'app/defaults';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
-import { useMidenContext } from 'lib/miden/front';
+import { putToStorage, useMidenContext } from 'lib/miden/front';
+import { ONBOARDING_SESSION_IN_PROGRSS_STORAGE_KEY } from 'lib/settings/constants';
 import { WalletStatus } from 'lib/shared/types';
 import { useWalletStore } from 'lib/store';
 import { fetchStateFromBackend } from 'lib/store/hooks/useIntercomSync';
@@ -44,6 +46,16 @@ const Welcome: FC = () => {
   const { registerWallet, importWalletFromClient } = useMidenContext();
   const { trackEvent } = useAnalytics();
   const syncFromBackend = useWalletStore(s => s.syncFromBackend);
+
+  useEffect(() => {
+    // Mark onboarding session as in progress
+    putToStorage(ONBOARDING_SESSION_IN_PROGRSS_STORAGE_KEY, true);
+
+    // Cleanup on unmount
+    return () => {
+      putToStorage(ONBOARDING_SESSION_IN_PROGRSS_STORAGE_KEY, false);
+    };
+  }, []);
 
   const register = useCallback(async () => {
     if (password && seedPhrase) {
