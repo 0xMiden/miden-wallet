@@ -91,16 +91,15 @@ export const onBoardingUrls = () => {
 export const NavigateToOnboarding: FC = () => {
   useLayoutEffect(() => {
     const urls = onBoardingUrls();
-    console.log('onboarding urls:', urls);
     browser.tabs.query({}).then(tabs => {
       const onboardingTab = tabs.find(t => urls.includes(t.url!));
-      console.log('onboardingTab:', onboardingTab);
       if (onboardingTab) {
         browser.tabs.update(onboardingTab.id!, { active: true });
         window.close();
       } else {
-        // openInFullPage();
-        // window.close();
+        // unable to find existing onboarding tab, open a new one
+        openInFullPage();
+        window.close();
       }
     });
   }, []);
