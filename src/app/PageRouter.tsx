@@ -1,6 +1,6 @@
 import React, { FC, useLayoutEffect, useMemo } from 'react';
 
-import { NavigateToOnboarding, OpenInFullPage, useAppEnv } from 'app/env';
+import { OpenInFullPage, useAppEnv } from 'app/env';
 import CreateAccount from 'app/pages/CreateAccount';
 import Explore from 'app/pages/Explore';
 import Faucet from 'app/pages/Faucet';
@@ -9,8 +9,7 @@ import { Receive } from 'app/pages/Receive';
 import Settings from 'app/pages/Settings';
 import Unlock from 'app/pages/Unlock';
 import Welcome from 'app/pages/Welcome';
-import { useMidenContext, useStorage } from 'lib/miden/front';
-import { ONBOARDING_SESSION_IN_PROGRSS_STORAGE_KEY } from 'lib/settings/constants';
+import { useMidenContext } from 'lib/miden/front';
 import * as Woozie from 'lib/woozie';
 import { ConsumingNotePage } from 'screens/consuming-note/ConsumingNote';
 import { EncryptedFileFlow } from 'screens/encrypted-file-flow/EncryptedFileManager';
@@ -35,7 +34,6 @@ interface RouteContext {
   fullPage: boolean;
   ready: boolean;
   locked: boolean;
-  isOnboarding: boolean;
 }
 
 type RouteFactory = Woozie.Router.ResolveResult<RouteContext>;
@@ -77,12 +75,8 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
         case ctx.locked:
           return <Unlock />;
 
-        case !ctx.ready && !ctx.fullPage && !ctx.isOnboarding:
-          console.log('opening in full page');
+        case !ctx.ready && !ctx.fullPage:
           return <OpenInFullPage />;
-
-        case !ctx.fullPage && ctx.isOnboarding:
-          return <NavigateToOnboarding />;
 
         default:
           return Woozie.Router.SKIP;
@@ -118,7 +112,6 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
 
 const PageRouter: FC = () => {
   const { trigger, pathname } = Woozie.useLocation();
-  const [isOnboarding] = useStorage(ONBOARDING_SESSION_IN_PROGRSS_STORAGE_KEY, false);
 
   // Scroll to top after new location pushed.
   useLayoutEffect(() => {
@@ -139,10 +132,9 @@ const PageRouter: FC = () => {
       popup: appEnv.popup,
       fullPage: appEnv.fullPage,
       ready: miden.ready,
-      locked: miden.locked,
-      isOnboarding
+      locked: miden.locked
     }),
-    [appEnv.popup, appEnv.fullPage, miden, isOnboarding]
+    [appEnv.popup, appEnv.fullPage, miden]
   );
 
   return useMemo(() => Woozie.Router.resolve(ROUTE_MAP, pathname, ctx), [pathname, ctx]);

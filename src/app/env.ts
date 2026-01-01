@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useLayoutEffect, useRef } from 'react';
+import { FC, useCallback, useLayoutEffect, useRef } from 'react';
 
 import constate from 'constate';
 import browser from 'webextension-polyfill';
@@ -57,11 +57,24 @@ export const [AppEnvProvider, useAppEnv] = constate((env: AppEnvironment) => {
 
 export const OpenInFullPage: FC = () => {
   const appEnv = useAppEnv();
+
   useLayoutEffect(() => {
-    // openInFullPage();
-    if (appEnv.popup) {
-      // window.close();
-    }
+    const urls = onBoardingUrls();
+    browser.tabs.query({}).then(tabs => {
+      const onboardingTab = tabs.find(t => urls.includes(t.url!));
+      if (onboardingTab) {
+        browser.tabs.update(onboardingTab.id!, { active: true });
+        if (appEnv.popup) {
+          window.close();
+        }
+      } else {
+        // unable to find existing onboarding tab, open a new one
+        openInFullPage();
+        if (appEnv.popup) {
+          window.close();
+        }
+      }
+    });
   }, [appEnv.popup]);
 
   return null;
@@ -86,32 +99,6 @@ export const onBoardingUrls = () => {
   });
 
   return urls;
-};
-
-export const NavigateToOnboarding: FC = () => {
-  useLayoutEffect(() => {
-    const urls = onBoardingUrls();
-    browser.tabs.query({}).then(tabs => {
-      const onboardingTab = tabs.find(t => urls.includes(t.url!));
-      if (onboardingTab) {
-        browser.tabs.update(onboardingTab.id!, { active: true });
-        window.close();
-      } else {
-        // unable to find existing onboarding tab, open a new one
-        openInFullPage();
-        window.close();
-      }
-    });
-  }, []);
-
-  return (
-    <div className="flex items-center justify-center min-h-screen p-4">
-      <div className="text-center">
-        <h2 className="text-xl font-semibold mb-2">Onboarding in Progress</h2>
-        <p className="text-gray-600">An onboarding tab is already open. Redirecting you to complete the setup...</p>
-      </div>
-    </div>
-  );
 };
 
 export function openInFullPage() {
