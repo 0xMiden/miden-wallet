@@ -44,7 +44,7 @@ export const completeCustomTransaction = async (transaction: ITransaction, resul
   const executedTx = result.executedTransaction();
   const outputNotes = executedTx.outputNotes().notes();
 
-  const registerExports: Promise<void>[] = outputNotes.map(async note => {
+  for (const note of outputNotes) {
     // Only care about private notes
     if (toNoteTypeString(note.metadata().noteType()) !== NoteTypeEnum.Private) {
       return;
@@ -95,9 +95,7 @@ export const completeCustomTransaction = async (transaction: ITransaction, resul
         error
       });
     }
-  });
-
-  await Promise.all(registerExports);
+  }
 
   const updatedTransaction = interpretTransactionResult(transaction, result);
   updatedTransaction.completedAt = Math.floor(Date.now() / 1000); // seconds
