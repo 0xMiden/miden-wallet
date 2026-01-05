@@ -6,8 +6,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Icon, IconName } from 'app/icons/v2';
 import { CircleButton } from 'components/CircleButton';
 import { ProgressIndicator } from 'components/ProgressIndicator';
-import { putToStorage } from 'lib/miden/front';
-import { ONBOARDING_SESSION_IN_PROGRSS_STORAGE_KEY } from 'lib/settings/constants';
 
 import { ConfirmationScreen } from './common/Confirmation';
 import { CreatePasswordScreen } from './common/CreatePassword';
@@ -147,7 +145,6 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
     const onConfirmSubmit = () => {
       // onboarding complete
       console.log('onboarding complete, clearing session storage');
-      putToStorage(ONBOARDING_SESSION_IN_PROGRSS_STORAGE_KEY, false);
       onForwardAction?.({ id: 'confirmation' });
     };
 
