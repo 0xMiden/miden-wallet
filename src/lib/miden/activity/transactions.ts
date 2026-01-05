@@ -49,6 +49,11 @@ export const completeCustomTransaction = async (transaction: ITransaction, resul
       return;
     }
 
+    if (!transaction.secondaryAccountId) {
+      console.error('Missing recipient account id for private note', { txId: transaction.id });
+      return;
+    }
+
     console.log('registering output note', note.id().toString());
     await registerOutputNote(note.id().toString());
 
@@ -73,9 +78,7 @@ export const completeCustomTransaction = async (transaction: ITransaction, resul
 
       try {
         console.log('Sending private note through the transport layer...');
-        const recipientAccountAddress = Address.fromBech32(
-          transaction.secondaryAccountId! // TODO: Double check this
-        );
+        const recipientAccountAddress = Address.fromBech32(transaction.secondaryAccountId);
         await midenClient.sendPrivateNote(fullNote, recipientAccountAddress);
       } catch (error) {
         console.error('Failed to send private note through the transport layer', {
