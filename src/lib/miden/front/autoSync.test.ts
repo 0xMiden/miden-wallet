@@ -16,6 +16,7 @@ jest.mock('../sdk/miden-client', () => ({
 
 describe('AutoSync', () => {
   let sync: any;
+  let consoleSpy: jest.SpyInstance;
 
   beforeEach(() => {
     localStorage.clear();
@@ -24,6 +25,11 @@ describe('AutoSync', () => {
     sync = new SyncCtor();
     sync.state = { currentAccount: { publicKey: 'pk' } };
     sync.ampCycles = 0;
+    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleSpy.mockRestore();
   });
 
   it('respects localStorage flag when checking amp sync enabled', () => {

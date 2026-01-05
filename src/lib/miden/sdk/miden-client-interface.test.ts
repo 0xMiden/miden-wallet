@@ -4,6 +4,15 @@ describe('MidenClientInterface', () => {
     jest.clearAllMocks();
   });
 
+  let logSpy: jest.SpyInstance;
+  beforeEach(() => {
+    logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    logSpy.mockRestore();
+  });
+
   it('creates a client with provided callbacks', async () => {
     const fakeWebClient = {
       free: jest.fn(),
@@ -126,5 +135,17 @@ describe('MidenClientInterface', () => {
     await client.exportDb();
     await client.importDb('dump');
     await client.submitTransaction(new Uint8Array([1, 2]), true);
+    await client.sendTransaction({
+      accountId: 'id',
+      amount: BigInt(1),
+      secondaryAccountId: 'recip',
+      faucetId: 'faucet',
+      noteType: 'public' as any,
+      type: 'send',
+      extraInputs: { recallBlocks: 1 },
+      status: 0,
+      initiatedAt: Date.now(),
+      displayIcon: 'SEND'
+    } as any);
   });
 });

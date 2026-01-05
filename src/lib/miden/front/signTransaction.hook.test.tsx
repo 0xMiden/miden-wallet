@@ -40,6 +40,16 @@ jest.mock('lib/intercom', () => {
 });
 
 describe('useMidenContext signTransaction', () => {
+  let errorSpy: jest.SpyInstance;
+
+  beforeAll(() => {
+    errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterAll(() => {
+    errorSpy.mockRestore();
+  });
+
   it('returns Uint8Array signature bytes from hex string', async () => {
     const container = document.createElement('div');
     const root = createRoot(container);
