@@ -41,7 +41,8 @@ export const requestCustomTransaction = async (
 };
 
 export const completeCustomTransaction = async (transaction: ITransaction, result: TransactionResult) => {
-  const outputNotes = result.executedTransaction().outputNotes().notes();
+  const executedTx = result.executedTransaction();
+  const outputNotes = executedTx.outputNotes().notes();
 
   const registerExports: Promise<void>[] = outputNotes.map(async note => {
     // Only care about private notes
@@ -77,6 +78,7 @@ export const completeCustomTransaction = async (transaction: ITransaction, resul
       const midenClient = await getMidenClient();
 
       try {
+        await midenClient.waitForTransactionCommit(executedTx.id().toHex());
         console.log('Sending private note through the transport layer...');
         const recipientAccountAddress = Address.fromBech32(transaction.secondaryAccountId);
         await midenClient.sendPrivateNote(fullNote, recipientAccountAddress);
@@ -219,6 +221,7 @@ export const completeSendTransaction = async (tx: SendTransaction, result: Trans
       await registerOutputNote(noteId);
 
       try {
+        await midenClient.waitForTransactionCommit(executedTx.id().toHex());
         console.log('Sending private note through the transport layer...');
         const recipientAccountAddress = Address.fromBech32(tx.secondaryAccountId);
         await midenClient.sendPrivateNote(note, recipientAccountAddress);

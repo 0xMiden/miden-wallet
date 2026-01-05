@@ -279,6 +279,25 @@ export class MidenClientInterface {
     return transactions.filter(tx => getBech32AddressFromAccountId(tx.accountId()) === accountId);
   }
 
+  async waitForTransactionCommit(
+    transactionId: string,
+    maxWaitMs: number = 10_000,
+    delayMs: number = 1_000
+  ): Promise<void> {
+    let waited = 0;
+    while (waited < maxWaitMs) {
+      await this.syncState();
+      const uncommitted = await this.webClient.getTransactions(TransactionFilter.uncommitted());
+      const stillPending = uncommitted.some(tx => tx.id().toHex() === transactionId);
+      if (!stillPending) {
+        return;
+      }
+      await new Promise(resolve => setTimeout(resolve, delayMs));
+      waited += delayMs;
+    }
+    throw new Error('Timeout waiting for transaction commit');
+  }
+
   private async proveAndSubmitTransactionWithFallback(
     transactionResult: TransactionResult,
     delegateTransaction?: boolean
