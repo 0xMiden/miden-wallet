@@ -210,6 +210,7 @@ export const completeSendTransaction = async (tx: SendTransaction, result: Trans
   const executedTx = result.executedTransaction();
   const note = extractFullNote(result);
   const noteId = note?.id().toString();
+  const outputNoteIds = noteId ? [noteId] : [];
 
   if (tx.noteType === NoteTypeEnum.Private && note && noteId) {
     try {
@@ -228,20 +229,46 @@ export const completeSendTransaction = async (tx: SendTransaction, result: Trans
           secondaryAccountId: tx.secondaryAccountId,
           error
         });
+        await updateTransactionStatus(tx.id, ITransactionStatus.Failed, {
+          displayMessage: 'Send failed: transport error',
+          displayIcon: 'FAILED',
+          transactionId: executedTx.id().toHex(),
+          outputNoteIds,
+          completedAt: Math.floor(Date.now() / 1000) // seconds
+        });
+        return;
       }
     } catch (error) {
       console.error('Failed to initialize Miden client for private note send', {
         txId: tx.id,
         error
       });
+      await updateTransactionStatus(tx.id, ITransactionStatus.Failed, {
+        displayMessage: 'Send failed: transport init error',
+        displayIcon: 'FAILED',
+        transactionId: executedTx.id().toHex(),
+        outputNoteIds,
+        completedAt: Math.floor(Date.now() / 1000) // seconds
+      });
+      return;
     }
+  } else if (tx.noteType === NoteTypeEnum.Private && (!note || !noteId)) {
+    console.error('Missing full note for private send', { txId: tx.id });
+    await updateTransactionStatus(tx.id, ITransactionStatus.Failed, {
+      displayMessage: 'Send failed: note unavailable',
+      displayIcon: 'FAILED',
+      transactionId: executedTx.id().toHex(),
+      outputNoteIds,
+      completedAt: Math.floor(Date.now() / 1000) // seconds
+    });
+    return;
   }
 
   try {
     await updateTransactionStatus(tx.id, ITransactionStatus.Completed, {
       displayMessage: 'Sent',
       transactionId: executedTx.id().toHex(),
-      outputNoteIds: noteId ? [noteId] : [],
+      outputNoteIds,
       completedAt: Math.floor(Date.now() / 1000) // seconds
     });
   } catch (error) {
