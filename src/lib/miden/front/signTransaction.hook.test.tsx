@@ -4,16 +4,42 @@ import React, { Suspense, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react-dom/test-utils';
 
-import { start } from 'lib/miden/back/main';
 import { MidenContextProvider, useMidenContext } from 'lib/miden/front/client';
-import { ensureWalletReady } from '../../../../test/state-helpers';
+import { WalletMessageType, WalletStatus } from 'lib/shared/types';
+
+jest.mock('lib/intercom', () => {
+  class MockIntercomClient {
+    private calls = 0;
+    request = jest.fn(async (req: any) => {
+      if (req.type === WalletMessageType.GetStateRequest) {
+        return {
+          type: WalletMessageType.GetStateResponse,
+          state: {
+            status: WalletStatus.Ready,
+            accounts: [{ publicKey: 'miden-account-1', name: 'Acc', isPublic: true, type: 'on-chain', hdIndex: 0 }],
+            networks: [],
+            settings: {},
+            currentAccount: { publicKey: 'miden-account-1', name: 'Acc', isPublic: true, type: 'on-chain', hdIndex: 0 },
+            ownMnemonic: true
+          }
+        };
+      }
+      if (req.type === WalletMessageType.SignTransactionRequest) {
+        return {
+          type: WalletMessageType.SignTransactionResponse,
+          signature: 'abcd'
+        };
+      }
+      throw new Error(`Unhandled request ${req.type}`);
+    });
+
+    subscribe = jest.fn(() => () => {});
+  }
+
+  return { IntercomClient: MockIntercomClient };
+});
 
 describe('useMidenContext signTransaction', () => {
-  beforeAll(async () => {
-    await start();
-    await ensureWalletReady();
-  });
-
   it('returns Uint8Array signature bytes from hex string', async () => {
     const container = document.createElement('div');
     const root = createRoot(container);
