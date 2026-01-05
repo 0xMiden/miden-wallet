@@ -130,8 +130,9 @@ function appendPlaceholderLists(messages: LocaleMessages) {
     if (val.placeholders) {
       val.placeholderList = [];
       for (const pKey in val.placeholders) {
-        const { content } = val.placeholders[pKey];
-        const index = +content.substring(1) - 1;
+        const placeholder: { content: string } | undefined = val.placeholders[pKey];
+        if (!placeholder) continue;
+        const index = +placeholder.content.substring(1) - 1;
         val.placeholderList[index] = pKey;
       }
     }

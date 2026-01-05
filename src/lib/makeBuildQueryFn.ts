@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-function pick<T, U extends keyof T>(obj: T, keys: U[]) {
+function pick<T extends object, U extends keyof T>(obj: T, keys: U[]) {
   const newObj: Partial<T> = {};
   keys.forEach(key => {
     if (key in obj) {
@@ -10,7 +10,7 @@ function pick<T, U extends keyof T>(obj: T, keys: U[]) {
   return newObj as Pick<T, U>;
 }
 
-export default function makeBuildQueryFn<P, R>(baseURL: string) {
+export default function makeBuildQueryFn<P extends object, R>(baseURL: string) {
   const api = axios.create({ baseURL });
   return function f1<P1 extends P, R1 extends R>(
     method: 'GET' | 'POST',

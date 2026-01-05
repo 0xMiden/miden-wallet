@@ -76,9 +76,8 @@ export class MidenClientInterface {
     const network = MIDEN_NETWORK_NAME.TESTNET;
     const transportLayer = MIDEN_TRANSPORT_LAYER_NAME.TESTNET;
 
-    // TODO: update web client typings
-    // @ts-ignore WebClient upstream typing misses createClientWithExternalKeystore
-    const webClient = await WebClient.createClientWithExternalKeystore(
+    // NOTE: SDK typings do not yet expose createClientWithExternalKeystore; cast to any to keep callbacks.
+    const webClient = await (WebClient as any).createClientWithExternalKeystore(
       MIDEN_NETWORK_ENDPOINTS.get(network)!,
       MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS.get(transportLayer),
       seed,

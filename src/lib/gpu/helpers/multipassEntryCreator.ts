@@ -27,7 +27,8 @@ export const multipassEntryCreatorReuseBuffers = async (
       const mappedInput = inputData.mappedInputs?.get(i);
       const inputBuffer = inputData.inputBuffers[i];
       if (mappedInput) {
-        gpu.queue.writeBuffer(inputBuffer, 0, mappedInput, 0);
+        const inputCopy = Uint32Array.from(mappedInput);
+        gpu.queue.writeBuffer(inputBuffer, 0, inputCopy);
       }
     }
 
