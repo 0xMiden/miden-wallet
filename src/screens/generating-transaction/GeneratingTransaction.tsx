@@ -97,7 +97,7 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
     }
     // Cleanup useffect
     return () => clearInterval(intervalId);
-  }, [transactions, generateTransaction, error]);
+  }, [generateTransaction, error]);
 
   useBeforeUnload(!error && transactions.length !== 0, downloadAll);
   const progress = transactions.length > 0 ? (1 / transactions.length) * 80 : 0;
