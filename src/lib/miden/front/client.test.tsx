@@ -43,6 +43,16 @@ jest.mock('lib/intercom', () => {
 });
 
 describe('useMidenContext actions', () => {
+  let consoleErrorSpy: jest.SpyInstance;
+
+  beforeAll(() => {
+    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterAll(() => {
+    consoleErrorSpy.mockRestore();
+  });
+
   it('calls updateCurrentAccount and updateSettings', async () => {
     const container = document.createElement('div');
     const root = createRoot(container);
