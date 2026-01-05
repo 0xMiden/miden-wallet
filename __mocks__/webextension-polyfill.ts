@@ -75,6 +75,7 @@ const runtime = {
     return portA;
   },
   getManifest: () => ({ manifest_version: 3 }),
+  getPlatformInfo: async () => ({ os: 'mac' }),
   getURL: (path: string) => `chrome-extension://${runtimeId}/${path}`,
   reload: jest.fn()
 };
@@ -89,9 +90,15 @@ const extension = {
   getViews: () => []
 };
 
+const windows = {
+  create: jest.fn(async (opts?: any) => ({ id: 1, ...opts })),
+  remove: jest.fn()
+};
+
 export default {
   runtime,
   tabs,
   extension,
+  windows,
   storage
 };

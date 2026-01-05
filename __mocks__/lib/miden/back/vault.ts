@@ -83,7 +83,8 @@ export class Vault {
   }
 
   async signTransaction(_publicKey: string, signingInputs: string) {
-    return `signed:${signingInputs}`;
+    // Return hex so front-end conversion can create bytes
+    return 'abcd';
   }
 
   async getAuthSecretKey(key: string) {

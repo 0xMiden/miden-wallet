@@ -23,15 +23,15 @@ jest.mock(
   { virtual: true }
 );
 
+import '../../../test/jest-mocks';
+
 import browser from 'webextension-polyfill';
 import { start } from 'lib/miden/back/main';
-import { WalletMessageType, WalletStatus, GetStateResponse } from 'lib/shared/types';
+import { WalletMessageType, WalletStatus } from 'lib/shared/types';
 import { request } from 'lib/miden/front/client';
 import { IntercomClient } from 'lib/intercom';
 import { MidenMessageType, MidenSharedStorageKey } from 'lib/miden/types';
-
-const PASSWORD = 'pw';
-const MNEMONIC = 'test test test test test test test test test test test test';
+import { ensureWalletReady, getState, waitForStateUpdate, PASSWORD, MNEMONIC } from '../../../test/state-helpers';
 
 describe('miden wallet smoke harness', () => {
   beforeAll(async () => {
@@ -81,6 +81,31 @@ describe('miden wallet smoke harness', () => {
     expect((pingRes as any).payload).toBe('PONG');
   });
 
+  it('handles dApp permission and records a session', async () => {
+    await ensureWalletReady();
+    await browser.storage.local.set({ [MidenSharedStorageKey.DAppEnabled]: true });
+
+    const permRes = (await request({
+      type: MidenMessageType.PageRequest,
+      origin: 'https://dapp.test',
+      payload: {
+        type: 'PERMISSION_REQUEST',
+        appMeta: { name: 'Test DApp' },
+        network: 'testnet'
+      }
+    })) as any;
+
+    expect(permRes.type).toBe(MidenMessageType.PageResponse);
+    expect(permRes.payload?.type).toBe('PERMISSION_RESPONSE');
+    expect(permRes.payload?.accountId).toBe('miden-account-1');
+
+    const sessionsRes = (await request({
+      type: MidenMessageType.DAppGetAllSessionsRequest
+    })) as any;
+
+    expect(sessionsRes.sessions['https://dapp.test']?.length).toBe(1);
+  });
+
   it('signs transactions through background', async () => {
     await ensureWalletReady();
 
@@ -91,7 +116,7 @@ describe('miden wallet smoke harness', () => {
     });
 
     expect(res.type).toBe(WalletMessageType.SignTransactionResponse);
-    expect((res as any).signature).toBe('signed:payload');
+    expect((res as any).signature).toBe('abcd');
   });
 
   it('updates settings and broadcasts state', async () => {
@@ -108,55 +133,3 @@ describe('miden wallet smoke harness', () => {
     expect(state.settings?.contacts?.[0]?.name).toBe('Alice');
   });
 });
-
-async function getState() {
-  const res = (await request({
-    type: WalletMessageType.GetStateRequest
-  })) as GetStateResponse;
-  return res.state;
-}
-
-async function waitForStateUpdate(action?: () => Promise<any>) {
-  const client = new IntercomClient();
-  const stateUpdateReceived = new Promise<void>(resolve => {
-    const unsubscribe = client.subscribe(msg => {
-      if (msg?.type === WalletMessageType.StateUpdated) {
-        unsubscribe();
-        resolve();
-      }
-    });
-  });
-
-  if (action) {
-    await action();
-  }
-
-  await stateUpdateReceived;
-}
-
-async function ensureWalletReady() {
-  const state = await getState();
-  switch (state.status) {
-    case WalletStatus.Ready:
-      return state;
-    case WalletStatus.Locked:
-      await waitForStateUpdate(() =>
-        request({
-          type: WalletMessageType.UnlockRequest,
-          password: PASSWORD
-        })
-      );
-      return getState();
-    case WalletStatus.Idle:
-    default:
-      await waitForStateUpdate(() =>
-        request({
-          type: WalletMessageType.NewWalletRequest,
-          password: PASSWORD,
-          mnemonic: MNEMONIC,
-          ownMnemonic: true
-        })
-      );
-      return getState();
-  }
-}
