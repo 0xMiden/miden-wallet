@@ -1,5 +1,7 @@
 import { expect, test } from '../fixtures/extension';
 
+test.describe.configure({ mode: 'serial' });
+
 test.describe('Fullpage UI', () => {
   test.skip(({ browserName }) => browserName !== 'chromium', 'Extension UI only runs in Chromium');
 
@@ -30,7 +32,9 @@ test.describe('Fullpage UI', () => {
 
     await page.goto(fullpageUrl, { waitUntil: 'domcontentloaded' });
 
-    await page.getByTestId('onboarding-welcome').getByRole('button', { name: /create a new wallet/i }).click();
+    const welcome = page.getByTestId('onboarding-welcome');
+    await welcome.waitFor({ timeout: 20000 });
+    await welcome.getByRole('button', { name: /create a new wallet/i }).click();
 
     await page.getByText(/back up your wallet/i).waitFor({ timeout: 15000 });
     await page.getByRole('button', { name: /show/i }).click();
@@ -56,10 +60,14 @@ test.describe('Fullpage UI', () => {
 
     await page.goto(fullpageUrl, { waitUntil: 'domcontentloaded' });
 
-    await page.getByTestId('onboarding-welcome').getByRole('button', { name: /i already have a wallet/i }).click();
-    await page.getByTestId('import-select-type').waitFor({ timeout: 15000 });
+    const welcome = page.getByTestId('onboarding-welcome');
+    await welcome.waitFor({ timeout: 20000 });
+    await welcome.getByRole('button', { name: /i already have a wallet/i }).click();
 
-    await page.getByTestId('import-select-type').getByText(/import with seed phrase/i).click();
+    const importType = page.getByTestId('import-select-type');
+    await importType.waitFor({ timeout: 15000 });
+
+    await importType.getByText(/import with seed phrase/i).click();
 
     const words = 'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about'.split(
       ' '
