@@ -18,6 +18,7 @@
     "test": "jest",
     "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "test:coverage": "jest --coverage",
+    "test:smoke": "jest src/lib/miden/smoke.integration.test.ts",
     "ts": "tsc --pretty",
     "lint": "eslint src",
     "lint:fix": "eslint --fix ./src",
@@ -231,6 +232,7 @@
     ]
   },
   "resolutions": {
+    "strip-ansi": "6.0.1",
     "webpack": "^5",
     "**/@types/react": "18.2.76",
     "**/@types/react-dom": "18.0.6",

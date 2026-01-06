@@ -67,6 +67,7 @@ export class MidenClientInterface {
     const seed = options.seed?.toString();
     const network = MIDEN_NETWORK_NAME.TESTNET;
     // TODO: update web client typings
+    // @ts-ignore WebClient upstream typing misses createClientWithExternalKeystore
     const webClient = await WebClient.createClientWithExternalKeystore(
       MIDEN_NETWORK_ENDPOINTS.get(network)!,
       undefined, // TODO: update

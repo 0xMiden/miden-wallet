@@ -1,0 +1,15 @@
+name: PR Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+      - next
+      - 'mw-**'
+      - 'feat/**'
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+    secrets: inherit
