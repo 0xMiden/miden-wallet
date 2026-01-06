@@ -88,8 +88,10 @@ describe('MidenClientInterface', () => {
     }));
     jest.doMock('lib/miden-chain/constants', () => ({
       MIDEN_NETWORK_ENDPOINTS: new Map([['testnet', 'rpc']]),
+      MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS: new Map([['testnet', undefined]]),
       MIDEN_PROVING_ENDPOINTS: new Map([['testnet', 'prover']]),
-      MIDEN_NETWORK_NAME: { TESTNET: 'testnet' }
+      MIDEN_NETWORK_NAME: { TESTNET: 'testnet' },
+      MIDEN_TRANSPORT_LAYER_NAME: { TESTNET: 'testnet' }
     }));
     jest.doMock('./constants', () => ({ NoteExportType: {} }));
     jest.doMock('./helpers', () => ({
@@ -129,7 +131,7 @@ describe('MidenClientInterface', () => {
     await client.importNoteBytes(new Uint8Array([1, 2]));
     await client.consumeNoteId({ accountId: 'id', noteId: 'note', faucetId: 'f', type: 'public' } as any);
     await client.getInputNoteDetails({} as any);
-    await client.getConsumableNotes('id', 10);
+    await client.getConsumableNotes('id');
     await client.exportNote('note', {} as any);
     await client.getTransactionsForAccount('id');
     await client.exportDb();
