@@ -502,9 +502,8 @@ async function getConsumableNotes(accountId: string): Promise<InputNoteDetails[]
   try {
     consumableNotes = await withUnlocked(async () => {
       const midenClient = await getMidenClient();
-      const syncSummary = await midenClient.syncState();
-      const blockNum = syncSummary.blockNum();
-      const consumableNotes = await midenClient.getConsumableNotes(accountId, blockNum);
+      await midenClient.syncState();
+      const consumableNotes = await midenClient.getConsumableNotes(accountId);
       const consumableNotesDetails = consumableNotes.map(note => {
         const assets = note
           .inputNoteRecord()

@@ -1,21 +1,29 @@
 import {
   Account,
+  AccountFile,
   AccountStorageMode,
+  Address,
   ConsumableNoteRecord,
   InputNoteRecord,
+  InputNoteState,
+  Note,
+  NoteFile,
   NoteFilter,
   NoteType,
   TransactionFilter,
   TransactionProver,
   TransactionRequest,
   TransactionResult,
-  WebClient,
-  AccountFile,
-  NoteFile,
-  InputNoteState
+  WebClient
 } from '@demox-labs/miden-sdk';
 
-import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME, MIDEN_PROVING_ENDPOINTS } from 'lib/miden-chain/constants';
+import {
+  MIDEN_NETWORK_ENDPOINTS,
+  MIDEN_NETWORK_NAME,
+  MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS,
+  MIDEN_PROVING_ENDPOINTS,
+  MIDEN_TRANSPORT_LAYER_NAME
+} from 'lib/miden-chain/constants';
 import { WalletType } from 'screens/onboarding/types';
 
 import { ConsumeTransaction, SendTransaction } from '../db/types';
@@ -66,11 +74,12 @@ export class MidenClientInterface {
   static async create(options: MidenClientCreateOptions = {}) {
     const seed = options.seed?.toString();
     const network = MIDEN_NETWORK_NAME.TESTNET;
-    // TODO: update web client typings
-    // @ts-ignore WebClient upstream typing misses createClientWithExternalKeystore
-    const webClient = await WebClient.createClientWithExternalKeystore(
+    const transportLayer = MIDEN_TRANSPORT_LAYER_NAME.TESTNET;
+
+    // NOTE: SDK typings do not yet expose createClientWithExternalKeystore; cast to any to keep callbacks.
+    const webClient = await (WebClient as any).createClientWithExternalKeystore(
       MIDEN_NETWORK_ENDPOINTS.get(network)!,
-      undefined, // TODO: update
+      MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS.get(transportLayer),
       seed,
       options.getKeyCallback,
       options.insertKeyCallback,
@@ -192,24 +201,14 @@ export class MidenClientInterface {
     return byteArray;
   }
 
-  async getConsumableNotes(accountId: string, currentBlockHeight: number): Promise<ConsumableNoteRecord[]> {
-    const result = await this.webClient.getConsumableNotes();
-    const notes = result.filter(note => {
-      const consumability = note.noteConsumability();
-      if (consumability.length === 0) {
-        return false;
-      }
-      if (getBech32AddressFromAccountId(consumability[0].accountId()) !== accountId) {
-        return false;
-      }
-      const consumableAfterBlock = consumability[0].consumableAfterBlock();
-      if (consumableAfterBlock === undefined) {
-        return true;
-      }
-      return consumableAfterBlock < currentBlockHeight;
-    });
+  async sendPrivateNote(note: Note, address: Address): Promise<void> {
+    return await this.webClient.sendPrivateNote(note, address);
+  }
 
-    return notes;
+  async getConsumableNotes(accountId: string): Promise<ConsumableNoteRecord[]> {
+    const result = await this.webClient.getConsumableNotes(accountIdStringToSdk(accountId));
+
+    return result;
   }
 
   async sendTransaction(dbTransaction: SendTransaction) {
@@ -277,6 +276,25 @@ export class MidenClientInterface {
   async getTransactionsForAccount(accountId: string) {
     const transactions = await this.webClient.getTransactions(TransactionFilter.all());
     return transactions.filter(tx => getBech32AddressFromAccountId(tx.accountId()) === accountId);
+  }
+
+  async waitForTransactionCommit(
+    transactionId: string,
+    maxWaitMs: number = 10_000,
+    delayMs: number = 1_000
+  ): Promise<void> {
+    let waited = 0;
+    while (waited < maxWaitMs) {
+      await this.syncState();
+      const uncommitted = await this.webClient.getTransactions(TransactionFilter.uncommitted());
+      const stillPending = uncommitted.some(tx => tx.id().toHex() === transactionId);
+      if (!stillPending) {
+        return;
+      }
+      await new Promise(resolve => setTimeout(resolve, delayMs));
+      waited += delayMs;
+    }
+    throw new Error('Timeout waiting for transaction commit');
   }
 
   private async proveAndSubmitTransactionWithFallback(

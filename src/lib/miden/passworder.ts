@@ -60,13 +60,14 @@ export async function encryptJson(jsonStuff: any, key: CryptoKey): Promise<Encry
 
   const iv = crypto.getRandomValues(new Uint8Array(16));
 
+  const data = new Uint8Array(stuffBytes);
   const encryptedStuff = await crypto.subtle.encrypt(
     {
       name: 'AES-GCM',
       iv: iv.buffer
     },
     key,
-    stuffBytes
+    data
   );
 
   const arrayBufferToBase64 = (buffer: ArrayBuffer | Uint8Array) => {
@@ -119,10 +120,12 @@ export async function generateKey(password: string) {
 }
 
 export function deriveKey(key: CryptoKey, salt: Uint8Array, iterations = 1_310_000) {
+  const saltBuffer = new ArrayBuffer(salt.byteLength);
+  new Uint8Array(saltBuffer).set(new Uint8Array(salt));
   return crypto.subtle.deriveKey(
     {
       name: 'PBKDF2',
-      salt,
+      salt: saltBuffer,
       iterations,
       hash: 'SHA-256'
     },
@@ -147,7 +150,8 @@ function importKey(keyData: ArrayBuffer) {
  * @deprecated
  */
 export function generateKeyLegacy(password: string) {
-  return importKey(Buffer.alloc(32, password));
+  const buf = Buffer.alloc(32, password);
+  return importKey(buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength));
 }
 
 /**

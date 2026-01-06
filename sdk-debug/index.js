@@ -4,6 +4,7 @@ import {
   Address,
   NetworkId,
   NoteType,
+  TransactionFilter,
   TransactionRequest,
   TransactionProver
 } from './libs/dist/index.js';
@@ -19,7 +20,34 @@ for (const db of databases) {
 }
 
 // Your rpc should automatically be configured to this port, but if not you can set it here
-const webClient = await WebClient.createClient('http://localhost:57291');
+const webClient = await WebClient.createClient('http://localhost:57291', 'http://transport.miden.io:57292');
+
+const waitForTransaction = async (
+  transactionId,
+  maxWaitTime = 10000,
+  delayInterval = 1000
+  ) => {
+  let timeWaited = 0;
+  while (true) {
+    console.log("Waiting for transaction to be committed...")
+    if (timeWaited >= maxWaitTime) {
+      throw new Error("Timeout waiting for transaction");
+    }
+    await webClient.syncState();
+    const uncommittedTransactions = await webClient.getTransactions(
+      TransactionFilter.uncommitted()
+    );
+    let uncommittedTransactionIds = uncommittedTransactions.map(
+      (transaction) => transaction.id().toHex()
+    );
+    if (!uncommittedTransactionIds.includes(transactionId)) {
+      break;
+    }
+    await new Promise((r) => setTimeout(r, delayInterval));
+    timeWaited += delayInterval;
+  }
+  console.log("Transaction committed successfully!")
+};
 
 console.log('creating faucet...');
 const faucet = await webClient.newFaucet(
@@ -32,11 +60,8 @@ const faucet = await webClient.newFaucet(
 const faucetId = faucet.id();
 const faucetAddress = Address.fromAccountId(faucetId, 'BasicWallet');
 const faucetAddressAsBech32 = faucetAddress.toBech32(NetworkId.Testnet);
-console.log('created faucet id:', faucetAddressAsBech32);
 
-console.log('syncing state');
 await webClient.syncState();
-console.log('synced state');
 
 document.getElementById('loading').style.display = 'none';
 document.getElementById('faucetIdTitle').style.display = 'block';
@@ -69,9 +94,15 @@ document.getElementById('publicKeyForm').addEventListener('submit', async event 
   let provenTransaction = await webClient.proveTransaction(mintTxnResult, TransactionProver.newLocalProver());
   let submissionHeight = await webClient.submitProvenTransaction(provenTransaction, mintTxnResult);
   await webClient.applyTransaction(mintTxnResult, submissionHeight);
-  console.log('created mint txn');
+  let note = mintTxnRequest.expectedOutputOwnNotes()[0]
+
+  await waitForTransaction(mintTxnResult.id().toHex());
 
   if (isPrivate) {
+    console.log("Sending private note through the transport layer...")
+    await webClient.sendPrivateNote(note, accountAddress);
+    console.log("Private note sent through the transport layer successfully!")
+
     console.log('exporting note...');
     const noteId = mintTxnResult.executedTransaction().outputNotes().notes()[0].id().toString();
     const result = await webClient.exportNoteFile(noteId, 'Details');
@@ -100,8 +131,9 @@ document.getElementById('publicKeyForm').addEventListener('submit', async event 
     URL.revokeObjectURL(url);
   }
 
+  console.log('Syncing state one final time...');
   await webClient.syncState();
-  console.log('synced state complete');
+  console.log('Sync state complete');
 });
 
 document.getElementById('transactionRequestForm').addEventListener('submit', async event => {

@@ -163,7 +163,7 @@ const Explore: FC = () => {
               tippyProps={tippyPropsMock}
               testID={ExploreSelectors.SendButton}
             />
-            <div>
+            <div className="relative">
               <ActionButton
                 label={<T id="receive" />}
                 Icon={ReceiveIcon}

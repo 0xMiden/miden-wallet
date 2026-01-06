@@ -23,7 +23,7 @@ export function buildQuery<P extends Record<string, unknown>, R = any>(
   };
 }
 
-function pick<T, U extends keyof T>(obj: T, keys: U[]) {
+function pick<T extends object, U extends keyof T>(obj: T, keys: U[]) {
   const newObj: Partial<T> = {};
   keys.forEach(key => {
     if (key in obj) {
