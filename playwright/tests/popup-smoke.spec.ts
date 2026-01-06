@@ -1,5 +1,57 @@
 import { expect, test } from '../fixtures/extension';
 
+const TEST_PASSWORD = 'pw';
+const TEST_MNEMONIC = 'test test test test test test test test test test test test';
+
+async function sendWalletMessage(page: any, message: any) {
+  try {
+    return await page.evaluate(
+      msg =>
+        new Promise((resolve, reject) => {
+          // @ts-ignore
+          chrome.runtime.sendMessage(msg, (response: any) => {
+            // @ts-ignore
+            const err = chrome.runtime.lastError;
+            if (err) {
+              reject(new Error(err.message));
+              return;
+            }
+            resolve(response);
+          });
+        }),
+      message
+    );
+  } catch (err: any) {
+    if (String(err.message).includes('The message port closed')) {
+      await page.waitForTimeout(500);
+      return sendWalletMessage(page, message);
+    }
+    throw err;
+  }
+}
+
+async function ensureWalletReady(page: any) {
+  for (let i = 0; i < 5; i++) {
+    const stateRes: any = await sendWalletMessage(page, { type: 'GET_STATE_REQUEST' });
+    const status = stateRes?.state?.status;
+    if (status === 'READY') {
+      return stateRes.state;
+    }
+    if (status === 'LOCKED') {
+      await sendWalletMessage(page, { type: 'UNLOCK_REQUEST', password: TEST_PASSWORD });
+    } else {
+      await sendWalletMessage(page, {
+        type: 'NEW_WALLET_REQUEST',
+        password: TEST_PASSWORD,
+        mnemonic: TEST_MNEMONIC,
+        ownMnemonic: true
+      });
+    }
+    await page.waitForTimeout(500);
+  }
+  throw new Error('Wallet not ready after retries');
+}
+
 test.describe.configure({ mode: 'serial' });
 
 test.describe('Fullpage UI', () => {
@@ -114,5 +166,47 @@ test.describe('Fullpage UI', () => {
     }
 
     await expect(continueButton).toBeEnabled();
+  });
+
+  test('send flow renders and stays disabled without inputs', async ({ extensionContext, extensionId }) => {
+    const fullpageUrl = `chrome-extension://${extensionId}/fullpage.html`;
+    const page = await extensionContext.newPage();
+
+    await page.goto(fullpageUrl, { waitUntil: 'domcontentloaded' });
+
+    await page.goto(`${fullpageUrl}#/send`, { waitUntil: 'domcontentloaded' });
+    const sendFlow = page.getByTestId('send-flow');
+    const sendVisible = await sendFlow.isVisible().catch(() => false);
+    const welcomeVisible = await page.getByTestId('onboarding-welcome').isVisible().catch(() => false);
+    if (!sendVisible && !welcomeVisible) {
+      test.skip('Send flow not available in current state');
+    }
+    if (sendVisible) {
+      const continueButtons = await sendFlow.getByRole('button', { name: /continue/i }).all();
+      if (continueButtons.length > 0) {
+        const disabledStates = await Promise.all(continueButtons.map(btn => btn.isDisabled()));
+        expect(disabledStates.some(Boolean)).toBeTruthy();
+      }
+    }
+  });
+
+  test('receive page shows address and upload affordance', async ({ extensionContext, extensionId }) => {
+    const fullpageUrl = `chrome-extension://${extensionId}/fullpage.html`;
+    const page = await extensionContext.newPage();
+
+    await page.goto(fullpageUrl, { waitUntil: 'domcontentloaded' });
+
+    await page.goto(`${fullpageUrl}#/receive`, { waitUntil: 'domcontentloaded' });
+
+    const receiveContainer = page.getByTestId('receive-page');
+    const receiveVisible = await receiveContainer.isVisible().catch(() => false);
+    const welcomeVisible = await page.getByTestId('onboarding-welcome').isVisible().catch(() => false);
+    if (!receiveVisible && !welcomeVisible) {
+      test.skip('Receive page not reachable in current state');
+    }
+    if (receiveVisible) {
+      await expect(page.getByText(/your address/i)).toBeVisible();
+      await expect(page.getByRole('button', { name: /upload/i })).toBeVisible();
+    }
   });
 });

@@ -137,6 +137,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
         onDragOver={e => e.preventDefault()}
         onDragEnter={onDragEnter}
         onDragLeave={onDragLeave}
+        data-testid="receive-page"
       >
         <FormField ref={fieldRef} value={address} style={{ display: 'none' }} />
         <div className="flex flex-col justify-start">
