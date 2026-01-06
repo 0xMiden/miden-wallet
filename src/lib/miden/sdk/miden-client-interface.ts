@@ -6,6 +6,7 @@ import {
   ConsumableNoteRecord,
   InputNoteRecord,
   InputNoteState,
+  MockWebClient,
   Note,
   NoteFile,
   NoteFilter,
@@ -75,6 +76,12 @@ export class MidenClientInterface {
     const seed = options.seed?.toString();
     const network = MIDEN_NETWORK_NAME.TESTNET;
     const transportLayer = MIDEN_TRANSPORT_LAYER_NAME.TESTNET;
+
+    // In test builds, swap to the SDK's mock client to avoid hitting the real chain.
+    if (process.env.MIDEN_USE_MOCK_CLIENT === 'true') {
+      const mockWebClient = await MockWebClient.createClient(undefined, undefined, options.seed);
+      return new MidenClientInterface(mockWebClient as unknown as WebClient, 'mock', options.onConnectivityIssue);
+    }
 
     // NOTE: SDK typings do not yet expose createClientWithExternalKeystore; cast to any to keep callbacks.
     const webClient = await (WebClient as any).createClientWithExternalKeystore(

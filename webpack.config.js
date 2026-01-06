@@ -12,7 +12,7 @@ const pkg = require('./package.json');
 const htmlTemplatesPlugins = require('./webpack.html.config');
 const publicAssetsPlugin = require('./webpack.public.config');
 
-const { TARGET_BROWSER = 'chrome', DISABLE_TS_CHECKER } = process.env;
+const { TARGET_BROWSER = 'chrome', DISABLE_TS_CHECKER, MIDEN_USE_MOCK_CLIENT } = process.env;
 const enableTsChecker = DISABLE_TS_CHECKER !== 'true';
 
 const MANIFEST = process.env.MANIFEST_VERSION === '3' ? 'manifest.json' : 'manifest.v2.json';
@@ -91,7 +91,8 @@ const appConfig = {
   plugins: [
     new Dotenv(),
     new webpack.EnvironmentPlugin({
-      VERSION: pkg.version
+      VERSION: pkg.version,
+      MIDEN_USE_MOCK_CLIENT: MIDEN_USE_MOCK_CLIENT || 'false'
     }),
 
     new webpack.ProvidePlugin({

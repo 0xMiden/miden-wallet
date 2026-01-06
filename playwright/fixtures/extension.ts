@@ -22,6 +22,7 @@ function ensureExtensionBuilt(extensionPath: string) {
   const env = { ...process.env };
   // Skip fork-ts-checker to avoid TypeScript patching issues in CI/Playwright runs.
   env.DISABLE_TS_CHECKER = 'true';
+  env.MIDEN_USE_MOCK_CLIENT = env.MIDEN_USE_MOCK_CLIENT || 'true';
 
   execSync('yarn build:chrome', {
     cwd: ROOT_DIR,

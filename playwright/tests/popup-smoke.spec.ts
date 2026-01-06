@@ -84,4 +84,35 @@ test.describe('Fullpage UI', () => {
 
     await expect(page.getByText(/your wallet is ready/i)).toBeVisible();
   });
+
+  test('import seed phrase enforces valid words before continue', async ({ extensionContext, extensionId }) => {
+    const fullpageUrl = `chrome-extension://${extensionId}/fullpage.html`;
+    const page = await extensionContext.newPage();
+
+    await page.goto(fullpageUrl, { waitUntil: 'domcontentloaded' });
+
+    const welcome = page.getByTestId('onboarding-welcome');
+    await welcome.waitFor({ timeout: 20000 });
+    await welcome.getByRole('button', { name: /i already have a wallet/i }).click();
+
+    const importType = page.getByTestId('import-select-type');
+    await importType.waitFor({ timeout: 15000 });
+    await importType.getByText(/import with seed phrase/i).click();
+
+    const seedForm = page.getByTestId('import-seed-phrase');
+    await seedForm.waitFor({ timeout: 15000 });
+
+    const continueButton = page.getByRole('button', { name: /continue/i });
+    await seedForm.locator('#seed-phrase-input-0').fill('notaword');
+    await expect(continueButton).toBeDisabled();
+
+    const words = 'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about'.split(
+      ' '
+    );
+    for (let i = 0; i < words.length; i++) {
+      await seedForm.locator(`#seed-phrase-input-${i}`).fill(words[i]);
+    }
+
+    await expect(continueButton).toBeEnabled();
+  });
 });
