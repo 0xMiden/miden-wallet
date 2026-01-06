@@ -89,6 +89,14 @@ export class MidenClientInterface {
     return new MidenClientInterface(webClient, network, options.onConnectivityIssue);
   }
 
+  /**
+   * Create a client wrapper around a provided WebClient instance.
+   * Useful for tests that want to inject MockWebClient.
+   */
+  static fromWebClient(webClient: WebClient, network: string, onConnectivityIssue?: () => void) {
+    return new MidenClientInterface(webClient, network, onConnectivityIssue);
+  }
+
   free() {
     this.webClient.free();
   }

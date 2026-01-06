@@ -73,3 +73,15 @@ For testing with the Miden faucet. It is recommended to run a local faucet as we
 ```bash
 yarn test
 ```
+
+### Playwright (Mock WebClient)
+
+The Playwright suite uses the SDK's `MockWebClient` to exercise wallet flows without hitting the network.
+
+```bash
+yarn playwright:install # first time to download the Chromium binary Playwright uses
+yarn test:e2e
+yarn test:e2e:ui # builds and opens the extension UI in Chromium (headful)
+```
+
+For UI tests we build the unpacked Chrome extension automatically if `dist/chrome_unpacked` is missing. Override the path with `EXTENSION_DIST=/path/to/unpacked` or skip building with `SKIP_EXTENSION_BUILD=true`.
