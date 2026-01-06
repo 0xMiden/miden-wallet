@@ -1,4 +1,5 @@
 import { Address, Note, TransactionResult } from '@demox-labs/miden-sdk';
+import { liveQuery } from 'dexie';
 
 import { consumeNoteId } from 'lib/miden-worker/consumeNoteId';
 import { sendTransaction } from 'lib/miden-worker/sendTransaction';
@@ -134,6 +135,27 @@ export const initiateConsumeTransaction = async (
   await Repo.transactions.add(dbTransaction);
 
   return dbTransaction.id;
+};
+
+export const waitForConsumeTx = async (id: string): Promise<string> => {
+  return new Promise<string>((resolve, rejects) => {
+    const subscription = liveQuery(() => Repo.transactions.where({ id }).first()).subscribe(tx => {
+      if (!tx) {
+        // Transaction not found - resolve with error
+        rejects('Transaction not found');
+        subscription.unsubscribe();
+        return;
+      }
+
+      if (tx.status === ITransactionStatus.Completed) {
+        subscription.unsubscribe();
+        resolve(tx.transactionId!);
+      } else if (tx.status === ITransactionStatus.Failed) {
+        subscription.unsubscribe();
+        rejects('Consume transaction failed');
+      }
+    });
+  });
 };
 
 export const completeConsumeTransaction = async (id: string, result: TransactionResult) => {

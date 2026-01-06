@@ -105,7 +105,7 @@ export class MidenClientInterface {
   }
 
   free() {
-    this.webClient.free();
+    this.webClient.terminate();
   }
 
   async createMidenWallet(walletType: WalletType, seed?: Uint8Array): Promise<string> {

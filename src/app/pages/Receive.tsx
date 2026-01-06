@@ -11,11 +11,12 @@ import AddressChip from 'app/templates/AddressChip';
 import { Button, ButtonVariant } from 'components/Button';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { T } from 'lib/i18n/react';
-import { initiateConsumeTransaction } from 'lib/miden/activity';
-import { useAccount } from 'lib/miden/front';
+import { initiateConsumeTransaction, waitForConsumeTx } from 'lib/miden/activity';
+import { AssetMetadata, useAccount } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { ConsumableNote } from 'lib/miden/types';
 import { isDelegateProofEnabled } from 'lib/settings/helpers';
+import { WalletAccount } from 'lib/shared/types';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 import { HistoryAction, navigate } from 'lib/woozie';
 import { truncateAddress } from 'utils/string';
@@ -31,7 +32,6 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
   const { popup } = useAppEnv();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [attemptedNoteIds, setAttemptedNoteIds] = useState(new Set<string>());
   const safeClaimableNotes = (claimableNotes ?? []).filter((n): n is NonNullable<typeof n> => n != null);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -105,20 +105,6 @@ export const Receive: React.FC<ReceiveProps> = () => {
     [handleFileChange]
   );
 
-  const consumeNote = useCallback(
-    async (note: ConsumableNote) => {
-      try {
-        await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
-        await mutateClaimableNotes();
-        openLoadingFullPage();
-        setAttemptedNoteIds(prev => new Set(prev).add(note.id));
-      } catch (error) {
-        console.error('Error consuming note:', error);
-      }
-    },
-    [account, isDelegatedProvingEnabled, mutateClaimableNotes]
-  );
-
   return (
     <PageLayout
       pageTitle={pageTitle}
@@ -175,39 +161,76 @@ export const Receive: React.FC<ReceiveProps> = () => {
               )}
             </div>
           </div>
-          {safeClaimableNotes.map(note => {
-            const claimHasFailed = attemptedNoteIds.has(note.id) && !note.isBeingClaimed;
-            return (
-              <div key={note.id} className="flex justify-center items-center gap-8">
-                <div className="flex items-center gap-x-2">
-                  <Icon name={IconName.ArrowRightDownFilledCircle} size="lg" />
-                  <div className="flex flex-col">
-                    <p className="text-md font-bold">
-                      {claimHasFailed ? 'Error Claiming: ' : ''}
-                      {`${formatBigInt(BigInt(note.amount), note.metadata?.decimals || 6)} ${
-                        note.metadata?.symbol || 'UNKNOWN'
-                      }`}
-                    </p>
-                    <p className="text-xs text-gray-100">{truncateAddress(note.senderAddress)}</p>
-                  </div>
-                </div>
-                {note.isBeingClaimed ? (
-                  <div className="w-[75px] h-[36px] flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
-                  </div>
-                ) : (
-                  <Button
-                    className="w-[75px] h-[36px] text-md"
-                    variant={ButtonVariant.Primary}
-                    onClick={() => consumeNote(note)}
-                    title={claimHasFailed ? 'Retry' : 'Claim'}
-                  />
-                )}
-              </div>
-            );
-          })}
+          {safeClaimableNotes.map(note => (
+            <ConsumableNoteComponent
+              key={note.id}
+              note={note}
+              mutateClaimableNotes={mutateClaimableNotes}
+              account={account}
+              isDelegatedProvingEnabled={isDelegatedProvingEnabled}
+            />
+          ))}
         </div>
       </div>
     </PageLayout>
+  );
+};
+
+interface ConsumableNoteProps {
+  account: WalletAccount;
+  note: NonNullable<ConsumableNote & { metadata: AssetMetadata }>;
+  mutateClaimableNotes: ReturnType<typeof useClaimableNotes>['mutate'];
+  isDelegatedProvingEnabled: boolean;
+}
+
+export const ConsumableNoteComponent = ({
+  note,
+  mutateClaimableNotes,
+  account,
+  isDelegatedProvingEnabled
+}: ConsumableNoteProps) => {
+  const [isLoading, setIsLoading] = useState(note.isBeingClaimed || false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleConsume = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const id = await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
+      await openLoadingFullPage();
+      const txHash = await waitForConsumeTx(id);
+      await mutateClaimableNotes();
+      console.log('Successfully consumed note, tx hash:', txHash);
+    } catch (error) {
+      setError('Failed to consume note. Please try again.');
+      console.error('Error consuming note:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [account, isDelegatedProvingEnabled, mutateClaimableNotes, setIsLoading, setError, note]);
+  return (
+    <div key={note.id} className="flex justify-center items-center gap-8">
+      <div className="flex items-center gap-x-2">
+        <Icon name={IconName.ArrowRightDownFilledCircle} size="lg" />
+        <div className="flex flex-col">
+          <p className="text-md font-bold">
+            {error ? 'Error Claiming: ' : ''}
+            {`${formatBigInt(BigInt(note.amount), note.metadata?.decimals || 6)} ${note.metadata?.symbol || 'UNKNOWN'}`}
+          </p>
+          <p className="text-xs text-gray-100">{truncateAddress(note.senderAddress)}</p>
+        </div>
+      </div>
+      {isLoading ? (
+        <div className="w-[75px] h-[36px] flex items-center justify-center">
+          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
+        </div>
+      ) : (
+        <Button
+          className="w-[75px] h-[36px] text-md"
+          variant={ButtonVariant.Primary}
+          onClick={handleConsume}
+          title={error ? 'Retry' : 'Claim'}
+        />
+      )}
+    </div>
   );
 };
