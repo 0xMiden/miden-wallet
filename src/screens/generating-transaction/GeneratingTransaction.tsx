@@ -78,7 +78,6 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
 
   const generateTransaction = useCallback(async () => {
     const success = await dbTransactionsLoop(signTransaction);
-    console.log('Generated transaction with result:', success);
     if (success === false) {
       setError(true);
     }
