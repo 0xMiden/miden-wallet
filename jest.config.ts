@@ -21,6 +21,7 @@ export default {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   modulePathIgnorePatterns: ['<rootDir>/sdk-debug/'],
+  testPathIgnorePatterns: ['<rootDir>/playwright/'],
   setupFiles: ['dotenv/config', '@serh11p/jest-webextension-mock', 'fake-indexeddb/auto'],
   setupFilesAfterEnv: ['./jest.setup.js']
 };

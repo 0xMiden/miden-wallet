@@ -6,7 +6,7 @@ const TEST_MNEMONIC = 'test test test test test test test test test test test te
 async function sendWalletMessage(page: any, message: any) {
   try {
     return await page.evaluate(
-      msg =>
+      (msg: any) =>
         new Promise((resolve, reject) => {
           // @ts-ignore
           chrome.runtime.sendMessage(msg, (response: any) => {
@@ -79,7 +79,7 @@ test.describe('Fullpage UI', () => {
   });
 
   test('onboarding create flow shows verify screen and word options', async ({ extensionContext, extensionId }) => {
-    test.skip('Onboarding create flow is flaky in current Playwright harness');
+    test.skip(true, 'Onboarding create flow is flaky in current Playwright harness');
     const fullpageUrl = `chrome-extension://${extensionId}/fullpage.html`;
     const page = await extensionContext.newPage();
 
@@ -89,17 +89,17 @@ test.describe('Fullpage UI', () => {
     try {
       await welcome.waitFor({ timeout: 30000 });
     } catch (err) {
-      test.skip('Onboarding not reachable in current state');
+      test.skip(true, 'Onboarding not reachable in current state');
     }
     if (page.isClosed()) {
-      test.skip('Page closed before onboarding');
+      test.skip(true, 'Page closed before onboarding');
     }
     await welcome.getByRole('button', { name: /create a new wallet/i }).click();
 
     try {
       await page.getByText(/back up your wallet/i).waitFor({ timeout: 15000 });
     } catch (err) {
-      test.skip('Backup screen not reachable in current state');
+      test.skip(true, 'Backup screen not reachable in current state');
     }
     await page.getByRole('button', { name: /show/i }).click();
 
@@ -119,7 +119,7 @@ test.describe('Fullpage UI', () => {
   });
 
   test('onboarding import flow via seed entry reaches password screen', async ({ extensionContext, extensionId }) => {
-    test.skip('Onboarding import flow is flaky in current Playwright harness');
+    test.skip(true, 'Onboarding import flow is flaky in current Playwright harness');
     const fullpageUrl = `chrome-extension://${extensionId}/fullpage.html`;
     const page = await extensionContext.newPage();
 
@@ -129,7 +129,7 @@ test.describe('Fullpage UI', () => {
       const welcome = page.getByTestId('onboarding-welcome');
       await welcome.waitFor({ timeout: 30000 });
       if (page.isClosed()) {
-        test.skip('Page closed before onboarding');
+        test.skip(true, 'Page closed before onboarding');
       }
       await welcome.getByRole('button', { name: /i already have a wallet/i }).click();
 
@@ -153,13 +153,13 @@ test.describe('Fullpage UI', () => {
 
       await expect(page.getByText(/your wallet is ready/i)).toBeVisible();
     } catch (err) {
-      test.skip('Onboarding import flow not reachable');
+      test.skip(true, 'Onboarding import flow not reachable');
     }
   });
 
   
   test('import seed phrase enforces valid words before continue', async ({ extensionContext, extensionId }) => {
-    test.skip('Onboarding import flow is flaky in current Playwright harness');
+    test.skip(true, 'Onboarding import flow is flaky in current Playwright harness');
     const fullpageUrl = `chrome-extension://${extensionId}/fullpage.html`;
     const page = await extensionContext.newPage();
 
@@ -169,10 +169,10 @@ test.describe('Fullpage UI', () => {
     try {
       await welcome.waitFor({ timeout: 30000 });
     } catch (err) {
-      test.skip('Onboarding not reachable in current state');
+      test.skip(true, 'Onboarding not reachable in current state');
     }
     if (page.isClosed()) {
-      test.skip('Page closed before onboarding');
+      test.skip(true, 'Page closed before onboarding');
     }
     await welcome.getByRole('button', { name: /i already have a wallet/i }).click();
 
@@ -208,7 +208,7 @@ test.describe('Fullpage UI', () => {
     const sendVisible = await sendFlow.isVisible().catch(() => false);
     const welcomeVisible = await page.getByTestId('onboarding-welcome').isVisible().catch(() => false);
     if (!sendVisible && !welcomeVisible) {
-      test.skip('Send flow not available in current state');
+      test.skip(true, 'Send flow not available in current state');
     }
     if (sendVisible) {
       const continueButtons = await sendFlow.getByRole('button', { name: /continue/i }).all();
@@ -231,7 +231,7 @@ test.describe('Fullpage UI', () => {
     const receiveVisible = await receiveContainer.isVisible().catch(() => false);
     const welcomeVisible = await page.getByTestId('onboarding-welcome').isVisible().catch(() => false);
     if (!receiveVisible && !welcomeVisible) {
-      test.skip('Receive page not reachable in current state');
+      test.skip(true, 'Receive page not reachable in current state');
     }
     if (receiveVisible) {
       await expect(page.getByText(/your address/i)).toBeVisible();
