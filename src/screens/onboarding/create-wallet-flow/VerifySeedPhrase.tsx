@@ -35,7 +35,11 @@ export const VerifySeedPhraseScreen: React.FC<VerifySeedPhraseScreenProps> = ({
   }, [selectedWordIndex, shuffledWords, seedPhrase, wordIndexToVerify]);
 
   return (
-    <div className={classNames('flex-1', 'flex flex-col', 'bg-white gap-8 p-6', className)} {...props}>
+    <div
+      className={classNames('flex-1', 'flex flex-col', 'bg-white gap-8 p-6', className)}
+      data-testid="verify-seed-phrase"
+      {...props}
+    >
       <div className="flex flex-col items-center">
         <header className="text-2xl font-semibold">{t('verifySeedPhrase')}</header>
         <p className="text-sm font-normal mt-2 w-[500px] text-center">{t('verifyMessagePrefix')}</p>

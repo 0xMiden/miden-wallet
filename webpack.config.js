@@ -12,7 +12,8 @@ const pkg = require('./package.json');
 const htmlTemplatesPlugins = require('./webpack.html.config');
 const publicAssetsPlugin = require('./webpack.public.config');
 
-const { TARGET_BROWSER = 'chrome' } = process.env;
+const { TARGET_BROWSER = 'chrome', DISABLE_TS_CHECKER, MIDEN_USE_MOCK_CLIENT } = process.env;
+const enableTsChecker = DISABLE_TS_CHECKER !== 'true';
 
 const MANIFEST = process.env.MANIFEST_VERSION === '3' ? 'manifest.json' : 'manifest.v2.json';
 
@@ -90,7 +91,8 @@ const appConfig = {
   plugins: [
     new Dotenv(),
     new webpack.EnvironmentPlugin({
-      VERSION: pkg.version
+      VERSION: pkg.version,
+      MIDEN_USE_MOCK_CLIENT: MIDEN_USE_MOCK_CLIENT || 'false'
     }),
 
     new webpack.ProvidePlugin({
@@ -105,7 +107,11 @@ const appConfig = {
       filename: 'static/styles/[name].css',
       chunkFilename: 'static/styles/[name].chunk.css'
     }),
-    new ForkTsCheckerWebpackPlugin(),
+    ...(
+      enableTsChecker
+        ? [new ForkTsCheckerWebpackPlugin()]
+        : []
+    ),
     ...htmlTemplatesPlugins(PUBLIC_PATH),
     new ESLintPlugin({
       extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
@@ -297,7 +303,11 @@ const backgroundConfig = {
       filename: 'static/styles/[name].css',
       chunkFilename: 'static/styles/[name].chunk.css'
     }),
-    new ForkTsCheckerWebpackPlugin(),
+    ...(
+      enableTsChecker
+        ? [new ForkTsCheckerWebpackPlugin()]
+        : []
+    ),
     new ESLintPlugin({
       extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
       cache: true,

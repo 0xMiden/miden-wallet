@@ -76,6 +76,13 @@ export class MidenClientInterface {
     const network = MIDEN_NETWORK_NAME.TESTNET;
     const transportLayer = MIDEN_TRANSPORT_LAYER_NAME.TESTNET;
 
+    // In test builds, swap to the SDK's mock client to avoid hitting the real chain.
+    if (process.env.MIDEN_USE_MOCK_CLIENT === 'true') {
+      const sdk = await import('@demox-labs/miden-sdk');
+      const mockWebClient = await (sdk as any).MockWebClient.createClient(undefined, undefined, options.seed);
+      return new MidenClientInterface(mockWebClient as unknown as WebClient, 'mock', options.onConnectivityIssue);
+    }
+
     // NOTE: SDK typings do not yet expose createClientWithExternalKeystore; cast to any to keep callbacks.
     const webClient = await (WebClient as any).createClientWithExternalKeystore(
       MIDEN_NETWORK_ENDPOINTS.get(network)!,
@@ -87,6 +94,14 @@ export class MidenClientInterface {
     );
 
     return new MidenClientInterface(webClient, network, options.onConnectivityIssue);
+  }
+
+  /**
+   * Create a client wrapper around a provided WebClient instance.
+   * Useful for tests that want to inject MockWebClient.
+   */
+  static fromWebClient(webClient: WebClient, network: string, onConnectivityIssue?: () => void) {
+    return new MidenClientInterface(webClient, network, onConnectivityIssue);
   }
 
   free() {

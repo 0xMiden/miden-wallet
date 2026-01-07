@@ -15,7 +15,10 @@ export type Actions = 'select-wallet-type' | 'select-import-type';
 export const WelcomeScreen = ({ onSubmit, ...props }: WelcomeScreenProps) => {
   const { t } = useTranslation();
   return (
-    <div className="flex-1 flex flex-col items-center justify-around bg-transparent gap-8 p-6 h-[calc(100%-64px)]">
+    <div
+      className="flex-1 flex flex-col items-center justify-around bg-transparent gap-8 p-6 h-[calc(100%-64px)]"
+      data-testid="onboarding-welcome"
+    >
       <div className="mt-6">
         <Message
           icon={IconName.WalletWelcome}

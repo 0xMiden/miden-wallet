@@ -39,7 +39,7 @@ export const SelectImportTypeScreen = ({ onSubmit, ...props }: SelectImportTypeS
   );
 
   return (
-    <div className="flex-1 flex flex-col items-center bg-transparent p-8 h-full">
+    <div className="flex-1 flex flex-col items-center bg-transparent p-8 h-full" data-testid="import-select-type">
       <div className="flex flex-col items-center w-4/5 pb-8">
         <h1 className="font-semibold text-2xl lh-title">{t('chooseImportType')}</h1>
         <p className="text-base text-center lh-title">{t('chooseImportTypeDescription')}</p>
