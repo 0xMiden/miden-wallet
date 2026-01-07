@@ -202,20 +202,20 @@ test.describe('Fullpage UI', () => {
     const page = await extensionContext.newPage();
 
     await page.goto(fullpageUrl, { waitUntil: 'domcontentloaded' });
+    await page.waitForSelector('#root');
 
     await page.goto(`${fullpageUrl}#/send`, { waitUntil: 'domcontentloaded' });
     const sendFlow = page.getByTestId('send-flow');
     const sendVisible = await sendFlow.isVisible().catch(() => false);
-    const welcomeVisible = await page.getByTestId('onboarding-welcome').isVisible().catch(() => false);
-    if (!sendVisible && !welcomeVisible) {
-      test.skip(true, 'Send flow not available in current state');
-    }
+
     if (sendVisible) {
       const continueButtons = await sendFlow.getByRole('button', { name: /continue/i }).all();
       if (continueButtons.length > 0) {
         const disabledStates = await Promise.all(continueButtons.map(btn => btn.isDisabled()));
         expect(disabledStates.some(Boolean)).toBeTruthy();
       }
+    } else {
+      await expect(page.getByTestId('onboarding-welcome')).toBeVisible({ timeout: 10000 });
     }
   });
 
@@ -224,18 +224,18 @@ test.describe('Fullpage UI', () => {
     const page = await extensionContext.newPage();
 
     await page.goto(fullpageUrl, { waitUntil: 'domcontentloaded' });
+    await page.waitForSelector('#root');
 
     await page.goto(`${fullpageUrl}#/receive`, { waitUntil: 'domcontentloaded' });
 
     const receiveContainer = page.getByTestId('receive-page');
     const receiveVisible = await receiveContainer.isVisible().catch(() => false);
-    const welcomeVisible = await page.getByTestId('onboarding-welcome').isVisible().catch(() => false);
-    if (!receiveVisible && !welcomeVisible) {
-      test.skip(true, 'Receive page not reachable in current state');
-    }
+
     if (receiveVisible) {
       await expect(page.getByText(/your address/i)).toBeVisible();
       await expect(page.getByRole('button', { name: /upload/i })).toBeVisible();
+    } else {
+      await expect(page.getByTestId('onboarding-welcome')).toBeVisible({ timeout: 10000 });
     }
   });
 });

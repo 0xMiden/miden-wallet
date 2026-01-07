@@ -6,7 +6,7 @@
     "start": "yarn watch:src",
     "dev": "rimraf ./dist && concurrently yarn:watch:*",
     "dev-clean": "rimraf node_modules && yarn cache clean && yarn install && yarn dev",
-    "watch:src": "cross-env NODE_ENV=development MODE_ENV=development MANIFEST_VERSION=3 webpack --watch --progress",
+    "watch:src": "cross-env DISABLE_TS_CHECKER=true NODE_ENV=development MODE_ENV=development MANIFEST_VERSION=3 webpack --watch --progress",
     "watch:dist": "mv3-hot-reload",
     "build": "cross-env NODE_ENV=development MODE_ENV=production MANIFEST_VERSION=3 webpack",
     "prebuild": "rimraf ./dist && yarn clear:webpack-cache",
