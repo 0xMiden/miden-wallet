@@ -79,28 +79,19 @@ test.describe('Fullpage UI', () => {
   });
 
   test('onboarding create flow shows verify screen and word options', async ({ extensionContext, extensionId }) => {
-    test.skip(true, 'Onboarding create flow is flaky in current Playwright harness');
     const fullpageUrl = `chrome-extension://${extensionId}/fullpage.html`;
     const page = await extensionContext.newPage();
 
     await page.goto(fullpageUrl, { waitUntil: 'domcontentloaded' });
 
     const welcome = page.getByTestId('onboarding-welcome');
-    try {
-      await welcome.waitFor({ timeout: 30000 });
-    } catch (err) {
-      test.skip(true, 'Onboarding not reachable in current state');
-    }
+    await welcome.waitFor({ timeout: 30000 });
     if (page.isClosed()) {
-      test.skip(true, 'Page closed before onboarding');
+      throw new Error('Page closed before onboarding');
     }
     await welcome.getByRole('button', { name: /create a new wallet/i }).click();
 
-    try {
-      await page.getByText(/back up your wallet/i).waitFor({ timeout: 15000 });
-    } catch (err) {
-      test.skip(true, 'Backup screen not reachable in current state');
-    }
+    await page.getByText(/back up your wallet/i).waitFor({ timeout: 15000 });
     await page.getByRole('button', { name: /show/i }).click();
 
     const seedWords = await page.$$eval('article label', labels =>
@@ -119,60 +110,50 @@ test.describe('Fullpage UI', () => {
   });
 
   test('onboarding import flow via seed entry reaches password screen', async ({ extensionContext, extensionId }) => {
-    test.skip(true, 'Onboarding import flow is flaky in current Playwright harness');
-    const fullpageUrl = `chrome-extension://${extensionId}/fullpage.html`;
-    const page = await extensionContext.newPage();
-
-    await page.goto(fullpageUrl, { waitUntil: 'domcontentloaded' });
-
-    try {
-      const welcome = page.getByTestId('onboarding-welcome');
-      await welcome.waitFor({ timeout: 30000 });
-      if (page.isClosed()) {
-        test.skip(true, 'Page closed before onboarding');
-      }
-      await welcome.getByRole('button', { name: /i already have a wallet/i }).click();
-
-      const importType = page.getByTestId('import-select-type');
-      await importType.waitFor({ timeout: 15000 });
-
-      await importType.getByText(/import with seed phrase/i).click();
-
-      const words = 'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about'.split(
-        ' '
-      );
-      for (let i = 0; i < words.length; i++) {
-        await page.locator(`#seed-phrase-input-${i}`).fill(words[i]);
-      }
-      await page.getByRole('button', { name: /continue/i }).click();
-
-      await expect(page).toHaveURL(/create-password/);
-      await page.locator('input[placeholder="Enter password"]').first().fill('Password123!');
-      await page.locator('input[placeholder="Enter password again"]').first().fill('Password123!');
-      await page.getByRole('button', { name: /continue/i }).click();
-
-      await expect(page.getByText(/your wallet is ready/i)).toBeVisible();
-    } catch (err) {
-      test.skip(true, 'Onboarding import flow not reachable');
-    }
-  });
-
-  
-  test('import seed phrase enforces valid words before continue', async ({ extensionContext, extensionId }) => {
-    test.skip(true, 'Onboarding import flow is flaky in current Playwright harness');
     const fullpageUrl = `chrome-extension://${extensionId}/fullpage.html`;
     const page = await extensionContext.newPage();
 
     await page.goto(fullpageUrl, { waitUntil: 'domcontentloaded' });
 
     const welcome = page.getByTestId('onboarding-welcome');
-    try {
-      await welcome.waitFor({ timeout: 30000 });
-    } catch (err) {
-      test.skip(true, 'Onboarding not reachable in current state');
-    }
+    await welcome.waitFor({ timeout: 30000 });
     if (page.isClosed()) {
-      test.skip(true, 'Page closed before onboarding');
+      throw new Error('Page closed before onboarding');
+    }
+    await welcome.getByRole('button', { name: /i already have a wallet/i }).click();
+
+    const importType = page.getByTestId('import-select-type');
+    await importType.waitFor({ timeout: 15000 });
+
+    await importType.getByText(/import with seed phrase/i).click();
+
+    const words = 'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about'.split(
+      ' '
+    );
+    for (let i = 0; i < words.length; i++) {
+      await page.locator(`#seed-phrase-input-${i}`).fill(words[i]);
+    }
+    await page.getByRole('button', { name: /continue/i }).click();
+
+    await expect(page).toHaveURL(/create-password/);
+    await page.locator('input[placeholder="Enter password"]').first().fill('Password123!');
+    await page.locator('input[placeholder="Enter password again"]').first().fill('Password123!');
+    await page.getByRole('button', { name: /continue/i }).click();
+
+    await expect(page.getByText(/your wallet is ready/i)).toBeVisible();
+  });
+
+  
+  test('import seed phrase enforces valid words before continue', async ({ extensionContext, extensionId }) => {
+    const fullpageUrl = `chrome-extension://${extensionId}/fullpage.html`;
+    const page = await extensionContext.newPage();
+
+    await page.goto(fullpageUrl, { waitUntil: 'domcontentloaded' });
+
+    const welcome = page.getByTestId('onboarding-welcome');
+    await welcome.waitFor({ timeout: 30000 });
+    if (page.isClosed()) {
+      throw new Error('Page closed before onboarding');
     }
     await welcome.getByRole('button', { name: /i already have a wallet/i }).click();
 
