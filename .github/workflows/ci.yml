@@ -53,9 +53,7 @@ jobs:
           cmd: build:chrome
 
       - name: Install Playwright Browsers
-        uses: microsoft/playwright-github-action@v1
-        with:
-          browser: chromium
+        run: npx playwright install --with-deps chromium
 
       - name: Run Playwright E2E
         run: xvfb-run -a yarn test:e2e
