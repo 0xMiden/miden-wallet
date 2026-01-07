@@ -51,3 +51,14 @@ jobs:
         uses: borales/actions-yarn@v4
         with:
           cmd: build:chrome
+
+      - name: Install Playwright Browsers
+        uses: microsoft/playwright-github-action@v1
+        with:
+          browser: chromium
+
+      - name: Run Playwright E2E
+        run: xvfb-run -a yarn test:e2e
+
+      - name: Run Playwright UI E2E
+        run: xvfb-run -a yarn test:e2e:ui
