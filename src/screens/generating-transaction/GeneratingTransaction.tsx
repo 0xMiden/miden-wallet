@@ -28,6 +28,7 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
   const { pageEvent, trackEvent } = useAnalytics();
   const [outputNotes, downloadAll] = useExportNotes();
   const [error, setError] = useState(false);
+  const intervalIdRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const { data: txs, mutate: mutateTx } = useRetryableSWR(
     [`all-latest-generating-transactions`],
@@ -77,20 +78,31 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
   }, [transactions, trackEvent, outputNotes, onClose]);
 
   const generateTransaction = useCallback(async () => {
-    const success = await dbTransactionsLoop(signTransaction);
-    if (success === false) {
-      setError(true);
-    }
+    try {
+      const success = await dbTransactionsLoop(signTransaction);
+      if (success === false) {
+        setError(true);
+        if (intervalIdRef.current) clearInterval(intervalIdRef.current);
+      }
 
-    mutateTx();
-  }, [mutateTx, setError, signTransaction]);
+      mutateTx();
+    } catch {
+      setError(true);
+      if (intervalIdRef.current) clearInterval(intervalIdRef.current);
+    }
+  }, [mutateTx, signTransaction]);
 
   useEffect(() => {
+    if (error) return;
     generateTransaction();
-    setInterval(() => {
+    intervalIdRef.current = setInterval(() => {
       generateTransaction();
-    }, 5_000);
-  }, [transactions, generateTransaction]);
+    }, 10_000);
+    return () => {
+      if (intervalIdRef.current) clearInterval(intervalIdRef.current);
+      intervalIdRef.current = null;
+    };
+  }, [generateTransaction, error]);
 
   useBeforeUnload(!error && transactions.length !== 0, downloadAll);
   const progress = transactions.length > 0 ? (1 / transactions.length) * 80 : 0;
@@ -138,7 +150,7 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
   const [outputNotes, downloadAll] = useExportNotes();
 
   const renderIcon = useCallback(() => {
-    if (transactionComplete) {
+    if (transactionComplete && !error) {
       return <Icon name={IconName.Success} size="3xl" />;
     }
     if (error) {
@@ -154,7 +166,7 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
   }, [transactionComplete, error, progress]);
 
   const headerText = useCallback(() => {
-    if (transactionComplete) {
+    if (transactionComplete && !error) {
       return 'Transaction Completed';
     }
     if (error) {
@@ -188,7 +200,7 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
           </div>
         </div>
         <div className="mt-8 flex flex-col gap-y-4">
-          {outputNotes.length > 0 && transactionComplete && (
+          {outputNotes.length > 0 && transactionComplete && !error && (
             <Button
               title="Download Generated Files"
               iconLeft={IconName.Download}
