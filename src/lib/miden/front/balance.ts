@@ -1,15 +1,9 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-import { FungibleAsset } from '@demox-labs/miden-sdk';
-import BigNumber from 'bignumber.js';
-
 import { useWalletStore } from 'lib/store';
+import { fetchBalances } from 'lib/store/utils/fetchBalances';
 
-import { getFaucetIdSetting } from '../assets';
-import { AssetMetadata, fetchTokenMetadata, MIDEN_METADATA } from '../metadata';
-import { getBech32AddressFromAccountId } from '../sdk/helpers';
-import { getMidenClient } from '../sdk/miden-client';
-import { setTokensBaseMetadata } from './assets';
+import { AssetMetadata } from '../metadata';
 
 export interface TokenBalanceData {
   tokenId: string;
@@ -50,8 +44,8 @@ export function useAllBalances(address: string, tokenMetadatas: Record<string, A
 
     fetchingRef.current = true;
     try {
-      // Fetch balances and prefetch missing metadata
-      const fetchedBalances = await fetchBalancesRaw(address, tokenMetadatas, setAssetsMetadata);
+      // Fetch balances using the consolidated utility
+      const fetchedBalances = await fetchBalances(address, tokenMetadatas, { setAssetsMetadata });
 
       // Update store if still mounted
       if (mountedRef.current) {
@@ -109,78 +103,6 @@ export function useAllBalances(address: string, tokenMetadatas: Record<string, A
     isLoading: balancesLoading,
     isValidating: balancesLoading
   };
-}
-
-const inFlight = new Set<string>(); // persists while this module is loaded
-
-const prefetchMetadataIfMissing = (
-  id: string,
-  setAssetsMetadata: (metadata: Record<string, AssetMetadata>) => void
-) => {
-  if (inFlight.has(id)) return;
-  inFlight.add(id);
-  void fetchTokenMetadata(id)
-    .then(async ({ base }) => {
-      await setTokensBaseMetadata({ [id]: base });
-      setAssetsMetadata({ [id]: base });
-    })
-    .finally(() => inFlight.delete(id));
-};
-
-/**
- * Raw balance fetching logic - used by both the hook and the store
- */
-async function fetchBalancesRaw(
-  address: string,
-  tokenMetadatas: Record<string, AssetMetadata>,
-  setAssetsMetadata: (metadata: Record<string, AssetMetadata>) => void
-): Promise<TokenBalanceData[]> {
-  const balances: TokenBalanceData[] = [];
-
-  const midenClient = await getMidenClient();
-  const account = await midenClient.getAccount(address);
-  const assets = account!.vault().fungibleAssets() as FungibleAsset[];
-  const midenFaucetId = await getFaucetIdSetting();
-  let hasMiden = false;
-
-  for (const asset of assets) {
-    const id = getBech32AddressFromAccountId(asset.faucetId());
-    if (id !== midenFaucetId && !tokenMetadatas[id]) {
-      prefetchMetadataIfMissing(id, setAssetsMetadata);
-    }
-  }
-
-  for (const asset of assets) {
-    const tokenId = getBech32AddressFromAccountId(asset.faucetId());
-    const isMiden = tokenId === midenFaucetId;
-    if (isMiden) {
-      hasMiden = true;
-    }
-    const tokenMetadata = isMiden ? MIDEN_METADATA : tokenMetadatas[tokenId];
-    if (!tokenMetadata) {
-      continue;
-    }
-    const balance = new BigNumber(asset.amount().toString()).div(10 ** tokenMetadata.decimals);
-    balances.push({
-      tokenId,
-      tokenSlug: tokenMetadata.symbol,
-      metadata: tokenMetadata,
-      fiatPrice: 1,
-      balance: balance.toNumber()
-    });
-  }
-
-  if (!hasMiden) {
-    balances.push({
-      tokenId: midenFaucetId,
-      tokenSlug: 'MIDEN',
-      metadata: MIDEN_METADATA,
-      fiatPrice: 1,
-      balance: 0
-    });
-  }
-
-  return balances;
 }
 
 // Keep for backward compatibility with any code that might use this

@@ -331,7 +331,7 @@ export const useWalletStore = create<WalletStore>()(
 
     // Balance actions
     fetchBalances: async (accountAddress, tokenMetadatas) => {
-      const { balancesLoading } = get();
+      const { balancesLoading, setAssetsMetadata } = get();
 
       // Skip if already loading
       if (balancesLoading[accountAddress]) {
@@ -343,7 +343,7 @@ export const useWalletStore = create<WalletStore>()(
       });
 
       try {
-        const balances = await fetchBalances(accountAddress, tokenMetadatas);
+        const balances = await fetchBalances(accountAddress, tokenMetadatas, { setAssetsMetadata });
         set(state => ({
           balances: { ...state.balances, [accountAddress]: balances },
           balancesLoading: { ...state.balancesLoading, [accountAddress]: false },

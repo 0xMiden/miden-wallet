@@ -3,33 +3,103 @@ import BigNumber from 'bignumber.js';
 
 import { getFaucetIdSetting } from 'lib/miden/assets';
 import { TokenBalanceData } from 'lib/miden/front/balance';
-import { AssetMetadata, MIDEN_METADATA } from 'lib/miden/metadata';
+import { AssetMetadata, fetchTokenMetadata, MIDEN_METADATA } from 'lib/miden/metadata';
 import { getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { getMidenClient } from 'lib/miden/sdk/miden-client';
 
+import { setTokensBaseMetadata } from '../../miden/front/assets';
+
+// Track in-flight metadata requests to avoid duplicates
+const inFlightMetadata = new Set<string>();
+
+/**
+ * Prefetch metadata for unknown assets to avoid missing UI data
+ */
+function prefetchMetadataIfMissing(
+  id: string,
+  setAssetsMetadata?: (metadata: Record<string, AssetMetadata>) => void
+): void {
+  if (inFlightMetadata.has(id)) return;
+  inFlightMetadata.add(id);
+
+  void fetchTokenMetadata(id)
+    .then(async ({ base }) => {
+      await setTokensBaseMetadata({ [id]: base });
+      setAssetsMetadata?.({ [id]: base });
+    })
+    .finally(() => inFlightMetadata.delete(id));
+}
+
+export interface FetchBalancesOptions {
+  /** Callback to update asset metadata in the store */
+  setAssetsMetadata?: (metadata: Record<string, AssetMetadata>) => void;
+  /** Whether to prefetch missing metadata (default: true) */
+  prefetchMissingMetadata?: boolean;
+}
+
+/**
+ * Fetch all token balances for an account
+ *
+ * This is the single source of truth for balance fetching logic.
+ * Used by both the useAllBalances hook and the Zustand store action.
+ */
 export async function fetchBalances(
   address: string,
-  tokenMetadatas: Record<string, AssetMetadata>
+  tokenMetadatas: Record<string, AssetMetadata>,
+  options: FetchBalancesOptions = {}
 ): Promise<TokenBalanceData[]> {
+  const { setAssetsMetadata, prefetchMissingMetadata = true } = options;
   const balances: TokenBalanceData[] = [];
 
   const midenClient = await getMidenClient();
   const account = await midenClient.getAccount(address);
-  const assets = account!.vault().fungibleAssets() as FungibleAsset[];
+
+  // Handle case where account doesn't exist
+  if (!account) {
+    console.warn(`Account not found: ${address}`);
+    const midenFaucetId = await getFaucetIdSetting();
+    return [
+      {
+        tokenId: midenFaucetId,
+        tokenSlug: 'MIDEN',
+        metadata: MIDEN_METADATA,
+        fiatPrice: 1,
+        balance: 0
+      }
+    ];
+  }
+
+  const assets = account.vault().fungibleAssets() as FungibleAsset[];
   const midenFaucetId = await getFaucetIdSetting();
   let hasMiden = false;
 
+  // First pass: prefetch missing metadata
+  if (prefetchMissingMetadata) {
+    for (const asset of assets) {
+      const id = getBech32AddressFromAccountId(asset.faucetId());
+      if (id !== midenFaucetId && !tokenMetadatas[id]) {
+        prefetchMetadataIfMissing(id, setAssetsMetadata);
+      }
+    }
+  }
+
+  // Second pass: build balance list
   for (const asset of assets) {
     const tokenId = getBech32AddressFromAccountId(asset.faucetId());
     const isMiden = tokenId === midenFaucetId;
+
     if (isMiden) {
       hasMiden = true;
     }
+
     const tokenMetadata = isMiden ? MIDEN_METADATA : tokenMetadatas[tokenId];
     if (!tokenMetadata) {
+      // Skip assets without metadata (will be available after prefetch)
       continue;
     }
+
     const balance = new BigNumber(asset.amount().toString()).div(10 ** tokenMetadata.decimals);
+
     balances.push({
       tokenId,
       tokenSlug: tokenMetadata.symbol,
@@ -39,6 +109,7 @@ export async function fetchBalances(
     });
   }
 
+  // Always include MIDEN token (even if balance is 0)
   if (!hasMiden) {
     balances.push({
       tokenId: midenFaucetId,
