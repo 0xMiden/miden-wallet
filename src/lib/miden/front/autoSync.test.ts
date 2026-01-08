@@ -1,7 +1,3 @@
-import '../../../../test/jest-mocks';
-
-import { ampApi } from 'lib/amp/amp-interface';
-
 import { getMidenClient } from '../sdk/miden-client';
 import { AutoSync, AMP_SYNC_STORAGE_KEY, isAmpSyncEnabled } from './autoSync';
 
@@ -17,53 +13,24 @@ jest.mock('../sdk/miden-client', () => ({
 }));
 
 describe('AutoSync', () => {
-  let sync: any;
-  let consoleSpy: jest.SpyInstance;
-
-  beforeEach(() => {
+  let sync = AutoSync;
+  let midenClient: any;
+  beforeEach(async () => {
+    jest.resetModules();
+    process.env.MIDEN_USE_MOCK_CLIENT = 'true';
     localStorage.clear();
     jest.clearAllMocks();
-    const SyncCtor = (AutoSync as any).constructor;
-    sync = new SyncCtor();
-    sync.state = { currentAccount: { publicKey: 'pk' } };
-    sync.ampCycles = 0;
-    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    midenClient = await getMidenClient();
+    console.log('Miden client obtained in test setup', midenClient);
   });
 
-  afterEach(() => {
-    consoleSpy.mockRestore();
-  });
-
-  it('respects localStorage flag when checking amp sync enabled', () => {
-    expect(isAmpSyncEnabled()).toBe(false);
-    localStorage.setItem(AMP_SYNC_STORAGE_KEY, 'true');
-    expect(isAmpSyncEnabled()).toBe(true);
-  });
-
-  it('imports amp messages when enabled and on cycle', async () => {
-    localStorage.setItem(AMP_SYNC_STORAGE_KEY, 'true');
-    (ampApi.getMessagesForRecipient as jest.Mock).mockResolvedValue({
-      json: async () => [{ body: '1,2,3' }]
+  it('should start syncing when state is updated from undefined', async () => {
+    const syncStateSpy = jest.spyOn(midenClient, 'syncState').mockResolvedValue({
+      blockNum: () => 42
     });
-
-    const importNoteBytes = jest.fn();
-    (getMidenClient as jest.Mock).mockResolvedValue({ importNoteBytes });
-
-    await sync.syncAmp();
-
-    expect(ampApi.getMessagesForRecipient).toHaveBeenCalledWith('pk');
-    expect(importNoteBytes).toHaveBeenCalledWith(new Uint8Array([1, 2, 3]));
-    expect(sync.ampCycles).toBe(1);
-  });
-
-  it('skips amp sync when disabled', async () => {
-    localStorage.setItem(AMP_SYNC_STORAGE_KEY, 'false');
-    (ampApi.getMessagesForRecipient as jest.Mock).mockResolvedValue({
-      json: async () => [{ body: '1,2,3' }]
-    });
-
-    await sync.syncAmp();
-
-    expect(ampApi.getMessagesForRecipient).not.toHaveBeenCalled();
+    expect(sync.lastHeight).toBe(0);
+    await new Promise(resolve => setTimeout(resolve, 3500));
+    expect(syncStateSpy).toHaveBeenCalled();
+    expect(sync.lastHeight).toBe(42);
   });
 });

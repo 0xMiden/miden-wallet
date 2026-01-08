@@ -33,7 +33,7 @@ class Sync {
     }
     const syncSummary = await client.syncState();
     this.lastHeight = syncSummary.blockNum();
-    await sleep(3000);
+    await sleep(1000);
     await this.sync();
   }
 }
