@@ -5,7 +5,6 @@ export * from './client';
 export * from './ready';
 export * from 'lib/miden/front/provider';
 export * from 'lib/miden/front/storage';
-export * from 'lib/miden/front/usdprice';
 export * from 'lib/miden/front/use-infinite-list';
 export * from 'lib/miden/front/use-secret-state.hook';
 export * from 'lib/miden/front/address-book';
