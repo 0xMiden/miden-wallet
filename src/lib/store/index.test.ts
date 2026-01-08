@@ -1,5 +1,6 @@
 import '../../../test/jest-mocks';
 
+import { MidenMessageType } from 'lib/miden/types';
 import { WalletMessageType, WalletStatus } from 'lib/shared/types';
 import { WalletType } from 'screens/onboarding/types';
 
@@ -276,6 +277,373 @@ describe('useWalletStore', () => {
 
       resetConfirmation();
       expect(useWalletStore.getState().confirmation).toBeNull();
+    });
+  });
+
+  describe('Auth actions', () => {
+    it('registerWallet sends correct request', async () => {
+      mockRequest.mockResolvedValueOnce({ type: WalletMessageType.NewWalletResponse });
+
+      const { registerWallet } = useWalletStore.getState();
+      await registerWallet('password123', 'mnemonic words', true);
+
+      expect(mockRequest).toHaveBeenCalledWith({
+        type: WalletMessageType.NewWalletRequest,
+        password: 'password123',
+        mnemonic: 'mnemonic words',
+        ownMnemonic: true
+      });
+    });
+
+    it('importWalletFromClient sends correct request', async () => {
+      mockRequest.mockResolvedValueOnce({ type: WalletMessageType.ImportFromClientResponse });
+
+      const { importWalletFromClient } = useWalletStore.getState();
+      await importWalletFromClient('password123', 'mnemonic words');
+
+      expect(mockRequest).toHaveBeenCalledWith({
+        type: WalletMessageType.ImportFromClientRequest,
+        password: 'password123',
+        mnemonic: 'mnemonic words'
+      });
+    });
+
+    it('unlock sends correct request', async () => {
+      mockRequest.mockResolvedValueOnce({ type: WalletMessageType.UnlockResponse });
+
+      const { unlock } = useWalletStore.getState();
+      await unlock('password123');
+
+      expect(mockRequest).toHaveBeenCalledWith({
+        type: WalletMessageType.UnlockRequest,
+        password: 'password123'
+      });
+    });
+
+    it('unlock throws on invalid response', async () => {
+      mockRequest.mockResolvedValueOnce({ type: 'WrongType' });
+
+      const { unlock } = useWalletStore.getState();
+      await expect(unlock('password123')).rejects.toThrow('Invalid response');
+    });
+  });
+
+  describe('Account actions', () => {
+    it('createAccount sends correct request', async () => {
+      mockRequest.mockResolvedValueOnce({ type: WalletMessageType.CreateAccountResponse });
+
+      const { createAccount } = useWalletStore.getState();
+      await createAccount(WalletType.OnChain, 'My Account');
+
+      expect(mockRequest).toHaveBeenCalledWith({
+        type: WalletMessageType.CreateAccountRequest,
+        walletType: WalletType.OnChain,
+        name: 'My Account'
+      });
+    });
+
+    it('revealMnemonic returns mnemonic from response', async () => {
+      mockRequest.mockResolvedValueOnce({
+        type: WalletMessageType.RevealMnemonicResponse,
+        mnemonic: 'word1 word2 word3'
+      });
+
+      const { revealMnemonic } = useWalletStore.getState();
+      const result = await revealMnemonic('password123');
+
+      expect(result).toBe('word1 word2 word3');
+      expect(mockRequest).toHaveBeenCalledWith({
+        type: WalletMessageType.RevealMnemonicRequest,
+        password: 'password123'
+      });
+    });
+  });
+
+  describe('Signing actions', () => {
+    it('signData returns signature', async () => {
+      mockRequest.mockResolvedValueOnce({
+        type: WalletMessageType.SignDataResponse,
+        signature: 'sig123'
+      });
+
+      const { signData } = useWalletStore.getState();
+      const result = await signData('pk1', 'data-to-sign');
+
+      expect(result).toBe('sig123');
+    });
+
+    it('signTransaction returns Uint8Array from hex', async () => {
+      mockRequest.mockResolvedValueOnce({
+        type: WalletMessageType.SignTransactionResponse,
+        signature: 'abcd'
+      });
+
+      const { signTransaction } = useWalletStore.getState();
+      const result = await signTransaction('pk1', 'tx-data');
+
+      expect(result).toEqual(new Uint8Array([0xab, 0xcd]));
+    });
+
+    it('getAuthSecretKey returns key', async () => {
+      mockRequest.mockResolvedValueOnce({
+        type: WalletMessageType.GetAuthSecretKeyResponse,
+        key: 'secret-key-123'
+      });
+
+      const { getAuthSecretKey } = useWalletStore.getState();
+      const result = await getAuthSecretKey('key-id');
+
+      expect(result).toBe('secret-key-123');
+    });
+  });
+
+  describe('Balance actions', () => {
+    const { fetchBalances: mockFetchBalances } = jest.requireMock('./utils/fetchBalances');
+
+    beforeEach(() => {
+      mockFetchBalances.mockReset();
+    });
+
+    it('fetchBalances updates store with results', async () => {
+      const mockBalances = [
+        { tokenId: 'token1', tokenSlug: 'TK1', balance: 100, fiatPrice: 1, metadata: {} }
+      ];
+      mockFetchBalances.mockResolvedValueOnce(mockBalances);
+
+      const { fetchBalances } = useWalletStore.getState();
+      await fetchBalances('account-addr', { token1: { name: 'Token', symbol: 'TK1', decimals: 8 } });
+
+      const state = useWalletStore.getState();
+      expect(state.balances['account-addr']).toEqual(mockBalances);
+      expect(state.balancesLoading['account-addr']).toBe(false);
+      expect(state.balancesLastFetched['account-addr']).toBeGreaterThan(0);
+    });
+
+    it('fetchBalances skips if already loading', async () => {
+      useWalletStore.setState({
+        balancesLoading: { 'account-addr': true }
+      });
+
+      const { fetchBalances } = useWalletStore.getState();
+      await fetchBalances('account-addr', {});
+
+      expect(mockFetchBalances).not.toHaveBeenCalled();
+    });
+
+    it('fetchBalances handles errors', async () => {
+      mockFetchBalances.mockRejectedValueOnce(new Error('Fetch failed'));
+
+      const { fetchBalances } = useWalletStore.getState();
+      await expect(fetchBalances('account-addr', {})).rejects.toThrow('Fetch failed');
+
+      const state = useWalletStore.getState();
+      expect(state.balancesLoading['account-addr']).toBe(false);
+    });
+
+    it('setBalancesLoading updates loading state', () => {
+      const { setBalancesLoading } = useWalletStore.getState();
+      setBalancesLoading('account-addr', true);
+
+      expect(useWalletStore.getState().balancesLoading['account-addr']).toBe(true);
+    });
+  });
+
+  describe('Asset actions', () => {
+    it('fetchAssetMetadata fetches and stores metadata', async () => {
+      const { fetchTokenMetadata } = jest.requireMock('lib/miden/metadata');
+      fetchTokenMetadata.mockResolvedValueOnce({
+        base: { name: 'New Token', symbol: 'NEW', decimals: 6 }
+      });
+
+      const { fetchAssetMetadata } = useWalletStore.getState();
+      const result = await fetchAssetMetadata('asset-id');
+
+      expect(result).toEqual({ name: 'New Token', symbol: 'NEW', decimals: 6 });
+      expect(useWalletStore.getState().assetsMetadata['asset-id']).toEqual({
+        name: 'New Token',
+        symbol: 'NEW',
+        decimals: 6
+      });
+    });
+
+    it('fetchAssetMetadata returns null on error', async () => {
+      const { fetchTokenMetadata } = jest.requireMock('lib/miden/metadata');
+      fetchTokenMetadata.mockRejectedValueOnce(new Error('Not found'));
+
+      const { fetchAssetMetadata } = useWalletStore.getState();
+      const result = await fetchAssetMetadata('unknown-asset');
+
+      expect(result).toBeNull();
+    });
+  });
+
+  describe('DApp actions', () => {
+    it('getDAppPayload returns payload from response', async () => {
+      mockRequest.mockResolvedValueOnce({
+        type: MidenMessageType.DAppGetPayloadResponse,
+        payload: { someData: 'test' }
+      });
+
+      const { getDAppPayload } = useWalletStore.getState();
+      const result = await getDAppPayload('request-id');
+
+      expect(result).toEqual({ someData: 'test' });
+      expect(mockRequest).toHaveBeenCalledWith({
+        type: MidenMessageType.DAppGetPayloadRequest,
+        id: 'request-id'
+      });
+    });
+
+    it('confirmDAppPermission sends correct request when confirmed', async () => {
+      mockRequest.mockResolvedValueOnce({
+        type: MidenMessageType.DAppPermConfirmationResponse
+      });
+
+      const { confirmDAppPermission } = useWalletStore.getState();
+      await confirmDAppPermission('req-id', true, 'account-123', 'none' as any, {} as any);
+
+      expect(mockRequest).toHaveBeenCalledWith({
+        type: MidenMessageType.DAppPermConfirmationRequest,
+        id: 'req-id',
+        confirmed: true,
+        accountPublicKey: 'account-123',
+        privateDataPermission: 'none',
+        allowedPrivateData: {}
+      });
+    });
+
+    it('confirmDAppPermission sends empty account when not confirmed', async () => {
+      mockRequest.mockResolvedValueOnce({
+        type: MidenMessageType.DAppPermConfirmationResponse
+      });
+
+      const { confirmDAppPermission } = useWalletStore.getState();
+      await confirmDAppPermission('req-id', false, 'account-123', 'none' as any, {} as any);
+
+      expect(mockRequest).toHaveBeenCalledWith(
+        expect.objectContaining({
+          confirmed: false,
+          accountPublicKey: ''
+        })
+      );
+    });
+
+    it('confirmDAppSign sends correct request', async () => {
+      mockRequest.mockResolvedValueOnce({
+        type: MidenMessageType.DAppSignConfirmationResponse
+      });
+
+      const { confirmDAppSign } = useWalletStore.getState();
+      await confirmDAppSign('req-id', true);
+
+      expect(mockRequest).toHaveBeenCalledWith({
+        type: MidenMessageType.DAppSignConfirmationRequest,
+        id: 'req-id',
+        confirmed: true
+      });
+    });
+
+    it('confirmDAppPrivateNotes sends correct request', async () => {
+      mockRequest.mockResolvedValueOnce({
+        type: MidenMessageType.DAppPrivateNotesConfirmationResponse
+      });
+
+      const { confirmDAppPrivateNotes } = useWalletStore.getState();
+      await confirmDAppPrivateNotes('req-id', true);
+
+      expect(mockRequest).toHaveBeenCalledWith({
+        type: MidenMessageType.DAppPrivateNotesConfirmationRequest,
+        id: 'req-id',
+        confirmed: true
+      });
+    });
+
+    it('confirmDAppAssets sends correct request', async () => {
+      mockRequest.mockResolvedValueOnce({
+        type: MidenMessageType.DAppAssetsConfirmationResponse
+      });
+
+      const { confirmDAppAssets } = useWalletStore.getState();
+      await confirmDAppAssets('req-id', false);
+
+      expect(mockRequest).toHaveBeenCalledWith({
+        type: MidenMessageType.DAppAssetsConfirmationRequest,
+        id: 'req-id',
+        confirmed: false
+      });
+    });
+
+    it('confirmDAppImportPrivateNote sends correct request', async () => {
+      mockRequest.mockResolvedValueOnce({
+        type: MidenMessageType.DAppImportPrivateNoteConfirmationResponse
+      });
+
+      const { confirmDAppImportPrivateNote } = useWalletStore.getState();
+      await confirmDAppImportPrivateNote('req-id', true);
+
+      expect(mockRequest).toHaveBeenCalledWith({
+        type: MidenMessageType.DAppImportPrivateNoteConfirmationRequest,
+        id: 'req-id',
+        confirmed: true
+      });
+    });
+
+    it('confirmDAppConsumableNotes sends correct request', async () => {
+      mockRequest.mockResolvedValueOnce({
+        type: MidenMessageType.DAppConsumableNotesConfirmationResponse
+      });
+
+      const { confirmDAppConsumableNotes } = useWalletStore.getState();
+      await confirmDAppConsumableNotes('req-id', true);
+
+      expect(mockRequest).toHaveBeenCalledWith({
+        type: MidenMessageType.DAppConsumableNotesConfirmationRequest,
+        id: 'req-id',
+        confirmed: true
+      });
+    });
+
+    it('confirmDAppTransaction sends correct request with delegate', async () => {
+      mockRequest.mockResolvedValueOnce({
+        type: MidenMessageType.DAppTransactionConfirmationResponse
+      });
+
+      const { confirmDAppTransaction } = useWalletStore.getState();
+      await confirmDAppTransaction('req-id', true, true);
+
+      expect(mockRequest).toHaveBeenCalledWith({
+        type: MidenMessageType.DAppTransactionConfirmationRequest,
+        id: 'req-id',
+        confirmed: true,
+        delegate: true
+      });
+    });
+
+    it('getAllDAppSessions returns sessions from response', async () => {
+      const mockSessions = { 'https://example.com': [{ accountId: 'acc1' }] };
+      mockRequest.mockResolvedValueOnce({
+        type: MidenMessageType.DAppGetAllSessionsResponse,
+        sessions: mockSessions
+      });
+
+      const { getAllDAppSessions } = useWalletStore.getState();
+      const result = await getAllDAppSessions();
+
+      expect(result).toEqual(mockSessions);
+    });
+
+    it('removeDAppSession sends correct request', async () => {
+      mockRequest.mockResolvedValueOnce({
+        type: MidenMessageType.DAppRemoveSessionResponse
+      });
+
+      const { removeDAppSession } = useWalletStore.getState();
+      await removeDAppSession('https://example.com');
+
+      expect(mockRequest).toHaveBeenCalledWith({
+        type: MidenMessageType.DAppRemoveSessionRequest,
+        origin: 'https://example.com'
+      });
     });
   });
 });
