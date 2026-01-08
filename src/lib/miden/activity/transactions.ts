@@ -30,11 +30,9 @@ export const requestCustomTransaction = async (
   await Repo.transactions.add(transaction);
 
   if (importNotes) {
-    const imports = importNotes.map(async noteBytes => {
-      queueNoteImport(noteBytes);
-    });
-
-    await Promise.all(imports);
+    for (const noteBytes of importNotes) {
+      await queueNoteImport(noteBytes);
+    }
   }
 
   return transaction.id;
@@ -44,15 +42,15 @@ export const completeCustomTransaction = async (transaction: ITransaction, resul
   const executedTx = result.executedTransaction();
   const outputNotes = executedTx.outputNotes().notes();
 
-  const registerExports: Promise<void>[] = outputNotes.map(async note => {
+  for (const note of outputNotes) {
     // Only care about private notes
     if (toNoteTypeString(note.metadata().noteType()) !== NoteTypeEnum.Private) {
-      return;
+      continue;
     }
 
     if (!transaction.secondaryAccountId) {
       console.error('Missing recipient account id for private note', { txId: transaction.id });
-      return;
+      continue;
     }
 
     console.log('registering output note', note.id().toString());
@@ -65,12 +63,12 @@ export const completeCustomTransaction = async (transaction: ITransaction, resul
       const maybeFullNote = note.intoFull();
       if (!maybeFullNote) {
         console.error('intoFull() returned undefined for output note');
-        return;
+        continue;
       }
       fullNote = maybeFullNote;
     } catch (error) {
       console.error('Failed to convert output note into full note', { error });
-      return;
+      continue;
     }
 
     // Get client + send private note
@@ -95,9 +93,7 @@ export const completeCustomTransaction = async (transaction: ITransaction, resul
         error
       });
     }
-  });
-
-  await Promise.all(registerExports);
+  }
 
   const updatedTransaction = interpretTransactionResult(transaction, result);
   updatedTransaction.completedAt = Math.floor(Date.now() / 1000); // seconds

@@ -18,11 +18,10 @@ export const importAllNotes = async () => {
     return;
   }
   const midenClient = await getMidenClient();
-  const imports = queuedImports.map(async noteBytes => {
+  for (const noteBytes of queuedImports) {
     const byteArray = new Uint8Array(Buffer.from(noteBytes, 'base64'));
     await midenClient.importNoteBytes(byteArray);
-  });
-  await Promise.all(imports);
+  }
   await new Promise(resolve => setTimeout(resolve, 2000));
   await midenClient.syncState();
   await putToStorage(IMPORT_NOTES_KEY, []);
@@ -38,7 +37,7 @@ export const useExportNotes = (): [string[], () => Promise<void>] => {
 
   const downloadAll = useCallback(async () => {
     const midenClient = await getMidenClient();
-    const noteExportPromises = exportedNotes.map(async noteId => {
+    for (const noteId of exportedNotes) {
       const noteBytes = await midenClient.exportNote(noteId, NoteExportType.DETAILS);
       const blob = new Blob([new Uint8Array(noteBytes)], { type: 'application/octet-stream' });
       // Create a URL for the Blob
@@ -59,8 +58,7 @@ export const useExportNotes = (): [string[], () => Promise<void>] => {
 
       // Revoke the object URL to free up resources
       URL.revokeObjectURL(url);
-    });
-    await Promise.all(noteExportPromises);
+    }
     await putToStorage(OUTPUT_NOTES_KEY, []);
   }, [exportedNotes]);
 

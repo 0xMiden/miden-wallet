@@ -108,26 +108,6 @@ function attachMetadataToNotes(
 
 // -------------------- Side-effect helpers --------------------
 
-async function fetchMetadataBatch(
-  faucetIds: string[],
-  fetchMetadata: (id: string) => Promise<{ base: AssetMetadata }>
-): Promise<Record<string, AssetMetadata>> {
-  const result: Record<string, AssetMetadata> = {};
-
-  await Promise.all(
-    faucetIds.map(async id => {
-      try {
-        const { base } = await fetchMetadata(id);
-        result[id] = base; // write successes directly
-      } catch (e) {
-        console.warn('Metadata fetch failed for', id, e);
-      }
-    })
-  );
-
-  return result;
-}
-
 async function persistMetadataIfAny(
   toPersist: Record<string, AssetMetadata>,
   setTokensBaseMetadata: (batch: Record<string, AssetMetadata>) => Promise<void>
@@ -179,7 +159,15 @@ export function useClaimableNotes(publicAddress: string, enabled: boolean = true
     // 3) Fetch any missing metadata now (blocking), then persist once
     const missingFaucetIds = await findMissingFaucetIds(parsedNotes, metadataByFaucetId);
     if (missingFaucetIds.length > 0) {
-      const fetched = await fetchMetadataBatch(missingFaucetIds, fetchMetadata);
+      const fetched: Record<string, AssetMetadata> = {};
+      for (const id of missingFaucetIds) {
+        try {
+          const { base } = await fetchMetadata(id);
+          fetched[id] = base; // write successes directly
+        } catch (e) {
+          console.warn('Metadata fetch failed for', id, e);
+        }
+      }
       Object.assign(metadataByFaucetId, fetched);
       await persistMetadataIfAny(fetched, setTokensBaseMetadata);
     }
