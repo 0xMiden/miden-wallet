@@ -1,5 +1,6 @@
 import { AllowedPrivateData, PrivateDataPermission } from '@demox-labs/miden-wallet-adapter-base';
 
+import { ExchangeRateRecord, FiatCurrencyOption } from 'lib/fiat-curency';
 import { AssetMetadata } from 'lib/miden/metadata';
 import { MidenDAppSessions, MidenNetwork, MidenState } from 'lib/miden/types';
 import { WalletAccount, WalletSettings, WalletStatus } from 'lib/shared/types';
@@ -36,11 +37,20 @@ export interface AssetsSlice {
 }
 
 /**
- * UI state (network selection, fiat currency, etc.)
+ * UI state (network selection, etc.)
  */
 export interface UISlice {
   selectedNetworkId: string | null;
   confirmation: { id: string; error?: any } | null;
+}
+
+/**
+ * Fiat currency state (previously FiatCurrencyProvider)
+ */
+export interface FiatCurrencySlice {
+  selectedFiatCurrency: FiatCurrencyOption | null;
+  fiatRates: ExchangeRateRecord | null;
+  fiatRatesLoading: boolean;
 }
 
 /**
@@ -119,6 +129,15 @@ export interface AssetActions {
 }
 
 /**
+ * Fiat currency actions
+ */
+export interface FiatCurrencyActions {
+  setSelectedFiatCurrency: (currency: FiatCurrencyOption) => void;
+  setFiatRates: (rates: ExchangeRateRecord | null) => void;
+  fetchFiatRates: () => Promise<void>;
+}
+
+/**
  * Combined store type
  */
 export interface WalletStore
@@ -126,7 +145,9 @@ export interface WalletStore
     BalancesSlice,
     AssetsSlice,
     UISlice,
+    FiatCurrencySlice,
     SyncSlice,
     WalletActions,
     BalanceActions,
-    AssetActions {}
+    AssetActions,
+    FiatCurrencyActions {}

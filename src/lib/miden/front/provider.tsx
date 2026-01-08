@@ -2,7 +2,6 @@ import React, { FC, useEffect, useMemo } from 'react';
 
 import { FiatCurrencyProvider } from 'lib/fiat-curency';
 import { MidenContextProvider, useMidenContext } from 'lib/miden/front/client';
-import { ReadyMidenProvider } from 'lib/miden/front/ready';
 import { PropsWithChildren } from 'lib/props-with-children';
 import { WalletStoreProvider } from 'lib/store/WalletStoreProvider';
 
@@ -15,6 +14,8 @@ import { TokensMetadataProvider } from './assets';
  * This provider sets up the wallet state management:
  * - WalletStoreProvider: Initializes Zustand store and syncs with backend
  * - MidenContextProvider: Provides backward-compatible context API
+ * - TokensMetadataProvider: Syncs token metadata from storage to Zustand
+ * - FiatCurrencyProvider: Provides fiat currency selection (TODO: migrate to Zustand)
  *
  * The Zustand store is the source of truth, and MidenContextProvider
  * now acts as an adapter that exposes the Zustand state via the
@@ -36,23 +37,26 @@ export const MidenProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <WalletStoreProvider>
       <MidenContextProvider>
-        <ConditionalReadyMiden>{children}</ConditionalReadyMiden>
+        <ConditionalProviders>{children}</ConditionalProviders>
       </MidenContextProvider>
     </WalletStoreProvider>
   );
 };
 
-const ConditionalReadyMiden: FC<PropsWithChildren> = ({ children }) => {
+/**
+ * ConditionalProviders - Only renders token/fiat providers when wallet is ready
+ *
+ * Previously had 5 nested providers, now simplified to 2 (FiatCurrency still uses constate)
+ */
+const ConditionalProviders: FC<PropsWithChildren> = ({ children }) => {
   const { ready } = useMidenContext();
 
   return useMemo(
     () =>
       ready ? (
-        <ReadyMidenProvider>
-          <TokensMetadataProvider>
-            <FiatCurrencyProvider>{children}</FiatCurrencyProvider>
-          </TokensMetadataProvider>
-        </ReadyMidenProvider>
+        <TokensMetadataProvider>
+          <FiatCurrencyProvider>{children}</FiatCurrencyProvider>
+        </TokensMetadataProvider>
       ) : (
         <>{children}</>
       ),

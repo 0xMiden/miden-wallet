@@ -56,6 +56,11 @@ export const useWalletStore = create<WalletStore>()(
     selectedNetworkId: null,
     confirmation: null,
 
+    // Initial fiat currency state
+    selectedFiatCurrency: null,
+    fiatRates: null,
+    fiatRatesLoading: false,
+
     // Initial sync state
     isInitialized: false,
     isSyncing: false,
@@ -379,6 +384,29 @@ export const useWalletStore = create<WalletStore>()(
         return base;
       } catch {
         return null;
+      }
+    },
+
+    // Fiat currency actions
+    setSelectedFiatCurrency: currency => {
+      set({ selectedFiatCurrency: currency });
+    },
+
+    setFiatRates: rates => {
+      set({ fiatRates: rates });
+    },
+
+    fetchFiatRates: async () => {
+      const { fiatRatesLoading } = get();
+      if (fiatRatesLoading) return;
+
+      set({ fiatRatesLoading: true });
+      try {
+        // TODO: implement real fiat rate fetching
+        const rates = { usd: 1 };
+        set({ fiatRates: rates, fiatRatesLoading: false });
+      } catch {
+        set({ fiatRatesLoading: false });
       }
     }
   }))
