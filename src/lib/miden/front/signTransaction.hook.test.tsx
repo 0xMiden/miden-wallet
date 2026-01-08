@@ -6,6 +6,8 @@ import { act } from 'react-dom/test-utils';
 
 import { MidenContextProvider, useMidenContext } from 'lib/miden/front/client';
 import { WalletMessageType, WalletStatus } from 'lib/shared/types';
+import { useWalletStore } from 'lib/store';
+import { WalletStoreProvider } from 'lib/store/WalletStoreProvider';
 
 jest.mock('lib/intercom', () => {
   class MockIntercomClient {
@@ -39,6 +41,27 @@ jest.mock('lib/intercom', () => {
   return { IntercomClient: MockIntercomClient };
 });
 
+// Reset store state before each test
+beforeEach(() => {
+  useWalletStore.setState({
+    status: WalletStatus.Idle,
+    accounts: [],
+    currentAccount: null,
+    networks: [],
+    settings: null,
+    ownMnemonic: null,
+    balances: {},
+    balancesLoading: {},
+    balancesLastFetched: {},
+    assetsMetadata: {},
+    selectedNetworkId: null,
+    confirmation: null,
+    isInitialized: false,
+    isSyncing: false,
+    lastSyncedAt: null
+  });
+});
+
 describe('useMidenContext signTransaction', () => {
   let errorSpy: jest.SpyInstance;
 
@@ -69,9 +92,11 @@ describe('useMidenContext signTransaction', () => {
       await act(async () => {
         root.render(
           <Suspense fallback={null}>
-            <MidenContextProvider>
-              <Probe />
-            </MidenContextProvider>
+            <WalletStoreProvider>
+              <MidenContextProvider>
+                <Probe />
+              </MidenContextProvider>
+            </WalletStoreProvider>
           </Suspense>
         );
       });
