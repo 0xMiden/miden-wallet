@@ -28,6 +28,7 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
   const { pageEvent, trackEvent } = useAnalytics();
   const [outputNotes, downloadAll] = useExportNotes();
   const [error, setError] = useState(false);
+  const intervalIdRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const { data: txs, mutate: mutateTx } = useRetryableSWR(
     [`all-latest-generating-transactions`],
@@ -77,25 +78,30 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
   }, [transactions, trackEvent, outputNotes, onClose]);
 
   const generateTransaction = useCallback(async () => {
-    const success = await dbTransactionsLoop(signTransaction);
-    if (success === false) {
-      setError(true);
-    }
+    try {
+      const success = await dbTransactionsLoop(signTransaction);
+      if (success === false) {
+        setError(true);
+        if (intervalIdRef.current) clearInterval(intervalIdRef.current);
+      }
 
-    mutateTx();
-  }, [mutateTx, setError, signTransaction]);
+      mutateTx();
+    } catch {
+      setError(true);
+      if (intervalIdRef.current) clearInterval(intervalIdRef.current);
+    }
+  }, [mutateTx, signTransaction]);
 
   useEffect(() => {
+    if (error) return;
     generateTransaction();
-    const intervalId = setInterval(() => {
+    intervalIdRef.current = setInterval(() => {
       generateTransaction();
     }, 10_000);
-    // if there was a error stop the interval
-    if (error) {
-      clearInterval(intervalId);
-    }
-    // Cleanup useffect
-    return () => clearInterval(intervalId);
+    return () => {
+      if (intervalIdRef.current) clearInterval(intervalIdRef.current);
+      intervalIdRef.current = null;
+    };
   }, [generateTransaction, error]);
 
   useBeforeUnload(!error && transactions.length !== 0, downloadAll);
