@@ -10,9 +10,9 @@ import { WalletMessageType, WalletStatus } from 'lib/shared/types';
 import { useWalletStore } from 'lib/store';
 import { WalletStoreProvider } from 'lib/store/WalletStoreProvider';
 
-jest.mock('../sdk/miden-client', () => ({
-  getMidenClient: jest.fn(() => Promise.resolve(null))
-}));
+jest.mock('../sdk/miden-client', () =>
+  jest.requireActual('../../../../__mocks__/lib/miden/sdk/miden-client')
+);
 
 jest.mock('lib/intercom', () => {
   class MockIntercomClient {
