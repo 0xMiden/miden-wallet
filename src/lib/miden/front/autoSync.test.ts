@@ -1,36 +1,106 @@
-import { getMidenClient } from '../sdk/miden-client';
-import { AutoSync, AMP_SYNC_STORAGE_KEY, isAmpSyncEnabled } from './autoSync';
+import { Sync } from './autoSync';
 
-jest.mock('lib/amp/amp-interface', () => ({
-  ampApi: {
-    getMessagesForRecipient: jest.fn()
+const mockSyncState = jest.fn();
+
+jest.mock('../sdk/miden-client', () => {
+  return {
+    getMidenClient: jest.fn(() =>
+      Promise.resolve({
+        syncState: mockSyncState
+      })
+    )
+  };
+});
+
+// Helper to advance time and flush promises in an interleaved way
+async function advanceTimeAndFlush(ms: number, steps = 20) {
+  const stepMs = ms / steps;
+  for (let i = 0; i < steps; i++) {
+    jest.advanceTimersByTime(stepMs);
+    await Promise.resolve();
+    await Promise.resolve(); // Double flush for deeply nested promises
   }
-}));
-
-jest.mock('../sdk/miden-client', () => ({
-  getMidenClient: jest.fn(),
-  withWasmClientLock: async <T>(operation: () => Promise<T>): Promise<T> => operation()
-}));
+}
 
 describe('AutoSync', () => {
-  let sync = AutoSync;
-  let midenClient: any;
-  beforeEach(async () => {
-    jest.resetModules();
-    process.env.MIDEN_USE_MOCK_CLIENT = 'true';
-    localStorage.clear();
+  let sync: Sync;
+
+  beforeEach(() => {
+    jest.useFakeTimers();
     jest.clearAllMocks();
-    midenClient = await getMidenClient();
-    console.log('Miden client obtained in test setup', midenClient);
+    sync = new Sync();
+
+    Object.defineProperty(window, 'location', {
+      value: { href: 'http://localhost' },
+      writable: true
+    });
+
+    let blockNum = 0;
+    mockSyncState.mockImplementation(() => {
+      blockNum += 1;
+      return Promise.resolve({
+        blockNum: () => blockNum
+      });
+    });
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   it('should start syncing when state is updated from undefined', async () => {
-    const syncStateSpy = jest.spyOn(midenClient, 'syncState').mockResolvedValue({
-      blockNum: () => 42
-    });
     expect(sync.lastHeight).toBe(0);
-    await new Promise(resolve => setTimeout(resolve, 3500));
-    expect(syncStateSpy).toHaveBeenCalled();
-    expect(sync.lastHeight).toBe(42);
+    expect(sync.state).toBeUndefined();
+
+    sync.updateState({ status: 'idle' } as any);
+
+    await advanceTimeAndFlush(100);
+
+    expect(mockSyncState).toHaveBeenCalled();
+    expect(sync.lastHeight).toBe(1);
+  });
+
+  it('should sync automatically and repeatedly', async () => {
+    sync.updateState({ status: 'idle' } as any);
+
+    await advanceTimeAndFlush(100);
+    expect(mockSyncState).toHaveBeenCalledTimes(1);
+    expect(sync.lastHeight).toBe(1);
+
+    await advanceTimeAndFlush(1100);
+    expect(mockSyncState).toHaveBeenCalledTimes(2);
+    expect(sync.lastHeight).toBe(2);
+
+    await advanceTimeAndFlush(1100);
+    expect(mockSyncState).toHaveBeenCalledTimes(3);
+    expect(sync.lastHeight).toBe(3);
+  });
+
+  it('should not start a new sync loop if state was already set', async () => {
+    sync.updateState({ status: 'idle' } as any);
+
+    await advanceTimeAndFlush(100);
+    const callCountAfterFirstUpdate = mockSyncState.mock.calls.length;
+    expect(callCountAfterFirstUpdate).toBe(1);
+
+    sync.updateState({ status: 'ready' } as any);
+
+    await advanceTimeAndFlush(1000);
+
+    expect(mockSyncState.mock.calls.length).toBe(2);
+  });
+
+  it('should not sync when on generating-transaction page', async () => {
+    Object.defineProperty(window, 'location', {
+      value: { href: 'http://localhost/generating-transaction' },
+      writable: true
+    });
+
+    sync.updateState({ status: 'idle' } as any);
+
+    await advanceTimeAndFlush(2000);
+
+    expect(mockSyncState).not.toHaveBeenCalled();
+    expect(sync.lastHeight).toBe(0);
   });
 });
