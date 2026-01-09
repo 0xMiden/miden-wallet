@@ -92,6 +92,7 @@ const enqueueSetAllTokensBaseMetadata = createQueue();
  */
 export function TokensMetadataProvider({ children }: { children: React.ReactNode }) {
   const setAssetsMetadata = useWalletStore(s => s.setAssetsMetadata);
+  const initialSyncDone = useRef(false);
 
   // Load initial metadata from storage
   const [initialAllTokensBaseMetadata] = usePassiveStorage<Record<string, AssetMetadata>>(
@@ -99,18 +100,20 @@ export function TokensMetadataProvider({ children }: { children: React.ReactNode
     defaultAllTokensBaseMetadata
   );
 
-  // Sync initial storage to Zustand and listen for changes
+  // Sync initial storage to Zustand once on mount
   useEffect(() => {
-    // Sync initial data to Zustand
-    if (Object.keys(initialAllTokensBaseMetadata).length > 0) {
+    if (!initialSyncDone.current && Object.keys(initialAllTokensBaseMetadata).length > 0) {
+      initialSyncDone.current = true;
       setAssetsMetadata(initialAllTokensBaseMetadata);
     }
+  }, [initialAllTokensBaseMetadata, setAssetsMetadata]);
 
-    // Listen for storage changes and sync to Zustand
+  // Listen for storage changes and sync to Zustand (separate effect)
+  useEffect(() => {
     return onStorageChanged(ALL_TOKENS_BASE_METADATA_STORAGE_KEY, newValue => {
       setAssetsMetadata(newValue);
     });
-  }, [initialAllTokensBaseMetadata, setAssetsMetadata]);
+  }, [setAssetsMetadata]);
 
   return <>{children}</>;
 }

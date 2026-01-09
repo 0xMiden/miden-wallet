@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 
 import { usePassiveStorage } from 'lib/miden/front/storage';
 import { WalletStatus } from 'lib/shared/types';
@@ -41,28 +41,34 @@ export function useNetwork(): MidenNetwork {
   const networks = useWalletStore(s => s.networks);
   const selectedNetworkId = useWalletStore(s => s.selectedNetworkId);
   const setSelectedNetworkId = useWalletStore(s => s.setSelectedNetworkId);
+  const initialSyncDone = useRef(false);
+  const validationDone = useRef(false);
 
   // Load from storage on mount and sync to store
-  const defaultNet = networks[0];
-  const [storedNetworkId, setStoredNetworkId] = usePassiveStorage('network_id', defaultNet?.id ?? '');
+  const defaultNetId = networks[0]?.id ?? '';
+  const [storedNetworkId, setStoredNetworkId] = usePassiveStorage('network_id', defaultNetId);
 
-  // Sync storage to Zustand on mount
+  // Sync storage to Zustand once on mount
   useEffect(() => {
-    if (storedNetworkId && !selectedNetworkId) {
+    if (!initialSyncDone.current && storedNetworkId && !selectedNetworkId) {
+      initialSyncDone.current = true;
       setSelectedNetworkId(storedNetworkId);
     }
   }, [storedNetworkId, selectedNetworkId, setSelectedNetworkId]);
 
-  // Validate network exists, fallback to default
+  // Validate network exists, fallback to default (once)
   useEffect(() => {
+    if (validationDone.current) return;
     const effectiveId = selectedNetworkId || storedNetworkId;
     if (networks.length > 0 && networks.every(n => n.id !== effectiveId)) {
-      setSelectedNetworkId(defaultNet.id);
-      setStoredNetworkId(defaultNet.id);
+      validationDone.current = true;
+      setSelectedNetworkId(defaultNetId);
+      setStoredNetworkId(defaultNetId);
     }
-  }, [networks, selectedNetworkId, storedNetworkId, setSelectedNetworkId, setStoredNetworkId, defaultNet]);
+  }, [networks, selectedNetworkId, storedNetworkId, setSelectedNetworkId, setStoredNetworkId, defaultNetId]);
 
   const effectiveNetworkId = selectedNetworkId || storedNetworkId;
+  const defaultNet = networks[0];
   return useMemo(
     () => networks.find(n => n.id === effectiveNetworkId) ?? defaultNet,
     [networks, effectiveNetworkId, defaultNet]

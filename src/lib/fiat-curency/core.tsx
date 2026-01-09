@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { useStorage } from 'lib/miden/front';
 import { useWalletStore } from 'lib/store';
@@ -37,6 +37,8 @@ export function useAssetFiatCurrencyPrice(slug: string) {
 export function FiatCurrencyProvider({ children }: { children: React.ReactNode }) {
   const setSelectedFiatCurrency = useWalletStore(s => s.setSelectedFiatCurrency);
   const setFiatRates = useWalletStore(s => s.setFiatRates);
+  const currencySyncDone = useRef(false);
+  const ratesSyncDone = useRef(false);
 
   // Load from storage
   const [storedCurrency] = useStorage<FiatCurrencyOption>(FIAT_CURRENCY_STORAGE_KEY, FIAT_CURRENCIES[0]);
@@ -47,16 +49,18 @@ export function FiatCurrencyProvider({ children }: { children: React.ReactNode }
     dedupingInterval: 30_000
   });
 
-  // Sync storage to Zustand on mount and when storage changes
+  // Sync storage to Zustand once on mount
   useEffect(() => {
-    if (storedCurrency) {
+    if (!currencySyncDone.current && storedCurrency) {
+      currencySyncDone.current = true;
       setSelectedFiatCurrency(storedCurrency);
     }
   }, [storedCurrency, setSelectedFiatCurrency]);
 
-  // Sync fiat rates to Zustand
+  // Sync fiat rates to Zustand once when first loaded
   useEffect(() => {
-    if (fiatRates) {
+    if (!ratesSyncDone.current && fiatRates) {
+      ratesSyncDone.current = true;
       setFiatRates(fiatRates);
     }
   }, [fiatRates, setFiatRates]);
