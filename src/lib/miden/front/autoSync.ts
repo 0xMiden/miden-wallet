@@ -4,7 +4,7 @@ import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
-class Sync {
+export class Sync {
   lastHeight: number = 0;
   lastRecordId: number = 0;
   getHeightFetchTimestamp: number = 0;
@@ -33,7 +33,7 @@ class Sync {
     }
     const syncSummary = await client.syncState();
     this.lastHeight = syncSummary.blockNum();
-    await sleep(3000);
+    await sleep(1000);
     await this.sync();
   }
 }
