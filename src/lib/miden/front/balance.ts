@@ -20,8 +20,7 @@ const DEDUPING_INTERVAL = 10_000;
 const EMPTY_BALANCES: TokenBalanceData[] = [];
 
 // Global lock to prevent concurrent fetches to WASM client (per address)
-// Exported for use by prefetch hooks
-export const fetchingAddresses = new Set<string>();
+const fetchingAddresses = new Set<string>();
 
 /**
  * useAllBalances - Hook to get all token balances for an account

@@ -31,9 +31,8 @@ class AsyncMutex {
       next();
     } else {
       this.locked = false;
-      // Defer idle queue draining to next tick, giving other operations
-      // a chance to queue their high-priority lock requests first
-      setTimeout(() => this.drainIdleQueue(), 0);
+      // Run idle tasks immediately - deduplication is handled by callers
+      this.drainIdleQueue();
     }
   }
 
@@ -44,9 +43,9 @@ class AsyncMutex {
    */
   queueIdleTask(task: () => Promise<void>): void {
     this.idleQueue.push(task);
-    // Defer to next tick to give high-priority operations a chance to queue first
+    // Run immediately if idle - deduplication is handled by callers
     if (!this.locked && this.queue.length === 0 && !this.drainingIdle) {
-      setTimeout(() => this.drainIdleQueue(), 0);
+      this.drainIdleQueue();
     }
   }
 
@@ -81,10 +80,7 @@ class AsyncMutex {
       }
       tasks[index]()
         .catch(err => console.warn('Idle task failed:', err))
-        .finally(() => {
-          // Yield to event loop before next task, allowing high-priority ops to queue
-          setTimeout(() => runNext(index + 1), 0);
-        });
+        .finally(() => runNext(index + 1));
     };
     runNext(0);
   }
