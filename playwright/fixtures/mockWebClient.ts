@@ -35,7 +35,7 @@ export const test = base.extend<Fixtures>({
     const sdk = await import('@demox-labs/miden-sdk');
     await use(sdk as any);
   },
-  mockWebClient: async ({ sdk }, use) => {
+  mockWebClient: async ({ sdk }: any, use: any) => {
     const client = await sdk.MockWebClient.createClient();
     await use(client);
     client.free();
