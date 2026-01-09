@@ -19,6 +19,9 @@ const DEDUPING_INTERVAL = 10_000;
 // Stable empty array to avoid creating new references
 const EMPTY_BALANCES: TokenBalanceData[] = [];
 
+// Global lock to prevent concurrent fetches to WASM client (per address)
+const fetchingAddresses = new Set<string>();
+
 /**
  * useAllBalances - Hook to get all token balances for an account
  *
@@ -40,7 +43,6 @@ export function useAllBalances(address: string, tokenMetadatas: Record<string, A
 
   // Track if component is mounted
   const mountedRef = useRef(true);
-  const fetchingRef = useRef(false);
 
   // Use refs for values that shouldn't trigger callback recreation
   const tokenMetadatasRef = useRef(tokenMetadatas);
@@ -56,16 +58,18 @@ export function useAllBalances(address: string, tokenMetadatas: Record<string, A
   }, [balancesLastFetched]);
 
   // Fetch balances function that respects deduping
-  // Only depends on address and setAssetsMetadata (stable references)
+  // Uses global lock to prevent concurrent WASM client calls
   const fetchBalancesWithDeduping = useCallback(async () => {
-    if (fetchingRef.current) return;
+    // Check global lock - prevents concurrent calls across all component instances
+    if (fetchingAddresses.has(address)) return;
 
     const now = Date.now();
     if (now - balancesLastFetchedRef.current < DEDUPING_INTERVAL) {
       return;
     }
 
-    fetchingRef.current = true;
+    // Acquire global lock
+    fetchingAddresses.add(address);
     try {
       // Fetch balances using the consolidated utility
       const fetchedBalances = await fetchBalances(address, tokenMetadatasRef.current, { setAssetsMetadata });
@@ -86,7 +90,8 @@ export function useAllBalances(address: string, tokenMetadatas: Record<string, A
         }));
       }
     } finally {
-      fetchingRef.current = false;
+      // Release global lock
+      fetchingAddresses.delete(address);
     }
   }, [address, setAssetsMetadata]);
 
