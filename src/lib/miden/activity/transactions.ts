@@ -9,7 +9,7 @@ import { logger } from 'shared/logger';
 import { ConsumeTransaction, ITransaction, ITransactionStatus, SendTransaction, Transaction } from '../db/types';
 import { toNoteTypeString } from '../helpers';
 import { getBech32AddressFromAccountId } from '../sdk/helpers';
-import { getMidenClient } from '../sdk/miden-client';
+import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 import { MidenClientCreateOptions } from '../sdk/miden-client-interface';
 import { ConsumableNote, NoteTypeEnum, NoteType as NoteTypeString } from '../types';
 import { interpretTransactionResult } from './helpers';
@@ -71,22 +71,24 @@ export const completeCustomTransaction = async (transaction: ITransaction, resul
       continue;
     }
 
-    // Get client + send private note
+    // Get client + send private note (wrapped in lock to prevent concurrent WASM access)
     try {
-      const midenClient = await getMidenClient();
+      await withWasmClientLock(async () => {
+        const midenClient = await getMidenClient();
 
-      try {
-        await midenClient.waitForTransactionCommit(executedTx.id().toHex());
-        console.log('Sending private note through the transport layer...');
-        const recipientAccountAddress = Address.fromBech32(transaction.secondaryAccountId);
-        await midenClient.sendPrivateNote(fullNote, recipientAccountAddress);
-      } catch (error) {
-        console.error('Failed to send private note through the transport layer', {
-          txId: transaction.id,
-          secondaryAccountId: transaction.secondaryAccountId,
-          error
-        });
-      }
+        try {
+          await midenClient.waitForTransactionCommit(executedTx.id().toHex());
+          console.log('Sending private note through the transport layer...');
+          const recipientAccountAddress = Address.fromBech32(transaction.secondaryAccountId!);
+          await midenClient.sendPrivateNote(fullNote, recipientAccountAddress);
+        } catch (error) {
+          console.error('Failed to send private note through the transport layer', {
+            txId: transaction.id,
+            secondaryAccountId: transaction.secondaryAccountId,
+            error
+          });
+        }
+      });
     } catch (error) {
       console.error('Failed to initialize Miden client for private note send', {
         txId: transaction.id,
@@ -211,22 +213,31 @@ export const completeSendTransaction = async (tx: SendTransaction, result: Trans
   const outputNoteIds = noteId ? [noteId] : [];
 
   if (tx.noteType === NoteTypeEnum.Private && note && noteId) {
-    try {
-      const midenClient = await getMidenClient();
-      console.log('registering output note', noteId);
-      await registerOutputNote(noteId);
+    console.log('registering output note', noteId);
+    await registerOutputNote(noteId);
 
+    // Wrap all WASM client operations in a lock to prevent concurrent access
+    type SendResult = { success: true } | { success: false; errorType: 'init' | 'transport'; error: unknown };
+    const sendResult = await withWasmClientLock<SendResult>(async () => {
       try {
+        const midenClient = await getMidenClient();
         await midenClient.waitForTransactionCommit(executedTx.id().toHex());
         console.log('Sending private note through the transport layer...');
         const recipientAccountAddress = Address.fromBech32(tx.secondaryAccountId);
         await midenClient.sendPrivateNote(note, recipientAccountAddress);
         console.log('Private note sent!');
+        return { success: true };
       } catch (error) {
+        return { success: false, errorType: 'transport', error };
+      }
+    }).catch(error => ({ success: false, errorType: 'init' as const, error }));
+
+    if (!sendResult.success) {
+      if (sendResult.errorType === 'transport') {
         console.error('Failed to send private note through the transport layer', {
           txId: tx.id,
           secondaryAccountId: tx.secondaryAccountId,
-          error
+          error: sendResult.error
         });
         await updateTransactionStatus(tx.id, ITransactionStatus.Failed, {
           displayMessage: 'Send failed: transport error',
@@ -235,20 +246,19 @@ export const completeSendTransaction = async (tx: SendTransaction, result: Trans
           outputNoteIds,
           completedAt: Math.floor(Date.now() / 1000) // seconds
         });
-        return;
+      } else {
+        console.error('Failed to initialize Miden client for private note send', {
+          txId: tx.id,
+          error: sendResult.error
+        });
+        await updateTransactionStatus(tx.id, ITransactionStatus.Failed, {
+          displayMessage: 'Send failed: transport init error',
+          displayIcon: 'FAILED',
+          transactionId: executedTx.id().toHex(),
+          outputNoteIds,
+          completedAt: Math.floor(Date.now() / 1000) // seconds
+        });
       }
-    } catch (error) {
-      console.error('Failed to initialize Miden client for private note send', {
-        txId: tx.id,
-        error
-      });
-      await updateTransactionStatus(tx.id, ITransactionStatus.Failed, {
-        displayMessage: 'Send failed: transport init error',
-        displayIcon: 'FAILED',
-        transactionId: executedTx.id().toHex(),
-        outputNoteIds,
-        completedAt: Math.floor(Date.now() / 1000) // seconds
-      });
       return;
     }
   } else if (tx.noteType === NoteTypeEnum.Private && (!note || !noteId)) {
@@ -381,7 +391,6 @@ export const generateTransaction = async (
   // Process transaction
   let resultBytes: Uint8Array;
   let result: TransactionResult;
-  let transactionResultBytes: Uint8Array;
   const options: MidenClientCreateOptions = {
     signCallback: async (publicKey: Uint8Array, signingInputs: Uint8Array) => {
       const keyString = Buffer.from(publicKey).toString('hex');
@@ -389,23 +398,35 @@ export const generateTransaction = async (
       return await signCallback(keyString, signingInputsString);
     }
   };
-  const midenClient = await getMidenClient(options);
+
+  // Wrap WASM client operations in a lock to prevent concurrent access
+  const transactionResultBytes = await withWasmClientLock(async () => {
+    const midenClient = await getMidenClient(options);
+    switch (transaction.type) {
+      case 'send':
+        return midenClient.sendTransaction(transaction as SendTransaction);
+      case 'consume':
+        return midenClient.consumeNoteId(transaction as ConsumeTransaction);
+      case 'execute':
+      default:
+        return midenClient.newTransaction(transaction.accountId, transaction.requestBytes!);
+    }
+  });
+
+  // Worker calls and completion are outside the lock
   switch (transaction.type) {
     case 'send':
-      transactionResultBytes = await midenClient.sendTransaction(transaction as SendTransaction);
       resultBytes = await sendTransaction(transactionResultBytes, transaction.delegateTransaction);
       result = TransactionResult.deserialize(resultBytes);
       await completeSendTransaction(transaction as SendTransaction, result);
       break;
     case 'consume':
-      transactionResultBytes = await midenClient.consumeNoteId(transaction as ConsumeTransaction);
       resultBytes = await consumeNoteId(transactionResultBytes, transaction.delegateTransaction);
       result = TransactionResult.deserialize(transactionResultBytes);
       await completeConsumeTransaction(transaction.id, result);
       break;
     case 'execute':
     default:
-      transactionResultBytes = await midenClient.newTransaction(transaction.accountId, transaction.requestBytes!);
       resultBytes = await submitTransaction(transactionResultBytes, transaction.delegateTransaction);
       result = TransactionResult.deserialize(resultBytes);
       await completeCustomTransaction(transaction, result);

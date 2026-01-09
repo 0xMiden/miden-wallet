@@ -1,28 +1,15 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { AllowedPrivateData, PrivateDataPermission } from '@demox-labs/miden-wallet-adapter-base';
 import constate from 'constate';
 
 import { IntercomClient } from 'lib/intercom';
-import {
-  WalletMessageType,
-  WalletNotification,
-  WalletRequest,
-  WalletResponse,
-  WalletSettings,
-  WalletStatus
-} from 'lib/shared/types';
-import { useRetryableSWR } from 'lib/swr';
-import { retryWithTimeout } from 'lib/utility/retry';
+import { WalletRequest, WalletResponse, WalletSettings, WalletStatus } from 'lib/shared/types';
+import { useWalletStore } from 'lib/store';
 import { WalletType } from 'screens/onboarding/types';
 
-import { MidenMessageType, MidenState } from '../types';
+import { MidenState } from '../types';
 import { AutoSync } from './autoSync';
-
-type Confirmation = {
-  id: string;
-  error?: any;
-};
 
 let intercom: IntercomClient | null;
 function getIntercom() {
@@ -32,201 +19,162 @@ function getIntercom() {
   return intercom;
 }
 
-// TODO: Make generalizable with WalletState (?)
-// Might need to get several state fetchers
-async function fetchStateAsync(maxRetries: number = 0): Promise<MidenState> {
-  const res = await retryWithTimeout(
-    async () => {
-      const res = await request({ type: WalletMessageType.GetStateRequest });
-      assertResponse(res.type === WalletMessageType.GetStateResponse);
-      return res;
-    },
-    3_000,
-    maxRetries
+/**
+ * MidenContextProvider and useMidenContext
+ *
+ * These are now implemented using Zustand for state management.
+ * The Zustand store handles:
+ * - State synchronization with the backend via intercom
+ * - Optimistic updates for mutations
+ * - Unified caching for wallet state
+ *
+ * The constate wrapper is kept for backward compatibility with existing consumers.
+ */
+export const [MidenContextProvider, useMidenContext] = constate(() => {
+  // Get state from Zustand store
+  const status = useWalletStore(s => s.status);
+  const accounts = useWalletStore(s => s.accounts);
+  const currentAccount = useWalletStore(s => s.currentAccount);
+  const networks = useWalletStore(s => s.networks);
+  const settings = useWalletStore(s => s.settings);
+  const ownMnemonic = useWalletStore(s => s.ownMnemonic);
+  const confirmation = useWalletStore(s => s.confirmation);
+
+  // Get actions from Zustand store
+  const storeRegisterWallet = useWalletStore(s => s.registerWallet);
+  const storeImportWalletFromClient = useWalletStore(s => s.importWalletFromClient);
+  const storeUnlock = useWalletStore(s => s.unlock);
+  const storeCreateAccount = useWalletStore(s => s.createAccount);
+  const storeUpdateCurrentAccount = useWalletStore(s => s.updateCurrentAccount);
+  const storeEditAccountName = useWalletStore(s => s.editAccountName);
+  const storeRevealMnemonic = useWalletStore(s => s.revealMnemonic);
+  const storeUpdateSettings = useWalletStore(s => s.updateSettings);
+  const storeSignData = useWalletStore(s => s.signData);
+  const storeSignTransaction = useWalletStore(s => s.signTransaction);
+  const storeGetAuthSecretKey = useWalletStore(s => s.getAuthSecretKey);
+  const storeGetDAppPayload = useWalletStore(s => s.getDAppPayload);
+  const storeConfirmDAppPermission = useWalletStore(s => s.confirmDAppPermission);
+  const storeConfirmDAppSign = useWalletStore(s => s.confirmDAppSign);
+  const storeConfirmDAppPrivateNotes = useWalletStore(s => s.confirmDAppPrivateNotes);
+  const storeConfirmDAppAssets = useWalletStore(s => s.confirmDAppAssets);
+  const storeConfirmDAppImportPrivateNote = useWalletStore(s => s.confirmDAppImportPrivateNote);
+  const storeConfirmDAppConsumableNotes = useWalletStore(s => s.confirmDAppConsumableNotes);
+  const storeConfirmDAppTransaction = useWalletStore(s => s.confirmDAppTransaction);
+  const storeGetAllDAppSessions = useWalletStore(s => s.getAllDAppSessions);
+  const storeRemoveDAppSession = useWalletStore(s => s.removeDAppSession);
+  const storeResetConfirmation = useWalletStore(s => s.resetConfirmation);
+
+  // Build the state object for backward compatibility
+  const state: MidenState = useMemo(
+    () => ({
+      status,
+      accounts,
+      currentAccount,
+      networks,
+      settings,
+      ownMnemonic
+    }),
+    [status, accounts, currentAccount, networks, settings, ownMnemonic]
   );
 
-  return res.state;
-}
-
-export const [MidenContextProvider, useMidenContext] = constate(() => {
-  /**
-   * State
-   */
-  const fetchState = useCallback(async () => fetchStateAsync(5), []);
-
-  const { data, mutate } = useRetryableSWR('state', fetchState, {
-    suspense: true,
-    shouldRetryOnError: false,
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false
-  });
-
-  const state = data!;
-  const [confirmation, setConfirmation] = useState<Confirmation | null>(null);
-  const confirmationIdRef = useRef<string | null>(null);
-  const resetConfirmation = useCallback(() => {
-    confirmationIdRef.current = null;
-    setConfirmation(null);
-  }, [setConfirmation]);
-
-  useEffect(() => {
-    return getIntercom().subscribe((msg: WalletNotification) => {
-      switch (msg?.type) {
-        case WalletMessageType.StateUpdated:
-          mutate();
-          break;
-      }
-    });
-  }, [mutate, setConfirmation, resetConfirmation]);
-
+  // Update AutoSync when state changes
   useEffect(() => {
     AutoSync.updateState(state);
   }, [state]);
 
-  /**
-   * Aliases
-   */
-  const { status, networks: defaultNetworks, accounts, settings, currentAccount, ownMnemonic } = state;
+  // Derive convenience booleans
   const idle = status === WalletStatus.Idle;
   const locked = status === WalletStatus.Locked;
   const ready = status === WalletStatus.Ready;
 
-  const networks = useMemo(() => [...defaultNetworks], [defaultNetworks]);
+  // Create a copy of networks for backward compatibility
+  const defaultNetworks = networks;
+  const networksCopy = useMemo(() => [...networks], [networks]);
 
-  /*
-  Actions
-  */
-  // TODO: Make this take some sort of enum for multi wallet support
+  // Wrap store actions in useCallback for stable references
   const registerWallet = useCallback(
     async (password: string, mnemonic?: string, ownMnemonic?: boolean) => {
-      const res = await request({
-        type: WalletMessageType.NewWalletRequest,
-        password,
-        mnemonic,
-        ownMnemonic
-      });
-      assertResponse(res.type === WalletMessageType.NewWalletResponse);
-      await mutate();
+      await storeRegisterWallet(password, mnemonic, ownMnemonic);
     },
-    [mutate]
+    [storeRegisterWallet]
   );
 
-  const importWalletFromClient = useCallback(async (password: string, mnemonic: string) => {
-    const res = await request({
-      type: WalletMessageType.ImportFromClientRequest,
-      password,
-      mnemonic
-    });
-    assertResponse(res.type === WalletMessageType.ImportFromClientResponse);
-  }, []);
+  const importWalletFromClient = useCallback(
+    async (password: string, mnemonic: string) => {
+      await storeImportWalletFromClient(password, mnemonic);
+    },
+    [storeImportWalletFromClient]
+  );
 
-  const unlock = useCallback(async (password: string) => {
-    const res = await request({
-      type: WalletMessageType.UnlockRequest,
-      password
-    });
-    assertResponse(res.type === WalletMessageType.UnlockResponse);
-  }, []);
+  const unlock = useCallback(
+    async (password: string) => {
+      await storeUnlock(password);
+    },
+    [storeUnlock]
+  );
 
-  const createAccount = useCallback(async (walletType: WalletType, name?: string) => {
-    const res = await request({
-      type: WalletMessageType.CreateAccountRequest,
-      walletType: walletType,
-      name: name
-    });
-    assertResponse(res.type === WalletMessageType.CreateAccountResponse);
-  }, []);
+  const createAccount = useCallback(
+    async (walletType: WalletType, name?: string) => {
+      await storeCreateAccount(walletType, name);
+    },
+    [storeCreateAccount]
+  );
 
-  const updateCurrentAccount = useCallback(async (accountPublicKey: string) => {
-    const res = await request({
-      type: WalletMessageType.UpdateCurrentAccountRequest,
-      accountPublicKey
-    });
-    assertResponse(res.type === WalletMessageType.UpdateCurrentAccountResponse);
-  }, []);
+  const updateCurrentAccount = useCallback(
+    async (accountPublicKey: string) => {
+      await storeUpdateCurrentAccount(accountPublicKey);
+    },
+    [storeUpdateCurrentAccount]
+  );
 
-  const decryptCiphertexts = useCallback(async (accPublicKey: string, ciphertexts: string[]) => {}, []);
+  const editAccountName = useCallback(
+    async (accountPublicKey: string, name: string) => {
+      await storeEditAccountName(accountPublicKey, name);
+    },
+    [storeEditAccountName]
+  );
 
-  const revealViewKey = useCallback(async (accountPublicKey: string, password: string) => {}, []);
+  const revealMnemonic = useCallback(
+    async (password: string) => {
+      return storeRevealMnemonic(password);
+    },
+    [storeRevealMnemonic]
+  );
 
-  const revealPrivateKey = useCallback(async (accountPublicKey: string, password: string) => {}, []);
+  const updateSettings = useCallback(
+    async (newSettings: Partial<WalletSettings>) => {
+      await storeUpdateSettings(newSettings);
+    },
+    [storeUpdateSettings]
+  );
 
-  const revealMnemonic = useCallback(async (password: string) => {
-    const res = await request({
-      type: WalletMessageType.RevealMnemonicRequest,
-      password
-    });
-    assertResponse(res.type === WalletMessageType.RevealMnemonicResponse);
-    return res.mnemonic;
-  }, []);
+  const signData = useCallback(
+    async (publicKey: string, signingInputs: string) => {
+      return storeSignData(publicKey, signingInputs);
+    },
+    [storeSignData]
+  );
 
-  const removeAccount = useCallback(async (accountPublicKey: string, password: string) => {}, []);
+  const signTransaction = useCallback(
+    async (publicKey: string, signingInputs: string) => {
+      return storeSignTransaction(publicKey, signingInputs);
+    },
+    [storeSignTransaction]
+  );
 
-  const editAccountName = useCallback(async (accountPublicKey: string, name: string) => {
-    const res = await request({
-      type: WalletMessageType.EditAccountRequest,
-      accountPublicKey,
-      name
-    });
-    assertResponse(res.type === WalletMessageType.EditAccountResponse);
-  }, []);
+  const getAuthSecretKey = useCallback(
+    async (key: string) => {
+      return storeGetAuthSecretKey(key);
+    },
+    [storeGetAuthSecretKey]
+  );
 
-  const importAccount = useCallback(async (privateKey: string, encPassword?: string) => {}, []);
-
-  const importWatchOnlyAccount = useCallback(async (viewKey: string) => {}, []);
-
-  const importMnemonicAccount = useCallback(async (mnemonic: string, password?: string, derivationPath?: string) => {},
-  []);
-
-  const updateSettings = useCallback(async (newSettings: Partial<WalletSettings>) => {
-    const res = await request({
-      type: WalletMessageType.UpdateSettingsRequest,
-      settings: newSettings
-    });
-    assertResponse(res.type === WalletMessageType.UpdateSettingsResponse);
-  }, []);
-
-  const signData = useCallback(async (publicKey: string, signingInputs: string) => {
-    const res = await request({
-      type: WalletMessageType.SignDataRequest,
-      publicKey,
-      signingInputs
-    });
-    assertResponse(res.type === WalletMessageType.SignDataResponse);
-    return res.signature;
-  }, []);
-
-  const signTransaction = useCallback(async (publicKey: string, signingInputs: string) => {
-    const res = await request({
-      type: WalletMessageType.SignTransactionRequest,
-      publicKey,
-      signingInputs
-    });
-    assertResponse(res.type === WalletMessageType.SignTransactionResponse);
-    // Convert the signature from hex string to Uint8Array here instead of returning bytes directly
-    // so that postMessage doesn't mess up the type in transition.
-    const signatureAsHex = res.signature;
-    const signatureAsBytes = new Uint8Array(Buffer.from(signatureAsHex, 'hex'));
-    return signatureAsBytes;
-  }, []);
-
-  const getAuthSecretKey = useCallback(async (key: string) => {
-    const res = await request({
-      type: WalletMessageType.GetAuthSecretKeyRequest,
-      key
-    });
-    assertResponse(res.type === WalletMessageType.GetAuthSecretKeyResponse);
-    return res.key;
-  }, []);
-
-  const getDAppPayload = useCallback(async (id: string) => {
-    const res = await request({
-      type: MidenMessageType.DAppGetPayloadRequest,
-      id
-    });
-    assertResponse(res.type === MidenMessageType.DAppGetPayloadResponse);
-    return res.payload;
-  }, []);
+  const getDAppPayload = useCallback(
+    async (id: string) => {
+      return storeGetDAppPayload(id);
+    },
+    [storeGetDAppPayload]
+  );
 
   const confirmDAppPermission = useCallback(
     async (
@@ -236,96 +184,80 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
       privateDataPermission: PrivateDataPermission,
       allowedPrivateData: AllowedPrivateData
     ) => {
-      const res = await request({
-        type: MidenMessageType.DAppPermConfirmationRequest,
-        id,
-        confirmed,
-        accountPublicKey: confirmed ? accountId : '',
-        privateDataPermission,
-        allowedPrivateData
-      });
-      assertResponse(res.type === MidenMessageType.DAppPermConfirmationResponse);
+      await storeConfirmDAppPermission(id, confirmed, accountId, privateDataPermission, allowedPrivateData);
     },
-    []
+    [storeConfirmDAppPermission]
   );
 
-  const confirmDAppSign = useCallback(async (id: string, confirmed: boolean) => {
-    const res = await request({
-      type: MidenMessageType.DAppSignConfirmationRequest,
-      id,
-      confirmed
-    });
-    assertResponse(res.type === MidenMessageType.DAppSignConfirmationResponse);
-  }, []);
+  const confirmDAppSign = useCallback(
+    async (id: string, confirmed: boolean) => {
+      await storeConfirmDAppSign(id, confirmed);
+    },
+    [storeConfirmDAppSign]
+  );
 
-  const confirmDAppDecrypt = useCallback(async (id: string, confirmed: boolean) => {}, []);
+  const confirmDAppPrivateNotes = useCallback(
+    async (id: string, confirmed: boolean) => {
+      await storeConfirmDAppPrivateNotes(id, confirmed);
+    },
+    [storeConfirmDAppPrivateNotes]
+  );
 
-  const confirmDAppPrivateNotes = useCallback(async (id: string, confirmed: boolean) => {
-    const res = await request({
-      type: MidenMessageType.DAppPrivateNotesConfirmationRequest,
-      id,
-      confirmed
-    });
-    assertResponse(res.type === MidenMessageType.DAppPrivateNotesConfirmationResponse);
-  }, []);
+  const confirmDAppAssets = useCallback(
+    async (id: string, confirmed: boolean) => {
+      await storeConfirmDAppAssets(id, confirmed);
+    },
+    [storeConfirmDAppAssets]
+  );
 
-  const confirmDAppAssets = useCallback(async (id: string, confirmed: boolean) => {
-    const res = await request({
-      type: MidenMessageType.DAppAssetsConfirmationRequest,
-      id,
-      confirmed
-    });
-    assertResponse(res.type === MidenMessageType.DAppAssetsConfirmationResponse);
-  }, []);
+  const confirmDAppImportPrivateNote = useCallback(
+    async (id: string, confirmed: boolean) => {
+      await storeConfirmDAppImportPrivateNote(id, confirmed);
+    },
+    [storeConfirmDAppImportPrivateNote]
+  );
 
-  const confirmDAppImportPrivateNote = useCallback(async (id: string, confirmed: boolean) => {
-    const res = await request({
-      type: MidenMessageType.DAppImportPrivateNoteConfirmationRequest,
-      id,
-      confirmed
-    });
-    assertResponse(res.type === MidenMessageType.DAppImportPrivateNoteConfirmationResponse);
-  }, []);
+  const confirmDAppConsumableNotes = useCallback(
+    async (id: string, confirmed: boolean) => {
+      await storeConfirmDAppConsumableNotes(id, confirmed);
+    },
+    [storeConfirmDAppConsumableNotes]
+  );
 
-  const confirmDAppConsumableNotes = useCallback(async (id: string, confirmed: boolean) => {
-    const res = await request({
-      type: MidenMessageType.DAppConsumableNotesConfirmationRequest,
-      id,
-      confirmed
-    });
-    assertResponse(res.type === MidenMessageType.DAppConsumableNotesConfirmationResponse);
-  }, []);
-
-  const confirmDAppTransaction = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {
-    const res = await request({
-      type: MidenMessageType.DAppTransactionConfirmationRequest,
-      id,
-      confirmed,
-      delegate
-    });
-    assertResponse(res.type === MidenMessageType.DAppTransactionConfirmationResponse);
-  }, []);
-
-  const confirmDAppBulkTransactions = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {}, []);
-
-  const confirmDAppDeploy = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {}, []);
+  const confirmDAppTransaction = useCallback(
+    async (id: string, confirmed: boolean, delegate: boolean) => {
+      await storeConfirmDAppTransaction(id, confirmed, delegate);
+    },
+    [storeConfirmDAppTransaction]
+  );
 
   const getAllDAppSessions = useCallback(async () => {
-    const res = await request({
-      type: MidenMessageType.DAppGetAllSessionsRequest
-    });
-    assertResponse(res.type === MidenMessageType.DAppGetAllSessionsResponse);
-    return res.sessions;
-  }, []);
+    return storeGetAllDAppSessions();
+  }, [storeGetAllDAppSessions]);
 
-  const removeDAppSession = useCallback(async (origin: string) => {
-    const res = await request({
-      type: MidenMessageType.DAppRemoveSessionRequest,
-      origin
-    });
-    assertResponse(res.type === MidenMessageType.DAppRemoveSessionResponse);
-  }, []);
+  const removeDAppSession = useCallback(
+    async (origin: string) => {
+      await storeRemoveDAppSession(origin);
+    },
+    [storeRemoveDAppSession]
+  );
 
+  const resetConfirmation = useCallback(() => {
+    storeResetConfirmation();
+  }, [storeResetConfirmation]);
+
+  // Stub implementations for unimplemented actions
+  const decryptCiphertexts = useCallback(async (accPublicKey: string, ciphertexts: string[]) => {}, []);
+  const revealViewKey = useCallback(async (accountPublicKey: string, password: string) => {}, []);
+  const revealPrivateKey = useCallback(async (accountPublicKey: string, password: string) => {}, []);
+  const removeAccount = useCallback(async (accountPublicKey: string, password: string) => {}, []);
+  const importAccount = useCallback(async (privateKey: string, encPassword?: string) => {}, []);
+  const importWatchOnlyAccount = useCallback(async (viewKey: string) => {}, []);
+  const importMnemonicAccount = useCallback(async (mnemonic: string, password?: string, derivationPath?: string) => {},
+  []);
+  const confirmDAppDecrypt = useCallback(async (id: string, confirmed: boolean) => {}, []);
+  const confirmDAppBulkTransactions = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {}, []);
+  const confirmDAppDeploy = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {}, []);
   const getOwnedRecords = useCallback(async (accPublicKey: string) => {}, []);
 
   return {
@@ -333,7 +265,7 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     // Aliases
     status,
     defaultNetworks,
-    networks,
+    networks: networksCopy,
     accounts,
     settings,
     currentAccount,

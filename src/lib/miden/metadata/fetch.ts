@@ -3,7 +3,7 @@ import browser from 'webextension-polyfill';
 
 import { isMidenAsset } from 'lib/miden/assets';
 
-import { getMidenClient } from '../sdk/miden-client';
+import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 import { DEFAULT_TOKEN_METADATA, MIDEN_METADATA } from './defaults';
 import { AssetMetadata, DetailedAssetMetdata } from './types';
 
@@ -15,18 +15,31 @@ export async function fetchTokenMetadata(
   }
 
   try {
-    const midenClient = await getMidenClient();
-    await midenClient.importAccountById(assetId);
-    const account = await midenClient.getAccount(assetId);
-    if (!account) {
+    // Wrap all WASM client operations in a lock to prevent concurrent access
+    const result = await withWasmClientLock(async () => {
+      const midenClient = await getMidenClient();
+      await midenClient.importAccountById(assetId);
+      const account = await midenClient.getAccount(assetId);
+      if (!account) {
+        return null;
+      }
+      const faucetDetails = BasicFungibleFaucetComponent.fromAccount(account);
+      return {
+        decimals: faucetDetails.decimals(),
+        symbol: faucetDetails.symbol().toString()
+      };
+    });
+
+    if (!result) {
       return { base: DEFAULT_TOKEN_METADATA, detailed: DEFAULT_TOKEN_METADATA };
     }
-    const faucetDetails = BasicFungibleFaucetComponent.fromAccount(account);
+
+    const { decimals, symbol } = result;
 
     const base: AssetMetadata = {
-      decimals: faucetDetails.decimals(),
-      symbol: faucetDetails.symbol().toString(),
-      name: faucetDetails.symbol().toString(),
+      decimals,
+      symbol,
+      name: symbol,
       shouldPreferSymbol: true,
       thumbnailUri: browser.runtime.getURL('misc/token-logos/default.svg')
     };

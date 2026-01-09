@@ -1,10 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import BigNumber from 'bignumber.js';
-import constate from 'constate';
-import deepEqual from 'fast-deep-equal';
 import Fuse from 'fuse.js';
-import useForceUpdate from 'use-force-update';
 import browser from 'webextension-polyfill';
 
 import { useGasToken } from 'app/hooks/useGasToken';
@@ -21,6 +18,7 @@ import {
   isMidenAsset
 } from 'lib/miden/front';
 import { createQueue } from 'lib/queue';
+import { useWalletStore } from 'lib/store';
 import { useRetryableSWR } from 'lib/swr';
 
 export const ALL_TOKENS_BASE_METADATA_STORAGE_KEY = 'tokens_base_metadata';
@@ -33,43 +31,45 @@ export type TokenBalance = {
 const enqueueAutoFetchMetadata = createQueue();
 const autoFetchMetadataFails = new Set<string>();
 
+/**
+ * useAssetMetadata - Get metadata for a specific asset
+ *
+ * Uses Zustand store for state while maintaining storage persistence.
+ */
 export function useAssetMetadata(slug: string, assetId: string) {
-  const forceUpdate = useForceUpdate();
   const { metadata } = useGasToken();
   const midenFaucetId = useMidenFaucetId();
 
-  const { allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata, setTokensDetailedMetadata } =
-    useTokensMetadata();
-
-  useEffect(
-    () =>
-      onStorageChanged(ALL_TOKENS_BASE_METADATA_STORAGE_KEY, newValue => {
-        // TODO: Potentially update this in the future. Breaking the wallet at the moment
-        if (!deepEqual(newValue[assetId], 'TODO')) {
-          forceUpdate();
-        }
-      }),
-    [slug, assetId, allTokensBaseMetadataRef, forceUpdate]
-  );
+  // Get from Zustand store
+  const assetsMetadata = useWalletStore(s => s.assetsMetadata);
+  const setAssetsMetadata = useWalletStore(s => s.setAssetsMetadata);
+  const fetchAssetMetadata = useWalletStore(s => s.fetchAssetMetadata);
 
   const isMidenFaucet = assetId === midenFaucetId;
-  const tokenMetadata = allTokensBaseMetadataRef.current[assetId] ?? null;
+  const tokenMetadata = assetsMetadata[assetId] ?? null;
   const exist = Boolean(tokenMetadata);
 
+  // Auto-fetch missing metadata
   useEffect(() => {
     if (!isMidenFaucet && !exist && !autoFetchMetadataFails.has(assetId)) {
-      enqueueAutoFetchMetadata(() => fetchMetadata(assetId))
-        .then(metadata =>
-          Promise.all([
-            setTokensBaseMetadata({ [assetId]: metadata.base }),
-            setTokensDetailedMetadata({ [assetId]: metadata.detailed })
-          ])
-        )
-        .catch(() => autoFetchMetadataFails.add(assetId));
+      enqueueAutoFetchMetadata(async () => {
+        try {
+          const metadata = await fetchTokenMetadata(assetId);
+          // Update Zustand store
+          setAssetsMetadata({ [assetId]: metadata.base });
+          // Also persist to storage
+          await setTokensBaseMetadata({ [assetId]: metadata.base });
+          await setTokensDetailedMetadataStorage({ [assetId]: metadata.detailed });
+          return metadata;
+        } catch (error) {
+          autoFetchMetadataFails.add(assetId);
+          throw error;
+        }
+      }).catch(() => {});
     }
-  }, [slug, assetId, exist, fetchMetadata, setTokensBaseMetadata, setTokensDetailedMetadata, isMidenFaucet]);
+  }, [assetId, exist, fetchAssetMetadata, setAssetsMetadata, isMidenFaucet]);
 
-  // MIDEN
+  // Return MIDEN metadata for native token
   if (isMidenFaucet) {
     return metadata;
   }
@@ -81,23 +81,59 @@ export async function useAllAssetMetadata(): Promise<Record<string, AssetMetadat
   return (await fetchFromStorage(ALL_TOKENS_BASE_METADATA_STORAGE_KEY)) || defaultAllTokensBaseMetadata;
 }
 
-const defaultAllTokensBaseMetadata = {};
+const defaultAllTokensBaseMetadata: Record<string, AssetMetadata> = {};
 const enqueueSetAllTokensBaseMetadata = createQueue();
 
-export const [TokensMetadataProvider, useTokensMetadata] = constate(() => {
+/**
+ * TokensMetadataProvider - Syncs storage to Zustand on mount
+ *
+ * This is now a simple provider that syncs browser storage to Zustand.
+ * No longer uses constate - just handles the initial sync and change listening.
+ */
+export function TokensMetadataProvider({ children }: { children: React.ReactNode }) {
+  const setAssetsMetadata = useWalletStore(s => s.setAssetsMetadata);
+  const initialSyncDone = useRef(false);
+
+  // Load initial metadata from storage
   const [initialAllTokensBaseMetadata] = usePassiveStorage<Record<string, AssetMetadata>>(
     ALL_TOKENS_BASE_METADATA_STORAGE_KEY,
     defaultAllTokensBaseMetadata
   );
 
-  const allTokensBaseMetadataRef = useRef(initialAllTokensBaseMetadata);
-  useEffect(
-    () =>
-      onStorageChanged(ALL_TOKENS_BASE_METADATA_STORAGE_KEY, newValue => {
-        allTokensBaseMetadataRef.current = newValue;
-      }),
-    []
-  );
+  // Sync initial storage to Zustand once on mount
+  useEffect(() => {
+    if (!initialSyncDone.current && Object.keys(initialAllTokensBaseMetadata).length > 0) {
+      initialSyncDone.current = true;
+      setAssetsMetadata(initialAllTokensBaseMetadata);
+    }
+  }, [initialAllTokensBaseMetadata, setAssetsMetadata]);
+
+  // Listen for storage changes and sync to Zustand (separate effect)
+  useEffect(() => {
+    return onStorageChanged(ALL_TOKENS_BASE_METADATA_STORAGE_KEY, newValue => {
+      setAssetsMetadata(newValue);
+    });
+  }, [setAssetsMetadata]);
+
+  return <>{children}</>;
+}
+
+/**
+ * useTokensMetadata - Hook to get token metadata utilities
+ *
+ * Now uses Zustand store directly instead of constate context.
+ */
+export function useTokensMetadata() {
+  const assetsMetadata = useWalletStore(s => s.assetsMetadata);
+  const setAssetsMetadata = useWalletStore(s => s.setAssetsMetadata);
+
+  // Ref for backward compatibility with existing code that uses allTokensBaseMetadataRef
+  const allTokensBaseMetadataRef = useRef(assetsMetadata);
+
+  // Keep ref in sync with Zustand store
+  useEffect(() => {
+    allTokensBaseMetadataRef.current = assetsMetadata;
+  }, [assetsMetadata]);
 
   const fetchMetadata = useCallback((assetId: string) => fetchTokenMetadata(assetId), []);
 
@@ -107,13 +143,27 @@ export const [TokensMetadataProvider, useTokensMetadata] = constate(() => {
     []
   );
 
+  // Wrapper that updates both storage and Zustand
+  const setTokensBaseMetadataWithStore = useCallback(
+    async (toSet: Record<string, AssetMetadata>) => {
+      setAssetsMetadata(toSet);
+      await setTokensBaseMetadata(toSet);
+    },
+    [setAssetsMetadata]
+  );
+
   return {
     allTokensBaseMetadataRef,
     fetchMetadata,
-    setTokensBaseMetadata,
+    setTokensBaseMetadata: setTokensBaseMetadataWithStore,
     setTokensDetailedMetadata
   };
-});
+}
+
+// Helper to set detailed metadata to storage
+async function setTokensDetailedMetadataStorage(toSet: Record<string, DetailedAssetMetdata>): Promise<void> {
+  await browser.storage.local.set(mapObjectKeys(toSet, getDetailedMetadataStorageKey));
+}
 
 export async function setTokensBaseMetadata(toSet: Record<string, AssetMetadata>): Promise<void> {
   const initialAllTokensBaseMetadata: Record<string, AssetMetadata> =
@@ -135,8 +185,13 @@ export const getTokensBaseMetadata = async (assetId: string) => {
   return allTokensBaseMetadata[assetId];
 };
 
+/**
+ * useGetTokenMetadata - Returns a function to get token metadata by slug/id
+ *
+ * Now uses Zustand store directly for better reactivity.
+ */
 export const useGetTokenMetadata = () => {
-  const { allTokensBaseMetadataRef } = useTokensMetadata();
+  const assetsMetadata = useWalletStore(s => s.assetsMetadata);
   const { metadata } = useGasToken();
 
   return useCallback(
@@ -145,9 +200,9 @@ export const useGetTokenMetadata = () => {
         return metadata;
       }
 
-      return allTokensBaseMetadataRef.current[id];
+      return assetsMetadata[id];
     },
-    [allTokensBaseMetadataRef, metadata]
+    [assetsMetadata, metadata]
   );
 };
 
@@ -170,13 +225,13 @@ export function useDetailedAssetMetadata(assetSlug: string, assetId: string) {
   return detailedMetadata ?? baseMetadata;
 }
 
+/**
+ * useAllTokensBaseMetadata - Returns all cached token metadata
+ *
+ * Now uses Zustand store directly - no more forceUpdate needed.
+ */
 export function useAllTokensBaseMetadata() {
-  const { allTokensBaseMetadataRef } = useTokensMetadata();
-  const forceUpdate = useForceUpdate();
-
-  useEffect(() => onStorageChanged(ALL_TOKENS_BASE_METADATA_STORAGE_KEY, forceUpdate), [forceUpdate]);
-
-  return allTokensBaseMetadataRef.current;
+  return useWalletStore(s => s.assetsMetadata);
 }
 
 export function searchAssets(

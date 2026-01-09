@@ -39,13 +39,15 @@ const Explore: FC = () => {
   const account = useAccount();
   const midenFaucetId = useMidenFaucetId();
 
+  const allTokensBaseMetadata = useAllTokensBaseMetadata();
+  // Call useAllBalances before useClaimableNotes - balance fetch is fast (~5ms)
+  // while claimable notes is slow (~500ms due to syncState). With the mutex
+  // serializing operations, we want the fast one to run first.
+  const { data: allTokenBalances = [] } = useAllBalances(account.publicKey, allTokensBaseMetadata);
+
   const { data: claimableNotes, mutate: mutateClaimableNotes } = useClaimableNotes(account.publicKey);
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
   const shouldAutoConsume = isAutoConsumeEnabled();
-
-  const allTokensBaseMetadata = useAllTokensBaseMetadata();
-
-  const { data: allTokenBalances = [] } = useAllBalances(account.publicKey, allTokensBaseMetadata);
 
   const address = account.publicKey;
   const { fullPage } = useAppEnv();
@@ -187,7 +189,7 @@ const Explore: FC = () => {
         </div>
       </div>
 
-      <div className="flex-grow overflow-y-auto relative">
+      <div className="flex-grow overflow-y-auto relative" style={{ scrollbarGutter: 'stable' }}>
         <div className={classNames('bg-transparent', 'md:w-[460px] md:mx-auto px-4')}>
           <Tokens />
         </div>
