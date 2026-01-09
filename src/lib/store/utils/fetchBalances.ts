@@ -5,51 +5,15 @@ import { getFaucetIdSetting } from 'lib/miden/assets';
 import { TokenBalanceData } from 'lib/miden/front/balance';
 import { AssetMetadata, fetchTokenMetadata, MIDEN_METADATA } from 'lib/miden/metadata';
 import { getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
-import { getMidenClient, runWhenClientIdle, withWasmClientLock } from 'lib/miden/sdk/miden-client';
-import { useWalletStore } from 'lib/store';
+import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
 
 import { setTokensBaseMetadata } from '../../miden/front/assets';
-
-// Track in-flight metadata requests to avoid duplicates
-const inFlightMetadata = new Set<string>();
-
-/**
- * Prefetch metadata for unknown assets to avoid missing UI data.
- * Uses the idle queue to run after critical operations complete.
- */
-function prefetchMetadataIfMissing(
-  id: string,
-  address: string,
-  setAssetsMetadata?: (metadata: Record<string, AssetMetadata>) => void,
-  onMetadataFetched?: () => void
-): void {
-  if (inFlightMetadata.has(id)) return;
-  inFlightMetadata.add(id);
-
-  // Run when client is idle to avoid blocking critical operations
-  runWhenClientIdle(async () => {
-    try {
-      const { base } = await fetchTokenMetadata(id);
-      await setTokensBaseMetadata({ [id]: base });
-      setAssetsMetadata?.({ [id]: base });
-      // Reset deduping timer and trigger immediate refresh
-      useWalletStore.setState(state => ({
-        balancesLastFetched: { ...state.balancesLastFetched, [address]: 0 }
-      }));
-      onMetadataFetched?.();
-    } finally {
-      inFlightMetadata.delete(id);
-    }
-  });
-}
 
 export interface FetchBalancesOptions {
   /** Callback to update asset metadata in the store */
   setAssetsMetadata?: (metadata: Record<string, AssetMetadata>) => void;
-  /** Whether to prefetch missing metadata (default: true) */
-  prefetchMissingMetadata?: boolean;
-  /** Callback to trigger immediate balance refresh after metadata is fetched */
-  onMetadataFetched?: () => void;
+  /** Whether to fetch missing metadata inline (default: true) */
+  fetchMissingMetadata?: boolean;
 }
 
 /**
@@ -63,8 +27,11 @@ export async function fetchBalances(
   tokenMetadatas: Record<string, AssetMetadata>,
   options: FetchBalancesOptions = {}
 ): Promise<TokenBalanceData[]> {
-  const { setAssetsMetadata, prefetchMissingMetadata = true, onMetadataFetched } = options;
+  const { setAssetsMetadata, fetchMissingMetadata = true } = options;
   const balances: TokenBalanceData[] = [];
+
+  // Local copy of metadata that we can add to during this fetch
+  const localMetadatas = { ...tokenMetadatas };
 
   // Wrap all WASM client operations in a lock to prevent concurrent access
   const { account, assets } = await withWasmClientLock(async () => {
@@ -97,12 +64,19 @@ export async function fetchBalances(
   const midenFaucetId = await getFaucetIdSetting();
   let hasMiden = false;
 
-  // First pass: prefetch missing metadata
-  if (prefetchMissingMetadata) {
+  // First pass: fetch missing metadata INLINE (so all tokens appear together)
+  if (fetchMissingMetadata) {
     for (const asset of assets) {
       const id = getBech32AddressFromAccountId(asset.faucetId());
-      if (id !== midenFaucetId && !tokenMetadatas[id]) {
-        prefetchMetadataIfMissing(id, address, setAssetsMetadata, onMetadataFetched);
+      if (id !== midenFaucetId && !localMetadatas[id]) {
+        try {
+          const { base } = await fetchTokenMetadata(id);
+          localMetadatas[id] = base;
+          await setTokensBaseMetadata({ [id]: base });
+          setAssetsMetadata?.({ [id]: base });
+        } catch (e) {
+          console.warn('Failed to fetch metadata for', id, e);
+        }
       }
     }
   }
@@ -116,9 +90,9 @@ export async function fetchBalances(
       hasMiden = true;
     }
 
-    const tokenMetadata = isMiden ? MIDEN_METADATA : tokenMetadatas[tokenId];
+    const tokenMetadata = isMiden ? MIDEN_METADATA : localMetadatas[tokenId];
     if (!tokenMetadata) {
-      // Skip assets without metadata (will be available after prefetch)
+      // Skip assets without metadata (metadata fetch failed)
       continue;
     }
 

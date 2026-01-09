@@ -12,11 +12,7 @@ const mockGetMidenClient = jest.fn(() => ({
 
 jest.mock('lib/miden/sdk/miden-client', () => ({
   getMidenClient: () => mockGetMidenClient(),
-  withWasmClientLock: async <T>(operation: () => Promise<T>): Promise<T> => operation(),
-  runWhenClientIdle: (operation: () => Promise<void>) => {
-    // Execute immediately in tests
-    void operation();
-  }
+  withWasmClientLock: async <T>(operation: () => Promise<T>): Promise<T> => operation()
 }));
 
 jest.mock('lib/miden/assets', () => ({
@@ -84,7 +80,7 @@ describe('fetchBalances', () => {
       })
     });
 
-    const result = await fetchBalances('my-address', {}, { prefetchMissingMetadata: false });
+    const result = await fetchBalances('my-address', {}, { fetchMissingMetadata: false });
 
     expect(result).toHaveLength(1);
     expect(result[0].tokenSlug).toBe('MIDEN');
@@ -131,7 +127,7 @@ describe('fetchBalances', () => {
       })
     });
 
-    const result = await fetchBalances('my-address', {}, { prefetchMissingMetadata: false });
+    const result = await fetchBalances('my-address', {}, { fetchMissingMetadata: false });
 
     // Only MIDEN default balance (unknown asset skipped)
     expect(result).toHaveLength(1);
@@ -160,9 +156,7 @@ describe('fetchBalances', () => {
 
     await fetchBalances('my-address', {}, { setAssetsMetadata: mockSetAssetsMetadata });
 
-    // runWhenClientIdle is mocked to execute immediately, just flush promises
-    await new Promise(resolve => setTimeout(resolve, 10));
-
+    // Metadata is now fetched inline, so callback should have been called
     expect(fetchTokenMetadata).toHaveBeenCalledWith('bech32-new-faucet');
   });
 });
