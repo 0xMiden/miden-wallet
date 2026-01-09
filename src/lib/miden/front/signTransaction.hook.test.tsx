@@ -10,10 +10,8 @@ import { WalletMessageType, WalletStatus } from 'lib/shared/types';
 import { useWalletStore } from 'lib/store';
 import { WalletStoreProvider } from 'lib/store/WalletStoreProvider';
 
-jest.mock('./autoSync', () => ({
-  AutoSync: {
-    updateState: jest.fn()
-  }
+jest.mock('../sdk/miden-client', () => ({
+  getMidenClient: jest.fn(() => Promise.resolve(null))
 }));
 
 jest.mock('lib/intercom', () => {
