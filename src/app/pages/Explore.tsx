@@ -189,7 +189,7 @@ const Explore: FC = () => {
         </div>
       </div>
 
-      <div className="flex-grow overflow-y-auto relative">
+      <div className="flex-grow overflow-y-auto relative" style={{ scrollbarGutter: 'stable' }}>
         <div className={classNames('bg-transparent', 'md:w-[460px] md:mx-auto px-4')}>
           <Tokens />
         </div>
