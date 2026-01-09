@@ -5,7 +5,7 @@ import { getFaucetIdSetting } from 'lib/miden/assets';
 import { TokenBalanceData } from 'lib/miden/front/balance';
 import { AssetMetadata, fetchTokenMetadata, MIDEN_METADATA } from 'lib/miden/metadata';
 import { getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
-import { getMidenClient } from 'lib/miden/sdk/miden-client';
+import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
 
 import { setTokensBaseMetadata } from '../../miden/front/assets';
 
@@ -51,10 +51,21 @@ export async function fetchBalances(
   const { setAssetsMetadata, prefetchMissingMetadata = true } = options;
   const balances: TokenBalanceData[] = [];
 
-  const midenClient = await getMidenClient();
-  const account = await midenClient.getAccount(address);
+  // Wrap all WASM client operations in a lock to prevent concurrent access
+  const { account, assets } = await withWasmClientLock(async () => {
+    const midenClient = await getMidenClient();
+    const acc = await midenClient.getAccount(address);
 
-  // Handle case where account doesn't exist
+    // Handle case where account doesn't exist
+    if (!acc) {
+      return { account: null, assets: [] as FungibleAsset[] };
+    }
+
+    const acctAssets = acc.vault().fungibleAssets() as FungibleAsset[];
+    return { account: acc, assets: acctAssets };
+  });
+
+  // Handle case where account doesn't exist (outside the lock)
   if (!account) {
     console.warn(`Account not found: ${address}`);
     const midenFaucetId = await getFaucetIdSetting();
@@ -68,8 +79,6 @@ export async function fetchBalances(
       }
     ];
   }
-
-  const assets = account.vault().fungibleAssets() as FungibleAsset[];
   const midenFaucetId = await getFaucetIdSetting();
   let hasMiden = false;
 

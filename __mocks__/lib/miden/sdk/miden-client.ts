@@ -5,3 +5,8 @@ export const getMidenClient = async () => ({
   getAccounts: async () => [],
   getAccount: async () => null
 });
+
+// Mock withWasmClientLock to just execute the operation directly
+export const withWasmClientLock = async <T>(operation: () => Promise<T>): Promise<T> => {
+  return operation();
+};

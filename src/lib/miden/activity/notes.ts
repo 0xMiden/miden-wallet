@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import { fetchFromStorage, putToStorage, useStorage } from '../front';
 import { NoteExportType } from '../sdk/constants';
-import { getMidenClient } from '../sdk/miden-client';
+import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 
 const IMPORT_NOTES_KEY = 'miden-notes-pending-import';
 const OUTPUT_NOTES_KEY = 'miden-export-note-ids';
@@ -17,13 +17,16 @@ export const importAllNotes = async () => {
   if (queuedImports.length === 0) {
     return;
   }
-  const midenClient = await getMidenClient();
-  for (const noteBytes of queuedImports) {
-    const byteArray = new Uint8Array(Buffer.from(noteBytes, 'base64'));
-    await midenClient.importNoteBytes(byteArray);
-  }
-  await new Promise(resolve => setTimeout(resolve, 2000));
-  await midenClient.syncState();
+  // Wrap all WASM client operations in a lock to prevent concurrent access
+  await withWasmClientLock(async () => {
+    const midenClient = await getMidenClient();
+    for (const noteBytes of queuedImports) {
+      const byteArray = new Uint8Array(Buffer.from(noteBytes, 'base64'));
+      await midenClient.importNoteBytes(byteArray);
+    }
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    await midenClient.syncState();
+  });
   await putToStorage(IMPORT_NOTES_KEY, []);
 };
 
@@ -36,9 +39,19 @@ export const useExportNotes = (): [string[], () => Promise<void>] => {
   const [exportedNotes] = useStorage<string[]>(OUTPUT_NOTES_KEY, []);
 
   const downloadAll = useCallback(async () => {
-    const midenClient = await getMidenClient();
-    for (const noteId of exportedNotes) {
-      const noteBytes = await midenClient.exportNote(noteId, NoteExportType.DETAILS);
+    // Wrap all WASM client operations in a lock to prevent concurrent access
+    const noteDataList = await withWasmClientLock(async () => {
+      const midenClient = await getMidenClient();
+      const results: { noteId: string; noteBytes: Uint8Array }[] = [];
+      for (const noteId of exportedNotes) {
+        const noteBytes = await midenClient.exportNote(noteId, NoteExportType.DETAILS);
+        results.push({ noteId, noteBytes });
+      }
+      return results;
+    });
+
+    // Process the downloaded notes outside the lock
+    for (const { noteId, noteBytes } of noteDataList) {
       const blob = new Blob([new Uint8Array(noteBytes)], { type: 'application/octet-stream' });
       // Create a URL for the Blob
       const url = URL.createObjectURL(blob);

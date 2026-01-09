@@ -61,7 +61,7 @@ import {
   initiateConsumeTransactionFromId
 } from '../activity/transactions';
 import { getBech32AddressFromAccountId } from '../sdk/helpers';
-import { getMidenClient } from '../sdk/miden-client';
+import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 import { store, withUnlocked } from './store';
 
 const CONFIRM_WINDOW_WIDTH = 380;
@@ -192,12 +192,15 @@ export async function generatePromisifyRequestPermission(
             let publicKey = null;
             try {
               publicKey = await withUnlocked(async () => {
-                const midenClient = await getMidenClient();
-                const account = await midenClient.getAccount(accountPublicKey);
-                const publicKeys = account!.getPublicKeys();
-                const publicKeyAsB64 = u8ToB64(publicKeys[0].serialize());
+                // Wrap WASM client operations in a lock to prevent concurrent access
+                return await withWasmClientLock(async () => {
+                  const midenClient = await getMidenClient();
+                  const account = await midenClient.getAccount(accountPublicKey);
+                  const publicKeys = account!.getPublicKeys();
+                  const publicKeyAsB64 = u8ToB64(publicKeys[0].serialize());
 
-                return publicKeyAsB64;
+                  return publicKeyAsB64;
+                });
               });
             } catch {
               console.error('Error fetching account public key');
@@ -395,12 +398,15 @@ async function getPrivateNoteDetails(notefilterType: NoteFilterTypes, noteIds?: 
   let privateNotes: InputNoteDetails[] = [];
   try {
     privateNotes = await withUnlocked(async () => {
-      const midenClient = await getMidenClient();
-      const midenNoteIds = noteIds ? noteIds.map(id => NoteId.fromHex(id)) : undefined;
-      const noteFilter = new NoteFilter(notefilterType, midenNoteIds);
-      let allNotes = await midenClient.getInputNoteDetails(noteFilter);
-      let privateNotes = allNotes.filter(note => note.noteType === NoteType.Private);
-      return privateNotes;
+      // Wrap WASM client operations in a lock to prevent concurrent access
+      return await withWasmClientLock(async () => {
+        const midenClient = await getMidenClient();
+        const midenNoteIds = noteIds ? noteIds.map(id => NoteId.fromHex(id)) : undefined;
+        const noteFilter = new NoteFilter(notefilterType, midenNoteIds);
+        let allNotes = await midenClient.getInputNoteDetails(noteFilter);
+        let privateNotes = allNotes.filter(note => note.noteType === NoteType.Private);
+        return privateNotes;
+      });
     });
     return privateNotes;
   } catch (e) {
@@ -501,32 +507,35 @@ async function getConsumableNotes(accountId: string): Promise<InputNoteDetails[]
   let consumableNotes: InputNoteDetails[] = [];
   try {
     consumableNotes = await withUnlocked(async () => {
-      const midenClient = await getMidenClient();
-      await midenClient.syncState();
-      const consumableNotes = await midenClient.getConsumableNotes(accountId);
-      const consumableNotesDetails = consumableNotes.map(note => {
-        const assets = note
-          .inputNoteRecord()
-          .details()
-          .assets()
-          .fungibleAssets()
-          .map(asset => ({
-            amount: asset.amount().toString(),
-            faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet)
-          }));
-        const inputNoteRecord = note.inputNoteRecord();
-        return {
-          noteId: inputNoteRecord.id().toString(),
-          noteType: inputNoteRecord.metadata()?.noteType(),
-          senderAccountId:
-            inputNoteRecord.metadata()?.sender()?.toBech32(NetworkId.Testnet, AccountInterface.BasicWallet) ||
-            undefined,
-          nullifier: inputNoteRecord.nullifier(),
-          state: inputNoteRecord.state(),
-          assets: assets
-        };
+      // Wrap WASM client operations in a lock to prevent concurrent access
+      return await withWasmClientLock(async () => {
+        const midenClient = await getMidenClient();
+        await midenClient.syncState();
+        const consumableNotes = await midenClient.getConsumableNotes(accountId);
+        const consumableNotesDetails = consumableNotes.map(note => {
+          const assets = note
+            .inputNoteRecord()
+            .details()
+            .assets()
+            .fungibleAssets()
+            .map(asset => ({
+              amount: asset.amount().toString(),
+              faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet)
+            }));
+          const inputNoteRecord = note.inputNoteRecord();
+          return {
+            noteId: inputNoteRecord.id().toString(),
+            noteType: inputNoteRecord.metadata()?.noteType(),
+            senderAccountId:
+              inputNoteRecord.metadata()?.sender()?.toBech32(NetworkId.Testnet, AccountInterface.BasicWallet) ||
+              undefined,
+            nullifier: inputNoteRecord.nullifier(),
+            state: inputNoteRecord.state(),
+            assets: assets
+          };
+        });
+        return consumableNotesDetails;
       });
-      return consumableNotesDetails;
     });
     return consumableNotes;
   } catch (e) {
@@ -625,14 +634,17 @@ async function getAssets(accountId: string): Promise<Asset[]> {
   let assets: Asset[] = [];
   try {
     assets = await withUnlocked(async () => {
-      const midenClient = await getMidenClient();
-      const account = await midenClient.getAccount(accountId);
-      const fungibleAssets = account?.vault().fungibleAssets() || [];
-      const balances = fungibleAssets.map(asset => ({
-        faucetId: getBech32AddressFromAccountId(asset.faucetId()),
-        amount: asset.amount().toString()
-      })) as Asset[];
-      return balances;
+      // Wrap WASM client operations in a lock to prevent concurrent access
+      return await withWasmClientLock(async () => {
+        const midenClient = await getMidenClient();
+        const account = await midenClient.getAccount(accountId);
+        const fungibleAssets = account?.vault().fungibleAssets() || [];
+        const balances = fungibleAssets.map(asset => ({
+          faucetId: getBech32AddressFromAccountId(asset.faucetId()),
+          amount: asset.amount().toString()
+        })) as Asset[];
+        return balances;
+      });
     });
 
     return assets;
@@ -689,11 +701,14 @@ export const generatePromisifyImportPrivateNote = async (
         if (confirmReq.confirmed) {
           try {
             let noteId = await withUnlocked(async () => {
-              const midenClient = await getMidenClient();
-              const noteAsUint8Array = b64ToU8(req.note);
-              const noteId = await midenClient.importNoteBytes(noteAsUint8Array);
-              await midenClient.syncState();
-              return noteId;
+              // Wrap WASM client operations in a lock to prevent concurrent access
+              return await withWasmClientLock(async () => {
+                const midenClient = await getMidenClient();
+                const noteAsUint8Array = b64ToU8(req.note);
+                const noteId = await midenClient.importNoteBytes(noteAsUint8Array);
+                await midenClient.syncState();
+                return noteId;
+              });
             });
             resolve({
               type: MidenDAppMessageType.ImportPrivateNoteResponse,

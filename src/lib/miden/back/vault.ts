@@ -19,7 +19,7 @@ import { WalletAccount, WalletSettings } from 'lib/shared/types';
 import { WalletType } from 'screens/onboarding/types';
 
 import { getBech32AddressFromAccountId } from '../sdk/helpers';
-import { getMidenClient } from '../sdk/miden-client';
+import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 import { MidenClientCreateOptions } from '../sdk/miden-client-interface';
 
 const STORAGE_KEY_PREFIX = 'vault';
@@ -90,22 +90,24 @@ export class Vault {
       const options: MidenClientCreateOptions = {
         insertKeyCallback
       };
-      const midenClient = await getMidenClient(options);
       const hdAccIndex = 0;
       const walletSeed = deriveClientSeed(WalletType.OnChain, mnemonic, 0);
 
-      let accPublicKey;
-      if (ownMnemonic) {
-        try {
-          accPublicKey = await midenClient.importPublicMidenWalletFromSeed(walletSeed);
-        } catch (e) {
-          // TODO: Need some way to propagate this up. Should we fail the entire process or just log it?
-          console.error('Failed to import wallet from seed in spawn, creating new wallet instead', e);
-          accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain, walletSeed);
+      // Wrap WASM client operations in a lock to prevent concurrent access
+      const accPublicKey = await withWasmClientLock(async () => {
+        const midenClient = await getMidenClient(options);
+        if (ownMnemonic) {
+          try {
+            return await midenClient.importPublicMidenWalletFromSeed(walletSeed);
+          } catch (e) {
+            // TODO: Need some way to propagate this up. Should we fail the entire process or just log it?
+            console.error('Failed to import wallet from seed in spawn, creating new wallet instead', e);
+            return await midenClient.createMidenWallet(WalletType.OnChain, walletSeed);
+          }
+        } else {
+          return await midenClient.createMidenWallet(WalletType.OnChain, walletSeed);
         }
-      } else {
-        accPublicKey = await midenClient.createMidenWallet(WalletType.OnChain, walletSeed);
-      }
+      });
 
       const initialAccount: WalletAccount = {
         publicKey: accPublicKey,
@@ -132,15 +134,19 @@ export class Vault {
 
   static async spawnFromMidenClient(password: string, mnemonic: string) {
     return withError('Failed to spawn from miden client', async () => {
-      const midenClient = await getMidenClient();
-      const accountHeaders = await midenClient.getAccounts();
-      const accounts = [];
+      // Wrap WASM client operations in a lock to prevent concurrent access
+      const accounts = await withWasmClientLock(async () => {
+        const midenClient = await getMidenClient();
+        const accountHeaders = await midenClient.getAccounts();
+        const accts = [];
 
-      // Have to do this sequentially else the wasm fails
-      for (const accountHeader of accountHeaders) {
-        const account = await midenClient.getAccount(getBech32AddressFromAccountId(accountHeader.id()));
-        accounts.push(account);
-      }
+        // Have to do this sequentially else the wasm fails
+        for (const accountHeader of accountHeaders) {
+          const account = await midenClient.getAccount(getBech32AddressFromAccountId(accountHeader.id()));
+          accts.push(account);
+        }
+        return accts;
+      });
 
       const newAccounts = [];
       for (let i = 0; i < accounts.length; i++) {
@@ -212,18 +218,21 @@ export class Vault {
       const options: MidenClientCreateOptions = {
         insertKeyCallback
       };
-      const midenClient = await getMidenClient(options);
-      let walletId;
-      if (isOwnMnemonic && walletType === WalletType.OnChain) {
-        try {
-          walletId = await midenClient.importPublicMidenWalletFromSeed(walletSeed);
-        } catch (e) {
-          console.warn('Failed to import wallet from seed, creating new wallet instead', e);
-          walletId = await midenClient.createMidenWallet(walletType, walletSeed);
+
+      // Wrap WASM client operations in a lock to prevent concurrent access
+      const walletId = await withWasmClientLock(async () => {
+        const midenClient = await getMidenClient(options);
+        if (isOwnMnemonic && walletType === WalletType.OnChain) {
+          try {
+            return await midenClient.importPublicMidenWalletFromSeed(walletSeed);
+          } catch (e) {
+            console.warn('Failed to import wallet from seed, creating new wallet instead', e);
+            return await midenClient.createMidenWallet(walletType, walletSeed);
+          }
+        } else {
+          return await midenClient.createMidenWallet(walletType, walletSeed);
         }
-      } else {
-        walletId = await midenClient.createMidenWallet(walletType, walletSeed);
-      }
+      });
 
       const accName = name || getNewAccountName(allAccounts);
 

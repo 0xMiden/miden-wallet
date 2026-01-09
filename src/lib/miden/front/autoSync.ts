@@ -3,7 +3,7 @@ import { MessageHttpOutput } from '@demox-labs/amp-core/script/http-types';
 import { ampApi } from 'lib/amp/amp-interface';
 import { WalletState } from 'lib/shared/types';
 
-import { getMidenClient } from '../sdk/miden-client';
+import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
@@ -55,14 +55,17 @@ class Sync {
       if (messages.length > 0) {
         console.log('Syncing amp...');
 
-        const midenClient = await getMidenClient();
-        // TOOD: Need a way to clear the messages once they're recieved
-        for (let message of messages) {
-          // TODO: Potentially tweak upstream to make this cleaner
-          const noteBytes = new Uint8Array(message.body.split(',').map(Number));
+        // Wrap all WASM client operations in a lock to prevent concurrent access
+        await withWasmClientLock(async () => {
+          const midenClient = await getMidenClient();
+          // TOOD: Need a way to clear the messages once they're recieved
+          for (let message of messages) {
+            // TODO: Potentially tweak upstream to make this cleaner
+            const noteBytes = new Uint8Array(message.body.split(',').map(Number));
 
-          await midenClient.importNoteBytes(noteBytes);
-        }
+            await midenClient.importNoteBytes(noteBytes);
+          }
+        });
       }
     }
 

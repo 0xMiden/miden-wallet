@@ -11,7 +11,8 @@ jest.mock('lib/amp/amp-interface', () => ({
 }));
 
 jest.mock('../sdk/miden-client', () => ({
-  getMidenClient: jest.fn()
+  getMidenClient: jest.fn(),
+  withWasmClientLock: async <T>(operation: () => Promise<T>): Promise<T> => operation()
 }));
 
 describe('AutoSync', () => {

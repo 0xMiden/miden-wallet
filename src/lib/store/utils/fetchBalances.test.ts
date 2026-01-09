@@ -11,7 +11,8 @@ const mockGetMidenClient = jest.fn(() => ({
 }));
 
 jest.mock('lib/miden/sdk/miden-client', () => ({
-  getMidenClient: () => mockGetMidenClient()
+  getMidenClient: () => mockGetMidenClient(),
+  withWasmClientLock: async <T>(operation: () => Promise<T>): Promise<T> => operation()
 }));
 
 jest.mock('lib/miden/assets', () => ({

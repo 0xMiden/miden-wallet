@@ -6,7 +6,7 @@ import { useRetryableSWR } from 'lib/swr';
 import { isMidenFaucet } from '../assets';
 import { AssetMetadata, MIDEN_METADATA } from '../metadata';
 import { getBech32AddressFromAccountId } from '../sdk/helpers';
-import { getMidenClient } from '../sdk/miden-client';
+import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 import { MidenClientCreateOptions } from '../sdk/miden-client-interface';
 import { ConsumableNote } from '../types';
 import { useTokensMetadata } from './assets';
@@ -139,13 +139,14 @@ export function useClaimableNotes(publicAddress: string, enabled: boolean = true
         return result;
       }
     };
-    const midenClient = await getMidenClient(options);
-    await midenClient.syncState();
+    // Wrap all WASM client operations in a lock to prevent concurrent access
+    const rawNotes = await withWasmClientLock(async () => {
+      const midenClient = await getMidenClient(options);
+      await midenClient.syncState();
+      return midenClient.getConsumableNotes(publicAddress);
+    });
 
-    const [rawNotes, uncompletedTxs] = await Promise.all([
-      midenClient.getConsumableNotes(publicAddress),
-      getUncompletedTransactions(publicAddress)
-    ]);
+    const uncompletedTxs = await getUncompletedTransactions(publicAddress);
 
     const notesBeingClaimed = new Set(
       uncompletedTxs.filter(tx => tx.type === 'consume' && tx.noteId != null).map(tx => tx.noteId!)

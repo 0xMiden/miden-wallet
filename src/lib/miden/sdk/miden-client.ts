@@ -1,6 +1,52 @@
 import { MidenClientInterface, MidenClientCreateOptions } from './miden-client-interface';
 
 /**
+ * Simple async mutex to prevent concurrent WASM client operations.
+ * The WASM client cannot handle concurrent calls - they cause
+ * "recursive use of an object detected which would lead to unsafe aliasing in rust" errors.
+ */
+class AsyncMutex {
+  private locked = false;
+  private queue: Array<() => void> = [];
+
+  async acquire(): Promise<void> {
+    if (!this.locked) {
+      this.locked = true;
+      return;
+    }
+
+    return new Promise<void>(resolve => {
+      this.queue.push(resolve);
+    });
+  }
+
+  release(): void {
+    const next = this.queue.shift();
+    if (next) {
+      next();
+    } else {
+      this.locked = false;
+    }
+  }
+}
+
+// Global mutex for all WASM client operations
+const wasmClientMutex = new AsyncMutex();
+
+/**
+ * Execute an operation with the WASM client mutex held.
+ * This ensures only one WASM client operation runs at a time across the entire app.
+ */
+export async function withWasmClientLock<T>(operation: () => Promise<T>): Promise<T> {
+  await wasmClientMutex.acquire();
+  try {
+    return await operation();
+  } finally {
+    wasmClientMutex.release();
+  }
+}
+
+/**
  * Singleton manager for MidenClientInterface.
  * Ensures a bounded number of client instances (and underlying web workers) exist at a time.
  */
