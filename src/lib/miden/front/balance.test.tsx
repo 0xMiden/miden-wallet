@@ -8,9 +8,20 @@ import { useWalletStore } from 'lib/store';
 
 import { useAllBalances } from './balance';
 
-// Mock fetchBalances to avoid actual API calls
+// Track concurrent calls to detect WASM client abuse
+let concurrentCalls = 0;
+let maxConcurrentCalls = 0;
+
+// Mock fetchBalances to track concurrent calls
 jest.mock('lib/store/utils/fetchBalances', () => ({
-  fetchBalances: jest.fn(async () => [])
+  fetchBalances: jest.fn(async () => {
+    concurrentCalls++;
+    maxConcurrentCalls = Math.max(maxConcurrentCalls, concurrentCalls);
+    // Simulate async delay
+    await new Promise(resolve => setTimeout(resolve, 50));
+    concurrentCalls--;
+    return [];
+  })
 }));
 
 describe('useAllBalances infinite loop protection', () => {
@@ -32,6 +43,9 @@ describe('useAllBalances infinite loop protection', () => {
       balancesLastFetched: {},
       assetsMetadata: {}
     });
+    // Reset concurrent call tracking
+    concurrentCalls = 0;
+    maxConcurrentCalls = 0;
     jest.clearAllMocks();
   });
 
@@ -152,4 +166,45 @@ describe('useAllBalances infinite loop protection', () => {
     // Should have rendered a few more times, but not infinitely
     expect(renderCount - initialCount).toBeLessThan(5);
   });
+
+  it('multiple components should not trigger concurrent fetches for same address', async () => {
+    const container = document.createElement('div');
+    const root = createRoot(container);
+
+    // Multiple components using useAllBalances with the same address
+    const BalanceConsumer1 = () => {
+      const { data } = useAllBalances('same-address', {});
+      return <div data-id="1" data-count={data.length} />;
+    };
+
+    const BalanceConsumer2 = () => {
+      const { data } = useAllBalances('same-address', {});
+      return <div data-id="2" data-count={data.length} />;
+    };
+
+    const BalanceConsumer3 = () => {
+      const { data } = useAllBalances('same-address', {});
+      return <div data-id="3" data-count={data.length} />;
+    };
+
+    await act(async () => {
+      root.render(
+        <>
+          <BalanceConsumer1 />
+          <BalanceConsumer2 />
+          <BalanceConsumer3 />
+        </>
+      );
+    });
+
+    // Wait for fetches to complete
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 150));
+    });
+
+    // Should never have more than 1 concurrent call for the same address
+    // This prevents "recursive use of an object" errors in WASM client
+    expect(maxConcurrentCalls).toBeLessThanOrEqual(1);
+  });
+
 });
