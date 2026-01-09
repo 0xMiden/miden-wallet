@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 
 import { usePassiveStorage } from 'lib/miden/front/storage';
-import { WalletStatus } from 'lib/shared/types';
 import { useWalletStore } from 'lib/store';
 
 import { MidenNetwork } from '../types';

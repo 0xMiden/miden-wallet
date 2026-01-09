@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import { useWalletStore } from 'lib/store';
 import { fetchBalances } from 'lib/store/utils/fetchBalances';
