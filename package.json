@@ -2,6 +2,7 @@
   "name": "miden-wallet",
   "version": "1.1.6",
   "private": true,
+  "type": "module",
   "scripts": {
     "start": "yarn watch:src",
     "dev": "rimraf ./dist && concurrently yarn:watch:*",

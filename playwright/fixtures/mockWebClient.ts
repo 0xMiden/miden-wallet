@@ -1,9 +1,8 @@
 import 'fake-indexeddb/auto';
 
+import { test as base } from '@playwright/test';
 import fs from 'fs/promises';
 import { fileURLToPath } from 'url';
-
-import { test as base } from '@playwright/test';
 
 function ensureFileFetchSupport() {
   const originalFetch = globalThis.fetch;
@@ -16,7 +15,7 @@ function ensureFileFetchSupport() {
     if (url.protocol === 'file:') {
       const buffer = await fs.readFile(fileURLToPath(url));
       return new Response(buffer, {
-        headers: { 'Content-Type': 'application/wasm' },
+        headers: { 'Content-Type': 'application/wasm' }
       });
     }
     return originalFetch(input as any, init);
@@ -40,7 +39,7 @@ export const test = base.extend<Fixtures>({
     const client = await sdk.MockWebClient.createClient();
     await use(client);
     client.free();
-  },
+  }
 });
 
 export const expect = test.expect;
