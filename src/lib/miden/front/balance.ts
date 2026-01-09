@@ -20,7 +20,8 @@ const DEDUPING_INTERVAL = 10_000;
 const EMPTY_BALANCES: TokenBalanceData[] = [];
 
 // Global lock to prevent concurrent fetches to WASM client (per address)
-const fetchingAddresses = new Set<string>();
+// Exported for use by prefetch hooks
+export const fetchingAddresses = new Set<string>();
 
 /**
  * useAllBalances - Hook to get all token balances for an account
@@ -46,16 +47,11 @@ export function useAllBalances(address: string, tokenMetadatas: Record<string, A
 
   // Use refs for values that shouldn't trigger callback recreation
   const tokenMetadatasRef = useRef(tokenMetadatas);
-  const balancesLastFetchedRef = useRef(balancesLastFetched);
 
   // Keep refs in sync
   useEffect(() => {
     tokenMetadatasRef.current = tokenMetadatas;
   }, [tokenMetadatas]);
-
-  useEffect(() => {
-    balancesLastFetchedRef.current = balancesLastFetched;
-  }, [balancesLastFetched]);
 
   // Ref to store fetch function for use in callbacks
   const fetchBalancesWithDedupingRef = useRef<(() => Promise<void>) | null>(null);
@@ -66,8 +62,10 @@ export function useAllBalances(address: string, tokenMetadatas: Record<string, A
     // Check global lock - prevents concurrent calls across all component instances
     if (fetchingAddresses.has(address)) return;
 
+    // Read current value from store (not ref) to catch updates from prefetch
     const now = Date.now();
-    if (now - balancesLastFetchedRef.current < DEDUPING_INTERVAL) {
+    const currentLastFetched = useWalletStore.getState().balancesLastFetched[address] ?? 0;
+    if (now - currentLastFetched < DEDUPING_INTERVAL) {
       return;
     }
 

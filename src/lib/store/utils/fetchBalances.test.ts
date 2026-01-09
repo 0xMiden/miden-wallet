@@ -37,8 +37,18 @@ jest.mock('../../miden/front/assets', () => ({
 }));
 
 describe('fetchBalances', () => {
+  let warnSpy: jest.SpyInstance;
+
   beforeEach(() => {
     mockGetAccount.mockReset();
+  });
+
+  beforeAll(() => {
+    warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+
+  afterAll(() => {
+    warnSpy.mockRestore();
   });
 
   it('returns default MIDEN balance when account not found', async () => {

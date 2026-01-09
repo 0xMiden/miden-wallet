@@ -1,6 +1,7 @@
 import React, { FC, PropsWithChildren, Suspense } from 'react';
 
 import { useIntercomSync } from './hooks/useIntercomSync';
+import { usePrefetchBalances } from './hooks/usePrefetchBalances';
 
 /**
  * Provider component that sets up the Zustand store synchronization with the backend.
@@ -19,6 +20,9 @@ export const WalletStoreProvider: FC<PropsWithChildren> = ({ children }) => {
  */
 const WalletStoreSyncSetup: FC<PropsWithChildren> = ({ children }) => {
   const isInitialized = useIntercomSync();
+
+  // Prefetch balances as soon as store is initialized
+  usePrefetchBalances();
 
   if (!isInitialized) {
     return <WalletStoreLoading />;

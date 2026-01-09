@@ -64,13 +64,16 @@ beforeEach(() => {
 
 describe('useMidenContext signTransaction', () => {
   let errorSpy: jest.SpyInstance;
+  let warnSpy: jest.SpyInstance;
 
   beforeAll(() => {
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
   });
 
   afterAll(() => {
     errorSpy.mockRestore();
+    warnSpy.mockRestore();
   });
 
   it('returns Uint8Array signature bytes from hex string', async () => {
