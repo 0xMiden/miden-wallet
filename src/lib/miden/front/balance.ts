@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { useWalletStore } from 'lib/store';
 import { fetchBalances } from 'lib/store/utils/fetchBalances';
@@ -16,6 +16,9 @@ export interface TokenBalanceData {
 const REFRESH_INTERVAL = 5_000;
 const DEDUPING_INTERVAL = 10_000;
 
+// Stable empty array to avoid creating new references
+const EMPTY_BALANCES: TokenBalanceData[] = [];
+
 /**
  * useAllBalances - Hook to get all token balances for an account
  *
@@ -24,28 +27,48 @@ const DEDUPING_INTERVAL = 10_000;
  */
 export function useAllBalances(address: string, tokenMetadatas: Record<string, AssetMetadata>) {
   // Get state and actions from Zustand store
-  const balances = useWalletStore(s => s.balances[address] ?? []);
-  const balancesLoading = useWalletStore(s => s.balancesLoading[address] ?? false);
-  const balancesLastFetched = useWalletStore(s => s.balancesLastFetched[address] ?? 0);
+  // Use stable selectors to avoid infinite loops
+  const balancesMap = useWalletStore(s => s.balances);
+  const balancesLoadingMap = useWalletStore(s => s.balancesLoading);
+  const balancesLastFetchedMap = useWalletStore(s => s.balancesLastFetched);
   const setAssetsMetadata = useWalletStore(s => s.setAssetsMetadata);
+
+  // Derive values with stable defaults
+  const balances = balancesMap[address] ?? EMPTY_BALANCES;
+  const balancesLoading = balancesLoadingMap[address] ?? false;
+  const balancesLastFetched = balancesLastFetchedMap[address] ?? 0;
 
   // Track if component is mounted
   const mountedRef = useRef(true);
   const fetchingRef = useRef(false);
 
+  // Use refs for values that shouldn't trigger callback recreation
+  const tokenMetadatasRef = useRef(tokenMetadatas);
+  const balancesLastFetchedRef = useRef(balancesLastFetched);
+
+  // Keep refs in sync
+  useEffect(() => {
+    tokenMetadatasRef.current = tokenMetadatas;
+  }, [tokenMetadatas]);
+
+  useEffect(() => {
+    balancesLastFetchedRef.current = balancesLastFetched;
+  }, [balancesLastFetched]);
+
   // Fetch balances function that respects deduping
+  // Only depends on address and setAssetsMetadata (stable references)
   const fetchBalancesWithDeduping = useCallback(async () => {
     if (fetchingRef.current) return;
 
     const now = Date.now();
-    if (now - balancesLastFetched < DEDUPING_INTERVAL) {
+    if (now - balancesLastFetchedRef.current < DEDUPING_INTERVAL) {
       return;
     }
 
     fetchingRef.current = true;
     try {
       // Fetch balances using the consolidated utility
-      const fetchedBalances = await fetchBalances(address, tokenMetadatas, { setAssetsMetadata });
+      const fetchedBalances = await fetchBalances(address, tokenMetadatasRef.current, { setAssetsMetadata });
 
       // Update store if still mounted
       if (mountedRef.current) {
@@ -65,7 +88,7 @@ export function useAllBalances(address: string, tokenMetadatas: Record<string, A
     } finally {
       fetchingRef.current = false;
     }
-  }, [address, tokenMetadatas, balancesLastFetched, setAssetsMetadata]);
+  }, [address, setAssetsMetadata]);
 
   // Manual mutate function for compatibility
   const mutate = useCallback(() => {
