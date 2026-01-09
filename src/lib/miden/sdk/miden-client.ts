@@ -4,10 +4,14 @@ import { MidenClientInterface, MidenClientCreateOptions } from './miden-client-i
  * Simple async mutex to prevent concurrent WASM client operations.
  * The WASM client cannot handle concurrent calls - they cause
  * "recursive use of an object detected which would lead to unsafe aliasing in rust" errors.
+ *
+ * Supports an idle queue for low-priority background tasks that run only when
+ * no high-priority operations are pending.
  */
 class AsyncMutex {
   private locked = false;
   private queue: Array<() => void> = [];
+  private idleQueue: Array<() => Promise<void>> = [];
 
   async acquire(): Promise<void> {
     if (!this.locked) {
@@ -26,7 +30,48 @@ class AsyncMutex {
       next();
     } else {
       this.locked = false;
+      this.drainIdleQueue();
     }
+  }
+
+  /**
+   * Queue a low-priority task to run when the mutex is idle.
+   * Idle tasks run after all high-priority (withWasmClientLock) operations complete.
+   */
+  queueIdleTask(task: () => Promise<void>): void {
+    if (!this.locked && this.queue.length === 0) {
+      this.runIdleTask(task);
+    } else {
+      this.idleQueue.push(task);
+    }
+  }
+
+  private drainIdleQueue(): void {
+    const task = this.idleQueue.shift();
+    if (task) {
+      this.runIdleTask(task);
+    }
+  }
+
+  private runIdleTask(task: () => Promise<void>): void {
+    this.locked = true;
+    task()
+      .catch(err => console.warn('Idle task failed:', err))
+      .finally(() => {
+        // Check if high-priority work came in while idle task was running
+        if (this.queue.length > 0) {
+          const next = this.queue.shift()!;
+          next();
+        } else {
+          // Continue with more idle tasks or release
+          const nextIdle = this.idleQueue.shift();
+          if (nextIdle) {
+            this.runIdleTask(nextIdle);
+          } else {
+            this.locked = false;
+          }
+        }
+      });
   }
 }
 
@@ -44,6 +89,17 @@ export async function withWasmClientLock<T>(operation: () => Promise<T>): Promis
   } finally {
     wasmClientMutex.release();
   }
+}
+
+/**
+ * Queue a low-priority operation to run when the WASM client is idle.
+ * Use this for background tasks like metadata prefetching that shouldn't
+ * block or delay critical operations.
+ *
+ * Operations are fire-and-forget (errors are logged, not thrown).
+ */
+export function runWhenClientIdle(operation: () => Promise<void>): void {
+  wasmClientMutex.queueIdleTask(operation);
 }
 
 /**

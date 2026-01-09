@@ -12,7 +12,11 @@ const mockGetMidenClient = jest.fn(() => ({
 
 jest.mock('lib/miden/sdk/miden-client', () => ({
   getMidenClient: () => mockGetMidenClient(),
-  withWasmClientLock: async <T>(operation: () => Promise<T>): Promise<T> => operation()
+  withWasmClientLock: async <T>(operation: () => Promise<T>): Promise<T> => operation(),
+  runWhenClientIdle: (operation: () => Promise<void>) => {
+    // Execute immediately in tests
+    void operation();
+  }
 }));
 
 jest.mock('lib/miden/assets', () => ({
@@ -146,7 +150,7 @@ describe('fetchBalances', () => {
 
     await fetchBalances('my-address', {}, { setAssetsMetadata: mockSetAssetsMetadata });
 
-    // Wait for async prefetch
+    // runWhenClientIdle is mocked to execute immediately, just flush promises
     await new Promise(resolve => setTimeout(resolve, 10));
 
     expect(fetchTokenMetadata).toHaveBeenCalledWith('bech32-new-faucet');

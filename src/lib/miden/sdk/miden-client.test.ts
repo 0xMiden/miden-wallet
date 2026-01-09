@@ -1,4 +1,4 @@
-import { withWasmClientLock } from './miden-client';
+import { runWhenClientIdle, withWasmClientLock } from './miden-client';
 
 describe('withWasmClientLock', () => {
   it('executes a single operation and returns its result', async () => {
@@ -94,6 +94,125 @@ describe('withWasmClientLock', () => {
 
     // Should never have more than 1 concurrent operation
     expect(maxConcurrent).toBe(1);
+  });
+});
+
+describe('runWhenClientIdle', () => {
+  it('runs immediately when mutex is idle', async () => {
+    let executed = false;
+
+    runWhenClientIdle(async () => {
+      executed = true;
+    });
+
+    // Wait for the idle task to complete
+    await new Promise(resolve => setTimeout(resolve, 10));
+
+    expect(executed).toBe(true);
+  });
+
+  it('waits for high-priority operations to complete', async () => {
+    const order: string[] = [];
+
+    // Start a high-priority operation
+    const highPriority = withWasmClientLock(async () => {
+      order.push('high-start');
+      await new Promise(resolve => setTimeout(resolve, 50));
+      order.push('high-end');
+      return 'high';
+    });
+
+    // Queue an idle task while high-priority is running
+    runWhenClientIdle(async () => {
+      order.push('idle');
+    });
+
+    await highPriority;
+    // Wait for idle task to complete
+    await new Promise(resolve => setTimeout(resolve, 10));
+
+    // Idle task should run after high-priority completes
+    expect(order).toEqual(['high-start', 'high-end', 'idle']);
+  });
+
+  it('yields to incoming high-priority operations', async () => {
+    const order: string[] = [];
+
+    // Start an idle task that takes some time
+    runWhenClientIdle(async () => {
+      order.push('idle1-start');
+      await new Promise(resolve => setTimeout(resolve, 50));
+      order.push('idle1-end');
+    });
+
+    // Wait for idle task to start
+    await new Promise(resolve => setTimeout(resolve, 10));
+
+    // Queue a high-priority operation while idle task is running
+    const highPriority = withWasmClientLock(async () => {
+      order.push('high');
+      return 'high';
+    });
+
+    // Queue another idle task
+    runWhenClientIdle(async () => {
+      order.push('idle2');
+    });
+
+    await highPriority;
+    // Wait for all to complete
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    // High priority should run after first idle task, second idle after high priority
+    expect(order).toEqual(['idle1-start', 'idle1-end', 'high', 'idle2']);
+  });
+
+  it('handles errors in idle tasks without breaking the queue', async () => {
+    const order: string[] = [];
+    const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+    runWhenClientIdle(async () => {
+      order.push('idle1');
+      throw new Error('idle task error');
+    });
+
+    runWhenClientIdle(async () => {
+      order.push('idle2');
+    });
+
+    // Wait for both to complete
+    await new Promise(resolve => setTimeout(resolve, 50));
+
+    expect(order).toEqual(['idle1', 'idle2']);
+    expect(consoleSpy).toHaveBeenCalledWith('Idle task failed:', expect.any(Error));
+
+    consoleSpy.mockRestore();
+  });
+
+  it('processes idle tasks in FIFO order', async () => {
+    const order: string[] = [];
+
+    // First occupy the mutex
+    const blocker = withWasmClientLock(async () => {
+      await new Promise(resolve => setTimeout(resolve, 50));
+    });
+
+    // Queue multiple idle tasks
+    runWhenClientIdle(async () => {
+      order.push('first');
+    });
+    runWhenClientIdle(async () => {
+      order.push('second');
+    });
+    runWhenClientIdle(async () => {
+      order.push('third');
+    });
+
+    await blocker;
+    // Wait for idle tasks to complete
+    await new Promise(resolve => setTimeout(resolve, 50));
+
+    expect(order).toEqual(['first', 'second', 'third']);
   });
 });
 

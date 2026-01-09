@@ -5,7 +5,7 @@ import { getFaucetIdSetting } from 'lib/miden/assets';
 import { TokenBalanceData } from 'lib/miden/front/balance';
 import { AssetMetadata, fetchTokenMetadata, MIDEN_METADATA } from 'lib/miden/metadata';
 import { getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
-import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
+import { getMidenClient, runWhenClientIdle, withWasmClientLock } from 'lib/miden/sdk/miden-client';
 
 import { setTokensBaseMetadata } from '../../miden/front/assets';
 
@@ -13,7 +13,8 @@ import { setTokensBaseMetadata } from '../../miden/front/assets';
 const inFlightMetadata = new Set<string>();
 
 /**
- * Prefetch metadata for unknown assets to avoid missing UI data
+ * Prefetch metadata for unknown assets to avoid missing UI data.
+ * Uses the idle queue to run after critical operations complete.
  */
 function prefetchMetadataIfMissing(
   id: string,
@@ -22,12 +23,16 @@ function prefetchMetadataIfMissing(
   if (inFlightMetadata.has(id)) return;
   inFlightMetadata.add(id);
 
-  void fetchTokenMetadata(id)
-    .then(async ({ base }) => {
+  // Run when client is idle to avoid blocking critical operations
+  runWhenClientIdle(async () => {
+    try {
+      const { base } = await fetchTokenMetadata(id);
       await setTokensBaseMetadata({ [id]: base });
       setAssetsMetadata?.({ [id]: base });
-    })
-    .finally(() => inFlightMetadata.delete(id));
+    } finally {
+      inFlightMetadata.delete(id);
+    }
+  });
 }
 
 export interface FetchBalancesOptions {

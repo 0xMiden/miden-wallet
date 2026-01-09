@@ -6,7 +6,7 @@ import { useRetryableSWR } from 'lib/swr';
 import { isMidenFaucet } from '../assets';
 import { AssetMetadata, MIDEN_METADATA } from '../metadata';
 import { getBech32AddressFromAccountId } from '../sdk/helpers';
-import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
+import { getMidenClient, runWhenClientIdle, withWasmClientLock } from '../sdk/miden-client';
 import { MidenClientCreateOptions } from '../sdk/miden-client-interface';
 import { ConsumableNote } from '../types';
 import { useTokensMetadata } from './assets';
@@ -96,14 +96,18 @@ function attachMetadataToNotes(
   notes: ParsedNote[],
   metadataByFaucetId: Record<string, AssetMetadata>
 ): Array<ConsumableNote & { metadata: AssetMetadata }> {
-  return notes.map(n => ({
-    id: n.id,
-    faucetId: n.faucetId,
-    amount: n.amountBaseUnits, // base units
-    metadata: metadataByFaucetId[n.faucetId]!, // guaranteed present by caller
-    senderAddress: n.senderAddress,
-    isBeingClaimed: n.isBeingClaimed
-  }));
+  // Only return notes that have metadata available
+  // Notes without metadata will appear after metadata is fetched and SWR revalidates
+  return notes
+    .filter(n => metadataByFaucetId[n.faucetId])
+    .map(n => ({
+      id: n.id,
+      faucetId: n.faucetId,
+      amount: n.amountBaseUnits, // base units
+      metadata: metadataByFaucetId[n.faucetId]!,
+      senderAddress: n.senderAddress,
+      isBeingClaimed: n.isBeingClaimed
+    }));
 }
 
 // -------------------- Side-effect helpers --------------------
@@ -157,23 +161,29 @@ export function useClaimableNotes(publicAddress: string, enabled: boolean = true
     // 2) Seed metadata map from cache (and baked-in MIDEN)
     const metadataByFaucetId = await buildMetadataMapFromCache(parsedNotes, allTokensBaseMetadataRef.current);
 
-    // 3) Fetch any missing metadata now (blocking), then persist once
+    // 3) Schedule background fetch for any missing metadata (non-blocking)
+    // Notes without metadata will be filtered out initially but appear after SWR revalidates
     const missingFaucetIds = await findMissingFaucetIds(parsedNotes, metadataByFaucetId);
     if (missingFaucetIds.length > 0) {
-      const fetched: Record<string, AssetMetadata> = {};
-      for (const id of missingFaucetIds) {
-        try {
-          const { base } = await fetchMetadata(id);
-          fetched[id] = base; // write successes directly
-        } catch (e) {
-          console.warn('Metadata fetch failed for', id, e);
+      // Run when client is idle to avoid blocking critical operations
+      runWhenClientIdle(async () => {
+        const fetched: Record<string, AssetMetadata> = {};
+        for (const id of missingFaucetIds) {
+          try {
+            const { base } = await fetchMetadata(id);
+            fetched[id] = base;
+          } catch (e) {
+            console.warn('Metadata fetch failed for', id, e);
+          }
         }
-      }
-      Object.assign(metadataByFaucetId, fetched);
-      await persistMetadataIfAny(fetched, setTokensBaseMetadata);
+        if (Object.keys(fetched).length > 0) {
+          await persistMetadataIfAny(fetched, setTokensBaseMetadata);
+        }
+      });
     }
 
-    // 4) Return notes enriched with metadata
+    // 4) Return notes with available metadata immediately
+    // Notes without metadata will appear after metadata fetch completes and SWR revalidates
     return attachMetadataToNotes(parsedNotes, metadataByFaucetId);
   }, [
     publicAddress,
