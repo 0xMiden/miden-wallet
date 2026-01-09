@@ -39,8 +39,9 @@ export function useAllBalances(address: string, tokenMetadatas: Record<string, A
 
   // Derive values with stable defaults
   const balances = balancesMap[address] ?? EMPTY_BALANCES;
-  const balancesLoading = balancesLoadingMap[address] ?? false;
   const balancesLastFetched = balancesLastFetchedMap[address] ?? 0;
+  // Consider loading if: explicitly loading OR (no data yet AND never fetched)
+  const balancesLoading = balancesLoadingMap[address] ?? (balances.length === 0 && balancesLastFetched === 0);
 
   // Track if component is mounted
   const mountedRef = useRef(true);
