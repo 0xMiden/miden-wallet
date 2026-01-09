@@ -12,6 +12,7 @@ class AsyncMutex {
   private locked = false;
   private queue: Array<() => void> = [];
   private idleQueue: Array<() => Promise<void>> = [];
+  private drainingIdle = false;
 
   async acquire(): Promise<void> {
     if (!this.locked) {
@@ -30,48 +31,62 @@ class AsyncMutex {
       next();
     } else {
       this.locked = false;
-      this.drainIdleQueue();
+      // Defer idle queue draining to next tick, giving other operations
+      // a chance to queue their high-priority lock requests first
+      setTimeout(() => this.drainIdleQueue(), 0);
     }
   }
 
   /**
    * Queue a low-priority task to run when the mutex is idle.
    * Idle tasks run after all high-priority (withWasmClientLock) operations complete.
+   * Idle tasks do NOT hold the lock - they should use withWasmClientLock internally if needed.
    */
   queueIdleTask(task: () => Promise<void>): void {
-    if (!this.locked && this.queue.length === 0) {
-      this.runIdleTask(task);
-    } else {
-      this.idleQueue.push(task);
+    this.idleQueue.push(task);
+    // Defer to next tick to give high-priority operations a chance to queue first
+    if (!this.locked && this.queue.length === 0 && !this.drainingIdle) {
+      setTimeout(() => this.drainIdleQueue(), 0);
     }
   }
 
   private drainIdleQueue(): void {
-    const task = this.idleQueue.shift();
-    if (task) {
-      this.runIdleTask(task);
+    // Don't drain if: nothing to drain, already draining, lock held, or high-priority work waiting
+    if (this.idleQueue.length === 0 || this.drainingIdle || this.locked || this.queue.length > 0) {
+      return;
     }
+    const tasks = this.idleQueue.splice(0);
+    this.runIdleTasks(tasks);
   }
 
-  private runIdleTask(task: () => Promise<void>): void {
-    this.locked = true;
-    task()
-      .catch(err => console.warn('Idle task failed:', err))
-      .finally(() => {
-        // Check if high-priority work came in while idle task was running
-        if (this.queue.length > 0) {
-          const next = this.queue.shift()!;
-          next();
-        } else {
-          // Continue with more idle tasks or release
-          const nextIdle = this.idleQueue.shift();
-          if (nextIdle) {
-            this.runIdleTask(nextIdle);
-          } else {
-            this.locked = false;
-          }
+  private runIdleTasks(tasks: Array<() => Promise<void>>): void {
+    this.drainingIdle = true;
+    // Run idle tasks sequentially without holding the lock.
+    // Each task is responsible for acquiring locks via withWasmClientLock if needed.
+    const runNext = (index: number): void => {
+      if (index >= tasks.length) {
+        this.drainingIdle = false;
+        // Check if more idle tasks were queued while we were running
+        if (this.idleQueue.length > 0 && !this.locked) {
+          this.drainIdleQueue();
         }
-      });
+        return;
+      }
+      // Check if high-priority work is waiting - if so, pause idle tasks
+      if (this.locked || this.queue.length > 0) {
+        // Re-queue remaining tasks and stop
+        this.idleQueue.unshift(...tasks.slice(index));
+        this.drainingIdle = false;
+        return;
+      }
+      tasks[index]()
+        .catch(err => console.warn('Idle task failed:', err))
+        .finally(() => {
+          // Yield to event loop before next task, allowing high-priority ops to queue
+          setTimeout(() => runNext(index + 1), 0);
+        });
+    };
+    runNext(0);
   }
 }
 

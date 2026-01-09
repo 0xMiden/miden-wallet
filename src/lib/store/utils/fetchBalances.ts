@@ -6,6 +6,7 @@ import { TokenBalanceData } from 'lib/miden/front/balance';
 import { AssetMetadata, fetchTokenMetadata, MIDEN_METADATA } from 'lib/miden/metadata';
 import { getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { getMidenClient, runWhenClientIdle, withWasmClientLock } from 'lib/miden/sdk/miden-client';
+import { useWalletStore } from 'lib/store';
 
 import { setTokensBaseMetadata } from '../../miden/front/assets';
 
@@ -18,7 +19,9 @@ const inFlightMetadata = new Set<string>();
  */
 function prefetchMetadataIfMissing(
   id: string,
-  setAssetsMetadata?: (metadata: Record<string, AssetMetadata>) => void
+  address: string,
+  setAssetsMetadata?: (metadata: Record<string, AssetMetadata>) => void,
+  onMetadataFetched?: () => void
 ): void {
   if (inFlightMetadata.has(id)) return;
   inFlightMetadata.add(id);
@@ -29,6 +32,11 @@ function prefetchMetadataIfMissing(
       const { base } = await fetchTokenMetadata(id);
       await setTokensBaseMetadata({ [id]: base });
       setAssetsMetadata?.({ [id]: base });
+      // Reset deduping timer and trigger immediate refresh
+      useWalletStore.setState(state => ({
+        balancesLastFetched: { ...state.balancesLastFetched, [address]: 0 }
+      }));
+      onMetadataFetched?.();
     } finally {
       inFlightMetadata.delete(id);
     }
@@ -40,6 +48,8 @@ export interface FetchBalancesOptions {
   setAssetsMetadata?: (metadata: Record<string, AssetMetadata>) => void;
   /** Whether to prefetch missing metadata (default: true) */
   prefetchMissingMetadata?: boolean;
+  /** Callback to trigger immediate balance refresh after metadata is fetched */
+  onMetadataFetched?: () => void;
 }
 
 /**
@@ -53,7 +63,7 @@ export async function fetchBalances(
   tokenMetadatas: Record<string, AssetMetadata>,
   options: FetchBalancesOptions = {}
 ): Promise<TokenBalanceData[]> {
-  const { setAssetsMetadata, prefetchMissingMetadata = true } = options;
+  const { setAssetsMetadata, prefetchMissingMetadata = true, onMetadataFetched } = options;
   const balances: TokenBalanceData[] = [];
 
   // Wrap all WASM client operations in a lock to prevent concurrent access
@@ -92,7 +102,7 @@ export async function fetchBalances(
     for (const asset of assets) {
       const id = getBech32AddressFromAccountId(asset.faucetId());
       if (id !== midenFaucetId && !tokenMetadatas[id]) {
-        prefetchMetadataIfMissing(id, setAssetsMetadata);
+        prefetchMetadataIfMissing(id, address, setAssetsMetadata, onMetadataFetched);
       }
     }
   }

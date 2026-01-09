@@ -135,10 +135,10 @@ describe('runWhenClientIdle', () => {
     expect(order).toEqual(['high-start', 'high-end', 'idle']);
   });
 
-  it('yields to incoming high-priority operations', async () => {
+  it('allows high-priority operations to run while idle task is waiting', async () => {
     const order: string[] = [];
 
-    // Start an idle task that takes some time
+    // Start an idle task that takes some time (but doesn't hold the lock)
     runWhenClientIdle(async () => {
       order.push('idle1-start');
       await new Promise(resolve => setTimeout(resolve, 50));
@@ -149,6 +149,7 @@ describe('runWhenClientIdle', () => {
     await new Promise(resolve => setTimeout(resolve, 10));
 
     // Queue a high-priority operation while idle task is running
+    // Since idle tasks don't hold the lock, high-priority can run immediately
     const highPriority = withWasmClientLock(async () => {
       order.push('high');
       return 'high';
@@ -163,8 +164,9 @@ describe('runWhenClientIdle', () => {
     // Wait for all to complete
     await new Promise(resolve => setTimeout(resolve, 100));
 
-    // High priority should run after first idle task, second idle after high priority
-    expect(order).toEqual(['idle1-start', 'idle1-end', 'high', 'idle2']);
+    // High priority can run while idle1 is awaiting (idle tasks don't hold lock)
+    // idle2 runs after idle1 completes
+    expect(order).toEqual(['idle1-start', 'high', 'idle1-end', 'idle2']);
   });
 
   it('handles errors in idle tasks without breaking the queue', async () => {

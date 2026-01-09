@@ -57,6 +57,9 @@ export function useAllBalances(address: string, tokenMetadatas: Record<string, A
     balancesLastFetchedRef.current = balancesLastFetched;
   }, [balancesLastFetched]);
 
+  // Ref to store fetch function for use in callbacks
+  const fetchBalancesWithDedupingRef = useRef<(() => Promise<void>) | null>(null);
+
   // Fetch balances function that respects deduping
   // Uses global lock to prevent concurrent WASM client calls
   const fetchBalancesWithDeduping = useCallback(async () => {
@@ -72,7 +75,18 @@ export function useAllBalances(address: string, tokenMetadatas: Record<string, A
     fetchingAddresses.add(address);
     try {
       // Fetch balances using the consolidated utility
-      const fetchedBalances = await fetchBalances(address, tokenMetadatasRef.current, { setAssetsMetadata });
+      const fetchedBalances = await fetchBalances(address, tokenMetadatasRef.current, {
+        setAssetsMetadata,
+        onMetadataFetched: () => {
+          // Schedule immediate re-fetch when metadata becomes available
+          // Use setTimeout to avoid calling while current fetch is still in progress
+          setTimeout(() => {
+            if (mountedRef.current) {
+              fetchBalancesWithDedupingRef.current?.();
+            }
+          }, 0);
+        }
+      });
 
       // Update store if still mounted
       if (mountedRef.current) {
@@ -94,6 +108,11 @@ export function useAllBalances(address: string, tokenMetadatas: Record<string, A
       fetchingAddresses.delete(address);
     }
   }, [address, setAssetsMetadata]);
+
+  // Keep ref in sync with the function
+  useEffect(() => {
+    fetchBalancesWithDedupingRef.current = fetchBalancesWithDeduping;
+  }, [fetchBalancesWithDeduping]);
 
   // Manual mutate function for compatibility
   const mutate = useCallback(() => {
