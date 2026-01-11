@@ -1,6 +1,12 @@
 import BigNumber from 'bignumber.js';
 
-import { isPositiveNumber, toTokenId, tryParseTokenTransfers } from './helpers';
+import { isPositiveNumber, toTokenId, tryParseTokenTransfers, interpretTransactionResult } from './helpers';
+import { ITransaction } from '../db/types';
+
+// Mock the SDK helper
+jest.mock('../sdk/helpers', () => ({
+  getBech32AddressFromAccountId: jest.fn((id: any) => `bech32_${id}`)
+}));
 
 describe('activity/helpers', () => {
   describe('isPositiveNumber', () => {
@@ -147,6 +153,131 @@ describe('activity/helpers', () => {
 
       // Should not call because 'to' is missing
       expect(onTransfer).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('interpretTransactionResult', () => {
+    const createMockNote = (faucetId: string, amount: bigint, senderId?: string) => ({
+      note: () => ({
+        assets: () => ({
+          fungibleAssets: () => [
+            {
+              faucetId: () => faucetId,
+              amount: () => amount
+            }
+          ]
+        }),
+        metadata: () => ({
+          sender: () => senderId || 'default-sender'
+        })
+      }),
+      id: () => ({ toString: () => `note-${faucetId}` }),
+      assets: () => ({
+        fungibleAssets: () => [
+          {
+            faucetId: () => faucetId,
+            amount: () => amount
+          }
+        ]
+      })
+    });
+
+    const createMockResult = (inputNotes: any[], outputNotes: any[]) => ({
+      executedTransaction: () => ({
+        inputNotes: () => ({ notes: () => inputNotes }),
+        outputNotes: () => ({ notes: () => outputNotes }),
+        id: () => ({ toHex: () => 'tx-hex-id' })
+      })
+    });
+
+    it('interprets consume transaction (receive)', () => {
+      const transaction: Partial<ITransaction> = {
+        type: 'execute',
+        displayMessage: 'Executing',
+        displayIcon: 'DEFAULT',
+        accountId: 'my-account',
+        secondaryAccountId: undefined
+      };
+
+      const inputNote = createMockNote('faucet-1', BigInt(1000), 'other-sender');
+      const result = createMockResult([inputNote], []);
+
+      const updated = interpretTransactionResult(transaction as ITransaction, result as any);
+
+      expect(updated.type).toBe('consume');
+      expect(updated.displayMessage).toBe('Received');
+      expect(updated.displayIcon).toBe('RECEIVE');
+      expect(updated.transactionId).toBe('tx-hex-id');
+    });
+
+    it('interprets consume transaction (reclaim)', () => {
+      const transaction: Partial<ITransaction> = {
+        type: 'execute',
+        displayMessage: 'Executing',
+        displayIcon: 'DEFAULT',
+        accountId: 'bech32_my-sender',
+        secondaryAccountId: undefined
+      };
+
+      const inputNote = createMockNote('faucet-1', BigInt(1000), 'my-sender');
+      const result = createMockResult([inputNote], []);
+
+      const updated = interpretTransactionResult(transaction as ITransaction, result as any);
+
+      expect(updated.type).toBe('consume');
+      expect(updated.displayMessage).toBe('Reclaimed');
+    });
+
+    it('interprets send transaction', () => {
+      const transaction: Partial<ITransaction> = {
+        type: 'execute',
+        displayMessage: 'Executing',
+        displayIcon: 'DEFAULT',
+        accountId: 'my-account',
+        secondaryAccountId: undefined
+      };
+
+      const outputNote = createMockNote('faucet-1', BigInt(500));
+      const result = createMockResult([], [outputNote]);
+
+      const updated = interpretTransactionResult(transaction as ITransaction, result as any);
+
+      expect(updated.type).toBe('send');
+      expect(updated.displayMessage).toBe('Sent');
+      expect(updated.displayIcon).toBe('SEND');
+    });
+
+    it('interprets generic execute transaction', () => {
+      const transaction: Partial<ITransaction> = {
+        type: 'execute',
+        displayMessage: 'Executing',
+        displayIcon: 'DEFAULT',
+        accountId: 'my-account'
+      };
+
+      // Multiple input and output faucets - treated as generic execute
+      const inputNote = createMockNote('faucet-1', BigInt(1000));
+      const outputNote = createMockNote('faucet-2', BigInt(500));
+      const result = createMockResult([inputNote], [outputNote]);
+
+      const updated = interpretTransactionResult(transaction as ITransaction, result as any);
+
+      expect(updated.displayMessage).toBe('Executed');
+    });
+
+    it('calculates transaction amount', () => {
+      const transaction: Partial<ITransaction> = {
+        type: 'execute',
+        displayMessage: 'Executing',
+        accountId: 'my-account'
+      };
+
+      const inputNote = createMockNote('faucet-1', BigInt(1000), 'other-sender');
+      const result = createMockResult([inputNote], []);
+
+      const updated = interpretTransactionResult(transaction as ITransaction, result as any);
+
+      expect(updated.amount).toBe(BigInt(1000));
     });
   });
 });

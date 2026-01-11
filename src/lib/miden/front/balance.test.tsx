@@ -6,7 +6,7 @@ import { act } from 'react-dom/test-utils';
 
 import { useWalletStore } from 'lib/store';
 
-import { useAllBalances } from './balance';
+import { useAllBalances, getAllBalanceSWRKey } from './balance';
 
 // Track concurrent calls to detect WASM client abuse
 let concurrentCalls = 0;
@@ -207,4 +207,17 @@ describe('useAllBalances infinite loop protection', () => {
     expect(maxConcurrentCalls).toBeLessThanOrEqual(1);
   });
 
+});
+
+describe('getAllBalanceSWRKey', () => {
+  it('returns correctly formatted SWR key', () => {
+    const key = getAllBalanceSWRKey('test-address-123');
+    expect(key).toBe('allBalance_test-address-123');
+  });
+
+  it('handles different address formats', () => {
+    expect(getAllBalanceSWRKey('0xabc123')).toBe('allBalance_0xabc123');
+    expect(getAllBalanceSWRKey('')).toBe('allBalance_');
+    expect(getAllBalanceSWRKey('very-long-address-string-here')).toBe('allBalance_very-long-address-string-here');
+  });
 });

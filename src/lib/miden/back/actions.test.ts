@@ -101,7 +101,13 @@ import {
 
 describe('actions', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    // Reset only the mocks we care about, not the module mocks
+    mockInited.mockClear();
+    mockLocked.mockClear();
+    mockAccountsUpdated.mockClear();
+    mockSettingsUpdated.mockClear();
+    mockCurrentAccountUpdated.mockClear();
+    Object.values(mockVault).forEach((mock: jest.Mock) => mock.mockClear());
     mockStoreState = {
       inited: true,
       status: WalletStatus.Ready,
@@ -298,6 +304,84 @@ describe('actions', () => {
 
       expect(result).toBeUndefined();
     });
+
+    it('handles TransactionRequest', async () => {
+      const { requestTransaction } = jest.requireMock('./dapp');
+      requestTransaction.mockResolvedValueOnce({ txId: 'tx-123' });
+
+      const req = { type: MidenDAppMessageType.TransactionRequest, data: {} };
+      const result = await processDApp('https://example.com', req as any);
+
+      expect(requestTransaction).toHaveBeenCalledWith('https://example.com', req);
+      expect(result).toEqual({ txId: 'tx-123' });
+    });
+
+    it('handles SendTransactionRequest', async () => {
+      const { requestSendTransaction } = jest.requireMock('./dapp');
+      requestSendTransaction.mockResolvedValueOnce({ sent: true });
+
+      const req = { type: MidenDAppMessageType.SendTransactionRequest, data: {} };
+      const result = await processDApp('https://example.com', req as any);
+
+      expect(requestSendTransaction).toHaveBeenCalledWith('https://example.com', req);
+      expect(result).toEqual({ sent: true });
+    });
+
+    it('handles ConsumeRequest', async () => {
+      const { requestConsumeTransaction } = jest.requireMock('./dapp');
+      requestConsumeTransaction.mockResolvedValueOnce({ consumed: true });
+
+      const req = { type: MidenDAppMessageType.ConsumeRequest, data: {} };
+      const result = await processDApp('https://example.com', req as any);
+
+      expect(requestConsumeTransaction).toHaveBeenCalledWith('https://example.com', req);
+      expect(result).toEqual({ consumed: true });
+    });
+
+    it('handles PrivateNotesRequest', async () => {
+      const { requestPrivateNotes } = jest.requireMock('./dapp');
+      requestPrivateNotes.mockResolvedValueOnce({ notes: [] });
+
+      const req = { type: MidenDAppMessageType.PrivateNotesRequest, data: {} };
+      const result = await processDApp('https://example.com', req as any);
+
+      expect(requestPrivateNotes).toHaveBeenCalledWith('https://example.com', req);
+      expect(result).toEqual({ notes: [] });
+    });
+
+    it('handles AssetsRequest', async () => {
+      const { requestAssets } = jest.requireMock('./dapp');
+      requestAssets.mockResolvedValueOnce({ assets: [] });
+
+      const req = { type: MidenDAppMessageType.AssetsRequest, data: {} };
+      const result = await processDApp('https://example.com', req as any);
+
+      expect(requestAssets).toHaveBeenCalledWith('https://example.com', req);
+      expect(result).toEqual({ assets: [] });
+    });
+
+    it('handles ImportPrivateNoteRequest', async () => {
+      const { requestImportPrivateNote } = jest.requireMock('./dapp');
+      requestImportPrivateNote.mockResolvedValueOnce({ imported: true });
+
+      const req = { type: MidenDAppMessageType.ImportPrivateNoteRequest, data: {} };
+      const result = await processDApp('https://example.com', req as any);
+
+      expect(requestImportPrivateNote).toHaveBeenCalledWith('https://example.com', req);
+      expect(result).toEqual({ imported: true });
+    });
+
+    it('handles ConsumableNotesRequest', async () => {
+      const { requestConsumableNotes } = jest.requireMock('./dapp');
+      requestConsumableNotes.mockResolvedValueOnce({ notes: [] });
+
+      const req = { type: MidenDAppMessageType.ConsumableNotesRequest, data: {} };
+      const result = await processDApp('https://example.com', req as any);
+
+      expect(requestConsumableNotes).toHaveBeenCalledWith('https://example.com', req);
+      expect(result).toEqual({ notes: [] });
+    });
   });
+
 });
 
