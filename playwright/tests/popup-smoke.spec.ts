@@ -78,7 +78,7 @@ test.describe('Fullpage UI', () => {
     expect(errors).toHaveLength(0);
   });
 
-  test('onboarding create flow shows verify screen and word options', async ({ extensionContext, extensionId }) => {
+  test('onboarding create flow completes and shows Explore page', async ({ extensionContext, extensionId }) => {
     const fullpageUrl = `chrome-extension://${extensionId}/fullpage.html`;
     const page = await extensionContext.newPage();
 
@@ -94,22 +94,43 @@ test.describe('Fullpage UI', () => {
     await page.getByText(/back up your wallet/i).waitFor({ timeout: 15000 });
     await page.getByRole('button', { name: /show/i }).click();
 
-    const seedWords = await page.$$eval('article label', labels =>
-      labels.map(label => label.textContent?.trim() || '')
+    // Extract the 10th word from the seed phrase display
+    // The structure is: article > label (Chip) > label > [p (index), p (word)]
+    // We get all the word paragraphs (second p in each inner label)
+    const seedWords = await page.$$eval('article > label > label > p:last-child', paragraphs =>
+      paragraphs.map(p => p.textContent?.trim() || '')
     );
-    const tenthWord = seedWords[9]?.split('.').pop()?.trim();
+    const tenthWord = seedWords[9];
+
+    if (!tenthWord) {
+      throw new Error('Failed to read 10th seed word from backup screen');
+    }
 
     await page.getByRole('button', { name: /continue/i }).click();
 
     await page.getByTestId('verify-seed-phrase').waitFor({ timeout: 15000 });
-    if (!tenthWord) {
-      throw new Error('Failed to read seed word from backup screen');
-    }
-    const options = await page.getByRole('button').allTextContents();
-    expect(options.some(text => text.trim().length > 0)).toBeTruthy();
+
+    // Select the correct word (10th word) and continue
+    const verifyContainer = page.getByTestId('verify-seed-phrase');
+    // Click the button containing the word (the word is inside a Chip/label inside a button)
+    await verifyContainer.locator(`button:has-text("${tenthWord}")`).first().click();
+    await verifyContainer.getByRole('button', { name: /continue/i }).click();
+
+    // Set password
+    await expect(page).toHaveURL(/create-password/);
+    await page.locator('input[placeholder="Enter password"]').first().fill('Password123!');
+    await page.locator('input[placeholder="Enter password again"]').first().fill('Password123!');
+    await page.getByRole('button', { name: /continue/i }).click();
+
+    // Complete onboarding and verify we reach the Explore page
+    await expect(page.getByText(/your wallet is ready/i)).toBeVisible();
+    await page.getByRole('button', { name: /get started/i }).click();
+    // Verify Explore page by checking for Send, Receive, Faucet buttons
+    await expect(page.getByText('Send')).toBeVisible({ timeout: 30000 });
+    await expect(page.getByText('Receive')).toBeVisible({ timeout: 30000 });
   });
 
-  test('onboarding import flow via seed entry reaches password screen', async ({ extensionContext, extensionId }) => {
+  test('onboarding import flow completes and shows Explore page', async ({ extensionContext, extensionId }) => {
     const fullpageUrl = `chrome-extension://${extensionId}/fullpage.html`;
     const page = await extensionContext.newPage();
 
@@ -141,9 +162,15 @@ test.describe('Fullpage UI', () => {
     await page.getByRole('button', { name: /continue/i }).click();
 
     await expect(page.getByText(/your wallet is ready/i)).toBeVisible();
+
+    // Complete onboarding and verify we reach the Explore page
+    await page.getByRole('button', { name: /get started/i }).click();
+    // Verify Explore page by checking for Send, Receive, Faucet buttons
+    await expect(page.getByText('Send')).toBeVisible({ timeout: 30000 });
+    await expect(page.getByText('Receive')).toBeVisible({ timeout: 30000 });
   });
 
-  
+
   test('import seed phrase enforces valid words before continue', async ({ extensionContext, extensionId }) => {
     const fullpageUrl = `chrome-extension://${extensionId}/fullpage.html`;
     const page = await extensionContext.newPage();
