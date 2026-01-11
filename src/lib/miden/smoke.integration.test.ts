@@ -34,8 +34,15 @@ import { MidenMessageType, MidenSharedStorageKey } from 'lib/miden/types';
 import { ensureWalletReady, getState, waitForStateUpdate, PASSWORD, MNEMONIC } from '../../../test/state-helpers';
 
 describe('miden wallet smoke harness', () => {
+  let consoleLogSpy: jest.SpyInstance;
+
   beforeAll(async () => {
+    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     await start();
+  });
+
+  afterAll(() => {
+    consoleLogSpy.mockRestore();
   });
 
   it('creates a wallet and exposes ready state over intercom', async () => {

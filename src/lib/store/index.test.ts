@@ -4,7 +4,7 @@ import { MidenMessageType } from 'lib/miden/types';
 import { WalletMessageType, WalletStatus } from 'lib/shared/types';
 import { WalletType } from 'screens/onboarding/types';
 
-import { useWalletStore } from './index';
+import { useWalletStore, selectIsReady, selectIsLocked, selectIsIdle, getIntercom } from './index';
 
 // Mock the intercom module
 const mockRequest = jest.fn();
@@ -644,6 +644,93 @@ describe('useWalletStore', () => {
         type: MidenMessageType.DAppRemoveSessionRequest,
         origin: 'https://example.com'
       });
+    });
+  });
+
+  describe('Fiat currency actions', () => {
+    it('setSelectedFiatCurrency updates currency', () => {
+      const { setSelectedFiatCurrency } = useWalletStore.getState();
+      const eurCurrency = { name: 'EUR' as any, fullname: 'Euro', apiLabel: 'eur', symbol: '€' };
+      setSelectedFiatCurrency(eurCurrency);
+
+      expect(useWalletStore.getState().selectedFiatCurrency).toEqual(eurCurrency);
+    });
+
+    it('setFiatRates updates rates', () => {
+      const { setFiatRates } = useWalletStore.getState();
+      const rates = { usd: 1.5, eur: 1.3 };
+      setFiatRates(rates);
+
+      expect(useWalletStore.getState().fiatRates).toEqual(rates);
+    });
+
+    it('fetchFiatRates fetches and sets rates', async () => {
+      const { fetchFiatRates } = useWalletStore.getState();
+      await fetchFiatRates();
+
+      const state = useWalletStore.getState();
+      expect(state.fiatRates).toEqual({ usd: 1 });
+      expect(state.fiatRatesLoading).toBe(false);
+    });
+
+    it('fetchFiatRates skips if already loading', async () => {
+      useWalletStore.setState({ fiatRatesLoading: true });
+
+      const { fetchFiatRates } = useWalletStore.getState();
+      await fetchFiatRates();
+
+      // Should not change anything since it's already loading
+      expect(useWalletStore.getState().fiatRatesLoading).toBe(true);
+    });
+  });
+
+  describe('Request error handling', () => {
+    it('throws when response has no type property', async () => {
+      // Return a response without 'type' property
+      mockRequest.mockResolvedValueOnce({ data: 'no type field' });
+
+      const { unlock } = useWalletStore.getState();
+      await expect(unlock('password123')).rejects.toThrow('Invalid response received.');
+    });
+  });
+
+  describe('Selectors', () => {
+    it('selectIsReady returns true when status is Ready', () => {
+      const state = { status: WalletStatus.Ready } as any;
+      expect(selectIsReady(state)).toBe(true);
+    });
+
+    it('selectIsReady returns false for other statuses', () => {
+      expect(selectIsReady({ status: WalletStatus.Locked } as any)).toBe(false);
+      expect(selectIsReady({ status: WalletStatus.Idle } as any)).toBe(false);
+    });
+
+    it('selectIsLocked returns true when status is Locked', () => {
+      const state = { status: WalletStatus.Locked } as any;
+      expect(selectIsLocked(state)).toBe(true);
+    });
+
+    it('selectIsLocked returns false for other statuses', () => {
+      expect(selectIsLocked({ status: WalletStatus.Ready } as any)).toBe(false);
+      expect(selectIsLocked({ status: WalletStatus.Idle } as any)).toBe(false);
+    });
+
+    it('selectIsIdle returns true when status is Idle', () => {
+      const state = { status: WalletStatus.Idle } as any;
+      expect(selectIsIdle(state)).toBe(true);
+    });
+
+    it('selectIsIdle returns false for other statuses', () => {
+      expect(selectIsIdle({ status: WalletStatus.Ready } as any)).toBe(false);
+      expect(selectIsIdle({ status: WalletStatus.Locked } as any)).toBe(false);
+    });
+  });
+
+  describe('getIntercom', () => {
+    it('returns singleton IntercomClient', () => {
+      const client1 = getIntercom();
+      const client2 = getIntercom();
+      expect(client1).toBe(client2);
     });
   });
 });
