@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 
-import { isPositiveNumber, toTokenId, tryParseTokenTransfers, interpretTransactionResult } from './helpers';
 import { ITransaction } from '../db/types';
+import { isPositiveNumber, toTokenId, tryParseTokenTransfers, interpretTransactionResult } from './helpers';
 
 // Mock the SDK helper
 jest.mock('../sdk/helpers', () => ({
@@ -63,12 +63,7 @@ describe('activity/helpers', () => {
 
       tryParseTokenTransfers(parameters, 'contract-address', onTransfer);
 
-      expect(onTransfer).toHaveBeenCalledWith(
-        'contract-address_0',
-        'sender-address',
-        'recipient-address',
-        '1000'
-      );
+      expect(onTransfer).toHaveBeenCalledWith('contract-address_0', 'sender-address', 'recipient-address', '1000');
     });
 
     it('parses FA2 transfer parameters', () => {
@@ -96,12 +91,7 @@ describe('activity/helpers', () => {
 
       tryParseTokenTransfers(parameters, 'contract-address', onTransfer);
 
-      expect(onTransfer).toHaveBeenCalledWith(
-        'contract-address_5',
-        'sender-address',
-        'recipient-address',
-        '2000'
-      );
+      expect(onTransfer).toHaveBeenCalledWith('contract-address_5', 'sender-address', 'recipient-address', '2000');
     });
 
     it('does not call onTransfer for non-transfer entrypoints', () => {

@@ -1,11 +1,13 @@
 import '../../../../test/jest-mocks';
 
 import React, { Suspense } from 'react';
+
 import { createRoot } from 'react-dom/client';
 import { act } from 'react-dom/test-utils';
 
-import { MidenContextProvider, useMidenContext } from './client';
 import { WalletMessageType, WalletStatus } from 'lib/shared/types';
+
+import { MidenContextProvider, useMidenContext } from './client';
 
 jest.mock('lib/intercom', () => {
   class MockIntercomClient {

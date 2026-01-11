@@ -1,5 +1,20 @@
+import { MidenDAppMessageType } from 'lib/adapter/types';
 import { WalletStatus } from 'lib/shared/types';
 import { WalletType } from 'screens/onboarding/types';
+
+import {
+  getFrontState,
+  lock,
+  updateCurrentAccount,
+  editAccount,
+  updateSettings,
+  signTransaction,
+  getAuthSecretKey,
+  getAllDAppSessions,
+  getCurrentAccount,
+  createHDAccount,
+  processDApp
+} from './actions';
 
 // Create mock vault instance
 const mockVault = {
@@ -48,15 +63,15 @@ jest.mock('./store', () => ({
   store: {
     getState: jest.fn(() => mockStoreState)
   },
-  toFront: jest.fn((state) => state),
+  toFront: jest.fn(state => state),
   inited: jest.fn((...args: any[]) => mockInited(...args)),
   locked: jest.fn((...args: any[]) => mockLocked(...args)),
   unlocked: jest.fn(),
   accountsUpdated: jest.fn((...args: any[]) => mockAccountsUpdated(...args)),
   settingsUpdated: jest.fn((...args: any[]) => mockSettingsUpdated(...args)),
   currentAccountUpdated: jest.fn((...args: any[]) => mockCurrentAccountUpdated(...args)),
-  withInited: jest.fn(async (fn) => fn()),
-  withUnlocked: jest.fn(async (fn) => fn({ vault: mockVault }))
+  withInited: jest.fn(async fn => fn()),
+  withUnlocked: jest.fn(async fn => fn({ vault: mockVault }))
 }));
 
 jest.mock('./dapp', () => ({
@@ -82,22 +97,6 @@ jest.mock('webextension-polyfill', () => ({
     }
   }
 }));
-
-import { MidenDAppMessageType } from 'lib/adapter/types';
-
-import {
-  getFrontState,
-  lock,
-  updateCurrentAccount,
-  editAccount,
-  updateSettings,
-  signTransaction,
-  getAuthSecretKey,
-  getAllDAppSessions,
-  getCurrentAccount,
-  createHDAccount,
-  processDApp
-} from './actions';
 
 describe('actions', () => {
   let consoleLogSpy: jest.SpyInstance;
@@ -389,6 +388,4 @@ describe('actions', () => {
       expect(result).toEqual({ notes: [] });
     });
   });
-
 });
-

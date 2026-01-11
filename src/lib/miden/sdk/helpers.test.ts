@@ -1,3 +1,7 @@
+import { Address } from '@demox-labs/miden-sdk';
+
+import { accountIdStringToSdk, getBech32AddressFromAccountId } from './helpers';
+
 jest.mock('@demox-labs/miden-sdk', () => ({
   Address: {
     fromAccountId: jest.fn((id: any) => ({
@@ -9,10 +13,6 @@ jest.mock('@demox-labs/miden-sdk', () => ({
   },
   NetworkId: { Testnet: 'testnet' }
 }));
-
-import { Address } from '@demox-labs/miden-sdk';
-
-import { accountIdStringToSdk, getBech32AddressFromAccountId } from './helpers';
 
 describe('miden sdk helpers', () => {
   it('converts accountId to bech32', () => {

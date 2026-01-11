@@ -1,5 +1,10 @@
-import { fetchTokenMetadata, NotFoundTokenMetadata } from './fetch';
+import { BasicFungibleFaucetComponent } from '@demox-labs/miden-sdk';
+
+import { isMidenAsset } from 'lib/miden/assets';
+
+import { withWasmClientLock } from '../sdk/miden-client';
 import { MIDEN_METADATA, DEFAULT_TOKEN_METADATA } from './defaults';
+import { fetchTokenMetadata, NotFoundTokenMetadata } from './fetch';
 
 jest.mock('webextension-polyfill', () => ({
   runtime: {
@@ -21,10 +26,6 @@ jest.mock('@demox-labs/miden-sdk', () => ({
     fromAccount: jest.fn()
   }
 }));
-
-import { isMidenAsset } from 'lib/miden/assets';
-import { withWasmClientLock } from '../sdk/miden-client';
-import { BasicFungibleFaucetComponent } from '@demox-labs/miden-sdk';
 
 const mockIsMidenAsset = isMidenAsset as unknown as jest.Mock;
 const mockWithWasmClientLock = withWasmClientLock as unknown as jest.Mock;

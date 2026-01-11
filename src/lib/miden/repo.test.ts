@@ -1,5 +1,5 @@
-import { exportDb, importDb, transactions, Table } from './repo';
 import { ITransactionStatus } from './db/types';
+import { exportDb, importDb, transactions, Table } from './repo';
 
 describe('miden repo export/import', () => {
   beforeEach(async () => {

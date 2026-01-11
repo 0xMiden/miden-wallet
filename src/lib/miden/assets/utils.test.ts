@@ -1,17 +1,9 @@
 import BigNumber from 'bignumber.js';
 
 import { MidenTokens, TOKEN_MAPPING } from 'lib/miden-chain/constants';
-
-import { FAUCET_ID_STORAGE_KEY } from './constants';
-
-jest.mock('lib/miden/front', () => ({
-  fetchFromStorage: jest.fn(),
-  searchAssets: jest.fn(),
-  useAllTokensBaseMetadata: jest.fn()
-}));
-
 import { fetchFromStorage } from 'lib/miden/front';
 
+import { FAUCET_ID_STORAGE_KEY } from './constants';
 import {
   toTransferParams,
   toTokenSlug,
@@ -23,6 +15,12 @@ import {
   getTokenId,
   isMidenFaucet
 } from './utils';
+
+jest.mock('lib/miden/front', () => ({
+  fetchFromStorage: jest.fn(),
+  searchAssets: jest.fn(),
+  useAllTokensBaseMetadata: jest.fn()
+}));
 
 const mockFetchFromStorage = fetchFromStorage as jest.Mock;
 

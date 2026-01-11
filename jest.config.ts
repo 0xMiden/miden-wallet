@@ -17,8 +17,7 @@ export default {
   },
   testEnvironment: 'jsdom',
   transform: {
-    '.+\\.tsx?$': 'ts-jest',
-    '.+\\.(js|mjs)$': 'babel-jest'
+    '.+\\.(ts|tsx|js|mjs)$': '@swc/jest'
   },
   transformIgnorePatterns: [
     '/node_modules/(?!(p-queue|p-timeout|eventemitter3)/)'

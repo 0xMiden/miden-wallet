@@ -1,13 +1,13 @@
 // Mock SWR module
-jest.mock('swr', () => ({
-  __esModule: true,
-  default: jest.fn()
-}));
-
 // Import after mock setup
 import useSWR from 'swr';
 
 import { useRetryableSWR } from './index';
+
+jest.mock('swr', () => ({
+  __esModule: true,
+  default: jest.fn()
+}));
 
 const mockUseSWR = useSWR as jest.Mock;
 

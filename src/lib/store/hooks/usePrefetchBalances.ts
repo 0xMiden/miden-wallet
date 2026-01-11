@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react';
 
 import { fetchingAddresses } from 'lib/miden/front/balance';
 
-import { fetchBalances } from '../utils/fetchBalances';
 import { useWalletStore } from '../index';
+import { fetchBalances } from '../utils/fetchBalances';
 
 /**
  * Prefetch balances as soon as the current account is known.

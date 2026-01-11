@@ -244,10 +244,7 @@ describe('getMidenClient singleton', () => {
 
   it('disposes and recreates when called with options', async () => {
     const free = jest.fn();
-    const create = jest
-      .fn()
-      .mockResolvedValueOnce({ free })
-      .mockResolvedValueOnce({ free });
+    const create = jest.fn().mockResolvedValueOnce({ free }).mockResolvedValueOnce({ free });
 
     jest.doMock('./miden-client-interface', () => ({
       MidenClientInterface: class {

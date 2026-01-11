@@ -1,18 +1,42 @@
 import { ITransactionStatus, SendTransaction, ConsumeTransaction, Transaction } from '../db/types';
 import { NoteTypeEnum } from '../types';
 
-// Set up mocks before importing the module
+// Import after mocks are set up
+import {
+  hasQueuedTransactions,
+  getUncompletedTransactions,
+  getTransactionsInProgress,
+  getAllUncompletedTransactions,
+  getFailedTransactions,
+  getCompletedTransactions,
+  getTransactionById,
+  cancelTransactionById,
+  cancelTransaction,
+  updateTransactionStatus,
+  initiateSendTransaction,
+  initiateConsumeTransaction,
+  initiateConsumeTransactionFromId,
+  cancelStuckTransactions,
+  MAX_WAIT_BEFORE_CANCEL
+} from './transactions';
+
+// Mock functions defined inside factory to avoid hoisting issues with SWC
 const mockTransactionsFilter = jest.fn();
 const mockTransactionsWhere = jest.fn();
 const mockTransactionsAdd = jest.fn();
 
-jest.mock('lib/miden/repo', () => ({
-  transactions: {
-    filter: mockTransactionsFilter,
-    where: mockTransactionsWhere,
-    add: mockTransactionsAdd
-  }
-}));
+jest.mock('lib/miden/repo', () => {
+  // These will be assigned after module initialization
+  return {
+    get transactions() {
+      return {
+        filter: mockTransactionsFilter,
+        where: mockTransactionsWhere,
+        add: mockTransactionsAdd
+      };
+    }
+  };
+});
 
 jest.mock('../sdk/miden-client', () => ({
   getMidenClient: jest.fn()
@@ -35,25 +59,6 @@ jest.mock('lib/miden-worker/sendTransaction', () => ({
 jest.mock('lib/miden-worker/submitTransaction', () => ({
   submitTransaction: jest.fn()
 }));
-
-// Import after mocks are set up
-import {
-  hasQueuedTransactions,
-  getUncompletedTransactions,
-  getTransactionsInProgress,
-  getAllUncompletedTransactions,
-  getFailedTransactions,
-  getCompletedTransactions,
-  getTransactionById,
-  cancelTransactionById,
-  cancelTransaction,
-  updateTransactionStatus,
-  initiateSendTransaction,
-  initiateConsumeTransaction,
-  initiateConsumeTransactionFromId,
-  cancelStuckTransactions,
-  MAX_WAIT_BEFORE_CANCEL
-} from './transactions';
 
 describe('transactions utilities', () => {
   beforeEach(() => {
@@ -144,12 +149,8 @@ describe('transactions utilities', () => {
     });
 
     it('includes failed transactions when includeFailed is true', async () => {
-      const completedTxs = [
-        { id: 'tx-1', status: ITransactionStatus.Completed, accountId: 'acc-1', completedAt: 100 }
-      ];
-      const failedTxs = [
-        { id: 'tx-2', status: ITransactionStatus.Failed, accountId: 'acc-1', initiatedAt: 200 }
-      ];
+      const completedTxs = [{ id: 'tx-1', status: ITransactionStatus.Completed, accountId: 'acc-1', completedAt: 100 }];
+      const failedTxs = [{ id: 'tx-2', status: ITransactionStatus.Failed, accountId: 'acc-1', initiatedAt: 200 }];
 
       mockTransactionsFilter
         .mockReturnValueOnce({ toArray: jest.fn().mockResolvedValueOnce(completedTxs) })
@@ -244,9 +245,9 @@ describe('transactions utilities', () => {
         first: jest.fn().mockResolvedValueOnce(undefined)
       });
 
-      await expect(
-        updateTransactionStatus('nonexistent', ITransactionStatus.Completed, {})
-      ).rejects.toThrow('No transaction found to update');
+      await expect(updateTransactionStatus('nonexistent', ITransactionStatus.Completed, {})).rejects.toThrow(
+        'No transaction found to update'
+      );
     });
 
     it('throws when transaction already completed', async () => {
@@ -255,9 +256,9 @@ describe('transactions utilities', () => {
         first: jest.fn().mockResolvedValueOnce(tx)
       });
 
-      await expect(
-        updateTransactionStatus('tx-1', ITransactionStatus.Failed, {})
-      ).rejects.toThrow('Transaction already in a finalized state');
+      await expect(updateTransactionStatus('tx-1', ITransactionStatus.Failed, {})).rejects.toThrow(
+        'Transaction already in a finalized state'
+      );
     });
 
     it('throws when transaction already failed', async () => {
@@ -266,9 +267,9 @@ describe('transactions utilities', () => {
         first: jest.fn().mockResolvedValueOnce(tx)
       });
 
-      await expect(
-        updateTransactionStatus('tx-1', ITransactionStatus.Completed, {})
-      ).rejects.toThrow('Transaction already in a finalized state');
+      await expect(updateTransactionStatus('tx-1', ITransactionStatus.Completed, {})).rejects.toThrow(
+        'Transaction already in a finalized state'
+      );
     });
   });
 

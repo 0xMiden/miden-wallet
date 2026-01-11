@@ -1,11 +1,11 @@
-jest.mock('@demox-labs/miden-sdk', () => ({
-  NoteType: { Public: 'public', Private: 'private' }
-}));
-
 import { NoteType } from '@demox-labs/miden-sdk';
 
 import { isAddressValid, toNoteType, toNoteTypeString } from './helpers';
 import { NoteTypeEnum } from './types';
+
+jest.mock('@demox-labs/miden-sdk', () => ({
+  NoteType: { Public: 'public', Private: 'private' }
+}));
 
 describe('miden helpers', () => {
   it('validates addresses permissively for now', () => {

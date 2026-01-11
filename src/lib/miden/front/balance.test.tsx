@@ -1,6 +1,7 @@
 import '../../../../test/jest-mocks';
 
 import React, { useEffect } from 'react';
+
 import { createRoot } from 'react-dom/client';
 import { act } from 'react-dom/test-utils';
 
@@ -157,7 +158,13 @@ describe('useAllBalances infinite loop protection', () => {
       useWalletStore.setState({
         balances: {
           'test-address': [
-            { tokenId: 't1', tokenSlug: 'test', metadata: { name: 'Test', symbol: 'T', decimals: 18 }, balance: 100, fiatPrice: 1 }
+            {
+              tokenId: 't1',
+              tokenSlug: 'test',
+              metadata: { name: 'Test', symbol: 'T', decimals: 18 },
+              balance: 100,
+              fiatPrice: 1
+            }
           ]
         }
       });
@@ -206,7 +213,6 @@ describe('useAllBalances infinite loop protection', () => {
     // This prevents "recursive use of an object" errors in WASM client
     expect(maxConcurrentCalls).toBeLessThanOrEqual(1);
   });
-
 });
 
 describe('getAllBalanceSWRKey', () => {
