@@ -1,7 +1,8 @@
 import React, { HTMLAttributes, useCallback, useEffect, useMemo } from 'react';
 
+import { yupResolver } from '@hookform/resolvers/yup';
 import classNames from 'clsx';
-import { FieldError, OnSubmit, useForm } from 'react-hook-form';
+import { FieldError, SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
@@ -113,7 +114,15 @@ const IndexScreen: React.FC<IndexScreenProps> = ({
 }) => {
   const { navigateTo, goBack } = useNavigator();
 
-  const { register, handleSubmit, setValue, errors, watch, triggerValidation, formState, setError } = useForm<UIForm>({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    trigger,
+    setError,
+    formState: { errors, isSubmitting }
+  } = useForm<UIForm>({
     defaultValues: {
       amount: undefined,
       sendType: token.privateBalance > token.publicBalance ? UITransactionType.Private : UITransactionType.Public,
@@ -123,8 +132,8 @@ const IndexScreen: React.FC<IndexScreenProps> = ({
       feeType: UIFeeType.Public,
       delegateTransaction: true
     },
-    validationSchema: schema,
-    validationContext: {
+    resolver: yupResolver(schema),
+    context: {
       chainId
     }
   });
@@ -172,10 +181,10 @@ const IndexScreen: React.FC<IndexScreenProps> = ({
           break;
         case ConvertTokensActionId.SetFormValues:
           Object.entries(action.payload).forEach(([key, value]) => {
-            setValue(key, value);
+            setValue(key as keyof UIForm, value);
           });
           if (action.triggerValidation) {
-            triggerValidation();
+            trigger();
           }
           break;
         case ConvertTokensActionId.Finish:
@@ -186,12 +195,12 @@ const IndexScreen: React.FC<IndexScreenProps> = ({
           break;
       }
     },
-    [onNavigateTo, onClose, setValue, triggerValidation, goBack, navigateTo]
+    [onNavigateTo, onClose, setValue, trigger, goBack, navigateTo]
   );
 
-  const onSubmit = useCallback<OnSubmit<UIForm>>(
-    async (data, event) => {
-      if (formState.isSubmitting) {
+  const onSubmit = useCallback<SubmitHandler<UIForm>>(
+    async data => {
+      if (isSubmitting) {
         return;
       }
       try {
@@ -199,12 +208,12 @@ const IndexScreen: React.FC<IndexScreenProps> = ({
         onAction({ id: ConvertTokensActionId.Navigate, step: ConvertTokensStep.Confirmation });
       } catch (e: any) {
         if (e.message) {
-          setError('submit', 'manual', e.message);
+          setError('root', { type: 'manual', message: e.message });
         }
         console.error(e);
       }
     },
-    [formState, onAction, onSubmitForm, setError]
+    [isSubmitting, onAction, onSubmitForm, setError]
   );
 
   const firstError = useMemo(() => {
@@ -244,7 +253,7 @@ const IndexScreen: React.FC<IndexScreenProps> = ({
               feeAmount={feeAmount}
               sendAddress={accountWallet || ''}
               delegateTransaction={delegateTransaction}
-              isLoading={isLoading || formState.isSubmitting}
+              isLoading={isLoading || isSubmitting}
               isValid={errors.amount?.message === undefined}
               error={firstError}
               onAction={onAction}
@@ -269,7 +278,7 @@ const IndexScreen: React.FC<IndexScreenProps> = ({
     },
     [
       onAction,
-      formState,
+      isSubmitting,
       sendType,
       receiveType,
       records,

@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useMemo } from 'react';
 
-import { OnSubmit, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
@@ -24,16 +24,21 @@ const UpdateAccountName: FC = () => {
 
   const defaultName = useMemo(() => account.name, [account.name]);
 
-  const { register, handleSubmit, errors, setError, clearError, formState } = useForm<FormData>({
+  const {
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+    formState: { errors, isSubmitting }
+  } = useForm<FormData>({
     defaultValues: { name: defaultName }
   });
-  const submitting = formState.isSubmitting;
 
-  const onSubmit = useCallback<OnSubmit<FormData>>(
+  const onSubmit = useCallback<SubmitHandler<FormData>>(
     async ({ name }) => {
-      if (submitting) return;
+      if (isSubmitting) return;
 
-      clearError('name');
+      clearErrors('name');
 
       formAnalytics.trackSubmit();
       try {
@@ -51,10 +56,10 @@ const UpdateAccountName: FC = () => {
 
         // Human delay.
         await new Promise(res => setTimeout(res, 300));
-        setError('name', SUBMIT_ERROR_TYPE, err.message);
+        setError('name', { type: SUBMIT_ERROR_TYPE, message: err.message });
       }
     },
-    [account.name, account.publicKey, submitting, clearError, setError, editAccountName, formAnalytics]
+    [account.name, account.publicKey, isSubmitting, clearErrors, setError, editAccountName, formAnalytics]
   );
 
   return (
@@ -90,7 +95,7 @@ const UpdateAccountName: FC = () => {
             {message => (
               <FormSubmitButton
                 className="capitalize w-full justify-center mt-8"
-                loading={submitting}
+                loading={isSubmitting}
                 style={{
                   fontSize: '18px',
                   lineHeight: '24px',

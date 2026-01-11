@@ -92,19 +92,17 @@ const AddNewContactForm: React.FC<{ className?: string }> = ({ className }) => {
     register,
     reset: resetForm,
     handleSubmit,
-    formState,
-    clearError,
+    clearErrors,
     setError,
-    errors
+    formState: { errors, isSubmitting }
   } = useForm<ContactFormData>();
-  const submitting = formState.isSubmitting;
 
   const onAddContactSubmit = useCallback(
     async ({ address, name }: ContactFormData) => {
-      if (submitting) return;
+      if (isSubmitting) return;
 
       try {
-        clearError();
+        clearErrors();
 
         if (!isAddressValid(address)) {
           throw new Error(t('invalidAddress'));
@@ -113,10 +111,10 @@ const AddNewContactForm: React.FC<{ className?: string }> = ({ className }) => {
         await addContact({ address, name, addedAt: Date.now() });
         resetForm();
       } catch (err: any) {
-        await withErrorHumanDelay(err, () => setError('address', SUBMIT_ERROR_TYPE, err.message));
+        await withErrorHumanDelay(err, () => setError('address', { type: SUBMIT_ERROR_TYPE, message: err.message }));
       }
     },
-    [submitting, clearError, addContact, resetForm, setError]
+    [isSubmitting, clearErrors, addContact, resetForm, setError]
   );
 
   return (
@@ -158,7 +156,7 @@ const AddNewContactForm: React.FC<{ className?: string }> = ({ className }) => {
 
       <FormSubmitButton
         className="capitalize w-full justify-center mt-4"
-        loading={submitting}
+        loading={isSubmitting}
         style={{
           fontSize: '18px',
           lineHeight: '24px',

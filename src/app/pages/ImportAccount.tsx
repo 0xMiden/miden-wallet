@@ -86,12 +86,16 @@ interface ByPrivateKeyFormData {
 const ByPrivateKeyForm: FC = () => {
   const { importAccount } = useMidenContext();
 
-  const { register, handleSubmit, errors, formState } = useForm<ByPrivateKeyFormData>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting }
+  } = useForm<ByPrivateKeyFormData>();
   const [error, setError] = useState<ReactNode>(null);
 
   const onSubmit = useCallback(
     async ({ privateKey, encPassword }: ByPrivateKeyFormData) => {
-      if (formState.isSubmitting) return;
+      if (isSubmitting) return;
 
       setError(null);
       try {
@@ -104,7 +108,7 @@ const ByPrivateKeyForm: FC = () => {
         setError(err.message);
       }
     },
-    [importAccount, formState.isSubmitting, setError]
+    [importAccount, isSubmitting, setError]
   );
 
   return (
@@ -141,7 +145,7 @@ const ByPrivateKeyForm: FC = () => {
           paddingTop: '12px',
           paddingBottom: '12px'
         }}
-        loading={formState.isSubmitting}
+        loading={isSubmitting}
       >
         {t('importAccount')}
       </FormSubmitButton>
@@ -156,22 +160,28 @@ interface WatchOnlyFormData {
 const WatchOnlyForm: FC = () => {
   const { importWatchOnlyAccount } = useMidenContext();
 
-  const { handleSubmit, errors, control, formState, setValue, getValues, triggerValidation } =
-    useForm<WatchOnlyFormData>({
-      mode: 'onChange'
-    });
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    getValues,
+    trigger,
+    formState: { errors, isSubmitting }
+  } = useForm<WatchOnlyFormData>({
+    mode: 'onChange'
+  });
   const [error, setError] = useState<ReactNode>(null);
 
   const addressFieldRef = useRef<HTMLTextAreaElement>(null);
 
   const cleanViewKeyField = useCallback(() => {
     setValue('viewKey', '');
-    triggerValidation('viewKey');
-  }, [setValue, triggerValidation]);
+    trigger('viewKey');
+  }, [setValue, trigger]);
 
   const onSubmit = useCallback(
     async ({ viewKey }: WatchOnlyFormData) => {
-      if (formState.isSubmitting) return;
+      if (isSubmitting) return;
 
       setError(null);
 
@@ -185,7 +195,7 @@ const WatchOnlyForm: FC = () => {
         setError(err.message);
       }
     },
-    [importWatchOnlyAccount, formState.isSubmitting, setError]
+    [importWatchOnlyAccount, isSubmitting, setError]
   );
 
   return (
@@ -230,7 +240,7 @@ const WatchOnlyForm: FC = () => {
           paddingTop: '12px',
           paddingBottom: '12px'
         }}
-        loading={formState.isSubmitting}
+        loading={isSubmitting}
       >
         {t('importAccount')}
       </FormSubmitButton>

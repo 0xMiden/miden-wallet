@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 
-import { OnSubmit, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
@@ -29,14 +29,19 @@ const RemoveAccount: FC = () => {
     prevAccLengthRef.current = accLength;
   }, []);
 
-  const { register, handleSubmit, errors, setError, clearError, formState } = useForm<FormData>();
-  const submitting = formState.isSubmitting;
+  const {
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+    formState: { errors, isSubmitting }
+  } = useForm<FormData>();
 
-  const onSubmit = useCallback<OnSubmit<FormData>>(
+  const onSubmit = useCallback<SubmitHandler<FormData>>(
     async ({ password }) => {
-      if (submitting) return;
+      if (isSubmitting) return;
 
-      clearError('password');
+      clearErrors('password');
       try {
         await removeAccount(account.publicKey, password);
       } catch (err: any) {
@@ -44,10 +49,10 @@ const RemoveAccount: FC = () => {
 
         // Human delay.
         await new Promise(res => setTimeout(res, 300));
-        setError('password', SUBMIT_ERROR_TYPE, err.message);
+        setError('password', { type: SUBMIT_ERROR_TYPE, message: err.message });
       }
     },
-    [submitting, clearError, setError, removeAccount, account.publicKey]
+    [isSubmitting, clearErrors, setError, removeAccount, account.publicKey]
   );
 
   return (
@@ -79,8 +84,8 @@ const RemoveAccount: FC = () => {
         <T id="remove">
           {message => (
             <FormSubmitButton
-              loading={submitting}
-              disabled={submitting}
+              loading={isSubmitting}
+              disabled={isSubmitting}
               className="capitalize w-full justify-center mt-6"
               style={{
                 fontSize: '18px',

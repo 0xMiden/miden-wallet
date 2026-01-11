@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
-import { OnSubmit, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
@@ -16,8 +16,13 @@ type FormData = {
 
 const EditMidenFaucetId: FC = () => {
   const faucetId = useMidenFaucetId();
-  const { register, handleSubmit, errors, setError, clearError, formState } = useForm<FormData>();
-  const submitting = formState.isSubmitting;
+  const {
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+    formState: { errors, isSubmitting }
+  } = useForm<FormData>();
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -29,10 +34,10 @@ const EditMidenFaucetId: FC = () => {
     focusFaucetIdField();
   }, [focusFaucetIdField]);
 
-  const onSubmit = useCallback<OnSubmit<FormData>>(
+  const onSubmit = useCallback<SubmitHandler<FormData>>(
     async ({ faucetId }) => {
-      if (submitting) return;
-      clearError('faucetId');
+      if (isSubmitting) return;
+      clearErrors('faucetId');
       setSubmitSuccess(false);
 
       try {
@@ -43,11 +48,11 @@ const EditMidenFaucetId: FC = () => {
 
         // Human delay.
         await new Promise(res => setTimeout(res, 300));
-        setError('faucetId', SUBMIT_ERROR_TYPE, err.message);
+        setError('faucetId', { type: SUBMIT_ERROR_TYPE, message: err.message });
         focusFaucetIdField();
       }
     },
-    [submitting, clearError, setError, focusFaucetIdField]
+    [isSubmitting, clearErrors, setError, focusFaucetIdField]
   );
 
   const content = useMemo(() => {
@@ -64,7 +69,7 @@ const EditMidenFaucetId: FC = () => {
           errorCaption={errors.faucetId?.message}
           containerClassName="mb-4"
           onChange={() => {
-            clearError();
+            clearErrors();
             if (submitSuccess) {
               setSubmitSuccess(false);
             }
@@ -75,7 +80,7 @@ const EditMidenFaucetId: FC = () => {
           {message => (
             <FormSubmitButton
               className="capitalize w-full justify-center mt-6"
-              loading={submitting}
+              loading={isSubmitting}
               style={{
                 fontSize: '18px',
                 lineHeight: '24px',
@@ -93,7 +98,7 @@ const EditMidenFaucetId: FC = () => {
         {submitSuccess && <div className="mt-4 text-green-600 text-sm font-medium">Faucet ID Updated</div>}
       </form>
     );
-  }, [faucetId, errors, handleSubmit, onSubmit, register, submitting, clearError, submitSuccess]);
+  }, [faucetId, errors, handleSubmit, onSubmit, register, isSubmitting, clearErrors, submitSuccess]);
 
   return <div className="w-full max-w-sm p-2 mx-auto">{content}</div>;
 };

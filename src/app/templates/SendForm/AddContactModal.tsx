@@ -22,27 +22,25 @@ const AddContactModal: FC<AddContactModalProps> = ({ address, onClose }) => {
     register,
     reset: resetForm,
     handleSubmit,
-    formState,
-    clearError,
+    clearErrors,
     setError,
-    errors
+    formState: { errors, isSubmitting }
   } = useForm<{ name: string }>();
-  const submitting = formState.isSubmitting;
 
   const onAddContactSubmit = useCallback(
     async ({ name }: { name: string }) => {
-      if (submitting) return;
+      if (isSubmitting) return;
 
       try {
-        clearError();
+        clearErrors();
 
         resetForm();
         onClose();
       } catch (err: any) {
-        await withErrorHumanDelay(err, () => setError('address', 'submit-error', err.message));
+        await withErrorHumanDelay(err, () => setError('name', { type: 'submit-error', message: err.message }));
       }
     },
-    [submitting, clearError, resetForm, onClose, setError]
+    [isSubmitting, clearErrors, resetForm, onClose, setError]
   );
 
   return (
@@ -77,7 +75,7 @@ const AddContactModal: FC<AddContactModalProps> = ({ address, onClose }) => {
           <FormSecondaryButton type="button" small className="mr-3" onClick={onClose}>
             <T id="cancel" />
           </FormSecondaryButton>
-          <FormSubmitButton small loading={submitting}>
+          <FormSubmitButton small loading={isSubmitting}>
             <T id="addContact" />
           </FormSubmitButton>
         </div>

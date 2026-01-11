@@ -20,7 +20,7 @@ export default {
     '.+\\.(ts|tsx|js|mjs)$': '@swc/jest'
   },
   transformIgnorePatterns: [
-    '/node_modules/(?!(p-queue|p-timeout|eventemitter3)/)'
+    '/node_modules/(?!(p-queue|p-timeout|eventemitter3|date-fns|dexie)/)'
   ],
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   modulePathIgnorePatterns: ['<rootDir>/sdk-debug/'],

@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 
 import classNames from 'clsx';
-import { OnSubmit, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import Alert from 'app/atoms/Alert';
 import FormField from 'app/atoms/FormField';
@@ -28,8 +28,13 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
   const account = useAccount();
   const { fieldRef: secretFieldRef, copy, copied } = useCopyToClipboard();
 
-  const { register, handleSubmit, errors, setError, clearError, formState } = useForm<FormData>();
-  const submitting = formState.isSubmitting;
+  const {
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+    formState: { errors, isSubmitting }
+  } = useForm<FormData>();
 
   const [secret, setSecret] = useSecretState();
 
@@ -57,11 +62,11 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
     focusPasswordField();
   }, [focusPasswordField]);
 
-  const onSubmit = useCallback<OnSubmit<FormData>>(
+  const onSubmit = useCallback<SubmitHandler<FormData>>(
     async ({ password }) => {
-      if (submitting) return;
+      if (isSubmitting) return;
 
-      clearError('password');
+      clearErrors('password');
       try {
         const secret = await revealMnemonic(password);
         setSecret(secret);
@@ -70,11 +75,11 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
 
         // Human delay.
         await new Promise(res => setTimeout(res, 300));
-        setError('password', SUBMIT_ERROR_TYPE, err.message);
+        setError('password', { type: SUBMIT_ERROR_TYPE, message: err.message });
         focusPasswordField();
       }
     },
-    [submitting, clearError, setError, revealMnemonic, setSecret, focusPasswordField]
+    [isSubmitting, clearErrors, setError, revealMnemonic, setSecret, focusPasswordField]
   );
 
   const texts = useMemo(() => {
@@ -272,14 +277,14 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
           placeholder="********"
           errorCaption={errors.password?.message}
           containerClassName="mb-4"
-          onChange={() => clearError()}
+          onChange={() => clearErrors()}
         />
 
         <T id="reveal">
           {message => (
             <FormSubmitButton
               className="capitalize w-full justify-center mt-6"
-              loading={submitting}
+              loading={isSubmitting}
               style={{
                 fontSize: '18px',
                 lineHeight: '24px',
@@ -303,8 +308,8 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
     register,
     secret,
     texts,
-    submitting,
-    clearError,
+    isSubmitting,
+    clearErrors,
     copy,
     copied,
     secretFieldRef

@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'clsx';
-import { OnSubmit, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
@@ -59,7 +59,14 @@ const CreateAccount: FC = () => {
     updateAccount();
   }, [allAccounts, updateCurrentAccount]);
 
-  const { register, handleSubmit, errors, setError, clearError, formState, setValue } = useForm<FormData>({
+  const {
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+    setValue,
+    formState: { errors, isSubmitting }
+  } = useForm<FormData>({
     defaultValues: { name: computedDefaultName }
   });
 
@@ -71,12 +78,11 @@ const CreateAccount: FC = () => {
     setSelectedWalletType(type);
   };
 
-  const submitting = formState.isSubmitting;
-  const onSubmit = useCallback<OnSubmit<FormData>>(
+  const onSubmit = useCallback<SubmitHandler<FormData>>(
     async ({ name, walletType }) => {
-      if (submitting) return;
+      if (isSubmitting) return;
 
-      clearError('name');
+      clearErrors('name');
 
       try {
         await createAccount(selectedWalletType, name);
@@ -85,10 +91,10 @@ const CreateAccount: FC = () => {
 
         // Human delay.
         await new Promise(res => setTimeout(res, 300));
-        setError('name', SUBMIT_ERROR_TYPE, err.message);
+        setError('name', { type: SUBMIT_ERROR_TYPE, message: err.message });
       }
     },
-    [submitting, clearError, setError, createAccount, selectedWalletType]
+    [isSubmitting, clearErrors, setError, createAccount, selectedWalletType]
   );
 
   return (
@@ -150,7 +156,7 @@ const CreateAccount: FC = () => {
             {message => (
               <FormSubmitButton
                 className="capitalize w-full justify-center"
-                loading={submitting}
+                loading={isSubmitting}
                 style={{
                   fontSize: '18px',
                   lineHeight: '24px',

@@ -13,7 +13,7 @@ export function useStorage<T = any>(key: string, fallback?: T): [T, (val: SetSta
 
   useEffect(() => onStorageChanged(key, mutate), [key, mutate]);
 
-  const value = fallback !== undefined ? data ?? fallback : data!;
+  const value = fallback !== undefined ? (data ?? fallback) : data!;
 
   const valueRef = useRef(value);
   useEffect(() => {
@@ -38,7 +38,7 @@ export function usePassiveStorage<T = any>(key: string, fallback?: T): [T, Dispa
     revalidateOnFocus: false,
     revalidateOnReconnect: false
   });
-  const finalData = fallback !== undefined ? data ?? fallback : data!;
+  const finalData = fallback !== undefined ? (data ?? fallback) : data!;
 
   const [value, setValue] = useState<T>(finalData as T);
   const prevValue = useRef(value);

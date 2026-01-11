@@ -45,8 +45,9 @@ export const unlocked = createEvent<{
   ownMnemonic: boolean;
 }>('Unlocked');
 
-export const accountsUpdated =
-  createEvent<{ accounts: WalletAccount[]; currentAccount?: WalletAccount }>('Accounts updated');
+export const accountsUpdated = createEvent<{ accounts: WalletAccount[]; currentAccount?: WalletAccount }>(
+  'Accounts updated'
+);
 
 export const currentAccountUpdated = createEvent<WalletAccount>('Current Account Updated');
 

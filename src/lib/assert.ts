@@ -1,5 +1,8 @@
 export class AssertionError extends Error {
-  constructor(message?: string, public actual?: any) {
+  constructor(
+    message?: string,
+    public actual?: any
+  ) {
     super(message);
   }
 }
