@@ -155,11 +155,13 @@ describe('ready hooks', () => {
 
   describe('useAccount', () => {
     it('throws when no current account', () => {
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
       useWalletStore.setState({ currentAccount: null });
 
       expect(() => {
         renderHook(() => useAccount());
       }).toThrow('No account selected');
+      consoleErrorSpy.mockRestore();
     });
 
     it('returns current account when set', () => {
@@ -187,11 +189,13 @@ describe('ready hooks', () => {
 
   describe('useSettings', () => {
     it('throws when settings not loaded', () => {
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
       useWalletStore.setState({ settings: null });
 
       expect(() => {
         renderHook(() => useSettings());
       }).toThrow('Settings not loaded');
+      consoleErrorSpy.mockRestore();
     });
 
     it('returns settings when loaded', () => {

@@ -100,7 +100,10 @@ import {
 } from './actions';
 
 describe('actions', () => {
+  let consoleLogSpy: jest.SpyInstance;
+
   beforeEach(() => {
+    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     // Reset only the mocks we care about, not the module mocks
     mockInited.mockClear();
     mockLocked.mockClear();
@@ -117,6 +120,10 @@ describe('actions', () => {
       settings: null,
       ownMnemonic: null
     };
+  });
+
+  afterEach(() => {
+    consoleLogSpy.mockRestore();
   });
 
   describe('getFrontState', () => {
