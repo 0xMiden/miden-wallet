@@ -77,10 +77,12 @@ describe('metadata/fetch', () => {
     });
 
     it('throws NotFoundTokenMetadata on SDK error', async () => {
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
       mockIsMidenAsset.mockReturnValue(false);
       mockWithWasmClientLock.mockRejectedValue(new Error('SDK error'));
 
       await expect(fetchTokenMetadata('bad-asset-id')).rejects.toThrow(NotFoundTokenMetadata);
+      consoleErrorSpy.mockRestore();
     });
   });
 
