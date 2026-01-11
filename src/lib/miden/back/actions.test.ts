@@ -1,4 +1,5 @@
 import { WalletStatus } from 'lib/shared/types';
+import { WalletType } from 'screens/onboarding/types';
 
 // Create mock vault instance
 const mockVault = {
@@ -59,7 +60,19 @@ jest.mock('./store', () => ({
 }));
 
 jest.mock('./dapp', () => ({
-  getAllDApps: jest.fn()
+  getAllDApps: jest.fn(),
+  removeDApp: jest.fn(),
+  getCurrentPermission: jest.fn(),
+  requestPermission: jest.fn(),
+  requestDisconnect: jest.fn(),
+  requestTransaction: jest.fn(),
+  requestSendTransaction: jest.fn(),
+  requestConsumeTransaction: jest.fn(),
+  requestPrivateNotes: jest.fn(),
+  requestSign: jest.fn(),
+  requestAssets: jest.fn(),
+  requestImportPrivateNote: jest.fn(),
+  requestConsumableNotes: jest.fn()
 }));
 
 jest.mock('webextension-polyfill', () => ({
@@ -70,6 +83,8 @@ jest.mock('webextension-polyfill', () => ({
   }
 }));
 
+import { MidenDAppMessageType } from 'lib/adapter/types';
+
 import {
   getFrontState,
   lock,
@@ -78,7 +93,10 @@ import {
   updateSettings,
   signTransaction,
   getAuthSecretKey,
-  getAllDAppSessions
+  getAllDAppSessions,
+  getCurrentAccount,
+  createHDAccount,
+  processDApp
 } from './actions';
 
 describe('actions', () => {
@@ -186,6 +204,99 @@ describe('actions', () => {
       const result = await getAllDAppSessions();
 
       expect(result).toEqual({ 'https://example.com': [] });
+    });
+  });
+
+  describe('getCurrentAccount', () => {
+    it('returns current account from vault', async () => {
+      const account = { publicKey: 'pk1', name: 'My Account' };
+      mockVault.getCurrentAccount.mockResolvedValueOnce(account);
+
+      const result = await getCurrentAccount();
+
+      expect(mockVault.getCurrentAccount).toHaveBeenCalled();
+      expect(result).toEqual(account);
+    });
+  });
+
+  describe('createHDAccount', () => {
+    it('creates HD account without name', async () => {
+      const accounts = [{ publicKey: 'pk1', name: 'Account 1' }];
+      mockVault.createHDAccount.mockResolvedValueOnce(accounts);
+
+      await createHDAccount(WalletType.OnChain);
+
+      expect(mockVault.createHDAccount).toHaveBeenCalledWith(WalletType.OnChain, undefined);
+      expect(mockAccountsUpdated).toHaveBeenCalledWith({ accounts });
+    });
+
+    it('creates HD account with valid name', async () => {
+      const accounts = [{ publicKey: 'pk1', name: 'MyWallet' }];
+      mockVault.createHDAccount.mockResolvedValueOnce(accounts);
+
+      await createHDAccount(WalletType.OnChain, '  MyWallet  ');
+
+      expect(mockVault.createHDAccount).toHaveBeenCalledWith(WalletType.OnChain, 'MyWallet');
+      expect(mockAccountsUpdated).toHaveBeenCalledWith({ accounts });
+    });
+
+    it('throws for name longer than 16 characters', async () => {
+      const longName = 'a'.repeat(17);
+
+      await expect(createHDAccount(WalletType.OnChain, longName)).rejects.toThrow('Invalid name');
+    });
+  });
+
+  describe('processDApp', () => {
+    it('handles GetCurrentPermissionRequest', async () => {
+      const { getCurrentPermission } = jest.requireMock('./dapp');
+      getCurrentPermission.mockResolvedValueOnce({ granted: true });
+
+      const result = await processDApp('https://example.com', {
+        type: MidenDAppMessageType.GetCurrentPermissionRequest
+      } as any);
+
+      expect(getCurrentPermission).toHaveBeenCalledWith('https://example.com');
+      expect(result).toEqual({ granted: true });
+    });
+
+    it('handles PermissionRequest', async () => {
+      const { requestPermission } = jest.requireMock('./dapp');
+      requestPermission.mockResolvedValueOnce({ approved: true });
+
+      const req = { type: MidenDAppMessageType.PermissionRequest, data: {} };
+      const result = await processDApp('https://example.com', req as any);
+
+      expect(requestPermission).toHaveBeenCalledWith('https://example.com', req);
+      expect(result).toEqual({ approved: true });
+    });
+
+    it('handles DisconnectRequest', async () => {
+      const { requestDisconnect } = jest.requireMock('./dapp');
+      requestDisconnect.mockResolvedValueOnce({ disconnected: true });
+
+      const req = { type: MidenDAppMessageType.DisconnectRequest };
+      const result = await processDApp('https://example.com', req as any);
+
+      expect(requestDisconnect).toHaveBeenCalledWith('https://example.com', req);
+      expect(result).toEqual({ disconnected: true });
+    });
+
+    it('handles SignRequest', async () => {
+      const { requestSign } = jest.requireMock('./dapp');
+      requestSign.mockResolvedValueOnce({ signature: '0x123' });
+
+      const req = { type: MidenDAppMessageType.SignRequest, payload: 'data' };
+      const result = await processDApp('https://example.com', req as any);
+
+      expect(requestSign).toHaveBeenCalledWith('https://example.com', req);
+      expect(result).toEqual({ signature: '0x123' });
+    });
+
+    it('returns undefined for unknown request type', async () => {
+      const result = await processDApp('https://example.com', { type: 'UNKNOWN' } as any);
+
+      expect(result).toBeUndefined();
     });
   });
 });
