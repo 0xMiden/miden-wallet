@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import BigNumber from 'bignumber.js';
 import Fuse from 'fuse.js';
+import PQueue from 'p-queue';
 import browser from 'webextension-polyfill';
 
 import { useGasToken } from 'app/hooks/useGasToken';
@@ -17,7 +18,6 @@ import {
   usePassiveStorage,
   isMidenAsset
 } from 'lib/miden/front';
-import { createQueue } from 'lib/queue';
 import { useWalletStore } from 'lib/store';
 import { useRetryableSWR } from 'lib/swr';
 
@@ -28,7 +28,7 @@ export type TokenBalance = {
   balance: BigNumber;
 };
 
-const enqueueAutoFetchMetadata = createQueue();
+const autoFetchMetadataQueue = new PQueue({ concurrency: 1 });
 const autoFetchMetadataFails = new Set<string>();
 
 /**
@@ -52,20 +52,22 @@ export function useAssetMetadata(slug: string, assetId: string) {
   // Auto-fetch missing metadata
   useEffect(() => {
     if (!isMidenFaucet && !exist && !autoFetchMetadataFails.has(assetId)) {
-      enqueueAutoFetchMetadata(async () => {
-        try {
-          const metadata = await fetchTokenMetadata(assetId);
-          // Update Zustand store
-          setAssetsMetadata({ [assetId]: metadata.base });
-          // Also persist to storage
-          await setTokensBaseMetadata({ [assetId]: metadata.base });
-          await setTokensDetailedMetadataStorage({ [assetId]: metadata.detailed });
-          return metadata;
-        } catch (error) {
-          autoFetchMetadataFails.add(assetId);
-          throw error;
-        }
-      }).catch(() => {});
+      autoFetchMetadataQueue
+        .add(async () => {
+          try {
+            const metadata = await fetchTokenMetadata(assetId);
+            // Update Zustand store
+            setAssetsMetadata({ [assetId]: metadata.base });
+            // Also persist to storage
+            await setTokensBaseMetadata({ [assetId]: metadata.base });
+            await setTokensDetailedMetadataStorage({ [assetId]: metadata.detailed });
+            return metadata;
+          } catch (error) {
+            autoFetchMetadataFails.add(assetId);
+            throw error;
+          }
+        })
+        .catch(() => {});
     }
   }, [assetId, exist, fetchAssetMetadata, setAssetsMetadata, isMidenFaucet]);
 
@@ -82,7 +84,7 @@ export async function useAllAssetMetadata(): Promise<Record<string, AssetMetadat
 }
 
 const defaultAllTokensBaseMetadata: Record<string, AssetMetadata> = {};
-const enqueueSetAllTokensBaseMetadata = createQueue();
+const setAllTokensBaseMetadataQueue = new PQueue({ concurrency: 1 });
 
 /**
  * TokensMetadataProvider - Syncs storage to Zustand on mount
@@ -169,12 +171,11 @@ export async function setTokensBaseMetadata(toSet: Record<string, AssetMetadata>
   const initialAllTokensBaseMetadata: Record<string, AssetMetadata> =
     (await fetchFromStorage(ALL_TOKENS_BASE_METADATA_STORAGE_KEY)) || defaultAllTokensBaseMetadata;
 
-  enqueueSetAllTokensBaseMetadata(
-    async () =>
-      await putToStorage(ALL_TOKENS_BASE_METADATA_STORAGE_KEY, {
-        ...initialAllTokensBaseMetadata,
-        ...toSet
-      })
+  setAllTokensBaseMetadataQueue.add(async () =>
+    putToStorage(ALL_TOKENS_BASE_METADATA_STORAGE_KEY, {
+      ...initialAllTokensBaseMetadata,
+      ...toSet
+    })
   );
 }
 

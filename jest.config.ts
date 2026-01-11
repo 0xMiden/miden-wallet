@@ -17,8 +17,12 @@ export default {
   },
   testEnvironment: 'jsdom',
   transform: {
-    '.+\\.tsx?$': 'ts-jest'
+    '.+\\.tsx?$': 'ts-jest',
+    '.+\\.(js|mjs)$': 'babel-jest'
   },
+  transformIgnorePatterns: [
+    '/node_modules/(?!(p-queue|p-timeout|eventemitter3)/)'
+  ],
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   modulePathIgnorePatterns: ['<rootDir>/sdk-debug/'],
   testPathIgnorePatterns: ['<rootDir>/playwright/'],
