@@ -5,12 +5,15 @@ describe('MidenClientInterface', () => {
   });
 
   let logSpy: jest.SpyInstance;
+  let errorSpy: jest.SpyInstance;
   beforeEach(() => {
     logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterEach(() => {
     logSpy.mockRestore();
+    errorSpy.mockRestore();
   });
 
   it('creates a client with provided callbacks', async () => {
@@ -149,5 +152,208 @@ describe('MidenClientInterface', () => {
       initiatedAt: Date.now(),
       displayIcon: 'SEND'
     } as any);
+  });
+
+  it('creates client from existing WebClient using fromWebClient', async () => {
+    const fakeWebClient = {
+      free: jest.fn(),
+      getAccount: jest.fn(async () => 'account'),
+      getAccounts: jest.fn(async () => ['acc1', 'acc2']),
+      getInputNotes: jest.fn(async () => []),
+      syncState: jest.fn(async () => ({ blockNum: () => 10 })),
+      importAccountById: jest.fn(async () => 'imported-acc')
+    };
+
+    jest.doMock('./helpers', () => ({
+      accountIdStringToSdk: (id: string) => id,
+      getBech32AddressFromAccountId: (id: any) => String(id)
+    }));
+
+    const { MidenClientInterface } = await import('./miden-client-interface');
+    const client = MidenClientInterface.fromWebClient(fakeWebClient as any, 'testnet');
+
+    expect(client.network).toBe('testnet');
+    expect(client.webClient).toBe(fakeWebClient);
+
+    // Test passthrough methods
+    await client.getAccount('acc-id');
+    expect(fakeWebClient.getAccount).toHaveBeenCalled();
+
+    await client.getAccounts();
+    expect(fakeWebClient.getAccounts).toHaveBeenCalled();
+
+    await client.getInputNotes({} as any);
+    expect(fakeWebClient.getInputNotes).toHaveBeenCalled();
+
+    await client.syncState();
+    expect(fakeWebClient.syncState).toHaveBeenCalled();
+
+    await client.importAccountById('acc-123');
+    expect(fakeWebClient.importAccountById).toHaveBeenCalled();
+  });
+
+  it('imports wallet from bytes', async () => {
+    const fakeWebClient = {
+      importAccountFile: jest.fn(async () => ({ id: () => 'imported-id' }))
+    };
+
+    jest.doMock('@demox-labs/miden-sdk', () => ({
+      AccountFile: { deserialize: jest.fn(() => ({})) }
+    }));
+    jest.doMock('./helpers', () => ({
+      accountIdStringToSdk: (id: string) => id,
+      getBech32AddressFromAccountId: (id: any) => String(id)
+    }));
+
+    const { MidenClientInterface } = await import('./miden-client-interface');
+    const client = MidenClientInterface.fromWebClient(fakeWebClient as any, 'testnet');
+
+    const result = await client.importMidenWallet(new Uint8Array([1, 2, 3]));
+    expect(result).toBe('imported-id');
+    expect(fakeWebClient.importAccountFile).toHaveBeenCalled();
+  });
+
+  it('sends private note', async () => {
+    const fakeWebClient = {
+      sendPrivateNote: jest.fn(async () => undefined)
+    };
+
+    const { MidenClientInterface } = await import('./miden-client-interface');
+    const client = MidenClientInterface.fromWebClient(fakeWebClient as any, 'testnet');
+
+    const mockNote = {} as any;
+    const mockAddress = {} as any;
+    await client.sendPrivateNote(mockNote, mockAddress);
+
+    expect(fakeWebClient.sendPrivateNote).toHaveBeenCalledWith(mockNote, mockAddress);
+  });
+
+  it('executes new transaction', async () => {
+    const fakeWebClient = {
+      executeTransaction: jest.fn(async () => ({
+        serialize: () => new Uint8Array([4, 5, 6])
+      }))
+    };
+
+    jest.doMock('@demox-labs/miden-sdk', () => ({
+      TransactionRequest: { deserialize: jest.fn(() => ({})) }
+    }));
+    jest.doMock('./helpers', () => ({
+      accountIdStringToSdk: (id: string) => id,
+      getBech32AddressFromAccountId: (id: any) => String(id)
+    }));
+
+    const { MidenClientInterface } = await import('./miden-client-interface');
+    const client = MidenClientInterface.fromWebClient(fakeWebClient as any, 'testnet');
+
+    const result = await client.newTransaction('acc-id', new Uint8Array([1, 2]));
+    expect(result).toEqual(new Uint8Array([4, 5, 6]));
+  });
+
+  it('waits for transaction commit successfully', async () => {
+    let syncCallCount = 0;
+    const fakeWebClient = {
+      syncState: jest.fn(async () => {
+        syncCallCount++;
+        return {};
+      }),
+      getTransactions: jest.fn(async () => {
+        // First call: transaction still pending, second call: committed
+        if (syncCallCount < 2) {
+          return [{ id: () => ({ toHex: () => 'tx-123' }) }];
+        }
+        return [];
+      })
+    };
+
+    jest.doMock('@demox-labs/miden-sdk', () => ({
+      TransactionFilter: { uncommitted: jest.fn(() => 'uncommitted') }
+    }));
+
+    const { MidenClientInterface } = await import('./miden-client-interface');
+    const client = MidenClientInterface.fromWebClient(fakeWebClient as any, 'testnet');
+
+    await client.waitForTransactionCommit('tx-123', 5000, 10);
+    expect(fakeWebClient.syncState).toHaveBeenCalled();
+  });
+
+  it('throws timeout when transaction does not commit', async () => {
+    const fakeWebClient = {
+      syncState: jest.fn(async () => ({})),
+      getTransactions: jest.fn(async () => [{ id: () => ({ toHex: () => 'tx-456' }) }])
+    };
+
+    jest.doMock('@demox-labs/miden-sdk', () => ({
+      TransactionFilter: { uncommitted: jest.fn(() => 'uncommitted') }
+    }));
+
+    const { MidenClientInterface } = await import('./miden-client-interface');
+    const client = MidenClientInterface.fromWebClient(fakeWebClient as any, 'testnet');
+
+    await expect(client.waitForTransactionCommit('tx-456', 50, 10)).rejects.toThrow(
+      'Timeout waiting for transaction commit'
+    );
+  });
+
+  it('calls consumeTransaction method', async () => {
+    const fakeWebClient = {
+      newConsumeTransactionRequest: jest.fn(() => ({})),
+      executeTransaction: jest.fn(async () => ({ serialize: () => new Uint8Array([1]) })),
+      syncState: jest.fn(async () => ({})),
+      proveTransaction: jest.fn(async () => ({})),
+      submitProvenTransaction: jest.fn(async () => 10),
+      applyTransaction: jest.fn()
+    };
+
+    jest.doMock('@demox-labs/miden-sdk', () => ({
+      TransactionProver: {
+        newRemoteProver: jest.fn(() => 'remote'),
+        newLocalProver: jest.fn(() => 'local')
+      }
+    }));
+    jest.doMock('lib/miden-chain/constants', () => ({
+      MIDEN_PROVING_ENDPOINTS: new Map([['testnet', 'prover-url']])
+    }));
+    jest.doMock('./helpers', () => ({
+      accountIdStringToSdk: (id: string) => id,
+      getBech32AddressFromAccountId: (id: any) => String(id)
+    }));
+
+    const { MidenClientInterface } = await import('./miden-client-interface');
+    const client = MidenClientInterface.fromWebClient(fakeWebClient as any, 'testnet');
+
+    await client.consumeTransaction('acc-id', ['note-1', 'note-2'], false);
+
+    expect(fakeWebClient.newConsumeTransactionRequest).toHaveBeenCalledWith(['note-1', 'note-2']);
+  });
+
+  it('sends transaction without recall blocks', async () => {
+    const fakeWebClient = {
+      newSendTransactionRequest: jest.fn(() => ({})),
+      executeTransaction: jest.fn(async () => ({
+        serialize: () => new Uint8Array([7, 8])
+      }))
+    };
+
+    jest.doMock('./helpers', () => ({
+      accountIdStringToSdk: (id: string) => id,
+      getBech32AddressFromAccountId: (id: any) => String(id)
+    }));
+    jest.doMock('../helpers', () => ({ toNoteType: jest.fn(() => 'public') }));
+
+    const { MidenClientInterface } = await import('./miden-client-interface');
+    const client = MidenClientInterface.fromWebClient(fakeWebClient as any, 'testnet');
+
+    const result = await client.sendTransaction({
+      accountId: 'sender',
+      secondaryAccountId: 'recipient',
+      faucetId: 'faucet',
+      noteType: 'public' as any,
+      amount: BigInt(100),
+      extraInputs: {}
+    } as any);
+
+    expect(result).toEqual(new Uint8Array([7, 8]));
+    expect(fakeWebClient.newSendTransactionRequest).toHaveBeenCalled();
   });
 });

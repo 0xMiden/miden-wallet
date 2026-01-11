@@ -41,4 +41,36 @@ describe('transaction models', () => {
   it('formats transaction status', () => {
     expect(formatTransactionStatus(ITransactionStatus.GeneratingTransaction)).toBe('Generating Transaction');
   });
+
+  it('formats all transaction statuses', () => {
+    expect(formatTransactionStatus(ITransactionStatus.Queued)).toBe('Queued');
+    expect(formatTransactionStatus(ITransactionStatus.Completed)).toBe('Completed');
+    expect(formatTransactionStatus(ITransactionStatus.Failed)).toBe('Failed');
+  });
+
+  it('handles ConsumeTransaction with empty amount string', () => {
+    const note: ConsumableNote = {
+      id: 'note2',
+      faucetId: 'faucet',
+      amount: '',
+      senderAddress: 'sender',
+      isBeingClaimed: false
+    };
+    const tx = new ConsumeTransaction('acc', note);
+    expect(tx.amount).toBeUndefined();
+    expect(tx.delegateTransaction).toBeUndefined();
+  });
+
+  it('creates Transaction with minimal params', () => {
+    const tx = new Transaction('acc', new Uint8Array([1]));
+    expect(tx.inputNoteIds).toBeUndefined();
+    expect(tx.delegateTransaction).toBeUndefined();
+    expect(tx.secondaryAccountId).toBeUndefined();
+  });
+
+  it('creates SendTransaction with minimal params', () => {
+    const tx = new SendTransaction('acc', BigInt(5), 'recip', 'faucet', NoteTypeEnum.Private);
+    expect(tx.extraInputs.recallBlocks).toBeUndefined();
+    expect(tx.extraInputs.delegateTransaction).toBeUndefined();
+  });
 });

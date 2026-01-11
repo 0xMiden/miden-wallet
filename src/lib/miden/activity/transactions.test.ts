@@ -1,4 +1,5 @@
 import { ITransactionStatus, SendTransaction, ConsumeTransaction, Transaction } from '../db/types';
+import { NoteTypeEnum } from '../types';
 
 // Set up mocks before importing the module
 const mockTransactionsFilter = jest.fn();
@@ -45,6 +46,12 @@ import {
   getCompletedTransactions,
   getTransactionById,
   cancelTransactionById,
+  cancelTransaction,
+  updateTransactionStatus,
+  initiateSendTransaction,
+  initiateConsumeTransaction,
+  initiateConsumeTransactionFromId,
+  cancelStuckTransactions,
   MAX_WAIT_BEFORE_CANCEL
 } from './transactions';
 
@@ -201,6 +208,188 @@ describe('transactions utilities', () => {
   describe('MAX_WAIT_BEFORE_CANCEL', () => {
     it('is 30 minutes in milliseconds', () => {
       expect(MAX_WAIT_BEFORE_CANCEL).toBe(30 * 60_000);
+    });
+  });
+
+  describe('cancelTransaction', () => {
+    it('marks transaction as failed with completedAt timestamp', async () => {
+      const mockModify = jest.fn();
+      mockTransactionsWhere.mockReturnValueOnce({ modify: mockModify });
+
+      const tx = { id: 'tx-1' } as Transaction;
+      await cancelTransaction(tx);
+
+      expect(mockTransactionsWhere).toHaveBeenCalledWith({ id: 'tx-1' });
+      expect(mockModify).toHaveBeenCalled();
+    });
+  });
+
+  describe('updateTransactionStatus', () => {
+    it('updates transaction status and other values', async () => {
+      const tx = { id: 'tx-1', status: ITransactionStatus.Queued };
+      const mockModify = jest.fn();
+      mockTransactionsWhere
+        .mockReturnValueOnce({ first: jest.fn().mockResolvedValueOnce(tx) })
+        .mockReturnValueOnce({ modify: mockModify });
+
+      await updateTransactionStatus('tx-1', ITransactionStatus.GeneratingTransaction, {
+        processingStartedAt: 12345
+      });
+
+      expect(mockModify).toHaveBeenCalled();
+    });
+
+    it('throws when transaction not found', async () => {
+      mockTransactionsWhere.mockReturnValueOnce({
+        first: jest.fn().mockResolvedValueOnce(undefined)
+      });
+
+      await expect(
+        updateTransactionStatus('nonexistent', ITransactionStatus.Completed, {})
+      ).rejects.toThrow('No transaction found to update');
+    });
+
+    it('throws when transaction already completed', async () => {
+      const tx = { id: 'tx-1', status: ITransactionStatus.Completed };
+      mockTransactionsWhere.mockReturnValueOnce({
+        first: jest.fn().mockResolvedValueOnce(tx)
+      });
+
+      await expect(
+        updateTransactionStatus('tx-1', ITransactionStatus.Failed, {})
+      ).rejects.toThrow('Transaction already in a finalized state');
+    });
+
+    it('throws when transaction already failed', async () => {
+      const tx = { id: 'tx-1', status: ITransactionStatus.Failed };
+      mockTransactionsWhere.mockReturnValueOnce({
+        first: jest.fn().mockResolvedValueOnce(tx)
+      });
+
+      await expect(
+        updateTransactionStatus('tx-1', ITransactionStatus.Completed, {})
+      ).rejects.toThrow('Transaction already in a finalized state');
+    });
+  });
+
+  describe('initiateSendTransaction', () => {
+    it('creates and adds a send transaction', async () => {
+      mockTransactionsAdd.mockResolvedValueOnce(undefined);
+
+      const result = await initiateSendTransaction(
+        'sender-account',
+        'recipient-account',
+        'faucet-id',
+        NoteTypeEnum.Public,
+        BigInt(1000),
+        undefined,
+        false
+      );
+
+      expect(mockTransactionsAdd).toHaveBeenCalled();
+      expect(typeof result).toBe('string');
+    });
+  });
+
+  describe('initiateConsumeTransaction', () => {
+    it('creates consume transaction when none exists', async () => {
+      mockTransactionsFilter.mockReturnValueOnce({
+        toArray: jest.fn().mockResolvedValueOnce([])
+      });
+      mockTransactionsAdd.mockResolvedValueOnce(undefined);
+
+      const note = {
+        id: 'note-123',
+        faucetId: 'faucet',
+        amount: '100',
+        senderAddress: 'sender',
+        isBeingClaimed: false
+      };
+
+      const result = await initiateConsumeTransaction('account-1', note);
+
+      expect(mockTransactionsAdd).toHaveBeenCalled();
+      expect(typeof result).toBe('string');
+    });
+
+    it('returns existing transaction id if consume for same note exists', async () => {
+      const existingTx = {
+        id: 'existing-tx',
+        type: 'consume',
+        noteId: 'note-123',
+        accountId: 'account-1',
+        status: ITransactionStatus.Queued,
+        initiatedAt: 100
+      };
+      mockTransactionsFilter.mockReturnValueOnce({
+        toArray: jest.fn().mockResolvedValueOnce([existingTx])
+      });
+
+      const note = {
+        id: 'note-123',
+        faucetId: 'faucet',
+        amount: '100',
+        senderAddress: 'sender',
+        isBeingClaimed: false
+      };
+
+      const result = await initiateConsumeTransaction('account-1', note);
+
+      expect(result).toBe('existing-tx');
+      expect(mockTransactionsAdd).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('initiateConsumeTransactionFromId', () => {
+    it('creates consume transaction from note id', async () => {
+      mockTransactionsFilter.mockReturnValueOnce({
+        toArray: jest.fn().mockResolvedValueOnce([])
+      });
+      mockTransactionsAdd.mockResolvedValueOnce(undefined);
+
+      const result = await initiateConsumeTransactionFromId('account-1', 'note-456');
+
+      expect(mockTransactionsAdd).toHaveBeenCalled();
+      expect(typeof result).toBe('string');
+    });
+  });
+
+  describe('cancelStuckTransactions', () => {
+    it('cancels transactions that exceed MAX_WAIT_BEFORE_CANCEL', async () => {
+      const stuckTx = {
+        id: 'stuck-tx',
+        status: ITransactionStatus.GeneratingTransaction,
+        initiatedAt: 100,
+        processingStartedAt: Date.now() - MAX_WAIT_BEFORE_CANCEL - 1000
+      };
+      const recentTx = {
+        id: 'recent-tx',
+        status: ITransactionStatus.GeneratingTransaction,
+        initiatedAt: 200,
+        processingStartedAt: Date.now()
+      };
+
+      mockTransactionsFilter.mockReturnValueOnce({
+        toArray: jest.fn().mockResolvedValueOnce([stuckTx, recentTx])
+      });
+
+      const mockModify = jest.fn();
+      mockTransactionsWhere.mockReturnValue({ modify: mockModify });
+
+      await cancelStuckTransactions();
+
+      // Should only cancel the stuck transaction
+      expect(mockModify).toHaveBeenCalledTimes(1);
+    });
+
+    it('does nothing when no transactions are stuck', async () => {
+      mockTransactionsFilter.mockReturnValueOnce({
+        toArray: jest.fn().mockResolvedValueOnce([])
+      });
+
+      await cancelStuckTransactions();
+
+      expect(mockTransactionsWhere).not.toHaveBeenCalled();
     });
   });
 });
