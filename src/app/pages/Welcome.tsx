@@ -6,9 +6,31 @@ import wordslist from 'bip39/src/wordlists/english.json';
 import { formatMnemonic } from 'app/defaults';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
 import { useMidenContext } from 'lib/miden/front';
+import { WalletStatus } from 'lib/shared/types';
+import { useWalletStore } from 'lib/store';
+import { fetchStateFromBackend } from 'lib/store/hooks/useIntercomSync';
 import { navigate, useLocation } from 'lib/woozie';
 import { OnboardingFlow } from 'screens/onboarding/navigator';
 import { ImportType, OnboardingAction, OnboardingStep, OnboardingType } from 'screens/onboarding/types';
+
+/**
+ * Wait for the wallet state to become Ready after registration.
+ * This ensures the state is fully synced before navigation.
+ */
+async function waitForReadyState(syncFromBackend: (state: any) => void, maxAttempts = 10): Promise<void> {
+  for (let i = 0; i < maxAttempts; i++) {
+    try {
+      const state = await fetchStateFromBackend(0);
+      syncFromBackend(state);
+      if (state.status === WalletStatus.Ready) {
+        return;
+      }
+    } catch (error) {
+      console.warn('Failed to fetch state, retrying...', error);
+    }
+    await new Promise(r => setTimeout(r, 100));
+  }
+}
 
 const Welcome: FC = () => {
   const { hash } = useLocation();
@@ -21,6 +43,7 @@ const Welcome: FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { registerWallet, importWalletFromClient } = useMidenContext();
   const { trackEvent } = useAnalytics();
+  const syncFromBackend = useWalletStore(s => s.syncFromBackend);
 
   const register = useCallback(async () => {
     if (password && seedPhrase) {
@@ -97,6 +120,9 @@ const Welcome: FC = () => {
       case 'confirmation':
         setIsLoading(true);
         await register();
+        // Wait for state to be synced before navigating
+        // This fixes a race condition where navigation happens before state is Ready
+        await waitForReadyState(syncFromBackend);
         setIsLoading(false);
         eventCategory = AnalyticsEventCategory.FormSubmit;
         navigate('/');
