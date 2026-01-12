@@ -3430,5 +3430,84 @@
   },
   "learnMore": {
     "message": "Daha fazla bilgi edinin"
+  },
+  "faucetId": {
+    "message": "Musluk Kimliği"
+  },
+  "setNewFaucetId": {
+    "message": "Yeni Musluk Kimliğini ayarlayın"
+  },
+  "setNewFaucetIdDescription": {
+    "message": "Orta musluğun kimliğini girin"
+  },
+  "encryptedWalletFile": {
+    "message": "Şifreli Cüzdan Dosyası"
+  },
+  "encryptedWalletFileDescription": {
+    "message": "Şifreli Cüzdan Dosyanıza erişmek için şifrenizi girin. Ekran paylaşımını kapatın. Kimseyle paylaşmayın."
+  },
+  "encryptedWalletFileConfirmation": {
+    "message": "Şifreli Cüzdan Dosyamı Miden Cüzdan dahil hiç kimseyle paylaşmayacağım."
+  },
+  "encryptedWalletFilePassword": {
+    "message": "M-cüzdan dosyanızı şifrelemek için bir şifre girin. Cüzdanınızı daha sonra geri yüklemek için bu şifreye ihtiyacınız olacak."
+  },
+  "editMidenFaucetId": {
+    "message": "Miden Musluk Kimliğini Düzenle"
+  },
+  "exportWalletFile": {
+    "message": "Cüzdan Dosyasını Dışa Aktar"
+  },
+  "privacyScalesBetter": {
+    "message": "Gizlilik Daha İyi Ölçeklenir",
+    "note": "Onboarding"
+  },
+  "yourWalletHasBeenCreated": {
+    "message": "Cüzdanınız oluşturuldu.",
+    "note": "Onboarding"
+  },
+  "noSeedPhrase": {
+    "message": "Tohum İfadesi Yok",
+    "note": "Onboarding"
+  },
+  "recovery": {
+    "message": "İyileşmek",
+    "note": "Onboarding"
+  },
+  "yourAccountIsProtected": {
+    "message": "Hesabınız bir tohum cümlesi yerine şifrelenmiş bir dosyayla korunmaktadır.",
+    "note": "Onboarding"
+  },
+  "downloadAndSecurelyStore": {
+    "message": "Şifrelenmiş dosyanızın en son sürümünü indirin ve güvenli bir şekilde saklayın. Bu dosya hesap kurtarma için gereklidir.",
+    "note": "Onboarding"
+  },
+  "chooseFromDevice": {
+    "message": "cihaz arasından seçim yapın",
+    "note": "Onboarding"
+  },
+  "chooseImportType": {
+    "message": "İçe Aktarma Türünüzü Seçin",
+    "note": "Onboarding"
+  },
+  "chooseImportTypeDescription": {
+    "message": "12 kelimelik ifadenizle halkın dengesini yeniden sağlayın. Özel fonları geri yüklemek için şifrelenmiş yedekleme dosyasını yükleyin.",
+    "note": "Onboarding"
+  },
+  "importWithSeedPhrase": {
+    "message": "Tohum Cümlesiyle İçe Aktarma",
+    "note": "Onboarding"
+  },
+  "importWithSeedPhraseDescription": {
+    "message": "Mevcut 12 kelimelik bir kurtarma ifadesini kullanın. Ayrıca diğer cüzdan sağlayıcılarından da cüzdanları içe aktarabilirsiniz.",
+    "note": "Onboarding"
+  },
+  "importWithEncryptedWalletFile": {
+    "message": "Şifreli Cüzdan Dosyasıyla İçe Aktarma",
+    "note": "Onboarding"
+  },
+  "importWithEncryptedWalletFileDescription": {
+    "message": "Hesabınızı güvenli bir şekilde içe aktarmak için şifrelenmiş cüzdan dosyanızı yükleyin. Verileriniz gizli kalır ve yalnızca karma bilgiler zincirde depolanır",
+    "note": "Onboarding"
   }
 }

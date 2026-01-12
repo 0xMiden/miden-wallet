@@ -3402,5 +3402,112 @@
   },
   "learnMore": {
     "message": "Erfahren Sie mehr"
+  },
+  "faucetId": {
+    "message": "Wasserhahn-ID"
+  },
+  "setNewFaucetId": {
+    "message": "Legen Sie eine neue Faucet-ID fest"
+  },
+  "setNewFaucetIdDescription": {
+    "message": "Geben Sie die ID eines Miden-Wasserhahns ein"
+  },
+  "encryptedWalletFile": {
+    "message": "Verschlüsselte Wallet-Datei"
+  },
+  "encryptedWalletFileDescription": {
+    "message": "Geben Sie Ihr Passwort ein, um auf Ihre verschlüsselte Wallet-Datei zuzugreifen. Deaktivieren Sie die Bildschirmfreigabe. Teilen Sie es mit niemandem."
+  },
+  "encryptedWalletFileConfirmation": {
+    "message": "Ich werde meine verschlüsselte Wallet-Datei mit niemandem teilen, auch nicht mit Miden Wallet."
+  },
+  "encryptedWalletFilePassword": {
+    "message": "Geben Sie ein Passwort ein, um Ihre Wallet-Datei zu verschlüsseln. Sie benötigen dieses Passwort, um Ihr Wallet später wiederherzustellen."
+  },
+  "editMidenFaucetId": {
+    "message": "Bearbeiten Sie die Miden Faucet-ID"
+  },
+  "exportWalletFile": {
+    "message": "Wallet-Datei exportieren"
+  },
+  "privateTransactionsAnytimeAnywhere": {
+    "message": "Private Transaktionen jederzeit und überall.",
+    "note": "Onboarding"
+  },
+  "createANewWallet": {
+    "message": "Erstellen Sie eine neue Brieftasche",
+    "note": "Onboarding"
+  },
+  "iAlreadyHaveAWallet": {
+    "message": "Ich habe bereits eine Brieftasche",
+    "note": "Onboarding"
+  },
+  "backUpYourWallet": {
+    "message": "Sichern Sie Ihr Portemonnaie",
+    "note": "Onboarding"
+  },
+  "saveThese12Words": {
+    "message": "Speichern Sie diese 12 Wörter in einem Passwort-Manager oder schreiben Sie sie auf und bewahren Sie sie an einem sicheren Ort auf. Teilen Sie es nicht mit anderen.",
+    "note": "Onboarding"
+  },
+  "show": {
+    "message": "Zeigen",
+    "note": "Onboarding"
+  },
+  "hide": {
+    "message": "Verstecken",
+    "note": "Onboarding"
+  },
+  "privacyScalesBetter": {
+    "message": "Datenschutz lässt sich besser skalieren",
+    "note": "Onboarding"
+  },
+  "yourWalletHasBeenCreated": {
+    "message": "Ihr Wallet wurde erstellt.",
+    "note": "Onboarding"
+  },
+  "noSeedPhrase": {
+    "message": "Keine Seed-Phrase",
+    "note": "Onboarding"
+  },
+  "recovery": {
+    "message": "Erholung",
+    "note": "Onboarding"
+  },
+  "yourAccountIsProtected": {
+    "message": "Ihr Konto wird durch eine verschlüsselte Datei statt durch eine Seed-Phrase geschützt.",
+    "note": "Onboarding"
+  },
+  "downloadAndSecurelyStore": {
+    "message": "Laden Sie die neueste Version Ihrer verschlüsselten Datei herunter und speichern Sie sie sicher. Diese Datei ist für die Kontowiederherstellung unerlässlich.",
+    "note": "Onboarding"
+  },
+  "chooseFromDevice": {
+    "message": "Wählen Sie aus dem Gerät",
+    "note": "Onboarding"
+  },
+  "chooseImportType": {
+    "message": "Wählen Sie Ihren Importtyp",
+    "note": "Onboarding"
+  },
+  "chooseImportTypeDescription": {
+    "message": "Stellen Sie mit Ihrem 12-Wörter-Satz das öffentliche Gleichgewicht wieder her. Um private Gelder wiederherzustellen, laden Sie die verschlüsselte Sicherungsdatei hoch.",
+    "note": "Onboarding"
+  },
+  "importWithSeedPhrase": {
+    "message": "Mit Seed-Phrase importieren",
+    "note": "Onboarding"
+  },
+  "importWithSeedPhraseDescription": {
+    "message": "Verwenden Sie eine vorhandene Wiederherstellungsphrase mit 12 Wörtern. Sie können auch Wallets von anderen Wallet-Anbietern importieren.",
+    "note": "Onboarding"
+  },
+  "importWithEncryptedWalletFile": {
+    "message": "Mit verschlüsselter Wallet-Datei importieren",
+    "note": "Onboarding"
+  },
+  "importWithEncryptedWalletFileDescription": {
+    "message": "Laden Sie Ihre verschlüsselte Wallet-Datei hoch, um Ihr Konto sicher zu importieren. Ihre Daten bleiben privat, da nur gehashte Informationen in der Kette gespeichert werden",
+    "note": "Onboarding"
   }
 }

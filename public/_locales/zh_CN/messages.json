@@ -3373,5 +3373,84 @@
   },
   "learnMore": {
     "message": "了解更多"
+  },
+  "faucetId": {
+    "message": "水龙头ID"
+  },
+  "setNewFaucetId": {
+    "message": "设置新的水龙头 ID"
+  },
+  "setNewFaucetIdDescription": {
+    "message": "输入miden水龙头的ID"
+  },
+  "encryptedWalletFile": {
+    "message": "加密钱包文件"
+  },
+  "encryptedWalletFileDescription": {
+    "message": "输入您的密码以访问您的加密钱包文件。关闭屏幕共享。不要与任何人分享。"
+  },
+  "encryptedWalletFileConfirmation": {
+    "message": "我不会与任何人分享我的加密钱包文件，包括 Miden Wallet。"
+  },
+  "encryptedWalletFilePassword": {
+    "message": "输入密码以加密您的钱包文件。您稍后将需要此密码来恢复您的钱包。"
+  },
+  "editMidenFaucetId": {
+    "message": "编辑 Miden 水龙头 ID"
+  },
+  "exportWalletFile": {
+    "message": "导出钱包文件"
+  },
+  "privacyScalesBetter": {
+    "message": "隐私规模更好",
+    "note": "Onboarding"
+  },
+  "yourWalletHasBeenCreated": {
+    "message": "您的钱包已创建。",
+    "note": "Onboarding"
+  },
+  "noSeedPhrase": {
+    "message": "没有种子短语",
+    "note": "Onboarding"
+  },
+  "recovery": {
+    "message": "恢复",
+    "note": "Onboarding"
+  },
+  "yourAccountIsProtected": {
+    "message": "您的帐户受到加密文件而不是助记词的保护。",
+    "note": "Onboarding"
+  },
+  "downloadAndSecurelyStore": {
+    "message": "下载并安全存储最新版本的加密文件。该文件对于帐户恢复至关重要。",
+    "note": "Onboarding"
+  },
+  "chooseFromDevice": {
+    "message": "从设备中选择",
+    "note": "Onboarding"
+  },
+  "chooseImportType": {
+    "message": "选择您的导入类型",
+    "note": "Onboarding"
+  },
+  "chooseImportTypeDescription": {
+    "message": "用你的 12 个词短语恢复公共平衡。如需恢复私人资金，请上传加密的备份文件。",
+    "note": "Onboarding"
+  },
+  "importWithSeedPhrase": {
+    "message": "使用种子短语导入",
+    "note": "Onboarding"
+  },
+  "importWithSeedPhraseDescription": {
+    "message": "使用现有的 12 字恢复短语。您还可以从其他钱包提供商导入钱包。",
+    "note": "Onboarding"
+  },
+  "importWithEncryptedWalletFile": {
+    "message": "使用加密钱包文件导入",
+    "note": "Onboarding"
+  },
+  "importWithEncryptedWalletFileDescription": {
+    "message": "上传您的加密钱包文件以安全地导入您的帐户。您的数据保持私密，仅散列信息存储在链上",
+    "note": "Onboarding"
   }
 }
