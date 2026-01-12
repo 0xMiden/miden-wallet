@@ -3,7 +3,8 @@ export const getMidenClient = async () => ({
   importPublicMidenWalletFromSeed: async () => 'miden-account-1',
   createMidenWallet: async () => 'miden-account-1',
   getAccounts: async () => [],
-  getAccount: async () => null
+  getAccount: async () => null,
+  syncState: async () => ({ blockNum: () => 1 })
 });
 
 // Mock withWasmClientLock to just execute the operation directly

@@ -1,69 +1,103 @@
-import '../../../../test/jest-mocks';
+import { Sync } from './autoSync';
 
-import { ampApi } from 'lib/amp/amp-interface';
+const mockSyncState = jest.fn();
 
-import { getMidenClient } from '../sdk/miden-client';
-import { AutoSync, AMP_SYNC_STORAGE_KEY, isAmpSyncEnabled } from './autoSync';
+jest.mock('../sdk/miden-client', () => {
+  return {
+    getMidenClient: jest.fn(() =>
+      Promise.resolve({
+        syncState: mockSyncState
+      })
+    )
+  };
+});
 
-jest.mock('lib/amp/amp-interface', () => ({
-  ampApi: {
-    getMessagesForRecipient: jest.fn()
+// Helper to advance time and flush promises in an interleaved way
+async function advanceTimeAndFlush(ms: number, steps = 20) {
+  const stepMs = ms / steps;
+  for (let i = 0; i < steps; i++) {
+    jest.advanceTimersByTime(stepMs);
+    await Promise.resolve();
+    await Promise.resolve(); // Double flush for deeply nested promises
   }
-}));
-
-jest.mock('../sdk/miden-client', () => ({
-  getMidenClient: jest.fn(),
-  withWasmClientLock: async <T>(operation: () => Promise<T>): Promise<T> => operation()
-}));
+}
 
 describe('AutoSync', () => {
-  let sync: any;
-  let consoleSpy: jest.SpyInstance;
+  let sync: Sync;
 
   beforeEach(() => {
-    localStorage.clear();
+    jest.useFakeTimers();
     jest.clearAllMocks();
-    const SyncCtor = (AutoSync as any).constructor;
-    sync = new SyncCtor();
-    sync.state = { currentAccount: { publicKey: 'pk' } };
-    sync.ampCycles = 0;
-    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    sync = new Sync();
+
+    // Mock getCurrentUrl to return localhost by default
+    jest.spyOn(sync, 'getCurrentUrl').mockReturnValue('http://localhost');
+
+    let blockNum = 0;
+    mockSyncState.mockImplementation(() => {
+      blockNum += 1;
+      return Promise.resolve({
+        blockNum: () => blockNum
+      });
+    });
   });
 
   afterEach(() => {
-    consoleSpy.mockRestore();
+    jest.useRealTimers();
   });
 
-  it('respects localStorage flag when checking amp sync enabled', () => {
-    expect(isAmpSyncEnabled()).toBe(false);
-    localStorage.setItem(AMP_SYNC_STORAGE_KEY, 'true');
-    expect(isAmpSyncEnabled()).toBe(true);
+  it('should start syncing when state is updated from undefined', async () => {
+    expect(sync.lastHeight).toBe(0);
+    expect(sync.state).toBeUndefined();
+
+    sync.updateState({ status: 'idle' } as any);
+
+    await advanceTimeAndFlush(100);
+
+    expect(mockSyncState).toHaveBeenCalled();
+    expect(sync.lastHeight).toBe(1);
   });
 
-  it('imports amp messages when enabled and on cycle', async () => {
-    localStorage.setItem(AMP_SYNC_STORAGE_KEY, 'true');
-    (ampApi.getMessagesForRecipient as jest.Mock).mockResolvedValue({
-      json: async () => [{ body: '1,2,3' }]
-    });
+  it('should sync automatically and repeatedly', async () => {
+    sync.updateState({ status: 'idle' } as any);
 
-    const importNoteBytes = jest.fn();
-    (getMidenClient as jest.Mock).mockResolvedValue({ importNoteBytes });
+    await advanceTimeAndFlush(100);
+    expect(mockSyncState).toHaveBeenCalledTimes(1);
+    expect(sync.lastHeight).toBe(1);
 
-    await sync.syncAmp();
+    await advanceTimeAndFlush(1100);
+    expect(mockSyncState).toHaveBeenCalledTimes(2);
+    expect(sync.lastHeight).toBe(2);
 
-    expect(ampApi.getMessagesForRecipient).toHaveBeenCalledWith('pk');
-    expect(importNoteBytes).toHaveBeenCalledWith(new Uint8Array([1, 2, 3]));
-    expect(sync.ampCycles).toBe(1);
+    await advanceTimeAndFlush(1100);
+    expect(mockSyncState).toHaveBeenCalledTimes(3);
+    expect(sync.lastHeight).toBe(3);
   });
 
-  it('skips amp sync when disabled', async () => {
-    localStorage.setItem(AMP_SYNC_STORAGE_KEY, 'false');
-    (ampApi.getMessagesForRecipient as jest.Mock).mockResolvedValue({
-      json: async () => [{ body: '1,2,3' }]
-    });
+  it('should not start a new sync loop if state was already set', async () => {
+    sync.updateState({ status: 'idle' } as any);
 
-    await sync.syncAmp();
+    await advanceTimeAndFlush(100);
+    const callCountAfterFirstUpdate = mockSyncState.mock.calls.length;
+    expect(callCountAfterFirstUpdate).toBe(1);
 
-    expect(ampApi.getMessagesForRecipient).not.toHaveBeenCalled();
+    sync.updateState({ status: 'ready' } as any);
+
+    await advanceTimeAndFlush(1000);
+
+    expect(mockSyncState.mock.calls.length).toBe(2);
+  });
+
+  it('should not sync when on generating-transaction page', async () => {
+    jest.spyOn(sync, 'getCurrentUrl').mockReturnValue('http://localhost/generating-transaction');
+
+    sync.updateState({ status: 'idle' } as any);
+
+    // Give the async sync() a chance to run and check the URL
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(mockSyncState).not.toHaveBeenCalled();
+    expect(sync.lastHeight).toBe(0);
   });
 });

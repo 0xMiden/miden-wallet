@@ -1,8 +1,8 @@
+import { chromium, test as base } from '@playwright/test';
+import { execSync } from 'child_process';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
-import { chromium, test as base } from '@playwright/test';
-import { execSync } from 'child_process';
 
 type Fixtures = {
   extensionPath: string;
@@ -27,7 +27,7 @@ function ensureExtensionBuilt(extensionPath: string) {
   execSync('yarn build:chrome', {
     cwd: ROOT_DIR,
     stdio: 'inherit',
-    env,
+    env
   });
 }
 
@@ -43,26 +43,22 @@ export const test = base.extend<Fixtures>({
 
     const context = await chromium.launchPersistentContext(userDataDir, {
       headless: false, // extensions only run in headed Chromium
-      args: [
-        `--disable-extensions-except=${extensionPath}`,
-        `--load-extension=${extensionPath}`,
-      ],
+      args: [`--disable-extensions-except=${extensionPath}`, `--load-extension=${extensionPath}`]
     });
 
     await use(context);
 
     await context.close();
-    fs.rmSync(userDataDir, { recursive: true, force: true });
+    fs.rmdirSync(userDataDir, { recursive: true });
   },
 
   extensionId: async ({ extensionContext }, use) => {
     const serviceWorker =
-      extensionContext.serviceWorkers()[0] ??
-      (await extensionContext.waitForEvent('serviceworker'));
+      extensionContext.serviceWorkers()[0] ?? (await extensionContext.waitForEvent('serviceworker'));
 
     const extensionId = new URL(serviceWorker.url()).host;
     await use(extensionId);
-  },
+  }
 });
 
 export const expect = test.expect;

@@ -1,27 +1,20 @@
-import { MessageHttpOutput } from '@demox-labs/amp-core/script/http-types';
-
-import { ampApi } from 'lib/amp/amp-interface';
 import { WalletState } from 'lib/shared/types';
 
 import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
-export const AMP_SYNC_STORAGE_KEY = 'amp-sync-storage-key';
-export const DEFAULT_ENABLE_AMP = false;
-export const AMP_CYCLE_WAIT = 5;
-
-export function isAmpSyncEnabled() {
-  const stored = localStorage.getItem(AMP_SYNC_STORAGE_KEY);
-  return stored ? (JSON.parse(stored) as boolean) : DEFAULT_ENABLE_AMP;
-}
-
-class Sync {
+export class Sync {
   lastHeight: number = 0;
   lastRecordId: number = 0;
   getHeightFetchTimestamp: number = 0;
   state?: WalletState;
   ampCycles: number = 0;
+
+  // Exposed for testing
+  getCurrentUrl(): string {
+    return window.location.href;
+  }
 
   public updateState(state: WalletState) {
     const previousState = this.state;
@@ -35,41 +28,18 @@ class Sync {
 
   async sync() {
     // Don't sync on the generating transaction page
-    const isGeneratingUrl = window.location.href.search('generating-transaction') > -1;
+    const isGeneratingUrl = this.getCurrentUrl().search('generating-transaction') > -1;
     if (isGeneratingUrl) {
       return;
     }
-    await this.syncAmp();
-    await sleep(3000);
-    await this.sync();
-  }
-
-  async syncAmp() {
-    const publicKey = this.state?.currentAccount?.publicKey;
-    const ampSyncEnabled = isAmpSyncEnabled();
-    const isAmpCycle = this.ampCycles % AMP_CYCLE_WAIT === 0;
-
-    if (publicKey && ampSyncEnabled && isAmpCycle) {
-      const response = await ampApi.getMessagesForRecipient(publicKey);
-      const messages: MessageHttpOutput[] = await response.json();
-      if (messages.length > 0) {
-        console.log('Syncing amp...');
-
-        // Wrap all WASM client operations in a lock to prevent concurrent access
-        await withWasmClientLock(async () => {
-          const midenClient = await getMidenClient();
-          // TOOD: Need a way to clear the messages once they're recieved
-          for (let message of messages) {
-            // TODO: Potentially tweak upstream to make this cleaner
-            const noteBytes = new Uint8Array(message.body.split(',').map(Number));
-
-            await midenClient.importNoteBytes(noteBytes);
-          }
-        });
-      }
+    const client = await getMidenClient();
+    if (!client) {
+      return;
     }
-
-    this.ampCycles++;
+    const syncSummary = await client.syncState();
+    this.lastHeight = syncSummary.blockNum();
+    await sleep(1000);
+    await this.sync();
   }
 }
 

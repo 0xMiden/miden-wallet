@@ -5,7 +5,6 @@ jest.mock('app/hooks/useGasToken');
 jest.mock('app/hooks/useMidenFaucetId');
 jest.mock('lib/miden/sdk/miden-client-interface');
 jest.mock('lib/miden/sdk/miden-client');
-jest.mock('lib/amp/amp-interface');
 jest.mock('lib/i18n/numbers');
 jest.mock('utils/string');
 jest.mock('lib/miden/back/vault');
