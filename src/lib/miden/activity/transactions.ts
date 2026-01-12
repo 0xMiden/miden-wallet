@@ -391,8 +391,8 @@ export const getCompletedTransactions = async (
     transactions = transactions.concat(failedTransactions);
   }
   transactions.sort((tx1, tx2) => (tx1.completedAt || tx1.initiatedAt) - (tx2.completedAt || tx2.initiatedAt));
-  transactions = transactions.filter(tx => tx.accountId === accountId);
-
+  // transaction may or may not have the note tag
+  transactions = transactions.filter(tx => tx.accountId.split('_')[0] === accountId.split('_')[0]);
   return transactions.slice(offset, limit);
 };
 
