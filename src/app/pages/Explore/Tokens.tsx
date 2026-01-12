@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC } from 'react';
 
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -33,17 +33,12 @@ const Tokens: FC = () => {
   const { t } = useTranslation();
   const allTokensBaseMetadata = useAllTokensBaseMetadata();
   const { data: allTokenBalances = [], isLoading } = useAllBalances(account.publicKey, allTokensBaseMetadata);
-  const totalBalance = useMemo(
-    () => allTokenBalances.reduce((sum, token) => sum + token.balance, 0),
-    [allTokenBalances]
-  );
-
   const showLoading = isLoading && allTokenBalances.length === 0;
 
   return (
     <>
       <div className={classNames('w-full pt-3 mb-2', 'flex justify-start', 'text-sm font-semibold text-black')}>
-        {(totalBalance > 0 || showLoading) && <span>{t('tokens')}</span>}
+        {(allTokenBalances.length > 0 || showLoading) && <span>{t('tokens')}</span>}
       </div>
       <div className="flex-1 flex flex-col pb-4 space-y-2">
         {showLoading && <TokenSkeleton />}

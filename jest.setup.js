@@ -1,3 +1,4 @@
+require('@testing-library/jest-dom');
 const { Crypto, CryptoKey } = require('@peculiar/webcrypto');
 
 let { db } = require('lib/miden/repo');

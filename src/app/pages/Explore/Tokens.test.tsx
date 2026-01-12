@@ -1,0 +1,131 @@
+import React from 'react';
+
+import { render, screen } from '@testing-library/react';
+
+import Tokens from './Tokens';
+
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({ t: (key: string) => key })
+}));
+
+jest.mock('app/hooks/useMidenFaucetId', () => ({
+  __esModule: true,
+  default: () => 'miden-faucet-id'
+}));
+
+jest.mock('lib/miden/front', () => ({
+  useAccount: () => ({ publicKey: 'test-account' }),
+  useAllTokensBaseMetadata: () => ({}),
+  useAllBalances: jest.fn()
+}));
+
+jest.mock('utils/string', () => ({
+  truncateAddress: (addr: string) => addr.slice(0, 8)
+}));
+
+jest.mock('components/Avatar', () => ({
+  Avatar: () => <div data-testid="avatar" />
+}));
+
+jest.mock('components/CardItem', () => ({
+  CardItem: ({ title }: { title: string }) => <div data-testid="card-item">{title}</div>
+}));
+
+const mockUseAllBalances = jest.requireMock('lib/miden/front').useAllBalances;
+
+describe('Tokens', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('shows "Tokens" title during loading state', () => {
+    mockUseAllBalances.mockReturnValue({
+      data: [],
+      isLoading: true
+    });
+
+    render(<Tokens />);
+
+    expect(screen.getByText('tokens')).toBeInTheDocument();
+  });
+
+  it('shows "Tokens" title when tokens are loaded with zero balance', () => {
+    mockUseAllBalances.mockReturnValue({
+      data: [
+        {
+          tokenId: 'token-1',
+          balance: 0,
+          metadata: { symbol: 'TKN', name: 'Token', decimals: 8 }
+        }
+      ],
+      isLoading: false
+    });
+
+    render(<Tokens />);
+
+    expect(screen.getByText('tokens')).toBeInTheDocument();
+  });
+
+  it('shows "Tokens" title when tokens are loaded with positive balance', () => {
+    mockUseAllBalances.mockReturnValue({
+      data: [
+        {
+          tokenId: 'token-1',
+          balance: 100,
+          metadata: { symbol: 'TKN', name: 'Token', decimals: 8 }
+        }
+      ],
+      isLoading: false
+    });
+
+    render(<Tokens />);
+
+    expect(screen.getByText('tokens')).toBeInTheDocument();
+  });
+
+  it('shows "Tokens" title when MIDEN token exists with zero balance (MIDEN is always present)', () => {
+    // MIDEN token is always added by fetchBalances, even with 0 balance
+    mockUseAllBalances.mockReturnValue({
+      data: [
+        {
+          tokenId: 'miden-faucet-id',
+          balance: 0,
+          metadata: { symbol: 'MIDEN', name: 'Miden', decimals: 8 }
+        }
+      ],
+      isLoading: false
+    });
+
+    render(<Tokens />);
+
+    expect(screen.getByText('tokens')).toBeInTheDocument();
+  });
+
+  it('shows skeleton loader during initial load', () => {
+    mockUseAllBalances.mockReturnValue({
+      data: [],
+      isLoading: true
+    });
+
+    const { container } = render(<Tokens />);
+
+    expect(container.querySelector('.animate-pulse')).toBeInTheDocument();
+  });
+
+  it('hides skeleton loader after tokens are loaded', () => {
+    mockUseAllBalances.mockReturnValue({
+      data: [
+        {
+          tokenId: 'token-1',
+          balance: 100,
+          metadata: { symbol: 'TKN', name: 'Token', decimals: 8 }
+        }
+      ],
+      isLoading: false
+    });
+
+    const { container } = render(<Tokens />);
+
+    expect(container.querySelector('.animate-pulse')).not.toBeInTheDocument();
+  });
+});
