@@ -9,39 +9,19 @@ import { CardItem } from 'components/CardItem';
 import { useAccount, useAllTokensBaseMetadata, useAllBalances } from 'lib/miden/front';
 import { truncateAddress } from 'utils/string';
 
-const TokenSkeleton: FC = () => (
-  <div className="flex">
-    <div className="flex-1 flex items-center h-[56px] p-2 gap-x-2 bg-white border border-grey-50 rounded-lg animate-pulse">
-      <div className="w-8 h-8 bg-grey-100 rounded-full shrink-0" />
-      <div className="flex-1 flex justify-between items-center">
-        <div className="flex flex-col gap-1">
-          <div className="w-16 h-4 bg-grey-100 rounded" />
-          <div className="w-24 h-3 bg-grey-100 rounded" />
-        </div>
-        <div className="flex flex-col items-end gap-1">
-          <div className="w-12 h-4 bg-grey-100 rounded" />
-          <div className="w-10 h-3 bg-grey-100 rounded" />
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
 const Tokens: FC = () => {
   const midenFaucetId = useMidenFaucetId();
   const account = useAccount();
   const { t } = useTranslation();
   const allTokensBaseMetadata = useAllTokensBaseMetadata();
-  const { data: allTokenBalances = [], isLoading } = useAllBalances(account.publicKey, allTokensBaseMetadata);
-  const showLoading = isLoading && allTokenBalances.length === 0;
+  const { data: allTokenBalances = [] } = useAllBalances(account.publicKey, allTokensBaseMetadata);
 
   return (
     <>
       <div className={classNames('w-full pt-3 mb-2', 'flex justify-start', 'text-sm font-semibold text-black')}>
-        {(allTokenBalances.length > 0 || showLoading) && <span>{t('tokens')}</span>}
+        {allTokenBalances.length > 0 && <span>{t('tokens')}</span>}
       </div>
       <div className="flex-1 flex flex-col pb-4 space-y-2">
-        {showLoading && <TokenSkeleton />}
         {allTokenBalances.length > 0 &&
           allTokenBalances
             .sort(a => (a.tokenId === midenFaucetId ? -1 : 1))

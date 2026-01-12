@@ -38,7 +38,7 @@ describe('Tokens', () => {
     jest.clearAllMocks();
   });
 
-  it('shows "Tokens" title during loading state', () => {
+  it('does not show "Tokens" title when no balances are loaded yet', () => {
     mockUseAllBalances.mockReturnValue({
       data: [],
       isLoading: true
@@ -46,7 +46,7 @@ describe('Tokens', () => {
 
     render(<Tokens />);
 
-    expect(screen.getByText('tokens')).toBeInTheDocument();
+    expect(screen.queryByText('tokens')).not.toBeInTheDocument();
   });
 
   it('shows "Tokens" title when tokens are loaded with zero balance', () => {
@@ -101,7 +101,7 @@ describe('Tokens', () => {
     expect(screen.getByText('tokens')).toBeInTheDocument();
   });
 
-  it('shows skeleton loader during initial load', () => {
+  it('does not show skeleton loader - balances are displayed immediately from cache', () => {
     mockUseAllBalances.mockReturnValue({
       data: [],
       isLoading: true
@@ -109,10 +109,11 @@ describe('Tokens', () => {
 
     const { container } = render(<Tokens />);
 
-    expect(container.querySelector('.animate-pulse')).toBeInTheDocument();
+    // Skeleton loader was removed - balances are now shown immediately from IndexedDB cache
+    expect(container.querySelector('.animate-pulse')).not.toBeInTheDocument();
   });
 
-  it('hides skeleton loader after tokens are loaded', () => {
+  it('displays tokens without skeleton animation', () => {
     mockUseAllBalances.mockReturnValue({
       data: [
         {

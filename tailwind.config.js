@@ -684,7 +684,8 @@ module.exports = {
       spin: 'spin 1s linear infinite',
       ping: 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite',
       pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-      bounce: 'bounce 1s infinite'
+      bounce: 'bounce 1s infinite',
+      'gradient-wave': 'gradient-wave 2s ease-in-out infinite'
     },
     keyframes: {
       spin: {
@@ -708,6 +709,10 @@ module.exports = {
           transform: 'translateY(0)',
           animationTimingFunction: 'cubic-bezier(0,0,0.2,1)'
         }
+      },
+      'gradient-wave': {
+        '0%': { transform: 'translateX(-100%)' },
+        '100%': { transform: 'translateX(100%)' }
       }
     }
   },

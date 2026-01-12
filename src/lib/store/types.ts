@@ -138,6 +138,13 @@ export interface FiatCurrencyActions {
 }
 
 /**
+ * Sync actions
+ */
+export interface SyncActions {
+  setSyncStatus: (isSyncing: boolean) => void;
+}
+
+/**
  * Combined store type
  */
 export interface WalletStore
@@ -151,4 +158,5 @@ export interface WalletStore
     WalletActions,
     BalanceActions,
     AssetActions,
-    FiatCurrencyActions {}
+    FiatCurrencyActions,
+    SyncActions {}

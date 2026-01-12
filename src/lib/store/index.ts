@@ -408,6 +408,11 @@ export const useWalletStore = create<WalletStore>()(
       } catch {
         set({ fiatRatesLoading: false });
       }
+    },
+
+    // Sync actions
+    setSyncStatus: isSyncing => {
+      set({ isSyncing });
     }
   }))
 );
