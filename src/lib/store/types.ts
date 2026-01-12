@@ -60,6 +60,8 @@ export interface SyncSlice {
   isInitialized: boolean;
   isSyncing: boolean;
   lastSyncedAt: number | null;
+  /** True after the first chain sync completes (used for initial loading indicator) */
+  hasCompletedInitialSync: boolean;
 }
 
 /**

@@ -12,7 +12,6 @@ import Header from 'app/layouts/PageLayout/Header';
 import AddressChip from 'app/templates/AddressChip';
 import { ChainInstabilityBanner } from 'components/ChainInstabilityBanner';
 import { ConnectivityIssueBanner } from 'components/ConnectivityIssueBanner';
-import { SyncWaveBackground } from 'components/SyncWaveBackground';
 import { TestIDProps } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { MIDEN_NETWORK_NAME, MIDEN_FAUCET_ENDPOINTS } from 'lib/miden-chain/constants';
@@ -20,7 +19,6 @@ import { hasQueuedTransactions, initiateConsumeTransaction } from 'lib/miden/act
 import { setFaucetIdSetting, useAccount, useAllBalances, useAllTokensBaseMetadata } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { isAutoConsumeEnabled, isDelegateProofEnabled } from 'lib/settings/helpers';
-import { useWalletStore } from 'lib/store';
 import { useRetryableSWR } from 'lib/swr';
 import useTippy, { TippyProps } from 'lib/ui/useTippy';
 import { Link, navigate, To } from 'lib/woozie';
@@ -40,7 +38,6 @@ const tippyPropsMock = {
 const Explore: FC = () => {
   const account = useAccount();
   const midenFaucetId = useMidenFaucetId();
-  const isSyncing = useWalletStore(s => s.isSyncing);
 
   const allTokensBaseMetadata = useAllTokensBaseMetadata();
   // Call useAllBalances before useClaimableNotes - balance fetch is fast (~5ms)
@@ -156,10 +153,7 @@ const Explore: FC = () => {
         <Header />
         <div className={classNames('flex flex-col justify-start mt-6')}>
           <div className="flex flex-col w-full justify-center items-center">
-            <div className="relative">
-              <SyncWaveBackground isSyncing={isSyncing} className="rounded-lg" />
-              <MainBanner />
-            </div>
+            <MainBanner />
             <AddressChip address={account.publicKey} className="flex items-center" />
           </div>
           <div className="flex justify-evenly items-center w-full mt-1 px-2 mb-4">

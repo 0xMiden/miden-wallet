@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef } from 'react';
 
+import { MidenTokens, TOKEN_MAPPING } from 'lib/miden-chain/constants';
 import { useWalletStore } from 'lib/store';
 import { fetchBalances } from 'lib/store/utils/fetchBalances';
 
-import { AssetMetadata } from '../metadata';
+import { AssetMetadata, MIDEN_METADATA } from '../metadata';
 
 export interface TokenBalanceData {
   tokenId: string;
@@ -16,8 +17,19 @@ export interface TokenBalanceData {
 const REFRESH_INTERVAL = 5_000;
 const DEDUPING_INTERVAL = 10_000;
 
-// Stable empty array to avoid creating new references
-const EMPTY_BALANCES: TokenBalanceData[] = [];
+// Default faucet ID for immediate display before async lookup
+const DEFAULT_MIDEN_FAUCET_ID = TOKEN_MAPPING[MidenTokens.Miden].faucetId;
+
+// Default balance showing 0 MIDEN - displayed immediately before IndexedDB lookup
+const DEFAULT_ZERO_MIDEN_BALANCE: TokenBalanceData[] = [
+  {
+    tokenId: DEFAULT_MIDEN_FAUCET_ID,
+    tokenSlug: 'MIDEN',
+    metadata: MIDEN_METADATA,
+    fiatPrice: 1,
+    balance: 0
+  }
+];
 
 // Global lock to prevent concurrent fetches to WASM client (per address)
 const fetchingAddresses = new Set<string>();
@@ -37,10 +49,11 @@ export function useAllBalances(address: string, tokenMetadatas: Record<string, A
   const setAssetsMetadata = useWalletStore(s => s.setAssetsMetadata);
 
   // Derive values with stable defaults
-  const balances = balancesMap[address] ?? EMPTY_BALANCES;
+  // Show 0 MIDEN immediately before any async lookup completes
+  const balances = balancesMap[address] ?? DEFAULT_ZERO_MIDEN_BALANCE;
   const balancesLastFetched = balancesLastFetchedMap[address] ?? 0;
-  // Consider loading if: explicitly loading OR (no data yet AND never fetched)
-  const balancesLoading = balancesLoadingMap[address] ?? (balances.length === 0 && balancesLastFetched === 0);
+  // Consider loading if: explicitly loading OR never fetched yet
+  const balancesLoading = balancesLoadingMap[address] ?? balancesLastFetched === 0;
 
   // Track if component is mounted
   const mountedRef = useRef(true);
