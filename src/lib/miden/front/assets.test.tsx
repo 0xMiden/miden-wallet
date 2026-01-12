@@ -1,6 +1,11 @@
-import { MIDEN_METADATA, AssetMetadata } from 'lib/miden/front';
+import { MIDEN_METADATA, AssetMetadata, fetchFromStorage, putToStorage } from 'lib/miden/front';
 
-import { searchAssets, setTokensBaseMetadata, getTokensBaseMetadata, ALL_TOKENS_BASE_METADATA_STORAGE_KEY } from './assets';
+import {
+  searchAssets,
+  setTokensBaseMetadata,
+  getTokensBaseMetadata,
+  ALL_TOKENS_BASE_METADATA_STORAGE_KEY
+} from './assets';
 
 jest.mock('lib/miden/front', () => ({
   MIDEN_METADATA: {
@@ -13,8 +18,6 @@ jest.mock('lib/miden/front', () => ({
   fetchFromStorage: jest.fn(),
   putToStorage: jest.fn()
 }));
-
-import { fetchFromStorage, putToStorage } from 'lib/miden/front';
 
 const mockFetchFromStorage = fetchFromStorage as unknown as jest.Mock;
 const mockPutToStorage = putToStorage as unknown as jest.Mock;

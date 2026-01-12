@@ -1,3 +1,10 @@
+import React from 'react';
+
+import { createRoot } from 'react-dom/client';
+import { act } from 'react-dom/test-utils';
+
+import { GeneratingTransactionPage } from './GeneratingTransaction';
+
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key })
 }));
@@ -49,12 +56,6 @@ jest.mock('lib/miden/activity', () => ({
 jest.mock('lib/miden/activity/notes', () => ({
   useExportNotes: () => [[], jest.fn()]
 }));
-
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { act } from 'react-dom/test-utils';
-
-import { GeneratingTransactionPage } from './GeneratingTransaction';
 
 describe('GeneratingTransactionPage interval cleanup', () => {
   beforeAll(() => {

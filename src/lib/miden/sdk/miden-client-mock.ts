@@ -14,11 +14,7 @@ export async function createMockMidenClient(options: MockMidenClientOptions = {}
 
   const { MockWebClient } = await import('@demox-labs/miden-sdk');
 
-  const mockWebClient = await MockWebClient.createClient(
-    serializedMockChain,
-    serializedMockNoteTransportNode,
-    seed
-  );
+  const mockWebClient = await MockWebClient.createClient(serializedMockChain, serializedMockNoteTransportNode, seed);
 
   return MidenClientInterface.fromWebClient(mockWebClient as any, 'mock', onConnectivityIssue);
 }

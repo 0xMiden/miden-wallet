@@ -11,12 +11,3 @@ jest.mock('utils/string');
 jest.mock('lib/miden/back/vault');
 jest.mock('lib/miden/back/dapp');
 jest.mock('../src/lib/miden/back/dapp', () => jest.requireActual('../__mocks__/lib/miden/back/dapp'));
-jest.mock(
-  'lib/miden/front',
-  () => ({
-    __esModule: true,
-    ...jest.requireActual('../src/lib/miden/front/client'),
-    MidenProvider: ({ children }: any) => children
-  }),
-  { virtual: true }
-);

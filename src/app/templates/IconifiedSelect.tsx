@@ -1,6 +1,5 @@
 import React, { ComponentType, forwardRef, HTMLAttributes, ReactNode, useCallback } from 'react';
 
-import { Modifier } from '@popperjs/core';
 import classNames from 'clsx';
 
 import DropdownWrapper from 'app/atoms/DropdownWrapper';
@@ -219,16 +218,8 @@ const SelectButton = forwardRef<HTMLButtonElement, SelectButtonProps>(
   }
 );
 
-const sameWidth: Modifier<string, any> = {
+// Modifier to make popup same width as trigger - handled by floating-ui size middleware
+const sameWidth = {
   name: 'sameWidth',
-  enabled: true,
-  phase: 'beforeWrite',
-  requires: ['computeStyles'],
-  fn: ({ state }) => {
-    state.styles.popper.width = `${state.rects.reference.width}px`;
-  },
-  effect: ({ state }) => {
-    state.elements.popper.style.width = `${(state.elements.reference as any).offsetWidth}px`;
-    return () => {};
-  }
+  enabled: true
 };

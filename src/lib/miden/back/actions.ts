@@ -1,3 +1,4 @@
+import PQueue from 'p-queue';
 import browser from 'webextension-polyfill';
 
 import { MidenDAppMessageType, MidenDAppRequest, MidenDAppResponse } from 'lib/adapter/types';
@@ -14,7 +15,6 @@ import {
   currentAccountUpdated
 } from 'lib/miden/back/store';
 import { Vault } from 'lib/miden/back/vault';
-import { createQueue } from 'lib/queue';
 import { WalletSettings, WalletState } from 'lib/shared/types';
 import { WalletType } from 'screens/onboarding/types';
 
@@ -37,8 +37,8 @@ import {
 
 const ACCOUNT_NAME_PATTERN = /^.{0,16}$/;
 
-const enqueueDApp = createQueue();
-const enqueueUnlock = createQueue();
+const dappQueue = new PQueue({ concurrency: 1 });
+const unlockQueue = new PQueue({ concurrency: 1 });
 
 export async function init() {
   const vaultExist = await Vault.isExist();
@@ -90,7 +90,7 @@ export function lock() {
 
 export function unlock(password: string) {
   return withInited(() =>
-    enqueueUnlock(async () => {
+    unlockQueue.add(async () => {
       const vault = await Vault.setup(password);
       const accounts = await vault.fetchAccounts();
       const settings = await vault.fetchSettings();
@@ -202,34 +202,34 @@ export async function processDApp(origin: string, req: MidenDAppRequest): Promis
       return withInited(() => getCurrentPermission(origin));
 
     case MidenDAppMessageType.PermissionRequest:
-      return withInited(() => enqueueDApp(() => requestPermission(origin, req)));
+      return withInited(() => dappQueue.add(() => requestPermission(origin, req)));
 
     case MidenDAppMessageType.DisconnectRequest:
-      return withInited(() => enqueueDApp(() => requestDisconnect(origin, req)));
+      return withInited(() => dappQueue.add(() => requestDisconnect(origin, req)));
 
     case MidenDAppMessageType.TransactionRequest:
-      return withInited(() => enqueueDApp(() => requestTransaction(origin, req)));
+      return withInited(() => dappQueue.add(() => requestTransaction(origin, req)));
 
     case MidenDAppMessageType.SendTransactionRequest:
-      return withInited(() => enqueueDApp(() => requestSendTransaction(origin, req)));
+      return withInited(() => dappQueue.add(() => requestSendTransaction(origin, req)));
 
     case MidenDAppMessageType.ConsumeRequest:
-      return withInited(() => enqueueDApp(() => requestConsumeTransaction(origin, req)));
+      return withInited(() => dappQueue.add(() => requestConsumeTransaction(origin, req)));
 
     case MidenDAppMessageType.PrivateNotesRequest:
-      return withInited(() => enqueueDApp(() => requestPrivateNotes(origin, req)));
+      return withInited(() => dappQueue.add(() => requestPrivateNotes(origin, req)));
 
     case MidenDAppMessageType.SignRequest:
-      return withInited(() => enqueueDApp(() => requestSign(origin, req)));
+      return withInited(() => dappQueue.add(() => requestSign(origin, req)));
 
     case MidenDAppMessageType.AssetsRequest:
-      return withInited(() => enqueueDApp(() => requestAssets(origin, req)));
+      return withInited(() => dappQueue.add(() => requestAssets(origin, req)));
 
     case MidenDAppMessageType.ImportPrivateNoteRequest:
-      return withInited(() => enqueueDApp(() => requestImportPrivateNote(origin, req)));
+      return withInited(() => dappQueue.add(() => requestImportPrivateNote(origin, req)));
 
     case MidenDAppMessageType.ConsumableNotesRequest:
-      return withInited(() => enqueueDApp(() => requestConsumableNotes(origin, req)));
+      return withInited(() => dappQueue.add(() => requestConsumableNotes(origin, req)));
   }
 }
 

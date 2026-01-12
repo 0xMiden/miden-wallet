@@ -3,8 +3,7 @@ import * as React from 'react';
 import { AnalyticsEventCategory, TestIDProps, useAnalytics } from 'lib/analytics';
 
 interface Props
-  extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>,
-    TestIDProps {}
+  extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, TestIDProps {}
 
 export const Button = React.forwardRef<HTMLButtonElement, Props>(
   ({ testID, testIDProperties, onClick, ...props }, ref) => {

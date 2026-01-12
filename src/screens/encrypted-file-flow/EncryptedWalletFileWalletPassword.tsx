@@ -45,8 +45,11 @@ const EncryptedWalletFileWalletPassword: React.FC<EncryptedWalletFileWalletPassw
 }) => {
   const { unlock } = useMidenContext();
   const { t } = useTranslation();
-  const { errors, setError, clearError, formState } = useForm<FormData>();
-  const submitting = formState.isSubmitting;
+  const {
+    setError,
+    clearErrors,
+    formState: { errors, isSubmitting }
+  } = useForm<FormData>();
   const [confirmed, setConfirmed] = useState(false);
   const [attempt, setAttempt] = useLocalStorage<number>('TridentSharedStorageKey.PasswordAttempts', 1);
   const [timelock, setTimeLock] = useLocalStorage<number>('TridentSharedStorageKey.TimeLock', 0);
@@ -61,9 +64,9 @@ const EncryptedWalletFileWalletPassword: React.FC<EncryptedWalletFileWalletPassw
   const isDisabled = useMemo(() => Date.now() - timelock <= lockLevel, [timelock, lockLevel]);
 
   const onSubmit = useCallback(async () => {
-    if (submitting) return;
+    if (isSubmitting) return;
 
-    clearError('password');
+    clearErrors('password');
     try {
       if (attempt > LAST_ATTEMPT) await new Promise(res => setTimeout(res, Math.random() * 2000 + 1000));
       await unlock(walletPassword!);
@@ -79,9 +82,9 @@ const EncryptedWalletFileWalletPassword: React.FC<EncryptedWalletFileWalletPassw
 
       // Human delay.
       await new Promise(res => setTimeout(res, 300));
-      setError('password', SUBMIT_ERROR_TYPE, err.message);
+      setError('password', { type: SUBMIT_ERROR_TYPE, message: err.message });
     }
-  }, [submitting, clearError, setError, unlock, attempt, setAttempt, setTimeLock, onGoNext, walletPassword]);
+  }, [isSubmitting, clearErrors, setError, unlock, attempt, setAttempt, setTimeLock, onGoNext, walletPassword]);
 
   const handleEnterKey = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -141,7 +144,7 @@ const EncryptedWalletFileWalletPassword: React.FC<EncryptedWalletFileWalletPassw
           title={t('continue')}
           disabled={isDisabled || !confirmed}
           onClick={onSubmit}
-          isLoading={submitting}
+          isLoading={isSubmitting}
         />
       </div>
     </div>

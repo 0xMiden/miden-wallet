@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { OnSubmit, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import Alert from 'app/atoms/Alert';
@@ -56,14 +56,18 @@ const Unlock: FC<UnlockProps> = ({ openForgotPasswordInFullPage = false }) => {
     formRef.current?.querySelector<HTMLInputElement>("input[name='password']")?.focus();
   }, []);
 
-  const { register, handleSubmit, errors, setError, clearError, formState } = useForm<FormData>();
-  const submitting = formState.isSubmitting;
-
-  const onSubmit = useCallback<OnSubmit<FormData>>(
+  const {
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+    formState: { errors, isSubmitting }
+  } = useForm<FormData>();
+  const onSubmit = useCallback<SubmitHandler<FormData>>(
     async ({ password }) => {
-      if (submitting) return;
+      if (isSubmitting) return;
 
-      clearError('password');
+      clearErrors('password');
       formAnalytics.trackSubmit();
       try {
         if (attempt > LAST_ATTEMPT) await new Promise(res => setTimeout(res, Math.random() * 2000 + 1000));
@@ -82,11 +86,11 @@ const Unlock: FC<UnlockProps> = ({ openForgotPasswordInFullPage = false }) => {
 
         // Human delay.
         await new Promise(res => setTimeout(res, 300));
-        setError('password', SUBMIT_ERROR_TYPE, err.message);
+        setError('password', { type: SUBMIT_ERROR_TYPE, message: err.message });
         focusPasswordField();
       }
     },
-    [submitting, clearError, setError, unlock, focusPasswordField, formAnalytics, attempt, setAttempt, setTimeLock]
+    [isSubmitting, clearErrors, setError, unlock, focusPasswordField, formAnalytics, attempt, setAttempt, setTimeLock]
   );
 
   const onForgotPasswordClick = useCallback(() => {
@@ -158,7 +162,7 @@ const Unlock: FC<UnlockProps> = ({ openForgotPasswordInFullPage = false }) => {
 
         <FormSubmitButton
           disabled={isDisabled}
-          loading={submitting}
+          loading={isSubmitting}
           className="w-full justify-center"
           style={{ fontSize: '16px', lineHeight: '24px', padding: '12px 0px' }}
         >

@@ -213,12 +213,7 @@ const appConfig = {
       {
         test: /\.tsx?$/i,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            customize: require.resolve('babel-preset-react-app/webpack-overrides')
-          }
-        }
+        use: 'swc-loader'
       }
     ]
   }
@@ -407,12 +402,7 @@ const backgroundConfig = {
       {
         test: /\.tsx?$/i,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            customize: require.resolve('babel-preset-react-app/webpack-overrides')
-          }
-        }
+        use: 'swc-loader'
       }
     ]
   }
@@ -451,7 +441,9 @@ const workerConfig = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.wasm'],
     alias: {
-      shared: path.resolve(__dirname, 'src', 'shared')
+      lib: path.resolve(__dirname, 'src', 'lib'),
+      shared: path.resolve(__dirname, 'src', 'shared'),
+      screens: path.resolve(__dirname, 'src', 'screens')
     },
     fallback: {
       url: false,
@@ -506,12 +498,7 @@ const workerConfig = {
       {
         test: /\.tsx?$/i,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            customize: require.resolve('babel-preset-react-app/webpack-overrides')
-          }
-        }
+        use: 'swc-loader'
       }
     ]
   }

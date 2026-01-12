@@ -1,19 +1,17 @@
-import React, {
-  Dispatch,
-  memo,
-  ReactElement,
-  RefObject,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState
-} from 'react';
+import React, { Dispatch, memo, ReactElement, SetStateAction, useCallback, useMemo, useState } from 'react';
 
-import { Instance, Options, Modifier, createPopper } from '@popperjs/core';
-import useOnClickOutside from 'use-onclickoutside';
+import {
+  useFloating,
+  useDismiss,
+  useInteractions,
+  offset,
+  flip,
+  shift,
+  autoUpdate,
+  Placement,
+  Strategy,
+  size
+} from '@floating-ui/react';
 
 import Portal from 'lib/ui/Portal';
 
@@ -24,109 +22,103 @@ export interface PopperRenderProps {
 }
 export type RenderProp<P> = (props: P) => ReactElement;
 
-type PopperProps = Partial<Options> & {
+type PopperModifier = {
+  name: string;
+  enabled?: boolean;
+  phase?: string;
+  requires?: string[];
+  fn?: (args: { state: any }) => void;
+  effect?: (args: { state: any }) => () => void;
+};
+
+type PopperProps = {
   popup: RenderProp<PopperRenderProps>;
   children: RenderProp<
     PopperRenderProps & {
-      ref: RefObject<HTMLButtonElement>;
+      ref: React.RefCallback<HTMLButtonElement>;
     }
   >;
+  placement?: Placement;
+  strategy?: Strategy;
+  modifiers?: PopperModifier[];
   fallbackPlacementsEnabled?: boolean;
 };
 
-const Popper = memo<PopperProps>(({ popup, children, fallbackPlacementsEnabled = true, ...popperOptions }) => {
-  const popperRef = useRef<Instance>();
-  const triggerRef = useRef<HTMLButtonElement>(null);
-  const popupRef = useRef<HTMLDivElement>(null);
+const Popper = memo<PopperProps>(
+  ({
+    popup,
+    children,
+    placement = 'bottom',
+    strategy = 'absolute',
+    modifiers = [],
+    fallbackPlacementsEnabled = true
+  }) => {
+    const [opened, setOpened] = useState(false);
 
-  const [opened, setOpened] = useState(false);
+    const toggleOpened = useCallback(() => {
+      setOpened(o => !o);
+    }, []);
 
-  const toggleOpened = useCallback(() => {
-    setOpened(o => !o);
-  }, [setOpened]);
+    // Check if sameWidth modifier is present
+    const hasSameWidth = modifiers.some(m => m.name === 'sameWidth');
 
-  useOnClickOutside(
-    popupRef,
-    opened
-      ? evt => {
-          // @ts-ignore
-          if (!(triggerRef.current && triggerRef.current.contains(evt.target))) {
-            setOpened(false);
-          }
-        }
-      : null
-  );
+    const { refs, floatingStyles, context } = useFloating({
+      open: opened,
+      onOpenChange: setOpened,
+      placement,
+      strategy,
+      whileElementsMounted: autoUpdate,
+      middleware: [
+        offset(8),
+        fallbackPlacementsEnabled && flip(),
+        shift({ padding: 8 }),
+        hasSameWidth &&
+          size({
+            apply({ rects, elements }) {
+              Object.assign(elements.floating.style, {
+                width: `${rects.reference.width}px`
+              });
+            }
+          })
+      ].filter(Boolean)
+    });
 
-  const finalOptions = useMemo(
-    () => ({
-      ...popperOptions,
-      modifiers: [
-        {
-          name: 'preventOverflow',
-          options: {
-            padding: 8
-          }
-        },
-        !fallbackPlacementsEnabled && {
-          name: 'flip',
-          options: {
-            fallbackPlacements: []
-          }
-        },
-        {
-          name: 'hide'
-        },
-        ...(popperOptions.modifiers ?? [])
-      ].filter(Boolean) as Partial<Modifier<any, any>>[]
-    }),
-    [popperOptions, fallbackPlacementsEnabled]
-  );
+    const dismiss = useDismiss(context);
 
-  useEffect(() => {
-    if (popperRef.current) {
-      popperRef.current.setOptions(finalOptions);
-    } else if (triggerRef.current && popupRef.current) {
-      popperRef.current = createPopper(triggerRef.current, popupRef.current, finalOptions);
-    }
-  }, [finalOptions]);
+    const { getFloatingProps } = useInteractions([dismiss]);
 
-  useEffect(
-    () => () => {
-      if (popperRef.current) {
-        popperRef.current.destroy();
-      }
-    },
-    []
-  );
+    const renderPropsBase = useMemo(
+      () => ({
+        opened,
+        setOpened,
+        toggleOpened
+      }),
+      [opened, toggleOpened]
+    );
 
-  useLayoutEffect(() => {
-    popperRef.current?.forceUpdate();
-  }, [opened]);
+    const triggerNode = useMemo(
+      () =>
+        children({
+          ...renderPropsBase,
+          ref: refs.setReference as React.RefCallback<HTMLButtonElement>
+        }),
+      [children, renderPropsBase, refs.setReference]
+    );
 
-  const renderPropsBase = useMemo(
-    () => ({
-      opened,
-      setOpened,
-      toggleOpened
-    }),
-    [opened, setOpened, toggleOpened]
-  );
+    const popupNode = useMemo(() => popup(renderPropsBase), [popup, renderPropsBase]);
 
-  const triggerNode = useMemo(() => children({ ...renderPropsBase, ref: triggerRef }), [children, renderPropsBase]);
+    return (
+      <>
+        {triggerNode}
 
-  const popupNode = useMemo(() => popup(renderPropsBase), [popup, renderPropsBase]);
-
-  return (
-    <>
-      {triggerNode}
-
-      <Portal>
-        <div ref={popupRef} className="z-40">
-          {popupNode}
-        </div>
-      </Portal>
-    </>
-  );
-});
+        <Portal>
+          <div ref={refs.setFloating} style={{ ...floatingStyles, zIndex: 40 }} {...getFloatingProps()}>
+            {popupNode}
+          </div>
+        </Portal>
+      </>
+    );
+  }
+);
 
 export default Popper;

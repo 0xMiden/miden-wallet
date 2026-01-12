@@ -1,11 +1,13 @@
 import '../../../../test/jest-mocks';
 
 import React, { useEffect } from 'react';
+
 import { createRoot } from 'react-dom/client';
 import { act } from 'react-dom/test-utils';
 
 import { FiatCurrenciesEnum } from 'lib/fiat-curency/types';
 import { useWalletStore } from 'lib/store';
+
 import { useNetwork } from './ready';
 
 // Mock the storage module used by useNetwork
@@ -93,7 +95,9 @@ describe('Provider infinite loop protection', () => {
 
     // Trigger another render cycle by updating unrelated state
     await act(async () => {
-      useWalletStore.setState({ selectedFiatCurrency: { name: FiatCurrenciesEnum.EUR, fullname: 'Euro', symbol: '€', apiLabel: 'eur' } });
+      useWalletStore.setState({
+        selectedFiatCurrency: { name: FiatCurrenciesEnum.EUR, fullname: 'Euro', symbol: '€', apiLabel: 'eur' }
+      });
     });
 
     // Should only have 1-2 more renders, not an infinite cascade

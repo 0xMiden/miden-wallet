@@ -1,8 +1,9 @@
 import '../../../../test/jest-mocks';
 
-import { AutoSync, AMP_SYNC_STORAGE_KEY, isAmpSyncEnabled } from './autoSync';
 import { ampApi } from 'lib/amp/amp-interface';
+
 import { getMidenClient } from '../sdk/miden-client';
+import { AutoSync, AMP_SYNC_STORAGE_KEY, isAmpSyncEnabled } from './autoSync';
 
 jest.mock('lib/amp/amp-interface', () => ({
   ampApi: {

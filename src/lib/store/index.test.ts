@@ -405,9 +405,7 @@ describe('useWalletStore', () => {
     });
 
     it('fetchBalances updates store with results', async () => {
-      const mockBalances = [
-        { tokenId: 'token1', tokenSlug: 'TK1', balance: 100, fiatPrice: 1, metadata: {} }
-      ];
+      const mockBalances = [{ tokenId: 'token1', tokenSlug: 'TK1', balance: 100, fiatPrice: 1, metadata: {} }];
       mockFetchBalances.mockResolvedValueOnce(mockBalances);
 
       const { fetchBalances } = useWalletStore.getState();

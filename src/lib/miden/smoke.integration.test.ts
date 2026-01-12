@@ -1,3 +1,15 @@
+import '../../../test/jest-mocks';
+
+import browser from 'webextension-polyfill';
+
+import { IntercomClient } from 'lib/intercom';
+import { start } from 'lib/miden/back/main';
+import { request } from 'lib/miden/front/client';
+import { MidenMessageType, MidenSharedStorageKey } from 'lib/miden/types';
+import { WalletMessageType, WalletStatus } from 'lib/shared/types';
+
+import { ensureWalletReady, getState, waitForStateUpdate, PASSWORD, MNEMONIC } from '../../../test/state-helpers';
+
 jest.mock('webextension-polyfill');
 jest.mock('@demox-labs/miden-wallet-adapter-base');
 jest.mock('nanoid');
@@ -6,32 +18,11 @@ jest.mock('app/hooks/useMidenFaucetId');
 jest.mock('lib/miden/sdk/miden-client-interface', () =>
   jest.requireActual('../../../__mocks__/lib/miden/sdk/miden-client-interface')
 );
-jest.mock('lib/miden/sdk/miden-client', () =>
-  jest.requireActual('../../../__mocks__/lib/miden/sdk/miden-client')
-);
+jest.mock('lib/miden/sdk/miden-client', () => jest.requireActual('../../../__mocks__/lib/miden/sdk/miden-client'));
 jest.mock('lib/amp/amp-interface', () => jest.requireActual('../../../__mocks__/lib/amp/amp-interface'));
 jest.mock('lib/i18n/numbers');
 jest.mock('utils/string');
 jest.mock('lib/miden/back/vault', () => jest.requireActual('../../../__mocks__/lib/miden/back/vault'));
-jest.mock(
-  'lib/miden/front',
-  () => ({
-    __esModule: true,
-    ...jest.requireActual('lib/miden/front/client'),
-    MidenProvider: ({ children }: any) => children
-  }),
-  { virtual: true }
-);
-
-import '../../../test/jest-mocks';
-
-import browser from 'webextension-polyfill';
-import { start } from 'lib/miden/back/main';
-import { WalletMessageType, WalletStatus } from 'lib/shared/types';
-import { request } from 'lib/miden/front/client';
-import { IntercomClient } from 'lib/intercom';
-import { MidenMessageType, MidenSharedStorageKey } from 'lib/miden/types';
-import { ensureWalletReady, getState, waitForStateUpdate, PASSWORD, MNEMONIC } from '../../../test/state-helpers';
 
 describe('miden wallet smoke harness', () => {
   let consoleLogSpy: jest.SpyInstance;

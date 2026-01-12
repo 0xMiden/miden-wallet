@@ -1,10 +1,11 @@
 import '../../../../test/jest-mocks';
 
-import { renderHook, act } from '@testing-library/react';
 import React from 'react';
 
-import { useWalletStore } from 'lib/store';
+import { renderHook, act } from '@testing-library/react';
+
 import { WalletStatus } from 'lib/shared/types';
+import { useWalletStore } from 'lib/store';
 import { WalletType } from 'screens/onboarding/types';
 
 import {
@@ -123,9 +124,7 @@ describe('ready hooks', () => {
     });
 
     it('falls back to default when stored network ID is invalid', () => {
-      const networks = [
-        { id: 'net-1', name: 'Network 1', rpcBaseURL: 'http://rpc1', autoSync: true }
-      ];
+      const networks = [{ id: 'net-1', name: 'Network 1', rpcBaseURL: 'http://rpc1', autoSync: true }];
       mockStoredValue = 'invalid-net';
       useWalletStore.setState({ networks, selectedNetworkId: null });
 

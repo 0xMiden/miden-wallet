@@ -1,7 +1,8 @@
 import React, { ChangeEvent, useCallback, useEffect, useMemo } from 'react';
 
+import { yupResolver } from '@hookform/resolvers/yup';
 import classNames from 'clsx';
-import { OnSubmit, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { openLoadingFullPage, useAppEnv } from 'app/env';
@@ -99,7 +100,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
               id: contact.publicKey,
               name: contact.name,
               isOwned: true
-            } as Contact)
+            }) as Contact
         ),
     [allAccounts, publicKey]
   );
@@ -118,18 +119,26 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     navigateTo(SendFlowStep.TransactionInitiated);
   }, [fullPage, navigateTo]);
 
-  const { register, watch, handleSubmit, formState, setError, clearError, errors, setValue, triggerValidation } =
-    useForm<SendFlowForm>({
-      defaultValues: {
-        amount: undefined,
-        sharePrivately: false,
-        recipientAddress: undefined,
-        recallBlocks: undefined,
-        delegateTransaction: delegateEnabled,
-        token: undefined
-      },
-      validationSchema
-    });
+  const {
+    register,
+    watch,
+    handleSubmit,
+    setError,
+    clearErrors,
+    setValue,
+    trigger,
+    formState: { errors, isSubmitting }
+  } = useForm<SendFlowForm>({
+    defaultValues: {
+      amount: undefined,
+      sharePrivately: false,
+      recipientAddress: undefined,
+      recallBlocks: undefined,
+      delegateTransaction: delegateEnabled,
+      token: undefined
+    },
+    resolver: yupResolver(validationSchema)
+  });
 
   useEffect(() => {
     register('amount');
@@ -161,10 +170,10 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
           break;
         case SendFlowActionId.SetFormValues:
           Object.entries(action.payload).forEach(([key, value]) => {
-            setValue(key, value);
+            setValue(key as keyof SendFlowForm, value);
           });
           if (action.triggerValidation) {
-            triggerValidation();
+            trigger();
           }
           break;
         case SendFlowActionId.GenerateTransaction:
@@ -174,16 +183,16 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
           break;
       }
     },
-    [navigateTo, goBack, onClose, onGenerateTransaction, setValue, triggerValidation]
+    [navigateTo, goBack, onClose, onGenerateTransaction, setValue, trigger]
   );
 
-  const onSubmit = useCallback<OnSubmit<SendFlowForm>>(
-    async (data, event) => {
-      if (formState.isSubmitting) {
+  const onSubmit = useCallback<SubmitHandler<SendFlowForm>>(
+    async data => {
+      if (isSubmitting) {
         return;
       }
       try {
-        clearError('submit');
+        clearErrors('root');
         await initiateSendTransaction(
           publicKey!,
           recipientAddress!,
@@ -196,14 +205,14 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
         onAction({ id: SendFlowActionId.GenerateTransaction });
       } catch (e: any) {
         if (e.message) {
-          setError('submit', 'manual', e.message);
+          setError('root', { type: 'manual', message: e.message });
         }
         console.error(e);
       }
     },
     [
-      formState.isSubmitting,
-      clearError,
+      isSubmitting,
+      clearErrors,
       onAction,
       publicKey,
       recipientAddress,
@@ -224,24 +233,24 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
         payload: { recipientAddress: address }
       });
       if (!isValidMidenAddress(address)) {
-        setError('recipientAddress', 'manual', 'invalidMidenAccountId');
+        setError('recipientAddress', { type: 'manual', message: 'invalidMidenAccountId' });
       } else {
-        clearError('recipientAddress');
+        clearErrors('recipientAddress');
       }
     },
-    [onAction, setError, clearError]
+    [onAction, setError, clearErrors]
   );
 
   const onSelectContact = useCallback(
     (contact: Contact) => {
-      clearError('recipientAddress');
+      clearErrors('recipientAddress');
       onAction({
         id: SendFlowActionId.SetFormValues,
         payload: { recipientAddress: contact.id }
       });
       setTimeout(() => goBack(), 300);
     },
-    [onAction, goBack, clearError]
+    [onAction, goBack, clearErrors]
   );
 
   const onAmountChange = useCallback(
@@ -253,14 +262,14 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
 
       const amount = parseFloat(amountString || '0');
       if (!validations.amount.isValidSync(amountString)) {
-        setError('amount', 'manual', 'Invalid amount');
+        setError('amount', { type: 'manual', message: 'Invalid amount' });
       } else if (amount > token!.balance) {
-        setError('amount', 'manual', 'amountMustBeLessThanBalance');
+        setError('amount', { type: 'manual', message: 'amountMustBeLessThanBalance' });
       } else {
-        clearError('amount');
+        clearErrors('amount');
       }
     },
-    [onAction, token, setError, clearError]
+    [onAction, token, setError, clearErrors]
   );
 
   const goToStep = useCallback(
@@ -275,8 +284,8 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       id: SendFlowActionId.SetFormValues,
       payload: { recipientAddress: '' }
     });
-    clearError('recipientAddress');
-  }, [onAction, clearError]);
+    clearErrors('recipientAddress');
+  }, [onAction, clearErrors]);
 
   const renderStep = useCallback(
     (route: Route) => {

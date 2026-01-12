@@ -1,3 +1,4 @@
+import { IntercomClient } from './client';
 import { MessageType } from './types';
 
 // Mock webextension-polyfill before importing
@@ -24,8 +25,6 @@ jest.mock('webextension-polyfill', () => ({
     connect: jest.fn(() => mockPort)
   }
 }));
-
-import { IntercomClient } from './client';
 
 describe('IntercomClient', () => {
   let client: IntercomClient;

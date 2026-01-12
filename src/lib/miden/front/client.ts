@@ -253,8 +253,10 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   const removeAccount = useCallback(async (accountPublicKey: string, password: string) => {}, []);
   const importAccount = useCallback(async (privateKey: string, encPassword?: string) => {}, []);
   const importWatchOnlyAccount = useCallback(async (viewKey: string) => {}, []);
-  const importMnemonicAccount = useCallback(async (mnemonic: string, password?: string, derivationPath?: string) => {},
-  []);
+  const importMnemonicAccount = useCallback(
+    async (mnemonic: string, password?: string, derivationPath?: string) => {},
+    []
+  );
   const confirmDAppDecrypt = useCallback(async (id: string, confirmed: boolean) => {}, []);
   const confirmDAppBulkTransactions = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {}, []);
   const confirmDAppDeploy = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {}, []);

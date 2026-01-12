@@ -1,13 +1,12 @@
-import { getAssetSymbol, getAssetName, toBaseMetadata, getTokenMetadata } from './utils';
+import { getFaucetIdSetting, getTokensBaseMetadata } from '../front';
 import { MIDEN_METADATA } from './defaults';
 import { AssetMetadata, DetailedAssetMetdata } from './types';
+import { getAssetSymbol, getAssetName, toBaseMetadata, getTokenMetadata } from './utils';
 
 jest.mock('../front', () => ({
   getFaucetIdSetting: jest.fn(),
   getTokensBaseMetadata: jest.fn()
 }));
-
-import { getFaucetIdSetting, getTokensBaseMetadata } from '../front';
 
 const mockGetFaucetIdSetting = getFaucetIdSetting as jest.Mock;
 const mockGetTokensBaseMetadata = getTokensBaseMetadata as jest.Mock;

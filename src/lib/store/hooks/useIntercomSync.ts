@@ -1,10 +1,19 @@
 import { useEffect, useRef } from 'react';
 
+import retry from 'async-retry';
+
 import { MidenState } from 'lib/miden/types';
 import { WalletMessageType, WalletNotification } from 'lib/shared/types';
-import { retryWithTimeout } from 'lib/utility/retry';
 
 import { getIntercom, useWalletStore } from '../index';
+
+/** Wraps a promise with a timeout */
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    setTimeout(() => reject(new Error('Timeout')), ms);
+  });
+  return Promise.race([promise, timeoutPromise]);
+}
 
 /**
  * Hook that sets up synchronization between the Zustand store and the backend.
@@ -58,16 +67,20 @@ export function useIntercomSync() {
 async function fetchStateFromBackend(maxRetries: number = 0): Promise<MidenState> {
   const intercom = getIntercom();
 
-  const res = await retryWithTimeout(
+  const res = await retry(
     async () => {
-      const res = await intercom.request({ type: WalletMessageType.GetStateRequest });
-      if (res?.type !== WalletMessageType.GetStateResponse) {
-        throw new Error('Invalid response type');
-      }
-      return res;
+      return withTimeout(
+        (async () => {
+          const res = await intercom.request({ type: WalletMessageType.GetStateRequest });
+          if (res?.type !== WalletMessageType.GetStateResponse) {
+            throw new Error('Invalid response type');
+          }
+          return res;
+        })(),
+        3_000
+      );
     },
-    3_000,
-    maxRetries
+    { retries: maxRetries, minTimeout: 0, maxTimeout: 0 } as Parameters<typeof retry>[1]
   );
 
   return res.state;

@@ -35,7 +35,12 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
   const [isWrongPassword, setIsWrongPassword] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
 
-  const { watch, register, handleSubmit, errors, formState } = useForm<FormData>({
+  const {
+    watch,
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, isValid }
+  } = useForm<FormData>({
     mode: 'onChange'
   });
 
@@ -232,10 +237,10 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
       )}
 
       <FormSubmitButton
-        loading={formState.isSubmitting}
+        loading={isSubmitting}
         className="w-[360px] text-base pt-4 mx-auto"
         style={{ display: 'block', fontWeight: 500, padding: '12px 0px' }}
-        disabled={!formState.isValid || !walletFile}
+        disabled={!isValid || !walletFile}
       >
         <T id={'import'} />
       </FormSubmitButton>

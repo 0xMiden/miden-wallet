@@ -58,14 +58,21 @@ const makePort = (name?: string) => {
   return port;
 };
 
+const onMessage = makeEvent<[any, any, (response?: any) => void]>();
+
 const runtime = {
   id: runtimeId,
   onConnect: {
     addListener: onConnect.addListener,
     removeListener: onConnect.removeListener
   },
+  onMessage: {
+    addListener: onMessage.addListener,
+    removeListener: onMessage.removeListener
+  },
   onInstalled: makeEvent(),
   onUpdateAvailable: makeEvent(),
+  sendMessage: jest.fn(),
   connect: (info?: any) => {
     const portA = makePort(info?.name);
     const portB = makePort(info?.name);
@@ -94,6 +101,8 @@ const windows = {
   create: jest.fn(async (opts?: any) => ({ id: 1, ...opts })),
   remove: jest.fn()
 };
+
+export { runtime, tabs, extension, windows, storage };
 
 export default {
   runtime,

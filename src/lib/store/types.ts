@@ -141,7 +141,8 @@ export interface FiatCurrencyActions {
  * Combined store type
  */
 export interface WalletStore
-  extends WalletSlice,
+  extends
+    WalletSlice,
     BalancesSlice,
     AssetsSlice,
     UISlice,

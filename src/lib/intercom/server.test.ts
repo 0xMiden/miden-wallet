@@ -1,3 +1,4 @@
+import { IntercomServer } from './server';
 import { MessageType } from './types';
 
 // Mock webextension-polyfill before importing
@@ -29,8 +30,6 @@ jest.mock('webextension-polyfill', () => ({
     }
   }
 }));
-
-import { IntercomServer } from './server';
 
 describe('IntercomServer', () => {
   let server: IntercomServer;
@@ -118,10 +117,7 @@ describe('IntercomServer', () => {
     const messageHandler = mockAddListener.mock.calls[0][0];
 
     // Simulate a request message
-    await messageHandler(
-      { type: MessageType.Req, reqId: 'req-1', data: { action: 'test' } },
-      mockPort
-    );
+    await messageHandler({ type: MessageType.Req, reqId: 'req-1', data: { action: 'test' } }, mockPort);
 
     // Wait for async handler
     await new Promise(resolve => setTimeout(resolve, 0));
