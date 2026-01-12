@@ -3433,5 +3433,84 @@
   },
   "learnMore": {
     "message": "Learn more"
+  },
+  "faucetId": {
+    "message": "Faucet ID"
+  },
+  "setNewFaucetId": {
+    "message": "Set new Faucet ID"
+  },
+  "setNewFaucetIdDescription": {
+    "message": "Enter the ID of a miden faucet"
+  },
+  "encryptedWalletFile": {
+    "message": "Encrypted Wallet File"
+  },
+  "encryptedWalletFileDescription": {
+    "message": "Enter your password to access your Encrypted Wallet File. Turn off screen sharing. Don't share it with anyone."
+  },
+  "encryptedWalletFileConfirmation": {
+    "message": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet."
+  },
+  "encryptedWalletFilePassword": {
+    "message": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
+  },
+  "editMidenFaucetId": {
+    "message": "Edit Miden Faucet ID"
+  },
+  "exportWalletFile": {
+    "message": "Export Wallet File"
+  },
+  "privacyScalesBetter": {
+    "message": "Privacy Scales Better",
+    "note": "Onboarding"
+  },
+  "yourWalletHasBeenCreated": {
+    "message": "Your wallet has been created.",
+    "note": "Onboarding"
+  },
+  "noSeedPhrase": {
+    "message": "No Seed Phrase",
+    "note": "Onboarding"
+  },
+  "recovery": {
+    "message": "Recovery",
+    "note": "Onboarding"
+  },
+  "yourAccountIsProtected": {
+    "message": "Your account is protected by an encrypted file instead of a seed phrase.",
+    "note": "Onboarding"
+  },
+  "downloadAndSecurelyStore": {
+    "message": "Download and securely store the latest version of your encrypted file. This file is essential for account recovery.",
+    "note": "Onboarding"
+  },
+  "chooseFromDevice": {
+    "message": "choose from device",
+    "note": "Onboarding"
+  },
+  "chooseImportType": {
+    "message": "Choose Your Import Type",
+    "note": "Onboarding"
+  },
+  "chooseImportTypeDescription": {
+    "message": "Restore public balance with your 12-word phrase. To restore private funds, upload the encrypted backup file.",
+    "note": "Onboarding"
+  },
+  "importWithSeedPhrase": {
+    "message": "Import with Seed Phrase",
+    "note": "Onboarding"
+  },
+  "importWithSeedPhraseDescription": {
+    "message": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers.",
+    "note": "Onboarding"
+  },
+  "importWithEncryptedWalletFile": {
+    "message": "Import with Encrypted Wallet File",
+    "note": "Onboarding"
+  },
+  "importWithEncryptedWalletFileDescription": {
+    "message": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain",
+    "note": "Onboarding"
   }
 }

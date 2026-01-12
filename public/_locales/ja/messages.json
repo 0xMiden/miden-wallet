@@ -3409,5 +3409,84 @@
   },
   "learnMore": {
     "message": "もっと詳しく知る"
+  },
+  "faucetId": {
+    "message": "蛇口ID"
+  },
+  "setNewFaucetId": {
+    "message": "新しいフォーセット ID を設定する"
+  },
+  "setNewFaucetIdDescription": {
+    "message": "ミデン蛇口のIDを入力してください"
+  },
+  "encryptedWalletFile": {
+    "message": "暗号化されたウォレットファイル"
+  },
+  "encryptedWalletFileDescription": {
+    "message": "パスワードを入力して、暗号化されたウォレット ファイルにアクセスします。画面共有をオフにします。誰とも共有しないでください。"
+  },
+  "encryptedWalletFileConfirmation": {
+    "message": "私は、暗号化されたウォレット ファイルを、Miden Wallet を含め、誰とも共有しません。"
+  },
+  "encryptedWalletFilePassword": {
+    "message": "ウォレットファイルを暗号化するためのパスワードを入力します。このパスワードは、後でウォレットを復元するために必要になります。"
+  },
+  "editMidenFaucetId": {
+    "message": "ミデン フォーセット ID の編集"
+  },
+  "exportWalletFile": {
+    "message": "ウォレットファイルのエクスポート"
+  },
+  "privacyScalesBetter": {
+    "message": "プライバシーの拡張性が向上",
+    "note": "Onboarding"
+  },
+  "yourWalletHasBeenCreated": {
+    "message": "ウォレットが作成されました。",
+    "note": "Onboarding"
+  },
+  "noSeedPhrase": {
+    "message": "シードフレーズなし",
+    "note": "Onboarding"
+  },
+  "recovery": {
+    "message": "回復",
+    "note": "Onboarding"
+  },
+  "yourAccountIsProtected": {
+    "message": "アカウントはシード フレーズではなく暗号化されたファイルによって保護されます。",
+    "note": "Onboarding"
+  },
+  "downloadAndSecurelyStore": {
+    "message": "暗号化されたファイルの最新バージョンをダウンロードして安全に保存します。このファイルはアカウントの回復に不可欠です。",
+    "note": "Onboarding"
+  },
+  "chooseFromDevice": {
+    "message": "デバイスから選ぶ",
+    "note": "Onboarding"
+  },
+  "chooseImportType": {
+    "message": "インポートタイプを選択してください",
+    "note": "Onboarding"
+  },
+  "chooseImportTypeDescription": {
+    "message": "12 語のフレーズで社会のバランスを取り戻しましょう。プライベート資金を復元するには、暗号化されたバックアップ ファイルをアップロードします。",
+    "note": "Onboarding"
+  },
+  "importWithSeedPhrase": {
+    "message": "シードフレーズを使用してインポートする",
+    "note": "Onboarding"
+  },
+  "importWithSeedPhraseDescription": {
+    "message": "既存の 12 単語のリカバリ フレーズを使用します。他のウォレットプロバイダーからウォレットをインポートすることもできます。",
+    "note": "Onboarding"
+  },
+  "importWithEncryptedWalletFile": {
+    "message": "暗号化されたウォレットファイルを使用してインポートする",
+    "note": "Onboarding"
+  },
+  "importWithEncryptedWalletFileDescription": {
+    "message": "暗号化されたウォレット ファイルをアップロードして、アカウントを安全にインポートします。データはプライベートのままで、ハッシュ化された情報のみがオンチェーンに保存されます",
+    "note": "Onboarding"
   }
 }

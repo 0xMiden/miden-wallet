@@ -3417,5 +3417,84 @@
   },
   "learnMore": {
     "message": "더 알아보기"
+  },
+  "faucetId": {
+    "message": "수도꼭지 ID"
+  },
+  "setNewFaucetId": {
+    "message": "새로운 수도꼭지 ID 설정"
+  },
+  "setNewFaucetIdDescription": {
+    "message": "미덴 수도꼭지의 ID를 입력하세요"
+  },
+  "encryptedWalletFile": {
+    "message": "암호화된 지갑 파일"
+  },
+  "encryptedWalletFileDescription": {
+    "message": "암호화된 지갑 파일에 접근하려면 비밀번호를 입력하세요. 화면 공유를 끄세요. 누구와도 공유하지 마세요."
+  },
+  "encryptedWalletFileConfirmation": {
+    "message": "나는 암호화된 지갑 파일을 Miden Wallet을 포함한 누구와도 공유하지 않을 것입니다."
+  },
+  "encryptedWalletFilePassword": {
+    "message": "지갑 파일을 암호화하려면 비밀번호를 입력하세요. 나중에 지갑을 복원하려면 이 비밀번호가 필요합니다."
+  },
+  "editMidenFaucetId": {
+    "message": "Miden 수도꼭지 ID 편집"
+  },
+  "exportWalletFile": {
+    "message": "지갑 파일 내보내기"
+  },
+  "privacyScalesBetter": {
+    "message": "개인 정보 보호 수준이 향상됨",
+    "note": "Onboarding"
+  },
+  "yourWalletHasBeenCreated": {
+    "message": "귀하의 지갑이 생성되었습니다.",
+    "note": "Onboarding"
+  },
+  "noSeedPhrase": {
+    "message": "시드 문구 없음",
+    "note": "Onboarding"
+  },
+  "recovery": {
+    "message": "회복",
+    "note": "Onboarding"
+  },
+  "yourAccountIsProtected": {
+    "message": "귀하의 계정은 시드 문구 대신 암호화된 파일로 보호됩니다.",
+    "note": "Onboarding"
+  },
+  "downloadAndSecurelyStore": {
+    "message": "암호화된 파일의 최신 버전을 다운로드하여 안전하게 저장하세요. 이 파일은 계정 복구에 꼭 필요합니다.",
+    "note": "Onboarding"
+  },
+  "chooseFromDevice": {
+    "message": "장치에서 선택",
+    "note": "Onboarding"
+  },
+  "chooseImportType": {
+    "message": "가져오기 유형을 선택하세요",
+    "note": "Onboarding"
+  },
+  "chooseImportTypeDescription": {
+    "message": "12단어 문구로 공공 균형을 회복하세요. 개인 자금을 복원하려면 암호화된 백업 파일을 업로드하세요.",
+    "note": "Onboarding"
+  },
+  "importWithSeedPhrase": {
+    "message": "시드 문구로 가져오기",
+    "note": "Onboarding"
+  },
+  "importWithSeedPhraseDescription": {
+    "message": "기존 12단어 복구 문구를 사용하세요. 다른 지갑 제공업체로부터 지갑을 가져올 수도 있습니다.",
+    "note": "Onboarding"
+  },
+  "importWithEncryptedWalletFile": {
+    "message": "암호화된 지갑 파일로 가져오기",
+    "note": "Onboarding"
+  },
+  "importWithEncryptedWalletFileDescription": {
+    "message": "암호화된 지갑 파일을 업로드하여 계정을 안전하게 가져오세요. 귀하의 데이터는 비공개로 유지되며 해시된 정보만 체인에 저장됩니다.",
+    "note": "Onboarding"
   }
 }

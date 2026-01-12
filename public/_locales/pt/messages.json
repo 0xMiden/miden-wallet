@@ -3430,5 +3430,84 @@
   },
   "learnMore": {
     "message": "Saiba mais"
+  },
+  "faucetId": {
+    "message": "ID da torneira"
+  },
+  "setNewFaucetId": {
+    "message": "Definir novo ID de torneira"
+  },
+  "setNewFaucetIdDescription": {
+    "message": "Insira o ID de uma torneira miden"
+  },
+  "encryptedWalletFile": {
+    "message": "Arquivo de carteira criptografado"
+  },
+  "encryptedWalletFileDescription": {
+    "message": "Digite sua senha para acessar seu arquivo criptografado da carteira. Desative o compartilhamento de tela. Não compartilhe com ninguém."
+  },
+  "encryptedWalletFileConfirmation": {
+    "message": "Não compartilharei meu arquivo criptografado da carteira com ninguém, incluindo a Miden Wallet."
+  },
+  "encryptedWalletFilePassword": {
+    "message": "Digite uma senha para criptografar seu arquivo de carteira. Você precisará dessa senha para restaurar sua carteira posteriormente."
+  },
+  "editMidenFaucetId": {
+    "message": "Editar ID da torneira Miden"
+  },
+  "exportWalletFile": {
+    "message": "Exportar arquivo de carteira"
+  },
+  "privacyScalesBetter": {
+    "message": "A privacidade é melhor dimensionada",
+    "note": "Onboarding"
+  },
+  "yourWalletHasBeenCreated": {
+    "message": "Sua carteira foi criada.",
+    "note": "Onboarding"
+  },
+  "noSeedPhrase": {
+    "message": "Sem frase-semente",
+    "note": "Onboarding"
+  },
+  "recovery": {
+    "message": "Recuperação",
+    "note": "Onboarding"
+  },
+  "yourAccountIsProtected": {
+    "message": "Sua conta é protegida por um arquivo criptografado em vez de uma frase inicial.",
+    "note": "Onboarding"
+  },
+  "downloadAndSecurelyStore": {
+    "message": "Baixe e armazene com segurança a versão mais recente do seu arquivo criptografado. Este arquivo é essencial para recuperação de conta.",
+    "note": "Onboarding"
+  },
+  "chooseFromDevice": {
+    "message": "escolha do dispositivo",
+    "note": "Onboarding"
+  },
+  "chooseImportType": {
+    "message": "Escolha o seu tipo de importação",
+    "note": "Onboarding"
+  },
+  "chooseImportTypeDescription": {
+    "message": "Restaure o equilíbrio público com sua frase de 12 palavras. Para restaurar fundos privados, carregue o arquivo de backup criptografado.",
+    "note": "Onboarding"
+  },
+  "importWithSeedPhrase": {
+    "message": "Importar com frase-semente",
+    "note": "Onboarding"
+  },
+  "importWithSeedPhraseDescription": {
+    "message": "Use uma frase de recuperação existente de 12 palavras. Você também pode importar carteiras de outros fornecedores de carteiras.",
+    "note": "Onboarding"
+  },
+  "importWithEncryptedWalletFile": {
+    "message": "Importar com arquivo de carteira criptografado",
+    "note": "Onboarding"
+  },
+  "importWithEncryptedWalletFileDescription": {
+    "message": "Carregue seu arquivo de carteira criptografado para importar sua conta com segurança. Seus dados permanecem privados, com apenas informações com hash armazenadas na cadeia",
+    "note": "Onboarding"
   }
 }

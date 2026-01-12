@@ -3341,5 +3341,84 @@
   },
   "learnMore": {
     "message": "Узнать больше"
+  },
+  "faucetId": {
+    "message": "Идентификатор крана"
+  },
+  "setNewFaucetId": {
+    "message": "Установить новый идентификатор крана"
+  },
+  "setNewFaucetIdDescription": {
+    "message": "Введите идентификатор крана Miden"
+  },
+  "encryptedWalletFile": {
+    "message": "Зашифрованный файл кошелька"
+  },
+  "encryptedWalletFileDescription": {
+    "message": "Введите свой пароль для доступа к вашему зашифрованному файлу кошелька. Отключите демонстрацию экрана. Не делитесь этим ни с кем."
+  },
+  "encryptedWalletFileConfirmation": {
+    "message": "Я никому не передам свой зашифрованный файл кошелька, включая Miden Wallet."
+  },
+  "encryptedWalletFilePassword": {
+    "message": "Введите пароль, чтобы зашифровать файл вашего кошелька. Этот пароль понадобится вам для восстановления вашего кошелька позже."
+  },
+  "editMidenFaucetId": {
+    "message": "Изменить идентификатор крана Miden"
+  },
+  "exportWalletFile": {
+    "message": "Экспортировать файл кошелька"
+  },
+  "privacyScalesBetter": {
+    "message": "Конфиденциальность лучше масштабируется",
+    "note": "Onboarding"
+  },
+  "yourWalletHasBeenCreated": {
+    "message": "Ваш кошелек создан.",
+    "note": "Onboarding"
+  },
+  "noSeedPhrase": {
+    "message": "Нет исходной фразы",
+    "note": "Onboarding"
+  },
+  "recovery": {
+    "message": "Восстановление",
+    "note": "Onboarding"
+  },
+  "yourAccountIsProtected": {
+    "message": "Ваша учетная запись защищена зашифрованным файлом вместо исходной фразы.",
+    "note": "Onboarding"
+  },
+  "downloadAndSecurelyStore": {
+    "message": "Загрузите и надежно сохраните последнюю версию зашифрованного файла. Этот файл необходим для восстановления учетной записи.",
+    "note": "Onboarding"
+  },
+  "chooseFromDevice": {
+    "message": "выбрать с устройства",
+    "note": "Onboarding"
+  },
+  "chooseImportType": {
+    "message": "Выберите тип импорта",
+    "note": "Onboarding"
+  },
+  "chooseImportTypeDescription": {
+    "message": "Восстановите общественный баланс с помощью фразы из 12 слов. Чтобы восстановить частные средства, загрузите зашифрованный файл резервной копии.",
+    "note": "Onboarding"
+  },
+  "importWithSeedPhrase": {
+    "message": "Импорт с исходной фразой",
+    "note": "Onboarding"
+  },
+  "importWithSeedPhraseDescription": {
+    "message": "Используйте существующую фразу восстановления из 12 слов. Вы также можете импортировать кошельки от других поставщиков кошельков.",
+    "note": "Onboarding"
+  },
+  "importWithEncryptedWalletFile": {
+    "message": "Импорт с зашифрованным файлом кошелька",
+    "note": "Onboarding"
+  },
+  "importWithEncryptedWalletFileDescription": {
+    "message": "Загрузите зашифрованный файл кошелька, чтобы безопасно импортировать свою учетную запись. Ваши данные остаются конфиденциальными, в цепочке хранится только хешированная информация.",
+    "note": "Onboarding"
   }
 }

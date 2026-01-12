@@ -3487,5 +3487,84 @@
   },
   "learnMore": {
     "message": "Дізнатися більше"
+  },
+  "faucetId": {
+    "message": "ID крана"
+  },
+  "setNewFaucetId": {
+    "message": "Установіть новий ідентифікатор крана"
+  },
+  "setNewFaucetIdDescription": {
+    "message": "Введіть ідентифікатор змішувача miden"
+  },
+  "encryptedWalletFile": {
+    "message": "Зашифрований файл гаманця"
+  },
+  "encryptedWalletFileDescription": {
+    "message": "Введіть свій пароль, щоб отримати доступ до зашифрованого файлу гаманця. Вимкніть спільний доступ до екрана. Ні з ким не діліться цим."
+  },
+  "encryptedWalletFileConfirmation": {
+    "message": "Я нікому не надаватиму доступу до свого зашифрованого файлу гаманця, включно з гаманцем Miden."
+  },
+  "encryptedWalletFilePassword": {
+    "message": "Введіть пароль, щоб зашифрувати файл гаманця. Вам знадобиться цей пароль, щоб пізніше відновити гаманець."
+  },
+  "editMidenFaucetId": {
+    "message": "Редагувати ідентифікатор крана Miden"
+  },
+  "exportWalletFile": {
+    "message": "Експортувати файл гаманця"
+  },
+  "privacyScalesBetter": {
+    "message": "Конфіденційність масштабується краще",
+    "note": "Onboarding"
+  },
+  "yourWalletHasBeenCreated": {
+    "message": "Ваш гаманець створено.",
+    "note": "Onboarding"
+  },
+  "noSeedPhrase": {
+    "message": "Без початкової фрази",
+    "note": "Onboarding"
+  },
+  "recovery": {
+    "message": "Відновлення",
+    "note": "Onboarding"
+  },
+  "yourAccountIsProtected": {
+    "message": "Ваш обліковий запис захищено зашифрованим файлом замість вихідної фрази.",
+    "note": "Onboarding"
+  },
+  "downloadAndSecurelyStore": {
+    "message": "Завантажте та надійно збережіть останню версію зашифрованого файлу. Цей файл необхідний для відновлення облікового запису.",
+    "note": "Onboarding"
+  },
+  "chooseFromDevice": {
+    "message": "вибрати з пристрою",
+    "note": "Onboarding"
+  },
+  "chooseImportType": {
+    "message": "Виберіть тип імпорту",
+    "note": "Onboarding"
+  },
+  "chooseImportTypeDescription": {
+    "message": "Відновіть суспільний баланс своєю фразою з 12 слів. Щоб відновити приватні кошти, завантажте зашифрований файл резервної копії.",
+    "note": "Onboarding"
+  },
+  "importWithSeedPhrase": {
+    "message": "Імпорт із початковою фразою",
+    "note": "Onboarding"
+  },
+  "importWithSeedPhraseDescription": {
+    "message": "Використовуйте існуючу фразу відновлення з 12 слів. Ви також можете імпортувати гаманці від інших постачальників гаманців.",
+    "note": "Onboarding"
+  },
+  "importWithEncryptedWalletFile": {
+    "message": "Імпорт із зашифрованим файлом гаманця",
+    "note": "Onboarding"
+  },
+  "importWithEncryptedWalletFileDescription": {
+    "message": "Завантажте зашифрований файл гаманця, щоб безпечно імпортувати свій обліковий запис. Ваші дані залишаються приватними, лише хешована інформація зберігається в мережі",
+    "note": "Onboarding"
   }
 }

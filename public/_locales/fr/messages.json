@@ -3403,5 +3403,84 @@
   },
   "learnMore": {
     "message": "En savoir plus"
+  },
+  "faucetId": {
+    "message": "ID du robinet"
+  },
+  "setNewFaucetId": {
+    "message": "Définir un nouvel ID de robinet"
+  },
+  "setNewFaucetIdDescription": {
+    "message": "Entrez l'ID d'un robinet Miden"
+  },
+  "encryptedWalletFile": {
+    "message": "Fichier de portefeuille crypté"
+  },
+  "encryptedWalletFileDescription": {
+    "message": "Entrez votre mot de passe pour accéder à votre fichier de portefeuille crypté. Désactivez le partage d'écran. Ne le partagez avec personne."
+  },
+  "encryptedWalletFileConfirmation": {
+    "message": "Je ne partagerai mon fichier de portefeuille crypté avec personne, y compris Miden Wallet."
+  },
+  "encryptedWalletFilePassword": {
+    "message": "Entrez un mot de passe pour crypter votre fichier de portefeuille. Vous aurez besoin de ce mot de passe pour restaurer votre portefeuille ultérieurement."
+  },
+  "editMidenFaucetId": {
+    "message": "Modifier l'ID du robinet Miden"
+  },
+  "exportWalletFile": {
+    "message": "Exporter le fichier de portefeuille"
+  },
+  "privacyScalesBetter": {
+    "message": "La confidentialité évolue mieux",
+    "note": "Onboarding"
+  },
+  "yourWalletHasBeenCreated": {
+    "message": "Votre portefeuille a été créé.",
+    "note": "Onboarding"
+  },
+  "noSeedPhrase": {
+    "message": "Aucune phrase de départ",
+    "note": "Onboarding"
+  },
+  "recovery": {
+    "message": "Récupération",
+    "note": "Onboarding"
+  },
+  "yourAccountIsProtected": {
+    "message": "Votre compte est protégé par un fichier crypté au lieu d'une phrase de départ.",
+    "note": "Onboarding"
+  },
+  "downloadAndSecurelyStore": {
+    "message": "Téléchargez et stockez en toute sécurité la dernière version de votre fichier crypté. Ce fichier est essentiel pour la récupération du compte.",
+    "note": "Onboarding"
+  },
+  "chooseFromDevice": {
+    "message": "choisir parmi l'appareil",
+    "note": "Onboarding"
+  },
+  "chooseImportType": {
+    "message": "Choisissez votre type d'importation",
+    "note": "Onboarding"
+  },
+  "chooseImportTypeDescription": {
+    "message": "Rétablissez l’équilibre public avec votre phrase de 12 mots. Pour restaurer des fonds privés, téléchargez le fichier de sauvegarde crypté.",
+    "note": "Onboarding"
+  },
+  "importWithSeedPhrase": {
+    "message": "Importer avec la phrase de départ",
+    "note": "Onboarding"
+  },
+  "importWithSeedPhraseDescription": {
+    "message": "Utilisez une phrase de récupération existante de 12 mots. Vous pouvez également importer des portefeuilles d'autres fournisseurs de portefeuilles.",
+    "note": "Onboarding"
+  },
+  "importWithEncryptedWalletFile": {
+    "message": "Importer avec un fichier de portefeuille crypté",
+    "note": "Onboarding"
+  },
+  "importWithEncryptedWalletFileDescription": {
+    "message": "Téléchargez votre fichier de portefeuille crypté pour importer votre compte en toute sécurité. Vos données restent privées, seules les informations hachées sont stockées en chaîne",
+    "note": "Onboarding"
   }
 }
