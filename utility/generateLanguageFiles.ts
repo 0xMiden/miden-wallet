@@ -3,17 +3,19 @@ const translate = require('translate');
 const path = require('path');
 
 const root = path.resolve(__dirname, '..');
-const englishFilePath = path.join(root, 'public/_locales/en/messages.json');
+// Use en.json as source of truth (flat format), not messages.json (Chrome extension format)
+const englishFilePath = path.join(root, 'public/_locales/en/en.json');
 const englishFile = require(englishFilePath);
 
 async function translateFile(code: string) {
   let newFile: any = {};
   for (const key in englishFile) {
-    const item = englishFile[key];
-    let newItem = Object.assign({}, item);
-    const newMessage = await translateSegment(item.message, code);
-    newItem.message = newMessage;
-    newFile[key] = newItem;
+    const englishMessage = englishFile[key]; // en.json is flat: "key": "value"
+    const newMessage = await translateSegment(englishMessage, code);
+    newFile[key] = {
+      message: newMessage,
+      englishSource: englishMessage
+    };
   }
   const filePath = path.join(root, 'utility/tmp-messages.json');
   fs.writeFileSync(filePath, JSON.stringify(newFile, null, 2));
@@ -24,15 +26,32 @@ async function translateWithDiff(fileName: string, code: string, replaceFile: bo
   let newFile: any = Object.assign({}, existingFile);
 
   for (const key in englishFile) {
-    if (!existingFile[key]) {
-      console.log(`Found missing translation for: ${key}`);
-      const item = englishFile[key];
-      let newItem = Object.assign({}, item);
-      const newMessage = await translateSegment(item.message, code);
-      newItem.message = newMessage;
-      newFile[key] = newItem;
+    const englishMessage = englishFile[key]; // en.json is flat: "key": "value"
+    const existingItem = existingFile[key];
+
+    if (!existingItem) {
+      // Missing translation - translate it
+      console.log(`Translating "${key}" (missing)`);
+      const newMessage = await translateSegment(englishMessage, code);
+      newFile[key] = {
+        message: newMessage,
+        englishSource: englishMessage
+      };
+    } else if (!existingItem.englishSource) {
+      // Existing translation without englishSource - add it without re-translating
+      // (one-time migration for existing translations)
+      newFile[key] = { ...existingItem, englishSource: englishMessage };
+    } else if (existingItem.englishSource !== englishMessage) {
+      // English source has changed - re-translate
+      console.log(`Translating "${key}" (English changed)`);
+      const newMessage = await translateSegment(englishMessage, code);
+      newFile[key] = {
+        message: newMessage,
+        englishSource: englishMessage
+      };
     } else {
-      newFile[key] = existingFile[key];
+      // Translation is up to date
+      newFile[key] = existingItem;
     }
   }
   const filePath = replaceFile ? fileName : path.join(root, 'utility/tmp-messages.json');
@@ -92,8 +111,7 @@ async function fixErrorsForLanguage(fileName: string, code: string, replaceFile:
 
   for (const key in englishFile) {
     if (existingFile[key]) {
-      const item = englishFile[key];
-      const englishMessage = item.message;
+      const englishMessage = englishFile[key]; // en.json is flat: "key": "value"
       const otherMessage = existingFile[key].message;
       var regExp = /\$([^$)]+)\$/gm;
       var regExp2 = /\$([^$)]+)\$/gm;
