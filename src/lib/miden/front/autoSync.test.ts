@@ -24,16 +24,14 @@ async function advanceTimeAndFlush(ms: number, steps = 20) {
 
 describe('AutoSync', () => {
   let sync: Sync;
-  const originalLocation = window.location;
 
   beforeEach(() => {
     jest.useFakeTimers();
     jest.clearAllMocks();
     sync = new Sync();
 
-    // @ts-expect-error - delete to allow reassignment
-    delete window.location;
-    window.location = { href: 'http://localhost' } as Location;
+    // Mock getCurrentUrl to return localhost by default
+    jest.spyOn(sync, 'getCurrentUrl').mockReturnValue('http://localhost');
 
     let blockNum = 0;
     mockSyncState.mockImplementation(() => {
@@ -46,7 +44,6 @@ describe('AutoSync', () => {
 
   afterEach(() => {
     jest.useRealTimers();
-    window.location = originalLocation;
   });
 
   it('should start syncing when state is updated from undefined', async () => {
@@ -91,12 +88,14 @@ describe('AutoSync', () => {
     expect(mockSyncState.mock.calls.length).toBe(2);
   });
 
-  it.skip('should not sync when on generating-transaction page', async () => {
-    window.location = { href: 'http://localhost/generating-transaction' } as Location;
+  it('should not sync when on generating-transaction page', async () => {
+    jest.spyOn(sync, 'getCurrentUrl').mockReturnValue('http://localhost/generating-transaction');
 
     sync.updateState({ status: 'idle' } as any);
 
-    await advanceTimeAndFlush(2000);
+    // Give the async sync() a chance to run and check the URL
+    await Promise.resolve();
+    await Promise.resolve();
 
     expect(mockSyncState).not.toHaveBeenCalled();
     expect(sync.lastHeight).toBe(0);

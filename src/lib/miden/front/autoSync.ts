@@ -11,6 +11,11 @@ export class Sync {
   state?: WalletState;
   ampCycles: number = 0;
 
+  // Exposed for testing
+  getCurrentUrl(): string {
+    return window.location.href;
+  }
+
   public updateState(state: WalletState) {
     const previousState = this.state;
     this.state = state;
@@ -23,7 +28,7 @@ export class Sync {
 
   async sync() {
     // Don't sync on the generating transaction page
-    const isGeneratingUrl = window.location.href.search('generating-transaction') > -1;
+    const isGeneratingUrl = this.getCurrentUrl().search('generating-transaction') > -1;
     if (isGeneratingUrl) {
       return;
     }
