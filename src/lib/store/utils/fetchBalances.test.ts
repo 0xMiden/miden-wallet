@@ -6,8 +6,10 @@ import { fetchBalances } from './fetchBalances';
 
 // Mock dependencies
 const mockGetAccount = jest.fn();
+const mockSyncState = jest.fn();
 const mockGetMidenClient = jest.fn(() => ({
-  getAccount: mockGetAccount
+  getAccount: mockGetAccount,
+  syncState: mockSyncState
 }));
 
 jest.mock('lib/miden/sdk/miden-client', () => ({
@@ -37,6 +39,7 @@ describe('fetchBalances', () => {
 
   beforeEach(() => {
     mockGetAccount.mockReset();
+    mockSyncState.mockReset();
   });
 
   beforeAll(() => {
@@ -158,5 +161,30 @@ describe('fetchBalances', () => {
 
     // Metadata is now fetched inline, so callback should have been called
     expect(fetchTokenMetadata).toHaveBeenCalledWith('bech32-new-faucet');
+  });
+
+  it('reads from IndexedDB (getAccount) without calling syncState', async () => {
+    const mockAssets = [
+      {
+        faucetId: () => 'raw-miden-faucet',
+        amount: () => ({ toString: () => '100000000' })
+      }
+    ];
+
+    mockGetAccount.mockResolvedValueOnce({
+      vault: () => ({
+        fungibleAssets: () => mockAssets
+      })
+    });
+
+    const { getBech32AddressFromAccountId } = jest.requireMock('lib/miden/sdk/helpers');
+    getBech32AddressFromAccountId.mockReturnValueOnce('miden-faucet-id');
+
+    await fetchBalances('my-address', {}, { fetchMissingMetadata: false });
+
+    // Should read from IndexedDB
+    expect(mockGetAccount).toHaveBeenCalledWith('my-address');
+    // Should NOT call syncState - that happens separately via AutoSync
+    expect(mockSyncState).not.toHaveBeenCalled();
   });
 });
