@@ -1,33 +1,43 @@
 {
   "appName": {
-    "message": "Miden - Miden 錢包"
+    "message": "Miden - Miden 錢包",
+    "englishSource": "Miden Wallet"
   },
   "showIncomingTransactions": {
-    "message": "顯示新進交易"
+    "message": "顯示新進交易",
+    "englishSource": "Show Incoming Transactions"
   },
   "appDesc": {
-    "message": "🔐💰這是 Aleo 區塊鏈加密貨幣錢包，是一項瀏覽器網頁擴充功能。 "
+    "message": "🔐💰這是 Aleo 區塊鏈加密貨幣錢包，是一項瀏覽器網頁擴充功能。 ",
+    "englishSource": "🔐💰 Privacy-preserving cryptocurrency wallet for Miden using Zero Knowledge Proofs"
   },
   "importAccount": {
-    "message": "匯入帳戶"
+    "message": "匯入帳戶",
+    "englishSource": "Import account"
   },
   "createAccount": {
-    "message": "創建或恢復帳戶"
+    "message": "創建或恢復帳戶",
+    "englishSource": "Create or Restore account"
   },
   "faucetFileTitle": {
-    "message": "水龍頭檔案"
+    "message": "水龍頭檔案",
+    "englishSource": "Faucet File"
   },
   "faucetFile": {
-    "message": "水龍頭檔案"
+    "message": "水龍頭檔案",
+    "englishSource": "Faucet file"
   },
   "settings": {
-    "message": "設定"
+    "message": "設定",
+    "englishSource": "Settings"
   },
   "openNewTab": {
-    "message": "開啟新分頁"
+    "message": "開啟新分頁",
+    "englishSource": "Open new tab"
   },
   "maximiseView": {
-    "message": "將畫面最大化"
+    "message": "將畫面最大化",
+    "englishSource": "Maximize view"
   },
   "selectFileOfFormat": {
     "message": "選取 $format$ 檔案",
@@ -35,14 +45,17 @@
       "format": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Select $format$ file"
   },
   "authorizedDApps": {
     "message": "授權的分散式應用程式",
-    "description": "DApps = Decentralized Applications"
+    "description": "DApps = Decentralized Applications",
+    "englishSource": "Authorized DApps"
   },
   "clickIconToResetPermissions": {
-    "message": "點擊 X 圖示重新設定權限。"
+    "message": "點擊 X 圖示重新設定權限。",
+    "englishSource": "Click on the X icon to reset permissions."
   },
   "versionLabel": {
     "message": "版本：$version$",
@@ -50,7 +63,8 @@
       "version": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "version: {{version}}"
   },
   "madeWithLove": {
     "message": "$companyName$ 以 $loveIcon$ 製作",
@@ -61,7 +75,8 @@
       "companyName": {
         "content": "$2"
       }
-    }
+    },
+    "englishSource": "Made with $loveIcon$ by $companyName$"
   },
   "feeInputDescription": {
     "message": "此操作的基本費用：$fee$\n其他 - 加速確認",
@@ -69,7 +84,8 @@
       "fee": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Base Fee for this operation is: $fee$\nAdditional - speeds up its confirmation"
   },
   "resetPermissionsConfirmation": {
     "message": "是否確定重設 $origin$ 的\n權限？",
@@ -77,37 +93,47 @@
       "origin": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Are you sure you want to reset permissions for\n {{origin}}?"
   },
   "protectedFormField": {
-    "message": "受保護"
+    "message": "受保護",
+    "englishSource": "HIDDEN"
   },
   "clickToRevealOrEditField": {
     "message": "點擊可顯示或編輯此欄位"
   },
   "copiedHash": {
-    "message": "已複製。"
+    "message": "已複製。",
+    "englishSource": "Copied."
   },
   "copyHashToClipboard": {
-    "message": "複製到剪貼簿"
+    "message": "複製到剪貼簿",
+    "englishSource": "Copy to clipboard"
   },
   "accounts": {
-    "message": "帳戶"
+    "message": "帳戶",
+    "englishSource": "Accounts"
   },
   "lock": {
-    "message": "堵塞"
+    "message": "堵塞",
+    "englishSource": "Lock"
   },
   "importedAccount": {
-    "message": "已匯入"
+    "message": "已匯入",
+    "englishSource": "Imported"
   },
   "networks": {
-    "message": "網路"
+    "message": "網路",
+    "englishSource": "Networks"
   },
   "back": {
-    "message": "返回"
+    "message": "返回",
+    "englishSource": "Back"
   },
   "addNewToken": {
-    "message": "新增新代幣"
+    "message": "新增新代幣",
+    "englishSource": "Add new Token"
   },
   "hideSomeToken": {
     "message": "隱藏「$tokenName$」代幣",
@@ -115,7 +141,8 @@
       "tokenName": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Hide \"$tokenName$\" token"
   },
   "copySomeTokenAddress": {
     "message": "複製「$tokenSymbol$」地址",
@@ -123,7 +150,8 @@
       "tokenSymbol": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Copy \"$tokenSymbol$\" address"
   },
   "copySomeTokenId": {
     "message": "複製「$tokenSymbol$」ID",
@@ -131,7 +159,8 @@
       "tokenSymbol": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Copy \"$tokenSymbol$\" ID"
   },
   "originLabel": {
     "message": "來源：$origin$",
@@ -139,7 +168,8 @@
       "origin": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Origin:"
   },
   "networkLabel": {
     "message": "網路：$network$",
@@ -147,7 +177,8 @@
       "network": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Network:"
   },
   "pkhLabel": {
     "message": "帳戶：$pkh$",
@@ -155,7 +186,8 @@
       "pkh": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Account:"
   },
   "minDelegationAmountDescription": {
     "message": "您目前的餘額低於此烘焙師的最低委託金額。這代表當餘額低於 $minAmount$ 即無法支出。",
@@ -163,7 +195,8 @@
       "minAmount": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Your current balance is less than a minimal delegation amount of this baker. That means while the balance is less than $minAmount$ - there will be no payouts."
   },
   "clickOnBakerPrompt": {
     "message": "點擊您想要委託資金的烘焙師。此清單由 $link$ 提供。",
@@ -171,10 +204,12 @@
       "link": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Click on the Baker you want to delegate funds to. This list is powered by $link$."
   },
   "highestIsBetter": {
-    "message": "金額愈高愈好"
+    "message": "金額愈高愈好",
+    "englishSource": "the higher the better"
   },
   "unlockWalletPrompt": {
     "message": "如果您想從現有的錢包保留東西 - $link$ 並解鎖。",
@@ -182,7 +217,8 @@
       "link": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "If you want to save something from already existing wallet - $link$ and unlock it."
   },
   "acceptTermsInputDescription": {
     "message": "\n我已閱讀並同意 $termsOfUsageLink$ 和 $privacyPolicyLink$",
@@ -193,59 +229,77 @@
       "privacyPolicyLink": {
         "content": "$2"
       }
-    }
+    },
+    "englishSource": "I have read and agree to the $termsOfUsageLink$ and $privacyPolicyLink$"
   },
   "copiedTokenAddress": {
-    "message": "已複製。"
+    "message": "已複製。",
+    "englishSource": "Copied."
   },
   "copiedTokenId": {
-    "message": "已複製。"
+    "message": "已複製。",
+    "englishSource": "Copied."
   },
   "delegatedTo": {
-    "message": "委託予："
+    "message": "委託予：",
+    "englishSource": "Delegated to:"
   },
   "delegatingMotivation": {
-    "message": "將您的基金委託給烘焙師是利用餘額賺取利息的絕佳方法"
+    "message": "將您的基金委託給烘焙師是利用餘額賺取利息的絕佳方法",
+    "englishSource": "Delegating your funds to bakers is a great way of earning interest on your balance"
   },
   "reDelegate": {
-    "message": "重新委託"
+    "message": "重新委託",
+    "englishSource": "Re-delegate"
   },
   "delegateNow": {
-    "message": "立即委託"
+    "message": "立即委託",
+    "englishSource": "Delegate now"
   },
   "cancel": {
-    "message": "取消"
+    "message": "取消",
+    "englishSource": "Cancel"
   },
   "save": {
-    "message": "儲存"
+    "message": "儲存",
+    "englishSource": "Save"
   },
   "edit": {
-    "message": "編輯"
+    "message": "編輯",
+    "englishSource": "Edit"
   },
   "useCoinSwitch": {
     "message": "使用 CoinSwitch",
-    "description": "CoinSwitch = https://coinswitch.co/"
+    "description": "CoinSwitch = https://coinswitch.co/",
+    "englishSource": "Use CoinSwitch"
   },
   "aleoFaucet": {
-    "message": "Aleo 水龍頭"
+    "message": "Aleo 水龍頭",
+    "englishSource": "Aleo Faucet"
   },
   "aleoFaucetAlpha": {
-    "message": "Aleo 水龍頭 (Alpha)"
+    "message": "Aleo 水龍頭 (Alpha)",
+    "englishSource": "Aleo Faucet (Alpha)"
   },
   "depositToWallet": {
-    "message": "存款到您的錢包"
+    "message": "存款到您的錢包",
+    "englishSource": "Deposit to your wallet"
   },
   "depositToWalletDescription": {
-    "message": "點擊存款方式，將錢存進您的錢包。使用水龍頭獲得免費錢幣！"
+    "message": "點擊存款方式，將錢存進您的錢包。使用水龍頭獲得免費錢幣！",
+    "englishSource": "Click on deposit method to get money on your wallet. Use faucet to get free coins!"
   },
   "addToken": {
-    "message": "新增代幣"
+    "message": "新增代幣",
+    "englishSource": "Add Asset"
   },
   "contractNotAvailable": {
-    "message": "無法取得此地址上的合約。您是否確定這個網路上存在此合約？"
+    "message": "無法取得此地址上的合約。您是否確定這個網路上存在此合約？",
+    "englishSource": "The contract at this address is not available. Does it exist on this network?"
   },
   "noTransferMethod": {
-    "message": "無轉帳方式"
+    "message": "無轉帳方式",
+    "englishSource": "No transfer method"
   },
   "tokenDoesNotMatchStandard": {
     "message": "提供的代幣合約與 $standard$ 標準不相符",
@@ -253,110 +307,145 @@
       "standard": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Provided asset contract doesn't match $standard$ standard"
   },
   "error": {
-    "message": "錯誤"
+    "message": "錯誤",
+    "englishSource": "Error"
   },
   "tokenType": {
-    "message": "代幣類型"
+    "message": "代幣類型",
+    "englishSource": "Token type"
   },
   "tokenId": {
-    "message": "代幣 ID"
+    "message": "代幣 ID",
+    "englishSource": "Token ID"
   },
   "tokenIdInputDescription": {
-    "message": "識別 FA2 合約內代幣的非負整數"
+    "message": "識別 FA2 合約內代幣的非負整數",
+    "englishSource": "A non-negative integer number that identifies the asset inside FA2 contract"
   },
   "comingSoonComment": {
-    "message": "(即將推出)"
+    "message": "(即將推出)",
+    "englishSource": "(coming soon)"
   },
   "soon": {
-    "message": "即將"
+    "message": "即將",
+    "englishSource": "soon"
   },
   "required": {
-    "message": "必要"
+    "message": "必要",
+    "englishSource": "Required"
   },
   "address": {
-    "message": "地址"
+    "message": "地址",
+    "englishSource": "Address"
   },
   "addressOfDeployedTokenContract": {
-    "message": "已部署代幣合約的地址。"
+    "message": "已部署代幣合約的地址。",
+    "englishSource": "Address of a deployed asset contract."
   },
   "tokenContractPlaceholder": {
-    "message": "例如 KT1v9CmPy…"
+    "message": "例如 KT1v9CmPy…",
+    "englishSource": "e.g. KT1v9CmPy..."
   },
   "tokenSymbolPatternDescription": {
-    "message": "只可使用 a-z、A-Z、0-9 字元，長度為 2-5 個字元"
+    "message": "只可使用 a-z、A-Z、0-9 字元，長度為 2-5 個字元",
+    "englishSource": "Only a-z, A-Z, 0-9 chars allowed, 2-5 length"
   },
   "symbol": {
-    "message": "符號"
+    "message": "符號",
+    "englishSource": "Symbol"
   },
   "tokenSymbolInputDescription": {
-    "message": "代幣符號，像是「USD」代表美元。"
+    "message": "代幣符號，像是「USD」代表美元。",
+    "englishSource": "Asset symbol, like 'USD' for United States Dollar."
   },
   "tokenSymbolInputPlaceholder": {
-    "message": "例如 WEW、BOW、LAL 等"
+    "message": "例如 WEW、BOW、LAL 等",
+    "englishSource": "e.g. WEW, BOW, LAL etc."
   },
   "tokenNamePatternDescription": {
-    "message": "無特殊字元，長度為 3-50 個字元"
+    "message": "無特殊字元，長度為 3-50 個字元",
+    "englishSource": "No special characters, 3-50 length"
   },
   "name": {
-    "message": "名稱"
+    "message": "名稱",
+    "englishSource": "Name"
   },
   "tokenNameInputDescription": {
-    "message": "代幣名稱，像是「Bitcoin」(比特幣) 代表 BTC 資產。"
+    "message": "代幣名稱，像是「Bitcoin」(比特幣) 代表 BTC 資產。",
+    "englishSource": "Asset name, like 'Bitcoin' for BTC asset."
   },
   "tokenNameInputPlaceholder": {
-    "message": "例如 MySuperToken"
+    "message": "例如 MySuperToken",
+    "englishSource": "e.g. MySuperToken"
   },
   "nonNegativeIntMessage": {
-    "message": "整數，大於或等於 0"
+    "message": "整數，大於或等於 0",
+    "englishSource": "Integer, 0 or greater"
   },
   "decimals": {
-    "message": "小數"
+    "message": "小數",
+    "englishSource": "Decimals"
   },
   "decimalsInputDescription": {
-    "message": "小數點後的小數位數字。例如 BTC 的 8，USD 的 2。"
+    "message": "小數點後的小數位數字。例如 BTC 的 8，USD 的 2。",
+    "englishSource": "A number of decimal places after point. For example: 8 for BTC, 2 for USD."
   },
   "orIPFSImageURL": {
-    "message": "或 IPFS 影像網址"
+    "message": "或 IPFS 影像網址",
+    "englishSource": "Or IPFS image URL"
   },
   "validImageURL": {
-    "message": "有效的影像網址"
+    "message": "有效的影像網址",
+    "englishSource": "Valid image URL"
   },
   "onlyHTTPS": {
-    "message": "僅 HTTPS"
+    "message": "僅 HTTPS",
+    "englishSource": "Only HTTPS"
   },
   "formatsAllowed": {
-    "message": "僅允許 .png、.jpg、.jpeg、.gif、.webp 影像"
+    "message": "僅允許 .png、.jpg、.jpeg、.gif、.webp 影像",
+    "englishSource": "Only .png, .jpg, .jpeg, .gif, .webp images allowed"
   },
   "iconURL": {
-    "message": "圖示網址"
+    "message": "圖示網址",
+    "englishSource": "Icon URL"
   },
   "optionalComment": {
-    "message": "(自選)"
+    "message": "(自選)",
+    "englishSource": "(optional)"
   },
   "iconURLInputDescription": {
-    "message": "代幣標誌的影像網址。"
+    "message": "代幣標誌的影像網址。",
+    "englishSource": "Image URL for asset logo."
   },
   "invalidAddress": {
-    "message": "無效的地址"
+    "message": "無效的地址",
+    "englishSource": "Invalid address"
   },
   "contractNotExistOnNetwork": {
-    "message": "目前的網路上不存在此智慧合約"
+    "message": "目前的網路上不存在此智慧合約",
+    "englishSource": "This smart contract doesn't exist on current network"
   },
   "onlyKTContractAddressAllowed": {
     "message": "僅允許 KT… 合約地址",
-    "description": "KT not translated"
+    "description": "KT not translated",
+    "englishSource": "Only KT... contract address allowed"
   },
   "operationHash": {
-    "message": "操作雜湊"
+    "message": "操作雜湊",
+    "englishSource": "Operation Hash"
   },
   "alert": {
-    "message": "警告"
+    "message": "警告",
+    "englishSource": "Alert"
   },
   "accountNameInputTitle": {
-    "message": "1-16 個字元，無特殊字元"
+    "message": "1-16 個字元，無特殊字元",
+    "englishSource": "1-16 characters, no special"
   },
   "defaultAccountName": {
     "message": "帳戶 $accountNumber$",
@@ -364,7 +453,8 @@
       "accountNumber": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Account $accountNumber$"
   },
   "defaultManagedKTAccountName": {
     "message": "受管理的 KT $accountNumber$",
@@ -373,7 +463,8 @@
       "accountNumber": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Managed KT $accountNumber$"
   },
   "defaultWatchOnlyAccountName": {
     "message": "僅可查看的 $accountNumber$",
@@ -381,10 +472,12 @@
       "accountNumber": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Watch $accountNumber$"
   },
   "accountsToRemoveConstraint": {
-    "message": "您的助記詞將始終能夠重新生成此錢包。刪除它是不可能的。"
+    "message": "您的助記詞將始終能夠重新生成此錢包。刪除它是不可能的。",
+    "englishSource": "Your seed phrase will always be able to regenerate this wallet. It is impossible to delete it."
   },
   "doNotSharePrivateKey": {
     "message": "<b>請勿</b>向任何人分享這組字元！他人可使用此組字元竊取您目前的帳戶。"
@@ -395,7 +488,8 @@
       "origin": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "$origin$ would like to connect to your wallet"
   },
   "appRequestOperationToYou": {
     "message": "$origin$ 要求對您進行操作",
@@ -403,16 +497,20 @@
       "origin": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "$origin$ requests operations to you"
   },
   "reject": {
-    "message": "拒絕"
+    "message": "拒絕",
+    "englishSource": "Reject"
   },
   "signAction": {
-    "message": "簽名"
+    "message": "簽名",
+    "englishSource": "Sign"
   },
   "decryptAction": {
-    "message": "解密"
+    "message": "解密",
+    "englishSource": "Decrypt"
   },
   "appRequestsToSign": {
     "message": "$origin$ 要求您簽名",
@@ -420,7 +518,8 @@
       "origin": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "$origin$ requests you to sign"
   },
   "appRequestsToDecrypt": {
     "message": "$origin$ 要求您解密",
@@ -428,22 +527,28 @@
       "origin": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "$origin$ requests you to decrypt"
   },
   "alpha": {
-    "message": "Alpha"
+    "message": "Alpha",
+    "englishSource": "Alpha"
   },
   "viewAccountAddressWarning": {
-    "message": "此網站正要求存取權，以查看您的帳戶地址。請務必確認您所操作的網站可信賴。"
+    "message": "此網站正要求存取權，以查看您的帳戶地址。請務必確認您所操作的網站可信賴。",
+    "englishSource": "This site is requesting access to view your account address. Always make sure you trust the sites you interact with."
   },
   "account": {
-    "message": "帳戶"
+    "message": "帳戶",
+    "englishSource": "Account"
   },
   "toBeConnectedWithDApp": {
-    "message": "與分散式應用程式連結。"
+    "message": "與分散式應用程式連結。",
+    "englishSource": "to be connected with dApp."
   },
   "atLeast8Characters": {
-    "message": "至少 8 個字元"
+    "message": "至少 8 個字元",
+    "englishSource": "At least 8 characters - the more characters, the better."
   },
   "atLeast1Number": {
     "message": "至少 1 個數字"
@@ -455,16 +560,20 @@
     "message": "至少 1 個大寫字母"
   },
   "mnemonicWordsAmountConstraint": {
-    "message": "12、15、18 、21 或 24 個英文字"
+    "message": "12、15、18 、21 或 24 個英文字",
+    "englishSource": "12, 15, 18, 21 or 24 words in English"
   },
   "mnemonicSpacingConstraint": {
-    "message": "每個字皆以一個空格隔開"
+    "message": "每個字皆以一個空格隔開",
+    "englishSource": "Each word separated with a single space"
   },
   "justValidPreGeneratedMnemonic": {
-    "message": "僅為有效的預先生成助記詞"
+    "message": "僅為有效的預先生成助記詞",
+    "englishSource": "Just valid pre-generated mnemonic"
   },
   "oops": {
-    "message": "糟糕！"
+    "message": "糟糕！",
+    "englishSource": "Oops!"
   },
   "smthWentWrongWhile": {
     "message": "$action$ 時發生錯誤",
@@ -472,26 +581,33 @@
       "action": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Something went wrong while $action$"
   },
   "mayHappenBecauseYouAreOffline": {
-    "message": "可能因為您目前為離線狀態"
+    "message": "可能因為您目前為離線狀態",
+    "englishSource": "This may happen because you are currently offline"
   },
   "tryAgain": {
-    "message": "再試一次"
+    "message": "再試一次",
+    "englishSource": "Try again"
   },
   "testnetbeta": {
     "message": "Aleo 測試網測試版",
-    "description": "Testnet Beta"
+    "description": "Testnet Beta",
+    "englishSource": "Aleo Testnet Beta"
   },
   "leoWalletOptions": {
-    "message": "Aleo 錢包 | 選項"
+    "message": "Aleo 錢包 | 選項",
+    "englishSource": "Leo Wallet | Options"
   },
   "resetExtension": {
-    "message": "重設擴充功能"
+    "message": "重設擴充功能",
+    "englishSource": "Reset Extension"
   },
   "resetExtensionConfirmation": {
-    "message": "是否確定要重設 Aleo 錢包？\n您所有的資料將因此刪除。"
+    "message": "是否確定要重設 Aleo 錢包？\n您所有的資料將因此刪除。",
+    "englishSource": "Are you sure you want to reset the Leo Wallet?\nAs a result, all your data will be deleted."
   },
   "failedToResetExtension": {
     "message": "無法重設擴充功能：$errorMessage$",
@@ -499,17 +615,21 @@
       "errorMessage": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Failed to reset extension: $errorMessage$"
   },
   "ledger": {
     "message": "Ledger",
-    "description": "Ledger = https://www.ledger.com/"
+    "description": "Ledger = https://www.ledger.com/",
+    "englishSource": "Ledger"
   },
   "retry": {
-    "message": "再試一次"
+    "message": "再試一次",
+    "englishSource": "Retry"
   },
   "privateKeyCannotBeRevealed": {
-    "message": "無法顯示私密金鑰"
+    "message": "無法顯示私密金鑰",
+    "englishSource": "Private key cannot be revealed"
   },
   "youCannotGetPrivateKeyFromThisAccountType": {
     "message": "您無法取得 $accountType$ 帳戶的私密金鑰。",
@@ -517,7 +637,8 @@
       "accountType": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "You cannot get private key from $accountType$ accounts."
   },
   "maximalAmount": {
     "message": "最高金額：$amount$",
@@ -525,103 +646,136 @@
       "amount": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Maximal: $amount$"
   },
   "amountMustBePositive": {
-    "message": "必須為正數"
+    "message": "必須為正數",
+    "englishSource": "Must be positive"
   },
   "accountName": {
-    "message": "帳戶名稱"
+    "message": "帳戶名稱",
+    "englishSource": "Account name"
   },
   "accountNameInputDescription": {
-    "message": "新帳戶的名稱是什麼？"
+    "message": "新帳戶的名稱是什麼？",
+    "englishSource": "What will be the name of the new account?"
   },
   "createNewWallet": {
-    "message": "建立新錢包"
+    "message": "建立新錢包",
+    "englishSource": "Create a new Wallet"
   },
   "createNewWalletDescription": {
-    "message": "第一次使用 Aleo 錢包嗎？我們來設定吧！這樣會建立新錢包和助記詞"
+    "message": "第一次使用 Aleo 錢包嗎？我們來設定吧！這樣會建立新錢包和助記詞",
+    "englishSource": "New to Leo Wallet? Let's set it up! This will create a new wallet and seed phrase"
   },
   "delegate": {
-    "message": "委託"
+    "message": "委託",
+    "englishSource": "Delegate"
   },
   "explore": {
-    "message": "探索"
+    "message": "探索",
+    "englishSource": "Explore"
   },
   "assetsWhileMessage": {
-    "message": "擷取資產資料"
+    "message": "擷取資產資料",
+    "englishSource": "fetching assets data"
   },
   "receive": {
-    "message": "收取"
+    "message": "收取",
+    "englishSource": "Receive"
   },
   "send": {
-    "message": "傳送"
+    "message": "傳送",
+    "englishSource": "Send"
   },
   "baking": {
-    "message": "烘焙"
+    "message": "烘焙",
+    "englishSource": "Baking"
   },
   "operations": {
-    "message": "操作"
+    "message": "操作",
+    "englishSource": "Operations"
   },
   "delegationInfoWhileMessage": {
-    "message": "正在擷取或處理您的委託資料"
+    "message": "正在擷取或處理您的委託資料",
+    "englishSource": "fetching or processing your delegation info"
   },
   "operationHistoryWhileMessage": {
-    "message": "正在擷取或處理操作記錄"
+    "message": "正在擷取或處理操作記錄",
+    "englishSource": "fetching or processing operation history"
   },
   "privateKey": {
-    "message": "私密金鑰"
+    "message": "私密金鑰",
+    "englishSource": "Private Key"
   },
   "mnemonic": {
-    "message": "助記詞"
+    "message": "助記詞",
+    "englishSource": "Mnemonic"
   },
   "fundraiser": {
-    "message": "資金籌募者"
+    "message": "資金籌募者",
+    "englishSource": "Fundraiser"
   },
   "privateKeyInputDescription": {
-    "message": "您要匯入的帳戶的秘密金鑰。"
+    "message": "您要匯入的帳戶的秘密金鑰。",
+    "englishSource": "The Secret key of the Account you want to import."
   },
   "privateKeyInputPlaceholder": {
-    "message": "例如 edsk3wfiPMu..."
+    "message": "例如 edsk3wfiPMu...",
+    "englishSource": "e.g. APrivateKey1zkp..."
   },
   "password": {
-    "message": "密碼"
+    "message": "密碼",
+    "englishSource": "Password"
   },
   "isPrivateKeyEncrypted": {
-    "message": "您的私密金鑰為加密格式嗎？"
+    "message": "您的私密金鑰為加密格式嗎？",
+    "englishSource": "Is your private key in encrypted format?"
   },
   "customDerivationPath": {
-    "message": "自訂衍生路徑"
+    "message": "自訂衍生路徑",
+    "englishSource": "Custom derivation path"
   },
   "mnemonicInputLabel": {
-    "message": "助記詞"
+    "message": "助記詞",
+    "englishSource": "Seed phrase"
   },
   "mnemonicInputPlaceholder": {
-    "message": "例如 venue sock milk update…"
+    "message": "例如 venue sock milk update…",
+    "englishSource": "e.g. venue sock milk update..."
   },
   "passwordInputDescription": {
-    "message": "用於其他的助記詞衍生。這「不是」錢包密碼。"
+    "message": "用於其他的助記詞衍生。這「不是」錢包密碼。",
+    "englishSource": "Used for additional mnemonic derivation. That is NOT a wallet password."
   },
   "derivation": {
-    "message": "衍生"
+    "message": "衍生",
+    "englishSource": "Derivation"
   },
   "addDerivationPathPrompt": {
-    "message": "預設不使用衍生。點擊「自訂衍生路徑」以新增。"
+    "message": "預設不使用衍生。點擊「自訂衍生路徑」以新增。",
+    "englishSource": "By default derivation isn't used. Click on 'Custom derivation path' to add it."
   },
   "derivationPathMustStartWithM": {
-    "message": "必須以「m」為開頭"
+    "message": "必須以「m」為開頭",
+    "englishSource": "Must start with 'm'"
   },
   "derivationSeparatorMustBeSlash": {
-    "message": "必須以「/」區隔"
+    "message": "必須以「/」區隔",
+    "englishSource": "Separator must be '/'"
   },
   "invalidPath": {
-    "message": "無效的路徑"
+    "message": "無效的路徑",
+    "englishSource": "Invalid path"
   },
   "email": {
-    "message": "電子郵件"
+    "message": "電子郵件",
+    "englishSource": "Email"
   },
   "unexpectedOrInvalidFile": {
-    "message": "非預期或無效的檔案"
+    "message": "非預期或無效的檔案",
+    "englishSource": "Unexpected or invalid file"
   },
   "requestSent": {
     "message": "已傳送 $type$ 要求！正在確認……",
@@ -629,13 +783,16 @@
       "type": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "$type$ request sent! Confirming..."
   },
   "success": {
-    "message": "成功"
+    "message": "成功",
+    "englishSource": "Success"
   },
   "smthWentWrong": {
-    "message": "發生錯誤"
+    "message": "發生錯誤",
+    "englishSource": "Something went wrong"
   },
   "faucetFileInputPrompt": {
     "message": "拖放檔案，或點擊以下區域手動選擇檔案。您可以從 $link$ 下載。",
@@ -643,160 +800,211 @@
       "link": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Drag & drop a file or select it manually by clicking on the area below. You can download it from $link$."
   },
   "processing": {
-    "message": "正在處理……"
+    "message": "正在處理……",
+    "englishSource": "Processing..."
   },
   "accountAddressLabel": {
-    "message": "您目前的帳戶地址。對外分享以收取資金。"
+    "message": "您目前的帳戶地址。對外分享以收取資金。",
+    "englishSource": "Your current account address. Share it to receive funds."
   },
   "copiedAddress": {
-    "message": "已複製。"
+    "message": "已複製。",
+    "englishSource": "Copied."
   },
   "copyAddressToClipboard": {
-    "message": "複製到剪貼簿"
+    "message": "複製到剪貼簿",
+    "englishSource": "Copy Address"
   },
   "qrCode": {
-    "message": "QRCode"
+    "message": "QRCode",
+    "englishSource": "QRCode"
   },
   "revealPrivateKey": {
-    "message": "顯示私密金鑰"
+    "message": "顯示私密金鑰",
+    "englishSource": "Reveal Private Key"
   },
   "revealPrivateKeyDescription": {
-    "message": "也稱為「匯出帳戶」，這會顯示所選取帳戶的私密金鑰。"
+    "message": "也稱為「匯出帳戶」，這會顯示所選取帳戶的私密金鑰。",
+    "englishSource": "Also known as \"Export Account\", reveals private key for your selected account."
   },
   "revealSeedPhrase": {
-    "message": "顯示助記詞"
+    "message": "顯示助記詞",
+    "englishSource": "Reveal Seed Phrase"
   },
   "revealSeedPhraseDescription": {
-    "message": "也稱為「匯出錢包」，您可能需要此助記詞，才能透過其他裝置存取您的錢包和帳戶。"
+    "message": "也稱為「匯出錢包」，您可能需要此助記詞，才能透過其他裝置存取您的錢包和帳戶。",
+    "englishSource": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices."
   },
   "dApps": {
     "message": "分散式應用程式",
-    "description": "DApps = Decentralized Applications"
+    "description": "DApps = Decentralized Applications",
+    "englishSource": "DApps"
   },
   "dAppsDescription": {
-    "message": "在此區段，您可以啟用與支援 Aleo 錢包的分散式應用程式互動的能力。"
+    "message": "在此區段，您可以啟用與支援 Aleo 錢包的分散式應用程式互動的能力。",
+    "englishSource": "In this section you can enable ability to interact with decentralized applications that support Leo Wallet."
   },
   "networksDescription": {
     "message": "在此區段，您可以新增或刪除自訂的 Aleo 網路。",
-    "description": "Aleo = blockchain name (https://aleo.com/)"
+    "description": "Aleo = blockchain name (https://aleo.com/)",
+    "englishSource": "In this section you can add or delete custom Aleo networks."
   },
   "activateAccount": {
-    "message": "啟用帳戶"
+    "message": "啟用帳戶",
+    "englishSource": "Activate Account"
   },
   "activateAccountDescription": {
-    "message": "ICO/資金籌募者或測試網路水龍頭帳戶可能需要。"
+    "message": "ICO/資金籌募者或測試網路水龍頭帳戶可能需要。",
+    "englishSource": "It may be necessary for ICO/Fundraiser or testnet faucet accounts."
   },
   "removeAccount": {
-    "message": "移除帳戶"
+    "message": "移除帳戶",
+    "englishSource": "Remove Account"
   },
   "removeAccountDescription": {
-    "message": "使用此區段移除您選取的帳戶。只能移除匯入的帳戶。"
+    "message": "使用此區段移除您選取的帳戶。只能移除匯入的帳戶。",
+    "englishSource": "Use this section to remove your selected account. Only imported accounts can be removed."
   },
   "about": {
-    "message": "關於"
+    "message": "關於",
+    "englishSource": "About"
   },
   "aboutDescription": {
-    "message": "使用此區段檢視 Aleo 錢包的元資料。"
+    "message": "使用此區段檢視 Aleo 錢包的元資料。",
+    "englishSource": "Use this section to view meta info about Leo Wallet."
   },
   "unlockWallet": {
-    "message": "解鎖錢包"
+    "message": "解鎖錢包",
+    "englishSource": "Unlock the Wallet"
   },
   "toContinue": {
-    "message": "以便繼續"
+    "message": "以便繼續",
+    "englishSource": "to continue"
   },
   "unlockPasswordInputDescription": {
-    "message": "使用密碼保護錢包。"
+    "message": "使用密碼保護錢包。",
+    "englishSource": "A password is used to protect the wallet."
   },
   "unlock": {
-    "message": "解鎖錢包"
+    "message": "解鎖錢包",
+    "englishSource": "Unlock"
   },
   "importNewAccountTitle": {
-    "message": "還原帳戶？想要登入另一個帳戶？"
+    "message": "還原帳戶？想要登入另一個帳戶？",
+    "englishSource": "Restore Account? Want to sign in another?"
   },
   "importWalletUsingSeedPhrase": {
-    "message": "使用助記詞匯入錢包"
+    "message": "使用助記詞匯入錢包",
+    "englishSource": "Import Wallet using Seed Phrase"
   },
   "connectLedger": {
     "message": "連結 Ledger",
-    "description": "Ledger = https://www.ledger.com/"
+    "description": "Ledger = https://www.ledger.com/",
+    "englishSource": "Connect Ledger"
   },
   "importExistingWallet": {
-    "message": "匯入現有的錢包"
+    "message": "匯入現有的錢包",
+    "englishSource": "Import existing Wallet"
   },
   "links": {
-    "message": "連結"
+    "message": "連結",
+    "englishSource": "Links"
   },
   "website": {
-    "message": "網站"
+    "message": "網站",
+    "englishSource": "Website"
   },
   "repo": {
-    "message": "存放庫"
+    "message": "存放庫",
+    "englishSource": "Repository"
   },
   "privacyPolicy": {
-    "message": "隱私政策"
+    "message": "隱私政策",
+    "englishSource": "Privacy Policy"
   },
   "termsOfUse": {
-    "message": "使用條款"
+    "message": "使用條款",
+    "englishSource": "Terms of Use"
   },
   "contact": {
-    "message": "聯絡我們"
+    "message": "聯絡我們",
+    "englishSource": "Contact"
   },
   "accountAlreadyActivated": {
-    "message": "您的帳戶已啟用。"
+    "message": "您的帳戶已啟用。",
+    "englishSource": "Your Account already activated."
   },
   "accountActivated": {
-    "message": "您的帳戶已成功啟用！"
+    "message": "您的帳戶已成功啟用！",
+    "englishSource": "Your account successfully activated!"
   },
   "failureSecretMayBeInvalid": {
-    "message": "失敗。可能因為所提供的秘密金鑰無效"
+    "message": "失敗。可能因為所提供的秘密金鑰無效",
+    "englishSource": "Failed. This may happen because provided Secret is invalid"
   },
   "accountToBeActivated": {
-    "message": "帳戶將啟用。"
+    "message": "帳戶將啟用。",
+    "englishSource": "Account to be activated."
   },
   "ifYouWantToActivateAnotherAccount": {
-    "message": "如果您想啟用另一個帳戶，請在右上角下拉選單選取該帳戶。"
+    "message": "如果您想啟用另一個帳戶，請在右上角下拉選單選取該帳戶。",
+    "englishSource": "If you want to activate another account - please, select it in the top-right dropdown."
   },
   "activateAccountSecret": {
-    "message": "秘密金鑰"
+    "message": "秘密金鑰",
+    "englishSource": "Secret"
   },
   "activateAccountSecretDescription": {
-    "message": "資金籌募者帳戶或水龍頭的「秘密金鑰」欄位"
+    "message": "資金籌募者帳戶或水龍頭的「秘密金鑰」欄位",
+    "englishSource": "'secret' field from Fundraiser Account or Faucet"
   },
   "activateAccountSecretPlaceholder": {
-    "message": "例如 n4hs7sd3..."
+    "message": "例如 n4hs7sd3...",
+    "englishSource": "e.g. n4hs7sd3..."
   },
   "activate": {
-    "message": "啟用"
+    "message": "啟用",
+    "englishSource": "Activate"
   },
   "minimalFeeDescription": {
-    "message": "最小金額"
+    "message": "最小金額",
+    "englishSource": "Minimal"
   },
   "fastFeeDescription": {
-    "message": "快速"
+    "message": "快速",
+    "englishSource": "Fast"
   },
   "rocketFeeDescription": {
-    "message": "極快"
+    "message": "極快",
+    "englishSource": "Rocket"
   },
   "customFeeDescription": {
-    "message": "自訂"
+    "message": "自訂",
+    "englishSource": "Custom"
   },
   "additionalFee": {
-    "message": "其他費用"
+    "message": "其他費用",
+    "englishSource": "Additional Fee"
   },
   "asset": {
-    "message": "資產"
+    "message": "資產",
+    "englishSource": "Asset"
   },
   "selectAnotherAssetPrompt": {
-    "message": "點擊區域以選取其他資產或代幣。"
+    "message": "點擊區域以選取其他資產或代幣。",
+    "englishSource": "Click on area to select another asset or token."
   },
   "disable": {
-    "message": "停用"
+    "message": "停用",
+    "englishSource": "disable"
   },
   "enable": {
-    "message": "啟用"
+    "message": "啟用",
+    "englishSource": "enable"
   },
   "dAppsCheckmarkPrompt": {
     "message": "點擊勾號以 $action$ 分散式應用程式互動功能",
@@ -805,65 +1013,85 @@
       "action": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Click on the toggle to {{action}} DApps interaction feature"
   },
   "dAppsInteraction": {
     "message": "分散式應用程式互動操作",
-    "description": "DApps = Decentralized Applications"
+    "description": "DApps = Decentralized Applications",
+    "englishSource": "DApps interaction"
   },
   "enabled": {
-    "message": "已啟用"
+    "message": "已啟用",
+    "englishSource": "Enabled"
   },
   "disabled": {
-    "message": "已停用"
+    "message": "已停用",
+    "englishSource": "Disabled"
   },
   "enablePopup": {
-    "message": "啟用彈跳式視窗"
+    "message": "啟用彈跳式視窗",
+    "englishSource": "Enable popup"
   },
   "popupEnabled": {
-    "message": "已啟用"
+    "message": "已啟用",
+    "englishSource": "Enabled"
   },
   "popupDisabled": {
-    "message": "已停用"
+    "message": "已停用",
+    "englishSource": "Disabled"
   },
   "rank": {
-    "message": "等級"
+    "message": "等級",
+    "englishSource": "Rank"
   },
   "delete": {
-    "message": "刪除"
+    "message": "刪除",
+    "englishSource": "Delete"
   },
   "fee": {
-    "message": "費用"
+    "message": "費用",
+    "englishSource": "Fee"
   },
   "space": {
-    "message": "空間"
+    "message": "空間",
+    "englishSource": "Space"
   },
   "delegation": {
-    "message": "委託"
+    "message": "委託",
+    "englishSource": "Delegation"
   },
   "baker": {
-    "message": "烘焙師"
+    "message": "烘焙師",
+    "englishSource": "Baker"
   },
   "bakerInputDescription": {
-    "message": "已註冊烘焙師的地址。"
+    "message": "已註冊烘焙師的地址。",
+    "englishSource": "Address of a registered baker."
   },
   "bakerInputPlaceholder": {
-    "message": "例如 aleo13u9kfm2…"
+    "message": "例如 aleo13u9kfm2…",
+    "englishSource": "e.g. 0xb3d1df68..."
   },
   "minDelegationAmountTitle": {
-    "message": "最低委託金額"
+    "message": "最低委託金額",
+    "englishSource": "Minimal delegation amount"
   },
   "unknownBakerTitle": {
-    "message": "未知的烘焙師"
+    "message": "未知的烘焙師",
+    "englishSource": "Unknown baker"
   },
   "unknownBakerDescription": {
-    "message": "所提供的地址並不是我們已知的烘焙師！若向此地址委託資金，您須自行承擔風險。"
+    "message": "所提供的地址並不是我們已知的烘焙師！若向此地址委託資金，您須自行承擔風險。",
+    "englishSource": "Provided address is not known to us as a baker! Only delegate funds to it at your own risk."
   },
   "delegateToRecommendedBakers": {
-    "message": "委託給推薦的烘焙師"
+    "message": "委託給推薦的烘焙師",
+    "englishSource": "Delegate to Recommended Bakers"
   },
   "sortBy": {
-    "message": "排序方式"
+    "message": "排序方式",
+    "englishSource": "Sort by"
   },
   "cycles_other": {
     "message": "$amount$ 個週期",
@@ -872,10 +1100,12 @@
       "amount": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "$amount$ cycles"
   },
   "notEnoughFunds": {
-    "message": "資金不足"
+    "message": "資金不足",
+    "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
     "message": "$currency$ 資金不足",
@@ -883,25 +1113,32 @@
       "currency": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Not enough $currency$ funds"
   },
   "notAllowed": {
-    "message": "未允許"
+    "message": "未允許",
+    "englishSource": "Not allowed"
   },
   "failed": {
-    "message": "失敗"
+    "message": "失敗",
+    "englishSource": "Failed"
   },
   "yourBalanceIsZero": {
-    "message": "您的餘額為零。"
+    "message": "您的餘額為零。",
+    "englishSource": "Your Balance is zero."
   },
   "minimalFeeGreaterThanBalance": {
-    "message": "此交易的最低費用高於您的餘額。"
+    "message": "此交易的最低費用高於您的餘額。",
+    "englishSource": "Minimal fee for this transaction is greater than your balance."
   },
   "alreadyDelegatedFundsToBaker": {
-    "message": "已將資金委託給此烘焙師。無法重新委託。"
+    "message": "已將資金委託給此烘焙師。無法重新委託。",
+    "englishSource": "Already delegated funds to this baker. Re-delegation is not possible."
   },
   "bakerNotRegistered": {
-    "message": "指定的烘焙師尚未註冊。"
+    "message": "指定的烘焙師尚未註冊。",
+    "englishSource": "Specified baker is not registered."
   },
   "unableToPerformActionToBaker": {
     "message": "無法向所提供的烘焙師進行 $action$。",
@@ -909,13 +1146,16 @@
       "action": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Unable to $action$ to the provided Baker."
   },
   "estimateDelegation": {
-    "message": "評估委託"
+    "message": "評估委託",
+    "englishSource": "Estimate delegation"
   },
   "thisMayHappenBecause": {
-    "message": "可能發生的原因為："
+    "message": "可能發生的原因為：",
+    "englishSource": "This may happen because:"
   },
   "minimalFeeGreaterThanBalanceVerbose": {
     "message": "此交易的最低費用高於您的餘額。由於您傳送資金給空的「管理員」帳戶，可能要花費大筆費用。須收取一次性的燃燒費用 0.06425 $gasTokenSymbol$；",
@@ -923,13 +1163,16 @@
       "gasTokenSymbol": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 $gasTokenSymbol$ burn fee;"
   },
   "networkOrOtherIssue": {
-    "message": "網路或其他技術問題。"
+    "message": "網路或其他技術問題。",
+    "englishSource": "Network or other technical issue."
   },
   "unableToDelegateToKTAddress": {
-    "message": "無法委託至 KT... 合約地址"
+    "message": "無法委託至 KT... 合約地址",
+    "englishSource": "Unable to delegate to KT... contract address"
   },
   "confirmAction": {
     "message": "確認 $action$",
@@ -937,109 +1180,143 @@
       "action": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Confirm $action$"
   },
   "payloadToSign": {
-    "message": "要簽名的有效載荷"
+    "message": "要簽名的有效載荷",
+    "englishSource": "Payload to sign"
   },
   "decline": {
-    "message": "拒絕"
+    "message": "拒絕",
+    "englishSource": "Decline"
   },
   "confirm": {
-    "message": "確認"
+    "message": "確認",
+    "englishSource": "Confirm"
   },
   "confirmDecryptionPermission": {
-    "message": "確認解密權限"
+    "message": "確認解密權限",
+    "englishSource": "Confirm Decryption Permission"
   },
   "confirmDecryptionPermissionDescription": {
-    "message": "這將永久訪問您的歷史記錄，並且無法撤銷。"
+    "message": "這將永久訪問您的歷史記錄，並且無法撤銷。",
+    "englishSource": "This will give permanent access to your history and cannot be revoked."
   },
   "confirmRisk": {
-    "message": "我了解風險並希望繼續。"
+    "message": "我了解風險並希望繼續。",
+    "englishSource": "I understand the risk and wish to proceed."
   },
   "decryptPermission": {
-    "message": "解密權限"
+    "message": "解密權限",
+    "englishSource": "Decryption Permission"
   },
   "NO_DECRYPT": {
-    "message": "此應用程序無法使用您的任何查看密鑰解密任何記錄。"
+    "message": "此應用程序無法使用您的任何查看密鑰解密任何記錄。",
+    "englishSource": "This app cannot decrypt any record using any of your view keys."
   },
   "DECRYPT_UPON_REQUEST": {
-    "message": "此應用程序只能在您明確批准的情況下解密記錄。系統將提示您輸入任何解密請求。"
+    "message": "此應用程序只能在您明確批准的情況下解密記錄。系統將提示您輸入任何解密請求。",
+    "englishSource": "This app can only decrypt records with your explicit approval. You will be prompted for any decryption request."
   },
   "AUTO_DECRYPT": {
-    "message": "僅當您的錢包已連接時，此應用程序才可以在沒有明確許可的情況下自動解密它需要的任何記錄。它看不到您的 ViewKey。"
+    "message": "僅當您的錢包已連接時，此應用程序才可以在沒有明確許可的情況下自動解密它需要的任何記錄。它看不到您的 ViewKey。",
+    "englishSource": "This app can automatically decrypt any record it needs to without explicit permission only while your wallet is connected. It cannot see your ViewKey."
   },
   "network": {
-    "message": "網路"
+    "message": "網路",
+    "englishSource": "Network"
   },
   "unknownNetwork": {
-    "message": "未知："
+    "message": "未知：",
+    "englishSource": "Unknown:"
   },
   "backupNewSeedPhrase": {
-    "message": "備份新的助記詞"
+    "message": "備份新的助記詞",
+    "englishSource": "New Seed Phrase"
   },
   "attentionExclamation": {
-    "message": "請注意！"
+    "message": "請注意！",
+    "englishSource": "Attention!"
   },
   "lockedWalletAlreadyExists": {
-    "message": "<b>已有</b>鎖住的錢包。\n匯入新錢包將<b>破壞現有的錢包</b>。"
+    "message": "<b>已有</b>鎖住的錢包。\n匯入新錢包將<b>破壞現有的錢包</b>。",
+    "englishSource": "Locked wallet <b>already exists</b>.\nImporting a new one will <b>destroy the existing</b>."
   },
   "backToUnlockPage": {
-    "message": "返回至「解鎖」頁面"
+    "message": "返回至「解鎖」頁面",
+    "englishSource": "go back to Unlock page"
   },
   "mustBeEqualToPasswordAbove": {
-    "message": "必須與上面的密碼相同"
+    "message": "必須與上面的密碼相同",
+    "englishSource": "Must be equal to password"
   },
   "repeatPassword": {
-    "message": "重複密碼"
+    "message": "重複密碼",
+    "englishSource": "Repeat Password"
   },
   "repeatPasswordInputDescription": {
-    "message": "請再次輸入密碼。"
+    "message": "請再次輸入密碼。",
+    "englishSource": "Please enter the password again."
   },
   "confirmTermsError": {
-    "message": "確認使用條款後才可繼續"
+    "message": "確認使用條款後才可繼續",
+    "englishSource": "Unable to continue without confirming Terms of Usage"
   },
   "confirmError": {
-    "message": "未經確認無法繼續。"
+    "message": "未經確認無法繼續。",
+    "englishSource": "Unable to continue without confirming."
   },
   "acceptTerms": {
-    "message": "接受條款"
+    "message": "接受條款",
+    "englishSource": "Accept terms"
   },
   "termsOfUsage": {
-    "message": "使用條款"
+    "message": "使用條款",
+    "englishSource": "Terms of Usage"
   },
   "create": {
-    "message": "建立"
+    "message": "建立",
+    "englishSource": "Create"
   },
   "revealNewSeedPhrase": {
-    "message": "<b>點擊以下區域</b>以顯示新的助記詞。\n然後，將此助記詞抄寫在紙上，並<b>保存在安全的地方<b>。您也可以選擇記住助記詞。"
+    "message": "<b>點擊以下區域</b>以顯示新的助記詞。\n然後，將此助記詞抄寫在紙上，並<b>保存在安全的地方<b>。您也可以選擇記住助記詞。",
+    "englishSource": "<b>Click on area below</b> to reveal your new Seed Phrase.\nThen, write this phrase on a piece of paper and <b>store in a secure location</b>. Or you can memorize it."
   },
   "doNotSharePhrase": {
     "message": "<b>請勿</b>與任何人分享此助記詞！他人可使用此助記詞竊取您所有的帳戶。"
   },
   "youWillNeedThisSeedPhrase": {
-    "message": "如果您曾在瀏覽器和裝置間切換使用，需使用此助記詞存取您的帳戶。"
+    "message": "如果您曾在瀏覽器和裝置間切換使用，需使用此助記詞存取您的帳戶。",
+    "englishSource": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever."
   },
   "unableToContinueWithoutConfirming": {
-    "message": "確認後才可繼續"
+    "message": "確認後才可繼續",
+    "englishSource": "Unable to continue without confirming"
   },
   "backupedInputLabel": {
-    "message": "我已備份助記詞，"
+    "message": "我已備份助記詞，",
+    "englishSource": "I made Seed Phrase backup"
   },
   "backupedInputDescription": {
-    "message": "並接受風險，如果我遺失此助記詞，\n可能會損失我的資金。"
+    "message": "並接受風險，如果我遺失此助記詞，\n可能會損失我的資金。",
+    "englishSource": "And accept the risks that if I lose the phrase,\nmy funds may be lost."
   },
   "continue": {
-    "message": "繼續"
+    "message": "繼續",
+    "englishSource": "Continue"
   },
   "noOperationsFound": {
-    "message": "找不到操作"
+    "message": "找不到操作",
+    "englishSource": "No operations found"
   },
   "pending": {
-    "message": "待處理…"
+    "message": "待處理…",
+    "englishSource": "pending..."
   },
   "backtracked": {
-    "message": "已向上回溯"
+    "message": "已向上回溯",
+    "englishSource": "backtracked"
   },
   "operationSuccessfullyProcessed": {
     "message": "成功處理並確認 $type$！",
@@ -1047,53 +1324,69 @@
       "type": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "$type$ successfully processed and confirmed!"
   },
   "timedOutOperationConfirmation": {
-    "message": "確認操作逾時。您可以繼續等待，或稍後再試一次。"
+    "message": "確認操作逾時。您可以繼續等待，或稍後再試一次。",
+    "englishSource": "Timed out operation confirmation. You can either wait more time or try again later."
   },
   "accountToBeRemoved": {
-    "message": "帳戶將移除。"
+    "message": "帳戶將移除。",
+    "englishSource": "Account to be removed."
   },
   "ifYouWantToRemoveAnotherAccount": {
-    "message": "如果您想移除另一個帳戶，請在右上角下拉選單選取該帳戶。"
+    "message": "如果您想移除另一個帳戶，請在右上角下拉選單選取該帳戶。",
+    "englishSource": "If you want to remove another account - select it in the top-right dropdown."
   },
   "cannotBeRemoved": {
-    "message": "無法移除"
+    "message": "無法移除",
+    "englishSource": "Cannot be removed"
   },
   "importedPlural": {
-    "message": "已匯入"
+    "message": "已匯入",
+    "englishSource": "imported"
   },
   "enterPasswordToRemoveAccount": {
-    "message": "輸入密碼以移除帳戶。"
+    "message": "輸入密碼以移除帳戶。",
+    "englishSource": "Enter password to remove the Account."
   },
   "remove": {
-    "message": "移除"
+    "message": "移除",
+    "englishSource": "Remove"
   },
   "ifYouWantToRevealPrivateKeyFromOtherAccount": {
-    "message": "如果您想顯示另一個帳戶的私密金鑰，您應在右上角下拉選單選取該帳戶。"
+    "message": "如果您想顯示另一個帳戶的私密金鑰，您應在右上角下拉選單選取該帳戶。",
+    "englishSource": "If you want to reveal a view key from another account - you should select it in the top-right dropdown."
   },
   "privateKeyFieldDescription": {
-    "message": "此為目前的帳戶金鑰。請小心保管。"
+    "message": "此為目前的帳戶金鑰。請小心保管。",
+    "englishSource": "Current account key. Keep it in secret."
   },
   "derivationPath": {
-    "message": "衍生路徑"
+    "message": "衍生路徑",
+    "englishSource": "Derivation path"
   },
   "seedPhrase": {
-    "message": "助記詞"
+    "message": "助記詞",
+    "englishSource": "Seed Phrase"
   },
   "pathForHDAccounts": {
     "message": "(適用於分層確定性帳戶。) 這就是您利用助記詞來恢復所有帳戶的資料。",
-    "description": "HD = Hierarchical Deterministic"
+    "description": "HD = Hierarchical Deterministic",
+    "englishSource": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase."
   },
   "derivationPathExample": {
-    "message": "m/44'/0'/<account_index>'/0'"
+    "message": "m/44'/0'/<account_index>'/0'",
+    "englishSource": "m/44'/0'/<account_index>'/0'"
   },
   "derivationPathExample2": {
-    "message": "例如 m/44'/1729'/…"
+    "message": "例如 m/44'/1729'/…",
+    "englishSource": "e.g. m/44'/1729'/..."
   },
   "keepSeedPhraseSecret": {
-    "message": "請小心保管。"
+    "message": "請小心保管。",
+    "englishSource": "Keep it in secret."
   },
   "revealSecretPasswordInputDescription": {
     "message": "輸入密碼以顯示 $secretName$。",
@@ -1101,16 +1394,20 @@
       "secretName": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Enter password to reveal the $secretName$."
   },
   "reveal": {
-    "message": "顯示"
+    "message": "顯示",
+    "englishSource": "Reveal"
   },
   "transaction": {
-    "message": "交易"
+    "message": "交易",
+    "englishSource": "Transaction"
   },
   "recipient": {
-    "message": "收受者"
+    "message": "收受者",
+    "englishSource": "Recipient"
   },
   "tokensRecepientInputDescription": {
     "message": "$assetSymbol$ 資金要傳送的地址。",
@@ -1118,7 +1415,8 @@
       "assetSymbol": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Address to send $assetSymbol$ funds to."
   },
   "tokensRecepientInputDescriptionWithDomain": {
     "message": "$assetSymbol$ 資金要傳送的地址或 Aleo 網域。",
@@ -1126,29 +1424,37 @@
       "assetSymbol": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Address or Aleo domain to send $assetSymbol$ funds to."
   },
   "addressInputDescription": {
-    "message": "Aleo 帳戶或智慧合約的地址。"
+    "message": "Aleo 帳戶或智慧合約的地址。",
+    "englishSource": "Address of Aleo account or smart contract."
   },
   "addressInputDescriptionWithDomain": {
-    "message": "帳戶或智慧合約的地址或 Aleo 網域。"
+    "message": "帳戶或智慧合約的地址或 Aleo 網域。",
+    "englishSource": "Address or Aleo domain of the account or smart contract."
   },
   "recipientInputPlaceholder": {
-    "message": "例如 0xb3d1df68..."
+    "message": "例如 0xb3d1df68...",
+    "englishSource": "e.g. 0xb3d1df68..."
   },
   "recipientInputPlaceholderWithDomain": {
     "message": "例如 alice.aleo or 0xb3d1df68...",
-    "description": "alice.aleo = domain like google.com"
+    "description": "alice.aleo = domain like google.com",
+    "englishSource": "e.g. alice.aleo or 0xb3d1df68..."
   },
   "tryingToTransferToYourself": {
-    "message": "您正嘗試將資金轉帳給自己。\n請確認這是您真正要做的事。"
+    "message": "您正嘗試將資金轉帳給自己。\n請確認這是您真正要做的事。",
+    "englishSource": "You're trying to transfer funds to yourself.\nPlease, ensure that it's exactly what you want."
   },
   "amount": {
-    "message": "金額"
+    "message": "金額",
+    "englishSource": "Amount"
   },
   "availableToSend": {
-    "message": "可傳送的 (最高) 金額："
+    "message": "可傳送的 (最高) 金額：",
+    "englishSource": "Available to send(max):"
   },
   "inAsset": {
     "message": "以 $assetSymbol$ 計價",
@@ -1156,77 +1462,101 @@
       "assetSymbol": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "in $assetSymbol$"
   },
   "amountPlaceholder": {
-    "message": "例如 123.45"
+    "message": "例如 123.45",
+    "englishSource": "e.g. 123.45"
   },
   "sendToMyAccounts": {
-    "message": "傳送到「我的帳戶」"
+    "message": "傳送到「我的帳戶」",
+    "englishSource": "Send to My Accounts"
   },
   "clickOnRecipientAccount": {
-    "message": "點擊您想傳送資金的帳戶。"
+    "message": "點擊您想傳送資金的帳戶。",
+    "englishSource": "Click on Account you want to send funds to."
   },
   "unableToSendTransactionAction": {
-    "message": "無法向所提供的收受者傳送交易。"
+    "message": "無法向所提供的收受者傳送交易。",
+    "englishSource": "Unable to send transaction to provided Recipient."
   },
   "unableToEstimateTransactionAction": {
-    "message": "無法估計對所提供的收受者進行的交易。"
+    "message": "無法估計對所提供的收受者進行的交易。",
+    "englishSource": "Unable to estimate transaction to provided Recipient."
   },
   "makeSureToBackupSeedPhrase": {
-    "message": "務必要備份您的助記詞！"
+    "message": "務必要備份您的助記詞！",
+    "englishSource": "Make sure to back up your seed phrase!"
   },
   "exploreMore": {
-    "message": "探索更多內容…"
+    "message": "探索更多內容…",
+    "englishSource": "Explore more..."
   },
   "selfComment": {
-    "message": "(self)"
+    "message": "(self)",
+    "englishSource": "(self)"
   },
   "deleteNetworkConfirm": {
-    "message": "您確定要刪除此網路嗎？"
+    "message": "您確定要刪除此網路嗎？",
+    "englishSource": "Are you sure you want to delete this network?"
   },
   "networkNamePlaceholder": {
-    "message": "我的自訂網路"
+    "message": "我的自訂網路",
+    "englishSource": "My custom network"
   },
   "mustBeValidURL": {
-    "message": "必須為有效的網址"
+    "message": "必須為有效的網址",
+    "englishSource": "Must be a valid URL"
   },
   "rpcBaseURL": {
     "message": "遠端程序呼叫為主的網址",
-    "description": "RPC = Remote Procedure Call (https://en.wikipedia.org/wiki/Remote_procedure_call)"
+    "description": "RPC = Remote Procedure Call (https://en.wikipedia.org/wiki/Remote_procedure_call)",
+    "englishSource": "RPC base URL"
   },
   "mustBeUnique": {
-    "message": "必須是唯一"
+    "message": "必須是唯一",
+    "englishSource": "Must be unique"
   },
   "addNetwork": {
-    "message": "新增網路"
+    "message": "新增網路",
+    "englishSource": "Add network"
   },
   "currentNetworks": {
-    "message": "目前的網路"
+    "message": "目前的網路",
+    "englishSource": "Current networks"
   },
   "deleteNetworkHint": {
-    "message": "點擊 X 圖示以刪除網路。如果您想編輯網路，只需刪除該網路，並以新的參數新增另一個網路。"
+    "message": "點擊 X 圖示以刪除網路。如果您想編輯網路，只需刪除該網路，並以新的參數新增另一個網路。",
+    "englishSource": "Click on the X icon to delete the network. If you want to edit network, just delete it and add another with new params."
   },
   "preview": {
-    "message": "預覽"
+    "message": "預覽",
+    "englishSource": "Preview"
   },
   "raw": {
-    "message": "原始"
+    "message": "原始",
+    "englishSource": "Raw"
   },
   "fetchingConfirmationDetails": {
-    "message": "正在擷取確認的詳細資料"
+    "message": "正在擷取確認的詳細資料",
+    "englishSource": "fetching confirmation details"
   },
   "notIdentified": {
-    "message": "未識別"
+    "message": "未識別",
+    "englishSource": "Not identified"
   },
   "connection": {
-    "message": "連線"
+    "message": "連線",
+    "englishSource": "Connection"
   },
   "connect": {
-    "message": "連結"
+    "message": "連結",
+    "englishSource": "Connect"
   },
   "confirmActionOnDevice": {
-    "message": "確認以下裝置的動作："
+    "message": "確認以下裝置的動作：",
+    "englishSource": "Confirm the action on"
   },
   "deviceName": {
     "message": "$device$ 裝置",
@@ -1234,11 +1564,13 @@
       "device": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "$device$ device"
   },
   "ledgerNano": {
     "message": "Ledger Nano",
-    "description": "Ledger = https://www.ledger.com/"
+    "description": "Ledger = https://www.ledger.com/",
+    "englishSource": "Ledger Nano"
   },
   "defaultLedgerName": {
     "message": "Ledger $number$",
@@ -1247,14 +1579,17 @@
       "number": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Ledger $number$"
   },
   "ledgerNameConstraint": {
-    "message": "1-16 個字元，無特殊字元"
+    "message": "1-16 個字元，無特殊字元",
+    "englishSource": "1-16 characters, no special"
   },
   "ledgerNameInputDescription": {
     "message": "新 Ledger 帳戶的名稱是什麼？",
-    "description": "Ledger = https://www.ledger.com/"
+    "description": "Ledger = https://www.ledger.com/",
+    "englishSource": "What will be the name of the new Ledger account?"
   },
   "defaultDerivationPathLabel": {
     "message": "預設使用 $path$ 衍生。",
@@ -1262,14 +1597,17 @@
       "path": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "By default $path$ derivation is used."
   },
   "clickOnCustomDerivationPath": {
-    "message": "點擊「自訂衍生路徑」來自訂。"
+    "message": "點擊「自訂衍生路徑」來自訂。",
+    "englishSource": "Click on 'Custom derivation path' to customize it."
   },
   "addLedgerAccount": {
     "message": "新增 Ledger 帳戶",
-    "description": "Ledger = https://www.ledger.com/"
+    "description": "Ledger = https://www.ledger.com/",
+    "englishSource": "Add Ledger Account"
   },
   "firefoxLedgerConnectionError": {
     "message": "$sorry$，透過 $browser$ 在 $device$ 裝置的連線暫時 $unavailable$。",
@@ -1286,31 +1624,40 @@
       "unavailable": {
         "content": "$4"
       }
-    }
+    },
+    "englishSource": "$sorry$ Connection to the $device$ device via $browser$ is temporarily $unavailable$."
   },
   "connectionUnavailable": {
-    "message": "無法使用"
+    "message": "無法使用",
+    "englishSource": "Unavailable"
   },
   "sorry": {
-    "message": "抱歉！"
+    "message": "抱歉！",
+    "englishSource": "Sorry!"
   },
   "upload": {
-    "message": "上傳"
+    "message": "上傳",
+    "englishSource": "Upload"
   },
   "languageAndCountry": {
-    "message": "語言"
+    "message": "語言",
+    "englishSource": "Language"
   },
   "generalSettings": {
-    "message": "一般"
+    "message": "一般",
+    "englishSource": "General"
   },
   "generalSettingsDescription": {
-    "message": "您可以在此管理語言偏好和顯示模式。"
+    "message": "您可以在此管理語言偏好和顯示模式。",
+    "englishSource": "Here you can manage languages preferences and display mode."
   },
   "swapNoun": {
-    "message": "交換"
+    "message": "交換",
+    "englishSource": "Swap"
   },
   "transfers": {
-    "message": "轉帳"
+    "message": "轉帳",
+    "englishSource": "Transfers"
   },
   "someUnknownToken": {
     "message": "未知的代幣 $token$",
@@ -1318,7 +1665,8 @@
       "token": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "unknown token $token$"
   },
   "interactionWithSomeEntrypoint": {
     "message": "與 $contractAddress$ 合約的進入點「$entrypoint$」互動",
@@ -1329,7 +1677,8 @@
       "contractAddress": {
         "content": "$2"
       }
-    }
+    },
+    "englishSource": "Interaction with entrypoint '$entrypoint$' of contract $contractAddress$"
   },
   "transactionOfSomeType": {
     "message": "「$type$」類型的交易",
@@ -1337,28 +1686,35 @@
       "type": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Transaction of type '$type$'"
   },
   "approveToken": {
-    "message": "核准代表"
+    "message": "核准代表",
+    "englishSource": "Approve Token"
   },
   "add": {
-    "message": "新增"
+    "message": "新增",
+    "englishSource": "Add"
   },
   "assets": {
-    "message": "資產"
+    "message": "資產",
+    "englishSource": "Assets"
   },
   "activity": {
-    "message": "活動"
+    "message": "活動",
+    "englishSource": "Activities"
   },
   "manage": {
-    "message": "管理"
+    "message": "管理",
+    "englishSource": "Manage"
   },
   "manageAssets": {
     "message": "管理資產"
   },
   "noAssetsFound": {
-    "message": "找不到資產"
+    "message": "找不到資產",
+    "englishSource": "No assets found"
   },
   "ifYouDontSeeYourAsset": {
     "message": "如果您未看見您的資產，\n請嘗試點擊 $toClick$。",
@@ -1366,7 +1722,8 @@
       "toClick": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "If you don't see your asset,\ntry to click $toClick$."
   },
   "addressOfTokenContract": {
     "message": "$assetSymbol$ 代幣合約的地址。",
@@ -1374,55 +1731,72 @@
       "assetSymbol": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Address of a $assetSymbol$ token contract."
   },
   "searchAssets": {
-    "message": "搜尋資產…"
+    "message": "搜尋資產…",
+    "englishSource": "Search assets..."
   },
   "deployNew": {
-    "message": "部署新的合約"
+    "message": "部署新的合約",
+    "englishSource": "Deploy new"
   },
   "managedKTAccount": {
-    "message": "受管理的 KT"
+    "message": "受管理的 KT",
+    "englishSource": "Managed KT"
   },
   "watchOnlyAccount": {
-    "message": "僅可查看"
+    "message": "僅可查看",
+    "englishSource": "View Key"
   },
   "disabledForWatchOnlyAccount": {
-    "message": "僅可查看的帳戶已停用"
+    "message": "僅可查看的帳戶已停用",
+    "englishSource": "Disabled for watch-only account"
   },
   "activationOperationType": {
-    "message": "啟用"
+    "message": "啟用",
+    "englishSource": "Activation"
   },
   "youAreNotContractManager": {
-    "message": "您不是合約管理員"
+    "message": "您不是合約管理員",
+    "englishSource": "You are not a contract manager"
   },
   "contract": {
-    "message": "合約"
+    "message": "合約",
+    "englishSource": "Contract"
   },
   "contractAddressInputDescription": {
-    "message": "要連結的合約地址。"
+    "message": "要連結的合約地址。",
+    "englishSource": "Address of the contract to connect."
   },
   "contractAddressInputPlaceholder": {
-    "message": "例如 KT1a9w1S7hN5s…"
+    "message": "例如 KT1a9w1S7hN5s…",
+    "englishSource": "e.g. KT1a9w1S7hN5s..."
   },
   "addKnownManagedContract": {
-    "message": "新增已知的受管理合約"
+    "message": "新增已知的受管理合約",
+    "englishSource": "Add known Managed contract"
   },
   "clickOnContractToImport": {
-    "message": "點擊您要匯入的合約。"
+    "message": "點擊您要匯入的合約。",
+    "englishSource": "Click on Contract you want to import."
   },
   "notContractAddress": {
-    "message": "非合約地址"
+    "message": "非合約地址",
+    "englishSource": "Not a contract address"
   },
   "contractAlreadyImported": {
-    "message": "此合約已匯入"
+    "message": "此合約已匯入",
+    "englishSource": "This contract has already been imported"
   },
   "waitWhileContractBeingDeployed": {
-    "message": "部署合約時，請勿離開此頁面或關閉視窗，請稍待片刻。此表格和警告會在部署成功後消失。"
+    "message": "部署合約時，請勿離開此頁面或關閉視窗，請稍待片刻。此表格和警告會在部署成功後消失。",
+    "englishSource": "Please don't leave this page or close window while contract is being deployed, it may take a while. The form and this alert will disappear as soon as it is successfully deployed."
   },
   "justAMinute": {
-    "message": "再等一下…"
+    "message": "再等一下…",
+    "englishSource": "Just a minute..."
   },
   "referredByTokenContactAddressInvalid": {
     "message": "傳址到代幣合約的合約地址 $address$ 無效。",
@@ -1430,7 +1804,8 @@
       "address": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Contract address $address$, which is referred by token contract to, is invalid."
   },
   "someNetworkIsNotCurrent": {
     "message": "$network$ 網路已指定，並不是目前的網路",
@@ -1438,7 +1813,8 @@
       "network": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "$network$ network was specified, which is not current network"
   },
   "someNetworkWithChainIdIsNotCurrent": {
     "message": "鏈 ID $chainId$ 已指定，並不是目前網路的鏈 ID",
@@ -1446,16 +1822,20 @@
       "chainId": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Chain ID $chainId$ was specified, which is not chain ID of current network"
   },
   "popupSettings": {
-    "message": "彈跳式視窗模式"
+    "message": "彈跳式視窗模式",
+    "englishSource": "Popup mode"
   },
   "popupSettingsDescription": {
-    "message": "您可在此設定彈跳式視窗，在擴充功能面板的外掛程式圖示上點擊時便會出現此視窗。"
+    "message": "您可在此設定彈跳式視窗，在擴充功能面板的外掛程式圖示上點擊時便會出現此視窗。",
+    "englishSource": "Here you can configure the popup which appears on plugin's icon click in extensions panel."
   },
   "managedContract": {
-    "message": "受管理的合約"
+    "message": "受管理的合約",
+    "englishSource": "Managed Contract"
   },
   "referredByTokenContractNotFound": {
     "message": "找不到代幣合約轉址的合約 $address$。",
@@ -1463,16 +1843,20 @@
       "address": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Contract $address$, which is referred by token contract to, was not found."
   },
   "tokenContractNotFound": {
-    "message": "找不到該合約。"
+    "message": "找不到該合約。",
+    "englishSource": "The contract was not found."
   },
   "failedToParseMetadata": {
-    "message": "無法剖析元資料"
+    "message": "無法剖析元資料",
+    "englishSource": "Failed to parse metadata"
   },
   "unknownParseErrorOccurred": {
-    "message": "發生未知的剖析錯誤。"
+    "message": "發生未知的剖析錯誤。",
+    "englishSource": "An unknown parsing error occurred."
   },
   "errorWhileFetchingUrl": {
     "message": "從 $url$ 擷取時發生錯誤",
@@ -1480,10 +1864,12 @@
       "url": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Error occurred while fetching from $url$"
   },
   "invalidManagedContract": {
-    "message": "無效的受管理合約"
+    "message": "無效的受管理合約",
+    "englishSource": "Invalid managed contract"
   },
   "someMethodNotDefinedInContract": {
     "message": "合約內未定義「$name$」方式。",
@@ -1491,7 +1877,8 @@
       "name": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "'$name$' method isn't defined in contract."
   },
   "someMethodSignatureDoesNotMatchStandard": {
     "message": "「$name$」方式的簽名與標準不相符。",
@@ -1499,13 +1886,16 @@
       "name": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "'$name$' method's signature doesn't match the standard."
   },
   "failedToLoadChainID": {
-    "message": "無法載入此網路的鏈 ID。"
+    "message": "無法載入此網路的鏈 ID。",
+    "englishSource": "Failed to load chain ID for this network"
   },
   "makeSureTokenIdIsCorrect": {
-    "message": "請確定代幣 ID 正確。"
+    "message": "請確定代幣 ID 正確。",
+    "englishSource": "Please make sure that asset ID is correct."
   },
   "unknownErrorCheckingSomeEntrypoint": {
     "message": "確認「$name$」進入點時發生未知錯誤。",
@@ -1513,13 +1903,16 @@
       "name": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "An unknown error while checking '$name$' entrypoint occurred."
   },
   "incorrectTokenIdErrorMessage": {
-    "message": "使用提供的資料處理代幣時失敗。請確定該代幣 ID 正確。"
+    "message": "使用提供的資料處理代幣時失敗。請確定該代幣 ID 正確。",
+    "englishSource": "Failed while processing asset with provided data. Please make sure that asset ID is correct."
   },
   "transfer": {
-    "message": "轉帳"
+    "message": "轉帳",
+    "englishSource": "Transfer"
   },
   "transferFromSmb": {
     "message": "傳送者 $sender$",
@@ -1527,7 +1920,8 @@
       "sender": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "from $sender$"
   },
   "transferToSmb": {
     "message": "收受者 $receiver$",
@@ -1535,10 +1929,12 @@
       "receiver": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "to $receiver$"
   },
   "interaction": {
-    "message": "互動"
+    "message": "互動",
+    "englishSource": "Interaction"
   },
   "interactionWithContract": {
     "message": "透過 $contract$",
@@ -1546,7 +1942,8 @@
       "contract": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "with $contract$"
   },
   "delegationToSmb": {
     "message": "至 $delegate$",
@@ -1554,7 +1951,8 @@
       "delegate": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "to $delegate$"
   },
   "fa2TokenAlreadyExists": {
     "message": "含有地址 $address$ 和 ID $tokenId$ 的代幣已存在。",
@@ -1565,7 +1963,8 @@
       "tokenId": {
         "content": "$2"
       }
-    }
+    },
+    "englishSource": "Token with address $address$ and ID $tokenId$ already exists."
   },
   "nonFa2TokenAlreadyExists": {
     "message": "含有地址 $address$ 的代幣已存在。",
@@ -1573,7 +1972,8 @@
       "address": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Token with address $address$ already exists."
   },
   "approveForSmb": {
     "message": "至 $spender$",
@@ -1581,31 +1981,40 @@
       "spender": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "for $spender$"
   },
   "undelegation": {
-    "message": "取消委託"
+    "message": "取消委託",
+    "englishSource": "Undelegation"
   },
   "bytes": {
-    "message": "位元組"
+    "message": "位元組",
+    "englishSource": "Bytes"
   },
   "clean": {
-    "message": "清除"
+    "message": "清除",
+    "englishSource": "Clean"
   },
   "errorChangingAccountName": {
-    "message": "變更帳戶名稱時發生錯誤"
+    "message": "變更帳戶名稱時發生錯誤",
+    "englishSource": "An error occurred while changing account name"
   },
   "ok": {
-    "message": "確定"
+    "message": "確定",
+    "englishSource": "OK"
   },
   "yes": {
-    "message": "是"
+    "message": "是",
+    "englishSource": "Yes"
   },
   "no": {
-    "message": "否"
+    "message": "否",
+    "englishSource": "No"
   },
   "actionConfirmation": {
-    "message": "確認動作"
+    "message": "確認動作",
+    "englishSource": "Confirm the action"
   },
   "domainDoesntResolveToAddress": {
     "message": "網域「$value$」無法解析成地址",
@@ -1613,77 +2022,101 @@
       "value": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Domain \"$value$\" doesn't resolve to an address"
   },
   "invalidAddressOrDomain": {
-    "message": "無效的地址或網域名稱"
+    "message": "無效的地址或網域名稱",
+    "englishSource": "Invalid address or domain name"
   },
   "resolvedAddress": {
-    "message": "已解析的地址"
+    "message": "已解析的地址",
+    "englishSource": "Resolved address"
   },
   "invalidRpcCantGetChainId": {
     "message": "無效的遠端程序呼叫：無法取得鏈 ID",
-    "description": "RPC = Remote Procedure Call (https://en.wikipedia.org/wiki/Remote_procedure_call)"
+    "description": "RPC = Remote Procedure Call (https://en.wikipedia.org/wiki/Remote_procedure_call)",
+    "englishSource": "Invalid RPC: Cannot get chain id"
   },
   "contractNotOriginated": {
-    "message": "合約未產生"
+    "message": "合約未產生",
+    "englishSource": "Contract not originated"
   },
   "welcomeTo": {
-    "message": "歡迎使用"
+    "message": "歡迎使用",
+    "englishSource": "Welcome to"
   },
   "domain": {
-    "message": "網域"
+    "message": "網域",
+    "englishSource": "Domain"
   },
   "hash": {
-    "message": "雜湊"
+    "message": "雜湊",
+    "englishSource": "Hash"
   },
   "defaultAccount": {
-    "message": "預設帳戶"
+    "message": "預設帳戶",
+    "englishSource": "Default account (the first one)"
   },
   "loadMore": {
-    "message": "載入更多"
+    "message": "載入更多",
+    "englishSource": "Load more"
   },
   "submit": {
-    "message": "提交"
+    "message": "提交",
+    "englishSource": "Submit"
   },
   "invalidJsonInput": {
-    "message": "無效的 JSON"
+    "message": "無效的 JSON",
+    "englishSource": "Invalid JSON"
   },
   "notFaucetJson": {
-    "message": "非水龍頭 JSON"
+    "message": "非水龍頭 JSON",
+    "englishSource": "Not a faucet JSON"
   },
   "faucetJson": {
-    "message": "水龍頭 JSON"
+    "message": "水龍頭 JSON",
+    "englishSource": "Faucet JSON"
   },
   "faucetJsonDescription": {
-    "message": "您可在此貼上 JSON，不須新增檔案"
+    "message": "您可在此貼上 JSON，不須新增檔案",
+    "englishSource": "You can paste JSON here instead of adding file"
   },
   "selectFile": {
-    "message": "选择文件"
+    "message": "选择文件",
+    "englishSource": "Select file"
   },
   "clickToRevealField": {
-    "message": "单击以显示此字段"
+    "message": "单击以显示此字段",
+    "englishSource": "Click to reveal this field"
   },
   "clickToReveal": {
-    "message": "点击揭示"
+    "message": "点击揭示",
+    "englishSource": "Click to reveal"
   },
   "skip": {
-    "message": "跳过"
+    "message": "跳过",
+    "englishSource": "Skip"
   },
   "checkNow": {
-    "message": "现在检查"
+    "message": "现在检查",
+    "englishSource": "Check now"
   },
   "theLendingProtocol": {
-    "message": "Aleo 上的借贷协议。"
+    "message": "Aleo 上的借贷协议。",
+    "englishSource": "The lending protocol on Aleo."
   },
   "alreadyLaunched": {
-    "message": "已经上线了！"
+    "message": "已经上线了！",
+    "englishSource": "Already Launched!"
   },
   "borrowLandEarn": {
-    "message": "借用、登陆和赚取您最喜爱的代币！"
+    "message": "借用、登陆和赚取您最喜爱的代币！",
+    "englishSource": "Borrow, Land and Earn on your favorite tokens!"
   },
   "independenceDayOfUkraine": {
-    "message": "乌克兰独立日"
+    "message": "乌克兰独立日",
+    "englishSource": "Independence Day of Ukraine"
   },
   "zeroSwapCommissionTitle": {
     "message": "为期两周的零掉期佣金 - 庆祝 $text$ 和我们！",
@@ -1691,7 +2124,8 @@
       "text": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Zero Swap commissions for two weeks - celebrate the $text$ with us!"
   },
   "zeroSwapCommissionDescription": {
     "message": "从 $date1$ 直到 $date2$ , Leo 用户可以通过我们的路由器在 $text$ 没有我们的开发佣金的部分。\n\n享受最有利可图的汇率并在一个地方免费交易。",
@@ -1705,31 +2139,40 @@
       "text": {
         "content": "$3"
       }
-    }
+    },
+    "englishSource": "From $date1$ till $date2$, Leo users may conduct trades via our router in the $text$ section without our dev commissions.\n\nEnjoy the most lucrative exchange rates and trade without fees in one place."
   },
   "okGotIt": {
-    "message": "知道了"
+    "message": "知道了",
+    "englishSource": "Got it"
   },
   "changelogTitle": {
-    "message": "Leo 钱包已更新"
+    "message": "Leo 钱包已更新",
+    "englishSource": "Leo Wallet updated"
   },
   "changelogDescription": {
-    "message": "在本次更新中"
+    "message": "在本次更新中",
+    "englishSource": "In this update"
   },
   "update": {
-    "message": "更新"
+    "message": "更新",
+    "englishSource": "Update"
   },
   "skipOnboarding": {
-    "message": "跳过入职"
+    "message": "跳过入职",
+    "englishSource": "Skip Onboarding"
   },
   "advancedUser": {
-    "message": "我是高级用户"
+    "message": "我是高级用户",
+    "englishSource": "I'm an advanced user"
   },
   "analytics": {
-    "message": "分析"
+    "message": "分析",
+    "englishSource": "Analytics"
   },
   "analyticsCollecting": {
-    "message": "匿名信息收集"
+    "message": "匿名信息收集",
+    "englishSource": "anonymous information collecting"
   },
   "analyticsInputDescription": {
     "message": "我同意 $analyticsLink$ ",
@@ -1737,70 +2180,91 @@
       "analyticsLink": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "I agree to the $analyticsLink$"
   },
   "dcpDelegatingMotivation": {
-    "message": "将您的资金委托给生产者是赚取余额利息的好方法"
+    "message": "将您的资金委托给生产者是赚取余额利息的好方法",
+    "englishSource": "Delegating your funds to producers is a great way of earning interest on your balance"
   },
   "addAsset": {
-    "message": "添加资产"
+    "message": "添加资产",
+    "englishSource": "Add Asset"
   },
   "assetId": {
-    "message": "资产 ID"
+    "message": "资产 ID",
+    "englishSource": "Asset ID"
   },
   "comingSoon": {
-    "message": "快来了"
+    "message": "快来了",
+    "englishSource": "Coming soon"
   },
   "weakKeystorePassword": {
-    "message": "“密钥库文件”密码太弱，无法用作扩展密码。你需要设置一个新的。"
+    "message": "“密钥库文件”密码太弱，无法用作扩展密码。你需要设置一个新的。",
+    "englishSource": "The \"keystore file\" password is too weak to use as an extension password. You need to set a new one."
   },
   "mustBeNonNegative": {
-    "message": "必须是非负数"
+    "message": "必须是非负数",
+    "englishSource": "Must be non-negative"
   },
   "positiveIntMessage": {
-    "message": "整数，1 或更大"
+    "message": "整数，1 或更大",
+    "englishSource": "Integer, 1 or greater"
   },
   "doNotShareViewKey": {
     "message": "<b>仅与您信任的人分享</b>它可用于查看您的所有交易历史记录。"
   },
   "signPayload": {
-    "message": "留言签名"
+    "message": "留言签名",
+    "englishSource": "Message to Sign"
   },
   "decryptPayload": {
-    "message": "要解密的消息"
+    "message": "要解密的消息",
+    "englishSource": "Message to Decrypt"
   },
   "noPreview": {
-    "message": "没有可用的预览"
+    "message": "没有可用的预览",
+    "englishSource": "No preview is available"
   },
   "requirements": {
-    "message": "要求："
+    "message": "要求：",
+    "englishSource": "<b>Requirements:</b>"
   },
   "mixtureOfUppercaseAndLowercaseLetters": {
-    "message": "大写和小写字母的混合。"
+    "message": "大写和小写字母的混合。",
+    "englishSource": "A mixture of both uppercase and lowercase letters."
   },
   "mixtureOfLettersAndNumbers": {
-    "message": "字母和数字的混合体。"
+    "message": "字母和数字的混合体。",
+    "englishSource": "A mixture of letters and numbers."
   },
   "atLeast1SpecialCharacter": {
-    "message": "包含至少一个特殊字符，例如 ! @"
+    "message": "包含至少一个特殊字符，例如 ! @",
+    "englishSource": "Inclusion of at least one special character, e.g., ! @ # ? ] - (optional, recommended)."
   },
   "seedInputNumberOfWords": {
-    "message": "我的种子短语是 $1 字"
+    "message": "我的种子短语是 $1 字",
+    "englishSource": "My Seed phrase is $1 words"
   },
   "seedPasteFailedTooManyWords": {
-    "message": "粘贴失败，因为它包含超过 24 个单词。"
+    "message": "粘贴失败，因为它包含超过 24 个单词。",
+    "englishSource": "Paste failed because it contained over 24 words."
   },
   "seedPhraseTip": {
-    "message": "您可以将整个秘密种子短语粘贴到任何字段中"
+    "message": "您可以将整个秘密种子短语粘贴到任何字段中",
+    "englishSource": "You can paste your entire secret Seed phrase into any field"
   },
   "assetMustBeSelected": {
-    "message": "必须选择资产"
+    "message": "必须选择资产",
+    "englishSource": "Asset must be selected"
   },
   "gasFeeMustBePositive": {
-    "message": "汽油费必须为正"
+    "message": "汽油费必须为正",
+    "englishSource": "Gas fee must be positive"
   },
   "get": {
-    "message": "得到"
+    "message": "得到",
+    "englishSource": "Get"
   },
   "exolixWarningNote": {
     "message": "请只存款 $currencyName$ 传输网络 $networkName$ .否则，您可能会永久失去您的资产。",
@@ -1811,172 +2275,228 @@
       "networkName": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Please, deposit only $currencyName$ transfer network $networkName$. Otherwise, you may lose your assets permanently."
   },
   "mnemonicInputDescription": {
-    "message": "助记符。你的秘密 12 - 24 字词组。"
+    "message": "助记符。你的秘密 12 - 24 字词组。",
+    "englishSource": "Mnemonic. Your secret 12 - 24 words phrase."
   },
   "mnemonicInputWarning": {
-    "message": "我们不存储您的助记词。不要丢失它！"
+    "message": "我们不存储您的助记词。不要丢失它！",
+    "englishSource": "We don't store your seed phrase. Don't lose it!"
   },
   "importWallet": {
-    "message": "导入您的钱包"
+    "message": "导入您的钱包",
+    "englishSource": "Import Wallet"
   },
   "createWallet": {
-    "message": "创建您的钱包"
+    "message": "创建您的钱包",
+    "englishSource": "Create Your Wallet"
   },
   "errorImportingKukaiWallet": {
-    "message": "导入 Kukai 钱包时出错"
+    "message": "导入 Kukai 钱包时出错",
+    "englishSource": "Error while importing Kukai wallet"
   },
   "selectedFileFormatNotSupported": {
-    "message": "不支持所选的文件格式"
+    "message": "不支持所选的文件格式",
+    "englishSource": "The selected file format is not supported"
   },
   "fileHasSyntaxError": {
-    "message": "该文件有语法错误。确保文件正确。"
+    "message": "该文件有语法错误。确保文件正确。",
+    "englishSource": "The file has a syntax error. Make sure the file is correct."
   },
   "entropyDecryptionError": {
-    "message": "解密熵失败。确保密码正确"
+    "message": "解密熵失败。确保密码正确",
+    "englishSource": "Failed to decrypt entropy. Make sure the password is correct"
   },
   "kukaiFileVersionError": {
-    "message": "只能处理版本 3 的文件"
+    "message": "只能处理版本 3 的文件",
+    "englishSource": "Only files of version 3 can be processed"
   },
   "kukaiWalletTypeError": {
-    "message": "无法显示此钱包类型的助记词"
+    "message": "无法显示此钱包类型的助记词",
+    "englishSource": "Cannot reveal seed phrase for this wallet type"
   },
   "revealViewKey": {
-    "message": "显示视图键"
+    "message": "显示视图键",
+    "englishSource": "Reveal View Key"
   },
   "revealViewKeyDescription": {
-    "message": "也称为“共享帐户历史记录”，显示您选择的帐户的查看密钥。"
+    "message": "也称为“共享帐户历史记录”，显示您选择的帐户的查看密钥。",
+    "englishSource": "Also known as \"Share Account History\", reveals view key for your selected account."
   },
   "info": {
-    "message": "信息"
+    "message": "信息",
+    "englishSource": "Info"
   },
   "unlockPasswordErrorDelay": {
-    "message": "您已经输入了 3 次错误的密码。你的钱包被冻结了"
+    "message": "您已经输入了 3 次错误的密码。你的钱包被冻结了",
+    "englishSource": "You have entered the wrong password three times. Your wallet is being blocked for"
   },
   "importExistingWalletDescription": {
-    "message": "已经有钱包了？使用您的助记词或加密的密钥库文件将其导入"
+    "message": "已经有钱包了？使用您的助记词或加密的密钥库文件将其导入",
+    "englishSource": "Already have a wallet? Import it using your seed phrase or encrypted keystore file"
   },
   "routingFee": {
-    "message": "路由费"
+    "message": "路由费",
+    "englishSource": "Routing Fee"
   },
   "routingFeeTooltip": {
-    "message": "用于在 Aleo DEX 中选择最有利可图的交换路线。\n\n不包括 DEXes 佣金。"
+    "message": "用于在 Aleo DEX 中选择最有利可图的交换路线。\n\n不包括 DEXes 佣金。",
+    "englishSource": "For choosing the most profitable exchange route among Aleo DEXes. \n\nDEXes commissions are not included."
   },
   "staking": {
-    "message": "质押"
+    "message": "质押",
+    "englishSource": "Staking"
   },
   "recommended": {
-    "message": "推荐的"
+    "message": "推荐的",
+    "englishSource": "Recommended"
   },
   "partnership": {
-    "message": "合伙"
+    "message": "合伙",
+    "englishSource": "Partnership"
   },
   "delegationGuide": {
-    "message": "完整的视频指南"
+    "message": "完整的视频指南",
+    "englishSource": "Full video guide"
   },
   "delegationGuideLink": {
-    "message": "如何委托 XTZ"
+    "message": "如何委托 XTZ",
+    "englishSource": "How to Delegate XTZ"
   },
   "delegationComunity": {
-    "message": "如果您有任何问题，请写在我们的社区中"
+    "message": "如果您有任何问题，请写在我们的社区中",
+    "englishSource": "In case you have any questions, write them in our communities"
   },
   "delegationPointsHead1": {
-    "message": "赚取 5.6% 的利息"
+    "message": "赚取 5.6% 的利息",
+    "englishSource": "Earn 5.6% interest"
   },
   "delegationPointsHead2": {
-    "message": "在你的 Aleo 上"
+    "message": "在你的 Aleo 上",
+    "englishSource": "on your Aleo"
   },
   "delegationPointsHead3": {
-    "message": "每年从烘焙奖励"
+    "message": "每年从烘焙奖励",
+    "englishSource": "annualy from Baking rewards"
   },
   "delegationPoint1": {
-    "message": "您在 Aleo 的第一笔奖励将在大约 36 天内支付。"
+    "message": "您在 Aleo 的第一笔奖励将在大约 36 天内支付。",
+    "englishSource": "Your first reward in Aleo will be paid approximately in 36 days."
   },
   "delegationPoint2": {
-    "message": "然后，您每 3 天收到一次奖励。"
+    "message": "然后，您每 3 天收到一次奖励。",
+    "englishSource": "Then, you receive a reward every 3 days."
   },
   "delegationPoint3": {
-    "message": "赚取率随时间而变化。查看您电子钱包中的当前汇率。"
+    "message": "赚取率随时间而变化。查看您电子钱包中的当前汇率。",
+    "englishSource": "Earn rate varies over time. Check the current rate in your Wallet."
   },
   "delegationPoint4": {
-    "message": "您的 Aleo 代币永远不会被锁定。随时发送！"
+    "message": "您的 Aleo 代币永远不会被锁定。随时发送！",
+    "englishSource": "Your Aleo tokens are never locked. Send anytime!"
   },
   "producer": {
-    "message": "制片人"
+    "message": "制片人",
+    "englishSource": "Producer"
   },
   "producerInputDescription": {
-    "message": "注册生产者的地址。"
+    "message": "注册生产者的地址。",
+    "englishSource": "Address of a registered producer."
   },
   "bakerInputDescriptionWithDomain": {
-    "message": "注册面包师的地址或域名。"
+    "message": "注册面包师的地址或域名。",
+    "englishSource": "Address or domain name of a registered baker."
   },
   "file": {
-    "message": "文件"
+    "message": "文件",
+    "englishSource": "File"
   },
   "keystoreFile": {
-    "message": "密钥库文件"
+    "message": "密钥库文件",
+    "englishSource": "Keystore File"
   },
   "filePassword": {
-    "message": "文件密码"
+    "message": "文件密码",
+    "englishSource": "File Password"
   },
   "filePasswordInputDescription": {
-    "message": "请输入密钥库文件的密码"
+    "message": "请输入密钥库文件的密码",
+    "englishSource": "Please enter a password for keystore file"
   },
   "fileInputPrompt": {
-    "message": "选择一个文件或将其拖到此处"
+    "message": "选择一个文件或将其拖到此处",
+    "englishSource": "Choose a file or drag it here"
   },
   "useKeystorePassword": {
-    "message": "使用文件密码作为扩展密码"
+    "message": "使用文件密码作为扩展密码",
+    "englishSource": "Use File Password as Extension password"
   },
   "import": {
-    "message": "进口"
+    "message": "进口",
+    "englishSource": "Import"
   },
   "applied": {
-    "message": "应用"
+    "message": "应用",
+    "englishSource": "Applied"
   },
   "skipped": {
-    "message": "跳过"
+    "message": "跳过",
+    "englishSource": "Skipped"
   },
   "ifYouWantToRevealViewKeyFromOtherAccount": {
-    "message": "如果您想从另一个帐户显示查看密钥 - 您应该在右上角的下拉列表中选择它。"
+    "message": "如果您想从另一个帐户显示查看密钥 - 您应该在右上角的下拉列表中选择它。",
+    "englishSource": "If you want to reveal a view key from another account - you should select it in the top-right dropdown."
   },
   "viewKeyFieldDescription": {
-    "message": "当前帐户查看键。保密。拥有此密钥的任何人都可以查看您的交易记录"
+    "message": "当前帐户查看键。保密。拥有此密钥的任何人都可以查看您的交易记录",
+    "englishSource": "Current account view key. Keep it in secret. Anyone with this key can see your transaction history"
   },
   "derivationType": {
-    "message": "派生类型"
+    "message": "派生类型",
+    "englishSource": "Derivation type"
   },
   "derivationTypeFieldDescription": {
-    "message": "帐户将使用的椭圆曲线。"
+    "message": "帐户将使用的椭圆曲线。",
+    "englishSource": "The elliptical curve that the account will use."
   },
   "tryingToTransferToContract": {
-    "message": "您正在尝试将资金转移到合同中。\n请确保这正是您想要的。"
+    "message": "您正在尝试将资金转移到合同中。\n请确保这正是您想要的。",
+    "englishSource": "You're trying to transfer funds to contract.\nPlease, ensure that it's exactly what you want."
   },
   "inFiat": {
-    "message": "在菲亚特"
+    "message": "在菲亚特",
+    "englishSource": "in Fiat"
   },
   "fiatCurrency": {
-    "message": "默认货币"
+    "message": "默认货币",
+    "englishSource": "Default Currency"
   },
   "tokens": {
-    "message": "代币"
+    "message": "代币",
+    "englishSource": "Tokens"
   },
   "manageTokens": {
-    "message": "管理令牌"
+    "message": "管理令牌",
+    "englishSource": "Manage Tokens"
   },
   "searchByName": {
-    "message": "按名称搜索..."
+    "message": "按名称搜索...",
+    "englishSource": "Search by name..."
   },
   "analyticsSettings": {
-    "message": "匿名分析"
+    "message": "匿名分析",
+    "englishSource": "Anonymous Analytics"
   },
   "analyticsSettingsDescription": {
-    "message": "您可以在此处配置匿名分析的发送，以帮助我们改进产品。"
+    "message": "您可以在此处配置匿名分析的发送，以帮助我们改进产品。",
+    "englishSource": "Here you can configure sending of anonymous analytics that helps us to improve the product."
   },
   "origination": {
-    "message": "起源"
+    "message": "起源",
+    "englishSource": "Origination"
   },
   "unknownErrorFromRPC": {
     "message": "发送请求失败 $url$ .提供的请求无效或 RPC 节点暂时无法访问。",
@@ -1984,64 +2504,84 @@
       "url": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Failed to send request to $url$. Invalid request provided or RPC node is temporarily unreachable."
   },
   "emptyImplicitContract": {
-    "message": "您的帐户是空的。在此帐户上存入任何 aleo credits 金额以激活它"
+    "message": "您的帐户是空的。在此帐户上存入任何 aleo credits 金额以激活它",
+    "englishSource": "Your account is empty. Deposit any aleo credits amount on this account to activate it"
   },
   "balanceTooLow": {
-    "message": "Gas 代币余额过低"
+    "message": "Gas 代币余额过低",
+    "englishSource": "Gas token balance is too low"
   },
   "swap": {
-    "message": "交换"
+    "message": "交换",
+    "englishSource": "Swap"
   },
   "accountNumber": {
-    "message": "帐号"
+    "message": "帐号",
+    "englishSource": "Account number"
   },
   "noExchangersAvailable": {
-    "message": "抱歉，当前网络没有可用的交换器。"
+    "message": "抱歉，当前网络没有可用的交换器。",
+    "englishSource": "Sorry, no exchangers are available for the current network."
   },
   "noResults": {
-    "message": "没有结果"
+    "message": "没有结果",
+    "englishSource": "No Results"
   },
   "aleoApy": {
-    "message": "年利率：6%"
+    "message": "年利率：6%",
+    "englishSource": "APY: 6%"
   },
   "tokenApy": {
-    "message": "APY"
+    "message": "APY",
+    "englishSource": "APY"
   },
   "max": {
-    "message": "最大限度"
+    "message": "最大限度",
+    "englishSource": "Max"
   },
   "balance": {
-    "message": "平衡："
+    "message": "平衡：",
+    "englishSource": "Balance"
   },
   "from": {
-    "message": "从"
+    "message": "从",
+    "englishSource": "From"
   },
   "toAsset": {
-    "message": "至"
+    "message": "至",
+    "englishSource": "To"
   },
   "via": {
-    "message": "通过"
+    "message": "通过",
+    "englishSource": "Via"
   },
   "swapRoute": {
-    "message": "交换路线"
+    "message": "交换路线",
+    "englishSource": "Swap route"
   },
   "exchangeRate": {
-    "message": "汇率"
+    "message": "汇率",
+    "englishSource": "Exchange rate"
   },
   "priceImpact": {
-    "message": "价格影响"
+    "message": "价格影响",
+    "englishSource": "Price impact"
   },
   "slippageTolerance": {
-    "message": "滑动公差"
+    "message": "滑动公差",
+    "englishSource": "Slippage tolerance"
   },
   "minimumReceived": {
-    "message": "最低收到"
+    "message": "最低收到",
+    "englishSource": "Minimum received"
   },
   "inputOutputAssetsCannotBeSame": {
-    "message": "输入和输出资产不能相同"
+    "message": "输入和输出资产不能相同",
+    "englishSource": "Input and output assets cannot be the same"
   },
   "amountMustBeReservedForNetworkFees": {
     "message": "必须保留 $amount$ 以支付网络费用",
@@ -2049,76 +2589,100 @@
       "amount": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "$amount$ must be reserved to pay network fees"
   },
   "helpAndCommunity": {
-    "message": "帮助"
+    "message": "帮助",
+    "englishSource": "Help & Community"
   },
   "communityResourcesTitle": {
-    "message": "您可能总能找到有关 Leo 钱包的其他信息或寻求有关下一个资源的帮助。"
+    "message": "您可能总能找到有关 Leo 钱包的其他信息或寻求有关下一个资源的帮助。",
+    "englishSource": "You may always find additional info about the Leo wallet or ask for help on the next resources."
   },
   "helpAndCommunityDescription": {
-    "message": "如果您想成为我们社区的一员或需要帮助，请使用此部分。"
+    "message": "如果您想成为我们社区的一员或需要帮助，请使用此部分。",
+    "englishSource": "Use this section if you want to be a part of our community or need help."
   },
   "joinPrompt": {
-    "message": "欢迎加入并提出您的问题😊"
+    "message": "欢迎加入并提出您的问题😊",
+    "englishSource": "Feel free to join and ask your questions 😊"
   },
   "blockExplorer": {
-    "message": "区块链浏览器"
+    "message": "区块链浏览器",
+    "englishSource": "Blockchain explorer"
   },
   "specifyTokenId": {
-    "message": "指定令牌 ID"
+    "message": "指定令牌 ID",
+    "englishSource": "Specify token ID"
   },
   "notWhitelistedTokenWarning": {
-    "message": "注意力！您尝试交换的令牌之一未列入白名单。您可以自担风险与他们互动。"
+    "message": "注意力！您尝试交换的令牌之一未列入白名单。您可以自担风险与他们互动。",
+    "englishSource": "Attention! One of the tokens you’re trying to exchange is not whitelisted. You can interact with them at your own risk."
   },
   "tvl": {
-    "message": "电视L"
+    "message": "电视L",
+    "englishSource": "TVL"
   },
   "promoted": {
-    "message": "晋升"
+    "message": "晋升",
+    "englishSource": "Promoted"
   },
   "searchDApps": {
-    "message": "搜索 DApp"
+    "message": "搜索 DApp",
+    "englishSource": "Search DApps"
   },
   "game": {
-    "message": "游戏"
+    "message": "游戏",
+    "englishSource": "Game"
   },
   "social": {
-    "message": "社会的"
+    "message": "社会的",
+    "englishSource": "Social"
   },
   "marketplace": {
-    "message": "市场"
+    "message": "市场",
+    "englishSource": "Marketplace"
   },
   "farming": {
-    "message": "农业"
+    "message": "农业",
+    "englishSource": "Farming"
   },
   "other": {
-    "message": "其他"
+    "message": "其他",
+    "englishSource": "Other"
   },
   "noMatchingDAppsFound": {
-    "message": "未找到匹配的 dApp"
+    "message": "未找到匹配的 dApp",
+    "englishSource": "No matching dApps were found"
   },
   "gasFee": {
-    "message": "燃气费"
+    "message": "燃气费",
+    "englishSource": "Gas fee"
   },
   "storageFee": {
-    "message": "仓储费"
+    "message": "仓储费",
+    "englishSource": "Storage fee"
   },
   "leoWalletFeeWarning": {
-    "message": "Leo Wallet 目前不对交易所收取任何费用，但将来可能会收取费用。"
+    "message": "Leo Wallet 目前不对交易所收取任何费用，但将来可能会收取费用。",
+    "englishSource": "Leo Wallet doesn't apply any fees to exchanges for now but it may apply in the future."
   },
   "poolExchangeFee": {
-    "message": "矿池兑换费"
+    "message": "矿池兑换费",
+    "englishSource": "Pool exchange fee"
   },
   "PriceImpactInfo": {
-    "message": "由于交易规模而导致的市场价格与估计价格之间的差异"
+    "message": "由于交易规模而导致的市场价格与估计价格之间的差异",
+    "englishSource": "The difference between the market price and estimated price due to trade size"
   },
   "selectToken": {
-    "message": "选择令牌"
+    "message": "选择令牌",
+    "englishSource": "Select Token"
   },
   "viewAll": {
-    "message": "查看全部"
+    "message": "查看全部",
+    "englishSource": "View all"
   },
   "rewardsForBlocks": {
     "message": "$reward$ $blocksAmount$ $blocks$ $feesAmount$ 费用",
@@ -2135,7 +2699,8 @@
       "feesAmount": {
         "content": "$4"
       }
-    }
+    },
+    "englishSource": "$reward$ for $blocksAmount$ $blocks$ $feesAmount$ fees"
   },
   "rewardsForSlots": {
     "message": "$reward$ for $slotsAmount$ $slots$",
@@ -2149,45 +2714,58 @@
       "slots": {
         "content": "$3"
       }
-    }
+    },
+    "englishSource": "$reward$ for $slotsAmount$ $slots$"
   },
   "storageFeeMax": {
-    "message": "仓储费（最高）"
+    "message": "仓储费（最高）",
+    "englishSource": "Storage fee (max)"
   },
   "storageLimit": {
-    "message": "调整存储限制"
+    "message": "调整存储限制",
+    "englishSource": "Adjust storage limit"
   },
   "txIsLikelyToFail": {
-    "message": "警告！交易很可能失败"
+    "message": "警告！交易很可能失败",
+    "englishSource": "Warning! Transaction is likely to fail"
   },
   "copyErrorLogs": {
-    "message": "复制错误日志"
+    "message": "复制错误日志",
+    "englishSource": "Copy Error Logs"
   },
   "dAppsListTvlDescription": {
-    "message": "总值锁定。 aleo credits 中的值是锁定在 dApp 中的 aleo credits 总量。美元的价值是锁定在那里的 aleo credits 和代币的总量。"
+    "message": "总值锁定。 aleo credits 中的值是锁定在 dApp 中的 aleo credits 总量。美元的价值是锁定在那里的 aleo credits 和代币的总量。",
+    "englishSource": "Total Value Locked. The value in aleo credits is the total amount of aleo credits locked in dApps. The value in USD is the total amount of aleo credits and tokens locked there."
   },
   "noFavoriteDApps": {
-    "message": "您没有任何喜欢的 dApp"
+    "message": "您没有任何喜欢的 dApp",
+    "englishSource": "You don't have any favorite dApps"
   },
   "more": {
     "message": "更多的",
-    "description": "Show more"
+    "description": "Show more",
+    "englishSource": "more"
   },
   "less": {
     "message": "较少的",
-    "description": "Show less"
+    "description": "Show less",
+    "englishSource": "less"
   },
   "recentDestinations": {
-    "message": "最近的目的地"
+    "message": "最近的目的地",
+    "englishSource": "Recent destinations"
   },
   "unknownAccount": {
-    "message": "未知帐户"
+    "message": "未知帐户",
+    "englishSource": "Unknown account"
   },
   "ledgerLiveBridgeGuide": {
-    "message": "要连接到 Ledger，请在您的设备上激活 Ledger Live 应用程序，打开 Aleo 钱包应用程序并允许 WebSocket 连接到您的 Leo 帐户。"
+    "message": "要连接到 Ledger，请在您的设备上激活 Ledger Live 应用程序，打开 Aleo 钱包应用程序并允许 WebSocket 连接到您的 Leo 帐户。",
+    "englishSource": "To connect to Ledger, please activate the Ledger Live application on your device, open Aleo Wallet application and allow a WebSocket connection to your Leo account."
   },
   "ledgerBridgeGuide": {
-    "message": "要连接 Ledger，请激活您的设备并打开 Aleo Wallet 应用程序。"
+    "message": "要连接 Ledger，请激活您的设备并打开 Aleo Wallet 应用程序。",
+    "englishSource": "To connect the Ledger, please activate your device and open Aleo Wallet application."
   },
   "noExchangerFoundForToken": {
     "message": "没有找到代币的交换器 $symbol$  ( $name$ ).",
@@ -2198,58 +2776,76 @@
       "name": {
         "content": "$2"
       }
-    }
+    },
+    "englishSource": "No exchanger was found for token $symbol$ ($name$)."
   },
   "addressBook": {
-    "message": "地址簿"
+    "message": "地址簿",
+    "englishSource": "Address Book"
   },
   "addressBookDescription": {
-    "message": "添加、删除和管理您的联系人。"
+    "message": "添加、删除和管理您的联系人。",
+    "englishSource": "Add, remove and manage your contacts."
   },
   "addNewContact": {
-    "message": "新联系人"
+    "message": "新联系人",
+    "englishSource": "New contact"
   },
   "addContact": {
-    "message": "增加联系人"
+    "message": "增加联系人",
+    "englishSource": "Add contact"
   },
   "newContactPlaceholder": {
-    "message": "例如爱丽丝鲍勃"
+    "message": "例如爱丽丝鲍勃",
+    "englishSource": "e.g. Alice Bob"
   },
   "contactWithTheSameAddressAlreadyExists": {
-    "message": "已存在相同地址的联系人"
+    "message": "已存在相同地址的联系人",
+    "englishSource": "Contact with the same address already exists"
   },
   "currentContacts": {
-    "message": "当前联系人"
+    "message": "当前联系人",
+    "englishSource": "Current contacts"
   },
   "updateContactDescription": {
-    "message": "要更新现有联系人，只需将其删除\n并添加一个新的。"
+    "message": "要更新现有联系人，只需将其删除\n并添加一个新的。",
+    "englishSource": "To update an existing contact, just remove it\nand add a new one."
   },
   "deleteContactConfirm": {
-    "message": "您确定要删除此联系人吗？"
+    "message": "您确定要删除此联系人吗？",
+    "englishSource": "Are you sure you want to delete this contact?"
   },
   "ownAccount": {
-    "message": "自己的"
+    "message": "自己的",
+    "englishSource": "Own"
   },
   "counterErrorDescription": {
-    "message": "暂时不能进行操作！\n请等待您之前的操作应用后重试。"
+    "message": "暂时不能进行操作！\n请等待您之前的操作应用后重试。",
+    "englishSource": "You can not conduct the operation at the moment!\nPlease, wait when your previous operation is applied and retry."
   },
   "swapDisclaimerTitle": {
-    "message": "免责声明。 Beta 版，使用前请阅读 SWAP 部分。"
+    "message": "免责声明。 Beta 版，使用前请阅读 SWAP 部分。",
+    "englishSource": "Disclaimer. Beta version, read before using the SWAP section."
   },
   "swapDisclaimerContent": {
-    "message": "Leo 钱包仅提供与 Aleo Dexes 交互的界面。\n\n我们不负责：DEX 问题、显示的代币、价格、汇率和用户交易决策。\n\n在使用此交换部分之前，您应该查看相关文档以了解 DEX(AMM) 协议的工作原理。\n\n使用此部分完全是用户的责任。"
+    "message": "Leo 钱包仅提供与 Aleo Dexes 交互的界面。\n\n我们不负责：DEX 问题、显示的代币、价格、汇率和用户交易决策。\n\n在使用此交换部分之前，您应该查看相关文档以了解 DEX(AMM) 协议的工作原理。\n\n使用此部分完全是用户的责任。",
+    "englishSource": "Leo wallet only provides an interface to interact with the Aleo Dexes. \n\nWe are not responsible for: DEX issues, displayed tokens, price, exchange rates, and user trading decisions. \n\nBefore using this Swap Section, you should review the relevant documentation to understand how the DEX(AMM) protocols work. \n\nUsing this section is solely the user's responsibility."
   },
   "noContactsFound": {
-    "message": "未找到联系人"
+    "message": "未找到联系人",
+    "englishSource": "No contacts found"
   },
   "addThisAddressToContacts": {
-    "message": "将此地址添加到联系人？"
+    "message": "将此地址添加到联系人？",
+    "englishSource": "Add this address to contacts?"
   },
   "verifySeedPhrase": {
-    "message": "验证种子短语"
+    "message": "验证种子短语",
+    "englishSource": "Verify Seed Phrase"
   },
   "verifySeedPhraseDescription": {
-    "message": "用单词填写空白字段以验证您的种子短语备份"
+    "message": "用单词填写空白字段以验证您的种子短语备份",
+    "englishSource": "Fill in the blank fields with the words to verify your Seed Phrase backup"
   },
   "word": {
     "message": "单词 $number$ ",
@@ -2257,178 +2853,236 @@
       "number": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Word $number$"
   },
   "finish": {
-    "message": "结束"
+    "message": "结束",
+    "englishSource": "Finish"
   },
   "welcomeToOnboarding": {
-    "message": "欢迎加入"
+    "message": "欢迎加入",
+    "englishSource": "Welcome to Onboarding"
   },
   "onboarding": {
-    "message": "入职"
+    "message": "入职",
+    "englishSource": "Onboarding"
   },
   "next": {
-    "message": "下一个"
+    "message": "下一个",
+    "englishSource": "Next"
   },
   "updatingMinMax": {
-    "message": "正在更新最小/最大..."
+    "message": "正在更新最小/最大...",
+    "englishSource": "Updating min/max..."
   },
   "done": {
-    "message": "完毕！"
+    "message": "完毕！",
+    "englishSource": "Done"
   },
   "standWithUkraine": {
-    "message": "与乌克兰站在一起"
+    "message": "与乌克兰站在一起",
+    "englishSource": "Stand with Ukraine"
   },
   "addressBalanceDetails": {
-    "message": "您的地址和余额"
+    "message": "您的地址和余额",
+    "englishSource": "Your address and balance"
   },
   "addressBalanceDescription": {
-    "message": "创建帐户后，您将获得一个唯一地址——您在 Aleo 区块链中的个人标识符。如果您想在 Leo 中接收和使用 Aleo 积分或 Aleo 构建的代币，您应该使用此地址。"
+    "message": "创建帐户后，您将获得一个唯一地址——您在 Aleo 区块链中的个人标识符。如果您想在 Leo 中接收和使用 Aleo 积分或 Aleo 构建的代币，您应该使用此地址。",
+    "englishSource": "After creating an account, you’ll get a unique address — your personal identifier in the Aleo blockchain. If you would like to receive and use Aleo credits or Aleo-built tokens in Leo, you should use this address."
   },
   "addressBalanceHint": {
-    "message": "您的 Aleo 积分余额显示在公共地址下方。"
+    "message": "您的 Aleo 积分余额显示在公共地址下方。",
+    "englishSource": "The balance of your Aleo credits is displayed under the public address."
   },
   "howToStartDetails": {
-    "message": "如何开始"
+    "message": "如何开始",
+    "englishSource": "How to start"
   },
   "howToStartDescription1": {
-    "message": "要开始使用您的钱包并与 Aleo DApps 生态系统交互，帐户余额必须为正数。为此，请使用 Aleo Credits 硬币充值您的地址。"
+    "message": "要开始使用您的钱包并与 Aleo DApps 生态系统交互，帐户余额必须为正数。为此，请使用 Aleo Credits 硬币充值您的地址。",
+    "englishSource": "To start using your wallet and interacting with the Aleo DApps ecosystem, the account balance must be positive. To do this, top up your address with Aleo Credits coins."
   },
   "howToStartDescription2": {
-    "message": "您可以使用“购买”按钮并使用加密货币、借记卡或信用卡充值您的 Aleo Credits 余额。"
+    "message": "您可以使用“购买”按钮并使用加密货币、借记卡或信用卡充值您的 Aleo Credits 余额。",
+    "englishSource": "You can use the \"Buy\" button and top up your Aleo Credits balance, using cryptocurrencies, debit, or credit cards."
   },
   "howToStartHint": {
-    "message": "此外，您可以复制您的地址并将硬币从另一个钱包或交易所发送到该地址。要复制地址，请在主钱包屏幕上单击它或使用“接收”。"
+    "message": "此外，您可以复制您的地址并将硬币从另一个钱包或交易所发送到该地址。要复制地址，请在主钱包屏幕上单击它或使用“接收”。",
+    "englishSource": "Also, you can copy your address and send coins to it from another wallet or Exchange. To copy the address, click on it on the main wallet screen or use “Receive”."
   },
   "tokensCollectibleDetails": {
-    "message": "代币"
+    "message": "代币",
+    "englishSource": "Tokens & Collectible"
   },
   "tokensCollectibleDescription1": {
-    "message": "您的 FA1.2 和 FA2 代币余额显示在“代币”选项卡上。"
+    "message": "您的 FA1.2 和 FA2 代币余额显示在“代币”选项卡上。",
+    "englishSource": "Your balances of FA1.2 and FA2 tokens are displayed on the “Tokens” tab."
   },
   "tokensCollectibleDescription2": {
-    "message": "您可以通过单击此部分中的任何代币来发送、检查余额或合约地址。"
+    "message": "您可以通过单击此部分中的任何代币来发送、检查余额或合约地址。",
+    "englishSource": "You can send, check balances, or contract addresses of any token by clicking on it in this section."
   },
   "tokensCollectibleHint": {
-    "message": "您的不可替代代币 (NFT) 显示在“收藏品”选项卡上。在这里，您还可以与自己的 NFT 进行交互，查看它们的完整视图、ID 和合约地址。"
+    "message": "您的不可替代代币 (NFT) 显示在“收藏品”选项卡上。在这里，您还可以与自己的 NFT 进行交互，查看它们的完整视图、ID 和合约地址。",
+    "englishSource": "Your Non-Fungible Tokens (NFT) are displayed on the “Collectibles” tab. Here you can also interact with your own NFTs, see their full view, ID, and contract address."
   },
   "profileRpcDetails": {
-    "message": "轮廓"
+    "message": "轮廓",
+    "englishSource": "Profile & RPC"
   },
   "profileRpcDescription": {
-    "message": "在界面顶部，您可以看到您的帐户 robo-icon。通过点击它，您将看到与帐户交互的参数、设置按钮和扩展查看模式。"
+    "message": "在界面顶部，您可以看到您的帐户 robo-icon。通过点击它，您将看到与帐户交互的参数、设置按钮和扩展查看模式。",
+    "englishSource": "At the top of the interface, you can see your account robo-icon. By clicking on it, you will see the parameters for interaction with accounts, the settings button, and the extension view mode."
   },
   "profileRpcHint1": {
-    "message": "接下来，您将看到“网络”选择器，它允许您选择 Leo 扩展将连接到的节点 (RPC)。"
+    "message": "接下来，您将看到“网络”选择器，它允许您选择 Leo 扩展将连接到的节点 (RPC)。",
+    "englishSource": "Next, you will see the “Networks” selector, which allows you to select a node (RPC) to which your Leo extension will be connected."
   },
   "profileRpcHint2": {
-    "message": "如果未显示余额，请尝试更改节点。"
+    "message": "如果未显示余额，请尝试更改节点。",
+    "englishSource": "If your balance is not displayed, try changing the node."
   },
   "profileRpcHint3": {
-    "message": "您可以从预定义列表中进行选择，也可以按照以下步骤手动添加 RPC"
+    "message": "您可以从预定义列表中进行选择，也可以按照以下步骤手动添加 RPC",
+    "englishSource": "You can choose from a predefined list or add RPC manually by following these "
   },
   "congrats": {
-    "message": "恭喜！"
+    "message": "恭喜！",
+    "englishSource": "Congrats!"
   },
   "instructions": {
-    "message": "指示。"
+    "message": "指示。",
+    "englishSource": "instructions."
   },
   "start": {
-    "message": "开始"
+    "message": "开始",
+    "englishSource": "Start"
   },
   "thanks": {
-    "message": "好，谢谢！"
+    "message": "好，谢谢！",
+    "englishSource": "Ok thanks!"
   },
   "browserVersionIsOutOfDate": {
-    "message": "您的浏览器版本已过期，强烈建议更新到最新版本！"
+    "message": "您的浏览器版本已过期，强烈建议更新到最新版本！",
+    "englishSource": "Your browser version is out of date, we strongly recommend updating to the newest version!"
   },
   "congratsDescription1": {
-    "message": "感谢您的关注！"
+    "message": "感谢您的关注！",
+    "englishSource": "Thanks for your attention!"
   },
   "congratsDescription2": {
-    "message": "现在您了解了 Leo 钱包的基本和最重要的功能。"
+    "message": "现在您了解了 Leo 钱包的基本和最重要的功能。",
+    "englishSource": "Now you know about the basic and most important functions of the Leo wallet."
   },
   "congratsDescription3": {
-    "message": "您可以从 YouTube 上的“教育系列”了解 Leo 的所有功能。"
+    "message": "您可以从 YouTube 上的“教育系列”了解 Leo 的所有功能。",
+    "englishSource": "You can learn all features of the Leo from our “Educational series” on YouTube."
   },
   "congratsDescription4": {
-    "message": "此外，我们的知识库中提供了说明和指南。"
+    "message": "此外，我们的知识库中提供了说明和指南。",
+    "englishSource": "Also, instructions and guides are available in our knowledge base."
   },
   "congratsDescription5": {
-    "message": "加入我们的 Telegram 和 Discord 社区。"
+    "message": "加入我们的 Telegram 和 Discord 社区。",
+    "englishSource": "Join our communities in Telegram and Discord."
   },
   "congratsDescription6": {
-    "message": "PS：祝探索 Aleo 世界好运！"
+    "message": "PS：祝探索 Aleo 世界好运！",
+    "englishSource": "PS: Good luck exploring the Aleo world!"
   },
   "attention": {
-    "message": "注意力"
+    "message": "注意力",
+    "englishSource": "Attention"
   },
   "attentionDescription": {
-    "message": "切勿以任何借口与第三方共享您的私钥和助记词。"
+    "message": "切勿以任何借口与第三方共享您的私钥和助记词。",
+    "englishSource": "Never and under any pretext share your private keys and seed phrase with third parties."
   },
   "attentionListTitle1": {
-    "message": "另外，请记住："
+    "message": "另外，请记住：",
+    "englishSource": "Also, remember:"
   },
   "attentionListItem1": {
-    "message": "您的钱包可以通过浏览器 0days 或安装的其他恶意扩展程序进行攻击；"
+    "message": "您的钱包可以通过浏览器 0days 或安装的其他恶意扩展程序进行攻击；",
+    "englishSource": "Your wallet can be targeted through a browser 0days or via other malicious extension installed;"
   },
   "attentionListItem2": {
-    "message": "屏幕可能被系统中安装的恶意软件操纵；"
+    "message": "屏幕可能被系统中安装的恶意软件操纵；",
+    "englishSource": "The screen can potentially be manipulated by malicious software installed in the system;"
   },
   "attentionListItem3": {
-    "message": "用户主机可被恶意软件攻击，窃取加密钱包；"
+    "message": "用户主机可被恶意软件攻击，窃取加密钱包；",
+    "englishSource": "User’s host machine can be targeted by malware to steal encrypted wallet;"
   },
   "attentionListItem4": {
-    "message": "选择弱密码会降低钱包抵抗对抗性暴力破解的能力。"
+    "message": "选择弱密码会降低钱包抵抗对抗性暴力破解的能力。",
+    "englishSource": "Choosing weak passwords can reduce the ability of a wallet to resist adversarial brute-forcing."
   },
   "attentionListTitle2": {
-    "message": "为了保护您的资产安全，我们建议："
+    "message": "为了保护您的资产安全，我们建议：",
+    "englishSource": "To keep your assets safe, we recommend:"
   },
   "attentionListItem5": {
-    "message": "尽快将您的资金从“热”钱包转移到“冷”钱包（Leo 钱包支持与“Ledger Nano”设备集成）；"
+    "message": "尽快将您的资金从“热”钱包转移到“冷”钱包（Leo 钱包支持与“Ledger Nano”设备集成）；",
+    "englishSource": "Move your funds from “hot” wallet to “cold” as soon as possible (Leo wallet supports integration with “Ledger Nano” devices);"
   },
   "attentionListItem6": {
-    "message": "使用单独的浏览器进行网上冲浪和钱包操作；"
+    "message": "使用单独的浏览器进行网上冲浪和钱包操作；",
+    "englishSource": "Use separate browsers for web-surfing and wallet’s operating;"
   },
   "attentionListItem7": {
-    "message": "一次使用一个浏览器的标签进行交易；"
+    "message": "一次使用一个浏览器的标签进行交易；",
+    "englishSource": "Use one browser’s tab at a time to make transactions;"
   },
   "attentionListItem8": {
-    "message": "不使用时保持钱包锁定。"
+    "message": "不使用时保持钱包锁定。",
+    "englishSource": "Keep the wallet locked when it is not in usage."
   },
   "takeCare": {
-    "message": "在加密货币世界中注意您的安全！"
+    "message": "在加密货币世界中注意您的安全！",
+    "englishSource": "Take care of your safety in the crypto world!"
   },
   "readMore": {
-    "message": "阅读更多"
+    "message": "阅读更多",
+    "englishSource": "Read more by the "
   },
   "deleteTokenConfirm": {
-    "message": "您确定要删除此令牌吗？"
+    "message": "您确定要删除此令牌吗？",
+    "englishSource": "Are you sure you want to delete this token?"
   },
   "ledgerLiveSettings": {
-    "message": "使用 Ledger Live"
+    "message": "使用 Ledger Live",
+    "englishSource": "Use Ledger Live"
   },
   "ledgerLiveSettingsDescription": {
-    "message": "新的 Ledger Live 桥允许您以不同的方式使用您的 Ledger。"
+    "message": "新的 Ledger Live 桥允许您以不同的方式使用您的 Ledger。",
+    "englishSource": "The new Ledger Live bridge allows you to use your Ledger in a different way."
   },
   "lockUpSettings": {
-    "message": "延长锁定"
+    "message": "延长锁定",
+    "englishSource": "Extension lock-up"
   },
   "lockUpSettingsDescription": {
-    "message": "不活动 10 分钟后，该扩展程序将被自动阻止。"
+    "message": "不活动 10 分钟后，该扩展程序将被自动阻止。",
+    "englishSource": "The extension will be automatically blocked after 10 minutes of inactivity."
   },
   "totalBalance": {
-    "message": "总余额"
+    "message": "总余额",
+    "englishSource": "Total Balance"
   },
   "buyButton": {
-    "message": "买"
+    "message": "买",
+    "englishSource": "Buy"
   },
   "buyWithCrypto": {
-    "message": "使用加密货币购买"
+    "message": "使用加密货币购买",
+    "englishSource": "Buy With Crypto"
   },
   "buyWithExolix": {
-    "message": "使用 Exolix 购买"
+    "message": "使用 Exolix 购买",
+    "englishSource": "Buy With Exolix"
   },
   "buyWithExolixDescription": {
     "message": "交换 $number$ 无需注册即可立即将加密货币转入 Aleo Credits 或 USDT Aleo",
@@ -2436,28 +3090,36 @@
       "number": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Exchange $number$ cryptocurrencies to Aleo Credits or USDT Aleo instantly and without registration"
   },
   "buyWithMoonPay": {
-    "message": "用 MoonPay 购买"
+    "message": "用 MoonPay 购买",
+    "englishSource": "Buy With MoonPay"
   },
   "buyWithMoonPayDescription": {
-    "message": "加密变得容易了。使用 Visa、Mastercard 以及所有主要的借记卡和信用卡在几分钟内购买 Aleo Credits。"
+    "message": "加密变得容易了。使用 Visa、Mastercard 以及所有主要的借记卡和信用卡在几分钟内购买 Aleo Credits。",
+    "englishSource": "Crypto just got easy. Buy Aleo Credits in minutes using Visa, Mastercard, and all major debit and credit cards."
   },
   "buyWithRamp": {
-    "message": "用斜坡购买"
+    "message": "用斜坡购买",
+    "englishSource": "Buy With Ramp"
   },
   "buyWithRampDescription": {
-    "message": "使用 Visa、Mastercard 以及所有主要的借记卡和信用卡购买 Aleo Credits。 Ramp 可在 160 个国家和地区使用。"
+    "message": "使用 Visa、Mastercard 以及所有主要的借记卡和信用卡购买 Aleo Credits。 Ramp 可在 160 个国家和地区使用。",
+    "englishSource": "Buy Aleo Credits  using Visa, Mastercard, and all major debit and credit cards. Ramp is available in 160+ countries and territories."
   },
   "buyWithAliceBob": {
-    "message": "用 Alice-Bob 购买 Aleo Credits（仅限 UAH）"
+    "message": "用 Alice-Bob 购买 Aleo Credits（仅限 UAH）",
+    "englishSource": "Buy Aleo Credits with Alice-Bob (UAH only)"
   },
   "buyWithAliceBobDescription": {
-    "message": "UAH 到 Aleo Credits 的快速且具有成本效益的交换。"
+    "message": "UAH 到 Aleo Credits 的快速且具有成本效益的交换。",
+    "englishSource": "Fast and cost-effective exchange of UAH to Aleo Credits."
   },
   "buyWithUtorgDescription": {
-    "message": "获得许可的法定加密网关。 187 个国家，AI 驱动的 KYC，Apple Pay，Google Pay。"
+    "message": "获得许可的法定加密网关。 187 个国家，AI 驱动的 KYC，Apple Pay，Google Pay。",
+    "englishSource": "Licensed fiat-to-crypto gateway. 187+ countries, AI-powered KYC, Apple Pay, Google Pay."
   },
   "topUpBuy": {
     "message": "充值 $gasTokenName$ 平衡",
@@ -2465,13 +3127,16 @@
       "gasTokenName": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Top up $gasTokenName$ balance"
   },
   "buyWithUtorg": {
-    "message": "用 UTORG 购买 Aleo Credits"
+    "message": "用 UTORG 购买 Aleo Credits",
+    "englishSource": "Buy Aleo Credits with UTORG"
   },
   "buyWithCard": {
-    "message": "用借记卡/信用卡购买"
+    "message": "用借记卡/信用卡购买",
+    "englishSource": "Buy with Debit/Credit Card"
   },
   "topUpDescription": {
     "message": "Leo集成第三方解决方案购买 $gasTokenName1$ 使用加密货币或借记卡/信用卡。选择提供商，遵循指南，获取 $gasTokenName2$ 在您的帐户上。",
@@ -2482,34 +3147,44 @@
       "gasTokenName2": {
         "content": "$2"
       }
-    }
+    },
+    "englishSource": "Leo integrated third-party solutions to buy $gasTokenName1$ with crypto or a Debit/Credit card. Choose a provider, follow guides, get $gasTokenName2$ on your account."
   },
   "enterAmount": {
-    "message": "请输入金额："
+    "message": "请输入金额：",
+    "englishSource": "Please enter the amount:"
   },
   "topUpCrypto": {
-    "message": "加密货币"
+    "message": "加密货币",
+    "englishSource": "Crypto"
   },
   "topUpDebit": {
-    "message": "借记卡/信用卡"
+    "message": "借记卡/信用卡",
+    "englishSource": "Debit/Credit Card"
   },
   "overdueTransaction": {
-    "message": "交易逾期"
+    "message": "交易逾期",
+    "englishSource": "Transaction is overdue"
   },
   "overdueTransactionMessage": {
-    "message": "请创建一个新的交易所，除非\n 您已发送资金。\n 如果资金已发送，请等待系统确认。"
+    "message": "请创建一个新的交易所，除非\n 您已发送资金。\n 如果资金已发送，请等待系统确认。",
+    "englishSource": "Please, create a new exchange unless \n you have sent the funds. \n If the funds have been sent, please, wait for the confirmation from the system."
   },
   "topUpAgain": {
-    "message": "再次充值"
+    "message": "再次充值",
+    "englishSource": "Top Up Again"
   },
   "topUp": {
-    "message": "充值"
+    "message": "充值",
+    "englishSource": "Top Up"
   },
   "newTopUp": {
-    "message": "新充值"
+    "message": "新充值",
+    "englishSource": "New Top Up"
   },
   "exchangeDetails": {
-    "message": "输入兑换详情"
+    "message": "输入兑换详情",
+    "englishSource": "Enter exchange details"
   },
   "exchangeDetailsDescription": {
     "message": "立即充值您的 Aleo Credits 或 USDT Aleo 余额 $number$ 加密货币",
@@ -2517,7 +3192,8 @@
       "number": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Top up your Aleo Credits or USDT Aleo balance instantly with $number$ cryptocurrencies"
   },
   "privacyAndPolicyLinks": {
     "message": "通过点击 $buttonContent$ 你同意 $termsOfUse$ 和 $privacyPolicy$ ",
@@ -2531,7 +3207,8 @@
       "privacyPolicy": {
         "content": "$3"
       }
-    }
+    },
+    "englishSource": "By clicking $buttonContent$ you agree with \n$termsOfUse$ and $privacyPolicy$"
   },
   "depositAddressText": {
     "message": "订金 $depositAddress$ 地址：",
@@ -2539,70 +3216,92 @@
       "depositAddress": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Deposit $depositAddress$ address:"
   },
   "support": {
-    "message": "支持"
+    "message": "支持",
+    "englishSource": "Support"
   },
   "deposit": {
-    "message": "订金"
+    "message": "订金",
+    "englishSource": "Deposit"
   },
   "depositDescription": {
-    "message": "将资金发送到以下地址。收到存款后，兑换过程将自动开始"
+    "message": "将资金发送到以下地址。收到存款后，兑换过程将自动开始",
+    "englishSource": "Send the funds to the address below. As soon as the deposit is received, the exchange process will begin automatically"
   },
   "sendByOneTransaction": {
-    "message": "通过一笔交易发送"
+    "message": "通过一笔交易发送",
+    "englishSource": "Send by one transaction"
   },
   "youGet": {
-    "message": "你得到："
+    "message": "你得到：",
+    "englishSource": "You get:"
   },
   "fixedRate": {
-    "message": "固定利率："
+    "message": "固定利率：",
+    "englishSource": "Fixed rate:"
   },
   "transactionId": {
-    "message": "交易编号："
+    "message": "交易编号：",
+    "englishSource": "Transaction ID:"
   },
   "atomDepositMemo": {
-    "message": "Atom 存款备忘录"
+    "message": "Atom 存款备忘录",
+    "englishSource": "Atom Deposit Memo"
   },
   "recipientAddress": {
-    "message": "收件人地址："
+    "message": "收件人地址：",
+    "englishSource": "Recipient address"
   },
   "recipientXtzAddress": {
-    "message": "收件人XTZ地址："
+    "message": "收件人XTZ地址：",
+    "englishSource": "Recipient XTZ address:"
   },
   "inputHash": {
-    "message": "输入哈希："
+    "message": "输入哈希：",
+    "englishSource": "Input hash:"
   },
   "youSend": {
-    "message": "您发送："
+    "message": "您发送：",
+    "englishSource": "You send:"
   },
   "sendTime": {
-    "message": "发送时间："
+    "message": "发送时间：",
+    "englishSource": "Send time:"
   },
   "completedDescription": {
-    "message": "请检查您钱包中的资金。\n交换过程完成。"
+    "message": "请检查您钱包中的资金。\n交换过程完成。",
+    "englishSource": "Please, check your funds in your wallet.\nThe exchange process is completed."
   },
   "completed": {
-    "message": "完全的"
+    "message": "完全的",
+    "englishSource": "Completed"
   },
   "youReceive": {
-    "message": "你收到："
+    "message": "你收到：",
+    "englishSource": "You receive:"
   },
   "waitMessage": {
-    "message": "请稍等。转换过程需要 15 分钟到 2 小时。"
+    "message": "请稍等。转换过程需要 15 分钟到 2 小时。",
+    "englishSource": "Please, wait. The conversion process will take from 15 min to 2 hours."
   },
   "confirmation": {
-    "message": "确认"
+    "message": "确认",
+    "englishSource": "Confirmation"
   },
   "exchanging": {
-    "message": "交换"
+    "message": "交换",
+    "englishSource": "Exchanging"
   },
   "step": {
-    "message": "步"
+    "message": "步",
+    "englishSource": "Step"
   },
   "collectibles": {
-    "message": "收藏品"
+    "message": "收藏品",
+    "englishSource": "Collectibles"
   },
   "attentionSendAmount": {
     "message": "您需要将确切数量的加密货币发送到存款地址。否则交易将失败，您将不得不联系 $support$ ",
@@ -2610,58 +3309,76 @@
       "support": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "You need to send the exact amount of cryptocurrency to the deposit address. Otherwise the transaction will fail and you will have to contact $support$"
   },
   "important": {
-    "message": "重要的"
+    "message": "重要的",
+    "englishSource": "Important"
   },
   "id": {
-    "message": "ID"
+    "message": "ID",
+    "englishSource": "ID"
   },
   "addCollectible": {
-    "message": "添加收藏品"
+    "message": "添加收藏品",
+    "englishSource": "Add Collectible"
   },
   "manageCollectibles": {
-    "message": "管理收藏品"
+    "message": "管理收藏品",
+    "englishSource": "Manage Collectibles"
   },
   "deleteCollectibleConfirm": {
-    "message": "您确定要删除此收藏品吗？"
+    "message": "您确定要删除此收藏品吗？",
+    "englishSource": "Are you sure you want to delete this collectible?"
   },
   "zeroCollectibleText": {
-    "message": "您还没有收藏品！\n获得其中之一的好时机"
+    "message": "您还没有收藏品！\n获得其中之一的好时机",
+    "englishSource": "You don’t have collectibles yet!\nGood time to get one of them"
   },
   "min": {
-    "message": "分钟："
+    "message": "分钟：",
+    "englishSource": "Min:"
   },
   "warningTopUpServiceMessage": {
-    "message": "代币兑换功能由第三方提供。 Leo Wallet 不对第三方服务的工作负责。"
+    "message": "代币兑换功能由第三方提供。 Leo Wallet 不对第三方服务的工作负责。",
+    "englishSource": "The token exchange feature is provided by a third party. The Leo Wallet is not responsible for the work of third-party services."
   },
   "selectTokensToSwap": {
-    "message": "请选择要交换的代币"
+    "message": "请选择要交换的代币",
+    "englishSource": "Please, select tokens to swap"
   },
   "enterSwapAmount": {
-    "message": "请输入掉期金额"
+    "message": "请输入掉期金额",
+    "englishSource": "Please, enter swap amount"
   },
   "noQuotesAvailable": {
-    "message": "没有可用的报价"
+    "message": "没有可用的报价",
+    "englishSource": "No quotes available"
   },
   "swapRouteLoadingHasFailed": {
-    "message": "汇率数据加载失败。\n重新加载此页面或稍后再试。"
+    "message": "汇率数据加载失败。\n重新加载此页面或稍后再试。",
+    "englishSource": "Exchange rate data loading has failed. \nReload this page or try again later."
   },
   "swapTokenSearchInputPlaceholder": {
-    "message": "输入姓名或地址"
+    "message": "输入姓名或地址",
+    "englishSource": "Enter name or address"
   },
   "scanQRWithLeoMobile": {
-    "message": "使用您的 Leo Wallet 移动应用程序扫描此二维码。"
+    "message": "使用您的 Leo Wallet 移动应用程序扫描此二维码。",
+    "englishSource": "Scan this QR-code with yor Leo Wallet Mobile app."
   },
   "serviceIsUnavailable": {
-    "message": "抱歉，服务暂时不可用。稍后再试！"
+    "message": "抱歉，服务暂时不可用。稍后再试！",
+    "englishSource": "Sorry, service is temporarily unavailable. Try again later!"
   },
   "buyWithChainBits": {
-    "message": "用 ChainBits 购买"
+    "message": "用 ChainBits 购买",
+    "englishSource": "Buy with ChainBits"
   },
   "buyWithChainBitsDescription": {
-    "message": "购买加密货币从未如此简单"
+    "message": "购买加密货币从未如此简单",
+    "englishSource": "Buying Crypto Was Never This Easy"
   },
   "permissionLabel": {
     "message": "解密权限： $decryptPermission$ ",
@@ -2669,37 +3386,48 @@
       "decryptPermission": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Private Data Permission"
   },
   "NO_DECRYPT_SHORT": {
-    "message": "没有任何"
+    "message": "没有任何",
+    "englishSource": "None"
   },
   "DECRYPT_UPON_REQUEST_SHORT": {
-    "message": "根据要求"
+    "message": "根据要求",
+    "englishSource": "On request"
   },
   "AUTO_DECRYPT_SHORT": {
-    "message": "连接时"
+    "message": "连接时",
+    "englishSource": "While connected"
   },
   "invalidViewKey": {
-    "message": "无效的视图键"
+    "message": "无效的视图键",
+    "englishSource": "Invalid view key"
   },
   "viewKey": {
-    "message": "查看密钥"
+    "message": "查看密钥",
+    "englishSource": "View Key"
   },
   "viewKeyInputDescription": {
-    "message": "您要导入的帐户的查看密钥。"
+    "message": "您要导入的帐户的查看密钥。",
+    "englishSource": "The View key of the Account you want to import."
   },
   "viewKeyInputPlaceholder": {
-    "message": "例如AViewKey1iHE..."
+    "message": "例如AViewKey1iHE...",
+    "englishSource": "e.g. AViewKey1iHE..."
   },
   "setPassword": {
-    "message": "设置密码"
+    "message": "设置密码",
+    "englishSource": "Set Password"
   },
   "doSavePhrase": {
-    "message": "在纸上<b>复制</b>此短语并将其存储在安全位置。"
+    "message": "在纸上<b>复制</b>此短语并将其存储在安全位置。",
+    "englishSource": "<b>Copy</b> this phrase on paper and store it in a secure location."
   },
   "coinbaseReward": {
-    "message": "Coinbase 奖励"
+    "message": "Coinbase 奖励",
+    "englishSource": "Coinbase Reward"
   },
   "coinbaseRewardSmb": {
     "message": "$amount$ 来自 Proving 的 ALEO",
@@ -2707,19 +3435,24 @@
       "amount": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "$amount$ credits from proving"
   },
   "activityToolTip": {
-    "message": "点击查看完整历史"
+    "message": "点击查看完整历史",
+    "englishSource": "Click to see full history"
   },
   "waitingOnAleo": {
-    "message": "Aleo 目前不支持此功能。"
+    "message": "Aleo 目前不支持此功能。",
+    "englishSource": "Aleo currently doesn't support this functionality."
   },
   "buildForPrivacy": {
-    "message": "专为隐私而建"
+    "message": "专为隐私而建",
+    "englishSource": "Built for Privacy"
   },
   "buildForAleo": {
-    "message": "专为 Aleo 打造"
+    "message": "专为 Aleo 打造",
+    "englishSource": "Built for Aleo"
   },
   "poweredBy": {
     "message": "供电 $companyName$ ",
@@ -2727,28 +3460,36 @@
       "companyName": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Powered by {{companyName}}"
   },
   "doNotSharePrivateKey1": {
-    "message": "不要与任何人分享！"
+    "message": "不要与任何人分享！",
+    "englishSource": "DO NOT share with anyone!"
   },
   "doNotSharePrivateKey2": {
-    "message": "它可以用来窃取您的当前帐户。"
+    "message": "它可以用来窃取您的当前帐户。",
+    "englishSource": "It can be used to steal your current account."
   },
   "doNotShareViewKey1": {
-    "message": "只与您信任的人分享！"
+    "message": "只与您信任的人分享！",
+    "englishSource": "Only share with people you trust!"
   },
   "doNotShareViewKey2": {
-    "message": "它可用于查看您的所有交易历史记录。"
+    "message": "它可用于查看您的所有交易历史记录。",
+    "englishSource": "It can be used to view all of your transaction history."
   },
   "recordsAction": {
-    "message": "分享记录"
+    "message": "分享记录",
+    "englishSource": "Share Records"
   },
   "downloadRecords": {
-    "message": "下载记录"
+    "message": "下载记录",
+    "englishSource": "Download Records"
   },
   "transactionAction": {
-    "message": "交易"
+    "message": "交易",
+    "englishSource": "Transaction"
   },
   "appRequestsRecords": {
     "message": "$origin$ 请求您的程序记录：$program$",
@@ -2759,7 +3500,8 @@
       "program": {
         "content": "$"
       }
-    }
+    },
+    "englishSource": "$origin$ requests your records for program: $program$"
   },
   "appRequestsTransaction": {
     "message": "$origin$ 请求交易",
@@ -2767,145 +3509,192 @@
       "origin": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "$origin$ requests a transaction"
   },
   "editAccountName": {
-    "message": "编辑账户名称"
+    "message": "编辑账户名称",
+    "englishSource": "Edit Account Name"
   },
   "reviewAndConfirm": {
-    "message": "审查"
+    "message": "审查",
+    "englishSource": "Review & Confirm"
   },
   "transactionInitiated": {
-    "message": "交易发起"
+    "message": "交易发起",
+    "englishSource": "Transaction initiated"
   },
   "transactionBackground": {
-    "message": "交易将在后台进行。"
+    "message": "交易将在后台进行。",
+    "englishSource": "Transaction will proceed in the background."
   },
   "openedNewTab": {
-    "message": "钱包打开一个新标签以加快交易速度。该选项卡将自动关闭。"
+    "message": "钱包打开一个新标签以加快交易速度。该选项卡将自动关闭。",
+    "englishSource": "The wallet opened a new tab to speed up the transaction. That tab will auto-close."
   },
   "speedUpTransaction": {
-    "message": "加快交易。"
+    "message": "加快交易。",
+    "englishSource": "Speed Up Transaction."
   },
   "generatingTransaction": {
-    "message": "生成交易"
+    "message": "生成交易",
+    "englishSource": "Generating Transaction"
   },
   "generatingTransactionWarning": {
-    "message": "如果您在交易生成之前离开此页面，您的交易将不会完成。"
+    "message": "如果您在交易生成之前离开此页面，您的交易将不会完成。",
+    "englishSource": "If you leave this page before the transaction is generated, your transaction won't finish."
   },
   "balancePending": {
-    "message": "余额挂起同步"
+    "message": "余额挂起同步",
+    "englishSource": "Balance Pending Sync"
   },
   "keepTabOpenForSync": {
-    "message": "保持此选项卡打开以加快同步速度。"
+    "message": "保持此选项卡打开以加快同步速度。",
+    "englishSource": "Keep this tab open for faster sync."
   },
   "openNewTabToSync": {
-    "message": "打开一个选项卡以加快同步速度。"
+    "message": "打开一个选项卡以加快同步速度。",
+    "englishSource": "Open a tab for faster syncing."
   },
   "fullySynced": {
-    "message": "完全同步"
+    "message": "完全同步",
+    "englishSource": "Fully Synced"
   },
   "synced": {
-    "message": "已同步"
+    "message": "已同步",
+    "englishSource": "Synced"
   },
   "syncing": {
-    "message": "同步中"
+    "message": "同步中",
+    "englishSource": "Syncing"
   },
   "fileSettings": {
-    "message": "文件设置"
+    "message": "文件设置",
+    "englishSource": "File Settings"
   },
   "fileSettingsDescription": {
-    "message": "直接从您的钱包中添加或删除文件。"
+    "message": "直接从您的钱包中添加或删除文件。",
+    "englishSource": "Directly add or remove files from your wallet."
   },
   "advancedSettings": {
-    "message": "高级设置"
+    "message": "高级设置",
+    "englishSource": "Advanced Settings"
   },
   "advancedSettingsDescription": {
-    "message": "帮助您调试和诊断 Leo 钱包问题的工具。"
+    "message": "帮助您调试和诊断 Leo 钱包问题的工具。",
+    "englishSource": "Tools to help you debug and diagnose issues with Leo Wallet."
   },
   "resync": {
-    "message": "重新同步"
+    "message": "重新同步",
+    "englishSource": "Resync"
   },
   "resyncDescription": {
-    "message": "重置此帐户的所有历史记录并重新与网络同步。"
+    "message": "重置此帐户的所有历史记录并重新与网络同步。",
+    "englishSource": "Reset all of your history for this account and resync with the network."
   },
   "noFee": {
-    "message": "不收费"
+    "message": "不收费",
+    "englishSource": "No Fee"
   },
   "doNotSharePhrase1": {
-    "message": "不要与任何人分享这句话！"
+    "message": "不要与任何人分享这句话！",
+    "englishSource": "DO NOT share this phrase with anyone!"
   },
   "doNotSharePhrase2": {
-    "message": "它可用于窃取您的所有帐户。"
+    "message": "它可用于窃取您的所有帐户。",
+    "englishSource": "It can be used to steal all your accounts."
   },
   "changeSeedPhrase": {
-    "message": "更改种子短语"
+    "message": "更改种子短语",
+    "englishSource": "Change Seed Phrase"
   },
   "feeNotRequired": {
-    "message": "目前不需要任何费用。"
+    "message": "目前不需要任何费用。",
+    "englishSource": "There is currently no fee required."
   },
   "proofGenerationTab": {
-    "message": "需要打开标签才能高效生成交易证明"
+    "message": "需要打开标签才能高效生成交易证明",
+    "englishSource": "An open tab is required to efficiently generate transaction proofs"
   },
   "credit": {
-    "message": "信用"
+    "message": "信用",
+    "englishSource": "credit"
   },
   "credits": {
-    "message": "学分"
+    "message": "学分",
+    "englishSource": "credits"
   },
   "to": {
-    "message": "到"
+    "message": "到",
+    "englishSource": "To"
   },
   "received": {
-    "message": "已收到"
+    "message": "已收到",
+    "englishSource": "Received"
   },
   "sent": {
-    "message": "发送"
+    "message": "发送",
+    "englishSource": "Sent"
   },
   "storageUsed": {
-    "message": "使用的总存储空间"
+    "message": "使用的总存储空间",
+    "englishSource": "Total Storage Used"
   },
   "uploadFile": {
-    "message": "上传文件"
+    "message": "上传文件",
+    "englishSource": "Upload File"
   },
   "fileSize": {
-    "message": "文件大小"
+    "message": "文件大小",
+    "englishSource": "File Size"
   },
   "downloadDefaultFiles": {
-    "message": "下载默认文件"
+    "message": "下载默认文件",
+    "englishSource": "Download Default Files"
   },
   "download": {
-    "message": "下载"
+    "message": "下载",
+    "englishSource": "Download"
   },
   "details": {
-    "message": "细节"
+    "message": "细节",
+    "englishSource": "details"
   },
   "faucet": {
-    "message": "龙头"
+    "message": "龙头",
+    "englishSource": "Faucet"
   },
   "aleoFaucetDescription": {
-    "message": "所有分发的积分仅用于测试目的，没有价值。"
+    "message": "所有分发的积分仅用于测试目的，没有价值。",
+    "englishSource": "All distributed credits are for testing purposes and do not have value."
   },
   "aleoFaucetStep1": {
-    "message": "用手机扫描二维码"
+    "message": "用手机扫描二维码",
+    "englishSource": "Scan the QR code with your Phone"
   },
   "aleoFaucetStep1Description": {
-    "message": "然后单击它向您显示的提示。"
+    "message": "然后单击它向您显示的提示。",
+    "englishSource": "And click on the prompt it shows you."
   },
   "aleoFaucetStep2": {
-    "message": "确认并发送短信"
+    "message": "确认并发送短信",
+    "englishSource": "Confirm and send the SMS"
   },
   "aleoFaucetStep2Description": {
-    "message": "（可能需要支付信息费和数据费）"
+    "message": "（可能需要支付信息费和数据费）",
+    "englishSource": "(Message and data rates may apply)"
   },
   "aleoFaucetStep3": {
-    "message": "获得 Aleo 积分"
+    "message": "获得 Aleo 积分",
+    "englishSource": "Get Aleo credits"
   },
   "aleoFaucetStep3Description": {
-    "message": "Aleo Faucet 会向您发送积分。"
+    "message": "Aleo Faucet 会向您发送积分。",
+    "englishSource": "Aleo Faucet will send you credits."
   },
   "deployAction": {
-    "message": "部署程序"
+    "message": "部署程序",
+    "englishSource": "Deploy Program"
   },
   "appRequestsDeploy": {
     "message": "$origin$ 请求部署",
@@ -2913,133 +3702,176 @@
       "origin": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "$origin$ requests a deployment"
   },
   "viewKeyWatchOnly": {
-    "message": "查看密钥（仅限观看）"
+    "message": "查看密钥（仅限观看）",
+    "englishSource": "View Key (Watch-Only)"
   },
   "none": {
-    "message": "没有任何"
+    "message": "没有任何",
+    "englishSource": "None"
   },
   "collection": {
-    "message": "收藏"
+    "message": "收藏",
+    "englishSource": "Collection"
   },
   "source": {
-    "message": "来源"
+    "message": "来源",
+    "englishSource": "Source"
   },
   "attributes": {
-    "message": "属性"
+    "message": "属性",
+    "englishSource": "Attributes"
   },
   "noNFTsYet": {
-    "message": "还没有 NFT"
+    "message": "还没有 NFT",
+    "englishSource": "No NFTs yet"
   },
   "noNFTsSubMessage": {
-    "message": "一旦你拥有了 NFT，你就会在这里看到你的 NFT。"
+    "message": "一旦你拥有了 NFT，你就会在这里看到你的 NFT。",
+    "englishSource": "You will see your NFT here once you have one."
   },
   "sourceLink": {
-    "message": "来源链接"
+    "message": "来源链接",
+    "englishSource": "Source Link"
   },
   "explorer": {
-    "message": "探索者"
+    "message": "探索者",
+    "englishSource": "Explorer"
   },
   "explorerLink": {
-    "message": "转到资源管理器"
+    "message": "转到资源管理器",
+    "englishSource": "Go to Explorer"
   },
   "noTransactionsRemaining": {
-    "message": "没有剩余交易，关闭此选项卡"
+    "message": "没有剩余交易，关闭此选项卡",
+    "englishSource": "No remaining transactions, closing this tab"
   },
   "transactionsRemaining": {
-    "message": "剩余交易"
+    "message": "剩余交易",
+    "englishSource": "transactions remaining"
   },
   "status": {
-    "message": "地位"
+    "message": "地位",
+    "englishSource": "Status"
   },
   "available": {
-    "message": "可用的"
+    "message": "可用的",
+    "englishSource": "Available"
   },
   "feeToolTip": {
-    "message": "点击编辑费用"
+    "message": "点击编辑费用",
+    "englishSource": "Click to edit the fee"
   },
   "gpuSettings": {
-    "message": "GPU 加速 *实验性*"
+    "message": "GPU 加速 *实验性*",
+    "englishSource": "GPU Acceleration *Experimental*"
   },
   "gpuSettingsDescription": {
-    "message": "您可以在此处打开或关闭 GPU 加速以加速同步和证明生成。此功能不稳定，可能会导致崩溃。"
+    "message": "您可以在此处打开或关闭 GPU 加速以加速同步和证明生成。此功能不稳定，可能会导致崩溃。",
+    "englishSource": "Here you can turn GPU acceleration on or off to accelerate syncing and proof generation. This feature is not stable and may cause crashes."
   },
   "sending": {
-    "message": "发送"
+    "message": "发送",
+    "englishSource": "Sending"
   },
   "executing": {
-    "message": "执行中"
+    "message": "执行中",
+    "englishSource": "Executing"
   },
   "executed": {
-    "message": "执行"
+    "message": "执行",
+    "englishSource": "Executed"
   },
   "minted": {
-    "message": "铸造"
+    "message": "铸造",
+    "englishSource": "Minted"
   },
   "nft": {
-    "message": "NFT"
+    "message": "NFT",
+    "englishSource": "NFT"
   },
   "convert": {
-    "message": "转变"
+    "message": "转变",
+    "englishSource": "Convert"
   },
   "public": {
-    "message": "民众"
+    "message": "民众",
+    "englishSource": "Public"
   },
   "private": {
-    "message": "私人"
+    "message": "私人",
+    "englishSource": "Private"
   },
   "converting": {
-    "message": "转换"
+    "message": "转换",
+    "englishSource": "Converting"
   },
   "customizeFee": {
-    "message": "定制费用"
+    "message": "定制费用",
+    "englishSource": "Customize Fee"
   },
   "convertingPublic": {
-    "message": "转换为公共 NFT"
+    "message": "转换为公共 NFT",
+    "englishSource": "Convert to Public NFT"
   },
   "convertingPrivate": {
-    "message": "转换为私人 NFT"
+    "message": "转换为私人 NFT",
+    "englishSource": "Convert to Private NFT"
   },
   "switch": {
-    "message": "转变"
+    "message": "转变",
+    "englishSource": "Switch"
   },
   "convertToPrivate": {
-    "message": "转换为私有"
+    "message": "转换为私有",
+    "englishSource": "Convert to private"
   },
   "convertToPublic": {
-    "message": "转换为公开"
+    "message": "转换为公开",
+    "englishSource": "Convert to public"
   },
   "convertPublicPrivate": {
-    "message": "转换为公共/私有"
+    "message": "转换为公共/私有",
+    "englishSource": "Convert to Public/Private"
   },
   "toConvert": {
-    "message": "转换"
+    "message": "转换",
+    "englishSource": "to convert"
   },
   "willGet": {
-    "message": "你会得到"
+    "message": "你会得到",
+    "englishSource": "you will get"
   },
   "toPublic": {
-    "message": "向公众"
+    "message": "向公众",
+    "englishSource": "to public"
   },
   "toPrivate": {
-    "message": "私人的"
+    "message": "私人的",
+    "englishSource": "to private"
   },
   "ON_CHAIN_HISTORY": {
-    "message": "<b>警告！</b>此应用程序正在询问您的链上历史记录。确保您真的信任这个应用程序。"
+    "message": "<b>警告！</b>此应用程序正在询问您的链上历史记录。确保您真的信任这个应用程序。",
+    "englishSource": "<b>WARNING!</b> This app is asking for your on-chain history. Make sure you really trust this app."
   },
   "ON_CHAIN_HISTORY_SHORT": {
-    "message": "完全访问权限"
+    "message": "完全访问权限",
+    "englishSource": "Full access"
   },
   "allPrograms": {
-    "message": "所有节目"
+    "message": "所有节目",
+    "englishSource": "all programs"
   },
   "canView": {
-    "message": "可以查看"
+    "message": "可以查看",
+    "englishSource": "Can view"
   },
   "connectFor": {
-    "message": "连接用于"
+    "message": "连接用于",
+    "englishSource": "Connect for"
   },
   "blocks_other": {
     "message": "$amount$块",
@@ -3048,46 +3880,60 @@
       "amount": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "$amount$ blocks"
   },
   "autoCloseSettings": {
-    "message": "自动关闭生成交易页面"
+    "message": "自动关闭生成交易页面",
+    "englishSource": "Auto Close Generating Transaction Page"
   },
   "autoCloseSettingsDescription": {
-    "message": "此处可以配置交易生成后自动关闭生成交易页面。"
+    "message": "此处可以配置交易生成后自动关闭生成交易页面。",
+    "englishSource": "Here you can configure auto close of the generating transaction page after the transaction is generated."
   },
   "feeVisibility": {
-    "message": "费用可见性"
+    "message": "费用可见性",
+    "englishSource": "Fee Visibility"
   },
   "transactionDelegated": {
-    "message": "交易已发送以生成证明。"
+    "message": "交易已发送以生成证明。",
+    "englishSource": "Transaction has been sent for proof generation."
   },
   "fastTransactionDescription": {
-    "message": "交易将自动广播并最终确定。"
+    "message": "交易将自动广播并最终确定。",
+    "englishSource": "The transaction will automatically be broadcasted and finalized."
   },
   "fastTransaction": {
-    "message": "交易速度"
+    "message": "交易速度",
+    "englishSource": "Transaction Speed"
   },
   "delegateProofSettings": {
-    "message": "委托证明生成"
+    "message": "委托证明生成",
+    "englishSource": "Delegate Proof Generation"
   },
   "delegateProofSettingsDescription": {
-    "message": "您可以在此处配置将证明生成委托给远程服务器。这将加快证明生成速度，但会将交易详细信息披露给受信任的服务器。"
+    "message": "您可以在此处配置将证明生成委托给远程服务器。这将加快证明生成速度，但会将交易详细信息披露给受信任的服务器。",
+    "englishSource": "Here you can configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
   },
   "mainAssetBalanceIsZero": {
-    "message": "您的 aleo 积分（主要资产）余额为零。费用需要 Aleo 积分。"
+    "message": "您的 aleo 积分（主要资产）余额为零。费用需要 Aleo 积分。",
+    "englishSource": "Your aleo credits (main asset) balance is zero. Aleo credits are required for the fee."
   },
   "stake": {
-    "message": "赌注"
+    "message": "赌注",
+    "englishSource": "Stake"
   },
   "unstake": {
-    "message": "取消质押"
+    "message": "取消质押",
+    "englishSource": "Unstake"
   },
   "stakeAccount": {
-    "message": "质押账户"
+    "message": "质押账户",
+    "englishSource": "Stake Account"
   },
   "staked": {
-    "message": "质押"
+    "message": "质押",
+    "englishSource": "Staked"
   },
   "stakeEarningSymbol": {
     "message": "股权赚取 $assetSymbol$ ",
@@ -3095,128 +3941,164 @@
       "assetSymbol": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Stake earning $assetSymbol$"
   },
   "stakeEarnRewards": {
-    "message": "质押代币并赚取奖励"
+    "message": "质押代币并赚取奖励",
+    "englishSource": "Stake tokens and earn rewards"
   },
   "amountMustBeGreaterThanOne": {
-    "message": "必须大于 1"
+    "message": "必须大于 1",
+    "englishSource": "Must be greater than 1"
   },
   "unstaking": {
-    "message": "取消质押"
+    "message": "取消质押",
+    "englishSource": "Unstaking"
   },
   "unstaked": {
-    "message": "未质押"
+    "message": "未质押",
+    "englishSource": "Unstaked"
   },
   "validator": {
-    "message": "验证器"
+    "message": "验证器",
+    "englishSource": "Validator"
   },
   "yourStakeIn": {
-    "message": "您的股份"
+    "message": "您的股份",
+    "englishSource": "Your Stake in"
   },
   "active": {
-    "message": "积极的"
+    "message": "积极的",
+    "englishSource": "Active"
   },
   "learnMoreHere": {
-    "message": "在这里了解更多"
+    "message": "在这里了解更多",
+    "englishSource": "Learn more here"
   },
   "rewards": {
-    "message": "奖励"
+    "message": "奖励",
+    "englishSource": "Rewards"
   },
   "claim": {
-    "message": "宣称"
+    "message": "宣称",
+    "englishSource": "Claim"
   },
   "claimed": {
-    "message": "声称"
+    "message": "声称",
+    "englishSource": "Claimed"
   },
   "claiming": {
-    "message": "声称"
+    "message": "声称",
+    "englishSource": "Claiming"
   },
   "availableToClaim": {
-    "message": "可领取"
+    "message": "可领取",
+    "englishSource": "Available to Claim"
   },
   "unstakingInProgress": {
-    "message": "解除质押正在进行中"
+    "message": "解除质押正在进行中",
+    "englishSource": "Unstaking in Progress"
   },
   "mustStakeAtLeastTenAleo": {
-    "message": "初始权益必须至少为 10 ALEO"
+    "message": "初始权益必须至少为 10 ALEO",
+    "englishSource": "Initial stake must be at least 10 ALEO"
   },
   "pleaseNote": {
-    "message": "请注意"
+    "message": "请注意",
+    "englishSource": "Please Note"
   },
   "unstakingProcess": {
-    "message": "取消抵押是一个两步过程。开始取消质押后，请确保在 3 小时处理期后领取您的 ALEO。"
+    "message": "取消抵押是一个两步过程。开始取消质押后，请确保在 3 小时处理期后领取您的 ALEO。",
+    "englishSource": "Unstaking is a two-step process. After initiating unstaking, please ensure to claim your ALEO after the  3‑hour processing period."
   },
   "testNetIsDown": {
-    "message": "Aleo Testnet Beta 已关闭。"
+    "message": "Aleo Testnet Beta 已关闭。",
+    "englishSource": "Aleo Testnet Beta is down."
   },
   "checkStatus": {
-    "message": "检查状态"
+    "message": "检查状态",
+    "englishSource": "Check status"
   },
   "walletBuiltForPrivacy": {
     "message": "专为隐私而建的钱包",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "The wallet built for privacy"
   },
   "privateTransactionsAnytimeAnywhere": {
     "message": "隨時隨地進行私人交易。",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Private transactions anytime, anywhere."
   },
   "createANewWallet": {
     "message": "創建一個新錢包",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Create a new wallet"
   },
   "iAlreadyHaveAWallet": {
     "message": "我已經有一個錢包",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "I already have a wallet"
   },
   "backUpYourWallet": {
     "message": "備份您的錢包",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Back up your wallet"
   },
   "saveThese12Words": {
     "message": "將這12個單詞保存到密碼管理器，或寫下並存放在安全的地方。不要與任何人分享。",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Save these 12 words to a password manager, or write down and store in a secure place. Do not share with anyone."
   },
   "show": {
     "message": "顯示",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Show"
   },
   "hide": {
     "message": "隱藏",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Hide"
   },
   "copied": {
     "message": "已複製",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Copied"
   },
   "copyToClipboard": {
     "message": "複製到剪貼板",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Copy to clipboard"
   },
   "createsProofsOnYourComputer": {
     "message": "在您的電腦上創建證明",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Creates proofs on your computer"
   },
   "yourKeysStayPrivate": {
     "message": "您的密鑰保持私密",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Your keys stay private"
   },
   "selectTheDefaultTransactionType": {
     "message": "選擇默認交易類型",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Select the Default Transaction Type"
   },
   "popular": {
     "message": "流行",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Popular"
   },
   "verifyMessagePrefix": {
     "message": "確認您已保存您的秘密恢復短語。選擇第10個單詞",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Confirm you've saved your secret recovery phrase. Select word #10"
   },
   "enterYourWalletSeedPhrase": {
     "message": "輸入您錢包的12個單詞的種子短語。",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Enter your wallet's 12-word Seed phrase."
   },
   "onlyAleoSeedPhrasesAreSupported": {
     "message": "只支持Aleo種子短語。",
@@ -3224,155 +4106,194 @@
   },
   "seedPhrasePlaceholder": {
     "message": "12個單詞的種子短語",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "12-word Seed phrase"
   },
   "join": {
     "message": "加入",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Join"
   },
   "follow": {
     "message": "追蹤",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Follow"
   },
   "yourWalletIsReady": {
     "message": "您的錢包已準備好",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Your wallet is ready!"
   },
   "joinOurDiscord": {
     "message": "加入我們的Leo Wallet Discord",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Join our Leo Wallet Discord"
   },
   "joinOurTwitter": {
     "message": "在X（Twitter）上追蹤我們",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Follow us on X (Twitter)"
   },
   "exploreTheWorldOfPrivateAssets": {
     "message": "探索私人資產的世界",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Explore the world of private assets"
   },
   "getStarted": {
     "message": "開始",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Get started"
   },
   "enterPassword": {
     "message": "輸入密碼",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Enter password"
   },
   "verifyPassword": {
     "message": "驗證密碼",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Verify password"
   },
   "enterPasswordAgain": {
     "message": "再次輸入密碼",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Enter password again"
   },
   "itsAMatch": {
     "message": "匹配成功！",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "It's a match!"
   },
   "readMoreOnboarding": {
     "message": "閱讀更多",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Read More"
   },
   "helpUsToImproveLeoWallet": {
     "message": "幫助我們改進Leo Wallet",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Help us to improve Leo Wallet"
   },
   "createPassword": {
     "message": "創建密碼",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Create password"
   },
   "createPasswordDescription": {
     "message": "設置密碼，每次使用電腦時解鎖您的錢包。它不能用於恢復您的錢包。",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Set a password to unlock your wallet each time you use your computer. It can't be used to recover your wallet."
   },
   "veryStrong": {
     "message": "非常強！",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Very strong!"
   },
   "medium": {
     "message": "中等",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Medium"
   },
   "low": {
     "message": "低",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Low"
   },
   "8chars1number": {
     "message": "8個字符，1個數字",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "8 characters, 1 number"
   },
   "minimumCharsWithAtLeast": {
     "message": "至少8個字符，其中至少1個數字",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Minimum 8 characters with at least 1 number"
   },
   "backUpWalletInstructions": {
     "message": "將這12個單詞保存到密碼管理器，或寫下並存放在安全的地方。不要與任何人分享。",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Save these 12 words to a password manager, or write down and store in a secure place. Do not share with anyone."
   },
   "select": {
     "message": "選擇",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Select"
   },
   "selected": {
     "message": "已選擇",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Selected"
   },
   "additionalDownloads": {
     "message": "額外下載",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Additional Downloads"
   },
   "600megabytes": {
     "message": "600+兆字節",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "600+ megabytes"
   },
   "transactionSpeed": {
     "message": "交易速度",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Transaction Speed"
   },
   "transactionSpeedMins": {
     "message": "1-10分鐘",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "1-10 minutes"
   },
   "maximumPrivacy": {
     "message": "最大隱私",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Maximum Privacy"
   },
   "vpnLevelPrivacy": {
     "message": "VPN級別的隱私",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "VPN level privacy"
   },
   "transactionSpeed2Sec": {
     "message": "2秒",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "2 seconds"
   },
   "additionalDownloads0mb": {
     "message": "0 MB",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "0 MB"
   },
   "delegateProofsToSecureServers": {
     "message": "將證明委託給安全服務器",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Delegate proofs to secure servers"
   },
   "delegateTransactions": {
     "message": "委託\n交易",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Delegate\nTransactions"
   },
   "generateTransactionsLocally": {
     "message": "本地生成交易",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Generate Transactions\nLocally"
   },
   "chainUnstable": {
-    "message": "由於Aleo Testnet3的不穩定，交易可能會失敗."
+    "message": "由於Aleo Testnet3的不穩定，交易可能會失敗.",
+    "englishSource": "Due to instability of Aleo Testnet3, transactions may fail."
   },
   "dataReset": {
-    "message": "資料重置。"
+    "message": "資料重置。",
+    "englishSource": "Data Reset."
   },
   "transactionHistoryLost": {
-    "message": "我們想通知您，由於最近的 Aleo Testnet3 重置，所有交易歷史記錄都已丟失。"
+    "message": "我們想通知您，由於最近的 Aleo Testnet3 重置，所有交易歷史記錄都已丟失。",
+    "englishSource": "We want to inform you that all transaction history has been lost due to a recent reset of the Aleo Testnet3."
   },
   "learnMore": {
-    "message": "了解更多"
+    "message": "了解更多",
+    "englishSource": "Learn more"
   },
   "faucetId": {
     "message": "水龙头ID"
@@ -3384,13 +4305,16 @@
     "message": "输入miden水龙头的ID"
   },
   "encryptedWalletFile": {
-    "message": "加密钱包文件"
+    "message": "加密钱包文件",
+    "englishSource": "Encrypted Wallet File"
   },
   "encryptedWalletFileDescription": {
-    "message": "输入您的密码以访问您的加密钱包文件。关闭屏幕共享。不要与任何人分享。"
+    "message": "输入您的密码以访问您的加密钱包文件。关闭屏幕共享。不要与任何人分享。",
+    "englishSource": "Enter your password to access your Encrypted Wallet File. Turn off screen sharing. Don't share it with anyone."
   },
   "encryptedWalletFileConfirmation": {
-    "message": "我不会与任何人分享我的加密钱包文件，包括 Miden Wallet。"
+    "message": "我不会与任何人分享我的加密钱包文件，包括 Miden Wallet。",
+    "englishSource": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet."
   },
   "encryptedWalletFilePassword": {
     "message": "输入密码以加密您的钱包文件。您稍后将需要此密码来恢复您的钱包。"
@@ -3399,58 +4323,228 @@
     "message": "编辑 Miden 水龙头 ID"
   },
   "exportWalletFile": {
-    "message": "导出钱包文件"
+    "message": "导出钱包文件",
+    "englishSource": "Export Wallet File"
   },
   "privacyScalesBetter": {
     "message": "隐私规模更好",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Privacy Scales Better"
   },
   "yourWalletHasBeenCreated": {
     "message": "您的钱包已创建。",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Your wallet has been created."
   },
   "noSeedPhrase": {
     "message": "没有种子短语",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "No Seed Phrase"
   },
   "recovery": {
     "message": "恢复",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Recovery"
   },
   "yourAccountIsProtected": {
     "message": "您的帐户受到加密文件而不是助记词的保护。",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Your account is protected by an encrypted file instead of a seed phrase."
   },
   "downloadAndSecurelyStore": {
     "message": "下载并安全存储最新版本的加密文件。该文件对于帐户恢复至关重要。",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Download and securely store the latest version of your encrypted file. This file is essential for account recovery."
   },
   "chooseFromDevice": {
     "message": "从设备中选择",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Choose from device"
   },
   "chooseImportType": {
     "message": "选择您的导入类型",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Choose Your Import Type"
   },
   "chooseImportTypeDescription": {
     "message": "用你的 12 个词短语恢复公共平衡。如需恢复私人资金，请上传加密的备份文件。",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Restore public balance with your 12-word phrase. To restore private balance, upload an encrypted backup file."
   },
   "importWithSeedPhrase": {
     "message": "使用种子短语导入",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Import with Seed Phrase"
   },
   "importWithSeedPhraseDescription": {
     "message": "使用现有的 12 字恢复短语。您还可以从其他钱包提供商导入钱包。",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
   },
   "importWithEncryptedWalletFile": {
     "message": "使用加密钱包文件导入",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Import with Encrypted Wallet File"
   },
   "importWithEncryptedWalletFileDescription": {
     "message": "上传您的加密钱包文件以安全地导入您的帐户。您的数据保持私密，仅散列信息存储在链上",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain"
+  },
+  "onlyMidenSeedPhrasesAreSupported": {
+    "message": "仅支持 Miden 种子短语。",
+    "englishSource": "Only Miden Seed phrases are supported."
+  },
+  "passwordsDoNotMatch": {
+    "message": "密码不匹配",
+    "englishSource": "Passwords do not match"
+  },
+  "resetRequired": {
+    "message": "需要重置钱包",
+    "englishSource": "Wallet Reset Required"
+  },
+  "resetRequiredDescription": {
+    "message": "Miden 测试网已升级至 bech32 帐户 ID，以改善您的体验。要继续使用您的钱包，请从备份文件或助记词恢复，或创建一个新的。",
+    "englishSource": "Miden Testnet has upgraded to bech32 account IDs to improve your experience. To keep using your wallet, please restore from a backup file or seed phrase, or create a new one."
+  },
+  "resetRequiredSecondDescription": {
+    "message": "对于给您带来的不便，我们深表歉意。",
+    "englishSource": "We’re sorry for the inconvenience."
+  },
+  "reset": {
+    "message": "重置钱包",
+    "englishSource": "Reset Wallet"
+  },
+  "forgotPassword": {
+    "message": "忘记密码？",
+    "englishSource": "Forgot Password?"
+  },
+  "forgotPasswordDescription": {
+    "message": "如果您忘记了密码，则需要退出并重新导入您的帐户。之后，您可以创建一个新密码。",
+    "englishSource": "If you've forgotten your password, you need to sign out and re-import your account. After that, you can create a new password."
+  },
+  "forgotPasswordSecondDescription": {
+    "message": "除非您知道 12 字种子短语或拥有加密备份文件，否则请勿注销。",
+    "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
+  },
+  "signOut": {
+    "message": "登出",
+    "englishSource": "Sign Out"
+  },
+  "twitter": {
+    "message": "X（推特）",
+    "englishSource": "X (Twitter)"
+  },
+  "enterPasswordToEncrypt": {
+    "message": "输入密码以加密您的钱包文件。您稍后将需要此密码来恢复您的钱包。",
+    "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
+  },
+  "recipientAccountId": {
+    "message": "收件人帐户 ID",
+    "englishSource": "Recipient account ID"
+  },
+  "yourAccounts": {
+    "message": "您的账户",
+    "englishSource": "Your Accounts"
+  },
+  "noOtherAccounts": {
+    "message": "没有其他账户",
+    "englishSource": "No other accounts"
+  },
+  "noOtherAccountsDescription": {
+    "message": "您还没有创建任何其他帐户",
+    "englishSource": "You have not created any other accounts yet"
+  },
+  "invalidMidenAccountId": {
+    "message": "Miden 帐户 ID 无效",
+    "englishSource": "Invalid Miden account ID"
+  },
+  "invalidAmount": {
+    "message": "金额无效",
+    "englishSource": "Invalid amount"
+  },
+  "amountMustBeLessThanBalance": {
+    "message": "金额必须小于余额",
+    "englishSource": "Amount must be less than balance"
+  },
+  "availableBalance": {
+    "message": "可用余额",
+    "englishSource": "Available balance"
+  },
+  "uploadYourEncryptedWalletFile": {
+    "message": "上传您的加密钱包文件以安全地恢复您的帐户。您的数据保持私密，仅散列信息存储在链上。",
+    "englishSource": "Upload your encrypted wallet file to securely restore your account. Your data remains private, with only hashed information stored on-chain."
+  },
+  "goToFaucet": {
+    "message": "前往水龙头",
+    "englishSource": "Go to Faucet"
+  },
+  "explorePrivateAssets": {
+    "message": "探索私人资产的世界。",
+    "englishSource": "Explore the world of private assets."
+  },
+  "autoConsumeSettings": {
+    "message": "自动使用 MIDEN 笔记",
+    "englishSource": "Auto Consume MIDEN notes"
+  },
+  "autoConsumeSettingsDescription": {
+    "message": "自动消耗将自动消耗来自官方Miden Faucet的笔记。",
+    "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
+  },
+  "encryptedWalletFileExported": {
+    "message": "导出加密钱包文件",
+    "englishSource": "Encrypted Wallet File Exported"
+  },
+  "encryptedWalletFileExportedDescription": {
+    "message": "您的加密钱包文件已下载。确保它和您的密码安全，因为丢失它们意味着无法访问您的钱包。",
+    "englishSource": "Your encrypted wallet file has been downloaded. Keep it and your password safe, as losing them means losing access to your wallet."
+  },
+  "doNotShareEncryptedWalletFile": {
+    "message": "不要分享您的加密钱包文件！",
+    "englishSource": "Do not share your Encrypted Wallet File!"
+  },
+  "confirmPrivateDataPermissionDescription": {
+    "message": "这将授予您对帐户数据的永久访问权限，并且无法撤销。",
+    "englishSource": "This will give permanent access to your account data and cannot be revoked."
+  },
+  "privateAccountAccessRequest": {
+    "message": "该网站正在请求访问您的私人帐户。",
+    "englishSource": "This site is requesting access to your private account."
+  },
+  "publicAccountAccessRequest": {
+    "message": "该网站正在请求访问您的公共帐户。",
+    "englishSource": "This site is requesting access to your public account."
+  },
+  "balanceAccess": {
+    "message": "让它查看您的钱包余额和活动",
+    "englishSource": "Let it see your wallet balance and activity"
+  },
+  "sendTransactionRequests": {
+    "message": "让它向您发送交易请求",
+    "englishSource": "Let it send you requests for transactions"
+  },
+  "fundsStayInWallet": {
+    "message": "在您执行交易之前，资金不会离开您的钱包",
+    "englishSource": "Funds will not leave your wallet until you execute a transaction"
+  },
+  "privateDataAccessAuto": {
+    "message": "私人数据访问：自动",
+    "englishSource": "Private Data Access: Automatic"
+  },
+  "privateDataAccessUponRequest": {
+    "message": "私人数据访问：根据要求",
+    "englishSource": "Private Data Access: Upon Request"
+  },
+  "accessWillBeGranted": {
+    "message": "将被授予访问以下数据的权限",
+    "englishSource": "Access to the following data will be granted"
+  },
+  "confirmationRequired": {
+    "message": "每次请求帐户数据时都需要确认",
+    "englishSource": "Confirmation is required every time account data is requested"
+  },
+  "doNotShareEncryptedWalletFileDescription": {
+    "message": "有了文件和密码，任何人都可以访问您的钱包。",
+    "englishSource": "With the file and password, anyone can access your wallet."
   }
 }
