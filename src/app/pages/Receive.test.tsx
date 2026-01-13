@@ -30,8 +30,8 @@ jest.mock('app/layouts/PageLayout', () => ({ children }: { children: React.React
 jest.mock('app/templates/AddressChip', () => () => null);
 
 jest.mock('components/Button', () => ({
-  Button: ({ onClick, title }: { onClick: () => void; title: string }) => (
-    <button onClick={onClick} data-testid="claim-button">
+  Button: ({ onClick, title, disabled }: { onClick: () => void; title: string; disabled?: boolean }) => (
+    <button onClick={onClick} data-testid="claim-button" disabled={disabled}>
       {title}
     </button>
   ),
@@ -491,12 +491,13 @@ describe('Receive - Claim All', () => {
       await new Promise(resolve => setTimeout(resolve, 0));
     });
 
+    // All transactions should be queued and waited for
     expect(mockInitiateConsumeTransaction).toHaveBeenCalledTimes(3);
     expect(mockWaitForConsumeTx).toHaveBeenCalledTimes(3);
     expect(mockMutateClaimableNotes).toHaveBeenCalled();
   });
 
-  it('continues processing notes even if one fails', async () => {
+  it('continues processing notes even if one fails to queue', async () => {
     testContainer = document.createElement('div');
     testRoot = createRoot(testContainer);
 
@@ -528,10 +529,11 @@ describe('Receive - Claim All', () => {
       await new Promise(resolve => setTimeout(resolve, 0));
     });
 
-    // Should have attempted all 3 notes even though note-2 failed
+    // Should have attempted all 3 notes even though note-2 failed to queue
     expect(mockInitiateConsumeTransaction).toHaveBeenCalledTimes(3);
-    // waitForConsumeTx only called for successful initiations (note-1 and note-3)
+    // waitForConsumeTx only called for successful queues (note-1 and note-3)
     expect(mockWaitForConsumeTx).toHaveBeenCalledTimes(2);
+    expect(mockMutateClaimableNotes).toHaveBeenCalled();
   });
 
   it('skips notes that are already being claimed', async () => {
@@ -565,14 +567,16 @@ describe('Receive - Claim All', () => {
     expect(mockInitiateConsumeTransaction).toHaveBeenCalledTimes(2);
   });
 
-  it('shows spinner while Claim All is in progress', async () => {
+  it('shows spinners on individual notes and disables Claim All button while in progress', async () => {
     testContainer = document.createElement('div');
     testRoot = createRoot(testContainer);
 
-    const notes = [createMockNote('note-1')];
+    const notes = [createMockNote('note-1'), createMockNote('note-2')];
     mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
 
-    // Make the transaction never complete
+    // Let transactions queue, but hang on waitForConsumeTx to keep spinners visible
+    let txIdCounter = 0;
+    mockInitiateConsumeTransaction.mockImplementation(() => Promise.resolve(`tx-id-${++txIdCounter}`));
     mockWaitForConsumeTx.mockReturnValue(new Promise(() => {}));
 
     await act(async () => {
@@ -584,15 +588,20 @@ describe('Receive - Claim All', () => {
 
     await act(async () => {
       claimAllButton.click();
+      // Allow state updates to process
+      await new Promise(resolve => setTimeout(resolve, 0));
     });
 
-    // Should show spinner for Claim All (there will be multiple spinners - one for each note + one for Claim All)
+    // Should show spinners for individual notes
     const spinners = testContainer.querySelectorAll('.animate-spin');
-    expect(spinners.length).toBeGreaterThan(0);
+    expect(spinners.length).toBe(2); // One spinner per note
 
-    // Claim All button should be replaced with spinner
+    // Claim All button should still be visible but disabled
     const buttonsAfterClick = testContainer.querySelectorAll('[data-testid="claim-button"]');
-    const claimAllButtonAfterClick = Array.from(buttonsAfterClick).find(b => b.textContent === 'claimAll');
-    expect(claimAllButtonAfterClick).toBeFalsy();
+    const claimAllButtonAfterClick = Array.from(buttonsAfterClick).find(
+      b => b.textContent === 'claimAll'
+    ) as HTMLButtonElement;
+    expect(claimAllButtonAfterClick).toBeTruthy();
+    expect(claimAllButtonAfterClick.disabled).toBe(true);
   });
 });

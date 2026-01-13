@@ -37,6 +37,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const safeClaimableNotes = (claimableNotes ?? []).filter((n): n is NonNullable<typeof n> => n != null);
   const [isDragging, setIsDragging] = useState(false);
   const [isClaimingAll, setIsClaimingAll] = useState(false);
+  const [claimingNoteIds, setClaimingNoteIds] = useState<Set<string>>(new Set());
   const claimAllAbortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
@@ -53,29 +54,53 @@ export const Receive: React.FC<ReceiveProps> = () => {
     claimAllAbortRef.current = new AbortController();
     const signal = claimAllAbortRef.current.signal;
 
+    // Mark all notes as being claimed
+    const noteIds = safeClaimableNotes.filter(n => !n.isBeingClaimed).map(n => n.id);
+    setClaimingNoteIds(new Set(noteIds));
+
     try {
-      await openLoadingFullPage();
-
-      // Process notes sequentially to avoid overwhelming the system
+      // Queue all transactions first, before opening loading page
+      // This ensures all notes get queued even if the popup closes
+      const transactionIds: { noteId: string; txId: string }[] = [];
       for (const note of safeClaimableNotes) {
-        if (signal.aborted) break;
         if (note.isBeingClaimed) continue;
-
         try {
           const id = await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
-          await waitForConsumeTx(id, signal);
+          transactionIds.push({ noteId: note.id, txId: id });
+        } catch (err) {
+          console.error('Error queuing note for claim:', note.id, err);
+          // Remove from claiming set if failed to queue
+          setClaimingNoteIds(prev => {
+            const next = new Set(prev);
+            next.delete(note.id);
+            return next;
+          });
+        }
+      }
+
+      // Open loading page (popup stays open since tab is not active)
+      await openLoadingFullPage();
+
+      // Wait for all transactions to complete
+      for (const { noteId, txId } of transactionIds) {
+        if (signal.aborted) break;
+        try {
+          await waitForConsumeTx(txId, signal);
         } catch (err) {
           if (err instanceof DOMException && err.name === 'AbortError') {
             break;
           }
-          console.error('Error claiming note:', note.id, err);
-          // Continue with next note even if one fails
+          console.error('Error waiting for transaction:', txId, err);
         }
+        // Note: Don't remove from claimingNoteIds here - keep spinner visible
+        // until mutateClaimableNotes() refreshes the list and removes the note
       }
 
+      // Refresh the list - this will remove successfully claimed notes
       await mutateClaimableNotes();
     } finally {
       setIsClaimingAll(false);
+      setClaimingNoteIds(new Set());
     }
   }, [safeClaimableNotes, account.publicKey, isDelegatedProvingEnabled, mutateClaimableNotes]);
 
@@ -212,22 +237,18 @@ export const Receive: React.FC<ReceiveProps> = () => {
               mutateClaimableNotes={mutateClaimableNotes}
               account={account}
               isDelegatedProvingEnabled={isDelegatedProvingEnabled}
+              isClaimingFromParent={claimingNoteIds.has(note.id)}
             />
           ))}
           {safeClaimableNotes.length > 0 && (
             <div className="flex justify-center mt-4">
-              {isClaimingAll ? (
-                <div className="w-[120px] h-[40px] flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-500"></div>
-                </div>
-              ) : (
-                <Button
-                  className="w-[120px] h-[40px] text-md"
-                  variant={ButtonVariant.Primary}
-                  onClick={handleClaimAll}
-                  title={t('claimAll')}
-                />
-              )}
+              <Button
+                className="w-[120px] h-[40px] text-md"
+                variant={ButtonVariant.Primary}
+                onClick={handleClaimAll}
+                title={t('claimAll')}
+                disabled={isClaimingAll}
+              />
             </div>
           )}
         </div>
@@ -241,16 +262,19 @@ interface ConsumableNoteProps {
   note: NonNullable<ConsumableNote & { metadata: AssetMetadata }>;
   mutateClaimableNotes: ReturnType<typeof useClaimableNotes>['mutate'];
   isDelegatedProvingEnabled: boolean;
+  isClaimingFromParent?: boolean;
 }
 
 export const ConsumableNoteComponent = ({
   note,
   mutateClaimableNotes,
   account,
-  isDelegatedProvingEnabled
+  isDelegatedProvingEnabled,
+  isClaimingFromParent = false
 }: ConsumableNoteProps) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(note.isBeingClaimed || false);
+  const showSpinner = isLoading || isClaimingFromParent;
   const [error, setError] = useState<string | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
 
@@ -333,7 +357,7 @@ export const ConsumableNoteComponent = ({
           <p className="text-xs text-gray-500">{truncateAddress(note.senderAddress)}</p>
         </div>
       </div>
-      {isLoading ? (
+      {showSpinner ? (
         <div className="w-[75px] h-[36px] flex items-center justify-center">
           <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-500"></div>
         </div>
