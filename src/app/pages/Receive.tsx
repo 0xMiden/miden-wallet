@@ -157,7 +157,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
           <div className="flex justify-center">
             <div className="relative left-[-33%] md:left-[-19%]">
               {claimableNotes !== undefined && claimableNotes.length > 0 && (
-                <p className="text-md text-gray-100">Ready to claim</p>
+                <p className="text-md text-gray-600">Ready to claim</p>
               )}
             </div>
           </div>
@@ -269,12 +269,12 @@ export const ConsumableNoteComponent = ({
             {error ? 'Error Claiming: ' : ''}
             {`${formatBigInt(BigInt(note.amount), note.metadata?.decimals || 6)} ${note.metadata?.symbol || 'UNKNOWN'}`}
           </p>
-          <p className="text-xs text-gray-100">{truncateAddress(note.senderAddress)}</p>
+          <p className="text-xs text-gray-500">{truncateAddress(note.senderAddress)}</p>
         </div>
       </div>
       {isLoading ? (
         <div className="w-[75px] h-[36px] flex items-center justify-center">
-          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
+          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-500"></div>
         </div>
       ) : (
         <Button
