@@ -178,6 +178,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
     <PageLayout
       pageTitle={pageTitle}
       showBottomBorder={false}
+      titleContainerClassName="w-5/6 md:w-1/2 mx-auto"
       step={1}
       setStep={newStep => {
         if (newStep === 0) {
@@ -187,7 +188,6 @@ export const Receive: React.FC<ReceiveProps> = () => {
       skip={false}
     >
       <div
-        className="p-4"
         onDrop={onDropFile}
         onDragOver={e => e.preventDefault()}
         onDragEnter={onDragEnter}
@@ -195,16 +195,14 @@ export const Receive: React.FC<ReceiveProps> = () => {
         data-testid="receive-page"
       >
         <FormField ref={fieldRef} value={address} style={{ display: 'none' }} />
-        <div className="flex flex-col justify-start">
-          <div className="flex justify-center items-center gap-24 pb-6">
-            <div className="flex flex-col">
-              <p className="text-sm md:text-xs text-gray-400 pl-2 md:pl-0">Your address</p>
-              {popup ? (
-                <AddressChip address={address} trim={false} className="flex items-center text-sm" />
-              ) : (
-                <p className="text-sm">{address}</p>
-              )}
-            </div>
+        <div className="w-5/6 md:w-1/2 mx-auto pb-6 flex flex-col gap-y-2">
+          <p className="text-sm md:text-xs text-gray-400">Your address</p>
+          <div className="flex items-center justify-between">
+            {popup ? (
+              <AddressChip address={address} trim={false} className="flex items-center text-sm" />
+            ) : (
+              <p className="text-sm">{address}</p>
+            )}
             {!popup && <Icon name={IconName.Copy} onClick={copy} style={{ cursor: 'pointer' }} />}
           </div>
         </div>
