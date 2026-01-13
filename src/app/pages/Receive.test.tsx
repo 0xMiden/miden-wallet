@@ -3,7 +3,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react-dom/test-utils';
 
-import { ConsumableNoteComponent } from './Receive';
+import { ConsumableNoteComponent, Receive } from './Receive';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key })
@@ -50,8 +50,10 @@ jest.mock('lib/miden/front', () => ({
   useAccount: () => ({ publicKey: 'test-account-123' })
 }));
 
+const mockMutateClaimableNotes = jest.fn();
+const mockUseClaimableNotes = jest.fn(() => ({ data: [], mutate: mockMutateClaimableNotes }));
 jest.mock('lib/miden/front/claimable-notes', () => ({
-  useClaimableNotes: () => ({ data: [], mutate: jest.fn() })
+  useClaimableNotes: () => mockUseClaimableNotes()
 }));
 
 jest.mock('lib/settings/helpers', () => ({
@@ -87,7 +89,6 @@ describe('ConsumableNoteComponent', () => {
   let testContainer: HTMLDivElement | null = null;
 
   const mockAccount = { publicKey: 'test-account-123' };
-  const mockMutateClaimableNotes = jest.fn();
 
   const createMockNote = (overrides = {}) => ({
     id: 'note-123',
@@ -375,5 +376,215 @@ describe('ConsumableNoteComponent', () => {
     });
 
     expect(abortSignal!.aborted).toBe(true);
+  });
+});
+
+describe('Receive - Claim All', () => {
+  let testRoot: ReturnType<typeof createRoot> | null = null;
+  let testContainer: HTMLDivElement | null = null;
+
+  const createMockNote = (id: string, overrides = {}) => ({
+    id,
+    faucetId: 'faucet-456',
+    amount: '1000000',
+    senderAddress: 'sender-address-789',
+    isBeingClaimed: false,
+    metadata: {
+      symbol: 'TEST',
+      name: 'Test Token',
+      decimals: 6
+    },
+    ...overrides
+  });
+
+  beforeAll(() => {
+    (globalThis as any).IS_REACT_ACT_ENVIRONMENT = true;
+  });
+
+  afterAll(() => {
+    delete (globalThis as any).IS_REACT_ACT_ENVIRONMENT;
+  });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    mockGetUncompletedTransactions.mockResolvedValue([]);
+    mockInitiateConsumeTransaction.mockResolvedValue('tx-id-123');
+    mockWaitForConsumeTx.mockResolvedValue('tx-hash-456');
+    mockUseClaimableNotes.mockReturnValue({ data: [], mutate: mockMutateClaimableNotes });
+  });
+
+  afterEach(async () => {
+    if (testRoot) {
+      await act(async () => {
+        testRoot!.unmount();
+      });
+      testRoot = null;
+    }
+    if (testContainer) {
+      testContainer.remove();
+      testContainer = null;
+    }
+  });
+
+  it('does not show Claim All button when there are no claimable notes', async () => {
+    testContainer = document.createElement('div');
+    testRoot = createRoot(testContainer);
+
+    mockUseClaimableNotes.mockReturnValue({ data: [], mutate: mockMutateClaimableNotes });
+
+    await act(async () => {
+      testRoot!.render(<Receive />);
+    });
+
+    const buttons = testContainer.querySelectorAll('[data-testid="claim-button"]');
+    const claimAllButton = Array.from(buttons).find(b => b.textContent === 'claimAll');
+    expect(claimAllButton).toBeFalsy();
+  });
+
+  it('shows Claim All button when there are claimable notes', async () => {
+    testContainer = document.createElement('div');
+    testRoot = createRoot(testContainer);
+
+    const notes = [createMockNote('note-1'), createMockNote('note-2')];
+    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+
+    await act(async () => {
+      testRoot!.render(<Receive />);
+    });
+
+    const buttons = testContainer.querySelectorAll('[data-testid="claim-button"]');
+    const claimAllButton = Array.from(buttons).find(b => b.textContent === 'claimAll');
+    expect(claimAllButton).toBeTruthy();
+  });
+
+  it('processes all notes when Claim All is clicked', async () => {
+    testContainer = document.createElement('div');
+    testRoot = createRoot(testContainer);
+
+    const notes = [createMockNote('note-1'), createMockNote('note-2'), createMockNote('note-3')];
+    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+
+    let txIdCounter = 0;
+    mockInitiateConsumeTransaction.mockImplementation(() => Promise.resolve(`tx-id-${++txIdCounter}`));
+
+    await act(async () => {
+      testRoot!.render(<Receive />);
+    });
+
+    const buttons = testContainer.querySelectorAll('[data-testid="claim-button"]');
+    const claimAllButton = Array.from(buttons).find(b => b.textContent === 'claimAll') as HTMLButtonElement;
+
+    await act(async () => {
+      claimAllButton.click();
+    });
+
+    // Wait for all async operations
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 0));
+    });
+
+    expect(mockInitiateConsumeTransaction).toHaveBeenCalledTimes(3);
+    expect(mockWaitForConsumeTx).toHaveBeenCalledTimes(3);
+    expect(mockMutateClaimableNotes).toHaveBeenCalled();
+  });
+
+  it('continues processing notes even if one fails', async () => {
+    testContainer = document.createElement('div');
+    testRoot = createRoot(testContainer);
+
+    const notes = [createMockNote('note-1'), createMockNote('note-2'), createMockNote('note-3')];
+    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+
+    let callCount = 0;
+    mockInitiateConsumeTransaction.mockImplementation(() => {
+      callCount++;
+      if (callCount === 2) {
+        return Promise.reject(new Error('Transaction failed'));
+      }
+      return Promise.resolve(`tx-id-${callCount}`);
+    });
+
+    await act(async () => {
+      testRoot!.render(<Receive />);
+    });
+
+    const buttons = testContainer.querySelectorAll('[data-testid="claim-button"]');
+    const claimAllButton = Array.from(buttons).find(b => b.textContent === 'claimAll') as HTMLButtonElement;
+
+    await act(async () => {
+      claimAllButton.click();
+    });
+
+    // Wait for all async operations
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 0));
+    });
+
+    // Should have attempted all 3 notes even though note-2 failed
+    expect(mockInitiateConsumeTransaction).toHaveBeenCalledTimes(3);
+    // waitForConsumeTx only called for successful initiations (note-1 and note-3)
+    expect(mockWaitForConsumeTx).toHaveBeenCalledTimes(2);
+  });
+
+  it('skips notes that are already being claimed', async () => {
+    testContainer = document.createElement('div');
+    testRoot = createRoot(testContainer);
+
+    const notes = [
+      createMockNote('note-1', { isBeingClaimed: false }),
+      createMockNote('note-2', { isBeingClaimed: true }),
+      createMockNote('note-3', { isBeingClaimed: false })
+    ];
+    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+
+    await act(async () => {
+      testRoot!.render(<Receive />);
+    });
+
+    const buttons = testContainer.querySelectorAll('[data-testid="claim-button"]');
+    const claimAllButton = Array.from(buttons).find(b => b.textContent === 'claimAll') as HTMLButtonElement;
+
+    await act(async () => {
+      claimAllButton.click();
+    });
+
+    // Wait for all async operations
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 0));
+    });
+
+    // Should only process note-1 and note-3, skipping note-2 which is already being claimed
+    expect(mockInitiateConsumeTransaction).toHaveBeenCalledTimes(2);
+  });
+
+  it('shows spinner while Claim All is in progress', async () => {
+    testContainer = document.createElement('div');
+    testRoot = createRoot(testContainer);
+
+    const notes = [createMockNote('note-1')];
+    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+
+    // Make the transaction never complete
+    mockWaitForConsumeTx.mockReturnValue(new Promise(() => {}));
+
+    await act(async () => {
+      testRoot!.render(<Receive />);
+    });
+
+    const buttons = testContainer.querySelectorAll('[data-testid="claim-button"]');
+    const claimAllButton = Array.from(buttons).find(b => b.textContent === 'claimAll') as HTMLButtonElement;
+
+    await act(async () => {
+      claimAllButton.click();
+    });
+
+    // Should show spinner for Claim All (there will be multiple spinners - one for each note + one for Claim All)
+    const spinners = testContainer.querySelectorAll('.animate-spin');
+    expect(spinners.length).toBeGreaterThan(0);
+
+    // Claim All button should be replaced with spinner
+    const buttonsAfterClick = testContainer.querySelectorAll('[data-testid="claim-button"]');
+    const claimAllButtonAfterClick = Array.from(buttonsAfterClick).find(b => b.textContent === 'claimAll');
+    expect(claimAllButtonAfterClick).toBeFalsy();
   });
 });
