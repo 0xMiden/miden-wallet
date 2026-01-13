@@ -1,0 +1,34 @@
+name: Code Coverage
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+      - next
+      - 'mw-**'
+      - 'feat/**'
+
+jobs:
+  coverage:
+    name: Coverage Check (80% minimum)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Out Code
+        uses: actions/checkout@v3
+
+      - name: Use Node 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Run Install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+
+      - name: Run Coverage Check
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: test:coverage
