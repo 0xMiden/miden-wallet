@@ -1067,5 +1067,8 @@
   "none": "None",
   "recallBlocks": "Recall blocks",
   "delegateTransaction": "Delegate transaction",
-  "shareTransactionPrivately": "Share transaction privately"
+  "shareTransactionPrivately": "Share transaction privately",
+  "alreadyHaveTransactionFile": "Already have a transaction file?",
+  "claimAll": "Claim All",
+  "readyToClaim": "Ready to claim"
 }
