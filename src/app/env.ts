@@ -59,11 +59,11 @@ export const OpenInFullPage: FC = () => {
   const appEnv = useAppEnv();
 
   useLayoutEffect(() => {
-    const urls = onBoardingUrls();
+    const urls = onboardingUrls();
     browser.tabs.query({}).then(tabs => {
-      const onboardingTab = tabs.find(t => urls.includes(t.url!));
-      if (onboardingTab) {
-        browser.tabs.update(onboardingTab.id!, { active: true });
+      const onboardingTab = tabs.find(t => t.url && urls.includes(t.url));
+      if (onboardingTab?.id) {
+        browser.tabs.update(onboardingTab.id, { active: true });
         if (appEnv.popup) {
           window.close();
         }
@@ -80,7 +80,7 @@ export const OpenInFullPage: FC = () => {
   return null;
 };
 
-export const onBoardingUrls = () => {
+export const onboardingUrls = () => {
   const hashes = [
     '',
     '/',

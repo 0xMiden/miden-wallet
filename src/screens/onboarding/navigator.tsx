@@ -142,11 +142,7 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
     const onSelectTransactionTypeSubmit = () =>
       onForwardAction?.({ id: 'select-transaction-type', payload: 'private' });
 
-    const onConfirmSubmit = () => {
-      // onboarding complete
-      console.log('onboarding complete, clearing session storage');
-      onForwardAction?.({ id: 'confirmation' });
-    };
+    const onConfirmSubmit = () => onForwardAction?.({ id: 'confirmation' });
 
     const onImportSeedPhraseSubmit = (seedPhrase: string) =>
       onForwardAction?.({ id: 'import-seed-phrase-submit', payload: seedPhrase });
