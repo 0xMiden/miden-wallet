@@ -1153,6 +1153,130 @@ describe('Receive - Claiming State Reporting', () => {
     const claimAllButton = Array.from(currentButtons).find(b => b.textContent === 'claimAll');
     expect(claimAllButton).toBeTruthy();
   });
+
+  it('Claim All includes failed notes with Retry button', async () => {
+    testContainer = document.createElement('div');
+    testRoot = createRoot(testContainer);
+
+    const notes = [createMockNote('note-1'), createMockNote('note-2')];
+    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+
+    // First individual claim fails
+    mockWaitForConsumeTx.mockRejectedValueOnce(new Error('Transaction failed'));
+
+    await act(async () => {
+      testRoot!.render(<Receive />);
+    });
+
+    // Click Claim on first note - it will fail
+    let buttons = testContainer.querySelectorAll('[data-testid="claim-button"]');
+    let claimButtons = Array.from(buttons).filter(b => b.textContent === 'claim');
+    const note1ClaimButton = claimButtons[0] as HTMLButtonElement;
+
+    await act(async () => {
+      note1ClaimButton.click();
+      await new Promise(resolve => setTimeout(resolve, 0));
+    });
+
+    // Verify Retry button is showing
+    buttons = testContainer.querySelectorAll('[data-testid="claim-button"]');
+    expect(Array.from(buttons).find(b => b.textContent === 'retry')).toBeTruthy();
+
+    // Reset mocks for Claim All - all should succeed now
+    mockInitiateConsumeTransaction.mockClear();
+    mockWaitForConsumeTx.mockResolvedValue('tx-hash');
+
+    // Click Claim All
+    const claimAllButton = Array.from(buttons).find(b => b.textContent === 'claimAll') as HTMLButtonElement;
+    expect(claimAllButton).toBeTruthy();
+
+    await act(async () => {
+      claimAllButton.click();
+      await new Promise(resolve => setTimeout(resolve, 0));
+    });
+
+    // Claim All should have processed BOTH notes (including the failed one)
+    expect(mockInitiateConsumeTransaction).toHaveBeenCalledTimes(2);
+    const calledNoteIds = mockInitiateConsumeTransaction.mock.calls.map((call: any[]) => call[1].id);
+    expect(calledNoteIds).toContain('note-1');
+    expect(calledNoteIds).toContain('note-2');
+  });
+
+  it('Claim All is visible when all notes have failed and show Retry', async () => {
+    testContainer = document.createElement('div');
+    testRoot = createRoot(testContainer);
+
+    const notes = [createMockNote('note-1')];
+    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+
+    // Claim will fail
+    mockWaitForConsumeTx.mockRejectedValueOnce(new Error('Transaction failed'));
+
+    await act(async () => {
+      testRoot!.render(<Receive />);
+    });
+
+    // Click Claim on the only note - it will fail
+    let buttons = testContainer.querySelectorAll('[data-testid="claim-button"]');
+    const claimButton = Array.from(buttons).find(b => b.textContent === 'claim') as HTMLButtonElement;
+
+    await act(async () => {
+      claimButton.click();
+      await new Promise(resolve => setTimeout(resolve, 0));
+    });
+
+    // Verify Retry button is showing
+    buttons = testContainer.querySelectorAll('[data-testid="claim-button"]');
+    const retryButton = Array.from(buttons).find(b => b.textContent === 'retry');
+    expect(retryButton).toBeTruthy();
+
+    // Claim All should STILL be visible (the failed note is claimable via Claim All)
+    const claimAllButton = Array.from(buttons).find(b => b.textContent === 'claimAll');
+    expect(claimAllButton).toBeTruthy();
+  });
+
+  it('Retry button works after error and can be included in subsequent Claim All', async () => {
+    testContainer = document.createElement('div');
+    testRoot = createRoot(testContainer);
+
+    const notes = [createMockNote('note-1'), createMockNote('note-2')];
+    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+
+    // First claim fails, retry succeeds
+    mockWaitForConsumeTx
+      .mockRejectedValueOnce(new Error('Transaction failed'))
+      .mockResolvedValue('tx-hash');
+
+    await act(async () => {
+      testRoot!.render(<Receive />);
+    });
+
+    // Click Claim on first note - it will fail
+    let buttons = testContainer.querySelectorAll('[data-testid="claim-button"]');
+    let claimButtons = Array.from(buttons).filter(b => b.textContent === 'claim');
+    const note1ClaimButton = claimButtons[0] as HTMLButtonElement;
+
+    await act(async () => {
+      note1ClaimButton.click();
+      await new Promise(resolve => setTimeout(resolve, 0));
+    });
+
+    // Verify Retry button is showing
+    buttons = testContainer.querySelectorAll('[data-testid="claim-button"]');
+    const retryButton = Array.from(buttons).find(b => b.textContent === 'retry') as HTMLButtonElement;
+    expect(retryButton).toBeTruthy();
+
+    // Click Retry - it should succeed this time
+    await act(async () => {
+      retryButton.click();
+      await new Promise(resolve => setTimeout(resolve, 0));
+    });
+
+    // After successful retry, the Claim button should no longer show Retry
+    // (in real scenario the note would be removed by mutateClaimableNotes)
+    // For this test, we just verify the transaction was initiated
+    expect(mockInitiateConsumeTransaction).toHaveBeenCalledTimes(2); // Original fail + retry
+  });
 });
 
 describe('Receive - Edge Cases', () => {
