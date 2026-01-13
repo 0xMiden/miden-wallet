@@ -185,12 +185,12 @@ export const Receive: React.FC<ReceiveProps> = () => {
         </div>
         <div className="w-5/6 md:w-1/2 mx-auto" style={{ borderBottom: '1px solid #E9EBEF' }}></div>
         <div className="flex flex-col justify-center items-center gap-y-2 p-6">
-          <p className="text-xs text-gray-400">Already have a transaction file?</p>
+          <p className="text-xs text-gray-400">{t('alreadyHaveTransactionFile')}</p>
           <Button
             className={classNames('w-5/6 md:w-1/2')}
             variant={isDragging ? ButtonVariant.Primary : ButtonVariant.Secondary}
             onClick={handleButtonClick}
-            title="Upload file"
+            title={t('uploadFile')}
             style={{ cursor: 'pointer' }}
             iconLeft={true ? IconName.File : null}
           />
@@ -201,7 +201,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
           <div className="flex justify-center">
             <div className="relative left-[-33%] md:left-[-19%]">
               {claimableNotes !== undefined && claimableNotes.length > 0 && (
-                <p className="text-md text-gray-600">Ready to claim</p>
+                <p className="text-md text-gray-600">{t('readyToClaim')}</p>
               )}
             </div>
           </div>

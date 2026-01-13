@@ -86,7 +86,7 @@ const Confirmation: FC<ConfirmationProps> = ({ delegated, testId }) => {
                 onClick={() => {}}
                 testID={testId}
               >
-                {'Home'}
+                {t('home')}
               </Button>
             </Link>
           </div>

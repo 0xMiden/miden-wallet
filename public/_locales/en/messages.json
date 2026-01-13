@@ -417,6 +417,22 @@
     "message": "Faucet",
     "englishSource": "Faucet"
   },
+  "addTokens": {
+    "message": "Add tokens",
+    "englishSource": "Add tokens"
+  },
+  "getTokens": {
+    "message": "Get tokens",
+    "englishSource": "Get tokens"
+  },
+  "getTokensDescription": {
+    "message": "You can get tokens from the faucet or transfer them from another wallet or account.",
+    "englishSource": "You can get tokens from the faucet or transfer them from another wallet or account."
+  },
+  "transferTokens": {
+    "message": "Transfer tokens",
+    "englishSource": "Transfer tokens"
+  },
   "aleoFaucet": {
     "message": "Aleo Faucet",
     "englishSource": "Aleo Faucet"
@@ -424,6 +440,22 @@
   "aleoFaucetDescription": {
     "message": "All distributed credits are for testing purposes and do not have value.",
     "englishSource": "All distributed credits are for testing purposes and do not have value."
+  },
+  "midenFaucet": {
+    "message": "Miden Faucet",
+    "englishSource": "Miden Faucet"
+  },
+  "midenFaucetDescription": {
+    "message": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet.",
+    "englishSource": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet."
+  },
+  "accountPublicKey": {
+    "message": "Account Public Key",
+    "englishSource": "Account Public Key"
+  },
+  "editMidenFaucetId": {
+    "message": "Edit Miden Faucet ID",
+    "englishSource": "Edit Miden Faucet ID"
   },
   "aleoFaucetStep1": {
     "message": "Scan the QR code with your Phone",
@@ -3282,6 +3314,14 @@
     "message": "Upload File",
     "englishSource": "Upload File"
   },
+  "alreadyHaveTransactionFile": {
+    "message": "Already have a transaction file?",
+    "englishSource": "Already have a transaction file?"
+  },
+  "readyToClaim": {
+    "message": "Ready to claim",
+    "englishSource": "Ready to claim"
+  },
   "fileSize": {
     "message": "File Size",
     "englishSource": "File Size"
@@ -4593,5 +4633,350 @@
   "doNotShareEncryptedWalletFileDescription": {
     "message": "With the file and password, anyone can access your wallet.",
     "englishSource": "With the file and password, anyone can access your wallet."
+  },
+  "transactionWillProceedInBackground": {
+    "message": "Transaction will proceed in the background",
+    "englishSource": "Transaction will proceed in the background"
+  },
+  "publicFee": {
+    "message": "Public Fee",
+    "englishSource": "Public Fee"
+  },
+  "privateFee": {
+    "message": "Private Fee",
+    "englishSource": "Private Fee"
+  },
+  "publicFeeDescription": {
+    "message": "Transaction fee processed privately.",
+    "englishSource": "Transaction fee processed privately."
+  },
+  "privateFeeDescription": {
+    "message": "Transaction fee is processed publicly on the blockchain.",
+    "englishSource": "Transaction fee is processed publicly on the blockchain."
+  },
+  "noPrivateTokensForFee": {
+    "message": "You have no Private tokens. Convert Public tokens to Private to use them as Fee.",
+    "englishSource": "You have no Private tokens. Convert Public tokens to Private to use them as Fee."
+  },
+  "noPublicTokensForFee": {
+    "message": "You have no Public tokens. Convert Private tokens to Public to use them as Fee.",
+    "englishSource": "You have no Public tokens. Convert Private tokens to Public to use them as Fee."
+  },
+  "convertNow": {
+    "message": "Convert now.",
+    "englishSource": "Convert now."
+  },
+  "customizeFee": {
+    "message": "Customize fee",
+    "englishSource": "Customize fee"
+  },
+  "fee": {
+    "message": "Fee",
+    "englishSource": "Fee"
+  },
+  "private": {
+    "message": "Private",
+    "englishSource": "Private"
+  },
+  "public": {
+    "message": "Public",
+    "englishSource": "Public"
+  },
+  "recommendedFee": {
+    "message": "Recommended fee",
+    "englishSource": "Recommended fee"
+  },
+  "convert": {
+    "message": "Convert",
+    "englishSource": "Convert"
+  },
+  "max": {
+    "message": "Max",
+    "englishSource": "Max"
+  },
+  "feeType": {
+    "message": "Fee type",
+    "englishSource": "Fee type"
+  },
+  "delegateThisTransaction": {
+    "message": "Delegate this transaction",
+    "englishSource": "Delegate this transaction"
+  },
+  "delegateTransactionTooltip": {
+    "message": "Configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server.",
+    "englishSource": "Configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
+  },
+  "conversionInitiated": {
+    "message": "Conversion Initiated",
+    "englishSource": "Conversion Initiated"
+  },
+  "transactionCompleted": {
+    "message": "Transaction Completed",
+    "englishSource": "Transaction Completed"
+  },
+  "transactionFailed": {
+    "message": "Transaction Failed",
+    "englishSource": "Transaction Failed"
+  },
+  "doNotCloseWindowNavigateHome": {
+    "message": "Do not close this window. You will be navigated back to the home page after the transaction is generated",
+    "englishSource": "Do not close this window. You will be navigated back to the home page after the transaction is generated"
+  },
+  "doNotCloseWindowAutoClose": {
+    "message": "Do not close this window. Window will auto-close after the transaction is generated",
+    "englishSource": "Do not close this window. Window will auto-close after the transaction is generated"
+  },
+  "transactionSuccessDescription": {
+    "message": "Your transaction was successfully processed and confirmed on the network.",
+    "englishSource": "Your transaction was successfully processed and confirmed on the network."
+  },
+  "transactionErrorDescription": {
+    "message": "There was an error processing your transaction. Please try again.",
+    "englishSource": "There was an error processing your transaction. Please try again."
+  },
+  "downloadGeneratedFiles": {
+    "message": "Download Generated Files",
+    "englishSource": "Download Generated Files"
+  },
+  "onChainAccountPublic": {
+    "message": "On-chain Account (Public)",
+    "englishSource": "On-chain Account (Public)"
+  },
+  "onChainAccountDescription": {
+    "message": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers.",
+    "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
+  },
+  "offChainAccountPrivate": {
+    "message": "Off-chain Account (Private)",
+    "englishSource": "Off-chain Account (Private)"
+  },
+  "offChainAccountDescription": {
+    "message": "Fast, private operations with minimal fees, bypassing direct blockchain interaction.",
+    "englishSource": "Fast, private operations with minimal fees, bypassing direct blockchain interaction."
+  },
+  "chooseYourAccountType": {
+    "message": "Choose Your Account Type",
+    "englishSource": "Choose Your Account Type"
+  },
+  "chooseAccountTypeDescription": {
+    "message": "Select how you want to interact with the blockchain -- on-chain or off-chain.",
+    "englishSource": "Select how you want to interact with the blockchain -- on-chain or off-chain."
+  },
+  "canAddMultipleAccountsLater": {
+    "message": "You can add and manage multiple account types later within the wallet.",
+    "englishSource": "You can add and manage multiple account types later within the wallet."
+  },
+  "transactionFile": {
+    "message": "Transaction file",
+    "englishSource": "Transaction file"
+  },
+  "availableToClaim": {
+    "message": "Available to claim",
+    "englishSource": "Available to claim"
+  },
+  "verificationFailed": {
+    "message": "Verification Failed",
+    "englishSource": "Verification Failed"
+  },
+  "transactionVerifiedSuccessfully": {
+    "message": "The transaction has been successfully verified. You can now claim your tokens.",
+    "englishSource": "The transaction has been successfully verified. You can now claim your tokens."
+  },
+  "transactionFileCouldNotBeVerified": {
+    "message": "The uploaded transaction file could not be verified. Ensure the file is valid and try again.",
+    "englishSource": "The uploaded transaction file could not be verified. Ensure the file is valid and try again."
+  },
+  "home": {
+    "message": "Home",
+    "englishSource": "Home"
+  },
+  "timestamp": {
+    "message": "Timestamp",
+    "englishSource": "Timestamp"
+  },
+  "noteType": {
+    "message": "Note Type",
+    "englishSource": "Note Type"
+  },
+  "noteId": {
+    "message": "Note ID",
+    "englishSource": "Note ID"
+  },
+  "downloadGeneratedFile": {
+    "message": "Download Generated File",
+    "englishSource": "Download Generated File"
+  },
+  "viewOnExplorer": {
+    "message": "View on Explorer",
+    "englishSource": "View on Explorer"
+  },
+  "completed": {
+    "message": "Completed",
+    "englishSource": "Completed"
+  },
+  "inProgress": {
+    "message": "In Progress",
+    "englishSource": "In Progress"
+  },
+  "you": {
+    "message": "You",
+    "englishSource": "You"
+  },
+  "invalidPayload": {
+    "message": "(invalid payload)",
+    "englishSource": "(invalid payload)"
+  },
+  "signTheFollowingWord": {
+    "message": "Sign the following Word $word$?",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    },
+    "englishSource": "Sign the following Word $word$?"
+  },
+  "sharePrivateNoteDataForAccount": {
+    "message": "Share all private note data for account",
+    "englishSource": "Share all private note data for account"
+  },
+  "downloadPrivateNoteData": {
+    "message": "Download Private Note Data",
+    "englishSource": "Download Private Note Data"
+  },
+  "transactionAffectsAccountStorage": {
+    "message": "This transaction affects your account storage. Review the raw summary to verify",
+    "englishSource": "This transaction affects your account storage. Review the raw summary to verify"
+  },
+  "failedToParseSigningPayload": {
+    "message": "Failed to parse signing payload",
+    "englishSource": "Failed to parse signing payload"
+  },
+  "assetChanges": {
+    "message": "Asset changes",
+    "englishSource": "Asset changes"
+  },
+  "unknown": {
+    "message": "Unknown",
+    "englishSource": "Unknown"
+  },
+  "inputNotesConsumed": {
+    "message": "Input notes consumed",
+    "englishSource": "Input notes consumed"
+  },
+  "outputNotesCreated": {
+    "message": "Output notes created",
+    "englishSource": "Output notes created"
+  },
+  "storageChanged": {
+    "message": "Storage changed",
+    "englishSource": "Storage changed"
+  },
+  "no": {
+    "message": "No",
+    "englishSource": "No"
+  },
+  "yes": {
+    "message": "Yes",
+    "englishSource": "Yes"
+  },
+  "downloadFullSummary": {
+    "message": "Download full summary (bytes)",
+    "englishSource": "Download full summary (bytes)"
+  },
+  "signArbitraryPayload": {
+    "message": "Sign the Arbitrary payload?",
+    "englishSource": "Sign the Arbitrary payload?"
+  },
+  "signBlindCommitment": {
+    "message": "Sign the Blind commitment?",
+    "englishSource": "Sign the Blind commitment?"
+  },
+  "connectToWebsite": {
+    "message": "Connect to website",
+    "englishSource": "Connect to website"
+  },
+  "deny": {
+    "message": "Deny",
+    "englishSource": "Deny"
+  },
+  "requestsATransaction": {
+    "message": "Requests a transaction",
+    "englishSource": "Requests a transaction"
+  },
+  "requestsToConsumeNote": {
+    "message": "Requests to consume a note",
+    "englishSource": "Requests to consume a note"
+  },
+  "requestPrivateNotes": {
+    "message": "Request Private Notes",
+    "englishSource": "Request Private Notes"
+  },
+  "requestsPrivateNotes": {
+    "message": "Requests private notes",
+    "englishSource": "Requests private notes"
+  },
+  "confirmSignature": {
+    "message": "Confirm Signature",
+    "englishSource": "Confirm Signature"
+  },
+  "requestsYourSignature": {
+    "message": "Requests your signature",
+    "englishSource": "Requests your signature"
+  },
+  "requestAssets": {
+    "message": "Request Assets",
+    "englishSource": "Request Assets"
+  },
+  "requestsAssets": {
+    "message": "Requests assets",
+    "englishSource": "Requests assets"
+  },
+  "requestImportPrivateNote": {
+    "message": "Request Import Private Note",
+    "englishSource": "Request Import Private Note"
+  },
+  "importPrivateNote": {
+    "message": "Import private note",
+    "englishSource": "Import private note"
+  },
+  "requestConsumableNotes": {
+    "message": "Request Consumable Notes",
+    "englishSource": "Request Consumable Notes"
+  },
+  "requestsConsumableNotes": {
+    "message": "Request consumable notes",
+    "englishSource": "Request consumable notes"
+  },
+  "review": {
+    "message": "Review",
+    "englishSource": "Review"
+  },
+  "close": {
+    "message": "Close",
+    "englishSource": "Close"
+  },
+  "recipient": {
+    "message": "Recipient",
+    "englishSource": "Recipient"
+  },
+  "chooseToken": {
+    "message": "Choose token",
+    "englishSource": "Choose token"
+  },
+  "none": {
+    "message": "None",
+    "englishSource": "None"
+  },
+  "recallBlocks": {
+    "message": "Recall blocks",
+    "englishSource": "Recall blocks"
+  },
+  "delegateTransaction": {
+    "message": "Delegate transaction",
+    "englishSource": "Delegate transaction"
+  },
+  "shareTransactionPrivately": {
+    "message": "Share transaction privately",
+    "englishSource": "Share transaction privately"
   }
 }

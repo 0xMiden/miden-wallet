@@ -24,20 +24,20 @@ interface ActivityDetailsProps {
 }
 
 const StatusDisplay: FC<{ message: string }> = memo(({ message }) => {
-  let displayText = '';
+  let displayTextKey = '';
   let textColorClass = '';
 
   const isCompleted = message === 'Sent' || message === 'Received';
 
   if (isCompleted) {
-    displayText = 'Completed';
+    displayTextKey = 'completed';
     textColorClass = 'text-green-500';
   } else {
-    displayText = 'In Progress';
+    displayTextKey = 'inProgress';
     textColorClass = 'text-blue-500';
   }
 
-  return <p className={`text-sm ${textColorClass}`}>{displayText}</p>;
+  return <p className={`text-sm ${textColorClass}`}>{t(displayTextKey)}</p>;
 });
 
 const AccountDisplay: FC<{
@@ -49,12 +49,12 @@ const AccountDisplay: FC<{
 
   const getDisplayName = (publicKey: string): string | undefined => {
     if (account?.publicKey === publicKey) {
-      return `You (${account.name})`;
+      return `${t('you')} (${account.name})`;
     }
 
     const matchingAccount = allAccounts.find(acc => acc.publicKey === publicKey);
     if (matchingAccount) {
-      return `You (${matchingAccount.name})`;
+      return `${t('you')} (${matchingAccount.name})`;
     }
 
     return undefined;
@@ -148,11 +148,11 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
 
               <div className="flex flex-col gap-y-2">
                 <span className="flex flex-row justify-between">
-                  <label className="text-sm text-grey-600">Status</label>
+                  <label className="text-sm text-grey-600">{t('status')}</label>
                   <StatusDisplay message={activity.message} />
                 </span>
                 <span className="flex flex-row justify-between whitespace-pre-line">
-                  <label className="text-sm text-grey-600">Timestamp</label>
+                  <label className="text-sm text-grey-600">{t('timestamp')}</label>
                   <p className="text-sm text-right">{formatDate(activity.timestamp)}</p>
                 </span>
               </div>
@@ -161,11 +161,11 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
 
               <div className="flex flex-col gap-y-2">
                 <span className="flex flex-row justify-between">
-                  <label className="text-sm text-grey-600">From</label>
+                  <label className="text-sm text-grey-600">{t('from')}</label>
                   <AccountDisplay address={fromAddress} account={account} allAccounts={allAccounts} />
                 </span>
                 <span className="flex flex-row justify-between whitespace-pre-line">
-                  <label className="text-sm text-grey-600">To</label>
+                  <label className="text-sm text-grey-600">{t('to')}</label>
                   <AccountDisplay address={toAddress} account={account} allAccounts={allAccounts} />
                 </span>
               </div>
@@ -175,7 +175,7 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
               {activity.noteType && (
                 <div className="flex flex-col gap-y-2">
                   <span className="flex flex-row justify-between">
-                    <label className="text-sm text-grey-600">Note Type</label>
+                    <label className="text-sm text-grey-600">{t('noteType')}</label>
                     <p className="text-sm">{capitalizeFirstLetter(activity.noteType)}</p>
                   </span>
                 </div>
@@ -183,7 +183,7 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
               {activity.noteId && (
                 <div className="flex flex-col gap-y-2">
                   <span className="flex flex-row justify-between">
-                    <label className="text-sm text-grey-600">Note ID</label>
+                    <label className="text-sm text-grey-600">{t('noteId')}</label>
                     <HashChip hash={activity.noteId || ''} trimHash={true} fill="#9E9E9E" className="ml-2" />
                   </span>
                 </div>
@@ -194,7 +194,7 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
               {showDownloadButton && (
                 <div className="w-full">
                   <Button
-                    title="Download Generated File"
+                    title={t('downloadGeneratedFile')}
                     iconLeft={IconName.Download}
                     variant={ButtonVariant.Ghost}
                     className="flex-1 w-full"
@@ -206,7 +206,7 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
               )}
               <div className="mt-2 w-full">
                 <Button
-                  title="View on Explorer"
+                  title={t('viewOnExplorer')}
                   iconLeft={IconName.Globe}
                   variant={ButtonVariant.Secondary}
                   className="flex-1 w-full"

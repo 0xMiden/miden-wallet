@@ -23,8 +23,8 @@ export const TransactionInitiated: React.FC<TransactionInitiatedProps> = ({ clas
       <div className="flex-1 flex flex-col justify-center md:w-[460px] md:mx-auto">
         <Message
           className="flex-1"
-          title="Transaction Initiated"
-          description="Transaction will proceed in the background"
+          title={t('transactionInitiated')}
+          description={t('transactionWillProceedInBackground')}
           icon={IconName.CheckboxCircleFill}
           iconBackgroundClassName="rounded-full bg-gradient-to-t from-white to-[#F9F9F9]"
         />

@@ -88,7 +88,7 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
 
   return (
     <div {...props} className={classNames('flex-1 flex flex-col', className)}>
-      <NavigationHeader mode="back" title="Review" onBack={onBackClick} />
+      <NavigationHeader mode="back" title={t('review')} onBack={onBackClick} />
       <div className="flex flex-col flex-1 p-4 gap-y-4 md:w-[460px] md:mx-auto">
         <span className="flex flex-row items-end gap-x-2 justify-center p-6">
           <AmountLabel amount={amount} />
@@ -97,9 +97,9 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
 
         <div className="flex flex-col gap-y-2">
           <span className="flex flex-row justify-between">
-            <label className="text-sm text-grey-600">Convert</label>
+            <label className="text-sm text-grey-600">{t('convert')}</label>
             <p className="text-sm">
-              {TransactionTypeNameMapping[sendType]} to {TransactionTypeNameMapping[receiveType]}
+              {TransactionTypeNameMapping[sendType]} {t('to').toLowerCase()} {TransactionTypeNameMapping[receiveType]}
             </p>
           </span>
         </div>
@@ -109,8 +109,8 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
         <div className="flex flex-row gap-x-2">
           <div className="flex-1 flex flex-col">
             <span className="flex flex-row justify-between">
-              <label className="text-sm text-grey-600">Fee type</label>
-              <p className="text-sm">{feeType === UIFeeType.Private ? 'Private' : 'Public'}</p>
+              <label className="text-sm text-grey-600">{t('feeType')}</label>
+              <p className="text-sm">{feeType === UIFeeType.Private ? t('private') : t('public')}</p>
             </span>
             <span className="flex flex-row justify-end">
               <p className="text-sm">{feeAmount} ALEO</p>
@@ -124,7 +124,7 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
 
         <div className="flex flex-row justify-between items-center ">
           <span className="flex flex-row gap-x-1">
-            <p className="text-sm text-grey-600">Delegate this transaction</p>
+            <p className="text-sm text-grey-600">{t('delegateThisTransaction')}</p>
             <div className="relative">
               <Icon
                 name={IconName.Information}
@@ -145,7 +145,7 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
               >
                 <Tooltip
                   arrowPosition="bottom"
-                  title="Configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
+                  title={t('delegateTransactionTooltip')}
                 />
               </div>
             </div>

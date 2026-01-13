@@ -87,6 +87,7 @@ jest.mock('lib/miden/activity', () => ({
 describe('ConsumableNoteComponent', () => {
   let testRoot: ReturnType<typeof createRoot> | null = null;
   let testContainer: HTMLDivElement | null = null;
+  let consoleErrorSpy: jest.SpyInstance;
 
   const mockAccount = { publicKey: 'test-account-123' };
 
@@ -117,9 +118,12 @@ describe('ConsumableNoteComponent', () => {
     mockGetUncompletedTransactions.mockResolvedValue([]);
     mockInitiateConsumeTransaction.mockResolvedValue('tx-id-123');
     mockWaitForConsumeTx.mockResolvedValue('tx-hash-456');
+    // Suppress expected console.error calls during error handling tests
+    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterEach(async () => {
+    consoleErrorSpy.mockRestore();
     if (testRoot) {
       await act(async () => {
         testRoot!.unmount();
@@ -382,6 +386,7 @@ describe('ConsumableNoteComponent', () => {
 describe('Receive - Claim All', () => {
   let testRoot: ReturnType<typeof createRoot> | null = null;
   let testContainer: HTMLDivElement | null = null;
+  let consoleErrorSpy: jest.SpyInstance;
 
   const createMockNote = (id: string, overrides = {}) => ({
     id,
@@ -411,9 +416,12 @@ describe('Receive - Claim All', () => {
     mockInitiateConsumeTransaction.mockResolvedValue('tx-id-123');
     mockWaitForConsumeTx.mockResolvedValue('tx-hash-456');
     mockUseClaimableNotes.mockReturnValue({ data: [], mutate: mockMutateClaimableNotes });
+    // Suppress expected console.error calls during error handling tests
+    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterEach(async () => {
+    consoleErrorSpy.mockRestore();
     if (testRoot) {
       await act(async () => {
         testRoot!.unmount();

@@ -118,7 +118,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
 
       switch (payload.kind) {
         case 'word': {
-          let wordHex = '(invalid payload)';
+          let wordHex = t('invalidPayload');
           try {
             const word = Word.deserialize(bytes);
             wordHex = word.toHex();
@@ -126,7 +126,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
             console.error('Failed to deserialize payload for sign:', e);
           }
           content = (
-            <div className="text-md text-center my-6">{`Sign the following Word ${truncateAddress(wordHex)}?`}</div>
+            <div className="text-md text-center my-6">{t('signTheFollowingWord', truncateAddress(wordHex))}</div>
           );
           break;
         }
@@ -145,7 +145,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
       content = (
         <>
           <div className="text-md text-center my-6">
-            {'Share all private note data for account'}
+            {t('sharePrivateNoteDataForAccount')}
             <br />
             {`${truncateAddress(payload.sourcePublicKey)}?`}
           </div>
@@ -157,7 +157,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
               onClick={() => downloadData('privateNotes.json', JSON.stringify(payload.privateNotes, null, 2))}
               small
             >
-              Download Private Note Data
+              {t('downloadPrivateNoteData')}
             </FormSecondaryButton>
           </div>
         </>
@@ -224,7 +224,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
                 </div>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-600">Note Id</span>
+                <span className="text-gray-600">{t('noteId')}</span>
                 <div className="text-black flex flex-col items-end">
                   <span>{truncateHash(payload.noteId)}</span>
                 </div>
@@ -283,7 +283,7 @@ const SigningInputsPayloadContent: React.FC<{ bytes: Uint8Array }> = ({ bytes })
   const tippyProps = {
     trigger: 'mouseenter',
     hideOnClick: false,
-    content: 'This transaction affects your account storage. Review the raw summary to verify',
+    content: t('transactionAffectsAccountStorage'),
     animation: 'shift-away-subtle'
   };
 
@@ -349,7 +349,7 @@ const SigningInputsPayloadContent: React.FC<{ bytes: Uint8Array }> = ({ bytes })
   }, [addedFungibleAssets]);
 
   if (!signingInputs) {
-    content = <div className="text-md text-center my-6">{`Failed to parse signing payload`}</div>;
+    content = <div className="text-md text-center my-6">{t('failedToParseSigningPayload')}</div>;
   } else {
     const variant = signingInputs.variantType;
 
@@ -378,20 +378,20 @@ const SigningInputsPayloadContent: React.FC<{ bytes: Uint8Array }> = ({ bytes })
               >
                 <div className="flex flex-row text-md text-center items-center gap-x-3">
                   <Icon name={IconName.Globe} fill="black" size="md" />
-                  <span className="text-gray-600">Account</span>
+                  <span className="text-gray-600">{t('account')}</span>
                 </div>
                 <div>{`${truncateAddress(accountAddressAsBech32)}`}</div>
               </div>
 
               {!vault.isEmpty() && (
                 <div className="flex flex-col w-full pt-4">
-                  <span className="text-gray-600">Asset changes</span>
+                  <span className="text-gray-600">{t('assetChanges')}</span>
                   {removedFungibleAssets.length > 0 &&
                     removedFungibleAssetsDetails.map(details => (
                       <div key={details.asset.faucetId().toString()} className="flex flex-col w-full my-2 text-sm">
                         <span className="text-black-500 text-lg font-semibold">
                           {`${formatAmount(details.asset.amount(), 'send', details.metadata.decimals)} ${
-                            details.metadata.symbol ?? 'Unknown'
+                            details.metadata.symbol ?? t('unknown')
                           }`}
                         </span>
                         <span className="text-gray-600">{`~$${details.asset.amount()}`}</span>
@@ -403,7 +403,7 @@ const SigningInputsPayloadContent: React.FC<{ bytes: Uint8Array }> = ({ bytes })
                       <div key={details.asset.faucetId().toString()} className="flex flex-col w-full my-2 text-sm">
                         <span className="text-green-500 text-lg font-semibold">
                           {`${formatAmount(details.asset.amount(), 'consume', details.metadata.decimals)} ${
-                            details.metadata.symbol ?? 'Unknown'
+                            details.metadata.symbol ?? t('unknown')
                           }`}
                         </span>
                         <span className="text-gray-600">{`~$${details.asset.amount()}`}</span>
@@ -414,23 +414,23 @@ const SigningInputsPayloadContent: React.FC<{ bytes: Uint8Array }> = ({ bytes })
             </div>
             <div className="flex flex-col w-full border-b border-gray-100 pb-4">
               <div className="flex flex-row w-full items-center justify-between pb-1">
-                <span className="text-gray-600">Input notes consumed</span>
+                <span className="text-gray-600">{t('inputNotesConsumed')}</span>
                 <span>{numNotes}</span>
               </div>
               <div className="flex flex-row w-full items-center justify-between pb-1">
-                <span className="text-gray-600">Output notes created</span>
+                <span className="text-gray-600">{t('outputNotesCreated')}</span>
                 <span>{numOutputNotes}</span>
               </div>
               <div className="flex flex-row w-full items-center justify-between">
-                <span className="text-gray-600">Storage changed</span>
+                <span className="text-gray-600">{t('storageChanged')}</span>
                 {storage.isEmpty() ? (
-                  <span>No</span>
+                  <span>{t('no')}</span>
                 ) : (
                   <div className="flex flex-row items-center gap-x-2">
                     <span ref={iconAnchorRef} className="inline-flex align-middle">
                       <Icon name={IconName.WarningFill} fill="orange" size="md" />
                     </span>
-                    <span>Yes</span>
+                    <span>{t('yes')}</span>
                   </div>
                 )}
               </div>
@@ -450,7 +450,7 @@ const SigningInputsPayloadContent: React.FC<{ bytes: Uint8Array }> = ({ bytes })
             >
               <span className="flex flex-row items-center justify-center gap-x-2">
                 <Icon name={IconName.Download} fill="black" size="md" />
-                <span className="text-lg text-black font-medium">Download full summary (bytes)</span>
+                <span className="text-lg text-black font-medium">{t('downloadFullSummary')}</span>
               </span>
             </Button>
           </div>
@@ -458,11 +458,11 @@ const SigningInputsPayloadContent: React.FC<{ bytes: Uint8Array }> = ({ bytes })
         break;
       }
       case SigningInputsType.Arbitrary: {
-        content = <div className="text-md text-center my-6">{`Sign the Arbitrary payload?`}</div>;
+        content = <div className="text-md text-center my-6">{t('signArbitraryPayload')}</div>;
         break;
       }
       case SigningInputsType.Blind: {
-        content = <div className="text-md text-center my-6">{`Sign the Blind commitment?`}</div>;
+        content = <div className="text-md text-center my-6">{t('signBlindCommitment')}</div>;
         break;
       }
     }
@@ -607,8 +607,8 @@ const ConfirmDAppForm: FC = () => {
     switch (payload.type) {
       case 'connect':
         return {
-          title: 'Connect to website',
-          declineActionTitle: 'Deny',
+          title: t('connectToWebsite'),
+          declineActionTitle: t('deny'),
           declineActionTestID: ConfirmPageSelectors.ConnectAction_CancelButton,
           confirmActionTitle: error ? t('retry') : t('connect'),
           confirmActionTestID: error
@@ -640,7 +640,7 @@ const ConfirmDAppForm: FC = () => {
               <Icon name={IconName.Globe} fill="black" size="md" />
               <div className="flex flex-col">
                 <Name className="font-semibold">{payload.origin}</Name>
-                <span>Requests a transaction</span>
+                <span>{t('requestsATransaction')}</span>
               </div>
             </div>
           )
@@ -663,14 +663,14 @@ const ConfirmDAppForm: FC = () => {
               <Icon name={IconName.Globe} fill="black" size="md" />
               <div className="flex flex-col">
                 <Name className="font-semibold">{payload.origin}</Name>
-                <span>Requests to consume a note</span>
+                <span>{t('requestsToConsumeNote')}</span>
               </div>
             </div>
           )
         };
       case 'privateNotes':
         return {
-          title: 'Request Private Notes',
+          title: t('requestPrivateNotes'),
           declineActionTitle: t('cancel'),
           declineActionTestID: ConfirmPageSelectors.RequestPrivateNotes_RejectButton,
           confirmActionTitle: t('confirm'),
@@ -686,14 +686,14 @@ const ConfirmDAppForm: FC = () => {
               <Icon name={IconName.Globe} fill="black" size="md" />
               <div className="flex flex-col">
                 <Name className="font-semibold">{payload.origin}</Name>
-                <span>Requests private notes</span>
+                <span>{t('requestsPrivateNotes')}</span>
               </div>
             </div>
           )
         };
       case 'sign':
         return {
-          title: 'Confirm Signature',
+          title: t('confirmSignature'),
           declineActionTitle: t('cancel'),
           declineActionTestID: ConfirmPageSelectors.SignData_RejectButton,
           confirmActionTitle: t('confirm'),
@@ -709,14 +709,14 @@ const ConfirmDAppForm: FC = () => {
               <Icon name={IconName.Globe} fill="black" size="md" />
               <div className="flex flex-col">
                 <Name className="font-semibold">{payload.origin}</Name>
-                <span className="text-gray-600">Requests your signature</span>
+                <span className="text-gray-600">{t('requestsYourSignature')}</span>
               </div>
             </div>
           )
         };
       case 'assets':
         return {
-          title: 'Request Assets',
+          title: t('requestAssets'),
           declineActionTitle: t('cancel'),
           declineActionTestID: ConfirmPageSelectors.RequestAssets_RejectButton,
           confirmActionTitle: t('confirm'),
@@ -732,14 +732,14 @@ const ConfirmDAppForm: FC = () => {
               <Icon name={IconName.Globe} fill="black" size="md" />
               <div className="flex flex-col">
                 <Name className="font-semibold">{payload.origin}</Name>
-                <span>Requests assets</span>
+                <span>{t('requestsAssets')}</span>
               </div>
             </div>
           )
         };
       case 'importPrivateNote':
         return {
-          title: 'Request Import Private Note',
+          title: t('requestImportPrivateNote'),
           declineActionTitle: t('cancel'),
           declineActionTestID: ConfirmPageSelectors.RequestImportPrivateNote_RejectButton,
           confirmActionTitle: t('confirm'),
@@ -755,14 +755,14 @@ const ConfirmDAppForm: FC = () => {
               <Icon name={IconName.Globe} fill="black" size="md" />
               <div className="flex flex-col">
                 <Name className="font-semibold">{payload.origin}</Name>
-                <span>Import private note</span>
+                <span>{t('importPrivateNote')}</span>
               </div>
             </div>
           )
         };
       case 'consumableNotes':
         return {
-          title: 'Request Consumable Notes',
+          title: t('requestConsumableNotes'),
           declineActionTitle: t('cancel'),
           declineActionTestID: ConfirmPageSelectors.RequestConsumableNotes_RejectButton,
           confirmActionTitle: t('confirm'),
@@ -778,7 +778,7 @@ const ConfirmDAppForm: FC = () => {
               <Icon name={IconName.Globe} fill="black" size="md" />
               <div className="flex flex-col">
                 <Name className="font-semibold">{payload.origin}</Name>
-                <span>Request consumable notes</span>
+                <span>{t('requestsConsumableNotes')}</span>
               </div>
             </div>
           )
