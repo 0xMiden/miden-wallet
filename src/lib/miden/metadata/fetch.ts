@@ -21,11 +21,17 @@ export async function fetchTokenMetadata(
 
       let account = await midenClient.getAccount(assetId);
       if (!account) {
+        // Not in IndexedDB - must fetch from network and wait
         await midenClient.importAccountById(assetId);
         account = await midenClient.getAccount(assetId);
         if (!account) {
           return null;
         }
+      } else {
+        // Found in IndexedDB - refresh in background for next time (don't await)
+        midenClient.importAccountById(assetId).catch(() => {
+          // Ignore background refresh errors
+        });
       }
       const faucetDetails = BasicFungibleFaucetComponent.fromAccount(account);
       return {
