@@ -18,9 +18,11 @@ export async function fetchTokenMetadata(
     // Wrap all WASM client operations in a lock to prevent concurrent access
     const result = await withWasmClientLock(async () => {
       const midenClient = await getMidenClient();
-      await midenClient.importAccountById(assetId);
-      const account = await midenClient.getAccount(assetId);
+
+      let account = await midenClient.getAccount(assetId);
       if (!account) {
+        await midenClient.importAccountById(assetId);
+        account = await midenClient.getAccount(assetId);
         return null;
       }
       const faucetDetails = BasicFungibleFaucetComponent.fromAccount(account);
