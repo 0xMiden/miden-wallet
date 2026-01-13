@@ -32,7 +32,7 @@ const DEFAULT_ZERO_MIDEN_BALANCE: TokenBalanceData[] = [
 ];
 
 // Global lock to prevent concurrent fetches to WASM client (per address)
-const fetchingAddresses = new Set<string>();
+export const fetchingAddresses = new Set<string>();
 
 /**
  * useAllBalances - Hook to get all token balances for an account

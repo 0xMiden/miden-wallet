@@ -137,7 +137,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       delegateTransaction: delegateEnabled,
       token: undefined
     },
-    resolver: yupResolver(validationSchema)
+    resolver: yupResolver(validationSchema) as any
   });
 
   useEffect(() => {

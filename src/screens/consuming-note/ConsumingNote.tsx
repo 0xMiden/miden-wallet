@@ -31,7 +31,7 @@ export interface ConsumingNotePageProps {
 export const ConsumingNotePage: FC<ConsumingNotePageProps> = ({ noteId }) => {
   const [status, setStatus] = useState(ConsumingNoteStatus.Waiting);
   const [noteConsumeTimedOut, setNoteConsumeTimedOut] = useState(false);
-  const [noteConsumeTimeoutId, setNoteConsumeTimeoutId] = useState<number | null>(null);
+  const [noteConsumeTimeoutId, setNoteConsumeTimeoutId] = useState<ReturnType<typeof setTimeout> | null>(null);
 
   const { signTransaction } = useMidenContext();
   const account = useAccount();

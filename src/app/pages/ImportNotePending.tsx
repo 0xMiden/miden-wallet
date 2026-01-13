@@ -24,7 +24,7 @@ const ImportNotePending: FC<ImportNotePendingProps> = ({ noteId }) => {
   const [isNoteFound, setIsNoteFound] = useState(false);
 
   useEffect(() => {
-    let timeoutId: number | null = null;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
     let polling = true;
 
     const pollForNote = async () => {

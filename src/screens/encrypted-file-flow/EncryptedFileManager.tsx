@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useCallback, useEffect } from 'react';
 
 import classNames from 'clsx';
-import { OnSubmit, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAppEnv } from 'app/env';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
@@ -40,7 +40,7 @@ export const EncryptedFileManager: React.FC<{}> = () => {
     navigate('/settings');
   }, []);
 
-  const { register, watch, handleSubmit, formState, setError, clearError, setValue } = useForm<EncryptedFileForm>({
+  const { register, watch, handleSubmit, formState, setError, clearErrors, setValue } = useForm<EncryptedFileForm>({
     defaultValues: {
       walletPassword: '',
       filePassword: '',
@@ -72,7 +72,7 @@ export const EncryptedFileManager: React.FC<{}> = () => {
           break;
         case EncryptedFileActionId.SetFormValues:
           Object.entries(action.payload).forEach(([key, value]) => {
-            setValue(key, value);
+            setValue(key as keyof EncryptedFileForm, value);
           });
           break;
         default:
@@ -82,21 +82,22 @@ export const EncryptedFileManager: React.FC<{}> = () => {
     [navigateTo, goBack, onClose, setValue]
   );
 
-  const onSubmit = useCallback<OnSubmit<EncryptedFileForm>>(
-    async (data, event) => {
+  const onSubmit: SubmitHandler<EncryptedFileForm> = useCallback(
+    async data => {
       if (formState.isSubmitting) {
         return;
       }
       try {
-        clearError('submit');
-      } catch (e: any) {
-        if (e.message) {
-          setError('submit', 'manual', e.message);
+        clearErrors('root');
+      } catch (e: unknown) {
+        const error = e as Error;
+        if (error.message) {
+          setError('root', { type: 'manual', message: error.message });
         }
         console.error(e);
       }
     },
-    [formState.isSubmitting, clearError, setError]
+    [formState.isSubmitting, clearErrors, setError]
   );
 
   const goToStep = useCallback(

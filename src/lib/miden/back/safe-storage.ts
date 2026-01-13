@@ -49,7 +49,7 @@ export async function removeMany(keys: string[]) {
 
 export async function getPlain<T>(key: string): Promise<T | undefined> {
   const items = await browser.storage.local.get([key]);
-  return items[key];
+  return items[key] as T | undefined;
 }
 
 export function savePlain<T>(key: string, value: T) {

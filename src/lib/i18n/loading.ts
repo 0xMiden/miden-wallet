@@ -5,8 +5,8 @@ import { saveLocale } from './saving';
 
 export const REFRESH_MSGTYPE = 'ALEO_I18N_REFRESH';
 
-runtime.onMessage.addListener(msg => {
-  if (msg?.type === REFRESH_MSGTYPE) {
+runtime.onMessage.addListener((msg: unknown) => {
+  if (typeof msg === 'object' && msg !== null && (msg as { type?: string }).type === REFRESH_MSGTYPE) {
     refresh();
   }
 });
