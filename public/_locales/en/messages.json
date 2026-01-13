@@ -454,8 +454,7 @@
     "englishSource": "Account Public Key"
   },
   "editMidenFaucetId": {
-    "message": "Edit Miden Faucet ID",
-    "englishSource": "Edit Miden Faucet ID"
+    "message": "Edit Miden Faucet ID"
   },
   "aleoFaucetStep1": {
     "message": "Scan the QR code with your Phone",
@@ -1352,9 +1351,6 @@
   },
   "encryptedWalletFilePassword": {
     "message": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
-  },
-  "editMidenFaucetId": {
-    "message": "Edit Miden Faucet ID"
   },
   "exportWalletFile": {
     "message": "Export Wallet File",
@@ -4666,33 +4662,9 @@
     "message": "Convert now.",
     "englishSource": "Convert now."
   },
-  "customizeFee": {
-    "message": "Customize fee",
-    "englishSource": "Customize fee"
-  },
-  "fee": {
-    "message": "Fee",
-    "englishSource": "Fee"
-  },
-  "private": {
-    "message": "Private",
-    "englishSource": "Private"
-  },
-  "public": {
-    "message": "Public",
-    "englishSource": "Public"
-  },
   "recommendedFee": {
     "message": "Recommended fee",
     "englishSource": "Recommended fee"
-  },
-  "convert": {
-    "message": "Convert",
-    "englishSource": "Convert"
-  },
-  "max": {
-    "message": "Max",
-    "englishSource": "Max"
   },
   "feeType": {
     "message": "Fee type",
@@ -4770,10 +4742,6 @@
     "message": "Transaction file",
     "englishSource": "Transaction file"
   },
-  "availableToClaim": {
-    "message": "Available to claim",
-    "englishSource": "Available to claim"
-  },
   "verificationFailed": {
     "message": "Verification Failed",
     "englishSource": "Verification Failed"
@@ -4809,10 +4777,6 @@
   "viewOnExplorer": {
     "message": "View on Explorer",
     "englishSource": "View on Explorer"
-  },
-  "completed": {
-    "message": "Completed",
-    "englishSource": "Completed"
   },
   "inProgress": {
     "message": "In Progress",
@@ -4870,14 +4834,6 @@
   "storageChanged": {
     "message": "Storage changed",
     "englishSource": "Storage changed"
-  },
-  "no": {
-    "message": "No",
-    "englishSource": "No"
-  },
-  "yes": {
-    "message": "Yes",
-    "englishSource": "Yes"
   },
   "downloadFullSummary": {
     "message": "Download full summary (bytes)",
@@ -4955,17 +4911,9 @@
     "message": "Close",
     "englishSource": "Close"
   },
-  "recipient": {
-    "message": "Recipient",
-    "englishSource": "Recipient"
-  },
   "chooseToken": {
     "message": "Choose token",
     "englishSource": "Choose token"
-  },
-  "none": {
-    "message": "None",
-    "englishSource": "None"
   },
   "recallBlocks": {
     "message": "Recall blocks",
