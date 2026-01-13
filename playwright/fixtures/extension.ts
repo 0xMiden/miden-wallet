@@ -49,7 +49,7 @@ export const test = base.extend<Fixtures>({
     await use(context);
 
     await context.close();
-    fs.rmdirSync(userDataDir, { recursive: true });
+    fs.rmSync(userDataDir, { recursive: true });
   },
 
   extensionId: async ({ extensionContext }, use) => {

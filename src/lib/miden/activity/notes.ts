@@ -8,12 +8,12 @@ const IMPORT_NOTES_KEY = 'miden-notes-pending-import';
 const OUTPUT_NOTES_KEY = 'miden-export-note-ids';
 
 export const queueNoteImport = async (noteBytes: string) => {
-  const queuedImports = (await fetchFromStorage(IMPORT_NOTES_KEY)) || [];
+  const queuedImports = (await fetchFromStorage<string[]>(IMPORT_NOTES_KEY)) || [];
   await putToStorage(IMPORT_NOTES_KEY, [...queuedImports, noteBytes]);
 };
 
 export const importAllNotes = async () => {
-  const queuedImports: string[] = (await fetchFromStorage(IMPORT_NOTES_KEY)) || [];
+  const queuedImports: string[] = (await fetchFromStorage<string[]>(IMPORT_NOTES_KEY)) || [];
   if (queuedImports.length === 0) {
     return;
   }
@@ -79,6 +79,6 @@ export const useExportNotes = (): [string[], () => Promise<void>] => {
 };
 
 export const registerOutputNote = async (noteId: string) => {
-  const outputNotes = (await fetchFromStorage(OUTPUT_NOTES_KEY)) || [];
+  const outputNotes = (await fetchFromStorage<string[]>(OUTPUT_NOTES_KEY)) || [];
   await putToStorage(OUTPUT_NOTES_KEY, [...outputNotes, noteId]);
 };

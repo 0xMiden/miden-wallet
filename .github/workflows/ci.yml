@@ -39,6 +39,16 @@ jobs:
         with:
           cmd: install
 
+      - name: Run ESLint
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: lint
+
+      - name: Run TypeScript Check
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: ts
+
       - name: Run Unit Tests
         uses: borales/actions-yarn@v4
         with:

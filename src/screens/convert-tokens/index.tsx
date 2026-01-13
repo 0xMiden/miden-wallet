@@ -132,7 +132,7 @@ const IndexScreen: React.FC<IndexScreenProps> = ({
       feeType: UIFeeType.Public,
       delegateTransaction: true
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema) as any,
     context: {
       chainId
     }
@@ -146,7 +146,7 @@ const IndexScreen: React.FC<IndexScreenProps> = ({
     register('feeAmount');
     register('feeType');
     register('delegateTransaction');
-    register('combined-amount');
+    register('combined-amount' as any);
   }, [register]);
 
   const amount = watch('amount');

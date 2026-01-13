@@ -1001,7 +1001,8 @@ const generatePromisifyConsumeTransaction = async (
 };
 
 export async function getAllDApps(): Promise<MidenDAppSessions> {
-  const dAppsSessions: MidenDAppSessions = (await browser.storage.local.get([STORAGE_KEY]))[STORAGE_KEY] || {};
+  const items = await browser.storage.local.get([STORAGE_KEY]);
+  const dAppsSessions = (items[STORAGE_KEY] as MidenDAppSessions) || {};
   return dAppsSessions;
 }
 

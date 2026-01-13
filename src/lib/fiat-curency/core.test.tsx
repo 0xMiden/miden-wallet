@@ -4,6 +4,7 @@ import { useWalletStore } from 'lib/store';
 
 import { FIAT_CURRENCIES } from './consts';
 import { getFiatCurrencyKey, useFiatCurrency, useAssetFiatCurrencyPrice } from './core';
+import { FiatCurrenciesEnum } from './types';
 
 // Mock dependencies
 jest.mock('lib/miden/front', () => ({
@@ -25,8 +26,12 @@ describe('fiat-currency/core', () => {
 
   describe('getFiatCurrencyKey', () => {
     it('returns the name of the currency', () => {
-      expect(getFiatCurrencyKey({ name: 'USD', symbol: '$', apiLabel: 'usd' })).toBe('USD');
-      expect(getFiatCurrencyKey({ name: 'EUR', symbol: '€', apiLabel: 'eur' })).toBe('EUR');
+      expect(
+        getFiatCurrencyKey({ name: FiatCurrenciesEnum.USD, fullname: 'US Dollar', symbol: '$', apiLabel: 'usd' })
+      ).toBe('USD');
+      expect(getFiatCurrencyKey({ name: FiatCurrenciesEnum.EUR, fullname: 'Euro', symbol: '€', apiLabel: 'eur' })).toBe(
+        'EUR'
+      );
     });
   });
 
@@ -69,7 +74,7 @@ describe('fiat-currency/core', () => {
 
     it('returns calculated rate for aleo token', () => {
       useWalletStore.setState({
-        selectedFiatCurrency: { name: 'USD', symbol: '$', apiLabel: 'usd' },
+        selectedFiatCurrency: { name: FiatCurrenciesEnum.USD, fullname: 'US Dollar', symbol: '$', apiLabel: 'usd' },
         fiatRates: { usd: 1 }
       });
 

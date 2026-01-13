@@ -5,7 +5,7 @@ import browser, { Storage } from 'webextension-polyfill';
 import { useRetryableSWR } from 'lib/swr';
 
 export function useStorage<T = any>(key: string, fallback?: T): [T, (val: SetStateAction<T>) => Promise<void>] {
-  const { data, mutate } = useRetryableSWR<T>(key, fetchFromStorage, {
+  const { data, mutate } = useRetryableSWR<T>(key, fetchFromStorage as (key: string) => Promise<T>, {
     suspense: true,
     revalidateOnFocus: false,
     revalidateOnReconnect: false
@@ -33,7 +33,7 @@ export function useStorage<T = any>(key: string, fallback?: T): [T, (val: SetSta
 }
 
 export function usePassiveStorage<T = any>(key: string, fallback?: T): [T, Dispatch<SetStateAction<T>>] {
-  const { data } = useRetryableSWR<T>(key, fetchFromStorage, {
+  const { data } = useRetryableSWR<T>(key, fetchFromStorage as (key: string) => Promise<T>, {
     suspense: true,
     revalidateOnFocus: false,
     revalidateOnReconnect: false
@@ -64,7 +64,7 @@ export function onStorageChanged<T = any>(key: string, callback: (newValue: T) =
     areaName: string
   ) => {
     if (areaName === 'local' && key in changes) {
-      callback(changes[key].newValue);
+      callback(changes[key].newValue as T);
     }
   };
 
@@ -72,10 +72,10 @@ export function onStorageChanged<T = any>(key: string, callback: (newValue: T) =
   return () => browser.storage.onChanged.removeListener(handleChanged);
 }
 
-export async function fetchFromStorage(key: string) {
+export async function fetchFromStorage<T = unknown>(key: string): Promise<T | null> {
   const items = await browser.storage.local.get([key]);
   if (key in items) {
-    return items[key];
+    return items[key] as T;
   } else {
     return null;
   }

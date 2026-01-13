@@ -51,7 +51,7 @@ jest.mock('lib/miden/front', () => ({
 }));
 
 const mockMutateClaimableNotes = jest.fn();
-const mockUseClaimableNotes = jest.fn(() => ({ data: [], mutate: mockMutateClaimableNotes }));
+const mockUseClaimableNotes = jest.fn(() => ({ data: [] as any[], mutate: mockMutateClaimableNotes }));
 jest.mock('lib/miden/front/claimable-notes', () => ({
   useClaimableNotes: () => mockUseClaimableNotes()
 }));
@@ -858,7 +858,7 @@ describe('Receive - Dynamic Note Arrivals', () => {
 
     await act(async () => {
       // Button might still be there briefly, try to click again
-      const currentButtons = testContainer.querySelectorAll('[data-testid="claim-button"]');
+      const currentButtons = testContainer!.querySelectorAll('[data-testid="claim-button"]');
       const maybeClaimAll = Array.from(currentButtons).find(b => b.textContent === 'claimAll') as HTMLButtonElement;
       maybeClaimAll?.click();
       await new Promise(resolve => setTimeout(resolve, 0));
@@ -1243,9 +1243,7 @@ describe('Receive - Claiming State Reporting', () => {
     mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
 
     // First claim fails, retry succeeds
-    mockWaitForConsumeTx
-      .mockRejectedValueOnce(new Error('Transaction failed'))
-      .mockResolvedValue('tx-hash');
+    mockWaitForConsumeTx.mockRejectedValueOnce(new Error('Transaction failed')).mockResolvedValue('tx-hash');
 
     await act(async () => {
       testRoot!.render(<Receive />);
@@ -1348,7 +1346,7 @@ describe('Receive - Edge Cases', () => {
     testContainer = document.createElement('div');
     testRoot = createRoot(testContainer);
 
-    mockUseClaimableNotes.mockReturnValue({ data: undefined, mutate: mockMutateClaimableNotes });
+    mockUseClaimableNotes.mockReturnValue({ data: undefined as any, mutate: mockMutateClaimableNotes });
 
     await act(async () => {
       testRoot!.render(<Receive />);

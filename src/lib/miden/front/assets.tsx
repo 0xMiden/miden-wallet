@@ -214,7 +214,7 @@ export function useDetailedAssetMetadata(assetSlug: string, assetId: string) {
 
   const { data: detailedMetadata, mutate } = useRetryableSWR<DetailedAssetMetdata>(
     ['detailed-metadata', storageKey],
-    fetchFromStorage,
+    fetchFromStorage as (key: string) => Promise<DetailedAssetMetdata>,
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false
