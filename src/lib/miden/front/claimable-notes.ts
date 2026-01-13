@@ -146,7 +146,6 @@ export function useClaimableNotes(publicAddress: string, enabled: boolean = true
     // Wrap all WASM client operations in a lock to prevent concurrent access
     const rawNotes = await withWasmClientLock(async () => {
       const midenClient = await getMidenClient(options);
-      await midenClient.syncState();
       return midenClient.getConsumableNotes(publicAddress);
     });
 

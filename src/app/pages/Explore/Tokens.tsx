@@ -6,42 +6,31 @@ import { useTranslation } from 'react-i18next';
 import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
 import { Avatar } from 'components/Avatar';
 import { CardItem } from 'components/CardItem';
+import { SyncWaveBackground } from 'components/SyncWaveBackground';
 import { useAccount, useAllTokensBaseMetadata, useAllBalances } from 'lib/miden/front';
+import { useWalletStore } from 'lib/store';
 import { truncateAddress } from 'utils/string';
-
-const TokenSkeleton: FC = () => (
-  <div className="flex">
-    <div className="flex-1 flex items-center h-[56px] p-2 gap-x-2 bg-white border border-grey-50 rounded-lg animate-pulse">
-      <div className="w-8 h-8 bg-grey-100 rounded-full shrink-0" />
-      <div className="flex-1 flex justify-between items-center">
-        <div className="flex flex-col gap-1">
-          <div className="w-16 h-4 bg-grey-100 rounded" />
-          <div className="w-24 h-3 bg-grey-100 rounded" />
-        </div>
-        <div className="flex flex-col items-end gap-1">
-          <div className="w-12 h-4 bg-grey-100 rounded" />
-          <div className="w-10 h-3 bg-grey-100 rounded" />
-        </div>
-      </div>
-    </div>
-  </div>
-);
 
 const Tokens: FC = () => {
   const midenFaucetId = useMidenFaucetId();
   const account = useAccount();
   const { t } = useTranslation();
   const allTokensBaseMetadata = useAllTokensBaseMetadata();
-  const { data: allTokenBalances = [], isLoading } = useAllBalances(account.publicKey, allTokensBaseMetadata);
-  const showLoading = isLoading && allTokenBalances.length === 0;
+  const { data: allTokenBalances = [], isLoading: isLoadingBalances } = useAllBalances(
+    account.publicKey,
+    allTokensBaseMetadata
+  );
+  const hasCompletedInitialSync = useWalletStore(s => s.hasCompletedInitialSync);
+
+  // Show loading indicator during initial balance fetch and first chain sync
+  const showLoadingWave = isLoadingBalances || !hasCompletedInitialSync;
 
   return (
     <>
       <div className={classNames('w-full pt-3 mb-2', 'flex justify-start', 'text-sm font-semibold text-black')}>
-        {(allTokenBalances.length > 0 || showLoading) && <span>{t('tokens')}</span>}
+        {allTokenBalances.length > 0 && <span>{t('tokens')}</span>}
       </div>
-      <div className="flex-1 flex flex-col pb-4 space-y-2">
-        {showLoading && <TokenSkeleton />}
+      <div className="flex-1 flex flex-col pb-4 gap-2">
         {allTokenBalances.length > 0 &&
           allTokenBalances
             .sort(a => (a.tokenId === midenFaucetId ? -1 : 1))
@@ -50,7 +39,8 @@ const Tokens: FC = () => {
               const balance = asset.balance;
               const { tokenId, metadata } = asset;
               return (
-                <div key={tokenId} className="flex">
+                <div key={tokenId} className="relative flex">
+                  <SyncWaveBackground isSyncing={showLoadingWave} className="rounded-lg" />
                   <CardItem
                     iconLeft={
                       <Avatar size="lg" image={isMiden ? '/misc/miden.png' : '/misc/token-logos/default.svg'} />
@@ -59,7 +49,7 @@ const Tokens: FC = () => {
                     subtitle={truncateAddress(tokenId, false)}
                     titleRight={`$${balance.toFixed(2)}`}
                     subtitleRight={balance.toFixed(2)}
-                    className="flex-1 border border-grey-50 rounded-lg "
+                    className="flex-1 border border-grey-50 rounded-lg"
                   />
                 </div>
               );

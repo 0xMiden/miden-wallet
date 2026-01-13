@@ -65,6 +65,7 @@ export const useWalletStore = create<WalletStore>()(
     isInitialized: false,
     isSyncing: false,
     lastSyncedAt: null,
+    hasCompletedInitialSync: false,
 
     // Sync action - updates store from backend state
     syncFromBackend: (state: MidenState) => {
@@ -407,6 +408,16 @@ export const useWalletStore = create<WalletStore>()(
         set({ fiatRates: rates, fiatRatesLoading: false });
       } catch {
         set({ fiatRatesLoading: false });
+      }
+    },
+
+    // Sync actions
+    setSyncStatus: isSyncing => {
+      // When sync completes (isSyncing becomes false), mark initial sync as done
+      if (!isSyncing) {
+        set({ isSyncing, hasCompletedInitialSync: true });
+      } else {
+        set({ isSyncing });
       }
     }
   }))

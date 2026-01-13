@@ -60,6 +60,8 @@ export interface SyncSlice {
   isInitialized: boolean;
   isSyncing: boolean;
   lastSyncedAt: number | null;
+  /** True after the first chain sync completes (used for initial loading indicator) */
+  hasCompletedInitialSync: boolean;
 }
 
 /**
@@ -138,6 +140,13 @@ export interface FiatCurrencyActions {
 }
 
 /**
+ * Sync actions
+ */
+export interface SyncActions {
+  setSyncStatus: (isSyncing: boolean) => void;
+}
+
+/**
  * Combined store type
  */
 export interface WalletStore
@@ -151,4 +160,5 @@ export interface WalletStore
     WalletActions,
     BalanceActions,
     AssetActions,
-    FiatCurrencyActions {}
+    FiatCurrencyActions,
+    SyncActions {}
