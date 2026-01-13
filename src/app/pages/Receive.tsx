@@ -36,9 +36,32 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const safeClaimableNotes = (claimableNotes ?? []).filter((n): n is NonNullable<typeof n> => n != null);
   const [isDragging, setIsDragging] = useState(false);
-  const [isClaimingAll, setIsClaimingAll] = useState(false);
   const [claimingNoteIds, setClaimingNoteIds] = useState<Set<string>>(new Set());
+  // Track individual note claiming states reported by child components
+  const [individualClaimingIds, setIndividualClaimingIds] = useState<Set<string>>(new Set());
   const claimAllAbortRef = useRef<AbortController | null>(null);
+
+  // Callback for child components to report their claiming state
+  const handleClaimingStateChange = useCallback((noteId: string, isClaiming: boolean) => {
+    setIndividualClaimingIds(prev => {
+      const next = new Set(prev);
+      if (isClaiming) {
+        next.add(noteId);
+      } else {
+        next.delete(noteId);
+      }
+      return next;
+    });
+  }, []);
+
+  // Notes that are not currently being claimed (available for "Claim All")
+  // A note is claimable if it's not being claimed via:
+  // - IndexedDB (isBeingClaimed) - from previous sessions or after tx queued
+  // - Claim All operation (claimingNoteIds) - current batch operation
+  // - Individual claim (individualClaimingIds) - user clicked single Claim button
+  const unclaimedNotes = safeClaimableNotes.filter(
+    n => !n.isBeingClaimed && !claimingNoteIds.has(n.id) && !individualClaimingIds.has(n.id)
+  );
 
   useEffect(() => {
     return () => {
@@ -47,23 +70,21 @@ export const Receive: React.FC<ReceiveProps> = () => {
   }, []);
 
   const handleClaimAll = useCallback(async () => {
-    if (safeClaimableNotes.length === 0) return;
+    if (unclaimedNotes.length === 0) return;
 
-    setIsClaimingAll(true);
     claimAllAbortRef.current?.abort();
     claimAllAbortRef.current = new AbortController();
     const signal = claimAllAbortRef.current.signal;
 
-    // Mark all notes as being claimed
-    const noteIds = safeClaimableNotes.filter(n => !n.isBeingClaimed).map(n => n.id);
+    // Mark unclaimed notes as being claimed
+    const noteIds = unclaimedNotes.map(n => n.id);
     setClaimingNoteIds(new Set(noteIds));
 
     try {
       // Queue all transactions first, before opening loading page
       // This ensures all notes get queued even if the popup closes
       const transactionIds: { noteId: string; txId: string }[] = [];
-      for (const note of safeClaimableNotes) {
-        if (note.isBeingClaimed) continue;
+      for (const note of unclaimedNotes) {
         try {
           const id = await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
           transactionIds.push({ noteId: note.id, txId: id });
@@ -99,10 +120,9 @@ export const Receive: React.FC<ReceiveProps> = () => {
       // Refresh the list - this will remove successfully claimed notes
       await mutateClaimableNotes();
     } finally {
-      setIsClaimingAll(false);
       setClaimingNoteIds(new Set());
     }
-  }, [safeClaimableNotes, account.publicKey, isDelegatedProvingEnabled, mutateClaimableNotes]);
+  }, [unclaimedNotes, account.publicKey, isDelegatedProvingEnabled, mutateClaimableNotes]);
 
   const pageTitle = (
     <>
@@ -237,17 +257,17 @@ export const Receive: React.FC<ReceiveProps> = () => {
                 account={account}
                 isDelegatedProvingEnabled={isDelegatedProvingEnabled}
                 isClaimingFromParent={claimingNoteIds.has(note.id)}
+                onClaimingStateChange={handleClaimingStateChange}
               />
             ))}
           </div>
-          {safeClaimableNotes.length > 0 && (
+          {unclaimedNotes.length > 0 && (
             <div className="flex justify-center mt-4">
               <Button
                 className="w-[120px] h-[40px] text-md"
                 variant={ButtonVariant.Primary}
                 onClick={handleClaimAll}
                 title={t('claimAll')}
-                disabled={isClaimingAll}
               />
             </div>
           )}
@@ -263,6 +283,7 @@ interface ConsumableNoteProps {
   mutateClaimableNotes: ReturnType<typeof useClaimableNotes>['mutate'];
   isDelegatedProvingEnabled: boolean;
   isClaimingFromParent?: boolean;
+  onClaimingStateChange?: (noteId: string, isClaiming: boolean) => void;
 }
 
 export const ConsumableNoteComponent = ({
@@ -270,11 +291,17 @@ export const ConsumableNoteComponent = ({
   mutateClaimableNotes,
   account,
   isDelegatedProvingEnabled,
-  isClaimingFromParent = false
+  isClaimingFromParent = false,
+  onClaimingStateChange
 }: ConsumableNoteProps) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(note.isBeingClaimed || false);
   const showSpinner = isLoading || isClaimingFromParent;
+
+  // Report claiming state changes to parent
+  useEffect(() => {
+    onClaimingStateChange?.(note.id, isLoading);
+  }, [isLoading, note.id, onClaimingStateChange]);
   const [error, setError] = useState<string | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
 
@@ -283,6 +310,13 @@ export const ConsumableNoteComponent = ({
       abortControllerRef.current?.abort();
     };
   }, []);
+
+  // Sync isLoading state when note.isBeingClaimed changes (e.g., popup reopened with in-progress claim)
+  useEffect(() => {
+    if (note.isBeingClaimed && !isLoading) {
+      setIsLoading(true);
+    }
+  }, [note.isBeingClaimed, isLoading]);
 
   // Resume waiting for in-progress transaction when component mounts with isBeingClaimed
   useEffect(() => {

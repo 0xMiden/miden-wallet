@@ -42,9 +42,7 @@ export const SelectWalletTypeScreen = ({ onSubmit, ...props }: SelectWalletTypeS
     <div className="flex-1 flex flex-col items-center bg-transparent p-8 h-full">
       <div className="flex flex-col items-center w-4/5 pb-8">
         <h1 className="font-semibold text-2xl lh-title">{t('chooseYourAccountType')}</h1>
-        <p className="text-base text-center lh-title">
-          {t('chooseAccountTypeDescription')}
-        </p>
+        <p className="text-base text-center lh-title">{t('chooseAccountTypeDescription')}</p>
       </div>
       {WalletTypeOptions.map(option => (
         <div
@@ -63,10 +61,7 @@ export const SelectWalletTypeScreen = ({ onSubmit, ...props }: SelectWalletTypeS
           <p className="text-grey-600">{option.description}</p>
         </div>
       ))}
-      <Alert
-        variant={AlertVariant.Info}
-        title={t('canAddMultipleAccountsLater')}
-      />
+      <Alert variant={AlertVariant.Info} title={t('canAddMultipleAccountsLater')} />
     </div>
   );
 };

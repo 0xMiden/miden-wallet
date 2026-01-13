@@ -193,10 +193,14 @@ export const FeeOptionsScreen: React.FC<FeeOptionsScreenProps> = ({
             disableGroupSeparators
             decimalSeparator="."
             icon={
-              <p className="text-base text-grey-400">{feeType === UIFeeType.Private ? t('private') : t('public')} ALEO</p>
+              <p className="text-base text-grey-400">
+                {feeType === UIFeeType.Private ? t('private') : t('public')} ALEO
+              </p>
             }
           />
-          <p className="text-xs text-grey-600">{t('recommendedFee')}: {recommendedFee} ALEO</p>
+          <p className="text-xs text-grey-600">
+            {t('recommendedFee')}: {recommendedFee} ALEO
+          </p>
           {error && (
             <span className="flex flex-row items-center gap-x-2">
               <Icon name={IconName.InformationFill} fill={colors.red[500]} size={'xs'} />

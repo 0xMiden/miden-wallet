@@ -143,10 +143,7 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
                   }
                 )}
               >
-                <Tooltip
-                  arrowPosition="bottom"
-                  title={t('delegateTransactionTooltip')}
-                />
+                <Tooltip arrowPosition="bottom" title={t('delegateTransactionTooltip')} />
               </div>
             </div>
           </span>
