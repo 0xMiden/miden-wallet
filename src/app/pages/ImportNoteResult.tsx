@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 
+import { useTranslation } from 'react-i18next';
+
 import { Icon, IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
 import { Button, ButtonVariant } from 'components/Button';
@@ -10,8 +12,9 @@ type ImportNoteResultProps = {
 };
 
 const ImportNoteResult: FC<ImportNoteResultProps> = ({ success }) => {
+  const { t } = useTranslation();
   return (
-    <PageLayout pageTitle="Transaction file" showBottomBorder={false} hasBackAction={false}>
+    <PageLayout pageTitle={t('transactionFile')} showBottomBorder={false} hasBackAction={false}>
       <div className="flex m-auto">
         <div className="flex-1 flex flex-col justify-center items-center md:w-[460px] md:mx-auto">
           <div className="w-40 aspect-square flex items-center justify-center mb-8">
@@ -19,14 +22,12 @@ const ImportNoteResult: FC<ImportNoteResultProps> = ({ success }) => {
             {!success && <Icon name={IconName.Failed} size="3xl" />}
           </div>
           <h1 className="flex flex-col font-semibold text-2xl lh-title text-center text-balance pb-4">
-            {success && <>Available to claim</>}
-            {!success && <>Verification Failed</>}
+            {success && <>{t('availableToClaim')}</>}
+            {!success && <>{t('verificationFailed')}</>}
           </h1>
           <p className="text-sm text-center px-4">
-            {success && <>The transaction has been successfully verified. You can now claim your tokens.</>}
-            {!success && (
-              <>The uploaded transaction file could not be verified. Ensure the file is valid and try again.</>
-            )}
+            {success && <>{t('transactionVerifiedSuccessfully')}</>}
+            {!success && <>{t('transactionFileCouldNotBeVerified')}</>}
           </p>
         </div>
       </div>
@@ -35,7 +36,7 @@ const ImportNoteResult: FC<ImportNoteResultProps> = ({ success }) => {
           className="w-full"
           variant={ButtonVariant.Secondary}
           onClick={() => navigate('/receive')}
-          title={success ? 'Done' : 'Close'}
+          title={success ? t('done') : t('close')}
           style={{ cursor: 'pointer' }}
         />
       </div>

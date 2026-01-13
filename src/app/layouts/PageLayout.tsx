@@ -102,6 +102,7 @@ type ToolbarProps = {
   skip?: boolean;
   attention?: boolean;
   showBottomBorder?: boolean;
+  titleContainerClassName?: string;
 };
 
 const Toolbar: FC<ToolbarProps> = ({
@@ -111,7 +112,8 @@ const Toolbar: FC<ToolbarProps> = ({
   setStep,
   skip,
   advancedSettingsSection,
-  showBottomBorder
+  showBottomBorder,
+  titleContainerClassName
 }) => {
   const { historyPosition, pathname } = useLocation();
   const { registerBackHandler, onBack } = useAppEnv();
@@ -170,7 +172,8 @@ const Toolbar: FC<ToolbarProps> = ({
     <div
       ref={rootRef}
       className={classNames(
-        'sticky z-20 mx-4',
+        'sticky z-20',
+        titleContainerClassName || 'mx-4',
         'bg-white',
         'rounded-t-lg',
         'flex flex-col items-center',

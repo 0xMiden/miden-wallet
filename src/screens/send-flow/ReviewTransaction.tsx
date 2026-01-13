@@ -96,7 +96,7 @@ export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
 
   return (
     <div className="flex-1 flex flex-col">
-      <NavigationHeader mode="back" title="Review" onBack={onGoBack} />
+      <NavigationHeader mode="back" title={t('review')} onBack={onGoBack} />
       <div className="flex flex-col flex-1 p-4 gap-y-4 md:w-[460px] md:mx-auto">
         <span className="flex flex-row items-end gap-x-2 justify-center p-6">
           <p className="text-2xl leading-8">{`${amount} ${token}`}</p>
@@ -104,11 +104,11 @@ export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
 
         <div className="flex flex-col gap-y-2">
           <span className="flex flex-row justify-between">
-            <label className="text-sm text-grey-600">From</label>
+            <label className="text-sm text-grey-600">{t('from')}</label>
             <p className="text-sm">{truncateAddress(publicKey)}</p>
           </span>
           <span className="flex flex-row justify-between whitespace-pre-line">
-            <label className="text-sm text-grey-600">To</label>
+            <label className="text-sm text-grey-600">{t('to')}</label>
             <p className="text-sm text-right">{truncateAddress(recipientAddress || '')}</p>
           </span>
         </div>
@@ -117,10 +117,10 @@ export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
 
         <div className="flex flex-col gap-y-2">
           <span className="flex flex-row items-center justify-between py-2">
-            <label className="text-sm text-grey-600">Recall blocks</label>
+            <label className="text-sm text-grey-600">{t('recallBlocks')}</label>
             <div className="flex flex-row items-center">
               <p className={classNames('text-sm text-right mr-4', recallBlocksDisplay ? 'opacity-100' : 'opacity-50')}>
-                {recallBlocksDisplay || 'None'}
+                {recallBlocksDisplay || t('none')}
               </p>
               <Icon
                 name={IconName.Settings}
@@ -136,7 +136,7 @@ export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
 
         <div className="flex flex-col gap-y-2">
           <span className="flex flex-row items-center justify-between py-2">
-            <label className="text-sm text-grey-600">Delegate Transaction</label>
+            <label className="text-sm text-grey-600">{t('delegateTransaction')}</label>
             <div className="flex flex-row items-center">
               <ToggleSwitch
                 checked={delegateTransaction}
@@ -152,7 +152,7 @@ export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
 
         <div className="flex flex-col gap-y-2">
           <span className="flex flex-row items-center justify-between py-2">
-            <label className="text-sm text-grey-600">Share transaction privately</label>
+            <label className="text-sm text-grey-600">{t('shareTransactionPrivately')}</label>
             <div className="flex flex-row items-center">
               <ToggleSwitch
                 checked={sharePrivately}

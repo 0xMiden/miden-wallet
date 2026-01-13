@@ -3942,7 +3942,7 @@
   },
   "customizeFee": {
     "message": "Налаштувати плату",
-    "englishSource": "Customize Fee"
+    "englishSource": "Customize fee"
   },
   "convertingPublic": {
     "message": "Перетворіть на публічний NFT",
@@ -4115,7 +4115,7 @@
   },
   "availableToClaim": {
     "message": "Доступний для вимоги",
-    "englishSource": "Available to Claim"
+    "englishSource": "Available to claim"
   },
   "unstakingInProgress": {
     "message": "Виконується розставка",
@@ -4223,7 +4223,8 @@
   },
   "onlyAleoSeedPhrasesAreSupported": {
     "message": "Підтримуються лише фрази-зерна Aleo.",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Only Aleo Seed phrases are supported."
   },
   "seedPhrasePlaceholder": {
     "message": "12-слівна фраза-зерно",
@@ -4417,13 +4418,16 @@
     "englishSource": "Learn more"
   },
   "faucetId": {
-    "message": "ID крана"
+    "message": "ID крана",
+    "englishSource": "Faucet ID"
   },
   "setNewFaucetId": {
-    "message": "Встановити новий ідентифікатор крана"
+    "message": "Встановити новий ідентифікатор крана",
+    "englishSource": "Set new Faucet ID"
   },
   "setNewFaucetIdDescription": {
-    "message": "Введіть ідентифікатор змішувача miden"
+    "message": "Введіть ідентифікатор змішувача miden",
+    "englishSource": "Enter the ID of a miden faucet"
   },
   "encryptedWalletFile": {
     "message": "Зашифрований файл гаманця",
@@ -4438,10 +4442,12 @@
     "englishSource": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet."
   },
   "encryptedWalletFilePassword": {
-    "message": "Введіть пароль, щоб зашифрувати файл гаманця. Вам знадобиться цей пароль, щоб пізніше відновити гаманець."
+    "message": "Введіть пароль, щоб зашифрувати файл гаманця. Вам знадобиться цей пароль, щоб пізніше відновити гаманець.",
+    "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
   },
   "editMidenFaucetId": {
-    "message": "Редагувати ідентифікатор крана Miden"
+    "message": "Редагувати ідентифікатор крана Miden",
+    "englishSource": "Edit Miden Faucet ID"
   },
   "exportWalletFile": {
     "message": "Експортувати файл гаманця",
@@ -4645,7 +4651,7 @@
     "englishSource": "Let it send you requests for transactions"
   },
   "fundsStayInWallet": {
-    "message": "Кошти не залишать ваш гаманець, доки ви не зробите транзакцію",
+    "message": "Кошти не залишать ваш гаманець, доки ви не виконаєте транзакцію",
     "englishSource": "Funds will not leave your wallet until you execute a transaction"
   },
   "privateDataAccessAuto": {
@@ -4667,5 +4673,337 @@
   "doNotShareEncryptedWalletFileDescription": {
     "message": "За допомогою файлу та пароля будь-хто може отримати доступ до вашого гаманця.",
     "englishSource": "With the file and password, anyone can access your wallet."
+  },
+  "transactionWillProceedInBackground": {
+    "message": "Транзакція триватиме у фоновому режимі",
+    "englishSource": "Transaction will proceed in the background"
+  },
+  "publicFee": {
+    "message": "Державний збір",
+    "englishSource": "Public Fee"
+  },
+  "privateFee": {
+    "message": "Приватна плата",
+    "englishSource": "Private Fee"
+  },
+  "publicFeeDescription": {
+    "message": "Комісія за транзакцію обробляється приватно.",
+    "englishSource": "Transaction fee processed privately."
+  },
+  "privateFeeDescription": {
+    "message": "Комісія за транзакцію обробляється публічно в блокчейні.",
+    "englishSource": "Transaction fee is processed publicly on the blockchain."
+  },
+  "noPrivateTokensForFee": {
+    "message": "У вас немає приватних токенів. Перетворіть публічні токени на приватні, щоб використовувати їх як комісію.",
+    "englishSource": "You have no Private tokens. Convert Public tokens to Private to use them as Fee."
+  },
+  "noPublicTokensForFee": {
+    "message": "У вас немає публічних маркерів. Перетворіть приватні токени на публічні, щоб використовувати їх як комісію.",
+    "englishSource": "You have no Public tokens. Convert Private tokens to Public to use them as Fee."
+  },
+  "convertNow": {
+    "message": "Перетворіть зараз.",
+    "englishSource": "Convert now."
+  },
+  "recommendedFee": {
+    "message": "Рекомендована плата",
+    "englishSource": "Recommended fee"
+  },
+  "feeType": {
+    "message": "Тип плати",
+    "englishSource": "Fee type"
+  },
+  "delegateThisTransaction": {
+    "message": "Делегуйте цю транзакцію",
+    "englishSource": "Delegate this transaction"
+  },
+  "delegateTransactionTooltip": {
+    "message": "Налаштуйте делегування створення доказів на віддалений сервер. Це прискорить створення доказів, але розкриє деталі транзакції надійному серверу.",
+    "englishSource": "Configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
+  },
+  "conversionInitiated": {
+    "message": "Розпочато перетворення",
+    "englishSource": "Conversion Initiated"
+  },
+  "transactionCompleted": {
+    "message": "Трансакцію завершено",
+    "englishSource": "Transaction Completed"
+  },
+  "transactionFailed": {
+    "message": "Помилка транзакції",
+    "englishSource": "Transaction Failed"
+  },
+  "doNotCloseWindowNavigateHome": {
+    "message": "Не закривайте це вікно. Після створення транзакції ви повернетесь на домашню сторінку",
+    "englishSource": "Do not close this window. You will be navigated back to the home page after the transaction is generated"
+  },
+  "doNotCloseWindowAutoClose": {
+    "message": "Не закривайте це вікно. Вікно автоматично закриється після створення транзакції",
+    "englishSource": "Do not close this window. Window will auto-close after the transaction is generated"
+  },
+  "transactionSuccessDescription": {
+    "message": "Ваша транзакція була успішно оброблена та підтверджена в мережі.",
+    "englishSource": "Your transaction was successfully processed and confirmed on the network."
+  },
+  "transactionErrorDescription": {
+    "message": "Під час обробки вашої транзакції сталася помилка. Спробуйте ще раз.",
+    "englishSource": "There was an error processing your transaction. Please try again."
+  },
+  "downloadGeneratedFiles": {
+    "message": "Завантажте згенеровані файли",
+    "englishSource": "Download Generated Files"
+  },
+  "onChainAccountPublic": {
+    "message": "Обліковий запис у мережі (публічний)",
+    "englishSource": "On-chain Account (Public)"
+  },
+  "onChainAccountDescription": {
+    "message": "Використовуйте існуючу фразу відновлення з 12 слів. Ви також можете імпортувати гаманці від інших постачальників гаманців.",
+    "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
+  },
+  "offChainAccountPrivate": {
+    "message": "Обліковий запис поза мережею (приватний)",
+    "englishSource": "Off-chain Account (Private)"
+  },
+  "offChainAccountDescription": {
+    "message": "Швидкі приватні операції з мінімальними комісіями, в обхід прямої взаємодії з блокчейном.",
+    "englishSource": "Fast, private operations with minimal fees, bypassing direct blockchain interaction."
+  },
+  "chooseYourAccountType": {
+    "message": "Виберіть тип облікового запису",
+    "englishSource": "Choose Your Account Type"
+  },
+  "chooseAccountTypeDescription": {
+    "message": "Виберіть, як ви хочете взаємодіяти з блокчейном - у ланцюзі чи поза ланцюгом.",
+    "englishSource": "Select how you want to interact with the blockchain -- on-chain or off-chain."
+  },
+  "canAddMultipleAccountsLater": {
+    "message": "Пізніше в гаманці можна додати кілька типів облікових записів і керувати ними.",
+    "englishSource": "You can add and manage multiple account types later within the wallet."
+  },
+  "transactionFile": {
+    "message": "Файл транзакцій",
+    "englishSource": "Transaction file"
+  },
+  "verificationFailed": {
+    "message": "Не вдалося перевірити",
+    "englishSource": "Verification Failed"
+  },
+  "transactionVerifiedSuccessfully": {
+    "message": "Транзакцію було успішно перевірено. Тепер ви можете вимагати свої токени.",
+    "englishSource": "The transaction has been successfully verified. You can now claim your tokens."
+  },
+  "transactionFileCouldNotBeVerified": {
+    "message": "Не вдалося перевірити завантажений файл транзакції. Переконайтеся, що файл дійсний, і повторіть спробу.",
+    "englishSource": "The uploaded transaction file could not be verified. Ensure the file is valid and try again."
+  },
+  "home": {
+    "message": "додому",
+    "englishSource": "Home"
+  },
+  "timestamp": {
+    "message": "Мітка часу",
+    "englishSource": "Timestamp"
+  },
+  "noteType": {
+    "message": "Тип примітки",
+    "englishSource": "Note Type"
+  },
+  "noteId": {
+    "message": "ID примітки",
+    "englishSource": "Note ID"
+  },
+  "downloadGeneratedFile": {
+    "message": "Завантажити створений файл",
+    "englishSource": "Download Generated File"
+  },
+  "viewOnExplorer": {
+    "message": "Переглянути в Провіднику",
+    "englishSource": "View on Explorer"
+  },
+  "inProgress": {
+    "message": "В роботі",
+    "englishSource": "In Progress"
+  },
+  "you": {
+    "message": "Ви",
+    "englishSource": "You"
+  },
+  "invalidPayload": {
+    "message": "(недійсне корисне навантаження)",
+    "englishSource": "(invalid payload)"
+  },
+  "signTheFollowingWord": {
+    "message": "Підпишіть наступне Слово $word$ ?",
+    "englishSource": "Sign the following Word $word$?"
+  },
+  "sharePrivateNoteDataForAccount": {
+    "message": "Поділіться всіма даними особистих нотаток для облікового запису",
+    "englishSource": "Share all private note data for account"
+  },
+  "downloadPrivateNoteData": {
+    "message": "Завантажте дані приватної нотатки",
+    "englishSource": "Download Private Note Data"
+  },
+  "transactionAffectsAccountStorage": {
+    "message": "Ця трансакція впливає на пам’ять вашого облікового запису. Перегляньте необроблене резюме, щоб перевірити",
+    "englishSource": "This transaction affects your account storage. Review the raw summary to verify"
+  },
+  "failedToParseSigningPayload": {
+    "message": "Не вдалося проаналізувати корисне навантаження підпису",
+    "englishSource": "Failed to parse signing payload"
+  },
+  "assetChanges": {
+    "message": "Зміни активів",
+    "englishSource": "Asset changes"
+  },
+  "unknown": {
+    "message": "Невідомий",
+    "englishSource": "Unknown"
+  },
+  "inputNotesConsumed": {
+    "message": "Вхідні нотатки використано",
+    "englishSource": "Input notes consumed"
+  },
+  "outputNotesCreated": {
+    "message": "Вихідні нотатки створені",
+    "englishSource": "Output notes created"
+  },
+  "storageChanged": {
+    "message": "Пам'ять змінено",
+    "englishSource": "Storage changed"
+  },
+  "downloadFullSummary": {
+    "message": "Завантажити повне резюме (байт)",
+    "englishSource": "Download full summary (bytes)"
+  },
+  "signArbitraryPayload": {
+    "message": "Підписати довільне корисне навантаження?",
+    "englishSource": "Sign the Arbitrary payload?"
+  },
+  "signBlindCommitment": {
+    "message": "Підписати зобов'язання Blind?",
+    "englishSource": "Sign the Blind commitment?"
+  },
+  "connectToWebsite": {
+    "message": "Підключіться до веб-сайту",
+    "englishSource": "Connect to website"
+  },
+  "deny": {
+    "message": "Заперечувати",
+    "englishSource": "Deny"
+  },
+  "requestsATransaction": {
+    "message": "Запитує трансакцію",
+    "englishSource": "Requests a transaction"
+  },
+  "requestsToConsumeNote": {
+    "message": "Прохання спожити записку",
+    "englishSource": "Requests to consume a note"
+  },
+  "requestPrivateNotes": {
+    "message": "Запит на особисті нотатки",
+    "englishSource": "Request Private Notes"
+  },
+  "requestsPrivateNotes": {
+    "message": "Запитує особисті нотатки",
+    "englishSource": "Requests private notes"
+  },
+  "confirmSignature": {
+    "message": "Підтвердити підпис",
+    "englishSource": "Confirm Signature"
+  },
+  "requestsYourSignature": {
+    "message": "Просить ваш підпис",
+    "englishSource": "Requests your signature"
+  },
+  "requestAssets": {
+    "message": "Запит активів",
+    "englishSource": "Request Assets"
+  },
+  "requestsAssets": {
+    "message": "Запитує активи",
+    "englishSource": "Requests assets"
+  },
+  "requestImportPrivateNote": {
+    "message": "Надіслати запит на імпорт приватної нотатки",
+    "englishSource": "Request Import Private Note"
+  },
+  "importPrivateNote": {
+    "message": "Імпорт приватної нотатки",
+    "englishSource": "Import private note"
+  },
+  "requestConsumableNotes": {
+    "message": "Запит на примітки до витратних матеріалів",
+    "englishSource": "Request Consumable Notes"
+  },
+  "requestsConsumableNotes": {
+    "message": "Вимагайте приміток до витратних матеріалів",
+    "englishSource": "Request consumable notes"
+  },
+  "review": {
+    "message": "огляд",
+    "englishSource": "Review"
+  },
+  "close": {
+    "message": "Закрити",
+    "englishSource": "Close"
+  },
+  "chooseToken": {
+    "message": "Виберіть токен",
+    "englishSource": "Choose token"
+  },
+  "recallBlocks": {
+    "message": "Відкликати блоки",
+    "englishSource": "Recall blocks"
+  },
+  "delegateTransaction": {
+    "message": "Делегувати транзакцію",
+    "englishSource": "Delegate transaction"
+  },
+  "shareTransactionPrivately": {
+    "message": "Поділитися транзакцією приватно",
+    "englishSource": "Share transaction privately"
+  },
+  "alreadyHaveTransactionFile": {
+    "message": "Уже маєте файл транзакцій?",
+    "englishSource": "Already have a transaction file?"
+  },
+  "claimAll": {
+    "message": "Вимагати всіх",
+    "englishSource": "Claim All"
+  },
+  "readyToClaim": {
+    "message": "Готовий претендувати",
+    "englishSource": "Ready to claim"
+  },
+  "addTokens": {
+    "message": "Додайте жетони",
+    "englishSource": "Add tokens"
+  },
+  "getTokens": {
+    "message": "Отримати жетони",
+    "englishSource": "Get tokens"
+  },
+  "getTokensDescription": {
+    "message": "Ви можете отримати токени з крана або переказати їх з іншого гаманця чи облікового запису.",
+    "englishSource": "You can get tokens from the faucet or transfer them from another wallet or account."
+  },
+  "transferTokens": {
+    "message": "Передача токенів",
+    "englishSource": "Transfer tokens"
+  },
+  "midenFaucet": {
+    "message": "Кран Miden",
+    "englishSource": "Miden Faucet"
+  },
+  "midenFaucetDescription": {
+    "message": "Натискання кнопки нижче скопіює вашу адресу в буфер обміну та переведе вас до Miden Faucet.",
+    "englishSource": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet."
+  },
+  "accountPublicKey": {
+    "message": "Відкритий ключ облікового запису",
+    "englishSource": "Account Public Key"
   }
 }

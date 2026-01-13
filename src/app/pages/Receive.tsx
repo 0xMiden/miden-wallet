@@ -1,6 +1,7 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import FormField from 'app/atoms/FormField';
 import { openLoadingFullPage, useAppEnv } from 'app/env';
@@ -11,11 +12,12 @@ import AddressChip from 'app/templates/AddressChip';
 import { Button, ButtonVariant } from 'components/Button';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { T } from 'lib/i18n/react';
-import { initiateConsumeTransaction } from 'lib/miden/activity';
-import { useAccount } from 'lib/miden/front';
+import { getUncompletedTransactions, initiateConsumeTransaction, waitForConsumeTx } from 'lib/miden/activity';
+import { AssetMetadata, useAccount } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { ConsumableNote } from 'lib/miden/types';
 import { isDelegateProofEnabled } from 'lib/settings/helpers';
+import { WalletAccount } from 'lib/shared/types';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 import { HistoryAction, navigate } from 'lib/woozie';
 import { truncateAddress } from 'utils/string';
@@ -23,6 +25,7 @@ import { truncateAddress } from 'utils/string';
 export interface ReceiveProps {}
 
 export const Receive: React.FC<ReceiveProps> = () => {
+  const { t } = useTranslation();
   const account = useAccount();
   const address = account.publicKey;
   const { midenClient } = useMidenClient();
@@ -31,9 +34,95 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
   const { popup } = useAppEnv();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [attemptedNoteIds, setAttemptedNoteIds] = useState(new Set<string>());
   const safeClaimableNotes = (claimableNotes ?? []).filter((n): n is NonNullable<typeof n> => n != null);
   const [isDragging, setIsDragging] = useState(false);
+  const [claimingNoteIds, setClaimingNoteIds] = useState<Set<string>>(new Set());
+  // Track individual note claiming states reported by child components
+  const [individualClaimingIds, setIndividualClaimingIds] = useState<Set<string>>(new Set());
+  const claimAllAbortRef = useRef<AbortController | null>(null);
+
+  // Callback for child components to report their claiming state
+  const handleClaimingStateChange = useCallback((noteId: string, isClaiming: boolean) => {
+    setIndividualClaimingIds(prev => {
+      const next = new Set(prev);
+      if (isClaiming) {
+        next.add(noteId);
+      } else {
+        next.delete(noteId);
+      }
+      return next;
+    });
+  }, []);
+
+  // Notes that are not currently being claimed (available for "Claim All")
+  // A note is claimable if it's not being claimed via:
+  // - IndexedDB (isBeingClaimed) - from previous sessions or after tx queued
+  // - Claim All operation (claimingNoteIds) - current batch operation
+  // - Individual claim (individualClaimingIds) - user clicked single Claim button
+  const unclaimedNotes = safeClaimableNotes.filter(
+    n => !n.isBeingClaimed && !claimingNoteIds.has(n.id) && !individualClaimingIds.has(n.id)
+  );
+
+  useEffect(() => {
+    return () => {
+      claimAllAbortRef.current?.abort();
+    };
+  }, []);
+
+  const handleClaimAll = useCallback(async () => {
+    if (unclaimedNotes.length === 0) return;
+
+    claimAllAbortRef.current?.abort();
+    claimAllAbortRef.current = new AbortController();
+    const signal = claimAllAbortRef.current.signal;
+
+    // Mark unclaimed notes as being claimed
+    const noteIds = unclaimedNotes.map(n => n.id);
+    setClaimingNoteIds(new Set(noteIds));
+
+    try {
+      // Queue all transactions first, before opening loading page
+      // This ensures all notes get queued even if the popup closes
+      const transactionIds: { noteId: string; txId: string }[] = [];
+      for (const note of unclaimedNotes) {
+        try {
+          const id = await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
+          transactionIds.push({ noteId: note.id, txId: id });
+        } catch (err) {
+          console.error('Error queuing note for claim:', note.id, err);
+          // Remove from claiming set if failed to queue
+          setClaimingNoteIds(prev => {
+            const next = new Set(prev);
+            next.delete(note.id);
+            return next;
+          });
+        }
+      }
+
+      // Open loading page (popup stays open since tab is not active)
+      await openLoadingFullPage();
+
+      // Wait for all transactions to complete
+      for (const { txId } of transactionIds) {
+        if (signal.aborted) break;
+        try {
+          await waitForConsumeTx(txId, signal);
+        } catch (err) {
+          if (err instanceof DOMException && err.name === 'AbortError') {
+            break;
+          }
+          console.error('Error waiting for transaction:', txId, err);
+        }
+        // Note: Don't remove from claimingNoteIds here - keep spinner visible
+        // until mutateClaimableNotes() refreshes the list and removes the note
+      }
+
+      // Refresh the list - this will remove successfully claimed notes
+      await mutateClaimableNotes();
+    } finally {
+      setClaimingNoteIds(new Set());
+    }
+  }, [unclaimedNotes, account.publicKey, isDelegatedProvingEnabled, mutateClaimableNotes]);
 
   const pageTitle = (
     <>
@@ -105,24 +194,11 @@ export const Receive: React.FC<ReceiveProps> = () => {
     [handleFileChange]
   );
 
-  const consumeNote = useCallback(
-    async (note: ConsumableNote) => {
-      try {
-        await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
-        await mutateClaimableNotes();
-        openLoadingFullPage();
-        setAttemptedNoteIds(prev => new Set(prev).add(note.id));
-      } catch (error) {
-        console.error('Error consuming note:', error);
-      }
-    },
-    [account, isDelegatedProvingEnabled, mutateClaimableNotes]
-  );
-
   return (
     <PageLayout
       pageTitle={pageTitle}
       showBottomBorder={false}
+      titleContainerClassName="w-5/6 md:w-1/2 mx-auto"
       step={1}
       setStep={newStep => {
         if (newStep === 0) {
@@ -132,7 +208,6 @@ export const Receive: React.FC<ReceiveProps> = () => {
       skip={false}
     >
       <div
-        className="p-4"
         onDrop={onDropFile}
         onDragOver={e => e.preventDefault()}
         onDragEnter={onDragEnter}
@@ -140,74 +215,201 @@ export const Receive: React.FC<ReceiveProps> = () => {
         data-testid="receive-page"
       >
         <FormField ref={fieldRef} value={address} style={{ display: 'none' }} />
-        <div className="flex flex-col justify-start">
-          <div className="flex justify-center items-center gap-24 pb-6">
-            <div className="flex flex-col">
-              <p className="text-sm md:text-xs text-gray-400 pl-2 md:pl-0">Your address</p>
-              {popup ? (
-                <AddressChip address={address} trim={false} className="flex items-center text-sm" />
-              ) : (
-                <p className="text-sm">{address}</p>
-              )}
-            </div>
+        <div className="w-5/6 md:w-1/2 mx-auto pb-6 flex flex-col gap-y-2">
+          <p className="text-sm md:text-xs text-gray-400">Your address</p>
+          <div className="flex items-center justify-between">
+            {popup ? (
+              <AddressChip address={address} trim={false} className="flex items-center text-sm" />
+            ) : (
+              <p className="text-sm">{address}</p>
+            )}
             {!popup && <Icon name={IconName.Copy} onClick={copy} style={{ cursor: 'pointer' }} />}
           </div>
         </div>
         <div className="w-5/6 md:w-1/2 mx-auto" style={{ borderBottom: '1px solid #E9EBEF' }}></div>
         <div className="flex flex-col justify-center items-center gap-y-2 p-6">
-          <p className="text-xs text-gray-400">Already have a transaction file?</p>
+          <p className="text-xs text-gray-400">{t('alreadyHaveTransactionFile')}</p>
           <Button
             className={classNames('w-5/6 md:w-1/2')}
             variant={isDragging ? ButtonVariant.Primary : ButtonVariant.Secondary}
             onClick={handleButtonClick}
-            title="Upload file"
+            title={t('uploadFile')}
             style={{ cursor: 'pointer' }}
             iconLeft={true ? IconName.File : null}
           />
           <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={onUploadFile} />
         </div>
         <div className="w-5/6 md:w-1/2 mx-auto" style={{ borderBottom: '1px solid #E9EBEF' }}></div>
-        <div className="flex flex-col gap-y-4 p-6">
-          <div className="flex justify-center">
-            <div className="relative left-[-33%] md:left-[-19%]">
-              {claimableNotes !== undefined && claimableNotes.length > 0 && (
-                <p className="text-md text-gray-100">Ready to claim</p>
-              )}
-            </div>
+        <div className="w-5/6 md:w-1/2 mx-auto py-6">
+          {claimableNotes !== undefined && claimableNotes.length > 0 && (
+            <p className="text-md text-gray-600 mb-4">{t('readyToClaim')}</p>
+          )}
+          {/* Scrollable notes container */}
+          <div
+            className="flex flex-col gap-y-4 overflow-y-auto"
+            style={{ maxHeight: '160px', scrollbarGutter: 'stable' }}
+          >
+            {safeClaimableNotes.map(note => (
+              <ConsumableNoteComponent
+                key={note.id}
+                note={note}
+                mutateClaimableNotes={mutateClaimableNotes}
+                account={account}
+                isDelegatedProvingEnabled={isDelegatedProvingEnabled}
+                isClaimingFromParent={claimingNoteIds.has(note.id)}
+                onClaimingStateChange={handleClaimingStateChange}
+              />
+            ))}
           </div>
-          {safeClaimableNotes.map(note => {
-            const claimHasFailed = attemptedNoteIds.has(note.id) && !note.isBeingClaimed;
-            return (
-              <div key={note.id} className="flex justify-center items-center gap-8">
-                <div className="flex items-center gap-x-2">
-                  <Icon name={IconName.ArrowRightDownFilledCircle} size="lg" />
-                  <div className="flex flex-col">
-                    <p className="text-md font-bold">
-                      {claimHasFailed ? 'Error Claiming: ' : ''}
-                      {`${formatBigInt(BigInt(note.amount), note.metadata?.decimals || 6)} ${
-                        note.metadata?.symbol || 'UNKNOWN'
-                      }`}
-                    </p>
-                    <p className="text-xs text-gray-100">{truncateAddress(note.senderAddress)}</p>
-                  </div>
-                </div>
-                {note.isBeingClaimed ? (
-                  <div className="w-[75px] h-[36px] flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
-                  </div>
-                ) : (
-                  <Button
-                    className="w-[75px] h-[36px] text-md"
-                    variant={ButtonVariant.Primary}
-                    onClick={() => consumeNote(note)}
-                    title={claimHasFailed ? 'Retry' : 'Claim'}
-                  />
-                )}
-              </div>
-            );
-          })}
+          {unclaimedNotes.length > 0 && (
+            <div className="flex justify-center mt-4">
+              <Button
+                className="w-[120px] h-[40px] text-md"
+                variant={ButtonVariant.Primary}
+                onClick={handleClaimAll}
+                title={t('claimAll')}
+              />
+            </div>
+          )}
         </div>
       </div>
     </PageLayout>
+  );
+};
+
+interface ConsumableNoteProps {
+  account: WalletAccount;
+  note: NonNullable<ConsumableNote & { metadata: AssetMetadata }>;
+  mutateClaimableNotes: ReturnType<typeof useClaimableNotes>['mutate'];
+  isDelegatedProvingEnabled: boolean;
+  isClaimingFromParent?: boolean;
+  onClaimingStateChange?: (noteId: string, isClaiming: boolean) => void;
+}
+
+export const ConsumableNoteComponent = ({
+  note,
+  mutateClaimableNotes,
+  account,
+  isDelegatedProvingEnabled,
+  isClaimingFromParent = false,
+  onClaimingStateChange
+}: ConsumableNoteProps) => {
+  const { t } = useTranslation();
+  const [isLoading, setIsLoading] = useState(note.isBeingClaimed || false);
+  const showSpinner = isLoading || isClaimingFromParent;
+  const [error, setError] = useState<string | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
+  // Track if we've verified the claim status to prevent sync effect from re-enabling loading
+  const hasVerifiedClaimStatus = useRef(false);
+
+  // Report claiming state changes to parent
+  useEffect(() => {
+    onClaimingStateChange?.(note.id, isLoading);
+  }, [isLoading, note.id, onClaimingStateChange]);
+
+  useEffect(() => {
+    return () => {
+      abortControllerRef.current?.abort();
+    };
+  }, []);
+
+  // Sync isLoading state when note.isBeingClaimed changes (e.g., popup reopened with in-progress claim)
+  // Skip if we've already verified the claim status (e.g., found no transaction in IndexedDB)
+  useEffect(() => {
+    if (note.isBeingClaimed && !isLoading && !hasVerifiedClaimStatus.current) {
+      setIsLoading(true);
+    }
+  }, [note.isBeingClaimed, isLoading]);
+
+  // Resume waiting for in-progress transaction when component mounts with isBeingClaimed
+  useEffect(() => {
+    if (!note.isBeingClaimed || abortControllerRef.current) {
+      return;
+    }
+
+    const resumeWaiting = async () => {
+      const uncompletedTxs = await getUncompletedTransactions(account.publicKey);
+      const tx = uncompletedTxs.find(t => t.type === 'consume' && t.noteId === note.id);
+
+      if (!tx) {
+        // Transaction not found - it may have completed/failed already
+        hasVerifiedClaimStatus.current = true;
+        setIsLoading(false);
+        return;
+      }
+
+      abortControllerRef.current = new AbortController();
+      const signal = abortControllerRef.current.signal;
+
+      try {
+        const txHash = await waitForConsumeTx(tx.id, signal);
+        await mutateClaimableNotes();
+        console.log('Successfully consumed note (resumed), tx hash:', txHash);
+      } catch (err) {
+        if (err instanceof DOMException && err.name === 'AbortError') {
+          return;
+        }
+        hasVerifiedClaimStatus.current = true;
+        setError('Failed to consume note. Please try again.');
+        console.error('Error consuming note (resumed):', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    resumeWaiting();
+  }, [note.isBeingClaimed, note.id, account.publicKey, mutateClaimableNotes]);
+
+  const handleConsume = useCallback(async () => {
+    setError(null);
+    setIsLoading(true);
+
+    abortControllerRef.current?.abort();
+    abortControllerRef.current = new AbortController();
+    const signal = abortControllerRef.current.signal;
+
+    try {
+      const id = await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
+      await openLoadingFullPage();
+      const txHash = await waitForConsumeTx(id, signal);
+      await mutateClaimableNotes();
+      console.log('Successfully consumed note, tx hash:', txHash);
+    } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        return;
+      }
+      setError('Failed to consume note. Please try again.');
+      console.error('Error consuming note:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [account, isDelegatedProvingEnabled, mutateClaimableNotes, note]);
+  return (
+    <div className="flex items-center justify-between w-full">
+      <div className="flex items-center gap-x-2 flex-1 min-w-0">
+        <Icon name={IconName.ArrowRightDownFilledCircle} size="lg" />
+        <div className="flex flex-col min-w-0">
+          <p className="text-md font-bold truncate">
+            {error ? 'Error Claiming: ' : ''}
+            {`${formatBigInt(BigInt(note.amount), note.metadata?.decimals || 6)} ${note.metadata?.symbol || 'UNKNOWN'}`}
+          </p>
+          <p className="text-xs text-gray-500">{truncateAddress(note.senderAddress)}</p>
+        </div>
+      </div>
+      <div className="flex-shrink-0 ml-4">
+        {showSpinner ? (
+          <div className="w-[75px] h-[36px] flex items-center justify-center">
+            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-500"></div>
+          </div>
+        ) : (
+          <Button
+            className="w-[75px] h-[36px] text-md"
+            variant={ButtonVariant.Primary}
+            onClick={handleConsume}
+            title={error ? t('retry') : t('claim')}
+          />
+        )}
+      </div>
+    </div>
   );
 };

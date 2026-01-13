@@ -45,20 +45,20 @@ export const FeeOptionsScreen: React.FC<FeeOptionsScreenProps> = ({
     () => [
       {
         id: UIFeeType.Public,
-        title: 'Public Fee',
-        description: 'Transaction fee processed privately.',
+        title: t('publicFee'),
+        description: t('publicFeeDescription'),
         selected: selectedOption === UIFeeType.Public,
         disabled: publicBalanceForFee === 0
       },
       {
         id: UIFeeType.Private,
-        title: 'Private Fee',
-        description: 'Transaction fee is processed publicly on the blockchain.',
+        title: t('privateFee'),
+        description: t('privateFeeDescription'),
         selected: selectedOption === UIFeeType.Private,
         disabled: privateBalanceForFee === 0
       }
     ],
-    [selectedOption, privateBalanceForFee, publicBalanceForFee]
+    [selectedOption, privateBalanceForFee, publicBalanceForFee, t]
   );
 
   const onCloseClick = useCallback(
@@ -109,13 +109,13 @@ export const FeeOptionsScreen: React.FC<FeeOptionsScreenProps> = ({
 
   const alertMessage = useMemo(() => {
     if (privateBalanceForFee === 0) {
-      return 'You have no Private tokens. Convert Public tokens to Private to use them as Fee.';
+      return t('noPrivateTokensForFee');
     }
     if (publicBalanceForFee === 0) {
-      return 'You have no Public tokens. Convert Private tokens to Public to use  them as Fee.';
+      return t('noPublicTokensForFee');
     }
     return undefined;
-  }, [privateBalanceForFee, publicBalanceForFee]);
+  }, [privateBalanceForFee, publicBalanceForFee, t]);
 
   const onConvertClick = useCallback(() => {
     onAction?.({
@@ -126,7 +126,7 @@ export const FeeOptionsScreen: React.FC<FeeOptionsScreenProps> = ({
 
   return (
     <div {...props} className={classNames('flex-1 flex flex-col', className)}>
-      <NavigationHeader mode="close" title="Customize fee" onClose={onCloseClick} />
+      <NavigationHeader mode="close" title={t('customizeFee')} onClose={onCloseClick} />
       <div className="flex-1 flex flex-col p-4 md:w-[460px] md:mx-auto">
         {alertMessage ? (
           <Alert
@@ -137,7 +137,7 @@ export const FeeOptionsScreen: React.FC<FeeOptionsScreenProps> = ({
                 {alertMessage}
                 <br />
                 <button type="button" onClick={onConvertClick} className="text-blue-500">
-                  Convert now.
+                  {t('convertNow')}
                 </button>
               </>
             }
@@ -183,7 +183,7 @@ export const FeeOptionsScreen: React.FC<FeeOptionsScreenProps> = ({
           ))}
         </ul>
         <div className="flex flex-col gap-y-2 mt-8">
-          <h3 className="font-medium text-sm ">Fee</h3>
+          <h3 className="font-medium text-sm ">{t('fee')}</h3>
           <CurrencyInput
             value={fee}
             placeholder={(0).toFixed(2)}
@@ -193,10 +193,14 @@ export const FeeOptionsScreen: React.FC<FeeOptionsScreenProps> = ({
             disableGroupSeparators
             decimalSeparator="."
             icon={
-              <p className="text-base text-grey-400">{feeType === UIFeeType.Private ? 'Private' : 'Public'} ALEO</p>
+              <p className="text-base text-grey-400">
+                {feeType === UIFeeType.Private ? t('private') : t('public')} ALEO
+              </p>
             }
           />
-          <p className="text-xs text-grey-600">Recommended fee: {recommendedFee} ALEO</p>
+          <p className="text-xs text-grey-600">
+            {t('recommendedFee')}: {recommendedFee} ALEO
+          </p>
           {error && (
             <span className="flex flex-row items-center gap-x-2">
               <Icon name={IconName.InformationFill} fill={colors.red[500]} size={'xs'} />

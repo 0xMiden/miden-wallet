@@ -21,8 +21,16 @@ jest.mock('./saving', () => ({
 }));
 
 describe('i18n/loading', () => {
+  let consoleErrorSpy: jest.SpyInstance;
+
   beforeEach(() => {
     jest.clearAllMocks();
+    // Suppress jsdom console.error for window.location.reload() not implemented
+    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleErrorSpy.mockRestore();
   });
 
   describe('REFRESH_MSGTYPE', () => {

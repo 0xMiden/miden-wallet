@@ -3884,8 +3884,8 @@
     "englishSource": "Converting"
   },
   "customizeFee": {
-    "message": "Ücreti Özelleştir",
-    "englishSource": "Customize Fee"
+    "message": "Ücreti özelleştir",
+    "englishSource": "Customize fee"
   },
   "convertingPublic": {
     "message": "Herkese Açık NFT'ye Dönüştür",
@@ -4057,8 +4057,8 @@
     "englishSource": "Claiming"
   },
   "availableToClaim": {
-    "message": "Talep Edilebilir",
-    "englishSource": "Available to Claim"
+    "message": "Talep edilebilir",
+    "englishSource": "Available to claim"
   },
   "unstakingInProgress": {
     "message": "Stake Kaldırma İşlemi Devam Ediyor",
@@ -4166,7 +4166,8 @@
   },
   "onlyAleoSeedPhrasesAreSupported": {
     "message": "Yalnızca Aleo Seed cümleleri desteklenir.",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Only Aleo Seed phrases are supported."
   },
   "seedPhrasePlaceholder": {
     "message": "12 kelime Seed cümlesi",
@@ -4360,13 +4361,16 @@
     "englishSource": "Learn more"
   },
   "faucetId": {
-    "message": "Musluk Kimliği"
+    "message": "Musluk Kimliği",
+    "englishSource": "Faucet ID"
   },
   "setNewFaucetId": {
-    "message": "Yeni Musluk Kimliğini ayarlayın"
+    "message": "Yeni Musluk Kimliğini ayarlayın",
+    "englishSource": "Set new Faucet ID"
   },
   "setNewFaucetIdDescription": {
-    "message": "Orta musluğun kimliğini girin"
+    "message": "Orta musluğun kimliğini girin",
+    "englishSource": "Enter the ID of a miden faucet"
   },
   "encryptedWalletFile": {
     "message": "Şifreli Cüzdan Dosyası",
@@ -4381,10 +4385,12 @@
     "englishSource": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet."
   },
   "encryptedWalletFilePassword": {
-    "message": "M-cüzdan dosyanızı şifrelemek için bir şifre girin. Cüzdanınızı daha sonra geri yüklemek için bu şifreye ihtiyacınız olacak."
+    "message": "M-cüzdan dosyanızı şifrelemek için bir şifre girin. Cüzdanınızı daha sonra geri yüklemek için bu şifreye ihtiyacınız olacak.",
+    "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
   },
   "editMidenFaucetId": {
-    "message": "Miden Musluk Kimliğini Düzenle"
+    "message": "Miden Musluk Kimliğini Düzenle",
+    "englishSource": "Edit Miden Faucet ID"
   },
   "exportWalletFile": {
     "message": "Cüzdan Dosyasını Dışa Aktar",
@@ -4610,5 +4616,337 @@
   "doNotShareEncryptedWalletFileDescription": {
     "message": "Dosya ve şifre ile herkes cüzdanınıza erişebilir.",
     "englishSource": "With the file and password, anyone can access your wallet."
+  },
+  "transactionWillProceedInBackground": {
+    "message": "İşlem arka planda devam edecek",
+    "englishSource": "Transaction will proceed in the background"
+  },
+  "publicFee": {
+    "message": "Kamu Ücreti",
+    "englishSource": "Public Fee"
+  },
+  "privateFee": {
+    "message": "Özel Ücret",
+    "englishSource": "Private Fee"
+  },
+  "publicFeeDescription": {
+    "message": "İşlem ücreti özel olarak işlenir.",
+    "englishSource": "Transaction fee processed privately."
+  },
+  "privateFeeDescription": {
+    "message": "İşlem ücreti blockchain üzerinde halka açık olarak işlenir.",
+    "englishSource": "Transaction fee is processed publicly on the blockchain."
+  },
+  "noPrivateTokensForFee": {
+    "message": "Özel jetonunuz yok. Ücret olarak kullanmak için Genel jetonları Özel'e dönüştürün.",
+    "englishSource": "You have no Private tokens. Convert Public tokens to Private to use them as Fee."
+  },
+  "noPublicTokensForFee": {
+    "message": "Herkese açık jetonunuz yok. Ücret olarak kullanmak için Özel jetonları Genele dönüştürün.",
+    "englishSource": "You have no Public tokens. Convert Private tokens to Public to use them as Fee."
+  },
+  "convertNow": {
+    "message": "Şimdi dönüştürün.",
+    "englishSource": "Convert now."
+  },
+  "recommendedFee": {
+    "message": "Önerilen ücret",
+    "englishSource": "Recommended fee"
+  },
+  "feeType": {
+    "message": "Ücret türü",
+    "englishSource": "Fee type"
+  },
+  "delegateThisTransaction": {
+    "message": "Bu işlemi devret",
+    "englishSource": "Delegate this transaction"
+  },
+  "delegateTransactionTooltip": {
+    "message": "Kanıt oluşturma yetkisini uzak bir sunucuya yapılandırın. Bu, kanıt oluşturmayı hızlandıracak ancak işlem ayrıntılarını güvenilir bir sunucuya açıklayacaktır.",
+    "englishSource": "Configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
+  },
+  "conversionInitiated": {
+    "message": "Dönüşüm Başlatıldı",
+    "englishSource": "Conversion Initiated"
+  },
+  "transactionCompleted": {
+    "message": "İşlem Tamamlandı",
+    "englishSource": "Transaction Completed"
+  },
+  "transactionFailed": {
+    "message": "İşlem Başarısız",
+    "englishSource": "Transaction Failed"
+  },
+  "doNotCloseWindowNavigateHome": {
+    "message": "Bu pencereyi kapatmayın. İşlem oluşturulduktan sonra ana sayfaya geri yönlendirileceksiniz",
+    "englishSource": "Do not close this window. You will be navigated back to the home page after the transaction is generated"
+  },
+  "doNotCloseWindowAutoClose": {
+    "message": "Bu pencereyi kapatmayın. İşlem oluşturulduktan sonra pencere otomatik olarak kapanacak",
+    "englishSource": "Do not close this window. Window will auto-close after the transaction is generated"
+  },
+  "transactionSuccessDescription": {
+    "message": "İşleminiz başarıyla işlendi ve ağda onaylandı.",
+    "englishSource": "Your transaction was successfully processed and confirmed on the network."
+  },
+  "transactionErrorDescription": {
+    "message": "İşleminiz gerçekleştirilirken bir hata oluştu. Lütfen tekrar deneyin.",
+    "englishSource": "There was an error processing your transaction. Please try again."
+  },
+  "downloadGeneratedFiles": {
+    "message": "Oluşturulan Dosyaları İndir",
+    "englishSource": "Download Generated Files"
+  },
+  "onChainAccountPublic": {
+    "message": "Zincir İçi Hesap (Herkese Açık)",
+    "englishSource": "On-chain Account (Public)"
+  },
+  "onChainAccountDescription": {
+    "message": "Mevcut 12 kelimelik bir kurtarma ifadesini kullanın. Ayrıca diğer cüzdan sağlayıcılarından da cüzdanları içe aktarabilirsiniz.",
+    "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
+  },
+  "offChainAccountPrivate": {
+    "message": "Zincir Dışı Hesap (Özel)",
+    "englishSource": "Off-chain Account (Private)"
+  },
+  "offChainAccountDescription": {
+    "message": "Doğrudan blockchain etkileşimini atlayarak minimum ücretle hızlı, özel işlemler.",
+    "englishSource": "Fast, private operations with minimal fees, bypassing direct blockchain interaction."
+  },
+  "chooseYourAccountType": {
+    "message": "Hesap Türünüzü Seçin",
+    "englishSource": "Choose Your Account Type"
+  },
+  "chooseAccountTypeDescription": {
+    "message": "Blockchain ile nasıl etkileşim kurmak istediğinizi seçin (zincir içi veya zincir dışı).",
+    "englishSource": "Select how you want to interact with the blockchain -- on-chain or off-chain."
+  },
+  "canAddMultipleAccountsLater": {
+    "message": "Daha sonra cüzdanın içine birden fazla hesap türü ekleyebilir ve yönetebilirsiniz.",
+    "englishSource": "You can add and manage multiple account types later within the wallet."
+  },
+  "transactionFile": {
+    "message": "İşlem dosyası",
+    "englishSource": "Transaction file"
+  },
+  "verificationFailed": {
+    "message": "Doğrulama Başarısız",
+    "englishSource": "Verification Failed"
+  },
+  "transactionVerifiedSuccessfully": {
+    "message": "İşlem başarıyla doğrulandı. Artık jetonlarınızı talep edebilirsiniz.",
+    "englishSource": "The transaction has been successfully verified. You can now claim your tokens."
+  },
+  "transactionFileCouldNotBeVerified": {
+    "message": "Yüklenen işlem dosyası doğrulanamadı. Dosyanın geçerli olduğundan emin olun ve tekrar deneyin.",
+    "englishSource": "The uploaded transaction file could not be verified. Ensure the file is valid and try again."
+  },
+  "home": {
+    "message": "Ev",
+    "englishSource": "Home"
+  },
+  "timestamp": {
+    "message": "Zaman damgası",
+    "englishSource": "Timestamp"
+  },
+  "noteType": {
+    "message": "Not Türü",
+    "englishSource": "Note Type"
+  },
+  "noteId": {
+    "message": "Not Kimliği",
+    "englishSource": "Note ID"
+  },
+  "downloadGeneratedFile": {
+    "message": "Oluşturulan Dosyayı İndir",
+    "englishSource": "Download Generated File"
+  },
+  "viewOnExplorer": {
+    "message": "Explorer'da görüntüle",
+    "englishSource": "View on Explorer"
+  },
+  "inProgress": {
+    "message": "Devam etmekte",
+    "englishSource": "In Progress"
+  },
+  "you": {
+    "message": "Sen",
+    "englishSource": "You"
+  },
+  "invalidPayload": {
+    "message": "(geçersiz yük)",
+    "englishSource": "(invalid payload)"
+  },
+  "signTheFollowingWord": {
+    "message": "Aşağıdaki Kelimeyi İmzalayın $word$ ?",
+    "englishSource": "Sign the following Word $word$?"
+  },
+  "sharePrivateNoteDataForAccount": {
+    "message": "Hesap için tüm özel not verilerini paylaş",
+    "englishSource": "Share all private note data for account"
+  },
+  "downloadPrivateNoteData": {
+    "message": "Özel Not Verilerini İndirin",
+    "englishSource": "Download Private Note Data"
+  },
+  "transactionAffectsAccountStorage": {
+    "message": "Bu işlem hesabınızın depolama alanını etkiler. Doğrulamak için ham özeti inceleyin",
+    "englishSource": "This transaction affects your account storage. Review the raw summary to verify"
+  },
+  "failedToParseSigningPayload": {
+    "message": "İmza yükü ayrıştırılamadı",
+    "englishSource": "Failed to parse signing payload"
+  },
+  "assetChanges": {
+    "message": "Varlık değişiklikleri",
+    "englishSource": "Asset changes"
+  },
+  "unknown": {
+    "message": "Bilinmiyor",
+    "englishSource": "Unknown"
+  },
+  "inputNotesConsumed": {
+    "message": "Tüketilen giriş notları",
+    "englishSource": "Input notes consumed"
+  },
+  "outputNotesCreated": {
+    "message": "Çıktı notları oluşturuldu",
+    "englishSource": "Output notes created"
+  },
+  "storageChanged": {
+    "message": "Depolama değiştirildi",
+    "englishSource": "Storage changed"
+  },
+  "downloadFullSummary": {
+    "message": "Tam özeti indir (bayt)",
+    "englishSource": "Download full summary (bytes)"
+  },
+  "signArbitraryPayload": {
+    "message": "Keyfi yükü imzala?",
+    "englishSource": "Sign the Arbitrary payload?"
+  },
+  "signBlindCommitment": {
+    "message": "Kör taahhüdünü imzala?",
+    "englishSource": "Sign the Blind commitment?"
+  },
+  "connectToWebsite": {
+    "message": "Web sitesine bağlanın",
+    "englishSource": "Connect to website"
+  },
+  "deny": {
+    "message": "Reddetmek",
+    "englishSource": "Deny"
+  },
+  "requestsATransaction": {
+    "message": "Bir işlem talep ediyor",
+    "englishSource": "Requests a transaction"
+  },
+  "requestsToConsumeNote": {
+    "message": "Not tüketme istekleri",
+    "englishSource": "Requests to consume a note"
+  },
+  "requestPrivateNotes": {
+    "message": "Özel Notlar İste",
+    "englishSource": "Request Private Notes"
+  },
+  "requestsPrivateNotes": {
+    "message": "Özel notlar ister",
+    "englishSource": "Requests private notes"
+  },
+  "confirmSignature": {
+    "message": "İmzayı Onayla",
+    "englishSource": "Confirm Signature"
+  },
+  "requestsYourSignature": {
+    "message": "İmzanızı istiyor",
+    "englishSource": "Requests your signature"
+  },
+  "requestAssets": {
+    "message": "Varlık Talep Et",
+    "englishSource": "Request Assets"
+  },
+  "requestsAssets": {
+    "message": "Varlık istekleri",
+    "englishSource": "Requests assets"
+  },
+  "requestImportPrivateNote": {
+    "message": "Özel Notu İçe Aktarma İste",
+    "englishSource": "Request Import Private Note"
+  },
+  "importPrivateNote": {
+    "message": "Özel notu içe aktar",
+    "englishSource": "Import private note"
+  },
+  "requestConsumableNotes": {
+    "message": "Sarf Malzemesi Notlarını Talep Edin",
+    "englishSource": "Request Consumable Notes"
+  },
+  "requestsConsumableNotes": {
+    "message": "Sarf malzemesi notları isteyin",
+    "englishSource": "Request consumable notes"
+  },
+  "review": {
+    "message": "Gözden geçirmek",
+    "englishSource": "Review"
+  },
+  "close": {
+    "message": "Kapalı",
+    "englishSource": "Close"
+  },
+  "chooseToken": {
+    "message": "Jeton seç",
+    "englishSource": "Choose token"
+  },
+  "recallBlocks": {
+    "message": "Blokları geri çağırma",
+    "englishSource": "Recall blocks"
+  },
+  "delegateTransaction": {
+    "message": "Delege işlemi",
+    "englishSource": "Delegate transaction"
+  },
+  "shareTransactionPrivately": {
+    "message": "İşlemi özel olarak paylaş",
+    "englishSource": "Share transaction privately"
+  },
+  "alreadyHaveTransactionFile": {
+    "message": "Zaten bir işlem dosyanız var mı?",
+    "englishSource": "Already have a transaction file?"
+  },
+  "claimAll": {
+    "message": "Tümünü Talep Et",
+    "englishSource": "Claim All"
+  },
+  "readyToClaim": {
+    "message": "Hak talebinde bulunmaya hazır",
+    "englishSource": "Ready to claim"
+  },
+  "addTokens": {
+    "message": "Jeton ekle",
+    "englishSource": "Add tokens"
+  },
+  "getTokens": {
+    "message": "Jeton alın",
+    "englishSource": "Get tokens"
+  },
+  "getTokensDescription": {
+    "message": "Tokenları musluktan alabilir veya başka bir cüzdan veya hesaptan aktarabilirsiniz.",
+    "englishSource": "You can get tokens from the faucet or transfer them from another wallet or account."
+  },
+  "transferTokens": {
+    "message": "Tokenları aktar",
+    "englishSource": "Transfer tokens"
+  },
+  "midenFaucet": {
+    "message": "Miden Musluk",
+    "englishSource": "Miden Faucet"
+  },
+  "midenFaucetDescription": {
+    "message": "Aşağıdaki butona tıkladığınızda adresiniz panoya kopyalanacak ve sizi Miden Musluğuna yönlendirecektir.",
+    "englishSource": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet."
+  },
+  "accountPublicKey": {
+    "message": "Hesap Genel Anahtarı",
+    "englishSource": "Account Public Key"
   }
 }

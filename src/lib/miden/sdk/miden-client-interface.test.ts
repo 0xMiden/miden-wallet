@@ -70,7 +70,8 @@ describe('MidenClientInterface', () => {
       getTransactions: jest.fn(() => [
         { accountId: () => 'id', serialize: () => new Uint8Array([9]) },
         { accountId: () => 'other', serialize: () => new Uint8Array([9]) }
-      ])
+      ]),
+      terminate: jest.fn()
     };
 
     const createClientWithExternalKeystore = jest.fn(async () => fakeWebClient);
@@ -127,7 +128,7 @@ describe('MidenClientInterface', () => {
     );
 
     client.free();
-    expect(client.webClient.free).toBeDefined();
+    expect(client.webClient.terminate).toBeDefined();
     // smoke a few methods to raise coverage
     await client.createMidenWallet('on-chain' as any, new Uint8Array([4]));
     await client.importPublicMidenWalletFromSeed(new Uint8Array([5]));

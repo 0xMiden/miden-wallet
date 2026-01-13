@@ -42,8 +42,8 @@ const Faucet: FC = () => {
         <div className="flex-1 flex flex-col justify-center bg-white p-4 md:w-[460px] md:mx-auto">
           <Message
             className="flex-1"
-            title="Miden Faucet"
-            description="Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet."
+            title={t('midenFaucet')}
+            description={t('midenFaucetDescription')}
             icon={IconName.Tokens}
             iconSize="3xl"
             iconClassName="mb-8"

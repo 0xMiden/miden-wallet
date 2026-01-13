@@ -3870,7 +3870,7 @@
   },
   "customizeFee": {
     "message": "수수료 맞춤화",
-    "englishSource": "Customize Fee"
+    "englishSource": "Customize fee"
   },
   "convertingPublic": {
     "message": "퍼블릭 NFT로 전환",
@@ -4043,7 +4043,7 @@
   },
   "availableToClaim": {
     "message": "청구 가능",
-    "englishSource": "Available to Claim"
+    "englishSource": "Available to claim"
   },
   "unstakingInProgress": {
     "message": "언스테이킹 진행 중",
@@ -4151,7 +4151,8 @@
   },
   "onlyAleoSeedPhrasesAreSupported": {
     "message": "Aleo 시드 구문만 지원됩니다.",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Only Aleo Seed phrases are supported."
   },
   "seedPhrasePlaceholder": {
     "message": "12단어 시드 구문",
@@ -4345,13 +4346,16 @@
     "englishSource": "Learn more"
   },
   "faucetId": {
-    "message": "수도꼭지 ID"
+    "message": "수도꼭지 ID",
+    "englishSource": "Faucet ID"
   },
   "setNewFaucetId": {
-    "message": "새로운 수도꼭지 ID 설정"
+    "message": "새로운 수도꼭지 ID 설정",
+    "englishSource": "Set new Faucet ID"
   },
   "setNewFaucetIdDescription": {
-    "message": "미덴 수도꼭지의 ID를 입력하세요"
+    "message": "미덴 수도꼭지의 ID를 입력하세요",
+    "englishSource": "Enter the ID of a miden faucet"
   },
   "encryptedWalletFile": {
     "message": "암호화된 지갑 파일",
@@ -4366,10 +4370,12 @@
     "englishSource": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet."
   },
   "encryptedWalletFilePassword": {
-    "message": "지갑 파일을 암호화하려면 비밀번호를 입력하세요. 나중에 지갑을 복원하려면 이 비밀번호가 필요합니다."
+    "message": "지갑 파일을 암호화하려면 비밀번호를 입력하세요. 나중에 지갑을 복원하려면 이 비밀번호가 필요합니다.",
+    "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
   },
   "editMidenFaucetId": {
-    "message": "Miden 수도꼭지 ID 편집"
+    "message": "Miden 수도꼭지 ID 편집",
+    "englishSource": "Edit Miden Faucet ID"
   },
   "exportWalletFile": {
     "message": "지갑 파일 내보내기",
@@ -4561,7 +4567,7 @@
     "englishSource": "This site is requesting access to your private account."
   },
   "publicAccountAccessRequest": {
-    "message": "이 사이트에서 귀하의 공개 계정에 대한 액세스를 요청하고 있습니다.",
+    "message": "이 사이트는 귀하의 공개 계정에 대한 액세스를 요청하고 있습니다.",
     "englishSource": "This site is requesting access to your public account."
   },
   "balanceAccess": {
@@ -4585,7 +4591,7 @@
     "englishSource": "Private Data Access: Upon Request"
   },
   "accessWillBeGranted": {
-    "message": "다음 데이터에 대한 액세스 권한이 부여됩니다.",
+    "message": "다음 데이터에 대한 액세스 권한이 부여됩니다",
     "englishSource": "Access to the following data will be granted"
   },
   "confirmationRequired": {
@@ -4595,5 +4601,337 @@
   "doNotShareEncryptedWalletFileDescription": {
     "message": "파일과 비밀번호만 있으면 누구든지 지갑에 접근할 수 있습니다.",
     "englishSource": "With the file and password, anyone can access your wallet."
+  },
+  "transactionWillProceedInBackground": {
+    "message": "거래는 백그라운드에서 진행됩니다",
+    "englishSource": "Transaction will proceed in the background"
+  },
+  "publicFee": {
+    "message": "공공 수수료",
+    "englishSource": "Public Fee"
+  },
+  "privateFee": {
+    "message": "개인 수수료",
+    "englishSource": "Private Fee"
+  },
+  "publicFeeDescription": {
+    "message": "거래 수수료는 비공개로 처리됩니다.",
+    "englishSource": "Transaction fee processed privately."
+  },
+  "privateFeeDescription": {
+    "message": "거래 수수료는 블록체인에서 공개적으로 처리됩니다.",
+    "englishSource": "Transaction fee is processed publicly on the blockchain."
+  },
+  "noPrivateTokensForFee": {
+    "message": "비공개 토큰이 없습니다. 퍼블릭 토큰을 프라이빗으로 전환하여 수수료로 사용하세요.",
+    "englishSource": "You have no Private tokens. Convert Public tokens to Private to use them as Fee."
+  },
+  "noPublicTokensForFee": {
+    "message": "공개 토큰이 없습니다. Private 토큰을 Public으로 전환하여 수수료로 사용하세요.",
+    "englishSource": "You have no Public tokens. Convert Private tokens to Public to use them as Fee."
+  },
+  "convertNow": {
+    "message": "지금 변환하세요.",
+    "englishSource": "Convert now."
+  },
+  "recommendedFee": {
+    "message": "권장요금",
+    "englishSource": "Recommended fee"
+  },
+  "feeType": {
+    "message": "수수료 유형",
+    "englishSource": "Fee type"
+  },
+  "delegateThisTransaction": {
+    "message": "이 거래를 위임하세요",
+    "englishSource": "Delegate this transaction"
+  },
+  "delegateTransactionTooltip": {
+    "message": "원격 서버에 대한 증명 생성 위임을 구성합니다. 이렇게 하면 증명 생성 속도가 빨라지지만 거래 세부 정보는 신뢰할 수 있는 서버에 공개됩니다.",
+    "englishSource": "Configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
+  },
+  "conversionInitiated": {
+    "message": "변환이 시작되었습니다.",
+    "englishSource": "Conversion Initiated"
+  },
+  "transactionCompleted": {
+    "message": "거래 완료",
+    "englishSource": "Transaction Completed"
+  },
+  "transactionFailed": {
+    "message": "거래 실패",
+    "englishSource": "Transaction Failed"
+  },
+  "doNotCloseWindowNavigateHome": {
+    "message": "이 창을 닫지 마세요. 거래가 생성된 후 홈 페이지로 다시 이동됩니다.",
+    "englishSource": "Do not close this window. You will be navigated back to the home page after the transaction is generated"
+  },
+  "doNotCloseWindowAutoClose": {
+    "message": "이 창을 닫지 마세요. 거래가 생성된 후 창은 자동으로 닫힙니다.",
+    "englishSource": "Do not close this window. Window will auto-close after the transaction is generated"
+  },
+  "transactionSuccessDescription": {
+    "message": "귀하의 거래가 성공적으로 처리되었으며 네트워크에서 확인되었습니다.",
+    "englishSource": "Your transaction was successfully processed and confirmed on the network."
+  },
+  "transactionErrorDescription": {
+    "message": "거래를 처리하는 중에 오류가 발생했습니다. 다시 시도해 주세요.",
+    "englishSource": "There was an error processing your transaction. Please try again."
+  },
+  "downloadGeneratedFiles": {
+    "message": "생성된 파일 다운로드",
+    "englishSource": "Download Generated Files"
+  },
+  "onChainAccountPublic": {
+    "message": "온체인 계정(공개)",
+    "englishSource": "On-chain Account (Public)"
+  },
+  "onChainAccountDescription": {
+    "message": "기존 12단어 복구 문구를 사용하세요. 다른 지갑 제공업체로부터 지갑을 가져올 수도 있습니다.",
+    "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
+  },
+  "offChainAccountPrivate": {
+    "message": "오프체인 계정(비공개)",
+    "englishSource": "Off-chain Account (Private)"
+  },
+  "offChainAccountDescription": {
+    "message": "직접적인 블록체인 상호 작용을 우회하여 최소한의 비용으로 빠르고 비공개적으로 운영됩니다.",
+    "englishSource": "Fast, private operations with minimal fees, bypassing direct blockchain interaction."
+  },
+  "chooseYourAccountType": {
+    "message": "계정 유형을 선택하세요",
+    "englishSource": "Choose Your Account Type"
+  },
+  "chooseAccountTypeDescription": {
+    "message": "온체인 또는 오프체인 중 블록체인과 상호작용할 방식을 선택하세요.",
+    "englishSource": "Select how you want to interact with the blockchain -- on-chain or off-chain."
+  },
+  "canAddMultipleAccountsLater": {
+    "message": "나중에 지갑 내에서 여러 계정 유형을 추가하고 관리할 수 있습니다.",
+    "englishSource": "You can add and manage multiple account types later within the wallet."
+  },
+  "transactionFile": {
+    "message": "거래 파일",
+    "englishSource": "Transaction file"
+  },
+  "verificationFailed": {
+    "message": "확인 실패",
+    "englishSource": "Verification Failed"
+  },
+  "transactionVerifiedSuccessfully": {
+    "message": "거래가 성공적으로 확인되었습니다. 이제 토큰을 청구할 수 있습니다.",
+    "englishSource": "The transaction has been successfully verified. You can now claim your tokens."
+  },
+  "transactionFileCouldNotBeVerified": {
+    "message": "업로드된 거래 파일을 확인할 수 없습니다. 파일이 유효한지 확인하고 다시 시도하십시오.",
+    "englishSource": "The uploaded transaction file could not be verified. Ensure the file is valid and try again."
+  },
+  "home": {
+    "message": "집",
+    "englishSource": "Home"
+  },
+  "timestamp": {
+    "message": "타임스탬프",
+    "englishSource": "Timestamp"
+  },
+  "noteType": {
+    "message": "노트 유형",
+    "englishSource": "Note Type"
+  },
+  "noteId": {
+    "message": "노트 ID",
+    "englishSource": "Note ID"
+  },
+  "downloadGeneratedFile": {
+    "message": "생성된 파일 다운로드",
+    "englishSource": "Download Generated File"
+  },
+  "viewOnExplorer": {
+    "message": "탐색기에서 보기",
+    "englishSource": "View on Explorer"
+  },
+  "inProgress": {
+    "message": "진행 중",
+    "englishSource": "In Progress"
+  },
+  "you": {
+    "message": "너",
+    "englishSource": "You"
+  },
+  "invalidPayload": {
+    "message": "(잘못된 페이로드)",
+    "englishSource": "(invalid payload)"
+  },
+  "signTheFollowingWord": {
+    "message": "다음 단어에 서명하세요 $word$ ?",
+    "englishSource": "Sign the following Word $word$?"
+  },
+  "sharePrivateNoteDataForAccount": {
+    "message": "계정의 모든 비공개 메모 데이터 공유",
+    "englishSource": "Share all private note data for account"
+  },
+  "downloadPrivateNoteData": {
+    "message": "개인 메모 데이터 다운로드",
+    "englishSource": "Download Private Note Data"
+  },
+  "transactionAffectsAccountStorage": {
+    "message": "이 거래는 귀하의 계정 저장 공간에 영향을 미칩니다. 원시 요약을 검토하여 확인하세요.",
+    "englishSource": "This transaction affects your account storage. Review the raw summary to verify"
+  },
+  "failedToParseSigningPayload": {
+    "message": "서명 페이로드를 구문 분석하지 못했습니다.",
+    "englishSource": "Failed to parse signing payload"
+  },
+  "assetChanges": {
+    "message": "자산 변경",
+    "englishSource": "Asset changes"
+  },
+  "unknown": {
+    "message": "알려지지 않은",
+    "englishSource": "Unknown"
+  },
+  "inputNotesConsumed": {
+    "message": "소비된 입력 노트",
+    "englishSource": "Input notes consumed"
+  },
+  "outputNotesCreated": {
+    "message": "생성된 출력 노트",
+    "englishSource": "Output notes created"
+  },
+  "storageChanged": {
+    "message": "저장용량이 변경됨",
+    "englishSource": "Storage changed"
+  },
+  "downloadFullSummary": {
+    "message": "전체 요약 다운로드(바이트)",
+    "englishSource": "Download full summary (bytes)"
+  },
+  "signArbitraryPayload": {
+    "message": "임의 페이로드에 서명하시겠습니까?",
+    "englishSource": "Sign the Arbitrary payload?"
+  },
+  "signBlindCommitment": {
+    "message": "블라인드 약속에 서명하시겠습니까?",
+    "englishSource": "Sign the Blind commitment?"
+  },
+  "connectToWebsite": {
+    "message": "웹사이트에 연결",
+    "englishSource": "Connect to website"
+  },
+  "deny": {
+    "message": "부인하다",
+    "englishSource": "Deny"
+  },
+  "requestsATransaction": {
+    "message": "거래를 요청합니다",
+    "englishSource": "Requests a transaction"
+  },
+  "requestsToConsumeNote": {
+    "message": "메모 사용 요청",
+    "englishSource": "Requests to consume a note"
+  },
+  "requestPrivateNotes": {
+    "message": "비공개 메모 요청",
+    "englishSource": "Request Private Notes"
+  },
+  "requestsPrivateNotes": {
+    "message": "비공개 메모 요청",
+    "englishSource": "Requests private notes"
+  },
+  "confirmSignature": {
+    "message": "서명 확인",
+    "englishSource": "Confirm Signature"
+  },
+  "requestsYourSignature": {
+    "message": "서명을 요청합니다",
+    "englishSource": "Requests your signature"
+  },
+  "requestAssets": {
+    "message": "자산 요청",
+    "englishSource": "Request Assets"
+  },
+  "requestsAssets": {
+    "message": "자산 요청",
+    "englishSource": "Requests assets"
+  },
+  "requestImportPrivateNote": {
+    "message": "개인 메모 가져오기 요청",
+    "englishSource": "Request Import Private Note"
+  },
+  "importPrivateNote": {
+    "message": "비공개 메모 가져오기",
+    "englishSource": "Import private note"
+  },
+  "requestConsumableNotes": {
+    "message": "소모품 메모 요청",
+    "englishSource": "Request Consumable Notes"
+  },
+  "requestsConsumableNotes": {
+    "message": "소모품 메모 요청",
+    "englishSource": "Request consumable notes"
+  },
+  "review": {
+    "message": "검토",
+    "englishSource": "Review"
+  },
+  "close": {
+    "message": "닫다",
+    "englishSource": "Close"
+  },
+  "chooseToken": {
+    "message": "토큰 선택",
+    "englishSource": "Choose token"
+  },
+  "recallBlocks": {
+    "message": "리콜 블록",
+    "englishSource": "Recall blocks"
+  },
+  "delegateTransaction": {
+    "message": "거래 위임",
+    "englishSource": "Delegate transaction"
+  },
+  "shareTransactionPrivately": {
+    "message": "비공개로 거래 공유",
+    "englishSource": "Share transaction privately"
+  },
+  "alreadyHaveTransactionFile": {
+    "message": "이미 거래 파일이 있나요?",
+    "englishSource": "Already have a transaction file?"
+  },
+  "claimAll": {
+    "message": "모두 청구",
+    "englishSource": "Claim All"
+  },
+  "readyToClaim": {
+    "message": "청구 준비 완료",
+    "englishSource": "Ready to claim"
+  },
+  "addTokens": {
+    "message": "토큰 추가",
+    "englishSource": "Add tokens"
+  },
+  "getTokens": {
+    "message": "토큰 받기",
+    "englishSource": "Get tokens"
+  },
+  "getTokensDescription": {
+    "message": "Faucet에서 토큰을 얻거나 다른 지갑이나 계정에서 전송할 수 있습니다.",
+    "englishSource": "You can get tokens from the faucet or transfer them from another wallet or account."
+  },
+  "transferTokens": {
+    "message": "토큰 전송",
+    "englishSource": "Transfer tokens"
+  },
+  "midenFaucet": {
+    "message": "미덴 수도꼭지",
+    "englishSource": "Miden Faucet"
+  },
+  "midenFaucetDescription": {
+    "message": "아래 버튼을 클릭하면 주소가 클립보드에 복사되고 Miden 수도꼭지로 이동됩니다.",
+    "englishSource": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet."
+  },
+  "accountPublicKey": {
+    "message": "계정 공개 키",
+    "englishSource": "Account Public Key"
   }
 }

@@ -167,21 +167,21 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
 
   const headerText = useCallback(() => {
     if (transactionComplete && !error) {
-      return 'Transaction Completed';
+      return t('transactionCompleted');
     }
     if (error) {
-      return 'Transaction Failed';
+      return t('transactionFailed');
     }
-    return 'Generating Transaction';
-  }, [transactionComplete, error]);
+    return t('generatingTransaction');
+  }, [transactionComplete, error, t]);
 
   const alertText = useCallback(() => {
     if (keepOpen) {
-      return 'Do not close this window. You will be navigated back to the home page after the transaction is generated';
+      return t('doNotCloseWindowNavigateHome');
     }
 
-    return 'Do not close this window. Window will auto-close after the transaction is generated';
-  }, [keepOpen]);
+    return t('doNotCloseWindowAutoClose');
+  }, [keepOpen, t]);
 
   return (
     <>
@@ -192,17 +192,15 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
           <div className="flex flex-col items-center">
             <h1 className="font-semibold text-2xl lh-title">{headerText()}</h1>
             <p className="text-base text-center lh-title">
-              {!error &&
-                transactionComplete &&
-                'Your transaction was successfully processed and confirmed on the network.'}
-              {error && 'There was an error processing your transaction. Please try again.'}
+              {!error && transactionComplete && t('transactionSuccessDescription')}
+              {error && t('transactionErrorDescription')}
             </p>
           </div>
         </div>
         <div className="mt-8 flex flex-col gap-y-4">
           {outputNotes.length > 0 && transactionComplete && !error && (
             <Button
-              title="Download Generated Files"
+              title={t('downloadGeneratedFiles')}
               iconLeft={IconName.Download}
               variant={ButtonVariant.Primary}
               className="flex-1"

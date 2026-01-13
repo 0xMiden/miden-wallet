@@ -149,7 +149,7 @@ export const TransactionOptionsScreen: React.FC<TransactionOptionsScreenProps> =
 
   return (
     <div {...props} className={classNames('flex-1 flex flex-col relative', className)}>
-      <NavigationHeader title={`Convert ${tokenSlug.toUpperCase()}`} onClose={onBackClick} />
+      <NavigationHeader title={`${t('convert')} ${tokenSlug.toUpperCase()}`} onClose={onBackClick} />
       <div className="flex-1 flex flex-col p-4 md:w-[460px] md:mx-auto">
         <button
           type={'button'}
@@ -157,14 +157,14 @@ export const TransactionOptionsScreen: React.FC<TransactionOptionsScreenProps> =
           className="flex flex-row bg-grey-50 hover:bg-grey-100 rounded-full py-2 transition duration-300 ease-in-out"
         >
           <div className="flex-1 flex flex-col items-center">
-            <p className="text-xs text-grey-600">From</p>
+            <p className="text-xs text-grey-600">{t('from')}</p>
             <p className="font-medium text-sm">{TransactionTypeNameMapping[sendType]}</p>
           </div>
           <div className="bg-white rounded-full p-2">
             <Icon name={IconName.ArrowUpDown} size="sm" fill={'black'} className="rotate-90" />
           </div>
           <div className="flex-1 flex flex-col items-center">
-            <p className="text-xs text-grey-600">To</p>
+            <p className="text-xs text-grey-600">{t('to')}</p>
             <p className="font-medium text-sm">{TransactionTypeNameMapping[receiveType]}</p>
           </div>
         </button>
@@ -213,7 +213,7 @@ export const TransactionOptionsScreen: React.FC<TransactionOptionsScreenProps> =
               ))}
             </div>
             <button onClick={onMaxClick} type="button">
-              <Chip label="Max" className="cursor-pointer" />
+              <Chip label={t('max')} className="cursor-pointer" />
             </button>
           </div>
         </div>

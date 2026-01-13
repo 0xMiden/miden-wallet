@@ -1,5 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 
+import { useTranslation } from 'react-i18next';
+
 import { useMidenClient } from 'app/hooks/useMidenClient';
 import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
 import { IconName } from 'app/icons/v2';
@@ -11,6 +13,7 @@ import { Link } from 'lib/woozie';
 import { truncateAddress } from 'utils/string';
 
 const AdvancedSettings: FC = () => {
+  const { t } = useTranslation();
   const walletAccount = useAccount();
   const { midenClient, midenClientLoading } = useMidenClient();
   const faucetId = useMidenFaucetId();
@@ -36,11 +39,11 @@ const AdvancedSettings: FC = () => {
     <div className="flex justify-center py-6">
       <div className="flex flex-col w-[328px] gap-y-4">
         <div className="flex flex-row gap-x-2 px-2 justify-between">
-          <span className="text-black text-sm py-1">Account Public Key</span>
+          <span className="text-black text-sm py-1">{t('accountPublicKey')}</span>
           <HashChip hash={publicKey || ''} small={false} trimHash={true} />
         </div>
         <Link to={'settings/edit-miden-faucet-id'}>
-          <ListItem title="Edit Miden Faucet ID" subtitle={faucetIdShortened} iconRight={IconName.ChevronRight} />
+          <ListItem title={t('editMidenFaucetId')} subtitle={faucetIdShortened} iconRight={IconName.ChevronRight} />
         </Link>
       </div>
     </div>

@@ -3885,7 +3885,7 @@
   },
   "customizeFee": {
     "message": "Gebühr anpassen",
-    "englishSource": "Customize Fee"
+    "englishSource": "Customize fee"
   },
   "convertingPublic": {
     "message": "In öffentliches NFT umwandeln",
@@ -4057,8 +4057,8 @@
     "englishSource": "Claiming"
   },
   "availableToClaim": {
-    "message": "Verfügbar zum Anspruch",
-    "englishSource": "Available to Claim"
+    "message": "Zur Inanspruchnahme verfügbar",
+    "englishSource": "Available to claim"
   },
   "unstakingInProgress": {
     "message": "Absteckung im Gange",
@@ -4131,7 +4131,8 @@
   },
   "onlyAleoSeedPhrasesAreSupported": {
     "message": "Es werden nur Aleo-Seed-Sätze unterstützt.",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Only Aleo Seed phrases are supported."
   },
   "seedPhrasePlaceholder": {
     "message": "12-Wörter-Seed-Satz",
@@ -4325,13 +4326,16 @@
     "englishSource": "Learn more"
   },
   "faucetId": {
-    "message": "Wasserhahn-ID"
+    "message": "Wasserhahn-ID",
+    "englishSource": "Faucet ID"
   },
   "setNewFaucetId": {
-    "message": "Legen Sie eine neue Faucet-ID fest"
+    "message": "Legen Sie eine neue Faucet-ID fest",
+    "englishSource": "Set new Faucet ID"
   },
   "setNewFaucetIdDescription": {
-    "message": "Geben Sie die ID eines Miden-Wasserhahns ein"
+    "message": "Geben Sie die ID eines Miden-Wasserhahns ein",
+    "englishSource": "Enter the ID of a miden faucet"
   },
   "encryptedWalletFile": {
     "message": "Verschlüsselte Wallet-Datei",
@@ -4346,10 +4350,12 @@
     "englishSource": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet."
   },
   "encryptedWalletFilePassword": {
-    "message": "Geben Sie ein Passwort ein, um Ihre Wallet-Datei zu verschlüsseln. Sie benötigen dieses Passwort, um Ihr Wallet später wiederherzustellen."
+    "message": "Geben Sie ein Passwort ein, um Ihre Wallet-Datei zu verschlüsseln. Sie benötigen dieses Passwort, um Ihr Wallet später wiederherzustellen.",
+    "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
   },
   "editMidenFaucetId": {
-    "message": "Bearbeiten Sie die Miden Faucet-ID"
+    "message": "Bearbeiten Sie die Miden Faucet-ID",
+    "englishSource": "Edit Miden Faucet ID"
   },
   "exportWalletFile": {
     "message": "Wallet-Datei exportieren",
@@ -4600,7 +4606,7 @@
     "englishSource": "Private Data Access: Upon Request"
   },
   "accessWillBeGranted": {
-    "message": "Es wird Zugriff auf die folgenden Daten gewährt",
+    "message": "Es wird Zugriff auf folgende Daten gewährt",
     "englishSource": "Access to the following data will be granted"
   },
   "confirmationRequired": {
@@ -4610,5 +4616,337 @@
   "doNotShareEncryptedWalletFileDescription": {
     "message": "Mit der Datei und dem Passwort kann jeder auf Ihr Wallet zugreifen.",
     "englishSource": "With the file and password, anyone can access your wallet."
+  },
+  "transactionWillProceedInBackground": {
+    "message": "Die Transaktion wird im Hintergrund ausgeführt",
+    "englishSource": "Transaction will proceed in the background"
+  },
+  "publicFee": {
+    "message": "Öffentliche Gebühr",
+    "englishSource": "Public Fee"
+  },
+  "privateFee": {
+    "message": "Private Gebühr",
+    "englishSource": "Private Fee"
+  },
+  "publicFeeDescription": {
+    "message": "Transaktionsgebühr wird privat abgewickelt.",
+    "englishSource": "Transaction fee processed privately."
+  },
+  "privateFeeDescription": {
+    "message": "Die Transaktionsgebühr wird öffentlich in der Blockchain abgewickelt.",
+    "englishSource": "Transaction fee is processed publicly on the blockchain."
+  },
+  "noPrivateTokensForFee": {
+    "message": "Sie haben keine privaten Token. Wandeln Sie öffentliche Token in private um, um sie als Gebühr zu verwenden.",
+    "englishSource": "You have no Private tokens. Convert Public tokens to Private to use them as Fee."
+  },
+  "noPublicTokensForFee": {
+    "message": "Sie haben keine öffentlichen Token. Wandeln Sie private Token in öffentliche um, um sie als Gebühr zu verwenden.",
+    "englishSource": "You have no Public tokens. Convert Private tokens to Public to use them as Fee."
+  },
+  "convertNow": {
+    "message": "Jetzt konvertieren.",
+    "englishSource": "Convert now."
+  },
+  "recommendedFee": {
+    "message": "Empfohlene Gebühr",
+    "englishSource": "Recommended fee"
+  },
+  "feeType": {
+    "message": "Gebührenart",
+    "englishSource": "Fee type"
+  },
+  "delegateThisTransaction": {
+    "message": "Delegieren Sie diese Transaktion",
+    "englishSource": "Delegate this transaction"
+  },
+  "delegateTransactionTooltip": {
+    "message": "Konfigurieren Sie die Delegation der Beweiserstellung an einen Remote-Server. Dadurch wird die Beweiserstellung beschleunigt, die Transaktionsdetails werden jedoch an einen vertrauenswürdigen Server weitergegeben.",
+    "englishSource": "Configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
+  },
+  "conversionInitiated": {
+    "message": "Konvertierung eingeleitet",
+    "englishSource": "Conversion Initiated"
+  },
+  "transactionCompleted": {
+    "message": "Transaktion abgeschlossen",
+    "englishSource": "Transaction Completed"
+  },
+  "transactionFailed": {
+    "message": "Transaktion fehlgeschlagen",
+    "englishSource": "Transaction Failed"
+  },
+  "doNotCloseWindowNavigateHome": {
+    "message": "Schließen Sie dieses Fenster nicht. Nachdem die Transaktion generiert wurde, werden Sie zurück zur Startseite navigiert",
+    "englishSource": "Do not close this window. You will be navigated back to the home page after the transaction is generated"
+  },
+  "doNotCloseWindowAutoClose": {
+    "message": "Schließen Sie dieses Fenster nicht. Das Fenster wird automatisch geschlossen, nachdem die Transaktion generiert wurde",
+    "englishSource": "Do not close this window. Window will auto-close after the transaction is generated"
+  },
+  "transactionSuccessDescription": {
+    "message": "Ihre Transaktion wurde erfolgreich verarbeitet und im Netzwerk bestätigt.",
+    "englishSource": "Your transaction was successfully processed and confirmed on the network."
+  },
+  "transactionErrorDescription": {
+    "message": "Bei der Verarbeitung Ihrer Transaktion ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+    "englishSource": "There was an error processing your transaction. Please try again."
+  },
+  "downloadGeneratedFiles": {
+    "message": "Laden Sie die generierten Dateien herunter",
+    "englishSource": "Download Generated Files"
+  },
+  "onChainAccountPublic": {
+    "message": "On-Chain-Konto (öffentlich)",
+    "englishSource": "On-chain Account (Public)"
+  },
+  "onChainAccountDescription": {
+    "message": "Verwenden Sie eine vorhandene Wiederherstellungsphrase mit 12 Wörtern. Sie können auch Wallets von anderen Wallet-Anbietern importieren.",
+    "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
+  },
+  "offChainAccountPrivate": {
+    "message": "Off-Chain-Konto (privat)",
+    "englishSource": "Off-chain Account (Private)"
+  },
+  "offChainAccountDescription": {
+    "message": "Schnelle, private Vorgänge mit minimalen Gebühren unter Umgehung der direkten Blockchain-Interaktion.",
+    "englishSource": "Fast, private operations with minimal fees, bypassing direct blockchain interaction."
+  },
+  "chooseYourAccountType": {
+    "message": "Wählen Sie Ihren Kontotyp",
+    "englishSource": "Choose Your Account Type"
+  },
+  "chooseAccountTypeDescription": {
+    "message": "Wählen Sie aus, wie Sie mit der Blockchain interagieren möchten – On-Chain oder Off-Chain.",
+    "englishSource": "Select how you want to interact with the blockchain -- on-chain or off-chain."
+  },
+  "canAddMultipleAccountsLater": {
+    "message": "Sie können später im Wallet mehrere Kontotypen hinzufügen und verwalten.",
+    "englishSource": "You can add and manage multiple account types later within the wallet."
+  },
+  "transactionFile": {
+    "message": "Transaktionsdatei",
+    "englishSource": "Transaction file"
+  },
+  "verificationFailed": {
+    "message": "Überprüfung fehlgeschlagen",
+    "englishSource": "Verification Failed"
+  },
+  "transactionVerifiedSuccessfully": {
+    "message": "Die Transaktion wurde erfolgreich verifiziert. Sie können jetzt Ihre Token anfordern.",
+    "englishSource": "The transaction has been successfully verified. You can now claim your tokens."
+  },
+  "transactionFileCouldNotBeVerified": {
+    "message": "Die hochgeladene Transaktionsdatei konnte nicht überprüft werden. Stellen Sie sicher, dass die Datei gültig ist, und versuchen Sie es erneut.",
+    "englishSource": "The uploaded transaction file could not be verified. Ensure the file is valid and try again."
+  },
+  "home": {
+    "message": "Heim",
+    "englishSource": "Home"
+  },
+  "timestamp": {
+    "message": "Zeitstempel",
+    "englishSource": "Timestamp"
+  },
+  "noteType": {
+    "message": "Notiztyp",
+    "englishSource": "Note Type"
+  },
+  "noteId": {
+    "message": "Notiz-ID",
+    "englishSource": "Note ID"
+  },
+  "downloadGeneratedFile": {
+    "message": "Laden Sie die generierte Datei herunter",
+    "englishSource": "Download Generated File"
+  },
+  "viewOnExplorer": {
+    "message": "Im Explorer anzeigen",
+    "englishSource": "View on Explorer"
+  },
+  "inProgress": {
+    "message": "Im Gange",
+    "englishSource": "In Progress"
+  },
+  "you": {
+    "message": "Du",
+    "englishSource": "You"
+  },
+  "invalidPayload": {
+    "message": "(ungültige Nutzlast)",
+    "englishSource": "(invalid payload)"
+  },
+  "signTheFollowingWord": {
+    "message": "Unterschreiben Sie das folgende Wort $word$ ?",
+    "englishSource": "Sign the following Word $word$?"
+  },
+  "sharePrivateNoteDataForAccount": {
+    "message": "Geben Sie alle privaten Notizdaten für das Konto frei",
+    "englishSource": "Share all private note data for account"
+  },
+  "downloadPrivateNoteData": {
+    "message": "Laden Sie private Notizdaten herunter",
+    "englishSource": "Download Private Note Data"
+  },
+  "transactionAffectsAccountStorage": {
+    "message": "Diese Transaktion wirkt sich auf Ihren Kontospeicher aus. Überprüfen Sie zur Verifizierung die Rohzusammenfassung",
+    "englishSource": "This transaction affects your account storage. Review the raw summary to verify"
+  },
+  "failedToParseSigningPayload": {
+    "message": "Die Signaturnutzlast konnte nicht geparst werden",
+    "englishSource": "Failed to parse signing payload"
+  },
+  "assetChanges": {
+    "message": "Vermögensänderungen",
+    "englishSource": "Asset changes"
+  },
+  "unknown": {
+    "message": "Unbekannt",
+    "englishSource": "Unknown"
+  },
+  "inputNotesConsumed": {
+    "message": "Eingabenotizen verbraucht",
+    "englishSource": "Input notes consumed"
+  },
+  "outputNotesCreated": {
+    "message": "Ausgabenotizen erstellt",
+    "englishSource": "Output notes created"
+  },
+  "storageChanged": {
+    "message": "Speicher geändert",
+    "englishSource": "Storage changed"
+  },
+  "downloadFullSummary": {
+    "message": "Vollständige Zusammenfassung herunterladen (Bytes)",
+    "englishSource": "Download full summary (bytes)"
+  },
+  "signArbitraryPayload": {
+    "message": "Die willkürliche Nutzlast unterschreiben?",
+    "englishSource": "Sign the Arbitrary payload?"
+  },
+  "signBlindCommitment": {
+    "message": "Unterzeichnen Sie die Verpflichtung der Blinden?",
+    "englishSource": "Sign the Blind commitment?"
+  },
+  "connectToWebsite": {
+    "message": "Mit der Website verbinden",
+    "englishSource": "Connect to website"
+  },
+  "deny": {
+    "message": "Leugnen",
+    "englishSource": "Deny"
+  },
+  "requestsATransaction": {
+    "message": "Fordert eine Transaktion an",
+    "englishSource": "Requests a transaction"
+  },
+  "requestsToConsumeNote": {
+    "message": "Anfragen zum Verzehr einer Notiz",
+    "englishSource": "Requests to consume a note"
+  },
+  "requestPrivateNotes": {
+    "message": "Fordern Sie private Notizen an",
+    "englishSource": "Request Private Notes"
+  },
+  "requestsPrivateNotes": {
+    "message": "Fordert private Notizen an",
+    "englishSource": "Requests private notes"
+  },
+  "confirmSignature": {
+    "message": "Unterschrift bestätigen",
+    "englishSource": "Confirm Signature"
+  },
+  "requestsYourSignature": {
+    "message": "Fordert Ihre Unterschrift an",
+    "englishSource": "Requests your signature"
+  },
+  "requestAssets": {
+    "message": "Fordern Sie Vermögenswerte an",
+    "englishSource": "Request Assets"
+  },
+  "requestsAssets": {
+    "message": "Fordert Vermögenswerte an",
+    "englishSource": "Requests assets"
+  },
+  "requestImportPrivateNote": {
+    "message": "Fordern Sie den Import einer privaten Notiz an",
+    "englishSource": "Request Import Private Note"
+  },
+  "importPrivateNote": {
+    "message": "Private Notiz importieren",
+    "englishSource": "Import private note"
+  },
+  "requestConsumableNotes": {
+    "message": "Fordern Sie Hinweise zu Verbrauchsmaterialien an",
+    "englishSource": "Request Consumable Notes"
+  },
+  "requestsConsumableNotes": {
+    "message": "Fordern Sie Hinweise zu Verbrauchsmaterialien an",
+    "englishSource": "Request consumable notes"
+  },
+  "review": {
+    "message": "Rezension",
+    "englishSource": "Review"
+  },
+  "close": {
+    "message": "Schließen",
+    "englishSource": "Close"
+  },
+  "chooseToken": {
+    "message": "Wählen Sie Token",
+    "englishSource": "Choose token"
+  },
+  "recallBlocks": {
+    "message": "Blöcke abrufen",
+    "englishSource": "Recall blocks"
+  },
+  "delegateTransaction": {
+    "message": "Transaktion delegieren",
+    "englishSource": "Delegate transaction"
+  },
+  "shareTransactionPrivately": {
+    "message": "Transaktion privat teilen",
+    "englishSource": "Share transaction privately"
+  },
+  "alreadyHaveTransactionFile": {
+    "message": "Sie haben bereits eine Transaktionsdatei?",
+    "englishSource": "Already have a transaction file?"
+  },
+  "claimAll": {
+    "message": "Alle beanspruchen",
+    "englishSource": "Claim All"
+  },
+  "readyToClaim": {
+    "message": "Bereit zum Anspruch",
+    "englishSource": "Ready to claim"
+  },
+  "addTokens": {
+    "message": "Token hinzufügen",
+    "englishSource": "Add tokens"
+  },
+  "getTokens": {
+    "message": "Holen Sie sich Token",
+    "englishSource": "Get tokens"
+  },
+  "getTokensDescription": {
+    "message": "Sie können Token aus dem Faucet beziehen oder sie von einer anderen Wallet oder einem anderen Konto übertragen.",
+    "englishSource": "You can get tokens from the faucet or transfer them from another wallet or account."
+  },
+  "transferTokens": {
+    "message": "Token übertragen",
+    "englishSource": "Transfer tokens"
+  },
+  "midenFaucet": {
+    "message": "Miden Wasserhahn",
+    "englishSource": "Miden Faucet"
+  },
+  "midenFaucetDescription": {
+    "message": "Wenn Sie auf die Schaltfläche unten klicken, wird Ihre Adresse in die Zwischenablage kopiert und Sie gelangen zum Miden Faucet.",
+    "englishSource": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet."
+  },
+  "accountPublicKey": {
+    "message": "Öffentlicher Kontoschlüssel",
+    "englishSource": "Account Public Key"
   }
 }
