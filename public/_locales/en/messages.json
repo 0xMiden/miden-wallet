@@ -454,7 +454,8 @@
     "englishSource": "Account Public Key"
   },
   "editMidenFaucetId": {
-    "message": "Edit Miden Faucet ID"
+    "message": "Edit Miden Faucet ID",
+    "englishSource": "Edit Miden Faucet ID"
   },
   "aleoFaucetStep1": {
     "message": "Scan the QR code with your Phone",
@@ -1329,13 +1330,16 @@
     "englishSource": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices."
   },
   "faucetId": {
-    "message": "Faucet ID"
+    "message": "Faucet ID",
+    "englishSource": "Faucet ID"
   },
   "setNewFaucetId": {
-    "message": "Set new Faucet ID"
+    "message": "Set new Faucet ID",
+    "englishSource": "Set new Faucet ID"
   },
   "setNewFaucetIdDescription": {
-    "message": "Enter the ID of a miden faucet"
+    "message": "Enter the ID of a miden faucet",
+    "englishSource": "Enter the ID of a miden faucet"
   },
   "encryptedWalletFile": {
     "message": "Encrypted Wallet File",
@@ -1350,7 +1354,8 @@
     "englishSource": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet."
   },
   "encryptedWalletFilePassword": {
-    "message": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
+    "message": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later.",
+    "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
   },
   "exportWalletFile": {
     "message": "Export Wallet File",
@@ -4018,8 +4023,8 @@
     "englishSource": "Converting"
   },
   "customizeFee": {
-    "message": "Customize Fee",
-    "englishSource": "Customize Fee"
+    "message": "Customize fee",
+    "englishSource": "Customize fee"
   },
   "feeVisibility": {
     "message": "Fee Visibility",
@@ -4107,8 +4112,8 @@
     "englishSource": "Claiming"
   },
   "availableToClaim": {
-    "message": "Available to Claim",
-    "englishSource": "Available to Claim"
+    "message": "Available to claim",
+    "englishSource": "Available to claim"
   },
   "unstakingInProgress": {
     "message": "Unstaking in Progress",
@@ -4216,7 +4221,8 @@
   },
   "onlyAleoSeedPhrasesAreSupported": {
     "message": "Only Aleo Seed phrases are supported.",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Only Aleo Seed phrases are supported."
   },
   "seedPhrasePlaceholder": {
     "message": "12-word Seed phrase",

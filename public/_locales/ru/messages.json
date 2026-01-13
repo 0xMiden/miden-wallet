@@ -3735,7 +3735,7 @@
   },
   "customizeFee": {
     "message": "Настроить плату",
-    "englishSource": "Customize Fee"
+    "englishSource": "Customize fee"
   },
   "convertingPublic": {
     "message": "Преобразование в публичный NFT",
@@ -3961,7 +3961,7 @@
   },
   "availableToClaim": {
     "message": "Доступно для претензии",
-    "englishSource": "Available to Claim"
+    "englishSource": "Available to claim"
   },
   "unstakingInProgress": {
     "message": "Отмена ставки в процессе",
@@ -4069,7 +4069,8 @@
   },
   "onlyAleoSeedPhrasesAreSupported": {
     "message": "Поддерживаются только секретные фразы Aleo.",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Only Aleo Seed phrases are supported."
   },
   "seedPhrasePlaceholder": {
     "message": "Секретная фраза из 12 слов",
@@ -4263,13 +4264,16 @@
     "englishSource": "Learn more"
   },
   "faucetId": {
-    "message": "Идентификатор крана"
+    "message": "Идентификатор крана",
+    "englishSource": "Faucet ID"
   },
   "setNewFaucetId": {
-    "message": "Установить новый идентификатор крана"
+    "message": "Установить новый идентификатор крана",
+    "englishSource": "Set new Faucet ID"
   },
   "setNewFaucetIdDescription": {
-    "message": "Введите идентификатор крана Miden"
+    "message": "Введите идентификатор крана Miden",
+    "englishSource": "Enter the ID of a miden faucet"
   },
   "encryptedWalletFile": {
     "message": "Зашифрованный файл кошелька",
@@ -4284,10 +4288,12 @@
     "englishSource": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet."
   },
   "encryptedWalletFilePassword": {
-    "message": "Введите пароль, чтобы зашифровать файл вашего кошелька. Этот пароль понадобится вам для восстановления вашего кошелька позже."
+    "message": "Введите пароль, чтобы зашифровать файл вашего кошелька. Этот пароль понадобится вам для восстановления вашего кошелька позже.",
+    "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
   },
   "editMidenFaucetId": {
-    "message": "Изменить идентификатор крана Miden"
+    "message": "Изменить идентификатор крана Miden",
+    "englishSource": "Edit Miden Faucet ID"
   },
   "exportWalletFile": {
     "message": "Экспортировать файл кошелька",
@@ -4513,5 +4519,337 @@
   "doNotShareEncryptedWalletFileDescription": {
     "message": "С помощью файла и пароля любой сможет получить доступ к вашему кошельку.",
     "englishSource": "With the file and password, anyone can access your wallet."
+  },
+  "transactionWillProceedInBackground": {
+    "message": "Транзакция будет проходить в фоновом режиме",
+    "englishSource": "Transaction will proceed in the background"
+  },
+  "publicFee": {
+    "message": "Государственный сбор",
+    "englishSource": "Public Fee"
+  },
+  "privateFee": {
+    "message": "Частный сбор",
+    "englishSource": "Private Fee"
+  },
+  "publicFeeDescription": {
+    "message": "Комиссия за транзакцию обрабатывается в частном порядке.",
+    "englishSource": "Transaction fee processed privately."
+  },
+  "privateFeeDescription": {
+    "message": "Комиссия за транзакцию обрабатывается публично в блокчейне.",
+    "englishSource": "Transaction fee is processed publicly on the blockchain."
+  },
+  "noPrivateTokensForFee": {
+    "message": "You have no Private tokens. Конвертируйте публичные токены в частные, чтобы использовать их в качестве комиссии.",
+    "englishSource": "You have no Private tokens. Convert Public tokens to Private to use them as Fee."
+  },
+  "noPublicTokensForFee": {
+    "message": "У вас нет публичных токенов. Конвертируйте частные токены в публичные, чтобы использовать их в качестве комиссии.",
+    "englishSource": "You have no Public tokens. Convert Private tokens to Public to use them as Fee."
+  },
+  "convertNow": {
+    "message": "Конвертируйте сейчас.",
+    "englishSource": "Convert now."
+  },
+  "recommendedFee": {
+    "message": "Рекомендуемая плата",
+    "englishSource": "Recommended fee"
+  },
+  "feeType": {
+    "message": "Тип комиссии",
+    "englishSource": "Fee type"
+  },
+  "delegateThisTransaction": {
+    "message": "Делегировать эту транзакцию",
+    "englishSource": "Delegate this transaction"
+  },
+  "delegateTransactionTooltip": {
+    "message": "Настройте делегирование генерации доказательств на удаленный сервер. Это ускорит создание доказательств, но при этом раскроет детали транзакции доверенному серверу.",
+    "englishSource": "Configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
+  },
+  "conversionInitiated": {
+    "message": "Преобразование начато",
+    "englishSource": "Conversion Initiated"
+  },
+  "transactionCompleted": {
+    "message": "Транзакция завершена",
+    "englishSource": "Transaction Completed"
+  },
+  "transactionFailed": {
+    "message": "Транзакция не удалась",
+    "englishSource": "Transaction Failed"
+  },
+  "doNotCloseWindowNavigateHome": {
+    "message": "Не закрывайте это окно. После создания транзакции вы вернетесь на домашнюю страницу.",
+    "englishSource": "Do not close this window. You will be navigated back to the home page after the transaction is generated"
+  },
+  "doNotCloseWindowAutoClose": {
+    "message": "Не закрывайте это окно. Окно автоматически закроется после создания транзакции.",
+    "englishSource": "Do not close this window. Window will auto-close after the transaction is generated"
+  },
+  "transactionSuccessDescription": {
+    "message": "Ваша транзакция была успешно обработана и подтверждена в сети.",
+    "englishSource": "Your transaction was successfully processed and confirmed on the network."
+  },
+  "transactionErrorDescription": {
+    "message": "При обработке вашей транзакции произошла ошибка. Пожалуйста, попробуйте еще раз.",
+    "englishSource": "There was an error processing your transaction. Please try again."
+  },
+  "downloadGeneratedFiles": {
+    "message": "Загрузить сгенерированные файлы",
+    "englishSource": "Download Generated Files"
+  },
+  "onChainAccountPublic": {
+    "message": "Счет в сети (публичный)",
+    "englishSource": "On-chain Account (Public)"
+  },
+  "onChainAccountDescription": {
+    "message": "Используйте существующую фразу восстановления из 12 слов. Вы также можете импортировать кошельки от других поставщиков кошельков.",
+    "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
+  },
+  "offChainAccountPrivate": {
+    "message": "Внесетевой аккаунт (частный)",
+    "englishSource": "Off-chain Account (Private)"
+  },
+  "offChainAccountDescription": {
+    "message": "Быстрые частные операции с минимальными комиссиями в обход прямого взаимодействия с блокчейном.",
+    "englishSource": "Fast, private operations with minimal fees, bypassing direct blockchain interaction."
+  },
+  "chooseYourAccountType": {
+    "message": "Выберите тип учетной записи",
+    "englishSource": "Choose Your Account Type"
+  },
+  "chooseAccountTypeDescription": {
+    "message": "Выберите, как вы хотите взаимодействовать с блокчейном — внутри или вне сети.",
+    "englishSource": "Select how you want to interact with the blockchain -- on-chain or off-chain."
+  },
+  "canAddMultipleAccountsLater": {
+    "message": "Позже вы сможете добавлять и управлять несколькими типами учетных записей в кошельке.",
+    "englishSource": "You can add and manage multiple account types later within the wallet."
+  },
+  "transactionFile": {
+    "message": "Файл транзакции",
+    "englishSource": "Transaction file"
+  },
+  "verificationFailed": {
+    "message": "Проверка не удалась",
+    "englishSource": "Verification Failed"
+  },
+  "transactionVerifiedSuccessfully": {
+    "message": "Транзакция успешно подтверждена. Теперь вы можете потребовать свои токены.",
+    "englishSource": "The transaction has been successfully verified. You can now claim your tokens."
+  },
+  "transactionFileCouldNotBeVerified": {
+    "message": "Загруженный файл транзакции не удалось проверить. Убедитесь, что файл действителен, и повторите попытку.",
+    "englishSource": "The uploaded transaction file could not be verified. Ensure the file is valid and try again."
+  },
+  "home": {
+    "message": "Дом",
+    "englishSource": "Home"
+  },
+  "timestamp": {
+    "message": "Временная метка",
+    "englishSource": "Timestamp"
+  },
+  "noteType": {
+    "message": "Тип заметки",
+    "englishSource": "Note Type"
+  },
+  "noteId": {
+    "message": "Идентификатор заметки",
+    "englishSource": "Note ID"
+  },
+  "downloadGeneratedFile": {
+    "message": "Загрузить сгенерированный файл",
+    "englishSource": "Download Generated File"
+  },
+  "viewOnExplorer": {
+    "message": "Посмотреть в проводнике",
+    "englishSource": "View on Explorer"
+  },
+  "inProgress": {
+    "message": "В ходе выполнения",
+    "englishSource": "In Progress"
+  },
+  "you": {
+    "message": "Ты",
+    "englishSource": "You"
+  },
+  "invalidPayload": {
+    "message": "(неверная полезная нагрузка)",
+    "englishSource": "(invalid payload)"
+  },
+  "signTheFollowingWord": {
+    "message": "Подпишите следующее слово $word$ ?",
+    "englishSource": "Sign the following Word $word$?"
+  },
+  "sharePrivateNoteDataForAccount": {
+    "message": "Поделитесь всеми данными личных заметок для учетной записи",
+    "englishSource": "Share all private note data for account"
+  },
+  "downloadPrivateNoteData": {
+    "message": "Загрузить данные личной заметки",
+    "englishSource": "Download Private Note Data"
+  },
+  "transactionAffectsAccountStorage": {
+    "message": "Эта транзакция повлияет на хранилище вашего аккаунта. Просмотрите необработанное резюме, чтобы убедиться",
+    "englishSource": "This transaction affects your account storage. Review the raw summary to verify"
+  },
+  "failedToParseSigningPayload": {
+    "message": "Не удалось проанализировать полезные данные для подписи.",
+    "englishSource": "Failed to parse signing payload"
+  },
+  "assetChanges": {
+    "message": "Изменения активов",
+    "englishSource": "Asset changes"
+  },
+  "unknown": {
+    "message": "Неизвестный",
+    "englishSource": "Unknown"
+  },
+  "inputNotesConsumed": {
+    "message": "Введенные заметки израсходованы",
+    "englishSource": "Input notes consumed"
+  },
+  "outputNotesCreated": {
+    "message": "Выходные заметки созданы.",
+    "englishSource": "Output notes created"
+  },
+  "storageChanged": {
+    "message": "Память изменена",
+    "englishSource": "Storage changed"
+  },
+  "downloadFullSummary": {
+    "message": "Скачать полное резюме (в байтах)",
+    "englishSource": "Download full summary (bytes)"
+  },
+  "signArbitraryPayload": {
+    "message": "Подписать произвольную полезную нагрузку?",
+    "englishSource": "Sign the Arbitrary payload?"
+  },
+  "signBlindCommitment": {
+    "message": "Подписать «слепое» обязательство?",
+    "englishSource": "Sign the Blind commitment?"
+  },
+  "connectToWebsite": {
+    "message": "Подключиться к веб-сайту",
+    "englishSource": "Connect to website"
+  },
+  "deny": {
+    "message": "Отрицать",
+    "englishSource": "Deny"
+  },
+  "requestsATransaction": {
+    "message": "Запрашивает транзакцию",
+    "englishSource": "Requests a transaction"
+  },
+  "requestsToConsumeNote": {
+    "message": "Запросы на использование заметки",
+    "englishSource": "Requests to consume a note"
+  },
+  "requestPrivateNotes": {
+    "message": "Запросить личные заметки",
+    "englishSource": "Request Private Notes"
+  },
+  "requestsPrivateNotes": {
+    "message": "Запрашивает личные заметки",
+    "englishSource": "Requests private notes"
+  },
+  "confirmSignature": {
+    "message": "Подтвердить подпись",
+    "englishSource": "Confirm Signature"
+  },
+  "requestsYourSignature": {
+    "message": "Просит вашу подпись",
+    "englishSource": "Requests your signature"
+  },
+  "requestAssets": {
+    "message": "Запросить активы",
+    "englishSource": "Request Assets"
+  },
+  "requestsAssets": {
+    "message": "Запрашивает активы",
+    "englishSource": "Requests assets"
+  },
+  "requestImportPrivateNote": {
+    "message": "Запросить импорт личной заметки",
+    "englishSource": "Request Import Private Note"
+  },
+  "importPrivateNote": {
+    "message": "Импортировать личную заметку",
+    "englishSource": "Import private note"
+  },
+  "requestConsumableNotes": {
+    "message": "Запросить информацию о расходных материалах",
+    "englishSource": "Request Consumable Notes"
+  },
+  "requestsConsumableNotes": {
+    "message": "Запросить информацию о расходных материалах",
+    "englishSource": "Request consumable notes"
+  },
+  "review": {
+    "message": "Обзор",
+    "englishSource": "Review"
+  },
+  "close": {
+    "message": "Закрывать",
+    "englishSource": "Close"
+  },
+  "chooseToken": {
+    "message": "Выбрать токен",
+    "englishSource": "Choose token"
+  },
+  "recallBlocks": {
+    "message": "Вызов блоков",
+    "englishSource": "Recall blocks"
+  },
+  "delegateTransaction": {
+    "message": "Делегировать транзакцию",
+    "englishSource": "Delegate transaction"
+  },
+  "shareTransactionPrivately": {
+    "message": "Поделитесь транзакцией конфиденциально",
+    "englishSource": "Share transaction privately"
+  },
+  "alreadyHaveTransactionFile": {
+    "message": "У вас уже есть файл транзакции?",
+    "englishSource": "Already have a transaction file?"
+  },
+  "claimAll": {
+    "message": "Претендовать на все",
+    "englishSource": "Claim All"
+  },
+  "readyToClaim": {
+    "message": "Готов предъявить претензии",
+    "englishSource": "Ready to claim"
+  },
+  "addTokens": {
+    "message": "Добавить токены",
+    "englishSource": "Add tokens"
+  },
+  "getTokens": {
+    "message": "Получить токены",
+    "englishSource": "Get tokens"
+  },
+  "getTokensDescription": {
+    "message": "Вы можете получить токены из крана или перевести их с другого кошелька или аккаунта.",
+    "englishSource": "You can get tokens from the faucet or transfer them from another wallet or account."
+  },
+  "transferTokens": {
+    "message": "Перевести токены",
+    "englishSource": "Transfer tokens"
+  },
+  "midenFaucet": {
+    "message": "Миден Смеситель",
+    "englishSource": "Miden Faucet"
+  },
+  "midenFaucetDescription": {
+    "message": "Нажав кнопку ниже, вы скопируете свой адрес в буфер обмена и перейдете к крану Miden.",
+    "englishSource": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet."
+  },
+  "accountPublicKey": {
+    "message": "Открытый ключ аккаунта",
+    "englishSource": "Account Public Key"
   }
 }

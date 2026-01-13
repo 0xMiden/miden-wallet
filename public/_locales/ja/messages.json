@@ -3861,7 +3861,7 @@
   },
   "customizeFee": {
     "message": "カスタマイズ料金",
-    "englishSource": "Customize Fee"
+    "englishSource": "Customize fee"
   },
   "convertingPublic": {
     "message": "パブリックNFTに変換",
@@ -4034,7 +4034,7 @@
   },
   "availableToClaim": {
     "message": "請求可能",
-    "englishSource": "Available to Claim"
+    "englishSource": "Available to claim"
   },
   "unstakingInProgress": {
     "message": "ステーキング解除中です",
@@ -4142,7 +4142,8 @@
   },
   "onlyAleoSeedPhrasesAreSupported": {
     "message": "Aleoのシードフレーズのみがサポートされています。",
-    "note": "Onboarding"
+    "note": "Onboarding",
+    "englishSource": "Only Aleo Seed phrases are supported."
   },
   "seedPhrasePlaceholder": {
     "message": "12ワードのシードフレーズ",
@@ -4336,13 +4337,16 @@
     "englishSource": "Learn more"
   },
   "faucetId": {
-    "message": "蛇口ID"
+    "message": "蛇口ID",
+    "englishSource": "Faucet ID"
   },
   "setNewFaucetId": {
-    "message": "新しいフォーセット ID を設定する"
+    "message": "新しいフォーセット ID を設定する",
+    "englishSource": "Set new Faucet ID"
   },
   "setNewFaucetIdDescription": {
-    "message": "ミデン蛇口のIDを入力してください"
+    "message": "ミデン蛇口のIDを入力してください",
+    "englishSource": "Enter the ID of a miden faucet"
   },
   "encryptedWalletFile": {
     "message": "暗号化されたウォレットファイル",
@@ -4357,10 +4361,12 @@
     "englishSource": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet."
   },
   "encryptedWalletFilePassword": {
-    "message": "ウォレットファイルを暗号化するためのパスワードを入力します。このパスワードは、後でウォレットを復元するために必要になります。"
+    "message": "ウォレットファイルを暗号化するためのパスワードを入力します。このパスワードは、後でウォレットを復元するために必要になります。",
+    "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
   },
   "editMidenFaucetId": {
-    "message": "ミデン フォーセット ID の編集"
+    "message": "ミデン フォーセット ID の編集",
+    "englishSource": "Edit Miden Faucet ID"
   },
   "exportWalletFile": {
     "message": "ウォレットファイルのエクスポート",
@@ -4586,5 +4592,337 @@
   "doNotShareEncryptedWalletFileDescription": {
     "message": "ファイルとパスワードがあれば、誰でもあなたのウォレットにアクセスできます。",
     "englishSource": "With the file and password, anyone can access your wallet."
+  },
+  "transactionWillProceedInBackground": {
+    "message": "トランザクションはバックグラウンドで進行します",
+    "englishSource": "Transaction will proceed in the background"
+  },
+  "publicFee": {
+    "message": "公共料金",
+    "englishSource": "Public Fee"
+  },
+  "privateFee": {
+    "message": "プライベート料金",
+    "englishSource": "Private Fee"
+  },
+  "publicFeeDescription": {
+    "message": "取引手数料は非公開で処理されます。",
+    "englishSource": "Transaction fee processed privately."
+  },
+  "privateFeeDescription": {
+    "message": "取引手数料はブロックチェーン上で公的に処理されます。",
+    "englishSource": "Transaction fee is processed publicly on the blockchain."
+  },
+  "noPrivateTokensForFee": {
+    "message": "プライベート トークンがありません。パブリックトークンをプライベートトークンに変換して料金として使用します。",
+    "englishSource": "You have no Private tokens. Convert Public tokens to Private to use them as Fee."
+  },
+  "noPublicTokensForFee": {
+    "message": "パブリック トークンがありません。プライベートトークンをパブリックトークンに変換して料金として使用します。",
+    "englishSource": "You have no Public tokens. Convert Private tokens to Public to use them as Fee."
+  },
+  "convertNow": {
+    "message": "今すぐ変換してください。",
+    "englishSource": "Convert now."
+  },
+  "recommendedFee": {
+    "message": "推奨料金",
+    "englishSource": "Recommended fee"
+  },
+  "feeType": {
+    "message": "料金の種類",
+    "englishSource": "Fee type"
+  },
+  "delegateThisTransaction": {
+    "message": "このトランザクションを委任する",
+    "englishSource": "Delegate this transaction"
+  },
+  "delegateTransactionTooltip": {
+    "message": "証明生成のリモート サーバーへの委任を構成します。これにより証拠の生成が高速化されますが、トランザクションの詳細は信頼できるサーバーに開示されます。",
+    "englishSource": "Configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
+  },
+  "conversionInitiated": {
+    "message": "変換が開始されました",
+    "englishSource": "Conversion Initiated"
+  },
+  "transactionCompleted": {
+    "message": "取引完了",
+    "englishSource": "Transaction Completed"
+  },
+  "transactionFailed": {
+    "message": "トランザクションが失敗しました",
+    "englishSource": "Transaction Failed"
+  },
+  "doNotCloseWindowNavigateHome": {
+    "message": "このウィンドウを閉じないでください。トランザクションが生成されると、ホームページに戻ります。",
+    "englishSource": "Do not close this window. You will be navigated back to the home page after the transaction is generated"
+  },
+  "doNotCloseWindowAutoClose": {
+    "message": "このウィンドウを閉じないでください。トランザクションが生成されるとウィンドウは自動的に閉じます",
+    "englishSource": "Do not close this window. Window will auto-close after the transaction is generated"
+  },
+  "transactionSuccessDescription": {
+    "message": "あなたのトランザクションは正常に処理され、ネットワーク上で確認されました。",
+    "englishSource": "Your transaction was successfully processed and confirmed on the network."
+  },
+  "transactionErrorDescription": {
+    "message": "トランザクションの処理中にエラーが発生しました。もう一度試してください。",
+    "englishSource": "There was an error processing your transaction. Please try again."
+  },
+  "downloadGeneratedFiles": {
+    "message": "生成されたファイルをダウンロードする",
+    "englishSource": "Download Generated Files"
+  },
+  "onChainAccountPublic": {
+    "message": "オンチェーンアカウント (パブリック)",
+    "englishSource": "On-chain Account (Public)"
+  },
+  "onChainAccountDescription": {
+    "message": "既存の 12 単語のリカバリ フレーズを使用します。他のウォレットプロバイダーからウォレットをインポートすることもできます。",
+    "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
+  },
+  "offChainAccountPrivate": {
+    "message": "オフチェーンアカウント (プライベート)",
+    "englishSource": "Off-chain Account (Private)"
+  },
+  "offChainAccountDescription": {
+    "message": "ブロックチェーンの直接対話をバイパスし、最小限の手数料で高速かつプライベートな操作を実現します。",
+    "englishSource": "Fast, private operations with minimal fees, bypassing direct blockchain interaction."
+  },
+  "chooseYourAccountType": {
+    "message": "アカウントの種類を選択してください",
+    "englishSource": "Choose Your Account Type"
+  },
+  "chooseAccountTypeDescription": {
+    "message": "ブロックチェーンと対話する方法 (オンチェーンまたはオフチェーン) を選択します。",
+    "englishSource": "Select how you want to interact with the blockchain -- on-chain or off-chain."
+  },
+  "canAddMultipleAccountsLater": {
+    "message": "後からウォレット内で複数のアカウント タイプを追加および管理できます。",
+    "englishSource": "You can add and manage multiple account types later within the wallet."
+  },
+  "transactionFile": {
+    "message": "トランザクションファイル",
+    "englishSource": "Transaction file"
+  },
+  "verificationFailed": {
+    "message": "検証に失敗しました",
+    "englishSource": "Verification Failed"
+  },
+  "transactionVerifiedSuccessfully": {
+    "message": "トランザクションは正常に検証されました。これでトークンを請求できるようになりました。",
+    "englishSource": "The transaction has been successfully verified. You can now claim your tokens."
+  },
+  "transactionFileCouldNotBeVerified": {
+    "message": "アップロードされたトランザクション ファイルを確認できませんでした。ファイルが有効であることを確認して、再試行してください。",
+    "englishSource": "The uploaded transaction file could not be verified. Ensure the file is valid and try again."
+  },
+  "home": {
+    "message": "家",
+    "englishSource": "Home"
+  },
+  "timestamp": {
+    "message": "タイムスタンプ",
+    "englishSource": "Timestamp"
+  },
+  "noteType": {
+    "message": "音符の種類",
+    "englishSource": "Note Type"
+  },
+  "noteId": {
+    "message": "ノートID",
+    "englishSource": "Note ID"
+  },
+  "downloadGeneratedFile": {
+    "message": "生成されたファイルをダウンロードする",
+    "englishSource": "Download Generated File"
+  },
+  "viewOnExplorer": {
+    "message": "エクスプローラーで見る",
+    "englishSource": "View on Explorer"
+  },
+  "inProgress": {
+    "message": "進行中",
+    "englishSource": "In Progress"
+  },
+  "you": {
+    "message": "あなた",
+    "englishSource": "You"
+  },
+  "invalidPayload": {
+    "message": "(無効なペイロード)",
+    "englishSource": "(invalid payload)"
+  },
+  "signTheFollowingWord": {
+    "message": "次の単語に署名します $word$ ?",
+    "englishSource": "Sign the following Word $word$?"
+  },
+  "sharePrivateNoteDataForAccount": {
+    "message": "アカウントのすべてのプライベートノートデータを共有する",
+    "englishSource": "Share all private note data for account"
+  },
+  "downloadPrivateNoteData": {
+    "message": "プライベートノートデータのダウンロード",
+    "englishSource": "Download Private Note Data"
+  },
+  "transactionAffectsAccountStorage": {
+    "message": "このトランザクションはアカウントのストレージに影響します。生の概要を確認して検証します",
+    "englishSource": "This transaction affects your account storage. Review the raw summary to verify"
+  },
+  "failedToParseSigningPayload": {
+    "message": "署名ペイロードの解析に失敗しました",
+    "englishSource": "Failed to parse signing payload"
+  },
+  "assetChanges": {
+    "message": "資産の変更",
+    "englishSource": "Asset changes"
+  },
+  "unknown": {
+    "message": "未知",
+    "englishSource": "Unknown"
+  },
+  "inputNotesConsumed": {
+    "message": "消費されたノートを入力",
+    "englishSource": "Input notes consumed"
+  },
+  "outputNotesCreated": {
+    "message": "作成された出力ノート",
+    "englishSource": "Output notes created"
+  },
+  "storageChanged": {
+    "message": "ストレージが変更されました",
+    "englishSource": "Storage changed"
+  },
+  "downloadFullSummary": {
+    "message": "完全な概要をダウンロード (バイト)",
+    "englishSource": "Download full summary (bytes)"
+  },
+  "signArbitraryPayload": {
+    "message": "任意のペイロードに署名しますか?",
+    "englishSource": "Sign the Arbitrary payload?"
+  },
+  "signBlindCommitment": {
+    "message": "ブラインドコミットメントに署名しますか?",
+    "englishSource": "Sign the Blind commitment?"
+  },
+  "connectToWebsite": {
+    "message": "ウェブサイトに接続する",
+    "englishSource": "Connect to website"
+  },
+  "deny": {
+    "message": "拒否",
+    "englishSource": "Deny"
+  },
+  "requestsATransaction": {
+    "message": "トランザクションを要求します",
+    "englishSource": "Requests a transaction"
+  },
+  "requestsToConsumeNote": {
+    "message": "メモの使用リクエスト",
+    "englishSource": "Requests to consume a note"
+  },
+  "requestPrivateNotes": {
+    "message": "プライベートメモをリクエストする",
+    "englishSource": "Request Private Notes"
+  },
+  "requestsPrivateNotes": {
+    "message": "プライベートメモをリクエストします",
+    "englishSource": "Requests private notes"
+  },
+  "confirmSignature": {
+    "message": "署名の確認",
+    "englishSource": "Confirm Signature"
+  },
+  "requestsYourSignature": {
+    "message": "署名を要求します",
+    "englishSource": "Requests your signature"
+  },
+  "requestAssets": {
+    "message": "アセットのリクエスト",
+    "englishSource": "Request Assets"
+  },
+  "requestsAssets": {
+    "message": "アセットのリクエスト",
+    "englishSource": "Requests assets"
+  },
+  "requestImportPrivateNote": {
+    "message": "プライベートメモのインポートをリクエスト",
+    "englishSource": "Request Import Private Note"
+  },
+  "importPrivateNote": {
+    "message": "プライベートメモをインポートする",
+    "englishSource": "Import private note"
+  },
+  "requestConsumableNotes": {
+    "message": "消耗品メモのリクエスト",
+    "englishSource": "Request Consumable Notes"
+  },
+  "requestsConsumableNotes": {
+    "message": "消耗品メモをリクエストする",
+    "englishSource": "Request consumable notes"
+  },
+  "review": {
+    "message": "レビュー",
+    "englishSource": "Review"
+  },
+  "close": {
+    "message": "近い",
+    "englishSource": "Close"
+  },
+  "chooseToken": {
+    "message": "トークンの選択",
+    "englishSource": "Choose token"
+  },
+  "recallBlocks": {
+    "message": "リコールブロック",
+    "englishSource": "Recall blocks"
+  },
+  "delegateTransaction": {
+    "message": "トランザクションの委任",
+    "englishSource": "Delegate transaction"
+  },
+  "shareTransactionPrivately": {
+    "message": "トランザクションを非公開で共有する",
+    "englishSource": "Share transaction privately"
+  },
+  "alreadyHaveTransactionFile": {
+    "message": "すでにトランザクション ファイルをお持ちですか?",
+    "englishSource": "Already have a transaction file?"
+  },
+  "claimAll": {
+    "message": "すべてを請求する",
+    "englishSource": "Claim All"
+  },
+  "readyToClaim": {
+    "message": "請求する準備ができています",
+    "englishSource": "Ready to claim"
+  },
+  "addTokens": {
+    "message": "トークンの追加",
+    "englishSource": "Add tokens"
+  },
+  "getTokens": {
+    "message": "トークンを取得する",
+    "englishSource": "Get tokens"
+  },
+  "getTokensDescription": {
+    "message": "トークンは蛇口から取得したり、別のウォレットやアカウントから転送したりできます。",
+    "englishSource": "You can get tokens from the faucet or transfer them from another wallet or account."
+  },
+  "transferTokens": {
+    "message": "トークンの転送",
+    "englishSource": "Transfer tokens"
+  },
+  "midenFaucet": {
+    "message": "ミデン蛇口",
+    "englishSource": "Miden Faucet"
+  },
+  "midenFaucetDescription": {
+    "message": "下のボタンをクリックすると、アドレスがクリップボードにコピーされ、Miden Faucet に移動します。",
+    "englishSource": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet."
+  },
+  "accountPublicKey": {
+    "message": "アカウントの公開鍵",
+    "englishSource": "Account Public Key"
   }
 }
