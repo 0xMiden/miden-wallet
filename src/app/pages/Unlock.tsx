@@ -144,7 +144,7 @@ const Unlock: FC<UnlockProps> = ({ openForgotPasswordInFullPage = false }) => {
         style={{ padding: '0px 32px' }}
       >
         <FormField
-          ref={register({ required: t('required') })}
+          {...register('password', { required: t('required') })}
           label={
             <div className="font-medium -mb-2" style={{ fontSize: '14px', lineHeight: '20px' }}>
               {t('password')}

@@ -59,7 +59,7 @@ const EditMidenFaucetId: FC = () => {
     return (
       <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
         <FormField
-          ref={register({ required: t('required') })}
+          {...register('faucetId', { required: t('required') })}
           label={t('faucetId')}
           labelDescription={t('setNewFaucetIdDescription')}
           id="set-faucet-id"

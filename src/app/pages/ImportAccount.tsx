@@ -116,7 +116,7 @@ const ByPrivateKeyForm: FC = () => {
       {error && <Alert type="error" title={t('error')} autoFocus description={error} className="mb-6" />}
 
       <FormField
-        ref={register({ required: t('required') })}
+        {...register('privateKey', { required: t('required') })}
         secret
         textarea
         rows={1}
@@ -204,27 +204,31 @@ const WatchOnlyForm: FC = () => {
 
       <Controller
         name="viewKey"
-        as={<NoSpaceField ref={addressFieldRef} />}
         control={control}
         rules={{
           required: true,
           validate: (value: any) => true
         }}
-        onChange={([v]) => v}
-        onFocus={() => addressFieldRef.current?.focus()}
-        textarea
-        rows={1}
-        cleanable={Boolean(getValues().viewKey)}
-        onClean={cleanViewKeyField}
-        id="watch-viewKey"
-        label={
-          <div className="font-medium -mb-2" style={{ fontSize: '14px', lineHeight: '20px' }}>
-            {t('viewKeyWatchOnly')}
-          </div>
-        }
-        placeholder={t('viewKeyInputPlaceholder')}
-        errorCaption={errors.viewKey?.message}
-        className="resize-none"
+        render={({ field }) => (
+          <NoSpaceField
+            {...field}
+            ref={addressFieldRef}
+            onFocus={() => addressFieldRef.current?.focus()}
+            textarea
+            rows={1}
+            cleanable={Boolean(getValues().viewKey)}
+            onClean={cleanViewKeyField}
+            id="watch-viewKey"
+            label={
+              <div className="font-medium -mb-2" style={{ fontSize: '14px', lineHeight: '20px' }}>
+                {t('viewKeyWatchOnly')}
+              </div>
+            }
+            placeholder={t('viewKeyInputPlaceholder')}
+            errorCaption={errors.viewKey?.message}
+            className="resize-none"
+          />
+        )}
       />
       <div className="mb-6 text-gray-200" style={{ fontSize: '12px', lineHeight: '16px' }}>
         {t('viewKeyInputDescription')}

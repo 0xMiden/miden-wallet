@@ -221,7 +221,7 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
             Enter the password you set when exporting your wallet. This will decrypt the file and restore access.
           </p>
           <FormField
-            ref={register({
+            {...register('password', {
               required: PASSWORD_ERROR_CAPTION
             })}
             label={t('password')}
