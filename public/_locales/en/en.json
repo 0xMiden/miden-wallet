@@ -1070,5 +1070,18 @@
   "shareTransactionPrivately": "Share transaction privately",
   "alreadyHaveTransactionFile": "Already have a transaction file?",
   "claimAll": "Claim All",
-  "readyToClaim": "Ready to claim"
+  "readyToClaim": "Ready to claim",
+  "addTokens": "Add tokens",
+  "getTokens": "Get tokens",
+  "getTokensDescription": "You can get tokens from the faucet or transfer them from another wallet or account.",
+  "transferTokens": "Transfer tokens",
+  "midenFaucet": "Miden Faucet",
+  "midenFaucetDescription": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet.",
+  "accountPublicKey": "Account Public Key",
+  "editMidenFaucetId": "Edit Miden Faucet ID",
+  "faucetId": "Faucet ID",
+  "setNewFaucetId": "Set new Faucet ID",
+  "setNewFaucetIdDescription": "Enter the ID of a miden faucet",
+  "encryptedWalletFilePassword": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later.",
+  "onlyAleoSeedPhrasesAreSupported": "Only Aleo Seed phrases are supported."
 }
