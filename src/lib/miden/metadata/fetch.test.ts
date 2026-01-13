@@ -63,7 +63,6 @@ describe('metadata/fetch', () => {
       mockIsMidenAsset.mockReturnValue(false);
       const mockAccount = { id: 'test' };
       mockGetAccount.mockResolvedValue(mockAccount);
-      mockImportAccountById.mockResolvedValue(undefined);
       mockFromAccount.mockReturnValue({
         decimals: () => 8,
         symbol: () => ({ toString: () => 'TEST' })
@@ -108,7 +107,7 @@ describe('metadata/fetch', () => {
   });
 
   describe('IndexedDB-first loading optimization', () => {
-    it('reads from IndexedDB (getAccount) BEFORE triggering network fetch (importAccountById)', async () => {
+    it('reads from IndexedDB (getAccount) BEFORE any network fetch (importAccountById)', async () => {
       mockIsMidenAsset.mockReturnValue(false);
 
       const callOrder: string[] = [];
@@ -128,28 +127,25 @@ describe('metadata/fetch', () => {
 
       // getAccount (IndexedDB read) must be called FIRST
       expect(callOrder[0]).toBe('getAccount');
-      // importAccountById is called for background refresh, but after getAccount
-      expect(callOrder.indexOf('getAccount')).toBeLessThan(callOrder.indexOf('importAccountById'));
+      // importAccountById should NOT be called at all if account exists
+      expect(callOrder).not.toContain('importAccountById');
     });
 
-    it('returns cached data immediately and triggers background refresh', async () => {
+    it('skips network fetch when account exists in IndexedDB', async () => {
       mockIsMidenAsset.mockReturnValue(false);
       const mockAccount = { id: 'cached-account' };
       mockGetAccount.mockResolvedValue(mockAccount);
-      mockImportAccountById.mockResolvedValue(undefined);
       mockFromAccount.mockReturnValue({
         decimals: () => 8,
         symbol: () => ({ toString: () => 'FAST' })
       });
 
-      const result = await fetchTokenMetadata('cached-asset-id');
+      await fetchTokenMetadata('cached-asset-id');
 
-      // getAccount should be called first (reads from IndexedDB)
+      // getAccount should be called (reads from IndexedDB)
       expect(mockGetAccount).toHaveBeenCalledWith('cached-asset-id');
-      // Should return cached data immediately
-      expect(result.base.symbol).toBe('FAST');
-      // importAccountById should be called for background refresh
-      expect(mockImportAccountById).toHaveBeenCalledWith('cached-asset-id');
+      // importAccountById should NOT be called (no network fetch needed)
+      expect(mockImportAccountById).not.toHaveBeenCalled();
     });
 
     it('only fetches from network when account is NOT in IndexedDB', async () => {
