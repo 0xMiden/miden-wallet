@@ -137,13 +137,17 @@ export const initiateConsumeTransaction = async (
   return dbTransaction.id;
 };
 
-export const waitForConsumeTx = async (id: string): Promise<string> => {
-  return new Promise<string>((resolve, rejects) => {
+export const waitForConsumeTx = async (id: string, signal?: AbortSignal): Promise<string> => {
+  return new Promise<string>((resolve, reject) => {
+    if (signal?.aborted) {
+      reject(new DOMException('Aborted', 'AbortError'));
+      return;
+    }
+
     const subscription = liveQuery(() => Repo.transactions.where({ id }).first()).subscribe(tx => {
       if (!tx) {
-        // Transaction not found - resolve with error
-        rejects('Transaction not found');
         subscription.unsubscribe();
+        reject(new Error('Transaction not found'));
         return;
       }
 
@@ -152,8 +156,13 @@ export const waitForConsumeTx = async (id: string): Promise<string> => {
         resolve(tx.transactionId!);
       } else if (tx.status === ITransactionStatus.Failed) {
         subscription.unsubscribe();
-        rejects('Consume transaction failed');
+        reject(new Error('Consume transaction failed'));
       }
+    });
+
+    signal?.addEventListener('abort', () => {
+      subscription.unsubscribe();
+      reject(new DOMException('Aborted', 'AbortError'));
     });
   });
 };

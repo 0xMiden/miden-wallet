@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import classNames from 'clsx';
 
@@ -191,24 +191,40 @@ export const ConsumableNoteComponent = ({
 }: ConsumableNoteProps) => {
   const [isLoading, setIsLoading] = useState(note.isBeingClaimed || false);
   const [error, setError] = useState<string | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    return () => {
+      abortControllerRef.current?.abort();
+    };
+  }, []);
 
   const handleConsume = useCallback(async () => {
+    setError(null);
     setIsLoading(true);
+
+    abortControllerRef.current?.abort();
+    abortControllerRef.current = new AbortController();
+    const signal = abortControllerRef.current.signal;
+
     try {
       const id = await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
       await openLoadingFullPage();
-      const txHash = await waitForConsumeTx(id);
+      const txHash = await waitForConsumeTx(id, signal);
       await mutateClaimableNotes();
       console.log('Successfully consumed note, tx hash:', txHash);
     } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        return;
+      }
       setError('Failed to consume note. Please try again.');
       console.error('Error consuming note:', error);
     } finally {
       setIsLoading(false);
     }
-  }, [account, isDelegatedProvingEnabled, mutateClaimableNotes, setIsLoading, setError, note]);
+  }, [account, isDelegatedProvingEnabled, mutateClaimableNotes, note]);
   return (
-    <div key={note.id} className="flex justify-center items-center gap-8">
+    <div className="flex justify-center items-center gap-8">
       <div className="flex items-center gap-x-2">
         <Icon name={IconName.ArrowRightDownFilledCircle} size="lg" />
         <div className="flex flex-col">
