@@ -120,7 +120,7 @@ const AddNewContactForm: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <form className={className} onSubmit={handleSubmit(onAddContactSubmit)}>
       <FormField
-        ref={register({
+        {...register('address', {
           required: t('required'),
           maxLength: { value: 50, message: t('maximalAmount', '50') }
         })}
@@ -137,7 +137,7 @@ const AddNewContactForm: React.FC<{ className?: string }> = ({ className }) => {
       />
 
       <FormField
-        ref={register({
+        {...register('name', {
           required: t('required'),
           maxLength: { value: 50, message: t('maximalAmount', '50') }
         })}

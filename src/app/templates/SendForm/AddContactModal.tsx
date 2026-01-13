@@ -58,7 +58,7 @@ const AddContactModal: FC<AddContactModalProps> = ({ address, onClose }) => {
           </div>
 
           <FormField
-            ref={register({
+            {...register('name', {
               required: t('required'),
               maxLength: { value: 50, message: t('maximalAmount', '50') }
             })}

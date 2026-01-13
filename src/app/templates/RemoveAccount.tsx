@@ -70,7 +70,7 @@ const RemoveAccount: FC = () => {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormField
-          ref={register({ required: t('required') })}
+          {...register('password', { required: t('required') })}
           label={t('password')}
           labelDescription={t('enterPasswordToRemoveAccount')}
           id="removeacc-secret-password"

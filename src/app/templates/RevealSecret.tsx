@@ -268,7 +268,7 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
     return (
       <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
         <FormField
-          ref={register({ required: t('required') })}
+          {...register('password', { required: t('required') })}
           label={t('password')}
           labelDescription={t('revealSecretPasswordInputDescription', texts.name)}
           id="reveal-secret-password"

@@ -108,7 +108,7 @@ const CreateAccount: FC = () => {
       <div className="w-full max-w-sm mx-auto px-4">
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormField
-            ref={register({
+            {...register('name', {
               pattern: {
                 value: ACCOUNT_NAME_PATTERN,
                 message: t('accountNameInputTitle')
