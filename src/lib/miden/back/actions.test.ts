@@ -13,7 +13,11 @@ import {
   getAllDAppSessions,
   getCurrentAccount,
   createHDAccount,
-  processDApp
+  processDApp,
+  init,
+  isDAppEnabled,
+  revealMnemonic,
+  removeDAppSession
 } from './actions';
 
 // Create mock vault instance
@@ -48,7 +52,7 @@ let mockStoreState = {
   ownMnemonic: null
 };
 
-jest.mock('./vault', () => ({
+jest.mock('lib/miden/back/vault', () => ({
   Vault: {
     isExist: jest.fn(),
     spawn: jest.fn(),
@@ -123,6 +127,47 @@ describe('actions', () => {
 
   afterEach(() => {
     consoleLogSpy.mockRestore();
+  });
+
+  describe('init', () => {
+    it('calls Vault.isExist and inited', async () => {
+      const { Vault } = jest.requireMock('lib/miden/back/vault');
+      Vault.isExist.mockResolvedValueOnce(true);
+
+      await init();
+
+      expect(Vault.isExist).toHaveBeenCalled();
+      expect(mockInited).toHaveBeenCalledWith(true);
+    });
+
+    it('passes false to inited when vault does not exist', async () => {
+      const { Vault } = jest.requireMock('lib/miden/back/vault');
+      Vault.isExist.mockResolvedValueOnce(false);
+
+      await init();
+
+      expect(mockInited).toHaveBeenCalledWith(false);
+    });
+  });
+
+  describe('isDAppEnabled', () => {
+    it('returns true when vault exists and DApp is enabled', async () => {
+      const { Vault } = jest.requireMock('lib/miden/back/vault');
+      Vault.isExist.mockResolvedValueOnce(true);
+
+      const result = await isDAppEnabled();
+
+      expect(result).toBe(true);
+    });
+
+    it('returns false when vault does not exist', async () => {
+      const { Vault } = jest.requireMock('lib/miden/back/vault');
+      Vault.isExist.mockResolvedValueOnce(false);
+
+      const result = await isDAppEnabled();
+
+      expect(result).toBe(false);
+    });
   });
 
   describe('getFrontState', () => {
@@ -216,6 +261,33 @@ describe('actions', () => {
       const result = await getAllDAppSessions();
 
       expect(result).toEqual({ 'https://example.com': [] });
+    });
+  });
+
+  describe('revealMnemonic', () => {
+    it('calls Vault.revealMnemonic with password', async () => {
+      const { Vault } = jest.requireMock('lib/miden/back/vault');
+      Vault.revealMnemonic.mockResolvedValueOnce('word1 word2 word3');
+
+      const result = await revealMnemonic('password123');
+
+      expect(Vault.revealMnemonic).toHaveBeenCalledWith('password123');
+      expect(result).toBe('word1 word2 word3');
+    });
+  });
+
+  describe('removeDAppSession', () => {
+    it('removes DApp session for current account', async () => {
+      const { Vault } = jest.requireMock('lib/miden/back/vault');
+      const { removeDApp } = jest.requireMock('./dapp');
+      Vault.getCurrentAccountPublicKey.mockResolvedValueOnce('current-pk');
+      removeDApp.mockResolvedValueOnce(true);
+
+      const result = await removeDAppSession('https://example.com');
+
+      expect(Vault.getCurrentAccountPublicKey).toHaveBeenCalled();
+      expect(removeDApp).toHaveBeenCalledWith('https://example.com', 'current-pk');
+      expect(result).toBe(true);
     });
   });
 
