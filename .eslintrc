@@ -11,7 +11,7 @@
     "import/resolver": {
       "typescript": {}
     },
-    "import/ignore": ["framer-motion"]
+    "import/ignore": ["framer-motion", "p-queue", "zustand", "@floating-ui/react"]
   },
   "parser": "@typescript-eslint/parser",
   "ignorePatterns": ["**.css"],
