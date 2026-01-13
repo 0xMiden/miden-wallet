@@ -11,7 +11,7 @@ import AddressChip from 'app/templates/AddressChip';
 import { Button, ButtonVariant } from 'components/Button';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { T } from 'lib/i18n/react';
-import { initiateConsumeTransaction, waitForConsumeTx } from 'lib/miden/activity';
+import { getUncompletedTransactions, initiateConsumeTransaction, waitForConsumeTx } from 'lib/miden/activity';
 import { AssetMetadata, useAccount } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { ConsumableNote } from 'lib/miden/types';
@@ -198,6 +198,43 @@ export const ConsumableNoteComponent = ({
       abortControllerRef.current?.abort();
     };
   }, []);
+
+  // Resume waiting for in-progress transaction when component mounts with isBeingClaimed
+  useEffect(() => {
+    if (!note.isBeingClaimed || abortControllerRef.current) {
+      return;
+    }
+
+    const resumeWaiting = async () => {
+      const uncompletedTxs = await getUncompletedTransactions(account.publicKey);
+      const tx = uncompletedTxs.find(t => t.type === 'consume' && t.noteId === note.id);
+
+      if (!tx) {
+        // Transaction not found - it may have completed/failed already
+        setIsLoading(false);
+        return;
+      }
+
+      abortControllerRef.current = new AbortController();
+      const signal = abortControllerRef.current.signal;
+
+      try {
+        const txHash = await waitForConsumeTx(tx.id, signal);
+        await mutateClaimableNotes();
+        console.log('Successfully consumed note (resumed), tx hash:', txHash);
+      } catch (err) {
+        if (err instanceof DOMException && err.name === 'AbortError') {
+          return;
+        }
+        setError('Failed to consume note. Please try again.');
+        console.error('Error consuming note (resumed):', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    resumeWaiting();
+  }, [note.isBeingClaimed, note.id, account.publicKey, mutateClaimableNotes]);
 
   const handleConsume = useCallback(async () => {
     setError(null);
