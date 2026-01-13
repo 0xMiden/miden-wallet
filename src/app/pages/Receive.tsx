@@ -297,13 +297,15 @@ export const ConsumableNoteComponent = ({
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(note.isBeingClaimed || false);
   const showSpinner = isLoading || isClaimingFromParent;
+  const [error, setError] = useState<string | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
+  // Track if we've verified the claim status to prevent sync effect from re-enabling loading
+  const hasVerifiedClaimStatus = useRef(false);
 
   // Report claiming state changes to parent
   useEffect(() => {
     onClaimingStateChange?.(note.id, isLoading);
   }, [isLoading, note.id, onClaimingStateChange]);
-  const [error, setError] = useState<string | null>(null);
-  const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     return () => {
@@ -312,8 +314,9 @@ export const ConsumableNoteComponent = ({
   }, []);
 
   // Sync isLoading state when note.isBeingClaimed changes (e.g., popup reopened with in-progress claim)
+  // Skip if we've already verified the claim status (e.g., found no transaction in IndexedDB)
   useEffect(() => {
-    if (note.isBeingClaimed && !isLoading) {
+    if (note.isBeingClaimed && !isLoading && !hasVerifiedClaimStatus.current) {
       setIsLoading(true);
     }
   }, [note.isBeingClaimed, isLoading]);
@@ -330,6 +333,7 @@ export const ConsumableNoteComponent = ({
 
       if (!tx) {
         // Transaction not found - it may have completed/failed already
+        hasVerifiedClaimStatus.current = true;
         setIsLoading(false);
         return;
       }
@@ -345,6 +349,7 @@ export const ConsumableNoteComponent = ({
         if (err instanceof DOMException && err.name === 'AbortError') {
           return;
         }
+        hasVerifiedClaimStatus.current = true;
         setError('Failed to consume note. Please try again.');
         console.error('Error consuming note (resumed):', err);
       } finally {
