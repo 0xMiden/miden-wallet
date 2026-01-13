@@ -4058,6 +4058,10 @@
     "message": "Claim",
     "englishSource": "Claim"
   },
+  "claimAll": {
+    "message": "Claim All",
+    "englishSource": "Claim All"
+  },
   "claimed": {
     "message": "Claimed",
     "englishSource": "Claimed"

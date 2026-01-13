@@ -150,7 +150,7 @@ describe('ConsumableNoteComponent', () => {
 
     const button = testContainer.querySelector('[data-testid="claim-button"]');
     expect(button).toBeTruthy();
-    expect(button?.textContent).toBe('Claim');
+    expect(button?.textContent).toBe('claim');
   });
 
   it('shows spinner when note is being claimed', async () => {
@@ -235,7 +235,7 @@ describe('ConsumableNoteComponent', () => {
     });
 
     const retryButton = testContainer.querySelector('[data-testid="claim-button"]');
-    expect(retryButton?.textContent).toBe('Retry');
+    expect(retryButton?.textContent).toBe('retry');
     expect(testContainer.textContent).toContain('Error Claiming');
   });
 
@@ -333,7 +333,7 @@ describe('ConsumableNoteComponent', () => {
 
     expect(testContainer.textContent).toContain('Error Claiming');
     const retryButton = testContainer.querySelector('[data-testid="claim-button"]');
-    expect(retryButton?.textContent).toBe('Retry');
+    expect(retryButton?.textContent).toBe('retry');
   });
 
   it('aborts waiting on unmount', async () => {

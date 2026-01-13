@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import FormField from 'app/atoms/FormField';
 import { openLoadingFullPage, useAppEnv } from 'app/env';
@@ -24,6 +25,7 @@ import { truncateAddress } from 'utils/string';
 export interface ReceiveProps {}
 
 export const Receive: React.FC<ReceiveProps> = () => {
+  const { t } = useTranslation();
   const account = useAccount();
   const address = account.publicKey;
   const { midenClient } = useMidenClient();
@@ -34,6 +36,48 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const safeClaimableNotes = (claimableNotes ?? []).filter((n): n is NonNullable<typeof n> => n != null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isClaimingAll, setIsClaimingAll] = useState(false);
+  const claimAllAbortRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    return () => {
+      claimAllAbortRef.current?.abort();
+    };
+  }, []);
+
+  const handleClaimAll = useCallback(async () => {
+    if (safeClaimableNotes.length === 0) return;
+
+    setIsClaimingAll(true);
+    claimAllAbortRef.current?.abort();
+    claimAllAbortRef.current = new AbortController();
+    const signal = claimAllAbortRef.current.signal;
+
+    try {
+      await openLoadingFullPage();
+
+      // Process notes sequentially to avoid overwhelming the system
+      for (const note of safeClaimableNotes) {
+        if (signal.aborted) break;
+        if (note.isBeingClaimed) continue;
+
+        try {
+          const id = await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
+          await waitForConsumeTx(id, signal);
+        } catch (err) {
+          if (err instanceof DOMException && err.name === 'AbortError') {
+            break;
+          }
+          console.error('Error claiming note:', note.id, err);
+          // Continue with next note even if one fails
+        }
+      }
+
+      await mutateClaimableNotes();
+    } finally {
+      setIsClaimingAll(false);
+    }
+  }, [safeClaimableNotes, account.publicKey, isDelegatedProvingEnabled, mutateClaimableNotes]);
 
   const pageTitle = (
     <>
@@ -170,6 +214,22 @@ export const Receive: React.FC<ReceiveProps> = () => {
               isDelegatedProvingEnabled={isDelegatedProvingEnabled}
             />
           ))}
+          {safeClaimableNotes.length > 0 && (
+            <div className="flex justify-center mt-4">
+              {isClaimingAll ? (
+                <div className="w-[120px] h-[40px] flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-500"></div>
+                </div>
+              ) : (
+                <Button
+                  className="w-[120px] h-[40px] text-md"
+                  variant={ButtonVariant.Primary}
+                  onClick={handleClaimAll}
+                  title={t('claimAll')}
+                />
+              )}
+            </div>
+          )}
         </div>
       </div>
     </PageLayout>
@@ -189,6 +249,7 @@ export const ConsumableNoteComponent = ({
   account,
   isDelegatedProvingEnabled
 }: ConsumableNoteProps) => {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(note.isBeingClaimed || false);
   const [error, setError] = useState<string | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -281,7 +342,7 @@ export const ConsumableNoteComponent = ({
           className="w-[75px] h-[36px] text-md"
           variant={ButtonVariant.Primary}
           onClick={handleConsume}
-          title={error ? 'Retry' : 'Claim'}
+          title={error ? t('retry') : t('claim')}
         />
       )}
     </div>
