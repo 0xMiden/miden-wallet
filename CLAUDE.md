@@ -192,6 +192,8 @@ Use `$placeholder$` format for dynamic values:
 
 ## Important Notes
 
+- **Never push without explicit request.** Creating commits is fine, but never run `git push` unless the user explicitly asks.
+- **Keep commit messages short.** Use single-line messages (e.g., "fix: add missing i18n keys").
 - Uses yarn, not npm (yarn.lock is the lockfile)
 - Browser extension APIs via `webextension-polyfill`
 - Miden SDK is a WASM module (`@demox-labs/miden-sdk`)
