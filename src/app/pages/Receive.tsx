@@ -82,7 +82,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
       await openLoadingFullPage();
 
       // Wait for all transactions to complete
-      for (const { noteId, txId } of transactionIds) {
+      for (const { txId } of transactionIds) {
         if (signal.aborted) break;
         try {
           await waitForConsumeTx(txId, signal);
@@ -222,24 +222,26 @@ export const Receive: React.FC<ReceiveProps> = () => {
           <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={onUploadFile} />
         </div>
         <div className="w-5/6 md:w-1/2 mx-auto" style={{ borderBottom: '1px solid #E9EBEF' }}></div>
-        <div className="flex flex-col gap-y-4 p-6">
-          <div className="flex justify-center">
-            <div className="relative left-[-33%] md:left-[-19%]">
-              {claimableNotes !== undefined && claimableNotes.length > 0 && (
-                <p className="text-md text-gray-600">{t('readyToClaim')}</p>
-              )}
-            </div>
+        <div className="flex flex-col p-6">
+          {claimableNotes !== undefined && claimableNotes.length > 0 && (
+            <p className="text-md text-gray-600 mb-4">{t('readyToClaim')}</p>
+          )}
+          {/* Scrollable notes container with reserved scrollbar space */}
+          <div
+            className="flex flex-col gap-y-4 overflow-y-auto pr-2"
+            style={{ maxHeight: '160px', scrollbarGutter: 'stable' }}
+          >
+            {safeClaimableNotes.map(note => (
+              <ConsumableNoteComponent
+                key={note.id}
+                note={note}
+                mutateClaimableNotes={mutateClaimableNotes}
+                account={account}
+                isDelegatedProvingEnabled={isDelegatedProvingEnabled}
+                isClaimingFromParent={claimingNoteIds.has(note.id)}
+              />
+            ))}
           </div>
-          {safeClaimableNotes.map(note => (
-            <ConsumableNoteComponent
-              key={note.id}
-              note={note}
-              mutateClaimableNotes={mutateClaimableNotes}
-              account={account}
-              isDelegatedProvingEnabled={isDelegatedProvingEnabled}
-              isClaimingFromParent={claimingNoteIds.has(note.id)}
-            />
-          ))}
           {safeClaimableNotes.length > 0 && (
             <div className="flex justify-center mt-4">
               <Button
@@ -346,29 +348,31 @@ export const ConsumableNoteComponent = ({
     }
   }, [account, isDelegatedProvingEnabled, mutateClaimableNotes, note]);
   return (
-    <div className="flex justify-center items-center gap-8">
-      <div className="flex items-center gap-x-2">
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-x-2 flex-1 min-w-0">
         <Icon name={IconName.ArrowRightDownFilledCircle} size="lg" />
-        <div className="flex flex-col">
-          <p className="text-md font-bold">
+        <div className="flex flex-col min-w-0">
+          <p className="text-md font-bold truncate">
             {error ? 'Error Claiming: ' : ''}
             {`${formatBigInt(BigInt(note.amount), note.metadata?.decimals || 6)} ${note.metadata?.symbol || 'UNKNOWN'}`}
           </p>
           <p className="text-xs text-gray-500">{truncateAddress(note.senderAddress)}</p>
         </div>
       </div>
-      {showSpinner ? (
-        <div className="w-[75px] h-[36px] flex items-center justify-center">
-          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-500"></div>
-        </div>
-      ) : (
-        <Button
-          className="w-[75px] h-[36px] text-md"
-          variant={ButtonVariant.Primary}
-          onClick={handleConsume}
-          title={error ? t('retry') : t('claim')}
-        />
-      )}
+      <div className="flex-shrink-0 ml-4">
+        {showSpinner ? (
+          <div className="w-[75px] h-[36px] flex items-center justify-center">
+            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-500"></div>
+          </div>
+        ) : (
+          <Button
+            className="w-[75px] h-[36px] text-md"
+            variant={ButtonVariant.Primary}
+            onClick={handleConsume}
+            title={error ? t('retry') : t('claim')}
+          />
+        )}
+      </div>
     </div>
   );
 };
