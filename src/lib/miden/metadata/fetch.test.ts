@@ -82,7 +82,10 @@ describe('metadata/fetch', () => {
 
     it('returns DEFAULT_TOKEN_METADATA when account not found after import', async () => {
       mockIsMidenAsset.mockReturnValue(false);
-      mockGetAccount.mockResolvedValue(null); // Not in IndexedDB, import also fails to load
+      // Both calls return null - not in IndexedDB and import fails to load
+      mockGetAccount
+        .mockResolvedValueOnce(null)
+        .mockResolvedValueOnce(null);
       mockImportAccountById.mockResolvedValue(undefined);
 
       const result = await fetchTokenMetadata('unknown-asset-id');
@@ -158,7 +161,7 @@ describe('metadata/fetch', () => {
         symbol: () => ({ toString: () => 'IMPORTED' })
       });
 
-      await fetchTokenMetadata('new-asset-id');
+      const result = await fetchTokenMetadata('new-asset-id');
 
       // First: try IndexedDB
       expect(mockGetAccount).toHaveBeenNthCalledWith(1, 'new-asset-id');
@@ -166,6 +169,9 @@ describe('metadata/fetch', () => {
       expect(mockImportAccountById).toHaveBeenCalledWith('new-asset-id');
       // Finally: read the imported account
       expect(mockGetAccount).toHaveBeenNthCalledWith(2, 'new-asset-id');
+      // Should return actual metadata from imported account, not default
+      expect(result.base.symbol).toBe('IMPORTED');
+      expect(result.base.decimals).toBe(6);
     });
   });
 

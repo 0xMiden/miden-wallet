@@ -23,7 +23,9 @@ export async function fetchTokenMetadata(
       if (!account) {
         await midenClient.importAccountById(assetId);
         account = await midenClient.getAccount(assetId);
-        return null;
+        if (!account) {
+          return null;
+        }
       }
       const faucetDetails = BasicFungibleFaucetComponent.fromAccount(account);
       return {
