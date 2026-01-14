@@ -557,18 +557,29 @@ export const safeGenerateTransactionsLoop = async (
     });
 };
 
+const WAIT_FOR_TX_TIMEOUT = 5 * 60_000; // 5 minutes
+
 export const waitForTransactionCompletion = async (transactionId: string) => {
   return new Promise<TransactionOutput>(resolve => {
-    const subscription = liveQuery(() => Repo.transactions.where({ id: transactionId }).first()).subscribe(tx => {
+    let subscription: { unsubscribe: () => void } | null = null;
+
+    const timeoutId = setTimeout(() => {
+      subscription?.unsubscribe();
+      resolve({ errorMessage: 'Transaction timed out' });
+    }, WAIT_FOR_TX_TIMEOUT);
+
+    subscription = liveQuery(() => Repo.transactions.where({ id: transactionId }).first()).subscribe(tx => {
       if (!tx) {
         // Transaction not found - resolve with error
+        clearTimeout(timeoutId);
         resolve({ errorMessage: 'Transaction not found' });
-        subscription.unsubscribe();
+        subscription?.unsubscribe();
         return;
       }
 
       if (tx.status === ITransactionStatus.Completed) {
-        subscription.unsubscribe();
+        clearTimeout(timeoutId);
+        subscription?.unsubscribe();
         const txResult = TransactionResult.deserialize(tx.resultBytes!);
         const res = {
           txHash: tx.transactionId!,
@@ -582,7 +593,8 @@ export const waitForTransactionCompletion = async (transactionId: string) => {
         };
         resolve(res);
       } else if (tx.status === ITransactionStatus.Failed) {
-        subscription.unsubscribe();
+        clearTimeout(timeoutId);
+        subscription?.unsubscribe();
         resolve({ errorMessage: tx.error || 'Transaction failed' });
       }
     });
