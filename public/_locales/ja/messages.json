@@ -3,6 +3,10 @@
     "message": "テンプル - テゾスウォレット",
     "englishSource": "Miden Wallet"
   },
+  "appDesc": {
+    "message": "Miden ブロックチェーン用のブラウザ ウォレット",
+    "englishSource": "A browser wallet for the Miden blockchain"
+  },
   "createAccount": {
     "message": "アカウントを作成または復元する",
     "englishSource": "Create or Restore account"
@@ -251,8 +255,8 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "私のSeed Phraseは$1ワードです",
-    "englishSource": "My Seed phrase is $1 words"
+    "message": "私の Seed phrase は {{num}} 語です",
+    "englishSource": "My Seed phrase is {{num}} words"
   },
   "justValidPreGeneratedMnemonic": {
     "message": "有効な事前生成されたニーモニック",
@@ -313,13 +317,8 @@
     }
   },
   "maximalAmount": {
-    "message": "最大: $amount$",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Maximal: $amount$"
+    "message": "最大値: {{金額}}",
+    "englishSource": "Maximal: {{amount}}"
   },
   "accountName": {
     "message": "アカウント名",
@@ -576,13 +575,8 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "$currency$資金が足りません",
-    "placeholders": {
-      "currency": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Not enough $currency$ funds"
+    "message": "{{currency}} の資金が不足しています",
+    "englishSource": "Not enough {{currency}} funds"
   },
   "failed": {
     "message": "失敗しました",
@@ -610,13 +604,8 @@
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "$action$を確定",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Confirm $action$"
+    "message": "{{アクション}}を確認してください",
+    "englishSource": "Confirm {{action}}"
   },
   "confirm": {
     "message": "確定",
@@ -944,6 +933,18 @@
   "other": {
     "message": "他の",
     "englishSource": "Other"
+  },
+  "thousandFormat": {
+    "message": "{{千}}k",
+    "englishSource": "{{thousand}}k"
+  },
+  "millionFormat": {
+    "message": "{{百万}}M",
+    "englishSource": "{{million}}M"
+  },
+  "billionFormat": {
+    "message": "{{十億}}B",
+    "englishSource": "{{billion}}B"
   },
   "uploadFile": {
     "message": "ファイルをアップロードする",

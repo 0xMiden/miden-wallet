@@ -3,6 +3,10 @@
     "message": "Miden - Miden Wallet",
     "englishSource": "Miden Wallet"
   },
+  "appDesc": {
+    "message": "Браузерний гаманець для блокчейну Miden",
+    "englishSource": "A browser wallet for the Miden blockchain"
+  },
   "createAccount": {
     "message": "Створити або відновити аккаунт",
     "englishSource": "Create or Restore account"
@@ -251,8 +255,8 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "Моя фраза Seed складається з $1 слів",
-    "englishSource": "My Seed phrase is $1 words"
+    "message": "Мій Seed phrase містить {{num}} слів",
+    "englishSource": "My Seed phrase is {{num}} words"
   },
   "justValidPreGeneratedMnemonic": {
     "message": "Провалідуй пре-генеровану мнємоніку",
@@ -313,13 +317,8 @@
     }
   },
   "maximalAmount": {
-    "message": "Максимум: $amount$",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Maximal: $amount$"
+    "message": "Максимальна: {{сума}}",
+    "englishSource": "Maximal: {{amount}}"
   },
   "accountName": {
     "message": "Ім'я аккаунту",
@@ -576,13 +575,8 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "Не достатньо коштів у $currency$",
-    "placeholders": {
-      "currency": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Not enough $currency$ funds"
+    "message": "Недостатньо {{currency}} коштів",
+    "englishSource": "Not enough {{currency}} funds"
   },
   "failed": {
     "message": "Невдача ;(",
@@ -610,13 +604,8 @@
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "Підтвердити $action$",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Confirm $action$"
+    "message": "Підтвердити {{action}}",
+    "englishSource": "Confirm {{action}}"
   },
   "confirm": {
     "message": "Підтвердити",
@@ -946,22 +935,12 @@
     "englishSource": "Other"
   },
   "thousandFormat": {
-    "message": "$thousand$ тис.",
-    "placeholders": {
-      "thousand": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$thousand$k"
+    "message": "{{thousand}}k",
+    "englishSource": "{{thousand}}k"
   },
   "millionFormat": {
-    "message": "$million$ млн",
-    "placeholders": {
-      "million": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$million$M"
+    "message": "{{мільйон}}М",
+    "englishSource": "{{million}}M"
   },
   "billionFormat": {
     "message": "{{мільярд}}Б",

@@ -3,6 +3,10 @@
     "message": "Cartera Miden",
     "englishSource": "Miden Wallet"
   },
+  "appDesc": {
+    "message": "Una billetera de navegador para la cadena de bloques Miden",
+    "englishSource": "A browser wallet for the Miden blockchain"
+  },
   "createAccount": {
     "message": "Crear o restaurar cuenta",
     "englishSource": "Create or Restore account"
@@ -170,8 +174,8 @@
     "englishSource": "1-16 characters, no special"
   },
   "defaultAccountName": {
-    "message": "Cuenta $accountNumber$ ",
-    "englishSource": "Account $accountNumber$"
+    "message": "Cuenta {{número de cuenta}}",
+    "englishSource": "Account {{accountNumber}}"
   },
   "doNotSharePrivateKey1": {
     "message": "¡NO lo compartas con nadie!",
@@ -230,8 +234,8 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "Mi Seed Phrase es de $1 palabras",
-    "englishSource": "My Seed phrase is $1 words"
+    "message": "Mi Seed phrase son {{num}} palabras",
+    "englishSource": "My Seed phrase is {{num}} words"
   },
   "justValidPreGeneratedMnemonic": {
     "message": "Sólo mnemotécnico pregenerado válido",
@@ -250,8 +254,8 @@
     "englishSource": "Oops!"
   },
   "smthWentWrongWhile": {
-    "message": "Algo salió mal mientras $action$ ",
-    "englishSource": "Something went wrong while $action$"
+    "message": "Algo salió mal mientras {{action}}",
+    "englishSource": "Something went wrong while {{action}}"
   },
   "mayHappenBecauseYouAreOffline": {
     "message": "Esto puede suceder porque actualmente estás desconectado.",
@@ -278,12 +282,12 @@
     "englishSource": "Private key cannot be revealed"
   },
   "youCannotGetPrivateKeyFromThisAccountType": {
-    "message": "No puedes obtener la clave privada de $accountType$ cuentas.",
-    "englishSource": "You cannot get private key from $accountType$ accounts."
+    "message": "No puede obtener clave privada de cuentas {{accountType}}.",
+    "englishSource": "You cannot get private key from {{accountType}} accounts."
   },
   "maximalAmount": {
-    "message": "Máximo: $amount$ ",
-    "englishSource": "Maximal: $amount$"
+    "message": "Máximo: {{cantidad}}",
+    "englishSource": "Maximal: {{amount}}"
   },
   "accountName": {
     "message": "Nombre de cuenta",
@@ -539,8 +543,8 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "No es suficiente $currency$ fondos",
-    "englishSource": "Not enough $currency$ funds"
+    "message": "No hay suficientes fondos de {{currency}}",
+    "englishSource": "Not enough {{currency}} funds"
   },
   "failed": {
     "message": "Fallido",
@@ -555,16 +559,16 @@
     "englishSource": "This may happen because:"
   },
   "minimalFeeGreaterThanBalanceVerbose": {
-    "message": "La tarifa mínima para esta transacción es mayor que su saldo. Es posible que se requiera una tarifa elevada si envía fondos a una cuenta de administrador vacía. Eso requiere un 0.06425 por única vez $gasTokenSymbol$ tarifa de quema;",
-    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 $gasTokenSymbol$ burn fee;"
+    "message": "La tarifa mínima para esta transacción es mayor que su saldo. Es posible que se requiera una tarifa elevada si envía fondos a una cuenta de administrador vacía. Eso requiere una tarifa única de grabación de 0,06425 {{gasTokenSymbol}};",
+    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 {{gasTokenSymbol}} burn fee;"
   },
   "networkOrOtherIssue": {
     "message": "Red u otro problema técnico.",
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "Confirmar $action$ ",
-    "englishSource": "Confirm $action$"
+    "message": "Confirmar {{acción}}",
+    "englishSource": "Confirm {{action}}"
   },
   "confirm": {
     "message": "Confirmar",
@@ -671,8 +675,8 @@
     "englishSource": "Keep it in secret."
   },
   "revealSecretPasswordInputDescription": {
-    "message": "Introduzca la contraseña para revelar la $secretName$ .",
-    "englishSource": "Enter password to reveal the $secretName$."
+    "message": "Ingrese la contraseña para revelar el {{secretName}}.",
+    "englishSource": "Enter password to reveal the {{secretName}}."
   },
   "reveal": {
     "message": "Revelar",
@@ -775,12 +779,12 @@
     "englishSource": "No assets found"
   },
   "ifYouDontSeeYourAsset": {
-    "message": "Si no ve su activo,\nintenta hacer clic $toClick$ .",
-    "englishSource": "If you don't see your asset,\ntry to click $toClick$."
+    "message": "Si no ve su activo,\nintente hacer clic en {{toClick}}.",
+    "englishSource": "If you don't see your asset,\ntry to click {{toClick}}."
   },
   "addressOfTokenContract": {
-    "message": "dirección de un $assetSymbol$ contrato simbólico.",
-    "englishSource": "Address of a $assetSymbol$ token contract."
+    "message": "Dirección de un contrato de token {{assetSymbol}}.",
+    "englishSource": "Address of a {{assetSymbol}} token contract."
   },
   "searchAssets": {
     "message": "Buscar activos...",
@@ -878,6 +882,18 @@
     "message": "Otro",
     "englishSource": "Other"
   },
+  "thousandFormat": {
+    "message": "{{mil}}k",
+    "englishSource": "{{thousand}}k"
+  },
+  "millionFormat": {
+    "message": "{{millones}}M",
+    "englishSource": "{{million}}M"
+  },
+  "billionFormat": {
+    "message": "{{mil millones}}B",
+    "englishSource": "{{billion}}B"
+  },
   "uploadFile": {
     "message": "Cargar archivo",
     "englishSource": "Upload File"
@@ -935,8 +951,8 @@
     "englishSource": "Verify Seed Phrase"
   },
   "word": {
-    "message": "Palabra $number$ ",
-    "englishSource": "Word $number$"
+    "message": "Palabra {{número}}",
+    "englishSource": "Word {{number}}"
   },
   "finish": {
     "message": "Finalizar",
@@ -1556,8 +1572,8 @@
     "englishSource": "(invalid payload)"
   },
   "signTheFollowingWord": {
-    "message": "Firma la siguiente palabra $word$ ?",
-    "englishSource": "Sign the following Word $word$?"
+    "message": "¿Firmar la siguiente palabra {{palabra}}?",
+    "englishSource": "Sign the following Word {{word}}?"
   },
   "sharePrivateNoteDataForAccount": {
     "message": "Compartir todos los datos de Note privadas para la cuenta",

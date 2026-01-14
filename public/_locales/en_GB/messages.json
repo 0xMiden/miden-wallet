@@ -3,6 +3,10 @@
     "message": "Miden - Miden Wallet",
     "englishSource": "Miden Wallet"
   },
+  "appDesc": {
+    "message": "A browser wallet for the Miden blockchain",
+    "englishSource": "A browser wallet for the Miden blockchain"
+  },
   "createAccount": {
     "message": "Create or Restore account",
     "englishSource": "Create or Restore account"
@@ -251,8 +255,8 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "My Seed phrase is $1 words",
-    "englishSource": "My Seed phrase is $1 words"
+    "message": "My Seed phrase is {{num}} words",
+    "englishSource": "My Seed phrase is {{num}} words"
   },
   "justValidPreGeneratedMnemonic": {
     "message": "Just valid pre-generated mnemonic",
@@ -313,13 +317,8 @@
     }
   },
   "maximalAmount": {
-    "message": "Maximal: $amount$",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Maximal: $amount$"
+    "message": "Maximal: {{amount}}",
+    "englishSource": "Maximal: {{amount}}"
   },
   "accountName": {
     "message": "Account name",
@@ -576,13 +575,8 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "Not enough $currency$ funds",
-    "placeholders": {
-      "currency": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Not enough $currency$ funds"
+    "message": "Not enough {{currency}} funds",
+    "englishSource": "Not enough {{currency}} funds"
   },
   "failed": {
     "message": "Failed",
@@ -610,13 +604,8 @@
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "Confirm $action$",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Confirm $action$"
+    "message": "Confirm {{action}}",
+    "englishSource": "Confirm {{action}}"
   },
   "confirm": {
     "message": "Confirm",

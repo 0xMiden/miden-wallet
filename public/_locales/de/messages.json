@@ -3,6 +3,10 @@
     "message": "Miden - Miden Wallet",
     "englishSource": "Miden Wallet"
   },
+  "appDesc": {
+    "message": "Eine Browser-Wallet für die Miden-Blockchain",
+    "englishSource": "A browser wallet for the Miden blockchain"
+  },
   "createAccount": {
     "message": "Konto erstellen oder wiederherstellen",
     "englishSource": "Create or Restore account"
@@ -251,8 +255,8 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "Meine Seed Phrase besteht aus 1-Dollar-Wörtern",
-    "englishSource": "My Seed phrase is $1 words"
+    "message": "Mein Seed phrase besteht aus {{num}} Wörtern",
+    "englishSource": "My Seed phrase is {{num}} words"
   },
   "justValidPreGeneratedMnemonic": {
     "message": "Nur gültige vorgenerierte Gedächtnisstütze",
@@ -313,13 +317,8 @@
     }
   },
   "maximalAmount": {
-    "message": "Maximal: $amount$",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Maximal: $amount$"
+    "message": "Maximal: {{amount}}",
+    "englishSource": "Maximal: {{amount}}"
   },
   "accountName": {
     "message": "Kontoname",
@@ -576,13 +575,8 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "Nicht genügend $currency$-Gelder",
-    "placeholders": {
-      "currency": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Not enough $currency$ funds"
+    "message": "Nicht genügend Guthaben in {{currency}} vorhanden",
+    "englishSource": "Not enough {{currency}} funds"
   },
   "failed": {
     "message": "Fehlgeschlagen",
@@ -610,13 +604,8 @@
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "$action$ bestätigen",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Confirm $action$"
+    "message": "Bestätige {{action}}",
+    "englishSource": "Confirm {{action}}"
   },
   "confirm": {
     "message": "Bestätigen",

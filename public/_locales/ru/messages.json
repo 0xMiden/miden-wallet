@@ -3,6 +3,10 @@
     "message": "Лео - Кошелек Алео",
     "englishSource": "Miden Wallet"
   },
+  "appDesc": {
+    "message": "Браузерный кошелек для блокчейна Miden",
+    "englishSource": "A browser wallet for the Miden blockchain"
+  },
   "createAccount": {
     "message": "Создать или восстановить учетную запись",
     "englishSource": "Create or Restore account"
@@ -251,8 +255,8 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "Моя исходная фраза — это слова за 1 доллар.",
-    "englishSource": "My Seed phrase is $1 words"
+    "message": "Мой Seed phrase – {{num}} слов",
+    "englishSource": "My Seed phrase is {{num}} words"
   },
   "justValidPreGeneratedMnemonic": {
     "message": "Просто действительная предварительно сгенерированная мнемоника",
@@ -313,13 +317,8 @@
     }
   },
   "maximalAmount": {
-    "message": "Максимум: $amount$ ",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Maximal: $amount$"
+    "message": "Максимум: {{количество}}",
+    "englishSource": "Maximal: {{amount}}"
   },
   "accountName": {
     "message": "Название аккаунта",
@@ -576,13 +575,8 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "Недостаточно $currency$ фонды",
-    "placeholders": {
-      "currency": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Not enough $currency$ funds"
+    "message": "Недостаточно средств в размере {{currency}}.",
+    "englishSource": "Not enough {{currency}} funds"
   },
   "failed": {
     "message": "Не удалось",
@@ -610,13 +604,8 @@
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "Подтверждать $action$ ",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Confirm $action$"
+    "message": "Подтвердите {{действие}}",
+    "englishSource": "Confirm {{action}}"
   },
   "confirm": {
     "message": "Подтверждать",
@@ -944,6 +933,18 @@
   "other": {
     "message": "Другой",
     "englishSource": "Other"
+  },
+  "thousandFormat": {
+    "message": "{{тысяча}} тыс.",
+    "englishSource": "{{thousand}}k"
+  },
+  "millionFormat": {
+    "message": "{{миллион}}М",
+    "englishSource": "{{million}}M"
+  },
+  "billionFormat": {
+    "message": "{{миллиард}}Б",
+    "englishSource": "{{billion}}B"
   },
   "uploadFile": {
     "message": "Загрузить файл",

@@ -3,6 +3,10 @@
     "message": "Miden - Portefeuille Miden",
     "englishSource": "Miden Wallet"
   },
+  "appDesc": {
+    "message": "Un portefeuille de navigateur pour la blockchain Miden",
+    "englishSource": "A browser wallet for the Miden blockchain"
+  },
   "createAccount": {
     "message": "Créer ou restaurer un compte",
     "englishSource": "Create or Restore account"
@@ -251,8 +255,8 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "Ma Seed Phrase est constituée de mots à 1 $",
-    "englishSource": "My Seed phrase is $1 words"
+    "message": "Mon Seed phrase contient {{num}} mots",
+    "englishSource": "My Seed phrase is {{num}} words"
   },
   "justValidPreGeneratedMnemonic": {
     "message": "Juste un moyen mnémotechnique prégénéré et valide",
@@ -313,13 +317,8 @@
     }
   },
   "maximalAmount": {
-    "message": "Maximal : $amount$",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Maximal: $amount$"
+    "message": "Maximum : {{montant}}",
+    "englishSource": "Maximal: {{amount}}"
   },
   "accountName": {
     "message": "Nom de compte",
@@ -576,13 +575,8 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "fonds $currency$ insuffisants",
-    "placeholders": {
-      "currency": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Not enough $currency$ funds"
+    "message": "Pas assez de fonds en {{currency}}",
+    "englishSource": "Not enough {{currency}} funds"
   },
   "failed": {
     "message": "Échec",
@@ -610,13 +604,8 @@
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "Confirmer $action$",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Confirm $action$"
+    "message": "Confirmer {{action}}",
+    "englishSource": "Confirm {{action}}"
   },
   "confirm": {
     "message": "Confirmer",
@@ -945,9 +934,17 @@
     "message": "Autre",
     "englishSource": "Other"
   },
+  "thousandFormat": {
+    "message": "{{mille}}k",
+    "englishSource": "{{thousand}}k"
+  },
   "millionFormat": {
     "message": "{{millions}}M",
     "englishSource": "{{million}}M"
+  },
+  "billionFormat": {
+    "message": "{{milliards}} B",
+    "englishSource": "{{billion}}B"
   },
   "uploadFile": {
     "message": "Téléverser un fichier",

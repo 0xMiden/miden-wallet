@@ -3,6 +3,10 @@
     "message": "타노스 - 테조스 지갑",
     "englishSource": "Miden Wallet"
   },
+  "appDesc": {
+    "message": "Miden 블록체인용 브라우저 지갑",
+    "englishSource": "A browser wallet for the Miden blockchain"
+  },
   "createAccount": {
     "message": "계정 생성 또는 복원",
     "englishSource": "Create or Restore account"
@@ -186,13 +190,8 @@
     "englishSource": "1-16 characters, no special"
   },
   "defaultAccountName": {
-    "message": "계정 $accountNumber$ ",
-    "placeholders": {
-      "accountNumber": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Account $accountNumber$"
+    "message": "계정 {{accountNumber}}",
+    "englishSource": "Account {{accountNumber}}"
   },
   "doNotSharePrivateKey1": {
     "message": "누구와도 공유하지 마십시오!",
@@ -251,8 +250,8 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "내 Seed Phrase는 $1 단어입니다.",
-    "englishSource": "My Seed phrase is $1 words"
+    "message": "내 Seed phrase은 {{num}} 단어입니다",
+    "englishSource": "My Seed phrase is {{num}} words"
   },
   "justValidPreGeneratedMnemonic": {
     "message": "유효한 사전 생성 니모닉만",
@@ -271,13 +270,8 @@
     "englishSource": "Oops!"
   },
   "smthWentWrongWhile": {
-    "message": "동안 뭔가 잘못되었습니다. $action$ ",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Something went wrong while $action$"
+    "message": "{{action}} 동안 문제가 발생했습니다.",
+    "englishSource": "Something went wrong while {{action}}"
   },
   "mayHappenBecauseYouAreOffline": {
     "message": "현재 오프라인 상태여서 이런 문제가 발생했을 수 있습니다",
@@ -313,13 +307,8 @@
     }
   },
   "maximalAmount": {
-    "message": "최대: $amount$",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Maximal: $amount$"
+    "message": "최대: {{금액}}",
+    "englishSource": "Maximal: {{amount}}"
   },
   "accountName": {
     "message": "계정 이름",
@@ -576,13 +565,8 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "$currency$ 자금 부족",
-    "placeholders": {
-      "currency": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Not enough $currency$ funds"
+    "message": "{{currency}} 자금이 충분하지 않습니다.",
+    "englishSource": "Not enough {{currency}} funds"
   },
   "failed": {
     "message": "실패",
@@ -610,13 +594,8 @@
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "$action$ 확인",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Confirm $action$"
+    "message": "{{작업}} 확인",
+    "englishSource": "Confirm {{action}}"
   },
   "confirm": {
     "message": "확인",
@@ -832,22 +811,12 @@
     "englishSource": "No assets found"
   },
   "ifYouDontSeeYourAsset": {
-    "message": "자산이 표시되지 않으면\n클릭을 시도 $toClick$ .",
-    "placeholders": {
-      "toClick": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "If you don't see your asset,\ntry to click $toClick$."
+    "message": "자산이 표시되지 않으면\n{{toClick}}을 클릭해 보세요.",
+    "englishSource": "If you don't see your asset,\ntry to click {{toClick}}."
   },
   "addressOfTokenContract": {
-    "message": "주소 $assetSymbol$ 토큰 계약.",
-    "placeholders": {
-      "assetSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Address of a $assetSymbol$ token contract."
+    "message": "{{assetSymbol}} 토큰 계약의 주소입니다.",
+    "englishSource": "Address of a {{assetSymbol}} token contract."
   },
   "searchAssets": {
     "message": "자산 검색...",
@@ -945,14 +914,17 @@
     "message": "다른",
     "englishSource": "Other"
   },
+  "thousandFormat": {
+    "message": "{{천}}천",
+    "englishSource": "{{thousand}}k"
+  },
+  "millionFormat": {
+    "message": "{{백만}}백만",
+    "englishSource": "{{million}}M"
+  },
   "billionFormat": {
-    "message": "$billion$B",
-    "placeholders": {
-      "billion": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$billion$B"
+    "message": "{{십억}}B",
+    "englishSource": "{{billion}}B"
   },
   "uploadFile": {
     "message": "파일 업로드",

@@ -3,6 +3,10 @@
     "message": "Miden - Miden 錢包",
     "englishSource": "Miden Wallet"
   },
+  "appDesc": {
+    "message": "Miden 区块链的浏览器钱包",
+    "englishSource": "A browser wallet for the Miden blockchain"
+  },
   "createAccount": {
     "message": "創建或恢復帳戶",
     "englishSource": "Create or Restore account"
@@ -251,8 +255,8 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "我的Seed Phrase是 1 美元单词",
-    "englishSource": "My Seed phrase is $1 words"
+    "message": "我的 Seed phrase 是 {{num}} 个字",
+    "englishSource": "My Seed phrase is {{num}} words"
   },
   "justValidPreGeneratedMnemonic": {
     "message": "僅為有效的預先生成Seed Phrase",
@@ -313,13 +317,8 @@
     }
   },
   "maximalAmount": {
-    "message": "最高金額：$amount$",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Maximal: $amount$"
+    "message": "最大：{{金额}}",
+    "englishSource": "Maximal: {{amount}}"
   },
   "accountName": {
     "message": "帳戶名稱",
@@ -576,13 +575,8 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "$currency$ 資金不足",
-    "placeholders": {
-      "currency": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Not enough $currency$ funds"
+    "message": "{{currency}}资金不足",
+    "englishSource": "Not enough {{currency}} funds"
   },
   "failed": {
     "message": "失敗",
@@ -610,13 +604,8 @@
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "確認 $action$",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Confirm $action$"
+    "message": "确认{{操作}}",
+    "englishSource": "Confirm {{action}}"
   },
   "confirm": {
     "message": "確認",
@@ -944,6 +933,18 @@
   "other": {
     "message": "其他",
     "englishSource": "Other"
+  },
+  "thousandFormat": {
+    "message": "{{千}}k",
+    "englishSource": "{{thousand}}k"
+  },
+  "millionFormat": {
+    "message": "{{百万}}M",
+    "englishSource": "{{million}}M"
+  },
+  "billionFormat": {
+    "message": "{{十亿}}B",
+    "englishSource": "{{billion}}B"
   },
   "uploadFile": {
     "message": "上传文件",
