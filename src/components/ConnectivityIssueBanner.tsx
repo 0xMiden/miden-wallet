@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import { Icon, IconName } from 'app/icons/v2';
 import { addConnectivityIssue, useConnectivityIssues } from 'lib/miden/activity/connectivity-issues';
@@ -10,6 +11,7 @@ export interface ConnectivitiyIssueBannerProps {
 }
 
 export const ConnectivityIssueBanner: React.FC<ConnectivitiyIssueBannerProps> = ({ className }) => {
+  const { t } = useTranslation();
   const [connectivityIssues, dismissConnectivityIssue] = useConnectivityIssues();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -32,8 +34,8 @@ export const ConnectivityIssueBanner: React.FC<ConnectivitiyIssueBannerProps> = 
         <Icon name={IconName.WarningFill} size="md" fill="#FEA644" />
       </div>
       <div className="flex-1 flex flex-col justify-center items-start">
-        <p className="text-black text-sm font-medium">Connectivity Issue Detected</p>
-        <p className="text-gray-600 text-xs">Wallet may be offline or out of sync.</p>
+        <p className="text-black text-sm font-medium">{t('connectivityIssueDetected')}</p>
+        <p className="text-gray-600 text-xs">{t('walletMayBeOffline')}</p>
       </div>
       <Icon
         name={IconName.Close}

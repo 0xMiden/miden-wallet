@@ -7,7 +7,7 @@ import Name from 'app/atoms/Name';
 import { ReactComponent as Checkmark } from 'app/icons/checkmark-alt.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import { Button, ButtonVariant } from 'components/Button';
-import { T } from 'lib/i18n/react';
+import { T, t } from 'lib/i18n/react';
 import { useAccount, useAllAccounts, useMidenContext } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
 import { truncateAddress } from 'utils/string';
@@ -69,7 +69,7 @@ const SelectAccount: FC = () => {
                       </Name>
                       <div className="flex w-full items-start">
                         <span style={{ fontSize: '12px', lineHeight: '16px' }}>
-                          {acc.isPublic ? 'Public' : 'Private'} • {truncateAddress(acc.publicKey)}
+                          {acc.isPublic ? t('public') : t('private')} • {truncateAddress(acc.publicKey)}
                         </span>
                       </div>
                     </div>
@@ -85,7 +85,7 @@ const SelectAccount: FC = () => {
       </div>
 
       <div className="flex flex-col w-full p-6 md:px-8 m-auto">
-        <Button title={'Add Account'} variant={ButtonVariant.Secondary} onClick={onAddAccountClick} />
+        <Button title={t('addAccount')} variant={ButtonVariant.Secondary} onClick={onAddAccountClick} />
       </div>
     </PageLayout>
   );

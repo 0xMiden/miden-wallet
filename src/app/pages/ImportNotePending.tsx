@@ -1,5 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 
+import { useTranslation } from 'react-i18next';
+
 import CircularProgress from 'app/atoms/CircularProgress';
 import { Icon, IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
@@ -15,6 +17,7 @@ const POLLING_INTERVAL = 5000;
 const POLLING_TIMEOUT = 20000;
 
 const ImportNotePending: FC<ImportNotePendingProps> = ({ noteId }) => {
+  const { t } = useTranslation();
   const account = useAccount();
   const address = account.publicKey;
 
@@ -69,7 +72,7 @@ const ImportNotePending: FC<ImportNotePendingProps> = ({ noteId }) => {
   }, [isPolling, isNoteFound, noteId]);
 
   return (
-    <PageLayout pageTitle="Transaction file" showBottomBorder={false} hasBackAction={false}>
+    <PageLayout pageTitle={t('transactionFile')} showBottomBorder={false} hasBackAction={false}>
       <div className="flex m-auto">
         <div className="flex-1 flex flex-col justify-center items-center md:w-[460px] md:mx-auto">
           <div className="w-40 aspect-square flex items-center justify-center mb-8">
@@ -77,12 +80,9 @@ const ImportNotePending: FC<ImportNotePendingProps> = ({ noteId }) => {
             <CircularProgress borderWeight={2} progress={80} circleColor="black" circleSize={55} spin={true} />
           </div>
           <h1 className="flex flex-col font-semibold text-2xl lh-title text-center text-balance pb-4">
-            Verifying transaction
+            {t('verifyingTransaction')}
           </h1>
-          <p className="text-sm text-center px-4">
-            The uploaded transaction file is being processed to verify its details. Please do not refresh or close the
-            app.
-          </p>
+          <p className="text-sm text-center px-4">{t('transactionProcessingDescription')}</p>
         </div>
       </div>
     </PageLayout>

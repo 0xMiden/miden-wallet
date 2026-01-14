@@ -41,6 +41,7 @@ const ContactsDropdownItem: FC<ContactsDropdownItemProps> = ({ active, testID, t
       tabIndex={-1}
       {...rest}
     >
+      {/* eslint-disable i18next/no-literal-string -- placeholder data, not user-facing text */}
       <ColorIdenticon publicKey={'contact.address'} className="flex-shrink-0" />
 
       <div className="ml-3 flex flex-1 w-full">
@@ -49,6 +50,7 @@ const ContactsDropdownItem: FC<ContactsDropdownItemProps> = ({ active, testID, t
 
           <span className={classNames('text-xs leading-tight text-black')}>
             <AddressShortView address={'contact.address'} />
+            {/* eslint-enable i18next/no-literal-string */}
           </span>
         </div>
 

@@ -95,7 +95,7 @@ const EditMidenFaucetId: FC = () => {
           )}
         </T>
 
-        {submitSuccess && <div className="mt-4 text-green-600 text-sm font-medium">Faucet ID Updated</div>}
+        {submitSuccess && <div className="mt-4 text-green-600 text-sm font-medium">{t('faucetIdUpdated')}</div>}
       </form>
     );
   }, [faucetId, errors, handleSubmit, onSubmit, register, isSubmitting, clearErrors, submitSuccess]);

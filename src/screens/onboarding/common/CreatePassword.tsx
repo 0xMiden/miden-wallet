@@ -212,14 +212,15 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
       </article>
       <div className="w-[360px] flex flex-col gap-2 self-center">
         <Button title={t('continue')} disabled={!isValidPassword} onClick={onPasswordSubmit} />
+        {/* eslint-disable-next-line i18next/no-literal-string */}
         <p className="text-grey-600 text-xs text-center px-4">
-          By proceeding, you agree to the{' '}
+          {t('byProceeding')}{' '}
           <Link target="_blank" href="https://www.miden.fi/terms">
-            Terms of Usage
+            {t('termsOfUsage')}
           </Link>{' '}
-          and{' '}
+          {t('andWord')}{' '}
           <Link target="_blank" href="https://www.miden.fi/privacy">
-            Privacy Policy
+            {t('privacyPolicy')}
           </Link>
           .
         </p>

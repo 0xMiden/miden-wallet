@@ -216,7 +216,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
       >
         <FormField ref={fieldRef} value={address} style={{ display: 'none' }} />
         <div className="w-5/6 md:w-1/2 mx-auto pb-6 flex flex-col gap-y-2">
-          <p className="text-sm md:text-xs text-gray-400">Your address</p>
+          <p className="text-sm md:text-xs text-gray-400">{t('yourAddress')}</p>
           <div className="flex items-center justify-between">
             {popup ? (
               <AddressChip address={address} trim={false} className="flex items-center text-sm" />
@@ -390,7 +390,7 @@ export const ConsumableNoteComponent = ({
         <Icon name={IconName.ArrowRightDownFilledCircle} size="lg" />
         <div className="flex flex-col min-w-0">
           <p className="text-md font-bold truncate">
-            {error ? 'Error Claiming: ' : ''}
+            {error ? t('errorClaiming') : ''}
             {`${formatBigInt(BigInt(note.amount), note.metadata?.decimals || 6)} ${note.metadata?.symbol || 'UNKNOWN'}`}
           </p>
           <p className="text-xs text-gray-500">{truncateAddress(note.senderAddress)}</p>

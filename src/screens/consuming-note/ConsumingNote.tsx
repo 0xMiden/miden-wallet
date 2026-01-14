@@ -170,8 +170,8 @@ export const ConsumingNote: React.FC<ConsumingNoteProps> = ({ noteId, onDoneClic
           <div className="flex flex-col items-center">
             <h1 className="font-semibold text-2xl lh-title">{headerText()}</h1>
             <p className="text-base text-center lh-title">
-              {status === ConsumingNoteStatus.Completed && 'Your note was successfully consumed.'}
-              {status === ConsumingNoteStatus.Failed && 'There was an error consuming your note. Please try again.'}
+              {status === ConsumingNoteStatus.Completed && t('noteConsumedSuccessfully')}
+              {status === ConsumingNoteStatus.Failed && t('noteConsumptionError')}
             </p>
           </div>
         </div>

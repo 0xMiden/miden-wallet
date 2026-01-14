@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import Identicon from 'app/atoms/Identicon';
 import { CollectiblePlaceholder } from 'app/icons';
@@ -30,9 +31,10 @@ export const Avatar: React.FC<AvatarProps> = ({
   identiconPublicKey,
   ...props
 }) => {
+  const { t } = useTranslation();
   const imageComponent = useCallback(() => {
     if (image) {
-      return <img src={image} alt="avatar" className={classNames('')} />;
+      return <img src={image} alt={t('avatar')} className={classNames('')} />;
     }
 
     if (!image && isCollectible) {
@@ -44,7 +46,7 @@ export const Avatar: React.FC<AvatarProps> = ({
     }
 
     return null;
-  }, [image, identiconPublicKey, isCollectible]);
+  }, [image, identiconPublicKey, isCollectible, t]);
   return (
     <div {...props} className={classNames('rounded-full overflow-hidden', classPerSize[size], className)}>
       {imageComponent()}
