@@ -25,7 +25,7 @@ import { interpretTransactionResult } from './helpers';
 import { importAllNotes, queueNoteImport, registerOutputNote } from './notes';
 import { compareAccountIds } from './utils';
 
-export const MAX_WAIT_BEFORE_CANCEL = 30 * 60_000; // 30 minutes
+export const MAX_WAIT_BEFORE_CANCEL = 5 * 60_000; // 5 minutes
 
 export const requestCustomTransaction = async (
   accountId: string,

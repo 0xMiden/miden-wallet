@@ -29,7 +29,7 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
   const [outputNotes, downloadAll] = useExportNotes();
   const [error, setError] = useState(false);
   const intervalIdRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
+  const timeOutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { data: txs, mutate: mutateTx } = useRetryableSWR(
     [`all-latest-generating-transactions`],
     async () => getAllUncompletedTransactions(),
@@ -39,7 +39,6 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
       dedupingInterval: 3_000
     }
   );
-
   const onClose = useCallback(() => {
     const { hash } = window.location;
     if (!hash.includes('generating-transaction')) {
@@ -68,41 +67,48 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
       prevTransactionsLength.current > 0 &&
       transactions.length === 0
     ) {
-      new Promise(res => setTimeout(res, 10_000)).then(async () => {
+      new Promise(res => (timeOutRef.current = setTimeout(res, 10_000))).then(async () => {
         await trackEvent('GeneratingTransaction Page Closed Automatically');
         isAutoCloseEnabled() && onClose();
       });
+    } else if (timeOutRef.current) {
+      clearTimeout(timeOutRef.current);
+      timeOutRef.current = null;
     }
-
     prevTransactionsLength.current = transactions.length;
   }, [transactions, trackEvent, outputNotes, onClose]);
-
   const generateTransaction = useCallback(async () => {
     try {
       const success = await dbTransactionsLoop(signTransaction);
       if (success === false) {
         setError(true);
-        if (intervalIdRef.current) clearInterval(intervalIdRef.current);
       }
 
-      mutateTx();
+      await mutateTx();
     } catch {
       setError(true);
-      if (intervalIdRef.current) clearInterval(intervalIdRef.current);
     }
   }, [mutateTx, signTransaction]);
 
   useEffect(() => {
-    if (error) return;
+    if (error && transactions.length === 0) {
+      if (intervalIdRef.current) {
+        clearInterval(intervalIdRef.current);
+        intervalIdRef.current = null;
+      }
+      return;
+    }
+    // Continue processing transactions even if there was an error,
+    // as long as there are transactions in the queue
     generateTransaction();
     intervalIdRef.current = setInterval(() => {
       generateTransaction();
-    }, 10_000);
+    }, 5_000);
     return () => {
       if (intervalIdRef.current) clearInterval(intervalIdRef.current);
       intervalIdRef.current = null;
     };
-  }, [generateTransaction, error]);
+  }, [generateTransaction, error, transactions.length]);
 
   useBeforeUnload(!error && transactions.length !== 0, downloadAll);
   const progress = transactions.length > 0 ? (1 / transactions.length) * 80 : 0;
@@ -153,7 +159,7 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
     if (transactionComplete && !error) {
       return <Icon name={IconName.Success} size="3xl" />;
     }
-    if (error) {
+    if (transactionComplete && error) {
       return <Icon name={IconName.Failed} size="3xl" />;
     }
 
@@ -169,7 +175,7 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
     if (transactionComplete && !error) {
       return t('transactionCompleted');
     }
-    if (error) {
+    if (transactionComplete && error) {
       return t('transactionFailed');
     }
     return t('generatingTransaction');
@@ -193,7 +199,7 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
             <h1 className="font-semibold text-2xl lh-title">{headerText()}</h1>
             <p className="text-base text-center lh-title">
               {!error && transactionComplete && t('transactionSuccessDescription')}
-              {error && t('transactionErrorDescription')}
+              {error && transactionComplete && t('transactionErrorDescription')}
             </p>
           </div>
         </div>
