@@ -5,7 +5,9 @@ import browser from 'webextension-polyfill';
 
 import Flag from 'app/atoms/Flag';
 import { AnalyticsEventCategory, AnalyticsEventEnum, useAnalytics } from 'lib/analytics';
-import { getCurrentLocale, T, updateLocale } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
+
+import { getCurrentLocale, updateLocale } from 'lib/i18n/react';
 
 import IconifiedSelect, { IconifiedSelectOptionRenderProps } from './IconifiedSelect';
 
@@ -28,9 +30,9 @@ const localeOptions: LocaleOption[] = [
     disabled: false
   },
   {
-    code: 'en_GB',
-    flagName: 'gb',
-    label: 'English ‒ United Kingdom',
+    code: 'es',
+    flagName: 'es',
+    label: 'Spanish (Español)',
     disabled: false
   },
   {
@@ -70,6 +72,12 @@ const localeOptions: LocaleOption[] = [
     disabled: false
   },
   {
+    code: 'pl',
+    flagName: 'pl',
+    label: 'Polish (Polski)',
+    disabled: false
+  },
+  {
     code: 'uk',
     flagName: 'ua',
     label: 'Ukrainian (Українська)',
@@ -100,6 +108,7 @@ const localeIsDisabled = ({ disabled }: LocaleOption) => !!disabled;
 const getLocaleCode = ({ code }: LocaleOption) => code;
 
 const LocaleSelect: FC<LocaleSelectProps> = ({ className }) => {
+  const { t } = useTranslation();
   const selectedLocale = getCurrentLocale();
   const { trackEvent } = useAnalytics();
 
@@ -109,14 +118,8 @@ const LocaleSelect: FC<LocaleSelectProps> = ({ className }) => {
   );
 
   const title = useMemo(
-    () => (
-      <h2 className={classNames('mb-4', 'leading-tight', 'flex flex-col')}>
-        <span className="text-black font-medium text-black">
-          <T id="languageAndCountry" />
-        </span>
-      </h2>
-    ),
-    []
+    () => <p className={classNames('mb-4', 'leading-normal', 'text-gray-600 text-sm')}>{t('languageAndCountry')}</p>,
+    [t]
   );
 
   const handleLocaleChange = useCallback(
@@ -151,8 +154,9 @@ const LocaleIcon: FC<IconifiedSelectOptionRenderProps<LocaleOption>> = ({ option
 );
 
 const LocaleInMenuContent: FC<IconifiedSelectOptionRenderProps<LocaleOption>> = ({ option: { disabled, label } }) => {
+  const { t } = useTranslation();
   return (
-    <div className={classNames('relative w-full text-lg text-black')}>
+    <div className={classNames('relative w-full text-base text-black')}>
       {label}
 
       {disabled && (
@@ -165,7 +169,7 @@ const LocaleInMenuContent: FC<IconifiedSelectOptionRenderProps<LocaleOption>> = 
               'text-xs font-semibold uppercase'
             )}
           >
-            <T id="soon" />
+            {t('soon')}
           </div>
         </div>
       )}
@@ -176,7 +180,7 @@ const LocaleInMenuContent: FC<IconifiedSelectOptionRenderProps<LocaleOption>> = 
 const LocaleSelectContent: FC<IconifiedSelectOptionRenderProps<LocaleOption>> = ({ option }) => {
   return (
     <div className="flex flex-col items-start py-2">
-      <span className="text-xl text-black">{option.label}</span>
+      <span className="text-lg text-black">{option.label}</span>
     </div>
   );
 };

@@ -4,6 +4,7 @@ import React, { FC, useCallback } from 'react';
 
 import classNames from 'clsx';
 import { createRoot } from 'react-dom/client';
+import { useTranslation } from 'react-i18next';
 import browser from 'webextension-polyfill';
 
 import 'lib/lock-up/run-checks';
@@ -11,7 +12,6 @@ import 'lib/lock-up/run-checks';
 import DisableOutlinesForClick from 'app/a11y/DisableOutlinesForClick';
 import Dialogs from 'app/layouts/Dialogs';
 import { getMessage } from 'lib/i18n';
-import { T } from 'lib/i18n/react';
 import { clearStorage } from 'lib/miden/reset';
 import { AlertFn, ConfirmFn, DialogsProvider, useAlert, useConfirm } from 'lib/ui/dialog';
 
@@ -62,6 +62,11 @@ const container = document.getElementById('root');
 const root = createRoot(container!);
 root.render(<OptionsWrapper />);
 
+const ResetExtensionConfirmation: FC = () => {
+  const { t } = useTranslation();
+  return <>{t('resetExtensionConfirmation')}</>;
+};
+
 let resetting = false;
 async function handleReset(customAlert: AlertFn, confirm: ConfirmFn) {
   if (resetting) return;
@@ -69,7 +74,7 @@ async function handleReset(customAlert: AlertFn, confirm: ConfirmFn) {
 
   const confirmed = await confirm({
     title: getMessage('actionConfirmation'),
-    children: <T id="resetExtensionConfirmation" />
+    children: <ResetExtensionConfirmation />
   });
   if (confirmed) {
     (async () => {

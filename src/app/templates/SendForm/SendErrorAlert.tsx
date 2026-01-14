@@ -4,7 +4,7 @@ import classNames from 'clsx';
 
 import Alert from 'app/atoms/Alert';
 import { NotEnoughFundsError, ZeroBalanceError, ZeroTEZBalanceError } from 'app/defaults';
-import { T, t } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 
 type SendErrorAlertProps = {
   type: 'submit' | 'estimation';
@@ -12,6 +12,7 @@ type SendErrorAlertProps = {
 };
 
 const SendErrorAlert: FC<SendErrorAlertProps> = ({ type, error }) => {
+  const { t } = useTranslation();
   const symbol = 'ALEO';
 
   return (
@@ -20,10 +21,10 @@ const SendErrorAlert: FC<SendErrorAlertProps> = ({ type, error }) => {
       title={(() => {
         switch (true) {
           case error instanceof ZeroTEZBalanceError:
-            return `${t('notEnoughCurrencyFunds', 'ꜩ')} 😶`;
+            return `${t('notEnoughCurrencyFunds', { currency: 'ꜩ' })} `;
 
           case error instanceof NotEnoughFundsError:
-            return `${t('notEnoughFunds')} 😶`;
+            return `${t('notEnoughFunds')} `;
 
           default:
             return t('failed');
@@ -43,14 +44,12 @@ const SendErrorAlert: FC<SendErrorAlertProps> = ({ type, error }) => {
           default:
             return (
               <>
-                <T id={type === 'submit' ? 'unableToSendTransactionAction' : 'unableToEstimateTransactionAction'} />
+                {t(type === 'submit' ? 'unableToSendTransactionAction' : 'unableToEstimateTransactionAction')}
                 <br />
-                <T id="thisMayHappenBecause" />
+                {t('thisMayHappenBecause')}
                 <ul className="mt-1 ml-2 text-xs list-disc list-inside">
-                  <T id="minimalFeeGreaterThanBalanceVerbose" substitutions={symbol}>
-                    {message => <li>{message}</li>}
-                  </T>
-                  <T id="networkOrOtherIssue">{message => <li>{message}</li>}</T>
+                  <li>{t('minimalFeeGreaterThanBalanceVerbose', { symbol })}</li>
+                  <li>{t('networkOrOtherIssue')}</li>
                 </ul>
               </>
             );

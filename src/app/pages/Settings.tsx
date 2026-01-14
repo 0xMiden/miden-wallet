@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useMemo } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import { openInFullPage, useAppEnv } from 'app/env';
 import { ReactComponent as AppsIcon } from 'app/icons/apps.svg';
@@ -8,6 +9,7 @@ import { ReactComponent as ContactBookIcon } from 'app/icons/contact-book.svg';
 import { ReactComponent as ExtensionIcon } from 'app/icons/extension.svg';
 import { ReactComponent as InfoIcon } from 'app/icons/information.svg';
 import { ReactComponent as KeyIcon } from 'app/icons/key.svg';
+import { ReactComponent as LanguageIcon } from 'app/icons/language.svg';
 import { ReactComponent as MaximiseIcon } from 'app/icons/maximise.svg';
 import { ReactComponent as SettingsIcon } from 'app/icons/settings.svg';
 import { ReactComponent as StickerIcon } from 'app/icons/sticker.svg';
@@ -19,9 +21,9 @@ import AddressBook from 'app/templates/AddressBook';
 import DAppSettings from 'app/templates/DAppSettings';
 import EditMidenFaucetId from 'app/templates/EditMidenFaucetId';
 import GeneralSettings from 'app/templates/GeneralSettings';
+import LanguageSettings from 'app/templates/LanguageSettings';
 import MenuItem from 'app/templates/MenuItem';
 import RevealSecret from 'app/templates/RevealSecret';
-import { t } from 'lib/i18n/react';
 import { useAccount } from 'lib/miden/front';
 import { EncryptedFileFlow } from 'screens/encrypted-file-flow/EncryptedFileManager';
 
@@ -58,6 +60,16 @@ const TABS: Tab[] = [
     descriptionI18nKey: 'generalSettingsDescription',
     testID: SettingsSelectors.GeneralButton,
     insertHR: false
+  },
+  {
+    slug: 'language',
+    titleI18nKey: 'language',
+    Icon: LanguageIcon,
+    Component: LanguageSettings,
+    descriptionI18nKey: 'languageDescription',
+    testID: SettingsSelectors.LanguageButton,
+    insertHR: false,
+    iconStyle: { stroke: '#000', strokeWidth: '2px' }
   },
   {
     slug: 'address-book',
@@ -181,12 +193,13 @@ const TABS: Tab[] = [
 
 // TODO: Consider passing tabs in as a prop
 const Settings: FC<SettingsProps> = ({ tabSlug }) => {
-  const activeTab = useMemo(() => TABS.find(t => t.slug === tabSlug) || null, [tabSlug]);
-  let listMenuItems = TABS.filter(t => t.slug !== 'networks' && t.slug !== 'edit-miden-faucet-id');
+  const { t } = useTranslation();
+  const activeTab = useMemo(() => TABS.find(tab => tab.slug === tabSlug) || null, [tabSlug]);
+  let listMenuItems = TABS.filter(tab => tab.slug !== 'networks' && tab.slug !== 'edit-miden-faucet-id');
   const { fullPage, popup } = useAppEnv();
   const account = useAccount();
   if (!account.isPublic) {
-    listMenuItems = listMenuItems.filter(t => t.slug !== 'reveal-seed-phrase');
+    listMenuItems = listMenuItems.filter(tab => tab.slug !== 'reveal-seed-phrase');
   }
 
   const handleMaximiseViewClick = useCallback(() => {

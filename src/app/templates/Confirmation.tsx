@@ -6,7 +6,7 @@ import { Button } from 'app/atoms/Button';
 import { useAppEnv } from 'app/env';
 import { ReactComponent as InfoIcon } from 'app/icons/info-alert.svg';
 import { ReactComponent as SuccessIcon } from 'app/icons/success.svg';
-import { t } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 import useTippy from 'lib/ui/useTippy';
 import Link from 'lib/woozie/Link';
 
@@ -16,8 +16,15 @@ type ConfirmationProps = {
 };
 
 const Confirmation: FC<ConfirmationProps> = ({ delegated, testId }) => {
+  const { t } = useTranslation();
   const { fullPage } = useAppEnv();
-  const helpRef = useTippy<HTMLSpanElement>(proofGenerationTippyPropsMock);
+  const proofGenerationTippyProps = {
+    trigger: 'mouseenter',
+    hideOnClick: false,
+    content: t('proofGenerationTab'),
+    animation: 'shift-away-subtle'
+  };
+  const helpRef = useTippy<HTMLSpanElement>(proofGenerationTippyProps);
   return (
     <>
       <div>
@@ -97,10 +104,3 @@ const Confirmation: FC<ConfirmationProps> = ({ delegated, testId }) => {
 };
 
 export default Confirmation;
-
-const proofGenerationTippyPropsMock = {
-  trigger: 'mouseenter',
-  hideOnClick: false,
-  content: t('proofGenerationTab'),
-  animation: 'shift-away-subtle'
-};

@@ -30,9 +30,9 @@
     "value": "same-origin"
   },
 
-  "__chrome|firefox__author": "https://demoxlabs.xyz",
+  "__chrome|firefox__author": "Miden",
   "__opera__developer": {
-    "name": "https://demoxlabs.xyz"
+    "name": "Miden"
   },
 
   "__firefox__browser_specific_settings": {

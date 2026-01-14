@@ -4,7 +4,7 @@ import classNames from 'clsx';
 
 import FormField from 'app/atoms/FormField';
 import { ReactComponent as CopyIcon } from 'app/icons/copy.svg';
-import * as react from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 
 type AssetInfoProps = {
@@ -12,6 +12,7 @@ type AssetInfoProps = {
 };
 
 const AssetInfo: FC<AssetInfoProps> = ({ assetSlug }) => {
+  const { t } = useTranslation();
   const asset = assetSlug;
 
   return (
@@ -20,8 +21,8 @@ const AssetInfo: FC<AssetInfoProps> = ({ assetSlug }) => {
         textarea
         rows={2}
         id="contract-address"
-        label={<react.T id="contract" />}
-        labelDescription={<react.T id="addressOfTokenContract" substitutions={'TODO'} />}
+        label={t('contract')}
+        labelDescription={t('addressOfTokenContract', { substitutions: 'TODO' })}
         value={asset}
         size={36}
         style={{
@@ -29,7 +30,7 @@ const AssetInfo: FC<AssetInfoProps> = ({ assetSlug }) => {
         }}
       />
 
-      <InfoField id="token-decimals" label={<react.T id="decimals" />} value={420} />
+      <InfoField id="token-decimals" label={t('decimals')} value={420} />
     </div>
   );
 };
@@ -39,6 +40,7 @@ export default AssetInfo;
 type InfoFieldProps = ComponentProps<typeof FormField>;
 
 const InfoField: FC<InfoFieldProps> = props => {
+  const { t } = useTranslation();
   const { fieldRef, copy, copied } = useCopyToClipboard();
 
   return (
@@ -63,11 +65,11 @@ const InfoField: FC<InfoFieldProps> = props => {
         onClick={copy}
       >
         {copied ? (
-          <react.T id="copiedAddress" />
+          t('copiedAddress')
         ) : (
           <>
             <CopyIcon className={classNames('mr-1', 'h-4 w-auto', 'stroke-current stroke-2')} />
-            <react.T id="copyAddressToClipboard" />
+            {t('copyAddressToClipboard')}
           </>
         )}
       </button>

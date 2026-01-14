@@ -2,11 +2,12 @@ import React from 'react';
 
 import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { useAnalyticsSettings } from 'lib/analytics';
-import { T } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 
 import { GeneralSettingsSelectors } from './GeneralSettings.selectors';
 
 const AnalyticsSettings: React.FC = () => {
+  const { t } = useTranslation();
   const { analyticsEnabled, setAnalyticsEnabled } = useAnalyticsSettings();
 
   const handlePopupModeChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,12 +18,10 @@ const AnalyticsSettings: React.FC = () => {
     <div className="flex justify-between mb-8">
       <div className="flex flex-col w-5/6">
         <label className="mb-4 leading-tight flex flex-col" htmlFor="analyticsSettings">
-          <span className="text-black font-medium text-black">
-            <T id="analyticsSettings" />
-          </span>
+          <span className="text-black font-medium text-black">{t('analyticsSettings')}</span>
 
           <span className="mt-1 text-xs  text-black" style={{ maxWidth: '90%' }}>
-            <T id="analyticsSettingsDescription" />
+            {t('analyticsSettingsDescription')}
           </span>
         </label>
       </div>

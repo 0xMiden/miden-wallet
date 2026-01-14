@@ -2,9 +2,9 @@ import React, { FC, useCallback, useMemo, useState } from 'react';
 
 import { validateMnemonic } from 'bip39';
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as InfoIcon } from 'app/icons/info-alert.svg';
-import { T, t } from 'lib/i18n/react';
 import { clearClipboard } from 'lib/ui/util';
 
 import { formatMnemonic } from '../defaults';
@@ -35,6 +35,7 @@ export const SeedPhraseInput: FC<SeedPhraseInputProps> = ({
   setSeedError,
   reset
 }) => {
+  const { t } = useTranslation();
   const { popup } = useAppEnv();
 
   const [pasteFailed, setPasteFailed] = useState(false);
@@ -185,9 +186,7 @@ export const SeedPhraseInput: FC<SeedPhraseInputProps> = ({
         })}
       </div>
       {submitted && seedError ? <div className="text-xs text-red-700 mt-4">{seedError}</div> : null}
-      {pasteFailed ? (
-        <T id="seedPasteFailedTooManyWords">{message => <div className="text-xs text-red-700 mt-4">{message}</div>}</T>
-      ) : null}
+      {pasteFailed ? <div className="text-xs text-red-700 mt-4">{t('seedPasteFailedTooManyWords')}</div> : null}
     </div>
   );
 };

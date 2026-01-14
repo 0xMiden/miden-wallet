@@ -1,12 +1,13 @@
 import React, { FC, useCallback, useRef } from 'react';
 
 import ToggleSwitch from 'app/atoms/ToggleSwitch';
-import { T } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 import { isDelegateProofEnabled, setDelegateProofSetting } from 'lib/settings/helpers';
 
 import { GeneralSettingsSelectors } from './GeneralSettings.selectors';
 
 const DelegateSettings: FC<{}> = () => {
+  const { t } = useTranslation();
   const delegateEnabled = isDelegateProofEnabled();
   const changingRef = useRef(false);
 
@@ -29,11 +30,11 @@ const DelegateSettings: FC<{}> = () => {
               lineHeight: '20px'
             }}
           >
-            <T id="delegateProofSettings" />
+            {t('delegateProofSettings')}
           </span>
 
           <span className="mt-1 text-black" style={{ fontSize: '12px', lineHeight: '16px' }}>
-            <T id="delegateProofSettingsDescription" />
+            {t('delegateProofSettingsDescription')}
           </span>
         </label>
       </div>

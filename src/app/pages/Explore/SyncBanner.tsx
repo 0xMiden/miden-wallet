@@ -3,7 +3,7 @@ import React, { memo } from 'react';
 import { openInFullPage, useAppEnv } from 'app/env';
 import { ReactComponent as ArrowRightIcon } from 'app/icons/arrow-right.svg';
 import { ReactComponent as InformationIcon } from 'app/icons/information.svg';
-import { t } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 
 type SyncBannerProps = {
   syncText: string;
@@ -11,6 +11,7 @@ type SyncBannerProps = {
 };
 
 const SyncBanner = memo<SyncBannerProps>(({ syncText, fullPage }: SyncBannerProps) => {
+  const { t } = useTranslation();
   const appEnv = useAppEnv();
   const maximizeClick = () => {
     openInFullPage();
@@ -28,7 +29,9 @@ const SyncBanner = memo<SyncBannerProps>(({ syncText, fullPage }: SyncBannerProp
               fontSize: '14px',
               lineHeight: '20px'
             }}
-          >{`${t('balancePending')}`}</p>
+          >
+            {t('balancePending')}
+          </p>
           <div className="flex mt-1">
             <InformationIcon fill="orange" className="mr-1" height="16px" width="16px" />
             <p

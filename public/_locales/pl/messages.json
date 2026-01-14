@@ -1,144 +1,118 @@
 {
   "appName": {
-    "message": "Miden - Miden Wallet",
+    "message": "Portfel Miden",
     "englishSource": "Miden Wallet"
   },
   "createAccount": {
-    "message": "Konto erstellen oder wiederherstellen",
+    "message": "Utwórz lub przywróć konto",
     "englishSource": "Create or Restore account"
   },
   "importAccount": {
-    "message": "Konto importieren",
+    "message": "Importuj konto",
     "englishSource": "Import account"
   },
   "settings": {
-    "message": "Einstellungen",
+    "message": "Ustawienia",
     "englishSource": "Settings"
   },
   "openNewTab": {
-    "message": "Neue Registerkarte öffnen",
+    "message": "Otwórz nową kartę",
     "englishSource": "Open new tab"
   },
   "maximiseView": {
-    "message": "Ansicht maximieren",
+    "message": "Maksymalizuj widok",
     "englishSource": "Maximize view"
   },
   "authorizedDApps": {
-    "message": "Autorisierte DApps",
-    "description": "DApps = Decentralized Applications",
+    "message": "Autoryzowane DApps",
     "englishSource": "Authorized DApps"
   },
   "clickIconToResetPermissions": {
-    "message": "Klicken Sie auf das X-Symbol, um die Berechtigungen zurückzusetzen.",
+    "message": "Kliknij ikonę X, aby zresetować uprawnienia.",
     "englishSource": "Click on the X icon to reset permissions."
   },
   "versionLabel": {
-    "message": "Version: $version$",
-    "placeholders": {
-      "version": {
-        "content": "$1"
-      }
-    },
+    "message": "wersja: {{wersja}}",
     "englishSource": "version: {{version}}"
   },
   "resetPermissionsConfirmation": {
-    "message": "Möchten Sie die Berechtigungen für\n$origin$ wirklich zurücksetzen?",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
+    "message": "Czy na pewno chcesz zresetować uprawnienia dla\n {{pochodzenie}}?",
     "englishSource": "Are you sure you want to reset permissions for\n {{origin}}?"
   },
   "clickToRevealField": {
-    "message": "Klicken Sie, um dieses Feld anzuzeigen",
+    "message": "Kliknij, aby odsłonić to pole",
     "englishSource": "Click to reveal this field"
   },
   "clickToReveal": {
-    "message": "Zum Aufdecken klicken",
+    "message": "Kliknij, aby odsłonić",
     "englishSource": "Click to reveal"
   },
   "copiedHash": {
-    "message": "Kopiert.",
+    "message": "Skopiowano.",
     "englishSource": "Copied."
   },
   "copyHashToClipboard": {
-    "message": "In die Zwischenablage kopieren",
+    "message": "Skopiuj do schowka",
     "englishSource": "Copy to clipboard"
   },
   "accounts": {
-    "message": "Konten",
+    "message": "Konta",
     "englishSource": "Accounts"
   },
   "lock": {
-    "message": "Block",
+    "message": "Zamek",
     "englishSource": "Lock"
   },
   "importedAccount": {
-    "message": "Importiert",
+    "message": "Importowany",
     "englishSource": "Imported"
   },
   "networks": {
-    "message": "Netzwerke",
+    "message": "Sieci",
     "englishSource": "Networks"
   },
   "back": {
-    "message": "Zurück",
+    "message": "Z powrotem",
     "englishSource": "Back"
   },
   "skip": {
-    "message": "Überspringen",
+    "message": "Pominąć",
     "englishSource": "Skip"
   },
   "okGotIt": {
-    "message": "Ich habs",
+    "message": "Rozumiem",
     "englishSource": "Got it"
   },
   "changelogTitle": {
-    "message": "Miden Wallet aktualisiert",
+    "message": "Zaktualizowano portfel Miden",
     "englishSource": "Miden Wallet updated"
   },
   "update": {
-    "message": "Aktualisieren",
+    "message": "Aktualizacja",
     "englishSource": "Update"
   },
   "originLabel": {
-    "message": "Ursprung: $origin$",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
+    "message": "Pochodzenie:",
     "englishSource": "Origin:"
   },
   "networkLabel": {
-    "message": "Netzwerk: $network$",
-    "placeholders": {
-      "network": {
-        "content": "$1"
-      }
-    },
+    "message": "Sieć:",
     "englishSource": "Network:"
   },
   "pkhLabel": {
-    "message": "Konto: $pkh$",
-    "placeholders": {
-      "pkh": {
-        "content": "$1"
-      }
-    },
+    "message": "Konto:",
     "englishSource": "Account:"
   },
   "analytics": {
-    "message": "Analytik",
+    "message": "Analityka",
     "englishSource": "Analytics"
   },
   "cancel": {
-    "message": "Abbrechen",
+    "message": "Anulować",
     "englishSource": "Cancel"
   },
   "save": {
-    "message": "Speichern",
+    "message": "Ratować",
     "englishSource": "Save"
   },
   "faucet": {
@@ -146,35 +120,35 @@
     "englishSource": "Faucet"
   },
   "addToken": {
-    "message": "Vermögenswert hinzufügen",
+    "message": "Dodaj zasób",
     "englishSource": "Add Asset"
   },
   "error": {
-    "message": "Fehler",
+    "message": "Błąd",
     "englishSource": "Error"
   },
   "soon": {
-    "message": "bald",
+    "message": "Wkrótce",
     "englishSource": "soon"
   },
   "required": {
-    "message": "Erforderlich",
+    "message": "Wymagany",
     "englishSource": "Required"
   },
   "address": {
-    "message": "Adresse",
+    "message": "Adres",
     "englishSource": "Address"
   },
   "name": {
-    "message": "Name",
+    "message": "Nazwa",
     "englishSource": "Name"
   },
   "decimals": {
-    "message": "Dezimalstellen",
+    "message": "Dziesiętne",
     "englishSource": "Decimals"
   },
   "invalidAddress": {
-    "message": "Ungültige Adresse",
+    "message": "Nieprawidłowy adres",
     "englishSource": "Invalid address"
   },
   "alert": {
@@ -182,36 +156,31 @@
     "englishSource": "Alert"
   },
   "accountNameInputTitle": {
-    "message": "1-16 Zeichen, keine Sonderzeichen",
+    "message": "1-16 znaków, nic specjalnego",
     "englishSource": "1-16 characters, no special"
   },
   "defaultAccountName": {
-    "message": "Konto $accountNumber$",
-    "placeholders": {
-      "accountNumber": {
-        "content": "$1"
-      }
-    },
+    "message": "Konto $accountNumber$ ",
     "englishSource": "Account $accountNumber$"
   },
   "doNotSharePrivateKey1": {
-    "message": "NICHT mit jemandem teilen!",
+    "message": "NIE udostępniaj nikomu!",
     "englishSource": "DO NOT share with anyone!"
   },
   "doNotSharePrivateKey2": {
-    "message": "Es kann verwendet werden, um Ihr Girokonto zu stehlen.",
+    "message": "Może zostać wykorzystany do kradzieży Twojego rachunku bieżącego.",
     "englishSource": "It can be used to steal your current account."
   },
   "doNotShareViewKey1": {
-    "message": "Teile nur mit Personen, denen du vertraust!",
+    "message": "Udostępniaj tylko zaufanym osobom!",
     "englishSource": "Only share with people you trust!"
   },
   "doNotShareViewKey2": {
-    "message": "Es kann verwendet werden, um Ihren gesamten Transaktionsverlauf anzuzeigen.",
+    "message": "Można go używać do przeglądania całej historii transakcji.",
     "englishSource": "It can be used to view all of your transaction history."
   },
   "transactionAction": {
-    "message": "Transaktion",
+    "message": "Transakcja",
     "englishSource": "Transaction"
   },
   "account": {
@@ -219,51 +188,51 @@
     "englishSource": "Account"
   },
   "noPreview": {
-    "message": "Es ist keine Vorschau verfügbar",
+    "message": "Brak podglądu",
     "englishSource": "No preview is available"
   },
   "requirements": {
-    "message": "Anforderungen:",
+    "message": "<b>Wymagania:</b>",
     "englishSource": "<b>Requirements:</b>"
   },
   "atLeast8Characters": {
-    "message": "Mindestens 8 Zeichen",
+    "message": "Minimum 8 znaków - im więcej znaków, tym lepiej.",
     "englishSource": "At least 8 characters - the more characters, the better."
   },
   "mixtureOfUppercaseAndLowercaseLetters": {
-    "message": "Eine Mischung aus Groß- und Kleinbuchstaben.",
+    "message": "Mieszanka wielkich i małych liter.",
     "englishSource": "A mixture of both uppercase and lowercase letters."
   },
   "mixtureOfLettersAndNumbers": {
-    "message": "Eine Mischung aus Buchstaben und Zahlen.",
+    "message": "Mieszanka liter i cyfr.",
     "englishSource": "A mixture of letters and numbers."
   },
   "atLeast1SpecialCharacter": {
-    "message": "Aufnahme mindestens eines Sonderzeichens, z. B. ! @",
+    "message": "Włączenie co najmniej jednego znaku specjalnego, np. ! @",
     "englishSource": "Inclusion of at least one special character, e.g., ! @ # ? ] - (optional, recommended)."
   },
   "mnemonicWordsAmountConstraint": {
-    "message": "12, 15, 18, 21 oder 24 Wörter in Englisch.",
+    "message": "12, 15, 18, 21 lub 24 słowa w języku angielskim",
     "englishSource": "12, 15, 18, 21 or 24 words in English"
   },
   "mnemonicSpacingConstraint": {
-    "message": "Jedes Wort durch ein einzelnes Leerzeichen getrennt",
+    "message": "Każde słowo oddzielone pojedynczą spacją",
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "Meine Seed Phrase besteht aus 1-Dollar-Wörtern",
+    "message": "Moja fraza początkowa to słowa za 1 dolara",
     "englishSource": "My Seed phrase is $1 words"
   },
   "justValidPreGeneratedMnemonic": {
-    "message": "Nur gültige vorgenerierte Gedächtnisstütze",
+    "message": "Tylko prawidłowy, wstępnie wygenerowany mnemonik",
     "englishSource": "Just valid pre-generated mnemonic"
   },
   "seedPasteFailedTooManyWords": {
-    "message": "Das Einfügen ist fehlgeschlagen, da es mehr als 24 Wörter enthielt.",
+    "message": "Wklejanie nie powiodło się, ponieważ zawierało ponad 24 słowa.",
     "englishSource": "Paste failed because it contained over 24 words."
   },
   "seedPhraseTip": {
-    "message": "Sie können Ihre gesamte geheime Seed Phrase in jedes beliebige Feld einfügen",
+    "message": "Możesz wkleić całą tajną Seed Phrase w dowolnym polu",
     "englishSource": "You can paste your entire secret Seed phrase into any field"
   },
   "oops": {
@@ -271,110 +240,95 @@
     "englishSource": "Oops!"
   },
   "smthWentWrongWhile": {
-    "message": "Bei $action$ ist ein Fehler aufgetreten",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
+    "message": "Coś poszło nie tak $action$ ",
     "englishSource": "Something went wrong while $action$"
   },
   "mayHappenBecauseYouAreOffline": {
-    "message": "Dies kann passieren, weil Sie gerade offline sind",
+    "message": "Może się to zdarzyć, ponieważ jesteś obecnie offline",
     "englishSource": "This may happen because you are currently offline"
   },
   "tryAgain": {
-    "message": "Erneut versuchen",
+    "message": "Spróbuj ponownie",
     "englishSource": "Try again"
   },
   "resetExtension": {
-    "message": "Erweiterung zurücksetzen",
+    "message": "Zresetuj rozszerzenie",
     "englishSource": "Reset Extension"
   },
   "resetExtensionConfirmation": {
-    "message": "Sind Sie sicher, dass Sie das Miden Wallet zurücksetzen möchten?\nDadurch werden alle Ihre Daten gelöscht.",
+    "message": "Czy na pewno chcesz zresetować portfel Miden?\nW rezultacie wszystkie Twoje dane zostaną usunięte.",
     "englishSource": "Are you sure you want to reset the Miden Wallet?\nAs a result, all your data will be deleted."
   },
   "retry": {
-    "message": "Wiederholen",
+    "message": "Spróbować ponownie",
     "englishSource": "Retry"
   },
   "privateKeyCannotBeRevealed": {
-    "message": "Privater Schlüssel kann nicht preisgegeben werden",
+    "message": "Klucz prywatny nie może zostać ujawniony",
     "englishSource": "Private key cannot be revealed"
   },
   "youCannotGetPrivateKeyFromThisAccountType": {
-    "message": "Sie können keinen privaten Schlüssel von $accountType$-Konten abrufen.",
-    "placeholders": {
-      "accountType": {
-        "content": "$1"
-      }
-    },
+    "message": "Nie możesz uzyskać klucza prywatnego od $accountType$ konta.",
     "englishSource": "You cannot get private key from $accountType$ accounts."
   },
   "maximalAmount": {
-    "message": "Maximal: $amount$",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
+    "message": "Maksymalny: $amount$ ",
     "englishSource": "Maximal: $amount$"
   },
   "accountName": {
-    "message": "Kontoname",
+    "message": "Nazwa konta",
     "englishSource": "Account name"
   },
   "editAccountName": {
-    "message": "Kontonamen bearbeiten",
+    "message": "Edytuj nazwę konta",
     "englishSource": "Edit Account Name"
   },
   "accountNameInputDescription": {
-    "message": "Wie wird das neue Konto heißen?",
+    "message": "Jaka będzie nazwa nowego konta?",
     "englishSource": "What will be the name of the new account?"
   },
   "delegate": {
-    "message": "Delegieren",
+    "message": "Delegat",
     "englishSource": "Delegate"
   },
   "receive": {
-    "message": "Empfangen",
+    "message": "Odbierać",
     "englishSource": "Receive"
   },
   "send": {
-    "message": "Senden",
+    "message": "Wysłać",
     "englishSource": "Send"
   },
   "transactionInitiated": {
-    "message": "Transaktion eingeleitet",
+    "message": "Transakcja zainicjowana",
     "englishSource": "Transaction initiated"
   },
   "transactionBackground": {
-    "message": "Die Transaktion wird im Hintergrund fortgesetzt.",
+    "message": "Transakcja będzie kontynuowana w tle.",
     "englishSource": "Transaction will proceed in the background."
   },
   "transactionDelegated": {
-    "message": "Die Transaktion wurde zur Beweiserstellung gesendet.",
+    "message": "Transakcja została wysłana do wygenerowania dowodu.",
     "englishSource": "Transaction has been sent for proof generation."
   },
   "openedNewTab": {
-    "message": "Die Brieftasche öffnete einen neuen Tab, um die Transaktion zu beschleunigen. Dieser Tab wird automatisch geschlossen.",
+    "message": "Portfel otworzył nową kartę, aby przyspieszyć transakcję. Ta karta zostanie automatycznie zamknięta.",
     "englishSource": "The wallet opened a new tab to speed up the transaction. That tab will auto-close."
   },
   "fastTransactionDescription": {
-    "message": "Die Transaktion wird automatisch übertragen und abgeschlossen.",
+    "message": "Transakcja zostanie automatycznie opublikowana i sfinalizowana.",
     "englishSource": "The transaction will automatically be broadcasted and finalized."
   },
   "speedUpTransaction": {
-    "message": "Transaktion beschleunigen.",
+    "message": "Przyspiesz transakcję.",
     "englishSource": "Speed Up Transaction."
   },
   "fastTransaction": {
-    "message": "Transaktionsgeschwindigkeit",
+    "message": "Szybkość transakcji",
     "englishSource": "Transaction Speed"
   },
   "generatingTransaction": {
-    "message": "Transaktion generieren",
+    "message": "Generowanie transakcji",
     "englishSource": "Generating Transaction"
   },
   "status": {
@@ -382,329 +336,307 @@
     "englishSource": "Status"
   },
   "balancePending": {
-    "message": "Saldo ausstehende Synchronisierung",
+    "message": "Saldo oczekujące na synchronizację",
     "englishSource": "Balance Pending Sync"
   },
   "keepTabOpenForSync": {
-    "message": "Lassen Sie diesen Tab für eine schnellere Synchronisierung geöffnet.",
+    "message": "Pozostaw tę kartę otwartą, aby przyspieszyć synchronizację.",
     "englishSource": "Keep this tab open for faster sync."
   },
   "openNewTabToSync": {
-    "message": "Öffnen Sie einen Tab für eine schnellere Synchronisierung.",
+    "message": "Otwórz kartę, aby przyspieszyć synchronizację.",
     "englishSource": "Open a tab for faster syncing."
   },
   "privateKey": {
-    "message": "Privater Schlüssel",
+    "message": "Klucz prywatny",
     "englishSource": "Private Key"
   },
   "viewKey": {
-    "message": "Schlüssel anzeigen",
+    "message": "Zobacz klucz",
     "englishSource": "View Key"
   },
   "viewKeyWatchOnly": {
-    "message": "Ansichtsschlüssel (nur ansehen)",
+    "message": "Wyświetl klucz (tylko zegarek)",
     "englishSource": "View Key (Watch-Only)"
   },
   "viewKeyInputDescription": {
-    "message": "Der Ansichtsschlüssel des Kontos, das Sie importieren möchten.",
+    "message": "Klawisz widoku konta, które chcesz zaimportować.",
     "englishSource": "The View key of the Account you want to import."
   },
   "mnemonic": {
-    "message": "Gedächtnisstütze",
+    "message": "Mnemoniczny",
     "englishSource": "Mnemonic"
   },
   "privateKeyInputDescription": {
-    "message": "Der geheime Schlüssel des Kontos, das Sie importieren möchten.",
+    "message": "Tajny klucz konta, które chcesz zaimportować.",
     "englishSource": "The Secret key of the Account you want to import."
   },
   "privateKeyInputPlaceholder": {
-    "message": "z. B. edsk3wfiPMu...",
+    "message": "np. APrivateKey1zkp...",
     "englishSource": "e.g. APrivateKey1zkp..."
   },
   "password": {
-    "message": "Passwort",
+    "message": "Hasło",
     "englishSource": "Password"
   },
   "success": {
-    "message": "Erfolg",
+    "message": "Sukces",
     "englishSource": "Success"
   },
   "smthWentWrong": {
-    "message": "Etwas ist schief gelaufen",
+    "message": "Coś poszło nie tak",
     "englishSource": "Something went wrong"
   },
   "processing": {
-    "message": "Wird verarbeitet...",
+    "message": "Przetwarzanie...",
     "englishSource": "Processing..."
   },
   "importWallet": {
-    "message": "Importieren Sie Ihre Brieftasche",
+    "message": "Importuj portfel",
     "englishSource": "Import Wallet"
   },
   "copiedAddress": {
-    "message": "Kopiert.",
+    "message": "Skopiowano.",
     "englishSource": "Copied."
   },
   "copyAddressToClipboard": {
-    "message": "In die Zwischenablage kopieren",
+    "message": "Skopiuj adres",
     "englishSource": "Copy Address"
   },
   "revealViewKey": {
-    "message": "Ansichtsschlüssel anzeigen",
+    "message": "Odkryj klucz widoku",
     "englishSource": "Reveal View Key"
   },
   "revealViewKeyDescription": {
-    "message": "Auch bekannt als \"Kontoverlauf teilen\", zeigt den Ansichtsschlüssel für Ihr ausgewähltes Konto an.",
+    "message": "Znany również jako „Udostępnij historię konta”, ujawnia klucz widoku dla wybranego konta.",
     "englishSource": "Also known as \"Share Account History\", reveals view key for your selected account."
   },
   "revealPrivateKey": {
-    "message": "Privaten Schlüssel freigeben",
+    "message": "Ujawnij klucz prywatny",
     "englishSource": "Reveal Private Key"
   },
   "revealPrivateKeyDescription": {
-    "message": "Auch bekannt als „Exportkonto“, zeigt den privaten Schlüssel für Ihr ausgewähltes Konto an.",
+    "message": "Znany również jako „konto eksportowe”, ujawnia klucz prywatny dla wybranego konta.",
     "englishSource": "Also known as \"Export Account\", reveals private key for your selected account."
   },
   "revealSeedPhrase": {
-    "message": "Seed Phrase enthüllen",
+    "message": "Odkryj Seed Phrase",
     "englishSource": "Reveal Seed Phrase"
   },
   "revealSeedPhraseDescription": {
-    "message": "Auch als „Export Wallet“ bekannt, benötigen Sie diese Seed Phrase möglicherweise, um auf anderen Geräten auf Ihr Wallet und Ihre Konten zuzugreifen.",
+    "message": "Ta fraza początkowa, znana również jako „Eksportuj portfel”, może być potrzebna, aby uzyskać dostęp do portfela i kont na innych urządzeniach.",
     "englishSource": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices."
   },
   "exportWalletFile": {
-    "message": "Wallet-Datei exportieren",
+    "message": "Eksportuj plik portfela",
     "englishSource": "Export Wallet File"
   },
   "dAppsDescription": {
-    "message": "In diesem Abschnitt können Sie die Möglichkeit aktivieren, mit dezentralen Anwendungen zu interagieren, die Miden Wallet unterstützen.",
+    "message": "W tej sekcji możesz włączyć możliwość interakcji ze zdecentralizowanymi aplikacjami obsługującymi Miden Wallet.",
     "englishSource": "In this section you can enable ability to interact with decentralized applications that support Miden Wallet."
   },
   "removeAccount": {
-    "message": "Konto entfernen",
+    "message": "Usuń konto",
     "englishSource": "Remove Account"
   },
   "removeAccountDescription": {
-    "message": "Verwenden Sie diesen Abschnitt, um Ihr ausgewähltes Konto zu entfernen. Nur importierte Konten können entfernt werden.",
+    "message": "Użyj tej sekcji, aby usunąć wybrane konto. Można usunąć tylko konta zaimportowane.",
     "englishSource": "Use this section to remove your selected account. Only imported accounts can be removed."
   },
   "advancedSettings": {
-    "message": "Erweiterte Einstellungen",
+    "message": "Ustawienia zaawansowane",
     "englishSource": "Advanced Settings"
   },
   "advancedSettingsDescription": {
-    "message": "Tools, die Ihnen beim Debuggen und Diagnostizieren von Problemen mit Miden Wallet helfen.",
+    "message": "Narzędzia pomagające w debugowaniu i diagnozowaniu problemów z portfelem Miden.",
     "englishSource": "Tools to help you debug and diagnose issues with Miden Wallet."
   },
   "resync": {
-    "message": "Neu synchronisieren",
+    "message": "Synchronizuj ponownie",
     "englishSource": "Resync"
   },
   "about": {
-    "message": "Über diese App",
+    "message": "O tej aplikacji",
     "englishSource": "About This App"
   },
   "info": {
-    "message": "Die Info",
+    "message": "Informacje",
     "englishSource": "Info"
   },
   "aboutDescription": {
-    "message": "In diesem Abschnitt können Sie Metainformationen zu Miden Wallet anzeigen.",
+    "message": "Użyj tej sekcji, aby wyświetlić metainformacje o portfelu Miden.",
     "englishSource": "Use this section to view meta info about Miden Wallet."
   },
   "unlockPasswordErrorDelay": {
-    "message": "Sie haben dreimal das falsche Passwort eingegeben. Ihre Wallet wird gesperrt",
+    "message": "Trzy razy wpisałeś błędne hasło. Twój portfel został zablokowany",
     "englishSource": "You have entered the wrong password three times. Your wallet is being blocked for"
   },
   "unlock": {
-    "message": "Entsperren",
+    "message": "Odblokować",
     "englishSource": "Unlock"
   },
   "website": {
-    "message": "Website",
+    "message": "Strona internetowa",
     "englishSource": "Website"
   },
   "privacyPolicy": {
-    "message": "Datenschutzbestimmungen",
+    "message": "Polityka prywatności",
     "englishSource": "Privacy Policy"
   },
   "termsOfUse": {
-    "message": "Nutzungsbedingungen",
+    "message": "Warunki użytkowania",
     "englishSource": "Terms of Use"
   },
   "disable": {
-    "message": "deaktivieren",
+    "message": "wyłączyć",
     "englishSource": "disable"
   },
   "enable": {
-    "message": "aktivieren",
+    "message": "włączać",
     "englishSource": "enable"
   },
   "dAppsCheckmarkPrompt": {
-    "message": "Klicken Sie auf das Häkchen für die $action$ DApps-Interaktionsfunktion",
-    "description": "DApps = Decentralized Applications",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
+    "message": "Kliknij przełącznik, aby włączyć funkcję interakcji {{action}} DApps",
     "englishSource": "Click on the toggle to {{action}} DApps interaction feature"
   },
   "dAppsInteraction": {
-    "message": "DApps-Interaktion",
-    "description": "DApps = Decentralized Applications",
+    "message": "Interakcja DApps",
     "englishSource": "DApps interaction"
   },
   "none": {
-    "message": "Keiner",
+    "message": "Nic",
     "englishSource": "None"
   },
   "popupEnabled": {
-    "message": "Aktiviert",
+    "message": "Włączony",
     "englishSource": "Enabled"
   },
   "delete": {
-    "message": "Löschen",
+    "message": "Usuwać",
     "englishSource": "Delete"
   },
   "fee": {
-    "message": "Gebühr",
+    "message": "Opłata",
     "englishSource": "Fee"
   },
   "notEnoughFunds": {
-    "message": "Nicht genügend Gelder",
+    "message": "Za mało środków",
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "Nicht genügend $currency$-Gelder",
-    "placeholders": {
-      "currency": {
-        "content": "$1"
-      }
-    },
+    "message": "Nie wystarczy $currency$ fundusze",
     "englishSource": "Not enough $currency$ funds"
   },
   "failed": {
-    "message": "Fehlgeschlagen",
+    "message": "Przegrany",
     "englishSource": "Failed"
   },
   "yourBalanceIsZero": {
-    "message": "Ihr Guthaben ist null.",
+    "message": "Twoje saldo wynosi zero.",
     "englishSource": "Your Balance is zero."
   },
   "thisMayHappenBecause": {
-    "message": "Dies kann passieren, weil:",
+    "message": "Może się to zdarzyć, ponieważ:",
     "englishSource": "This may happen because:"
   },
   "minimalFeeGreaterThanBalanceVerbose": {
-    "message": "Die Mindestgebühr für diese Transaktion ist höher als Ihr Guthaben. Es kann eine hohe Gebühr anfallen, weil Sie Geld an ein leeres Manager-Konto senden. Dies erfordert eine einmalige Brenngebühr von 0,06425 $gasTokenSymbol$;",
-    "placeholders": {
-      "gasTokenSymbol": {
-        "content": "$1"
-      }
-    },
+    "message": "Minimalna opłata za tę transakcję jest większa niż Twoje saldo. Może być wymagana duża opłata, ponieważ wysyłasz środki na puste konto Menedżera. Wymaga to jednorazowego 0,06425 $gasTokenSymbol$ opłata za spalanie;",
     "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 $gasTokenSymbol$ burn fee;"
   },
   "networkOrOtherIssue": {
-    "message": "Netzwerk- oder anderes technisches Problem.",
+    "message": "Sieć lub inny problem techniczny.",
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "$action$ bestätigen",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
+    "message": "Potwierdzać $action$ ",
     "englishSource": "Confirm $action$"
   },
   "confirm": {
-    "message": "Bestätigen",
+    "message": "Potwierdzać",
     "englishSource": "Confirm"
   },
   "confirmRisk": {
-    "message": "Ich verstehe das Risiko und möchte fortfahren.",
+    "message": "Rozumiem ryzyko i chcę kontynuować.",
     "englishSource": "I understand the risk and wish to proceed."
   },
   "confirmError": {
-    "message": "Fortfahren ohne Bestätigung nicht möglich.",
+    "message": "Nie można kontynuować bez potwierdzenia.",
     "englishSource": "Unable to continue without confirming."
   },
   "termsOfUsage": {
-    "message": "Nutzungsbedingungen",
+    "message": "Warunki użytkowania",
     "englishSource": "Terms of Usage"
   },
   "file": {
-    "message": "Datei",
+    "message": "Plik",
     "englishSource": "File"
   },
   "filePassword": {
-    "message": "Dateipasswort",
+    "message": "Hasło pliku",
     "englishSource": "File Password"
   },
   "create": {
-    "message": "Erstellen",
+    "message": "Tworzyć",
     "englishSource": "Create"
   },
   "import": {
-    "message": "Importieren",
+    "message": "Import",
     "englishSource": "Import"
   },
   "doNotSharePhrase1": {
-    "message": "Teilen Sie diesen Satz mit niemandem!",
+    "message": "NIE udostępniaj nikomu tego wyrażenia!",
     "englishSource": "DO NOT share this phrase with anyone!"
   },
   "doNotSharePhrase2": {
-    "message": "Es kann verwendet werden, um alle Ihre Konten zu stehlen.",
+    "message": "Można go użyć do kradzieży wszystkich kont.",
     "englishSource": "It can be used to steal all your accounts."
   },
   "youWillNeedThisSeedPhrase": {
-    "message": "Bitte notieren Sie sich Ihren geheimen Wiederherstellungssatz und bewahren Sie ihn an einem sicheren Ort auf. Dieser Satz ist die einzige Möglichkeit, Ihr Konto wiederherzustellen. Teilen Sie es mit niemandem. Jeder mit diesem Satz kann Ihr Vermögen für immer beanspruchen.",
+    "message": "Zapisz tajną frazę odzyskiwania i przechowuj ją w bezpiecznym miejscu. To zdanie to jedyny sposób na odzyskanie konta. Nie udostępniaj go nikomu. Każdy, kto zna to zdanie, może zabrać Twoje aktywa na zawsze.",
     "englishSource": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever."
   },
   "continue": {
-    "message": "Fortfahren",
+    "message": "Kontynuować",
     "englishSource": "Continue"
   },
   "noOperationsFound": {
-    "message": "Keine Vorgänge gefunden",
+    "message": "Nie znaleziono żadnych operacji",
     "englishSource": "No operations found"
   },
   "accountToBeRemoved": {
-    "message": "Konto muss entfernt werden.",
+    "message": "Konto do usunięcia.",
     "englishSource": "Account to be removed."
   },
   "ifYouWantToRemoveAnotherAccount": {
-    "message": "Wenn Sie ein anderes Konto entfernen möchten, wählen Sie es im Dropdown-Menü oben rechts aus.",
+    "message": "Jeżeli chcesz usunąć kolejne konto – wybierz je z menu rozwijanego w prawym górnym rogu.",
     "englishSource": "If you want to remove another account - select it in the top-right dropdown."
   },
   "enterPasswordToRemoveAccount": {
-    "message": "Geben Sie das Passwort ein, um das Konto zu entfernen.",
+    "message": "Wprowadź hasło, aby usunąć Konto.",
     "englishSource": "Enter password to remove the Account."
   },
   "remove": {
-    "message": "Entfernen",
+    "message": "Usunąć",
     "englishSource": "Remove"
   },
   "ifYouWantToRevealViewKeyFromOtherAccount": {
-    "message": "Wenn Sie einen Ansichtsschlüssel von einem anderen Konto anzeigen möchten, sollten Sie ihn in der Dropdown-Liste oben rechts auswählen.",
+    "message": "Jeżeli chcesz ujawnić klucz widoku z innego konta - wybierz go z rozwijanego menu w prawym górnym rogu.",
     "englishSource": "If you want to reveal a view key from another account - you should select it in the top-right dropdown."
   },
   "viewKeyFieldDescription": {
-    "message": "Aktuelle Kontoansichtstaste. Halten Sie es geheim. Jeder mit diesem Schlüssel kann Ihren Transaktionsverlauf einsehen",
+    "message": "Klucz widoku konta bieżącego. Zachowaj to w tajemnicy. Każda osoba posiadająca ten klucz może zobaczyć historię Twoich transakcji",
     "englishSource": "Current account view key. Keep it in secret. Anyone with this key can see your transaction history"
   },
   "ifYouWantToRevealPrivateKeyFromOtherAccount": {
-    "message": "Wenn Sie einen privaten Schlüssel von einem anderen Konto preisgeben möchten, sollten Sie ihn oben rechts im Dropdown-Menü auswählen.",
+    "message": "Jeżeli chcesz ujawnić klucz widoku z innego konta - wybierz go z rozwijanego menu w prawym górnym rogu.",
     "englishSource": "If you want to reveal a view key from another account - you should select it in the top-right dropdown."
   },
   "privateKeyFieldDescription": {
-    "message": "Aktueller Kontoschlüssel. Halten Sie ihn geheim.",
+    "message": "Klucz do konta bieżącego. Zachowaj to w tajemnicy.",
     "englishSource": "Current account key. Keep it in secret."
   },
   "derivationPath": {
-    "message": "Ableitungspfad",
+    "message": "Ścieżka wyprowadzenia",
     "englishSource": "Derivation path"
   },
   "seedPhrase": {
@@ -712,198 +644,183 @@
     "englishSource": "Seed Phrase"
   },
   "pathForHDAccounts": {
-    "message": "für HD-Konten. Mit dieser Funktion können Sie alle Ihre Konten aus Ihrer Seed Phrase wiederherstellen.",
+    "message": "dla kont HD. To jest rzecz, której używasz do odzyskiwania wszystkich kont z frazy początkowej.",
     "englishSource": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase."
   },
   "derivationPathExample": {
-    "message": "m/44'/0'/<account_index>'/0'",
+    "message": "m/44'/0'/<indeks_konta>'/0'",
     "englishSource": "m/44'/0'/<account_index>'/0'"
   },
   "keepSeedPhraseSecret": {
-    "message": "Behalte es geheim.",
+    "message": "Zachowaj to w tajemnicy.",
     "englishSource": "Keep it in secret."
   },
   "revealSecretPasswordInputDescription": {
-    "message": "Geben Sie das Passwort ein, um $secretName$ freizugeben.",
-    "placeholders": {
-      "secretName": {
-        "content": "$1"
-      }
-    },
+    "message": "Wprowadź hasło, aby odsłonić $secretName$ .",
     "englishSource": "Enter password to reveal the $secretName$."
   },
   "reveal": {
-    "message": "Freigeben",
+    "message": "Ujawnić",
     "englishSource": "Reveal"
   },
   "transaction": {
-    "message": "Transaktion",
+    "message": "Transakcja",
     "englishSource": "Transaction"
   },
   "recipient": {
-    "message": "Empfänger",
+    "message": "Odbiorca",
     "englishSource": "Recipient"
   },
   "recipientInputPlaceholder": {
-    "message": "z. B. 0xb3d1df68...",
+    "message": "np. 0xb3d1df68...",
     "englishSource": "e.g. 0xb3d1df68..."
   },
   "viewKeyInputPlaceholder": {
-    "message": "z.B. AViewKey1iHE...",
+    "message": "np. AViewKey1iHE...",
     "englishSource": "e.g. AViewKey1iHE..."
   },
   "amount": {
-    "message": "Betrag",
+    "message": "Kwota",
     "englishSource": "Amount"
   },
   "mainAssetBalanceIsZero": {
-    "message": "Ihr Miden-Guthabensaldo (Hauptguthaben) ist Null. Für die Gebühr sind Miden-Credits erforderlich.",
+    "message": "Saldo Twoich kredytów Miden (głównego aktywa) wynosi zero. Do opłaty wymagane są kredyty Miden.",
     "englishSource": "Your Miden credits (main asset) balance is zero. Miden credits are required for the fee."
   },
   "unableToSendTransactionAction": {
-    "message": "Die Transaktion kann nicht an den angegebenen Empfänger gesendet werden.",
+    "message": "Nie można wysłać transakcji do podanego odbiorcy.",
     "englishSource": "Unable to send transaction to provided Recipient."
   },
   "unableToEstimateTransactionAction": {
-    "message": "Die Transaktion an den angegebenen Empfänger kann nicht geschätzt werden.",
+    "message": "Nie można oszacować transakcji dla podanego odbiorcy.",
     "englishSource": "Unable to estimate transaction to provided Recipient."
   },
   "raw": {
-    "message": "Roh",
+    "message": "Surowy",
     "englishSource": "Raw"
   },
   "fetchingConfirmationDetails": {
-    "message": "Bestätigungsdetails werden abgerufen",
+    "message": "pobieranie szczegółów potwierdzenia",
     "englishSource": "fetching confirmation details"
   },
   "notIdentified": {
-    "message": "Nicht identifiziert",
+    "message": "Nie zidentyfikowano",
     "englishSource": "Not identified"
   },
   "connect": {
-    "message": "Verbinden",
+    "message": "Łączyć",
     "englishSource": "Connect"
   },
   "languageAndCountry": {
-    "message": "Standardmäßig verwenden wir die Sprache Ihres Browsers. Ändern Sie es unten, wenn Ihnen das nicht gefällt.",
+    "message": "Domyślnie używamy języka Twojej przeglądarki. Zmień to poniżej, jeśli Ci to nie odpowiada.",
     "englishSource": "By default, we use the language of your browser. Change it below if that's not to your liking."
   },
   "generalSettings": {
-    "message": "Allgemein",
+    "message": "Ogólny",
     "englishSource": "General"
   },
   "generalSettingsDescription": {
-    "message": "Hier können Sie die Spracheinstellungen und den Anzeigemodus verwalten.",
+    "message": "Tutaj możesz zarządzać preferencjami językowymi i trybem wyświetlania.",
     "englishSource": "Here you can manage languages preferences and display mode."
   },
   "language": {
-    "message": "Sprache",
+    "message": "Język",
     "englishSource": "Language"
   },
   "languageDescription": {
-    "message": "Ändern Sie die Anzeigesprache",
+    "message": "Zmień język wyświetlania",
     "englishSource": "Change the display language"
   },
   "add": {
-    "message": "Hinzufügen",
+    "message": "Dodać",
     "englishSource": "Add"
   },
   "assets": {
-    "message": "Vermögenswerte",
+    "message": "Aktywa",
     "englishSource": "Assets"
   },
   "tokens": {
-    "message": "Token",
+    "message": "Tokeny",
     "englishSource": "Tokens"
   },
   "activity": {
-    "message": "Aktivität",
+    "message": "Działania",
     "englishSource": "Activities"
   },
   "proofGenerationTab": {
-    "message": "Eine offene Registerkarte ist erforderlich, um Transaktionsnachweise effizient zu generieren",
+    "message": "Do sprawnego generowania dowodów transakcji wymagana jest otwarta zakładka",
     "englishSource": "An open tab is required to efficiently generate transaction proofs"
   },
   "manageTokens": {
-    "message": "Token verwalten",
+    "message": "Zarządzaj tokenami",
     "englishSource": "Manage Tokens"
   },
   "noAssetsFound": {
-    "message": "Keine Vermögenswerte gefunden",
+    "message": "Nie znaleziono żadnych zasobów",
     "englishSource": "No assets found"
   },
   "ifYouDontSeeYourAsset": {
-    "message": "Wenn Sie Ihre Vermögenswerte nicht sehen,\nversuchen, Sie auf $toClick$ zu klicken.",
-    "placeholders": {
-      "toClick": {
-        "content": "$1"
-      }
-    },
+    "message": "Jeśli nie widzisz swojego zasobu,\nspróbuj kliknąć $toClick$ .",
     "englishSource": "If you don't see your asset,\ntry to click $toClick$."
   },
   "addressOfTokenContract": {
-    "message": "Adresse eines $assetSymbol$-Token-Kontrakts.",
-    "placeholders": {
-      "assetSymbol": {
-        "content": "$1"
-      }
-    },
+    "message": "Adres A $assetSymbol$ umowa tokenowa.",
     "englishSource": "Address of a $assetSymbol$ token contract."
   },
   "searchAssets": {
-    "message": "Vermögenswerte suchen...",
+    "message": "Wyszukaj zasoby...",
     "englishSource": "Search assets..."
   },
   "watchOnlyAccount": {
-    "message": "Nur ansehen",
+    "message": "Zobacz klucz",
     "englishSource": "View Key"
   },
   "disabledForWatchOnlyAccount": {
-    "message": "Deaktiviert für nur anzuzeigendes Konto",
+    "message": "Wyłączone dla konta tylko do oglądania",
     "englishSource": "Disabled for watch-only account"
   },
   "contract": {
-    "message": "Kontrakt",
+    "message": "Umowa",
     "englishSource": "Contract"
   },
   "popupSettings": {
-    "message": "Popup-Modus",
+    "message": "Tryb wyskakujący",
     "englishSource": "Popup mode"
   },
   "popupSettingsDescription": {
-    "message": "Hier können Sie das Popup konfigurieren, das beim Klicken auf das Symbol des Plugins im Erweiterungspanel angezeigt wird.",
+    "message": "Tutaj możesz skonfigurować wyskakujące okienko pojawiające się po kliknięciu ikony wtyczki w panelu rozszerzeń.",
     "englishSource": "Here you can configure the popup which appears on plugin's icon click in extensions panel."
   },
   "delegateProofSettings": {
-    "message": "Beweisgenerierung delegieren",
+    "message": "Deleguj generowanie dowodu",
     "englishSource": "Delegate Proof Generation"
   },
   "delegateProofSettingsDescription": {
-    "message": "Hier können Sie die Delegation der Beweiserstellung an einen Remote-Server konfigurieren. Dadurch wird die Beweiserstellung beschleunigt, die Transaktionsdetails werden jedoch an einen vertrauenswürdigen Server weitergegeben.",
+    "message": "Tutaj możesz skonfigurować delegowanie generowania dowodu do zdalnego serwera. Przyspieszy to generowanie dowodu, ale ujawni szczegóły transakcji zaufanemu serwerowi.",
     "englishSource": "Here you can configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
   },
   "autoCloseSettings": {
-    "message": "Automatisches Schließen der generierten Transaktionsseite",
+    "message": "Automatyczne zamykanie generującej stronę transakcji",
     "englishSource": "Auto Close Generating Transaction Page"
   },
   "autoCloseSettingsDescription": {
-    "message": "Hier können Sie das automatische Schließen der generierenden Transaktionsseite nach der Generierung der Transaktion konfigurieren.",
+    "message": "Tutaj możesz skonfigurować automatyczne zamykanie strony transakcji generującej po wygenerowaniu transakcji.",
     "englishSource": "Here you can configure auto close of the generating transaction page after the transaction is generated."
   },
   "analyticsSettings": {
-    "message": "Anonyme Analyse",
+    "message": "Anonimowe analizy",
     "englishSource": "Anonymous Analytics"
   },
   "analyticsSettingsDescription": {
-    "message": "Hier können Sie den Versand anonymer Analysen konfigurieren, die uns helfen, das Produkt zu verbessern.",
+    "message": "Tutaj możesz skonfigurować wysyłanie anonimowych statystyk, które pomagają nam udoskonalać produkt.",
     "englishSource": "Here you can configure sending of anonymous analytics that helps us to improve the product."
   },
   "transfer": {
-    "message": "Überweisen",
+    "message": "Przenosić",
     "englishSource": "Transfer"
   },
   "clean": {
-    "message": "Sauber",
+    "message": "Czysty",
     "englishSource": "Clean"
   },
   "ok": {
@@ -911,180 +828,147 @@
     "englishSource": "OK"
   },
   "yes": {
-    "message": "Ja",
+    "message": "Tak",
     "englishSource": "Yes"
   },
   "no": {
-    "message": "Nein",
+    "message": "NIE",
     "englishSource": "No"
   },
   "actionConfirmation": {
-    "message": "Aktion bestätigen",
+    "message": "Potwierdź akcję",
     "englishSource": "Confirm the action"
   },
   "submit": {
-    "message": "Senden",
+    "message": "Składać",
     "englishSource": "Submit"
   },
   "max": {
-    "message": "Max",
+    "message": "Maks",
     "englishSource": "Max"
   },
   "from": {
-    "message": "Von",
+    "message": "Z",
     "englishSource": "From"
   },
   "to": {
-    "message": "Zu",
+    "message": "Do",
     "englishSource": "To"
   },
   "received": {
-    "message": "Erhalten",
+    "message": "Otrzymane",
     "englishSource": "Received"
   },
   "other": {
-    "message": "Sonstige",
+    "message": "Inny",
     "englishSource": "Other"
   },
-  "thousandFormat": {
-    "message": "$thousand$k",
-    "placeholders": {
-      "thousand": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$thousand$k"
-  },
-  "millionFormat": {
-    "message": "$million$M",
-    "placeholders": {
-      "million": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$million$M"
-  },
-  "billionFormat": {
-    "message": "$billion$B",
-    "placeholders": {
-      "billion": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$billion$B"
-  },
   "uploadFile": {
-    "message": "Datei hochladen",
+    "message": "Prześlij plik",
     "englishSource": "Upload File"
   },
   "download": {
-    "message": "Herunterladen",
+    "message": "Pobierać",
     "englishSource": "Download"
   },
   "more": {
-    "message": "mehr",
-    "description": "Show more",
+    "message": "więcej",
     "englishSource": "more"
   },
   "addressBook": {
-    "message": "Adressbuch",
+    "message": "Książka adresowa",
     "englishSource": "Address Book"
   },
   "addressBookDescription": {
-    "message": "Fügen Sie Ihre Kontakte hinzu, entfernen und verwalten Sie sie.",
+    "message": "Dodawaj, usuwaj i zarządzaj swoimi kontaktami.",
     "englishSource": "Add, remove and manage your contacts."
   },
   "addNewContact": {
-    "message": "Neuer Kontakt",
+    "message": "Nowy kontakt",
     "englishSource": "New contact"
   },
   "addContact": {
-    "message": "Kontakt hinzufügen",
+    "message": "Dodaj kontakt",
     "englishSource": "Add contact"
   },
   "newContactPlaceholder": {
-    "message": "z. B. Alice Bob",
+    "message": "np. Alicja Bob",
     "englishSource": "e.g. Alice Bob"
   },
   "contactWithTheSameAddressAlreadyExists": {
-    "message": "Kontakt mit gleicher Adresse ist bereits vorhanden",
+    "message": "Kontakt o tym samym adresie już istnieje",
     "englishSource": "Contact with the same address already exists"
   },
   "currentContacts": {
-    "message": "Aktuelle Kontakte",
+    "message": "Aktualne kontakty",
     "englishSource": "Current contacts"
   },
   "deleteContactConfirm": {
-    "message": "Möchten Sie diesen Kontakt wirklich löschen?",
+    "message": "Czy na pewno chcesz usunąć ten kontakt?",
     "englishSource": "Are you sure you want to delete this contact?"
   },
   "ownAccount": {
-    "message": "Besitzen",
+    "message": "Własny",
     "englishSource": "Own"
   },
   "noContactsFound": {
-    "message": "Keine Kontakte gefunden",
+    "message": "Nie znaleziono żadnych kontaktów",
     "englishSource": "No contacts found"
   },
   "verifySeedPhrase": {
-    "message": "Überprüfen Sie die Seed Phrase",
+    "message": "Sprawdź frazę źródłową",
     "englishSource": "Verify Seed Phrase"
   },
   "word": {
-    "message": "Wort $number$",
-    "placeholders": {
-      "number": {
-        "content": "$1"
-      }
-    },
+    "message": "Słowo $number$ ",
     "englishSource": "Word $number$"
   },
   "finish": {
-    "message": "Beenden",
+    "message": "Skończyć",
     "englishSource": "Finish"
   },
   "onboarding": {
-    "message": "Onboarding",
+    "message": "Proces wdrażania do firmy nowego pracownika",
     "englishSource": "Onboarding"
   },
   "next": {
-    "message": "Nächste",
+    "message": "Następny",
     "englishSource": "Next"
   },
   "done": {
-    "message": "Fertig!",
+    "message": "Zrobione",
     "englishSource": "Done"
   },
   "start": {
-    "message": "Anfang",
+    "message": "Start",
     "englishSource": "Start"
   },
   "lockUpSettings": {
-    "message": "Verlängerungssperre",
+    "message": "Blokada rozszerzenia",
     "englishSource": "Extension lock-up"
   },
   "lockUpSettingsDescription": {
-    "message": "Die Erweiterung wird nach 10 Minuten Inaktivität automatisch gesperrt.",
+    "message": "Rozszerzenie zostanie automatycznie zablokowane po 10 minutach braku aktywności.",
     "englishSource": "The extension will be automatically blocked after 10 minutes of inactivity."
   },
   "transactionId": {
-    "message": "Transaktions-ID:",
+    "message": "Identyfikator transakcji:",
     "englishSource": "Transaction ID:"
   },
   "recipientAddress": {
-    "message": "Empfängeradresse:",
+    "message": "Adres odbiorcy",
     "englishSource": "Recipient address"
   },
   "completed": {
-    "message": "Abgeschlossen",
+    "message": "Zakończony",
     "englishSource": "Completed"
   },
   "confirmation": {
-    "message": "Bestätigung",
+    "message": "Potwierdzenie",
     "englishSource": "Confirmation"
   },
   "collectibles": {
-    "message": "Sammlerstücke",
+    "message": "Kolekcje",
     "englishSource": "Collectibles"
   },
   "id": {
@@ -1092,316 +976,271 @@
     "englishSource": "ID"
   },
   "addCollectible": {
-    "message": "Sammlerstück hinzufügen",
+    "message": "Dodaj przedmiot kolekcjonerski",
     "englishSource": "Add Collectible"
   },
   "manageCollectibles": {
-    "message": "Sammlerstücke verwalten",
+    "message": "Zarządzaj Kolekcjami",
     "englishSource": "Manage Collectibles"
   },
   "convert": {
-    "message": "Konvertieren",
+    "message": "Konwertować",
     "englishSource": "Convert"
   },
   "public": {
-    "message": "Öffentlich",
+    "message": "Publiczny",
     "englishSource": "Public"
   },
   "private": {
-    "message": "Privat",
+    "message": "Prywatny",
     "englishSource": "Private"
   },
   "customizeFee": {
-    "message": "Gebühr anpassen",
+    "message": "Dostosuj opłatę",
     "englishSource": "Customize fee"
   },
   "claim": {
-    "message": "Beanspruchen",
+    "message": "Prawo",
     "englishSource": "Claim"
   },
   "availableToClaim": {
-    "message": "Zur Inanspruchnahme verfügbar",
+    "message": "Dostępne do reklamacji",
     "englishSource": "Available to claim"
   },
   "privateTransactionsAnytimeAnywhere": {
-    "message": "Private Transaktionen jederzeit und überall.",
-    "note": "Onboarding",
+    "message": "Prywatne transakcje w dowolnym miejscu i czasie.",
     "englishSource": "Private transactions anytime, anywhere."
   },
   "createANewWallet": {
-    "message": "Erstellen Sie eine neue Brieftasche",
-    "note": "Onboarding",
+    "message": "Utwórz nowy portfel",
     "englishSource": "Create a new wallet"
   },
   "iAlreadyHaveAWallet": {
-    "message": "Ich habe bereits eine Brieftasche",
-    "note": "Onboarding",
+    "message": "Mam już portfel",
     "englishSource": "I already have a wallet"
   },
   "backUpYourWallet": {
-    "message": "Sichern Sie Ihr Portemonnaie",
-    "note": "Onboarding",
+    "message": "Utwórz kopię zapasową swojego portfela",
     "englishSource": "Back up your wallet"
   },
   "show": {
-    "message": "Zeigen",
-    "note": "Onboarding",
+    "message": "Pokazywać",
     "englishSource": "Show"
   },
   "hide": {
-    "message": "Verstecken",
-    "note": "Onboarding",
+    "message": "Ukrywać",
     "englishSource": "Hide"
   },
   "copied": {
-    "message": "Kopiert",
-    "note": "Onboarding",
+    "message": "Skopiowano",
     "englishSource": "Copied"
   },
   "copyToClipboard": {
-    "message": "In die Zwischenablage kopieren",
-    "note": "Onboarding",
+    "message": "Skopiuj do schowka",
     "englishSource": "Copy to clipboard"
   },
   "createsProofsOnYourComputer": {
-    "message": "Erstellt Nachweise auf Ihrem Computer",
-    "note": "Onboarding",
+    "message": "Tworzy dowody na Twoim komputerze",
     "englishSource": "Creates proofs on your computer"
   },
   "yourKeysStayPrivate": {
-    "message": "Ihre Schlüssel bleiben privat",
-    "note": "Onboarding",
+    "message": "Twoje klucze pozostają prywatne",
     "englishSource": "Your keys stay private"
   },
   "selectTheDefaultTransactionType": {
-    "message": "Wählen Sie den Standardtransaktionstyp",
-    "note": "Onboarding",
+    "message": "Wybierz domyślny typ transakcji",
     "englishSource": "Select the Default Transaction Type"
   },
   "popular": {
-    "message": "Beliebt",
-    "note": "Onboarding",
+    "message": "Popularny",
     "englishSource": "Popular"
   },
   "verifyMessagePrefix": {
-    "message": "Bestätigen Sie, dass Sie Ihre geheime Seed Phrase gespeichert haben. Wählen Sie das erste und das letzte Wort Ihrer Phrase aus.",
+    "message": "Potwierdź, że zapisałeś tajną frazę odzyskiwania. Wybierz pierwsze i ostatnie słowa z frazy.",
     "englishSource": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase."
   },
   "enterYourWalletSeedPhrase": {
-    "message": "Geben Sie die 12-Wörter-Seed Phrase Ihrer Brieftasche ein.",
+    "message": "Wpisz 12-wyrazową frazę początkową swojego portfela.",
     "englishSource": "Enter your wallet's 12-word Seed phrase."
   },
   "onlyMidenSeedPhrasesAreSupported": {
-    "message": "Es werden nur Miden Seed Phrases unterstützt.",
+    "message": "Obsługiwane są tylko frazy Miden Seed.",
     "englishSource": "Only Miden Seed phrases are supported."
   },
   "yourWalletIsReady": {
-    "message": "Ihre Brieftasche ist bereit",
-    "note": "Onboarding",
+    "message": "Twój portfel jest gotowy!",
     "englishSource": "Your wallet is ready!"
   },
   "getStarted": {
-    "message": "Loslegen",
-    "note": "Onboarding",
+    "message": "Zacznij",
     "englishSource": "Get started"
   },
   "enterPassword": {
-    "message": "Passwort eingeben",
-    "note": "Onboarding",
+    "message": "Wprowadź hasło",
     "englishSource": "Enter password"
   },
   "verifyPassword": {
-    "message": "Passwort überprüfen",
-    "note": "Onboarding",
+    "message": "Zweryfikuj hasło",
     "englishSource": "Verify password"
   },
   "enterPasswordAgain": {
-    "message": "Passwort erneut eingeben",
-    "note": "Onboarding",
+    "message": "Wprowadź hasło ponownie",
     "englishSource": "Enter password again"
   },
   "itsAMatch": {
-    "message": "Es ist ein Match!",
-    "note": "Onboarding",
+    "message": "To jest mecz!",
     "englishSource": "It's a match!"
   },
   "passwordsDoNotMatch": {
-    "message": "Passwörter stimmen nicht überein",
+    "message": "Hasła nie pasują",
     "englishSource": "Passwords do not match"
   },
   "createPassword": {
-    "message": "Passwort erstellen",
-    "note": "Onboarding",
+    "message": "Utwórz hasło",
     "englishSource": "Create password"
   },
   "createPasswordDescription": {
-    "message": "Legen Sie ein Passwort fest, um Ihre Brieftasche jedes Mal zu entsperren, wenn Sie Ihren Computer verwenden. Es kann nicht verwendet werden, um Ihre Brieftasche wiederherzustellen.",
-    "note": "Onboarding",
+    "message": "Ustaw hasło, aby odblokować portfel za każdym razem, gdy korzystasz z komputera. Nie można go użyć do odzyskania portfela.",
     "englishSource": "Set a password to unlock your wallet each time you use your computer. It can't be used to recover your wallet."
   },
   "veryStrong": {
-    "message": "Sehr stark!",
-    "note": "Onboarding",
+    "message": "Bardzo mocny!",
     "englishSource": "Very strong!"
   },
   "medium": {
-    "message": "Mittel",
-    "note": "Onboarding",
+    "message": "Średni",
     "englishSource": "Medium"
   },
   "low": {
-    "message": "Niedrig",
-    "note": "Onboarding",
+    "message": "Niski",
     "englishSource": "Low"
   },
   "8chars1number": {
-    "message": "8 Zeichen, 1 Zahl",
-    "note": "Onboarding",
+    "message": "8 znaków, 1 cyfra",
     "englishSource": "8 characters, 1 number"
   },
   "minimumCharsWithAtLeast": {
-    "message": "Mindestens 8 Zeichen mit mindestens 1 Zahl",
-    "note": "Onboarding",
+    "message": "Minimum 8 znaków i co najmniej 1 cyfra",
     "englishSource": "Minimum 8 characters with at least 1 number"
   },
   "backUpWalletInstructions": {
-    "message": "Speichern Sie diese 12 Wörter in einem Passwort-Manager oder schreiben Sie sie auf und bewahren Sie sie an einem sicheren Ort auf. Teilen Sie sie mit niemandem.",
-    "note": "Onboarding",
+    "message": "Zapisz te 12 słów w menedżerze haseł lub zapisz i przechowuj w bezpiecznym miejscu. Nie udostępniaj nikomu.",
     "englishSource": "Save these 12 words to a password manager, or write down and store in a secure place. Do not share with anyone."
   },
   "select": {
-    "message": "Auswählen",
-    "note": "Onboarding",
+    "message": "Wybierać",
     "englishSource": "Select"
   },
   "selected": {
-    "message": "Ausgewählt",
-    "note": "Onboarding",
+    "message": "Wybrany",
     "englishSource": "Selected"
   },
   "additionalDownloads": {
-    "message": "Zusätzliche Downloads",
-    "note": "Onboarding",
+    "message": "Dodatkowe pliki do pobrania",
     "englishSource": "Additional Downloads"
   },
   "600megabytes": {
-    "message": "600+ Megabyte",
-    "note": "Onboarding",
+    "message": "600 megabajtów",
     "englishSource": "600+ megabytes"
   },
   "transactionSpeed": {
-    "message": "Transaktionsgeschwindigkeit",
-    "note": "Onboarding",
+    "message": "Szybkość transakcji",
     "englishSource": "Transaction Speed"
   },
   "transactionSpeedMins": {
-    "message": "1-10 Minuten",
-    "note": "Onboarding",
+    "message": "1-10 minut",
     "englishSource": "1-10 minutes"
   },
   "maximumPrivacy": {
-    "message": "Maximale Privatsphäre",
-    "note": "Onboarding",
+    "message": "Maksymalna prywatność",
     "englishSource": "Maximum Privacy"
   },
   "vpnLevelPrivacy": {
-    "message": "VPN-Ebene Privatsphäre",
-    "note": "Onboarding",
+    "message": "Prywatność na poziomie VPN",
     "englishSource": "VPN level privacy"
   },
   "transactionSpeed2Sec": {
-    "message": "2 Sekunden",
-    "note": "Onboarding",
+    "message": "2 sekundy",
     "englishSource": "2 seconds"
   },
   "additionalDownloads0mb": {
-    "message": "0 MB",
-    "note": "Onboarding",
+    "message": "0MB",
     "englishSource": "0 MB"
   },
   "delegateProofsToSecureServers": {
-    "message": "Beweise an sichere Server delegieren",
-    "note": "Onboarding",
+    "message": "Deleguj dowody do bezpiecznych serwerów",
     "englishSource": "Delegate proofs to secure servers"
   },
   "delegateTransactions": {
-    "message": "Transaktionen delegieren",
-    "note": "Onboarding",
+    "message": "Delegat\nTransakcje",
     "englishSource": "Delegate\nTransactions"
   },
   "generateTransactionsLocally": {
-    "message": "Transaktionen lokal generieren",
-    "note": "Onboarding",
+    "message": "Generuj transakcje\nLokalnie",
     "englishSource": "Generate Transactions\nLocally"
   },
   "privacyScalesBetter": {
-    "message": "Datenschutz lässt sich besser skalieren",
-    "note": "Onboarding",
+    "message": "Prywatność skaluje się lepiej",
     "englishSource": "Privacy Scales Better"
   },
   "chooseFromDevice": {
-    "message": "Wählen Sie aus dem Gerät",
-    "note": "Onboarding",
+    "message": "Wybierz z urządzenia",
     "englishSource": "Choose from device"
   },
   "resetRequired": {
-    "message": "Zurücksetzen der Brieftasche erforderlich",
+    "message": "Wymagany reset portfela",
     "englishSource": "Wallet Reset Required"
   },
   "resetRequiredDescription": {
-    "message": "Miden Testnet hat ein Upgrade auf bech32-Konto-IDs durchgeführt, um Ihr Erlebnis zu verbessern. Um Ihr Wallet weiterhin verwenden zu können, stellen Sie es bitte aus einer Sicherungsdatei oder Seed Phrase wieder her oder erstellen Sie eine neue.",
+    "message": "Miden Testnet zaktualizował do identyfikatorów kont bech32, aby poprawić Twoje doświadczenie. Aby nadal korzystać z portfela, przywróć go z pliku kopii zapasowej lub frazy początkowej albo utwórz nowy.",
     "englishSource": "Miden Testnet has upgraded to bech32 account IDs to improve your experience. To keep using your wallet, please restore from a backup file or seed phrase, or create a new one."
   },
   "resetRequiredSecondDescription": {
-    "message": "Wir entschuldigen uns für die Unannehmlichkeiten.",
+    "message": "Przepraszamy za niedogodności.",
     "englishSource": "We’re sorry for the inconvenience."
   },
   "reset": {
-    "message": "Wallet zurücksetzen",
+    "message": "Zresetuj portfel",
     "englishSource": "Reset Wallet"
   },
   "forgotPassword": {
-    "message": "Passwort vergessen?",
+    "message": "Zapomniałeś hasła?",
     "englishSource": "Forgot Password?"
   },
   "forgotPasswordDescription": {
-    "message": "Wenn Sie Ihr Passwort vergessen haben, müssen Sie sich abmelden und Ihr Konto erneut importieren. Danach können Sie ein neues Passwort erstellen.",
+    "message": "Jeśli zapomniałeś hasła, musisz się wylogować i ponownie zaimportować swoje konto. Następnie możesz utworzyć nowe hasło.",
     "englishSource": "If you've forgotten your password, you need to sign out and re-import your account. After that, you can create a new password."
   },
   "forgotPasswordSecondDescription": {
-    "message": "Melden Sie sich nicht ab, es sei denn, Sie kennen Ihre 12-Wörter-Seed Phrase oder haben eine verschlüsselte Sicherungsdatei.",
+    "message": "Nie wylogowuj się, jeśli nie znasz frazy początkowej składającej się z 12 słów lub nie masz zaszyfrowanego pliku kopii zapasowej.",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
   "signOut": {
-    "message": "Abmelden",
+    "message": "Wyloguj się",
     "englishSource": "Sign Out"
   },
   "chooseImportType": {
-    "message": "Wählen Sie Ihren Importtyp",
-    "note": "Onboarding",
+    "message": "Wybierz typ importu",
     "englishSource": "Choose Your Import Type"
   },
   "chooseImportTypeDescription": {
-    "message": "Stellen Sie mit Ihrem 12-Wörter-Satz das öffentliche Gleichgewicht wieder her. Um private Gelder wiederherzustellen, laden Sie die verschlüsselte Sicherungsdatei hoch.",
-    "note": "Onboarding",
+    "message": "Przywróć równowagę publiczną za pomocą frazy składającej się z 12 słów. Aby przywrócić saldo prywatne, prześlij zaszyfrowany plik kopii zapasowej.",
     "englishSource": "Restore public balance with your 12-word phrase. To restore private balance, upload an encrypted backup file."
   },
   "importWithSeedPhrase": {
-    "message": "Mit Seed Phrase importieren",
+    "message": "Importuj z frazą źródłową",
     "englishSource": "Import with Seed Phrase"
   },
   "importWithSeedPhraseDescription": {
-    "message": "Verwenden Sie eine vorhandene Seed Phrase mit 12 Wörtern. Sie können auch Wallets von anderen Wallet-Anbietern importieren.",
+    "message": "Użyj istniejącej frazy odzyskiwania składającej się z 12 słów. Możesz także importować portfele od innych dostawców portfeli.",
     "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
   },
   "importWithEncryptedWalletFile": {
-    "message": "Mit verschlüsselter Wallet-Datei importieren",
-    "note": "Onboarding",
+    "message": "Importuj z zaszyfrowanym plikiem portfela",
     "englishSource": "Import with Encrypted Wallet File"
   },
   "importWithEncryptedWalletFileDescription": {
-    "message": "Laden Sie Ihre verschlüsselte Wallet-Datei hoch, um Ihr Konto sicher zu importieren. Ihre Daten bleiben privat, da nur gehashte Informationen in der Kette gespeichert werden",
-    "note": "Onboarding",
+    "message": "Prześlij zaszyfrowany plik portfela, aby bezpiecznie zaimportować swoje konto. Twoje dane pozostają prywatne, a w łańcuchu przechowywane są wyłącznie informacje zaszyfrowane",
     "englishSource": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain"
   },
   "twitter": {
@@ -1409,520 +1248,515 @@
     "englishSource": "X (Twitter)"
   },
   "encryptedWalletFile": {
-    "message": "Verschlüsselte Wallet-Datei",
+    "message": "Zaszyfrowany plik portfela",
     "englishSource": "Encrypted Wallet File"
   },
   "encryptedWalletFileDescription": {
-    "message": "Geben Sie Ihr Passwort ein, um auf Ihre verschlüsselte Wallet-Datei zuzugreifen. Deaktivieren Sie die Bildschirmfreigabe. Teilen Sie es mit niemandem.",
+    "message": "Wprowadź hasło, aby uzyskać dostęp do zaszyfrowanego pliku portfela. Wyłącz udostępnianie efaucetu. Nie udostępniaj tego nikomu.",
     "englishSource": "Enter your password to access your Encrypted Wallet File. Turn off screen sharing. Don't share it with anyone."
   },
   "encryptedWalletFileConfirmation": {
-    "message": "Ich werde meine verschlüsselte Wallet-Datei mit niemandem teilen, auch nicht mit Miden Wallet.",
+    "message": "Nie będę udostępniać mojego zaszyfrowanego pliku portfela nikomu, w tym portfelowi Miden.",
     "englishSource": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet."
   },
   "enterPasswordToEncrypt": {
-    "message": "Geben Sie ein Passwort ein, um Ihre Wallet-Datei zu verschlüsseln. Sie benötigen dieses Passwort, um Ihr Wallet später wiederherzustellen.",
+    "message": "Wprowadź hasło, aby zaszyfrować plik portfela. Będziesz potrzebować tego hasła, aby później przywrócić portfel.",
     "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
   },
   "recipientAccountId": {
-    "message": "Empfängerkonto-ID",
+    "message": "Identyfikator konta odbiorcy",
     "englishSource": "Recipient account ID"
   },
   "yourAccounts": {
-    "message": "Ihre Konten",
+    "message": "Twoje konta",
     "englishSource": "Your Accounts"
   },
   "noOtherAccounts": {
-    "message": "Keine anderen Konten",
+    "message": "Żadnych innych kont",
     "englishSource": "No other accounts"
   },
   "noOtherAccountsDescription": {
-    "message": "Sie haben noch keine anderen Konten erstellt",
+    "message": "Nie utworzyłeś jeszcze żadnych innych kont",
     "englishSource": "You have not created any other accounts yet"
   },
   "invalidMidenAccountId": {
-    "message": "Ungültige Miden-Konto-ID",
+    "message": "Nieprawidłowy identyfikator konta Miden",
     "englishSource": "Invalid Miden account ID"
   },
   "amountMustBeLessThanBalance": {
-    "message": "Der Betrag muss unter dem Restbetrag liegen",
+    "message": "Kwota musi być mniejsza niż saldo",
     "englishSource": "Amount must be less than balance"
   },
   "availableBalance": {
-    "message": "Verfügbares Guthaben",
+    "message": "Dostępne saldo",
     "englishSource": "Available balance"
   },
   "goToFaucet": {
-    "message": "Gehen Sie zu Faucet",
+    "message": "Przejdź do Faucet",
     "englishSource": "Go to Faucet"
   },
   "explorePrivateAssets": {
-    "message": "Entdecken Sie die Welt des Privatvermögens.",
+    "message": "Poznaj świat prywatnych aktywów.",
     "englishSource": "Explore the world of private assets."
   },
   "autoConsumeSettings": {
-    "message": "MIDEN-Notes automatisch konsumieren",
+    "message": "Automatyczne zużywanie Notes MIDEN",
     "englishSource": "Auto Consume MIDEN notes"
   },
   "autoConsumeSettingsDescription": {
-    "message": "Auto Consume verbraucht automatisch Banknoten aus dem offiziellen Miden Faucet.",
+    "message": "Auto Consume automatycznie zużyje Notes z oficjalnego Miden Faucet.",
     "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
-    "message": "Verschlüsselte Wallet-Datei exportiert",
+    "message": "Wyeksportowano zaszyfrowany plik portfela",
     "englishSource": "Encrypted Wallet File Exported"
   },
   "encryptedWalletFileExportedDescription": {
-    "message": "Ihre verschlüsselte Wallet-Datei wurde heruntergeladen. Bewahren Sie es und Ihr Passwort sicher auf, denn wenn Sie sie verlieren, verlieren Sie den Zugriff auf Ihr Portemonnaie.",
+    "message": "Twój zaszyfrowany plik portfela został pobrany. Trzymaj je i swoje hasło w bezpiecznym miejscu, ponieważ ich utrata oznacza utratę dostępu do portfela.",
     "englishSource": "Your encrypted wallet file has been downloaded. Keep it and your password safe, as losing them means losing access to your wallet."
   },
   "doNotShareEncryptedWalletFile": {
-    "message": "Geben Sie Ihre verschlüsselte Wallet-Datei nicht weiter!",
+    "message": "Nie udostępniaj swojego zaszyfrowanego pliku portfela!",
     "englishSource": "Do not share your Encrypted Wallet File!"
   },
   "permissionLabel": {
-    "message": "Entschlüsselungsberechtigung: $decryptPermission$ ",
-    "placeholders": {
-      "decryptPermission": {
-        "content": "$1"
-      }
-    },
+    "message": "Zezwolenie na prywatne dane",
     "englishSource": "Private Data Permission"
   },
   "confirmPrivateDataPermissionDescription": {
-    "message": "Dadurch erhalten Sie dauerhaft Zugriff auf Ihre Kontodaten und können nicht widerrufen werden.",
+    "message": "Zapewni to stały dostęp do danych Twojego konta i nie będzie można go odwołać.",
     "englishSource": "This will give permanent access to your account data and cannot be revoked."
   },
   "privateAccountAccessRequest": {
-    "message": "Diese Website fordert Zugriff auf Ihr privates Konto.",
+    "message": "Ta witryna żąda dostępu do Twojego prywatnego konta.",
     "englishSource": "This site is requesting access to your private account."
   },
   "publicAccountAccessRequest": {
-    "message": "Diese Website fordert Zugriff auf Ihr öffentliches Konto.",
+    "message": "Ta witryna żąda dostępu do Twojego konta publicznego.",
     "englishSource": "This site is requesting access to your public account."
   },
   "balanceAccess": {
-    "message": "Lassen Sie Ihren Kontostand und Ihre Aktivität sehen",
+    "message": "Pozwól mu zobaczyć saldo i aktywność Twojego portfela",
     "englishSource": "Let it see your wallet balance and activity"
   },
   "sendTransactionRequests": {
-    "message": "Lassen Sie sich Transaktionsanfragen senden",
+    "message": "Pozwól mu wysyłać Ci prośby o transakcje",
     "englishSource": "Let it send you requests for transactions"
   },
   "fundsStayInWallet": {
-    "message": "Das Geld verlässt Ihr Wallet erst, wenn Sie eine Transaktion durchführen",
+    "message": "Środki nie opuszczą Twojego portfela, dopóki nie wykonasz transakcji",
     "englishSource": "Funds will not leave your wallet until you execute a transaction"
   },
   "privateDataAccessAuto": {
-    "message": "Zugriff auf private Daten: Automatisch",
+    "message": "Dostęp do prywatnych danych: automatyczny",
     "englishSource": "Private Data Access: Automatic"
   },
   "privateDataAccessUponRequest": {
-    "message": "Zugriff auf private Daten: Auf Anfrage",
+    "message": "Dostęp do prywatnych danych: na żądanie",
     "englishSource": "Private Data Access: Upon Request"
   },
   "accessWillBeGranted": {
-    "message": "Es wird Zugriff auf folgende Daten gewährt",
+    "message": "Dostęp do poniższych danych zostanie udzielony",
     "englishSource": "Access to the following data will be granted"
   },
   "confirmationRequired": {
-    "message": "Bei jeder Anforderung von Kontodaten ist eine Bestätigung erforderlich",
+    "message": "Potwierdzenie jest wymagane za każdym razem, gdy wymagane jest podanie danych konta",
     "englishSource": "Confirmation is required every time account data is requested"
   },
   "doNotShareEncryptedWalletFileDescription": {
-    "message": "Mit der Datei und dem Passwort kann jeder auf Ihr Wallet zugreifen.",
+    "message": "Dzięki plikowi i hasłu każdy może uzyskać dostęp do Twojego portfela.",
     "englishSource": "With the file and password, anyone can access your wallet."
   },
   "transactionWillProceedInBackground": {
-    "message": "Die Transaktion wird im Hintergrund ausgeführt",
+    "message": "Transakcja będzie kontynuowana w tle",
     "englishSource": "Transaction will proceed in the background"
   },
   "publicFee": {
-    "message": "Öffentliche Gebühr",
+    "message": "Opłata publiczna",
     "englishSource": "Public Fee"
   },
   "privateFee": {
-    "message": "Private Gebühr",
+    "message": "Opłata prywatna",
     "englishSource": "Private Fee"
   },
   "publicFeeDescription": {
-    "message": "Transaktionsgebühr wird privat abgewickelt.",
+    "message": "Opłata transakcyjna przetwarzana prywatnie.",
     "englishSource": "Transaction fee processed privately."
   },
   "privateFeeDescription": {
-    "message": "Die Transaktionsgebühr wird öffentlich in der Blockchain abgewickelt.",
+    "message": "Opłata transakcyjna jest przetwarzana publicznie na blockchainie.",
     "englishSource": "Transaction fee is processed publicly on the blockchain."
   },
   "noPrivateTokensForFee": {
-    "message": "Sie haben keine privaten Token. Wandeln Sie öffentliche Token in private um, um sie als Gebühr zu verwenden.",
+    "message": "Nie masz tokenów prywatnych. Konwertuj tokeny publiczne na prywatne, aby używać ich jako opłaty.",
     "englishSource": "You have no Private tokens. Convert Public tokens to Private to use them as Fee."
   },
   "noPublicTokensForFee": {
-    "message": "Sie haben keine öffentlichen Token. Wandeln Sie private Token in öffentliche um, um sie als Gebühr zu verwenden.",
+    "message": "Nie masz tokenów publicznych. Konwertuj tokeny prywatne na publiczne, aby używać ich jako opłaty.",
     "englishSource": "You have no Public tokens. Convert Private tokens to Public to use them as Fee."
   },
   "convertNow": {
-    "message": "Jetzt konvertieren.",
+    "message": "Konwertuj teraz.",
     "englishSource": "Convert now."
   },
   "recommendedFee": {
-    "message": "Empfohlene Gebühr",
+    "message": "Zalecana opłata",
     "englishSource": "Recommended fee"
   },
   "feeType": {
-    "message": "Gebührenart",
+    "message": "Rodzaj opłaty",
     "englishSource": "Fee type"
   },
   "delegateThisTransaction": {
-    "message": "Delegieren Sie diese Transaktion",
+    "message": "Deleguj tę transakcję",
     "englishSource": "Delegate this transaction"
   },
   "delegateTransactionTooltip": {
-    "message": "Konfigurieren Sie die Delegation der Beweiserstellung an einen Remote-Server. Dadurch wird die Beweiserstellung beschleunigt, die Transaktionsdetails werden jedoch an einen vertrauenswürdigen Server weitergegeben.",
+    "message": "Skonfiguruj delegowanie generowania dowodu do zdalnego serwera. Przyspieszy to generowanie dowodu, ale ujawni szczegóły transakcji zaufanemu serwerowi.",
     "englishSource": "Configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
   },
   "conversionInitiated": {
-    "message": "Konvertierung eingeleitet",
+    "message": "Rozpoczęto konwersję",
     "englishSource": "Conversion Initiated"
   },
   "transactionCompleted": {
-    "message": "Transaktion abgeschlossen",
+    "message": "Transakcja zakończona",
     "englishSource": "Transaction Completed"
   },
   "transactionFailed": {
-    "message": "Transaktion fehlgeschlagen",
+    "message": "Transakcja nie powiodła się",
     "englishSource": "Transaction Failed"
   },
   "doNotCloseWindowNavigateHome": {
-    "message": "Schließen Sie dieses Fenster nicht. Nachdem die Transaktion generiert wurde, werden Sie zurück zur Startseite navigiert",
+    "message": "Nie zamykaj tego okna. Po wygenerowaniu transakcji nastąpi powrót do strony głównej",
     "englishSource": "Do not close this window. You will be navigated back to the home page after the transaction is generated"
   },
   "doNotCloseWindowAutoClose": {
-    "message": "Schließen Sie dieses Fenster nicht. Das Fenster wird automatisch geschlossen, nachdem die Transaktion generiert wurde",
+    "message": "Nie zamykaj tego okna. Okno zamknie się automatycznie po wygenerowaniu transakcji",
     "englishSource": "Do not close this window. Window will auto-close after the transaction is generated"
   },
   "transactionSuccessDescription": {
-    "message": "Ihre Transaktion wurde erfolgreich verarbeitet und im Netzwerk bestätigt.",
+    "message": "Twoja transakcja została pomyślnie przetworzona i potwierdzona w sieci.",
     "englishSource": "Your transaction was successfully processed and confirmed on the network."
   },
   "transactionErrorDescription": {
-    "message": "Bei der Verarbeitung Ihrer Transaktion ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+    "message": "Wystąpił błąd podczas przetwarzania Twojej transakcji. Spróbuj ponownie.",
     "englishSource": "There was an error processing your transaction. Please try again."
   },
   "downloadGeneratedFiles": {
-    "message": "Laden Sie die generierten Dateien herunter",
+    "message": "Pobierz wygenerowane pliki",
     "englishSource": "Download Generated Files"
   },
   "onChainAccountPublic": {
-    "message": "On-Chain-Konto (öffentlich)",
+    "message": "Konto w łańcuchu (publiczne)",
     "englishSource": "On-chain Account (Public)"
   },
   "onChainAccountDescription": {
-    "message": "Verwenden Sie eine vorhandene Seed Phrase mit 12 Wörtern. Sie können auch Wallets von anderen Wallet-Anbietern importieren.",
+    "message": "Użyj istniejącej frazy odzyskiwania składającej się z 12 słów. Możesz także importować portfele od innych dostawców portfeli.",
     "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
   },
   "offChainAccountPrivate": {
-    "message": "Off-Chain-Konto (privat)",
+    "message": "Konto poza łańcuchem (prywatne)",
     "englishSource": "Off-chain Account (Private)"
   },
   "offChainAccountDescription": {
-    "message": "Schnelle, private Vorgänge mit minimalen Gebühren unter Umgehung der direkten Blockchain-Interaktion.",
+    "message": "Szybkie, prywatne operacje przy minimalnych opłatach, z pominięciem bezpośredniej interakcji blockchain.",
     "englishSource": "Fast, private operations with minimal fees, bypassing direct blockchain interaction."
   },
   "chooseYourAccountType": {
-    "message": "Wählen Sie Ihren Kontotyp",
+    "message": "Wybierz typ konta",
     "englishSource": "Choose Your Account Type"
   },
   "chooseAccountTypeDescription": {
-    "message": "Wählen Sie aus, wie Sie mit der Blockchain interagieren möchten – On-Chain oder Off-Chain.",
+    "message": "Wybierz sposób interakcji z łańcuchem bloków — w łańcuchu lub poza łańcuchem.",
     "englishSource": "Select how you want to interact with the blockchain -- on-chain or off-chain."
   },
   "canAddMultipleAccountsLater": {
-    "message": "Sie können später im Wallet mehrere Kontotypen hinzufügen und verwalten.",
+    "message": "Możesz później dodać wiele typów kont i zarządzać nimi w portfelu.",
     "englishSource": "You can add and manage multiple account types later within the wallet."
   },
   "transactionFile": {
-    "message": "Transaktionsdatei",
+    "message": "Plik transakcyjny",
     "englishSource": "Transaction file"
   },
   "verificationFailed": {
-    "message": "Überprüfung fehlgeschlagen",
+    "message": "Weryfikacja nie powiodła się",
     "englishSource": "Verification Failed"
   },
   "transactionVerifiedSuccessfully": {
-    "message": "Die Transaktion wurde erfolgreich verifiziert. Sie können jetzt Ihre Token anfordern.",
+    "message": "Transakcja została pomyślnie zweryfikowana. Możesz teraz odebrać swoje tokeny.",
     "englishSource": "The transaction has been successfully verified. You can now claim your tokens."
   },
   "transactionFileCouldNotBeVerified": {
-    "message": "Die hochgeladene Transaktionsdatei konnte nicht überprüft werden. Stellen Sie sicher, dass die Datei gültig ist, und versuchen Sie es erneut.",
+    "message": "Nie można zweryfikować przesłanego pliku transakcji. Upewnij się, że plik jest prawidłowy i spróbuj ponownie.",
     "englishSource": "The uploaded transaction file could not be verified. Ensure the file is valid and try again."
   },
   "home": {
-    "message": "Heim",
+    "message": "Dom",
     "englishSource": "Home"
   },
   "timestamp": {
-    "message": "Zeitstempel",
+    "message": "Znacznik czasu",
     "englishSource": "Timestamp"
   },
   "noteType": {
-    "message": "Note Type",
+    "message": "Typ Note",
     "englishSource": "Note Type"
   },
   "noteId": {
-    "message": "Note ID",
+    "message": "Identyfikator Note",
     "englishSource": "Note ID"
   },
   "downloadGeneratedFile": {
-    "message": "Laden Sie die generierte Datei herunter",
+    "message": "Pobierz wygenerowany plik",
     "englishSource": "Download Generated File"
   },
   "viewOnExplorer": {
-    "message": "Im Explorer anzeigen",
+    "message": "Zobacz w Eksploratorze",
     "englishSource": "View on Explorer"
   },
   "inProgress": {
-    "message": "Im Gange",
+    "message": "W toku",
     "englishSource": "In Progress"
   },
   "you": {
-    "message": "Du",
+    "message": "Ty",
     "englishSource": "You"
   },
   "invalidPayload": {
-    "message": "(ungültige Nutzlast)",
+    "message": "(nieprawidłowy ładunek)",
     "englishSource": "(invalid payload)"
   },
   "signTheFollowingWord": {
-    "message": "Unterschreiben Sie das folgende Wort $word$ ?",
+    "message": "Podpisz następujące Słowo $word$ ?",
     "englishSource": "Sign the following Word $word$?"
   },
   "sharePrivateNoteDataForAccount": {
-    "message": "Geben Sie alle privaten Note Data für das Konto frei",
+    "message": "Udostępnij wszystkie prywatne dane Note dla konta",
     "englishSource": "Share all private note data for account"
   },
   "downloadPrivateNoteData": {
-    "message": "Laden Sie private Note Data herunter",
+    "message": "Pobierz dane prywatnych Note",
     "englishSource": "Download Private Note Data"
   },
   "transactionAffectsAccountStorage": {
-    "message": "Diese Transaktion wirkt sich auf Ihren Kontospeicher aus. Überprüfen Sie zur Verifizierung die Rohzusammenfassung",
+    "message": "Ta transakcja ma wpływ na miejsce na Twoim koncie. Przejrzyj surowe podsumowanie, aby je zweryfikować",
     "englishSource": "This transaction affects your account storage. Review the raw summary to verify"
   },
   "failedToParseSigningPayload": {
-    "message": "Die Signaturnutzlast konnte nicht geparst werden",
+    "message": "Nie udało się przeanalizować ładunku podpisu",
     "englishSource": "Failed to parse signing payload"
   },
   "assetChanges": {
-    "message": "Vermögensänderungen",
+    "message": "Zmiany aktywów",
     "englishSource": "Asset changes"
   },
   "unknown": {
-    "message": "Unbekannt",
+    "message": "Nieznany",
     "englishSource": "Unknown"
   },
   "inputNotesConsumed": {
-    "message": "Eingabenotizen verbraucht",
+    "message": "Zużyte Notes wejściowe",
     "englishSource": "Input notes consumed"
   },
   "outputNotesCreated": {
-    "message": "Ausgabenotizen erstellt",
+    "message": "Utworzono Notes wyjściowe",
     "englishSource": "Output notes created"
   },
   "storageChanged": {
-    "message": "Speicher geändert",
+    "message": "Pamięć zmieniona",
     "englishSource": "Storage changed"
   },
   "downloadFullSummary": {
-    "message": "Vollständige Zusammenfassung herunterladen (Bytes)",
+    "message": "Pobierz pełne podsumowanie (w bajtach)",
     "englishSource": "Download full summary (bytes)"
   },
   "signArbitraryPayload": {
-    "message": "Die willkürliche Nutzlast unterschreiben?",
+    "message": "Podpisać dowolny ładunek?",
     "englishSource": "Sign the Arbitrary payload?"
   },
   "signBlindCommitment": {
-    "message": "Unterzeichnen Sie die Verpflichtung der Blinden?",
+    "message": "Podpisać zobowiązanie w ciemno?",
     "englishSource": "Sign the Blind commitment?"
   },
   "connectToWebsite": {
-    "message": "Mit der Website verbinden",
+    "message": "Połącz się ze stroną internetową",
     "englishSource": "Connect to website"
   },
   "deny": {
-    "message": "Leugnen",
+    "message": "Zaprzeczyć",
     "englishSource": "Deny"
   },
   "requestsATransaction": {
-    "message": "Fordert eine Transaktion an",
+    "message": "Żąda transakcji",
     "englishSource": "Requests a transaction"
   },
   "requestsToConsumeNote": {
-    "message": "Anfragen zum Verzehr einer Note",
+    "message": "Żądanie wykorzystania Note",
     "englishSource": "Requests to consume a note"
   },
   "requestPrivateNotes": {
-    "message": "Fordern Sie private Notes an",
+    "message": "Poproś o prywatne Notes",
     "englishSource": "Request Private Notes"
   },
   "requestsPrivateNotes": {
-    "message": "Fordert private Notes an",
+    "message": "Prosi o prywatne Notes",
     "englishSource": "Requests private notes"
   },
   "confirmSignature": {
-    "message": "Unterschrift bestätigen",
+    "message": "Potwierdź podpis",
     "englishSource": "Confirm Signature"
   },
   "requestsYourSignature": {
-    "message": "Fordert Ihre Unterschrift an",
+    "message": "Prosi o Twój podpis",
     "englishSource": "Requests your signature"
   },
   "requestAssets": {
-    "message": "Fordern Sie Vermögenswerte an",
+    "message": "Poproś o aktywa",
     "englishSource": "Request Assets"
   },
   "requestsAssets": {
-    "message": "Fordert Vermögenswerte an",
+    "message": "Żąda aktywów",
     "englishSource": "Requests assets"
   },
   "requestImportPrivateNote": {
-    "message": "Fordern Sie den Import einer privaten Note an",
+    "message": "Poproś o zaimportowanie prywatnej Note",
     "englishSource": "Request Import Private Note"
   },
   "importPrivateNote": {
-    "message": "Private Note importieren",
+    "message": "Importuj prywatną note",
     "englishSource": "Import private note"
   },
   "requestConsumableNotes": {
-    "message": "Fordern Sie Notee zu Verbrauchsmaterialien an",
+    "message": "Poproś o Notes dotyczące materiałów eksploatacyjnych",
     "englishSource": "Request Consumable Notes"
   },
   "requestsConsumableNotes": {
-    "message": "Fordern Sie Notes zu Verbrauchsmaterialien an",
+    "message": "Poproś o Notes dotyczące materiałów eksploatacyjnych",
     "englishSource": "Request consumable notes"
   },
   "review": {
-    "message": "Rezension",
+    "message": "Recenzja",
     "englishSource": "Review"
   },
   "close": {
-    "message": "Schließen",
+    "message": "Zamknąć",
     "englishSource": "Close"
   },
   "chooseToken": {
-    "message": "Wählen Sie Token",
+    "message": "Wybierz token",
     "englishSource": "Choose token"
   },
   "recallBlocks": {
-    "message": "Blöcke abrufen",
+    "message": "Przypomnij sobie bloki",
     "englishSource": "Recall blocks"
   },
   "delegateTransaction": {
-    "message": "Transaktion delegieren",
+    "message": "Deleguj transakcję",
     "englishSource": "Delegate transaction"
   },
   "shareTransactionPrivately": {
-    "message": "Transaktion privat teilen",
+    "message": "Udostępnij transakcję prywatnie",
     "englishSource": "Share transaction privately"
   },
   "alreadyHaveTransactionFile": {
-    "message": "Sie haben bereits eine Transaktionsdatei?",
+    "message": "Masz już plik transakcji?",
     "englishSource": "Already have a transaction file?"
   },
   "claimAll": {
-    "message": "Alle beanspruchen",
+    "message": "Odbierz wszystko",
     "englishSource": "Claim All"
   },
   "readyToClaim": {
-    "message": "Bereit zum Anspruch",
+    "message": "Gotowy do reklamacji",
     "englishSource": "Ready to claim"
   },
   "addTokens": {
-    "message": "Token hinzufügen",
+    "message": "Dodaj tokeny",
     "englishSource": "Add tokens"
   },
   "getTokens": {
-    "message": "Holen Sie sich Token",
+    "message": "Zdobądź tokeny",
     "englishSource": "Get tokens"
   },
   "getTokensDescription": {
-    "message": "Sie können Token aus dem Faucet beziehen oder sie von einer anderen Wallet oder einem anderen Konto übertragen.",
+    "message": "Możesz zdobyć tokeny z Faucet lub przenieść je z innego portfela lub konta.",
     "englishSource": "You can get tokens from the faucet or transfer them from another wallet or account."
   },
   "transferTokens": {
-    "message": "Token übertragen",
+    "message": "Tokeny transferu",
     "englishSource": "Transfer tokens"
   },
   "midenFaucet": {
-    "message": "Miden Faucet",
+    "message": "Faucet Miden",
     "englishSource": "Miden Faucet"
   },
   "midenFaucetDescription": {
-    "message": "Wenn Sie auf die Schaltfläche unten klicken, wird Ihre Adresse in die Zwischenablage kopiert und Sie gelangen zum Miden Faucet.",
+    "message": "Kliknięcie poniższego przycisku spowoduje skopiowanie Twojego adresu do schowka i przejście do Miden Faucet.",
     "englishSource": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet."
   },
   "accountPublicKey": {
-    "message": "Öffentlicher Kontoschlüssel",
+    "message": "Klucz publiczny konta",
     "englishSource": "Account Public Key"
   },
   "editMidenFaucetId": {
-    "message": "Bearbeiten Sie die Miden Faucet-ID",
+    "message": "Edytuj identyfikator Faucet Miden",
     "englishSource": "Edit Miden Faucet ID"
   },
   "faucetId": {
-    "message": "Faucet-ID",
+    "message": "Identyfikator Faucet",
     "englishSource": "Faucet ID"
   },
   "setNewFaucetId": {
-    "message": "Legen Sie eine neue Faucet-ID fest",
+    "message": "Ustaw nowy identyfikator Faucet",
     "englishSource": "Set new Faucet ID"
   },
   "setNewFaucetIdDescription": {
-    "message": "Geben Sie die ID eines Miden-Faucets ein",
+    "message": "Wprowadź identyfikator Faucet miden",
     "englishSource": "Enter the ID of a miden faucet"
   },
   "verifyingTransaction": {
-    "message": "Transaktion wird überprüft",
+    "message": "Weryfikacja transakcji",
     "englishSource": "Verifying transaction"
   },
   "transactionProcessingDescription": {
-    "message": "Die hochgeladene Transaktionsdatei wird verarbeitet, um ihre Details zu überprüfen. Bitte aktualisieren oder schließen Sie die App nicht.",
+    "message": "Przesłany plik transakcji jest przetwarzany w celu sprawdzenia jego szczegółów. Proszę nie odświeżać ani nie zamykać aplikacji.",
     "englishSource": "The uploaded transaction file is being processed to verify its details. Please do not refresh or close the app."
   },
   "yourAddress": {
-    "message": "Ihre Adresse",
+    "message": "Twój adres",
     "englishSource": "Your address"
   },
   "errorClaiming": {
-    "message": "Fehlerbehauptung:",
+    "message": "Błąd podczas zgłaszania roszczeń:",
     "englishSource": "Error Claiming: "
   },
   "addAccount": {
-    "message": "Konto hinzufügen",
+    "message": "Dodaj konto",
     "englishSource": "Add Account"
   },
   "faucetIdUpdated": {
-    "message": "Faucet-ID aktualisiert",
+    "message": "Zaktualizowano identyfikator Faucet",
     "englishSource": "Faucet ID Updated"
   },
   "connectivityIssueDetected": {
-    "message": "Verbindungsproblem erkannt",
+    "message": "Wykryto problem z łącznością",
     "englishSource": "Connectivity Issue Detected"
   },
   "walletMayBeOffline": {
-    "message": "Das Wallet ist möglicherweise offline oder nicht synchronisiert.",
+    "message": "Portfel może być offline lub niezsynchronizowany.",
     "englishSource": "Wallet may be offline or out of sync."
   },
   "noteConsumedSuccessfully": {
-    "message": "Ihre Note wurde erfolgreich verarbeitet.",
+    "message": "Twoja note została pomyślnie wykorzystana.",
     "englishSource": "Your note was successfully consumed."
   },
   "noteConsumptionError": {
-    "message": "Beim Verarbeiten Ihrer Note ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+    "message": "Wystąpił błąd podczas korzystania z Twojej Note. Spróbuj ponownie.",
     "englishSource": "There was an error consuming your note. Please try again."
   },
   "dragAndDropFile": {
-    "message": "Drag-and-Drop-Datei oder",
+    "message": "Przeciągnij i upuść plik lub",
     "englishSource": "Drag and drop file or"
   },
   "jsonFileType": {
@@ -1930,39 +1764,39 @@
     "englishSource": ".JSON"
   },
   "blocksUntilRecall": {
-    "message": "Blockiert bis zum Rückruf",
+    "message": "Blokuje do momentu przypomnienia",
     "englishSource": "Blocks until recall"
   },
   "recallBlocksDescription": {
-    "message": "Wenn der Empfänger die Transaktion innerhalb dieser Zeit nicht akzeptiert, wird das Geld an Sie zurückerstattet.",
+    "message": "Jeśli odbiorca nie zaakceptuje transakcji w tym terminie, środki zostaną zwrócone Tobie.",
     "englishSource": "If the recipient does not accept the transaction within this time, the funds will be returned to you."
   },
   "clearText": {
-    "message": "Klartext",
+    "message": "Wyczyść tekst",
     "englishSource": "Clear text"
   },
   "avatar": {
-    "message": "Avatar",
+    "message": "awatara",
     "englishSource": "avatar"
   },
   "byProceeding": {
-    "message": "Indem Sie fortfahren, stimmen Sie dem zu",
+    "message": "Kontynuując, wyrażasz zgodę na",
     "englishSource": "By proceeding, you agree to the"
   },
   "andWord": {
-    "message": "Und",
+    "message": "I",
     "englishSource": "and"
   },
   "enterDecryptionPassword": {
-    "message": "Geben Sie das Passwort ein, das Sie beim Exportieren Ihres Wallets festgelegt haben. Dadurch wird die Datei entschlüsselt und der Zugriff wiederhergestellt.",
+    "message": "Wprowadź hasło ustawione podczas eksportowania portfela. Spowoduje to odszyfrowanie pliku i przywrócenie dostępu.",
     "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
   },
   "first": {
-    "message": "Erste",
+    "message": "Pierwszy",
     "englishSource": "First"
   },
   "last": {
-    "message": "Zuletzt",
+    "message": "Ostatni",
     "englishSource": "Last"
   }
 }

@@ -2,9 +2,10 @@ import React, { FC, HTMLAttributes, memo, useCallback, useMemo, useRef } from 'r
 
 import BigNumber from 'bignumber.js';
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import { toLocalFixed, toLocalFormat, toShortened } from 'lib/i18n/numbers';
-import { getNumberSymbols, t } from 'lib/i18n/react';
+import { getNumberSymbols } from 'lib/i18n/react';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 import useTippy, { TippyInstance, TippyProps } from 'lib/ui/useTippy';
 
@@ -188,6 +189,7 @@ const FullAmountTippy: FC<FullAmountTippyProps> = ({
   isSpan = false,
   ...rest
 }) => {
+  const { t } = useTranslation();
   const fullAmountStr = useMemo(() => toLocalFixed(fullAmount), [fullAmount]);
 
   const { fieldRef, copy, copied, setCopied } = useCopyToClipboard();
@@ -197,7 +199,7 @@ const FullAmountTippy: FC<FullAmountTippyProps> = ({
       return t('copiedHash');
     }
     return showAmountTooltip ? fullAmountStr : t('copyHashToClipboard');
-  }, [copied, showAmountTooltip, fullAmountStr]);
+  }, [copied, showAmountTooltip, fullAmountStr, t]);
 
   const tippyInstanceRef = useRef<TippyInstance>();
   const tippyProps = useMemo<TippyProps>(

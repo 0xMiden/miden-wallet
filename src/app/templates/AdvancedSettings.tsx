@@ -2,10 +2,11 @@ import React, { FC, useMemo, useState } from 'react';
 
 import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { Button, ButtonVariant } from 'components/Button';
-import { t } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 import { useAccount } from 'lib/miden/front';
 
 const AdvancedSettings: FC = () => {
+  const { t } = useTranslation();
   const account = useAccount();
   const [isSubmitting] = useState(false);
 

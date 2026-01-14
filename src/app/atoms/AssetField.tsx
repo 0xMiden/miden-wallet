@@ -2,14 +2,15 @@ import React, { ComponentProps, forwardRef, useCallback, useEffect, useMemo, use
 
 import BigNumber from 'bignumber.js';
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import FormField from 'app/atoms/FormField';
-import { t } from 'lib/i18n/react';
 
 const AssetExtraInner = (
   assetSymbol: string,
   showMax: boolean,
-  setMax: (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+  setMax: (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+  t: (key: string) => string
 ) => {
   return (
     <div
@@ -56,6 +57,7 @@ const AssetField = forwardRef<HTMLInputElement, AssetFieldProps>(
     },
     ref
   ) => {
+    const { t } = useTranslation();
     const valueStr = useMemo(() => (value === undefined ? '' : new BigNumber(value).toFixed()), [value]);
 
     const [localValue, setLocalValue] = useState(valueStr);
@@ -135,7 +137,7 @@ const AssetField = forwardRef<HTMLInputElement, AssetFieldProps>(
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        extraInner={AssetExtraInner(assetSymbol!, showMax, setMax)}
+        extraInner={AssetExtraInner(assetSymbol!, showMax, setMax, t)}
         useDefaultInnerWrapper={false}
         {...rest}
       />

@@ -9,7 +9,7 @@ import FormField from 'app/atoms/FormField';
 import FormSecondaryButton from 'app/atoms/FormSecondaryButton';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import ModalWithTitle from 'app/templates/ModalWithTitle';
-import { T, t } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
 type AddContactModalProps = {
@@ -18,6 +18,7 @@ type AddContactModalProps = {
 };
 
 const AddContactModal: FC<AddContactModalProps> = ({ address, onClose }) => {
+  const { t } = useTranslation();
   const {
     register,
     reset: resetForm,
@@ -44,7 +45,7 @@ const AddContactModal: FC<AddContactModalProps> = ({ address, onClose }) => {
   );
 
   return (
-    <ModalWithTitle isOpen={Boolean(address)} title={<T id="addNewContact" />} onRequestClose={onClose}>
+    <ModalWithTitle isOpen={Boolean(address)} title={t('addNewContact')} onRequestClose={onClose}>
       <form onSubmit={handleSubmit(onAddContactSubmit)}>
         <div className="mb-8">
           <div className="mb-4 flex items-stretch border rounded-md p-2">
@@ -73,10 +74,10 @@ const AddContactModal: FC<AddContactModalProps> = ({ address, onClose }) => {
         </div>
         <div className="flex justify-end">
           <FormSecondaryButton type="button" small className="mr-3" onClick={onClose}>
-            <T id="cancel" />
+            {t('cancel')}
           </FormSecondaryButton>
           <FormSubmitButton small loading={isSubmitting}>
-            <T id="addContact" />
+            {t('addContact')}
           </FormSubmitButton>
         </div>
       </form>

@@ -11,7 +11,6 @@ import PageLayout from 'app/layouts/PageLayout';
 import AddressChip from 'app/templates/AddressChip';
 import { Button, ButtonVariant } from 'components/Button';
 import { formatBigInt } from 'lib/i18n/numbers';
-import { T } from 'lib/i18n/react';
 import { getUncompletedTransactions, initiateConsumeTransaction, waitForConsumeTx } from 'lib/miden/activity';
 import { AssetMetadata, useAccount } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
@@ -124,11 +123,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
     }
   }, [unclaimedNotes, account.publicKey, isDelegatedProvingEnabled, mutateClaimableNotes]);
 
-  const pageTitle = (
-    <>
-      <T id="receive" />
-    </>
-  );
+  const pageTitle = <>{t('receive')}</>;
 
   const handleButtonClick = () => {
     // Trigger the hidden input's click event

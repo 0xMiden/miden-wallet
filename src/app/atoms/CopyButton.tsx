@@ -1,9 +1,9 @@
 import React, { FC, HTMLAttributes, useMemo } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import { AnalyticsEventCategory, TestIDProps, useAnalytics } from 'lib/analytics';
-import { t } from 'lib/i18n/react';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 import useTippy from 'lib/ui/useTippy';
 
@@ -30,6 +30,7 @@ const CopyButton: FC<CopyButtonProps> = ({
   testIDProperties,
   ...rest
 }) => {
+  const { t } = useTranslation();
   const { trackEvent } = useAnalytics();
   const { fieldRef, copy, copied, setCopied } = useCopyToClipboard();
 

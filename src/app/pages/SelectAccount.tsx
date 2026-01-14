@@ -7,12 +7,13 @@ import Name from 'app/atoms/Name';
 import { ReactComponent as Checkmark } from 'app/icons/checkmark-alt.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import { Button, ButtonVariant } from 'components/Button';
-import { T, t } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 import { useAccount, useAllAccounts, useMidenContext } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
 import { truncateAddress } from 'utils/string';
 
 const SelectAccount: FC = () => {
+  const { t } = useTranslation();
   const { updateCurrentAccount } = useMidenContext();
   const allAccounts = useAllAccounts();
   const account = useAccount();
@@ -25,7 +26,7 @@ const SelectAccount: FC = () => {
     <PageLayout
       pageTitle={
         <>
-          <T id="accounts">{message => <span className="capitalize">{message}</span>}</T>
+          <span className="capitalize">{t('accounts')}</span>
         </>
       }
     >

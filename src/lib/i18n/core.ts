@@ -1,4 +1,5 @@
 import { enUS, enGB, fr, zhCN, zhTW, ja, ko, uk, ru, Locale } from 'date-fns/locale';
+import i18n from 'i18next';
 import browser from 'webextension-polyfill';
 
 import cldrjsLocales from './cldrjs-locales.json';
@@ -95,7 +96,9 @@ export function getNumberSymbols() {
 }
 
 export function getCurrentLocale() {
-  return getSavedLocale() || getNativeLocale();
+  // First check i18next's current language (normalized back: en-GB -> en_GB)
+  const i18nLang = i18n.language?.replace('-', '_');
+  return i18nLang || getSavedLocale() || getNativeLocale();
 }
 
 export function getNativeLocale() {

@@ -8,7 +8,6 @@ import FormField, { PASSWORD_ERROR_CAPTION } from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { useMidenClient } from 'app/hooks/useMidenClient';
 import { Icon, IconName } from 'app/icons/v2';
-import { T } from 'lib/i18n/react';
 import { decrypt, decryptJson, deriveKey, generateKey } from 'lib/miden/passworder';
 import { importDb } from 'lib/miden/repo';
 import { DecryptedWalletFile, ENCRYPTED_WALLET_FILE_PASSWORD_CHECK, EncryptedWalletFile } from 'screens/shared';
@@ -242,7 +241,7 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
         style={{ display: 'block', fontWeight: 500, padding: '12px 0px' }}
         disabled={!isValid || !walletFile}
       >
-        <T id={'import'} />
+        {t('import')}
       </FormSubmitButton>
     </form>
   );

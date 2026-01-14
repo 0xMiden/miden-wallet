@@ -19,19 +19,18 @@ const About: FC = () => {
           <p className="text-sm text-gray-200">{t('versionLabel', { version: process.env.VERSION })}</p>
         </div>
       </div>
-      <p className="mt-1 text-black text-sm">{t('poweredBy', { companyName: 'Demox Labs' })}</p>
 
       <div className="flex flex-col w-full py-2">
         {/* eslint-disable i18next/no-literal-string */}
         {[
           {
             key: 'website',
-            link: 'https://demoxlabs.xyz',
+            link: 'https://miden.xyz',
             insertHR: false
           },
           {
             key: 'twitter',
-            link: 'https://x.com/DemoxLabs',
+            link: 'https://x.com/0xMiden',
             insertHR: false
           },
           {

@@ -1,12 +1,12 @@
 import React, { FC, HTMLAttributes } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import { Button } from 'app/atoms/Button';
 import DropdownWrapper from 'app/atoms/DropdownWrapper';
 import Name from 'app/atoms/Name';
 import { ReactComponent as SignalAltIcon } from 'app/icons/signal-alt.svg';
-import { T } from 'lib/i18n/react';
 import { useNetwork } from 'lib/miden/front';
 import { NETWORKS } from 'lib/miden/networks';
 import Popper from 'lib/ui/Popper';
@@ -17,6 +17,7 @@ import { NetworkSelectSelectors } from './NetworkSelect.selectors';
 type NetworkSelectProps = HTMLAttributes<HTMLDivElement>;
 
 const NetworkSelect: FC<NetworkSelectProps> = () => {
+  const { t } = useTranslation();
   const network = useNetwork();
   const uiNetwork = NETWORKS.find(n => n.id === network.id)!;
 
@@ -37,7 +38,7 @@ const NetworkSelect: FC<NetworkSelectProps> = () => {
               )}
             >
               <SignalAltIcon className="w-auto h-4 mr-1 stroke-current" />
-              <T id="networks">{networks => <>{networks}</>}</T>
+              {t('networks')}
             </h2>
           </div>
         </DropdownWrapper>

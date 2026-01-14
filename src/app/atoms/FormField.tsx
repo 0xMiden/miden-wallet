@@ -11,12 +11,12 @@ import React, {
 } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import CleanButton from 'app/atoms/CleanButton';
 import CopyButton from 'app/atoms/CopyButton';
 import { ReactComponent as CopyIcon } from 'app/icons/copy.svg';
 import { ReactComponent as EyeClosedIcon } from 'app/icons/eye-closed-bold.svg';
-import { T } from 'lib/i18n/react';
 import { blurHandler, checkedHandler, focusHandler } from 'lib/ui/inputHandlers';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 
@@ -246,8 +246,12 @@ interface SecretBannerProps {
   secretBannerDisplayed: boolean;
 }
 
-const SecretBanner: React.FC<SecretBannerProps> = ({ secretBannerDisplayed, handleSecretBannerClick }) =>
-  secretBannerDisplayed ? (
+const SecretBanner: React.FC<SecretBannerProps> = ({ secretBannerDisplayed, handleSecretBannerClick }) => {
+  const { t } = useTranslation();
+
+  if (!secretBannerDisplayed) return null;
+
+  return (
     <div
       className={classNames('absolute', 'bg-gray-800 rounded-lg', 'flex items-center justify-center', 'cursor-text')}
       style={{
@@ -263,11 +267,12 @@ const SecretBanner: React.FC<SecretBannerProps> = ({ secretBannerDisplayed, hand
         <p className={classNames('mb-1', 'flex items-center', 'text-black text-md font-semibold', 'uppercase')}></p>
 
         <p className={classNames('mb-1', 'flex items-center', 'text-black text-sm')}>
-          <T id="clickToRevealField">{message => <span>{message}</span>}</T>
+          <span>{t('clickToRevealField')}</span>
         </p>
       </div>
     </div>
-  ) : null;
+  );
+};
 
 interface CleanableProps {
   handleCleanClick: () => void;

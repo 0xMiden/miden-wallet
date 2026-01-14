@@ -5,8 +5,9 @@ import { useMidenClient } from 'app/hooks/useMidenClient';
 import { IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
 import { Button, ButtonVariant } from 'components/Button';
+import { useTranslation } from 'react-i18next';
+
 import { getCurrentLocale } from 'lib/i18n';
-import { t } from 'lib/i18n/react';
 import { getTransactionById } from 'lib/miden/activity';
 import { useAllAccounts, useAccount } from 'lib/miden/front';
 import { getTokenMetadata } from 'lib/miden/metadata/utils';
@@ -24,6 +25,7 @@ interface ActivityDetailsProps {
 }
 
 const StatusDisplay: FC<{ message: string }> = memo(({ message }) => {
+  const { t } = useTranslation();
   let displayTextKey = '';
   let textColorClass = '';
 
@@ -45,6 +47,7 @@ const AccountDisplay: FC<{
   account: WalletAccount;
   allAccounts: WalletAccount[];
 }> = memo(({ address, account, allAccounts }) => {
+  const { t } = useTranslation();
   if (!address) return <p className="text-sm">{address}</p>;
 
   const getDisplayName = (publicKey: string): string | undefined => {
@@ -65,6 +68,7 @@ const AccountDisplay: FC<{
 });
 
 export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => {
+  const { t } = useTranslation();
   const allAccounts = useAllAccounts();
   const account = useAccount();
   const { midenClient } = useMidenClient();

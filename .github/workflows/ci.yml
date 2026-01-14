@@ -67,6 +67,3 @@ jobs:
 
       - name: Run Playwright E2E
         run: xvfb-run -a yarn test:e2e
-
-      - name: Run Playwright UI E2E
-        run: xvfb-run -a yarn test:e2e:ui

@@ -13,7 +13,7 @@ import AddressChip from 'app/templates/AddressChip';
 import { ChainInstabilityBanner } from 'components/ChainInstabilityBanner';
 import { ConnectivityIssueBanner } from 'components/ConnectivityIssueBanner';
 import { TestIDProps } from 'lib/analytics';
-import { T, t } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 import { MIDEN_NETWORK_NAME, MIDEN_FAUCET_ENDPOINTS } from 'lib/miden-chain/constants';
 import { hasQueuedTransactions, initiateConsumeTransaction } from 'lib/miden/activity';
 import { setFaucetIdSetting, useAccount, useAllBalances, useAllTokensBaseMetadata } from 'lib/miden/front';
@@ -28,14 +28,14 @@ import { ExploreSelectors } from './Explore.selectors';
 import MainBanner from './Explore/MainBanner';
 import Tokens from './Explore/Tokens';
 
-const tippyPropsMock = {
-  trigger: 'mouseenter',
-  hideOnClick: false,
-  content: t('disabledForWatchOnlyAccount'),
-  animation: 'shift-away-subtle'
-};
-
 const Explore: FC = () => {
+  const { t } = useTranslation();
+  const tippyPropsMock = {
+    trigger: 'mouseenter',
+    hideOnClick: false,
+    content: t('disabledForWatchOnlyAccount'),
+    animation: 'shift-away-subtle'
+  };
   const account = useAccount();
   const midenFaucetId = useMidenFaucetId();
 
@@ -158,7 +158,7 @@ const Explore: FC = () => {
           </div>
           <div className="flex justify-evenly items-center w-full mt-1 px-2 mb-4">
             <ActionButton
-              label={<T id="send" />}
+              label={t('send')}
               Icon={SendIcon}
               to={sendLink}
               disabled={false}
@@ -167,7 +167,7 @@ const Explore: FC = () => {
             />
             <div className="relative">
               <ActionButton
-                label={<T id="receive" />}
+                label={t('receive')}
                 Icon={ReceiveIcon}
                 to="/receive"
                 testID={ExploreSelectors.ReceiveButton}
@@ -179,7 +179,7 @@ const Explore: FC = () => {
               )}
             </div>
             <ActionButton
-              label={<T id="faucet" />}
+              label={t('faucet')}
               Icon={FaucetIcon}
               to="/faucet"
               testID={ExploreSelectors.FaucetButton}

@@ -3,13 +3,14 @@ import React, { FC } from 'react';
 import FormSecondaryButton from 'app/atoms/FormSecondaryButton';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import ModalWithTitle, { ModalWithTitleProps } from 'app/templates/ModalWithTitle';
-import { t } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 
 export type ConfirmationModalProps = ModalWithTitleProps & {
   onConfirm: () => void;
 };
 
 const ConfirmationModal: FC<ConfirmationModalProps> = props => {
+  const { t } = useTranslation();
   const { onRequestClose, children, onConfirm, ...restProps } = props;
 
   return (

@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import { Button } from 'app/atoms/Button';
 import { useAppEnv } from 'app/env';
 import ContentContainer from 'app/layouts/ContentContainer';
-import { T } from 'lib/i18n/react';
 import { useStorage } from 'lib/miden/front';
 
 import { changelogData, ChangelogItem } from './ChangelogOverlay.data';
@@ -15,6 +15,7 @@ import { ChangelogOverlaySelectors } from './ChangelogOverlay.selectors';
 const currentVersion = process.env.VERSION;
 
 export const ChangelogOverlay: FC = () => {
+  const { t } = useTranslation();
   const { popup } = useAppEnv();
   const [lastShownVersion, setLastShownVersion] = useStorage<string | undefined | null>(
     `last_shown_changelog_version`,
@@ -51,12 +52,12 @@ export const ChangelogOverlay: FC = () => {
         >
           <div className={classNames('flex flex-col max-w-sm mx-auto w-full')}>
             <p className="text-xl font-inter font-semibold" style={{ fontSize: 23, color: '#9f7aea' }}>
-              <T id="changelogTitle" />
+              {t('changelogTitle')}
             </p>
             {filteredChangelog.map(({ version, data }) => (
               <React.Fragment key={version}>
                 <p className="mb-5 mt-8 font-inter" style={{ fontSize: 16 }}>
-                  <T id="update" /> {version}
+                  {t('update')} {version}
                 </p>
                 <ul>
                   {data?.map((value, index) => (
@@ -89,7 +90,7 @@ export const ChangelogOverlay: FC = () => {
                   width: popup ? 270 : 384
                 }}
               >
-                <T id="okGotIt" />
+                {t('okGotIt')}
               </Button>
             </div>
           </div>
