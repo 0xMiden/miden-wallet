@@ -511,6 +511,8 @@
   "fiatCurrency": "Default Currency",
   "generalSettings": "General",
   "generalSettingsDescription": "Here you can manage languages preferences and display mode.",
+  "language": "Language",
+  "languageDescription": "Change the display language",
   "swapNoun": "Swap",
   "transfers": "Transfers",
   "someUnknownToken": "unknown token $token$",

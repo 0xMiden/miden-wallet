@@ -1,5 +1,6 @@
 export enum SettingsSelectors {
   GeneralButton = 'Settings/GeneralButton',
+  LanguageButton = 'Settings/LanguageButton',
   SynchronizationButton = 'Settings/SynchronizationButton',
   AddressBookButton = 'Settings/AddressBookButton',
   RevealViewKeyButton = 'Settings/RevealViewKeyButton',
