@@ -1,31 +1,15 @@
 {
-  "showIncomingTransactions": {
-    "message": "앞으로의 거래 표시",
-    "englishSource": "Show Incoming Transactions"
-  },
   "appName": {
     "message": "타노스 - 테조스 지갑",
     "englishSource": "Miden Wallet"
-  },
-  "appDesc": {
-    "message": "🔐💰브라우저에 맞는 웹 익스텐선으로 테조스 블록체인용 암호화화폐 지갑을 사용합니다.",
-    "englishSource": "🔐💰 Privacy-preserving cryptocurrency wallet for Miden using Zero Knowledge Proofs"
-  },
-  "importAccount": {
-    "message": "계정 불러오기",
-    "englishSource": "Import account"
   },
   "createAccount": {
     "message": "계정 생성 또는 복원",
     "englishSource": "Create or Restore account"
   },
-  "faucetFileTitle": {
-    "message": "Faucet 파일",
-    "englishSource": "Faucet File"
-  },
-  "faucetFile": {
-    "message": "Faucet 파일",
-    "englishSource": "Faucet file"
+  "importAccount": {
+    "message": "계정 불러오기",
+    "englishSource": "Import account"
   },
   "settings": {
     "message": "설정",
@@ -38,15 +22,6 @@
   "maximiseView": {
     "message": "화면 최대화",
     "englishSource": "Maximize view"
-  },
-  "selectFileOfFormat": {
-    "message": "$format$ 파일 선택",
-    "placeholders": {
-      "format": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Select $format$ file"
   },
   "authorizedDApps": {
     "message": "인증된 분산 앱",
@@ -66,27 +41,6 @@
     },
     "englishSource": "version: {{version}}"
   },
-  "madeWithLove": {
-    "message": "$companyName$ 옆에 $loveIcon$ 포함하여 제작",
-    "placeholders": {
-      "loveIcon": {
-        "content": "$1"
-      },
-      "companyName": {
-        "content": "$2"
-      }
-    },
-    "englishSource": "Made with $loveIcon$ by $companyName$"
-  },
-  "feeInputDescription": {
-    "message": "이 운영에 대한 기본 비용은 $fee$입니다\n추가 - 확인에 따라 속도 상승",
-    "placeholders": {
-      "fee": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Base Fee for this operation is: $fee$\nAdditional - speeds up its confirmation"
-  },
   "resetPermissionsConfirmation": {
     "message": "$origin$에 대한 접근 권한을 정말로 초기화하시겠습니까?",
     "placeholders": {
@@ -96,12 +50,13 @@
     },
     "englishSource": "Are you sure you want to reset permissions for\n {{origin}}?"
   },
-  "protectedFormField": {
-    "message": "보호됨",
-    "englishSource": "HIDDEN"
+  "clickToRevealField": {
+    "message": "이 필드를 표시하려면 클릭하세요.",
+    "englishSource": "Click to reveal this field"
   },
-  "clickToRevealOrEditField": {
-    "message": "클릭하여 이 필드를 공개 혹은 편집하세요"
+  "clickToReveal": {
+    "message": "클릭하여 공개",
+    "englishSource": "Click to reveal"
   },
   "copiedHash": {
     "message": "복사됨.",
@@ -131,27 +86,21 @@
     "message": "뒤로",
     "englishSource": "Back"
   },
-  "addNewToken": {
-    "message": "새 토큰 추가",
-    "englishSource": "Add new Token"
+  "skip": {
+    "message": "건너뛰다",
+    "englishSource": "Skip"
   },
-  "hideSomeToken": {
-    "message": "\"$tokenName$\" 토큰 숨기기",
-    "placeholders": {
-      "tokenName": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Hide \"$tokenName$\" token"
+  "okGotIt": {
+    "message": "알았어요",
+    "englishSource": "Got it"
   },
-  "copySomeTokenAddress": {
-    "message": "\"$tokenSymbol$\" 주소 복사",
-    "placeholders": {
-      "tokenSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Copy \"$tokenSymbol$\" address"
+  "changelogTitle": {
+    "message": "Miden 지갑이 업데이트되었습니다.",
+    "englishSource": "Miden Wallet updated"
+  },
+  "update": {
+    "message": "업데이트",
+    "englishSource": "Update"
   },
   "originLabel": {
     "message": "원금: $origin$",
@@ -180,72 +129,9 @@
     },
     "englishSource": "Account:"
   },
-  "minDelegationAmountDescription": {
-    "message": "현재 잔액이 이 베이커의 최소 위임 금액보다 적습니다. 잔액이 $minAmount$ 미만으로 지불금이 없다는 뜻입니다.",
-    "placeholders": {
-      "minAmount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Your current balance is less than a minimal delegation amount of this baker. That means while the balance is less than $minAmount$ - there will be no payouts."
-  },
-  "clickOnBakerPrompt": {
-    "message": "자금을 위임하고자 하는 베이커를 클릭하세요. 이 목록은 $link$이(가) 지원합니다.",
-    "placeholders": {
-      "link": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Click on the Baker you want to delegate funds to. This list is powered by $link$."
-  },
-  "highestIsBetter": {
-    "message": "높을수록 좋습니다",
-    "englishSource": "the higher the better"
-  },
-  "unlockWalletPrompt": {
-    "message": "기존 지갑에 있던 것을 저장하고자 한다면 $link$하여 이를 잠금 해제하세요.",
-    "placeholders": {
-      "link": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "If you want to save something from already existing wallet - $link$ and unlock it."
-  },
-  "acceptTermsInputDescription": {
-    "message": "본인은 $termsOfUsageLink$ 및 $privacyPolicyLink$를 읽고 이에 동의합니다",
-    "placeholders": {
-      "termsOfUsageLink": {
-        "content": "$1"
-      },
-      "privacyPolicyLink": {
-        "content": "$2"
-      }
-    },
-    "englishSource": "I have read and agree to the $termsOfUsageLink$ and $privacyPolicyLink$"
-  },
-  "copiedTokenAddress": {
-    "message": "복사되었습니다.",
-    "englishSource": "Copied."
-  },
-  "copiedTokenId": {
-    "message": "복사되었습니다.",
-    "englishSource": "Copied."
-  },
-  "delegatedTo": {
-    "message": "위임 대상자:",
-    "englishSource": "Delegated to:"
-  },
-  "delegatingMotivation": {
-    "message": "자금을 베이커에게 위임하는 것이 잔액에 대한 이자를 벌 수 있는 좋은 방법입니다.",
-    "englishSource": "Delegating your funds to bakers is a great way of earning interest on your balance"
-  },
-  "reDelegate": {
-    "message": "재위임",
-    "englishSource": "Re-delegate"
-  },
-  "delegateNow": {
-    "message": "지금 위임하기",
-    "englishSource": "Delegate now"
+  "analytics": {
+    "message": "해석학",
+    "englishSource": "Analytics"
   },
   "cancel": {
     "message": "취소",
@@ -255,71 +141,17 @@
     "message": "저장",
     "englishSource": "Save"
   },
-  "edit": {
-    "message": "편집",
-    "englishSource": "Edit"
-  },
-  "useCoinSwitch": {
-    "message": "CoinSwitch 사용",
-    "description": "CoinSwitch = https://coinswitch.co/",
-    "englishSource": "Use CoinSwitch"
-  },
-  "aleoFaucet": {
-    "message": "알레오 Faucet",
-    "englishSource": "Aleo Faucet"
-  },
-  "aleoFaucetAlpha": {
-    "message": "알레오 Faucet(알파)",
-    "englishSource": "Aleo Faucet (Alpha)"
-  },
-  "depositToWallet": {
-    "message": "지갑에 입금",
-    "englishSource": "Deposit to your wallet"
-  },
-  "depositToWalletDescription": {
-    "message": "지갑에 돈을 입금하려면 입금 방법을 클릭하세요. Faucet를 사용하여 무료 코인을 받으세요!",
-    "englishSource": "Click on deposit method to get money on your wallet. Use faucet to get free coins!"
+  "faucet": {
+    "message": "Faucet",
+    "englishSource": "Faucet"
   },
   "addToken": {
     "message": "토큰 추가",
     "englishSource": "Add Asset"
   },
-  "contractNotAvailable": {
-    "message": "이 주소로 된 계약은 사용할 수 없습니다. 이 네트워크에 존재하는 것이 맞습니가?",
-    "englishSource": "The contract at this address is not available. Does it exist on this network?"
-  },
-  "noTransferMethod": {
-    "message": "송금 방법 없음",
-    "englishSource": "No transfer method"
-  },
-  "tokenDoesNotMatchStandard": {
-    "message": "입력한 토큰 계약이 $standard$ 기준과 일치하지 않습니다",
-    "placeholders": {
-      "standard": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Provided asset contract doesn't match $standard$ standard"
-  },
   "error": {
     "message": "오류",
     "englishSource": "Error"
-  },
-  "tokenType": {
-    "message": "토큰 유형",
-    "englishSource": "Token type"
-  },
-  "tokenId": {
-    "message": "토큰 ID",
-    "englishSource": "Token ID"
-  },
-  "tokenIdInputDescription": {
-    "message": "FA2 계약 내 토큰임을 나타내는 음수가 아닌 정수",
-    "englishSource": "A non-negative integer number that identifies the asset inside FA2 contract"
-  },
-  "comingSoonComment": {
-    "message": "(곧 출시)",
-    "englishSource": "(coming soon)"
   },
   "soon": {
     "message": "곧",
@@ -333,102 +165,17 @@
     "message": "주소",
     "englishSource": "Address"
   },
-  "addressOfDeployedTokenContract": {
-    "message": "배치된 토큰 계약의 주소입니다.",
-    "englishSource": "Address of a deployed asset contract."
-  },
-  "tokenContractPlaceholder": {
-    "message": "예) KT1v9CmPy...",
-    "englishSource": "e.g. KT1v9CmPy..."
-  },
-  "tokenSymbolPatternDescription": {
-    "message": "a-z, A-Z, 0-9만 허용되며 2-5글자여야 합니다",
-    "englishSource": "Only a-z, A-Z, 0-9 chars allowed, 2-5 length"
-  },
-  "symbol": {
-    "message": "기호",
-    "englishSource": "Symbol"
-  },
-  "tokenSymbolInputDescription": {
-    "message": "미국 달러를 'USD'라 하듯, 해당하는 토큰 이름.",
-    "englishSource": "Asset symbol, like 'USD' for United States Dollar."
-  },
-  "tokenSymbolInputPlaceholder": {
-    "message": "예) WEW, BOW, LAL etc.",
-    "englishSource": "e.g. WEW, BOW, LAL etc."
-  },
-  "tokenNamePatternDescription": {
-    "message": "특수 문자를 제외한 3-50글자",
-    "englishSource": "No special characters, 3-50 length"
-  },
   "name": {
     "message": "이름",
     "englishSource": "Name"
-  },
-  "tokenNameInputDescription": {
-    "message": "BTC 자산을 '비트코인'이라 하듯, 해당하는 토큰 이름.",
-    "englishSource": "Asset name, like 'Bitcoin' for BTC asset."
-  },
-  "tokenNameInputPlaceholder": {
-    "message": "예) MySuperToken",
-    "englishSource": "e.g. MySuperToken"
-  },
-  "nonNegativeIntMessage": {
-    "message": "정수, 0 이상",
-    "englishSource": "Integer, 0 or greater"
   },
   "decimals": {
     "message": "소수",
     "englishSource": "Decimals"
   },
-  "decimalsInputDescription": {
-    "message": "소수점 뒤의 소수 자릿수. 예: BTC는 8, USD는 2입니다.",
-    "englishSource": "A number of decimal places after point. For example: 8 for BTC, 2 for USD."
-  },
-  "orIPFSImageURL": {
-    "message": "또는 IPFS 이미지 URL",
-    "englishSource": "Or IPFS image URL"
-  },
-  "validImageURL": {
-    "message": "유효한 이미지 URL",
-    "englishSource": "Valid image URL"
-  },
-  "onlyHTTPS": {
-    "message": "HTTPS 전용",
-    "englishSource": "Only HTTPS"
-  },
-  "formatsAllowed": {
-    "message": ".png, .jpg, .jpeg, .gif, .webp 이미지만 허용됨",
-    "englishSource": "Only .png, .jpg, .jpeg, .gif, .webp images allowed"
-  },
-  "iconURL": {
-    "message": "아이콘 URL",
-    "englishSource": "Icon URL"
-  },
-  "optionalComment": {
-    "message": "(선택)",
-    "englishSource": "(optional)"
-  },
-  "iconURLInputDescription": {
-    "message": "토큰 로고용 이미지 URL입니다.",
-    "englishSource": "Image URL for asset logo."
-  },
   "invalidAddress": {
     "message": "유효하지 않은 주소",
     "englishSource": "Invalid address"
-  },
-  "contractNotExistOnNetwork": {
-    "message": "현재 네트워크에는 Smart Contract이 존재하지 않습니다.",
-    "englishSource": "Smart contract doesn't exist on current network"
-  },
-  "onlyKTContractAddressAllowed": {
-    "message": "KT... 계약 주소만 허용됨",
-    "description": "KT not translated",
-    "englishSource": "Only KT... contract address allowed"
-  },
-  "operationHash": {
-    "message": "운영 해시",
-    "englishSource": "Operation Hash"
   },
   "alert": {
     "message": "경고",
@@ -438,62 +185,62 @@
     "message": "1-16글자, 특수문자 제외",
     "englishSource": "1-16 characters, no special"
   },
-  "accountsToRemoveConstraint": {
-    "message": "귀하의 Seed Phrase는 항상 이 지갑을 재생성할 수 있습니다. 삭제하는 것은 불가능합니다.",
-    "englishSource": "Your seed phrase will always be able to regenerate this wallet. It is impossible to delete it."
-  },
-  "doNotSharePrivateKey": {
-    "message": "누구와도 이 글자 세트를 <b>공유하지 마세요!</b> 현재 계정을 도난 당할 수 있습니다."
-  },
-  "reject": {
-    "message": "거절",
-    "englishSource": "Reject"
-  },
-  "signAction": {
-    "message": "서명",
-    "englishSource": "Sign"
-  },
-  "decryptAction": {
-    "message": "복호화",
-    "englishSource": "Decrypt"
-  },
-  "appRequestsToDecrypt": {
-    "message": "$origin$ 암호 해독을 요청합니다",
+  "defaultAccountName": {
+    "message": "계정 $accountNumber$ ",
     "placeholders": {
-      "origin": {
+      "accountNumber": {
         "content": "$1"
       }
     },
-    "englishSource": "$origin$ requests you to decrypt"
+    "englishSource": "Account $accountNumber$"
   },
-  "alpha": {
-    "message": "알파",
-    "englishSource": "Alpha"
+  "doNotSharePrivateKey1": {
+    "message": "누구와도 공유하지 마십시오!",
+    "englishSource": "DO NOT share with anyone!"
   },
-  "viewAccountAddressWarning": {
-    "message": "이 사이트가 계정 주소를 확인하기 위해 액세스를 요청하고 있습니다. 상호 소통하는 사이트가 믿을만한 사이트인지 항상 확인하세요.",
-    "englishSource": "This site is requesting access to view your account address. Always make sure you trust the sites you interact with."
+  "doNotSharePrivateKey2": {
+    "message": "현재 계정을 훔치는 데 사용할 수 있습니다.",
+    "englishSource": "It can be used to steal your current account."
+  },
+  "doNotShareViewKey1": {
+    "message": "신뢰할 수 있는 사람들과만 공유하세요!",
+    "englishSource": "Only share with people you trust!"
+  },
+  "doNotShareViewKey2": {
+    "message": "모든 거래 내역을 보는 데 사용할 수 있습니다.",
+    "englishSource": "It can be used to view all of your transaction history."
+  },
+  "transactionAction": {
+    "message": "거래",
+    "englishSource": "Transaction"
   },
   "account": {
     "message": "계정",
     "englishSource": "Account"
   },
-  "toBeConnectedWithDApp": {
-    "message": "분산 앱과 연결합니다.",
-    "englishSource": "to be connected with dApp."
+  "noPreview": {
+    "message": "미리보기를 사용할 수 없습니다.",
+    "englishSource": "No preview is available"
+  },
+  "requirements": {
+    "message": "요구 사항:",
+    "englishSource": "<b>Requirements:</b>"
   },
   "atLeast8Characters": {
     "message": "최소 8글자",
     "englishSource": "At least 8 characters - the more characters, the better."
   },
-  "atLeast1Number": {
-    "message": "최소 숫자 1개"
+  "mixtureOfUppercaseAndLowercaseLetters": {
+    "message": "대문자와 소문자의 혼합.",
+    "englishSource": "A mixture of both uppercase and lowercase letters."
   },
-  "atLeast1LowercaseLetter": {
-    "message": "소문자 최소 1글자"
+  "mixtureOfLettersAndNumbers": {
+    "message": "문자와 숫자의 혼합.",
+    "englishSource": "A mixture of letters and numbers."
   },
-  "atLeast1UppercaseLetter": {
-    "message": "대문자 최소 1글자"
+  "atLeast1SpecialCharacter": {
+    "message": "하나 이상의 특수 문자 포함(예: ! @",
+    "englishSource": "Inclusion of at least one special character, e.g., ! @ # ? ] - (optional, recommended)."
   },
   "mnemonicWordsAmountConstraint": {
     "message": "영어로 된 12 또는 15, 18, 21, 24 단어",
@@ -503,13 +250,34 @@
     "message": "각 단어를 한 칸 띄어쓰기로 구분함",
     "englishSource": "Each word separated with a single space"
   },
+  "seedInputNumberOfWords": {
+    "message": "내 Seed Phrase는 $1 단어입니다.",
+    "englishSource": "My Seed phrase is $1 words"
+  },
   "justValidPreGeneratedMnemonic": {
     "message": "유효한 사전 생성 니모닉만",
     "englishSource": "Just valid pre-generated mnemonic"
   },
+  "seedPasteFailedTooManyWords": {
+    "message": "24개 이상의 단어가 포함되어 있어 붙여넣기에 실패했습니다.",
+    "englishSource": "Paste failed because it contained over 24 words."
+  },
+  "seedPhraseTip": {
+    "message": "전체 비밀 Seed 문구를 어떤 필드에나 붙여넣을 수 있습니다.",
+    "englishSource": "You can paste your entire secret Seed phrase into any field"
+  },
   "oops": {
     "message": "이런!",
     "englishSource": "Oops!"
+  },
+  "smthWentWrongWhile": {
+    "message": "동안 뭔가 잘못되었습니다. $action$ ",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    },
+    "englishSource": "Something went wrong while $action$"
   },
   "mayHappenBecauseYouAreOffline": {
     "message": "현재 오프라인 상태여서 이런 문제가 발생했을 수 있습니다",
@@ -519,15 +287,6 @@
     "message": "다시 시도하기",
     "englishSource": "Try again"
   },
-  "testnetbeta": {
-    "message": "Aleo 테스트넷 베타",
-    "description": "Testnet Beta",
-    "englishSource": "Aleo Testnet Beta"
-  },
-  "leoWalletOptions": {
-    "message": "템플 지갑 | 옵션",
-    "englishSource": "Leo Wallet | Options"
-  },
   "resetExtension": {
     "message": "익스텐션 재설정",
     "englishSource": "Reset Extension"
@@ -535,20 +294,6 @@
   "resetExtensionConfirmation": {
     "message": "정말로 Miden 지갑을 재설정하시겠습니까?\n결과적으로 모든 데이터가 삭제됩니다.",
     "englishSource": "Are you sure you want to reset the Miden Wallet?\nAs a result, all your data will be deleted."
-  },
-  "failedToResetExtension": {
-    "message": "익스텐션 초기화 실패: $errorMessage$",
-    "placeholders": {
-      "errorMessage": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Failed to reset extension: $errorMessage$"
-  },
-  "ledger": {
-    "message": "Ledger",
-    "description": "Ledger = https://www.ledger.com/",
-    "englishSource": "Ledger"
   },
   "retry": {
     "message": "재시도",
@@ -576,37 +321,21 @@
     },
     "englishSource": "Maximal: $amount$"
   },
-  "amountMustBePositive": {
-    "message": "양수여야 합니다",
-    "englishSource": "Must be positive"
-  },
   "accountName": {
     "message": "계정 이름",
     "englishSource": "Account name"
+  },
+  "editAccountName": {
+    "message": "계정 이름 수정",
+    "englishSource": "Edit Account Name"
   },
   "accountNameInputDescription": {
     "message": "새 계정 이름은 무엇이 될까요?",
     "englishSource": "What will be the name of the new account?"
   },
-  "createNewWallet": {
-    "message": "새 지갑 생성",
-    "englishSource": "Create a new Wallet"
-  },
-  "createNewWalletDescription": {
-    "message": "Leo 지갑을 처음 사용하시나요? 설정해 봅시다! 그러면 새로운 지갑과 Seed Phrase가 생성됩니다.",
-    "englishSource": "New to Leo Wallet? Let's set it up! This will create a new wallet and seed phrase"
-  },
   "delegate": {
     "message": "위임",
     "englishSource": "Delegate"
-  },
-  "explore": {
-    "message": "탐색",
-    "englishSource": "Explore"
-  },
-  "assetsWhileMessage": {
-    "message": "자산 데이터 불러오는 중",
-    "englishSource": "fetching assets data"
   },
   "receive": {
     "message": "받기",
@@ -616,33 +345,73 @@
     "message": "전송",
     "englishSource": "Send"
   },
-  "baking": {
-    "message": "베이킹",
-    "englishSource": "Baking"
+  "transactionInitiated": {
+    "message": "트랜잭션 시작",
+    "englishSource": "Transaction initiated"
   },
-  "operations": {
-    "message": "운영",
-    "englishSource": "Operations"
+  "transactionBackground": {
+    "message": "트랜잭션은 백그라운드에서 진행됩니다.",
+    "englishSource": "Transaction will proceed in the background."
   },
-  "delegationInfoWhileMessage": {
-    "message": "위임 정보를 불러오거나 처리하는 중",
-    "englishSource": "fetching or processing your delegation info"
+  "transactionDelegated": {
+    "message": "증거 생성을 위해 거래가 전송되었습니다.",
+    "englishSource": "Transaction has been sent for proof generation."
   },
-  "operationHistoryWhileMessage": {
-    "message": "운영 내역을 불러오거나 처리하는 중",
-    "englishSource": "fetching or processing operation history"
+  "openedNewTab": {
+    "message": "지갑은 거래 속도를 높이기 위해 새 탭을 열었습니다. 해당 탭은 자동으로 닫힙니다.",
+    "englishSource": "The wallet opened a new tab to speed up the transaction. That tab will auto-close."
+  },
+  "fastTransactionDescription": {
+    "message": "거래는 자동으로 방송되고 완료됩니다.",
+    "englishSource": "The transaction will automatically be broadcasted and finalized."
+  },
+  "speedUpTransaction": {
+    "message": "거래 속도를 높이십시오.",
+    "englishSource": "Speed Up Transaction."
+  },
+  "fastTransaction": {
+    "message": "거래 속도",
+    "englishSource": "Transaction Speed"
+  },
+  "generatingTransaction": {
+    "message": "트랜잭션 생성",
+    "englishSource": "Generating Transaction"
+  },
+  "status": {
+    "message": "상태",
+    "englishSource": "Status"
+  },
+  "balancePending": {
+    "message": "보류 중인 동기화 잔액",
+    "englishSource": "Balance Pending Sync"
+  },
+  "keepTabOpenForSync": {
+    "message": "더 빠른 동기화를 위해 이 탭을 열어 두십시오.",
+    "englishSource": "Keep this tab open for faster sync."
+  },
+  "openNewTabToSync": {
+    "message": "더 빠른 동기화를 위해 탭을 엽니다.",
+    "englishSource": "Open a tab for faster syncing."
   },
   "privateKey": {
     "message": "비공개 키",
     "englishSource": "Private Key"
   },
+  "viewKey": {
+    "message": "키 보기",
+    "englishSource": "View Key"
+  },
+  "viewKeyWatchOnly": {
+    "message": "키 보기(감시 전용)",
+    "englishSource": "View Key (Watch-Only)"
+  },
+  "viewKeyInputDescription": {
+    "message": "가져오려는 계정의 보기 키입니다.",
+    "englishSource": "The View key of the Account you want to import."
+  },
   "mnemonic": {
     "message": "니모닉",
     "englishSource": "Mnemonic"
-  },
-  "fundraiser": {
-    "message": "펀드레이저",
-    "englishSource": "Fundraiser"
   },
   "privateKeyInputDescription": {
     "message": "불러오고자 하는 계정의 비밀 키입니다.",
@@ -656,63 +425,6 @@
     "message": "비밀번호",
     "englishSource": "Password"
   },
-  "isPrivateKeyEncrypted": {
-    "message": "비공개 키가 암호화된 포맷으로 되어 있나요?",
-    "englishSource": "Is your private key in encrypted format?"
-  },
-  "customDerivationPath": {
-    "message": "맞춤형 도출 경로",
-    "englishSource": "Custom derivation path"
-  },
-  "mnemonicInputLabel": {
-    "message": "Seed Phrase",
-    "englishSource": "Seed phrase"
-  },
-  "mnemonicInputPlaceholder": {
-    "message": "예) 장소 양말 우유 업데이트...",
-    "englishSource": "e.g. venue sock milk update..."
-  },
-  "passwordInputDescription": {
-    "message": "추가 니모닉 도출에 사용합니다. 이는 지갑 비밀번호가 아닙니다.",
-    "englishSource": "Used for additional mnemonic derivation. That is NOT a wallet password."
-  },
-  "derivation": {
-    "message": "도출",
-    "englishSource": "Derivation"
-  },
-  "addDerivationPathPrompt": {
-    "message": "기본값으로 도출은 사용하지 않도록 되어 있습니다. 추가하려면 '맞춤형 도출 경로'를 클릭하세요.",
-    "englishSource": "By default derivation isn't used. Click on 'Custom derivation path' to add it."
-  },
-  "derivationPathMustStartWithM": {
-    "message": "'m'으로 시작해야 합니다",
-    "englishSource": "Must start with 'm'"
-  },
-  "derivationSeparatorMustBeSlash": {
-    "message": "'/'으로 구분해야 합니다",
-    "englishSource": "Separator must be '/'"
-  },
-  "invalidPath": {
-    "message": "유효하지 않은 경로",
-    "englishSource": "Invalid path"
-  },
-  "email": {
-    "message": "이메일",
-    "englishSource": "Email"
-  },
-  "unexpectedOrInvalidFile": {
-    "message": "예상치 못한 혹은 유효하지 않은 파일",
-    "englishSource": "Unexpected or invalid file"
-  },
-  "requestSent": {
-    "message": "$type$ 요청을 전송하였습니다! 확인 중...",
-    "placeholders": {
-      "type": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$type$ request sent! Confirming..."
-  },
   "success": {
     "message": "성공",
     "englishSource": "Success"
@@ -721,17 +433,13 @@
     "message": "문제가 발생했습니다",
     "englishSource": "Something went wrong"
   },
-  "faucetFileInputPrompt": {
-    "message": "견인 $link$ .",
-    "englishSource": "Drag & drop a file or select it manually by clicking on the area below. You can download it from $link$."
-  },
   "processing": {
     "message": "처리 중...",
     "englishSource": "Processing..."
   },
-  "accountAddressLabel": {
-    "message": "회원님의 현재 계정 주소입니다. 이를 공유하여 자금을 받으세요.",
-    "englishSource": "Your current account address. Share it to receive funds."
+  "importWallet": {
+    "message": "지갑 가져오기",
+    "englishSource": "Import Wallet"
   },
   "copiedAddress": {
     "message": "복사됨.",
@@ -741,9 +449,13 @@
     "message": "클립보드로 복사",
     "englishSource": "Copy Address"
   },
-  "qrCode": {
-    "message": "QR코드",
-    "englishSource": "QRCode"
+  "revealViewKey": {
+    "message": "보기 키 표시",
+    "englishSource": "Reveal View Key"
+  },
+  "revealViewKeyDescription": {
+    "message": "\"계정 기록 공유\"라고도 하며 선택한 계정의 보기 키를 보여줍니다.",
+    "englishSource": "Also known as \"Share Account History\", reveals view key for your selected account."
   },
   "revealPrivateKey": {
     "message": "비공개 키 공개",
@@ -761,27 +473,13 @@
     "message": "\"지갑 내보내기\"라고도 알려진 이 Seed Phrase는 다른 장치에서 지갑과 계정에 액세스하는 데 필요할 수 있습니다.",
     "englishSource": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices."
   },
-  "dApps": {
-    "message": "분산 앱",
-    "description": "DApps = Decentralized Applications",
-    "englishSource": "DApps"
+  "exportWalletFile": {
+    "message": "지갑 파일 내보내기",
+    "englishSource": "Export Wallet File"
   },
   "dAppsDescription": {
     "message": "이 섹션에서는 Miden Wallet을 지원하는 분산 애플리케이션과 상호 작용하는 기능을 활성화할 수 있습니다.",
     "englishSource": "In this section you can enable ability to interact with decentralized applications that support Miden Wallet."
-  },
-  "networksDescription": {
-    "message": "이 섹션에서 맞춤형 테조스 네트워크를 추가하거나 삭제할 수 있습니다.",
-    "description": "Aleo = blockchain name (https://aleo.com/)",
-    "englishSource": "In this section you can add or delete custom Aleo networks."
-  },
-  "activateAccount": {
-    "message": "계정 활성화",
-    "englishSource": "Activate Account"
-  },
-  "activateAccountDescription": {
-    "message": "ICO/펀드레이저 또는 테스트넷 Faucet 계정에 필요할 수 있습니다.",
-    "englishSource": "It may be necessary for ICO/Fundraiser or testnet faucet accounts."
   },
   "removeAccount": {
     "message": "계정 제거",
@@ -791,58 +489,41 @@
     "message": "이 섹션을 활용하여 선택한 계정을 제거하세요. 불러온 계정만 제거할 수 있습니다.",
     "englishSource": "Use this section to remove your selected account. Only imported accounts can be removed."
   },
+  "advancedSettings": {
+    "message": "고급 설정",
+    "englishSource": "Advanced Settings"
+  },
+  "advancedSettingsDescription": {
+    "message": "Miden Wallet 문제를 디버그하고 진단하는 데 도움이 되는 도구입니다.",
+    "englishSource": "Tools to help you debug and diagnose issues with Miden Wallet."
+  },
+  "resync": {
+    "message": "재동기화",
+    "englishSource": "Resync"
+  },
   "about": {
     "message": "이 앱 정보",
     "englishSource": "About This App"
+  },
+  "info": {
+    "message": "정보",
+    "englishSource": "Info"
   },
   "aboutDescription": {
     "message": "이 섹션을 사용하여 Miden Wallet에 대한 메타 정보를 확인하세요.",
     "englishSource": "Use this section to view meta info about Miden Wallet."
   },
-  "unlockWallet": {
-    "message": "지갑 잠금 해제",
-    "englishSource": "Unlock the Wallet"
-  },
-  "toContinue": {
-    "message": "계속하려면",
-    "englishSource": "to continue"
-  },
-  "unlockPasswordInputDescription": {
-    "message": "지갑을 보호하기 위해 비밀번호를 사용합니다.",
-    "englishSource": "A password is used to protect the wallet."
+  "unlockPasswordErrorDelay": {
+    "message": "잘못된 비밀번호를 세 번 입력했습니다. 지갑이 차단되고 있습니다.",
+    "englishSource": "You have entered the wrong password three times. Your wallet is being blocked for"
   },
   "unlock": {
     "message": "잠금 해제",
     "englishSource": "Unlock"
   },
-  "importNewAccountTitle": {
-    "message": "계정을 복원하시겠습니까? 아니면 다른 계정으로 로그인 하시겠습니까?",
-    "englishSource": "Restore Account? Want to sign in another?"
-  },
-  "importWalletUsingSeedPhrase": {
-    "message": "Seed Phrase를 사용하여 지갑 가져오기",
-    "englishSource": "Import Wallet using Seed Phrase"
-  },
-  "connectLedger": {
-    "message": "Ledger 연결하기",
-    "description": "Ledger = https://www.ledger.com/",
-    "englishSource": "Connect Ledger"
-  },
-  "importExistingWallet": {
-    "message": "기존 지갑 불러오기",
-    "englishSource": "Import existing Wallet"
-  },
-  "links": {
-    "message": "링크",
-    "englishSource": "Links"
-  },
   "website": {
     "message": "웹사이트",
     "englishSource": "Website"
-  },
-  "repo": {
-    "message": "저장소",
-    "englishSource": "Repository"
   },
   "privacyPolicy": {
     "message": "개인정보 보호정책",
@@ -851,74 +532,6 @@
   "termsOfUse": {
     "message": "사용약관",
     "englishSource": "Terms of Use"
-  },
-  "contact": {
-    "message": "연락처",
-    "englishSource": "Contact"
-  },
-  "accountAlreadyActivated": {
-    "message": "계정이 이미 활성화되었습니다.",
-    "englishSource": "Your Account already activated."
-  },
-  "accountActivated": {
-    "message": "계정 활성화 성공!",
-    "englishSource": "Your account successfully activated!"
-  },
-  "failureSecretMayBeInvalid": {
-    "message": "실패. 입력한 보안 정보가 유효하지 않을 때 발생할 수 있습니다",
-    "englishSource": "Failed. This may happen because provided Secret is invalid"
-  },
-  "accountToBeActivated": {
-    "message": "활성화할 계정입니다.",
-    "englishSource": "Account to be activated."
-  },
-  "ifYouWantToActivateAnotherAccount": {
-    "message": "다른 계정을 활성화하고자 한다면 우측 상담 드롭다운에서 해당 계정을 선택하세요.",
-    "englishSource": "If you want to activate another account - please, select it in the top-right dropdown."
-  },
-  "activateAccountSecret": {
-    "message": "보안 정보",
-    "englishSource": "Secret"
-  },
-  "activateAccountSecretDescription": {
-    "message": "Fundraiser 계정 또는 Faucet의 '비밀' 필드",
-    "englishSource": "'secret' field from Fundraiser Account or Faucet"
-  },
-  "activateAccountSecretPlaceholder": {
-    "message": "예) n4hs7sd3...",
-    "englishSource": "e.g. n4hs7sd3..."
-  },
-  "activate": {
-    "message": "활성화",
-    "englishSource": "Activate"
-  },
-  "minimalFeeDescription": {
-    "message": "최소",
-    "englishSource": "Minimal"
-  },
-  "fastFeeDescription": {
-    "message": "빠른",
-    "englishSource": "Fast"
-  },
-  "rocketFeeDescription": {
-    "message": "로켓",
-    "englishSource": "Rocket"
-  },
-  "customFeeDescription": {
-    "message": "맞춤형",
-    "englishSource": "Custom"
-  },
-  "additionalFee": {
-    "message": "추가 비용",
-    "englishSource": "Additional Fee"
-  },
-  "asset": {
-    "message": "자산",
-    "englishSource": "Asset"
-  },
-  "selectAnotherAssetPrompt": {
-    "message": "다른 자산 혹은 토큰을 선택하려면 영역을 클릭하세요.",
-    "englishSource": "Click on area to select another asset or token."
   },
   "disable": {
     "message": "비활성화",
@@ -943,29 +556,13 @@
     "description": "DApps = Decentralized Applications",
     "englishSource": "DApps interaction"
   },
-  "enabled": {
-    "message": "활성화됨",
-    "englishSource": "Enabled"
-  },
-  "disabled": {
-    "message": "비활성화됨",
-    "englishSource": "Disabled"
-  },
-  "enablePopup": {
-    "message": "팝업 활성화",
-    "englishSource": "Enable popup"
+  "none": {
+    "message": "없음",
+    "englishSource": "None"
   },
   "popupEnabled": {
     "message": "활성화됨",
     "englishSource": "Enabled"
-  },
-  "popupDisabled": {
-    "message": "비활성화됨",
-    "englishSource": "Disabled"
-  },
-  "rank": {
-    "message": "순위",
-    "englishSource": "Rank"
   },
   "delete": {
     "message": "삭제",
@@ -974,56 +571,6 @@
   "fee": {
     "message": "비용",
     "englishSource": "Fee"
-  },
-  "space": {
-    "message": "공간",
-    "englishSource": "Space"
-  },
-  "delegation": {
-    "message": "위임",
-    "englishSource": "Delegation"
-  },
-  "baker": {
-    "message": "베이커",
-    "englishSource": "Baker"
-  },
-  "bakerInputDescription": {
-    "message": "등록한 베이커의 주소입니다.",
-    "englishSource": "Address of a registered baker."
-  },
-  "bakerInputPlaceholder": {
-    "message": "예 0xb3d1df68...",
-    "englishSource": "e.g. 0xb3d1df68..."
-  },
-  "minDelegationAmountTitle": {
-    "message": "최소 위임 계정",
-    "englishSource": "Minimal delegation amount"
-  },
-  "unknownBakerTitle": {
-    "message": "알 수 없는 베이커",
-    "englishSource": "Unknown baker"
-  },
-  "unknownBakerDescription": {
-    "message": "입력한 주소는 베이커로서 저희가 알 수 없는 주소입니다! 자금을 위임하시되, 위험 부담은 회원님에게 있습니다.",
-    "englishSource": "Provided address is not known to us as a baker! Only delegate funds to it at your own risk."
-  },
-  "delegateToRecommendedBakers": {
-    "message": "추천 베이커로 위임",
-    "englishSource": "Delegate to Recommended Bakers"
-  },
-  "sortBy": {
-    "message": "정렬 기준",
-    "englishSource": "Sort by"
-  },
-  "cycles_other": {
-    "message": "$amount$ 순환 주기",
-    "description": "For plural forms",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$amount$ cycles"
   },
   "notEnoughFunds": {
     "message": "자금 부족",
@@ -1038,10 +585,6 @@
     },
     "englishSource": "Not enough $currency$ funds"
   },
-  "notAllowed": {
-    "message": "허용되지 않음",
-    "englishSource": "Not allowed"
-  },
   "failed": {
     "message": "실패",
     "englishSource": "Failed"
@@ -1049,31 +592,6 @@
   "yourBalanceIsZero": {
     "message": "잔액이 0입니다.",
     "englishSource": "Your Balance is zero."
-  },
-  "minimalFeeGreaterThanBalance": {
-    "message": "이 송금 건에 대한 최소 비용이 잔액보다 큽니다.",
-    "englishSource": "Minimal fee for this transaction is greater than your balance."
-  },
-  "alreadyDelegatedFundsToBaker": {
-    "message": "자금을 이 베이커에게 이미 위임했습니다. 재위임은 불가합니다.",
-    "englishSource": "Already delegated funds to this baker. Re-delegation is not possible."
-  },
-  "bakerNotRegistered": {
-    "message": "지정된 베이커가 등록되지 않았습니다.",
-    "englishSource": "Specified baker is not registered."
-  },
-  "unableToPerformActionToBaker": {
-    "message": "입력한 베이커로 $action$할 수 없습니다.",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Unable to $action$ to the provided Baker."
-  },
-  "estimateDelegation": {
-    "message": "위임 예상",
-    "englishSource": "Estimate delegation"
   },
   "thisMayHappenBecause": {
     "message": "증상 발생 원인:",
@@ -1092,10 +610,6 @@
     "message": "네트워크 혹은 기타 기술적인 문제입니다.",
     "englishSource": "Network or other technical issue."
   },
-  "unableToDelegateToKTAddress": {
-    "message": "계약 주소인...KT로 위임할 수 없습니다",
-    "englishSource": "Unable to delegate to KT... contract address"
-  },
   "confirmAction": {
     "message": "$action$ 확인",
     "placeholders": {
@@ -1105,124 +619,49 @@
     },
     "englishSource": "Confirm $action$"
   },
-  "payloadToSign": {
-    "message": "서명할 페이로드",
-    "englishSource": "Payload to sign"
-  },
-  "decline": {
-    "message": "거절",
-    "englishSource": "Decline"
-  },
   "confirm": {
     "message": "확인",
     "englishSource": "Confirm"
-  },
-  "confirmDecryptionPermission": {
-    "message": "복호화 권한 확인",
-    "englishSource": "Confirm Decryption Permission"
-  },
-  "confirmDecryptionPermissionDescription": {
-    "message": "이렇게 하면 기록에 영구적으로 액세스할 수 있으며 취소할 수 없습니다.",
-    "englishSource": "This will give permanent access to your history and cannot be revoked."
   },
   "confirmRisk": {
     "message": "나는 위험을 이해하고 계속 진행하기를 원합니다.",
     "englishSource": "I understand the risk and wish to proceed."
   },
-  "decryptPermission": {
-    "message": "복호화 권한",
-    "englishSource": "Decryption Permission"
-  },
-  "NO_DECRYPT": {
-    "message": "이 앱은 보기 키를 사용하여 레코드를 해독할 수 없습니다.",
-    "englishSource": "This app cannot decrypt any record using any of your view keys."
-  },
-  "DECRYPT_UPON_REQUEST": {
-    "message": "이 앱은 귀하의 명시적 승인이 있어야만 기록을 해독할 수 있습니다. 암호 해독 요청을 묻는 메시지가 표시됩니다.",
-    "englishSource": "This app can only decrypt records with your explicit approval. You will be prompted for any decryption request."
-  },
-  "AUTO_DECRYPT": {
-    "message": "이 앱은 지갑이 연결되어 있는 동안에만 명시적인 허가 없이 필요한 모든 레코드를 자동으로 해독할 수 있습니다. ViewKey를 볼 수 없습니다.",
-    "englishSource": "This app can automatically decrypt any record it needs to without explicit permission only while your wallet is connected. It cannot see your ViewKey."
-  },
-  "network": {
-    "message": "네트워크",
-    "englishSource": "Network"
-  },
-  "unknownNetwork": {
-    "message": "알 수 없음:",
-    "englishSource": "Unknown:"
-  },
-  "backupNewSeedPhrase": {
-    "message": "새로운 Seed Phrase",
-    "englishSource": "New Seed Phrase"
-  },
-  "attentionExclamation": {
-    "message": "주의!",
-    "englishSource": "Attention!"
-  },
-  "lockedWalletAlreadyExists": {
-    "message": "잠긴 지갑이 <b>이미 존재합니다</b>.\n새 지갑을 불러오면 <b>기존 지갑은 파기합니다</b>.",
-    "englishSource": "Locked wallet <b>already exists</b>.\nImporting a new one will <b>destroy the existing</b>."
-  },
-  "backToUnlockPage": {
-    "message": "돌아가 페이지 잠금 해제",
-    "englishSource": "go back to Unlock page"
-  },
-  "mustBeEqualToPasswordAbove": {
-    "message": "상기 비밀번호와 동일해야 합니다",
-    "englishSource": "Must be equal to password"
-  },
-  "repeatPassword": {
-    "message": "비밀번호 반복",
-    "englishSource": "Repeat Password"
-  },
-  "repeatPasswordInputDescription": {
-    "message": "비밀번호를 다시 입력하세요.",
-    "englishSource": "Please enter the password again."
-  },
-  "confirmTermsError": {
-    "message": "사용약관을 확인하지 않으면 계속 진행할 수 없습니다",
-    "englishSource": "Unable to continue without confirming Terms of Usage"
-  },
   "confirmError": {
     "message": "확인하지 않고는 계속할 수 없습니다.",
     "englishSource": "Unable to continue without confirming."
-  },
-  "acceptTerms": {
-    "message": "약관 동의",
-    "englishSource": "Accept terms"
   },
   "termsOfUsage": {
     "message": "사용약관",
     "englishSource": "Terms of Usage"
   },
+  "file": {
+    "message": "파일",
+    "englishSource": "File"
+  },
+  "filePassword": {
+    "message": "파일 비밀번호",
+    "englishSource": "File Password"
+  },
   "create": {
     "message": "생성",
     "englishSource": "Create"
   },
-  "revealNewSeedPhrase": {
-    "message": "<b>아래 영역을 클릭</b>하여 새로운 Seed Phrase를 확인하세요.\n그런 다음 종이에 이 문구를 적고 <b>안전한 장소에 보관</b>하세요. 아니면 암기해도 됩니다.",
-    "englishSource": "<b>Click on area below</b> to reveal your new Seed Phrase.\nThen, write this phrase on a piece of paper and <b>store in a secure location</b>. Or you can memorize it."
+  "import": {
+    "message": "수입",
+    "englishSource": "Import"
   },
-  "doNotSharePhrase": {
-    "message": "아무하고도 이 문구를 <b>공유하지 마세요!</b> 모든 계정을 도난 당할 수 있습니다."
+  "doNotSharePhrase1": {
+    "message": "이 문구를 누구와도 공유하지 마십시오!",
+    "englishSource": "DO NOT share this phrase with anyone!"
+  },
+  "doNotSharePhrase2": {
+    "message": "모든 계정을 훔치는 데 사용할 수 있습니다.",
+    "englishSource": "It can be used to steal all your accounts."
   },
   "youWillNeedThisSeedPhrase": {
     "message": "비밀 Seed Phrase를 적어서 안전한 곳에 보관해주세요. 이 문구는 계정을 복구할 수 있는 유일한 방법입니다. 누구와도 공유하지 마십시오. 이 문구를 아는 사람은 누구나 귀하의 자산을 영원히 가져갈 수 있습니다.",
     "englishSource": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever."
-  },
-  "unableToContinueWithoutConfirming": {
-    "message": "확인 없이는 계속 진행할 수 없습니다",
-    "englishSource": "Unable to continue without confirming"
-  },
-  "backupedInputLabel": {
-    "message": "Seed Phrase 백업을 만들었어요",
-    "englishSource": "I made Seed Phrase backup"
-  },
-  "backupedInputDescription": {
-    "message": "이 문구를 분실할 경우, 자금을 잃게 될 수 있음에 동의합니다.",
-    "englishSource": "And accept the risks that if I lose the phrase,\nmy funds may be lost."
   },
   "continue": {
     "message": "계속",
@@ -1232,27 +671,6 @@
     "message": "운영 내용을 찾을 수 없습니다",
     "englishSource": "No operations found"
   },
-  "pending": {
-    "message": "보류 중...",
-    "englishSource": "pending..."
-  },
-  "backtracked": {
-    "message": "역추적됨",
-    "englishSource": "backtracked"
-  },
-  "operationSuccessfullyProcessed": {
-    "message": "$type$ 처리 및 확인 성공!",
-    "placeholders": {
-      "type": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$type$ successfully processed and confirmed!"
-  },
-  "timedOutOperationConfirmation": {
-    "message": "운영 내용 확인 시간이 지났습니다. 좀 더 기다리거나 나중에 다시 시도하세요.",
-    "englishSource": "Timed out operation confirmation. You can either wait more time or try again later."
-  },
   "accountToBeRemoved": {
     "message": "제거할 계정입니다.",
     "englishSource": "Account to be removed."
@@ -1261,14 +679,6 @@
     "message": "다른 계정을 제거하고자 하면 우측 상단의 드롭다운에서 해당 계정을 선택하세요.",
     "englishSource": "If you want to remove another account - select it in the top-right dropdown."
   },
-  "cannotBeRemoved": {
-    "message": "제거할 수 없음",
-    "englishSource": "Cannot be removed"
-  },
-  "importedPlural": {
-    "message": "불러오기 완료",
-    "englishSource": "imported"
-  },
   "enterPasswordToRemoveAccount": {
     "message": "계정을 제거하려면 비밀번호를 입력하세요.",
     "englishSource": "Enter password to remove the Account."
@@ -1276,6 +686,14 @@
   "remove": {
     "message": "제거",
     "englishSource": "Remove"
+  },
+  "ifYouWantToRevealViewKeyFromOtherAccount": {
+    "message": "다른 계정의 보기 키를 공개하려면 오른쪽 상단 드롭다운에서 선택해야 합니다.",
+    "englishSource": "If you want to reveal a view key from another account - you should select it in the top-right dropdown."
+  },
+  "viewKeyFieldDescription": {
+    "message": "현재 계정 보기 키입니다. 비밀로 하세요. 이 키를 가진 사람은 누구나 거래 내역을 볼 수 있습니다.",
+    "englishSource": "Current account view key. Keep it in secret. Anyone with this key can see your transaction history"
   },
   "ifYouWantToRevealPrivateKeyFromOtherAccount": {
     "message": "다른 계정의 비공개 키를 공개하고자 한다면 우측 상단의 드롭다운에서 해당되는 것을 선택해야 합니다.",
@@ -1300,10 +718,6 @@
   "derivationPathExample": {
     "message": "m/44'/1729'/<계정 지수>'/0'",
     "englishSource": "m/44'/0'/<account_index>'/0'"
-  },
-  "derivationPathExample2": {
-    "message": "예) m/44'/1729'/...",
-    "englishSource": "e.g. m/44'/1729'/..."
   },
   "keepSeedPhraseSecret": {
     "message": "비밀로 유지하세요.",
@@ -1330,73 +744,21 @@
     "message": "수신자",
     "englishSource": "Recipient"
   },
-  "tokensRecepientInputDescription": {
-    "message": "$assetSymbol$ 자금을 전송할 주소입니다.",
-    "placeholders": {
-      "assetSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Address to send $assetSymbol$ funds to."
-  },
-  "tokensRecepientInputDescriptionWithDomain": {
-    "message": "$assetSymbol$ 자금을 전송할 주소 혹은 테조스 도메인입니다.",
-    "placeholders": {
-      "assetSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Address or Aleo domain to send $assetSymbol$ funds to."
-  },
-  "addressInputDescription": {
-    "message": "Aleo 계정 또는 Smart Contract의 주소입니다.",
-    "englishSource": "Address of Aleo account or smart contract."
-  },
-  "addressInputDescriptionWithDomain": {
-    "message": "계정 또는 Smart Contract의 주소 또는 Aleo 도메인.",
-    "englishSource": "Address or Aleo domain of the account or smart contract."
-  },
   "recipientInputPlaceholder": {
     "message": "예) 0xb3d1df68...",
     "englishSource": "e.g. 0xb3d1df68..."
   },
-  "recipientInputPlaceholderWithDomain": {
-    "message": "예) alice.aleo or 0xb3d1df68...",
-    "description": "alice.aleo = domain like google.com",
-    "englishSource": "e.g. alice.aleo or 0xb3d1df68..."
-  },
-  "tryingToTransferToYourself": {
-    "message": "자신에게 자금을 송금하는 중이시군요.\n정확하게 원하는 것인지 확인해보세요.",
-    "englishSource": "You're trying to transfer funds to yourself.\nPlease, ensure that it's exactly what you want."
+  "viewKeyInputPlaceholder": {
+    "message": "예를 들어 AViewKey1iHE...",
+    "englishSource": "e.g. AViewKey1iHE..."
   },
   "amount": {
     "message": "금액",
     "englishSource": "Amount"
   },
-  "availableToSend": {
-    "message": "전송 가능(최대):",
-    "englishSource": "Available to send(max):"
-  },
-  "inAsset": {
-    "message": "단위 $assetSymbol$",
-    "placeholders": {
-      "assetSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "in $assetSymbol$"
-  },
-  "amountPlaceholder": {
-    "message": "예) 123.45",
-    "englishSource": "e.g. 123.45"
-  },
-  "sendToMyAccounts": {
-    "message": "내 계정으로 전송",
-    "englishSource": "Send to My Accounts"
-  },
-  "clickOnRecipientAccount": {
-    "message": "자금을 전송하고자 하는 계정을 클릭하세요.",
-    "englishSource": "Click on Account you want to send funds to."
+  "mainAssetBalanceIsZero": {
+    "message": "귀하의 Miden 크레딧(주 자산) 잔액이 0입니다. 수수료에는 Miden 크레딧이 필요합니다.",
+    "englishSource": "Your Miden credits (main asset) balance is zero. Miden credits are required for the fee."
   },
   "unableToSendTransactionAction": {
     "message": "입력한 수신자에게 송금액을 전송할 수 없습니다.",
@@ -1405,55 +767,6 @@
   "unableToEstimateTransactionAction": {
     "message": "입력한 수신자에게 송금액을 추산해줄 수 없습니다.",
     "englishSource": "Unable to estimate transaction to provided Recipient."
-  },
-  "makeSureToBackupSeedPhrase": {
-    "message": "Seed Phrase를 꼭 백업해두세요!",
-    "englishSource": "Make sure to back up your seed phrase!"
-  },
-  "exploreMore": {
-    "message": "추가 탐색하기...",
-    "englishSource": "Explore more..."
-  },
-  "selfComment": {
-    "message": "(자신)",
-    "englishSource": "(self)"
-  },
-  "deleteNetworkConfirm": {
-    "message": "이 네트워크를 정말로 삭제하시겠습니까?",
-    "englishSource": "Are you sure you want to delete this network?"
-  },
-  "networkNamePlaceholder": {
-    "message": "내 맞춤형 네트워크",
-    "englishSource": "My custom network"
-  },
-  "mustBeValidURL": {
-    "message": "URL이 유효해야 합니다",
-    "englishSource": "Must be a valid URL"
-  },
-  "rpcBaseURL": {
-    "message": "RPC 기본 URL",
-    "description": "RPC = Remote Procedure Call (https://en.wikipedia.org/wiki/Remote_procedure_call)",
-    "englishSource": "RPC base URL"
-  },
-  "mustBeUnique": {
-    "message": "고유값이어야 합니다",
-    "englishSource": "Must be unique"
-  },
-  "addNetwork": {
-    "message": "네트워크 추가",
-    "englishSource": "Add network"
-  },
-  "currentNetworks": {
-    "message": "현재 네트워크",
-    "englishSource": "Current networks"
-  },
-  "deleteNetworkHint": {
-    "message": "네트워크를 삭제하려면 X 아이콘을 클릭하세요. 네트워크를 편집하고자 한다면, 이를 삭제하고 내 변수를 포함하여 다른 것을 추가하세요.",
-    "englishSource": "Click on the X icon to delete the network. If you want to edit network, just delete it and add another with new params."
-  },
-  "preview": {
-    "message": "미리보기",
-    "englishSource": "Preview"
   },
   "raw": {
     "message": "원자료",
@@ -1467,80 +780,9 @@
     "message": "확인되지 않음",
     "englishSource": "Not identified"
   },
-  "connection": {
-    "message": "연결",
-    "englishSource": "Connection"
-  },
   "connect": {
     "message": "연결",
     "englishSource": "Connect"
-  },
-  "confirmActionOnDevice": {
-    "message": "다음에서 작업 확인",
-    "englishSource": "Confirm the action on"
-  },
-  "deviceName": {
-    "message": "$device$ 기기",
-    "placeholders": {
-      "device": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$device$ device"
-  },
-  "ledgerNano": {
-    "message": "Ledger Nano",
-    "description": "Ledger = https://www.ledger.com/",
-    "englishSource": "Ledger Nano"
-  },
-  "defaultLedgerName": {
-    "message": "Ledger $number$",
-    "description": "Ledger = https://www.ledger.com/",
-    "placeholders": {
-      "number": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Ledger $number$"
-  },
-  "ledgerNameConstraint": {
-    "message": "1-16글자, 특수문자 제외",
-    "englishSource": "1-16 characters, no special"
-  },
-  "ledgerNameInputDescription": {
-    "message": "새 Ledger 계정의 이름은 무엇이 될까요?",
-    "description": "Ledger = https://www.ledger.com/",
-    "englishSource": "What will be the name of the new Ledger account?"
-  },
-  "defaultDerivationPathLabel": {
-    "message": "기본값으로 $path$ 도출이 사용됩니다.",
-    "placeholders": {
-      "path": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "By default $path$ derivation is used."
-  },
-  "clickOnCustomDerivationPath": {
-    "message": "'맞춤형 도출 경로'를 클릭하여 맞춤 설정하세요.",
-    "englishSource": "Click on 'Custom derivation path' to customize it."
-  },
-  "addLedgerAccount": {
-    "message": "Ledger 계정 추가",
-    "description": "Ledger = https://www.ledger.com/",
-    "englishSource": "Add Ledger Account"
-  },
-  "connectionUnavailable": {
-    "message": "사용 불가",
-    "englishSource": "Unavailable"
-  },
-  "sorry": {
-    "message": "죄송합니다!",
-    "englishSource": "Sorry!"
-  },
-  "upload": {
-    "message": "업로드",
-    "englishSource": "Upload"
   },
   "languageAndCountry": {
     "message": "기본적으로 당사는 귀하의 브라우저 언어를 사용합니다. 마음에 들지 않으면 아래에서 변경하세요.",
@@ -1554,17 +796,13 @@
     "message": "여기에서 선호하는 언어와 디스플레이 모드를 관리할 수 있습니다.",
     "englishSource": "Here you can manage languages preferences and display mode."
   },
-  "swapNoun": {
-    "message": "스왑",
-    "englishSource": "Swap"
+  "language": {
+    "message": "언어",
+    "englishSource": "Language"
   },
-  "transfers": {
-    "message": "송금",
-    "englishSource": "Transfers"
-  },
-  "approveToken": {
-    "message": "토큰 승인",
-    "englishSource": "Approve Token"
+  "languageDescription": {
+    "message": "표시 언어 변경",
+    "englishSource": "Change the display language"
   },
   "add": {
     "message": "추가",
@@ -1574,32 +812,47 @@
     "message": "자산",
     "englishSource": "Assets"
   },
+  "tokens": {
+    "message": "토큰",
+    "englishSource": "Tokens"
+  },
   "activity": {
     "message": "활동",
     "englishSource": "Activities"
   },
-  "manage": {
-    "message": "관리",
-    "englishSource": "Manage"
+  "proofGenerationTab": {
+    "message": "트랜잭션 증명을 효율적으로 생성하려면 열린 탭이 필요합니다.",
+    "englishSource": "An open tab is required to efficiently generate transaction proofs"
   },
-  "manageAssets": {
-    "message": "자산 관리"
+  "manageTokens": {
+    "message": "토큰 관리",
+    "englishSource": "Manage Tokens"
   },
   "noAssetsFound": {
     "message": "자산을 찾을 수 없음",
     "englishSource": "No assets found"
   },
+  "ifYouDontSeeYourAsset": {
+    "message": "자산이 표시되지 않으면\n클릭을 시도 $toClick$ .",
+    "placeholders": {
+      "toClick": {
+        "content": "$1"
+      }
+    },
+    "englishSource": "If you don't see your asset,\ntry to click $toClick$."
+  },
+  "addressOfTokenContract": {
+    "message": "주소 $assetSymbol$ 토큰 계약.",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    },
+    "englishSource": "Address of a $assetSymbol$ token contract."
+  },
   "searchAssets": {
     "message": "자산 검색...",
     "englishSource": "Search assets..."
-  },
-  "deployNew": {
-    "message": "새로 배치",
-    "englishSource": "Deploy new"
-  },
-  "managedKTAccount": {
-    "message": "관리 대상 KT",
-    "englishSource": "Managed KT"
   },
   "watchOnlyAccount": {
     "message": "보기 전용",
@@ -1609,67 +862,9 @@
     "message": "보기 전용 계정에서는 비활성화됨",
     "englishSource": "Disabled for watch-only account"
   },
-  "activationOperationType": {
-    "message": "활성화",
-    "englishSource": "Activation"
-  },
-  "youAreNotContractManager": {
-    "message": "회원님은 계약 관리자가 아닙니다",
-    "englishSource": "You are not a contract manager"
-  },
   "contract": {
     "message": "계약",
     "englishSource": "Contract"
-  },
-  "contractAddressInputDescription": {
-    "message": "연결할 계약서 주소입니다.",
-    "englishSource": "Address of the contract to connect."
-  },
-  "contractAddressInputPlaceholder": {
-    "message": "예) KT1a9w1S7hN5s...",
-    "englishSource": "e.g. KT1a9w1S7hN5s..."
-  },
-  "addKnownManagedContract": {
-    "message": "알려진 관리 계약 추가",
-    "englishSource": "Add known Managed contract"
-  },
-  "clickOnContractToImport": {
-    "message": "가져오고자 하는 계약서를 클릭하세요.",
-    "englishSource": "Click on Contract you want to import."
-  },
-  "notContractAddress": {
-    "message": "계약 주소가 아님",
-    "englishSource": "Not a contract address"
-  },
-  "contractAlreadyImported": {
-    "message": "이 계약은 이미 불러온 것입니다",
-    "englishSource": "This contract has already been imported"
-  },
-  "waitWhileContractBeingDeployed": {
-    "message": "계약이 배치되는 동안 시간이 다소 걸릴 수 있으니 이 페이지를 나가거나 창을 닫지 마세요. 해당 양식과 이 경고는 배치가 완료되자마자 사라집니다.",
-    "englishSource": "Please don't leave this page or close window while contract is being deployed, it may take a while. The form and this alert will disappear as soon as it is successfully deployed."
-  },
-  "justAMinute": {
-    "message": "잠시만 기다려주세요...",
-    "englishSource": "Just a minute..."
-  },
-  "someNetworkIsNotCurrent": {
-    "message": "네트워크가 $network$(으)로 지정되었으나 현재 네트워크가 아닙니다",
-    "placeholders": {
-      "network": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$network$ network was specified, which is not current network"
-  },
-  "someNetworkWithChainIdIsNotCurrent": {
-    "message": "체인 ID가 $chainId$(으)로 지정되었으나 현재 네트워크의 체인 ID가 아닙니다",
-    "placeholders": {
-      "chainId": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Chain ID $chainId$ was specified, which is not chain ID of current network"
   },
   "popupSettings": {
     "message": "팝업 모드",
@@ -1679,172 +874,37 @@
     "message": "익스텐션 패널의 플러그인 아이콘 클릭에 나타나는 팝업을 여기에서 설정할 수 있습니다.",
     "englishSource": "Here you can configure the popup which appears on plugin's icon click in extensions panel."
   },
-  "managedContract": {
-    "message": "관리 대상 계약",
-    "englishSource": "Managed Contract"
+  "delegateProofSettings": {
+    "message": "위임 증명 생성",
+    "englishSource": "Delegate Proof Generation"
   },
-  "referredByTokenContractNotFound": {
-    "message": "토큰 계약이 참조하는 계약 $address$를 찾을 수 없습니다.",
-    "placeholders": {
-      "address": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Contract $address$, which is referred by token contract to, was not found."
+  "delegateProofSettingsDescription": {
+    "message": "여기에서 원격 서버에 대한 증명 생성 위임을 구성할 수 있습니다. 이렇게 하면 증명 생성 속도가 빨라지지만 거래 세부 정보는 신뢰할 수 있는 서버에 공개됩니다.",
+    "englishSource": "Here you can configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
   },
-  "tokenContractNotFound": {
-    "message": "계약을 찾을 수 없습니다.",
-    "englishSource": "The contract was not found."
+  "autoCloseSettings": {
+    "message": "자동 마감 거래 페이지 생성 중",
+    "englishSource": "Auto Close Generating Transaction Page"
   },
-  "failedToParseMetadata": {
-    "message": "메타데이터 분석 실패",
-    "englishSource": "Failed to parse metadata"
+  "autoCloseSettingsDescription": {
+    "message": "여기서는 거래가 생성된 후 거래 생성 페이지의 자동 닫기를 구성할 수 있습니다.",
+    "englishSource": "Here you can configure auto close of the generating transaction page after the transaction is generated."
   },
-  "unknownParseErrorOccurred": {
-    "message": "알 수 없는 분석 오류가 발생했습니다.",
-    "englishSource": "An unknown parsing error occurred."
+  "analyticsSettings": {
+    "message": "익명 분석",
+    "englishSource": "Anonymous Analytics"
   },
-  "errorWhileFetchingUrl": {
-    "message": "$url$에서 불러오는 중 오류가 발생했습니다",
-    "placeholders": {
-      "url": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Error occurred while fetching from $url$"
-  },
-  "invalidManagedContract": {
-    "message": "유효하지 않은 관리 계약",
-    "englishSource": "Invalid managed contract"
-  },
-  "someMethodNotDefinedInContract": {
-    "message": "'$name$' 방법은 계약에 명시되어 있지 않습니다.",
-    "placeholders": {
-      "name": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "'$name$' method isn't defined in contract."
-  },
-  "someMethodSignatureDoesNotMatchStandard": {
-    "message": "'$name$' 방법의 서명이 기준과 일치하지 않습니다.",
-    "placeholders": {
-      "name": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "'$name$' method's signature doesn't match the standard."
-  },
-  "failedToLoadChainID": {
-    "message": "이 네트워크의 체인 ID 로드 실패",
-    "englishSource": "Failed to load chain ID for this network"
-  },
-  "makeSureTokenIdIsCorrect": {
-    "message": "해당 토큰 ID가 올바른지 확인해보세요.",
-    "englishSource": "Please make sure that asset ID is correct."
-  },
-  "unknownErrorCheckingSomeEntrypoint": {
-    "message": "'$name$' 진입점을 확인하는 동안 알 수 없는 오류가 발생했습니다.",
-    "placeholders": {
-      "name": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "An unknown error while checking '$name$' entrypoint occurred."
-  },
-  "incorrectTokenIdErrorMessage": {
-    "message": "입력한 데이터로 토큰 처리 중 실패하였습니다. 해당 토큰 ID가 올바른지 확인하세요.",
-    "englishSource": "Failed while processing asset with provided data. Please make sure that asset ID is correct."
+  "analyticsSettingsDescription": {
+    "message": "여기에서 제품 개선에 도움이 되는 익명 분석 전송을 구성할 수 있습니다.",
+    "englishSource": "Here you can configure sending of anonymous analytics that helps us to improve the product."
   },
   "transfer": {
     "message": "송금",
     "englishSource": "Transfer"
   },
-  "transferFromSmb": {
-    "message": "$sender$로부터",
-    "placeholders": {
-      "sender": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "from $sender$"
-  },
-  "transferToSmb": {
-    "message": "$receiver$에게",
-    "placeholders": {
-      "receiver": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "to $receiver$"
-  },
-  "interaction": {
-    "message": "상호 소통",
-    "englishSource": "Interaction"
-  },
-  "interactionWithContract": {
-    "message": "$contract$ 포함",
-    "placeholders": {
-      "contract": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "with $contract$"
-  },
-  "delegationToSmb": {
-    "message": "$delegate$에게",
-    "placeholders": {
-      "delegate": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "to $delegate$"
-  },
-  "fa2TokenAlreadyExists": {
-    "message": "주소가 $address$인 토큰과 ID $tokenId$(은)는 이미 있습니다.",
-    "placeholders": {
-      "address": {
-        "content": "$1"
-      },
-      "tokenId": {
-        "content": "$2"
-      }
-    },
-    "englishSource": "Token with address $address$ and ID $tokenId$ already exists."
-  },
-  "nonFa2TokenAlreadyExists": {
-    "message": "주소가 $address$인 토큰은 이미 있습니다.",
-    "placeholders": {
-      "address": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Token with address $address$ already exists."
-  },
-  "approveForSmb": {
-    "message": "$spender$용",
-    "placeholders": {
-      "spender": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "for $spender$"
-  },
-  "undelegation": {
-    "message": "위임 해제",
-    "englishSource": "Undelegation"
-  },
-  "bytes": {
-    "message": "바이트",
-    "englishSource": "Bytes"
-  },
   "clean": {
     "message": "지우기",
     "englishSource": "Clean"
-  },
-  "errorChangingAccountName": {
-    "message": "계정 이름 변경 중 오류 발생",
-    "englishSource": "An error occurred while changing account name"
   },
   "ok": {
     "message": "확인",
@@ -1862,801 +922,59 @@
     "message": "작업 확인",
     "englishSource": "Confirm the action"
   },
-  "domainDoesntResolveToAddress": {
-    "message": "도메인 \"$value$\"은 주소로 분석되지 않습니다",
-    "placeholders": {
-      "value": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Domain \"$value$\" doesn't resolve to an address"
-  },
-  "invalidAddressOrDomain": {
-    "message": "유효하지 않은 주소나 도메인 이름",
-    "englishSource": "Invalid address or domain name"
-  },
-  "resolvedAddress": {
-    "message": "분석된 주소",
-    "englishSource": "Resolved address"
-  },
-  "invalidRpcCantGetChainId": {
-    "message": "유효하지 않은 RPC: 체인 id를 받을 수 없음",
-    "description": "RPC = Remote Procedure Call (https://en.wikipedia.org/wiki/Remote_procedure_call)",
-    "englishSource": "Invalid RPC: Cannot get chain id"
-  },
-  "contractNotOriginated": {
-    "message": "계약 발생되지 않음",
-    "englishSource": "Contract not originated"
-  },
-  "welcomeTo": {
-    "message": "환영합니다",
-    "englishSource": "Welcome to"
-  },
-  "domain": {
-    "message": "도메인",
-    "englishSource": "Domain"
-  },
-  "hash": {
-    "message": "해시",
-    "englishSource": "Hash"
-  },
-  "defaultAccount": {
-    "message": "기본 계정",
-    "englishSource": "Default account (the first one)"
-  },
-  "loadMore": {
-    "message": "더 로드 하기",
-    "englishSource": "Load more"
-  },
   "submit": {
     "message": "제출",
     "englishSource": "Submit"
-  },
-  "invalidJsonInput": {
-    "message": "유효하지 않은 JSON",
-    "englishSource": "Invalid JSON"
-  },
-  "notFaucetJson": {
-    "message": "Faucet JSON이 아님",
-    "englishSource": "Not a faucet JSON"
-  },
-  "faucetJson": {
-    "message": "Faucet JSON",
-    "englishSource": "Faucet JSON"
-  },
-  "faucetJsonDescription": {
-    "message": "파일을 추가하는 대신 여기에 JSON을 붙여넣을 수 있습니다.",
-    "englishSource": "You can paste JSON here instead of adding file"
-  },
-  "selectFile": {
-    "message": "파일 선택",
-    "englishSource": "Select file"
-  },
-  "clickToRevealField": {
-    "message": "이 필드를 표시하려면 클릭하세요.",
-    "englishSource": "Click to reveal this field"
-  },
-  "clickToReveal": {
-    "message": "클릭하여 공개",
-    "englishSource": "Click to reveal"
-  },
-  "skip": {
-    "message": "건너뛰다",
-    "englishSource": "Skip"
-  },
-  "checkNow": {
-    "message": "지금 확인",
-    "englishSource": "Check now"
-  },
-  "theLendingProtocol": {
-    "message": "테조스의 대출 프로토콜.",
-    "englishSource": "The lending protocol on Aleo."
-  },
-  "alreadyLaunched": {
-    "message": "이미 출시되었습니다!",
-    "englishSource": "Already Launched!"
-  },
-  "borrowLandEarn": {
-    "message": "좋아하는 토큰을 빌리고 토지를 확보하세요!",
-    "englishSource": "Borrow, Land and Earn on your favorite tokens!"
-  },
-  "independenceDayOfUkraine": {
-    "message": "우크라이나 독립기념일",
-    "englishSource": "Independence Day of Ukraine"
-  },
-  "zeroSwapCommissionTitle": {
-    "message": "2주 동안의 제로 스왑 커미션 - 축하 $text$ 우리와 함께!",
-    "placeholders": {
-      "text": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Zero Swap commissions for two weeks - celebrate the $text$ with us!"
-  },
-  "zeroSwapCommissionDescription": {
-    "message": "에서 $date1$ 까지 $date2$ , Leo 사용자는 라우터를 통해 거래를 수행할 수 있습니다. $text$ 개발 수수료가 없는 섹션입니다.\n\n가장 유리한 환율과 수수료 없이 한 곳에서 거래하세요.",
-    "placeholders": {
-      "date1": {
-        "content": "$1"
-      },
-      "date2": {
-        "content": "$2"
-      },
-      "text": {
-        "content": "$3"
-      }
-    },
-    "englishSource": "From $date1$ till $date2$, Leo users may conduct trades via our router in the $text$ section without our dev commissions.\n\nEnjoy the most lucrative exchange rates and trade without fees in one place."
-  },
-  "okGotIt": {
-    "message": "알았어요",
-    "englishSource": "Got it"
-  },
-  "changelogTitle": {
-    "message": "Miden 지갑이 업데이트되었습니다.",
-    "englishSource": "Miden Wallet updated"
-  },
-  "changelogDescription": {
-    "message": "이번 업데이트에서",
-    "englishSource": "In this update"
-  },
-  "update": {
-    "message": "업데이트",
-    "englishSource": "Update"
-  },
-  "skipOnboarding": {
-    "message": "온보딩 건너뛰기",
-    "englishSource": "Skip Onboarding"
-  },
-  "advancedUser": {
-    "message": "나는 고급 사용자입니다",
-    "englishSource": "I'm an advanced user"
-  },
-  "analytics": {
-    "message": "해석학",
-    "englishSource": "Analytics"
-  },
-  "analyticsCollecting": {
-    "message": "익명 정보 수집",
-    "englishSource": "anonymous information collecting"
-  },
-  "analyticsInputDescription": {
-    "message": "나는 찬성합니다 $analyticsLink$ ",
-    "placeholders": {
-      "analyticsLink": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "I agree to the $analyticsLink$"
-  },
-  "dcpDelegatingMotivation": {
-    "message": "귀하의 자금을 생산자에게 위임하는 것은 귀하의 잔액에 대한 이자를 얻는 좋은 방법입니다",
-    "englishSource": "Delegating your funds to producers is a great way of earning interest on your balance"
-  },
-  "addAsset": {
-    "message": "자산 추가",
-    "englishSource": "Add Asset"
-  },
-  "assetId": {
-    "message": "자산 ID",
-    "englishSource": "Asset ID"
-  },
-  "comingSoon": {
-    "message": "출시 예정",
-    "englishSource": "Coming soon"
-  },
-  "weakKeystorePassword": {
-    "message": "\"키 저장소 파일\" 암호가 너무 약하여 확장 암호로 사용할 수 없습니다. 새로 설정해야 합니다.",
-    "englishSource": "The \"keystore file\" password is too weak to use as an extension password. You need to set a new one."
-  },
-  "mustBeNonNegative": {
-    "message": "음수가 아니어야 합니다.",
-    "englishSource": "Must be non-negative"
-  },
-  "positiveIntMessage": {
-    "message": "정수, 1 이상",
-    "englishSource": "Integer, 1 or greater"
-  },
-  "doNotShareViewKey": {
-    "message": "<b>신뢰할 수 있는 사람과만 공유</b> 모든 거래 내역을 보는 데 사용할 수 있습니다."
-  },
-  "signPayload": {
-    "message": "서명할 메시지",
-    "englishSource": "Message to Sign"
-  },
-  "decryptPayload": {
-    "message": "복호화할 메시지",
-    "englishSource": "Message to Decrypt"
-  },
-  "noPreview": {
-    "message": "미리보기를 사용할 수 없습니다.",
-    "englishSource": "No preview is available"
-  },
-  "requirements": {
-    "message": "요구 사항:",
-    "englishSource": "<b>Requirements:</b>"
-  },
-  "mixtureOfUppercaseAndLowercaseLetters": {
-    "message": "대문자와 소문자의 혼합.",
-    "englishSource": "A mixture of both uppercase and lowercase letters."
-  },
-  "mixtureOfLettersAndNumbers": {
-    "message": "문자와 숫자의 혼합.",
-    "englishSource": "A mixture of letters and numbers."
-  },
-  "atLeast1SpecialCharacter": {
-    "message": "하나 이상의 특수 문자 포함(예: ! @",
-    "englishSource": "Inclusion of at least one special character, e.g., ! @ # ? ] - (optional, recommended)."
-  },
-  "seedInputNumberOfWords": {
-    "message": "내 Seed Phrase는 $1 단어입니다.",
-    "englishSource": "My Seed phrase is $1 words"
-  },
-  "seedPasteFailedTooManyWords": {
-    "message": "24개 이상의 단어가 포함되어 있어 붙여넣기에 실패했습니다.",
-    "englishSource": "Paste failed because it contained over 24 words."
-  },
-  "seedPhraseTip": {
-    "message": "전체 비밀 Seed 문구를 어떤 필드에나 붙여넣을 수 있습니다.",
-    "englishSource": "You can paste your entire secret Seed phrase into any field"
-  },
-  "assetMustBeSelected": {
-    "message": "자산을 선택해야 합니다.",
-    "englishSource": "Asset must be selected"
-  },
-  "gasFeeMustBePositive": {
-    "message": "가스 요금은 양수여야 합니다.",
-    "englishSource": "Gas fee must be positive"
-  },
-  "get": {
-    "message": "얻다",
-    "englishSource": "Get"
-  },
-  "exolixWarningNote": {
-    "message": "입금만 부탁드립니다 $currencyName$ 환승 네트워크 $networkName$ . 그렇지 않으면 자산을 영구적으로 잃을 수 있습니다.",
-    "englishSource": "Please, deposit only $currencyName$ transfer network $networkName$. Otherwise, you may lose your assets permanently."
-  },
-  "mnemonicInputDescription": {
-    "message": "니모닉. 당신의 비밀 12 - 24단어 문구.",
-    "englishSource": "Mnemonic. Your secret 12 - 24 words phrase."
-  },
-  "mnemonicInputWarning": {
-    "message": "우리는 귀하의 Seed Phrase를 저장하지 않습니다. 그것을 잃지 마세요!",
-    "englishSource": "We don't store your seed phrase. Don't lose it!"
-  },
-  "importWallet": {
-    "message": "지갑 가져오기",
-    "englishSource": "Import Wallet"
-  },
-  "createWallet": {
-    "message": "지갑 만들기",
-    "englishSource": "Create Your Wallet"
-  },
-  "errorImportingKukaiWallet": {
-    "message": "Kukai 지갑을 가져오는 중 오류가 발생했습니다.",
-    "englishSource": "Error while importing Kukai wallet"
-  },
-  "selectedFileFormatNotSupported": {
-    "message": "선택한 파일 형식이 지원되지 않습니다",
-    "englishSource": "The selected file format is not supported"
-  },
-  "fileHasSyntaxError": {
-    "message": "파일에 구문 오류가 있습니다. 파일이 올바른지 확인하십시오.",
-    "englishSource": "The file has a syntax error. Make sure the file is correct."
-  },
-  "entropyDecryptionError": {
-    "message": "엔트로피를 해독하지 못했습니다. 비밀번호가 정확한지 확인하세요",
-    "englishSource": "Failed to decrypt entropy. Make sure the password is correct"
-  },
-  "kukaiFileVersionError": {
-    "message": "버전 3의 파일만 처리할 수 있습니다.",
-    "englishSource": "Only files of version 3 can be processed"
-  },
-  "kukaiWalletTypeError": {
-    "message": "이 지갑 유형에 대한 Seed Phrase를 공개할 수 없습니다",
-    "englishSource": "Cannot reveal seed phrase for this wallet type"
-  },
-  "revealViewKey": {
-    "message": "보기 키 표시",
-    "englishSource": "Reveal View Key"
-  },
-  "revealViewKeyDescription": {
-    "message": "\"계정 기록 공유\"라고도 하며 선택한 계정의 보기 키를 보여줍니다.",
-    "englishSource": "Also known as \"Share Account History\", reveals view key for your selected account."
-  },
-  "info": {
-    "message": "정보",
-    "englishSource": "Info"
-  },
-  "unlockPasswordErrorDelay": {
-    "message": "잘못된 비밀번호를 세 번 입력했습니다. 지갑이 차단되고 있습니다.",
-    "englishSource": "You have entered the wrong password three times. Your wallet is being blocked for"
-  },
-  "importExistingWalletDescription": {
-    "message": "이미 지갑이 있나요? Seed Phrase 또는 암호화된 키 저장소 파일을 사용하여 가져옵니다.",
-    "englishSource": "Already have a wallet? Import it using your seed phrase or encrypted keystore file"
-  },
-  "routingFee": {
-    "message": "라우팅 수수료",
-    "englishSource": "Routing Fee"
-  },
-  "routingFeeTooltip": {
-    "message": "Aleo DEX 중에서 가장 수익성이 높은 교환 경로를 선택합니다.\n\nDEXes 커미션은 포함되지 않습니다.",
-    "englishSource": "For choosing the most profitable exchange route among Aleo DEXes. \n\nDEXes commissions are not included."
-  },
-  "staking": {
-    "message": "스테이킹",
-    "englishSource": "Staking"
-  },
-  "recommended": {
-    "message": "추천",
-    "englishSource": "Recommended"
-  },
-  "partnership": {
-    "message": "협력 관계",
-    "englishSource": "Partnership"
-  },
-  "delegationGuide": {
-    "message": "전체 비디오 가이드",
-    "englishSource": "Full video guide"
-  },
-  "delegationGuideLink": {
-    "message": "XTZ 위임 방법",
-    "englishSource": "How to Delegate XTZ"
-  },
-  "delegationComunity": {
-    "message": "질문이 있는 경우 커뮤니티에 작성하세요.",
-    "englishSource": "In case you have any questions, write them in our communities"
-  },
-  "delegationPointsHead1": {
-    "message": "5.6%의 이자를 적립하세요",
-    "englishSource": "Earn 5.6% interest"
-  },
-  "delegationPointsHead2": {
-    "message": "당신의 테조스에서",
-    "englishSource": "on your Aleo"
-  },
-  "delegationPointsHead3": {
-    "message": "매년 베이킹 보상에서",
-    "englishSource": "annualy from Baking rewards"
-  },
-  "delegationPoint1": {
-    "message": "Aleo의 첫 번째 보상은 약 36일 후에 지급됩니다.",
-    "englishSource": "Your first reward in Aleo will be paid approximately in 36 days."
-  },
-  "delegationPoint2": {
-    "message": "그러면 3일마다 보상을 받습니다.",
-    "englishSource": "Then, you receive a reward every 3 days."
-  },
-  "delegationPoint3": {
-    "message": "적립률은 시간에 따라 다릅니다. 지갑에서 현재 환율을 확인하세요.",
-    "englishSource": "Earn rate varies over time. Check the current rate in your Wallet."
-  },
-  "delegationPoint4": {
-    "message": "Aleo 토큰은 잠겨 있지 않습니다. 언제든 보내주세요!",
-    "englishSource": "Your Aleo tokens are never locked. Send anytime!"
-  },
-  "producer": {
-    "message": "생산자",
-    "englishSource": "Producer"
-  },
-  "producerInputDescription": {
-    "message": "등록된 생산자의 주소입니다.",
-    "englishSource": "Address of a registered producer."
-  },
-  "bakerInputDescriptionWithDomain": {
-    "message": "등록된 제빵사의 주소 또는 도메인 이름입니다.",
-    "englishSource": "Address or domain name of a registered baker."
-  },
-  "cycles_one": {
-    "message": "$amount$ 주기",
-    "description": "For plural forms",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$amount$ cycle"
-  },
-  "file": {
-    "message": "파일",
-    "englishSource": "File"
-  },
-  "keystoreFile": {
-    "message": "키 저장소 파일",
-    "englishSource": "Keystore File"
-  },
-  "filePassword": {
-    "message": "파일 비밀번호",
-    "englishSource": "File Password"
-  },
-  "filePasswordInputDescription": {
-    "message": "키 저장소 파일의 암호를 입력하십시오",
-    "englishSource": "Please enter a password for keystore file"
-  },
-  "fileInputPrompt": {
-    "message": "파일을 선택하거나 여기로 드래그하세요.",
-    "englishSource": "Choose a file or drag it here"
-  },
-  "useKeystorePassword": {
-    "message": "파일 암호를 확장 암호로 사용",
-    "englishSource": "Use File Password as Extension password"
-  },
-  "import": {
-    "message": "수입",
-    "englishSource": "Import"
-  },
-  "applied": {
-    "message": "적용된",
-    "englishSource": "Applied"
-  },
-  "skipped": {
-    "message": "건너뜀",
-    "englishSource": "Skipped"
-  },
-  "ifYouWantToRevealViewKeyFromOtherAccount": {
-    "message": "다른 계정의 보기 키를 공개하려면 오른쪽 상단 드롭다운에서 선택해야 합니다.",
-    "englishSource": "If you want to reveal a view key from another account - you should select it in the top-right dropdown."
-  },
-  "viewKeyFieldDescription": {
-    "message": "현재 계정 보기 키입니다. 비밀로 하세요. 이 키를 가진 사람은 누구나 거래 내역을 볼 수 있습니다.",
-    "englishSource": "Current account view key. Keep it in secret. Anyone with this key can see your transaction history"
-  },
-  "derivationType": {
-    "message": "파생 유형",
-    "englishSource": "Derivation type"
-  },
-  "derivationTypeFieldDescription": {
-    "message": "계정에서 사용할 타원 곡선입니다.",
-    "englishSource": "The elliptical curve that the account will use."
-  },
-  "tryingToTransferToContract": {
-    "message": "계약을 위해 자금을 이체하려고 합니다.\n정확히 원하는 것인지 확인하십시오.",
-    "englishSource": "You're trying to transfer funds to contract.\nPlease, ensure that it's exactly what you want."
-  },
-  "inFiat": {
-    "message": "피아트에서",
-    "englishSource": "in Fiat"
-  },
-  "fiatCurrency": {
-    "message": "기본 통화",
-    "englishSource": "Default Currency"
-  },
-  "tokens": {
-    "message": "토큰",
-    "englishSource": "Tokens"
-  },
-  "manageTokens": {
-    "message": "토큰 관리",
-    "englishSource": "Manage Tokens"
-  },
-  "searchByName": {
-    "message": "이름으로 검색...",
-    "englishSource": "Search by name..."
-  },
-  "analyticsSettings": {
-    "message": "익명 분석",
-    "englishSource": "Anonymous Analytics"
-  },
-  "analyticsSettingsDescription": {
-    "message": "여기에서 제품 개선에 도움이 되는 익명 분석 전송을 구성할 수 있습니다.",
-    "englishSource": "Here you can configure sending of anonymous analytics that helps us to improve the product."
-  },
-  "origination": {
-    "message": "개시",
-    "englishSource": "Origination"
-  },
-  "unknownErrorFromRPC": {
-    "message": "에 요청을 보내지 못했습니다. $url$ . 잘못된 요청이 제공되었거나 RPC 노드에 일시적으로 연결할 수 없습니다.",
-    "placeholders": {
-      "url": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Failed to send request to $url$. Invalid request provided or RPC node is temporarily unreachable."
-  },
-  "emptyImplicitContract": {
-    "message": "계정이 비어 있습니다. 활성화하려면 이 계정에 aleo credits 금액을 입금하세요.",
-    "englishSource": "Your account is empty. Deposit any aleo credits amount on this account to activate it"
-  },
-  "balanceTooLow": {
-    "message": "가스 토큰 잔액이 너무 낮습니다.",
-    "englishSource": "Gas token balance is too low"
-  },
-  "swap": {
-    "message": "교환",
-    "englishSource": "Swap"
-  },
-  "accountNumber": {
-    "message": "계좌 번호",
-    "englishSource": "Account number"
-  },
-  "noExchangersAvailable": {
-    "message": "죄송합니다. 현재 네트워크에 사용할 수 있는 교환기가 없습니다.",
-    "englishSource": "Sorry, no exchangers are available for the current network."
-  },
-  "noResults": {
-    "message": "결과 없음",
-    "englishSource": "No Results"
-  },
-  "aleoApy": {
-    "message": "APY: 6%",
-    "englishSource": "APY: 6%"
-  },
-  "tokenApy": {
-    "message": "APY",
-    "englishSource": "APY"
   },
   "max": {
     "message": "최대",
     "englishSource": "Max"
   },
-  "balance": {
-    "message": "균형:",
-    "englishSource": "Balance"
-  },
   "from": {
     "message": "에서",
     "englishSource": "From"
   },
-  "toAsset": {
+  "to": {
     "message": "에게",
     "englishSource": "To"
   },
-  "via": {
-    "message": "을 통해",
-    "englishSource": "Via"
-  },
-  "swapRoute": {
-    "message": "스왑 경로",
-    "englishSource": "Swap route"
-  },
-  "exchangeRate": {
-    "message": "환율",
-    "englishSource": "Exchange rate"
-  },
-  "priceImpact": {
-    "message": "가격 영향",
-    "englishSource": "Price impact"
-  },
-  "slippageTolerance": {
-    "message": "미끄러짐 공차",
-    "englishSource": "Slippage tolerance"
-  },
-  "minimumReceived": {
-    "message": "최소 수령",
-    "englishSource": "Minimum received"
-  },
-  "inputOutputAssetsCannotBeSame": {
-    "message": "입력 및 출력 자산은 동일할 수 없습니다.",
-    "englishSource": "Input and output assets cannot be the same"
-  },
-  "helpAndCommunity": {
-    "message": "돕다",
-    "englishSource": "Help & Community"
-  },
-  "communityResourcesTitle": {
-    "message": "항상 레오 지갑에 대한 추가 정보를 찾거나 다음 리소스에 대한 도움을 요청할 수 있습니다.",
-    "englishSource": "You may always find additional info about the Leo wallet or ask for help on the next resources."
-  },
-  "helpAndCommunityDescription": {
-    "message": "커뮤니티의 일원이 되고 싶거나 도움이 필요한 경우 이 섹션을 사용하십시오.",
-    "englishSource": "Use this section if you want to be a part of our community or need help."
-  },
-  "joinPrompt": {
-    "message": "부담없이 가입하시고 궁금한 점 물어보세요 😊",
-    "englishSource": "Feel free to join and ask your questions 😊"
-  },
-  "blockExplorer": {
-    "message": "블록체인 탐색기",
-    "englishSource": "Blockchain explorer"
-  },
-  "specifyTokenId": {
-    "message": "토큰 ID 지정",
-    "englishSource": "Specify token ID"
-  },
-  "notWhitelistedTokenWarning": {
-    "message": "주목! 교환하려는 토큰 중 하나가 허용 목록에 없습니다. 당신은 그들과 상호 작용할 수 있습니다.",
-    "englishSource": "Attention! One of the tokens you’re trying to exchange is not whitelisted. You can interact with them at your own risk."
-  },
-  "tvl": {
-    "message": "TVL",
-    "englishSource": "TVL"
-  },
-  "promoted": {
-    "message": "승격",
-    "englishSource": "Promoted"
-  },
-  "searchDApps": {
-    "message": "디앱 검색",
-    "englishSource": "Search DApps"
-  },
-  "game": {
-    "message": "게임",
-    "englishSource": "Game"
-  },
-  "social": {
-    "message": "사회의",
-    "englishSource": "Social"
-  },
-  "marketplace": {
-    "message": "시장",
-    "englishSource": "Marketplace"
-  },
-  "farming": {
-    "message": "농업",
-    "englishSource": "Farming"
+  "received": {
+    "message": "받았다",
+    "englishSource": "Received"
   },
   "other": {
     "message": "다른",
     "englishSource": "Other"
   },
-  "noMatchingDAppsFound": {
-    "message": "일치하는 dApp을 찾을 수 없습니다.",
-    "englishSource": "No matching dApps were found"
+  "thousandFormat": {
+    "message": "$천$k",
+    "englishSource": "$thousand$k"
   },
-  "gasFee": {
-    "message": "가스비",
-    "englishSource": "Gas fee"
+  "millionFormat": {
+    "message": "$백만$M",
+    "englishSource": "$million$M"
   },
-  "storageFee": {
-    "message": "보관료",
-    "englishSource": "Storage fee"
-  },
-  "leoWalletFeeWarning": {
-    "message": "레오 지갑은 현재 거래소에 수수료를 부과하지 않지만 향후 적용될 수 있습니다.",
-    "englishSource": "Leo Wallet doesn't apply any fees to exchanges for now but it may apply in the future."
-  },
-  "poolExchangeFee": {
-    "message": "수영장 교환비",
-    "englishSource": "Pool exchange fee"
-  },
-  "PriceImpactInfo": {
-    "message": "거래 규모에 따른 시장 가격과 예상 가격의 차이",
-    "englishSource": "The difference between the market price and estimated price due to trade size"
-  },
-  "selectToken": {
-    "message": "토큰 선택",
-    "englishSource": "Select Token"
-  },
-  "viewAll": {
-    "message": "모두보기",
-    "englishSource": "View all"
-  },
-  "rewardsForBlocks": {
-    "message": "$blocksAmount$ $blocks$ $feesAmount$ 수수료에 대한 $reward$",
+  "billionFormat": {
+    "message": "$billion$B",
     "placeholders": {
-      "reward": {
-        "content": "$1"
-      },
-      "blocksAmount": {
-        "content": "$2"
-      },
-      "blocks": {
-        "content": "$3"
-      },
-      "feesAmount": {
-        "content": "$4"
-      }
-    },
-    "englishSource": "$reward$ for $blocksAmount$ $blocks$ $feesAmount$ fees"
-  },
-  "blocks_one": {
-    "message": "$amount$ 블록",
-    "description": "For plural forms",
-    "placeholders": {
-      "amount": {
+      "billion": {
         "content": "$1"
       }
     },
-    "englishSource": "$amount$ block"
+    "englishSource": "$billion$B"
   },
-  "blocks_other": {
-    "message": "$amount$ 블록",
-    "description": "For plural forms",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$amount$ blocks"
+  "uploadFile": {
+    "message": "파일 업로드",
+    "englishSource": "Upload File"
   },
-  "rewardsForSlots": {
-    "message": "$slotsAmount$ $slots$에 대한 $reward$",
-    "placeholders": {
-      "reward": {
-        "content": "$1"
-      },
-      "slotsAmount": {
-        "content": "$2"
-      },
-      "slots": {
-        "content": "$3"
-      }
-    },
-    "englishSource": "$reward$ for $slotsAmount$ $slots$"
-  },
-  "slots_one": {
-    "message": "$amount$ 슬롯",
-    "description": "For plural forms",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$amount$ slot"
-  },
-  "slots_other": {
-    "message": "$amount$ 슬롯",
-    "description": "For plural forms",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$amount$ slots"
-  },
-  "storageFeeMax": {
-    "message": "보관 수수료(최대)",
-    "englishSource": "Storage fee (max)"
-  },
-  "storageLimit": {
-    "message": "저장 한도 조정",
-    "englishSource": "Adjust storage limit"
-  },
-  "txIsLikelyToFail": {
-    "message": "경고! 거래가 실패할 가능성이 있음",
-    "englishSource": "Warning! Transaction is likely to fail"
-  },
-  "copyErrorLogs": {
-    "message": "오류 로그 복사",
-    "englishSource": "Copy Error Logs"
-  },
-  "dAppsListTvlDescription": {
-    "message": "잠긴 총 가치. aleo credits의 값은 dApp에 잠긴 aleo credits의 총량입니다. USD의 가치는 거기에 잠긴 aleo credits와 토큰의 총량입니다.",
-    "englishSource": "Total Value Locked. The value in aleo credits is the total amount of aleo credits locked in dApps. The value in USD is the total amount of aleo credits and tokens locked there."
-  },
-  "noFavoriteDApps": {
-    "message": "좋아하는 dApp이 없습니다.",
-    "englishSource": "You don't have any favorite dApps"
+  "download": {
+    "message": "다운로드",
+    "englishSource": "Download"
   },
   "more": {
     "message": "더",
     "description": "Show more",
     "englishSource": "more"
-  },
-  "less": {
-    "message": "더 적은",
-    "description": "Show less",
-    "englishSource": "less"
-  },
-  "recentDestinations": {
-    "message": "최근 목적지",
-    "englishSource": "Recent destinations"
-  },
-  "unknownAccount": {
-    "message": "알 수 없는 계정",
-    "englishSource": "Unknown account"
-  },
-  "ledgerLiveBridgeGuide": {
-    "message": "Ledger에 연결하려면 장치에서 Ledger Live 애플리케이션을 활성화하고 Aleo Wallet 애플리케이션을 열고 Leo 계정에 WebSocket 연결을 허용하십시오.",
-    "englishSource": "To connect to Ledger, please activate the Ledger Live application on your device, open Aleo Wallet application and allow a WebSocket connection to your Leo account."
-  },
-  "ledgerBridgeGuide": {
-    "message": "Ledger를 연결하려면 장치를 활성화하고 Aleo Wallet 애플리케이션을 여십시오.",
-    "englishSource": "To connect the Ledger, please activate your device and open Aleo Wallet application."
-  },
-  "noExchangerFoundForToken": {
-    "message": "토큰에 대한 교환기를 찾을 수 없습니다. $symbol$  ( $name$ ).",
-    "placeholders": {
-      "symbol": {
-        "content": "$1"
-      },
-      "name": {
-        "content": "$2"
-      }
-    },
-    "englishSource": "No exchanger was found for token $symbol$ ($name$)."
   },
   "addressBook": {
     "message": "주소록",
@@ -2686,10 +1004,6 @@
     "message": "현재 연락처",
     "englishSource": "Current contacts"
   },
-  "updateContactDescription": {
-    "message": "기존 연락처를 업데이트하려면 삭제하세요.\n그리고 새로 추가합니다.",
-    "englishSource": "To update an existing contact, just remove it\nand add a new one."
-  },
   "deleteContactConfirm": {
     "message": "이 연락처를 삭제하시겠습니까?",
     "englishSource": "Are you sure you want to delete this contact?"
@@ -2698,33 +1012,13 @@
     "message": "소유하다",
     "englishSource": "Own"
   },
-  "counterErrorDescription": {
-    "message": "현재 작업을 수행할 수 없습니다!\n이전 작업이 적용될 때까지 기다렸다가 다시 시도하세요.",
-    "englishSource": "You can not conduct the operation at the moment!\nPlease, wait when your previous operation is applied and retry."
-  },
-  "swapDisclaimerTitle": {
-    "message": "부인 성명. 베타 버전, SWAP 섹션을 사용하기 전에 읽으십시오.",
-    "englishSource": "Disclaimer. Beta version, read before using the SWAP section."
-  },
-  "swapDisclaimerContent": {
-    "message": "레오 지갑은 테조스 덱스와 상호작용할 수 있는 인터페이스만 제공합니다.\n\n당사는 DEX 문제, 표시된 토큰, 가격, 환율 및 사용자 거래 결정에 대해 책임을 지지 않습니다.\n\n이 스왑 섹션을 사용하기 전에 관련 문서를 검토하여 DEX(AMM) 프로토콜이 작동하는 방식을 이해해야 합니다.\n\n이 섹션을 사용하는 것은 전적으로 사용자의 책임입니다.",
-    "englishSource": "Leo wallet only provides an interface to interact with the Aleo Dexes. \n\nWe are not responsible for: DEX issues, displayed tokens, price, exchange rates, and user trading decisions. \n\nBefore using this Swap Section, you should review the relevant documentation to understand how the DEX(AMM) protocols work. \n\nUsing this section is solely the user's responsibility."
-  },
   "noContactsFound": {
     "message": "연락처를 찾을 수 없습니다",
     "englishSource": "No contacts found"
   },
-  "addThisAddressToContacts": {
-    "message": "이 주소를 연락처에 추가하시겠습니까?",
-    "englishSource": "Add this address to contacts?"
-  },
   "verifySeedPhrase": {
     "message": "Seed Phrase 확인",
     "englishSource": "Verify Seed Phrase"
-  },
-  "verifySeedPhraseDescription": {
-    "message": "Seed Phrase 백업을 확인하려면 빈 필드에 단어를 입력하세요.",
-    "englishSource": "Fill in the blank fields with the words to verify your Seed Phrase backup"
   },
   "word": {
     "message": "단어 $number$ ",
@@ -2739,10 +1033,6 @@
     "message": "마치다",
     "englishSource": "Finish"
   },
-  "welcomeToOnboarding": {
-    "message": "온보딩에 오신 것을 환영합니다",
-    "englishSource": "Welcome to Onboarding"
-  },
   "onboarding": {
     "message": "온보딩",
     "englishSource": "Onboarding"
@@ -2751,193 +1041,13 @@
     "message": "다음",
     "englishSource": "Next"
   },
-  "updatingMinMax": {
-    "message": "최소/최대 업데이트 중...",
-    "englishSource": "Updating min/max..."
-  },
   "done": {
     "message": "완료!",
     "englishSource": "Done"
   },
-  "standWithUkraine": {
-    "message": "우크라이나와 함께 하세요",
-    "englishSource": "Stand with Ukraine"
-  },
-  "addressBalanceDetails": {
-    "message": "귀하의 주소 및 잔액",
-    "englishSource": "Your address and balance"
-  },
-  "addressBalanceDescription": {
-    "message": "계정을 만든 후에는 고유 주소(Aleo 블록체인의 개인 식별자)를 받게 됩니다. Leo에서 Aleo 크레딧 또는 Aleo 빌드 토큰을 받고 사용하려면 이 주소를 사용해야 합니다.",
-    "englishSource": "After creating an account, you’ll get a unique address — your personal identifier in the Aleo blockchain. If you would like to receive and use Aleo credits or Aleo-built tokens in Leo, you should use this address."
-  },
-  "addressBalanceHint": {
-    "message": "Aleo 크레딧의 잔액은 공개 주소 아래에 표시됩니다.",
-    "englishSource": "The balance of your Aleo credits is displayed under the public address."
-  },
-  "howToStartDetails": {
-    "message": "시작하는 방법",
-    "englishSource": "How to start"
-  },
-  "howToStartDescription1": {
-    "message": "지갑을 사용하고 Aleo DApps 생태계와 상호 작용하려면 계정 잔액이 양수여야 합니다. 이렇게 하려면 Aleo Credits 코인으로 주소를 채우십시오.",
-    "englishSource": "To start using your wallet and interacting with the Aleo DApps ecosystem, the account balance must be positive. To do this, top up your address with Aleo Credits coins."
-  },
-  "howToStartDescription2": {
-    "message": "\"구매\" 버튼을 사용하고 암호화폐, 직불 카드 또는 신용 카드를 사용하여 Aleo Credits 잔액을 충전할 수 있습니다.",
-    "englishSource": "You can use the \"Buy\" button and top up your Aleo Credits balance, using cryptocurrencies, debit, or credit cards."
-  },
-  "howToStartHint": {
-    "message": "또한 주소를 복사하여 다른 지갑이나 거래소에서 코인을 보낼 수도 있습니다. 주소를 복사하려면 지갑 메인 화면에서 주소를 클릭하거나 “받기”를 이용하세요.",
-    "englishSource": "Also, you can copy your address and send coins to it from another wallet or Exchange. To copy the address, click on it on the main wallet screen or use “Receive”."
-  },
-  "tokensCollectibleDetails": {
-    "message": "토큰",
-    "englishSource": "Tokens & Collectible"
-  },
-  "tokensCollectibleDescription1": {
-    "message": "FA1.2 및 FA2 토큰의 잔액은 \"토큰\" 탭에 표시됩니다.",
-    "englishSource": "Your balances of FA1.2 and FA2 tokens are displayed on the “Tokens” tab."
-  },
-  "tokensCollectibleDescription2": {
-    "message": "이 섹션에서 토큰을 클릭하여 전송, 잔액 확인 또는 토큰의 계약 주소를 확인할 수 있습니다.",
-    "englishSource": "You can send, check balances, or contract addresses of any token by clicking on it in this section."
-  },
-  "tokensCollectibleHint": {
-    "message": "대체 불가 토큰(NFT)은 \"수집품\" 탭에 표시됩니다. 여기에서 자신의 NFT와 상호 작용하고 전체 보기, ID 및 계약 주소를 볼 수도 있습니다.",
-    "englishSource": "Your Non-Fungible Tokens (NFT) are displayed on the “Collectibles” tab. Here you can also interact with your own NFTs, see their full view, ID, and contract address."
-  },
-  "profileRpcDetails": {
-    "message": "프로필",
-    "englishSource": "Profile & RPC"
-  },
-  "profileRpcDescription": {
-    "message": "인터페이스 상단에서 계정 로봇 아이콘을 볼 수 있습니다. 그것을 클릭하면 계정과의 상호 작용을 위한 매개변수, 설정 버튼 및 확장 프로그램 보기 모드가 표시됩니다.",
-    "englishSource": "At the top of the interface, you can see your account robo-icon. By clicking on it, you will see the parameters for interaction with accounts, the settings button, and the extension view mode."
-  },
-  "profileRpcHint1": {
-    "message": "다음으로 \"네트워크\" 선택기가 표시되며, 여기에서 귀하의 Leo 확장 프로그램이 연결될 노드(RPC)를 선택할 수 있습니다.",
-    "englishSource": "Next, you will see the “Networks” selector, which allows you to select a node (RPC) to which your Leo extension will be connected."
-  },
-  "profileRpcHint2": {
-    "message": "잔액이 표시되지 않으면 노드를 변경해 보십시오.",
-    "englishSource": "If your balance is not displayed, try changing the node."
-  },
-  "profileRpcHint3": {
-    "message": "미리 정의된 목록에서 선택하거나 다음을 따라 RPC를 수동으로 추가할 수 있습니다.",
-    "englishSource": "You can choose from a predefined list or add RPC manually by following these "
-  },
-  "congrats": {
-    "message": "축하해요!",
-    "englishSource": "Congrats!"
-  },
-  "instructions": {
-    "message": "지침.",
-    "englishSource": "instructions."
-  },
   "start": {
     "message": "시작",
     "englishSource": "Start"
-  },
-  "thanks": {
-    "message": "알았어 고마워!",
-    "englishSource": "Ok thanks!"
-  },
-  "browserVersionIsOutOfDate": {
-    "message": "브라우저 버전이 오래되었습니다. 최신 버전으로 업데이트하는 것이 좋습니다!",
-    "englishSource": "Your browser version is out of date, we strongly recommend updating to the newest version!"
-  },
-  "congratsDescription1": {
-    "message": "주목 해 주셔서 감사합니다!",
-    "englishSource": "Thanks for your attention!"
-  },
-  "congratsDescription2": {
-    "message": "이제 레오 지갑의 기본 기능과 가장 중요한 기능에 대해 알아보았습니다.",
-    "englishSource": "Now you know about the basic and most important functions of the Leo wallet."
-  },
-  "congratsDescription3": {
-    "message": "YouTube의 \"교육 시리즈\"에서 레오의 모든 기능을 배울 수 있습니다.",
-    "englishSource": "You can learn all features of the Leo from our “Educational series” on YouTube."
-  },
-  "congratsDescription4": {
-    "message": "또한 지침과 가이드는 지식 기반에서 사용할 수 있습니다.",
-    "englishSource": "Also, instructions and guides are available in our knowledge base."
-  },
-  "congratsDescription5": {
-    "message": "Telegram과 Discord에서 커뮤니티에 가입하세요.",
-    "englishSource": "Join our communities in Telegram and Discord."
-  },
-  "congratsDescription6": {
-    "message": "추신: Aleo 세계를 탐험하는 행운을 빕니다!",
-    "englishSource": "PS: Good luck exploring the Aleo world!"
-  },
-  "attention": {
-    "message": "주목",
-    "englishSource": "Attention"
-  },
-  "attentionDescription": {
-    "message": "어떤 구실로도 개인 키와 Seed Phrase를 제3자와 공유하지 마십시오.",
-    "englishSource": "Never and under any pretext share your private keys and seed phrase with third parties."
-  },
-  "attentionListTitle1": {
-    "message": "또한 다음 사항을 기억하십시오.",
-    "englishSource": "Also, remember:"
-  },
-  "attentionListItem1": {
-    "message": "귀하의 지갑은 브라우저 0days 또는 설치된 다른 악성 확장 프로그램을 통해 표적이 될 수 있습니다.",
-    "englishSource": "Your wallet can be targeted through a browser 0days or via other malicious extension installed;"
-  },
-  "attentionListItem2": {
-    "message": "화면은 시스템에 설치된 악성 소프트웨어에 의해 잠재적으로 조작될 수 있습니다.",
-    "englishSource": "The screen can potentially be manipulated by malicious software installed in the system;"
-  },
-  "attentionListItem3": {
-    "message": "사용자의 호스트 시스템은 암호화된 지갑을 훔치기 위해 맬웨어의 표적이 될 수 있습니다.",
-    "englishSource": "User’s host machine can be targeted by malware to steal encrypted wallet;"
-  },
-  "attentionListItem4": {
-    "message": "약한 암호를 선택하면 적대적인 무차별 대입에 저항하는 지갑의 능력이 감소할 수 있습니다.",
-    "englishSource": "Choosing weak passwords can reduce the ability of a wallet to resist adversarial brute-forcing."
-  },
-  "attentionListTitle2": {
-    "message": "자산을 안전하게 유지하려면 다음을 권장합니다.",
-    "englishSource": "To keep your assets safe, we recommend:"
-  },
-  "attentionListItem5": {
-    "message": "가능한 한 빨리 \"핫\" 지갑에서 \"콜드\" 지갑으로 자금을 이동하십시오(Leo 지갑은 \"Ledger Nano\" 장치와의 통합을 지원합니다).",
-    "englishSource": "Move your funds from “hot” wallet to “cold” as soon as possible (Leo wallet supports integration with “Ledger Nano” devices);"
-  },
-  "attentionListItem6": {
-    "message": "웹서핑과 지갑 운영을 위해 별도의 브라우저를 사용합니다.",
-    "englishSource": "Use separate browsers for web-surfing and wallet’s operating;"
-  },
-  "attentionListItem7": {
-    "message": "한 번에 하나의 브라우저 탭을 사용하여 거래하십시오.",
-    "englishSource": "Use one browser’s tab at a time to make transactions;"
-  },
-  "attentionListItem8": {
-    "message": "사용하지 않을 때는 지갑을 잠가 두십시오.",
-    "englishSource": "Keep the wallet locked when it is not in usage."
-  },
-  "takeCare": {
-    "message": "암호화폐 세상에서 안전을 지키세요!",
-    "englishSource": "Take care of your safety in the crypto world!"
-  },
-  "readMore": {
-    "message": "더 읽어보기",
-    "englishSource": "Read more by the "
-  },
-  "deleteTokenConfirm": {
-    "message": "이 토큰을 삭제하시겠습니까?",
-    "englishSource": "Are you sure you want to delete this token?"
-  },
-  "ledgerLiveSettings": {
-    "message": "원장 라이브 사용",
-    "englishSource": "Use Ledger Live"
-  },
-  "ledgerLiveSettingsDescription": {
-    "message": "새로운 Ledger Live 브리지를 사용하면 Ledger를 다른 방식으로 사용할 수 있습니다.",
-    "englishSource": "The new Ledger Live bridge allows you to use your Ledger in a different way."
   },
   "lockUpSettings": {
     "message": "확장 잠금",
@@ -2947,253 +1057,25 @@
     "message": "10분 동안 활동이 없으면 확장 프로그램이 자동으로 차단됩니다.",
     "englishSource": "The extension will be automatically blocked after 10 minutes of inactivity."
   },
-  "totalBalance": {
-    "message": "전체 균형",
-    "englishSource": "Total Balance"
-  },
-  "buyButton": {
-    "message": "구입하다",
-    "englishSource": "Buy"
-  },
-  "buyWithCrypto": {
-    "message": "암호화폐로 구매",
-    "englishSource": "Buy With Crypto"
-  },
-  "buyWithExolix": {
-    "message": "Exolix로 구매",
-    "englishSource": "Buy With Exolix"
-  },
-  "buyWithExolixDescription": {
-    "message": "교환 $number$ 등록 없이 즉시 Aleo Credits 또는 USDT Aleo로 암호화폐",
-    "placeholders": {
-      "number": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Exchange $number$ cryptocurrencies to Aleo Credits or USDT Aleo instantly and without registration"
-  },
-  "buyWithMoonPay": {
-    "message": "MoonPay로 구매",
-    "englishSource": "Buy With MoonPay"
-  },
-  "buyWithMoonPayDescription": {
-    "message": "암호화가 쉬워졌습니다. Visa, Mastercard 및 모든 주요 직불 카드 및 신용 카드를 사용하여 몇 분 만에 Aleo Credits를 구입하십시오.",
-    "englishSource": "Crypto just got easy. Buy Aleo Credits in minutes using Visa, Mastercard, and all major debit and credit cards."
-  },
-  "buyWithRamp": {
-    "message": "램프로 구매",
-    "englishSource": "Buy With Ramp"
-  },
-  "buyWithRampDescription": {
-    "message": "Visa, Mastercard 및 모든 주요 직불 카드 및 신용 카드를 사용하여 Aleo Credits를 구입하십시오. 램프는 160개 국가 및 지역에서 사용할 수 있습니다.",
-    "englishSource": "Buy Aleo Credits  using Visa, Mastercard, and all major debit and credit cards. Ramp is available in 160+ countries and territories."
-  },
-  "buyWithAliceBob": {
-    "message": "Alice-Bob으로 Aleo Credits 구매(UAH만 해당)",
-    "englishSource": "Buy Aleo Credits with Alice-Bob (UAH only)"
-  },
-  "buyWithAliceBobDescription": {
-    "message": "UAH를 Aleo Credits로 빠르고 비용 효율적인 교환.",
-    "englishSource": "Fast and cost-effective exchange of UAH to Aleo Credits."
-  },
-  "buyWithUtorgDescription": {
-    "message": "라이선스가 있는 법정화폐 간 게이트웨이. 187개국, AI 기반 KYC, Apple Pay, Google Pay.",
-    "englishSource": "Licensed fiat-to-crypto gateway. 187+ countries, AI-powered KYC, Apple Pay, Google Pay."
-  },
-  "topUpBuy": {
-    "message": "충전 $gasTokenName$ 균형",
-    "placeholders": {
-      "gasTokenName": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Top up $gasTokenName$ balance"
-  },
-  "buyWithUtorg": {
-    "message": "UTORG로 Aleo Credits 구매",
-    "englishSource": "Buy Aleo Credits with UTORG"
-  },
-  "buyWithCard": {
-    "message": "직불/신용 카드로 구매",
-    "englishSource": "Buy with Debit/Credit Card"
-  },
-  "topUpDescription": {
-    "message": "Leo 통합 타사 솔루션 구매 $gasTokenName1$ 암호화폐 또는 직불/신용 카드로. 제공업체를 선택하고 가이드를 따르고 $gasTokenName2$ 귀하의 계정에.",
-    "placeholders": {
-      "gasTokenName1": {
-        "content": "$1"
-      },
-      "gasTokenName2": {
-        "content": "$2"
-      }
-    },
-    "englishSource": "Leo integrated third-party solutions to buy $gasTokenName1$ with crypto or a Debit/Credit card. Choose a provider, follow guides, get $gasTokenName2$ on your account."
-  },
-  "enterAmount": {
-    "message": "금액을 입력하세요:",
-    "englishSource": "Please enter the amount:"
-  },
-  "topUpCrypto": {
-    "message": "암호화",
-    "englishSource": "Crypto"
-  },
-  "topUpDebit": {
-    "message": "직불/신용 카드",
-    "englishSource": "Debit/Credit Card"
-  },
-  "overdueTransaction": {
-    "message": "거래 기한이 지났습니다",
-    "englishSource": "Transaction is overdue"
-  },
-  "overdueTransactionMessage": {
-    "message": "다음이 아니면 새 교환을 만드십시오.\n 당신은 자금을 보냈습니다.\n 자금이 송금된 경우 시스템에서 확인을 기다리십시오.",
-    "englishSource": "Please, create a new exchange unless \n you have sent the funds. \n If the funds have been sent, please, wait for the confirmation from the system."
-  },
-  "topUpAgain": {
-    "message": "다시 충전",
-    "englishSource": "Top Up Again"
-  },
-  "topUp": {
-    "message": "충전",
-    "englishSource": "Top Up"
-  },
-  "newTopUp": {
-    "message": "새로운 충전",
-    "englishSource": "New Top Up"
-  },
-  "exchangeDetails": {
-    "message": "거래소 정보 입력",
-    "englishSource": "Enter exchange details"
-  },
-  "exchangeDetailsDescription": {
-    "message": "Aleo Credits 또는 USDT Aleo 잔액을 즉시 충전하세요. $number$ 암호화폐",
-    "placeholders": {
-      "number": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Top up your Aleo Credits or USDT Aleo balance instantly with $number$ cryptocurrencies"
-  },
-  "privacyAndPolicyLinks": {
-    "message": "클릭하여 $buttonContent$ 당신은 동의 $termsOfUse$ 그리고 $privacyPolicy$ ",
-    "placeholders": {
-      "buttonContent": {
-        "content": "$1"
-      },
-      "termsOfUse": {
-        "content": "$2"
-      },
-      "privacyPolicy": {
-        "content": "$3"
-      }
-    },
-    "englishSource": "By clicking $buttonContent$ you agree with \n$termsOfUse$ and $privacyPolicy$"
-  },
-  "depositAddressText": {
-    "message": "보증금 $depositAddress$ 주소:",
-    "placeholders": {
-      "depositAddress": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Deposit $depositAddress$ address:"
-  },
-  "support": {
-    "message": "지원하다",
-    "englishSource": "Support"
-  },
-  "deposit": {
-    "message": "보증금",
-    "englishSource": "Deposit"
-  },
-  "depositDescription": {
-    "message": "아래 주소로 자금을 보내주십시오. 보증금이 입금되는 즉시 교환 프로세스가 자동으로 시작됩니다.",
-    "englishSource": "Send the funds to the address below. As soon as the deposit is received, the exchange process will begin automatically"
-  },
-  "sendByOneTransaction": {
-    "message": "하나의 트랜잭션으로 보내기",
-    "englishSource": "Send by one transaction"
-  },
-  "youGet": {
-    "message": "당신은 얻을:",
-    "englishSource": "You get:"
-  },
-  "fixedRate": {
-    "message": "고정 비율:",
-    "englishSource": "Fixed rate:"
-  },
   "transactionId": {
     "message": "거래 ID:",
     "englishSource": "Transaction ID:"
-  },
-  "atomDepositMemo": {
-    "message": "아톰 입금 Note",
-    "englishSource": "Atom Deposit Memo"
   },
   "recipientAddress": {
     "message": "받는 사람 주소:",
     "englishSource": "Recipient address"
   },
-  "recipientXtzAddress": {
-    "message": "받는 사람 XTZ 주소:",
-    "englishSource": "Recipient XTZ address:"
-  },
-  "inputHash": {
-    "message": "입력 해시:",
-    "englishSource": "Input hash:"
-  },
-  "youSend": {
-    "message": "당신은 보낸다:",
-    "englishSource": "You send:"
-  },
-  "sendTime": {
-    "message": "전송 시간:",
-    "englishSource": "Send time:"
-  },
-  "completedDescription": {
-    "message": "지갑의 자금을 확인하십시오.\n교환 절차가 완료되었습니다.",
-    "englishSource": "Please, check your funds in your wallet.\nThe exchange process is completed."
-  },
   "completed": {
     "message": "완전한",
     "englishSource": "Completed"
-  },
-  "youReceive": {
-    "message": "다음을 받습니다.",
-    "englishSource": "You receive:"
-  },
-  "waitMessage": {
-    "message": "기다리세요. 변환 프로세스는 15분에서 2시간이 소요됩니다.",
-    "englishSource": "Please, wait. The conversion process will take from 15 min to 2 hours."
   },
   "confirmation": {
     "message": "확인",
     "englishSource": "Confirmation"
   },
-  "exchanging": {
-    "message": "교환",
-    "englishSource": "Exchanging"
-  },
-  "step": {
-    "message": "단계",
-    "englishSource": "Step"
-  },
   "collectibles": {
     "message": "수집품",
     "englishSource": "Collectibles"
-  },
-  "attentionSendAmount": {
-    "message": "정확한 양의 암호화폐를 입금 주소로 보내주셔야 합니다. 그렇지 않으면 거래가 실패하고 연락해야 합니다. $support$ ",
-    "placeholders": {
-      "support": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "You need to send the exact amount of cryptocurrency to the deposit address. Otherwise the transaction will fail and you will have to contact $support$"
-  },
-  "important": {
-    "message": "중요한",
-    "englishSource": "Important"
   },
   "id": {
     "message": "ID",
@@ -3207,637 +1089,6 @@
     "message": "수집품 관리",
     "englishSource": "Manage Collectibles"
   },
-  "deleteCollectibleConfirm": {
-    "message": "이 소장품을 삭제하시겠습니까?",
-    "englishSource": "Are you sure you want to delete this collectible?"
-  },
-  "zeroCollectibleText": {
-    "message": "아직 수집품이 없습니다!\n그들 중 하나를 얻을 좋은 시간",
-    "englishSource": "You don’t have collectibles yet!\nGood time to get one of them"
-  },
-  "min": {
-    "message": "최소:",
-    "englishSource": "Min:"
-  },
-  "warningTopUpServiceMessage": {
-    "message": "토큰 교환 기능은 타사에서 제공합니다. Leo Wallet은 제3자 서비스의 작업에 대해 책임을 지지 않습니다.",
-    "englishSource": "The token exchange feature is provided by a third party. The Leo Wallet is not responsible for the work of third-party services."
-  },
-  "selectTokensToSwap": {
-    "message": "교환할 토큰을 선택하세요.",
-    "englishSource": "Please, select tokens to swap"
-  },
-  "enterSwapAmount": {
-    "message": "스왑 금액을 입력하세요.",
-    "englishSource": "Please, enter swap amount"
-  },
-  "noQuotesAvailable": {
-    "message": "사용 가능한 견적이 없습니다",
-    "englishSource": "No quotes available"
-  },
-  "swapRouteLoadingHasFailed": {
-    "message": "환율 데이터 로드에 실패했습니다.\n이 페이지를 새로고침하거나 나중에 다시 시도하세요.",
-    "englishSource": "Exchange rate data loading has failed. \nReload this page or try again later."
-  },
-  "swapTokenSearchInputPlaceholder": {
-    "message": "이름 또는 주소 입력",
-    "englishSource": "Enter name or address"
-  },
-  "scanQRWithLeoMobile": {
-    "message": "Leo Wallet Mobile 앱으로 이 QR 코드를 스캔하십시오.",
-    "englishSource": "Scan this QR-code with yor Leo Wallet Mobile app."
-  },
-  "serviceIsUnavailable": {
-    "message": "죄송합니다. 서비스를 일시적으로 사용할 수 없습니다. 나중에 다시 시도하세요!",
-    "englishSource": "Sorry, service is temporarily unavailable. Try again later!"
-  },
-  "buyWithChainBits": {
-    "message": "ChainBits로 구매",
-    "englishSource": "Buy with ChainBits"
-  },
-  "buyWithChainBitsDescription": {
-    "message": "암호화폐를 구매하는 것은 결코 쉬운 일이 아닙니다.",
-    "englishSource": "Buying Crypto Was Never This Easy"
-  },
-  "permissionLabel": {
-    "message": "해독 권한: $decryptPermission$ ",
-    "placeholders": {
-      "decryptPermission": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Private Data Permission"
-  },
-  "NO_DECRYPT_SHORT": {
-    "message": "없음",
-    "englishSource": "None"
-  },
-  "DECRYPT_UPON_REQUEST_SHORT": {
-    "message": "요청 시",
-    "englishSource": "On request"
-  },
-  "AUTO_DECRYPT_SHORT": {
-    "message": "연결된 동안",
-    "englishSource": "While connected"
-  },
-  "invalidViewKey": {
-    "message": "잘못된 보기 키",
-    "englishSource": "Invalid view key"
-  },
-  "viewKey": {
-    "message": "키 보기",
-    "englishSource": "View Key"
-  },
-  "viewKeyInputDescription": {
-    "message": "가져오려는 계정의 보기 키입니다.",
-    "englishSource": "The View key of the Account you want to import."
-  },
-  "viewKeyInputPlaceholder": {
-    "message": "예를 들어 AViewKey1iHE...",
-    "englishSource": "e.g. AViewKey1iHE..."
-  },
-  "setPassword": {
-    "message": "암호를 설정하세요",
-    "englishSource": "Set Password"
-  },
-  "doSavePhrase": {
-    "message": "이 문구를 종이에 <b>복사</b>하여 안전한 장소에 보관하십시오.",
-    "englishSource": "<b>Copy</b> this phrase on paper and store it in a secure location."
-  },
-  "coinbaseReward": {
-    "message": "코인베이스 보상",
-    "englishSource": "Coinbase Reward"
-  },
-  "coinbaseRewardSmb": {
-    "message": "증명에서 $amount$ ALEO",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$amount$ credits from proving"
-  },
-  "activityToolTip": {
-    "message": "전체 기록을 보려면 클릭하세요.",
-    "englishSource": "Click to see full history"
-  },
-  "waitingOnAleo": {
-    "message": "Aleo는 현재 이 기능을 지원하지 않습니다.",
-    "englishSource": "Aleo currently doesn't support this functionality."
-  },
-  "buildForPrivacy": {
-    "message": "개인 정보 보호를 위해 구축",
-    "englishSource": "Built for Privacy"
-  },
-  "buildForAleo": {
-    "message": "알레오를 위해 제작",
-    "englishSource": "Built for Aleo"
-  },
-  "poweredBy": {
-    "message": "에 의해 구동 $companyName$ ",
-    "placeholders": {
-      "companyName": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Powered by {{companyName}}"
-  },
-  "copySomeTokenId": {
-    "message": "복사 \" $tokenSymbol$ \" ID",
-    "placeholders": {
-      "tokenSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Copy \"$tokenSymbol$\" ID"
-  },
-  "defaultAccountName": {
-    "message": "계정 $accountNumber$ ",
-    "placeholders": {
-      "accountNumber": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Account $accountNumber$"
-  },
-  "defaultManagedKTAccountName": {
-    "message": "매니지드 KT $accountNumber$ ",
-    "description": "KT not translated",
-    "placeholders": {
-      "accountNumber": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Managed KT $accountNumber$"
-  },
-  "defaultWatchOnlyAccountName": {
-    "message": "보다 $accountNumber$ ",
-    "placeholders": {
-      "accountNumber": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Watch $accountNumber$"
-  },
-  "doNotSharePrivateKey1": {
-    "message": "누구와도 공유하지 마십시오!",
-    "englishSource": "DO NOT share with anyone!"
-  },
-  "doNotSharePrivateKey2": {
-    "message": "현재 계정을 훔치는 데 사용할 수 있습니다.",
-    "englishSource": "It can be used to steal your current account."
-  },
-  "doNotShareViewKey1": {
-    "message": "신뢰할 수 있는 사람들과만 공유하세요!",
-    "englishSource": "Only share with people you trust!"
-  },
-  "doNotShareViewKey2": {
-    "message": "모든 거래 내역을 보는 데 사용할 수 있습니다.",
-    "englishSource": "It can be used to view all of your transaction history."
-  },
-  "appWouldLikeToConnectToYourWallet": {
-    "message": "$origin$에서 지갑에 연결하려고 합니다.",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$origin$ would like to connect to your wallet"
-  },
-  "appRequestOperationToYou": {
-    "message": "$origin$에서 작업을 요청합니다.",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$origin$ requests operations to you"
-  },
-  "recordsAction": {
-    "message": "기록 공유",
-    "englishSource": "Share Records"
-  },
-  "downloadRecords": {
-    "message": "기록 다운로드",
-    "englishSource": "Download Records"
-  },
-  "transactionAction": {
-    "message": "거래",
-    "englishSource": "Transaction"
-  },
-  "appRequestsToSign": {
-    "message": "$origin$에서 서명을 요청합니다.",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$origin$ requests you to sign"
-  },
-  "appRequestsRecords": {
-    "message": "$origin$은 다음 프로그램에 대한 기록을 요청합니다: $program$",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      },
-      "program": {
-        "content": "$"
-      }
-    },
-    "englishSource": "$origin$ requests your records for program: $program$"
-  },
-  "appRequestsTransaction": {
-    "message": "$origin$이 트랜잭션을 요청합니다.",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$origin$ requests a transaction"
-  },
-  "smthWentWrongWhile": {
-    "message": "동안 뭔가 잘못되었습니다. $action$ ",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Something went wrong while $action$"
-  },
-  "editAccountName": {
-    "message": "계정 이름 수정",
-    "englishSource": "Edit Account Name"
-  },
-  "reviewAndConfirm": {
-    "message": "검토",
-    "englishSource": "Review & Confirm"
-  },
-  "transactionInitiated": {
-    "message": "트랜잭션 시작",
-    "englishSource": "Transaction initiated"
-  },
-  "transactionBackground": {
-    "message": "트랜잭션은 백그라운드에서 진행됩니다.",
-    "englishSource": "Transaction will proceed in the background."
-  },
-  "openedNewTab": {
-    "message": "지갑은 거래 속도를 높이기 위해 새 탭을 열었습니다. 해당 탭은 자동으로 닫힙니다.",
-    "englishSource": "The wallet opened a new tab to speed up the transaction. That tab will auto-close."
-  },
-  "speedUpTransaction": {
-    "message": "거래 속도를 높이십시오.",
-    "englishSource": "Speed Up Transaction."
-  },
-  "generatingTransaction": {
-    "message": "트랜잭션 생성",
-    "englishSource": "Generating Transaction"
-  },
-  "generatingTransactionWarning": {
-    "message": "트랜잭션이 생성되기 전에 이 페이지를 벗어나면 트랜잭션이 완료되지 않습니다.",
-    "englishSource": "If you leave this page before the transaction is generated, your transaction won't finish."
-  },
-  "balancePending": {
-    "message": "보류 중인 동기화 잔액",
-    "englishSource": "Balance Pending Sync"
-  },
-  "keepTabOpenForSync": {
-    "message": "더 빠른 동기화를 위해 이 탭을 열어 두십시오.",
-    "englishSource": "Keep this tab open for faster sync."
-  },
-  "openNewTabToSync": {
-    "message": "더 빠른 동기화를 위해 탭을 엽니다.",
-    "englishSource": "Open a tab for faster syncing."
-  },
-  "fullySynced": {
-    "message": "완전히 동기화됨",
-    "englishSource": "Fully Synced"
-  },
-  "synced": {
-    "message": "동기화됨",
-    "englishSource": "Synced"
-  },
-  "syncing": {
-    "message": "동기화 중",
-    "englishSource": "Syncing"
-  },
-  "fileSettings": {
-    "message": "파일 설정",
-    "englishSource": "File Settings"
-  },
-  "fileSettingsDescription": {
-    "message": "지갑에서 직접 파일을 추가하거나 제거하십시오.",
-    "englishSource": "Directly add or remove files from your wallet."
-  },
-  "advancedSettings": {
-    "message": "고급 설정",
-    "englishSource": "Advanced Settings"
-  },
-  "advancedSettingsDescription": {
-    "message": "Miden Wallet 문제를 디버그하고 진단하는 데 도움이 되는 도구입니다.",
-    "englishSource": "Tools to help you debug and diagnose issues with Miden Wallet."
-  },
-  "resync": {
-    "message": "재동기화",
-    "englishSource": "Resync"
-  },
-  "resyncDescription": {
-    "message": "이 계정의 모든 기록을 재설정하고 네트워크와 다시 동기화하십시오.",
-    "englishSource": "Reset all of your history for this account and resync with the network."
-  },
-  "noFee": {
-    "message": "무료",
-    "englishSource": "No Fee"
-  },
-  "doNotSharePhrase1": {
-    "message": "이 문구를 누구와도 공유하지 마십시오!",
-    "englishSource": "DO NOT share this phrase with anyone!"
-  },
-  "doNotSharePhrase2": {
-    "message": "모든 계정을 훔치는 데 사용할 수 있습니다.",
-    "englishSource": "It can be used to steal all your accounts."
-  },
-  "changeSeedPhrase": {
-    "message": "Seed Phrase 변경",
-    "englishSource": "Change Seed Phrase"
-  },
-  "firefoxLedgerConnectionError": {
-    "message": "$sorry$ $browser$를 통한 $device$ 기기 연결이 일시적으로 $unavailable$입니다.",
-    "placeholders": {
-      "sorry": {
-        "content": "$1"
-      },
-      "device": {
-        "content": "$2"
-      },
-      "browser": {
-        "content": "$3"
-      },
-      "unavailable": {
-        "content": "$4"
-      }
-    },
-    "englishSource": "$sorry$ Connection to the $device$ device via $browser$ is temporarily $unavailable$."
-  },
-  "someUnknownToken": {
-    "message": "알 수 없는 토큰 $token$ ",
-    "placeholders": {
-      "token": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "unknown token $token$"
-  },
-  "interactionWithSomeEntrypoint": {
-    "message": "진입점과의 상호 작용 '$entrypoint$' 계약의 $contractAddress$ ",
-    "placeholders": {
-      "entrypoint": {
-        "content": "$1"
-      },
-      "contractAddress": {
-        "content": "$2"
-      }
-    },
-    "englishSource": "Interaction with entrypoint '$entrypoint$' of contract $contractAddress$"
-  },
-  "transactionOfSomeType": {
-    "message": "유형의 거래 '$type$' ",
-    "placeholders": {
-      "type": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Transaction of type '$type$'"
-  },
-  "feeNotRequired": {
-    "message": "현재 수수료가 필요하지 않습니다.",
-    "englishSource": "There is currently no fee required."
-  },
-  "proofGenerationTab": {
-    "message": "트랜잭션 증명을 효율적으로 생성하려면 열린 탭이 필요합니다.",
-    "englishSource": "An open tab is required to efficiently generate transaction proofs"
-  },
-  "ifYouDontSeeYourAsset": {
-    "message": "자산이 표시되지 않으면\n클릭을 시도 $toClick$ .",
-    "placeholders": {
-      "toClick": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "If you don't see your asset,\ntry to click $toClick$."
-  },
-  "addressOfTokenContract": {
-    "message": "주소 $assetSymbol$ 토큰 계약.",
-    "placeholders": {
-      "assetSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Address of a $assetSymbol$ token contract."
-  },
-  "referredByTokenContactAddressInvalid": {
-    "message": "계약 주소 $address$ 토큰 컨트랙트에 의해 참조된 은(는) 유효하지 않습니다.",
-    "placeholders": {
-      "address": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Contract address $address$, which is referred by token contract to, is invalid."
-  },
-  "credit": {
-    "message": "신용 거래",
-    "englishSource": "credit"
-  },
-  "credits": {
-    "message": "학점",
-    "englishSource": "credits"
-  },
-  "to": {
-    "message": "에게",
-    "englishSource": "To"
-  },
-  "received": {
-    "message": "받았다",
-    "englishSource": "Received"
-  },
-  "sent": {
-    "message": "전송된",
-    "englishSource": "Sent"
-  },
-  "amountMustBeReservedForNetworkFees": {
-    "message": "네트워크 수수료를 지불하려면 $amount$를 예약해야 합니다.",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$amount$ must be reserved to pay network fees"
-  },
-  "billionFormat": {
-    "message": "$billion$B",
-    "placeholders": {
-      "billion": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$billion$B"
-  },
-  "storageUsed": {
-    "message": "사용된 총 스토리지",
-    "englishSource": "Total Storage Used"
-  },
-  "uploadFile": {
-    "message": "파일 업로드",
-    "englishSource": "Upload File"
-  },
-  "fileSize": {
-    "message": "파일 크기",
-    "englishSource": "File Size"
-  },
-  "downloadDefaultFiles": {
-    "message": "기본 파일 다운로드",
-    "englishSource": "Download Default Files"
-  },
-  "download": {
-    "message": "다운로드",
-    "englishSource": "Download"
-  },
-  "details": {
-    "message": "세부",
-    "englishSource": "details"
-  },
-  "faucet": {
-    "message": "Faucet",
-    "englishSource": "Faucet"
-  },
-  "aleoFaucetDescription": {
-    "message": "모든 배포된 크레딧은 테스트 목적으로만 사용되며 가치가 없습니다.",
-    "englishSource": "All distributed credits are for testing purposes and do not have value."
-  },
-  "aleoFaucetStep1": {
-    "message": "휴대폰으로 QR 코드를 스캔하세요",
-    "englishSource": "Scan the QR code with your Phone"
-  },
-  "aleoFaucetStep1Description": {
-    "message": "그리고 표시되는 프롬프트를 클릭하세요.",
-    "englishSource": "And click on the prompt it shows you."
-  },
-  "aleoFaucetStep2": {
-    "message": "SMS 확인 및 보내기",
-    "englishSource": "Confirm and send the SMS"
-  },
-  "aleoFaucetStep2Description": {
-    "message": "(메시지 및 데이터 요금이 부과될 수 있습니다)",
-    "englishSource": "(Message and data rates may apply)"
-  },
-  "aleoFaucetStep3": {
-    "message": "Aleo 크레딧 받기",
-    "englishSource": "Get Aleo credits"
-  },
-  "aleoFaucetStep3Description": {
-    "message": "Aleo Faucet에서 크레딧을 보내드립니다.",
-    "englishSource": "Aleo Faucet will send you credits."
-  },
-  "deployAction": {
-    "message": "프로그램 배포",
-    "englishSource": "Deploy Program"
-  },
-  "appRequestsDeploy": {
-    "message": "$origin$에서 배포를 요청합니다.",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$origin$ requests a deployment"
-  },
-  "viewKeyWatchOnly": {
-    "message": "키 보기(감시 전용)",
-    "englishSource": "View Key (Watch-Only)"
-  },
-  "none": {
-    "message": "없음",
-    "englishSource": "None"
-  },
-  "collection": {
-    "message": "수집",
-    "englishSource": "Collection"
-  },
-  "source": {
-    "message": "원천",
-    "englishSource": "Source"
-  },
-  "attributes": {
-    "message": "속성",
-    "englishSource": "Attributes"
-  },
-  "noNFTsYet": {
-    "message": "아직 NFT 없음",
-    "englishSource": "No NFTs yet"
-  },
-  "noNFTsSubMessage": {
-    "message": "NFT가 있으면 여기에서 NFT를 볼 수 있습니다.",
-    "englishSource": "You will see your NFT here once you have one."
-  },
-  "sourceLink": {
-    "message": "소스 링크",
-    "englishSource": "Source Link"
-  },
-  "explorer": {
-    "message": "탐침",
-    "englishSource": "Explorer"
-  },
-  "explorerLink": {
-    "message": "탐색기로 이동",
-    "englishSource": "Go to Explorer"
-  },
-  "noTransactionsRemaining": {
-    "message": "남은 거래가 없습니다. 이 탭을 닫습니다.",
-    "englishSource": "No remaining transactions, closing this tab"
-  },
-  "transactionsRemaining": {
-    "message": "남은 거래",
-    "englishSource": "transactions remaining"
-  },
-  "status": {
-    "message": "상태",
-    "englishSource": "Status"
-  },
-  "available": {
-    "message": "사용 가능",
-    "englishSource": "Available"
-  },
-  "feeToolTip": {
-    "message": "수수료를 수정하려면 클릭하세요.",
-    "englishSource": "Click to edit the fee"
-  },
-  "gpuSettings": {
-    "message": "GPU 가속 *실험적*",
-    "englishSource": "GPU Acceleration *Experimental*"
-  },
-  "gpuSettingsDescription": {
-    "message": "여기에서 GPU 가속을 켜거나 꺼서 동기화 및 증명 생성을 가속화할 수 있습니다. 이 기능은 안정적이지 않으며 충돌을 일으킬 수 있습니다.",
-    "englishSource": "Here you can turn GPU acceleration on or off to accelerate syncing and proof generation. This feature is not stable and may cause crashes."
-  },
-  "sending": {
-    "message": "배상",
-    "englishSource": "Sending"
-  },
-  "executing": {
-    "message": "실행 중",
-    "englishSource": "Executing"
-  },
-  "executed": {
-    "message": "실행됨",
-    "englishSource": "Executed"
-  },
-  "minted": {
-    "message": "주조",
-    "englishSource": "Minted"
-  },
-  "nft": {
-    "message": "NFT",
-    "englishSource": "NFT"
-  },
   "convert": {
     "message": "전환하다",
     "englishSource": "Convert"
@@ -3850,215 +1101,17 @@
     "message": "개인",
     "englishSource": "Private"
   },
-  "converting": {
-    "message": "변환 중",
-    "englishSource": "Converting"
-  },
   "customizeFee": {
     "message": "수수료 맞춤화",
     "englishSource": "Customize fee"
-  },
-  "convertingPublic": {
-    "message": "퍼블릭 NFT로 전환",
-    "englishSource": "Convert to Public NFT"
-  },
-  "convertingPrivate": {
-    "message": "비공개 NFT로 전환",
-    "englishSource": "Convert to Private NFT"
-  },
-  "switch": {
-    "message": "스위치",
-    "englishSource": "Switch"
-  },
-  "convertToPrivate": {
-    "message": "비공개로 전환",
-    "englishSource": "Convert to private"
-  },
-  "convertToPublic": {
-    "message": "공개로 전환",
-    "englishSource": "Convert to public"
-  },
-  "convertPublicPrivate": {
-    "message": "공개/비공개 전환",
-    "englishSource": "Convert to Public/Private"
-  },
-  "toConvert": {
-    "message": "변환하다",
-    "englishSource": "to convert"
-  },
-  "willGet": {
-    "message": "당신은 얻을 것이다",
-    "englishSource": "you will get"
-  },
-  "toPublic": {
-    "message": "대중에게",
-    "englishSource": "to public"
-  },
-  "toPrivate": {
-    "message": "비공개로",
-    "englishSource": "to private"
-  },
-  "ON_CHAIN_HISTORY": {
-    "message": "<b>경고!</b> 이 앱은 온체인 기록을 요청합니다. 이 앱을 정말로 신뢰하는지 확인하세요.",
-    "englishSource": "<b>WARNING!</b> This app is asking for your on-chain history. Make sure you really trust this app."
-  },
-  "ON_CHAIN_HISTORY_SHORT": {
-    "message": "전체 권한",
-    "englishSource": "Full access"
-  },
-  "allPrograms": {
-    "message": "모든 프로그램",
-    "englishSource": "all programs"
-  },
-  "canView": {
-    "message": "볼 수 있음",
-    "englishSource": "Can view"
-  },
-  "connectFor": {
-    "message": "연결 대상",
-    "englishSource": "Connect for"
-  },
-  "autoCloseSettings": {
-    "message": "자동 마감 거래 페이지 생성 중",
-    "englishSource": "Auto Close Generating Transaction Page"
-  },
-  "autoCloseSettingsDescription": {
-    "message": "여기서는 거래가 생성된 후 거래 생성 페이지의 자동 닫기를 구성할 수 있습니다.",
-    "englishSource": "Here you can configure auto close of the generating transaction page after the transaction is generated."
-  },
-  "feeVisibility": {
-    "message": "수수료 가시성",
-    "englishSource": "Fee Visibility"
-  },
-  "transactionDelegated": {
-    "message": "증거 생성을 위해 거래가 전송되었습니다.",
-    "englishSource": "Transaction has been sent for proof generation."
-  },
-  "fastTransactionDescription": {
-    "message": "거래는 자동으로 방송되고 완료됩니다.",
-    "englishSource": "The transaction will automatically be broadcasted and finalized."
-  },
-  "fastTransaction": {
-    "message": "거래 속도",
-    "englishSource": "Transaction Speed"
-  },
-  "delegateProofSettings": {
-    "message": "위임 증명 생성",
-    "englishSource": "Delegate Proof Generation"
-  },
-  "delegateProofSettingsDescription": {
-    "message": "여기에서 원격 서버에 대한 증명 생성 위임을 구성할 수 있습니다. 이렇게 하면 증명 생성 속도가 빨라지지만 거래 세부 정보는 신뢰할 수 있는 서버에 공개됩니다.",
-    "englishSource": "Here you can configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
-  },
-  "mainAssetBalanceIsZero": {
-    "message": "귀하의 Miden 크레딧(주 자산) 잔액이 0입니다. 수수료에는 Miden 크레딧이 필요합니다.",
-    "englishSource": "Your Miden credits (main asset) balance is zero. Miden credits are required for the fee."
-  },
-  "stake": {
-    "message": "말뚝",
-    "englishSource": "Stake"
-  },
-  "unstake": {
-    "message": "언스테이크",
-    "englishSource": "Unstake"
-  },
-  "stakeAccount": {
-    "message": "스테이크 계정",
-    "englishSource": "Stake Account"
-  },
-  "staked": {
-    "message": "스테이킹됨",
-    "englishSource": "Staked"
-  },
-  "stakeEarningSymbol": {
-    "message": "스테이크 수익 $assetSymbol$ ",
-    "placeholders": {
-      "assetSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Stake earning $assetSymbol$"
-  },
-  "stakeEarnRewards": {
-    "message": "토큰을 스테이킹하고 보상을 받으세요",
-    "englishSource": "Stake tokens and earn rewards"
-  },
-  "amountMustBeGreaterThanOne": {
-    "message": "1보다 커야 합니다.",
-    "englishSource": "Must be greater than 1"
-  },
-  "unstaking": {
-    "message": "언스테이킹",
-    "englishSource": "Unstaking"
-  },
-  "unstaked": {
-    "message": "언스테이크",
-    "englishSource": "Unstaked"
-  },
-  "validator": {
-    "message": "검증인",
-    "englishSource": "Validator"
-  },
-  "yourStakeIn": {
-    "message": "귀하의 지분",
-    "englishSource": "Your Stake in"
-  },
-  "active": {
-    "message": "활동적인",
-    "englishSource": "Active"
-  },
-  "learnMoreHere": {
-    "message": "여기에서 자세히 알아보세요",
-    "englishSource": "Learn more here"
-  },
-  "rewards": {
-    "message": "보상",
-    "englishSource": "Rewards"
   },
   "claim": {
     "message": "주장하다",
     "englishSource": "Claim"
   },
-  "claimed": {
-    "message": "청구됨",
-    "englishSource": "Claimed"
-  },
-  "claiming": {
-    "message": "청구",
-    "englishSource": "Claiming"
-  },
   "availableToClaim": {
     "message": "청구 가능",
     "englishSource": "Available to claim"
-  },
-  "unstakingInProgress": {
-    "message": "언스테이킹 진행 중",
-    "englishSource": "Unstaking in Progress"
-  },
-  "mustStakeAtLeastTenAleo": {
-    "message": "초기 지분은 최소 10 ALEO 이상이어야 합니다.",
-    "englishSource": "Initial stake must be at least 10 ALEO"
-  },
-  "pleaseNote": {
-    "message": "참고하세요",
-    "englishSource": "Please Note"
-  },
-  "unstakingProcess": {
-    "message": "언스테이킹은 2단계 과정으로 이루어집니다. 언스테이킹을 시작한 후 3시간의 처리 기간이 지난 후 ALEO를 요청하세요.",
-    "englishSource": "Unstaking is a two-step process. After initiating unstaking, please ensure to claim your ALEO after the  3‑hour processing period."
-  },
-  "testNetIsDown": {
-    "message": "Aleo Testnetbeta이 다운되었습니다.",
-    "englishSource": "Aleo Testnet Beta is down."
-  },
-  "checkStatus": {
-    "message": "상태 확인",
-    "englishSource": "Check status"
-  },
-  "walletBuiltForPrivacy": {
-    "message": "개인 정보 보호를 위해 구축된 지갑",
-    "note": "Onboarding",
-    "englishSource": "The wallet built for privacy"
   },
   "privateTransactionsAnytimeAnywhere": {
     "message": "언제 어디서나 개인 거래.",
@@ -4079,11 +1132,6 @@
     "message": "지갑 백업하기",
     "note": "Onboarding",
     "englishSource": "Back up your wallet"
-  },
-  "saveThese12Words": {
-    "message": "이 12개의 단어를 비밀번호 관리자에 저장하거나 적어서 안전한 곳에 보관하세요. 누구와도 공유하지 마세요.",
-    "note": "Onboarding",
-    "englishSource": "Save these 12 words to a password manager, or write down and store in a secure place. Do not share with anyone."
   },
   "show": {
     "message": "보이기",
@@ -4133,43 +1181,14 @@
     "message": "지갑의 12단어 Seed Phrase를 입력하세요.",
     "englishSource": "Enter your wallet's 12-word Seed phrase."
   },
-  "onlyAleoSeedPhrasesAreSupported": {
-    "message": "Aleo Seed 문구만 지원됩니다.",
-    "englishSource": "Only Aleo Seed phrases are supported."
-  },
-  "seedPhrasePlaceholder": {
-    "message": "12단어 Seed Phrase",
-    "englishSource": "12-word Seed phrase"
-  },
-  "join": {
-    "message": "가입",
-    "note": "Onboarding",
-    "englishSource": "Join"
-  },
-  "follow": {
-    "message": "팔로우",
-    "note": "Onboarding",
-    "englishSource": "Follow"
+  "onlyMidenSeedPhrasesAreSupported": {
+    "message": "Miden Seed 구문만 지원됩니다.",
+    "englishSource": "Only Miden Seed phrases are supported."
   },
   "yourWalletIsReady": {
     "message": "당신의 지갑이 준비되었습니다",
     "note": "Onboarding",
     "englishSource": "Your wallet is ready!"
-  },
-  "joinOurDiscord": {
-    "message": "우리의 Leo Wallet Discord에 가입하세요",
-    "note": "Onboarding",
-    "englishSource": "Join our Leo Wallet Discord"
-  },
-  "joinOurTwitter": {
-    "message": "X (트위터)에서 우리를 팔로우하세요",
-    "note": "Onboarding",
-    "englishSource": "Follow us on X (Twitter)"
-  },
-  "exploreTheWorldOfPrivateAssets": {
-    "message": "개인 자산의 세계를 탐험하세요",
-    "note": "Onboarding",
-    "englishSource": "Explore the world of private assets"
   },
   "getStarted": {
     "message": "시작하기",
@@ -4196,15 +1215,9 @@
     "note": "Onboarding",
     "englishSource": "It's a match!"
   },
-  "readMoreOnboarding": {
-    "message": "더 읽기",
-    "note": "Onboarding",
-    "englishSource": "Read More"
-  },
-  "helpUsToImproveLeoWallet": {
-    "message": "Leo Wallet 개선을 도와주세요",
-    "note": "Onboarding",
-    "englishSource": "Help us to improve Leo Wallet"
+  "passwordsDoNotMatch": {
+    "message": "비밀번호가 일치하지 않습니다.",
+    "englishSource": "Passwords do not match"
   },
   "createPassword": {
     "message": "비밀번호 생성",
@@ -4311,126 +1324,15 @@
     "note": "Onboarding",
     "englishSource": "Generate Transactions\nLocally"
   },
-  "chainUnstable": {
-    "message": "Aleo Testnet3의 불안정성으로 인해 트랜잭션이 실패할 수 있습니다.",
-    "englishSource": "Due to instability of Aleo Testnet3, transactions may fail."
-  },
-  "dataReset": {
-    "message": "데이터 초기화.",
-    "englishSource": "Data Reset."
-  },
-  "transactionHistoryLost": {
-    "message": "최근 Aleo Testnet3의 초기화로 인해 모든 거래 기록이 손실되었음을 알려드립니다.",
-    "englishSource": "We want to inform you that all transaction history has been lost due to a recent reset of the Aleo Testnet3."
-  },
-  "learnMore": {
-    "message": "더 알아보기",
-    "englishSource": "Learn more"
-  },
-  "faucetId": {
-    "message": "Faucet ID",
-    "englishSource": "Faucet ID"
-  },
-  "setNewFaucetId": {
-    "message": "새로운 Faucet ID 설정",
-    "englishSource": "Set new Faucet ID"
-  },
-  "setNewFaucetIdDescription": {
-    "message": "미덴 Faucet의 ID를 입력하세요",
-    "englishSource": "Enter the ID of a miden faucet"
-  },
-  "encryptedWalletFile": {
-    "message": "암호화된 지갑 파일",
-    "englishSource": "Encrypted Wallet File"
-  },
-  "encryptedWalletFileDescription": {
-    "message": "암호화된 지갑 파일에 접근하려면 비밀번호를 입력하세요. 화면 공유를 끄세요. 누구와도 공유하지 마세요.",
-    "englishSource": "Enter your password to access your Encrypted Wallet File. Turn off screen sharing. Don't share it with anyone."
-  },
-  "encryptedWalletFileConfirmation": {
-    "message": "나는 암호화된 지갑 파일을 Miden Wallet을 포함한 누구와도 공유하지 않을 것입니다.",
-    "englishSource": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet."
-  },
-  "encryptedWalletFilePassword": {
-    "message": "지갑 파일을 암호화하려면 비밀번호를 입력하세요. 나중에 지갑을 복원하려면 이 비밀번호가 필요합니다.",
-    "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
-  },
-  "editMidenFaucetId": {
-    "message": "Miden Faucet ID 편집",
-    "englishSource": "Edit Miden Faucet ID"
-  },
-  "exportWalletFile": {
-    "message": "지갑 파일 내보내기",
-    "englishSource": "Export Wallet File"
-  },
   "privacyScalesBetter": {
     "message": "개인 정보 보호 수준이 향상됨",
     "note": "Onboarding",
     "englishSource": "Privacy Scales Better"
   },
-  "yourWalletHasBeenCreated": {
-    "message": "귀하의 지갑이 생성되었습니다.",
-    "note": "Onboarding",
-    "englishSource": "Your wallet has been created."
-  },
-  "noSeedPhrase": {
-    "message": "Seed Phrase 없음",
-    "englishSource": "No Seed Phrase"
-  },
-  "recovery": {
-    "message": "회복",
-    "note": "Onboarding",
-    "englishSource": "Recovery"
-  },
-  "yourAccountIsProtected": {
-    "message": "귀하의 계정은 Seed Phrase 대신 암호화된 파일로 보호됩니다.",
-    "englishSource": "Your account is protected by an encrypted file instead of a seed phrase."
-  },
-  "downloadAndSecurelyStore": {
-    "message": "암호화된 파일의 최신 버전을 다운로드하여 안전하게 저장하세요. 이 파일은 계정 복구에 꼭 필요합니다.",
-    "note": "Onboarding",
-    "englishSource": "Download and securely store the latest version of your encrypted file. This file is essential for account recovery."
-  },
   "chooseFromDevice": {
     "message": "장치에서 선택",
     "note": "Onboarding",
     "englishSource": "Choose from device"
-  },
-  "chooseImportType": {
-    "message": "가져오기 유형을 선택하세요",
-    "note": "Onboarding",
-    "englishSource": "Choose Your Import Type"
-  },
-  "chooseImportTypeDescription": {
-    "message": "12단어 문구로 공공 균형을 회복하세요. 개인 자금을 복원하려면 암호화된 백업 파일을 업로드하세요.",
-    "note": "Onboarding",
-    "englishSource": "Restore public balance with your 12-word phrase. To restore private balance, upload an encrypted backup file."
-  },
-  "importWithSeedPhrase": {
-    "message": "Seed Phrase로 가져오기",
-    "englishSource": "Import with Seed Phrase"
-  },
-  "importWithSeedPhraseDescription": {
-    "message": "기존 12단어 Seed Phrase를 사용하세요. 다른 지갑 제공업체로부터 지갑을 가져올 수도 있습니다.",
-    "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
-  },
-  "importWithEncryptedWalletFile": {
-    "message": "암호화된 지갑 파일로 가져오기",
-    "note": "Onboarding",
-    "englishSource": "Import with Encrypted Wallet File"
-  },
-  "importWithEncryptedWalletFileDescription": {
-    "message": "암호화된 지갑 파일을 업로드하여 계정을 안전하게 가져오세요. 귀하의 데이터는 비공개로 유지되며 해시된 정보만 체인에 저장됩니다.",
-    "note": "Onboarding",
-    "englishSource": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain"
-  },
-  "onlyMidenSeedPhrasesAreSupported": {
-    "message": "Miden Seed 구문만 지원됩니다.",
-    "englishSource": "Only Miden Seed phrases are supported."
-  },
-  "passwordsDoNotMatch": {
-    "message": "비밀번호가 일치하지 않습니다.",
-    "englishSource": "Passwords do not match"
   },
   "resetRequired": {
     "message": "지갑 재설정 필요",
@@ -4464,9 +1366,49 @@
     "message": "로그아웃",
     "englishSource": "Sign Out"
   },
+  "chooseImportType": {
+    "message": "가져오기 유형을 선택하세요",
+    "note": "Onboarding",
+    "englishSource": "Choose Your Import Type"
+  },
+  "chooseImportTypeDescription": {
+    "message": "12단어 문구로 공공 균형을 회복하세요. 개인 자금을 복원하려면 암호화된 백업 파일을 업로드하세요.",
+    "note": "Onboarding",
+    "englishSource": "Restore public balance with your 12-word phrase. To restore private balance, upload an encrypted backup file."
+  },
+  "importWithSeedPhrase": {
+    "message": "Seed Phrase로 가져오기",
+    "englishSource": "Import with Seed Phrase"
+  },
+  "importWithSeedPhraseDescription": {
+    "message": "기존 12단어 Seed Phrase를 사용하세요. 다른 지갑 제공업체로부터 지갑을 가져올 수도 있습니다.",
+    "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
+  },
+  "importWithEncryptedWalletFile": {
+    "message": "암호화된 지갑 파일로 가져오기",
+    "note": "Onboarding",
+    "englishSource": "Import with Encrypted Wallet File"
+  },
+  "importWithEncryptedWalletFileDescription": {
+    "message": "암호화된 지갑 파일을 업로드하여 계정을 안전하게 가져오세요. 귀하의 데이터는 비공개로 유지되며 해시된 정보만 체인에 저장됩니다.",
+    "note": "Onboarding",
+    "englishSource": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain"
+  },
   "twitter": {
     "message": "엑스(트위터)",
     "englishSource": "X (Twitter)"
+  },
+  "encryptedWalletFile": {
+    "message": "암호화된 지갑 파일",
+    "englishSource": "Encrypted Wallet File"
+  },
+  "encryptedWalletFileDescription": {
+    "message": "암호화된 지갑 파일에 접근하려면 비밀번호를 입력하세요. 화면 공유를 끄세요. 누구와도 공유하지 마세요.",
+    "englishSource": "Enter your password to access your Encrypted Wallet File. Turn off screen sharing. Don't share it with anyone."
+  },
+  "encryptedWalletFileConfirmation": {
+    "message": "나는 암호화된 지갑 파일을 Miden Wallet을 포함한 누구와도 공유하지 않을 것입니다.",
+    "englishSource": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet."
   },
   "enterPasswordToEncrypt": {
     "message": "지갑 파일을 암호화하려면 비밀번호를 입력하세요. 나중에 지갑을 복원하려면 이 비밀번호가 필요합니다.",
@@ -4492,10 +1434,6 @@
     "message": "잘못된 Miden 계정 ID",
     "englishSource": "Invalid Miden account ID"
   },
-  "invalidAmount": {
-    "message": "잘못된 금액",
-    "englishSource": "Invalid amount"
-  },
   "amountMustBeLessThanBalance": {
     "message": "금액은 잔액보다 적어야 합니다.",
     "englishSource": "Amount must be less than balance"
@@ -4503,10 +1441,6 @@
   "availableBalance": {
     "message": "사용 가능한 잔액",
     "englishSource": "Available balance"
-  },
-  "uploadYourEncryptedWalletFile": {
-    "message": "암호화된 지갑 파일을 업로드하여 계정을 안전하게 복원하세요. 귀하의 데이터는 비공개로 유지되며 해시된 정보만 체인에 저장됩니다.",
-    "englishSource": "Upload your encrypted wallet file to securely restore your account. Your data remains private, with only hashed information stored on-chain."
   },
   "goToFaucet": {
     "message": "Faucet로 이동",
@@ -4535,6 +1469,15 @@
   "doNotShareEncryptedWalletFile": {
     "message": "암호화된 지갑 파일을 공유하지 마세요!",
     "englishSource": "Do not share your Encrypted Wallet File!"
+  },
+  "permissionLabel": {
+    "message": "해독 권한: $decryptPermission$ ",
+    "placeholders": {
+      "decryptPermission": {
+        "content": "$1"
+      }
+    },
+    "englishSource": "Private Data Permission"
   },
   "confirmPrivateDataPermissionDescription": {
     "message": "이를 통해 귀하의 계정 데이터에 영구적으로 액세스할 수 있으며 취소할 수 없습니다.",
@@ -4912,6 +1855,22 @@
     "message": "계정 공개 키",
     "englishSource": "Account Public Key"
   },
+  "editMidenFaucetId": {
+    "message": "Miden Faucet ID 편집",
+    "englishSource": "Edit Miden Faucet ID"
+  },
+  "faucetId": {
+    "message": "Faucet ID",
+    "englishSource": "Faucet ID"
+  },
+  "setNewFaucetId": {
+    "message": "새로운 Faucet ID 설정",
+    "englishSource": "Set new Faucet ID"
+  },
+  "setNewFaucetIdDescription": {
+    "message": "미덴 Faucet의 ID를 입력하세요",
+    "englishSource": "Enter the ID of a miden faucet"
+  },
   "verifyingTransaction": {
     "message": "거래 확인 중",
     "englishSource": "Verifying transaction"
@@ -4980,21 +1939,9 @@
     "message": "계속 진행하면 다음에 동의하는 것으로 간주됩니다.",
     "englishSource": "By proceeding, you agree to the"
   },
-  "termsOfUsageLink": {
-    "message": "이용약관",
-    "englishSource": "Terms of Usage"
-  },
-  "privacyPolicyLink": {
-    "message": "개인 정보 보호 정책",
-    "englishSource": "Privacy Policy"
-  },
   "andWord": {
     "message": "그리고",
     "englishSource": "and"
-  },
-  "transactionFileDescription": {
-    "message": "거래 파일",
-    "englishSource": "Transaction file"
   },
   "enterDecryptionPassword": {
     "message": "지갑 내보내기 시 설정한 비밀번호를 입력하세요. 이렇게 하면 파일의 암호가 해독되고 액세스가 복원됩니다.",
@@ -5007,21 +1954,5 @@
   "last": {
     "message": "마지막",
     "englishSource": "Last"
-  },
-  "language": {
-    "message": "언어",
-    "englishSource": "Language"
-  },
-  "languageDescription": {
-    "message": "표시 언어 변경",
-    "englishSource": "Change the display language"
-  },
-  "thousandFormat": {
-    "message": "$천$k",
-    "englishSource": "$thousand$k"
-  },
-  "millionFormat": {
-    "message": "$백만$M",
-    "englishSource": "$million$M"
   }
 }

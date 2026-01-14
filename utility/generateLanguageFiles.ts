@@ -263,7 +263,13 @@ async function translateFile(code: string) {
 
 async function translateWithDiff(fileName: string, code: string, replaceFile: boolean) {
   const existingFile = require(fileName);
-  let newFile: any = Object.assign({}, existingFile);
+  let newFile: any = {}; // Start fresh - only include keys that exist in englishFile
+
+  // Count removed keys for logging
+  const removedKeys = Object.keys(existingFile).filter(k => !englishFile[k]);
+  if (removedKeys.length > 0) {
+    console.log(`Removing ${removedKeys.length} stale keys`);
+  }
 
   for (const key in englishFile) {
     const englishMessage = englishFile[key]; // en.json is flat: "key": "value"
@@ -356,13 +362,29 @@ async function translateSegment(segment: string, code: string) {
   }
 }
 
+// Generate en/messages.json directly from en.json (no translation needed)
+function generateEnglishMessages() {
+  const newFile: any = {};
+  for (const key in englishFile) {
+    newFile[key] = {
+      message: englishFile[key],
+      englishSource: englishFile[key]
+    };
+  }
+  const filePath = path.join(root, 'public/_locales/en/messages.json');
+  fs.writeFileSync(filePath, JSON.stringify(newFile, null, 2));
+  console.log('Generated en/messages.json from en.json');
+}
+
 async function updateAllLanguages() {
   const languageDirs = fs.readdirSync(path.join(root, 'public/_locales'));
   for (let i = 0; i < languageDirs.length; i++) {
     let languageDir = languageDirs[i];
     console.log('Updating translations for file: ', languageDir, '................................');
     if (languageDir === 'en') {
-      console.log('Skipping English File');
+      // For English, just copy from en.json - no translation needed
+      generateEnglishMessages();
+      continue;
     }
     const filePath = path.join(root, `public/_locales/${languageDir}/messages.json`);
     const languageCode = languageDir.split('_')[0];

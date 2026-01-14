@@ -1,35 +1,15 @@
 {
   "appName": {
-    "message": "Leo Wallet",
+    "message": "Miden Wallet",
     "englishSource": "Miden Wallet"
-  },
-  "showIncomingTransactions": {
-    "message": "Show Incoming Transactions",
-    "englishSource": "Show Incoming Transactions"
-  },
-  "appDesc": {
-    "message": "🔐💰 Privacy-preserving cryptocurrency wallet for Miden using Zero Knowledge Proofs",
-    "englishSource": "🔐💰 Privacy-preserving cryptocurrency wallet for Miden using Zero Knowledge Proofs"
   },
   "createAccount": {
     "message": "Create or Restore account",
     "englishSource": "Create or Restore account"
   },
-  "setPassword": {
-    "message": "Set Password",
-    "englishSource": "Set Password"
-  },
   "importAccount": {
     "message": "Import account",
     "englishSource": "Import account"
-  },
-  "faucetFileTitle": {
-    "message": "Faucet File",
-    "englishSource": "Faucet File"
-  },
-  "faucetFile": {
-    "message": "Faucet file",
-    "englishSource": "Faucet file"
   },
   "settings": {
     "message": "Settings",
@@ -43,22 +23,8 @@
     "message": "Maximize view",
     "englishSource": "Maximize view"
   },
-  "selectFile": {
-    "message": "Select file",
-    "englishSource": "Select file"
-  },
-  "selectFileOfFormat": {
-    "message": "Select $format$ file",
-    "placeholders": {
-      "format": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Select $format$ file"
-  },
   "authorizedDApps": {
     "message": "Authorized DApps",
-    "description": "DApps = Decentralized Applications",
     "englishSource": "Authorized DApps"
   },
   "clickIconToResetPermissions": {
@@ -66,64 +32,12 @@
     "englishSource": "Click on the X icon to reset permissions."
   },
   "versionLabel": {
-    "message": "version: $version$",
-    "placeholders": {
-      "version": {
-        "content": "$1"
-      }
-    },
+    "message": "version: {{version}}",
     "englishSource": "version: {{version}}"
   },
-  "buildForPrivacy": {
-    "message": "Built for Privacy",
-    "englishSource": "Built for Privacy"
-  },
-  "buildForAleo": {
-    "message": "Built for Aleo",
-    "englishSource": "Built for Aleo"
-  },
-  "poweredBy": {
-    "message": "Powered by $companyName$",
-    "placeholders": {
-      "companyName": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Powered by {{companyName}}"
-  },
-  "madeWithLove": {
-    "message": "Made with $loveIcon$ by $companyName$",
-    "placeholders": {
-      "loveIcon": {
-        "content": "$1"
-      },
-      "companyName": {
-        "content": "$2"
-      }
-    },
-    "englishSource": "Made with $loveIcon$ by $companyName$"
-  },
-  "feeInputDescription": {
-    "message": "Base Fee for this operation is: $fee$\nAdditional - speeds up its confirmation",
-    "placeholders": {
-      "fee": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Base Fee for this operation is: $fee$\nAdditional - speeds up its confirmation"
-  },
   "resetPermissionsConfirmation": {
-    "message": "Are you sure you want to reset permissions for\n$origin$?",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
+    "message": "Are you sure you want to reset permissions for\n {{origin}}?",
     "englishSource": "Are you sure you want to reset permissions for\n {{origin}}?"
-  },
-  "protectedFormField": {
-    "message": "HIDDEN",
-    "englishSource": "HIDDEN"
   },
   "clickToRevealField": {
     "message": "Click to reveal this field",
@@ -165,221 +79,33 @@
     "message": "Skip",
     "englishSource": "Skip"
   },
-  "checkNow": {
-    "message": "Check now",
-    "englishSource": "Check now"
-  },
-  "theLendingProtocol": {
-    "message": "The lending protocol on Miden.",
-    "englishSource": "The lending protocol on Miden."
-  },
-  "alreadyLaunched": {
-    "message": "Already Launched!",
-    "englishSource": "Already Launched!"
-  },
-  "borrowLandEarn": {
-    "message": "Borrow, Land and Earn on your favorite tokens!",
-    "englishSource": "Borrow, Land and Earn on your favorite tokens!"
-  },
-  "independenceDayOfUkraine": {
-    "message": "Independence Day of Ukraine",
-    "englishSource": "Independence Day of Ukraine"
-  },
-  "zeroSwapCommissionTitle": {
-    "message": "Zero Swap commissions for two weeks - celebrate the $text$ with us!",
-    "placeholders": {
-      "text": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Zero Swap commissions for two weeks - celebrate the $text$ with us!"
-  },
-  "zeroSwapCommissionDescription": {
-    "message": "From  $date1$  till  $date2$ , Miden users may conduct trades via our router in the  $text$  section without our dev commissions.\n\nEnjoy the most lucrative exchange rates and trade without fees in one place.",
-    "englishSource": "From $date1$ till $date2$, Miden users may conduct trades via our router in the $text$ section without our dev commissions.\n\nEnjoy the most lucrative exchange rates and trade without fees in one place."
-  },
   "okGotIt": {
     "message": "Got it",
     "englishSource": "Got it"
-  },
-  "details": {
-    "message": "details",
-    "englishSource": "details"
   },
   "changelogTitle": {
     "message": "Miden Wallet updated",
     "englishSource": "Miden Wallet updated"
   },
-  "changelogDescription": {
-    "message": "In this update",
-    "englishSource": "In this update"
-  },
   "update": {
     "message": "Update",
     "englishSource": "Update"
   },
-  "addNewToken": {
-    "message": "Add new Token",
-    "englishSource": "Add new Token"
-  },
-  "hideSomeToken": {
-    "message": "Hide \"$tokenName$\" token",
-    "placeholders": {
-      "tokenName": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Hide \"$tokenName$\" token"
-  },
-  "copySomeTokenAddress": {
-    "message": "Copy \"$tokenSymbol$\" address",
-    "placeholders": {
-      "tokenSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Copy \"$tokenSymbol$\" address"
-  },
-  "copySomeTokenId": {
-    "message": "Copy \"$tokenSymbol$\" ID",
-    "placeholders": {
-      "tokenSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Copy \"$tokenSymbol$\" ID"
-  },
   "originLabel": {
-    "message": "Origin: $origin$",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
+    "message": "Origin:",
     "englishSource": "Origin:"
   },
   "networkLabel": {
-    "message": "Network: $network$",
-    "placeholders": {
-      "network": {
-        "content": "$1"
-      }
-    },
+    "message": "Network:",
     "englishSource": "Network:"
   },
   "pkhLabel": {
-    "message": "Account: $pkh$",
-    "placeholders": {
-      "pkh": {
-        "content": "$1"
-      }
-    },
+    "message": "Account:",
     "englishSource": "Account:"
-  },
-  "permissionLabel": {
-    "message": "Decrypt Permission: $decryptPermission$",
-    "placeholders": {
-      "decryptPermission": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Private Data Permission"
-  },
-  "minDelegationAmountDescription": {
-    "message": "Your current balance is less than a minimal delegation amount of this baker. That means while the balance is less than $minAmount$ - there will be no payouts.",
-    "placeholders": {
-      "minAmount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Your current balance is less than a minimal delegation amount of this baker. That means while the balance is less than $minAmount$ - there will be no payouts."
-  },
-  "clickOnBakerPrompt": {
-    "message": "Click on the Baker you want to delegate funds to. This list is powered by $link$.",
-    "placeholders": {
-      "link": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Click on the Baker you want to delegate funds to. This list is powered by $link$."
-  },
-  "highestIsBetter": {
-    "message": "the higher the better",
-    "englishSource": "the higher the better"
-  },
-  "unlockWalletPrompt": {
-    "message": "If you want to save something from already existing wallet - $link$ and unlock it.",
-    "placeholders": {
-      "link": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "If you want to save something from already existing wallet - $link$ and unlock it."
-  },
-  "acceptTermsInputDescription": {
-    "message": "I have read and agree to the $termsOfUsageLink$ and $privacyPolicyLink$",
-    "placeholders": {
-      "termsOfUsageLink": {
-        "content": "$1"
-      },
-      "privacyPolicyLink": {
-        "content": "$2"
-      }
-    },
-    "englishSource": "I have read and agree to the $termsOfUsageLink$ and $privacyPolicyLink$"
-  },
-  "skipOnboarding": {
-    "message": "Skip Onboarding",
-    "englishSource": "Skip Onboarding"
-  },
-  "advancedUser": {
-    "message": "I'm an advanced user",
-    "englishSource": "I'm an advanced user"
   },
   "analytics": {
     "message": "Analytics",
     "englishSource": "Analytics"
-  },
-  "analyticsCollecting": {
-    "message": "anonymous information collecting",
-    "englishSource": "anonymous information collecting"
-  },
-  "analyticsInputDescription": {
-    "message": "I agree to the $analyticsLink$",
-    "placeholders": {
-      "analyticsLink": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "I agree to the $analyticsLink$"
-  },
-  "copiedTokenAddress": {
-    "message": "Copied.",
-    "englishSource": "Copied."
-  },
-  "copiedTokenId": {
-    "message": "Copied.",
-    "englishSource": "Copied."
-  },
-  "delegatedTo": {
-    "message": "Delegated to:",
-    "englishSource": "Delegated to:"
-  },
-  "dcpDelegatingMotivation": {
-    "message": "Delegating your funds to producers is a great way of earning interest on your balance",
-    "englishSource": "Delegating your funds to producers is a great way of earning interest on your balance"
-  },
-  "delegatingMotivation": {
-    "message": "Delegating your funds to bakers is a great way of earning interest on your balance",
-    "englishSource": "Delegating your funds to bakers is a great way of earning interest on your balance"
-  },
-  "reDelegate": {
-    "message": "Re-delegate",
-    "englishSource": "Re-delegate"
-  },
-  "delegateNow": {
-    "message": "Delegate now",
-    "englishSource": "Delegate now"
   },
   "cancel": {
     "message": "Cancel",
@@ -389,151 +115,17 @@
     "message": "Save",
     "englishSource": "Save"
   },
-  "edit": {
-    "message": "Edit",
-    "englishSource": "Edit"
-  },
-  "switch": {
-    "message": "Switch",
-    "englishSource": "Switch"
-  },
-  "useCoinSwitch": {
-    "message": "Use CoinSwitch",
-    "description": "CoinSwitch = https://coinswitch.co/",
-    "englishSource": "Use CoinSwitch"
-  },
   "faucet": {
     "message": "Faucet",
     "englishSource": "Faucet"
-  },
-  "addTokens": {
-    "message": "Add tokens",
-    "englishSource": "Add tokens"
-  },
-  "getTokens": {
-    "message": "Get tokens",
-    "englishSource": "Get tokens"
-  },
-  "getTokensDescription": {
-    "message": "You can get tokens from the faucet or transfer them from another wallet or account.",
-    "englishSource": "You can get tokens from the faucet or transfer them from another wallet or account."
-  },
-  "transferTokens": {
-    "message": "Transfer tokens",
-    "englishSource": "Transfer tokens"
-  },
-  "aleoFaucet": {
-    "message": "Aleo Faucet",
-    "englishSource": "Aleo Faucet"
-  },
-  "aleoFaucetDescription": {
-    "message": "All distributed credits are for testing purposes and do not have value.",
-    "englishSource": "All distributed credits are for testing purposes and do not have value."
-  },
-  "midenFaucet": {
-    "message": "Miden Faucet",
-    "englishSource": "Miden Faucet"
-  },
-  "midenFaucetDescription": {
-    "message": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet.",
-    "englishSource": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet."
-  },
-  "accountPublicKey": {
-    "message": "Account Public Key",
-    "englishSource": "Account Public Key"
-  },
-  "editMidenFaucetId": {
-    "message": "Edit Miden Faucet ID",
-    "englishSource": "Edit Miden Faucet ID"
-  },
-  "aleoFaucetStep1": {
-    "message": "Scan the QR code with your Phone",
-    "englishSource": "Scan the QR code with your Phone"
-  },
-  "aleoFaucetStep1Description": {
-    "message": "And click on the prompt it shows you.",
-    "englishSource": "And click on the prompt it shows you."
-  },
-  "aleoFaucetStep2": {
-    "message": "Confirm and send the SMS",
-    "englishSource": "Confirm and send the SMS"
-  },
-  "aleoFaucetStep2Description": {
-    "message": "(Message and data rates may apply)",
-    "englishSource": "(Message and data rates may apply)"
-  },
-  "aleoFaucetStep3": {
-    "message": "Get Aleo credits",
-    "englishSource": "Get Aleo credits"
-  },
-  "aleoFaucetStep3Description": {
-    "message": "Aleo Faucet will send you credits.",
-    "englishSource": "Aleo Faucet will send you credits."
-  },
-  "aleoFaucetAlpha": {
-    "message": "Aleo Faucet (Alpha)",
-    "englishSource": "Aleo Faucet (Alpha)"
-  },
-  "depositToWallet": {
-    "message": "Deposit to your wallet",
-    "englishSource": "Deposit to your wallet"
-  },
-  "depositToWalletDescription": {
-    "message": "Click on deposit method to get money on your wallet. Use faucet to get free coins!",
-    "englishSource": "Click on deposit method to get money on your wallet. Use faucet to get free coins!"
   },
   "addToken": {
     "message": "Add Asset",
     "englishSource": "Add Asset"
   },
-  "addAsset": {
-    "message": "Add Asset",
-    "englishSource": "Add Asset"
-  },
-  "contractNotAvailable": {
-    "message": "The contract at this address is not available. Does it exist on this network?",
-    "englishSource": "The contract at this address is not available. Does it exist on this network?"
-  },
-  "noTransferMethod": {
-    "message": "No transfer method",
-    "englishSource": "No transfer method"
-  },
-  "tokenDoesNotMatchStandard": {
-    "message": "Provided asset contract doesn't match $standard$ standard",
-    "placeholders": {
-      "standard": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Provided asset contract doesn't match $standard$ standard"
-  },
   "error": {
     "message": "Error",
     "englishSource": "Error"
-  },
-  "tokenType": {
-    "message": "Token type",
-    "englishSource": "Token type"
-  },
-  "tokenId": {
-    "message": "Token ID",
-    "englishSource": "Token ID"
-  },
-  "assetId": {
-    "message": "Asset ID",
-    "englishSource": "Asset ID"
-  },
-  "tokenIdInputDescription": {
-    "message": "A non-negative integer number that identifies the asset inside FA2 contract",
-    "englishSource": "A non-negative integer number that identifies the asset inside FA2 contract"
-  },
-  "comingSoon": {
-    "message": "Coming soon",
-    "englishSource": "Coming soon"
-  },
-  "comingSoonComment": {
-    "message": "(coming soon)",
-    "englishSource": "(coming soon)"
   },
   "soon": {
     "message": "soon",
@@ -543,122 +135,21 @@
     "message": "Required",
     "englishSource": "Required"
   },
-  "weakKeystorePassword": {
-    "message": "The \"keystore file\" password is too weak to use as an extension password. You need to set a new one.",
-    "englishSource": "The \"keystore file\" password is too weak to use as an extension password. You need to set a new one."
-  },
   "address": {
     "message": "Address",
     "englishSource": "Address"
-  },
-  "addressOfDeployedTokenContract": {
-    "message": "Address of a deployed asset contract.",
-    "englishSource": "Address of a deployed asset contract."
-  },
-  "tokenContractPlaceholder": {
-    "message": "e.g. KT1v9CmPy...",
-    "englishSource": "e.g. KT1v9CmPy..."
-  },
-  "tokenSymbolPatternDescription": {
-    "message": "Only a-z, A-Z, 0-9 chars allowed, 2-5 length",
-    "englishSource": "Only a-z, A-Z, 0-9 chars allowed, 2-5 length"
-  },
-  "symbol": {
-    "message": "Symbol",
-    "englishSource": "Symbol"
-  },
-  "tokenSymbolInputDescription": {
-    "message": "Asset symbol, like 'USD' for United States Dollar.",
-    "englishSource": "Asset symbol, like 'USD' for United States Dollar."
-  },
-  "tokenSymbolInputPlaceholder": {
-    "message": "e.g. WEW, BOW, LAL etc.",
-    "englishSource": "e.g. WEW, BOW, LAL etc."
-  },
-  "tokenNamePatternDescription": {
-    "message": "No special characters, 3-50 length",
-    "englishSource": "No special characters, 3-50 length"
   },
   "name": {
     "message": "Name",
     "englishSource": "Name"
   },
-  "tokenNameInputDescription": {
-    "message": "Asset name, like 'Bitcoin' for BTC asset.",
-    "englishSource": "Asset name, like 'Bitcoin' for BTC asset."
-  },
-  "tokenNameInputPlaceholder": {
-    "message": "e.g. MySuperToken",
-    "englishSource": "e.g. MySuperToken"
-  },
-  "nonNegativeIntMessage": {
-    "message": "Integer, 0 or greater",
-    "englishSource": "Integer, 0 or greater"
-  },
-  "mustBeNonNegative": {
-    "message": "Must be non-negative",
-    "englishSource": "Must be non-negative"
-  },
-  "positiveIntMessage": {
-    "message": "Integer, 1 or greater",
-    "englishSource": "Integer, 1 or greater"
-  },
   "decimals": {
     "message": "Decimals",
     "englishSource": "Decimals"
   },
-  "decimalsInputDescription": {
-    "message": "A number of decimal places after point. For example: 8 for BTC, 2 for USD.",
-    "englishSource": "A number of decimal places after point. For example: 8 for BTC, 2 for USD."
-  },
-  "orIPFSImageURL": {
-    "message": "Or IPFS image URL",
-    "englishSource": "Or IPFS image URL"
-  },
-  "validImageURL": {
-    "message": "Valid image URL",
-    "englishSource": "Valid image URL"
-  },
-  "onlyHTTPS": {
-    "message": "Only HTTPS",
-    "englishSource": "Only HTTPS"
-  },
-  "formatsAllowed": {
-    "message": "Only .png, .jpg, .jpeg, .gif, .webp images allowed",
-    "englishSource": "Only .png, .jpg, .jpeg, .gif, .webp images allowed"
-  },
-  "iconURL": {
-    "message": "Icon URL",
-    "englishSource": "Icon URL"
-  },
-  "optionalComment": {
-    "message": "(optional)",
-    "englishSource": "(optional)"
-  },
-  "iconURLInputDescription": {
-    "message": "Image URL for asset logo.",
-    "englishSource": "Image URL for asset logo."
-  },
   "invalidAddress": {
     "message": "Invalid address",
     "englishSource": "Invalid address"
-  },
-  "invalidViewKey": {
-    "message": "Invalid view key",
-    "englishSource": "Invalid view key"
-  },
-  "contractNotExistOnNetwork": {
-    "message": "Smart contract doesn't exist on current network",
-    "englishSource": "Smart contract doesn't exist on current network"
-  },
-  "onlyKTContractAddressAllowed": {
-    "message": "Only KT... contract address allowed",
-    "description": "KT not translated",
-    "englishSource": "Only KT... contract address allowed"
-  },
-  "operationHash": {
-    "message": "Operation Hash",
-    "englishSource": "Operation Hash"
   },
   "alert": {
     "message": "Alert",
@@ -670,35 +161,7 @@
   },
   "defaultAccountName": {
     "message": "Account $accountNumber$",
-    "placeholders": {
-      "accountNumber": {
-        "content": "$1"
-      }
-    },
     "englishSource": "Account $accountNumber$"
-  },
-  "defaultManagedKTAccountName": {
-    "message": "Managed KT $accountNumber$",
-    "description": "KT not translated",
-    "placeholders": {
-      "accountNumber": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Managed KT $accountNumber$"
-  },
-  "defaultWatchOnlyAccountName": {
-    "message": "Watch $accountNumber$",
-    "placeholders": {
-      "accountNumber": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Watch $accountNumber$"
-  },
-  "accountsToRemoveConstraint": {
-    "message": "Your seed phrase will always be able to regenerate this wallet. It is impossible to delete it.",
-    "englishSource": "Your seed phrase will always be able to regenerate this wallet. It is impossible to delete it."
   },
   "doNotSharePrivateKey1": {
     "message": "DO NOT share with anyone!",
@@ -716,123 +179,13 @@
     "message": "It can be used to view all of your transaction history.",
     "englishSource": "It can be used to view all of your transaction history."
   },
-  "appWouldLikeToConnectToYourWallet": {
-    "message": "$origin$ would like to connect to your wallet",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$origin$ would like to connect to your wallet"
-  },
-  "appRequestOperationToYou": {
-    "message": "$origin$ requests operations to you",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$origin$ requests operations to you"
-  },
-  "reject": {
-    "message": "Reject",
-    "englishSource": "Reject"
-  },
-  "signAction": {
-    "message": "Sign",
-    "englishSource": "Sign"
-  },
-  "decryptAction": {
-    "message": "Decrypt",
-    "englishSource": "Decrypt"
-  },
-  "recordsAction": {
-    "message": "Share Records",
-    "englishSource": "Share Records"
-  },
-  "downloadRecords": {
-    "message": "Download Records",
-    "englishSource": "Download Records"
-  },
   "transactionAction": {
     "message": "Transaction",
     "englishSource": "Transaction"
   },
-  "deployAction": {
-    "message": "Deploy Program",
-    "englishSource": "Deploy Program"
-  },
-  "appRequestsToSign": {
-    "message": "$origin$ requests you to sign",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$origin$ requests you to sign"
-  },
-  "appRequestsToDecrypt": {
-    "message": "$origin$ requests you to decrypt",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$origin$ requests you to decrypt"
-  },
-  "appRequestsRecords": {
-    "message": "$origin$ requests your records for program: $program$",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      },
-      "program": {
-        "content": "$"
-      }
-    },
-    "englishSource": "$origin$ requests your records for program: $program$"
-  },
-  "appRequestsTransaction": {
-    "message": "$origin$ requests a transaction",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$origin$ requests a transaction"
-  },
-  "appRequestsDeploy": {
-    "message": "$origin$ requests a deployment",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$origin$ requests a deployment"
-  },
-  "alpha": {
-    "message": "Alpha",
-    "englishSource": "Alpha"
-  },
-  "viewAccountAddressWarning": {
-    "message": "This site is requesting access to view your account address. Always make sure you trust the sites you interact with.",
-    "englishSource": "This site is requesting access to view your account address. Always make sure you trust the sites you interact with."
-  },
   "account": {
     "message": "Account",
     "englishSource": "Account"
-  },
-  "toBeConnectedWithDApp": {
-    "message": "to be connected with dApp.",
-    "englishSource": "to be connected with dApp."
-  },
-  "signPayload": {
-    "message": "Message to Sign",
-    "englishSource": "Message to Sign"
-  },
-  "decryptPayload": {
-    "message": "Message to Decrypt",
-    "englishSource": "Message to Decrypt"
   },
   "noPreview": {
     "message": "No preview is available",
@@ -888,11 +241,6 @@
   },
   "smthWentWrongWhile": {
     "message": "Something went wrong while $action$",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
     "englishSource": "Something went wrong while $action$"
   },
   "mayHappenBecauseYouAreOffline": {
@@ -903,14 +251,6 @@
     "message": "Try again",
     "englishSource": "Try again"
   },
-  "testnetbeta": {
-    "message": "Miden Testnet Beta",
-    "englishSource": "Miden Testnet Beta"
-  },
-  "leoWalletOptions": {
-    "message": "Leo Wallet | Options",
-    "englishSource": "Leo Wallet | Options"
-  },
   "resetExtension": {
     "message": "Reset Extension",
     "englishSource": "Reset Extension"
@@ -918,20 +258,6 @@
   "resetExtensionConfirmation": {
     "message": "Are you sure you want to reset the Miden Wallet?\nAs a result, all your data will be deleted.",
     "englishSource": "Are you sure you want to reset the Miden Wallet?\nAs a result, all your data will be deleted."
-  },
-  "failedToResetExtension": {
-    "message": "Failed to reset extension: $errorMessage$",
-    "placeholders": {
-      "errorMessage": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Failed to reset extension: $errorMessage$"
-  },
-  "ledger": {
-    "message": "Ledger",
-    "description": "Ledger = https://www.ledger.com/",
-    "englishSource": "Ledger"
   },
   "retry": {
     "message": "Retry",
@@ -943,37 +269,11 @@
   },
   "youCannotGetPrivateKeyFromThisAccountType": {
     "message": "You cannot get private key from $accountType$ accounts.",
-    "placeholders": {
-      "accountType": {
-        "content": "$1"
-      }
-    },
     "englishSource": "You cannot get private key from $accountType$ accounts."
   },
   "maximalAmount": {
     "message": "Maximal: $amount$",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
     "englishSource": "Maximal: $amount$"
-  },
-  "amountMustBePositive": {
-    "message": "Must be positive",
-    "englishSource": "Must be positive"
-  },
-  "amountMustBeGreaterThanOne": {
-    "message": "Must be greater than 1",
-    "englishSource": "Must be greater than 1"
-  },
-  "assetMustBeSelected": {
-    "message": "Asset must be selected",
-    "englishSource": "Asset must be selected"
-  },
-  "gasFeeMustBePositive": {
-    "message": "Gas fee must be positive",
-    "englishSource": "Gas fee must be positive"
   },
   "accountName": {
     "message": "Account name",
@@ -987,25 +287,9 @@
     "message": "What will be the name of the new account?",
     "englishSource": "What will be the name of the new account?"
   },
-  "createNewWallet": {
-    "message": "Create a new Wallet",
-    "englishSource": "Create a new Wallet"
-  },
-  "createNewWalletDescription": {
-    "message": "New to Miden Wallet? Let's set it up! This will create a new wallet and Seed Phrase",
-    "englishSource": "New to Miden Wallet? Let's set it up! This will create a new wallet and Seed Phrase"
-  },
   "delegate": {
     "message": "Delegate",
     "englishSource": "Delegate"
-  },
-  "explore": {
-    "message": "Explore",
-    "englishSource": "Explore"
-  },
-  "assetsWhileMessage": {
-    "message": "fetching assets data",
-    "englishSource": "fetching assets data"
   },
   "receive": {
     "message": "Receive",
@@ -1014,10 +298,6 @@
   "send": {
     "message": "Send",
     "englishSource": "Send"
-  },
-  "reviewAndConfirm": {
-    "message": "Review & Confirm",
-    "englishSource": "Review & Confirm"
   },
   "transactionInitiated": {
     "message": "Transaction initiated",
@@ -1051,18 +331,6 @@
     "message": "Generating Transaction",
     "englishSource": "Generating Transaction"
   },
-  "generatingTransactionWarning": {
-    "message": "If you leave this page before the transaction is generated, your transaction won't finish.",
-    "englishSource": "If you leave this page before the transaction is generated, your transaction won't finish."
-  },
-  "noTransactionsRemaining": {
-    "message": "No remaining transactions, closing this tab",
-    "englishSource": "No remaining transactions, closing this tab"
-  },
-  "transactionsRemaining": {
-    "message": "transactions remaining",
-    "englishSource": "transactions remaining"
-  },
   "status": {
     "message": "Status",
     "englishSource": "Status"
@@ -1078,50 +346,6 @@
   "openNewTabToSync": {
     "message": "Open a tab for faster syncing.",
     "englishSource": "Open a tab for faster syncing."
-  },
-  "fullySynced": {
-    "message": "Fully Synced",
-    "englishSource": "Fully Synced"
-  },
-  "synced": {
-    "message": "Synced",
-    "englishSource": "Synced"
-  },
-  "syncing": {
-    "message": "Syncing",
-    "englishSource": "Syncing"
-  },
-  "get": {
-    "message": "Get",
-    "englishSource": "Get"
-  },
-  "exolixWarningNote": {
-    "message": "Please, deposit only $currencyName$ transfer network $networkName$. Otherwise, you may lose your assets permanently.",
-    "placeholders": {
-      "currencyName": {
-        "content": "$1"
-      },
-      "networkName": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Please, deposit only $currencyName$ transfer network $networkName$. Otherwise, you may lose your assets permanently."
-  },
-  "baking": {
-    "message": "Baking",
-    "englishSource": "Baking"
-  },
-  "operations": {
-    "message": "Operations",
-    "englishSource": "Operations"
-  },
-  "delegationInfoWhileMessage": {
-    "message": "fetching or processing your delegation info",
-    "englishSource": "fetching or processing your delegation info"
-  },
-  "operationHistoryWhileMessage": {
-    "message": "fetching or processing operation history",
-    "englishSource": "fetching or processing operation history"
   },
   "privateKey": {
     "message": "Private Key",
@@ -1143,10 +367,6 @@
     "message": "Mnemonic",
     "englishSource": "Mnemonic"
   },
-  "fundraiser": {
-    "message": "Fundraiser",
-    "englishSource": "Fundraiser"
-  },
   "privateKeyInputDescription": {
     "message": "The Secret key of the Account you want to import.",
     "englishSource": "The Secret key of the Account you want to import."
@@ -1159,71 +379,6 @@
     "message": "Password",
     "englishSource": "Password"
   },
-  "isPrivateKeyEncrypted": {
-    "message": "Is your private key in encrypted format?",
-    "englishSource": "Is your private key in encrypted format?"
-  },
-  "customDerivationPath": {
-    "message": "Custom derivation path",
-    "englishSource": "Custom derivation path"
-  },
-  "mnemonicInputLabel": {
-    "message": "Seed phrase",
-    "englishSource": "Seed phrase"
-  },
-  "mnemonicInputDescription": {
-    "message": "Mnemonic. Your secret 12 - 24 words phrase.",
-    "englishSource": "Mnemonic. Your secret 12 - 24 words phrase."
-  },
-  "mnemonicInputWarning": {
-    "message": "We don't store your seed phrase. Don't lose it!",
-    "englishSource": "We don't store your seed phrase. Don't lose it!"
-  },
-  "mnemonicInputPlaceholder": {
-    "message": "e.g. venue sock milk update...",
-    "englishSource": "e.g. venue sock milk update..."
-  },
-  "passwordInputDescription": {
-    "message": "Used for additional mnemonic derivation. That is NOT a wallet password.",
-    "englishSource": "Used for additional mnemonic derivation. That is NOT a wallet password."
-  },
-  "derivation": {
-    "message": "Derivation",
-    "englishSource": "Derivation"
-  },
-  "addDerivationPathPrompt": {
-    "message": "By default derivation isn't used. Click on 'Custom derivation path' to add it.",
-    "englishSource": "By default derivation isn't used. Click on 'Custom derivation path' to add it."
-  },
-  "derivationPathMustStartWithM": {
-    "message": "Must start with 'm'",
-    "englishSource": "Must start with 'm'"
-  },
-  "derivationSeparatorMustBeSlash": {
-    "message": "Separator must be '/'",
-    "englishSource": "Separator must be '/'"
-  },
-  "invalidPath": {
-    "message": "Invalid path",
-    "englishSource": "Invalid path"
-  },
-  "email": {
-    "message": "Email",
-    "englishSource": "Email"
-  },
-  "unexpectedOrInvalidFile": {
-    "message": "Unexpected or invalid file",
-    "englishSource": "Unexpected or invalid file"
-  },
-  "requestSent": {
-    "message": "$type$ request sent! Confirming...",
-    "placeholders": {
-      "type": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$type$ request sent! Confirming..."
-  },
   "success": {
     "message": "Success",
     "englishSource": "Success"
@@ -1231,15 +386,6 @@
   "smthWentWrong": {
     "message": "Something went wrong",
     "englishSource": "Something went wrong"
-  },
-  "faucetFileInputPrompt": {
-    "message": "Drag & drop a file or select it manually by clicking on the area below. You can download it from $link$.",
-    "placeholders": {
-      "link": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Drag & drop a file or select it manually by clicking on the area below. You can download it from $link$."
   },
   "processing": {
     "message": "Processing...",
@@ -1249,38 +395,6 @@
     "message": "Import Wallet",
     "englishSource": "Import Wallet"
   },
-  "createWallet": {
-    "message": "Create Your Wallet",
-    "englishSource": "Create Your Wallet"
-  },
-  "errorImportingKukaiWallet": {
-    "message": "Error while importing Kukai wallet",
-    "englishSource": "Error while importing Kukai wallet"
-  },
-  "selectedFileFormatNotSupported": {
-    "message": "The selected file format is not supported",
-    "englishSource": "The selected file format is not supported"
-  },
-  "fileHasSyntaxError": {
-    "message": "The file has a syntax error. Make sure the file is correct.",
-    "englishSource": "The file has a syntax error. Make sure the file is correct."
-  },
-  "entropyDecryptionError": {
-    "message": "Failed to decrypt entropy. Make sure the password is correct",
-    "englishSource": "Failed to decrypt entropy. Make sure the password is correct"
-  },
-  "kukaiFileVersionError": {
-    "message": "Only files of version 3 can be processed",
-    "englishSource": "Only files of version 3 can be processed"
-  },
-  "kukaiWalletTypeError": {
-    "message": "Cannot reveal seed phrase for this wallet type",
-    "englishSource": "Cannot reveal seed phrase for this wallet type"
-  },
-  "accountAddressLabel": {
-    "message": "Your current account address. Share it to receive funds.",
-    "englishSource": "Your current account address. Share it to receive funds."
-  },
   "copiedAddress": {
     "message": "Copied.",
     "englishSource": "Copied."
@@ -1288,10 +402,6 @@
   "copyAddressToClipboard": {
     "message": "Copy Address",
     "englishSource": "Copy Address"
-  },
-  "qrCode": {
-    "message": "QRCode",
-    "englishSource": "QRCode"
   },
   "revealViewKey": {
     "message": "Reveal View Key",
@@ -1317,58 +427,13 @@
     "message": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices.",
     "englishSource": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices."
   },
-  "faucetId": {
-    "message": "Faucet ID",
-    "englishSource": "Faucet ID"
-  },
-  "setNewFaucetId": {
-    "message": "Set new Faucet ID",
-    "englishSource": "Set new Faucet ID"
-  },
-  "setNewFaucetIdDescription": {
-    "message": "Enter the ID of a miden faucet",
-    "englishSource": "Enter the ID of a miden faucet"
-  },
-  "encryptedWalletFile": {
-    "message": "Encrypted Wallet File",
-    "englishSource": "Encrypted Wallet File"
-  },
-  "encryptedWalletFileDescription": {
-    "message": "Enter your password to access your Encrypted Wallet File. Turn off screen sharing. Don't share it with anyone.",
-    "englishSource": "Enter your password to access your Encrypted Wallet File. Turn off screen sharing. Don't share it with anyone."
-  },
-  "encryptedWalletFileConfirmation": {
-    "message": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet.",
-    "englishSource": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet."
-  },
-  "encryptedWalletFilePassword": {
-    "message": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later.",
-    "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
-  },
   "exportWalletFile": {
     "message": "Export Wallet File",
     "englishSource": "Export Wallet File"
   },
-  "dApps": {
-    "message": "DApps",
-    "description": "DApps = Decentralized Applications",
-    "englishSource": "DApps"
-  },
   "dAppsDescription": {
     "message": "In this section you can enable ability to interact with decentralized applications that support Miden Wallet.",
     "englishSource": "In this section you can enable ability to interact with decentralized applications that support Miden Wallet."
-  },
-  "networksDescription": {
-    "message": "In this section you can add or delete custom Miden networks.",
-    "englishSource": "In this section you can add or delete custom Miden networks."
-  },
-  "activateAccount": {
-    "message": "Activate Account",
-    "englishSource": "Activate Account"
-  },
-  "activateAccountDescription": {
-    "message": "It may be necessary for ICO/Fundraiser or testnet faucet accounts.",
-    "englishSource": "It may be necessary for ICO/Fundraiser or testnet faucet accounts."
   },
   "removeAccount": {
     "message": "Remove Account",
@@ -1377,14 +442,6 @@
   "removeAccountDescription": {
     "message": "Use this section to remove your selected account. Only imported accounts can be removed.",
     "englishSource": "Use this section to remove your selected account. Only imported accounts can be removed."
-  },
-  "fileSettings": {
-    "message": "File Settings",
-    "englishSource": "File Settings"
-  },
-  "fileSettingsDescription": {
-    "message": "Directly add or remove files from your wallet.",
-    "englishSource": "Directly add or remove files from your wallet."
   },
   "advancedSettings": {
     "message": "Advanced Settings",
@@ -1398,10 +455,6 @@
     "message": "Resync",
     "englishSource": "Resync"
   },
-  "resyncDescription": {
-    "message": "Reset all of your history for this account and resync with the network.",
-    "englishSource": "Reset all of your history for this account and resync with the network."
-  },
   "about": {
     "message": "About This App",
     "englishSource": "About This App"
@@ -1414,18 +467,6 @@
     "message": "Use this section to view meta info about Miden Wallet.",
     "englishSource": "Use this section to view meta info about Miden Wallet."
   },
-  "unlockWallet": {
-    "message": "Unlock the Wallet",
-    "englishSource": "Unlock the Wallet"
-  },
-  "toContinue": {
-    "message": "to continue",
-    "englishSource": "to continue"
-  },
-  "unlockPasswordInputDescription": {
-    "message": "A password is used to protect the wallet.",
-    "englishSource": "A password is used to protect the wallet."
-  },
   "unlockPasswordErrorDelay": {
     "message": "You have entered the wrong password three times. Your wallet is being blocked for",
     "englishSource": "You have entered the wrong password three times. Your wallet is being blocked for"
@@ -1434,38 +475,9 @@
     "message": "Unlock",
     "englishSource": "Unlock"
   },
-  "importNewAccountTitle": {
-    "message": "Restore Account? Want to sign in another?",
-    "englishSource": "Restore Account? Want to sign in another?"
-  },
-  "importWalletUsingSeedPhrase": {
-    "message": "Import Wallet using Seed Phrase",
-    "englishSource": "Import Wallet using Seed Phrase"
-  },
-  "connectLedger": {
-    "message": "Connect Ledger",
-    "description": "Ledger = https://www.ledger.com/",
-    "englishSource": "Connect Ledger"
-  },
-  "importExistingWallet": {
-    "message": "Import existing Wallet",
-    "englishSource": "Import existing Wallet"
-  },
-  "importExistingWalletDescription": {
-    "message": "Already have a wallet? Import it using your seed phrase or encrypted keystore file",
-    "englishSource": "Already have a wallet? Import it using your seed phrase or encrypted keystore file"
-  },
-  "links": {
-    "message": "Links",
-    "englishSource": "Links"
-  },
   "website": {
     "message": "Website",
     "englishSource": "Website"
-  },
-  "repo": {
-    "message": "Repository",
-    "englishSource": "Repository"
   },
   "privacyPolicy": {
     "message": "Privacy Policy",
@@ -1474,74 +486,6 @@
   "termsOfUse": {
     "message": "Terms of Use",
     "englishSource": "Terms of Use"
-  },
-  "contact": {
-    "message": "Contact",
-    "englishSource": "Contact"
-  },
-  "accountAlreadyActivated": {
-    "message": "Your Account already activated.",
-    "englishSource": "Your Account already activated."
-  },
-  "accountActivated": {
-    "message": "Your account successfully activated!",
-    "englishSource": "Your account successfully activated!"
-  },
-  "failureSecretMayBeInvalid": {
-    "message": "Failed. This may happen because provided Secret is invalid",
-    "englishSource": "Failed. This may happen because provided Secret is invalid"
-  },
-  "accountToBeActivated": {
-    "message": "Account to be activated.",
-    "englishSource": "Account to be activated."
-  },
-  "ifYouWantToActivateAnotherAccount": {
-    "message": "If you want to activate another account - please, select it in the top-right dropdown.",
-    "englishSource": "If you want to activate another account - please, select it in the top-right dropdown."
-  },
-  "activateAccountSecret": {
-    "message": "Secret",
-    "englishSource": "Secret"
-  },
-  "activateAccountSecretDescription": {
-    "message": "'secret' field from Fundraiser Account or Faucet",
-    "englishSource": "'secret' field from Fundraiser Account or Faucet"
-  },
-  "activateAccountSecretPlaceholder": {
-    "message": "e.g. n4hs7sd3...",
-    "englishSource": "e.g. n4hs7sd3..."
-  },
-  "activate": {
-    "message": "Activate",
-    "englishSource": "Activate"
-  },
-  "minimalFeeDescription": {
-    "message": "Minimal",
-    "englishSource": "Minimal"
-  },
-  "fastFeeDescription": {
-    "message": "Fast",
-    "englishSource": "Fast"
-  },
-  "rocketFeeDescription": {
-    "message": "Rocket",
-    "englishSource": "Rocket"
-  },
-  "customFeeDescription": {
-    "message": "Custom",
-    "englishSource": "Custom"
-  },
-  "additionalFee": {
-    "message": "Additional Fee",
-    "englishSource": "Additional Fee"
-  },
-  "asset": {
-    "message": "Asset",
-    "englishSource": "Asset"
-  },
-  "selectAnotherAssetPrompt": {
-    "message": "Click on area to select another asset or token.",
-    "englishSource": "Click on area to select another asset or token."
   },
   "disable": {
     "message": "disable",
@@ -1552,203 +496,28 @@
     "englishSource": "enable"
   },
   "dAppsCheckmarkPrompt": {
-    "message": "Click on the toggle to $action$ DApps interaction feature",
-    "description": "DApps = Decentralized Applications",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
+    "message": "Click on the toggle to {{action}} DApps interaction feature",
     "englishSource": "Click on the toggle to {{action}} DApps interaction feature"
   },
   "dAppsInteraction": {
     "message": "DApps interaction",
-    "description": "DApps = Decentralized Applications",
     "englishSource": "DApps interaction"
   },
   "none": {
     "message": "None",
     "englishSource": "None"
   },
-  "collection": {
-    "message": "Collection",
-    "englishSource": "Collection"
-  },
-  "source": {
-    "message": "Source",
-    "englishSource": "Source"
-  },
-  "enabled": {
-    "message": "Enabled",
-    "englishSource": "Enabled"
-  },
-  "disabled": {
-    "message": "Disabled",
-    "englishSource": "Disabled"
-  },
-  "enablePopup": {
-    "message": "Enable popup",
-    "englishSource": "Enable popup"
-  },
   "popupEnabled": {
     "message": "Enabled",
     "englishSource": "Enabled"
-  },
-  "popupDisabled": {
-    "message": "Disabled",
-    "englishSource": "Disabled"
   },
   "delete": {
     "message": "Delete",
     "englishSource": "Delete"
   },
-  "rank": {
-    "message": "Rank",
-    "englishSource": "Rank"
-  },
-  "available": {
-    "message": "Available",
-    "englishSource": "Available"
-  },
   "fee": {
     "message": "Fee",
     "englishSource": "Fee"
-  },
-  "noFee": {
-    "message": "No Fee",
-    "englishSource": "No Fee"
-  },
-  "routingFee": {
-    "message": "Routing Fee",
-    "englishSource": "Routing Fee"
-  },
-  "routingFeeTooltip": {
-    "message": "For choosing the most profitable exchange route among Miden DEXes. \n\nDEXes commissions are not included.",
-    "englishSource": "For choosing the most profitable exchange route among Miden DEXes. \n\nDEXes commissions are not included."
-  },
-  "space": {
-    "message": "Space",
-    "englishSource": "Space"
-  },
-  "staking": {
-    "message": "Staking",
-    "englishSource": "Staking"
-  },
-  "recommended": {
-    "message": "Recommended",
-    "englishSource": "Recommended"
-  },
-  "partnership": {
-    "message": "Partnership",
-    "englishSource": "Partnership"
-  },
-  "delegation": {
-    "message": "Delegation",
-    "englishSource": "Delegation"
-  },
-  "delegationGuide": {
-    "message": "Full video guide",
-    "englishSource": "Full video guide"
-  },
-  "delegationGuideLink": {
-    "message": "How to Delegate XTZ",
-    "englishSource": "How to Delegate XTZ"
-  },
-  "delegationComunity": {
-    "message": "In case you have any questions, write them in our communities",
-    "englishSource": "In case you have any questions, write them in our communities"
-  },
-  "delegationPointsHead1": {
-    "message": "Earn 5.6% interest",
-    "englishSource": "Earn 5.6% interest"
-  },
-  "delegationPointsHead2": {
-    "message": "on your Miden",
-    "englishSource": "on your Miden"
-  },
-  "delegationPointsHead3": {
-    "message": "annualy from Baking rewards",
-    "englishSource": "annualy from Baking rewards"
-  },
-  "delegationPoint1": {
-    "message": "Your first reward in Miden will be paid approximately in 36 days.",
-    "englishSource": "Your first reward in Miden will be paid approximately in 36 days."
-  },
-  "delegationPoint2": {
-    "message": "Then, you receive a reward every 3 days.",
-    "englishSource": "Then, you receive a reward every 3 days."
-  },
-  "delegationPoint3": {
-    "message": "Earn rate varies over time. Check the current rate in your Wallet.",
-    "englishSource": "Earn rate varies over time. Check the current rate in your Wallet."
-  },
-  "delegationPoint4": {
-    "message": "Your Miden tokens are never locked. Send anytime!",
-    "englishSource": "Your Miden tokens are never locked. Send anytime!"
-  },
-  "baker": {
-    "message": "Baker",
-    "englishSource": "Baker"
-  },
-  "bakerInputDescription": {
-    "message": "Address of a registered baker.",
-    "englishSource": "Address of a registered baker."
-  },
-  "producer": {
-    "message": "Producer",
-    "englishSource": "Producer"
-  },
-  "producerInputDescription": {
-    "message": "Address of a registered producer.",
-    "englishSource": "Address of a registered producer."
-  },
-  "bakerInputDescriptionWithDomain": {
-    "message": "Address or domain name of a registered baker.",
-    "englishSource": "Address or domain name of a registered baker."
-  },
-  "bakerInputPlaceholder": {
-    "message": "e.g. 0xb3d1df68...",
-    "englishSource": "e.g. 0xb3d1df68..."
-  },
-  "minDelegationAmountTitle": {
-    "message": "Minimal delegation amount",
-    "englishSource": "Minimal delegation amount"
-  },
-  "unknownBakerTitle": {
-    "message": "Unknown baker",
-    "englishSource": "Unknown baker"
-  },
-  "unknownBakerDescription": {
-    "message": "Provided address is not known to us as a baker! Only delegate funds to it at your own risk.",
-    "englishSource": "Provided address is not known to us as a baker! Only delegate funds to it at your own risk."
-  },
-  "delegateToRecommendedBakers": {
-    "message": "Delegate to Recommended Bakers",
-    "englishSource": "Delegate to Recommended Bakers"
-  },
-  "sortBy": {
-    "message": "Sort by",
-    "englishSource": "Sort by"
-  },
-  "cycles_one": {
-    "message": "$amount$ cycle",
-    "description": "For plural forms",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$amount$ cycle"
-  },
-  "cycles_other": {
-    "message": "$amount$ cycles",
-    "description": "For plural forms",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$amount$ cycles"
   },
   "notEnoughFunds": {
     "message": "Not enough funds",
@@ -1756,16 +525,7 @@
   },
   "notEnoughCurrencyFunds": {
     "message": "Not enough $currency$ funds",
-    "placeholders": {
-      "currency": {
-        "content": "$1"
-      }
-    },
     "englishSource": "Not enough $currency$ funds"
-  },
-  "notAllowed": {
-    "message": "Not allowed",
-    "englishSource": "Not allowed"
   },
   "failed": {
     "message": "Failed",
@@ -1775,180 +535,33 @@
     "message": "Your Balance is zero.",
     "englishSource": "Your Balance is zero."
   },
-  "minimalFeeGreaterThanBalance": {
-    "message": "Minimal fee for this transaction is greater than your balance.",
-    "englishSource": "Minimal fee for this transaction is greater than your balance."
-  },
-  "alreadyDelegatedFundsToBaker": {
-    "message": "Already delegated funds to this baker. Re-delegation is not possible.",
-    "englishSource": "Already delegated funds to this baker. Re-delegation is not possible."
-  },
-  "bakerNotRegistered": {
-    "message": "Specified baker is not registered.",
-    "englishSource": "Specified baker is not registered."
-  },
-  "unableToPerformActionToBaker": {
-    "message": "Unable to $action$ to the provided Baker.",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Unable to $action$ to the provided Baker."
-  },
-  "estimateDelegation": {
-    "message": "Estimate delegation",
-    "englishSource": "Estimate delegation"
-  },
   "thisMayHappenBecause": {
     "message": "This may happen because:",
     "englishSource": "This may happen because:"
   },
   "minimalFeeGreaterThanBalanceVerbose": {
     "message": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 $gasTokenSymbol$ burn fee;",
-    "placeholders": {
-      "gasTokenSymbol": {
-        "content": "$1"
-      }
-    },
     "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 $gasTokenSymbol$ burn fee;"
   },
   "networkOrOtherIssue": {
     "message": "Network or other technical issue.",
     "englishSource": "Network or other technical issue."
   },
-  "unableToDelegateToKTAddress": {
-    "message": "Unable to delegate to KT... contract address",
-    "englishSource": "Unable to delegate to KT... contract address"
-  },
   "confirmAction": {
     "message": "Confirm $action$",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
     "englishSource": "Confirm $action$"
-  },
-  "payloadToSign": {
-    "message": "Payload to sign",
-    "englishSource": "Payload to sign"
-  },
-  "decline": {
-    "message": "Decline",
-    "englishSource": "Decline"
   },
   "confirm": {
     "message": "Confirm",
     "englishSource": "Confirm"
   },
-  "confirmDecryptionPermission": {
-    "message": "Confirm Decryption Permission",
-    "englishSource": "Confirm Decryption Permission"
-  },
-  "confirmDecryptionPermissionDescription": {
-    "message": "This will give permanent access to your history and cannot be revoked.",
-    "englishSource": "This will give permanent access to your history and cannot be revoked."
-  },
   "confirmRisk": {
     "message": "I understand the risk and wish to proceed.",
     "englishSource": "I understand the risk and wish to proceed."
   },
-  "decryptPermission": {
-    "message": "Decryption Permission",
-    "englishSource": "Decryption Permission"
-  },
-  "NO_DECRYPT": {
-    "message": "This app cannot decrypt any record using any of your view keys.",
-    "englishSource": "This app cannot decrypt any record using any of your view keys."
-  },
-  "DECRYPT_UPON_REQUEST": {
-    "message": "This app can only decrypt records with your explicit approval. You will be prompted for any decryption request.",
-    "englishSource": "This app can only decrypt records with your explicit approval. You will be prompted for any decryption request."
-  },
-  "AUTO_DECRYPT": {
-    "message": "This app can automatically decrypt any record it needs to without explicit permission only while your wallet is connected. It cannot see your ViewKey.",
-    "englishSource": "This app can automatically decrypt any record it needs to without explicit permission only while your wallet is connected. It cannot see your ViewKey."
-  },
-  "ON_CHAIN_HISTORY": {
-    "message": "<b>WARNING!</b> This app is asking for your on-chain history. Make sure you really trust this app.",
-    "englishSource": "<b>WARNING!</b> This app is asking for your on-chain history. Make sure you really trust this app."
-  },
-  "NO_DECRYPT_SHORT": {
-    "message": "None",
-    "englishSource": "None"
-  },
-  "DECRYPT_UPON_REQUEST_SHORT": {
-    "message": "On request",
-    "englishSource": "On request"
-  },
-  "AUTO_DECRYPT_SHORT": {
-    "message": "While connected",
-    "englishSource": "While connected"
-  },
-  "ON_CHAIN_HISTORY_SHORT": {
-    "message": "Full access",
-    "englishSource": "Full access"
-  },
-  "allPrograms": {
-    "message": "all programs",
-    "englishSource": "all programs"
-  },
-  "canView": {
-    "message": "Can view",
-    "englishSource": "Can view"
-  },
-  "connectFor": {
-    "message": "Connect for",
-    "englishSource": "Connect for"
-  },
-  "network": {
-    "message": "Network",
-    "englishSource": "Network"
-  },
-  "unknownNetwork": {
-    "message": "Unknown:",
-    "englishSource": "Unknown:"
-  },
-  "backupNewSeedPhrase": {
-    "message": "New Seed Phrase",
-    "englishSource": "New Seed Phrase"
-  },
-  "attentionExclamation": {
-    "message": "Attention!",
-    "englishSource": "Attention!"
-  },
-  "lockedWalletAlreadyExists": {
-    "message": "Locked wallet <b>already exists</b>.\nImporting a new one will <b>destroy the existing</b>.",
-    "englishSource": "Locked wallet <b>already exists</b>.\nImporting a new one will <b>destroy the existing</b>."
-  },
-  "backToUnlockPage": {
-    "message": "go back to Unlock page",
-    "englishSource": "go back to Unlock page"
-  },
-  "mustBeEqualToPasswordAbove": {
-    "message": "Must be equal to password",
-    "englishSource": "Must be equal to password"
-  },
-  "repeatPassword": {
-    "message": "Repeat Password",
-    "englishSource": "Repeat Password"
-  },
-  "repeatPasswordInputDescription": {
-    "message": "Please enter the password again.",
-    "englishSource": "Please enter the password again."
-  },
-  "confirmTermsError": {
-    "message": "Unable to continue without confirming Terms of Usage",
-    "englishSource": "Unable to continue without confirming Terms of Usage"
-  },
   "confirmError": {
     "message": "Unable to continue without confirming.",
     "englishSource": "Unable to continue without confirming."
-  },
-  "acceptTerms": {
-    "message": "Accept terms",
-    "englishSource": "Accept terms"
   },
   "termsOfUsage": {
     "message": "Terms of Usage",
@@ -1958,25 +571,9 @@
     "message": "File",
     "englishSource": "File"
   },
-  "keystoreFile": {
-    "message": "Keystore File",
-    "englishSource": "Keystore File"
-  },
   "filePassword": {
     "message": "File Password",
     "englishSource": "File Password"
-  },
-  "filePasswordInputDescription": {
-    "message": "Please enter a password for keystore file",
-    "englishSource": "Please enter a password for keystore file"
-  },
-  "fileInputPrompt": {
-    "message": "Choose a file or drag it here",
-    "englishSource": "Choose a file or drag it here"
-  },
-  "useKeystorePassword": {
-    "message": "Use File Password as Extension password",
-    "englishSource": "Use File Password as Extension password"
   },
   "create": {
     "message": "Create",
@@ -1986,10 +583,6 @@
     "message": "Import",
     "englishSource": "Import"
   },
-  "revealNewSeedPhrase": {
-    "message": "<b>Click on area below</b> to reveal your new Seed Phrase.\nThen, write this phrase on a piece of paper and <b>store in a secure location</b>. Or you can memorize it.",
-    "englishSource": "<b>Click on area below</b> to reveal your new Seed Phrase.\nThen, write this phrase on a piece of paper and <b>store in a secure location</b>. Or you can memorize it."
-  },
   "doNotSharePhrase1": {
     "message": "DO NOT share this phrase with anyone!",
     "englishSource": "DO NOT share this phrase with anyone!"
@@ -1998,29 +591,9 @@
     "message": "It can be used to steal all your accounts.",
     "englishSource": "It can be used to steal all your accounts."
   },
-  "doSavePhrase": {
-    "message": "<b>Copy</b> this phrase on paper and store it in a secure location.",
-    "englishSource": "<b>Copy</b> this phrase on paper and store it in a secure location."
-  },
   "youWillNeedThisSeedPhrase": {
     "message": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever.",
     "englishSource": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever."
-  },
-  "changeSeedPhrase": {
-    "message": "Change Seed Phrase",
-    "englishSource": "Change Seed Phrase"
-  },
-  "unableToContinueWithoutConfirming": {
-    "message": "Unable to continue without confirming",
-    "englishSource": "Unable to continue without confirming"
-  },
-  "backupedInputLabel": {
-    "message": "I made Seed Phrase backup",
-    "englishSource": "I made Seed Phrase backup"
-  },
-  "backupedInputDescription": {
-    "message": "And accept the risks that if I lose the phrase,\nmy funds may be lost.",
-    "englishSource": "And accept the risks that if I lose the phrase,\nmy funds may be lost."
   },
   "continue": {
     "message": "Continue",
@@ -2030,35 +603,6 @@
     "message": "No operations found",
     "englishSource": "No operations found"
   },
-  "pending": {
-    "message": "pending...",
-    "englishSource": "pending..."
-  },
-  "applied": {
-    "message": "Applied",
-    "englishSource": "Applied"
-  },
-  "skipped": {
-    "message": "Skipped",
-    "englishSource": "Skipped"
-  },
-  "backtracked": {
-    "message": "backtracked",
-    "englishSource": "backtracked"
-  },
-  "operationSuccessfullyProcessed": {
-    "message": "$type$ successfully processed and confirmed!",
-    "placeholders": {
-      "type": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$type$ successfully processed and confirmed!"
-  },
-  "timedOutOperationConfirmation": {
-    "message": "Timed out operation confirmation. You can either wait more time or try again later.",
-    "englishSource": "Timed out operation confirmation. You can either wait more time or try again later."
-  },
   "accountToBeRemoved": {
     "message": "Account to be removed.",
     "englishSource": "Account to be removed."
@@ -2066,14 +610,6 @@
   "ifYouWantToRemoveAnotherAccount": {
     "message": "If you want to remove another account - select it in the top-right dropdown.",
     "englishSource": "If you want to remove another account - select it in the top-right dropdown."
-  },
-  "cannotBeRemoved": {
-    "message": "Cannot be removed",
-    "englishSource": "Cannot be removed"
-  },
-  "importedPlural": {
-    "message": "imported",
-    "englishSource": "imported"
   },
   "enterPasswordToRemoveAccount": {
     "message": "Enter password to remove the Account.",
@@ -2103,30 +639,17 @@
     "message": "Derivation path",
     "englishSource": "Derivation path"
   },
-  "derivationType": {
-    "message": "Derivation type",
-    "englishSource": "Derivation type"
-  },
-  "derivationTypeFieldDescription": {
-    "message": "The elliptical curve that the account will use.",
-    "englishSource": "The elliptical curve that the account will use."
-  },
   "seedPhrase": {
     "message": "Seed Phrase",
     "englishSource": "Seed Phrase"
   },
   "pathForHDAccounts": {
     "message": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase.",
-    "description": "HD = Hierarchical Deterministic",
     "englishSource": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase."
   },
   "derivationPathExample": {
     "message": "m/44'/0'/<account_index>'/0'",
     "englishSource": "m/44'/0'/<account_index>'/0'"
-  },
-  "derivationPathExample2": {
-    "message": "e.g. m/44'/1729'/...",
-    "englishSource": "e.g. m/44'/1729'/..."
   },
   "keepSeedPhraseSecret": {
     "message": "Keep it in secret.",
@@ -2134,11 +657,6 @@
   },
   "revealSecretPasswordInputDescription": {
     "message": "Enter password to reveal the $secretName$.",
-    "placeholders": {
-      "secretName": {
-        "content": "$1"
-      }
-    },
     "englishSource": "Enter password to reveal the $secretName$."
   },
   "reveal": {
@@ -2153,42 +671,9 @@
     "message": "Recipient",
     "englishSource": "Recipient"
   },
-  "tokensRecepientInputDescription": {
-    "message": "Address to send $assetSymbol$ funds to.",
-    "placeholders": {
-      "assetSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Address to send $assetSymbol$ funds to."
-  },
-  "tokensRecepientInputDescriptionWithDomain": {
-    "message": "Address or Miden domain to send  $assetSymbol$  funds to.",
-    "englishSource": "Address or Miden domain to send $assetSymbol$ funds to."
-  },
-  "addressInputDescription": {
-    "message": "Address of Miden account or Smart Contract.",
-    "englishSource": "Address of Miden account or Smart Contract."
-  },
-  "addressInputDescriptionWithDomain": {
-    "message": "Address or Miden domain of the account or Smart Contract.",
-    "englishSource": "Address or Miden domain of the account or Smart Contract."
-  },
   "recipientInputPlaceholder": {
     "message": "e.g. 0xb3d1df68...",
     "englishSource": "e.g. 0xb3d1df68..."
-  },
-  "recipientInputPlaceholderWithDomain": {
-    "message": "e.g. alice.miden or 0xb3d1df68...",
-    "englishSource": "e.g. alice.miden or 0xb3d1df68..."
-  },
-  "tryingToTransferToYourself": {
-    "message": "You're trying to transfer funds to yourself.\nPlease, ensure that it's exactly what you want.",
-    "englishSource": "You're trying to transfer funds to yourself.\nPlease, ensure that it's exactly what you want."
-  },
-  "tryingToTransferToContract": {
-    "message": "You're trying to transfer funds to contract.\nPlease, ensure that it's exactly what you want.",
-    "englishSource": "You're trying to transfer funds to contract.\nPlease, ensure that it's exactly what you want."
   },
   "viewKeyInputPlaceholder": {
     "message": "e.g. AViewKey1iHE...",
@@ -2197,35 +682,6 @@
   "amount": {
     "message": "Amount",
     "englishSource": "Amount"
-  },
-  "availableToSend": {
-    "message": "Available to send(max):",
-    "englishSource": "Available to send(max):"
-  },
-  "inFiat": {
-    "message": "in Fiat",
-    "englishSource": "in Fiat"
-  },
-  "inAsset": {
-    "message": "in $assetSymbol$",
-    "placeholders": {
-      "assetSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "in $assetSymbol$"
-  },
-  "amountPlaceholder": {
-    "message": "e.g. 123.45",
-    "englishSource": "e.g. 123.45"
-  },
-  "sendToMyAccounts": {
-    "message": "Send to My Accounts",
-    "englishSource": "Send to My Accounts"
-  },
-  "clickOnRecipientAccount": {
-    "message": "Click on Account you want to send funds to.",
-    "englishSource": "Click on Account you want to send funds to."
   },
   "mainAssetBalanceIsZero": {
     "message": "Your Miden credits (main asset) balance is zero. Miden credits are required for the fee.",
@@ -2239,55 +695,6 @@
     "message": "Unable to estimate transaction to provided Recipient.",
     "englishSource": "Unable to estimate transaction to provided Recipient."
   },
-  "makeSureToBackupSeedPhrase": {
-    "message": "Make sure to back up your seed phrase!",
-    "englishSource": "Make sure to back up your seed phrase!"
-  },
-  "exploreMore": {
-    "message": "Explore more...",
-    "englishSource": "Explore more..."
-  },
-  "selfComment": {
-    "message": "(self)",
-    "englishSource": "(self)"
-  },
-  "deleteNetworkConfirm": {
-    "message": "Are you sure you want to delete this network?",
-    "englishSource": "Are you sure you want to delete this network?"
-  },
-  "networkNamePlaceholder": {
-    "message": "My custom network",
-    "englishSource": "My custom network"
-  },
-  "mustBeValidURL": {
-    "message": "Must be a valid URL",
-    "englishSource": "Must be a valid URL"
-  },
-  "rpcBaseURL": {
-    "message": "RPC base URL",
-    "description": "RPC = Remote Procedure Call (https://en.wikipedia.org/wiki/Remote_procedure_call)",
-    "englishSource": "RPC base URL"
-  },
-  "mustBeUnique": {
-    "message": "Must be unique",
-    "englishSource": "Must be unique"
-  },
-  "addNetwork": {
-    "message": "Add network",
-    "englishSource": "Add network"
-  },
-  "currentNetworks": {
-    "message": "Current networks",
-    "englishSource": "Current networks"
-  },
-  "deleteNetworkHint": {
-    "message": "Click on the X icon to delete the network. If you want to edit network, just delete it and add another with new params.",
-    "englishSource": "Click on the X icon to delete the network. If you want to edit network, just delete it and add another with new params."
-  },
-  "preview": {
-    "message": "Preview",
-    "englishSource": "Preview"
-  },
   "raw": {
     "message": "Raw",
     "englishSource": "Raw"
@@ -2300,106 +707,13 @@
     "message": "Not identified",
     "englishSource": "Not identified"
   },
-  "connection": {
-    "message": "Connection",
-    "englishSource": "Connection"
-  },
   "connect": {
     "message": "Connect",
     "englishSource": "Connect"
   },
-  "confirmActionOnDevice": {
-    "message": "Confirm the action on",
-    "englishSource": "Confirm the action on"
-  },
-  "deviceName": {
-    "message": "$device$ device",
-    "placeholders": {
-      "device": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$device$ device"
-  },
-  "ledgerNano": {
-    "message": "Ledger Nano",
-    "description": "Ledger = https://www.ledger.com/",
-    "englishSource": "Ledger Nano"
-  },
-  "defaultLedgerName": {
-    "message": "Ledger $number$",
-    "description": "Ledger = https://www.ledger.com/",
-    "placeholders": {
-      "number": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Ledger $number$"
-  },
-  "ledgerNameConstraint": {
-    "message": "1-16 characters, no special",
-    "englishSource": "1-16 characters, no special"
-  },
-  "ledgerNameInputDescription": {
-    "message": "What will be the name of the new Ledger account?",
-    "description": "Ledger = https://www.ledger.com/",
-    "englishSource": "What will be the name of the new Ledger account?"
-  },
-  "defaultDerivationPathLabel": {
-    "message": "By default $path$ derivation is used.",
-    "placeholders": {
-      "path": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "By default $path$ derivation is used."
-  },
-  "clickOnCustomDerivationPath": {
-    "message": "Click on 'Custom derivation path' to customize it.",
-    "englishSource": "Click on 'Custom derivation path' to customize it."
-  },
-  "addLedgerAccount": {
-    "message": "Add Ledger Account",
-    "description": "Ledger = https://www.ledger.com/",
-    "englishSource": "Add Ledger Account"
-  },
-  "firefoxLedgerConnectionError": {
-    "message": "$sorry$ Connection to the $device$ device via $browser$ is temporarily $unavailable$.",
-    "placeholders": {
-      "sorry": {
-        "content": "$1"
-      },
-      "device": {
-        "content": "$2"
-      },
-      "browser": {
-        "content": "$3"
-      },
-      "unavailable": {
-        "content": "$4"
-      }
-    },
-    "englishSource": "$sorry$ Connection to the $device$ device via $browser$ is temporarily $unavailable$."
-  },
-  "connectionUnavailable": {
-    "message": "Unavailable",
-    "englishSource": "Unavailable"
-  },
-  "sorry": {
-    "message": "Sorry!",
-    "englishSource": "Sorry!"
-  },
-  "upload": {
-    "message": "Upload",
-    "englishSource": "Upload"
-  },
   "languageAndCountry": {
     "message": "By default, we use the language of your browser. Change it below if that's not to your liking.",
     "englishSource": "By default, we use the language of your browser. Change it below if that's not to your liking."
-  },
-  "fiatCurrency": {
-    "message": "Default Currency",
-    "englishSource": "Default Currency"
   },
   "generalSettings": {
     "message": "General",
@@ -2409,47 +723,13 @@
     "message": "Here you can manage languages preferences and display mode.",
     "englishSource": "Here you can manage languages preferences and display mode."
   },
-  "swapNoun": {
-    "message": "Swap",
-    "englishSource": "Swap"
+  "language": {
+    "message": "Language",
+    "englishSource": "Language"
   },
-  "transfers": {
-    "message": "Transfers",
-    "englishSource": "Transfers"
-  },
-  "someUnknownToken": {
-    "message": "unknown token $token$",
-    "placeholders": {
-      "token": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "unknown token $token$"
-  },
-  "interactionWithSomeEntrypoint": {
-    "message": "Interaction with entrypoint '$entrypoint$' of contract $contractAddress$",
-    "placeholders": {
-      "entrypoint": {
-        "content": "$1"
-      },
-      "contractAddress": {
-        "content": "$2"
-      }
-    },
-    "englishSource": "Interaction with entrypoint '$entrypoint$' of contract $contractAddress$"
-  },
-  "transactionOfSomeType": {
-    "message": "Transaction of type '$type$'",
-    "placeholders": {
-      "type": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Transaction of type '$type$'"
-  },
-  "approveToken": {
-    "message": "Approve Token",
-    "englishSource": "Approve Token"
+  "languageDescription": {
+    "message": "Change the display language",
+    "englishSource": "Change the display language"
   },
   "add": {
     "message": "Add",
@@ -2467,33 +747,9 @@
     "message": "Activities",
     "englishSource": "Activities"
   },
-  "attributes": {
-    "message": "Attributes",
-    "englishSource": "Attributes"
-  },
-  "activityToolTip": {
-    "message": "Click to see full history",
-    "englishSource": "Click to see full history"
-  },
-  "feeToolTip": {
-    "message": "Click to edit the fee",
-    "englishSource": "Click to edit the fee"
-  },
-  "waitingOnAleo": {
-    "message": "Aleo currently doesn't support this functionality.",
-    "englishSource": "Aleo currently doesn't support this functionality."
-  },
-  "feeNotRequired": {
-    "message": "There is currently no fee required.",
-    "englishSource": "There is currently no fee required."
-  },
   "proofGenerationTab": {
     "message": "An open tab is required to efficiently generate transaction proofs",
     "englishSource": "An open tab is required to efficiently generate transaction proofs"
-  },
-  "manage": {
-    "message": "Manage",
-    "englishSource": "Manage"
   },
   "manageTokens": {
     "message": "Manage Tokens",
@@ -2505,37 +761,15 @@
   },
   "ifYouDontSeeYourAsset": {
     "message": "If you don't see your asset,\ntry to click $toClick$.",
-    "placeholders": {
-      "toClick": {
-        "content": "$1"
-      }
-    },
     "englishSource": "If you don't see your asset,\ntry to click $toClick$."
   },
   "addressOfTokenContract": {
     "message": "Address of a $assetSymbol$ token contract.",
-    "placeholders": {
-      "assetSymbol": {
-        "content": "$1"
-      }
-    },
     "englishSource": "Address of a $assetSymbol$ token contract."
   },
   "searchAssets": {
     "message": "Search assets...",
     "englishSource": "Search assets..."
-  },
-  "searchByName": {
-    "message": "Search by name...",
-    "englishSource": "Search by name..."
-  },
-  "deployNew": {
-    "message": "Deploy new",
-    "englishSource": "Deploy new"
-  },
-  "managedKTAccount": {
-    "message": "Managed KT",
-    "englishSource": "Managed KT"
   },
   "watchOnlyAccount": {
     "message": "View Key",
@@ -2545,76 +779,9 @@
     "message": "Disabled for watch-only account",
     "englishSource": "Disabled for watch-only account"
   },
-  "activationOperationType": {
-    "message": "Activation",
-    "englishSource": "Activation"
-  },
-  "youAreNotContractManager": {
-    "message": "You are not a contract manager",
-    "englishSource": "You are not a contract manager"
-  },
   "contract": {
     "message": "Contract",
     "englishSource": "Contract"
-  },
-  "contractAddressInputDescription": {
-    "message": "Address of the contract to connect.",
-    "englishSource": "Address of the contract to connect."
-  },
-  "contractAddressInputPlaceholder": {
-    "message": "e.g. KT1a9w1S7hN5s...",
-    "englishSource": "e.g. KT1a9w1S7hN5s..."
-  },
-  "addKnownManagedContract": {
-    "message": "Add known Managed contract",
-    "englishSource": "Add known Managed contract"
-  },
-  "clickOnContractToImport": {
-    "message": "Click on Contract you want to import.",
-    "englishSource": "Click on Contract you want to import."
-  },
-  "notContractAddress": {
-    "message": "Not a contract address",
-    "englishSource": "Not a contract address"
-  },
-  "contractAlreadyImported": {
-    "message": "This contract has already been imported",
-    "englishSource": "This contract has already been imported"
-  },
-  "waitWhileContractBeingDeployed": {
-    "message": "Please don't leave this page or close window while contract is being deployed, it may take a while. The form and this alert will disappear as soon as it is successfully deployed.",
-    "englishSource": "Please don't leave this page or close window while contract is being deployed, it may take a while. The form and this alert will disappear as soon as it is successfully deployed."
-  },
-  "justAMinute": {
-    "message": "Just a minute...",
-    "englishSource": "Just a minute..."
-  },
-  "referredByTokenContactAddressInvalid": {
-    "message": "Contract address $address$, which is referred by token contract to, is invalid.",
-    "placeholders": {
-      "address": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Contract address $address$, which is referred by token contract to, is invalid."
-  },
-  "someNetworkIsNotCurrent": {
-    "message": "$network$ network was specified, which is not current network",
-    "placeholders": {
-      "network": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$network$ network was specified, which is not current network"
-  },
-  "someNetworkWithChainIdIsNotCurrent": {
-    "message": "Chain ID $chainId$ was specified, which is not chain ID of current network",
-    "placeholders": {
-      "chainId": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Chain ID $chainId$ was specified, which is not chain ID of current network"
   },
   "popupSettings": {
     "message": "Popup mode",
@@ -2623,14 +790,6 @@
   "popupSettingsDescription": {
     "message": "Here you can configure the popup which appears on plugin's icon click in extensions panel.",
     "englishSource": "Here you can configure the popup which appears on plugin's icon click in extensions panel."
-  },
-  "gpuSettings": {
-    "message": "GPU Acceleration *Experimental*",
-    "englishSource": "GPU Acceleration *Experimental*"
-  },
-  "gpuSettingsDescription": {
-    "message": "Here you can turn GPU acceleration on or off to accelerate syncing and proof generation. This feature is not stable and may cause crashes.",
-    "englishSource": "Here you can turn GPU acceleration on or off to accelerate syncing and proof generation. This feature is not stable and may cause crashes."
   },
   "delegateProofSettings": {
     "message": "Delegate Proof Generation",
@@ -2656,197 +815,13 @@
     "message": "Here you can configure sending of anonymous analytics that helps us to improve the product.",
     "englishSource": "Here you can configure sending of anonymous analytics that helps us to improve the product."
   },
-  "managedContract": {
-    "message": "Managed Contract",
-    "englishSource": "Managed Contract"
-  },
-  "referredByTokenContractNotFound": {
-    "message": "Contract $address$, which is referred by token contract to, was not found.",
-    "placeholders": {
-      "address": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Contract $address$, which is referred by token contract to, was not found."
-  },
-  "tokenContractNotFound": {
-    "message": "The contract was not found.",
-    "englishSource": "The contract was not found."
-  },
-  "failedToParseMetadata": {
-    "message": "Failed to parse metadata",
-    "englishSource": "Failed to parse metadata"
-  },
-  "unknownParseErrorOccurred": {
-    "message": "An unknown parsing error occurred.",
-    "englishSource": "An unknown parsing error occurred."
-  },
-  "errorWhileFetchingUrl": {
-    "message": "Error occurred while fetching from $url$",
-    "placeholders": {
-      "url": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Error occurred while fetching from $url$"
-  },
-  "invalidManagedContract": {
-    "message": "Invalid managed contract",
-    "englishSource": "Invalid managed contract"
-  },
-  "someMethodNotDefinedInContract": {
-    "message": "'$name$' method isn't defined in contract.",
-    "placeholders": {
-      "name": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "'$name$' method isn't defined in contract."
-  },
-  "someMethodSignatureDoesNotMatchStandard": {
-    "message": "'$name$' method's signature doesn't match the standard.",
-    "placeholders": {
-      "name": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "'$name$' method's signature doesn't match the standard."
-  },
-  "failedToLoadChainID": {
-    "message": "Failed to load chain ID for this network",
-    "englishSource": "Failed to load chain ID for this network"
-  },
-  "makeSureTokenIdIsCorrect": {
-    "message": "Please make sure that asset ID is correct.",
-    "englishSource": "Please make sure that asset ID is correct."
-  },
-  "unknownErrorCheckingSomeEntrypoint": {
-    "message": "An unknown error while checking '$name$' entrypoint occurred.",
-    "placeholders": {
-      "name": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "An unknown error while checking '$name$' entrypoint occurred."
-  },
-  "incorrectTokenIdErrorMessage": {
-    "message": "Failed while processing asset with provided data. Please make sure that asset ID is correct.",
-    "englishSource": "Failed while processing asset with provided data. Please make sure that asset ID is correct."
-  },
   "transfer": {
     "message": "Transfer",
     "englishSource": "Transfer"
   },
-  "credit": {
-    "message": "credit",
-    "englishSource": "credit"
-  },
-  "credits": {
-    "message": "credits",
-    "englishSource": "credits"
-  },
-  "coinbaseReward": {
-    "message": "Coinbase Reward",
-    "englishSource": "Coinbase Reward"
-  },
-  "coinbaseRewardSmb": {
-    "message": "$amount$ credits from proving",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$amount$ credits from proving"
-  },
-  "origination": {
-    "message": "Origination",
-    "englishSource": "Origination"
-  },
-  "transferFromSmb": {
-    "message": "from $sender$",
-    "placeholders": {
-      "sender": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "from $sender$"
-  },
-  "transferToSmb": {
-    "message": "to $receiver$",
-    "placeholders": {
-      "receiver": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "to $receiver$"
-  },
-  "interaction": {
-    "message": "Interaction",
-    "englishSource": "Interaction"
-  },
-  "interactionWithContract": {
-    "message": "with $contract$",
-    "placeholders": {
-      "contract": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "with $contract$"
-  },
-  "delegationToSmb": {
-    "message": "to $delegate$",
-    "placeholders": {
-      "delegate": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "to $delegate$"
-  },
-  "fa2TokenAlreadyExists": {
-    "message": "Token with address $address$ and ID $tokenId$ already exists.",
-    "placeholders": {
-      "address": {
-        "content": "$1"
-      },
-      "tokenId": {
-        "content": "$2"
-      }
-    },
-    "englishSource": "Token with address $address$ and ID $tokenId$ already exists."
-  },
-  "nonFa2TokenAlreadyExists": {
-    "message": "Token with address $address$ already exists.",
-    "placeholders": {
-      "address": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Token with address $address$ already exists."
-  },
-  "approveForSmb": {
-    "message": "for $spender$",
-    "placeholders": {
-      "spender": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "for $spender$"
-  },
-  "undelegation": {
-    "message": "Undelegation",
-    "englishSource": "Undelegation"
-  },
-  "bytes": {
-    "message": "Bytes",
-    "englishSource": "Bytes"
-  },
   "clean": {
     "message": "Clean",
     "englishSource": "Clean"
-  },
-  "errorChangingAccountName": {
-    "message": "An error occurred while changing account name",
-    "englishSource": "An error occurred while changing account name"
   },
   "ok": {
     "message": "OK",
@@ -2864,140 +839,13 @@
     "message": "Confirm the action",
     "englishSource": "Confirm the action"
   },
-  "domainDoesntResolveToAddress": {
-    "message": "Domain \"$value$\" doesn't resolve to an address",
-    "placeholders": {
-      "value": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Domain \"$value$\" doesn't resolve to an address"
-  },
-  "invalidAddressOrDomain": {
-    "message": "Invalid address or domain name",
-    "englishSource": "Invalid address or domain name"
-  },
-  "resolvedAddress": {
-    "message": "Resolved address",
-    "englishSource": "Resolved address"
-  },
-  "invalidRpcCantGetChainId": {
-    "message": "Invalid RPC: Cannot get chain id",
-    "description": "RPC = Remote Procedure Call (https://en.wikipedia.org/wiki/Remote_procedure_call)",
-    "englishSource": "Invalid RPC: Cannot get chain id"
-  },
-  "contractNotOriginated": {
-    "message": "Contract not originated",
-    "englishSource": "Contract not originated"
-  },
-  "welcomeTo": {
-    "message": "Welcome to",
-    "englishSource": "Welcome to"
-  },
-  "domain": {
-    "message": "Domain",
-    "englishSource": "Domain"
-  },
-  "hash": {
-    "message": "Hash",
-    "englishSource": "Hash"
-  },
-  "defaultAccount": {
-    "message": "Default account (the first one)",
-    "englishSource": "Default account (the first one)"
-  },
-  "loadMore": {
-    "message": "Load more",
-    "englishSource": "Load more"
-  },
   "submit": {
     "message": "Submit",
     "englishSource": "Submit"
   },
-  "invalidJsonInput": {
-    "message": "Invalid JSON",
-    "englishSource": "Invalid JSON"
-  },
-  "notFaucetJson": {
-    "message": "Not a faucet JSON",
-    "englishSource": "Not a faucet JSON"
-  },
-  "faucetJson": {
-    "message": "Faucet JSON",
-    "englishSource": "Faucet JSON"
-  },
-  "faucetJsonDescription": {
-    "message": "You can paste JSON here instead of adding file",
-    "englishSource": "You can paste JSON here instead of adding file"
-  },
-  "unknownErrorFromRPC": {
-    "message": "Failed to send request to $url$. Invalid request provided or RPC node is temporarily unreachable.",
-    "placeholders": {
-      "url": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Failed to send request to $url$. Invalid request provided or RPC node is temporarily unreachable."
-  },
-  "emptyImplicitContract": {
-    "message": "Your account is empty. Deposit any Miden credits amount on this account to activate it",
-    "englishSource": "Your account is empty. Deposit any Miden credits amount on this account to activate it"
-  },
-  "balanceTooLow": {
-    "message": "Gas token balance is too low",
-    "englishSource": "Gas token balance is too low"
-  },
-  "swap": {
-    "message": "Swap",
-    "englishSource": "Swap"
-  },
-  "accountNumber": {
-    "message": "Account number",
-    "englishSource": "Account number"
-  },
-  "noExchangersAvailable": {
-    "message": "Sorry, no exchangers are available for the current network.",
-    "englishSource": "Sorry, no exchangers are available for the current network."
-  },
-  "noResults": {
-    "message": "No Results",
-    "englishSource": "No Results"
-  },
-  "aleoApy": {
-    "message": "APY: 6%",
-    "englishSource": "APY: 6%"
-  },
-  "tokenApy": {
-    "message": "APY",
-    "englishSource": "APY"
-  },
   "max": {
     "message": "Max",
     "englishSource": "Max"
-  },
-  "balance": {
-    "message": "Balance",
-    "englishSource": "Balance"
-  },
-  "convertToPrivate": {
-    "message": "Convert to private",
-    "englishSource": "Convert to private"
-  },
-  "convertToPublic": {
-    "message": "Convert to public",
-    "englishSource": "Convert to public"
-  },
-  "convertPublicPrivate": {
-    "message": "Convert to Public/Private",
-    "englishSource": "Convert to Public/Private"
-  },
-  "toConvert": {
-    "message": "to convert",
-    "englishSource": "to convert"
-  },
-  "willGet": {
-    "message": "you will get",
-    "englishSource": "you will get"
   },
   "from": {
     "message": "From",
@@ -3007,376 +855,37 @@
     "message": "To",
     "englishSource": "To"
   },
-  "toAsset": {
-    "message": "To",
-    "englishSource": "To"
-  },
-  "via": {
-    "message": "Via",
-    "englishSource": "Via"
-  },
-  "swapRoute": {
-    "message": "Swap route",
-    "englishSource": "Swap route"
-  },
-  "exchangeRate": {
-    "message": "Exchange rate",
-    "englishSource": "Exchange rate"
-  },
-  "priceImpact": {
-    "message": "Price impact",
-    "englishSource": "Price impact"
-  },
-  "slippageTolerance": {
-    "message": "Slippage tolerance",
-    "englishSource": "Slippage tolerance"
-  },
   "received": {
     "message": "Received",
     "englishSource": "Received"
-  },
-  "sending": {
-    "message": "Sending",
-    "englishSource": "Sending"
-  },
-  "sent": {
-    "message": "Sent",
-    "englishSource": "Sent"
-  },
-  "executing": {
-    "message": "Executing",
-    "englishSource": "Executing"
-  },
-  "executed": {
-    "message": "Executed",
-    "englishSource": "Executed"
-  },
-  "minted": {
-    "message": "Minted",
-    "englishSource": "Minted"
-  },
-  "minimumReceived": {
-    "message": "Minimum received",
-    "englishSource": "Minimum received"
-  },
-  "inputOutputAssetsCannotBeSame": {
-    "message": "Input and output assets cannot be the same",
-    "englishSource": "Input and output assets cannot be the same"
-  },
-  "amountMustBeReservedForNetworkFees": {
-    "message": "$amount$ must be reserved to pay network fees",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$amount$ must be reserved to pay network fees"
-  },
-  "nft": {
-    "message": "NFT",
-    "englishSource": "NFT"
-  },
-  "noNFTsYet": {
-    "message": "No NFTs yet",
-    "englishSource": "No NFTs yet"
-  },
-  "noNFTsSubMessage": {
-    "message": "You will see your NFT here once you have one.",
-    "englishSource": "You will see your NFT here once you have one."
-  },
-  "helpAndCommunity": {
-    "message": "Help & Community",
-    "englishSource": "Help & Community"
-  },
-  "communityResourcesTitle": {
-    "message": "You may always find additional info about the Miden wallet or ask for help on the next resources.",
-    "englishSource": "You may always find additional info about the Miden wallet or ask for help on the next resources."
-  },
-  "helpAndCommunityDescription": {
-    "message": "Use this section if you want to be a part of our community or need help.",
-    "englishSource": "Use this section if you want to be a part of our community or need help."
-  },
-  "joinPrompt": {
-    "message": "Feel free to join and ask your questions 😊",
-    "englishSource": "Feel free to join and ask your questions 😊"
-  },
-  "sourceLink": {
-    "message": "Source Link",
-    "englishSource": "Source Link"
-  },
-  "blockExplorer": {
-    "message": "Blockchain explorer",
-    "englishSource": "Blockchain explorer"
-  },
-  "explorer": {
-    "message": "Explorer",
-    "englishSource": "Explorer"
-  },
-  "explorerLink": {
-    "message": "Go to Explorer",
-    "englishSource": "Go to Explorer"
-  },
-  "specifyTokenId": {
-    "message": "Specify token ID",
-    "englishSource": "Specify token ID"
-  },
-  "notWhitelistedTokenWarning": {
-    "message": "Attention! One of the tokens you’re trying to exchange is not whitelisted. You can interact with them at your own risk.",
-    "englishSource": "Attention! One of the tokens you’re trying to exchange is not whitelisted. You can interact with them at your own risk."
-  },
-  "tvl": {
-    "message": "TVL",
-    "englishSource": "TVL"
-  },
-  "promoted": {
-    "message": "Promoted",
-    "englishSource": "Promoted"
-  },
-  "searchDApps": {
-    "message": "Search DApps",
-    "englishSource": "Search DApps"
-  },
-  "game": {
-    "message": "Game",
-    "englishSource": "Game"
-  },
-  "social": {
-    "message": "Social",
-    "englishSource": "Social"
-  },
-  "marketplace": {
-    "message": "Marketplace",
-    "englishSource": "Marketplace"
-  },
-  "farming": {
-    "message": "Farming",
-    "englishSource": "Farming"
   },
   "other": {
     "message": "Other",
     "englishSource": "Other"
   },
-  "noMatchingDAppsFound": {
-    "message": "No matching dApps were found",
-    "englishSource": "No matching dApps were found"
-  },
   "thousandFormat": {
     "message": "$thousand$k",
-    "placeholders": {
-      "thousand": {
-        "content": "$1"
-      }
-    },
     "englishSource": "$thousand$k"
   },
   "millionFormat": {
     "message": "$million$M",
-    "placeholders": {
-      "million": {
-        "content": "$1"
-      }
-    },
     "englishSource": "$million$M"
   },
   "billionFormat": {
     "message": "$billion$B",
-    "placeholders": {
-      "billion": {
-        "content": "$1"
-      }
-    },
     "englishSource": "$billion$B"
-  },
-  "gasFee": {
-    "message": "Gas fee",
-    "englishSource": "Gas fee"
-  },
-  "storageFee": {
-    "message": "Storage fee",
-    "englishSource": "Storage fee"
-  },
-  "leoWalletFeeWarning": {
-    "message": "Leo Wallet doesn't apply any fees to exchanges for now but it may apply in the future.",
-    "englishSource": "Leo Wallet doesn't apply any fees to exchanges for now but it may apply in the future."
-  },
-  "poolExchangeFee": {
-    "message": "Pool exchange fee",
-    "englishSource": "Pool exchange fee"
-  },
-  "PriceImpactInfo": {
-    "message": "The difference between the market price and estimated price due to trade size",
-    "englishSource": "The difference between the market price and estimated price due to trade size"
-  },
-  "selectToken": {
-    "message": "Select Token",
-    "englishSource": "Select Token"
-  },
-  "viewAll": {
-    "message": "View all",
-    "englishSource": "View all"
-  },
-  "rewardsForBlocks": {
-    "message": "$reward$ for $blocksAmount$ $blocks$ $feesAmount$ fees",
-    "placeholders": {
-      "reward": {
-        "content": "$1"
-      },
-      "blocksAmount": {
-        "content": "$2"
-      },
-      "blocks": {
-        "content": "$3"
-      },
-      "feesAmount": {
-        "content": "$4"
-      }
-    },
-    "englishSource": "$reward$ for $blocksAmount$ $blocks$ $feesAmount$ fees"
-  },
-  "blocks_one": {
-    "message": "$amount$ block",
-    "description": "For plural forms",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$amount$ block"
-  },
-  "blocks_other": {
-    "message": "$amount$ blocks",
-    "description": "For plural forms",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$amount$ blocks"
-  },
-  "rewardsForSlots": {
-    "message": "$reward$ for $slotsAmount$ $slots$",
-    "placeholders": {
-      "reward": {
-        "content": "$1"
-      },
-      "slotsAmount": {
-        "content": "$2"
-      },
-      "slots": {
-        "content": "$3"
-      }
-    },
-    "englishSource": "$reward$ for $slotsAmount$ $slots$"
-  },
-  "slots_one": {
-    "message": "$amount$ slot",
-    "description": "For plural forms",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$amount$ slot"
-  },
-  "slots_other": {
-    "message": "$amount$ slots",
-    "description": "For plural forms",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$amount$ slots"
-  },
-  "storageUsed": {
-    "message": "Total Storage Used",
-    "englishSource": "Total Storage Used"
   },
   "uploadFile": {
     "message": "Upload File",
     "englishSource": "Upload File"
   },
-  "alreadyHaveTransactionFile": {
-    "message": "Already have a transaction file?",
-    "englishSource": "Already have a transaction file?"
-  },
-  "readyToClaim": {
-    "message": "Ready to claim",
-    "englishSource": "Ready to claim"
-  },
-  "fileSize": {
-    "message": "File Size",
-    "englishSource": "File Size"
-  },
-  "downloadDefaultFiles": {
-    "message": "Download Default Files",
-    "englishSource": "Download Default Files"
-  },
   "download": {
     "message": "Download",
     "englishSource": "Download"
   },
-  "storageFeeMax": {
-    "message": "Storage fee (max)",
-    "englishSource": "Storage fee (max)"
-  },
-  "storageLimit": {
-    "message": "Adjust storage limit",
-    "englishSource": "Adjust storage limit"
-  },
-  "txIsLikelyToFail": {
-    "message": "Warning! Transaction is likely to fail",
-    "englishSource": "Warning! Transaction is likely to fail"
-  },
-  "copyErrorLogs": {
-    "message": "Copy Error Logs",
-    "englishSource": "Copy Error Logs"
-  },
-  "dAppsListTvlDescription": {
-    "message": "Total Value Locked. The value in Miden credits is the total amount of Miden credits locked in dApps. The value in USD is the total amount of Miden credits and tokens locked there.",
-    "englishSource": "Total Value Locked. The value in Miden credits is the total amount of Miden credits locked in dApps. The value in USD is the total amount of Miden credits and tokens locked there."
-  },
-  "noFavoriteDApps": {
-    "message": "You don't have any favorite dApps",
-    "englishSource": "You don't have any favorite dApps"
-  },
   "more": {
     "message": "more",
-    "description": "Show more",
     "englishSource": "more"
-  },
-  "less": {
-    "message": "less",
-    "description": "Show less",
-    "englishSource": "less"
-  },
-  "recentDestinations": {
-    "message": "Recent destinations",
-    "englishSource": "Recent destinations"
-  },
-  "unknownAccount": {
-    "message": "Unknown account",
-    "englishSource": "Unknown account"
-  },
-  "ledgerLiveBridgeGuide": {
-    "message": "To connect to Ledger, please activate the Ledger Live application on your device, open Miden Wallet application and allow a WebSocket connection to your Miden account.",
-    "englishSource": "To connect to Ledger, please activate the Ledger Live application on your device, open Miden Wallet application and allow a WebSocket connection to your Miden account."
-  },
-  "ledgerBridgeGuide": {
-    "message": "To connect the Ledger, please activate your device and open Miden Wallet application.",
-    "englishSource": "To connect the Ledger, please activate your device and open Miden Wallet application."
-  },
-  "noExchangerFoundForToken": {
-    "message": "No exchanger was found for token $symbol$ ($name$).",
-    "placeholders": {
-      "symbol": {
-        "content": "$1"
-      },
-      "name": {
-        "content": "$2"
-      }
-    },
-    "englishSource": "No exchanger was found for token $symbol$ ($name$)."
   },
   "addressBook": {
     "message": "Address Book",
@@ -3406,10 +915,6 @@
     "message": "Current contacts",
     "englishSource": "Current contacts"
   },
-  "updateContactDescription": {
-    "message": "To update an existing contact, just remove it\nand add a new one.",
-    "englishSource": "To update an existing contact, just remove it\nand add a new one."
-  },
   "deleteContactConfirm": {
     "message": "Are you sure you want to delete this contact?",
     "englishSource": "Are you sure you want to delete this contact?"
@@ -3418,50 +923,21 @@
     "message": "Own",
     "englishSource": "Own"
   },
-  "counterErrorDescription": {
-    "message": "You can not conduct the operation at the moment!\nPlease, wait when your previous operation is applied and retry.",
-    "englishSource": "You can not conduct the operation at the moment!\nPlease, wait when your previous operation is applied and retry."
-  },
-  "swapDisclaimerTitle": {
-    "message": "Disclaimer. Beta version, read before using the SWAP section.",
-    "englishSource": "Disclaimer. Beta version, read before using the SWAP section."
-  },
-  "swapDisclaimerContent": {
-    "message": "Miden wallet only provides an interface to interact with the Miden Dexes. \n\nWe are not responsible for: DEX issues, displayed tokens, price, exchange rates, and user trading decisions. \n\nBefore using this Swap Section, you should review the relevant documentation to understand how the DEX(AMM) protocols work. \n\nUsing this section is solely the user's responsibility.",
-    "englishSource": "Miden wallet only provides an interface to interact with the Miden Dexes. \n\nWe are not responsible for: DEX issues, displayed tokens, price, exchange rates, and user trading decisions. \n\nBefore using this Swap Section, you should review the relevant documentation to understand how the DEX(AMM) protocols work. \n\nUsing this section is solely the user's responsibility."
-  },
   "noContactsFound": {
     "message": "No contacts found",
     "englishSource": "No contacts found"
-  },
-  "addThisAddressToContacts": {
-    "message": "Add this address to contacts?",
-    "englishSource": "Add this address to contacts?"
   },
   "verifySeedPhrase": {
     "message": "Verify Seed Phrase",
     "englishSource": "Verify Seed Phrase"
   },
-  "verifySeedPhraseDescription": {
-    "message": "Fill in the blank fields with the words to verify your Seed Phrase backup",
-    "englishSource": "Fill in the blank fields with the words to verify your Seed Phrase backup"
-  },
   "word": {
     "message": "Word $number$",
-    "placeholders": {
-      "number": {
-        "content": "$1"
-      }
-    },
     "englishSource": "Word $number$"
   },
   "finish": {
     "message": "Finish",
     "englishSource": "Finish"
-  },
-  "welcomeToOnboarding": {
-    "message": "Welcome to Onboarding",
-    "englishSource": "Welcome to Onboarding"
   },
   "onboarding": {
     "message": "Onboarding",
@@ -3471,193 +947,13 @@
     "message": "Next",
     "englishSource": "Next"
   },
-  "updatingMinMax": {
-    "message": "Updating min/max...",
-    "englishSource": "Updating min/max..."
-  },
   "done": {
     "message": "Done",
     "englishSource": "Done"
   },
-  "standWithUkraine": {
-    "message": "Stand with Ukraine",
-    "englishSource": "Stand with Ukraine"
-  },
-  "addressBalanceDetails": {
-    "message": "Your address and balance",
-    "englishSource": "Your address and balance"
-  },
-  "addressBalanceDescription": {
-    "message": "After creating an account, you'll get a unique address — your personal identifier in the Miden blockchain. If you would like to receive and use Miden credits or Miden-built tokens in Miden, you should use this address.",
-    "englishSource": "After creating an account, you'll get a unique address — your personal identifier in the Miden blockchain. If you would like to receive and use Miden credits or Miden-built tokens in Miden, you should use this address."
-  },
-  "addressBalanceHint": {
-    "message": "The balance of your Miden credits is displayed under the public address.",
-    "englishSource": "The balance of your Miden credits is displayed under the public address."
-  },
-  "howToStartDetails": {
-    "message": "How to start",
-    "englishSource": "How to start"
-  },
-  "howToStartDescription1": {
-    "message": "To start using your wallet and interacting with the Miden DApps ecosystem, the account balance must be positive. To do this, top up your address with Miden Credits coins.",
-    "englishSource": "To start using your wallet and interacting with the Miden DApps ecosystem, the account balance must be positive. To do this, top up your address with Miden Credits coins."
-  },
-  "howToStartDescription2": {
-    "message": "You can use the \"Buy\" button and top up your Miden Credits balance, using cryptocurrencies, debit, or credit cards.",
-    "englishSource": "You can use the \"Buy\" button and top up your Miden Credits balance, using cryptocurrencies, debit, or credit cards."
-  },
-  "howToStartHint": {
-    "message": "Also, you can copy your address and send coins to it from another wallet or Exchange. To copy the address, click on it on the main wallet screen or use “Receive”.",
-    "englishSource": "Also, you can copy your address and send coins to it from another wallet or Exchange. To copy the address, click on it on the main wallet screen or use “Receive”."
-  },
-  "tokensCollectibleDetails": {
-    "message": "Tokens & Collectible",
-    "englishSource": "Tokens & Collectible"
-  },
-  "tokensCollectibleDescription1": {
-    "message": "Your balances of FA1.2 and FA2 tokens are displayed on the “Tokens” tab.",
-    "englishSource": "Your balances of FA1.2 and FA2 tokens are displayed on the “Tokens” tab."
-  },
-  "tokensCollectibleDescription2": {
-    "message": "You can send, check balances, or contract addresses of any token by clicking on it in this section.",
-    "englishSource": "You can send, check balances, or contract addresses of any token by clicking on it in this section."
-  },
-  "tokensCollectibleHint": {
-    "message": "Your Non-Fungible Tokens (NFT) are displayed on the “Collectibles” tab. Here you can also interact with your own NFTs, see their full view, ID, and contract address.",
-    "englishSource": "Your Non-Fungible Tokens (NFT) are displayed on the “Collectibles” tab. Here you can also interact with your own NFTs, see their full view, ID, and contract address."
-  },
-  "profileRpcDetails": {
-    "message": "Profile & RPC",
-    "englishSource": "Profile & RPC"
-  },
-  "profileRpcDescription": {
-    "message": "At the top of the interface, you can see your account robo-icon. By clicking on it, you will see the parameters for interaction with accounts, the settings button, and the extension view mode.",
-    "englishSource": "At the top of the interface, you can see your account robo-icon. By clicking on it, you will see the parameters for interaction with accounts, the settings button, and the extension view mode."
-  },
-  "profileRpcHint1": {
-    "message": "Next, you will see the \"Networks\" selector, which allows you to select a node (RPC) to which your Miden extension will be connected.",
-    "englishSource": "Next, you will see the \"Networks\" selector, which allows you to select a node (RPC) to which your Miden extension will be connected."
-  },
-  "profileRpcHint2": {
-    "message": "If your balance is not displayed, try changing the node.",
-    "englishSource": "If your balance is not displayed, try changing the node."
-  },
-  "profileRpcHint3": {
-    "message": "You can choose from a predefined list or add RPC manually by following these ",
-    "englishSource": "You can choose from a predefined list or add RPC manually by following these "
-  },
-  "congrats": {
-    "message": "Congrats!",
-    "englishSource": "Congrats!"
-  },
-  "instructions": {
-    "message": "instructions.",
-    "englishSource": "instructions."
-  },
   "start": {
     "message": "Start",
     "englishSource": "Start"
-  },
-  "thanks": {
-    "message": "Ok thanks!",
-    "englishSource": "Ok thanks!"
-  },
-  "browserVersionIsOutOfDate": {
-    "message": "Your browser version is out of date, we strongly recommend updating to the newest version!",
-    "englishSource": "Your browser version is out of date, we strongly recommend updating to the newest version!"
-  },
-  "congratsDescription1": {
-    "message": "Thanks for your attention!",
-    "englishSource": "Thanks for your attention!"
-  },
-  "congratsDescription2": {
-    "message": "Now you know about the basic and most important functions of the Miden wallet.",
-    "englishSource": "Now you know about the basic and most important functions of the Miden wallet."
-  },
-  "congratsDescription3": {
-    "message": "You can learn all features of the Miden wallet from our 'Educational series' on YouTube.",
-    "englishSource": "You can learn all features of the Miden wallet from our 'Educational series' on YouTube."
-  },
-  "congratsDescription4": {
-    "message": "Also, instructions and guides are available in our knowledge base.",
-    "englishSource": "Also, instructions and guides are available in our knowledge base."
-  },
-  "congratsDescription5": {
-    "message": "Join our communities in Telegram and Discord.",
-    "englishSource": "Join our communities in Telegram and Discord."
-  },
-  "congratsDescription6": {
-    "message": "PS: Good luck exploring the Miden world!",
-    "englishSource": "PS: Good luck exploring the Miden world!"
-  },
-  "attention": {
-    "message": "Attention",
-    "englishSource": "Attention"
-  },
-  "attentionDescription": {
-    "message": "Never and under any pretext share your private keys and seed phrase with third parties.",
-    "englishSource": "Never and under any pretext share your private keys and seed phrase with third parties."
-  },
-  "attentionListTitle1": {
-    "message": "Also, remember:",
-    "englishSource": "Also, remember:"
-  },
-  "attentionListItem1": {
-    "message": "Your wallet can be targeted through a browser 0days or via other malicious extension installed;",
-    "englishSource": "Your wallet can be targeted through a browser 0days or via other malicious extension installed;"
-  },
-  "attentionListItem2": {
-    "message": "The screen can potentially be manipulated by malicious software installed in the system;",
-    "englishSource": "The screen can potentially be manipulated by malicious software installed in the system;"
-  },
-  "attentionListItem3": {
-    "message": "User’s host machine can be targeted by malware to steal encrypted wallet;",
-    "englishSource": "User’s host machine can be targeted by malware to steal encrypted wallet;"
-  },
-  "attentionListItem4": {
-    "message": "Choosing weak passwords can reduce the ability of a wallet to resist adversarial brute-forcing.",
-    "englishSource": "Choosing weak passwords can reduce the ability of a wallet to resist adversarial brute-forcing."
-  },
-  "attentionListTitle2": {
-    "message": "To keep your assets safe, we recommend:",
-    "englishSource": "To keep your assets safe, we recommend:"
-  },
-  "attentionListItem5": {
-    "message": "Move your funds from 'hot' wallet to 'cold' as soon as possible (Miden wallet supports integration with 'Ledger Nano' devices);",
-    "englishSource": "Move your funds from 'hot' wallet to 'cold' as soon as possible (Miden wallet supports integration with 'Ledger Nano' devices);"
-  },
-  "attentionListItem6": {
-    "message": "Use separate browsers for web-surfing and wallet’s operating;",
-    "englishSource": "Use separate browsers for web-surfing and wallet’s operating;"
-  },
-  "attentionListItem7": {
-    "message": "Use one browser’s tab at a time to make transactions;",
-    "englishSource": "Use one browser’s tab at a time to make transactions;"
-  },
-  "attentionListItem8": {
-    "message": "Keep the wallet locked when it is not in usage.",
-    "englishSource": "Keep the wallet locked when it is not in usage."
-  },
-  "takeCare": {
-    "message": "Take care of your safety in the crypto world!",
-    "englishSource": "Take care of your safety in the crypto world!"
-  },
-  "readMore": {
-    "message": "Read more by the ",
-    "englishSource": "Read more by the "
-  },
-  "deleteTokenConfirm": {
-    "message": "Are you sure you want to delete this token?",
-    "englishSource": "Are you sure you want to delete this token?"
-  },
-  "ledgerLiveSettings": {
-    "message": "Use Ledger Live",
-    "englishSource": "Use Ledger Live"
-  },
-  "ledgerLiveSettingsDescription": {
-    "message": "The new Ledger Live bridge allows you to use your Ledger in a different way.",
-    "englishSource": "The new Ledger Live bridge allows you to use your Ledger in a different way."
   },
   "lockUpSettings": {
     "message": "Extension lock-up",
@@ -3667,235 +963,25 @@
     "message": "The extension will be automatically blocked after 10 minutes of inactivity.",
     "englishSource": "The extension will be automatically blocked after 10 minutes of inactivity."
   },
-  "totalBalance": {
-    "message": "Total Balance",
-    "englishSource": "Total Balance"
-  },
-  "buyButton": {
-    "message": "Buy",
-    "englishSource": "Buy"
-  },
-  "buyWithCrypto": {
-    "message": "Buy With Crypto",
-    "englishSource": "Buy With Crypto"
-  },
-  "buyWithExolix": {
-    "message": "Buy With Exolix",
-    "englishSource": "Buy With Exolix"
-  },
-  "buyWithExolixDescription": {
-    "message": "Exchange  $number$  cryptocurrencies to Miden Credits or USDT Miden instantly and without registration",
-    "englishSource": "Exchange $number$ cryptocurrencies to Miden Credits or USDT Miden instantly and without registration"
-  },
-  "buyWithMoonPay": {
-    "message": "Buy With MoonPay",
-    "englishSource": "Buy With MoonPay"
-  },
-  "buyWithMoonPayDescription": {
-    "message": "Crypto just got easy. Buy Miden Credits in minutes using Visa, Mastercard, and all major debit and credit cards.",
-    "englishSource": "Crypto just got easy. Buy Miden Credits in minutes using Visa, Mastercard, and all major debit and credit cards."
-  },
-  "buyWithRamp": {
-    "message": "Buy With Ramp",
-    "englishSource": "Buy With Ramp"
-  },
-  "buyWithRampDescription": {
-    "message": "Buy Miden Credits  using Visa, Mastercard, and all major debit and credit cards. Ramp is available in 160+ countries and territories.",
-    "englishSource": "Buy Miden Credits  using Visa, Mastercard, and all major debit and credit cards. Ramp is available in 160+ countries and territories."
-  },
-  "buyWithAliceBob": {
-    "message": "Buy Miden Credits with Alice-Bob (UAH only)",
-    "englishSource": "Buy Miden Credits with Alice-Bob (UAH only)"
-  },
-  "buyWithAliceBobDescription": {
-    "message": "Fast and cost-effective exchange of UAH to Miden Credits.",
-    "englishSource": "Fast and cost-effective exchange of UAH to Miden Credits."
-  },
-  "buyWithUtorgDescription": {
-    "message": "Licensed fiat-to-crypto gateway. 187+ countries, AI-powered KYC, Apple Pay, Google Pay.",
-    "englishSource": "Licensed fiat-to-crypto gateway. 187+ countries, AI-powered KYC, Apple Pay, Google Pay."
-  },
-  "topUpBuy": {
-    "message": "Top up $gasTokenName$ balance",
-    "placeholders": {
-      "gasTokenName": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Top up $gasTokenName$ balance"
-  },
-  "buyWithUtorg": {
-    "message": "Buy Miden Credits with UTORG",
-    "englishSource": "Buy Miden Credits with UTORG"
-  },
-  "buyWithCard": {
-    "message": "Buy with Debit/Credit Card",
-    "englishSource": "Buy with Debit/Credit Card"
-  },
-  "topUpDescription": {
-    "message": "Miden integrated third-party solutions to buy  $gasTokenName1$  with crypto or a Debit/Credit card. Choose a provider, follow guides, get  $gasTokenName2$  on your account.",
-    "englishSource": "Miden integrated third-party solutions to buy $gasTokenName1$ with crypto or a Debit/Credit card. Choose a provider, follow guides, get $gasTokenName2$ on your account."
-  },
-  "enterAmount": {
-    "message": "Please enter the amount:",
-    "englishSource": "Please enter the amount:"
-  },
-  "topUpCrypto": {
-    "message": "Crypto",
-    "englishSource": "Crypto"
-  },
-  "topUpDebit": {
-    "message": "Debit/Credit Card",
-    "englishSource": "Debit/Credit Card"
-  },
-  "overdueTransaction": {
-    "message": "Transaction is overdue",
-    "englishSource": "Transaction is overdue"
-  },
-  "overdueTransactionMessage": {
-    "message": "Please, create a new exchange unless \n you have sent the funds. \n If the funds have been sent, please, wait for the confirmation from the system.",
-    "englishSource": "Please, create a new exchange unless \n you have sent the funds. \n If the funds have been sent, please, wait for the confirmation from the system."
-  },
-  "topUpAgain": {
-    "message": "Top Up Again",
-    "englishSource": "Top Up Again"
-  },
-  "topUp": {
-    "message": "Top Up",
-    "englishSource": "Top Up"
-  },
-  "newTopUp": {
-    "message": "New Top Up",
-    "englishSource": "New Top Up"
-  },
-  "exchangeDetails": {
-    "message": "Enter exchange details",
-    "englishSource": "Enter exchange details"
-  },
-  "exchangeDetailsDescription": {
-    "message": "Top up your Miden Credits or USDT Miden balance instantly with  $number$  cryptocurrencies",
-    "englishSource": "Top up your Miden Credits or USDT Miden balance instantly with $number$ cryptocurrencies"
-  },
-  "privacyAndPolicyLinks": {
-    "message": "By clicking $buttonContent$ you agree with \n$termsOfUse$ and $privacyPolicy$",
-    "placeholders": {
-      "buttonContent": {
-        "content": "$1"
-      },
-      "termsOfUse": {
-        "content": "$2"
-      },
-      "privacyPolicy": {
-        "content": "$3"
-      }
-    },
-    "englishSource": "By clicking $buttonContent$ you agree with \n$termsOfUse$ and $privacyPolicy$"
-  },
-  "depositAddressText": {
-    "message": "Deposit $depositAddress$ address:",
-    "placeholders": {
-      "depositAddress": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Deposit $depositAddress$ address:"
-  },
-  "support": {
-    "message": "Support",
-    "englishSource": "Support"
-  },
-  "deposit": {
-    "message": "Deposit",
-    "englishSource": "Deposit"
-  },
-  "depositDescription": {
-    "message": "Send the funds to the address below. As soon as the deposit is received, the exchange process will begin automatically",
-    "englishSource": "Send the funds to the address below. As soon as the deposit is received, the exchange process will begin automatically"
-  },
-  "sendByOneTransaction": {
-    "message": "Send by one transaction",
-    "englishSource": "Send by one transaction"
-  },
-  "youGet": {
-    "message": "You get:",
-    "englishSource": "You get:"
-  },
-  "fixedRate": {
-    "message": "Fixed rate:",
-    "englishSource": "Fixed rate:"
-  },
   "transactionId": {
     "message": "Transaction ID:",
     "englishSource": "Transaction ID:"
   },
-  "atomDepositMemo": {
-    "message": "Atom Deposit Memo",
-    "englishSource": "Atom Deposit Memo"
-  },
   "recipientAddress": {
-    "message": "Recipient address:",
+    "message": "Recipient address",
     "englishSource": "Recipient address"
-  },
-  "recipientXtzAddress": {
-    "message": "Recipient XTZ address:",
-    "englishSource": "Recipient XTZ address:"
-  },
-  "inputHash": {
-    "message": "Input hash:",
-    "englishSource": "Input hash:"
-  },
-  "youSend": {
-    "message": "You send:",
-    "englishSource": "You send:"
-  },
-  "sendTime": {
-    "message": "Send time:",
-    "englishSource": "Send time:"
-  },
-  "completedDescription": {
-    "message": "Please, check your funds in your wallet.\nThe exchange process is completed.",
-    "englishSource": "Please, check your funds in your wallet.\nThe exchange process is completed."
   },
   "completed": {
     "message": "Completed",
     "englishSource": "Completed"
   },
-  "youReceive": {
-    "message": "You receive:",
-    "englishSource": "You receive:"
-  },
-  "waitMessage": {
-    "message": "Please, wait. The conversion process will take from 15 min to 2 hours.",
-    "englishSource": "Please, wait. The conversion process will take from 15 min to 2 hours."
-  },
   "confirmation": {
     "message": "Confirmation",
     "englishSource": "Confirmation"
   },
-  "exchanging": {
-    "message": "Exchanging",
-    "englishSource": "Exchanging"
-  },
-  "step": {
-    "message": "Step",
-    "englishSource": "Step"
-  },
   "collectibles": {
     "message": "Collectibles",
     "englishSource": "Collectibles"
-  },
-  "attentionSendAmount": {
-    "message": "You need to send the exact amount of cryptocurrency to the deposit address. Otherwise the transaction will fail and you will have to contact $support$",
-    "placeholders": {
-      "support": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "You need to send the exact amount of cryptocurrency to the deposit address. Otherwise the transaction will fail and you will have to contact $support$"
-  },
-  "important": {
-    "message": "Important",
-    "englishSource": "Important"
   },
   "id": {
     "message": "ID",
@@ -3909,58 +995,6 @@
     "message": "Manage Collectibles",
     "englishSource": "Manage Collectibles"
   },
-  "deleteCollectibleConfirm": {
-    "message": "Are you sure you want to delete this collectible?",
-    "englishSource": "Are you sure you want to delete this collectible?"
-  },
-  "zeroCollectibleText": {
-    "message": "You don’t have collectibles yet!\nGood time to get one of them",
-    "englishSource": "You don’t have collectibles yet!\nGood time to get one of them"
-  },
-  "min": {
-    "message": "Min:",
-    "englishSource": "Min:"
-  },
-  "warningTopUpServiceMessage": {
-    "message": "The token exchange feature is provided by a third party. The Miden Wallet is not responsible for the work of third-party services.",
-    "englishSource": "The token exchange feature is provided by a third party. The Miden Wallet is not responsible for the work of third-party services."
-  },
-  "selectTokensToSwap": {
-    "message": "Please, select tokens to swap",
-    "englishSource": "Please, select tokens to swap"
-  },
-  "enterSwapAmount": {
-    "message": "Please, enter swap amount",
-    "englishSource": "Please, enter swap amount"
-  },
-  "noQuotesAvailable": {
-    "message": "No quotes available",
-    "englishSource": "No quotes available"
-  },
-  "swapRouteLoadingHasFailed": {
-    "message": "Exchange rate data loading has failed. \nReload this page or try again later.",
-    "englishSource": "Exchange rate data loading has failed. \nReload this page or try again later."
-  },
-  "swapTokenSearchInputPlaceholder": {
-    "message": "Enter name or address",
-    "englishSource": "Enter name or address"
-  },
-  "scanQRWithLeoMobile": {
-    "message": "Scan this QR-code with yor Leo Wallet Mobile app.",
-    "englishSource": "Scan this QR-code with yor Leo Wallet Mobile app."
-  },
-  "serviceIsUnavailable": {
-    "message": "Sorry, service is temporarily unavailable. Try again later!",
-    "englishSource": "Sorry, service is temporarily unavailable. Try again later!"
-  },
-  "buyWithChainBits": {
-    "message": "Buy with ChainBits",
-    "englishSource": "Buy with ChainBits"
-  },
-  "buyWithChainBitsDescription": {
-    "message": "Buying Crypto Was Never This Easy",
-    "englishSource": "Buying Crypto Was Never This Easy"
-  },
   "convert": {
     "message": "Convert",
     "englishSource": "Convert"
@@ -3969,207 +1003,68 @@
     "message": "Public",
     "englishSource": "Public"
   },
-  "toPublic": {
-    "message": "to public",
-    "englishSource": "to public"
-  },
-  "toPrivate": {
-    "message": "to private",
-    "englishSource": "to private"
-  },
   "private": {
     "message": "Private",
     "englishSource": "Private"
-  },
-  "converting": {
-    "message": "Converting",
-    "englishSource": "Converting"
   },
   "customizeFee": {
     "message": "Customize fee",
     "englishSource": "Customize fee"
   },
-  "feeVisibility": {
-    "message": "Fee Visibility",
-    "englishSource": "Fee Visibility"
-  },
-  "convertingPublic": {
-    "message": "Convert to Public NFT",
-    "englishSource": "Convert to Public NFT"
-  },
-  "convertingPrivate": {
-    "message": "Convert to Private NFT",
-    "englishSource": "Convert to Private NFT"
-  },
-  "stake": {
-    "message": "Stake",
-    "englishSource": "Stake"
-  },
-  "unstake": {
-    "message": "Unstake",
-    "englishSource": "Unstake"
-  },
-  "unstaking": {
-    "message": "Unstaking",
-    "englishSource": "Unstaking"
-  },
-  "unstaked": {
-    "message": "Unstaked",
-    "englishSource": "Unstaked"
-  },
-  "stakeAccount": {
-    "message": "Stake Account",
-    "englishSource": "Stake Account"
-  },
-  "staked": {
-    "message": "Staked",
-    "englishSource": "Staked"
-  },
-  "stakeEarningSymbol": {
-    "message": "Stake earning $assetSymbol$",
-    "placeholders": {
-      "assetSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Stake earning $assetSymbol$"
-  },
-  "stakeEarnRewards": {
-    "message": "Stake tokens and earn rewards",
-    "englishSource": "Stake tokens and earn rewards"
-  },
-  "validator": {
-    "message": "Validator",
-    "englishSource": "Validator"
-  },
-  "yourStakeIn": {
-    "message": "Your Stake in",
-    "englishSource": "Your Stake in"
-  },
-  "active": {
-    "message": "Active",
-    "englishSource": "Active"
-  },
-  "learnMoreHere": {
-    "message": "Learn more here",
-    "englishSource": "Learn more here"
-  },
-  "rewards": {
-    "message": "Rewards",
-    "englishSource": "Rewards"
-  },
   "claim": {
     "message": "Claim",
     "englishSource": "Claim"
-  },
-  "claimAll": {
-    "message": "Claim All",
-    "englishSource": "Claim All"
-  },
-  "claimed": {
-    "message": "Claimed",
-    "englishSource": "Claimed"
-  },
-  "claiming": {
-    "message": "Claiming",
-    "englishSource": "Claiming"
   },
   "availableToClaim": {
     "message": "Available to claim",
     "englishSource": "Available to claim"
   },
-  "unstakingInProgress": {
-    "message": "Unstaking in Progress",
-    "englishSource": "Unstaking in Progress"
-  },
-  "mustStakeAtLeastTenAleo": {
-    "message": "Initial stake must be at least 10 ALEO",
-    "englishSource": "Initial stake must be at least 10 ALEO"
-  },
-  "pleaseNote": {
-    "message": "Please Note",
-    "englishSource": "Please Note"
-  },
-  "unstakingProcess": {
-    "message": "Unstaking is a two-step process. After initiating unstaking, please ensure to claim your MIDEN after the  3‑hour processing period.",
-    "englishSource": "Unstaking is a two-step process. After initiating unstaking, please ensure to claim your MIDEN after the  3‑hour processing period."
-  },
-  "testNetIsDown": {
-    "message": "Miden Testnet Beta is down.",
-    "englishSource": "Miden Testnet Beta is down."
-  },
-  "checkStatus": {
-    "message": "Check status",
-    "englishSource": "Check status"
-  },
-  "walletBuiltForPrivacy": {
-    "message": "The wallet built for privacy",
-    "note": "Onboarding",
-    "englishSource": "The wallet built for privacy"
-  },
   "privateTransactionsAnytimeAnywhere": {
     "message": "Private transactions anytime, anywhere.",
-    "note": "Onboarding",
     "englishSource": "Private transactions anytime, anywhere."
   },
   "createANewWallet": {
     "message": "Create a new wallet",
-    "note": "Onboarding",
     "englishSource": "Create a new wallet"
   },
   "iAlreadyHaveAWallet": {
     "message": "I already have a wallet",
-    "note": "Onboarding",
     "englishSource": "I already have a wallet"
   },
   "backUpYourWallet": {
     "message": "Back up your wallet",
-    "note": "Onboarding",
     "englishSource": "Back up your wallet"
-  },
-  "saveThese12Words": {
-    "message": "Save these 12 words to a password manager, or write down and store in a secure place. Do not share with anyone.",
-    "note": "Onboarding",
-    "englishSource": "Save these 12 words to a password manager, or write down and store in a secure place. Do not share with anyone."
   },
   "show": {
     "message": "Show",
-    "note": "Onboarding",
     "englishSource": "Show"
   },
   "hide": {
     "message": "Hide",
-    "note": "Onboarding",
     "englishSource": "Hide"
   },
   "copied": {
     "message": "Copied",
-    "note": "Onboarding",
     "englishSource": "Copied"
   },
   "copyToClipboard": {
     "message": "Copy to clipboard",
-    "note": "Onboarding",
     "englishSource": "Copy to clipboard"
   },
   "createsProofsOnYourComputer": {
     "message": "Creates proofs on your computer",
-    "note": "Onboarding",
     "englishSource": "Creates proofs on your computer"
   },
   "yourKeysStayPrivate": {
     "message": "Your keys stay private",
-    "note": "Onboarding",
     "englishSource": "Your keys stay private"
   },
   "selectTheDefaultTransactionType": {
     "message": "Select the Default Transaction Type",
-    "note": "Onboarding",
     "englishSource": "Select the Default Transaction Type"
   },
   "popular": {
     "message": "Popular",
-    "note": "Onboarding",
     "englishSource": "Popular"
   },
   "verifyMessagePrefix": {
@@ -4178,276 +1073,131 @@
   },
   "enterYourWalletSeedPhrase": {
     "message": "Enter your wallet's 12-word Seed phrase.",
-    "note": "Onboarding",
     "englishSource": "Enter your wallet's 12-word Seed phrase."
-  },
-  "onlyAleoSeedPhrasesAreSupported": {
-    "message": "Only Aleo Seed phrases are supported.",
-    "note": "Onboarding",
-    "englishSource": "Only Aleo Seed phrases are supported."
-  },
-  "seedPhrasePlaceholder": {
-    "message": "12-word Seed phrase",
-    "note": "Onboarding",
-    "englishSource": "12-word Seed phrase"
-  },
-  "join": {
-    "message": "Join",
-    "note": "Onboarding",
-    "englishSource": "Join"
-  },
-  "follow": {
-    "message": "Follow",
-    "note": "Onboarding",
-    "englishSource": "Follow"
-  },
-  "yourWalletIsReady": {
-    "message": "Your wallet is ready",
-    "note": "Onboarding",
-    "englishSource": "Your wallet is ready!"
-  },
-  "joinOurDiscord": {
-    "message": "Join our Miden Wallet Discord",
-    "englishSource": "Join our Miden Wallet Discord"
-  },
-  "joinOurTwitter": {
-    "message": "Follow us on X (Twitter)",
-    "note": "Onboarding",
-    "englishSource": "Follow us on X (Twitter)"
-  },
-  "exploreTheWorldOfPrivateAssets": {
-    "message": "Explore the world of private assets",
-    "note": "Onboarding",
-    "englishSource": "Explore the world of private assets"
-  },
-  "getStarted": {
-    "message": "Get started",
-    "note": "Onboarding",
-    "englishSource": "Get started"
-  },
-  "enterPassword": {
-    "message": "Enter password",
-    "note": "Onboarding",
-    "englishSource": "Enter password"
-  },
-  "verifyPassword": {
-    "message": "Verify password",
-    "note": "Onboarding",
-    "englishSource": "Verify password"
-  },
-  "enterPasswordAgain": {
-    "message": "Enter password again",
-    "note": "Onboarding",
-    "englishSource": "Enter password again"
-  },
-  "itsAMatch": {
-    "message": "It's a match!",
-    "note": "Onboarding",
-    "englishSource": "It's a match!"
-  },
-  "readMoreOnboarding": {
-    "message": "Read More",
-    "note": "Onboarding",
-    "englishSource": "Read More"
-  },
-  "helpUsToImproveLeoWallet": {
-    "message": "Help us to improve Leo Wallet",
-    "note": "Onboarding",
-    "englishSource": "Help us to improve Leo Wallet"
-  },
-  "createPassword": {
-    "message": "Create password",
-    "note": "Onboarding",
-    "englishSource": "Create password"
-  },
-  "createPasswordDescription": {
-    "message": "Set a password to unlock your wallet each time you use your computer. It can't be used to recover your wallet.",
-    "note": "Onboarding",
-    "englishSource": "Set a password to unlock your wallet each time you use your computer. It can't be used to recover your wallet."
-  },
-  "veryStrong": {
-    "message": "Very strong!",
-    "note": "Onboarding",
-    "englishSource": "Very strong!"
-  },
-  "medium": {
-    "message": "Medium",
-    "note": "Onboarding",
-    "englishSource": "Medium"
-  },
-  "low": {
-    "message": "Low",
-    "note": "Onboarding",
-    "englishSource": "Low"
-  },
-  "8chars1number": {
-    "message": "8 characters, 1 number",
-    "note": "Onboarding",
-    "englishSource": "8 characters, 1 number"
-  },
-  "minimumCharsWithAtLeast": {
-    "message": "Minimum 8 characters with at least 1 number",
-    "note": "Onboarding",
-    "englishSource": "Minimum 8 characters with at least 1 number"
-  },
-  "backUpWalletInstructions": {
-    "message": "Save these 12 words to a password manager, or write down and store in a secure place. Do not share with anyone.",
-    "note": "Onboarding",
-    "englishSource": "Save these 12 words to a password manager, or write down and store in a secure place. Do not share with anyone."
-  },
-  "select": {
-    "message": "Select",
-    "note": "Onboarding",
-    "englishSource": "Select"
-  },
-  "selected": {
-    "message": "Selected",
-    "note": "Onboarding",
-    "englishSource": "Selected"
-  },
-  "additionalDownloads": {
-    "message": "Additional Downloads",
-    "note": "Onboarding",
-    "englishSource": "Additional Downloads"
-  },
-  "600megabytes": {
-    "message": "600+ megabytes",
-    "note": "Onboarding",
-    "englishSource": "600+ megabytes"
-  },
-  "transactionSpeed": {
-    "message": "Transaction Speed",
-    "note": "Onboarding",
-    "englishSource": "Transaction Speed"
-  },
-  "transactionSpeedMins": {
-    "message": "1-10 minutes",
-    "note": "Onboarding",
-    "englishSource": "1-10 minutes"
-  },
-  "maximumPrivacy": {
-    "message": "Maximum Privacy",
-    "note": "Onboarding",
-    "englishSource": "Maximum Privacy"
-  },
-  "vpnLevelPrivacy": {
-    "message": "VPN level privacy",
-    "note": "Onboarding",
-    "englishSource": "VPN level privacy"
-  },
-  "transactionSpeed2Sec": {
-    "message": "2 seconds",
-    "note": "Onboarding",
-    "englishSource": "2 seconds"
-  },
-  "additionalDownloads0mb": {
-    "message": "0 MB",
-    "note": "Onboarding",
-    "englishSource": "0 MB"
-  },
-  "delegateProofsToSecureServers": {
-    "message": "Delegate proofs to secure servers",
-    "note": "Onboarding",
-    "englishSource": "Delegate proofs to secure servers"
-  },
-  "delegateTransactions": {
-    "message": "Delegate\nTransactions",
-    "note": "Onboarding",
-    "englishSource": "Delegate\nTransactions"
-  },
-  "generateTransactionsLocally": {
-    "message": "Generate Transactions\nLocally",
-    "note": "Onboarding",
-    "englishSource": "Generate Transactions\nLocally"
-  },
-  "chainUnstable": {
-    "message": "Due to instability of Miden Testnet, transactions may fail.",
-    "englishSource": "Due to instability of Miden Testnet, transactions may fail."
-  },
-  "dataReset": {
-    "message": "Data Reset.",
-    "englishSource": "Data Reset."
-  },
-  "transactionHistoryLost": {
-    "message": "We want to inform you that all transaction history has been lost due to a recent reset of the Miden Testnet.",
-    "englishSource": "We want to inform you that all transaction history has been lost due to a recent reset of the Miden Testnet."
-  },
-  "learnMore": {
-    "message": "Learn more",
-    "englishSource": "Learn more"
-  },
-  "privacyScalesBetter": {
-    "message": "Privacy Scales Better",
-    "note": "Onboarding",
-    "englishSource": "Privacy Scales Better"
-  },
-  "yourWalletHasBeenCreated": {
-    "message": "Your wallet has been created.",
-    "note": "Onboarding",
-    "englishSource": "Your wallet has been created."
-  },
-  "noSeedPhrase": {
-    "message": "No Seed Phrase",
-    "note": "Onboarding",
-    "englishSource": "No Seed Phrase"
-  },
-  "recovery": {
-    "message": "Recovery",
-    "note": "Onboarding",
-    "englishSource": "Recovery"
-  },
-  "yourAccountIsProtected": {
-    "message": "Your account is protected by an encrypted file instead of a seed phrase.",
-    "note": "Onboarding",
-    "englishSource": "Your account is protected by an encrypted file instead of a seed phrase."
-  },
-  "downloadAndSecurelyStore": {
-    "message": "Download and securely store the latest version of your encrypted file. This file is essential for account recovery.",
-    "note": "Onboarding",
-    "englishSource": "Download and securely store the latest version of your encrypted file. This file is essential for account recovery."
-  },
-  "chooseFromDevice": {
-    "message": "choose from device",
-    "note": "Onboarding",
-    "englishSource": "Choose from device"
-  },
-  "chooseImportType": {
-    "message": "Choose Your Import Type",
-    "note": "Onboarding",
-    "englishSource": "Choose Your Import Type"
-  },
-  "chooseImportTypeDescription": {
-    "message": "Restore public balance with your 12-word phrase. To restore private funds, upload the encrypted backup file.",
-    "note": "Onboarding",
-    "englishSource": "Restore public balance with your 12-word phrase. To restore private balance, upload an encrypted backup file."
-  },
-  "importWithSeedPhrase": {
-    "message": "Import with Seed Phrase",
-    "note": "Onboarding",
-    "englishSource": "Import with Seed Phrase"
-  },
-  "importWithSeedPhraseDescription": {
-    "message": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers.",
-    "note": "Onboarding",
-    "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
-  },
-  "importWithEncryptedWalletFile": {
-    "message": "Import with Encrypted Wallet File",
-    "note": "Onboarding",
-    "englishSource": "Import with Encrypted Wallet File"
-  },
-  "importWithEncryptedWalletFileDescription": {
-    "message": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain",
-    "note": "Onboarding",
-    "englishSource": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain"
   },
   "onlyMidenSeedPhrasesAreSupported": {
     "message": "Only Miden Seed phrases are supported.",
     "englishSource": "Only Miden Seed phrases are supported."
   },
+  "yourWalletIsReady": {
+    "message": "Your wallet is ready!",
+    "englishSource": "Your wallet is ready!"
+  },
+  "getStarted": {
+    "message": "Get started",
+    "englishSource": "Get started"
+  },
+  "enterPassword": {
+    "message": "Enter password",
+    "englishSource": "Enter password"
+  },
+  "verifyPassword": {
+    "message": "Verify password",
+    "englishSource": "Verify password"
+  },
+  "enterPasswordAgain": {
+    "message": "Enter password again",
+    "englishSource": "Enter password again"
+  },
+  "itsAMatch": {
+    "message": "It's a match!",
+    "englishSource": "It's a match!"
+  },
   "passwordsDoNotMatch": {
     "message": "Passwords do not match",
     "englishSource": "Passwords do not match"
+  },
+  "createPassword": {
+    "message": "Create password",
+    "englishSource": "Create password"
+  },
+  "createPasswordDescription": {
+    "message": "Set a password to unlock your wallet each time you use your computer. It can't be used to recover your wallet.",
+    "englishSource": "Set a password to unlock your wallet each time you use your computer. It can't be used to recover your wallet."
+  },
+  "veryStrong": {
+    "message": "Very strong!",
+    "englishSource": "Very strong!"
+  },
+  "medium": {
+    "message": "Medium",
+    "englishSource": "Medium"
+  },
+  "low": {
+    "message": "Low",
+    "englishSource": "Low"
+  },
+  "8chars1number": {
+    "message": "8 characters, 1 number",
+    "englishSource": "8 characters, 1 number"
+  },
+  "minimumCharsWithAtLeast": {
+    "message": "Minimum 8 characters with at least 1 number",
+    "englishSource": "Minimum 8 characters with at least 1 number"
+  },
+  "backUpWalletInstructions": {
+    "message": "Save these 12 words to a password manager, or write down and store in a secure place. Do not share with anyone.",
+    "englishSource": "Save these 12 words to a password manager, or write down and store in a secure place. Do not share with anyone."
+  },
+  "select": {
+    "message": "Select",
+    "englishSource": "Select"
+  },
+  "selected": {
+    "message": "Selected",
+    "englishSource": "Selected"
+  },
+  "additionalDownloads": {
+    "message": "Additional Downloads",
+    "englishSource": "Additional Downloads"
+  },
+  "600megabytes": {
+    "message": "600+ megabytes",
+    "englishSource": "600+ megabytes"
+  },
+  "transactionSpeed": {
+    "message": "Transaction Speed",
+    "englishSource": "Transaction Speed"
+  },
+  "transactionSpeedMins": {
+    "message": "1-10 minutes",
+    "englishSource": "1-10 minutes"
+  },
+  "maximumPrivacy": {
+    "message": "Maximum Privacy",
+    "englishSource": "Maximum Privacy"
+  },
+  "vpnLevelPrivacy": {
+    "message": "VPN level privacy",
+    "englishSource": "VPN level privacy"
+  },
+  "transactionSpeed2Sec": {
+    "message": "2 seconds",
+    "englishSource": "2 seconds"
+  },
+  "additionalDownloads0mb": {
+    "message": "0 MB",
+    "englishSource": "0 MB"
+  },
+  "delegateProofsToSecureServers": {
+    "message": "Delegate proofs to secure servers",
+    "englishSource": "Delegate proofs to secure servers"
+  },
+  "delegateTransactions": {
+    "message": "Delegate\nTransactions",
+    "englishSource": "Delegate\nTransactions"
+  },
+  "generateTransactionsLocally": {
+    "message": "Generate Transactions\nLocally",
+    "englishSource": "Generate Transactions\nLocally"
+  },
+  "privacyScalesBetter": {
+    "message": "Privacy Scales Better",
+    "englishSource": "Privacy Scales Better"
+  },
+  "chooseFromDevice": {
+    "message": "Choose from device",
+    "englishSource": "Choose from device"
   },
   "resetRequired": {
     "message": "Wallet Reset Required",
@@ -4481,9 +1231,45 @@
     "message": "Sign Out",
     "englishSource": "Sign Out"
   },
+  "chooseImportType": {
+    "message": "Choose Your Import Type",
+    "englishSource": "Choose Your Import Type"
+  },
+  "chooseImportTypeDescription": {
+    "message": "Restore public balance with your 12-word phrase. To restore private balance, upload an encrypted backup file.",
+    "englishSource": "Restore public balance with your 12-word phrase. To restore private balance, upload an encrypted backup file."
+  },
+  "importWithSeedPhrase": {
+    "message": "Import with Seed Phrase",
+    "englishSource": "Import with Seed Phrase"
+  },
+  "importWithSeedPhraseDescription": {
+    "message": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers.",
+    "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
+  },
+  "importWithEncryptedWalletFile": {
+    "message": "Import with Encrypted Wallet File",
+    "englishSource": "Import with Encrypted Wallet File"
+  },
+  "importWithEncryptedWalletFileDescription": {
+    "message": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain",
+    "englishSource": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain"
+  },
   "twitter": {
     "message": "X (Twitter)",
     "englishSource": "X (Twitter)"
+  },
+  "encryptedWalletFile": {
+    "message": "Encrypted Wallet File",
+    "englishSource": "Encrypted Wallet File"
+  },
+  "encryptedWalletFileDescription": {
+    "message": "Enter your password to access your Encrypted Wallet File. Turn off screen sharing. Don't share it with anyone.",
+    "englishSource": "Enter your password to access your Encrypted Wallet File. Turn off screen sharing. Don't share it with anyone."
+  },
+  "encryptedWalletFileConfirmation": {
+    "message": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet.",
+    "englishSource": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet."
   },
   "enterPasswordToEncrypt": {
     "message": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later.",
@@ -4509,10 +1295,6 @@
     "message": "Invalid Miden account ID",
     "englishSource": "Invalid Miden account ID"
   },
-  "invalidAmount": {
-    "message": "Invalid amount",
-    "englishSource": "Invalid amount"
-  },
   "amountMustBeLessThanBalance": {
     "message": "Amount must be less than balance",
     "englishSource": "Amount must be less than balance"
@@ -4520,10 +1302,6 @@
   "availableBalance": {
     "message": "Available balance",
     "englishSource": "Available balance"
-  },
-  "uploadYourEncryptedWalletFile": {
-    "message": "Upload your encrypted wallet file to securely restore your account. Your data remains private, with only hashed information stored on-chain.",
-    "englishSource": "Upload your encrypted wallet file to securely restore your account. Your data remains private, with only hashed information stored on-chain."
   },
   "goToFaucet": {
     "message": "Go to Faucet",
@@ -4552,6 +1330,10 @@
   "doNotShareEncryptedWalletFile": {
     "message": "Do not share your Encrypted Wallet File!",
     "englishSource": "Do not share your Encrypted Wallet File!"
+  },
+  "permissionLabel": {
+    "message": "Private Data Permission",
+    "englishSource": "Private Data Permission"
   },
   "confirmPrivateDataPermissionDescription": {
     "message": "This will give permanent access to your account data and cannot be revoked.",
@@ -4759,11 +1541,6 @@
   },
   "signTheFollowingWord": {
     "message": "Sign the following Word $word$?",
-    "placeholders": {
-      "word": {
-        "content": "$1"
-      }
-    },
     "englishSource": "Sign the following Word $word$?"
   },
   "sharePrivateNoteDataForAccount": {
@@ -4894,6 +1671,62 @@
     "message": "Share transaction privately",
     "englishSource": "Share transaction privately"
   },
+  "alreadyHaveTransactionFile": {
+    "message": "Already have a transaction file?",
+    "englishSource": "Already have a transaction file?"
+  },
+  "claimAll": {
+    "message": "Claim All",
+    "englishSource": "Claim All"
+  },
+  "readyToClaim": {
+    "message": "Ready to claim",
+    "englishSource": "Ready to claim"
+  },
+  "addTokens": {
+    "message": "Add tokens",
+    "englishSource": "Add tokens"
+  },
+  "getTokens": {
+    "message": "Get tokens",
+    "englishSource": "Get tokens"
+  },
+  "getTokensDescription": {
+    "message": "You can get tokens from the faucet or transfer them from another wallet or account.",
+    "englishSource": "You can get tokens from the faucet or transfer them from another wallet or account."
+  },
+  "transferTokens": {
+    "message": "Transfer tokens",
+    "englishSource": "Transfer tokens"
+  },
+  "midenFaucet": {
+    "message": "Miden Faucet",
+    "englishSource": "Miden Faucet"
+  },
+  "midenFaucetDescription": {
+    "message": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet.",
+    "englishSource": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet."
+  },
+  "accountPublicKey": {
+    "message": "Account Public Key",
+    "englishSource": "Account Public Key"
+  },
+  "editMidenFaucetId": {
+    "message": "Edit Miden Faucet ID",
+    "englishSource": "Edit Miden Faucet ID"
+  },
+  "faucetId": {
+    "message": "Faucet ID",
+    "englishSource": "Faucet ID"
+  },
+  "setNewFaucetId": {
+    "message": "Set new Faucet ID",
+    "englishSource": "Set new Faucet ID"
+  },
+  "setNewFaucetIdDescription": {
+    "message": "Enter the ID of a miden faucet",
+    "englishSource": "Enter the ID of a miden faucet"
+  },
   "verifyingTransaction": {
     "message": "Verifying transaction",
     "englishSource": "Verifying transaction"
@@ -4962,21 +1795,9 @@
     "message": "By proceeding, you agree to the",
     "englishSource": "By proceeding, you agree to the"
   },
-  "termsOfUsageLink": {
-    "message": "Terms of Usage",
-    "englishSource": "Terms of Usage"
-  },
-  "privacyPolicyLink": {
-    "message": "Privacy Policy",
-    "englishSource": "Privacy Policy"
-  },
   "andWord": {
     "message": "and",
     "englishSource": "and"
-  },
-  "transactionFileDescription": {
-    "message": "Transaction file",
-    "englishSource": "Transaction file"
   },
   "enterDecryptionPassword": {
     "message": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access.",
@@ -4989,85 +1810,5 @@
   "last": {
     "message": "Last",
     "englishSource": "Last"
-  },
-  "language": {
-    "message": "Language",
-    "englishSource": "Language"
-  },
-  "languageDescription": {
-    "message": "Change the display language",
-    "englishSource": "Change the display language"
-  },
-  "buildForMiden": {
-    "message": "Built for Miden",
-    "englishSource": "Built for Miden"
-  },
-  "midenFaucetLegacy": {
-    "message": "Miden Faucet",
-    "englishSource": "Miden Faucet"
-  },
-  "midenFaucetLegacyDescription": {
-    "message": "All distributed credits are for testing purposes and do not have value.",
-    "englishSource": "All distributed credits are for testing purposes and do not have value."
-  },
-  "midenFaucetStep1": {
-    "message": "Scan the QR code with your Phone",
-    "englishSource": "Scan the QR code with your Phone"
-  },
-  "midenFaucetStep1Description": {
-    "message": "And click on the prompt it shows you.",
-    "englishSource": "And click on the prompt it shows you."
-  },
-  "midenFaucetStep2": {
-    "message": "Confirm and send the SMS",
-    "englishSource": "Confirm and send the SMS"
-  },
-  "midenFaucetStep2Description": {
-    "message": "(Message and data rates may apply)",
-    "englishSource": "(Message and data rates may apply)"
-  },
-  "midenFaucetStep3": {
-    "message": "Get Miden credits",
-    "englishSource": "Get Miden credits"
-  },
-  "midenFaucetStep3Description": {
-    "message": "Miden Faucet will send you credits.",
-    "englishSource": "Miden Faucet will send you credits."
-  },
-  "midenFaucetAlpha": {
-    "message": "Miden Faucet (Alpha)",
-    "englishSource": "Miden Faucet (Alpha)"
-  },
-  "midenWalletOptions": {
-    "message": "Miden Wallet | Options",
-    "englishSource": "Miden Wallet | Options"
-  },
-  "waitingOnMiden": {
-    "message": "Miden currently doesn't support this functionality.",
-    "englishSource": "Miden currently doesn't support this functionality."
-  },
-  "midenApy": {
-    "message": "APY: 6%",
-    "englishSource": "APY: 6%"
-  },
-  "midenWalletFeeWarning": {
-    "message": "Miden Wallet doesn't apply any fees to exchanges for now but it may apply in the future.",
-    "englishSource": "Miden Wallet doesn't apply any fees to exchanges for now but it may apply in the future."
-  },
-  "scanQRWithMidenMobile": {
-    "message": "Scan this QR-code with your Miden Wallet Mobile app.",
-    "englishSource": "Scan this QR-code with your Miden Wallet Mobile app."
-  },
-  "mustStakeAtLeastTenMiden": {
-    "message": "Initial stake must be at least 10 MIDEN",
-    "englishSource": "Initial stake must be at least 10 MIDEN"
-  },
-  "helpUsToImproveMidenWallet": {
-    "message": "Help us to improve Miden Wallet",
-    "englishSource": "Help us to improve Miden Wallet"
-  },
-  "onlyMidenSeedPhrasesAreSupportedLegacy": {
-    "message": "Only Miden Seed phrases are supported.",
-    "englishSource": "Only Miden Seed phrases are supported."
   }
 }

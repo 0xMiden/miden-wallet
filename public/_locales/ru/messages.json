@@ -3,14 +3,6 @@
     "message": "Лео - Кошелек Алео",
     "englishSource": "Miden Wallet"
   },
-  "showIncomingTransactions": {
-    "message": "Показать входящие транзакции",
-    "englishSource": "Show Incoming Transactions"
-  },
-  "appDesc": {
-    "message": "🔐💰Криптовалютный кошелек для блокчейна Aleo в качестве веб-расширения для вашего браузера.",
-    "englishSource": "🔐💰 Privacy-preserving cryptocurrency wallet for Miden using Zero Knowledge Proofs"
-  },
   "createAccount": {
     "message": "Создать или восстановить учетную запись",
     "englishSource": "Create or Restore account"
@@ -18,14 +10,6 @@
   "importAccount": {
     "message": "Импорт аккаунта",
     "englishSource": "Import account"
-  },
-  "faucetFileTitle": {
-    "message": "Файл Faucet",
-    "englishSource": "Faucet File"
-  },
-  "faucetFile": {
-    "message": "Файл Faucet",
-    "englishSource": "Faucet file"
   },
   "settings": {
     "message": "Настройки",
@@ -38,19 +22,6 @@
   "maximiseView": {
     "message": "Развернуть вид",
     "englishSource": "Maximize view"
-  },
-  "selectFile": {
-    "message": "Выбрать файл",
-    "englishSource": "Select file"
-  },
-  "selectFileOfFormat": {
-    "message": "Выбирать $format$ файл",
-    "placeholders": {
-      "format": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Select $format$ file"
   },
   "authorizedDApps": {
     "message": "Авторизованные DApps",
@@ -70,27 +41,6 @@
     },
     "englishSource": "version: {{version}}"
   },
-  "madeWithLove": {
-    "message": "Сделано с $loveIcon$ по $companyName$ ",
-    "placeholders": {
-      "loveIcon": {
-        "content": "$1"
-      },
-      "companyName": {
-        "content": "$2"
-      }
-    },
-    "englishSource": "Made with $loveIcon$ by $companyName$"
-  },
-  "feeInputDescription": {
-    "message": "Базовая комиссия за эту операцию составляет: $fee$ Дополнительно - ускоряет его подтверждение",
-    "placeholders": {
-      "fee": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Base Fee for this operation is: $fee$\nAdditional - speeds up its confirmation"
-  },
   "resetPermissionsConfirmation": {
     "message": "Вы уверены, что хотите сбросить разрешения для $origin$ ?",
     "placeholders": {
@@ -99,10 +49,6 @@
       }
     },
     "englishSource": "Are you sure you want to reset permissions for\n {{origin}}?"
-  },
-  "protectedFormField": {
-    "message": "Защищено",
-    "englishSource": "HIDDEN"
   },
   "clickToRevealField": {
     "message": "Нажмите, чтобы открыть это поле",
@@ -144,50 +90,6 @@
     "message": "Пропускать",
     "englishSource": "Skip"
   },
-  "checkNow": {
-    "message": "Проверь сейчас",
-    "englishSource": "Check now"
-  },
-  "theLendingProtocol": {
-    "message": "Протокол кредитования на Aleo.",
-    "englishSource": "The lending protocol on Aleo."
-  },
-  "alreadyLaunched": {
-    "message": "Уже запущен!",
-    "englishSource": "Already Launched!"
-  },
-  "borrowLandEarn": {
-    "message": "Берите взаймы, получайте и зарабатывайте на своих любимых жетонах!",
-    "englishSource": "Borrow, Land and Earn on your favorite tokens!"
-  },
-  "independenceDayOfUkraine": {
-    "message": "День Независимости Украины",
-    "englishSource": "Independence Day of Ukraine"
-  },
-  "zeroSwapCommissionTitle": {
-    "message": "Нулевые комиссии по свопам в течение двух недель - празднуйте $text$ с нами!",
-    "placeholders": {
-      "text": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Zero Swap commissions for two weeks - celebrate the $text$ with us!"
-  },
-  "zeroSwapCommissionDescription": {
-    "message": "Из $date1$ пока $date2$ , пользователи Leo могут совершать сделки через наш роутер в $text$ раздел без наших комиссий разработчиков.\n\nНаслаждайтесь самыми выгодными обменными курсами и торгуйте без комиссий в одном месте.",
-    "placeholders": {
-      "date1": {
-        "content": "$1"
-      },
-      "date2": {
-        "content": "$2"
-      },
-      "text": {
-        "content": "$3"
-      }
-    },
-    "englishSource": "From $date1$ till $date2$, Leo users may conduct trades via our router in the $text$ section without our dev commissions.\n\nEnjoy the most lucrative exchange rates and trade without fees in one place."
-  },
   "okGotIt": {
     "message": "Понятно",
     "englishSource": "Got it"
@@ -196,44 +98,9 @@
     "message": "Обновление кошелька Miden",
     "englishSource": "Miden Wallet updated"
   },
-  "changelogDescription": {
-    "message": "В этом обновлении",
-    "englishSource": "In this update"
-  },
   "update": {
     "message": "Обновлять",
     "englishSource": "Update"
-  },
-  "addNewToken": {
-    "message": "Добавить новый токен",
-    "englishSource": "Add new Token"
-  },
-  "hideSomeToken": {
-    "message": "Скрывать \" $tokenName$ жетон",
-    "placeholders": {
-      "tokenName": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Hide \"$tokenName$\" token"
-  },
-  "copySomeTokenAddress": {
-    "message": "Копировать \" $tokenSymbol$ \" адрес",
-    "placeholders": {
-      "tokenSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Copy \"$tokenSymbol$\" address"
-  },
-  "copySomeTokenId": {
-    "message": "Копировать \" $tokenSymbol$ \" Я БЫ",
-    "placeholders": {
-      "tokenSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Copy \"$tokenSymbol$\" ID"
   },
   "originLabel": {
     "message": "Источник: $origin$ ",
@@ -262,101 +129,9 @@
     },
     "englishSource": "Account:"
   },
-  "minDelegationAmountDescription": {
-    "message": "Ваш текущий баланс меньше минимальной суммы делегирования этого пекаря. То есть пока баланс меньше $minAmount$ - выплат не будет.",
-    "placeholders": {
-      "minAmount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Your current balance is less than a minimal delegation amount of this baker. That means while the balance is less than $minAmount$ - there will be no payouts."
-  },
-  "clickOnBakerPrompt": {
-    "message": "Нажмите на пекаря, которому вы хотите делегировать средства. Этот список основан на $link$ .",
-    "placeholders": {
-      "link": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Click on the Baker you want to delegate funds to. This list is powered by $link$."
-  },
-  "highestIsBetter": {
-    "message": "чем выше, тем лучше",
-    "englishSource": "the higher the better"
-  },
-  "unlockWalletPrompt": {
-    "message": "Если вы хотите что-то сохранить из уже существующего кошелька - $link$ и разблокировать его.",
-    "placeholders": {
-      "link": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "If you want to save something from already existing wallet - $link$ and unlock it."
-  },
-  "acceptTermsInputDescription": {
-    "message": "Я прочитал и согласен с в $termsOfUsageLink$ а также $privacyPolicyLink$ ",
-    "placeholders": {
-      "termsOfUsageLink": {
-        "content": "$1"
-      },
-      "privacyPolicyLink": {
-        "content": "$2"
-      }
-    },
-    "englishSource": "I have read and agree to the $termsOfUsageLink$ and $privacyPolicyLink$"
-  },
-  "skipOnboarding": {
-    "message": "Пропустить адаптацию",
-    "englishSource": "Skip Onboarding"
-  },
-  "advancedUser": {
-    "message": "я продвинутый пользователь",
-    "englishSource": "I'm an advanced user"
-  },
   "analytics": {
     "message": "Аналитика",
     "englishSource": "Analytics"
-  },
-  "analyticsCollecting": {
-    "message": "анонимный сбор информации",
-    "englishSource": "anonymous information collecting"
-  },
-  "analyticsInputDescription": {
-    "message": "я согласен с $analyticsLink$ ",
-    "placeholders": {
-      "analyticsLink": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "I agree to the $analyticsLink$"
-  },
-  "copiedTokenAddress": {
-    "message": "Скопировано.",
-    "englishSource": "Copied."
-  },
-  "copiedTokenId": {
-    "message": "Скопировано.",
-    "englishSource": "Copied."
-  },
-  "delegatedTo": {
-    "message": "Делегирован:",
-    "englishSource": "Delegated to:"
-  },
-  "dcpDelegatingMotivation": {
-    "message": "Делегирование ваших средств производителям — отличный способ заработать проценты на вашем балансе.",
-    "englishSource": "Delegating your funds to producers is a great way of earning interest on your balance"
-  },
-  "delegatingMotivation": {
-    "message": "Делегирование ваших средств пекарям — отличный способ заработать проценты на вашем балансе.",
-    "englishSource": "Delegating your funds to bakers is a great way of earning interest on your balance"
-  },
-  "reDelegate": {
-    "message": "повторно делегировать",
-    "englishSource": "Re-delegate"
-  },
-  "delegateNow": {
-    "message": "Делегировать сейчас",
-    "englishSource": "Delegate now"
   },
   "cancel": {
     "message": "Отмена",
@@ -366,83 +141,17 @@
     "message": "Сохранять",
     "englishSource": "Save"
   },
-  "edit": {
-    "message": "Редактировать",
-    "englishSource": "Edit"
-  },
-  "useCoinSwitch": {
-    "message": "Используйте CoinSwitch",
-    "description": "CoinSwitch = https://coinswitch.co/",
-    "englishSource": "Use CoinSwitch"
-  },
-  "aleoFaucet": {
-    "message": "Алео Faucet",
-    "englishSource": "Aleo Faucet"
-  },
-  "aleoFaucetAlpha": {
-    "message": "Алео Faucet (Альфа)",
-    "englishSource": "Aleo Faucet (Alpha)"
-  },
-  "depositToWallet": {
-    "message": "Депозит на ваш кошелек",
-    "englishSource": "Deposit to your wallet"
-  },
-  "depositToWalletDescription": {
-    "message": "Нажмите на способ внесения депозита, чтобы получить деньги на свой кошелек. Используйте Faucet, чтобы получить бесплатные монеты!",
-    "englishSource": "Click on deposit method to get money on your wallet. Use faucet to get free coins!"
+  "faucet": {
+    "message": "Faucet",
+    "englishSource": "Faucet"
   },
   "addToken": {
     "message": "Добавить актив",
     "englishSource": "Add Asset"
   },
-  "addAsset": {
-    "message": "Добавить актив",
-    "englishSource": "Add Asset"
-  },
-  "contractNotAvailable": {
-    "message": "Договор по этому адресу недоступен. Он существует в этой сети?",
-    "englishSource": "The contract at this address is not available. Does it exist on this network?"
-  },
-  "noTransferMethod": {
-    "message": "Нет способа передачи",
-    "englishSource": "No transfer method"
-  },
-  "tokenDoesNotMatchStandard": {
-    "message": "Предоставленный контракт актива не соответствует $standard$ стандартный",
-    "placeholders": {
-      "standard": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Provided asset contract doesn't match $standard$ standard"
-  },
   "error": {
     "message": "Ошибка",
     "englishSource": "Error"
-  },
-  "tokenType": {
-    "message": "Тип токена",
-    "englishSource": "Token type"
-  },
-  "tokenId": {
-    "message": "Идентификатор токена",
-    "englishSource": "Token ID"
-  },
-  "assetId": {
-    "message": "Идентификатор объекта",
-    "englishSource": "Asset ID"
-  },
-  "tokenIdInputDescription": {
-    "message": "Неотрицательное целое число, которое идентифицирует актив внутри контракта FA2.",
-    "englishSource": "A non-negative integer number that identifies the asset inside FA2 contract"
-  },
-  "comingSoon": {
-    "message": "Вскоре",
-    "englishSource": "Coming soon"
-  },
-  "comingSoonComment": {
-    "message": "(вскоре)",
-    "englishSource": "(coming soon)"
   },
   "soon": {
     "message": "скоро",
@@ -452,118 +161,21 @@
     "message": "Необходимый",
     "englishSource": "Required"
   },
-  "weakKeystorePassword": {
-    "message": "Пароль «файл хранилища ключей» слишком слаб для использования в качестве дополнительного пароля. Вам нужно установить новый.",
-    "englishSource": "The \"keystore file\" password is too weak to use as an extension password. You need to set a new one."
-  },
   "address": {
     "message": "Адрес",
     "englishSource": "Address"
-  },
-  "addressOfDeployedTokenContract": {
-    "message": "Адрес контракта развернутого актива.",
-    "englishSource": "Address of a deployed asset contract."
-  },
-  "tokenContractPlaceholder": {
-    "message": "например KT1v9CmPy...",
-    "englishSource": "e.g. KT1v9CmPy..."
-  },
-  "tokenSymbolPatternDescription": {
-    "message": "Допускаются только az, A-Z, 0-9 символов, длина 2-5",
-    "englishSource": "Only a-z, A-Z, 0-9 chars allowed, 2-5 length"
-  },
-  "symbol": {
-    "message": "Символ",
-    "englishSource": "Symbol"
-  },
-  "tokenSymbolInputDescription": {
-    "message": "Символ актива, например «USD» для доллара США.",
-    "englishSource": "Asset symbol, like 'USD' for United States Dollar."
-  },
-  "tokenSymbolInputPlaceholder": {
-    "message": "например WEW, лук, LAL и т. д.",
-    "englishSource": "e.g. WEW, BOW, LAL etc."
-  },
-  "tokenNamePatternDescription": {
-    "message": "Без спецсимволов, длина 3-50",
-    "englishSource": "No special characters, 3-50 length"
   },
   "name": {
     "message": "Имя",
     "englishSource": "Name"
   },
-  "tokenNameInputDescription": {
-    "message": "Название актива, например «Биткойн» для актива BTC.",
-    "englishSource": "Asset name, like 'Bitcoin' for BTC asset."
-  },
-  "tokenNameInputPlaceholder": {
-    "message": "например MySuperToken",
-    "englishSource": "e.g. MySuperToken"
-  },
-  "nonNegativeIntMessage": {
-    "message": "Целое число, 0 или больше",
-    "englishSource": "Integer, 0 or greater"
-  },
-  "mustBeNonNegative": {
-    "message": "Должен быть неотрицательным",
-    "englishSource": "Must be non-negative"
-  },
-  "positiveIntMessage": {
-    "message": "Целое число, 1 или больше",
-    "englishSource": "Integer, 1 or greater"
-  },
   "decimals": {
     "message": "Десятичные",
     "englishSource": "Decimals"
   },
-  "decimalsInputDescription": {
-    "message": "Количество знаков после запятой. Например: 8 для BTC, 2 для USD.",
-    "englishSource": "A number of decimal places after point. For example: 8 for BTC, 2 for USD."
-  },
-  "orIPFSImageURL": {
-    "message": "Или URL изображения IPFS",
-    "englishSource": "Or IPFS image URL"
-  },
-  "validImageURL": {
-    "message": "Действительный URL-адрес изображения",
-    "englishSource": "Valid image URL"
-  },
-  "onlyHTTPS": {
-    "message": "Только HTTPS",
-    "englishSource": "Only HTTPS"
-  },
-  "formatsAllowed": {
-    "message": "Разрешены только изображения .png, .jpg, .jpeg, .gif, .webp.",
-    "englishSource": "Only .png, .jpg, .jpeg, .gif, .webp images allowed"
-  },
-  "iconURL": {
-    "message": "URL-адрес значка",
-    "englishSource": "Icon URL"
-  },
-  "optionalComment": {
-    "message": "(по желанию)",
-    "englishSource": "(optional)"
-  },
-  "iconURLInputDescription": {
-    "message": "URL-адрес изображения для логотипа актива.",
-    "englishSource": "Image URL for asset logo."
-  },
   "invalidAddress": {
     "message": "Неверный адрес",
     "englishSource": "Invalid address"
-  },
-  "contractNotExistOnNetwork": {
-    "message": "Smart Contract не существует в текущей сети",
-    "englishSource": "Smart contract doesn't exist on current network"
-  },
-  "onlyKTContractAddressAllowed": {
-    "message": "Допускается только адрес контракта KT...",
-    "description": "KT not translated",
-    "englishSource": "Only KT... contract address allowed"
-  },
-  "operationHash": {
-    "message": "Операция Хэш",
-    "englishSource": "Operation Hash"
   },
   "alert": {
     "message": "Тревога",
@@ -582,98 +194,33 @@
     },
     "englishSource": "Account $accountNumber$"
   },
-  "defaultManagedKTAccountName": {
-    "message": "Управляемый КТ $accountNumber$ ",
-    "description": "KT not translated",
-    "placeholders": {
-      "accountNumber": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Managed KT $accountNumber$"
+  "doNotSharePrivateKey1": {
+    "message": "НЕ ДЕЛИТЬСЯ ни с кем!",
+    "englishSource": "DO NOT share with anyone!"
   },
-  "defaultWatchOnlyAccountName": {
-    "message": "Только просмотр $accountNumber$ ",
-    "placeholders": {
-      "accountNumber": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Watch $accountNumber$"
+  "doNotSharePrivateKey2": {
+    "message": "Его можно использовать для кражи вашей текущей учетной записи.",
+    "englishSource": "It can be used to steal your current account."
   },
-  "accountsToRemoveConstraint": {
-    "message": "Ваша исходная фраза всегда сможет восстановить этот кошелек. Удалить его невозможно.",
-    "englishSource": "Your seed phrase will always be able to regenerate this wallet. It is impossible to delete it."
+  "doNotShareViewKey1": {
+    "message": "Делитесь только с теми, кому вы доверяете!",
+    "englishSource": "Only share with people you trust!"
   },
-  "doNotSharePrivateKey": {
-    "message": "<b>НЕ ДЕЛИТЕСЬ</b> этим набором символов ни с кем! Его можно использовать для кражи вашей текущей учетной записи."
+  "doNotShareViewKey2": {
+    "message": "Его можно использовать для просмотра всей истории транзакций.",
+    "englishSource": "It can be used to view all of your transaction history."
   },
-  "doNotShareViewKey": {
-    "message": "<b>ПОДЕЛИТЬСЯ ТОЛЬКО ЛЮДЯМ, КОТОРЫМ ВЫ ДОВЕРЯЕТЕ</b> Его можно использовать для просмотра всей истории ваших транзакций."
-  },
-  "appWouldLikeToConnectToYourWallet": {
-    "message": "$origin$ хочет подключиться к вашему кошельку",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$origin$ would like to connect to your wallet"
-  },
-  "appRequestOperationToYou": {
-    "message": "$origin$ запрашивает операции у вас",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$origin$ requests operations to you"
-  },
-  "reject": {
-    "message": "Отклонять",
-    "englishSource": "Reject"
-  },
-  "signAction": {
-    "message": "Знак",
-    "englishSource": "Sign"
-  },
-  "decryptAction": {
-    "message": "расшифровать",
-    "englishSource": "Decrypt"
-  },
-  "appRequestsToSign": {
-    "message": "$origin$ просит вас подписать",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$origin$ requests you to sign"
-  },
-  "appRequestsToDecrypt": {
-    "message": "$origin$ просит вас расшифровать",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$origin$ requests you to decrypt"
-  },
-  "alpha": {
-    "message": "Альфа",
-    "englishSource": "Alpha"
-  },
-  "viewAccountAddressWarning": {
-    "message": "Этот сайт запрашивает доступ для просмотра адреса вашей учетной записи. Всегда убедитесь, что вы доверяете сайтам, с которыми взаимодействуете.",
-    "englishSource": "This site is requesting access to view your account address. Always make sure you trust the sites you interact with."
+  "transactionAction": {
+    "message": "Сделка",
+    "englishSource": "Transaction"
   },
   "account": {
     "message": "Счет",
     "englishSource": "Account"
   },
-  "toBeConnectedWithDApp": {
-    "message": "для подключения к dApp.",
-    "englishSource": "to be connected with dApp."
+  "noPreview": {
+    "message": "Предварительный просмотр недоступен",
+    "englishSource": "No preview is available"
   },
   "requirements": {
     "message": "Требования:",
@@ -740,15 +287,6 @@
     "message": "Попробуйте еще раз",
     "englishSource": "Try again"
   },
-  "testnetbeta": {
-    "message": "Алео Тестнет Бета",
-    "description": "Testnet Beta",
-    "englishSource": "Aleo Testnet Beta"
-  },
-  "leoWalletOptions": {
-    "message": "Лев кошелек | Опции",
-    "englishSource": "Leo Wallet | Options"
-  },
   "resetExtension": {
     "message": "Сбросить расширение",
     "englishSource": "Reset Extension"
@@ -756,20 +294,6 @@
   "resetExtensionConfirmation": {
     "message": "Вы уверены, что хотите сбросить настройки кошелька Miden?\nВ результате все ваши данные будут удалены.",
     "englishSource": "Are you sure you want to reset the Miden Wallet?\nAs a result, all your data will be deleted."
-  },
-  "failedToResetExtension": {
-    "message": "Не удалось сбросить расширение: $errorMessage$ ",
-    "placeholders": {
-      "errorMessage": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Failed to reset extension: $errorMessage$"
-  },
-  "ledger": {
-    "message": "Леджер",
-    "description": "Ledger = https://www.ledger.com/",
-    "englishSource": "Ledger"
   },
   "retry": {
     "message": "Повторить попытку",
@@ -797,45 +321,21 @@
     },
     "englishSource": "Maximal: $amount$"
   },
-  "amountMustBePositive": {
-    "message": "Должен быть положительным",
-    "englishSource": "Must be positive"
-  },
-  "assetMustBeSelected": {
-    "message": "Актив должен быть выбран",
-    "englishSource": "Asset must be selected"
-  },
-  "gasFeeMustBePositive": {
-    "message": "Плата за газ должна быть положительной",
-    "englishSource": "Gas fee must be positive"
-  },
   "accountName": {
     "message": "Название аккаунта",
     "englishSource": "Account name"
+  },
+  "editAccountName": {
+    "message": "Изменить имя учетной записи",
+    "englishSource": "Edit Account Name"
   },
   "accountNameInputDescription": {
     "message": "Как будет называться новый аккаунт?",
     "englishSource": "What will be the name of the new account?"
   },
-  "createNewWallet": {
-    "message": "Создать новый кошелек",
-    "englishSource": "Create a new Wallet"
-  },
-  "createNewWalletDescription": {
-    "message": "Впервые в Leo Wallet? Давайте настроим его! Это создаст новый кошелек и Seed Phrase.",
-    "englishSource": "New to Leo Wallet? Let's set it up! This will create a new wallet and seed phrase"
-  },
   "delegate": {
     "message": "делегат",
     "englishSource": "Delegate"
-  },
-  "explore": {
-    "message": "Исследовать",
-    "englishSource": "Explore"
-  },
-  "assetsWhileMessage": {
-    "message": "получение данных об активах",
-    "englishSource": "fetching assets data"
   },
   "receive": {
     "message": "Получить",
@@ -845,41 +345,73 @@
     "message": "Отправить",
     "englishSource": "Send"
   },
-  "get": {
-    "message": "Получить",
-    "englishSource": "Get"
+  "transactionInitiated": {
+    "message": "Транзакция инициирована",
+    "englishSource": "Transaction initiated"
   },
-  "exolixWarningNote": {
-    "message": "Пожалуйста, внесите только депозит $currencyName$ сеть передачи $networkName$ . В противном случае вы можете навсегда потерять свои активы.",
-    "englishSource": "Please, deposit only $currencyName$ transfer network $networkName$. Otherwise, you may lose your assets permanently."
+  "transactionBackground": {
+    "message": "Транзакция будет проходить в фоновом режиме.",
+    "englishSource": "Transaction will proceed in the background."
   },
-  "baking": {
-    "message": "Выпечка",
-    "englishSource": "Baking"
+  "transactionDelegated": {
+    "message": "Транзакция отправлена ​​на создание подтверждения.",
+    "englishSource": "Transaction has been sent for proof generation."
   },
-  "operations": {
-    "message": "Операции",
-    "englishSource": "Operations"
+  "openedNewTab": {
+    "message": "Кошелек открыл новую вкладку для ускорения транзакции. Эта вкладка автоматически закроется.",
+    "englishSource": "The wallet opened a new tab to speed up the transaction. That tab will auto-close."
   },
-  "delegationInfoWhileMessage": {
-    "message": "получение или обработка информации о вашей делегации",
-    "englishSource": "fetching or processing your delegation info"
+  "fastTransactionDescription": {
+    "message": "Транзакция будет автоматически передана и завершена.",
+    "englishSource": "The transaction will automatically be broadcasted and finalized."
   },
-  "operationHistoryWhileMessage": {
-    "message": "получение или обработка истории операций",
-    "englishSource": "fetching or processing operation history"
+  "speedUpTransaction": {
+    "message": "Ускорить транзакцию.",
+    "englishSource": "Speed Up Transaction."
+  },
+  "fastTransaction": {
+    "message": "Скорость транзакции",
+    "englishSource": "Transaction Speed"
+  },
+  "generatingTransaction": {
+    "message": "Создание транзакции",
+    "englishSource": "Generating Transaction"
+  },
+  "status": {
+    "message": "Положение дел",
+    "englishSource": "Status"
+  },
+  "balancePending": {
+    "message": "Баланс в ожидании синхронизации",
+    "englishSource": "Balance Pending Sync"
+  },
+  "keepTabOpenForSync": {
+    "message": "Держите эту вкладку открытой для более быстрой синхронизации.",
+    "englishSource": "Keep this tab open for faster sync."
+  },
+  "openNewTabToSync": {
+    "message": "Откройте вкладку для более быстрой синхронизации.",
+    "englishSource": "Open a tab for faster syncing."
   },
   "privateKey": {
     "message": "Закрытый ключ",
     "englishSource": "Private Key"
   },
+  "viewKey": {
+    "message": "Ключ просмотра",
+    "englishSource": "View Key"
+  },
+  "viewKeyWatchOnly": {
+    "message": "Ключ просмотра (только для просмотра)",
+    "englishSource": "View Key (Watch-Only)"
+  },
+  "viewKeyInputDescription": {
+    "message": "Ключ просмотра учетной записи, которую вы хотите импортировать.",
+    "englishSource": "The View key of the Account you want to import."
+  },
   "mnemonic": {
     "message": "Мнемоника",
     "englishSource": "Mnemonic"
-  },
-  "fundraiser": {
-    "message": "Сбор средств",
-    "englishSource": "Fundraiser"
   },
   "privateKeyInputDescription": {
     "message": "Секретный ключ учетной записи, которую вы хотите импортировать.",
@@ -893,71 +425,6 @@
     "message": "Пароль",
     "englishSource": "Password"
   },
-  "isPrivateKeyEncrypted": {
-    "message": "Ваш закрытый ключ в зашифрованном формате?",
-    "englishSource": "Is your private key in encrypted format?"
-  },
-  "customDerivationPath": {
-    "message": "Пользовательский путь вывода",
-    "englishSource": "Custom derivation path"
-  },
-  "mnemonicInputLabel": {
-    "message": "Начальная фраза",
-    "englishSource": "Seed phrase"
-  },
-  "mnemonicInputDescription": {
-    "message": "Мнемоника. Ваша секретная фраза из 12-24 слов.",
-    "englishSource": "Mnemonic. Your secret 12 - 24 words phrase."
-  },
-  "mnemonicInputWarning": {
-    "message": "Мы не храним вашу исходную фразу. Не теряйте это!",
-    "englishSource": "We don't store your seed phrase. Don't lose it!"
-  },
-  "mnemonicInputPlaceholder": {
-    "message": "например обновление носков для площадок...",
-    "englishSource": "e.g. venue sock milk update..."
-  },
-  "passwordInputDescription": {
-    "message": "Используется для дополнительного мнемонического образования. Это НЕ пароль кошелька.",
-    "englishSource": "Used for additional mnemonic derivation. That is NOT a wallet password."
-  },
-  "derivation": {
-    "message": "Вывод",
-    "englishSource": "Derivation"
-  },
-  "addDerivationPathPrompt": {
-    "message": "По умолчанию деривация не используется. Нажмите «Пользовательский путь создания», чтобы добавить его.",
-    "englishSource": "By default derivation isn't used. Click on 'Custom derivation path' to add it."
-  },
-  "derivationPathMustStartWithM": {
-    "message": "Должен начинаться с «м»",
-    "englishSource": "Must start with 'm'"
-  },
-  "derivationSeparatorMustBeSlash": {
-    "message": "Разделитель должен быть '/'",
-    "englishSource": "Separator must be '/'"
-  },
-  "invalidPath": {
-    "message": "Неправильный путь",
-    "englishSource": "Invalid path"
-  },
-  "email": {
-    "message": "Эл. адрес",
-    "englishSource": "Email"
-  },
-  "unexpectedOrInvalidFile": {
-    "message": "Неожиданный или недопустимый файл",
-    "englishSource": "Unexpected or invalid file"
-  },
-  "requestSent": {
-    "message": "Запрос $type$ отправлен! Подтверждение...",
-    "placeholders": {
-      "type": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$type$ request sent! Confirming..."
-  },
   "success": {
     "message": "Успех",
     "englishSource": "Success"
@@ -965,10 +432,6 @@
   "smthWentWrong": {
     "message": "Что-то пошло не так",
     "englishSource": "Something went wrong"
-  },
-  "faucetFileInputPrompt": {
-    "message": "Тащить $link$ .",
-    "englishSource": "Drag & drop a file or select it manually by clicking on the area below. You can download it from $link$."
   },
   "processing": {
     "message": "Обработка...",
@@ -978,38 +441,6 @@
     "message": "Импортируйте свой кошелек",
     "englishSource": "Import Wallet"
   },
-  "createWallet": {
-    "message": "Создайте свой кошелек",
-    "englishSource": "Create Your Wallet"
-  },
-  "errorImportingKukaiWallet": {
-    "message": "Ошибка при импорте кошелька Kukai",
-    "englishSource": "Error while importing Kukai wallet"
-  },
-  "selectedFileFormatNotSupported": {
-    "message": "Выбранный формат файла не поддерживается",
-    "englishSource": "The selected file format is not supported"
-  },
-  "fileHasSyntaxError": {
-    "message": "В файле есть синтаксическая ошибка. Убедитесь, что файл правильный.",
-    "englishSource": "The file has a syntax error. Make sure the file is correct."
-  },
-  "entropyDecryptionError": {
-    "message": "Не удалось расшифровать энтропию. Убедитесь, что пароль правильный",
-    "englishSource": "Failed to decrypt entropy. Make sure the password is correct"
-  },
-  "kukaiFileVersionError": {
-    "message": "Обрабатываются только файлы версии 3",
-    "englishSource": "Only files of version 3 can be processed"
-  },
-  "kukaiWalletTypeError": {
-    "message": "Невозможно раскрыть исходную фразу для этого типа кошелька.",
-    "englishSource": "Cannot reveal seed phrase for this wallet type"
-  },
-  "accountAddressLabel": {
-    "message": "Ваш текущий адрес учетной записи. Поделитесь им, чтобы получить средства.",
-    "englishSource": "Your current account address. Share it to receive funds."
-  },
   "copiedAddress": {
     "message": "Скопировано.",
     "englishSource": "Copied."
@@ -1017,10 +448,6 @@
   "copyAddressToClipboard": {
     "message": "Скопировать в буфер обмена",
     "englishSource": "Copy Address"
-  },
-  "qrCode": {
-    "message": "QR код",
-    "englishSource": "QRCode"
   },
   "revealViewKey": {
     "message": "Показать ключ просмотра",
@@ -1046,27 +473,13 @@
     "message": "Эта исходная фраза, также известная как «Экспортный кошелек», может понадобиться вам для доступа к вашему кошельку и учетным записям на других устройствах.",
     "englishSource": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices."
   },
-  "dApps": {
-    "message": "децентрализованные приложения",
-    "description": "DApps = Decentralized Applications",
-    "englishSource": "DApps"
+  "exportWalletFile": {
+    "message": "Экспортировать файл кошелька",
+    "englishSource": "Export Wallet File"
   },
   "dAppsDescription": {
     "message": "В этом разделе вы можете включить возможность взаимодействия с децентрализованными приложениями, поддерживающими Miden Wallet.",
     "englishSource": "In this section you can enable ability to interact with decentralized applications that support Miden Wallet."
-  },
-  "networksDescription": {
-    "message": "В этом разделе вы можете добавлять или удалять пользовательские сети Aleo.",
-    "description": "Aleo = blockchain name (https://aleo.com/)",
-    "englishSource": "In this section you can add or delete custom Aleo networks."
-  },
-  "activateAccount": {
-    "message": "Активировать аккаунт",
-    "englishSource": "Activate Account"
-  },
-  "activateAccountDescription": {
-    "message": "Это может быть необходимо для учетных записей сборщиков ICO/Fundraiser или testnet.",
-    "englishSource": "It may be necessary for ICO/Fundraiser or testnet faucet accounts."
   },
   "removeAccount": {
     "message": "Удалить учетную запись",
@@ -1075,6 +488,18 @@
   "removeAccountDescription": {
     "message": "Используйте этот раздел, чтобы удалить выбранную учетную запись. Удалять можно только импортированные учетные записи.",
     "englishSource": "Use this section to remove your selected account. Only imported accounts can be removed."
+  },
+  "advancedSettings": {
+    "message": "Расширенные настройки",
+    "englishSource": "Advanced Settings"
+  },
+  "advancedSettingsDescription": {
+    "message": "Инструменты, которые помогут вам отлаживать и диагностировать проблемы с Miden Wallet.",
+    "englishSource": "Tools to help you debug and diagnose issues with Miden Wallet."
+  },
+  "resync": {
+    "message": "Повторная синхронизация",
+    "englishSource": "Resync"
   },
   "about": {
     "message": "Об этом приложении",
@@ -1088,18 +513,6 @@
     "message": "Используйте этот раздел для просмотра метаинформации о кошельке Miden.",
     "englishSource": "Use this section to view meta info about Miden Wallet."
   },
-  "unlockWallet": {
-    "message": "Разблокировать кошелек",
-    "englishSource": "Unlock the Wallet"
-  },
-  "toContinue": {
-    "message": "продолжить",
-    "englishSource": "to continue"
-  },
-  "unlockPasswordInputDescription": {
-    "message": "Пароль используется для защиты кошелька.",
-    "englishSource": "A password is used to protect the wallet."
-  },
   "unlockPasswordErrorDelay": {
     "message": "Вы ввели неправильный пароль три раза. Ваш кошелек заблокирован за",
     "englishSource": "You have entered the wrong password three times. Your wallet is being blocked for"
@@ -1108,38 +521,9 @@
     "message": "Разблокировать",
     "englishSource": "Unlock"
   },
-  "importNewAccountTitle": {
-    "message": "Восстановить аккаунт? Хотите войти в другой?",
-    "englishSource": "Restore Account? Want to sign in another?"
-  },
-  "importWalletUsingSeedPhrase": {
-    "message": "Импортировать кошелек, используя Seed Phrase",
-    "englishSource": "Import Wallet using Seed Phrase"
-  },
-  "connectLedger": {
-    "message": "Подключить книгу",
-    "description": "Ledger = https://www.ledger.com/",
-    "englishSource": "Connect Ledger"
-  },
-  "importExistingWallet": {
-    "message": "Импорт существующего кошелька",
-    "englishSource": "Import existing Wallet"
-  },
-  "importExistingWalletDescription": {
-    "message": "У вас уже есть кошелек? Импортируйте его, используя исходную фразу или зашифрованный файл хранилища ключей.",
-    "englishSource": "Already have a wallet? Import it using your seed phrase or encrypted keystore file"
-  },
-  "links": {
-    "message": "Ссылки",
-    "englishSource": "Links"
-  },
   "website": {
     "message": "Веб-сайт",
     "englishSource": "Website"
-  },
-  "repo": {
-    "message": "Репозиторий",
-    "englishSource": "Repository"
   },
   "privacyPolicy": {
     "message": "Политика конфиденциальности",
@@ -1148,74 +532,6 @@
   "termsOfUse": {
     "message": "Условия эксплуатации",
     "englishSource": "Terms of Use"
-  },
-  "contact": {
-    "message": "Контакт",
-    "englishSource": "Contact"
-  },
-  "accountAlreadyActivated": {
-    "message": "Ваша учетная запись уже активирована.",
-    "englishSource": "Your Account already activated."
-  },
-  "accountActivated": {
-    "message": "Ваш аккаунт успешно активирован!",
-    "englishSource": "Your account successfully activated!"
-  },
-  "failureSecretMayBeInvalid": {
-    "message": "Не удалось. Это может произойти из-за того, что предоставленный секрет недействителен.",
-    "englishSource": "Failed. This may happen because provided Secret is invalid"
-  },
-  "accountToBeActivated": {
-    "message": "Аккаунт для активации.",
-    "englishSource": "Account to be activated."
-  },
-  "ifYouWantToActivateAnotherAccount": {
-    "message": "Если вы хотите активировать другую учетную запись - выберите ее в правом верхнем раскрывающемся списке.",
-    "englishSource": "If you want to activate another account - please, select it in the top-right dropdown."
-  },
-  "activateAccountSecret": {
-    "message": "Секрет",
-    "englishSource": "Secret"
-  },
-  "activateAccountSecretDescription": {
-    "message": "«Секретное» поле из учетной записи или Faucet для сбора средств",
-    "englishSource": "'secret' field from Fundraiser Account or Faucet"
-  },
-  "activateAccountSecretPlaceholder": {
-    "message": "например n4hs7sd3...",
-    "englishSource": "e.g. n4hs7sd3..."
-  },
-  "activate": {
-    "message": "Активировать",
-    "englishSource": "Activate"
-  },
-  "minimalFeeDescription": {
-    "message": "Минимальный",
-    "englishSource": "Minimal"
-  },
-  "fastFeeDescription": {
-    "message": "Быстро",
-    "englishSource": "Fast"
-  },
-  "rocketFeeDescription": {
-    "message": "Ракета",
-    "englishSource": "Rocket"
-  },
-  "customFeeDescription": {
-    "message": "Обычай",
-    "englishSource": "Custom"
-  },
-  "additionalFee": {
-    "message": "Дополнительная плата",
-    "englishSource": "Additional Fee"
-  },
-  "asset": {
-    "message": "Актив",
-    "englishSource": "Asset"
-  },
-  "selectAnotherAssetPrompt": {
-    "message": "Нажмите на область, чтобы выбрать другой актив или токен.",
-    "englishSource": "Click on area to select another asset or token."
   },
   "disable": {
     "message": "запрещать",
@@ -1240,149 +556,21 @@
     "description": "DApps = Decentralized Applications",
     "englishSource": "DApps interaction"
   },
-  "enabled": {
-    "message": "Включено",
-    "englishSource": "Enabled"
-  },
-  "disabled": {
-    "message": "Неполноценный",
-    "englishSource": "Disabled"
-  },
-  "enablePopup": {
-    "message": "Включить всплывающее окно",
-    "englishSource": "Enable popup"
+  "none": {
+    "message": "Никто",
+    "englishSource": "None"
   },
   "popupEnabled": {
     "message": "Включено",
     "englishSource": "Enabled"
   },
-  "popupDisabled": {
-    "message": "Неполноценный",
-    "englishSource": "Disabled"
-  },
   "delete": {
     "message": "Удалить",
     "englishSource": "Delete"
   },
-  "rank": {
-    "message": "Классифицировать",
-    "englishSource": "Rank"
-  },
   "fee": {
     "message": "Платеж",
     "englishSource": "Fee"
-  },
-  "routingFee": {
-    "message": "Плата за маршрутизацию",
-    "englishSource": "Routing Fee"
-  },
-  "routingFeeTooltip": {
-    "message": "За выбор наиболее выгодного пути обмена среди Aleo DEX.\n\nКомиссии DEX не включены.",
-    "englishSource": "For choosing the most profitable exchange route among Aleo DEXes. \n\nDEXes commissions are not included."
-  },
-  "space": {
-    "message": "Пространство",
-    "englishSource": "Space"
-  },
-  "staking": {
-    "message": "Ставка",
-    "englishSource": "Staking"
-  },
-  "recommended": {
-    "message": "рекомендуемые",
-    "englishSource": "Recommended"
-  },
-  "partnership": {
-    "message": "партнерство",
-    "englishSource": "Partnership"
-  },
-  "delegation": {
-    "message": "Делегация",
-    "englishSource": "Delegation"
-  },
-  "delegationGuide": {
-    "message": "Полное видео руководство",
-    "englishSource": "Full video guide"
-  },
-  "delegationGuideLink": {
-    "message": "Как делегировать XTZ",
-    "englishSource": "How to Delegate XTZ"
-  },
-  "delegationComunity": {
-    "message": "Если у вас есть вопросы, пишите их в наши сообщества",
-    "englishSource": "In case you have any questions, write them in our communities"
-  },
-  "delegationPointsHead1": {
-    "message": "Заработайте 5,6% годовых",
-    "englishSource": "Earn 5.6% interest"
-  },
-  "delegationPointsHead2": {
-    "message": "на вашем Aleo",
-    "englishSource": "on your Aleo"
-  },
-  "delegationPointsHead3": {
-    "message": "ежегодно от вознаграждений за выпечку",
-    "englishSource": "annualy from Baking rewards"
-  },
-  "delegationPoint1": {
-    "message": "Ваше первое вознаграждение в Aleo будет выплачено примерно через 36 дней.",
-    "englishSource": "Your first reward in Aleo will be paid approximately in 36 days."
-  },
-  "delegationPoint2": {
-    "message": "Затем вы получаете награду каждые 3 дня.",
-    "englishSource": "Then, you receive a reward every 3 days."
-  },
-  "delegationPoint3": {
-    "message": "Уровень заработка меняется со временем. Проверьте текущий курс в своем кошельке.",
-    "englishSource": "Earn rate varies over time. Check the current rate in your Wallet."
-  },
-  "delegationPoint4": {
-    "message": "Ваши токены Aleo никогда не блокируются. Отправляйте в любое время!",
-    "englishSource": "Your Aleo tokens are never locked. Send anytime!"
-  },
-  "baker": {
-    "message": "Бейкер",
-    "englishSource": "Baker"
-  },
-  "bakerInputDescription": {
-    "message": "Адрес зарегистрированного пекаря.",
-    "englishSource": "Address of a registered baker."
-  },
-  "producer": {
-    "message": "Режиссер",
-    "englishSource": "Producer"
-  },
-  "producerInputDescription": {
-    "message": "Адрес зарегистрированного производителя.",
-    "englishSource": "Address of a registered producer."
-  },
-  "bakerInputDescriptionWithDomain": {
-    "message": "Адрес или доменное имя зарегистрированного пекаря.",
-    "englishSource": "Address or domain name of a registered baker."
-  },
-  "bakerInputPlaceholder": {
-    "message": "например 0xb3d1df68...",
-    "englishSource": "e.g. 0xb3d1df68..."
-  },
-  "minDelegationAmountTitle": {
-    "message": "Минимальная сумма делегирования",
-    "englishSource": "Minimal delegation amount"
-  },
-  "unknownBakerTitle": {
-    "message": "Неизвестный пекарь",
-    "englishSource": "Unknown baker"
-  },
-  "unknownBakerDescription": {
-    "message": "Указанный адрес не известен нам как пекарю! Делегируйте туда средства только на свой страх и риск.",
-    "englishSource": "Provided address is not known to us as a baker! Only delegate funds to it at your own risk."
-  },
-  "delegateToRecommendedBakers": {
-    "message": "Делегировать рекомендуемым пекарям",
-    "englishSource": "Delegate to Recommended Bakers"
-  },
-  "sortBy": {
-    "message": "Сортировать по",
-    "englishSource": "Sort by"
   },
   "notEnoughFunds": {
     "message": "Недостаточно средств",
@@ -1397,10 +585,6 @@
     },
     "englishSource": "Not enough $currency$ funds"
   },
-  "notAllowed": {
-    "message": "Не допускается",
-    "englishSource": "Not allowed"
-  },
   "failed": {
     "message": "Не удалось",
     "englishSource": "Failed"
@@ -1408,31 +592,6 @@
   "yourBalanceIsZero": {
     "message": "Ваш Баланс равен нулю.",
     "englishSource": "Your Balance is zero."
-  },
-  "minimalFeeGreaterThanBalance": {
-    "message": "Минимальная комиссия за эту транзакцию больше вашего баланса.",
-    "englishSource": "Minimal fee for this transaction is greater than your balance."
-  },
-  "alreadyDelegatedFundsToBaker": {
-    "message": "Уже делегировал средства этому пекарю. Повторное делегирование невозможно.",
-    "englishSource": "Already delegated funds to this baker. Re-delegation is not possible."
-  },
-  "bakerNotRegistered": {
-    "message": "Указанный пекарь не зарегистрирован.",
-    "englishSource": "Specified baker is not registered."
-  },
-  "unableToPerformActionToBaker": {
-    "message": "Невозможно $action$ предоставленному Бейкеру.",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Unable to $action$ to the provided Baker."
-  },
-  "estimateDelegation": {
-    "message": "Оценить делегирование",
-    "englishSource": "Estimate delegation"
   },
   "thisMayHappenBecause": {
     "message": "Это может произойти, потому что:",
@@ -1451,10 +610,6 @@
     "message": "Сеть или другая техническая проблема.",
     "englishSource": "Network or other technical issue."
   },
-  "unableToDelegateToKTAddress": {
-    "message": "Невозможно делегировать адрес контракта KT...",
-    "englishSource": "Unable to delegate to KT... contract address"
-  },
   "confirmAction": {
     "message": "Подтверждать $action$ ",
     "placeholders": {
@@ -1464,93 +619,17 @@
     },
     "englishSource": "Confirm $action$"
   },
-  "payloadToSign": {
-    "message": "Полезная нагрузка для подписи",
-    "englishSource": "Payload to sign"
-  },
-  "decline": {
-    "message": "Отклонить",
-    "englishSource": "Decline"
-  },
   "confirm": {
     "message": "Подтверждать",
     "englishSource": "Confirm"
-  },
-  "confirmDecryptionPermission": {
-    "message": "Подтвердите разрешение на расшифровку",
-    "englishSource": "Confirm Decryption Permission"
-  },
-  "confirmDecryptionPermissionDescription": {
-    "message": "Это даст постоянный доступ к вашей истории и не может быть отозван.",
-    "englishSource": "This will give permanent access to your history and cannot be revoked."
   },
   "confirmRisk": {
     "message": "Я понимаю риск и хочу продолжить.",
     "englishSource": "I understand the risk and wish to proceed."
   },
-  "decryptPermission": {
-    "message": "Разрешение на расшифровку",
-    "englishSource": "Decryption Permission"
-  },
-  "NO_DECRYPT": {
-    "message": "Это приложение не может расшифровать любую запись, используя любой из ваших ключей просмотра.",
-    "englishSource": "This app cannot decrypt any record using any of your view keys."
-  },
-  "DECRYPT_UPON_REQUEST": {
-    "message": "Это приложение может расшифровывать записи только с вашего явного согласия. Вам будет предложено ввести любой запрос на расшифровку.",
-    "englishSource": "This app can only decrypt records with your explicit approval. You will be prompted for any decryption request."
-  },
-  "AUTO_DECRYPT": {
-    "message": "Это приложение может автоматически расшифровывать любую необходимую запись без явного разрешения, только когда ваш кошелек подключен. Он не может видеть ваш ViewKey.",
-    "englishSource": "This app can automatically decrypt any record it needs to without explicit permission only while your wallet is connected. It cannot see your ViewKey."
-  },
-  "network": {
-    "message": "Сеть",
-    "englishSource": "Network"
-  },
-  "unknownNetwork": {
-    "message": "Неизвестный:",
-    "englishSource": "Unknown:"
-  },
-  "backupNewSeedPhrase": {
-    "message": "Новая исходная фраза",
-    "englishSource": "New Seed Phrase"
-  },
-  "attentionExclamation": {
-    "message": "Внимание!",
-    "englishSource": "Attention!"
-  },
-  "lockedWalletAlreadyExists": {
-    "message": "Заблокированный кошелек <b>уже существует</b>.\nИмпорт нового <b>уничтожит существующий</b>.",
-    "englishSource": "Locked wallet <b>already exists</b>.\nImporting a new one will <b>destroy the existing</b>."
-  },
-  "backToUnlockPage": {
-    "message": "вернуться на страницу разблокировки",
-    "englishSource": "go back to Unlock page"
-  },
-  "mustBeEqualToPasswordAbove": {
-    "message": "Должен быть равен паролю выше",
-    "englishSource": "Must be equal to password"
-  },
-  "repeatPassword": {
-    "message": "Повторите пароль",
-    "englishSource": "Repeat Password"
-  },
-  "repeatPasswordInputDescription": {
-    "message": "Пожалуйста, введите пароль еще раз.",
-    "englishSource": "Please enter the password again."
-  },
-  "confirmTermsError": {
-    "message": "Невозможно продолжить без подтверждения Условий использования",
-    "englishSource": "Unable to continue without confirming Terms of Usage"
-  },
   "confirmError": {
     "message": "Невозможно продолжить без подтверждения.",
     "englishSource": "Unable to continue without confirming."
-  },
-  "acceptTerms": {
-    "message": "Принять условия",
-    "englishSource": "Accept terms"
   },
   "termsOfUsage": {
     "message": "Условия использования",
@@ -1560,25 +639,9 @@
     "message": "Файл",
     "englishSource": "File"
   },
-  "keystoreFile": {
-    "message": "Файл хранилища ключей",
-    "englishSource": "Keystore File"
-  },
   "filePassword": {
     "message": "Пароль к файлу",
     "englishSource": "File Password"
-  },
-  "filePasswordInputDescription": {
-    "message": "Пожалуйста, введите пароль для файла хранилища ключей",
-    "englishSource": "Please enter a password for keystore file"
-  },
-  "fileInputPrompt": {
-    "message": "Выберите файл или перетащите его сюда",
-    "englishSource": "Choose a file or drag it here"
-  },
-  "useKeystorePassword": {
-    "message": "Использовать пароль файла в качестве пароля расширения",
-    "englishSource": "Use File Password as Extension password"
   },
   "create": {
     "message": "Создавать",
@@ -1588,28 +651,17 @@
     "message": "импорт",
     "englishSource": "Import"
   },
-  "revealNewSeedPhrase": {
-    "message": "<b>Нажмите на область ниже</b>, чтобы открыть новую исходную фразу.\nЗатем напишите эту фразу на листе бумаги и <b>сохраните в безопасном месте</b>. Или вы можете запомнить его.",
-    "englishSource": "<b>Click on area below</b> to reveal your new Seed Phrase.\nThen, write this phrase on a piece of paper and <b>store in a secure location</b>. Or you can memorize it."
+  "doNotSharePhrase1": {
+    "message": "НЕ ДЕЛАЙТЕ эту фразу ни с кем!",
+    "englishSource": "DO NOT share this phrase with anyone!"
   },
-  "doNotSharePhrase": {
-    "message": "<b>НЕ ДЕЛИТЕСЬ</b> этой фразой ни с кем! Его можно использовать для кражи всех ваших учетных записей."
+  "doNotSharePhrase2": {
+    "message": "Его можно использовать для кражи всех ваших учетных записей.",
+    "englishSource": "It can be used to steal all your accounts."
   },
   "youWillNeedThisSeedPhrase": {
     "message": "Пожалуйста, запишите свою секретную фразу восстановления и сохраните ее в надежном месте. Эта фраза — единственный способ восстановить аккаунт. Не делитесь этим ни с кем. Любой, кто произнесет эту фразу, может навсегда забрать ваши активы.",
     "englishSource": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever."
-  },
-  "unableToContinueWithoutConfirming": {
-    "message": "Невозможно продолжить без подтверждения",
-    "englishSource": "Unable to continue without confirming"
-  },
-  "backupedInputLabel": {
-    "message": "Я сделал резервную копию Seed Phrase",
-    "englishSource": "I made Seed Phrase backup"
-  },
-  "backupedInputDescription": {
-    "message": "И принять риски, что если я потеряю фразу,\nмои средства могут быть потеряны.",
-    "englishSource": "And accept the risks that if I lose the phrase,\nmy funds may be lost."
   },
   "continue": {
     "message": "Продолжать",
@@ -1619,35 +671,6 @@
     "message": "Операции не найдены",
     "englishSource": "No operations found"
   },
-  "pending": {
-    "message": "в ожидании...",
-    "englishSource": "pending..."
-  },
-  "applied": {
-    "message": "Применяемый",
-    "englishSource": "Applied"
-  },
-  "skipped": {
-    "message": "Пропущено",
-    "englishSource": "Skipped"
-  },
-  "backtracked": {
-    "message": "отступил",
-    "englishSource": "backtracked"
-  },
-  "operationSuccessfullyProcessed": {
-    "message": "$type$ успешно обработан и подтвержден!",
-    "placeholders": {
-      "type": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$type$ successfully processed and confirmed!"
-  },
-  "timedOutOperationConfirmation": {
-    "message": "Подтверждение операции истекло. Вы можете либо подождать больше времени, либо повторить попытку позже.",
-    "englishSource": "Timed out operation confirmation. You can either wait more time or try again later."
-  },
   "accountToBeRemoved": {
     "message": "Аккаунт на удаление.",
     "englishSource": "Account to be removed."
@@ -1655,14 +678,6 @@
   "ifYouWantToRemoveAnotherAccount": {
     "message": "Если вы хотите удалить другую учетную запись - выберите ее в правом верхнем раскрывающемся списке.",
     "englishSource": "If you want to remove another account - select it in the top-right dropdown."
-  },
-  "cannotBeRemoved": {
-    "message": "Невозможно удалить",
-    "englishSource": "Cannot be removed"
-  },
-  "importedPlural": {
-    "message": "импортированный",
-    "englishSource": "imported"
   },
   "enterPasswordToRemoveAccount": {
     "message": "Введите пароль для удаления Аккаунта.",
@@ -1692,14 +707,6 @@
     "message": "Путь вывода",
     "englishSource": "Derivation path"
   },
-  "derivationType": {
-    "message": "Тип производного",
-    "englishSource": "Derivation type"
-  },
-  "derivationTypeFieldDescription": {
-    "message": "Эллиптическая кривая, которую будет использовать учетная запись.",
-    "englishSource": "The elliptical curve that the account will use."
-  },
   "seedPhrase": {
     "message": "Начальная фраза",
     "englishSource": "Seed Phrase"
@@ -1711,10 +718,6 @@
   "derivationPathExample": {
     "message": "м/44'/0'/<account_index>'/0'",
     "englishSource": "m/44'/0'/<account_index>'/0'"
-  },
-  "derivationPathExample2": {
-    "message": "например м/44'/1729'/...",
-    "englishSource": "e.g. m/44'/1729'/..."
   },
   "keepSeedPhraseSecret": {
     "message": "Держите это в секрете.",
@@ -1741,81 +744,21 @@
     "message": "Получатель",
     "englishSource": "Recipient"
   },
-  "tokensRecepientInputDescription": {
-    "message": "Адрес для отправки $assetSymbol$ средства на.",
-    "placeholders": {
-      "assetSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Address to send $assetSymbol$ funds to."
-  },
-  "tokensRecepientInputDescriptionWithDomain": {
-    "message": "Адрес или домен Aleo для отправки $assetSymbol$ средства на.",
-    "placeholders": {
-      "assetSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Address or Aleo domain to send $assetSymbol$ funds to."
-  },
-  "addressInputDescription": {
-    "message": "Адрес учетной записи Aleo или Smart Contract.",
-    "englishSource": "Address of Aleo account or smart contract."
-  },
-  "addressInputDescriptionWithDomain": {
-    "message": "Адрес или домен Aleo учетной записи или Smart Contract.",
-    "englishSource": "Address or Aleo domain of the account or smart contract."
-  },
   "recipientInputPlaceholder": {
     "message": "например 0xb3d1df68...",
     "englishSource": "e.g. 0xb3d1df68..."
   },
-  "recipientInputPlaceholderWithDomain": {
-    "message": "например alice.aleo или 0xb3d1df68...",
-    "description": "alice.aleo = domain like google.com",
-    "englishSource": "e.g. alice.aleo or 0xb3d1df68..."
-  },
-  "tryingToTransferToYourself": {
-    "message": "Вы пытаетесь перевести средства себе.\nПожалуйста, убедитесь, что это именно то, что вы хотите.",
-    "englishSource": "You're trying to transfer funds to yourself.\nPlease, ensure that it's exactly what you want."
-  },
-  "tryingToTransferToContract": {
-    "message": "Вы пытаетесь перевести средства на контракт.\nПожалуйста, убедитесь, что это именно то, что вы хотите.",
-    "englishSource": "You're trying to transfer funds to contract.\nPlease, ensure that it's exactly what you want."
+  "viewKeyInputPlaceholder": {
+    "message": "например AViewKey1iHE...",
+    "englishSource": "e.g. AViewKey1iHE..."
   },
   "amount": {
     "message": "Количество",
     "englishSource": "Amount"
   },
-  "availableToSend": {
-    "message": "Доступно для отправки (макс.):",
-    "englishSource": "Available to send(max):"
-  },
-  "inFiat": {
-    "message": "в Фиате",
-    "englishSource": "in Fiat"
-  },
-  "inAsset": {
-    "message": "в $assetSymbol$ ",
-    "placeholders": {
-      "assetSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "in $assetSymbol$"
-  },
-  "amountPlaceholder": {
-    "message": "например 123,45",
-    "englishSource": "e.g. 123.45"
-  },
-  "sendToMyAccounts": {
-    "message": "Отправить на мои счета",
-    "englishSource": "Send to My Accounts"
-  },
-  "clickOnRecipientAccount": {
-    "message": "Нажмите на счет, на который вы хотите отправить средства.",
-    "englishSource": "Click on Account you want to send funds to."
+  "mainAssetBalanceIsZero": {
+    "message": "Баланс ваших кредитов Miden (основной актив) равен нулю. Для оплаты необходимы кредиты Miden.",
+    "englishSource": "Your Miden credits (main asset) balance is zero. Miden credits are required for the fee."
   },
   "unableToSendTransactionAction": {
     "message": "Невозможно отправить транзакцию указанному получателю.",
@@ -1824,55 +767,6 @@
   "unableToEstimateTransactionAction": {
     "message": "Невозможно оценить транзакцию для указанного Получателя.",
     "englishSource": "Unable to estimate transaction to provided Recipient."
-  },
-  "makeSureToBackupSeedPhrase": {
-    "message": "Обязательно сделайте резервную копию исходной фразы!",
-    "englishSource": "Make sure to back up your seed phrase!"
-  },
-  "exploreMore": {
-    "message": "Узнать больше...",
-    "englishSource": "Explore more..."
-  },
-  "selfComment": {
-    "message": "(себя)",
-    "englishSource": "(self)"
-  },
-  "deleteNetworkConfirm": {
-    "message": "Вы уверены, что хотите удалить эту сеть?",
-    "englishSource": "Are you sure you want to delete this network?"
-  },
-  "networkNamePlaceholder": {
-    "message": "Моя пользовательская сеть",
-    "englishSource": "My custom network"
-  },
-  "mustBeValidURL": {
-    "message": "Должен быть действительным URL",
-    "englishSource": "Must be a valid URL"
-  },
-  "rpcBaseURL": {
-    "message": "Базовый URL RPC",
-    "description": "RPC = Remote Procedure Call (https://en.wikipedia.org/wiki/Remote_procedure_call)",
-    "englishSource": "RPC base URL"
-  },
-  "mustBeUnique": {
-    "message": "Должно быть уникальным",
-    "englishSource": "Must be unique"
-  },
-  "addNetwork": {
-    "message": "Добавить сеть",
-    "englishSource": "Add network"
-  },
-  "currentNetworks": {
-    "message": "Текущие сети",
-    "englishSource": "Current networks"
-  },
-  "deleteNetworkHint": {
-    "message": "Нажмите на значок X, чтобы удалить сеть. Если вы хотите отредактировать сеть, просто удалите ее и добавьте другую с новыми параметрами.",
-    "englishSource": "Click on the X icon to delete the network. If you want to edit network, just delete it and add another with new params."
-  },
-  "preview": {
-    "message": "Предварительный просмотр",
-    "englishSource": "Preview"
   },
   "raw": {
     "message": "Сырой",
@@ -1886,88 +780,13 @@
     "message": "Не опознан",
     "englishSource": "Not identified"
   },
-  "connection": {
-    "message": "Связь",
-    "englishSource": "Connection"
-  },
   "connect": {
     "message": "Соединять",
     "englishSource": "Connect"
   },
-  "confirmActionOnDevice": {
-    "message": "Подтвердите действие на",
-    "englishSource": "Confirm the action on"
-  },
-  "deviceName": {
-    "message": "$device$ устройство",
-    "placeholders": {
-      "device": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$device$ device"
-  },
-  "ledgerNano": {
-    "message": "Леджер Нано",
-    "description": "Ledger = https://www.ledger.com/",
-    "englishSource": "Ledger Nano"
-  },
-  "defaultLedgerName": {
-    "message": "Леджер $number$ ",
-    "description": "Ledger = https://www.ledger.com/",
-    "placeholders": {
-      "number": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Ledger $number$"
-  },
-  "ledgerNameConstraint": {
-    "message": "1-16 символов, без спец.",
-    "englishSource": "1-16 characters, no special"
-  },
-  "ledgerNameInputDescription": {
-    "message": "Как будет называться новая учетная запись Ledger?",
-    "description": "Ledger = https://www.ledger.com/",
-    "englishSource": "What will be the name of the new Ledger account?"
-  },
-  "defaultDerivationPathLabel": {
-    "message": "По умолчанию $path$ используется производная.",
-    "placeholders": {
-      "path": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "By default $path$ derivation is used."
-  },
-  "clickOnCustomDerivationPath": {
-    "message": "Нажмите «Пользовательский путь деривации», чтобы настроить его.",
-    "englishSource": "Click on 'Custom derivation path' to customize it."
-  },
-  "addLedgerAccount": {
-    "message": "Добавить учетную запись",
-    "description": "Ledger = https://www.ledger.com/",
-    "englishSource": "Add Ledger Account"
-  },
-  "connectionUnavailable": {
-    "message": "Недоступен",
-    "englishSource": "Unavailable"
-  },
-  "sorry": {
-    "message": "Извиняюсь!",
-    "englishSource": "Sorry!"
-  },
-  "upload": {
-    "message": "Загрузить",
-    "englishSource": "Upload"
-  },
   "languageAndCountry": {
     "message": "По умолчанию мы используем язык вашего браузера. Измените его ниже, если вам это не нравится.",
     "englishSource": "By default, we use the language of your browser. Change it below if that's not to your liking."
-  },
-  "fiatCurrency": {
-    "message": "Валюта по умолчанию",
-    "englishSource": "Default Currency"
   },
   "generalSettings": {
     "message": "Общий",
@@ -1977,47 +796,13 @@
     "message": "Здесь вы можете управлять языковыми настройками и режимом отображения.",
     "englishSource": "Here you can manage languages preferences and display mode."
   },
-  "swapNoun": {
-    "message": "Менять",
-    "englishSource": "Swap"
+  "language": {
+    "message": "Язык",
+    "englishSource": "Language"
   },
-  "transfers": {
-    "message": "Трансферы",
-    "englishSource": "Transfers"
-  },
-  "someUnknownToken": {
-    "message": "неизвестный токен $token$ ",
-    "placeholders": {
-      "token": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "unknown token $token$"
-  },
-  "interactionWithSomeEntrypoint": {
-    "message": "Взаимодействие с точкой входа '$entrypoint$' контракта $contractAddress$ ",
-    "placeholders": {
-      "entrypoint": {
-        "content": "$1"
-      },
-      "contractAddress": {
-        "content": "$2"
-      }
-    },
-    "englishSource": "Interaction with entrypoint '$entrypoint$' of contract $contractAddress$"
-  },
-  "transactionOfSomeType": {
-    "message": "Транзакция типа '$type$' ",
-    "placeholders": {
-      "type": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Transaction of type '$type$'"
-  },
-  "approveToken": {
-    "message": "Одобрить токен",
-    "englishSource": "Approve Token"
+  "languageDescription": {
+    "message": "Изменить язык отображения",
+    "englishSource": "Change the display language"
   },
   "add": {
     "message": "Добавлять",
@@ -2035,9 +820,9 @@
     "message": "Мероприятия",
     "englishSource": "Activities"
   },
-  "manage": {
-    "message": "Управлять",
-    "englishSource": "Manage"
+  "proofGenerationTab": {
+    "message": "Открытая вкладка необходима для эффективного создания доказательств транзакций.",
+    "englishSource": "An open tab is required to efficiently generate transaction proofs"
   },
   "manageTokens": {
     "message": "Управление токенами",
@@ -2069,18 +854,6 @@
     "message": "Искать активы...",
     "englishSource": "Search assets..."
   },
-  "searchByName": {
-    "message": "Поиск по названию...",
-    "englishSource": "Search by name..."
-  },
-  "deployNew": {
-    "message": "Развернуть новый",
-    "englishSource": "Deploy new"
-  },
-  "managedKTAccount": {
-    "message": "Управляемый КТ",
-    "englishSource": "Managed KT"
-  },
   "watchOnlyAccount": {
     "message": "Только просмотр",
     "englishSource": "View Key"
@@ -2089,76 +862,9 @@
     "message": "Отключено для учетной записи только для просмотра",
     "englishSource": "Disabled for watch-only account"
   },
-  "activationOperationType": {
-    "message": "Активация",
-    "englishSource": "Activation"
-  },
-  "youAreNotContractManager": {
-    "message": "Вы не контрактный менеджер",
-    "englishSource": "You are not a contract manager"
-  },
   "contract": {
     "message": "Договор",
     "englishSource": "Contract"
-  },
-  "contractAddressInputDescription": {
-    "message": "Адрес договора на подключение.",
-    "englishSource": "Address of the contract to connect."
-  },
-  "contractAddressInputPlaceholder": {
-    "message": "например КТ1а9в1С7хН5с...",
-    "englishSource": "e.g. KT1a9w1S7hN5s..."
-  },
-  "addKnownManagedContract": {
-    "message": "Добавить известный управляемый контракт",
-    "englishSource": "Add known Managed contract"
-  },
-  "clickOnContractToImport": {
-    "message": "Нажмите на контракт, который вы хотите импортировать.",
-    "englishSource": "Click on Contract you want to import."
-  },
-  "notContractAddress": {
-    "message": "Не контрактный адрес",
-    "englishSource": "Not a contract address"
-  },
-  "contractAlreadyImported": {
-    "message": "Этот контракт уже импортирован",
-    "englishSource": "This contract has already been imported"
-  },
-  "waitWhileContractBeingDeployed": {
-    "message": "Пожалуйста, не покидайте эту страницу и не закрывайте окно во время развертывания контракта, это может занять некоторое время. Форма и это оповещение исчезнут, как только они будут успешно развернуты.",
-    "englishSource": "Please don't leave this page or close window while contract is being deployed, it may take a while. The form and this alert will disappear as soon as it is successfully deployed."
-  },
-  "justAMinute": {
-    "message": "Минуточку...",
-    "englishSource": "Just a minute..."
-  },
-  "referredByTokenContactAddressInvalid": {
-    "message": "Адрес контракта $address$ , на который ссылается контракт токена, недействителен.",
-    "placeholders": {
-      "address": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Contract address $address$, which is referred by token contract to, is invalid."
-  },
-  "someNetworkIsNotCurrent": {
-    "message": "Была указана сеть $network$, которая не является текущей сетью",
-    "placeholders": {
-      "network": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$network$ network was specified, which is not current network"
-  },
-  "someNetworkWithChainIdIsNotCurrent": {
-    "message": "Идентификатор цепочки $chainId$ был указан, что не является идентификатором цепочки текущей сети",
-    "placeholders": {
-      "chainId": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Chain ID $chainId$ was specified, which is not chain ID of current network"
   },
   "popupSettings": {
     "message": "Всплывающий режим",
@@ -2168,6 +874,22 @@
     "message": "Здесь вы можете настроить всплывающее окно, которое появляется при нажатии на иконку плагина в панели расширений.",
     "englishSource": "Here you can configure the popup which appears on plugin's icon click in extensions panel."
   },
+  "delegateProofSettings": {
+    "message": "Делегирование генерации доказательств",
+    "englishSource": "Delegate Proof Generation"
+  },
+  "delegateProofSettingsDescription": {
+    "message": "Здесь вы можете настроить делегирование генерации доказательств на удаленный сервер. Это ускорит создание доказательств, но при этом раскроет детали транзакции доверенному серверу.",
+    "englishSource": "Here you can configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
+  },
+  "autoCloseSettings": {
+    "message": "Автоматическое закрытие страницы создания транзакции",
+    "englishSource": "Auto Close Generating Transaction Page"
+  },
+  "autoCloseSettingsDescription": {
+    "message": "Здесь вы можете настроить автоматическое закрытие страницы генерации транзакции после ее создания.",
+    "englishSource": "Here you can configure auto close of the generating transaction page after the transaction is generated."
+  },
   "analyticsSettings": {
     "message": "Анонимная аналитика",
     "englishSource": "Anonymous Analytics"
@@ -2176,176 +898,13 @@
     "message": "Здесь вы можете настроить отправку анонимной аналитики, которая поможет нам улучшить продукт.",
     "englishSource": "Here you can configure sending of anonymous analytics that helps us to improve the product."
   },
-  "managedContract": {
-    "message": "Управляемый контракт",
-    "englishSource": "Managed Contract"
-  },
-  "referredByTokenContractNotFound": {
-    "message": "Договор $address$ , на который ссылается токен-контракт, не найден.",
-    "placeholders": {
-      "address": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Contract $address$, which is referred by token contract to, was not found."
-  },
-  "tokenContractNotFound": {
-    "message": "Контракт не найден.",
-    "englishSource": "The contract was not found."
-  },
-  "failedToParseMetadata": {
-    "message": "Не удалось проанализировать метаданные",
-    "englishSource": "Failed to parse metadata"
-  },
-  "unknownParseErrorOccurred": {
-    "message": "Произошла неизвестная ошибка синтаксического анализа.",
-    "englishSource": "An unknown parsing error occurred."
-  },
-  "errorWhileFetchingUrl": {
-    "message": "Произошла ошибка при получении из $url$ ",
-    "placeholders": {
-      "url": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Error occurred while fetching from $url$"
-  },
-  "invalidManagedContract": {
-    "message": "Недействительный управляемый контракт",
-    "englishSource": "Invalid managed contract"
-  },
-  "someMethodNotDefinedInContract": {
-    "message": " '$name$' метод не определен в контракте.",
-    "placeholders": {
-      "name": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "'$name$' method isn't defined in contract."
-  },
-  "someMethodSignatureDoesNotMatchStandard": {
-    "message": " '$name$' сигнатура метода не соответствует стандарту.",
-    "placeholders": {
-      "name": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "'$name$' method's signature doesn't match the standard."
-  },
-  "failedToLoadChainID": {
-    "message": "Не удалось загрузить идентификатор цепочки для этой сети.",
-    "englishSource": "Failed to load chain ID for this network"
-  },
-  "makeSureTokenIdIsCorrect": {
-    "message": "Убедитесь, что идентификатор актива указан правильно.",
-    "englishSource": "Please make sure that asset ID is correct."
-  },
-  "unknownErrorCheckingSomeEntrypoint": {
-    "message": "Неизвестная ошибка при проверке '$name$' произошла точка входа.",
-    "placeholders": {
-      "name": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "An unknown error while checking '$name$' entrypoint occurred."
-  },
-  "incorrectTokenIdErrorMessage": {
-    "message": "Ошибка при обработке объекта с предоставленными данными. Убедитесь, что идентификатор актива указан правильно.",
-    "englishSource": "Failed while processing asset with provided data. Please make sure that asset ID is correct."
-  },
   "transfer": {
     "message": "Передача",
     "englishSource": "Transfer"
   },
-  "origination": {
-    "message": "Происхождение",
-    "englishSource": "Origination"
-  },
-  "transferFromSmb": {
-    "message": "из $sender$ ",
-    "placeholders": {
-      "sender": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "from $sender$"
-  },
-  "transferToSmb": {
-    "message": "к $receiver$ ",
-    "placeholders": {
-      "receiver": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "to $receiver$"
-  },
-  "interaction": {
-    "message": "Взаимодействие",
-    "englishSource": "Interaction"
-  },
-  "interactionWithContract": {
-    "message": "с $contract$ ",
-    "placeholders": {
-      "contract": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "with $contract$"
-  },
-  "delegationToSmb": {
-    "message": "к $delegate$ ",
-    "placeholders": {
-      "delegate": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "to $delegate$"
-  },
-  "fa2TokenAlreadyExists": {
-    "message": "Токен с адресом $address$ и идентификатор $tokenId$ уже существует.",
-    "placeholders": {
-      "address": {
-        "content": "$1"
-      },
-      "tokenId": {
-        "content": "$2"
-      }
-    },
-    "englishSource": "Token with address $address$ and ID $tokenId$ already exists."
-  },
-  "nonFa2TokenAlreadyExists": {
-    "message": "Токен с адресом $address$ уже существует.",
-    "placeholders": {
-      "address": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Token with address $address$ already exists."
-  },
-  "approveForSmb": {
-    "message": "за $spender$ ",
-    "placeholders": {
-      "spender": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "for $spender$"
-  },
-  "undelegation": {
-    "message": "Отмена делегирования",
-    "englishSource": "Undelegation"
-  },
-  "bytes": {
-    "message": "Байты",
-    "englishSource": "Bytes"
-  },
   "clean": {
     "message": "Чистый",
     "englishSource": "Clean"
-  },
-  "errorChangingAccountName": {
-    "message": "Произошла ошибка при изменении имени учетной записи",
-    "englishSource": "An error occurred while changing account name"
   },
   "ok": {
     "message": "ХОРОШО",
@@ -2363,319 +922,54 @@
     "message": "Подтвердить действие",
     "englishSource": "Confirm the action"
   },
-  "domainDoesntResolveToAddress": {
-    "message": "Домен \" $value$ \" не разрешается в адрес",
-    "placeholders": {
-      "value": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Domain \"$value$\" doesn't resolve to an address"
-  },
-  "invalidAddressOrDomain": {
-    "message": "Неверный адрес или доменное имя",
-    "englishSource": "Invalid address or domain name"
-  },
-  "resolvedAddress": {
-    "message": "Разрешенный адрес",
-    "englishSource": "Resolved address"
-  },
-  "invalidRpcCantGetChainId": {
-    "message": "Недопустимый RPC: невозможно получить идентификатор цепочки",
-    "description": "RPC = Remote Procedure Call (https://en.wikipedia.org/wiki/Remote_procedure_call)",
-    "englishSource": "Invalid RPC: Cannot get chain id"
-  },
-  "contractNotOriginated": {
-    "message": "Контракт не заключен",
-    "englishSource": "Contract not originated"
-  },
-  "welcomeTo": {
-    "message": "Добро пожаловать в",
-    "englishSource": "Welcome to"
-  },
-  "domain": {
-    "message": "Домен",
-    "englishSource": "Domain"
-  },
-  "hash": {
-    "message": "Хэш",
-    "englishSource": "Hash"
-  },
-  "defaultAccount": {
-    "message": "Аккаунт по умолчанию (первый)",
-    "englishSource": "Default account (the first one)"
-  },
-  "loadMore": {
-    "message": "Загрузи больше",
-    "englishSource": "Load more"
-  },
   "submit": {
     "message": "Представлять на рассмотрение",
     "englishSource": "Submit"
-  },
-  "invalidJsonInput": {
-    "message": "Неверный JSON",
-    "englishSource": "Invalid JSON"
-  },
-  "notFaucetJson": {
-    "message": "Не Faucet JSON",
-    "englishSource": "Not a faucet JSON"
-  },
-  "faucetJson": {
-    "message": "Faucet JSON",
-    "englishSource": "Faucet JSON"
-  },
-  "faucetJsonDescription": {
-    "message": "Вы можете вставить сюда JSON вместо добавления файла",
-    "englishSource": "You can paste JSON here instead of adding file"
-  },
-  "unknownErrorFromRPC": {
-    "message": "Не удалось отправить запрос на $url$ . Предоставлен недопустимый запрос или узел RPC временно недоступен.",
-    "placeholders": {
-      "url": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Failed to send request to $url$. Invalid request provided or RPC node is temporarily unreachable."
-  },
-  "emptyImplicitContract": {
-    "message": "Ваш аккаунт пуст. Внесите любую сумму aleo credits на этот счет, чтобы активировать его",
-    "englishSource": "Your account is empty. Deposit any aleo credits amount on this account to activate it"
-  },
-  "balanceTooLow": {
-    "message": "Баланс токенов газа слишком низкий",
-    "englishSource": "Gas token balance is too low"
-  },
-  "swap": {
-    "message": "Менять",
-    "englishSource": "Swap"
-  },
-  "accountNumber": {
-    "message": "Номер счета",
-    "englishSource": "Account number"
-  },
-  "noExchangersAvailable": {
-    "message": "Извините, в текущей сети нет доступных обменников.",
-    "englishSource": "Sorry, no exchangers are available for the current network."
-  },
-  "noResults": {
-    "message": "Нет результатов",
-    "englishSource": "No Results"
-  },
-  "aleoApy": {
-    "message": "Годовой доход: 6 %",
-    "englishSource": "APY: 6%"
-  },
-  "tokenApy": {
-    "message": "APY",
-    "englishSource": "APY"
   },
   "max": {
     "message": "Максимум",
     "englishSource": "Max"
   },
-  "balance": {
-    "message": "Остаток средств:",
-    "englishSource": "Balance"
-  },
   "from": {
     "message": "Из",
     "englishSource": "From"
   },
-  "toAsset": {
+  "to": {
     "message": "К",
     "englishSource": "To"
   },
-  "via": {
-    "message": "С помощью",
-    "englishSource": "Via"
-  },
-  "swapRoute": {
-    "message": "Поменять маршрут",
-    "englishSource": "Swap route"
-  },
-  "exchangeRate": {
-    "message": "Обменный курс",
-    "englishSource": "Exchange rate"
-  },
-  "priceImpact": {
-    "message": "Влияние на цену",
-    "englishSource": "Price impact"
-  },
-  "slippageTolerance": {
-    "message": "Допуск на проскальзывание",
-    "englishSource": "Slippage tolerance"
-  },
-  "minimumReceived": {
-    "message": "Минимум получен",
-    "englishSource": "Minimum received"
-  },
-  "inputOutputAssetsCannotBeSame": {
-    "message": "Входные и выходные активы не могут быть одинаковыми",
-    "englishSource": "Input and output assets cannot be the same"
-  },
-  "amountMustBeReservedForNetworkFees": {
-    "message": "$amount$ необходимо зарезервировать для оплаты сетевых комиссий",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$amount$ must be reserved to pay network fees"
-  },
-  "helpAndCommunity": {
-    "message": "Помощь",
-    "englishSource": "Help & Community"
-  },
-  "communityResourcesTitle": {
-    "message": "Вы всегда можете найти дополнительную информацию о кошельке Leo или обратиться за помощью на следующих ресурсах.",
-    "englishSource": "You may always find additional info about the Leo wallet or ask for help on the next resources."
-  },
-  "helpAndCommunityDescription": {
-    "message": "Используйте этот раздел, если хотите стать частью нашего сообщества или нуждаетесь в помощи.",
-    "englishSource": "Use this section if you want to be a part of our community or need help."
-  },
-  "joinPrompt": {
-    "message": "Присоединяйтесь и задавайте свои вопросы 😊",
-    "englishSource": "Feel free to join and ask your questions 😊"
-  },
-  "blockExplorer": {
-    "message": "Исследователь блокчейна",
-    "englishSource": "Blockchain explorer"
-  },
-  "specifyTokenId": {
-    "message": "Укажите идентификатор токена",
-    "englishSource": "Specify token ID"
-  },
-  "notWhitelistedTokenWarning": {
-    "message": "Внимание! Один из токенов, которые вы пытаетесь обменять, не внесен в белый список. Вы можете взаимодействовать с ними на свой страх и риск.",
-    "englishSource": "Attention! One of the tokens you’re trying to exchange is not whitelisted. You can interact with them at your own risk."
-  },
-  "tvl": {
-    "message": "ТВЛ",
-    "englishSource": "TVL"
-  },
-  "promoted": {
-    "message": "продвигается",
-    "englishSource": "Promoted"
-  },
-  "searchDApps": {
-    "message": "Поиск децентрализованных приложений",
-    "englishSource": "Search DApps"
-  },
-  "game": {
-    "message": "Игра",
-    "englishSource": "Game"
-  },
-  "social": {
-    "message": "Социальное",
-    "englishSource": "Social"
-  },
-  "marketplace": {
-    "message": "Торговая площадка",
-    "englishSource": "Marketplace"
-  },
-  "farming": {
-    "message": "Сельское хозяйство",
-    "englishSource": "Farming"
+  "received": {
+    "message": "Полученный",
+    "englishSource": "Received"
   },
   "other": {
     "message": "Другой",
     "englishSource": "Other"
   },
-  "noMatchingDAppsFound": {
-    "message": "Подходящие dApps не найдены",
-    "englishSource": "No matching dApps were found"
+  "thousandFormat": {
+    "message": "$тысяча$тыс.",
+    "englishSource": "$thousand$k"
   },
-  "gasFee": {
-    "message": "Плата за газ",
-    "englishSource": "Gas fee"
+  "millionFormat": {
+    "message": "$миллион$М",
+    "englishSource": "$million$M"
   },
-  "storageFee": {
-    "message": "Плата за хранение",
-    "englishSource": "Storage fee"
+  "billionFormat": {
+    "message": "$миллиард$Б",
+    "englishSource": "$billion$B"
   },
-  "leoWalletFeeWarning": {
-    "message": "На данный момент Leo Wallet не взимает комиссию за обмен, но она может взиматься в будущем.",
-    "englishSource": "Leo Wallet doesn't apply any fees to exchanges for now but it may apply in the future."
+  "uploadFile": {
+    "message": "Загрузить файл",
+    "englishSource": "Upload File"
   },
-  "poolExchangeFee": {
-    "message": "Плата за обмен пула",
-    "englishSource": "Pool exchange fee"
-  },
-  "PriceImpactInfo": {
-    "message": "Разница между рыночной ценой и оценочной ценой из-за размера сделки",
-    "englishSource": "The difference between the market price and estimated price due to trade size"
-  },
-  "selectToken": {
-    "message": "Выберите токен",
-    "englishSource": "Select Token"
-  },
-  "viewAll": {
-    "message": "Посмотреть все",
-    "englishSource": "View all"
-  },
-  "storageFeeMax": {
-    "message": "Плата за хранение (макс.)",
-    "englishSource": "Storage fee (max)"
-  },
-  "storageLimit": {
-    "message": "Изменить лимит хранилища",
-    "englishSource": "Adjust storage limit"
-  },
-  "txIsLikelyToFail": {
-    "message": "Предупреждение! Транзакция, скорее всего, не состоится",
-    "englishSource": "Warning! Transaction is likely to fail"
-  },
-  "copyErrorLogs": {
-    "message": "Копировать журналы ошибок",
-    "englishSource": "Copy Error Logs"
-  },
-  "dAppsListTvlDescription": {
-    "message": "Общая стоимость заблокирована. Значение в aleo credits — это общее количество aleo credits, заблокированных в dApps. Значение в долларах США — это общая сумма aleo credits и токенов, заблокированных там.",
-    "englishSource": "Total Value Locked. The value in aleo credits is the total amount of aleo credits locked in dApps. The value in USD is the total amount of aleo credits and tokens locked there."
-  },
-  "noFavoriteDApps": {
-    "message": "У вас нет любимых децентрализованных приложений",
-    "englishSource": "You don't have any favorite dApps"
+  "download": {
+    "message": "Скачать",
+    "englishSource": "Download"
   },
   "more": {
     "message": "более",
     "description": "Show more",
     "englishSource": "more"
-  },
-  "less": {
-    "message": "меньше",
-    "description": "Show less",
-    "englishSource": "less"
-  },
-  "recentDestinations": {
-    "message": "Недавние направления",
-    "englishSource": "Recent destinations"
-  },
-  "unknownAccount": {
-    "message": "Неизвестный аккаунт",
-    "englishSource": "Unknown account"
-  },
-  "ledgerLiveBridgeGuide": {
-    "message": "Чтобы подключиться к Ledger, активируйте приложение Ledger Live на своем устройстве, откройте приложение Aleo Wallet и разрешите подключение WebSocket к своей учетной записи Leo.",
-    "englishSource": "To connect to Ledger, please activate the Ledger Live application on your device, open Aleo Wallet application and allow a WebSocket connection to your Leo account."
-  },
-  "ledgerBridgeGuide": {
-    "message": "Чтобы подключить Ledger, активируйте свое устройство и откройте приложение Aleo Wallet.",
-    "englishSource": "To connect the Ledger, please activate your device and open Aleo Wallet application."
-  },
-  "noExchangerFoundForToken": {
-    "message": "Обменный пункт для токена не найден $symbol$  ( $name$ ).",
-    "placeholders": {
-      "symbol": {
-        "content": "$1"
-      },
-      "name": {
-        "content": "$2"
-      }
-    },
-    "englishSource": "No exchanger was found for token $symbol$ ($name$)."
   },
   "addressBook": {
     "message": "Адресная книга",
@@ -2705,10 +999,6 @@
     "message": "Текущие контакты",
     "englishSource": "Current contacts"
   },
-  "updateContactDescription": {
-    "message": "Чтобы обновить существующий контакт, просто удалите его\nи добавить новый.",
-    "englishSource": "To update an existing contact, just remove it\nand add a new one."
-  },
   "deleteContactConfirm": {
     "message": "Вы уверены, что хотите удалить этот контакт?",
     "englishSource": "Are you sure you want to delete this contact?"
@@ -2717,33 +1007,13 @@
     "message": "Собственный",
     "englishSource": "Own"
   },
-  "counterErrorDescription": {
-    "message": "Вы не можете проводить операцию в данный момент!\nПожалуйста, подождите, пока ваша предыдущая операция будет применена, и повторите попытку.",
-    "englishSource": "You can not conduct the operation at the moment!\nPlease, wait when your previous operation is applied and retry."
-  },
-  "swapDisclaimerTitle": {
-    "message": "Отказ от ответственности. Бета-версия, прочитайте перед использованием раздела SWAP.",
-    "englishSource": "Disclaimer. Beta version, read before using the SWAP section."
-  },
-  "swapDisclaimerContent": {
-    "message": "Кошелек Leo предоставляет только интерфейс для взаимодействия с Aleo Dexes.\n\nМы не несем ответственности за: проблемы DEX, отображаемые токены, цену, обменные курсы и торговые решения пользователей.\n\nПрежде чем использовать этот раздел обмена, вам следует ознакомиться с соответствующей документацией, чтобы понять, как работают протоколы DEX (AMM).\n\nИспользование этого раздела является исключительной ответственностью пользователя.",
-    "englishSource": "Leo wallet only provides an interface to interact with the Aleo Dexes. \n\nWe are not responsible for: DEX issues, displayed tokens, price, exchange rates, and user trading decisions. \n\nBefore using this Swap Section, you should review the relevant documentation to understand how the DEX(AMM) protocols work. \n\nUsing this section is solely the user's responsibility."
-  },
   "noContactsFound": {
     "message": "Контакты не найдены",
     "englishSource": "No contacts found"
   },
-  "addThisAddressToContacts": {
-    "message": "Добавить этот адрес в контакты?",
-    "englishSource": "Add this address to contacts?"
-  },
   "verifySeedPhrase": {
     "message": "Проверьте исходную фразу",
     "englishSource": "Verify Seed Phrase"
-  },
-  "verifySeedPhraseDescription": {
-    "message": "Заполните пустые поля словами, чтобы проверить резервную копию исходной фразы.",
-    "englishSource": "Fill in the blank fields with the words to verify your Seed Phrase backup"
   },
   "word": {
     "message": "Слово $number$ ",
@@ -2758,10 +1028,6 @@
     "message": "Заканчивать",
     "englishSource": "Finish"
   },
-  "welcomeToOnboarding": {
-    "message": "Добро пожаловать в адаптацию",
-    "englishSource": "Welcome to Onboarding"
-  },
   "onboarding": {
     "message": "Онбординг",
     "englishSource": "Onboarding"
@@ -2770,193 +1036,13 @@
     "message": "Следующий",
     "englishSource": "Next"
   },
-  "updatingMinMax": {
-    "message": "Обновление мин/макс...",
-    "englishSource": "Updating min/max..."
-  },
   "done": {
     "message": "Сделанный!",
     "englishSource": "Done"
   },
-  "standWithUkraine": {
-    "message": "Поддержи Украину",
-    "englishSource": "Stand with Ukraine"
-  },
-  "addressBalanceDetails": {
-    "message": "Ваш адрес и баланс",
-    "englishSource": "Your address and balance"
-  },
-  "addressBalanceDescription": {
-    "message": "После создания учетной записи вы получите уникальный адрес — ваш личный идентификатор в блокчейне Aleo. Если вы хотите получать и использовать кредиты Aleo или созданные Aleo токены в Leo, вам следует использовать этот адрес.",
-    "englishSource": "After creating an account, you’ll get a unique address — your personal identifier in the Aleo blockchain. If you would like to receive and use Aleo credits or Aleo-built tokens in Leo, you should use this address."
-  },
-  "addressBalanceHint": {
-    "message": "Баланс ваших кредитов Aleo отображается под общедоступным адресом.",
-    "englishSource": "The balance of your Aleo credits is displayed under the public address."
-  },
-  "howToStartDetails": {
-    "message": "Как начать",
-    "englishSource": "How to start"
-  },
-  "howToStartDescription1": {
-    "message": "Чтобы начать использовать свой кошелек и взаимодействовать с экосистемой Aleo DApps, баланс аккаунта должен быть положительным. Для этого пополните свой адрес монетами Aleo Credits.",
-    "englishSource": "To start using your wallet and interacting with the Aleo DApps ecosystem, the account balance must be positive. To do this, top up your address with Aleo Credits coins."
-  },
-  "howToStartDescription2": {
-    "message": "Вы можете использовать кнопку «Купить» и пополнить свой баланс Aleo Credits, используя криптовалюты, дебетовые или кредитные карты.",
-    "englishSource": "You can use the \"Buy\" button and top up your Aleo Credits balance, using cryptocurrencies, debit, or credit cards."
-  },
-  "howToStartHint": {
-    "message": "Также вы можете скопировать свой адрес и отправить на него монеты с другого кошелька или биржи. Чтобы скопировать адрес, нажмите на него на главном эfaucetе кошелька или воспользуйтесь «Получить».",
-    "englishSource": "Also, you can copy your address and send coins to it from another wallet or Exchange. To copy the address, click on it on the main wallet screen or use “Receive”."
-  },
-  "tokensCollectibleDetails": {
-    "message": "Токены",
-    "englishSource": "Tokens & Collectible"
-  },
-  "tokensCollectibleDescription1": {
-    "message": "Ваши балансы токенов FA1.2 и FA2 отображаются на вкладке «Токены».",
-    "englishSource": "Your balances of FA1.2 and FA2 tokens are displayed on the “Tokens” tab."
-  },
-  "tokensCollectibleDescription2": {
-    "message": "Вы можете отправить, проверить баланс или контрактные адреса любого токена, нажав на него в этом разделе.",
-    "englishSource": "You can send, check balances, or contract addresses of any token by clicking on it in this section."
-  },
-  "tokensCollectibleHint": {
-    "message": "Ваши невзаимозаменяемые токены (NFT) отображаются на вкладке «Коллекционные предметы». Здесь вы также можете взаимодействовать со своими собственными NFT, видеть их полный вид, идентификатор и адрес контракта.",
-    "englishSource": "Your Non-Fungible Tokens (NFT) are displayed on the “Collectibles” tab. Here you can also interact with your own NFTs, see their full view, ID, and contract address."
-  },
-  "profileRpcDetails": {
-    "message": "Профиль",
-    "englishSource": "Profile & RPC"
-  },
-  "profileRpcDescription": {
-    "message": "В верхней части интерфейса вы можете увидеть робо-икону вашей учетной записи. Нажав на нее, вы увидите параметры взаимодействия с аккаунтами, кнопку настроек и режим просмотра расширения.",
-    "englishSource": "At the top of the interface, you can see your account robo-icon. By clicking on it, you will see the parameters for interaction with accounts, the settings button, and the extension view mode."
-  },
-  "profileRpcHint1": {
-    "message": "Далее вы увидите селектор «Сети», который позволяет выбрать узел (RPC), к которому будет подключено ваше расширение Leo.",
-    "englishSource": "Next, you will see the “Networks” selector, which allows you to select a node (RPC) to which your Leo extension will be connected."
-  },
-  "profileRpcHint2": {
-    "message": "Если ваш баланс не отображается, попробуйте сменить узел.",
-    "englishSource": "If your balance is not displayed, try changing the node."
-  },
-  "profileRpcHint3": {
-    "message": "Вы можете выбрать из предопределенного списка или добавить RPC вручную, следуя этим",
-    "englishSource": "You can choose from a predefined list or add RPC manually by following these "
-  },
-  "congrats": {
-    "message": "Поздравляю!",
-    "englishSource": "Congrats!"
-  },
-  "instructions": {
-    "message": "инструкции.",
-    "englishSource": "instructions."
-  },
   "start": {
     "message": "Начинать",
     "englishSource": "Start"
-  },
-  "thanks": {
-    "message": "Хорошо, спасибо!",
-    "englishSource": "Ok thanks!"
-  },
-  "browserVersionIsOutOfDate": {
-    "message": "Версия вашего браузера устарела, настоятельно рекомендуем обновиться до последней версии!",
-    "englishSource": "Your browser version is out of date, we strongly recommend updating to the newest version!"
-  },
-  "congratsDescription1": {
-    "message": "Спасибо за внимание!",
-    "englishSource": "Thanks for your attention!"
-  },
-  "congratsDescription2": {
-    "message": "Теперь вы знаете об основных и самых важных функциях кошелька Leo.",
-    "englishSource": "Now you know about the basic and most important functions of the Leo wallet."
-  },
-  "congratsDescription3": {
-    "message": "Обо всех возможностях Лео вы можете узнать из нашего «Образовательного сериала» на YouTube.",
-    "englishSource": "You can learn all features of the Leo from our “Educational series” on YouTube."
-  },
-  "congratsDescription4": {
-    "message": "Кроме того, инструкции и руководства доступны в нашей базе знаний.",
-    "englishSource": "Also, instructions and guides are available in our knowledge base."
-  },
-  "congratsDescription5": {
-    "message": "Присоединяйтесь к нашим сообществам в Telegram и Discord.",
-    "englishSource": "Join our communities in Telegram and Discord."
-  },
-  "congratsDescription6": {
-    "message": "PS: Удачи в изучении мира Aleo!",
-    "englishSource": "PS: Good luck exploring the Aleo world!"
-  },
-  "attention": {
-    "message": "Внимание",
-    "englishSource": "Attention"
-  },
-  "attentionDescription": {
-    "message": "Никогда и ни под каким предлогом не передавайте свои приватные ключи и исходную фразу третьим лицам.",
-    "englishSource": "Never and under any pretext share your private keys and seed phrase with third parties."
-  },
-  "attentionListTitle1": {
-    "message": "Кроме того, помните:",
-    "englishSource": "Also, remember:"
-  },
-  "attentionListItem1": {
-    "message": "Ваш кошелек может быть атакован через браузер 0days или через другое установленное вредоносное расширение;",
-    "englishSource": "Your wallet can be targeted through a browser 0days or via other malicious extension installed;"
-  },
-  "attentionListItem2": {
-    "message": "Эfaucet потенциально может манипулировать вредоносное программное обеспечение, установленное в системе;",
-    "englishSource": "The screen can potentially be manipulated by malicious software installed in the system;"
-  },
-  "attentionListItem3": {
-    "message": "Хост-компьютер пользователя может стать целью вредоносного ПО для кражи зашифрованного кошелька;",
-    "englishSource": "User’s host machine can be targeted by malware to steal encrypted wallet;"
-  },
-  "attentionListItem4": {
-    "message": "Выбор слабых паролей может снизить способность кошелька противостоять взлому со стороны злоумышленников.",
-    "englishSource": "Choosing weak passwords can reduce the ability of a wallet to resist adversarial brute-forcing."
-  },
-  "attentionListTitle2": {
-    "message": "Чтобы сохранить ваши активы в безопасности, мы рекомендуем:",
-    "englishSource": "To keep your assets safe, we recommend:"
-  },
-  "attentionListItem5": {
-    "message": "как можно быстрее перевести средства с «горячего» кошелька на «холодный» (кошелек Leo поддерживает интеграцию с устройствами «Ledger Nano»);",
-    "englishSource": "Move your funds from “hot” wallet to “cold” as soon as possible (Leo wallet supports integration with “Ledger Nano” devices);"
-  },
-  "attentionListItem6": {
-    "message": "Используйте отдельные браузеры для веб-серфинга и работы с кошельком;",
-    "englishSource": "Use separate browsers for web-surfing and wallet’s operating;"
-  },
-  "attentionListItem7": {
-    "message": "Используйте одну вкладку браузера для совершения транзакций;",
-    "englishSource": "Use one browser’s tab at a time to make transactions;"
-  },
-  "attentionListItem8": {
-    "message": "Держите кошелек заблокированным, когда он не используется.",
-    "englishSource": "Keep the wallet locked when it is not in usage."
-  },
-  "takeCare": {
-    "message": "Позаботьтесь о своей безопасности в криптомире!",
-    "englishSource": "Take care of your safety in the crypto world!"
-  },
-  "readMore": {
-    "message": "Подробнее читайте на",
-    "englishSource": "Read more by the "
-  },
-  "deleteTokenConfirm": {
-    "message": "Вы уверены, что хотите удалить этот токен?",
-    "englishSource": "Are you sure you want to delete this token?"
-  },
-  "ledgerLiveSettings": {
-    "message": "Используйте Ledger Live",
-    "englishSource": "Use Ledger Live"
-  },
-  "ledgerLiveSettingsDescription": {
-    "message": "Новый мост Ledger Live позволяет вам использовать свой Ledger по-другому.",
-    "englishSource": "The new Ledger Live bridge allows you to use your Ledger in a different way."
   },
   "lockUpSettings": {
     "message": "Блокировка расширения",
@@ -2966,253 +1052,25 @@
     "message": "Расширение будет автоматически заблокировано через 10 минут бездействия.",
     "englishSource": "The extension will be automatically blocked after 10 minutes of inactivity."
   },
-  "totalBalance": {
-    "message": "Итоговый баланс",
-    "englishSource": "Total Balance"
-  },
-  "buyButton": {
-    "message": "Купить",
-    "englishSource": "Buy"
-  },
-  "buyWithCrypto": {
-    "message": "Купить за крипто",
-    "englishSource": "Buy With Crypto"
-  },
-  "buyWithExolix": {
-    "message": "Купить с Exolix",
-    "englishSource": "Buy With Exolix"
-  },
-  "buyWithExolixDescription": {
-    "message": "Обмен $number$ криптовалюты в Aleo Credits или USDT Aleo мгновенно и без регистрации",
-    "placeholders": {
-      "number": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Exchange $number$ cryptocurrencies to Aleo Credits or USDT Aleo instantly and without registration"
-  },
-  "buyWithMoonPay": {
-    "message": "Купить с MoonPay",
-    "englishSource": "Buy With MoonPay"
-  },
-  "buyWithMoonPayDescription": {
-    "message": "Криптовалюта стала проще. Купите Aleo Credits за считанные минуты, используя Visa, Mastercard и все основные дебетовые и кредитные карты.",
-    "englishSource": "Crypto just got easy. Buy Aleo Credits in minutes using Visa, Mastercard, and all major debit and credit cards."
-  },
-  "buyWithRamp": {
-    "message": "Купить с рампой",
-    "englishSource": "Buy With Ramp"
-  },
-  "buyWithRampDescription": {
-    "message": "Покупайте Aleo Credits с помощью Visa, Mastercard и всех основных дебетовых и кредитных карт. Ramp доступен в 160 странах и территориях.",
-    "englishSource": "Buy Aleo Credits  using Visa, Mastercard, and all major debit and credit cards. Ramp is available in 160+ countries and territories."
-  },
-  "buyWithAliceBob": {
-    "message": "Купить Aleo Credits с Алисой-Бобом (только в грн.)",
-    "englishSource": "Buy Aleo Credits with Alice-Bob (UAH only)"
-  },
-  "buyWithAliceBobDescription": {
-    "message": "Быстрый и выгодный обмен UAH на Aleo Credits.",
-    "englishSource": "Fast and cost-effective exchange of UAH to Aleo Credits."
-  },
-  "buyWithUtorgDescription": {
-    "message": "Лицензированный шлюз fiat-to-crypto. 187 стран, KYC на базе AI, Apple Pay, Google Pay.",
-    "englishSource": "Licensed fiat-to-crypto gateway. 187+ countries, AI-powered KYC, Apple Pay, Google Pay."
-  },
-  "topUpBuy": {
-    "message": "Пополнить $gasTokenName$ остаток средств",
-    "placeholders": {
-      "gasTokenName": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Top up $gasTokenName$ balance"
-  },
-  "buyWithUtorg": {
-    "message": "Купить Aleo Credits с UTORG",
-    "englishSource": "Buy Aleo Credits with UTORG"
-  },
-  "buyWithCard": {
-    "message": "Купить с помощью дебетовой/кредитной карты",
-    "englishSource": "Buy with Debit/Credit Card"
-  },
-  "topUpDescription": {
-    "message": "Лео интегрировал сторонние решения для покупки $gasTokenName1$ с помощью криптовалюты или дебетовой/кредитной карты. Выберите провайдера, следуйте инструкциям, получите $gasTokenName2$ на ваш счет.",
-    "placeholders": {
-      "gasTokenName1": {
-        "content": "$1"
-      },
-      "gasTokenName2": {
-        "content": "$2"
-      }
-    },
-    "englishSource": "Leo integrated third-party solutions to buy $gasTokenName1$ with crypto or a Debit/Credit card. Choose a provider, follow guides, get $gasTokenName2$ on your account."
-  },
-  "enterAmount": {
-    "message": "Пожалуйста, введите сумму:",
-    "englishSource": "Please enter the amount:"
-  },
-  "topUpCrypto": {
-    "message": "Крипто",
-    "englishSource": "Crypto"
-  },
-  "topUpDebit": {
-    "message": "Дебетовая/кредитная карта",
-    "englishSource": "Debit/Credit Card"
-  },
-  "overdueTransaction": {
-    "message": "Транзакция просрочена",
-    "englishSource": "Transaction is overdue"
-  },
-  "overdueTransactionMessage": {
-    "message": "Пожалуйста, создайте новую биржу, если только\n вы отправили средства.\n Если средства были отправлены, пожалуйста, дождитесь подтверждения от системы.",
-    "englishSource": "Please, create a new exchange unless \n you have sent the funds. \n If the funds have been sent, please, wait for the confirmation from the system."
-  },
-  "topUpAgain": {
-    "message": "Пополнить снова",
-    "englishSource": "Top Up Again"
-  },
-  "topUp": {
-    "message": "Пополнить",
-    "englishSource": "Top Up"
-  },
-  "newTopUp": {
-    "message": "Новое пополнение",
-    "englishSource": "New Top Up"
-  },
-  "exchangeDetails": {
-    "message": "Введите данные обмена",
-    "englishSource": "Enter exchange details"
-  },
-  "exchangeDetailsDescription": {
-    "message": "Мгновенно пополните свой баланс Aleo Credits или USDT Aleo с помощью $number$ криптовалюты",
-    "placeholders": {
-      "number": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Top up your Aleo Credits or USDT Aleo balance instantly with $number$ cryptocurrencies"
-  },
-  "privacyAndPolicyLinks": {
-    "message": "Кликнув $buttonContent$ вы согласны с $termsOfUse$ а также $privacyPolicy$ ",
-    "placeholders": {
-      "buttonContent": {
-        "content": "$1"
-      },
-      "termsOfUse": {
-        "content": "$2"
-      },
-      "privacyPolicy": {
-        "content": "$3"
-      }
-    },
-    "englishSource": "By clicking $buttonContent$ you agree with \n$termsOfUse$ and $privacyPolicy$"
-  },
-  "depositAddressText": {
-    "message": "Депозит $depositAddress$ адрес:",
-    "placeholders": {
-      "depositAddress": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Deposit $depositAddress$ address:"
-  },
-  "support": {
-    "message": "Поддерживать",
-    "englishSource": "Support"
-  },
-  "deposit": {
-    "message": "Депозит",
-    "englishSource": "Deposit"
-  },
-  "depositDescription": {
-    "message": "Отправьте средства по указанному ниже адресу. Как только депозит будет получен, процесс обмена начнется автоматически.",
-    "englishSource": "Send the funds to the address below. As soon as the deposit is received, the exchange process will begin automatically"
-  },
-  "sendByOneTransaction": {
-    "message": "Отправить одной транзакцией",
-    "englishSource": "Send by one transaction"
-  },
-  "youGet": {
-    "message": "Вы получаете:",
-    "englishSource": "You get:"
-  },
-  "fixedRate": {
-    "message": "Фиксированная ставка:",
-    "englishSource": "Fixed rate:"
-  },
   "transactionId": {
     "message": "ID транзакции:",
     "englishSource": "Transaction ID:"
-  },
-  "atomDepositMemo": {
-    "message": "Памятка о депозите атома",
-    "englishSource": "Atom Deposit Memo"
   },
   "recipientAddress": {
     "message": "Адрес получателя:",
     "englishSource": "Recipient address"
   },
-  "recipientXtzAddress": {
-    "message": "Адрес получателя XTZ:",
-    "englishSource": "Recipient XTZ address:"
-  },
-  "inputHash": {
-    "message": "Введите хэш:",
-    "englishSource": "Input hash:"
-  },
-  "youSend": {
-    "message": "Вы посылаете:",
-    "englishSource": "You send:"
-  },
-  "sendTime": {
-    "message": "Время отправки:",
-    "englishSource": "Send time:"
-  },
-  "completedDescription": {
-    "message": "Пожалуйста, проверьте свои средства в кошельке.\nПроцесс обмена завершен.",
-    "englishSource": "Please, check your funds in your wallet.\nThe exchange process is completed."
-  },
   "completed": {
     "message": "Завершенный",
     "englishSource": "Completed"
-  },
-  "youReceive": {
-    "message": "Вы получаете:",
-    "englishSource": "You receive:"
-  },
-  "waitMessage": {
-    "message": "Пожалуйста подождите. Процесс конвертации займет от 15 минут до 2 часов.",
-    "englishSource": "Please, wait. The conversion process will take from 15 min to 2 hours."
   },
   "confirmation": {
     "message": "Подтверждение",
     "englishSource": "Confirmation"
   },
-  "exchanging": {
-    "message": "Обмен",
-    "englishSource": "Exchanging"
-  },
-  "step": {
-    "message": "Шаг",
-    "englishSource": "Step"
-  },
   "collectibles": {
     "message": "Коллекционные предметы",
     "englishSource": "Collectibles"
-  },
-  "attentionSendAmount": {
-    "message": "Вам необходимо отправить точную сумму криптовалюты на адрес депозита. В противном случае транзакция не состоится, и вам придется связаться с $support$ ",
-    "placeholders": {
-      "support": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "You need to send the exact amount of cryptocurrency to the deposit address. Otherwise the transaction will fail and you will have to contact $support$"
-  },
-  "important": {
-    "message": "Важный",
-    "englishSource": "Important"
   },
   "id": {
     "message": "Я БЫ",
@@ -3226,483 +1084,6 @@
     "message": "Управление предметами коллекционирования",
     "englishSource": "Manage Collectibles"
   },
-  "deleteCollectibleConfirm": {
-    "message": "Вы уверены, что хотите удалить этот предмет коллекционирования?",
-    "englishSource": "Are you sure you want to delete this collectible?"
-  },
-  "zeroCollectibleText": {
-    "message": "У вас еще нет предметов коллекционирования!\nХорошее время, чтобы получить один из них",
-    "englishSource": "You don’t have collectibles yet!\nGood time to get one of them"
-  },
-  "min": {
-    "message": "Мин:",
-    "englishSource": "Min:"
-  },
-  "warningTopUpServiceMessage": {
-    "message": "Функция обмена токенами предоставляется третьей стороной. Leo Wallet не несет ответственности за работу сторонних сервисов.",
-    "englishSource": "The token exchange feature is provided by a third party. The Leo Wallet is not responsible for the work of third-party services."
-  },
-  "selectTokensToSwap": {
-    "message": "Пожалуйста, выберите токены для обмена",
-    "englishSource": "Please, select tokens to swap"
-  },
-  "enterSwapAmount": {
-    "message": "Пожалуйста, введите сумму свопа",
-    "englishSource": "Please, enter swap amount"
-  },
-  "noQuotesAvailable": {
-    "message": "Котировки недоступны",
-    "englishSource": "No quotes available"
-  },
-  "swapRouteLoadingHasFailed": {
-    "message": "Загрузка данных обменного курса не удалась.\nПерезагрузите эту страницу или повторите попытку позже.",
-    "englishSource": "Exchange rate data loading has failed. \nReload this page or try again later."
-  },
-  "swapTokenSearchInputPlaceholder": {
-    "message": "Введите имя или адрес",
-    "englishSource": "Enter name or address"
-  },
-  "scanQRWithLeoMobile": {
-    "message": "Отсканируйте этот QR-код с помощью мобильного приложения Leo Wallet Mobile.",
-    "englishSource": "Scan this QR-code with yor Leo Wallet Mobile app."
-  },
-  "serviceIsUnavailable": {
-    "message": "Извините, сервис временно недоступен. Попробуйте позже!",
-    "englishSource": "Sorry, service is temporarily unavailable. Try again later!"
-  },
-  "buyWithChainBits": {
-    "message": "Купить с ChainBits",
-    "englishSource": "Buy with ChainBits"
-  },
-  "buyWithChainBitsDescription": {
-    "message": "Покупка криптовалюты никогда не была такой простой",
-    "englishSource": "Buying Crypto Was Never This Easy"
-  },
-  "signPayload": {
-    "message": "Сообщение для подписи",
-    "englishSource": "Message to Sign"
-  },
-  "decryptPayload": {
-    "message": "Сообщение для расшифровки",
-    "englishSource": "Message to Decrypt"
-  },
-  "noPreview": {
-    "message": "Предварительный просмотр недоступен",
-    "englishSource": "No preview is available"
-  },
-  "permissionLabel": {
-    "message": "Разрешение на расшифровку: $decryptPermission$ ",
-    "placeholders": {
-      "decryptPermission": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Private Data Permission"
-  },
-  "NO_DECRYPT_SHORT": {
-    "message": "Никто",
-    "englishSource": "None"
-  },
-  "DECRYPT_UPON_REQUEST_SHORT": {
-    "message": "По требованию",
-    "englishSource": "On request"
-  },
-  "AUTO_DECRYPT_SHORT": {
-    "message": "При подключении",
-    "englishSource": "While connected"
-  },
-  "invalidViewKey": {
-    "message": "Недействительный ключ просмотра",
-    "englishSource": "Invalid view key"
-  },
-  "viewKey": {
-    "message": "Ключ просмотра",
-    "englishSource": "View Key"
-  },
-  "viewKeyInputDescription": {
-    "message": "Ключ просмотра учетной записи, которую вы хотите импортировать.",
-    "englishSource": "The View key of the Account you want to import."
-  },
-  "viewKeyInputPlaceholder": {
-    "message": "например AViewKey1iHE...",
-    "englishSource": "e.g. AViewKey1iHE..."
-  },
-  "setPassword": {
-    "message": "Установка пароля",
-    "englishSource": "Set Password"
-  },
-  "doSavePhrase": {
-    "message": "<b>Скопируйте</b> эту фразу на бумагу и сохраните ее в надежном месте.",
-    "englishSource": "<b>Copy</b> this phrase on paper and store it in a secure location."
-  },
-  "coinbaseReward": {
-    "message": "Награда Coinbase",
-    "englishSource": "Coinbase Reward"
-  },
-  "coinbaseRewardSmb": {
-    "message": "$amount$ ALEO от прувинга",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$amount$ credits from proving"
-  },
-  "activityToolTip": {
-    "message": "Нажмите, чтобы увидеть всю историю",
-    "englishSource": "Click to see full history"
-  },
-  "waitingOnAleo": {
-    "message": "В настоящее время Aleo не поддерживает эту функцию.",
-    "englishSource": "Aleo currently doesn't support this functionality."
-  },
-  "buildForPrivacy": {
-    "message": "Создан для конфиденциальности",
-    "englishSource": "Built for Privacy"
-  },
-  "buildForAleo": {
-    "message": "Создан для Алео",
-    "englishSource": "Built for Aleo"
-  },
-  "poweredBy": {
-    "message": "Питаться от $companyName$ ",
-    "placeholders": {
-      "companyName": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Powered by {{companyName}}"
-  },
-  "doNotSharePrivateKey1": {
-    "message": "НЕ ДЕЛИТЬСЯ ни с кем!",
-    "englishSource": "DO NOT share with anyone!"
-  },
-  "doNotSharePrivateKey2": {
-    "message": "Его можно использовать для кражи вашей текущей учетной записи.",
-    "englishSource": "It can be used to steal your current account."
-  },
-  "doNotShareViewKey1": {
-    "message": "Делитесь только с теми, кому вы доверяете!",
-    "englishSource": "Only share with people you trust!"
-  },
-  "doNotShareViewKey2": {
-    "message": "Его можно использовать для просмотра всей истории транзакций.",
-    "englishSource": "It can be used to view all of your transaction history."
-  },
-  "recordsAction": {
-    "message": "Делитесь записями",
-    "englishSource": "Share Records"
-  },
-  "downloadRecords": {
-    "message": "Скачать записи",
-    "englishSource": "Download Records"
-  },
-  "transactionAction": {
-    "message": "Сделка",
-    "englishSource": "Transaction"
-  },
-  "appRequestsRecords": {
-    "message": "$origin$ запрашивает ваши записи для программы: $program$",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      },
-      "program": {
-        "content": "$"
-      }
-    },
-    "englishSource": "$origin$ requests your records for program: $program$"
-  },
-  "appRequestsTransaction": {
-    "message": "$origin$ запрашивает транзакцию",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$origin$ requests a transaction"
-  },
-  "editAccountName": {
-    "message": "Изменить имя учетной записи",
-    "englishSource": "Edit Account Name"
-  },
-  "reviewAndConfirm": {
-    "message": "Обзор",
-    "englishSource": "Review & Confirm"
-  },
-  "transactionInitiated": {
-    "message": "Транзакция инициирована",
-    "englishSource": "Transaction initiated"
-  },
-  "transactionBackground": {
-    "message": "Транзакция будет проходить в фоновом режиме.",
-    "englishSource": "Transaction will proceed in the background."
-  },
-  "openedNewTab": {
-    "message": "Кошелек открыл новую вкладку для ускорения транзакции. Эта вкладка автоматически закроется.",
-    "englishSource": "The wallet opened a new tab to speed up the transaction. That tab will auto-close."
-  },
-  "speedUpTransaction": {
-    "message": "Ускорить транзакцию.",
-    "englishSource": "Speed Up Transaction."
-  },
-  "generatingTransaction": {
-    "message": "Создание транзакции",
-    "englishSource": "Generating Transaction"
-  },
-  "generatingTransactionWarning": {
-    "message": "Если вы покинете эту страницу до того, как транзакция будет сгенерирована, ваша транзакция не будет завершена.",
-    "englishSource": "If you leave this page before the transaction is generated, your transaction won't finish."
-  },
-  "balancePending": {
-    "message": "Баланс в ожидании синхронизации",
-    "englishSource": "Balance Pending Sync"
-  },
-  "keepTabOpenForSync": {
-    "message": "Держите эту вкладку открытой для более быстрой синхронизации.",
-    "englishSource": "Keep this tab open for faster sync."
-  },
-  "openNewTabToSync": {
-    "message": "Откройте вкладку для более быстрой синхронизации.",
-    "englishSource": "Open a tab for faster syncing."
-  },
-  "fullySynced": {
-    "message": "Полностью синхронизировано",
-    "englishSource": "Fully Synced"
-  },
-  "synced": {
-    "message": "Синхронизировано",
-    "englishSource": "Synced"
-  },
-  "syncing": {
-    "message": "Синхронизации",
-    "englishSource": "Syncing"
-  },
-  "fileSettings": {
-    "message": "Настройки файла",
-    "englishSource": "File Settings"
-  },
-  "fileSettingsDescription": {
-    "message": "Непосредственно добавляйте или удаляйте файлы из вашего кошелька.",
-    "englishSource": "Directly add or remove files from your wallet."
-  },
-  "advancedSettings": {
-    "message": "Расширенные настройки",
-    "englishSource": "Advanced Settings"
-  },
-  "advancedSettingsDescription": {
-    "message": "Инструменты, которые помогут вам отлаживать и диагностировать проблемы с Miden Wallet.",
-    "englishSource": "Tools to help you debug and diagnose issues with Miden Wallet."
-  },
-  "resync": {
-    "message": "Повторная синхронизация",
-    "englishSource": "Resync"
-  },
-  "resyncDescription": {
-    "message": "Сбросьте всю свою историю для этой учетной записи и повторите синхронизацию с сетью.",
-    "englishSource": "Reset all of your history for this account and resync with the network."
-  },
-  "noFee": {
-    "message": "Без платы",
-    "englishSource": "No Fee"
-  },
-  "doNotSharePhrase1": {
-    "message": "НЕ ДЕЛАЙТЕ эту фразу ни с кем!",
-    "englishSource": "DO NOT share this phrase with anyone!"
-  },
-  "doNotSharePhrase2": {
-    "message": "Его можно использовать для кражи всех ваших учетных записей.",
-    "englishSource": "It can be used to steal all your accounts."
-  },
-  "changeSeedPhrase": {
-    "message": "Изменить Seed Phrase",
-    "englishSource": "Change Seed Phrase"
-  },
-  "feeNotRequired": {
-    "message": "В настоящее время плата не требуется.",
-    "englishSource": "There is currently no fee required."
-  },
-  "proofGenerationTab": {
-    "message": "Открытая вкладка необходима для эффективного создания доказательств транзакций.",
-    "englishSource": "An open tab is required to efficiently generate transaction proofs"
-  },
-  "credit": {
-    "message": "кредит",
-    "englishSource": "credit"
-  },
-  "credits": {
-    "message": "кредиты",
-    "englishSource": "credits"
-  },
-  "to": {
-    "message": "К",
-    "englishSource": "To"
-  },
-  "received": {
-    "message": "Полученный",
-    "englishSource": "Received"
-  },
-  "sent": {
-    "message": "Отправил",
-    "englishSource": "Sent"
-  },
-  "storageUsed": {
-    "message": "Общее используемое хранилище",
-    "englishSource": "Total Storage Used"
-  },
-  "uploadFile": {
-    "message": "Загрузить файл",
-    "englishSource": "Upload File"
-  },
-  "fileSize": {
-    "message": "Размер файла",
-    "englishSource": "File Size"
-  },
-  "downloadDefaultFiles": {
-    "message": "Скачать файлы по умолчанию",
-    "englishSource": "Download Default Files"
-  },
-  "download": {
-    "message": "Скачать",
-    "englishSource": "Download"
-  },
-  "details": {
-    "message": "подробности",
-    "englishSource": "details"
-  },
-  "faucet": {
-    "message": "Faucet",
-    "englishSource": "Faucet"
-  },
-  "aleoFaucetDescription": {
-    "message": "Все распределенные кредиты предназначены для целей тестирования и не имеют ценности.",
-    "englishSource": "All distributed credits are for testing purposes and do not have value."
-  },
-  "aleoFaucetStep1": {
-    "message": "Отсканируйте QR-код своим телефоном",
-    "englishSource": "Scan the QR code with your Phone"
-  },
-  "aleoFaucetStep1Description": {
-    "message": "И нажмите на подсказку, которую она вам покажет.",
-    "englishSource": "And click on the prompt it shows you."
-  },
-  "aleoFaucetStep2": {
-    "message": "Подтвердите и отправьте SMS",
-    "englishSource": "Confirm and send the SMS"
-  },
-  "aleoFaucetStep2Description": {
-    "message": "(Могут применяться тарифы на передачу сообщений и данных)",
-    "englishSource": "(Message and data rates may apply)"
-  },
-  "aleoFaucetStep3": {
-    "message": "Получите кредиты Алео",
-    "englishSource": "Get Aleo credits"
-  },
-  "aleoFaucetStep3Description": {
-    "message": "Aleo Faucet отправит вам кредиты.",
-    "englishSource": "Aleo Faucet will send you credits."
-  },
-  "deployAction": {
-    "message": "Развернуть программу",
-    "englishSource": "Deploy Program"
-  },
-  "appRequestsDeploy": {
-    "message": "$origin$ запрашивает развертывание",
-    "placeholders": {
-      "origin": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$origin$ requests a deployment"
-  },
-  "viewKeyWatchOnly": {
-    "message": "Ключ просмотра (только для просмотра)",
-    "englishSource": "View Key (Watch-Only)"
-  },
-  "none": {
-    "message": "Никто",
-    "englishSource": "None"
-  },
-  "collection": {
-    "message": "Коллекция",
-    "englishSource": "Collection"
-  },
-  "source": {
-    "message": "Источник",
-    "englishSource": "Source"
-  },
-  "attributes": {
-    "message": "Атрибуты",
-    "englishSource": "Attributes"
-  },
-  "noNFTsYet": {
-    "message": "NFT еще нет",
-    "englishSource": "No NFTs yet"
-  },
-  "noNFTsSubMessage": {
-    "message": "Вы увидите свой NFT здесь, как только он у вас появится.",
-    "englishSource": "You will see your NFT here once you have one."
-  },
-  "sourceLink": {
-    "message": "Ссылка на источник",
-    "englishSource": "Source Link"
-  },
-  "explorer": {
-    "message": "Исследователь",
-    "englishSource": "Explorer"
-  },
-  "explorerLink": {
-    "message": "Перейти к обозревателю",
-    "englishSource": "Go to Explorer"
-  },
-  "noTransactionsRemaining": {
-    "message": "Нет оставшихся транзакций, закройте эту вкладку",
-    "englishSource": "No remaining transactions, closing this tab"
-  },
-  "transactionsRemaining": {
-    "message": "оставшиеся транзакции",
-    "englishSource": "transactions remaining"
-  },
-  "status": {
-    "message": "Положение дел",
-    "englishSource": "Status"
-  },
-  "available": {
-    "message": "Доступный",
-    "englishSource": "Available"
-  },
-  "feeToolTip": {
-    "message": "Нажмите, чтобы изменить плату",
-    "englishSource": "Click to edit the fee"
-  },
-  "gpuSettings": {
-    "message": "Ускорение графического процессора *Экспериментальное*",
-    "englishSource": "GPU Acceleration *Experimental*"
-  },
-  "gpuSettingsDescription": {
-    "message": "Здесь вы можете включить или выключить ускорение графического процессора, чтобы ускорить синхронизацию и генерацию доказательств. Эта функция нестабильна и может привести к сбоям.",
-    "englishSource": "Here you can turn GPU acceleration on or off to accelerate syncing and proof generation. This feature is not stable and may cause crashes."
-  },
-  "sending": {
-    "message": "Отправка",
-    "englishSource": "Sending"
-  },
-  "executing": {
-    "message": "выполнение",
-    "englishSource": "Executing"
-  },
-  "executed": {
-    "message": "Казнен",
-    "englishSource": "Executed"
-  },
-  "minted": {
-    "message": "Отчеканено",
-    "englishSource": "Minted"
-  },
-  "nft": {
-    "message": "NFT",
-    "englishSource": "NFT"
-  },
   "convert": {
     "message": "Конвертировать",
     "englishSource": "Convert"
@@ -3715,268 +1096,17 @@
     "message": "Частная",
     "englishSource": "Private"
   },
-  "converting": {
-    "message": "Преобразование",
-    "englishSource": "Converting"
-  },
   "customizeFee": {
     "message": "Настроить плату",
     "englishSource": "Customize fee"
-  },
-  "convertingPublic": {
-    "message": "Преобразование в публичный NFT",
-    "englishSource": "Convert to Public NFT"
-  },
-  "convertingPrivate": {
-    "message": "Преобразование в частный NFT",
-    "englishSource": "Convert to Private NFT"
-  },
-  "switch": {
-    "message": "Выключатель",
-    "englishSource": "Switch"
-  },
-  "convertToPrivate": {
-    "message": "Превратить в частный",
-    "englishSource": "Convert to private"
-  },
-  "convertToPublic": {
-    "message": "Превратить в публичный",
-    "englishSource": "Convert to public"
-  },
-  "convertPublicPrivate": {
-    "message": "Преобразование в общедоступный/частный",
-    "englishSource": "Convert to Public/Private"
-  },
-  "toConvert": {
-    "message": "для преобразования",
-    "englishSource": "to convert"
-  },
-  "willGet": {
-    "message": "ты получишь",
-    "englishSource": "you will get"
-  },
-  "toPublic": {
-    "message": "для публики",
-    "englishSource": "to public"
-  },
-  "toPrivate": {
-    "message": "в частный",
-    "englishSource": "to private"
-  },
-  "ON_CHAIN_HISTORY": {
-    "message": "<b>ВНИМАНИЕ!</b> Это приложение запрашивает вашу историю в сети. Убедитесь, что вы действительно доверяете этому приложению.",
-    "englishSource": "<b>WARNING!</b> This app is asking for your on-chain history. Make sure you really trust this app."
-  },
-  "ON_CHAIN_HISTORY_SHORT": {
-    "message": "Полный доступ",
-    "englishSource": "Full access"
-  },
-  "allPrograms": {
-    "message": "все программы",
-    "englishSource": "all programs"
-  },
-  "canView": {
-    "message": "Можно просмотреть",
-    "englishSource": "Can view"
-  },
-  "connectFor": {
-    "message": "Подключитесь для",
-    "englishSource": "Connect for"
-  },
-  "rewardsForBlocks": {
-    "message": "$reward$ за комиссию $blocksAmount$ $blocks$ $feesAmount$",
-    "placeholders": {
-      "reward": {
-        "content": "$1"
-      },
-      "blocksAmount": {
-        "content": "$2"
-      },
-      "blocks": {
-        "content": "$3"
-      },
-      "feesAmount": {
-        "content": "$4"
-      }
-    },
-    "englishSource": "$reward$ for $blocksAmount$ $blocks$ $feesAmount$ fees"
-  },
-  "blocks_one": {
-    "message": "блок $amount$",
-    "description": "For plural forms",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$amount$ block"
-  },
-  "blocks_other": {
-    "message": "$amount$ блоков",
-    "description": "For plural forms",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$amount$ blocks"
-  },
-  "rewardsForSlots": {
-    "message": "$reward$ за $slotsAmount$ $slots$",
-    "placeholders": {
-      "reward": {
-        "content": "$1"
-      },
-      "slotsAmount": {
-        "content": "$2"
-      },
-      "slots": {
-        "content": "$3"
-      }
-    },
-    "englishSource": "$reward$ for $slotsAmount$ $slots$"
-  },
-  "autoCloseSettings": {
-    "message": "Автоматическое закрытие страницы создания транзакции",
-    "englishSource": "Auto Close Generating Transaction Page"
-  },
-  "autoCloseSettingsDescription": {
-    "message": "Здесь вы можете настроить автоматическое закрытие страницы генерации транзакции после ее создания.",
-    "englishSource": "Here you can configure auto close of the generating transaction page after the transaction is generated."
-  },
-  "feeVisibility": {
-    "message": "Видимость комиссий",
-    "englishSource": "Fee Visibility"
-  },
-  "transactionDelegated": {
-    "message": "Транзакция отправлена ​​на создание подтверждения.",
-    "englishSource": "Transaction has been sent for proof generation."
-  },
-  "fastTransactionDescription": {
-    "message": "Транзакция будет автоматически передана и завершена.",
-    "englishSource": "The transaction will automatically be broadcasted and finalized."
-  },
-  "fastTransaction": {
-    "message": "Скорость транзакции",
-    "englishSource": "Transaction Speed"
-  },
-  "delegateProofSettings": {
-    "message": "Делегирование генерации доказательств",
-    "englishSource": "Delegate Proof Generation"
-  },
-  "delegateProofSettingsDescription": {
-    "message": "Здесь вы можете настроить делегирование генерации доказательств на удаленный сервер. Это ускорит создание доказательств, но при этом раскроет детали транзакции доверенному серверу.",
-    "englishSource": "Here you can configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
-  },
-  "mainAssetBalanceIsZero": {
-    "message": "Баланс ваших кредитов Miden (основной актив) равен нулю. Для оплаты необходимы кредиты Miden.",
-    "englishSource": "Your Miden credits (main asset) balance is zero. Miden credits are required for the fee."
-  },
-  "stake": {
-    "message": "Ставка",
-    "englishSource": "Stake"
-  },
-  "unstake": {
-    "message": "снять ставку",
-    "englishSource": "Unstake"
-  },
-  "stakeAccount": {
-    "message": "Счет ставки",
-    "englishSource": "Stake Account"
-  },
-  "staked": {
-    "message": "Ставка",
-    "englishSource": "Staked"
-  },
-  "stakeEarningSymbol": {
-    "message": "Заработок на ставке $assetSymbol$ ",
-    "placeholders": {
-      "assetSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Stake earning $assetSymbol$"
-  },
-  "stakeEarnRewards": {
-    "message": "Ставьте токены и получайте вознаграждения",
-    "englishSource": "Stake tokens and earn rewards"
-  },
-  "amountMustBeGreaterThanOne": {
-    "message": "Должно быть больше 1",
-    "englishSource": "Must be greater than 1"
-  },
-  "unstaking": {
-    "message": "Снять ставку",
-    "englishSource": "Unstaking"
-  },
-  "unstaked": {
-    "message": "Нестационарный",
-    "englishSource": "Unstaked"
-  },
-  "validator": {
-    "message": "Валидатор",
-    "englishSource": "Validator"
-  },
-  "yourStakeIn": {
-    "message": "Ваша доля в",
-    "englishSource": "Your Stake in"
-  },
-  "active": {
-    "message": "Активный",
-    "englishSource": "Active"
-  },
-  "learnMoreHere": {
-    "message": "Узнайте больше здесь",
-    "englishSource": "Learn more here"
-  },
-  "rewards": {
-    "message": "Награды",
-    "englishSource": "Rewards"
   },
   "claim": {
     "message": "Требовать",
     "englishSource": "Claim"
   },
-  "claimed": {
-    "message": "Заявлено",
-    "englishSource": "Claimed"
-  },
-  "claiming": {
-    "message": "Утверждение",
-    "englishSource": "Claiming"
-  },
   "availableToClaim": {
     "message": "Доступно для претензии",
     "englishSource": "Available to claim"
-  },
-  "unstakingInProgress": {
-    "message": "Отмена ставки в процессе",
-    "englishSource": "Unstaking in Progress"
-  },
-  "mustStakeAtLeastTenAleo": {
-    "message": "Начальная ставка должна составлять не менее 10 ALEO.",
-    "englishSource": "Initial stake must be at least 10 ALEO"
-  },
-  "pleaseNote": {
-    "message": "Пожалуйста, обрати внимание",
-    "englishSource": "Please Note"
-  },
-  "unstakingProcess": {
-    "message": "Анстейкинг — это двухэтапный процесс. После начала анстейкинга обязательно запросите свой ALEO после 3-часового периода обработки.",
-    "englishSource": "Unstaking is a two-step process. After initiating unstaking, please ensure to claim your ALEO after the  3‑hour processing period."
-  },
-  "testNetIsDown": {
-    "message": "Aleo Testnet Beta не работает.",
-    "englishSource": "Aleo Testnet Beta is down."
-  },
-  "checkStatus": {
-    "message": "Проверить статус",
-    "englishSource": "Check status"
-  },
-  "walletBuiltForPrivacy": {
-    "message": "Кошелек, созданный для конфиденциальности",
-    "note": "Onboarding",
-    "englishSource": "The wallet built for privacy"
   },
   "privateTransactionsAnytimeAnywhere": {
     "message": "Частные транзакции в любое время, в любом месте.",
@@ -3997,11 +1127,6 @@
     "message": "Сделайте резервную копию вашего кошелька",
     "note": "Onboarding",
     "englishSource": "Back up your wallet"
-  },
-  "saveThese12Words": {
-    "message": "Сохраните эти 12 слов в менеджере паролей или запишите и храните в безопасном месте. Не делитесь с кем-либо.",
-    "note": "Onboarding",
-    "englishSource": "Save these 12 words to a password manager, or write down and store in a secure place. Do not share with anyone."
   },
   "show": {
     "message": "Показать",
@@ -4051,43 +1176,14 @@
     "message": "Введите Seed-фразу из 12 слов вашего кошелька.",
     "englishSource": "Enter your wallet's 12-word Seed phrase."
   },
-  "onlyAleoSeedPhrasesAreSupported": {
-    "message": "Поддерживаются только фразы Aleo Seed.",
-    "englishSource": "Only Aleo Seed phrases are supported."
-  },
-  "seedPhrasePlaceholder": {
-    "message": "Начальная фраза из 12 слов",
-    "englishSource": "12-word Seed phrase"
-  },
-  "join": {
-    "message": "Присоединиться",
-    "note": "Onboarding",
-    "englishSource": "Join"
-  },
-  "follow": {
-    "message": "Следовать",
-    "note": "Onboarding",
-    "englishSource": "Follow"
+  "onlyMidenSeedPhrasesAreSupported": {
+    "message": "Поддерживаются только фразы Miden Seed.",
+    "englishSource": "Only Miden Seed phrases are supported."
   },
   "yourWalletIsReady": {
     "message": "Ваш кошелек готов",
     "note": "Onboarding",
     "englishSource": "Your wallet is ready!"
-  },
-  "joinOurDiscord": {
-    "message": "Присоединяйтесь к нашему Discord Leo Wallet",
-    "note": "Onboarding",
-    "englishSource": "Join our Leo Wallet Discord"
-  },
-  "joinOurTwitter": {
-    "message": "Следуйте за нами на X (Twitter)",
-    "note": "Onboarding",
-    "englishSource": "Follow us on X (Twitter)"
-  },
-  "exploreTheWorldOfPrivateAssets": {
-    "message": "Исследуйте мир частных активов",
-    "note": "Onboarding",
-    "englishSource": "Explore the world of private assets"
   },
   "getStarted": {
     "message": "Начать",
@@ -4114,15 +1210,9 @@
     "note": "Onboarding",
     "englishSource": "It's a match!"
   },
-  "readMoreOnboarding": {
-    "message": "Читать далее",
-    "note": "Onboarding",
-    "englishSource": "Read More"
-  },
-  "helpUsToImproveLeoWallet": {
-    "message": "Помогите нам улучшить Leo Wallet",
-    "note": "Onboarding",
-    "englishSource": "Help us to improve Leo Wallet"
+  "passwordsDoNotMatch": {
+    "message": "Пароли не совпадают",
+    "englishSource": "Passwords do not match"
   },
   "createPassword": {
     "message": "Создать пароль",
@@ -4229,126 +1319,15 @@
     "note": "Onboarding",
     "englishSource": "Generate Transactions\nLocally"
   },
-  "chainUnstable": {
-    "message": "Из-за нестабильности Aleo Testnet3 транзакции могут не удасться.",
-    "englishSource": "Due to instability of Aleo Testnet3, transactions may fail."
-  },
-  "dataReset": {
-    "message": "Сброс данных.",
-    "englishSource": "Data Reset."
-  },
-  "transactionHistoryLost": {
-    "message": "Мы хотим сообщить вам, что вся история транзакций была потеряна из-за недавнего сброса Aleo Testnet3.",
-    "englishSource": "We want to inform you that all transaction history has been lost due to a recent reset of the Aleo Testnet3."
-  },
-  "learnMore": {
-    "message": "Узнать больше",
-    "englishSource": "Learn more"
-  },
-  "faucetId": {
-    "message": "Идентификатор Faucet",
-    "englishSource": "Faucet ID"
-  },
-  "setNewFaucetId": {
-    "message": "Установить новый идентификатор Faucet",
-    "englishSource": "Set new Faucet ID"
-  },
-  "setNewFaucetIdDescription": {
-    "message": "Введите идентификатор Faucet Miden",
-    "englishSource": "Enter the ID of a miden faucet"
-  },
-  "encryptedWalletFile": {
-    "message": "Зашифрованный файл кошелька",
-    "englishSource": "Encrypted Wallet File"
-  },
-  "encryptedWalletFileDescription": {
-    "message": "Введите свой пароль для доступа к вашему зашифрованному файлу кошелька. Отключите демонстрацию эfaucetа. Не делитесь этим ни с кем.",
-    "englishSource": "Enter your password to access your Encrypted Wallet File. Turn off screen sharing. Don't share it with anyone."
-  },
-  "encryptedWalletFileConfirmation": {
-    "message": "Я никому не передам свой зашифрованный файл кошелька, включая Miden Wallet.",
-    "englishSource": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet."
-  },
-  "encryptedWalletFilePassword": {
-    "message": "Введите пароль, чтобы зашифровать файл вашего кошелька. Этот пароль понадобится вам для восстановления вашего кошелька позже.",
-    "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
-  },
-  "editMidenFaucetId": {
-    "message": "Изменить идентификатор Faucet Miden",
-    "englishSource": "Edit Miden Faucet ID"
-  },
-  "exportWalletFile": {
-    "message": "Экспортировать файл кошелька",
-    "englishSource": "Export Wallet File"
-  },
   "privacyScalesBetter": {
     "message": "Конфиденциальность лучше масштабируется",
     "note": "Onboarding",
     "englishSource": "Privacy Scales Better"
   },
-  "yourWalletHasBeenCreated": {
-    "message": "Ваш кошелек создан.",
-    "note": "Onboarding",
-    "englishSource": "Your wallet has been created."
-  },
-  "noSeedPhrase": {
-    "message": "Нет исходной фразы",
-    "englishSource": "No Seed Phrase"
-  },
-  "recovery": {
-    "message": "Восстановление",
-    "note": "Onboarding",
-    "englishSource": "Recovery"
-  },
-  "yourAccountIsProtected": {
-    "message": "Ваша учетная запись защищена зашифрованным файлом вместо исходной фразы.",
-    "englishSource": "Your account is protected by an encrypted file instead of a seed phrase."
-  },
-  "downloadAndSecurelyStore": {
-    "message": "Загрузите и надежно сохраните последнюю версию зашифрованного файла. Этот файл необходим для восстановления учетной записи.",
-    "note": "Onboarding",
-    "englishSource": "Download and securely store the latest version of your encrypted file. This file is essential for account recovery."
-  },
   "chooseFromDevice": {
     "message": "выбрать с устройства",
     "note": "Onboarding",
     "englishSource": "Choose from device"
-  },
-  "chooseImportType": {
-    "message": "Выберите тип импорта",
-    "note": "Onboarding",
-    "englishSource": "Choose Your Import Type"
-  },
-  "chooseImportTypeDescription": {
-    "message": "Восстановите общественный баланс с помощью фразы из 12 слов. Чтобы восстановить частные средства, загрузите зашифрованный файл резервной копии.",
-    "note": "Onboarding",
-    "englishSource": "Restore public balance with your 12-word phrase. To restore private balance, upload an encrypted backup file."
-  },
-  "importWithSeedPhrase": {
-    "message": "Импорт с исходной фразой",
-    "englishSource": "Import with Seed Phrase"
-  },
-  "importWithSeedPhraseDescription": {
-    "message": "Используйте существующую фразу восстановления из 12 слов. Вы также можете импортировать кошельки от других поставщиков кошельков.",
-    "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
-  },
-  "importWithEncryptedWalletFile": {
-    "message": "Импорт с зашифрованным файлом кошелька",
-    "note": "Onboarding",
-    "englishSource": "Import with Encrypted Wallet File"
-  },
-  "importWithEncryptedWalletFileDescription": {
-    "message": "Загрузите зашифрованный файл кошелька, чтобы безопасно импортировать свою учетную запись. Ваши данные остаются конфиденциальными, в цепочке хранится только хешированная информация.",
-    "note": "Onboarding",
-    "englishSource": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain"
-  },
-  "onlyMidenSeedPhrasesAreSupported": {
-    "message": "Поддерживаются только фразы Miden Seed.",
-    "englishSource": "Only Miden Seed phrases are supported."
-  },
-  "passwordsDoNotMatch": {
-    "message": "Пароли не совпадают",
-    "englishSource": "Passwords do not match"
   },
   "resetRequired": {
     "message": "Требуется сброс кошелька",
@@ -4382,9 +1361,49 @@
     "message": "Выход",
     "englishSource": "Sign Out"
   },
+  "chooseImportType": {
+    "message": "Выберите тип импорта",
+    "note": "Onboarding",
+    "englishSource": "Choose Your Import Type"
+  },
+  "chooseImportTypeDescription": {
+    "message": "Восстановите общественный баланс с помощью фразы из 12 слов. Чтобы восстановить частные средства, загрузите зашифрованный файл резервной копии.",
+    "note": "Onboarding",
+    "englishSource": "Restore public balance with your 12-word phrase. To restore private balance, upload an encrypted backup file."
+  },
+  "importWithSeedPhrase": {
+    "message": "Импорт с исходной фразой",
+    "englishSource": "Import with Seed Phrase"
+  },
+  "importWithSeedPhraseDescription": {
+    "message": "Используйте существующую фразу восстановления из 12 слов. Вы также можете импортировать кошельки от других поставщиков кошельков.",
+    "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
+  },
+  "importWithEncryptedWalletFile": {
+    "message": "Импорт с зашифрованным файлом кошелька",
+    "note": "Onboarding",
+    "englishSource": "Import with Encrypted Wallet File"
+  },
+  "importWithEncryptedWalletFileDescription": {
+    "message": "Загрузите зашифрованный файл кошелька, чтобы безопасно импортировать свою учетную запись. Ваши данные остаются конфиденциальными, в цепочке хранится только хешированная информация.",
+    "note": "Onboarding",
+    "englishSource": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain"
+  },
   "twitter": {
     "message": "Х (Твиттер)",
     "englishSource": "X (Twitter)"
+  },
+  "encryptedWalletFile": {
+    "message": "Зашифрованный файл кошелька",
+    "englishSource": "Encrypted Wallet File"
+  },
+  "encryptedWalletFileDescription": {
+    "message": "Введите свой пароль для доступа к вашему зашифрованному файлу кошелька. Отключите демонстрацию эfaucetа. Не делитесь этим ни с кем.",
+    "englishSource": "Enter your password to access your Encrypted Wallet File. Turn off screen sharing. Don't share it with anyone."
+  },
+  "encryptedWalletFileConfirmation": {
+    "message": "Я никому не передам свой зашифрованный файл кошелька, включая Miden Wallet.",
+    "englishSource": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet."
   },
   "enterPasswordToEncrypt": {
     "message": "Введите пароль, чтобы зашифровать файл вашего кошелька. Этот пароль понадобится вам для восстановления вашего кошелька позже.",
@@ -4410,10 +1429,6 @@
     "message": "Неверный идентификатор учетной записи Miden",
     "englishSource": "Invalid Miden account ID"
   },
-  "invalidAmount": {
-    "message": "Неверная сумма",
-    "englishSource": "Invalid amount"
-  },
   "amountMustBeLessThanBalance": {
     "message": "Сумма должна быть меньше остатка",
     "englishSource": "Amount must be less than balance"
@@ -4421,10 +1436,6 @@
   "availableBalance": {
     "message": "Доступный баланс",
     "englishSource": "Available balance"
-  },
-  "uploadYourEncryptedWalletFile": {
-    "message": "Загрузите зашифрованный файл кошелька, чтобы безопасно восстановить свою учетную запись. Ваши данные остаются конфиденциальными, в цепочке хранится только хешированная информация.",
-    "englishSource": "Upload your encrypted wallet file to securely restore your account. Your data remains private, with only hashed information stored on-chain."
   },
   "goToFaucet": {
     "message": "Перейти к Faucetу",
@@ -4453,6 +1464,15 @@
   "doNotShareEncryptedWalletFile": {
     "message": "Не передавайте свой зашифрованный файл кошелька!",
     "englishSource": "Do not share your Encrypted Wallet File!"
+  },
+  "permissionLabel": {
+    "message": "Разрешение на расшифровку: $decryptPermission$ ",
+    "placeholders": {
+      "decryptPermission": {
+        "content": "$1"
+      }
+    },
+    "englishSource": "Private Data Permission"
   },
   "confirmPrivateDataPermissionDescription": {
     "message": "Это предоставит постоянный доступ к данным вашей учетной записи и не может быть отозван.",
@@ -4830,6 +1850,22 @@
     "message": "Открытый ключ аккаунта",
     "englishSource": "Account Public Key"
   },
+  "editMidenFaucetId": {
+    "message": "Изменить идентификатор Faucet Miden",
+    "englishSource": "Edit Miden Faucet ID"
+  },
+  "faucetId": {
+    "message": "Идентификатор Faucet",
+    "englishSource": "Faucet ID"
+  },
+  "setNewFaucetId": {
+    "message": "Установить новый идентификатор Faucet",
+    "englishSource": "Set new Faucet ID"
+  },
+  "setNewFaucetIdDescription": {
+    "message": "Введите идентификатор Faucet Miden",
+    "englishSource": "Enter the ID of a miden faucet"
+  },
   "verifyingTransaction": {
     "message": "Проверка транзакции",
     "englishSource": "Verifying transaction"
@@ -4898,21 +1934,9 @@
     "message": "Продолжая, вы соглашаетесь с",
     "englishSource": "By proceeding, you agree to the"
   },
-  "termsOfUsageLink": {
-    "message": "Условия использования",
-    "englishSource": "Terms of Usage"
-  },
-  "privacyPolicyLink": {
-    "message": "политика конфиденциальности",
-    "englishSource": "Privacy Policy"
-  },
   "andWord": {
     "message": "и",
     "englishSource": "and"
-  },
-  "transactionFileDescription": {
-    "message": "Файл транзакции",
-    "englishSource": "Transaction file"
   },
   "enterDecryptionPassword": {
     "message": "Введите пароль, который вы установили при экспорте кошелька. Это позволит расшифровать файл и восстановить доступ.",
@@ -4925,25 +1949,5 @@
   "last": {
     "message": "Последний",
     "englishSource": "Last"
-  },
-  "language": {
-    "message": "Язык",
-    "englishSource": "Language"
-  },
-  "languageDescription": {
-    "message": "Изменить язык отображения",
-    "englishSource": "Change the display language"
-  },
-  "thousandFormat": {
-    "message": "$тысяча$тыс.",
-    "englishSource": "$thousand$k"
-  },
-  "millionFormat": {
-    "message": "$миллион$М",
-    "englishSource": "$million$M"
-  },
-  "billionFormat": {
-    "message": "$миллиард$Б",
-    "englishSource": "$billion$B"
   }
 }

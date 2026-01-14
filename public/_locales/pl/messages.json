@@ -3,33 +3,13 @@
     "message": "Portfel Miden",
     "englishSource": "Miden Wallet"
   },
-  "showIncomingTransactions": {
-    "message": "Pokaż transakcje przychodzące",
-    "englishSource": "Show Incoming Transactions"
-  },
-  "appDesc": {
-    "message": "🔐💰 Portfel kryptowalut chroniący prywatność dla Miden korzystający z Zero Knowledge Proofs",
-    "englishSource": "🔐💰 Privacy-preserving cryptocurrency wallet for Miden using Zero Knowledge Proofs"
-  },
   "createAccount": {
     "message": "Utwórz lub przywróć konto",
     "englishSource": "Create or Restore account"
   },
-  "setPassword": {
-    "message": "Ustaw hasło",
-    "englishSource": "Set Password"
-  },
   "importAccount": {
     "message": "Importuj konto",
     "englishSource": "Import account"
-  },
-  "faucetFileTitle": {
-    "message": "Plik Faucet",
-    "englishSource": "Faucet File"
-  },
-  "faucetFile": {
-    "message": "Plik Faucet",
-    "englishSource": "Faucet file"
   },
   "settings": {
     "message": "Ustawienia",
@@ -43,14 +23,6 @@
     "message": "Maksymalizuj widok",
     "englishSource": "Maximize view"
   },
-  "selectFile": {
-    "message": "Wybierz plik",
-    "englishSource": "Select file"
-  },
-  "selectFileOfFormat": {
-    "message": "Wybierać $format$ plik",
-    "englishSource": "Select $format$ file"
-  },
   "authorizedDApps": {
     "message": "Autoryzowane DApps",
     "englishSource": "Authorized DApps"
@@ -63,33 +35,9 @@
     "message": "wersja: {{wersja}}",
     "englishSource": "version: {{version}}"
   },
-  "buildForPrivacy": {
-    "message": "Zbudowany z myślą o prywatności",
-    "englishSource": "Built for Privacy"
-  },
-  "buildForAleo": {
-    "message": "Zbudowany dla Aleo",
-    "englishSource": "Built for Aleo"
-  },
-  "poweredBy": {
-    "message": "Obsługiwane przez firmę {{companyName}}",
-    "englishSource": "Powered by {{companyName}}"
-  },
-  "madeWithLove": {
-    "message": "Wykonane z $loveIcon$ przez $companyName$ ",
-    "englishSource": "Made with $loveIcon$ by $companyName$"
-  },
-  "feeInputDescription": {
-    "message": "Opłata podstawowa za tę operację wynosi: $fee$ Dodatkowy - przyspiesza jego potwierdzenie",
-    "englishSource": "Base Fee for this operation is: $fee$\nAdditional - speeds up its confirmation"
-  },
   "resetPermissionsConfirmation": {
     "message": "Czy na pewno chcesz zresetować uprawnienia dla\n {{pochodzenie}}?",
     "englishSource": "Are you sure you want to reset permissions for\n {{origin}}?"
-  },
-  "protectedFormField": {
-    "message": "UKRYTY",
-    "englishSource": "HIDDEN"
   },
   "clickToRevealField": {
     "message": "Kliknij, aby odsłonić to pole",
@@ -131,69 +79,17 @@
     "message": "Pominąć",
     "englishSource": "Skip"
   },
-  "checkNow": {
-    "message": "Sprawdź teraz",
-    "englishSource": "Check now"
-  },
-  "theLendingProtocol": {
-    "message": "Protokół pożyczki na Aleo.",
-    "englishSource": "The lending protocol on Aleo."
-  },
-  "alreadyLaunched": {
-    "message": "Już uruchomiony!",
-    "englishSource": "Already Launched!"
-  },
-  "borrowLandEarn": {
-    "message": "Pożyczaj, gruntuj i zarabiaj na swoich ulubionych tokenach!",
-    "englishSource": "Borrow, Land and Earn on your favorite tokens!"
-  },
-  "independenceDayOfUkraine": {
-    "message": "Dzień Niepodległości Ukrainy",
-    "englishSource": "Independence Day of Ukraine"
-  },
-  "zeroSwapCommissionTitle": {
-    "message": "Zero prowizji za zamianę przez dwa tygodnie - świętuj $text$ z nami!",
-    "englishSource": "Zero Swap commissions for two weeks - celebrate the $text$ with us!"
-  },
-  "zeroSwapCommissionDescription": {
-    "message": "Z $date1$ do $date2$ , użytkownicy Leo mogą przeprowadzać transakcje za pośrednictwem naszego routera w $text$ sekcja bez naszych prowizji deweloperskich.\n\nKorzystaj z najbardziej lukratywnych kursów wymiany i handluj bez opłat w jednym miejscu.",
-    "englishSource": "From $date1$ till $date2$, Leo users may conduct trades via our router in the $text$ section without our dev commissions.\n\nEnjoy the most lucrative exchange rates and trade without fees in one place."
-  },
   "okGotIt": {
     "message": "Rozumiem",
     "englishSource": "Got it"
-  },
-  "details": {
-    "message": "bliższe dane",
-    "englishSource": "details"
   },
   "changelogTitle": {
     "message": "Zaktualizowano portfel Miden",
     "englishSource": "Miden Wallet updated"
   },
-  "changelogDescription": {
-    "message": "W tej aktualizacji",
-    "englishSource": "In this update"
-  },
   "update": {
     "message": "Aktualizacja",
     "englishSource": "Update"
-  },
-  "addNewToken": {
-    "message": "Dodaj nowy token",
-    "englishSource": "Add new Token"
-  },
-  "hideSomeToken": {
-    "message": "Ukrywać \" $tokenName$ „znacznik",
-    "englishSource": "Hide \"$tokenName$\" token"
-  },
-  "copySomeTokenAddress": {
-    "message": "Skopiuj \" $tokenSymbol$ \" adres",
-    "englishSource": "Copy \"$tokenSymbol$\" address"
-  },
-  "copySomeTokenId": {
-    "message": "Skopiuj \" $tokenSymbol$ „Dowód osobisty",
-    "englishSource": "Copy \"$tokenSymbol$\" ID"
   },
   "originLabel": {
     "message": "Pochodzenie:",
@@ -207,73 +103,9 @@
     "message": "Konto:",
     "englishSource": "Account:"
   },
-  "minDelegationAmountDescription": {
-    "message": "Twoje obecne saldo jest mniejsze niż minimalna kwota delegacji tego piekarza. Oznacza to, że saldo jest mniejsze niż $minAmount$ - nie będzie żadnych wypłat.",
-    "englishSource": "Your current balance is less than a minimal delegation amount of this baker. That means while the balance is less than $minAmount$ - there will be no payouts."
-  },
-  "clickOnBakerPrompt": {
-    "message": "Kliknij Bakera, któremu chcesz przekazać środki. Ta lista jest obsługiwana przez $link$ .",
-    "englishSource": "Click on the Baker you want to delegate funds to. This list is powered by $link$."
-  },
-  "highestIsBetter": {
-    "message": "im wyżej, tym lepiej",
-    "englishSource": "the higher the better"
-  },
-  "unlockWalletPrompt": {
-    "message": "Jeśli chcesz zapisać coś z już istniejącego portfela - $link$ i odblokuj go.",
-    "englishSource": "If you want to save something from already existing wallet - $link$ and unlock it."
-  },
-  "acceptTermsInputDescription": {
-    "message": "Przeczytałem i zgadzam się z $termsOfUsageLink$ I $privacyPolicyLink$ ",
-    "englishSource": "I have read and agree to the $termsOfUsageLink$ and $privacyPolicyLink$"
-  },
-  "skipOnboarding": {
-    "message": "Pomiń wdrażanie",
-    "englishSource": "Skip Onboarding"
-  },
-  "advancedUser": {
-    "message": "Jestem zaawansowanym użytkownikiem",
-    "englishSource": "I'm an advanced user"
-  },
   "analytics": {
     "message": "Analityka",
     "englishSource": "Analytics"
-  },
-  "analyticsCollecting": {
-    "message": "zbieranie anonimowych informacji",
-    "englishSource": "anonymous information collecting"
-  },
-  "analyticsInputDescription": {
-    "message": "Zgadzam się na $analyticsLink$ ",
-    "englishSource": "I agree to the $analyticsLink$"
-  },
-  "copiedTokenAddress": {
-    "message": "Skopiowano.",
-    "englishSource": "Copied."
-  },
-  "copiedTokenId": {
-    "message": "Skopiowano.",
-    "englishSource": "Copied."
-  },
-  "delegatedTo": {
-    "message": "Delegowany do:",
-    "englishSource": "Delegated to:"
-  },
-  "dcpDelegatingMotivation": {
-    "message": "Delegowanie środków producentom to świetny sposób na zarabianie odsetek od salda",
-    "englishSource": "Delegating your funds to producers is a great way of earning interest on your balance"
-  },
-  "delegatingMotivation": {
-    "message": "Delegowanie środków piekarzom to świetny sposób na zarabianie odsetek od salda",
-    "englishSource": "Delegating your funds to bakers is a great way of earning interest on your balance"
-  },
-  "reDelegate": {
-    "message": "Deleguj ponownie",
-    "englishSource": "Re-delegate"
-  },
-  "delegateNow": {
-    "message": "Deleguj teraz",
-    "englishSource": "Delegate now"
   },
   "cancel": {
     "message": "Anulować",
@@ -283,113 +115,17 @@
     "message": "Ratować",
     "englishSource": "Save"
   },
-  "edit": {
-    "message": "Redagować",
-    "englishSource": "Edit"
-  },
-  "switch": {
-    "message": "Przełącznik",
-    "englishSource": "Switch"
-  },
-  "useCoinSwitch": {
-    "message": "Użyj CoinSwitcha",
-    "englishSource": "Use CoinSwitch"
-  },
   "faucet": {
     "message": "Faucet",
     "englishSource": "Faucet"
-  },
-  "aleoFaucet": {
-    "message": "Aleo Faucet",
-    "englishSource": "Aleo Faucet"
-  },
-  "aleoFaucetDescription": {
-    "message": "Wszystkie rozdane kredyty służą celom testowym i nie mają wartości.",
-    "englishSource": "All distributed credits are for testing purposes and do not have value."
-  },
-  "aleoFaucetStep1": {
-    "message": "Zeskanuj kod QR za pomocą telefonu",
-    "englishSource": "Scan the QR code with your Phone"
-  },
-  "aleoFaucetStep1Description": {
-    "message": "I kliknij wyświetlony monit.",
-    "englishSource": "And click on the prompt it shows you."
-  },
-  "aleoFaucetStep2": {
-    "message": "Potwierdź i wyślij SMS",
-    "englishSource": "Confirm and send the SMS"
-  },
-  "aleoFaucetStep2Description": {
-    "message": "(Mogą obowiązywać stawki za wiadomości i dane)",
-    "englishSource": "(Message and data rates may apply)"
-  },
-  "aleoFaucetStep3": {
-    "message": "Zdobądź kredyty Aleo",
-    "englishSource": "Get Aleo credits"
-  },
-  "aleoFaucetStep3Description": {
-    "message": "Aleo Faucet wyśle ​​Ci kredyty.",
-    "englishSource": "Aleo Faucet will send you credits."
-  },
-  "aleoFaucetAlpha": {
-    "message": "Faucet Aleo (Alfa)",
-    "englishSource": "Aleo Faucet (Alpha)"
-  },
-  "depositToWallet": {
-    "message": "Wpłać do swojego portfela",
-    "englishSource": "Deposit to your wallet"
-  },
-  "depositToWalletDescription": {
-    "message": "Kliknij metodę wpłaty, aby otrzymać pieniądze do swojego portfela. Użyj Faucet, aby zdobyć darmowe monety!",
-    "englishSource": "Click on deposit method to get money on your wallet. Use faucet to get free coins!"
   },
   "addToken": {
     "message": "Dodaj zasób",
     "englishSource": "Add Asset"
   },
-  "addAsset": {
-    "message": "Dodaj zasób",
-    "englishSource": "Add Asset"
-  },
-  "contractNotAvailable": {
-    "message": "Umowa pod tym adresem nie jest dostępna. Czy istnieje w tej sieci?",
-    "englishSource": "The contract at this address is not available. Does it exist on this network?"
-  },
-  "noTransferMethod": {
-    "message": "Brak metody transferu",
-    "englishSource": "No transfer method"
-  },
-  "tokenDoesNotMatchStandard": {
-    "message": "Pod warunkiem, że umowa dotycząca aktywów nie jest zgodna $standard$ standard",
-    "englishSource": "Provided asset contract doesn't match $standard$ standard"
-  },
   "error": {
     "message": "Błąd",
     "englishSource": "Error"
-  },
-  "tokenType": {
-    "message": "Typ tokena",
-    "englishSource": "Token type"
-  },
-  "tokenId": {
-    "message": "Identyfikator tokena",
-    "englishSource": "Token ID"
-  },
-  "assetId": {
-    "message": "Identyfikator zasobu",
-    "englishSource": "Asset ID"
-  },
-  "tokenIdInputDescription": {
-    "message": "Nieujemna liczba całkowita identyfikująca składnik aktywów w ramach kontraktu FA2",
-    "englishSource": "A non-negative integer number that identifies the asset inside FA2 contract"
-  },
-  "comingSoon": {
-    "message": "Już wkrótce",
-    "englishSource": "Coming soon"
-  },
-  "comingSoonComment": {
-    "message": "(wkrótce)",
-    "englishSource": "(coming soon)"
   },
   "soon": {
     "message": "Wkrótce",
@@ -399,121 +135,21 @@
     "message": "Wymagany",
     "englishSource": "Required"
   },
-  "weakKeystorePassword": {
-    "message": "Hasło „pliku kluczy” jest zbyt słabe, aby można było go używać jako hasła rozszerzenia. Musisz ustawić nowy.",
-    "englishSource": "The \"keystore file\" password is too weak to use as an extension password. You need to set a new one."
-  },
   "address": {
     "message": "Adres",
     "englishSource": "Address"
-  },
-  "addressOfDeployedTokenContract": {
-    "message": "Adres kontraktu dotyczącego wdrożonego zasobu.",
-    "englishSource": "Address of a deployed asset contract."
-  },
-  "tokenContractPlaceholder": {
-    "message": "np. KT1v9CmPy...",
-    "englishSource": "e.g. KT1v9CmPy..."
-  },
-  "tokenSymbolPatternDescription": {
-    "message": "Dozwolone tylko a-z, A-Z, 0-9 znaków, długość 2-5",
-    "englishSource": "Only a-z, A-Z, 0-9 chars allowed, 2-5 length"
-  },
-  "symbol": {
-    "message": "Symbol",
-    "englishSource": "Symbol"
-  },
-  "tokenSymbolInputDescription": {
-    "message": "Symbol zasobu, np. „USD” w przypadku dolara amerykańskiego.",
-    "englishSource": "Asset symbol, like 'USD' for United States Dollar."
-  },
-  "tokenSymbolInputPlaceholder": {
-    "message": "np. WEW, BOW, LAL itp.",
-    "englishSource": "e.g. WEW, BOW, LAL etc."
-  },
-  "tokenNamePatternDescription": {
-    "message": "Żadnych znaków specjalnych, długość od 3 do 50",
-    "englishSource": "No special characters, 3-50 length"
   },
   "name": {
     "message": "Nazwa",
     "englishSource": "Name"
   },
-  "tokenNameInputDescription": {
-    "message": "Nazwa zasobu, np. „Bitcoin” w przypadku zasobu BTC.",
-    "englishSource": "Asset name, like 'Bitcoin' for BTC asset."
-  },
-  "tokenNameInputPlaceholder": {
-    "message": "np. MójSuperToken",
-    "englishSource": "e.g. MySuperToken"
-  },
-  "nonNegativeIntMessage": {
-    "message": "Liczba całkowita, 0 lub większa",
-    "englishSource": "Integer, 0 or greater"
-  },
-  "mustBeNonNegative": {
-    "message": "Musi być nieujemny",
-    "englishSource": "Must be non-negative"
-  },
-  "positiveIntMessage": {
-    "message": "Liczba całkowita, 1 lub większa",
-    "englishSource": "Integer, 1 or greater"
-  },
   "decimals": {
     "message": "Dziesiętne",
     "englishSource": "Decimals"
   },
-  "decimalsInputDescription": {
-    "message": "Liczba miejsc po przecinku po kropce. Na przykład: 8 dla BTC, 2 dla USD.",
-    "englishSource": "A number of decimal places after point. For example: 8 for BTC, 2 for USD."
-  },
-  "orIPFSImageURL": {
-    "message": "Lub adres URL obrazu IPFS",
-    "englishSource": "Or IPFS image URL"
-  },
-  "validImageURL": {
-    "message": "Prawidłowy adres URL obrazu",
-    "englishSource": "Valid image URL"
-  },
-  "onlyHTTPS": {
-    "message": "Tylko HTTPS",
-    "englishSource": "Only HTTPS"
-  },
-  "formatsAllowed": {
-    "message": "Dozwolone są tylko obrazy w formacie .png, .jpg, .jpeg, .gif i .webp",
-    "englishSource": "Only .png, .jpg, .jpeg, .gif, .webp images allowed"
-  },
-  "iconURL": {
-    "message": "Adres URL ikony",
-    "englishSource": "Icon URL"
-  },
-  "optionalComment": {
-    "message": "(fakultatywny)",
-    "englishSource": "(optional)"
-  },
-  "iconURLInputDescription": {
-    "message": "Adres URL obrazu logo zasobu.",
-    "englishSource": "Image URL for asset logo."
-  },
   "invalidAddress": {
     "message": "Nieprawidłowy adres",
     "englishSource": "Invalid address"
-  },
-  "invalidViewKey": {
-    "message": "Nieprawidłowy klucz widoku",
-    "englishSource": "Invalid view key"
-  },
-  "contractNotExistOnNetwork": {
-    "message": "Smart Contract nie istnieje w bieżącej sieci",
-    "englishSource": "Smart contract doesn't exist on current network"
-  },
-  "onlyKTContractAddressAllowed": {
-    "message": "Dozwolony jest tylko adres kontraktowy KT...",
-    "englishSource": "Only KT... contract address allowed"
-  },
-  "operationHash": {
-    "message": "Operacja Hash",
-    "englishSource": "Operation Hash"
   },
   "alert": {
     "message": "Alarm",
@@ -526,18 +162,6 @@
   "defaultAccountName": {
     "message": "Konto $accountNumber$ ",
     "englishSource": "Account $accountNumber$"
-  },
-  "defaultManagedKTAccountName": {
-    "message": "Zarządzał KT $accountNumber$ ",
-    "englishSource": "Managed KT $accountNumber$"
-  },
-  "defaultWatchOnlyAccountName": {
-    "message": "Oglądać $accountNumber$ ",
-    "englishSource": "Watch $accountNumber$"
-  },
-  "accountsToRemoveConstraint": {
-    "message": "Twoja fraza początkowa zawsze będzie w stanie zregenerować ten portfel. Nie da się go usunąć.",
-    "englishSource": "Your seed phrase will always be able to regenerate this wallet. It is impossible to delete it."
   },
   "doNotSharePrivateKey1": {
     "message": "NIE udostępniaj nikomu!",
@@ -555,85 +179,13 @@
     "message": "Można go używać do przeglądania całej historii transakcji.",
     "englishSource": "It can be used to view all of your transaction history."
   },
-  "appWouldLikeToConnectToYourWallet": {
-    "message": "$origin$ chce połączyć się z Twoim portfelem",
-    "englishSource": "$origin$ would like to connect to your wallet"
-  },
-  "appRequestOperationToYou": {
-    "message": "$origin$ żąda od Ciebie operacji",
-    "englishSource": "$origin$ requests operations to you"
-  },
-  "reject": {
-    "message": "Odrzucić",
-    "englishSource": "Reject"
-  },
-  "signAction": {
-    "message": "Podpisać",
-    "englishSource": "Sign"
-  },
-  "decryptAction": {
-    "message": "Odszyfruj",
-    "englishSource": "Decrypt"
-  },
-  "recordsAction": {
-    "message": "Udostępnij rekordy",
-    "englishSource": "Share Records"
-  },
-  "downloadRecords": {
-    "message": "Pobierz Rekordy",
-    "englishSource": "Download Records"
-  },
   "transactionAction": {
     "message": "Transakcja",
     "englishSource": "Transaction"
   },
-  "deployAction": {
-    "message": "Wdróż program",
-    "englishSource": "Deploy Program"
-  },
-  "appRequestsToSign": {
-    "message": "$origin$ prosi o podpisanie",
-    "englishSource": "$origin$ requests you to sign"
-  },
-  "appRequestsToDecrypt": {
-    "message": "$origin$ prosi o odszyfrowanie",
-    "englishSource": "$origin$ requests you to decrypt"
-  },
-  "appRequestsRecords": {
-    "message": "$origin$ prosi o dane dla programu: $program$",
-    "englishSource": "$origin$ requests your records for program: $program$"
-  },
-  "appRequestsTransaction": {
-    "message": "$origin$ żąda transakcji",
-    "englishSource": "$origin$ requests a transaction"
-  },
-  "appRequestsDeploy": {
-    "message": "$origin$ żąda wdrożenia",
-    "englishSource": "$origin$ requests a deployment"
-  },
-  "alpha": {
-    "message": "Alfa",
-    "englishSource": "Alpha"
-  },
-  "viewAccountAddressWarning": {
-    "message": "Ta witryna prosi o dostęp do adresu Twojego konta. Zawsze upewnij się, że ufasz witrynom, z którymi wchodzisz w interakcję.",
-    "englishSource": "This site is requesting access to view your account address. Always make sure you trust the sites you interact with."
-  },
   "account": {
     "message": "Konto",
     "englishSource": "Account"
-  },
-  "toBeConnectedWithDApp": {
-    "message": "do połączenia z dApp.",
-    "englishSource": "to be connected with dApp."
-  },
-  "signPayload": {
-    "message": "Wiadomość do podpisania",
-    "englishSource": "Message to Sign"
-  },
-  "decryptPayload": {
-    "message": "Wiadomość do odszyfrowania",
-    "englishSource": "Message to Decrypt"
   },
   "noPreview": {
     "message": "Brak podglądu",
@@ -699,14 +251,6 @@
     "message": "Spróbuj ponownie",
     "englishSource": "Try again"
   },
-  "testnetbeta": {
-    "message": "Aleo Testnet Beta",
-    "englishSource": "Aleo Testnet Beta"
-  },
-  "leoWalletOptions": {
-    "message": "Portfel Leo | Opcje",
-    "englishSource": "Leo Wallet | Options"
-  },
   "resetExtension": {
     "message": "Zresetuj rozszerzenie",
     "englishSource": "Reset Extension"
@@ -714,14 +258,6 @@
   "resetExtensionConfirmation": {
     "message": "Czy na pewno chcesz zresetować portfel Miden?\nW rezultacie wszystkie Twoje dane zostaną usunięte.",
     "englishSource": "Are you sure you want to reset the Miden Wallet?\nAs a result, all your data will be deleted."
-  },
-  "failedToResetExtension": {
-    "message": "Nie udało się zresetować rozszerzenia: $errorMessage$ ",
-    "englishSource": "Failed to reset extension: $errorMessage$"
-  },
-  "ledger": {
-    "message": "Księga główna",
-    "englishSource": "Ledger"
   },
   "retry": {
     "message": "Spróbować ponownie",
@@ -739,22 +275,6 @@
     "message": "Maksymalny: $amount$ ",
     "englishSource": "Maximal: $amount$"
   },
-  "amountMustBePositive": {
-    "message": "Musi być pozytywny",
-    "englishSource": "Must be positive"
-  },
-  "amountMustBeGreaterThanOne": {
-    "message": "Musi być większa niż 1",
-    "englishSource": "Must be greater than 1"
-  },
-  "assetMustBeSelected": {
-    "message": "Należy wybrać zasób",
-    "englishSource": "Asset must be selected"
-  },
-  "gasFeeMustBePositive": {
-    "message": "Opłata za gaz musi być dodatnia",
-    "englishSource": "Gas fee must be positive"
-  },
   "accountName": {
     "message": "Nazwa konta",
     "englishSource": "Account name"
@@ -767,25 +287,9 @@
     "message": "Jaka będzie nazwa nowego konta?",
     "englishSource": "What will be the name of the new account?"
   },
-  "createNewWallet": {
-    "message": "Utwórz nowy portfel",
-    "englishSource": "Create a new Wallet"
-  },
-  "createNewWalletDescription": {
-    "message": "Nowy w portfelu Leo? Ustalmy to! Spowoduje to utworzenie nowego portfela i frazy początkowej",
-    "englishSource": "New to Leo Wallet? Let's set it up! This will create a new wallet and seed phrase"
-  },
   "delegate": {
     "message": "Delegat",
     "englishSource": "Delegate"
-  },
-  "explore": {
-    "message": "Badać",
-    "englishSource": "Explore"
-  },
-  "assetsWhileMessage": {
-    "message": "pobieranie danych o zasobach",
-    "englishSource": "fetching assets data"
   },
   "receive": {
     "message": "Odbierać",
@@ -794,10 +298,6 @@
   "send": {
     "message": "Wysłać",
     "englishSource": "Send"
-  },
-  "reviewAndConfirm": {
-    "message": "Recenzja",
-    "englishSource": "Review & Confirm"
   },
   "transactionInitiated": {
     "message": "Transakcja zainicjowana",
@@ -831,18 +331,6 @@
     "message": "Generowanie transakcji",
     "englishSource": "Generating Transaction"
   },
-  "generatingTransactionWarning": {
-    "message": "Jeśli opuścisz tę stronę przed wygenerowaniem transakcji, transakcja nie zostanie zakończona.",
-    "englishSource": "If you leave this page before the transaction is generated, your transaction won't finish."
-  },
-  "noTransactionsRemaining": {
-    "message": "Brak pozostałych transakcji. Zamykam tę kartę",
-    "englishSource": "No remaining transactions, closing this tab"
-  },
-  "transactionsRemaining": {
-    "message": "pozostałe transakcje",
-    "englishSource": "transactions remaining"
-  },
   "status": {
     "message": "Status",
     "englishSource": "Status"
@@ -858,42 +346,6 @@
   "openNewTabToSync": {
     "message": "Otwórz kartę, aby przyspieszyć synchronizację.",
     "englishSource": "Open a tab for faster syncing."
-  },
-  "fullySynced": {
-    "message": "W pełni zsynchronizowane",
-    "englishSource": "Fully Synced"
-  },
-  "synced": {
-    "message": "Zsynchronizowane",
-    "englishSource": "Synced"
-  },
-  "syncing": {
-    "message": "Synchronizowanie",
-    "englishSource": "Syncing"
-  },
-  "get": {
-    "message": "Dostawać",
-    "englishSource": "Get"
-  },
-  "exolixWarningNote": {
-    "message": "Prosimy o dokonanie jedynie wpłaty $currencyName$ sieć transferowa $networkName$ . W przeciwnym razie możesz trwale utracić swój majątek.",
-    "englishSource": "Please, deposit only $currencyName$ transfer network $networkName$. Otherwise, you may lose your assets permanently."
-  },
-  "baking": {
-    "message": "Pieczenie",
-    "englishSource": "Baking"
-  },
-  "operations": {
-    "message": "Operacje",
-    "englishSource": "Operations"
-  },
-  "delegationInfoWhileMessage": {
-    "message": "pobieranie lub przetwarzanie informacji o delegowaniu",
-    "englishSource": "fetching or processing your delegation info"
-  },
-  "operationHistoryWhileMessage": {
-    "message": "pobieranie lub przetwarzanie historii operacji",
-    "englishSource": "fetching or processing operation history"
   },
   "privateKey": {
     "message": "Klucz prywatny",
@@ -915,10 +367,6 @@
     "message": "Mnemoniczny",
     "englishSource": "Mnemonic"
   },
-  "fundraiser": {
-    "message": "Zbiórka pieniędzy",
-    "englishSource": "Fundraiser"
-  },
   "privateKeyInputDescription": {
     "message": "Tajny klucz konta, które chcesz zaimportować.",
     "englishSource": "The Secret key of the Account you want to import."
@@ -931,66 +379,6 @@
     "message": "Hasło",
     "englishSource": "Password"
   },
-  "isPrivateKeyEncrypted": {
-    "message": "Czy Twój klucz prywatny jest w formacie zaszyfrowanym?",
-    "englishSource": "Is your private key in encrypted format?"
-  },
-  "customDerivationPath": {
-    "message": "Niestandardowa ścieżka wyprowadzania",
-    "englishSource": "Custom derivation path"
-  },
-  "mnemonicInputLabel": {
-    "message": "Seed Phrase",
-    "englishSource": "Seed phrase"
-  },
-  "mnemonicInputDescription": {
-    "message": "Mnemoniczny. Twój sekretny zwrot składający się z 12–24 słów.",
-    "englishSource": "Mnemonic. Your secret 12 - 24 words phrase."
-  },
-  "mnemonicInputWarning": {
-    "message": "Nie przechowujemy Twojej frazy początkowej. Nie zgub tego!",
-    "englishSource": "We don't store your seed phrase. Don't lose it!"
-  },
-  "mnemonicInputPlaceholder": {
-    "message": "np. aktualizacja mleka w skarpetkach...",
-    "englishSource": "e.g. venue sock milk update..."
-  },
-  "passwordInputDescription": {
-    "message": "Używane do dodatkowego wyprowadzenia mnemonicznego. To NIE jest hasło do portfela.",
-    "englishSource": "Used for additional mnemonic derivation. That is NOT a wallet password."
-  },
-  "derivation": {
-    "message": "Pochodzenie",
-    "englishSource": "Derivation"
-  },
-  "addDerivationPathPrompt": {
-    "message": "Domyślnie wyprowadzanie nie jest używane. Kliknij opcję „Niestandardowa ścieżka wyprowadzenia”, aby ją dodać.",
-    "englishSource": "By default derivation isn't used. Click on 'Custom derivation path' to add it."
-  },
-  "derivationPathMustStartWithM": {
-    "message": "Musi zaczynać się od „m”",
-    "englishSource": "Must start with 'm'"
-  },
-  "derivationSeparatorMustBeSlash": {
-    "message": "Separatorem musi być „/”",
-    "englishSource": "Separator must be '/'"
-  },
-  "invalidPath": {
-    "message": "Nieprawidłowa ścieżka",
-    "englishSource": "Invalid path"
-  },
-  "email": {
-    "message": "E-mail",
-    "englishSource": "Email"
-  },
-  "unexpectedOrInvalidFile": {
-    "message": "Nieoczekiwany lub nieprawidłowy plik",
-    "englishSource": "Unexpected or invalid file"
-  },
-  "requestSent": {
-    "message": "Wysłano żądanie $type$! Potwierdzam...",
-    "englishSource": "$type$ request sent! Confirming..."
-  },
   "success": {
     "message": "Sukces",
     "englishSource": "Success"
@@ -998,10 +386,6 @@
   "smthWentWrong": {
     "message": "Coś poszło nie tak",
     "englishSource": "Something went wrong"
-  },
-  "faucetFileInputPrompt": {
-    "message": "Ciągnąć $link$ .",
-    "englishSource": "Drag & drop a file or select it manually by clicking on the area below. You can download it from $link$."
   },
   "processing": {
     "message": "Przetwarzanie...",
@@ -1011,38 +395,6 @@
     "message": "Importuj portfel",
     "englishSource": "Import Wallet"
   },
-  "createWallet": {
-    "message": "Utwórz swój portfel",
-    "englishSource": "Create Your Wallet"
-  },
-  "errorImportingKukaiWallet": {
-    "message": "Błąd podczas importowania portfela Kukai",
-    "englishSource": "Error while importing Kukai wallet"
-  },
-  "selectedFileFormatNotSupported": {
-    "message": "Wybrany format pliku nie jest obsługiwany",
-    "englishSource": "The selected file format is not supported"
-  },
-  "fileHasSyntaxError": {
-    "message": "Plik zawiera błąd składniowy. Upewnij się, że plik jest poprawny.",
-    "englishSource": "The file has a syntax error. Make sure the file is correct."
-  },
-  "entropyDecryptionError": {
-    "message": "Nie udało się odszyfrować entropii. Upewnij się, że hasło jest poprawne",
-    "englishSource": "Failed to decrypt entropy. Make sure the password is correct"
-  },
-  "kukaiFileVersionError": {
-    "message": "Można przetwarzać wyłącznie pliki wersji 3",
-    "englishSource": "Only files of version 3 can be processed"
-  },
-  "kukaiWalletTypeError": {
-    "message": "Nie można ujawnić frazy początkowej dla tego typu portfela",
-    "englishSource": "Cannot reveal seed phrase for this wallet type"
-  },
-  "accountAddressLabel": {
-    "message": "Twój aktualny adres konta. Udostępnij, aby otrzymać środki.",
-    "englishSource": "Your current account address. Share it to receive funds."
-  },
   "copiedAddress": {
     "message": "Skopiowano.",
     "englishSource": "Copied."
@@ -1050,10 +402,6 @@
   "copyAddressToClipboard": {
     "message": "Skopiuj adres",
     "englishSource": "Copy Address"
-  },
-  "qrCode": {
-    "message": "Kod QR",
-    "englishSource": "QRCode"
   },
   "revealViewKey": {
     "message": "Odkryj klucz widoku",
@@ -1083,25 +431,9 @@
     "message": "Eksportuj plik portfela",
     "englishSource": "Export Wallet File"
   },
-  "dApps": {
-    "message": "DApps",
-    "englishSource": "DApps"
-  },
   "dAppsDescription": {
     "message": "W tej sekcji możesz włączyć możliwość interakcji ze zdecentralizowanymi aplikacjami obsługującymi Miden Wallet.",
     "englishSource": "In this section you can enable ability to interact with decentralized applications that support Miden Wallet."
-  },
-  "networksDescription": {
-    "message": "W tej sekcji możesz dodawać lub usuwać niestandardowe sieci Aleo.",
-    "englishSource": "In this section you can add or delete custom Aleo networks."
-  },
-  "activateAccount": {
-    "message": "Aktywuj konto",
-    "englishSource": "Activate Account"
-  },
-  "activateAccountDescription": {
-    "message": "Może być konieczne w przypadku kont ICO/fundraiser lub testnet.",
-    "englishSource": "It may be necessary for ICO/Fundraiser or testnet faucet accounts."
   },
   "removeAccount": {
     "message": "Usuń konto",
@@ -1110,14 +442,6 @@
   "removeAccountDescription": {
     "message": "Użyj tej sekcji, aby usunąć wybrane konto. Można usunąć tylko konta zaimportowane.",
     "englishSource": "Use this section to remove your selected account. Only imported accounts can be removed."
-  },
-  "fileSettings": {
-    "message": "Ustawienia pliku",
-    "englishSource": "File Settings"
-  },
-  "fileSettingsDescription": {
-    "message": "Bezpośrednio dodawaj lub usuwaj pliki ze swojego portfela.",
-    "englishSource": "Directly add or remove files from your wallet."
   },
   "advancedSettings": {
     "message": "Ustawienia zaawansowane",
@@ -1131,10 +455,6 @@
     "message": "Synchronizuj ponownie",
     "englishSource": "Resync"
   },
-  "resyncDescription": {
-    "message": "Zresetuj całą historię tego konta i ponownie zsynchronizuj z siecią.",
-    "englishSource": "Reset all of your history for this account and resync with the network."
-  },
   "about": {
     "message": "O tej aplikacji",
     "englishSource": "About This App"
@@ -1147,18 +467,6 @@
     "message": "Użyj tej sekcji, aby wyświetlić metainformacje o portfelu Miden.",
     "englishSource": "Use this section to view meta info about Miden Wallet."
   },
-  "unlockWallet": {
-    "message": "Odblokuj portfel",
-    "englishSource": "Unlock the Wallet"
-  },
-  "toContinue": {
-    "message": "kontynuować",
-    "englishSource": "to continue"
-  },
-  "unlockPasswordInputDescription": {
-    "message": "Hasło służy do ochrony portfela.",
-    "englishSource": "A password is used to protect the wallet."
-  },
   "unlockPasswordErrorDelay": {
     "message": "Trzy razy wpisałeś błędne hasło. Twój portfel został zablokowany",
     "englishSource": "You have entered the wrong password three times. Your wallet is being blocked for"
@@ -1167,37 +475,9 @@
     "message": "Odblokować",
     "englishSource": "Unlock"
   },
-  "importNewAccountTitle": {
-    "message": "Przywrócić konto? Chcesz zalogować się do innego?",
-    "englishSource": "Restore Account? Want to sign in another?"
-  },
-  "importWalletUsingSeedPhrase": {
-    "message": "Zaimportuj portfel za pomocą frazy początkowej",
-    "englishSource": "Import Wallet using Seed Phrase"
-  },
-  "connectLedger": {
-    "message": "Połącz księgę",
-    "englishSource": "Connect Ledger"
-  },
-  "importExistingWallet": {
-    "message": "Zaimportuj istniejący portfel",
-    "englishSource": "Import existing Wallet"
-  },
-  "importExistingWalletDescription": {
-    "message": "Masz już portfel? Zaimportuj go, używając frazy początkowej lub zaszyfrowanego pliku magazynu kluczy",
-    "englishSource": "Already have a wallet? Import it using your seed phrase or encrypted keystore file"
-  },
-  "links": {
-    "message": "Spinki do mankietów",
-    "englishSource": "Links"
-  },
   "website": {
     "message": "Strona internetowa",
     "englishSource": "Website"
-  },
-  "repo": {
-    "message": "Magazyn",
-    "englishSource": "Repository"
   },
   "privacyPolicy": {
     "message": "Polityka prywatności",
@@ -1206,74 +486,6 @@
   "termsOfUse": {
     "message": "Warunki użytkowania",
     "englishSource": "Terms of Use"
-  },
-  "contact": {
-    "message": "Kontakt",
-    "englishSource": "Contact"
-  },
-  "accountAlreadyActivated": {
-    "message": "Twoje konto jest już aktywowane.",
-    "englishSource": "Your Account already activated."
-  },
-  "accountActivated": {
-    "message": "Twoje konto zostało pomyślnie aktywowane!",
-    "englishSource": "Your account successfully activated!"
-  },
-  "failureSecretMayBeInvalid": {
-    "message": "Przegrany. Może się tak zdarzyć, ponieważ podany sekret jest nieprawidłowy",
-    "englishSource": "Failed. This may happen because provided Secret is invalid"
-  },
-  "accountToBeActivated": {
-    "message": "Konto do aktywacji.",
-    "englishSource": "Account to be activated."
-  },
-  "ifYouWantToActivateAnotherAccount": {
-    "message": "Jeśli chcesz aktywować kolejne konto - wybierz je w prawym górnym rogu.",
-    "englishSource": "If you want to activate another account - please, select it in the top-right dropdown."
-  },
-  "activateAccountSecret": {
-    "message": "Sekret",
-    "englishSource": "Secret"
-  },
-  "activateAccountSecretDescription": {
-    "message": "pole „tajne” z konta fundraisera lub Faucet",
-    "englishSource": "'secret' field from Fundraiser Account or Faucet"
-  },
-  "activateAccountSecretPlaceholder": {
-    "message": "np. n4hs7sd3...",
-    "englishSource": "e.g. n4hs7sd3..."
-  },
-  "activate": {
-    "message": "Aktywować",
-    "englishSource": "Activate"
-  },
-  "minimalFeeDescription": {
-    "message": "Minimalny",
-    "englishSource": "Minimal"
-  },
-  "fastFeeDescription": {
-    "message": "Szybko",
-    "englishSource": "Fast"
-  },
-  "rocketFeeDescription": {
-    "message": "Rakieta",
-    "englishSource": "Rocket"
-  },
-  "customFeeDescription": {
-    "message": "Zwyczaj",
-    "englishSource": "Custom"
-  },
-  "additionalFee": {
-    "message": "Dodatkowa opłata",
-    "englishSource": "Additional Fee"
-  },
-  "asset": {
-    "message": "Zaleta",
-    "englishSource": "Asset"
-  },
-  "selectAnotherAssetPrompt": {
-    "message": "Kliknij obszar, aby wybrać inny zasób lub token.",
-    "englishSource": "Click on area to select another asset or token."
   },
   "disable": {
     "message": "wyłączyć",
@@ -1295,165 +507,17 @@
     "message": "Nic",
     "englishSource": "None"
   },
-  "collection": {
-    "message": "Kolekcja",
-    "englishSource": "Collection"
-  },
-  "source": {
-    "message": "Źródło",
-    "englishSource": "Source"
-  },
-  "enabled": {
-    "message": "Włączony",
-    "englishSource": "Enabled"
-  },
-  "disabled": {
-    "message": "Wyłączony",
-    "englishSource": "Disabled"
-  },
-  "enablePopup": {
-    "message": "Włącz wyskakujące okienko",
-    "englishSource": "Enable popup"
-  },
   "popupEnabled": {
     "message": "Włączony",
     "englishSource": "Enabled"
-  },
-  "popupDisabled": {
-    "message": "Wyłączony",
-    "englishSource": "Disabled"
   },
   "delete": {
     "message": "Usuwać",
     "englishSource": "Delete"
   },
-  "rank": {
-    "message": "Stopień",
-    "englishSource": "Rank"
-  },
-  "available": {
-    "message": "Dostępny",
-    "englishSource": "Available"
-  },
   "fee": {
     "message": "Opłata",
     "englishSource": "Fee"
-  },
-  "noFee": {
-    "message": "Brak opłat",
-    "englishSource": "No Fee"
-  },
-  "routingFee": {
-    "message": "Opłata za routing",
-    "englishSource": "Routing Fee"
-  },
-  "routingFeeTooltip": {
-    "message": "Za wybór najkorzystniejszej trasy wymiany wśród Aleo DEX-ów. \n\nProwizje DEX nie są wliczone w cenę.",
-    "englishSource": "For choosing the most profitable exchange route among Aleo DEXes. \n\nDEXes commissions are not included."
-  },
-  "space": {
-    "message": "Przestrzeń",
-    "englishSource": "Space"
-  },
-  "staking": {
-    "message": "Stawianie",
-    "englishSource": "Staking"
-  },
-  "recommended": {
-    "message": "Zalecony",
-    "englishSource": "Recommended"
-  },
-  "partnership": {
-    "message": "Współpraca",
-    "englishSource": "Partnership"
-  },
-  "delegation": {
-    "message": "Delegacja",
-    "englishSource": "Delegation"
-  },
-  "delegationGuide": {
-    "message": "Pełny przewodnik wideo",
-    "englishSource": "Full video guide"
-  },
-  "delegationGuideLink": {
-    "message": "Jak delegować XTZ",
-    "englishSource": "How to Delegate XTZ"
-  },
-  "delegationComunity": {
-    "message": "Jeśli masz jakieś pytania, napisz je w naszych społecznościach",
-    "englishSource": "In case you have any questions, write them in our communities"
-  },
-  "delegationPointsHead1": {
-    "message": "Zarabiaj 5,6% odsetek",
-    "englishSource": "Earn 5.6% interest"
-  },
-  "delegationPointsHead2": {
-    "message": "na Twoim Aleo",
-    "englishSource": "on your Aleo"
-  },
-  "delegationPointsHead3": {
-    "message": "rocznie z nagród za pieczenie",
-    "englishSource": "annualy from Baking rewards"
-  },
-  "delegationPoint1": {
-    "message": "Twoja pierwsza nagroda w Aleo zostanie wypłacona w ciągu około 36 dni.",
-    "englishSource": "Your first reward in Aleo will be paid approximately in 36 days."
-  },
-  "delegationPoint2": {
-    "message": "Następnie co 3 dni otrzymasz nagrodę.",
-    "englishSource": "Then, you receive a reward every 3 days."
-  },
-  "delegationPoint3": {
-    "message": "Stopa zarobków zmienia się w czasie. Sprawdź aktualny kurs w swoim Portfelu.",
-    "englishSource": "Earn rate varies over time. Check the current rate in your Wallet."
-  },
-  "delegationPoint4": {
-    "message": "Twoje tokeny Aleo nigdy nie są zablokowane. Wyślij w każdej chwili!",
-    "englishSource": "Your Aleo tokens are never locked. Send anytime!"
-  },
-  "baker": {
-    "message": "Piekarz",
-    "englishSource": "Baker"
-  },
-  "bakerInputDescription": {
-    "message": "Adres zarejestrowanego piekarza.",
-    "englishSource": "Address of a registered baker."
-  },
-  "producer": {
-    "message": "Producent",
-    "englishSource": "Producer"
-  },
-  "producerInputDescription": {
-    "message": "Adres zarejestrowanego producenta.",
-    "englishSource": "Address of a registered producer."
-  },
-  "bakerInputDescriptionWithDomain": {
-    "message": "Adres lub nazwa domeny zarejestrowanego piekarza.",
-    "englishSource": "Address or domain name of a registered baker."
-  },
-  "bakerInputPlaceholder": {
-    "message": "np. 0xb3d1df68...",
-    "englishSource": "e.g. 0xb3d1df68..."
-  },
-  "minDelegationAmountTitle": {
-    "message": "Minimalna kwota delegacji",
-    "englishSource": "Minimal delegation amount"
-  },
-  "unknownBakerTitle": {
-    "message": "Nieznany piekarz",
-    "englishSource": "Unknown baker"
-  },
-  "unknownBakerDescription": {
-    "message": "Podany adres nie jest nam znany jako piekarzowi! Przekazuj mu środki wyłącznie na własne ryzyko.",
-    "englishSource": "Provided address is not known to us as a baker! Only delegate funds to it at your own risk."
-  },
-  "delegateToRecommendedBakers": {
-    "message": "Delegat do Polecanych Piekarzy",
-    "englishSource": "Delegate to Recommended Bakers"
-  },
-  "sortBy": {
-    "message": "Sortuj według",
-    "englishSource": "Sort by"
   },
   "notEnoughFunds": {
     "message": "Za mało środków",
@@ -1463,10 +527,6 @@
     "message": "Nie wystarczy $currency$ fundusze",
     "englishSource": "Not enough $currency$ funds"
   },
-  "notAllowed": {
-    "message": "Niedozwolony",
-    "englishSource": "Not allowed"
-  },
   "failed": {
     "message": "Przegrany",
     "englishSource": "Failed"
@@ -1474,26 +534,6 @@
   "yourBalanceIsZero": {
     "message": "Twoje saldo wynosi zero.",
     "englishSource": "Your Balance is zero."
-  },
-  "minimalFeeGreaterThanBalance": {
-    "message": "Minimalna opłata za tę transakcję jest większa niż Twoje saldo.",
-    "englishSource": "Minimal fee for this transaction is greater than your balance."
-  },
-  "alreadyDelegatedFundsToBaker": {
-    "message": "Już przekazałeś fundusze temu piekarzowi. Ponowne delegowanie nie jest możliwe.",
-    "englishSource": "Already delegated funds to this baker. Re-delegation is not possible."
-  },
-  "bakerNotRegistered": {
-    "message": "Podany piekarz nie jest zarejestrowany.",
-    "englishSource": "Specified baker is not registered."
-  },
-  "unableToPerformActionToBaker": {
-    "message": "Nie mogę $action$ do dostarczonego Bakera.",
-    "englishSource": "Unable to $action$ to the provided Baker."
-  },
-  "estimateDelegation": {
-    "message": "Oszacuj delegację",
-    "englishSource": "Estimate delegation"
   },
   "thisMayHappenBecause": {
     "message": "Może się to zdarzyć, ponieważ:",
@@ -1507,133 +547,21 @@
     "message": "Sieć lub inny problem techniczny.",
     "englishSource": "Network or other technical issue."
   },
-  "unableToDelegateToKTAddress": {
-    "message": "Nie można delegować na adres kontraktowy KT...",
-    "englishSource": "Unable to delegate to KT... contract address"
-  },
   "confirmAction": {
     "message": "Potwierdzać $action$ ",
     "englishSource": "Confirm $action$"
-  },
-  "payloadToSign": {
-    "message": "Ładunek do podpisania",
-    "englishSource": "Payload to sign"
-  },
-  "decline": {
-    "message": "Spadek",
-    "englishSource": "Decline"
   },
   "confirm": {
     "message": "Potwierdzać",
     "englishSource": "Confirm"
   },
-  "confirmDecryptionPermission": {
-    "message": "Potwierdź zezwolenie na odszyfrowanie",
-    "englishSource": "Confirm Decryption Permission"
-  },
-  "confirmDecryptionPermissionDescription": {
-    "message": "Zapewni to stały dostęp do Twojej historii i nie będzie można go odwołać.",
-    "englishSource": "This will give permanent access to your history and cannot be revoked."
-  },
   "confirmRisk": {
     "message": "Rozumiem ryzyko i chcę kontynuować.",
     "englishSource": "I understand the risk and wish to proceed."
   },
-  "decryptPermission": {
-    "message": "Zezwolenie na odszyfrowanie",
-    "englishSource": "Decryption Permission"
-  },
-  "NO_DECRYPT": {
-    "message": "Ta aplikacja nie może odszyfrować żadnego rekordu przy użyciu żadnego z kluczy widoku.",
-    "englishSource": "This app cannot decrypt any record using any of your view keys."
-  },
-  "DECRYPT_UPON_REQUEST": {
-    "message": "Ta aplikacja może odszyfrować dane tylko za Twoją wyraźną zgodą. Zostaniesz poproszony o żądanie odszyfrowania.",
-    "englishSource": "This app can only decrypt records with your explicit approval. You will be prompted for any decryption request."
-  },
-  "AUTO_DECRYPT": {
-    "message": "Ta aplikacja może automatycznie odszyfrować dowolny rekord bez wyraźnej zgody, tylko wtedy, gdy Twój portfel jest podłączony. Nie widzi Twojego ViewKey.",
-    "englishSource": "This app can automatically decrypt any record it needs to without explicit permission only while your wallet is connected. It cannot see your ViewKey."
-  },
-  "ON_CHAIN_HISTORY": {
-    "message": "<b>OSTRZEŻENIE!</b> Ta aplikacja prosi o podanie Twojej historii w łańcuchu. Upewnij się, że naprawdę ufasz tej aplikacji.",
-    "englishSource": "<b>WARNING!</b> This app is asking for your on-chain history. Make sure you really trust this app."
-  },
-  "NO_DECRYPT_SHORT": {
-    "message": "Nic",
-    "englishSource": "None"
-  },
-  "DECRYPT_UPON_REQUEST_SHORT": {
-    "message": "Na żądanie",
-    "englishSource": "On request"
-  },
-  "AUTO_DECRYPT_SHORT": {
-    "message": "Podczas połączenia",
-    "englishSource": "While connected"
-  },
-  "ON_CHAIN_HISTORY_SHORT": {
-    "message": "Pełny dostęp",
-    "englishSource": "Full access"
-  },
-  "allPrograms": {
-    "message": "wszystkie programy",
-    "englishSource": "all programs"
-  },
-  "canView": {
-    "message": "Można przeglądać",
-    "englishSource": "Can view"
-  },
-  "connectFor": {
-    "message": "Połącz się dla",
-    "englishSource": "Connect for"
-  },
-  "network": {
-    "message": "Sieć",
-    "englishSource": "Network"
-  },
-  "unknownNetwork": {
-    "message": "Nieznany:",
-    "englishSource": "Unknown:"
-  },
-  "backupNewSeedPhrase": {
-    "message": "Nowe zdanie dotyczące nasion",
-    "englishSource": "New Seed Phrase"
-  },
-  "attentionExclamation": {
-    "message": "Uwaga!",
-    "englishSource": "Attention!"
-  },
-  "lockedWalletAlreadyExists": {
-    "message": "Zablokowany portfel <b>już istnieje</b>.\nZaimportowanie nowego <b>zniszczy istniejące</b>.",
-    "englishSource": "Locked wallet <b>already exists</b>.\nImporting a new one will <b>destroy the existing</b>."
-  },
-  "backToUnlockPage": {
-    "message": "wróć do strony Odblokuj",
-    "englishSource": "go back to Unlock page"
-  },
-  "mustBeEqualToPasswordAbove": {
-    "message": "Musi być równe hasłu",
-    "englishSource": "Must be equal to password"
-  },
-  "repeatPassword": {
-    "message": "Powtórz hasło",
-    "englishSource": "Repeat Password"
-  },
-  "repeatPasswordInputDescription": {
-    "message": "Proszę wprowadzić hasło ponownie.",
-    "englishSource": "Please enter the password again."
-  },
-  "confirmTermsError": {
-    "message": "Nie można kontynuować bez potwierdzenia Warunków użytkowania",
-    "englishSource": "Unable to continue without confirming Terms of Usage"
-  },
   "confirmError": {
     "message": "Nie można kontynuować bez potwierdzenia.",
     "englishSource": "Unable to continue without confirming."
-  },
-  "acceptTerms": {
-    "message": "Zaakceptuj warunki",
-    "englishSource": "Accept terms"
   },
   "termsOfUsage": {
     "message": "Warunki użytkowania",
@@ -1643,25 +571,9 @@
     "message": "Plik",
     "englishSource": "File"
   },
-  "keystoreFile": {
-    "message": "Plik magazynu kluczy",
-    "englishSource": "Keystore File"
-  },
   "filePassword": {
     "message": "Hasło pliku",
     "englishSource": "File Password"
-  },
-  "filePasswordInputDescription": {
-    "message": "Wprowadź hasło do pliku magazynu kluczy",
-    "englishSource": "Please enter a password for keystore file"
-  },
-  "fileInputPrompt": {
-    "message": "Wybierz plik lub przeciągnij go tutaj",
-    "englishSource": "Choose a file or drag it here"
-  },
-  "useKeystorePassword": {
-    "message": "Użyj hasła pliku jako hasła rozszerzenia",
-    "englishSource": "Use File Password as Extension password"
   },
   "create": {
     "message": "Tworzyć",
@@ -1671,10 +583,6 @@
     "message": "Import",
     "englishSource": "Import"
   },
-  "revealNewSeedPhrase": {
-    "message": "<b>Kliknij obszar poniżej</b>, aby wyświetlić nowe zdanie początkowe.\nNastępnie napisz to zdanie na kartce papieru i <b>przechowuj w bezpiecznym miejscu</b>. Albo możesz to zapamiętać.",
-    "englishSource": "<b>Click on area below</b> to reveal your new Seed Phrase.\nThen, write this phrase on a piece of paper and <b>store in a secure location</b>. Or you can memorize it."
-  },
   "doNotSharePhrase1": {
     "message": "NIE udostępniaj nikomu tego wyrażenia!",
     "englishSource": "DO NOT share this phrase with anyone!"
@@ -1683,29 +591,9 @@
     "message": "Można go użyć do kradzieży wszystkich kont.",
     "englishSource": "It can be used to steal all your accounts."
   },
-  "doSavePhrase": {
-    "message": "<b>Skopiuj</b> to zdanie na papierze i przechowuj je w bezpiecznym miejscu.",
-    "englishSource": "<b>Copy</b> this phrase on paper and store it in a secure location."
-  },
   "youWillNeedThisSeedPhrase": {
     "message": "Zapisz tajną frazę odzyskiwania i przechowuj ją w bezpiecznym miejscu. To zdanie to jedyny sposób na odzyskanie konta. Nie udostępniaj go nikomu. Każdy, kto zna to zdanie, może zabrać Twoje aktywa na zawsze.",
     "englishSource": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever."
-  },
-  "changeSeedPhrase": {
-    "message": "Zmień frazę źródłową",
-    "englishSource": "Change Seed Phrase"
-  },
-  "unableToContinueWithoutConfirming": {
-    "message": "Nie można kontynuować bez potwierdzenia",
-    "englishSource": "Unable to continue without confirming"
-  },
-  "backupedInputLabel": {
-    "message": "Zrobiłem kopię zapasową Seed Phrase",
-    "englishSource": "I made Seed Phrase backup"
-  },
-  "backupedInputDescription": {
-    "message": "I zaakceptuj ryzyko, że jeśli stracę to zdanie,\nmoje środki mogą zostać utracone.",
-    "englishSource": "And accept the risks that if I lose the phrase,\nmy funds may be lost."
   },
   "continue": {
     "message": "Kontynuować",
@@ -1715,30 +603,6 @@
     "message": "Nie znaleziono żadnych operacji",
     "englishSource": "No operations found"
   },
-  "pending": {
-    "message": "aż do...",
-    "englishSource": "pending..."
-  },
-  "applied": {
-    "message": "Stosowany",
-    "englishSource": "Applied"
-  },
-  "skipped": {
-    "message": "Pominięte",
-    "englishSource": "Skipped"
-  },
-  "backtracked": {
-    "message": "cofnął się",
-    "englishSource": "backtracked"
-  },
-  "operationSuccessfullyProcessed": {
-    "message": "$type$ pomyślnie przetworzone i potwierdzone!",
-    "englishSource": "$type$ successfully processed and confirmed!"
-  },
-  "timedOutOperationConfirmation": {
-    "message": "Potwierdzenie operacji przekroczyło limit czasu. Możesz poczekać dłużej lub spróbować ponownie później.",
-    "englishSource": "Timed out operation confirmation. You can either wait more time or try again later."
-  },
   "accountToBeRemoved": {
     "message": "Konto do usunięcia.",
     "englishSource": "Account to be removed."
@@ -1746,14 +610,6 @@
   "ifYouWantToRemoveAnotherAccount": {
     "message": "Jeżeli chcesz usunąć kolejne konto – wybierz je z menu rozwijanego w prawym górnym rogu.",
     "englishSource": "If you want to remove another account - select it in the top-right dropdown."
-  },
-  "cannotBeRemoved": {
-    "message": "Nie można usunąć",
-    "englishSource": "Cannot be removed"
-  },
-  "importedPlural": {
-    "message": "importowany",
-    "englishSource": "imported"
   },
   "enterPasswordToRemoveAccount": {
     "message": "Wprowadź hasło, aby usunąć Konto.",
@@ -1783,14 +639,6 @@
     "message": "Ścieżka wyprowadzenia",
     "englishSource": "Derivation path"
   },
-  "derivationType": {
-    "message": "Typ wyprowadzenia",
-    "englishSource": "Derivation type"
-  },
-  "derivationTypeFieldDescription": {
-    "message": "Krzywa eliptyczna, której będzie używać konto.",
-    "englishSource": "The elliptical curve that the account will use."
-  },
   "seedPhrase": {
     "message": "Seed Phrase",
     "englishSource": "Seed Phrase"
@@ -1802,10 +650,6 @@
   "derivationPathExample": {
     "message": "m/44'/0'/<indeks_konta>'/0'",
     "englishSource": "m/44'/0'/<account_index>'/0'"
-  },
-  "derivationPathExample2": {
-    "message": "np. m/44'/1729'/...",
-    "englishSource": "e.g. m/44'/1729'/..."
   },
   "keepSeedPhraseSecret": {
     "message": "Zachowaj to w tajemnicy.",
@@ -1827,37 +671,9 @@
     "message": "Odbiorca",
     "englishSource": "Recipient"
   },
-  "tokensRecepientInputDescription": {
-    "message": "Adres do wysłania $assetSymbol$ fundusze na.",
-    "englishSource": "Address to send $assetSymbol$ funds to."
-  },
-  "tokensRecepientInputDescriptionWithDomain": {
-    "message": "Adres lub domena Aleo do wysłania $assetSymbol$ fundusze na.",
-    "englishSource": "Address or Aleo domain to send $assetSymbol$ funds to."
-  },
-  "addressInputDescription": {
-    "message": "Adres konta Aleo lub Smart Contract.",
-    "englishSource": "Address of Aleo account or smart contract."
-  },
-  "addressInputDescriptionWithDomain": {
-    "message": "Adres lub domena Aleo konta lub Smart Contract.",
-    "englishSource": "Address or Aleo domain of the account or smart contract."
-  },
   "recipientInputPlaceholder": {
     "message": "np. 0xb3d1df68...",
     "englishSource": "e.g. 0xb3d1df68..."
-  },
-  "recipientInputPlaceholderWithDomain": {
-    "message": "np. alice.aleo lub 0xb3d1df68...",
-    "englishSource": "e.g. alice.aleo or 0xb3d1df68..."
-  },
-  "tryingToTransferToYourself": {
-    "message": "Próbujesz przelać środki do siebie.\nUpewnij się, że jest to dokładnie to, czego chcesz.",
-    "englishSource": "You're trying to transfer funds to yourself.\nPlease, ensure that it's exactly what you want."
-  },
-  "tryingToTransferToContract": {
-    "message": "Próbujesz przelać środki na kontrakt.\nUpewnij się, że jest to dokładnie to, czego chcesz.",
-    "englishSource": "You're trying to transfer funds to contract.\nPlease, ensure that it's exactly what you want."
   },
   "viewKeyInputPlaceholder": {
     "message": "np. AViewKey1iHE...",
@@ -1866,30 +682,6 @@
   "amount": {
     "message": "Kwota",
     "englishSource": "Amount"
-  },
-  "availableToSend": {
-    "message": "Dostępne do wysłania (maks.):",
-    "englishSource": "Available to send(max):"
-  },
-  "inFiat": {
-    "message": "w Fiacie",
-    "englishSource": "in Fiat"
-  },
-  "inAsset": {
-    "message": "W $assetSymbol$ ",
-    "englishSource": "in $assetSymbol$"
-  },
-  "amountPlaceholder": {
-    "message": "np. 123,45",
-    "englishSource": "e.g. 123.45"
-  },
-  "sendToMyAccounts": {
-    "message": "Wyślij do moich kont",
-    "englishSource": "Send to My Accounts"
-  },
-  "clickOnRecipientAccount": {
-    "message": "Kliknij Konto, na które chcesz przesłać środki.",
-    "englishSource": "Click on Account you want to send funds to."
   },
   "mainAssetBalanceIsZero": {
     "message": "Saldo Twoich kredytów Miden (głównego aktywa) wynosi zero. Do opłaty wymagane są kredyty Miden.",
@@ -1903,54 +695,6 @@
     "message": "Nie można oszacować transakcji dla podanego odbiorcy.",
     "englishSource": "Unable to estimate transaction to provided Recipient."
   },
-  "makeSureToBackupSeedPhrase": {
-    "message": "Pamiętaj o utworzeniu kopii zapasowej frazy początkowej!",
-    "englishSource": "Make sure to back up your seed phrase!"
-  },
-  "exploreMore": {
-    "message": "Odkryj więcej...",
-    "englishSource": "Explore more..."
-  },
-  "selfComment": {
-    "message": "(ja)",
-    "englishSource": "(self)"
-  },
-  "deleteNetworkConfirm": {
-    "message": "Czy na pewno chcesz usunąć tę sieć?",
-    "englishSource": "Are you sure you want to delete this network?"
-  },
-  "networkNamePlaceholder": {
-    "message": "Moja niestandardowa sieć",
-    "englishSource": "My custom network"
-  },
-  "mustBeValidURL": {
-    "message": "Musi to być prawidłowy adres URL",
-    "englishSource": "Must be a valid URL"
-  },
-  "rpcBaseURL": {
-    "message": "Podstawowy adres URL RPC",
-    "englishSource": "RPC base URL"
-  },
-  "mustBeUnique": {
-    "message": "Musi być wyjątkowy",
-    "englishSource": "Must be unique"
-  },
-  "addNetwork": {
-    "message": "Dodaj sieć",
-    "englishSource": "Add network"
-  },
-  "currentNetworks": {
-    "message": "Aktualne sieci",
-    "englishSource": "Current networks"
-  },
-  "deleteNetworkHint": {
-    "message": "Kliknij ikonę X, aby usunąć sieć. Jeśli chcesz edytować sieć, po prostu ją usuń i dodaj kolejną z nowymi parametrami.",
-    "englishSource": "Click on the X icon to delete the network. If you want to edit network, just delete it and add another with new params."
-  },
-  "preview": {
-    "message": "Zapowiedź",
-    "englishSource": "Preview"
-  },
   "raw": {
     "message": "Surowy",
     "englishSource": "Raw"
@@ -1963,65 +707,13 @@
     "message": "Nie zidentyfikowano",
     "englishSource": "Not identified"
   },
-  "connection": {
-    "message": "Połączenie",
-    "englishSource": "Connection"
-  },
   "connect": {
     "message": "Łączyć",
     "englishSource": "Connect"
   },
-  "confirmActionOnDevice": {
-    "message": "Potwierdź akcję",
-    "englishSource": "Confirm the action on"
-  },
-  "ledgerNano": {
-    "message": "Ledgera Nano",
-    "englishSource": "Ledger Nano"
-  },
-  "defaultLedgerName": {
-    "message": "Księga główna $number$ ",
-    "englishSource": "Ledger $number$"
-  },
-  "ledgerNameConstraint": {
-    "message": "1-16 znaków, nic specjalnego",
-    "englishSource": "1-16 characters, no special"
-  },
-  "ledgerNameInputDescription": {
-    "message": "Jaka będzie nazwa nowego konta Ledger?",
-    "englishSource": "What will be the name of the new Ledger account?"
-  },
-  "defaultDerivationPathLabel": {
-    "message": "Domyślnie $path$ stosuje się wyprowadzenie.",
-    "englishSource": "By default $path$ derivation is used."
-  },
-  "clickOnCustomDerivationPath": {
-    "message": "Kliknij opcję „Niestandardowa ścieżka wyprowadzania”, aby ją dostosować.",
-    "englishSource": "Click on 'Custom derivation path' to customize it."
-  },
-  "addLedgerAccount": {
-    "message": "Dodaj konto księgowe",
-    "englishSource": "Add Ledger Account"
-  },
-  "connectionUnavailable": {
-    "message": "Nie płynny",
-    "englishSource": "Unavailable"
-  },
-  "sorry": {
-    "message": "Przepraszam!",
-    "englishSource": "Sorry!"
-  },
-  "upload": {
-    "message": "Wgrywać",
-    "englishSource": "Upload"
-  },
   "languageAndCountry": {
     "message": "Domyślnie używamy języka Twojej przeglądarki. Zmień to poniżej, jeśli Ci to nie odpowiada.",
     "englishSource": "By default, we use the language of your browser. Change it below if that's not to your liking."
-  },
-  "fiatCurrency": {
-    "message": "Domyślna waluta",
-    "englishSource": "Default Currency"
   },
   "generalSettings": {
     "message": "Ogólny",
@@ -2039,30 +731,6 @@
     "message": "Zmień język wyświetlania",
     "englishSource": "Change the display language"
   },
-  "swapNoun": {
-    "message": "Zamieniać",
-    "englishSource": "Swap"
-  },
-  "transfers": {
-    "message": "Transfery",
-    "englishSource": "Transfers"
-  },
-  "someUnknownToken": {
-    "message": "nieznany token $token$ ",
-    "englishSource": "unknown token $token$"
-  },
-  "interactionWithSomeEntrypoint": {
-    "message": "Interakcja z punktem wejścia '$entrypoint$' umowy $contractAddress$ ",
-    "englishSource": "Interaction with entrypoint '$entrypoint$' of contract $contractAddress$"
-  },
-  "transactionOfSomeType": {
-    "message": "Transakcja typu '$type$' ",
-    "englishSource": "Transaction of type '$type$'"
-  },
-  "approveToken": {
-    "message": "Zatwierdź token",
-    "englishSource": "Approve Token"
-  },
   "add": {
     "message": "Dodać",
     "englishSource": "Add"
@@ -2079,33 +747,9 @@
     "message": "Działania",
     "englishSource": "Activities"
   },
-  "attributes": {
-    "message": "Atrybuty",
-    "englishSource": "Attributes"
-  },
-  "activityToolTip": {
-    "message": "Kliknij, żeby zobaczyć pełną historię",
-    "englishSource": "Click to see full history"
-  },
-  "feeToolTip": {
-    "message": "Kliknij, aby edytować opłatę",
-    "englishSource": "Click to edit the fee"
-  },
-  "waitingOnAleo": {
-    "message": "Aleo obecnie nie obsługuje tej funkcjonalności.",
-    "englishSource": "Aleo currently doesn't support this functionality."
-  },
-  "feeNotRequired": {
-    "message": "Obecnie nie jest wymagana żadna opłata.",
-    "englishSource": "There is currently no fee required."
-  },
   "proofGenerationTab": {
     "message": "Do sprawnego generowania dowodów transakcji wymagana jest otwarta zakładka",
     "englishSource": "An open tab is required to efficiently generate transaction proofs"
-  },
-  "manage": {
-    "message": "Zarządzać",
-    "englishSource": "Manage"
   },
   "manageTokens": {
     "message": "Zarządzaj tokenami",
@@ -2127,18 +771,6 @@
     "message": "Wyszukaj zasoby...",
     "englishSource": "Search assets..."
   },
-  "searchByName": {
-    "message": "Szukaj według nazwy...",
-    "englishSource": "Search by name..."
-  },
-  "deployNew": {
-    "message": "Wdróż nowe",
-    "englishSource": "Deploy new"
-  },
-  "managedKTAccount": {
-    "message": "Zarządzał KT",
-    "englishSource": "Managed KT"
-  },
   "watchOnlyAccount": {
     "message": "Zobacz klucz",
     "englishSource": "View Key"
@@ -2147,61 +779,9 @@
     "message": "Wyłączone dla konta tylko do oglądania",
     "englishSource": "Disabled for watch-only account"
   },
-  "activationOperationType": {
-    "message": "Aktywacja",
-    "englishSource": "Activation"
-  },
-  "youAreNotContractManager": {
-    "message": "Nie jesteś menadżerem kontraktu",
-    "englishSource": "You are not a contract manager"
-  },
   "contract": {
     "message": "Umowa",
     "englishSource": "Contract"
-  },
-  "contractAddressInputDescription": {
-    "message": "Adres umowy do podłączenia.",
-    "englishSource": "Address of the contract to connect."
-  },
-  "contractAddressInputPlaceholder": {
-    "message": "np. KT1a9w1S7hN5s...",
-    "englishSource": "e.g. KT1a9w1S7hN5s..."
-  },
-  "addKnownManagedContract": {
-    "message": "Dodaj znaną umowę zarządzaną",
-    "englishSource": "Add known Managed contract"
-  },
-  "clickOnContractToImport": {
-    "message": "Kliknij umowę, którą chcesz zaimportować.",
-    "englishSource": "Click on Contract you want to import."
-  },
-  "notContractAddress": {
-    "message": "To nie jest adres umowny",
-    "englishSource": "Not a contract address"
-  },
-  "contractAlreadyImported": {
-    "message": "Ta umowa została już zaimportowana",
-    "englishSource": "This contract has already been imported"
-  },
-  "waitWhileContractBeingDeployed": {
-    "message": "Proszę nie opuszczać tej strony ani nie zamykać okna w trakcie wdrażania umowy, może to chwilę potrwać. Formularz i ten alert znikną po pomyślnym wdrożeniu.",
-    "englishSource": "Please don't leave this page or close window while contract is being deployed, it may take a while. The form and this alert will disappear as soon as it is successfully deployed."
-  },
-  "justAMinute": {
-    "message": "Tylko minuta...",
-    "englishSource": "Just a minute..."
-  },
-  "referredByTokenContactAddressInvalid": {
-    "message": "Adres umowy $address$ , do którego odnosi się umowa tokenowa, jest nieważna.",
-    "englishSource": "Contract address $address$, which is referred by token contract to, is invalid."
-  },
-  "someNetworkIsNotCurrent": {
-    "message": "Określono sieć $network$, która nie jest siecią bieżącą",
-    "englishSource": "$network$ network was specified, which is not current network"
-  },
-  "someNetworkWithChainIdIsNotCurrent": {
-    "message": "Identyfikator łańcucha $chainId$ został określony, który nie jest identyfikatorem łańcucha bieżącej sieci",
-    "englishSource": "Chain ID $chainId$ was specified, which is not chain ID of current network"
   },
   "popupSettings": {
     "message": "Tryb wyskakujący",
@@ -2210,14 +790,6 @@
   "popupSettingsDescription": {
     "message": "Tutaj możesz skonfigurować wyskakujące okienko pojawiające się po kliknięciu ikony wtyczki w panelu rozszerzeń.",
     "englishSource": "Here you can configure the popup which appears on plugin's icon click in extensions panel."
-  },
-  "gpuSettings": {
-    "message": "Przyspieszenie GPU *Eksperymentalne*",
-    "englishSource": "GPU Acceleration *Experimental*"
-  },
-  "gpuSettingsDescription": {
-    "message": "Tutaj możesz włączyć lub wyłączyć akcelerację GPU, aby przyspieszyć synchronizację i generowanie wydruków próbnych. Ta funkcja nie jest stabilna i może powodować awarie.",
-    "englishSource": "Here you can turn GPU acceleration on or off to accelerate syncing and proof generation. This feature is not stable and may cause crashes."
   },
   "delegateProofSettings": {
     "message": "Deleguj generowanie dowodu",
@@ -2243,125 +815,13 @@
     "message": "Tutaj możesz skonfigurować wysyłanie anonimowych statystyk, które pomagają nam udoskonalać produkt.",
     "englishSource": "Here you can configure sending of anonymous analytics that helps us to improve the product."
   },
-  "managedContract": {
-    "message": "Zarządzany kontrakt",
-    "englishSource": "Managed Contract"
-  },
-  "referredByTokenContractNotFound": {
-    "message": "Umowa $address$ , do którego odnosi się kontrakt tokenowy, nie został znaleziony.",
-    "englishSource": "Contract $address$, which is referred by token contract to, was not found."
-  },
-  "tokenContractNotFound": {
-    "message": "Nie znaleziono umowy.",
-    "englishSource": "The contract was not found."
-  },
-  "failedToParseMetadata": {
-    "message": "Nie udało się przeanalizować metadanych",
-    "englishSource": "Failed to parse metadata"
-  },
-  "unknownParseErrorOccurred": {
-    "message": "Wystąpił nieznany błąd analizy.",
-    "englishSource": "An unknown parsing error occurred."
-  },
-  "errorWhileFetchingUrl": {
-    "message": "Wystąpił błąd podczas pobierania z $url$ ",
-    "englishSource": "Error occurred while fetching from $url$"
-  },
-  "invalidManagedContract": {
-    "message": "Nieprawidłowy kontrakt zarządzany",
-    "englishSource": "Invalid managed contract"
-  },
-  "someMethodNotDefinedInContract": {
-    "message": " '$name$' metoda nie jest zdefiniowana w umowie.",
-    "englishSource": "'$name$' method isn't defined in contract."
-  },
-  "someMethodSignatureDoesNotMatchStandard": {
-    "message": " '$name$' podpis metody nie jest zgodny ze standardem.",
-    "englishSource": "'$name$' method's signature doesn't match the standard."
-  },
-  "failedToLoadChainID": {
-    "message": "Nie udało się załadować identyfikatora łańcucha dla tej sieci",
-    "englishSource": "Failed to load chain ID for this network"
-  },
-  "makeSureTokenIdIsCorrect": {
-    "message": "Upewnij się, że identyfikator zasobu jest prawidłowy.",
-    "englishSource": "Please make sure that asset ID is correct."
-  },
-  "unknownErrorCheckingSomeEntrypoint": {
-    "message": "Nieznany błąd podczas sprawdzania '$name$' wystąpił punkt wejścia.",
-    "englishSource": "An unknown error while checking '$name$' entrypoint occurred."
-  },
-  "incorrectTokenIdErrorMessage": {
-    "message": "Nie udało się przetworzyć zasobu z podanymi danymi. Upewnij się, że identyfikator zasobu jest prawidłowy.",
-    "englishSource": "Failed while processing asset with provided data. Please make sure that asset ID is correct."
-  },
   "transfer": {
     "message": "Przenosić",
     "englishSource": "Transfer"
   },
-  "credit": {
-    "message": "kredyt",
-    "englishSource": "credit"
-  },
-  "credits": {
-    "message": "kredyty",
-    "englishSource": "credits"
-  },
-  "coinbaseReward": {
-    "message": "Nagroda Coinbase",
-    "englishSource": "Coinbase Reward"
-  },
-  "origination": {
-    "message": "Powstawanie",
-    "englishSource": "Origination"
-  },
-  "transferFromSmb": {
-    "message": "z $sender$ ",
-    "englishSource": "from $sender$"
-  },
-  "transferToSmb": {
-    "message": "Do $receiver$ ",
-    "englishSource": "to $receiver$"
-  },
-  "interaction": {
-    "message": "Wzajemne oddziaływanie",
-    "englishSource": "Interaction"
-  },
-  "interactionWithContract": {
-    "message": "z $contract$ ",
-    "englishSource": "with $contract$"
-  },
-  "delegationToSmb": {
-    "message": "Do $delegate$ ",
-    "englishSource": "to $delegate$"
-  },
-  "fa2TokenAlreadyExists": {
-    "message": "Token z adresem $address$ i dowód osobisty $tokenId$ już istnieje.",
-    "englishSource": "Token with address $address$ and ID $tokenId$ already exists."
-  },
-  "nonFa2TokenAlreadyExists": {
-    "message": "Token z adresem $address$ już istnieje.",
-    "englishSource": "Token with address $address$ already exists."
-  },
-  "approveForSmb": {
-    "message": "Do $spender$ ",
-    "englishSource": "for $spender$"
-  },
-  "undelegation": {
-    "message": "Niedelegowanie",
-    "englishSource": "Undelegation"
-  },
-  "bytes": {
-    "message": "Bajty",
-    "englishSource": "Bytes"
-  },
   "clean": {
     "message": "Czysty",
     "englishSource": "Clean"
-  },
-  "errorChangingAccountName": {
-    "message": "Wystąpił błąd podczas zmiany nazwy konta",
-    "englishSource": "An error occurred while changing account name"
   },
   "ok": {
     "message": "OK",
@@ -2379,129 +839,13 @@
     "message": "Potwierdź akcję",
     "englishSource": "Confirm the action"
   },
-  "domainDoesntResolveToAddress": {
-    "message": "Domena \" $value$ \" nie jest rozpoznawany jako adres",
-    "englishSource": "Domain \"$value$\" doesn't resolve to an address"
-  },
-  "invalidAddressOrDomain": {
-    "message": "Nieprawidłowy adres lub nazwa domeny",
-    "englishSource": "Invalid address or domain name"
-  },
-  "resolvedAddress": {
-    "message": "Ustalony adres",
-    "englishSource": "Resolved address"
-  },
-  "invalidRpcCantGetChainId": {
-    "message": "Nieprawidłowy RPC: nie można uzyskać identyfikatora łańcucha",
-    "englishSource": "Invalid RPC: Cannot get chain id"
-  },
-  "contractNotOriginated": {
-    "message": "Umowa nie powstała",
-    "englishSource": "Contract not originated"
-  },
-  "welcomeTo": {
-    "message": "Witamy w",
-    "englishSource": "Welcome to"
-  },
-  "domain": {
-    "message": "Domena",
-    "englishSource": "Domain"
-  },
-  "hash": {
-    "message": "Haszysz",
-    "englishSource": "Hash"
-  },
-  "defaultAccount": {
-    "message": "Konto domyślne (pierwsze)",
-    "englishSource": "Default account (the first one)"
-  },
-  "loadMore": {
-    "message": "Załaduj więcej",
-    "englishSource": "Load more"
-  },
   "submit": {
     "message": "Składać",
     "englishSource": "Submit"
   },
-  "invalidJsonInput": {
-    "message": "Nieprawidłowy JSON",
-    "englishSource": "Invalid JSON"
-  },
-  "notFaucetJson": {
-    "message": "To nie jest Faucet JSON",
-    "englishSource": "Not a faucet JSON"
-  },
-  "faucetJson": {
-    "message": "Faucet JSON",
-    "englishSource": "Faucet JSON"
-  },
-  "faucetJsonDescription": {
-    "message": "Zamiast dodawać plik, możesz wkleić tutaj JSON",
-    "englishSource": "You can paste JSON here instead of adding file"
-  },
-  "unknownErrorFromRPC": {
-    "message": "Nie udało się wysłać żądania do $url$ . Dostarczono nieprawidłowe żądanie lub węzeł RPC jest tymczasowo nieosiągalny.",
-    "englishSource": "Failed to send request to $url$. Invalid request provided or RPC node is temporarily unreachable."
-  },
-  "emptyImplicitContract": {
-    "message": "Twoje konto jest puste. Wpłać dowolną kwotę kredytów aleo na to konto, aby je aktywować",
-    "englishSource": "Your account is empty. Deposit any aleo credits amount on this account to activate it"
-  },
-  "balanceTooLow": {
-    "message": "Saldo żetonów gazu jest zbyt niskie",
-    "englishSource": "Gas token balance is too low"
-  },
-  "swap": {
-    "message": "Zamieniać",
-    "englishSource": "Swap"
-  },
-  "accountNumber": {
-    "message": "Numer konta",
-    "englishSource": "Account number"
-  },
-  "noExchangersAvailable": {
-    "message": "Przepraszamy, dla bieżącej sieci nie są dostępne żadne wymienniki.",
-    "englishSource": "Sorry, no exchangers are available for the current network."
-  },
-  "noResults": {
-    "message": "Brak wyników",
-    "englishSource": "No Results"
-  },
-  "aleoApy": {
-    "message": "RRSO: 6%",
-    "englishSource": "APY: 6%"
-  },
-  "tokenApy": {
-    "message": "RRSO",
-    "englishSource": "APY"
-  },
   "max": {
     "message": "Maks",
     "englishSource": "Max"
-  },
-  "balance": {
-    "message": "Balansować",
-    "englishSource": "Balance"
-  },
-  "convertToPrivate": {
-    "message": "Zmień na prywatny",
-    "englishSource": "Convert to private"
-  },
-  "convertToPublic": {
-    "message": "Konwertuj na publiczny",
-    "englishSource": "Convert to public"
-  },
-  "convertPublicPrivate": {
-    "message": "Konwertuj na publiczny/prywatny",
-    "englishSource": "Convert to Public/Private"
-  },
-  "toConvert": {
-    "message": "konwertować",
-    "englishSource": "to convert"
-  },
-  "willGet": {
-    "message": "dostaniesz",
-    "englishSource": "you will get"
   },
   "from": {
     "message": "Z",
@@ -2511,249 +855,37 @@
     "message": "Do",
     "englishSource": "To"
   },
-  "toAsset": {
-    "message": "Do",
-    "englishSource": "To"
-  },
-  "via": {
-    "message": "Przez",
-    "englishSource": "Via"
-  },
-  "swapRoute": {
-    "message": "Zmień trasę",
-    "englishSource": "Swap route"
-  },
-  "exchangeRate": {
-    "message": "Kurs wymiany",
-    "englishSource": "Exchange rate"
-  },
-  "priceImpact": {
-    "message": "Wpływ na cenę",
-    "englishSource": "Price impact"
-  },
-  "slippageTolerance": {
-    "message": "Tolerancja poślizgu",
-    "englishSource": "Slippage tolerance"
-  },
   "received": {
     "message": "Otrzymane",
     "englishSource": "Received"
-  },
-  "sending": {
-    "message": "Przesyłka",
-    "englishSource": "Sending"
-  },
-  "sent": {
-    "message": "Wysłano",
-    "englishSource": "Sent"
-  },
-  "executing": {
-    "message": "Wykonywanie",
-    "englishSource": "Executing"
-  },
-  "executed": {
-    "message": "Wykonany",
-    "englishSource": "Executed"
-  },
-  "minted": {
-    "message": "Wybity",
-    "englishSource": "Minted"
-  },
-  "minimumReceived": {
-    "message": "Otrzymano minimum",
-    "englishSource": "Minimum received"
-  },
-  "inputOutputAssetsCannotBeSame": {
-    "message": "Aktywa wejściowe i wyjściowe nie mogą być takie same",
-    "englishSource": "Input and output assets cannot be the same"
-  },
-  "nft": {
-    "message": "NFT",
-    "englishSource": "NFT"
-  },
-  "noNFTsYet": {
-    "message": "Nie ma jeszcze NFT",
-    "englishSource": "No NFTs yet"
-  },
-  "noNFTsSubMessage": {
-    "message": "Gdy już będziesz mieć swój NFT, zobaczysz go tutaj.",
-    "englishSource": "You will see your NFT here once you have one."
-  },
-  "helpAndCommunity": {
-    "message": "Pomoc",
-    "englishSource": "Help & Community"
-  },
-  "communityResourcesTitle": {
-    "message": "Zawsze możesz znaleźć dodatkowe informacje na temat portfela Leo lub poprosić o pomoc w zakresie kolejnych zasobów.",
-    "englishSource": "You may always find additional info about the Leo wallet or ask for help on the next resources."
-  },
-  "helpAndCommunityDescription": {
-    "message": "Skorzystaj z tej sekcji, jeśli chcesz być częścią naszej społeczności lub potrzebujesz pomocy.",
-    "englishSource": "Use this section if you want to be a part of our community or need help."
-  },
-  "joinPrompt": {
-    "message": "Zapraszamy do dołączenia i zadawania pytań 😊",
-    "englishSource": "Feel free to join and ask your questions 😊"
-  },
-  "sourceLink": {
-    "message": "Link źródłowy",
-    "englishSource": "Source Link"
-  },
-  "blockExplorer": {
-    "message": "Eksplorator Blockchain",
-    "englishSource": "Blockchain explorer"
-  },
-  "explorer": {
-    "message": "Odkrywca",
-    "englishSource": "Explorer"
-  },
-  "explorerLink": {
-    "message": "Przejdź do Eksploratora",
-    "englishSource": "Go to Explorer"
-  },
-  "specifyTokenId": {
-    "message": "Określ identyfikator tokena",
-    "englishSource": "Specify token ID"
-  },
-  "notWhitelistedTokenWarning": {
-    "message": "Uwaga! Jeden z tokenów, który próbujesz wymienić, nie znajduje się na białej liście. Możesz wchodzić z nimi w interakcję na własne ryzyko.",
-    "englishSource": "Attention! One of the tokens you’re trying to exchange is not whitelisted. You can interact with them at your own risk."
-  },
-  "tvl": {
-    "message": "TVL",
-    "englishSource": "TVL"
-  },
-  "promoted": {
-    "message": "Lansowany",
-    "englishSource": "Promoted"
-  },
-  "searchDApps": {
-    "message": "Wyszukaj DApps",
-    "englishSource": "Search DApps"
-  },
-  "game": {
-    "message": "Gra",
-    "englishSource": "Game"
-  },
-  "social": {
-    "message": "Społeczny",
-    "englishSource": "Social"
-  },
-  "marketplace": {
-    "message": "Rynek",
-    "englishSource": "Marketplace"
-  },
-  "farming": {
-    "message": "Rolnictwo",
-    "englishSource": "Farming"
   },
   "other": {
     "message": "Inny",
     "englishSource": "Other"
   },
-  "noMatchingDAppsFound": {
-    "message": "Nie znaleziono pasujących dApps",
-    "englishSource": "No matching dApps were found"
+  "thousandFormat": {
+    "message": "$tysiąc$k",
+    "englishSource": "$thousand$k"
   },
-  "gasFee": {
-    "message": "Opłata za gaz",
-    "englishSource": "Gas fee"
+  "millionFormat": {
+    "message": "milion dolarów",
+    "englishSource": "$million$M"
   },
-  "storageFee": {
-    "message": "Opłata za przechowywanie",
-    "englishSource": "Storage fee"
-  },
-  "leoWalletFeeWarning": {
-    "message": "Leo Wallet na razie nie pobiera żadnych opłat od giełd, ale może to obowiązywać w przyszłości.",
-    "englishSource": "Leo Wallet doesn't apply any fees to exchanges for now but it may apply in the future."
-  },
-  "poolExchangeFee": {
-    "message": "Opłata za wymianę basenu",
-    "englishSource": "Pool exchange fee"
-  },
-  "PriceImpactInfo": {
-    "message": "Różnica między ceną rynkową a ceną szacunkową wynikającą z wielkości transakcji",
-    "englishSource": "The difference between the market price and estimated price due to trade size"
-  },
-  "selectToken": {
-    "message": "Wybierz Token",
-    "englishSource": "Select Token"
-  },
-  "viewAll": {
-    "message": "Zobacz wszystkie",
-    "englishSource": "View all"
-  },
-  "storageUsed": {
-    "message": "Całkowite wykorzystanie pamięci",
-    "englishSource": "Total Storage Used"
+  "billionFormat": {
+    "message": "miliard dolarów",
+    "englishSource": "$billion$B"
   },
   "uploadFile": {
     "message": "Prześlij plik",
     "englishSource": "Upload File"
   },
-  "fileSize": {
-    "message": "Rozmiar pliku",
-    "englishSource": "File Size"
-  },
-  "downloadDefaultFiles": {
-    "message": "Pobierz pliki domyślne",
-    "englishSource": "Download Default Files"
-  },
   "download": {
     "message": "Pobierać",
     "englishSource": "Download"
   },
-  "storageFeeMax": {
-    "message": "Opłata za przechowywanie (maks.)",
-    "englishSource": "Storage fee (max)"
-  },
-  "storageLimit": {
-    "message": "Dostosuj limit miejsca",
-    "englishSource": "Adjust storage limit"
-  },
-  "txIsLikelyToFail": {
-    "message": "Ostrzeżenie! Transakcja prawdopodobnie się nie powiedzie",
-    "englishSource": "Warning! Transaction is likely to fail"
-  },
-  "copyErrorLogs": {
-    "message": "Skopiuj dzienniki błędów",
-    "englishSource": "Copy Error Logs"
-  },
-  "dAppsListTvlDescription": {
-    "message": "Całkowita wartość zablokowana. Wartość w kredytach aleo to łączna liczba kredytów aleo zablokowanych w dApps. Wartość w USD to całkowita ilość zablokowanych tam kredytów aleo i tokenów.",
-    "englishSource": "Total Value Locked. The value in aleo credits is the total amount of aleo credits locked in dApps. The value in USD is the total amount of aleo credits and tokens locked there."
-  },
-  "noFavoriteDApps": {
-    "message": "Nie masz żadnych ulubionych dApps",
-    "englishSource": "You don't have any favorite dApps"
-  },
   "more": {
     "message": "więcej",
     "englishSource": "more"
-  },
-  "less": {
-    "message": "mniej",
-    "englishSource": "less"
-  },
-  "recentDestinations": {
-    "message": "Ostatnie kierunki",
-    "englishSource": "Recent destinations"
-  },
-  "unknownAccount": {
-    "message": "Nieznane konto",
-    "englishSource": "Unknown account"
-  },
-  "ledgerLiveBridgeGuide": {
-    "message": "Aby połączyć się z Ledger, aktywuj aplikację Ledger Live na swoim urządzeniu, otwórz aplikację Aleo Wallet i zezwól na połączenie WebSocket ze swoim kontem Leo.",
-    "englishSource": "To connect to Ledger, please activate the Ledger Live application on your device, open Aleo Wallet application and allow a WebSocket connection to your Leo account."
-  },
-  "ledgerBridgeGuide": {
-    "message": "Aby połączyć się z Księgą, aktywuj swoje urządzenie i otwórz aplikację Aleo Wallet.",
-    "englishSource": "To connect the Ledger, please activate your device and open Aleo Wallet application."
-  },
-  "noExchangerFoundForToken": {
-    "message": "Nie znaleziono żadnego wymiennika dla tokena $symbol$  ( $name$ ).",
-    "englishSource": "No exchanger was found for token $symbol$ ($name$)."
   },
   "addressBook": {
     "message": "Książka adresowa",
@@ -2783,10 +915,6 @@
     "message": "Aktualne kontakty",
     "englishSource": "Current contacts"
   },
-  "updateContactDescription": {
-    "message": "Aby zaktualizować istniejący kontakt, po prostu go usuń\ni dodaj nowy.",
-    "englishSource": "To update an existing contact, just remove it\nand add a new one."
-  },
   "deleteContactConfirm": {
     "message": "Czy na pewno chcesz usunąć ten kontakt?",
     "englishSource": "Are you sure you want to delete this contact?"
@@ -2795,33 +923,13 @@
     "message": "Własny",
     "englishSource": "Own"
   },
-  "counterErrorDescription": {
-    "message": "W tej chwili nie możesz przeprowadzić operacji!\nPoczekaj, aż poprzednia operacja zostanie zastosowana i spróbuj ponownie.",
-    "englishSource": "You can not conduct the operation at the moment!\nPlease, wait when your previous operation is applied and retry."
-  },
-  "swapDisclaimerTitle": {
-    "message": "Zastrzeżenie. Wersja Beta, przeczytaj przed skorzystaniem z sekcji SWAP.",
-    "englishSource": "Disclaimer. Beta version, read before using the SWAP section."
-  },
-  "swapDisclaimerContent": {
-    "message": "Portfel Leo zapewnia jedynie interfejs do interakcji z Aleo Dexami. \n\nNie ponosimy odpowiedzialności za: problemy z DEX, wyświetlane tokeny, cenę, kursy wymiany i decyzje handlowe użytkowników. \n\nPrzed skorzystaniem z tej sekcji wymiany należy zapoznać się z odpowiednią dokumentacją, aby zrozumieć, jak działają protokoły DEX(AMM). \n\nKorzystanie z tej sekcji odbywa się wyłącznie na odpowiedzialność użytkownika.",
-    "englishSource": "Leo wallet only provides an interface to interact with the Aleo Dexes. \n\nWe are not responsible for: DEX issues, displayed tokens, price, exchange rates, and user trading decisions. \n\nBefore using this Swap Section, you should review the relevant documentation to understand how the DEX(AMM) protocols work. \n\nUsing this section is solely the user's responsibility."
-  },
   "noContactsFound": {
     "message": "Nie znaleziono żadnych kontaktów",
     "englishSource": "No contacts found"
   },
-  "addThisAddressToContacts": {
-    "message": "Dodać ten adres do kontaktów?",
-    "englishSource": "Add this address to contacts?"
-  },
   "verifySeedPhrase": {
     "message": "Sprawdź frazę źródłową",
     "englishSource": "Verify Seed Phrase"
-  },
-  "verifySeedPhraseDescription": {
-    "message": "Wypełnij puste pola słowami, aby zweryfikować kopię zapasową frazy początkowej",
-    "englishSource": "Fill in the blank fields with the words to verify your Seed Phrase backup"
   },
   "word": {
     "message": "Słowo $number$ ",
@@ -2831,10 +939,6 @@
     "message": "Skończyć",
     "englishSource": "Finish"
   },
-  "welcomeToOnboarding": {
-    "message": "Witamy w Onboardingu",
-    "englishSource": "Welcome to Onboarding"
-  },
   "onboarding": {
     "message": "Proces wdrażania do firmy nowego pracownika",
     "englishSource": "Onboarding"
@@ -2843,193 +947,13 @@
     "message": "Następny",
     "englishSource": "Next"
   },
-  "updatingMinMax": {
-    "message": "Aktualizowanie min./maks....",
-    "englishSource": "Updating min/max..."
-  },
   "done": {
     "message": "Zrobione",
     "englishSource": "Done"
   },
-  "standWithUkraine": {
-    "message": "Stań po stronie Ukrainy",
-    "englishSource": "Stand with Ukraine"
-  },
-  "addressBalanceDetails": {
-    "message": "Twój adres i saldo",
-    "englishSource": "Your address and balance"
-  },
-  "addressBalanceDescription": {
-    "message": "Po utworzeniu konta otrzymasz unikalny adres – Twój osobisty identyfikator w blockchainie Aleo. Jeśli chcesz otrzymywać i wykorzystywać kredyty Aleo lub tokeny Aleo zbudowane w Leo, skorzystaj z tego adresu.",
-    "englishSource": "After creating an account, you’ll get a unique address — your personal identifier in the Aleo blockchain. If you would like to receive and use Aleo credits or Aleo-built tokens in Leo, you should use this address."
-  },
-  "addressBalanceHint": {
-    "message": "Saldo Twoich środków Aleo jest wyświetlane pod adresem publicznym.",
-    "englishSource": "The balance of your Aleo credits is displayed under the public address."
-  },
-  "howToStartDetails": {
-    "message": "Jak zacząć",
-    "englishSource": "How to start"
-  },
-  "howToStartDescription1": {
-    "message": "Aby rozpocząć korzystanie z portfela i interakcję z ekosystemem Aleo DApps, saldo konta musi być dodatnie. Aby to zrobić, uzupełnij swój adres monetami Aleo Credits.",
-    "englishSource": "To start using your wallet and interacting with the Aleo DApps ecosystem, the account balance must be positive. To do this, top up your address with Aleo Credits coins."
-  },
-  "howToStartDescription2": {
-    "message": "Możesz użyć przycisku „Kup” i doładować saldo Kredytów Aleo za pomocą kryptowalut, kart debetowych lub kredytowych.",
-    "englishSource": "You can use the \"Buy\" button and top up your Aleo Credits balance, using cryptocurrencies, debit, or credit cards."
-  },
-  "howToStartHint": {
-    "message": "Możesz także skopiować swój adres i wysłać na niego monety z innego portfela lub Exchange. Aby skopiować adres, kliknij go na efaucetie głównym portfela lub użyj opcji „Odbierz”.",
-    "englishSource": "Also, you can copy your address and send coins to it from another wallet or Exchange. To copy the address, click on it on the main wallet screen or use “Receive”."
-  },
-  "tokensCollectibleDetails": {
-    "message": "Tokeny",
-    "englishSource": "Tokens & Collectible"
-  },
-  "tokensCollectibleDescription1": {
-    "message": "Twoje salda tokenów FA1.2 i FA2 wyświetlane są w zakładce „Tokeny”.",
-    "englishSource": "Your balances of FA1.2 and FA2 tokens are displayed on the “Tokens” tab."
-  },
-  "tokensCollectibleDescription2": {
-    "message": "Możesz wysłać, sprawdzić saldo lub adres umowy dowolnego tokena, klikając go w tej sekcji.",
-    "englishSource": "You can send, check balances, or contract addresses of any token by clicking on it in this section."
-  },
-  "tokensCollectibleHint": {
-    "message": "Twoje tokeny niezamienne (NFT) są wyświetlane w zakładce „Przedmioty kolekcjonerskie”. Tutaj możesz także wchodzić w interakcję z własnymi NFT, zobaczyć ich pełny widok, identyfikator i adres kontraktu.",
-    "englishSource": "Your Non-Fungible Tokens (NFT) are displayed on the “Collectibles” tab. Here you can also interact with your own NFTs, see their full view, ID, and contract address."
-  },
-  "profileRpcDetails": {
-    "message": "Profil",
-    "englishSource": "Profile & RPC"
-  },
-  "profileRpcDescription": {
-    "message": "W górnej części interfejsu możesz zobaczyć ikonę swojego konta. Klikając na niego, zobaczysz parametry interakcji z kontami, przycisk ustawień i tryb widoku rozszerzenia.",
-    "englishSource": "At the top of the interface, you can see your account robo-icon. By clicking on it, you will see the parameters for interaction with accounts, the settings button, and the extension view mode."
-  },
-  "profileRpcHint1": {
-    "message": "Następnie zobaczysz selektor „Sieci”, który pozwala wybrać węzeł (RPC), do którego będzie podłączone Twoje rozszerzenie Leo.",
-    "englishSource": "Next, you will see the “Networks” selector, which allows you to select a node (RPC) to which your Leo extension will be connected."
-  },
-  "profileRpcHint2": {
-    "message": "Jeśli saldo nie jest wyświetlane, spróbuj zmienić węzeł.",
-    "englishSource": "If your balance is not displayed, try changing the node."
-  },
-  "profileRpcHint3": {
-    "message": "Możesz wybrać z predefiniowanej listy lub ręcznie dodać RPC, postępując zgodnie z poniższymi instrukcjami",
-    "englishSource": "You can choose from a predefined list or add RPC manually by following these "
-  },
-  "congrats": {
-    "message": "Gratulacje!",
-    "englishSource": "Congrats!"
-  },
-  "instructions": {
-    "message": "instrukcje.",
-    "englishSource": "instructions."
-  },
   "start": {
     "message": "Start",
     "englishSource": "Start"
-  },
-  "thanks": {
-    "message": "OK, dzięki!",
-    "englishSource": "Ok thanks!"
-  },
-  "browserVersionIsOutOfDate": {
-    "message": "Twoja wersja przeglądarki jest nieaktualna, zdecydowanie zalecamy aktualizację do najnowszej wersji!",
-    "englishSource": "Your browser version is out of date, we strongly recommend updating to the newest version!"
-  },
-  "congratsDescription1": {
-    "message": "Dziękuję za uwagę!",
-    "englishSource": "Thanks for your attention!"
-  },
-  "congratsDescription2": {
-    "message": "Teraz znasz już podstawowe i najważniejsze funkcje portfela Leo.",
-    "englishSource": "Now you know about the basic and most important functions of the Leo wallet."
-  },
-  "congratsDescription3": {
-    "message": "Możesz poznać wszystkie funkcje Leo z naszej „serii edukacyjnej” na YouTube.",
-    "englishSource": "You can learn all features of the Leo from our “Educational series” on YouTube."
-  },
-  "congratsDescription4": {
-    "message": "W naszej bazie wiedzy dostępne są także instrukcje i poradniki.",
-    "englishSource": "Also, instructions and guides are available in our knowledge base."
-  },
-  "congratsDescription5": {
-    "message": "Dołącz do naszych społeczności w Telegramie i Discordzie.",
-    "englishSource": "Join our communities in Telegram and Discord."
-  },
-  "congratsDescription6": {
-    "message": "PS: Powodzenia w odkrywaniu świata Aleo!",
-    "englishSource": "PS: Good luck exploring the Aleo world!"
-  },
-  "attention": {
-    "message": "Uwaga",
-    "englishSource": "Attention"
-  },
-  "attentionDescription": {
-    "message": "Nigdy i pod żadnym pozorem nie udostępniaj swoich kluczy prywatnych i frazy początkowej osobom trzecim.",
-    "englishSource": "Never and under any pretext share your private keys and seed phrase with third parties."
-  },
-  "attentionListTitle1": {
-    "message": "Pamiętaj także:",
-    "englishSource": "Also, remember:"
-  },
-  "attentionListItem1": {
-    "message": "Twój portfel może zostać zaatakowany za pośrednictwem przeglądarki 0days lub innego zainstalowanego złośliwego rozszerzenia;",
-    "englishSource": "Your wallet can be targeted through a browser 0days or via other malicious extension installed;"
-  },
-  "attentionListItem2": {
-    "message": "Efaucet może potencjalnie manipulować złośliwe oprogramowanie zainstalowane w systemie;",
-    "englishSource": "The screen can potentially be manipulated by malicious software installed in the system;"
-  },
-  "attentionListItem3": {
-    "message": "Komputer hosta użytkownika może być celem złośliwego oprogramowania w celu kradzieży zaszyfrowanego portfela;",
-    "englishSource": "User’s host machine can be targeted by malware to steal encrypted wallet;"
-  },
-  "attentionListItem4": {
-    "message": "Wybór słabych haseł może zmniejszyć zdolność portfela do przeciwstawienia się brutalnemu wymuszaniu.",
-    "englishSource": "Choosing weak passwords can reduce the ability of a wallet to resist adversarial brute-forcing."
-  },
-  "attentionListTitle2": {
-    "message": "Aby chronić swój majątek, zalecamy:",
-    "englishSource": "To keep your assets safe, we recommend:"
-  },
-  "attentionListItem5": {
-    "message": "Jak najszybciej przenieś swoje środki z „gorącego” portfela do „zimnego” (portfel Leo obsługuje integrację z urządzeniami „Ledger Nano”);",
-    "englishSource": "Move your funds from “hot” wallet to “cold” as soon as possible (Leo wallet supports integration with “Ledger Nano” devices);"
-  },
-  "attentionListItem6": {
-    "message": "Używaj oddzielnych przeglądarek do surfowania po Internecie i obsługi portfela;",
-    "englishSource": "Use separate browsers for web-surfing and wallet’s operating;"
-  },
-  "attentionListItem7": {
-    "message": "Do dokonywania transakcji używaj jednocześnie jednej karty przeglądarki;",
-    "englishSource": "Use one browser’s tab at a time to make transactions;"
-  },
-  "attentionListItem8": {
-    "message": "Trzymaj portfel zamknięty, gdy nie jest używany.",
-    "englishSource": "Keep the wallet locked when it is not in usage."
-  },
-  "takeCare": {
-    "message": "Zadbaj o swoje bezpieczeństwo w krypto świecie!",
-    "englishSource": "Take care of your safety in the crypto world!"
-  },
-  "readMore": {
-    "message": "Czytaj więcej przez",
-    "englishSource": "Read more by the "
-  },
-  "deleteTokenConfirm": {
-    "message": "Czy na pewno chcesz usunąć ten token?",
-    "englishSource": "Are you sure you want to delete this token?"
-  },
-  "ledgerLiveSettings": {
-    "message": "Użyj Ledger Live",
-    "englishSource": "Use Ledger Live"
-  },
-  "ledgerLiveSettingsDescription": {
-    "message": "Nowy mostek Ledger Live umożliwia korzystanie z Ledgera w inny sposób.",
-    "englishSource": "The new Ledger Live bridge allows you to use your Ledger in a different way."
   },
   "lockUpSettings": {
     "message": "Blokada rozszerzenia",
@@ -3039,209 +963,25 @@
     "message": "Rozszerzenie zostanie automatycznie zablokowane po 10 minutach braku aktywności.",
     "englishSource": "The extension will be automatically blocked after 10 minutes of inactivity."
   },
-  "totalBalance": {
-    "message": "Całkowite saldo",
-    "englishSource": "Total Balance"
-  },
-  "buyButton": {
-    "message": "Kupić",
-    "englishSource": "Buy"
-  },
-  "buyWithCrypto": {
-    "message": "Kupuj za pomocą kryptowalut",
-    "englishSource": "Buy With Crypto"
-  },
-  "buyWithExolix": {
-    "message": "Kupuj z Exolixem",
-    "englishSource": "Buy With Exolix"
-  },
-  "buyWithExolixDescription": {
-    "message": "Giełda $number$ kryptowaluty do Aleo Credits lub USDT Aleo natychmiast i bez rejestracji",
-    "englishSource": "Exchange $number$ cryptocurrencies to Aleo Credits or USDT Aleo instantly and without registration"
-  },
-  "buyWithMoonPay": {
-    "message": "Kupuj za pomocą MoonPay",
-    "englishSource": "Buy With MoonPay"
-  },
-  "buyWithMoonPayDescription": {
-    "message": "Krypto właśnie stało się łatwe. Kup kredyty Aleo w ciągu kilku minut, korzystając z kart Visa, Mastercard i wszystkich głównych kart debetowych i kredytowych.",
-    "englishSource": "Crypto just got easy. Buy Aleo Credits in minutes using Visa, Mastercard, and all major debit and credit cards."
-  },
-  "buyWithRamp": {
-    "message": "Kup z rampą",
-    "englishSource": "Buy With Ramp"
-  },
-  "buyWithRampDescription": {
-    "message": "Kup kredyty Aleo za pomocą kart Visa, Mastercard i wszystkich głównych kart debetowych i kredytowych. Rampa jest dostępna w 160 krajach i terytoriach.",
-    "englishSource": "Buy Aleo Credits  using Visa, Mastercard, and all major debit and credit cards. Ramp is available in 160+ countries and territories."
-  },
-  "buyWithAliceBob": {
-    "message": "Kup Kredyty Aleo za pomocą Alice-Bob (tylko UAH)",
-    "englishSource": "Buy Aleo Credits with Alice-Bob (UAH only)"
-  },
-  "buyWithAliceBobDescription": {
-    "message": "Szybka i opłacalna wymiana UAH na Kredyty Aleo.",
-    "englishSource": "Fast and cost-effective exchange of UAH to Aleo Credits."
-  },
-  "buyWithUtorgDescription": {
-    "message": "Licencjonowana bramka fiat-crypto. 187 krajów, KYC oparte na sztucznej inteligencji, Apple Pay, Google Pay.",
-    "englishSource": "Licensed fiat-to-crypto gateway. 187+ countries, AI-powered KYC, Apple Pay, Google Pay."
-  },
-  "topUpBuy": {
-    "message": "Uzupełniać $gasTokenName$ balansować",
-    "englishSource": "Top up $gasTokenName$ balance"
-  },
-  "buyWithUtorg": {
-    "message": "Kup kredyty Aleo za pomocą UTORG",
-    "englishSource": "Buy Aleo Credits with UTORG"
-  },
-  "buyWithCard": {
-    "message": "Kupuj za pomocą karty debetowej/kredytowej",
-    "englishSource": "Buy with Debit/Credit Card"
-  },
-  "topUpDescription": {
-    "message": "Leo zintegrowane rozwiązania innych firm do kupienia $gasTokenName1$ za pomocą kryptowaluty lub karty debetowej/kredytowej. Wybierz dostawcę, postępuj zgodnie z instrukcjami, uzyskaj $gasTokenName2$ na Twoim koncie.",
-    "englishSource": "Leo integrated third-party solutions to buy $gasTokenName1$ with crypto or a Debit/Credit card. Choose a provider, follow guides, get $gasTokenName2$ on your account."
-  },
-  "enterAmount": {
-    "message": "Proszę wpisać kwotę:",
-    "englishSource": "Please enter the amount:"
-  },
-  "topUpCrypto": {
-    "message": "Krypto",
-    "englishSource": "Crypto"
-  },
-  "topUpDebit": {
-    "message": "Karta debetowa/kredytowa",
-    "englishSource": "Debit/Credit Card"
-  },
-  "overdueTransaction": {
-    "message": "Transakcja jest opóźniona",
-    "englishSource": "Transaction is overdue"
-  },
-  "overdueTransactionMessage": {
-    "message": "Proszę utworzyć nową giełdę, chyba że \n wysłałeś środki. \n Jeżeli środki zostały wysłane, prosimy poczekać na potwierdzenie z systemu.",
-    "englishSource": "Please, create a new exchange unless \n you have sent the funds. \n If the funds have been sent, please, wait for the confirmation from the system."
-  },
-  "topUpAgain": {
-    "message": "Doładuj ponownie",
-    "englishSource": "Top Up Again"
-  },
-  "topUp": {
-    "message": "Uzupełniać",
-    "englishSource": "Top Up"
-  },
-  "newTopUp": {
-    "message": "Nowe doładowanie",
-    "englishSource": "New Top Up"
-  },
-  "exchangeDetails": {
-    "message": "Wprowadź szczegóły wymiany",
-    "englishSource": "Enter exchange details"
-  },
-  "exchangeDetailsDescription": {
-    "message": "Natychmiast uzupełnij swoje Kredyty Aleo lub saldo USDT Aleo $number$ kryptowaluty",
-    "englishSource": "Top up your Aleo Credits or USDT Aleo balance instantly with $number$ cryptocurrencies"
-  },
-  "privacyAndPolicyLinks": {
-    "message": "Klikając $buttonContent$ zgadzasz się z $termsOfUse$ I $privacyPolicy$ ",
-    "englishSource": "By clicking $buttonContent$ you agree with \n$termsOfUse$ and $privacyPolicy$"
-  },
-  "depositAddressText": {
-    "message": "Depozyt $depositAddress$ adres:",
-    "englishSource": "Deposit $depositAddress$ address:"
-  },
-  "support": {
-    "message": "Wsparcie",
-    "englishSource": "Support"
-  },
-  "deposit": {
-    "message": "Depozyt",
-    "englishSource": "Deposit"
-  },
-  "depositDescription": {
-    "message": "Wyślij środki na poniższy adres. Po otrzymaniu wpłaty proces wymiany rozpocznie się automatycznie",
-    "englishSource": "Send the funds to the address below. As soon as the deposit is received, the exchange process will begin automatically"
-  },
-  "sendByOneTransaction": {
-    "message": "Wyślij jedną transakcją",
-    "englishSource": "Send by one transaction"
-  },
-  "youGet": {
-    "message": "Otrzymujesz:",
-    "englishSource": "You get:"
-  },
-  "fixedRate": {
-    "message": "Stała stawka:",
-    "englishSource": "Fixed rate:"
-  },
   "transactionId": {
     "message": "Identyfikator transakcji:",
     "englishSource": "Transaction ID:"
-  },
-  "atomDepositMemo": {
-    "message": "Note o wpłacie atomowej",
-    "englishSource": "Atom Deposit Memo"
   },
   "recipientAddress": {
     "message": "Adres odbiorcy",
     "englishSource": "Recipient address"
   },
-  "recipientXtzAddress": {
-    "message": "Adres XTZ odbiorcy:",
-    "englishSource": "Recipient XTZ address:"
-  },
-  "inputHash": {
-    "message": "Hash wejściowy:",
-    "englishSource": "Input hash:"
-  },
-  "youSend": {
-    "message": "Wysyłasz:",
-    "englishSource": "You send:"
-  },
-  "sendTime": {
-    "message": "Czas wysłania:",
-    "englishSource": "Send time:"
-  },
-  "completedDescription": {
-    "message": "Proszę sprawdzić środki w portfelu.\nProces wymiany został zakończony.",
-    "englishSource": "Please, check your funds in your wallet.\nThe exchange process is completed."
-  },
   "completed": {
     "message": "Zakończony",
     "englishSource": "Completed"
-  },
-  "youReceive": {
-    "message": "Otrzymujesz:",
-    "englishSource": "You receive:"
-  },
-  "waitMessage": {
-    "message": "Proszę, poczekaj. Proces konwersji zajmie od 15 minut do 2 godzin.",
-    "englishSource": "Please, wait. The conversion process will take from 15 min to 2 hours."
   },
   "confirmation": {
     "message": "Potwierdzenie",
     "englishSource": "Confirmation"
   },
-  "exchanging": {
-    "message": "Wymiana",
-    "englishSource": "Exchanging"
-  },
-  "step": {
-    "message": "Krok",
-    "englishSource": "Step"
-  },
   "collectibles": {
     "message": "Kolekcje",
     "englishSource": "Collectibles"
-  },
-  "attentionSendAmount": {
-    "message": "Musisz wysłać dokładną kwotę kryptowaluty na adres depozytu. W przeciwnym razie transakcja się nie powiedzie i będziesz musiał się skontaktować $support$ ",
-    "englishSource": "You need to send the exact amount of cryptocurrency to the deposit address. Otherwise the transaction will fail and you will have to contact $support$"
-  },
-  "important": {
-    "message": "Ważny",
-    "englishSource": "Important"
   },
   "id": {
     "message": "ID",
@@ -3255,58 +995,6 @@
     "message": "Zarządzaj Kolekcjami",
     "englishSource": "Manage Collectibles"
   },
-  "deleteCollectibleConfirm": {
-    "message": "Czy na pewno chcesz usunąć ten przedmiot kolekcjonerski?",
-    "englishSource": "Are you sure you want to delete this collectible?"
-  },
-  "zeroCollectibleText": {
-    "message": "Nie masz jeszcze przedmiotów kolekcjonerskich!\nDobry czas, żeby zdobyć jednego z nich",
-    "englishSource": "You don’t have collectibles yet!\nGood time to get one of them"
-  },
-  "min": {
-    "message": "Min.:",
-    "englishSource": "Min:"
-  },
-  "warningTopUpServiceMessage": {
-    "message": "Funkcja wymiany tokenów jest zapewniana przez stronę trzecią. Leo Wallet nie ponosi odpowiedzialności za działanie usług podmiotów trzecich.",
-    "englishSource": "The token exchange feature is provided by a third party. The Leo Wallet is not responsible for the work of third-party services."
-  },
-  "selectTokensToSwap": {
-    "message": "Proszę wybrać tokeny do wymiany",
-    "englishSource": "Please, select tokens to swap"
-  },
-  "enterSwapAmount": {
-    "message": "Proszę wpisać kwotę swapu",
-    "englishSource": "Please, enter swap amount"
-  },
-  "noQuotesAvailable": {
-    "message": "Brak dostępnych cytatów",
-    "englishSource": "No quotes available"
-  },
-  "swapRouteLoadingHasFailed": {
-    "message": "Ładowanie danych o kursach wymiany nie powiodło się. \nZaładuj ponownie tę stronę lub spróbuj ponownie później.",
-    "englishSource": "Exchange rate data loading has failed. \nReload this page or try again later."
-  },
-  "swapTokenSearchInputPlaceholder": {
-    "message": "Wpisz nazwę lub adres",
-    "englishSource": "Enter name or address"
-  },
-  "scanQRWithLeoMobile": {
-    "message": "Zeskanuj ten kod QR za pomocą aplikacji mobilnej Leo Wallet.",
-    "englishSource": "Scan this QR-code with yor Leo Wallet Mobile app."
-  },
-  "serviceIsUnavailable": {
-    "message": "Przepraszamy, usługa jest chwilowo niedostępna. Spróbuj ponownie później!",
-    "englishSource": "Sorry, service is temporarily unavailable. Try again later!"
-  },
-  "buyWithChainBits": {
-    "message": "Kupuj za pomocą ChainBits",
-    "englishSource": "Buy with ChainBits"
-  },
-  "buyWithChainBitsDescription": {
-    "message": "Kupowanie kryptowalut nigdy nie było tak łatwe",
-    "englishSource": "Buying Crypto Was Never This Easy"
-  },
   "convert": {
     "message": "Konwertować",
     "englishSource": "Convert"
@@ -3315,133 +1003,21 @@
     "message": "Publiczny",
     "englishSource": "Public"
   },
-  "toPublic": {
-    "message": "publicznie",
-    "englishSource": "to public"
-  },
-  "toPrivate": {
-    "message": "do prywatnego",
-    "englishSource": "to private"
-  },
   "private": {
     "message": "Prywatny",
     "englishSource": "Private"
-  },
-  "converting": {
-    "message": "Konwersja",
-    "englishSource": "Converting"
   },
   "customizeFee": {
     "message": "Dostosuj opłatę",
     "englishSource": "Customize fee"
   },
-  "feeVisibility": {
-    "message": "Widoczność opłat",
-    "englishSource": "Fee Visibility"
-  },
-  "convertingPublic": {
-    "message": "Konwertuj na publiczny NFT",
-    "englishSource": "Convert to Public NFT"
-  },
-  "convertingPrivate": {
-    "message": "Konwertuj na prywatny NFT",
-    "englishSource": "Convert to Private NFT"
-  },
-  "stake": {
-    "message": "Stawka",
-    "englishSource": "Stake"
-  },
-  "unstake": {
-    "message": "Odstawić",
-    "englishSource": "Unstake"
-  },
-  "unstaking": {
-    "message": "Odstawienie",
-    "englishSource": "Unstaking"
-  },
-  "unstaked": {
-    "message": "Niepostawiony",
-    "englishSource": "Unstaked"
-  },
-  "stakeAccount": {
-    "message": "Konto udziałowe",
-    "englishSource": "Stake Account"
-  },
-  "staked": {
-    "message": "Postawione",
-    "englishSource": "Staked"
-  },
-  "stakeEarningSymbol": {
-    "message": "Zarabianie na stawkach $assetSymbol$ ",
-    "englishSource": "Stake earning $assetSymbol$"
-  },
-  "stakeEarnRewards": {
-    "message": "Stawiaj tokeny i zdobywaj nagrody",
-    "englishSource": "Stake tokens and earn rewards"
-  },
-  "validator": {
-    "message": "Walidator",
-    "englishSource": "Validator"
-  },
-  "yourStakeIn": {
-    "message": "Twój udział",
-    "englishSource": "Your Stake in"
-  },
-  "active": {
-    "message": "Aktywny",
-    "englishSource": "Active"
-  },
-  "learnMoreHere": {
-    "message": "Dowiedz się więcej tutaj",
-    "englishSource": "Learn more here"
-  },
-  "rewards": {
-    "message": "Nagrody",
-    "englishSource": "Rewards"
-  },
   "claim": {
     "message": "Prawo",
     "englishSource": "Claim"
   },
-  "claimed": {
-    "message": "Zgłoszono",
-    "englishSource": "Claimed"
-  },
-  "claiming": {
-    "message": "Twierdzenie",
-    "englishSource": "Claiming"
-  },
   "availableToClaim": {
     "message": "Dostępne do reklamacji",
     "englishSource": "Available to claim"
-  },
-  "unstakingInProgress": {
-    "message": "Odstawianie w toku",
-    "englishSource": "Unstaking in Progress"
-  },
-  "mustStakeAtLeastTenAleo": {
-    "message": "Początkowa stawka musi wynosić co najmniej 10 ALEO",
-    "englishSource": "Initial stake must be at least 10 ALEO"
-  },
-  "pleaseNote": {
-    "message": "Uwaga",
-    "englishSource": "Please Note"
-  },
-  "unstakingProcess": {
-    "message": "Unstaking is a two-step process. Po rozpoczęciu odstawiania pamiętaj o odebraniu ALEO po 3-godzinnym okresie przetwarzania.",
-    "englishSource": "Unstaking is a two-step process. After initiating unstaking, please ensure to claim your ALEO after the  3‑hour processing period."
-  },
-  "testNetIsDown": {
-    "message": "Aleo Testnet Beta nie działa.",
-    "englishSource": "Aleo Testnet Beta is down."
-  },
-  "checkStatus": {
-    "message": "Sprawdź stan",
-    "englishSource": "Check status"
-  },
-  "walletBuiltForPrivacy": {
-    "message": "Portfel stworzony z myślą o prywatności",
-    "englishSource": "The wallet built for privacy"
   },
   "privateTransactionsAnytimeAnywhere": {
     "message": "Prywatne transakcje w dowolnym miejscu i czasie.",
@@ -3458,10 +1034,6 @@
   "backUpYourWallet": {
     "message": "Utwórz kopię zapasową swojego portfela",
     "englishSource": "Back up your wallet"
-  },
-  "saveThese12Words": {
-    "message": "Zapisz te 12 słów w menedżerze haseł lub zapisz i przechowuj w bezpiecznym miejscu. Nie udostępniaj nikomu.",
-    "englishSource": "Save these 12 words to a password manager, or write down and store in a secure place. Do not share with anyone."
   },
   "show": {
     "message": "Pokazywać",
@@ -3507,33 +1079,9 @@
     "message": "Obsługiwane są tylko frazy Miden Seed.",
     "englishSource": "Only Miden Seed phrases are supported."
   },
-  "seedPhrasePlaceholder": {
-    "message": "12-wyrazowa Seed Phrase",
-    "englishSource": "12-word Seed phrase"
-  },
-  "join": {
-    "message": "Dołączyć",
-    "englishSource": "Join"
-  },
-  "follow": {
-    "message": "Podążać",
-    "englishSource": "Follow"
-  },
   "yourWalletIsReady": {
     "message": "Twój portfel jest gotowy!",
     "englishSource": "Your wallet is ready!"
-  },
-  "joinOurDiscord": {
-    "message": "Dołącz do naszego Discorda dotyczącego portfela Leo",
-    "englishSource": "Join our Leo Wallet Discord"
-  },
-  "joinOurTwitter": {
-    "message": "Śledź nas na X (Twitter)",
-    "englishSource": "Follow us on X (Twitter)"
-  },
-  "exploreTheWorldOfPrivateAssets": {
-    "message": "Poznaj świat prywatnych aktywów",
-    "englishSource": "Explore the world of private assets"
   },
   "getStarted": {
     "message": "Zacznij",
@@ -3558,14 +1106,6 @@
   "passwordsDoNotMatch": {
     "message": "Hasła nie pasują",
     "englishSource": "Passwords do not match"
-  },
-  "readMoreOnboarding": {
-    "message": "Przeczytaj więcej",
-    "englishSource": "Read More"
-  },
-  "helpUsToImproveLeoWallet": {
-    "message": "Pomóż nam ulepszyć portfel Leo",
-    "englishSource": "Help us to improve Leo Wallet"
   },
   "createPassword": {
     "message": "Utwórz hasło",
@@ -3651,45 +1191,9 @@
     "message": "Generuj transakcje\nLokalnie",
     "englishSource": "Generate Transactions\nLocally"
   },
-  "chainUnstable": {
-    "message": "Z powodu niestabilności Aleo Testnet3 transakcje mogą zakończyć się niepowodzeniem.",
-    "englishSource": "Due to instability of Aleo Testnet3, transactions may fail."
-  },
-  "dataReset": {
-    "message": "Reset danych.",
-    "englishSource": "Data Reset."
-  },
-  "transactionHistoryLost": {
-    "message": "Pragniemy poinformować, że cała historia transakcji została utracona w wyniku niedawnego resetu Aleo Testnet3.",
-    "englishSource": "We want to inform you that all transaction history has been lost due to a recent reset of the Aleo Testnet3."
-  },
-  "learnMore": {
-    "message": "Dowiedz się więcej",
-    "englishSource": "Learn more"
-  },
   "privacyScalesBetter": {
     "message": "Prywatność skaluje się lepiej",
     "englishSource": "Privacy Scales Better"
-  },
-  "yourWalletHasBeenCreated": {
-    "message": "Twój portfel został utworzony.",
-    "englishSource": "Your wallet has been created."
-  },
-  "noSeedPhrase": {
-    "message": "Brak Seed Phrase",
-    "englishSource": "No Seed Phrase"
-  },
-  "yourAccountIsProtected": {
-    "message": "Twoje konto jest chronione przez zaszyfrowany plik zamiast frazy początkowej.",
-    "englishSource": "Your account is protected by an encrypted file instead of a seed phrase."
-  },
-  "recovery": {
-    "message": "Powrót do zdrowia",
-    "englishSource": "Recovery"
-  },
-  "downloadAndSecurelyStore": {
-    "message": "Pobierz i bezpiecznie przechowuj najnowszą wersję zaszyfrowanego pliku. Ten plik jest niezbędny do odzyskania konta.",
-    "englishSource": "Download and securely store the latest version of your encrypted file. This file is essential for account recovery."
   },
   "chooseFromDevice": {
     "message": "Wybierz z urządzenia",
@@ -3791,10 +1295,6 @@
     "message": "Nieprawidłowy identyfikator konta Miden",
     "englishSource": "Invalid Miden account ID"
   },
-  "invalidAmount": {
-    "message": "Nieprawidłowa kwota",
-    "englishSource": "Invalid amount"
-  },
   "amountMustBeLessThanBalance": {
     "message": "Kwota musi być mniejsza niż saldo",
     "englishSource": "Amount must be less than balance"
@@ -3802,10 +1302,6 @@
   "availableBalance": {
     "message": "Dostępne saldo",
     "englishSource": "Available balance"
-  },
-  "uploadYourEncryptedWalletFile": {
-    "message": "Prześlij zaszyfrowany plik portfela, aby bezpiecznie przywrócić konto. Twoje dane pozostają prywatne, a w łańcuchu przechowywane są wyłącznie informacje zaszyfrowane.",
-    "englishSource": "Upload your encrypted wallet file to securely restore your account. Your data remains private, with only hashed information stored on-chain."
   },
   "goToFaucet": {
     "message": "Przejdź do Faucet",
@@ -4231,14 +1727,6 @@
     "message": "Wprowadź identyfikator Faucet miden",
     "englishSource": "Enter the ID of a miden faucet"
   },
-  "encryptedWalletFilePassword": {
-    "message": "Wprowadź hasło, aby zaszyfrować plik portfela. Będziesz potrzebować tego hasła, aby później przywrócić portfel.",
-    "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
-  },
-  "onlyAleoSeedPhrasesAreSupported": {
-    "message": "Obsługiwane są tylko frazy Aleo Seed.",
-    "englishSource": "Only Aleo Seed phrases are supported."
-  },
   "verifyingTransaction": {
     "message": "Weryfikacja transakcji",
     "englishSource": "Verifying transaction"
@@ -4307,21 +1795,9 @@
     "message": "Kontynuując, wyrażasz zgodę na",
     "englishSource": "By proceeding, you agree to the"
   },
-  "termsOfUsageLink": {
-    "message": "Warunki użytkowania",
-    "englishSource": "Terms of Usage"
-  },
-  "privacyPolicyLink": {
-    "message": "Polityka prywatności",
-    "englishSource": "Privacy Policy"
-  },
   "andWord": {
     "message": "I",
     "englishSource": "and"
-  },
-  "transactionFileDescription": {
-    "message": "Plik transakcyjny",
-    "englishSource": "Transaction file"
   },
   "enterDecryptionPassword": {
     "message": "Wprowadź hasło ustawione podczas eksportowania portfela. Spowoduje to odszyfrowanie pliku i przywrócenie dostępu.",
@@ -4334,17 +1810,5 @@
   "last": {
     "message": "Ostatni",
     "englishSource": "Last"
-  },
-  "thousandFormat": {
-    "message": "$tysiąc$k",
-    "englishSource": "$thousand$k"
-  },
-  "millionFormat": {
-    "message": "milion dolarów",
-    "englishSource": "$million$M"
-  },
-  "billionFormat": {
-    "message": "miliard dolarów",
-    "englishSource": "$billion$B"
   }
 }
