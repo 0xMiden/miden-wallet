@@ -4058,9 +4058,8 @@
     "englishSource": "Popular"
   },
   "verifyMessagePrefix": {
-    "message": "Подтвердите, что вы сохранили свою секретную фразу восстановления. Выберите слово #10",
-    "note": "Onboarding",
-    "englishSource": "Confirm you've saved your secret recovery phrase. Select word #10"
+    "message": "Подтвердите, что вы сохранили секретную фразу восстановления. Выберите первое и последнее слова из вашей фразы.",
+    "englishSource": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase."
   },
   "enterYourWalletSeedPhrase": {
     "message": "Введите секретную фразу вашего кошелька из 12 слов.",

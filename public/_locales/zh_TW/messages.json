@@ -4091,9 +4091,8 @@
     "englishSource": "Popular"
   },
   "verifyMessagePrefix": {
-    "message": "確認您已保存您的秘密恢復短語。選擇第10個單詞",
-    "note": "Onboarding",
-    "englishSource": "Confirm you've saved your secret recovery phrase. Select word #10"
+    "message": "确认您已保存秘密恢复短语。从短语中选择第一个和最后一个单词。",
+    "englishSource": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase."
   },
   "enterYourWalletSeedPhrase": {
     "message": "輸入您錢包的12個單詞的種子短語。",

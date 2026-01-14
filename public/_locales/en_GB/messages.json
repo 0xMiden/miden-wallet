@@ -4158,9 +4158,8 @@
     "englishSource": "Popular"
   },
   "verifyMessagePrefix": {
-    "message": "Confirm you've saved your secret recovery phrase. Select word #10",
-    "note": "Onboarding",
-    "englishSource": "Confirm you've saved your secret recovery phrase. Select word #10"
+    "message": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase.",
+    "englishSource": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase."
   },
   "enterYourWalletSeedPhrase": {
     "message": "Enter your wallet's 12-word Seed phrase.",

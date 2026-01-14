@@ -4120,9 +4120,8 @@
     "englishSource": "Popular"
   },
   "verifyMessagePrefix": {
-    "message": "Bestätigen Sie, dass Sie Ihren geheimen Wiederherstellungscode gespeichert haben. Wählen Sie Wort #10",
-    "note": "Onboarding",
-    "englishSource": "Confirm you've saved your secret recovery phrase. Select word #10"
+    "message": "Bestätigen Sie, dass Sie Ihre geheime Wiederherstellungsphrase gespeichert haben. Wählen Sie das erste und das letzte Wort Ihrer Phrase aus.",
+    "englishSource": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase."
   },
   "enterYourWalletSeedPhrase": {
     "message": "Geben Sie den 12-Wörter-Seed-Satz Ihres Wallets ein.",

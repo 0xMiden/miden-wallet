@@ -1357,10 +1357,6 @@
     "message": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later.",
     "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
   },
-  "editMidenFaucetId": {
-    "message": "Edit Miden Faucet ID",
-    "englishSource": "Edit Miden Faucet ID"
-  },
   "exportWalletFile": {
     "message": "Export Wallet File",
     "englishSource": "Export Wallet File"
@@ -4214,9 +4210,8 @@
     "englishSource": "Popular"
   },
   "verifyMessagePrefix": {
-    "message": "Confirm you've saved your secret recovery phrase. Select word #10",
-    "note": "Onboarding",
-    "englishSource": "Confirm you've saved your secret recovery phrase. Select word #10"
+    "message": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase.",
+    "englishSource": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase."
   },
   "enterYourWalletSeedPhrase": {
     "message": "Enter your wallet's 12-word Seed phrase.",

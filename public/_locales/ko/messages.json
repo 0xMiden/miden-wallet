@@ -4140,9 +4140,8 @@
     "englishSource": "Popular"
   },
   "verifyMessagePrefix": {
-    "message": "비밀 복구 문구를 저장했는지 확인하세요. 단어 #10을 선택하세요",
-    "note": "Onboarding",
-    "englishSource": "Confirm you've saved your secret recovery phrase. Select word #10"
+    "message": "비밀 복구 문구를 저장했는지 확인하세요. 문구에서 첫 번째 단어와 마지막 단어를 선택하세요.",
+    "englishSource": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase."
   },
   "enterYourWalletSeedPhrase": {
     "message": "지갑의 12단어 시드 구문을 입력하세요.",

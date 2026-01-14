@@ -4155,9 +4155,8 @@
     "englishSource": "Popular"
   },
   "verifyMessagePrefix": {
-    "message": "Gizli kurtarma cümlenizi kaydettiğinizi onaylayın. #10 kelimeyi seçin",
-    "note": "Onboarding",
-    "englishSource": "Confirm you've saved your secret recovery phrase. Select word #10"
+    "message": "Gizli kurtarma ifadenizi kaydettiğinizi doğrulayın. İfadenizin ilk ve son kelimelerini seçin.",
+    "englishSource": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase."
   },
   "enterYourWalletSeedPhrase": {
     "message": "Cüzdanınızın 12 kelime Seed cümlesini girin.",
