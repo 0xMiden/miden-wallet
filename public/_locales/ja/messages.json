@@ -1640,8 +1640,8 @@
     "englishSource": "Upload"
   },
   "languageAndCountry": {
-    "message": "言語",
-    "englishSource": "Language"
+    "message": "デフォルトでは、ブラウザの言語が使用されます。気に入らない場合は、以下を変更してください。",
+    "englishSource": "By default, we use the language of your browser. Change it below if that's not to your liking."
   },
   "generalSettings": {
     "message": "一般",

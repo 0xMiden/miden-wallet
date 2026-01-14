@@ -2413,8 +2413,8 @@
     "englishSource": "Upload"
   },
   "languageAndCountry": {
-    "message": "Language",
-    "englishSource": "Language"
+    "message": "By default, we use the language of your browser. Change it below if that's not to your liking.",
+    "englishSource": "By default, we use the language of your browser. Change it below if that's not to your liking."
   },
   "fiatCurrency": {
     "message": "Default Currency",

@@ -1976,8 +1976,8 @@
     "englishSource": "Upload"
   },
   "languageAndCountry": {
-    "message": "Язык",
-    "englishSource": "Language"
+    "message": "По умолчанию мы используем язык вашего браузера. Измените его ниже, если вам это не нравится.",
+    "englishSource": "By default, we use the language of your browser. Change it below if that's not to your liking."
   },
   "fiatCurrency": {
     "message": "Валюта по умолчанию",

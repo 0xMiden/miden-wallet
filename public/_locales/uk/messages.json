@@ -1670,8 +1670,8 @@
     "englishSource": "Upload"
   },
   "languageAndCountry": {
-    "message": "Мова",
-    "englishSource": "Language"
+    "message": "За замовчуванням ми використовуємо мову вашого браузера. Змініть його нижче, якщо вам це не подобається.",
+    "englishSource": "By default, we use the language of your browser. Change it below if that's not to your liking."
   },
   "generalSettings": {
     "message": "Загальне",

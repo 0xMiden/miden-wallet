@@ -1640,8 +1640,8 @@
     "englishSource": "Upload"
   },
   "languageAndCountry": {
-    "message": "語言",
-    "englishSource": "Language"
+    "message": "默认情况下，我们使用您的浏览器的语言。如果您不喜欢，请在下面进行更改。",
+    "englishSource": "By default, we use the language of your browser. Change it below if that's not to your liking."
   },
   "generalSettings": {
     "message": "一般",

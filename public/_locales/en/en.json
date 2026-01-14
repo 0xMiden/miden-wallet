@@ -507,7 +507,7 @@
   "connectionUnavailable": "Unavailable",
   "sorry": "Sorry!",
   "upload": "Upload",
-  "languageAndCountry": "Language",
+  "languageAndCountry": "By default, we use the language of your browser. Change it below if that's not to your liking.",
   "fiatCurrency": "Default Currency",
   "generalSettings": "General",
   "generalSettingsDescription": "Here you can manage languages preferences and display mode.",

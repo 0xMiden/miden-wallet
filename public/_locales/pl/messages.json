@@ -2016,8 +2016,8 @@
     "englishSource": "Upload"
   },
   "languageAndCountry": {
-    "message": "Język",
-    "englishSource": "Language"
+    "message": "Domyślnie używamy języka Twojej przeglądarki. Zmień to poniżej, jeśli Ci to nie odpowiada.",
+    "englishSource": "By default, we use the language of your browser. Change it below if that's not to your liking."
   },
   "fiatCurrency": {
     "message": "Domyślna waluta",

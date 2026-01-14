@@ -1650,8 +1650,8 @@
     "englishSource": "Upload"
   },
   "languageAndCountry": {
-    "message": "Langue",
-    "englishSource": "Language"
+    "message": "Par défaut, nous utilisons la langue de votre navigateur. Modifiez-le ci-dessous si cela ne vous convient pas.",
+    "englishSource": "By default, we use the language of your browser. Change it below if that's not to your liking."
   },
   "generalSettings": {
     "message": "Général",

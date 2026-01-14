@@ -1758,8 +1758,8 @@
     "englishSource": "Upload"
   },
   "languageAndCountry": {
-    "message": "Sprache",
-    "englishSource": "Language"
+    "message": "Standardmäßig verwenden wir die Sprache Ihres Browsers. Ändern Sie es unten, wenn Ihnen das nicht gefällt.",
+    "englishSource": "By default, we use the language of your browser. Change it below if that's not to your liking."
   },
   "generalSettings": {
     "message": "Allgemein",

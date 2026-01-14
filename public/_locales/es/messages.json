@@ -2012,8 +2012,8 @@
     "englishSource": "Upload"
   },
   "languageAndCountry": {
-    "message": "Idioma",
-    "englishSource": "Language"
+    "message": "De forma predeterminada, utilizamos el idioma de su navegador. Cámbielo a continuación si no es de su agrado.",
+    "englishSource": "By default, we use the language of your browser. Change it below if that's not to your liking."
   },
   "fiatCurrency": {
     "message": "Moneda predeterminada",

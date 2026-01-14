@@ -1758,8 +1758,8 @@
     "englishSource": "Upload"
   },
   "languageAndCountry": {
-    "message": "Dil",
-    "englishSource": "Language"
+    "message": "Varsayılan olarak tarayıcınızın dilini kullanırız. Hoşunuza gitmediyse aşağıda değiştirin.",
+    "englishSource": "By default, we use the language of your browser. Change it below if that's not to your liking."
   },
   "generalSettings": {
     "message": "Genel",

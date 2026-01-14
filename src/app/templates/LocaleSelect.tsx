@@ -119,9 +119,9 @@ const LocaleSelect: FC<LocaleSelectProps> = ({ className }) => {
 
   const title = useMemo(
     () => (
-      <h2 className={classNames('mb-4', 'leading-tight', 'flex flex-col')}>
-        <span className="text-black font-medium text-black">{t('languageAndCountry')}</span>
-      </h2>
+      <p className={classNames('mb-4', 'leading-normal', 'text-gray-600 text-sm')}>
+        {t('languageAndCountry')}
+      </p>
     ),
     [t]
   );

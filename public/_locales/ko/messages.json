@@ -1549,8 +1549,8 @@
     "englishSource": "Upload"
   },
   "languageAndCountry": {
-    "message": "언어",
-    "englishSource": "Language"
+    "message": "기본적으로 당사는 귀하의 브라우저 언어를 사용합니다. 마음에 들지 않으면 아래에서 변경하세요.",
+    "englishSource": "By default, we use the language of your browser. Change it below if that's not to your liking."
   },
   "generalSettings": {
     "message": "일반",
