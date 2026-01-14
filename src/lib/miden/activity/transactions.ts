@@ -418,6 +418,7 @@ export const generateTransaction = async (
   await updateTransactionStatus(transaction.id, ITransactionStatus.GeneratingTransaction, {
     processingStartedAt: Date.now()
   });
+
   // Process transaction
   let resultBytes: Uint8Array;
   let result: TransactionResult;
@@ -490,6 +491,7 @@ export const generateTransactionsLoop = async (
 
   // Import any notes needed for queued transactions
   await importAllNotes();
+
   // Wait for other in progress transactions
   const inProgressTransactions = await getTransactionsInProgress();
   if (inProgressTransactions.length > 0) {
