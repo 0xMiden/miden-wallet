@@ -35,7 +35,7 @@ import {
   MidenDAppImportPrivateNoteResponse,
   MidenDAppConsumableNotesRequest,
   MidenDAppConsumableNotesResponse,
-  MidenDappWaitForTxRequest,
+  MidenDAppWaitForTxRequest,
   MidenDAppWaitForTxResponse
 } from 'lib/adapter/types';
 import { formatBigInt } from 'lib/i18n/numbers';
@@ -1003,7 +1003,7 @@ const generatePromisifyConsumeTransaction = async (
   });
 };
 
-export async function waitForTransaction(req: MidenDappWaitForTxRequest): Promise<MidenDAppWaitForTxResponse> {
+export async function waitForTransaction(req: MidenDAppWaitForTxRequest): Promise<MidenDAppWaitForTxResponse> {
   if (!req.txId) {
     throw new Error(MidenDAppErrorType.InvalidParams);
   }

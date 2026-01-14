@@ -27,7 +27,7 @@ export type MidenDAppRequest =
   | MidenDAppAssetsRequest
   | MidenDAppImportPrivateNoteRequest
   | MidenDAppConsumableNotesRequest
-  | MidenDappWaitForTxRequest;
+  | MidenDAppWaitForTxRequest;
 
 export type MidenDAppResponse =
   | MidenDAppGetCurrentPermissionResponse
@@ -202,7 +202,7 @@ export interface MidenDAppConsumableNotesResponse extends MidenDAppMessageBase {
   consumableNotes: any[];
 }
 
-export interface MidenDappWaitForTxRequest extends MidenDAppMessageBase {
+export interface MidenDAppWaitForTxRequest extends MidenDAppMessageBase {
   type: MidenDAppMessageType.WaitForTransactionRequest;
   txId: string;
 }
