@@ -160,7 +160,7 @@ const LocaleIcon: FC<IconifiedSelectOptionRenderProps<LocaleOption>> = ({ option
 const LocaleInMenuContent: FC<IconifiedSelectOptionRenderProps<LocaleOption>> = ({ option: { disabled, label } }) => {
   const { t } = useTranslation();
   return (
-    <div className={classNames('relative w-full text-lg text-black')}>
+    <div className={classNames('relative w-full text-base text-black')}>
       {label}
 
       {disabled && (
@@ -184,7 +184,7 @@ const LocaleInMenuContent: FC<IconifiedSelectOptionRenderProps<LocaleOption>> = 
 const LocaleSelectContent: FC<IconifiedSelectOptionRenderProps<LocaleOption>> = ({ option }) => {
   return (
     <div className="flex flex-col items-start py-2">
-      <span className="text-xl text-black">{option.label}</span>
+      <span className="text-lg text-black">{option.label}</span>
     </div>
   );
 };
