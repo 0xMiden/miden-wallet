@@ -15,7 +15,7 @@ import {
   TransactionRequest,
   TransactionResult,
   WebClient
-} from '@demox-labs/miden-sdk';
+} from '@miden-sdk/miden-sdk';
 
 import {
   MIDEN_NETWORK_ENDPOINTS,
@@ -79,7 +79,7 @@ export class MidenClientInterface {
 
     // In test builds, swap to the SDK's mock client to avoid hitting the real chain.
     if (process.env.MIDEN_USE_MOCK_CLIENT === 'true') {
-      const sdk = await import('@demox-labs/miden-sdk');
+      const sdk = await import('@miden-sdk/miden-sdk');
       const mockWebClient = await (sdk as any).MockWebClient.createClient(undefined, undefined, options.seed);
       return new MidenClientInterface(mockWebClient as unknown as WebClient, 'mock', options.onConnectivityIssue);
     }

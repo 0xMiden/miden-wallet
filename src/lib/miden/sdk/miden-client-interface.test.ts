@@ -76,7 +76,7 @@ describe('MidenClientInterface', () => {
 
     const createClientWithExternalKeystore = jest.fn(async () => fakeWebClient);
 
-    jest.doMock('@demox-labs/miden-sdk', () => ({
+    jest.doMock('@miden-sdk/miden-sdk', () => ({
       WebClient: { createClientWithExternalKeystore },
       AccountStorageMode: { public: jest.fn(() => 'public'), private: jest.fn(() => 'private') },
       NoteFile: { deserialize: jest.fn(() => ({})) },
@@ -198,7 +198,7 @@ describe('MidenClientInterface', () => {
       importAccountFile: jest.fn(async () => ({ id: () => 'imported-id' }))
     };
 
-    jest.doMock('@demox-labs/miden-sdk', () => ({
+    jest.doMock('@miden-sdk/miden-sdk', () => ({
       AccountFile: { deserialize: jest.fn(() => ({})) }
     }));
     jest.doMock('./helpers', () => ({
@@ -236,7 +236,7 @@ describe('MidenClientInterface', () => {
       }))
     };
 
-    jest.doMock('@demox-labs/miden-sdk', () => ({
+    jest.doMock('@miden-sdk/miden-sdk', () => ({
       TransactionRequest: { deserialize: jest.fn(() => ({})) }
     }));
     jest.doMock('./helpers', () => ({
@@ -267,7 +267,7 @@ describe('MidenClientInterface', () => {
       })
     };
 
-    jest.doMock('@demox-labs/miden-sdk', () => ({
+    jest.doMock('@miden-sdk/miden-sdk', () => ({
       TransactionFilter: { uncommitted: jest.fn(() => 'uncommitted') }
     }));
 
@@ -284,7 +284,7 @@ describe('MidenClientInterface', () => {
       getTransactions: jest.fn(async () => [{ id: () => ({ toHex: () => 'tx-456' }) }])
     };
 
-    jest.doMock('@demox-labs/miden-sdk', () => ({
+    jest.doMock('@miden-sdk/miden-sdk', () => ({
       TransactionFilter: { uncommitted: jest.fn(() => 'uncommitted') }
     }));
 
@@ -306,7 +306,7 @@ describe('MidenClientInterface', () => {
       applyTransaction: jest.fn()
     };
 
-    jest.doMock('@demox-labs/miden-sdk', () => ({
+    jest.doMock('@miden-sdk/miden-sdk', () => ({
       TransactionProver: {
         newRemoteProver: jest.fn(() => 'remote'),
         newLocalProver: jest.fn(() => 'local')

@@ -1,4 +1,4 @@
-import { BasicFungibleFaucetComponent, FungibleAsset } from '@demox-labs/miden-sdk';
+import { BasicFungibleFaucetComponent, FungibleAsset } from '@miden-sdk/miden-sdk';
 import BigNumber from 'bignumber.js';
 
 import { getFaucetIdSetting } from 'lib/miden/assets';
