@@ -553,8 +553,8 @@
     "englishSource": "Invalid address"
   },
   "contractNotExistOnNetwork": {
-    "message": "Этот смарт-контракт не существует в текущей сети",
-    "englishSource": "This smart contract doesn't exist on current network"
+    "message": "Smart Contract не существует в текущей сети",
+    "englishSource": "Smart contract doesn't exist on current network"
   },
   "onlyKTContractAddressAllowed": {
     "message": "Допускается только адрес контракта KT...",
@@ -1760,11 +1760,11 @@
     "englishSource": "Address or Aleo domain to send $assetSymbol$ funds to."
   },
   "addressInputDescription": {
-    "message": "Адрес учетной записи Aleo или смарт-контракта.",
+    "message": "Адрес учетной записи Aleo или Smart Contract.",
     "englishSource": "Address of Aleo account or smart contract."
   },
   "addressInputDescriptionWithDomain": {
-    "message": "Адрес или домен Aleo учетной записи или смарт-контракта.",
+    "message": "Адрес или домен Aleo учетной записи или Smart Contract.",
     "englishSource": "Address or Aleo domain of the account or smart contract."
   },
   "recipientInputPlaceholder": {
@@ -4436,11 +4436,11 @@
   },
   "autoConsumeSettings": {
     "message": "Автоматическое потребление Примечания MIDEN",
-    "englishSource": "Auto Consume MIDEN Notes"
+    "englishSource": "Auto Consume MIDEN notes"
   },
   "autoConsumeSettingsDescription": {
-    "message": "Auto Consume будет автоматически использовать Notes из официального сборщика Miden.",
-    "englishSource": "Auto Consume will automatically consume Notes from the official Miden Faucet."
+    "message": "Auto Consume будет автоматически использовать заметки из официального сборщика Miden.",
+    "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
     "message": "Зашифрованный файл кошелька экспортирован",
@@ -4687,12 +4687,12 @@
     "englishSource": "Unknown"
   },
   "inputNotesConsumed": {
-    "message": "Введенные Notes израсходованы",
-    "englishSource": "Input Notes consumed"
+    "message": "Введенные заметки израсходованы",
+    "englishSource": "Input notes consumed"
   },
   "outputNotesCreated": {
-    "message": "Выходные Notes созданы.",
-    "englishSource": "Output Notes created"
+    "message": "Выходные заметки созданы.",
+    "englishSource": "Output notes created"
   },
   "storageChanged": {
     "message": "Память изменена",
@@ -4731,8 +4731,8 @@
     "englishSource": "Request Private Notes"
   },
   "requestsPrivateNotes": {
-    "message": "Запрашивает личные Notes",
-    "englishSource": "Requests private Notes"
+    "message": "Запрашивает личные заметки",
+    "englishSource": "Requests private notes"
   },
   "confirmSignature": {
     "message": "Подтвердить подпись",
@@ -4764,7 +4764,7 @@
   },
   "requestsConsumableNotes": {
     "message": "Запросить информацию о расходных материалах",
-    "englishSource": "Request consumable Notes"
+    "englishSource": "Request consumable notes"
   },
   "review": {
     "message": "Обзор",

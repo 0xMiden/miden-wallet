@@ -125,7 +125,7 @@
   "iconURLInputDescription": "Image URL for asset logo.",
   "invalidAddress": "Invalid address",
   "invalidViewKey": "Invalid view key",
-  "contractNotExistOnNetwork": "This smart contract doesn't exist on current network",
+  "contractNotExistOnNetwork": "Smart contract doesn't exist on current network",
   "onlyKTContractAddressAllowed": "Only KT... contract address allowed",
   "operationHash": "Operation Hash",
   "alert": "Alert",

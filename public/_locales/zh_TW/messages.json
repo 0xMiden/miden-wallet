@@ -427,8 +427,8 @@
     "englishSource": "Invalid address"
   },
   "contractNotExistOnNetwork": {
-    "message": "目前的網路上不存在此智慧合約",
-    "englishSource": "This smart contract doesn't exist on current network"
+    "message": "当前网络不存在Smart Contract",
+    "englishSource": "Smart contract doesn't exist on current network"
   },
   "onlyKTContractAddressAllowed": {
     "message": "僅允許 KT… 合約地址",
@@ -1422,11 +1422,11 @@
     "englishSource": "Address or Aleo domain to send $assetSymbol$ funds to."
   },
   "addressInputDescription": {
-    "message": "Aleo 帳戶或智慧合約的地址。",
+    "message": "Aleo 账户或Smart Contract的地址。",
     "englishSource": "Address of Aleo account or smart contract."
   },
   "addressInputDescriptionWithDomain": {
-    "message": "帳戶或智慧合約的地址或 Aleo 網域。",
+    "message": "账户或Smart Contract的地址或 Aleo 域。",
     "englishSource": "Address or Aleo domain of the account or smart contract."
   },
   "recipientInputPlaceholder": {
@@ -4468,12 +4468,12 @@
     "englishSource": "Explore the world of private assets."
   },
   "autoConsumeSettings": {
-    "message": "自动使用 MIDEN note",
-    "englishSource": "Auto Consume MIDEN Notes"
+    "message": "自动使用 MIDEN 笔记",
+    "englishSource": "Auto Consume MIDEN notes"
   },
   "autoConsumeSettingsDescription": {
-    "message": "自动消耗将自动消耗来自官方Miden Faucet的note。",
-    "englishSource": "Auto Consume will automatically consume Notes from the official Miden Faucet."
+    "message": "自动消耗将自动消耗来自官方Miden Faucet的笔记。",
+    "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
     "message": "导出加密钱包文件",
@@ -4720,12 +4720,12 @@
     "englishSource": "Unknown"
   },
   "inputNotesConsumed": {
-    "message": "消耗的输入note",
-    "englishSource": "Input Notes consumed"
+    "message": "消耗的输入笔记",
+    "englishSource": "Input notes consumed"
   },
   "outputNotesCreated": {
     "message": "创建的输出注释",
-    "englishSource": "Output Notes created"
+    "englishSource": "Output notes created"
   },
   "storageChanged": {
     "message": "存储已更改",
@@ -4764,8 +4764,8 @@
     "englishSource": "Request Private Notes"
   },
   "requestsPrivateNotes": {
-    "message": "请求私人note",
-    "englishSource": "Requests private Notes"
+    "message": "请求私人笔记",
+    "englishSource": "Requests private notes"
   },
   "confirmSignature": {
     "message": "确认签名",
@@ -4797,7 +4797,7 @@
   },
   "requestsConsumableNotes": {
     "message": "索取消耗品备注",
-    "englishSource": "Request consumable Notes"
+    "englishSource": "Request consumable notes"
   },
   "review": {
     "message": "审查",

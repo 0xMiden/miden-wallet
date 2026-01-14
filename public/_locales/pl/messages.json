@@ -504,8 +504,8 @@
     "englishSource": "Invalid view key"
   },
   "contractNotExistOnNetwork": {
-    "message": "Ta inteligentna umowa nie istnieje w bieżącej sieci",
-    "englishSource": "This smart contract doesn't exist on current network"
+    "message": "Smart Contract nie istnieje w bieżącej sieci",
+    "englishSource": "Smart contract doesn't exist on current network"
   },
   "onlyKTContractAddressAllowed": {
     "message": "Dozwolony jest tylko adres kontraktowy KT...",
@@ -1836,11 +1836,11 @@
     "englishSource": "Address or Aleo domain to send $assetSymbol$ funds to."
   },
   "addressInputDescription": {
-    "message": "Adres konta Aleo lub inteligentnej umowy.",
+    "message": "Adres konta Aleo lub Smart Contract.",
     "englishSource": "Address of Aleo account or smart contract."
   },
   "addressInputDescriptionWithDomain": {
-    "message": "Adres lub domena Aleo konta lub inteligentnej umowy.",
+    "message": "Adres lub domena Aleo konta lub Smart Contract.",
     "englishSource": "Address or Aleo domain of the account or smart contract."
   },
   "recipientInputPlaceholder": {
@@ -3816,12 +3816,12 @@
     "englishSource": "Explore the world of private assets."
   },
   "autoConsumeSettings": {
-    "message": "Automatyczne zużywanie Notes MIDEN",
-    "englishSource": "Auto Consume MIDEN Notes"
+    "message": "Automatyczne zużywanie notatek MIDEN",
+    "englishSource": "Auto Consume MIDEN notes"
   },
   "autoConsumeSettingsDescription": {
-    "message": "Auto Consume automatycznie zużyje Notes z oficjalnego Miden Faucet.",
-    "englishSource": "Auto Consume will automatically consume Notes from the official Miden Faucet."
+    "message": "Auto Consume automatycznie zużyje notatki z oficjalnego Miden Faucet.",
+    "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
     "message": "Wyeksportowano zaszyfrowany plik portfela",
@@ -4072,12 +4072,12 @@
     "englishSource": "Unknown"
   },
   "inputNotesConsumed": {
-    "message": "Zużyte Notes wejściowe",
-    "englishSource": "Input Notes consumed"
+    "message": "Zużyte notatki wejściowe",
+    "englishSource": "Input notes consumed"
   },
   "outputNotesCreated": {
-    "message": "Utworzono Notes wyjściowe",
-    "englishSource": "Output Notes created"
+    "message": "Utworzono notatki wyjściowe",
+    "englishSource": "Output notes created"
   },
   "storageChanged": {
     "message": "Pamięć zmieniona",
@@ -4116,8 +4116,8 @@
     "englishSource": "Request Private Notes"
   },
   "requestsPrivateNotes": {
-    "message": "Prosi o prywatne Notes",
-    "englishSource": "Requests private Notes"
+    "message": "Prosi o prywatne notatki",
+    "englishSource": "Requests private notes"
   },
   "confirmSignature": {
     "message": "Potwierdź podpis",
@@ -4148,8 +4148,8 @@
     "englishSource": "Request Consumable Notes"
   },
   "requestsConsumableNotes": {
-    "message": "Poproś o Notes dotyczące materiałów eksploatacyjnych",
-    "englishSource": "Request consumable Notes"
+    "message": "Poproś o notatki dotyczące materiałów eksploatacyjnych",
+    "englishSource": "Request consumable notes"
   },
   "review": {
     "message": "Recenzja",

@@ -294,7 +294,7 @@
     "englishSource": "Add Asset"
   },
   "contractNotAvailable": {
-    "message": "Смарт-контракт за цією адресою недоступний. Чи існує він у цій мережі?",
+    "message": "Smart Contract за цією адресою недоступний. Чи існує він у цій мережі?",
     "englishSource": "The contract at this address is not available. Does it exist on this network?"
   },
   "noTransferMethod": {
@@ -431,8 +431,8 @@
     "englishSource": "Invalid address"
   },
   "contractNotExistOnNetwork": {
-    "message": "Цей смарт контракт не існує на заданній мережі",
-    "englishSource": "This smart contract doesn't exist on current network"
+    "message": "Smart Contract не існує в поточній мережі",
+    "englishSource": "Smart contract doesn't exist on current network"
   },
   "onlyKTContractAddressAllowed": {
     "message": "Тільки KT... адреси контрактів дозволені",
@@ -1452,11 +1452,11 @@
     "englishSource": "Address or Aleo domain to send $assetSymbol$ funds to."
   },
   "addressInputDescription": {
-    "message": "Адреса Aleo аккаунту or смарт контракту.",
+    "message": "Адреса облікового запису Aleo або Smart Contract.",
     "englishSource": "Address of Aleo account or smart contract."
   },
   "addressInputDescriptionWithDomain": {
-    "message": "Адреса або Aleo домен аккаунту або смарт контракту.",
+    "message": "Адреса або домен Aleo облікового запису або Smart Contract.",
     "englishSource": "Address or Aleo domain of the account or smart contract."
   },
   "recipientInputPlaceholder": {
@@ -4590,11 +4590,11 @@
   },
   "autoConsumeSettings": {
     "message": "Автоматичне споживання нотаток MIDEN",
-    "englishSource": "Auto Consume MIDEN Notes"
+    "englishSource": "Auto Consume MIDEN notes"
   },
   "autoConsumeSettingsDescription": {
-    "message": "Auto Consume автоматично споживатиме Notes з офіційного Miden Faucet.",
-    "englishSource": "Auto Consume will automatically consume Notes from the official Miden Faucet."
+    "message": "Auto Consume автоматично споживатиме нотатки з офіційного Miden Faucet.",
+    "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
     "message": "Зашифрований файл гаманця експортовано",
@@ -4841,12 +4841,12 @@
     "englishSource": "Unknown"
   },
   "inputNotesConsumed": {
-    "message": "Вхідні Notes використано",
-    "englishSource": "Input Notes consumed"
+    "message": "Вхідні нотатки використано",
+    "englishSource": "Input notes consumed"
   },
   "outputNotesCreated": {
-    "message": "Вихідні Notes створені",
-    "englishSource": "Output Notes created"
+    "message": "Вихідні нотатки створені",
+    "englishSource": "Output notes created"
   },
   "storageChanged": {
     "message": "Пам'ять змінено",
@@ -4885,8 +4885,8 @@
     "englishSource": "Request Private Notes"
   },
   "requestsPrivateNotes": {
-    "message": "Запитує особисті Notes",
-    "englishSource": "Requests private Notes"
+    "message": "Запитує особисті нотатки",
+    "englishSource": "Requests private notes"
   },
   "confirmSignature": {
     "message": "Підтвердити підпис",
@@ -4918,7 +4918,7 @@
   },
   "requestsConsumableNotes": {
     "message": "Вимагайте приміток до витратних матеріалів",
-    "englishSource": "Request consumable Notes"
+    "englishSource": "Request consumable notes"
   },
   "review": {
     "message": "огляд",

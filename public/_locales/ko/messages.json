@@ -418,8 +418,8 @@
     "englishSource": "Invalid address"
   },
   "contractNotExistOnNetwork": {
-    "message": "이 스마트 계약은 현재 네트워크에 존재하지 않습니다",
-    "englishSource": "This smart contract doesn't exist on current network"
+    "message": "현재 네트워크에는 Smart Contract이 존재하지 않습니다.",
+    "englishSource": "Smart contract doesn't exist on current network"
   },
   "onlyKTContractAddressAllowed": {
     "message": "KT... 계약 주소만 허용됨",
@@ -1349,11 +1349,11 @@
     "englishSource": "Address or Aleo domain to send $assetSymbol$ funds to."
   },
   "addressInputDescription": {
-    "message": "테조스 계정 혹은 스마트 계약 주소입니다.",
+    "message": "Aleo 계정 또는 Smart Contract의 주소입니다.",
     "englishSource": "Address of Aleo account or smart contract."
   },
   "addressInputDescriptionWithDomain": {
-    "message": "계정의 테조스 도메인 혹은 스마트 계약의 주소입니다.",
+    "message": "계정 또는 Smart Contract의 주소 또는 Aleo 도메인.",
     "englishSource": "Address or Aleo domain of the account or smart contract."
   },
   "recipientInputPlaceholder": {
@@ -4517,12 +4517,12 @@
     "englishSource": "Explore the world of private assets."
   },
   "autoConsumeSettings": {
-    "message": "MIDEN Note 자동 소비",
-    "englishSource": "Auto Consume MIDEN Notes"
+    "message": "MIDEN 노트 자동 소비",
+    "englishSource": "Auto Consume MIDEN notes"
   },
   "autoConsumeSettingsDescription": {
-    "message": "자동 소비는 공식 Miden Faucet의 Note를 자동으로 소비합니다.",
-    "englishSource": "Auto Consume will automatically consume Notes from the official Miden Faucet."
+    "message": "자동 소비는 공식 Miden 수도꼭지의 노트를 자동으로 소비합니다.",
+    "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
     "message": "암호화된 지갑 파일을 내보냈습니다.",
@@ -4769,12 +4769,12 @@
     "englishSource": "Unknown"
   },
   "inputNotesConsumed": {
-    "message": "소비된 입력 Note",
-    "englishSource": "Input Notes consumed"
+    "message": "소비된 입력 노트",
+    "englishSource": "Input notes consumed"
   },
   "outputNotesCreated": {
-    "message": "생성된 출력 Note",
-    "englishSource": "Output Notes created"
+    "message": "생성된 출력 노트",
+    "englishSource": "Output notes created"
   },
   "storageChanged": {
     "message": "저장용량이 변경됨",
@@ -4813,8 +4813,8 @@
     "englishSource": "Request Private Notes"
   },
   "requestsPrivateNotes": {
-    "message": "비공개 Note 요청",
-    "englishSource": "Requests private Notes"
+    "message": "비공개 메모 요청",
+    "englishSource": "Requests private notes"
   },
   "confirmSignature": {
     "message": "서명 확인",
@@ -4845,8 +4845,8 @@
     "englishSource": "Request Consumable Notes"
   },
   "requestsConsumableNotes": {
-    "message": "소모품 Note 요청",
-    "englishSource": "Request consumable Notes"
+    "message": "소모품 메모 요청",
+    "englishSource": "Request consumable notes"
   },
   "review": {
     "message": "검토",

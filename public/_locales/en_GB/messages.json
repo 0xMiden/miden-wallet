@@ -426,8 +426,8 @@
     "englishSource": "Invalid address"
   },
   "contractNotExistOnNetwork": {
-    "message": "This smart contract doesn't exist on current network",
-    "englishSource": "This smart contract doesn't exist on current network"
+    "message": "Smart contract doesn't exist on current network",
+    "englishSource": "Smart contract doesn't exist on current network"
   },
   "onlyKTContractAddressAllowed": {
     "message": "Only KT... contract address allowed",
@@ -4535,12 +4535,12 @@
     "englishSource": "Explore the world of private assets."
   },
   "autoConsumeSettings": {
-    "message": "Auto Consume MIDEN Notes",
-    "englishSource": "Auto Consume MIDEN Notes"
+    "message": "Auto Consume MIDEN notes",
+    "englishSource": "Auto Consume MIDEN notes"
   },
   "autoConsumeSettingsDescription": {
-    "message": "Auto Consume will automatically consume Notes from the official Miden Faucet.",
-    "englishSource": "Auto Consume will automatically consume Notes from the official Miden Faucet."
+    "message": "Auto Consume will automatically consume notes from the official Miden Faucet.",
+    "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
     "message": "Encrypted Wallet File Exported",
@@ -4787,12 +4787,12 @@
     "englishSource": "Unknown"
   },
   "inputNotesConsumed": {
-    "message": "Input Notes consumed",
-    "englishSource": "Input Notes consumed"
+    "message": "Input notes consumed",
+    "englishSource": "Input notes consumed"
   },
   "outputNotesCreated": {
-    "message": "Output Notes created",
-    "englishSource": "Output Notes created"
+    "message": "Output notes created",
+    "englishSource": "Output notes created"
   },
   "storageChanged": {
     "message": "Storage changed",
@@ -4831,8 +4831,8 @@
     "englishSource": "Request Private Notes"
   },
   "requestsPrivateNotes": {
-    "message": "Requests private Notes",
-    "englishSource": "Requests private Notes"
+    "message": "Requests private notes",
+    "englishSource": "Requests private notes"
   },
   "confirmSignature": {
     "message": "Confirm Signature",
@@ -4863,8 +4863,8 @@
     "englishSource": "Request Consumable Notes"
   },
   "requestsConsumableNotes": {
-    "message": "Request consumable Notes",
-    "englishSource": "Request consumable Notes"
+    "message": "Request consumable notes",
+    "englishSource": "Request consumable notes"
   },
   "review": {
     "message": "Review",

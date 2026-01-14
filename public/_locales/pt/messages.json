@@ -451,8 +451,8 @@
     "englishSource": "Invalid address"
   },
   "contractNotExistOnNetwork": {
-    "message": "Este contrato inteligente não existe na rede atual",
-    "englishSource": "This smart contract doesn't exist on current network"
+    "message": "O Smart Contract não existe na rede atual",
+    "englishSource": "Smart contract doesn't exist on current network"
   },
   "onlyKTContractAddressAllowed": {
     "message": "Apenas o endereço do contrato KT... é permitido",
@@ -1536,12 +1536,12 @@
     "englishSource": "Address or Aleo domain to send $assetSymbol$ funds to."
   },
   "addressInputDescription": {
-    "message": "Endereço da conta Aleo ou contrato inteligente.",
-    "englishSource": "Address of Aleo account or smart contract."
+    "message": "Endereço da conta Aleo ou Smart Contract.",
+    "englishSource": "Address of Aleo account or Smart Contract."
   },
   "addressInputDescriptionWithDomain": {
-    "message": "Endereço ou domínio Aleo da conta ou contrato inteligente.",
-    "englishSource": "Address or Aleo domain of the account or smart contract."
+    "message": "Endereço ou domínio Aleo da conta ou Smart Contract.",
+    "englishSource": "Address or Aleo domain of the account or Smart Contract."
   },
   "recipientInputPlaceholder": {
     "message": "por exemplo, 0xb3d1df68...",
@@ -4532,12 +4532,12 @@
     "englishSource": "Explore the world of private assets."
   },
   "autoConsumeSettings": {
-    "message": "Consumir automaticamente Notes MIDEN",
-    "englishSource": "Auto Consume MIDEN Notes"
+    "message": "Consumir automaticamente notas MIDEN",
+    "englishSource": "Auto Consume MIDEN notes"
   },
   "autoConsumeSettingsDescription": {
-    "message": "O Auto Consume consumirá automaticamente as Notes do Miden Faucet oficial.",
-    "englishSource": "Auto Consume will automatically consume Notes from the official Miden Faucet."
+    "message": "O Auto Consume consumirá automaticamente as notas do Miden Faucet oficial.",
+    "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
     "message": "Arquivo de carteira criptografado exportado",
@@ -4784,12 +4784,12 @@
     "englishSource": "Unknown"
   },
   "inputNotesConsumed": {
-    "message": "Notes de entrada consumidas",
-    "englishSource": "Input Notes consumed"
+    "message": "Notas de entrada consumidas",
+    "englishSource": "Input notes consumed"
   },
   "outputNotesCreated": {
-    "message": "Notes de saída criadas",
-    "englishSource": "Output Notes created"
+    "message": "Notas de saída criadas",
+    "englishSource": "Output notes created"
   },
   "storageChanged": {
     "message": "Armazenamento alterado",
@@ -4828,8 +4828,8 @@
     "englishSource": "Request Private Notes"
   },
   "requestsPrivateNotes": {
-    "message": "Solicita Notes privadas",
-    "englishSource": "Requests private Notes"
+    "message": "Solicita notas privadas",
+    "englishSource": "Requests private notes"
   },
   "confirmSignature": {
     "message": "Confirmar assinatura",
@@ -4860,8 +4860,8 @@
     "englishSource": "Request Consumable Notes"
   },
   "requestsConsumableNotes": {
-    "message": "Solicite Notes de consumíveis",
-    "englishSource": "Request consumable Notes"
+    "message": "Solicite notas de consumíveis",
+    "englishSource": "Request consumable notes"
   },
   "review": {
     "message": "Análise",

@@ -451,8 +451,8 @@
     "englishSource": "Invalid address"
   },
   "contractNotExistOnNetwork": {
-    "message": "Dieser Smart-Kontrakt existiert nicht im aktuellen Netzwerk",
-    "englishSource": "This smart contract doesn't exist on current network"
+    "message": "Im aktuellen Netzwerk existiert kein Smart Contract",
+    "englishSource": "Smart contract doesn't exist on current network"
   },
   "onlyKTContractAddressAllowed": {
     "message": "Nur KT... Vertragsadresse erlaubt",
@@ -762,8 +762,8 @@
     "englishSource": "Custom derivation path"
   },
   "mnemonicInputLabel": {
-    "message": "Seed Phrase",
-    "englishSource": "Seed Phrase"
+    "message": "Samenphrase",
+    "englishSource": "Seed phrase"
   },
   "mnemonicInputDescription": {
     "message": "Gedächtnisstütze. Ihre geheime 12 - 24 Wörter Phrase.",
@@ -1536,11 +1536,11 @@
     "englishSource": "Address or Aleo domain to send $assetSymbol$ funds to."
   },
   "addressInputDescription": {
-    "message": "Adresse des Aleo-Kontos oder Smart Kontrakts.",
+    "message": "Adresse des Aleo-Kontos oder Smart Contracts.",
     "englishSource": "Address of Aleo account or smart contract."
   },
   "addressInputDescriptionWithDomain": {
-    "message": "Adresse oder Aleo-Domain des Kontos oder Smart Kontrakts.",
+    "message": "Adresse oder Aleo-Domain des Kontos oder Smart Contracts.",
     "englishSource": "Address or Aleo domain of the account or smart contract."
   },
   "recipientInputPlaceholder": {
@@ -2952,16 +2952,16 @@
     "englishSource": "Inclusion of at least one special character, e.g., ! @ # ? ] - (optional, recommended)."
   },
   "seedInputNumberOfWords": {
-    "message": "Meine Seed Phrase besteht aus 1-Dollar-Wörtern",
-    "englishSource": "My Seed Phrase is $1 words"
+    "message": "Meine Seed-Phrase besteht aus 1-Dollar-Wörtern",
+    "englishSource": "My Seed phrase is $1 words"
   },
   "seedPasteFailedTooManyWords": {
     "message": "Das Einfügen ist fehlgeschlagen, da es mehr als 24 Wörter enthielt.",
     "englishSource": "Paste failed because it contained over 24 words."
   },
   "seedPhraseTip": {
-    "message": "Sie können Ihre gesamte geheime Seed Phrase in jedes beliebige Feld einfügen",
-    "englishSource": "You can paste your entire secret Seed Phrase into any field"
+    "message": "Sie können Ihre gesamte geheime Seed-Phrase in jedes beliebige Feld einfügen",
+    "englishSource": "You can paste your entire secret Seed phrase into any field"
   },
   "assetMustBeSelected": {
     "message": "Asset muss ausgewählt werden",
@@ -4110,16 +4110,16 @@
     "englishSource": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase."
   },
   "enterYourWalletSeedPhrase": {
-    "message": "Geben Sie die 12-Wörter-Seed Phrase Ihrer Brieftasche ein.",
-    "englishSource": "Enter your wallet's 12-word Seed Phrase."
+    "message": "Geben Sie die 12-Wörter-Seed-Phrase Ihrer Brieftasche ein.",
+    "englishSource": "Enter your wallet's 12-word Seed phrase."
   },
   "onlyAleoSeedPhrasesAreSupported": {
-    "message": "Es werden nur Aleo Seed Phrasen unterstützt.",
-    "englishSource": "Only Aleo Seed Phrases are supported."
+    "message": "Es werden nur Aleo Seed-Phrasen unterstützt.",
+    "englishSource": "Only Aleo Seed phrases are supported."
   },
   "seedPhrasePlaceholder": {
-    "message": "12-Wörter-Seed Phrase",
-    "englishSource": "12-word Seed Phrase"
+    "message": "12-Wörter-Seed-Phrase",
+    "englishSource": "12-word Seed phrase"
   },
   "join": {
     "message": "Beitreten",
@@ -4440,8 +4440,8 @@
     "englishSource": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain"
   },
   "onlyMidenSeedPhrasesAreSupported": {
-    "message": "Es werden nur Miden Seed Phrasen unterstützt.",
-    "englishSource": "Only Miden Seed Phrases are supported."
+    "message": "Es werden nur Miden Seed-Phrasen unterstützt.",
+    "englishSource": "Only Miden Seed phrases are supported."
   },
   "passwordsDoNotMatch": {
     "message": "Passwörter stimmen nicht überein",
@@ -4472,8 +4472,8 @@
     "englishSource": "If you've forgotten your password, you need to sign out and re-import your account. After that, you can create a new password."
   },
   "forgotPasswordSecondDescription": {
-    "message": "Melden Sie sich nicht ab, es sei denn, Sie kennen Ihre 12-Wörter-Seed Phrase oder haben eine verschlüsselte Sicherungsdatei.",
-    "englishSource": "Do not sign out unless you know your 12-word Seed Phrase or have an encrypted backup file."
+    "message": "Melden Sie sich nicht ab, es sei denn, Sie kennen Ihre 12-Wörter-Seed-Phrase oder haben eine verschlüsselte Sicherungsdatei.",
+    "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
   "signOut": {
     "message": "Abmelden",
@@ -4533,11 +4533,11 @@
   },
   "autoConsumeSettings": {
     "message": "MIDEN-Noten automatisch konsumieren",
-    "englishSource": "Auto Consume MIDEN Notes"
+    "englishSource": "Auto Consume MIDEN notes"
   },
   "autoConsumeSettingsDescription": {
     "message": "Auto Consume verbraucht automatisch Banknoten aus dem offiziellen Miden Faucet.",
-    "englishSource": "Auto Consume will automatically consume Notes from the official Miden Faucet."
+    "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
     "message": "Verschlüsselte Wallet-Datei exportiert",
@@ -4785,11 +4785,11 @@
   },
   "inputNotesConsumed": {
     "message": "Eingabenotizen verbraucht",
-    "englishSource": "Input Notes consumed"
+    "englishSource": "Input notes consumed"
   },
   "outputNotesCreated": {
     "message": "Ausgabenotizen erstellt",
-    "englishSource": "Output Notes created"
+    "englishSource": "Output notes created"
   },
   "storageChanged": {
     "message": "Speicher geändert",
@@ -4828,8 +4828,8 @@
     "englishSource": "Request Private Notes"
   },
   "requestsPrivateNotes": {
-    "message": "Fordert private Notes an",
-    "englishSource": "Requests private Notes"
+    "message": "Fordert private Notizen an",
+    "englishSource": "Requests private notes"
   },
   "confirmSignature": {
     "message": "Unterschrift bestätigen",
@@ -4860,8 +4860,8 @@
     "englishSource": "Request Consumable Notes"
   },
   "requestsConsumableNotes": {
-    "message": "Fordern Sie Notee zu Verbrauchsmaterialien an",
-    "englishSource": "Request consumable Notes"
+    "message": "Fordern Sie Hinweise zu Verbrauchsmaterialien an",
+    "englishSource": "Request consumable notes"
   },
   "review": {
     "message": "Rezension",

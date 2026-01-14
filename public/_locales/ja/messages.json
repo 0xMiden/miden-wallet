@@ -427,8 +427,8 @@
     "englishSource": "Invalid address"
   },
   "contractNotExistOnNetwork": {
-    "message": "このスマートコントラクトは現在のネットワークには存在しません",
-    "englishSource": "This smart contract doesn't exist on current network"
+    "message": "現在のネットワークにはSmart Contractが存在しません",
+    "englishSource": "Smart contract doesn't exist on current network"
   },
   "onlyKTContractAddressAllowed": {
     "message": "KTのみ...コントラクトアドレス可",
@@ -1422,11 +1422,11 @@
     "englishSource": "Address or Aleo domain to send $assetSymbol$ funds to."
   },
   "addressInputDescription": {
-    "message": "テゾスアカウントまたはスマートコントラクトのアドレス",
+    "message": "Aleo アカウントまたはSmart Contractのアドレス。",
     "englishSource": "Address of Aleo account or smart contract."
   },
   "addressInputDescriptionWithDomain": {
-    "message": "アカウントまたはスマートコントラクトのアドレスまたはテゾスドメイン。",
+    "message": "アカウントまたはSmart Contractのアドレスまたは Aleo ドメイン。",
     "englishSource": "Address or Aleo domain of the account or smart contract."
   },
   "recipientInputPlaceholder": {
@@ -4508,12 +4508,12 @@
     "englishSource": "Explore the world of private assets."
   },
   "autoConsumeSettings": {
-    "message": "MIDENNoteの自動消費",
-    "englishSource": "Auto Consume MIDEN Notes"
+    "message": "MIDENノートの自動消費",
+    "englishSource": "Auto Consume MIDEN notes"
   },
   "autoConsumeSettingsDescription": {
-    "message": "自動消費は、公式 Miden Faucet からのNoteを自動的に消費します。",
-    "englishSource": "Auto Consume will automatically consume Notes from the official Miden Faucet."
+    "message": "自動消費は、公式 Miden Faucet からのノートを自動的に消費します。",
+    "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
     "message": "暗号化されたウォレット ファイルがエクスポートされました",
@@ -4760,12 +4760,12 @@
     "englishSource": "Unknown"
   },
   "inputNotesConsumed": {
-    "message": "消費したNoteを入力",
-    "englishSource": "Input Notes consumed"
+    "message": "消費したノートを入力",
+    "englishSource": "Input notes consumed"
   },
   "outputNotesCreated": {
-    "message": "作成された出力Note",
-    "englishSource": "Output Notes created"
+    "message": "作成された出力ノート",
+    "englishSource": "Output notes created"
   },
   "storageChanged": {
     "message": "ストレージが変更されました",
@@ -4804,8 +4804,8 @@
     "englishSource": "Request Private Notes"
   },
   "requestsPrivateNotes": {
-    "message": "プライベートNoteをリクエストします",
-    "englishSource": "Requests private Notes"
+    "message": "プライベートメモをリクエストします",
+    "englishSource": "Requests private notes"
   },
   "confirmSignature": {
     "message": "署名の確認",
@@ -4836,8 +4836,8 @@
     "englishSource": "Request Consumable Notes"
   },
   "requestsConsumableNotes": {
-    "message": "消耗品Noteをリクエストする",
-    "englishSource": "Request consumable Notes"
+    "message": "消耗品メモをリクエストする",
+    "englishSource": "Request consumable notes"
   },
   "review": {
     "message": "レビュー",
