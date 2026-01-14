@@ -5005,5 +5005,93 @@
   "accountPublicKey": {
     "message": "Відкритий ключ облікового запису",
     "englishSource": "Account Public Key"
+  },
+  "verifyingTransaction": {
+    "message": "Перевірка транзакції",
+    "englishSource": "Verifying transaction"
+  },
+  "transactionProcessingDescription": {
+    "message": "Завантажений файл транзакції обробляється для перевірки його деталей. Не оновлюйте та не закривайте програму.",
+    "englishSource": "The uploaded transaction file is being processed to verify its details. Please do not refresh or close the app."
+  },
+  "yourAddress": {
+    "message": "Ваша адреса",
+    "englishSource": "Your address"
+  },
+  "errorClaiming": {
+    "message": "Помилка претензії:",
+    "englishSource": "Error Claiming: "
+  },
+  "addAccount": {
+    "message": "Додати обліковий запис",
+    "englishSource": "Add Account"
+  },
+  "faucetIdUpdated": {
+    "message": "Ідентифікатор крана оновлено",
+    "englishSource": "Faucet ID Updated"
+  },
+  "connectivityIssueDetected": {
+    "message": "Виявлено проблему підключення",
+    "englishSource": "Connectivity Issue Detected"
+  },
+  "walletMayBeOffline": {
+    "message": "Гаманець може бути офлайн або не синхронізований.",
+    "englishSource": "Wallet may be offline or out of sync."
+  },
+  "noteConsumedSuccessfully": {
+    "message": "Вашу нотатку успішно використано.",
+    "englishSource": "Your note was successfully consumed."
+  },
+  "noteConsumptionError": {
+    "message": "Під час використання вашої нотатки сталася помилка. Спробуйте ще раз.",
+    "englishSource": "There was an error consuming your note. Please try again."
+  },
+  "dragAndDropFile": {
+    "message": "Перетягніть файл або",
+    "englishSource": "Drag and drop file or"
+  },
+  "jsonFileType": {
+    "message": ".JSON",
+    "englishSource": ".JSON"
+  },
+  "blocksUntilRecall": {
+    "message": "Блокується до відкликання",
+    "englishSource": "Blocks until recall"
+  },
+  "recallBlocksDescription": {
+    "message": "Якщо одержувач не прийме транзакцію протягом цього часу, кошти будуть повернуті вам.",
+    "englishSource": "If the recipient does not accept the transaction within this time, the funds will be returned to you."
+  },
+  "clearText": {
+    "message": "Чистий текст",
+    "englishSource": "Clear text"
+  },
+  "avatar": {
+    "message": "аватар",
+    "englishSource": "avatar"
+  },
+  "byProceeding": {
+    "message": "Продовжуючи, ви погоджуєтеся з",
+    "englishSource": "By proceeding, you agree to the"
+  },
+  "termsOfUsageLink": {
+    "message": "Умови використання",
+    "englishSource": "Terms of Usage"
+  },
+  "privacyPolicyLink": {
+    "message": "Політика конфіденційності",
+    "englishSource": "Privacy Policy"
+  },
+  "andWord": {
+    "message": "і",
+    "englishSource": "and"
+  },
+  "transactionFileDescription": {
+    "message": "Файл транзакцій",
+    "englishSource": "Transaction file"
+  },
+  "enterDecryptionPassword": {
+    "message": "Введіть пароль, який ви встановили під час експорту гаманця. Це розшифрує файл і відновить доступ.",
+    "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
   }
 }

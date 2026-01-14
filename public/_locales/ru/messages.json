@@ -4851,5 +4851,93 @@
   "accountPublicKey": {
     "message": "Открытый ключ аккаунта",
     "englishSource": "Account Public Key"
+  },
+  "verifyingTransaction": {
+    "message": "Проверка транзакции",
+    "englishSource": "Verifying transaction"
+  },
+  "transactionProcessingDescription": {
+    "message": "Загруженный файл транзакции обрабатывается для проверки его деталей. Пожалуйста, не обновляйте и не закрывайте приложение.",
+    "englishSource": "The uploaded transaction file is being processed to verify its details. Please do not refresh or close the app."
+  },
+  "yourAddress": {
+    "message": "Ваш адрес",
+    "englishSource": "Your address"
+  },
+  "errorClaiming": {
+    "message": "Ошибка в заявлении:",
+    "englishSource": "Error Claiming: "
+  },
+  "addAccount": {
+    "message": "Добавить аккаунт",
+    "englishSource": "Add Account"
+  },
+  "faucetIdUpdated": {
+    "message": "Идентификатор крана обновлен",
+    "englishSource": "Faucet ID Updated"
+  },
+  "connectivityIssueDetected": {
+    "message": "Обнаружена проблема с подключением",
+    "englishSource": "Connectivity Issue Detected"
+  },
+  "walletMayBeOffline": {
+    "message": "Возможно, кошелек отключен от сети или не синхронизирован.",
+    "englishSource": "Wallet may be offline or out of sync."
+  },
+  "noteConsumedSuccessfully": {
+    "message": "Ваша заметка была успешно использована.",
+    "englishSource": "Your note was successfully consumed."
+  },
+  "noteConsumptionError": {
+    "message": "Произошла ошибка при использовании вашей заметки. Пожалуйста, попробуйте еще раз.",
+    "englishSource": "There was an error consuming your note. Please try again."
+  },
+  "dragAndDropFile": {
+    "message": "Перетащите файл или",
+    "englishSource": "Drag and drop file or"
+  },
+  "jsonFileType": {
+    "message": ".JSON",
+    "englishSource": ".JSON"
+  },
+  "blocksUntilRecall": {
+    "message": "Блокирует до отзыва",
+    "englishSource": "Blocks until recall"
+  },
+  "recallBlocksDescription": {
+    "message": "Если получатель не примет транзакцию в течение этого времени, средства будут возвращены вам.",
+    "englishSource": "If the recipient does not accept the transaction within this time, the funds will be returned to you."
+  },
+  "clearText": {
+    "message": "Очистить текст",
+    "englishSource": "Clear text"
+  },
+  "avatar": {
+    "message": "аватар",
+    "englishSource": "avatar"
+  },
+  "byProceeding": {
+    "message": "Продолжая, вы соглашаетесь с",
+    "englishSource": "By proceeding, you agree to the"
+  },
+  "termsOfUsageLink": {
+    "message": "Условия использования",
+    "englishSource": "Terms of Usage"
+  },
+  "privacyPolicyLink": {
+    "message": "политика конфиденциальности",
+    "englishSource": "Privacy Policy"
+  },
+  "andWord": {
+    "message": "и",
+    "englishSource": "and"
+  },
+  "transactionFileDescription": {
+    "message": "Файл транзакции",
+    "englishSource": "Transaction file"
+  },
+  "enterDecryptionPassword": {
+    "message": "Введите пароль, который вы установили при экспорте кошелька. Это позволит расшифровать файл и восстановить доступ.",
+    "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
   }
 }

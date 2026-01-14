@@ -4932,5 +4932,93 @@
   "shareTransactionPrivately": {
     "message": "Share transaction privately",
     "englishSource": "Share transaction privately"
+  },
+  "verifyingTransaction": {
+    "message": "Verifying transaction",
+    "englishSource": "Verifying transaction"
+  },
+  "transactionProcessingDescription": {
+    "message": "The uploaded transaction file is being processed to verify its details. Please do not refresh or close the app.",
+    "englishSource": "The uploaded transaction file is being processed to verify its details. Please do not refresh or close the app."
+  },
+  "yourAddress": {
+    "message": "Your address",
+    "englishSource": "Your address"
+  },
+  "errorClaiming": {
+    "message": "Error Claiming: ",
+    "englishSource": "Error Claiming: "
+  },
+  "addAccount": {
+    "message": "Add Account",
+    "englishSource": "Add Account"
+  },
+  "faucetIdUpdated": {
+    "message": "Faucet ID Updated",
+    "englishSource": "Faucet ID Updated"
+  },
+  "connectivityIssueDetected": {
+    "message": "Connectivity Issue Detected",
+    "englishSource": "Connectivity Issue Detected"
+  },
+  "walletMayBeOffline": {
+    "message": "Wallet may be offline or out of sync.",
+    "englishSource": "Wallet may be offline or out of sync."
+  },
+  "noteConsumedSuccessfully": {
+    "message": "Your note was successfully consumed.",
+    "englishSource": "Your note was successfully consumed."
+  },
+  "noteConsumptionError": {
+    "message": "There was an error consuming your note. Please try again.",
+    "englishSource": "There was an error consuming your note. Please try again."
+  },
+  "dragAndDropFile": {
+    "message": "Drag and drop file or",
+    "englishSource": "Drag and drop file or"
+  },
+  "jsonFileType": {
+    "message": ".JSON",
+    "englishSource": ".JSON"
+  },
+  "blocksUntilRecall": {
+    "message": "Blocks until recall",
+    "englishSource": "Blocks until recall"
+  },
+  "recallBlocksDescription": {
+    "message": "If the recipient does not accept the transaction within this time, the funds will be returned to you.",
+    "englishSource": "If the recipient does not accept the transaction within this time, the funds will be returned to you."
+  },
+  "clearText": {
+    "message": "Clear text",
+    "englishSource": "Clear text"
+  },
+  "avatar": {
+    "message": "avatar",
+    "englishSource": "avatar"
+  },
+  "byProceeding": {
+    "message": "By proceeding, you agree to the",
+    "englishSource": "By proceeding, you agree to the"
+  },
+  "termsOfUsageLink": {
+    "message": "Terms of Usage",
+    "englishSource": "Terms of Usage"
+  },
+  "privacyPolicyLink": {
+    "message": "Privacy Policy",
+    "englishSource": "Privacy Policy"
+  },
+  "andWord": {
+    "message": "and",
+    "englishSource": "and"
+  },
+  "transactionFileDescription": {
+    "message": "Transaction file",
+    "englishSource": "Transaction file"
+  },
+  "enterDecryptionPassword": {
+    "message": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access.",
+    "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
   }
 }

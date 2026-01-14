@@ -4884,5 +4884,93 @@
   "accountPublicKey": {
     "message": "账户公钥",
     "englishSource": "Account Public Key"
+  },
+  "verifyingTransaction": {
+    "message": "验证交易",
+    "englishSource": "Verifying transaction"
+  },
+  "transactionProcessingDescription": {
+    "message": "正在处理上传的交易文件以验证其详细信息。请不要刷新或关闭应用程序。",
+    "englishSource": "The uploaded transaction file is being processed to verify its details. Please do not refresh or close the app."
+  },
+  "yourAddress": {
+    "message": "您的地址",
+    "englishSource": "Your address"
+  },
+  "errorClaiming": {
+    "message": "错误声明：",
+    "englishSource": "Error Claiming: "
+  },
+  "addAccount": {
+    "message": "添加账户",
+    "englishSource": "Add Account"
+  },
+  "faucetIdUpdated": {
+    "message": "水龙头 ID 已更新",
+    "englishSource": "Faucet ID Updated"
+  },
+  "connectivityIssueDetected": {
+    "message": "检测到连接问题",
+    "englishSource": "Connectivity Issue Detected"
+  },
+  "walletMayBeOffline": {
+    "message": "钱包可能离线或不同步。",
+    "englishSource": "Wallet may be offline or out of sync."
+  },
+  "noteConsumedSuccessfully": {
+    "message": "您的笔记已成功消耗。",
+    "englishSource": "Your note was successfully consumed."
+  },
+  "noteConsumptionError": {
+    "message": "使用您的笔记时发生错误。请再试一次。",
+    "englishSource": "There was an error consuming your note. Please try again."
+  },
+  "dragAndDropFile": {
+    "message": "拖放文件或",
+    "englishSource": "Drag and drop file or"
+  },
+  "jsonFileType": {
+    "message": ".JSON",
+    "englishSource": ".JSON"
+  },
+  "blocksUntilRecall": {
+    "message": "阻塞直到召回",
+    "englishSource": "Blocks until recall"
+  },
+  "recallBlocksDescription": {
+    "message": "如果收款人在此时间内未接受交易，资金将退还给您。",
+    "englishSource": "If the recipient does not accept the transaction within this time, the funds will be returned to you."
+  },
+  "clearText": {
+    "message": "清晰的文字",
+    "englishSource": "Clear text"
+  },
+  "avatar": {
+    "message": "头像",
+    "englishSource": "avatar"
+  },
+  "byProceeding": {
+    "message": "继续操作即表示您同意",
+    "englishSource": "By proceeding, you agree to the"
+  },
+  "termsOfUsageLink": {
+    "message": "使用条款",
+    "englishSource": "Terms of Usage"
+  },
+  "privacyPolicyLink": {
+    "message": "隐私政策",
+    "englishSource": "Privacy Policy"
+  },
+  "andWord": {
+    "message": "和",
+    "englishSource": "and"
+  },
+  "transactionFileDescription": {
+    "message": "交易文件",
+    "englishSource": "Transaction file"
+  },
+  "enterDecryptionPassword": {
+    "message": "输入您导出钱包时设置的密码。这将解密文件并恢复访问权限。",
+    "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
   }
 }
