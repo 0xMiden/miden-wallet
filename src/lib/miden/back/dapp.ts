@@ -1013,6 +1013,7 @@ export async function waitForTransaction(req: MidenDAppWaitForTxRequest): Promis
     transactionOutput: res
   };
 }
+
 export async function getAllDApps(): Promise<MidenDAppSessions> {
   const items = await browser.storage.local.get([STORAGE_KEY]);
   const dAppsSessions = (items[STORAGE_KEY] as MidenDAppSessions) || {};
