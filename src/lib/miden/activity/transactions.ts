@@ -16,7 +16,7 @@ import { ConsumableNote, NoteTypeEnum, NoteType as NoteTypeString } from '../typ
 import { interpretTransactionResult } from './helpers';
 import { importAllNotes, queueNoteImport, registerOutputNote } from './notes';
 
-export const MAX_WAIT_BEFORE_CANCEL = 30 * 60_000; // 30 minutes
+export const MAX_WAIT_BEFORE_CANCEL = 5 * 60_000; // 5 minutes
 
 export const requestCustomTransaction = async (
   accountId: string,
@@ -418,7 +418,6 @@ export const generateTransaction = async (
   await updateTransactionStatus(transaction.id, ITransactionStatus.GeneratingTransaction, {
     processingStartedAt: Date.now()
   });
-
   // Process transaction
   let resultBytes: Uint8Array;
   let result: TransactionResult;
@@ -491,7 +490,6 @@ export const generateTransactionsLoop = async (
 
   // Import any notes needed for queued transactions
   await importAllNotes();
-
   // Wait for other in progress transactions
   const inProgressTransactions = await getTransactionsInProgress();
   if (inProgressTransactions.length > 0) {
