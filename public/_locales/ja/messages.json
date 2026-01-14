@@ -4131,9 +4131,8 @@
     "englishSource": "Popular"
   },
   "verifyMessagePrefix": {
-    "message": "秘密の回復フレーズを保存したことを確認します。単語#10を選択してください",
-    "note": "Onboarding",
-    "englishSource": "Confirm you've saved your secret recovery phrase. Select word #10"
+    "message": "秘密の回復フレーズを保存したことを確認します。フレーズの最初と最後の単語を選択します。",
+    "englishSource": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase."
   },
   "enterYourWalletSeedPhrase": {
     "message": "ウォレットの12ワードのシードフレーズを入力してください。",
@@ -5012,5 +5011,13 @@
   "enterDecryptionPassword": {
     "message": "ウォレットをエクスポートするときに設定したパスワードを入力します。これにより、ファイルが復号化され、アクセスが復元されます。",
     "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
+  },
+  "first": {
+    "message": "初め",
+    "englishSource": "First"
+  },
+  "last": {
+    "message": "最後",
+    "englishSource": "Last"
   }
 }

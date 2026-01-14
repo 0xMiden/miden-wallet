@@ -4155,9 +4155,8 @@
     "englishSource": "Popular"
   },
   "verifyMessagePrefix": {
-    "message": "Gizli kurtarma cümlenizi kaydettiğinizi onaylayın. #10 kelimeyi seçin",
-    "note": "Onboarding",
-    "englishSource": "Confirm you've saved your secret recovery phrase. Select word #10"
+    "message": "Gizli kurtarma ifadenizi kaydettiğinizi doğrulayın. İfadenizin ilk ve son kelimelerini seçin.",
+    "englishSource": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase."
   },
   "enterYourWalletSeedPhrase": {
     "message": "Cüzdanınızın 12 kelime Seed cümlesini girin.",
@@ -5036,5 +5035,13 @@
   "enterDecryptionPassword": {
     "message": "Cüzdanınızı dışa aktarırken belirlediğiniz şifreyi girin. Bu, dosyanın şifresini çözecek ve erişimi geri yükleyecektir.",
     "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
+  },
+  "first": {
+    "message": "Birinci",
+    "englishSource": "First"
+  },
+  "last": {
+    "message": "Son",
+    "englishSource": "Last"
   }
 }

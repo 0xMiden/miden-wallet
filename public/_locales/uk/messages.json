@@ -4212,9 +4212,8 @@
     "englishSource": "Popular"
   },
   "verifyMessagePrefix": {
-    "message": "Підтвердіть, що ви зберегли свою секретну фразу відновлення. Виберіть слово #10",
-    "note": "Onboarding",
-    "englishSource": "Confirm you've saved your secret recovery phrase. Select word #10"
+    "message": "Підтвердьте, що ви зберегли секретну фразу відновлення. Виберіть перше й останнє слова вашої фрази.",
+    "englishSource": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase."
   },
   "enterYourWalletSeedPhrase": {
     "message": "Введіть 12-слівну фразу-зерно вашого гаманця.",
@@ -5093,5 +5092,13 @@
   "enterDecryptionPassword": {
     "message": "Введіть пароль, який ви встановили під час експорту гаманця. Це розшифрує файл і відновить доступ.",
     "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
+  },
+  "first": {
+    "message": "перше",
+    "englishSource": "First"
+  },
+  "last": {
+    "message": "Останній",
+    "englishSource": "Last"
   }
 }

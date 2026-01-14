@@ -94,26 +94,28 @@ test.describe('Fullpage UI', () => {
     await page.getByText(/back up your wallet/i).waitFor({ timeout: 15000 });
     await page.getByRole('button', { name: /show/i }).click();
 
-    // Extract the 10th word from the seed phrase display
+    // Extract the first and last words from the seed phrase display
     // The structure is: article > label (Chip) > label > [p (index), p (word)]
     // We get all the word paragraphs (second p in each inner label)
     const seedWords = await page.$$eval('article > label > label > p:last-child', paragraphs =>
       paragraphs.map(p => p.textContent?.trim() || '')
     );
-    const tenthWord = seedWords[9];
+    const firstWord = seedWords[0];
+    const lastWord = seedWords[11];
 
-    if (!tenthWord) {
-      throw new Error('Failed to read 10th seed word from backup screen');
+    if (!firstWord || !lastWord) {
+      throw new Error('Failed to read first/last seed words from backup screen');
     }
 
     await page.getByRole('button', { name: /continue/i }).click();
 
     await page.getByTestId('verify-seed-phrase').waitFor({ timeout: 15000 });
 
-    // Select the correct word (10th word) and continue
+    // Select the correct words (first and last) and continue
     const verifyContainer = page.getByTestId('verify-seed-phrase');
-    // Click the button containing the word (the word is inside a Chip/label inside a button)
-    await verifyContainer.locator(`button:has-text("${tenthWord}")`).first().click();
+    // Click the buttons containing the words (the word is inside a Chip/label inside a button)
+    await verifyContainer.locator(`button:has-text("${firstWord}")`).first().click();
+    await verifyContainer.locator(`button:has-text("${lastWord}")`).first().click();
     await verifyContainer.getByRole('button', { name: /continue/i }).click();
 
     // Set password

@@ -886,7 +886,7 @@
   "yourKeysStayPrivate": "Your keys stay private",
   "selectTheDefaultTransactionType": "Select the Default Transaction Type",
   "popular": "Popular",
-  "verifyMessagePrefix": "Confirm you've saved your secret recovery phrase. Select word #10",
+  "verifyMessagePrefix": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase.",
   "enterYourWalletSeedPhrase": "Enter your wallet's 12-word Seed phrase.",
   "onlyMidenSeedPhrasesAreSupported": "Only Miden Seed phrases are supported.",
   "seedPhrasePlaceholder": "12-word Seed phrase",
@@ -1105,5 +1105,7 @@
   "privacyPolicyLink": "Privacy Policy",
   "andWord": "and",
   "transactionFileDescription": "Transaction file",
-  "enterDecryptionPassword": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
+  "enterDecryptionPassword": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access.",
+  "first": "First",
+  "last": "Last"
 }

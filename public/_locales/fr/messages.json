@@ -4125,9 +4125,8 @@
     "englishSource": "Popular"
   },
   "verifyMessagePrefix": {
-    "message": "Confirmez que vous avez sauvegardé votre phrase secrète de récupération. Sélectionnez le mot #10",
-    "note": "Onboarding",
-    "englishSource": "Confirm you've saved your secret recovery phrase. Select word #10"
+    "message": "Confirmez que vous avez enregistré votre phrase de récupération secrète. Sélectionnez le premier et le dernier mot de votre phrase.",
+    "englishSource": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase."
   },
   "enterYourWalletSeedPhrase": {
     "message": "Entrez la phrase de graine de 12 mots de votre portefeuille.",
@@ -5006,5 +5005,13 @@
   "enterDecryptionPassword": {
     "message": "Entrez le mot de passe que vous avez défini lors de l'exportation de votre portefeuille. Cela décryptera le fichier et restaurera l'accès.",
     "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
+  },
+  "first": {
+    "message": "D'abord",
+    "englishSource": "First"
+  },
+  "last": {
+    "message": "Dernier",
+    "englishSource": "Last"
   }
 }

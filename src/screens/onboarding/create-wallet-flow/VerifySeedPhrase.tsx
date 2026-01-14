@@ -20,19 +20,41 @@ export const VerifySeedPhraseScreen: React.FC<VerifySeedPhraseScreenProps> = ({
 }) => {
   const { t } = useTranslation();
   const shuffledWords = useMemo(() => shuffle(seedPhrase), [seedPhrase]);
-  const wordIndexToVerify = 9;
-  const [selectedWordIndex, setSelectedWordIndex] = useState<number | null>(null);
+  const [firstSelectedWordIndex, setFirstSelectedWord] = useState<number | null>(null);
+  const [secondSelectedWordIndex, setSecondSelectedWord] = useState<number | null>(null);
 
-  const onSelectWord = useCallback((index: number) => {
-    setSelectedWordIndex(index);
-  }, []);
-
+  const onSelectWord = useCallback(
+    (index: number) => {
+      // we select first word if index was not selected before
+      if (firstSelectedWordIndex === null && index !== secondSelectedWordIndex) {
+        setFirstSelectedWord(index);
+        return;
+      }
+      // if word is already selected, we unselect it
+      if (index === firstSelectedWordIndex) {
+        setFirstSelectedWord(null);
+        return;
+      }
+      // if first word is selected, we select second word
+      if (index === secondSelectedWordIndex) {
+        setSecondSelectedWord(null);
+        return;
+      }
+      setSecondSelectedWord(index);
+    },
+    [firstSelectedWordIndex, secondSelectedWordIndex]
+  );
+  console.log({ firstSelectedWordIndex, secondSelectedWordIndex });
+  console.log(seedPhrase);
   const isCorrectWordSelected = useMemo(() => {
-    if (selectedWordIndex === null) {
+    if (firstSelectedWordIndex === null || secondSelectedWordIndex === null) {
       return false;
     }
-    return shuffledWords[selectedWordIndex] === seedPhrase[wordIndexToVerify];
-  }, [selectedWordIndex, shuffledWords, seedPhrase, wordIndexToVerify]);
+    return (
+      shuffledWords[firstSelectedWordIndex] === seedPhrase[0] &&
+      shuffledWords[secondSelectedWordIndex] === seedPhrase[11]
+    );
+  }, [seedPhrase, firstSelectedWordIndex, secondSelectedWordIndex, shuffledWords]);
 
   return (
     <div
@@ -47,9 +69,25 @@ export const VerifySeedPhraseScreen: React.FC<VerifySeedPhraseScreenProps> = ({
 
       <article className="grid grid-cols-3 gap-4 w-[80%] self-center">
         {shuffledWords.map((word, index) => (
-          <button key={`seed-word-${index}`} onClick={() => onSelectWord(index)}>
-            <Chip className="cursor-pointer" selected={selectedWordIndex === index} label={word} />
-          </button>
+          <div className="relative">
+            {(!!firstSelectedWordIndex || firstSelectedWordIndex === 0) && index === firstSelectedWordIndex && (
+              <div className="absolute -top-3 left-2 -translate-x-2 bg-primary-orange text-white px-2 py-0.5 rounded-full text-xs whitespace-nowrap">
+                {t('first')}
+              </div>
+            )}
+            {(!!secondSelectedWordIndex || secondSelectedWordIndex === 0) && index === secondSelectedWordIndex && (
+              <div className="absolute -top-3 left-2 -translate-x-2 bg-primary-orange text-white px-2 py-0.5 rounded-full text-xs whitespace-nowrap">
+                {t('last')}
+              </div>
+            )}
+            <button onClick={() => onSelectWord(index)} className="w-full">
+              <Chip
+                className="cursor-pointer"
+                selected={firstSelectedWordIndex === index || secondSelectedWordIndex === index}
+                label={word}
+              />
+            </button>
+          </div>
         ))}
       </article>
 
