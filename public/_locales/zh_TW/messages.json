@@ -870,8 +870,8 @@
     "englishSource": "Use this section to remove your selected account. Only imported accounts can be removed."
   },
   "about": {
-    "message": "關於",
-    "englishSource": "About"
+    "message": "关于这个应用程序",
+    "englishSource": "About This App"
   },
   "aboutDescription": {
     "message": "使用此區段檢視 Aleo 錢包的元資料。",

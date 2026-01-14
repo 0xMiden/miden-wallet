@@ -178,7 +178,7 @@
   "activateAccountDescription": "这对于ICO/资金筹集活动或Testnet Faucet账户可能是必要的。",
   "removeAccount": "移除账户",
   "removeAccountDescription": "使用此板块来移除所选账户。仅导入的账户可移除。",
-  "about": "关于",
+  "about": "关于这个应用程序",
   "aboutDescription": "使用此板块来查看关于Aleo钱包的元信息。",
   "unlockWallet": "解锁钱包",
   "toContinue": "以继续",

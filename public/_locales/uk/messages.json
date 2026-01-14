@@ -878,8 +878,8 @@
     "englishSource": "Use this section to remove your selected account. Only imported accounts can be removed."
   },
   "about": {
-    "message": "Додатково",
-    "englishSource": "About"
+    "message": "Про цю програму",
+    "englishSource": "About This App"
   },
   "aboutDescription": {
     "message": "Використовуйте цей розділ, щоб переглянути метаінформацію про Aleo Wallet.",

@@ -922,8 +922,8 @@
     "englishSource": "Use this section to remove your selected account. Only imported accounts can be removed."
   },
   "about": {
-    "message": "Über",
-    "englishSource": "About"
+    "message": "Über diese App",
+    "englishSource": "About This App"
   },
   "aboutDescription": {
     "message": "Verwenden Sie diesen Abschnitt, um Metainformationen zu Aleo Wallet anzuzeigen.",

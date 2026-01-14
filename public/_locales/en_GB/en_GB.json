@@ -183,7 +183,7 @@
   "activateAccountDescription": "It may be necessary for ICO/Fundraiser or testnet faucet accounts.",
   "removeAccount": "Remove Account",
   "removeAccountDescription": "Use this section to remove your selected account. Only imported accounts can be removed.",
-  "about": "About",
+  "about": "About This App",
   "aboutDescription": "Use this section to view meta info about Aleo Wallet.",
   "unlockWallet": "Unlock the Wallet",
   "toContinue": "to continue",

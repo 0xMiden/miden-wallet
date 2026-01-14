@@ -870,8 +870,8 @@
     "englishSource": "Use this section to remove your selected account. Only imported accounts can be removed."
   },
   "about": {
-    "message": "概要",
-    "englishSource": "About"
+    "message": "このアプリについて",
+    "englishSource": "About This App"
   },
   "aboutDescription": {
     "message": "テンプルウォレットのメタ情報を表示するには、このセクションを使用します。",

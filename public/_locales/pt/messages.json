@@ -922,8 +922,8 @@
     "englishSource": "Use this section to remove your selected account. Only imported accounts can be removed."
   },
   "about": {
-    "message": "Sobre",
-    "englishSource": "About"
+    "message": "Sobre este aplicativo",
+    "englishSource": "About This App"
   },
   "aboutDescription": {
     "message": "Utilize esta secção para ver meta informações sobre a Carteira Aleo.",

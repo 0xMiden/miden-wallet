@@ -178,7 +178,7 @@
   "activateAccountDescription": "ICO/ファンドレイザーやテストネットフォーセットアカウントに必要な場合があります。",
   "removeAccount": "アカウントを削除",
   "removeAccountDescription": "このセクションを使用して、選択したアカウントを削除します。インポートしたアカウントのみ削除することができます。",
-  "about": "概要",
+  "about": "このアプリについて",
   "aboutDescription": "テンプルウォレットのメタ情報を表示するには、このセクションを使用します。",
   "unlockWallet": "ウォレットをアンロック",
   "toContinue": "続行するには",

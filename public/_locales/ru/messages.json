@@ -1090,8 +1090,8 @@
     "englishSource": "Use this section to remove your selected account. Only imported accounts can be removed."
   },
   "about": {
-    "message": "О",
-    "englishSource": "About"
+    "message": "Об этом приложении",
+    "englishSource": "About This App"
   },
   "info": {
     "message": "Информация",

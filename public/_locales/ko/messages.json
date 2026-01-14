@@ -797,8 +797,8 @@
     "englishSource": "Use this section to remove your selected account. Only imported accounts can be removed."
   },
   "about": {
-    "message": "정보",
-    "englishSource": "About"
+    "message": "이 앱 정보",
+    "englishSource": "About This App"
   },
   "aboutDescription": {
     "message": "이 섹션을 활용하여 타노스 지갑에 관한 메타 징보를 확인하세요.",

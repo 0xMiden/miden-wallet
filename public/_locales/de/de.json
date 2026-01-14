@@ -191,7 +191,7 @@
   "activateAccountDescription": "Dies kann für ICO/Geldgeber- oder Testnet-Faucet-Konten erforderlich sein.",
   "removeAccount": "Konto entfernen",
   "removeAccountDescription": "Verwenden Sie diesen Abschnitt, um Ihr ausgewähltes Konto zu entfernen. Nur importierte Konten können entfernt werden.",
-  "about": "Über",
+  "about": "Über diese App",
   "aboutDescription": "Verwenden Sie diesen Abschnitt, um Metainformationen zu Aleo Wallet anzuzeigen.",
   "unlockWallet": "Die Wallet entsperren",
   "toContinue": "fortfahren",
