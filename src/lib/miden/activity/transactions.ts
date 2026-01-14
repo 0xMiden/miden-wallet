@@ -568,34 +568,42 @@ export const waitForTransactionCompletion = async (transactionId: string) => {
       resolve({ errorMessage: 'Transaction timed out' });
     }, WAIT_FOR_TX_TIMEOUT);
 
-    subscription = liveQuery(() => Repo.transactions.where({ id: transactionId }).first()).subscribe(tx => {
-      if (!tx) {
-        // Transaction not found - resolve with error
-        clearTimeout(timeoutId);
-        resolve({ errorMessage: 'Transaction not found' });
-        subscription?.unsubscribe();
-        return;
-      }
+    const cleanup = () => {
+      clearTimeout(timeoutId);
+      subscription?.unsubscribe();
+    };
 
-      if (tx.status === ITransactionStatus.Completed) {
-        clearTimeout(timeoutId);
-        subscription?.unsubscribe();
-        const txResult = TransactionResult.deserialize(tx.resultBytes!);
-        const res = {
-          txHash: tx.transactionId!,
-          outputNotes: txResult
-            .executedTransaction()
-            .outputNotes()
-            .notes()
-            .map(no => no.intoFull())
-            .filter(no => !!no)
-            .map(fullNote => u8ToB64(fullNote.serialize()))
-        };
-        resolve(res);
-      } else if (tx.status === ITransactionStatus.Failed) {
-        clearTimeout(timeoutId);
-        subscription?.unsubscribe();
-        resolve({ errorMessage: tx.error || 'Transaction failed' });
+    subscription = liveQuery(() => Repo.transactions.where({ id: transactionId }).first()).subscribe({
+      next: tx => {
+        if (!tx) {
+          // Transaction not found - resolve with error
+          cleanup();
+          resolve({ errorMessage: 'Transaction not found' });
+          return;
+        }
+
+        if (tx.status === ITransactionStatus.Completed) {
+          cleanup();
+          const txResult = TransactionResult.deserialize(tx.resultBytes!);
+          const res = {
+            txHash: tx.transactionId!,
+            outputNotes: txResult
+              .executedTransaction()
+              .outputNotes()
+              .notes()
+              .map(no => no.intoFull())
+              .filter(no => !!no)
+              .map(fullNote => u8ToB64(fullNote.serialize()))
+          };
+          resolve(res);
+        } else if (tx.status === ITransactionStatus.Failed) {
+          cleanup();
+          resolve({ errorMessage: tx.error || 'Transaction failed' });
+        }
+      },
+      error: err => {
+        cleanup();
+        resolve({ errorMessage: err?.message || 'Subscription error' });
       }
     });
   });
