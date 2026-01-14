@@ -333,8 +333,6 @@ export class Vault {
 
   async decryptCipherTextOrRecord() {}
 
-  async revealViewKey(accPublicKey: string) {}
-
   static async revealMnemonic(password: string) {
     const passKey = await Vault.toValidPassKey(password);
     return withError('Failed to reveal seed phrase', async () => {
@@ -344,6 +342,17 @@ export class Vault {
         throw new PublicError('Mnemonic does not match the expected pattern');
       }
       return mnemonic;
+    });
+  }
+
+  static async revealPrivateKey(accPublicKey: string, password: string) {
+    const passKey = await Vault.toValidPassKey(password);
+    return await withError('Failed to reveal private key', async () => {
+      const secretKeyHex = await fetchAndDecryptOneWithLegacyFallBack<string>(
+        accAuthSecretKeyStrgKey(accPublicKey),
+        passKey
+      );
+      return secretKeyHex;
     });
   }
 

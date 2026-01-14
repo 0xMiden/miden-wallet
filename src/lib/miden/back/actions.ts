@@ -133,13 +133,13 @@ export function createHDAccount(walletType: WalletType, name?: string) {
 
 export function decryptCiphertexts(accPublicKey: string, cipherTexts: string[]) {}
 
-export function revealViewKey(accPublicKey: string, password: string) {}
-
 export function revealMnemonic(password: string) {
   return withUnlocked(() => Vault.revealMnemonic(password));
 }
 
-export function revealPrivateKey(accPublicKey: string, password: string) {}
+export function revealPrivateKey(accPublicKey: string, password: string) {
+  return withUnlocked(() => Vault.revealPrivateKey(accPublicKey, password));
+}
 
 export function revealPublicKey(accPublicKey: string) {}
 

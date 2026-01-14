@@ -62,18 +62,13 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
     //     type: WalletMessageType.RevealPublicKeyResponse,
     //     publicKey
     //   };
-    // case WalletMessageType.RevealViewKeyRequest:
-    //   const viewKey = await Actions.revealViewKey(req.accountPublicKey, req.password);
-    //   return {
-    //     type: WalletMessageType.RevealViewKeyResponse,
-    //     viewKey
-    //   };
-    // case WalletMessageType.RevealPrivateKeyRequest:
-    //   const privateKey = await Actions.revealPrivateKey(req.accountPublicKey, req.password);
-    //   return {
-    //     type: WalletMessageType.RevealPrivateKeyResponse,
-    //     privateKey
-    //   };
+
+    case WalletMessageType.RevealPrivateKeyRequest:
+      const privateKey = await Actions.revealPrivateKey(req.accountPublicKey, req.password);
+      return {
+        type: WalletMessageType.RevealPrivateKeyResponse,
+        privateKey
+      };
     case WalletMessageType.RevealMnemonicRequest:
       const mnemonic = await Actions.revealMnemonic(req.password);
       return {

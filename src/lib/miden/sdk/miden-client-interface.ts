@@ -1,7 +1,10 @@
 import {
   Account,
+  AccountBuilder,
+  AccountComponent,
   AccountFile,
   AccountStorageMode,
+  AccountType,
   Address,
   ConsumableNoteRecord,
   InputNoteRecord,
@@ -10,6 +13,7 @@ import {
   NoteFile,
   NoteFilter,
   NoteType,
+  SecretKey,
   TransactionFilter,
   TransactionProver,
   TransactionRequest,
@@ -114,7 +118,18 @@ export class MidenClientInterface {
     const accountStorageMode =
       walletType === WalletType.OnChain ? AccountStorageMode.public() : AccountStorageMode.private();
 
-    const wallet: Account = await this.webClient.newWallet(accountStorageMode, true, 0, seed);
+    const secretKey = SecretKey.rpoFalconWithRNG(seed);
+    // create a new account with 0 seed so we can recreate it later from the secret key
+    const accountBuilder = new AccountBuilder(new Uint8Array(32).fill(0))
+      .accountType(AccountType.RegularAccountImmutableCode)
+      .storageMode(accountStorageMode)
+      .withAuthComponent(AccountComponent.createAuthComponent(secretKey))
+      .withBasicWalletComponent();
+    const wallet = accountBuilder.build().account;
+    // add the secret key to the web client's keystore
+    await this.webClient.addAccountSecretKeyToWebStore(secretKey);
+    // register the new account in the web client
+    await this.webClient.newAccount(wallet, false);
     const walletId = getBech32AddressFromAccountId(wallet.id());
 
     return walletId;

@@ -48,6 +48,7 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   const storeUpdateCurrentAccount = useWalletStore(s => s.updateCurrentAccount);
   const storeEditAccountName = useWalletStore(s => s.editAccountName);
   const storeRevealMnemonic = useWalletStore(s => s.revealMnemonic);
+  const storeRevealPrivateKey = useWalletStore(s => s.revealPrivateKey);
   const storeUpdateSettings = useWalletStore(s => s.updateSettings);
   const storeSignData = useWalletStore(s => s.signData);
   const storeSignTransaction = useWalletStore(s => s.signTransaction);
@@ -139,6 +140,13 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
       return storeRevealMnemonic(password);
     },
     [storeRevealMnemonic]
+  );
+
+  const revealPrivateKey = useCallback(
+    async (accountPublicKey: string, password: string) => {
+      return storeRevealPrivateKey(accountPublicKey, password);
+    },
+    [storeRevealPrivateKey]
   );
 
   const updateSettings = useCallback(
@@ -248,8 +256,6 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
 
   // Stub implementations for unimplemented actions
   const decryptCiphertexts = useCallback(async (accPublicKey: string, ciphertexts: string[]) => {}, []);
-  const revealViewKey = useCallback(async (accountPublicKey: string, password: string) => {}, []);
-  const revealPrivateKey = useCallback(async (accountPublicKey: string, password: string) => {}, []);
   const removeAccount = useCallback(async (accountPublicKey: string, password: string) => {}, []);
   const importAccount = useCallback(async (privateKey: string, encPassword?: string) => {}, []);
   const importWatchOnlyAccount = useCallback(async (viewKey: string) => {}, []);
@@ -286,7 +292,6 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
 
     createAccount,
     updateCurrentAccount,
-    revealViewKey,
     revealPrivateKey,
     revealMnemonic,
     removeAccount,

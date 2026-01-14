@@ -7,10 +7,10 @@ import { useTranslation } from 'react-i18next';
 import Alert from 'app/atoms/Alert';
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
-import { useAccountBadgeTitle } from 'app/defaults';
 import { Icon, IconName } from 'app/icons/v2';
 import AccountBanner from 'app/templates/AccountBanner';
 import { useAccount, useSecretState, useMidenContext } from 'lib/miden/front';
+import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 
 const SUBMIT_ERROR_TYPE = 'submit-error';
@@ -20,13 +20,12 @@ type FormData = {
 };
 
 type RevealSecretProps = {
-  reveal: 'view-key' | 'private-key' | 'seed-phrase';
+  reveal: 'private-key' | 'seed-phrase';
 };
 
 const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
   const { t } = useTranslation();
-  const accountBadgeTitle = useAccountBadgeTitle();
-  const { revealMnemonic } = useMidenContext();
+  const { revealMnemonic, revealPrivateKey } = useMidenContext();
   const account = useAccount();
   const { fieldRef: secretFieldRef, copy, copied } = useCopyToClipboard();
 
@@ -70,7 +69,13 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
 
       clearErrors('password');
       try {
-        const secret = await revealMnemonic(password);
+        let secret;
+        if (reveal === 'private-key') {
+          const pkc = await getAccountPublicKeyCommitment(account.publicKey);
+          secret = await revealPrivateKey(pkc, password);
+        } else {
+          secret = await revealMnemonic(password);
+        }
         setSecret(secret);
       } catch (err: any) {
         console.error(err);
@@ -81,33 +86,30 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
         focusPasswordField();
       }
     },
-    [isSubmitting, clearErrors, setError, revealMnemonic, setSecret, focusPasswordField]
+    [
+      isSubmitting,
+      clearErrors,
+      setError,
+      revealMnemonic,
+      revealPrivateKey,
+      setSecret,
+      focusPasswordField,
+      reveal,
+      account.publicKey
+    ]
   );
 
   const texts = useMemo(() => {
     switch (reveal) {
-      case 'view-key':
-        return {
-          name: t('viewKey'),
-          accountBanner: (
-            <AccountBanner labelDescription={t('ifYouWantToRevealViewKeyFromOtherAccount')} className="mb-6" />
-          ),
-          attention: (
-            <div className="flex flex-col text-left text-black">
-              <span className="font-medium" style={{ fontSize: '14px', lineHeight: '20px', marginBottom: '4px' }}>
-                {t('doNotShareViewKey1')} <br />
-              </span>
-              <span className="text-xs">{t('doNotShareViewKey2')}</span>
-            </div>
-          ),
-          fieldDesc: t('viewKeyFieldDescription')
-        };
-
       case 'private-key':
         return {
           name: t('privateKey'),
           accountBanner: (
-            <AccountBanner labelDescription={t('ifYouWantToRevealPrivateKeyFromOtherAccount')} className="mb-6" />
+            <AccountBanner
+              labelDescription={t('ifYouWantToRevealPrivateKeyFromOtherAccount')}
+              account={account}
+              className="mb-6"
+            />
           ),
           attention: (
             <div className="flex flex-col text-left text-black">
@@ -156,37 +158,8 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
           )
         };
     }
-  }, [reveal, t]);
-
-  const forbidPrivateKeyRevealing = reveal === 'private-key';
+  }, [reveal, account, t]);
   const mainContent = useMemo(() => {
-    if (forbidPrivateKeyRevealing) {
-      return (
-        <Alert
-          title={t('privateKeyCannotBeRevealed')}
-          description={
-            <p>
-              {t('youCannotGetPrivateKeyFromThisAccountType', {
-                accountType: (
-                  <span
-                    key="account-type"
-                    className={classNames('rounded-sm', 'border', 'px-1 py-px', 'font-normal leading-tight')}
-                    style={{
-                      fontSize: '0.75em',
-                      borderColor: 'currentColor'
-                    }}
-                  >
-                    {accountBadgeTitle}
-                  </span>
-                )
-              })}
-            </p>
-          }
-          className="mb-4 bg-blue-200 border-primary-500 rounded-none text-black"
-        />
-      );
-    }
-
     if (secret) {
       return (
         <>
@@ -282,7 +255,6 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
       </form>
     );
   }, [
-    forbidPrivateKeyRevealing,
     errors,
     handleSubmit,
     onSubmit,
@@ -294,8 +266,7 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
     copy,
     copied,
     secretFieldRef,
-    t,
-    accountBadgeTitle
+    t
   ]);
 
   return (
@@ -308,3 +279,17 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
 };
 
 export default RevealSecret;
+
+const getAccountPublicKeyCommitment = async (accPublicKey: string) => {
+  const publicKeyCommitment = await withWasmClientLock(async () => {
+    const client = await getMidenClient();
+    const account = await client.getAccount(accPublicKey);
+    if (!account) {
+      throw new Error('Account not found');
+    }
+    const pubKeys = account.getPublicKeys();
+    // As normal accounts only have one public key which is the case for the wallet, we return the first one.
+    return pubKeys[0].toHex();
+  });
+  return publicKeyCommitment.slice(2); // Remove '0x' prefix
+};

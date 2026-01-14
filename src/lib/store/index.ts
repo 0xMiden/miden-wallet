@@ -210,6 +210,16 @@ export const useWalletStore = create<WalletStore>()(
       return res.mnemonic;
     },
 
+    revealPrivateKey: async (accountPublicKey, password) => {
+      const res = await request({
+        type: WalletMessageType.RevealPrivateKeyRequest,
+        accountPublicKey,
+        password
+      });
+      assertResponse(res.type === WalletMessageType.RevealPrivateKeyResponse);
+      return res.privateKey;
+    },
+
     // Settings actions
     updateSettings: async newSettings => {
       const { settings } = get();

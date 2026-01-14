@@ -103,6 +103,7 @@ export interface WalletActions {
   updateCurrentAccount: (accountPublicKey: string) => Promise<void>;
   editAccountName: (accountPublicKey: string, name: string) => Promise<void>;
   revealMnemonic: (password: string) => Promise<string>;
+  revealPrivateKey: (accountPublicKey: string, password: string) => Promise<string>;
 
   // Settings actions
   updateSettings: (newSettings: Partial<WalletSettings>) => Promise<void>;
