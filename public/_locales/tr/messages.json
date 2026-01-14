@@ -4948,5 +4948,93 @@
   "accountPublicKey": {
     "message": "Hesap Genel Anahtarı",
     "englishSource": "Account Public Key"
+  },
+  "verifyingTransaction": {
+    "message": "İşlem doğrulanıyor",
+    "englishSource": "Verifying transaction"
+  },
+  "transactionProcessingDescription": {
+    "message": "Yüklenen işlem dosyası, ayrıntılarının doğrulanması için işleniyor. Lütfen uygulamayı yenilemeyin veya kapatmayın.",
+    "englishSource": "The uploaded transaction file is being processed to verify its details. Please do not refresh or close the app."
+  },
+  "yourAddress": {
+    "message": "Adresiniz",
+    "englishSource": "Your address"
+  },
+  "errorClaiming": {
+    "message": "Hata Talebi:",
+    "englishSource": "Error Claiming: "
+  },
+  "addAccount": {
+    "message": "Hesap Ekle",
+    "englishSource": "Add Account"
+  },
+  "faucetIdUpdated": {
+    "message": "Musluk Kimliği Güncellendi",
+    "englishSource": "Faucet ID Updated"
+  },
+  "connectivityIssueDetected": {
+    "message": "Bağlantı Sorunu Algılandı",
+    "englishSource": "Connectivity Issue Detected"
+  },
+  "walletMayBeOffline": {
+    "message": "Cüzdan çevrimdışı olabilir veya senkronize olmayabilir.",
+    "englishSource": "Wallet may be offline or out of sync."
+  },
+  "noteConsumedSuccessfully": {
+    "message": "Notunuz başarıyla kullanıldı.",
+    "englishSource": "Your note was successfully consumed."
+  },
+  "noteConsumptionError": {
+    "message": "Notunuz tüketilirken bir hata oluştu. Lütfen tekrar deneyin.",
+    "englishSource": "There was an error consuming your note. Please try again."
+  },
+  "dragAndDropFile": {
+    "message": "Dosyayı sürükleyip bırakın veya",
+    "englishSource": "Drag and drop file or"
+  },
+  "jsonFileType": {
+    "message": ".JSON",
+    "englishSource": ".JSON"
+  },
+  "blocksUntilRecall": {
+    "message": "Geri çağırılana kadar bloke edilir",
+    "englishSource": "Blocks until recall"
+  },
+  "recallBlocksDescription": {
+    "message": "Alıcının bu süre içerisinde işlemi kabul etmemesi halinde para size iade edilecektir.",
+    "englishSource": "If the recipient does not accept the transaction within this time, the funds will be returned to you."
+  },
+  "clearText": {
+    "message": "Metni temizle",
+    "englishSource": "Clear text"
+  },
+  "avatar": {
+    "message": "avatar",
+    "englishSource": "avatar"
+  },
+  "byProceeding": {
+    "message": "Devam ederek şunları kabul etmiş olursunuz:",
+    "englishSource": "By proceeding, you agree to the"
+  },
+  "termsOfUsageLink": {
+    "message": "Kullanım Şartları",
+    "englishSource": "Terms of Usage"
+  },
+  "privacyPolicyLink": {
+    "message": "Gizlilik Politikası",
+    "englishSource": "Privacy Policy"
+  },
+  "andWord": {
+    "message": "Ve",
+    "englishSource": "and"
+  },
+  "transactionFileDescription": {
+    "message": "İşlem dosyası",
+    "englishSource": "Transaction file"
+  },
+  "enterDecryptionPassword": {
+    "message": "Cüzdanınızı dışa aktarırken belirlediğiniz şifreyi girin. Bu, dosyanın şifresini çözecek ve erişimi geri yükleyecektir.",
+    "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
   }
 }

@@ -809,7 +809,7 @@ const ConfirmDAppForm: FC = () => {
               closable
               onClose={handleErrorAlertClose}
               type="error"
-              title="Error"
+              title={t('error')}
               description={error?.message ?? t('smthWentWrong')}
               className="my-4"
               autoFocus

@@ -1,7 +1,5 @@
 import { PerformanceTimings } from 'lib/miden/analytics-types';
 
-import { sendPerformanceEvent } from './use-analytics-state.hook';
-
 export const PERFORMANCE_STORAGE_KEY = 'performance_analytics';
 
 export function setLastPerformanceSent(sent: number) {

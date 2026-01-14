@@ -22,6 +22,7 @@ const About: FC = () => {
       <p className="mt-1 text-black text-sm">{t('poweredBy', { companyName: 'Demox Labs' })}</p>
 
       <div className="flex flex-col w-full py-2">
+        {/* eslint-disable i18next/no-literal-string */}
         {[
           {
             key: 'website',
@@ -43,18 +44,20 @@ const About: FC = () => {
             link: 'https://miden.fi/terms',
             insertHR: false
           }
-        ].map(({ key, link, insertHR }) => {
-          return (
-            <MenuItem
-              key={key}
-              slug={link}
-              titleI18nKey={key}
-              testID={''}
-              insertHR={insertHR}
-              linksOutsideOfWallet={true}
-            />
-          );
-        })}
+        ]
+          /* eslint-enable i18next/no-literal-string */
+          .map(({ key, link, insertHR }) => {
+            return (
+              <MenuItem
+                key={key}
+                slug={link}
+                titleI18nKey={key}
+                testID={''}
+                insertHR={insertHR}
+                linksOutsideOfWallet={true}
+              />
+            );
+          })}
       </div>
     </div>
   );

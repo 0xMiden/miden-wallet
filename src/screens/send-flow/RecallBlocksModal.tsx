@@ -37,14 +37,11 @@ export const RecallBlocksModal: FC<RecallBlocksModalProps> = ({
       }}
     >
       <div className="text-black text-left">
-        <h1 className={classNames('mb-2 text-lg font-medium')}>Recall blocks</h1>
-        <p className="text-[#656565] text-xs">
-          If the recipient does not accept the transaction before the specified number of blocks have passed, you will
-          be able to recall your funds.
-        </p>
+        <h1 className={classNames('mb-2 text-lg font-medium')}>{t('recallBlocks')}</h1>
+        <p className="text-[#656565] text-xs">{t('recallBlocksDescription')}</p>
         <div className="my-4">
           <Input
-            label="Blocks until recall"
+            label={t('blocksUntilRecall')}
             autoFocus={true}
             value={recallBlocksInput}
             onChange={onBlocksChangeHandler}

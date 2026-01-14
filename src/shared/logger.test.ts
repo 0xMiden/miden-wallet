@@ -22,7 +22,7 @@ describe('logger', () => {
   });
 
   it('censors private and view keys', () => {
-    const str = 'APrivateKey' + 'x'.repeat(48) + ' ' + 'AViewKey' + 'y'.repeat(45);
+    const str = `APrivateKey${'x'.repeat(48)} AViewKey${'y'.repeat(45)}`;
     const result = (logger as any).censorKeys(str);
     expect(result).toBe('APrivateKey**** AViewKey****');
   });

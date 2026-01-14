@@ -50,7 +50,7 @@ export const SelectRecipient: React.FC<SelectRecipientProps> = ({
                 type="button"
                 onClick={onClear}
                 className="absolute top-0 right-0 mt-3 mr-3 "
-                aria-label="Clear text"
+                aria-label={t('clearText')}
               >
                 <Icon name={IconName.CloseCircle} fill="black" size="md" />
               </button>

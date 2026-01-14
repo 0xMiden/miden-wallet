@@ -1,16 +1,10 @@
-import React, { memo } from 'react';
-
-import classNames from 'clsx';
-
-import { getAccountBadgeTitle } from 'app/defaults';
+import { memo } from 'react';
 
 type AccountTypeBadgeProps = {
   darkTheme?: boolean;
 };
 
-const AccountTypeBadge = memo<AccountTypeBadgeProps>(({ darkTheme = false }) => {
-  const textAndBorderStyle = darkTheme ? '' : 'border-black text-black';
-
+const AccountTypeBadge = memo<AccountTypeBadgeProps>(() => {
   return null;
 });
 

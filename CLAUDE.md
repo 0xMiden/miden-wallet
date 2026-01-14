@@ -161,7 +161,9 @@ afterEach(() => {
 
 ## Internationalization (i18n)
 
-**IMPORTANT:** When adding new translatable strings, add them to `public/_locales/en/en.json`, NOT `messages.json`.
+**IMPORTANT:** All user-facing text in React components MUST be internationalized. Never use hardcoded strings for UI text - always use `t('key')` or the `<T id="key" />` component. CI will block PRs with non-i18n'd strings (enforced by `yarn lint:i18n`).
+
+When adding new translatable strings, add them to `public/_locales/en/en.json`, NOT `messages.json`.
 
 - `en.json` - Flat format source file (`"key": "value"`). The translation script reads from this file.
 - `messages.json` - Chrome extension format (`"key": { "message": "value", "englishSource": "value" }`). Auto-generated.

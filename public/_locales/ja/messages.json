@@ -4924,5 +4924,93 @@
   "accountPublicKey": {
     "message": "アカウントの公開鍵",
     "englishSource": "Account Public Key"
+  },
+  "verifyingTransaction": {
+    "message": "トランザクションの検証中",
+    "englishSource": "Verifying transaction"
+  },
+  "transactionProcessingDescription": {
+    "message": "アップロードされたトランザクション ファイルは、詳細を確認するために処理されています。アプリを更新したり閉じたりしないでください。",
+    "englishSource": "The uploaded transaction file is being processed to verify its details. Please do not refresh or close the app."
+  },
+  "yourAddress": {
+    "message": "あなたの住所",
+    "englishSource": "Your address"
+  },
+  "errorClaiming": {
+    "message": "請求エラー:",
+    "englishSource": "Error Claiming: "
+  },
+  "addAccount": {
+    "message": "アカウントの追加",
+    "englishSource": "Add Account"
+  },
+  "faucetIdUpdated": {
+    "message": "蛇口IDが更新されました",
+    "englishSource": "Faucet ID Updated"
+  },
+  "connectivityIssueDetected": {
+    "message": "接続の問題が検出されました",
+    "englishSource": "Connectivity Issue Detected"
+  },
+  "walletMayBeOffline": {
+    "message": "ウォレットがオフラインであるか同期していない可能性があります。",
+    "englishSource": "Wallet may be offline or out of sync."
+  },
+  "noteConsumedSuccessfully": {
+    "message": "メモは正常に消費されました。",
+    "englishSource": "Your note was successfully consumed."
+  },
+  "noteConsumptionError": {
+    "message": "メモを消費する際にエラーが発生しました。もう一度試してください。",
+    "englishSource": "There was an error consuming your note. Please try again."
+  },
+  "dragAndDropFile": {
+    "message": "ファイルをドラッグ アンド ドロップするか、",
+    "englishSource": "Drag and drop file or"
+  },
+  "jsonFileType": {
+    "message": ".JSON",
+    "englishSource": ".JSON"
+  },
+  "blocksUntilRecall": {
+    "message": "リコールまでブロック",
+    "englishSource": "Blocks until recall"
+  },
+  "recallBlocksDescription": {
+    "message": "受取人がこの期間内に取引を受け入れない場合、資金は返金されます。",
+    "englishSource": "If the recipient does not accept the transaction within this time, the funds will be returned to you."
+  },
+  "clearText": {
+    "message": "クリアテキスト",
+    "englishSource": "Clear text"
+  },
+  "avatar": {
+    "message": "アバター",
+    "englishSource": "avatar"
+  },
+  "byProceeding": {
+    "message": "続行すると、次の内容に同意したものとみなされます",
+    "englishSource": "By proceeding, you agree to the"
+  },
+  "termsOfUsageLink": {
+    "message": "利用規約",
+    "englishSource": "Terms of Usage"
+  },
+  "privacyPolicyLink": {
+    "message": "プライバシーポリシー",
+    "englishSource": "Privacy Policy"
+  },
+  "andWord": {
+    "message": "そして",
+    "englishSource": "and"
+  },
+  "transactionFileDescription": {
+    "message": "トランザクションファイル",
+    "englishSource": "Transaction file"
+  },
+  "enterDecryptionPassword": {
+    "message": "ウォレットをエクスポートするときに設定したパスワードを入力します。これにより、ファイルが復号化され、アクセスが復元されます。",
+    "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
   }
 }

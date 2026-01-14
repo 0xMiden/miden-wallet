@@ -132,7 +132,7 @@ const CreateAccount: FC = () => {
           {/* Wallet Type Selection */}
           <div className="mb-8">
             <div className="font-medium mb-4" style={{ fontSize: '14px', lineHeight: '20px' }}>
-              Choose Your Account Type
+              {t('chooseYourAccountType')}
             </div>
             {WalletTypeOptions.map((option, idx) => (
               <div

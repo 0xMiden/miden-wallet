@@ -4948,5 +4948,93 @@
   "accountPublicKey": {
     "message": "Öffentlicher Kontoschlüssel",
     "englishSource": "Account Public Key"
+  },
+  "verifyingTransaction": {
+    "message": "Transaktion wird überprüft",
+    "englishSource": "Verifying transaction"
+  },
+  "transactionProcessingDescription": {
+    "message": "Die hochgeladene Transaktionsdatei wird verarbeitet, um ihre Details zu überprüfen. Bitte aktualisieren oder schließen Sie die App nicht.",
+    "englishSource": "The uploaded transaction file is being processed to verify its details. Please do not refresh or close the app."
+  },
+  "yourAddress": {
+    "message": "Ihre Adresse",
+    "englishSource": "Your address"
+  },
+  "errorClaiming": {
+    "message": "Fehlerbehauptung:",
+    "englishSource": "Error Claiming: "
+  },
+  "addAccount": {
+    "message": "Konto hinzufügen",
+    "englishSource": "Add Account"
+  },
+  "faucetIdUpdated": {
+    "message": "Wasserhahn-ID aktualisiert",
+    "englishSource": "Faucet ID Updated"
+  },
+  "connectivityIssueDetected": {
+    "message": "Verbindungsproblem erkannt",
+    "englishSource": "Connectivity Issue Detected"
+  },
+  "walletMayBeOffline": {
+    "message": "Das Wallet ist möglicherweise offline oder nicht synchronisiert.",
+    "englishSource": "Wallet may be offline or out of sync."
+  },
+  "noteConsumedSuccessfully": {
+    "message": "Ihre Notiz wurde erfolgreich verarbeitet.",
+    "englishSource": "Your note was successfully consumed."
+  },
+  "noteConsumptionError": {
+    "message": "Beim Verarbeiten Ihrer Notiz ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+    "englishSource": "There was an error consuming your note. Please try again."
+  },
+  "dragAndDropFile": {
+    "message": "Drag-and-Drop-Datei oder",
+    "englishSource": "Drag and drop file or"
+  },
+  "jsonFileType": {
+    "message": ".JSON",
+    "englishSource": ".JSON"
+  },
+  "blocksUntilRecall": {
+    "message": "Blockiert bis zum Rückruf",
+    "englishSource": "Blocks until recall"
+  },
+  "recallBlocksDescription": {
+    "message": "Wenn der Empfänger die Transaktion innerhalb dieser Zeit nicht akzeptiert, wird das Geld an Sie zurückerstattet.",
+    "englishSource": "If the recipient does not accept the transaction within this time, the funds will be returned to you."
+  },
+  "clearText": {
+    "message": "Klartext",
+    "englishSource": "Clear text"
+  },
+  "avatar": {
+    "message": "Avatar",
+    "englishSource": "avatar"
+  },
+  "byProceeding": {
+    "message": "Indem Sie fortfahren, stimmen Sie dem zu",
+    "englishSource": "By proceeding, you agree to the"
+  },
+  "termsOfUsageLink": {
+    "message": "Nutzungsbedingungen",
+    "englishSource": "Terms of Usage"
+  },
+  "privacyPolicyLink": {
+    "message": "Datenschutzrichtlinie",
+    "englishSource": "Privacy Policy"
+  },
+  "andWord": {
+    "message": "Und",
+    "englishSource": "and"
+  },
+  "transactionFileDescription": {
+    "message": "Transaktionsdatei",
+    "englishSource": "Transaction file"
+  },
+  "enterDecryptionPassword": {
+    "message": "Geben Sie das Passwort ein, das Sie beim Exportieren Ihres Wallets festgelegt haben. Dadurch wird die Datei entschlüsselt und der Zugriff wiederhergestellt.",
+    "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
   }
 }

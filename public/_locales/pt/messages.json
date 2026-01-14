@@ -4948,5 +4948,93 @@
   "accountPublicKey": {
     "message": "Chave pública da conta",
     "englishSource": "Account Public Key"
+  },
+  "verifyingTransaction": {
+    "message": "Verificando transação",
+    "englishSource": "Verifying transaction"
+  },
+  "transactionProcessingDescription": {
+    "message": "O arquivo de transação carregado está sendo processado para verificar seus detalhes. Por favor, não atualize ou feche o aplicativo.",
+    "englishSource": "The uploaded transaction file is being processed to verify its details. Please do not refresh or close the app."
+  },
+  "yourAddress": {
+    "message": "Seu endereço",
+    "englishSource": "Your address"
+  },
+  "errorClaiming": {
+    "message": "Erro ao reivindicar:",
+    "englishSource": "Error Claiming: "
+  },
+  "addAccount": {
+    "message": "Adicionar conta",
+    "englishSource": "Add Account"
+  },
+  "faucetIdUpdated": {
+    "message": "ID da torneira atualizado",
+    "englishSource": "Faucet ID Updated"
+  },
+  "connectivityIssueDetected": {
+    "message": "Problema de conectividade detectado",
+    "englishSource": "Connectivity Issue Detected"
+  },
+  "walletMayBeOffline": {
+    "message": "A carteira pode estar off-line ou fora de sincronia.",
+    "englishSource": "Wallet may be offline or out of sync."
+  },
+  "noteConsumedSuccessfully": {
+    "message": "Sua nota foi consumida com sucesso.",
+    "englishSource": "Your note was successfully consumed."
+  },
+  "noteConsumptionError": {
+    "message": "Ocorreu um erro ao consumir sua nota. Por favor, tente novamente.",
+    "englishSource": "There was an error consuming your note. Please try again."
+  },
+  "dragAndDropFile": {
+    "message": "Arraste e solte o arquivo ou",
+    "englishSource": "Drag and drop file or"
+  },
+  "jsonFileType": {
+    "message": ".JSON",
+    "englishSource": ".JSON"
+  },
+  "blocksUntilRecall": {
+    "message": "Bloqueia até recall",
+    "englishSource": "Blocks until recall"
+  },
+  "recallBlocksDescription": {
+    "message": "Se o destinatário não aceitar a transação dentro desse prazo, os fundos serão devolvidos a você.",
+    "englishSource": "If the recipient does not accept the transaction within this time, the funds will be returned to you."
+  },
+  "clearText": {
+    "message": "Limpar texto",
+    "englishSource": "Clear text"
+  },
+  "avatar": {
+    "message": "avatar",
+    "englishSource": "avatar"
+  },
+  "byProceeding": {
+    "message": "Ao prosseguir, você concorda com os",
+    "englishSource": "By proceeding, you agree to the"
+  },
+  "termsOfUsageLink": {
+    "message": "Termos de Uso",
+    "englishSource": "Terms of Usage"
+  },
+  "privacyPolicyLink": {
+    "message": "política de Privacidade",
+    "englishSource": "Privacy Policy"
+  },
+  "andWord": {
+    "message": "e",
+    "englishSource": "and"
+  },
+  "transactionFileDescription": {
+    "message": "Arquivo de transação",
+    "englishSource": "Transaction file"
+  },
+  "enterDecryptionPassword": {
+    "message": "Digite a senha que você definiu ao exportar sua carteira. Isso descriptografará o arquivo e restaurará o acesso.",
+    "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
   }
 }

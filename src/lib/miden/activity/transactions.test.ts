@@ -1,10 +1,8 @@
-import { ITransactionStatus, SendTransaction, ConsumeTransaction, Transaction } from '../db/types';
+import { ITransactionStatus, Transaction } from '../db/types';
 import { NoteTypeEnum } from '../types';
-
 // Import after mocks are set up
 import {
   hasQueuedTransactions,
-  getUncompletedTransactions,
   getTransactionsInProgress,
   getAllUncompletedTransactions,
   getFailedTransactions,
@@ -202,7 +200,7 @@ describe('transactions utilities', () => {
       });
 
       // Should not throw
-      await cancelTransactionById('nonexistent');
+      await expect(cancelTransactionById('nonexistent')).resolves.toBeUndefined();
     });
   });
 

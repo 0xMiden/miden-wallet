@@ -2,13 +2,12 @@ import '../../../test/jest-mocks';
 
 import browser from 'webextension-polyfill';
 
-import { IntercomClient } from 'lib/intercom';
 import { start } from 'lib/miden/back/main';
 import { request } from 'lib/miden/front/client';
 import { MidenMessageType, MidenSharedStorageKey } from 'lib/miden/types';
 import { WalletMessageType, WalletStatus } from 'lib/shared/types';
 
-import { ensureWalletReady, getState, waitForStateUpdate, PASSWORD, MNEMONIC } from '../../../test/state-helpers';
+import { ensureWalletReady, getState, waitForStateUpdate, PASSWORD } from '../../../test/state-helpers';
 
 jest.mock('webextension-polyfill');
 jest.mock('@demox-labs/miden-wallet-adapter-base');

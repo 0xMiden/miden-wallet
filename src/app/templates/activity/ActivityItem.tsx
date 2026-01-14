@@ -1,6 +1,7 @@
 import React, { FC, memo, useCallback } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import AddressShortView from 'app/atoms/AddressShortView';
 import { Button } from 'app/atoms/Button';
@@ -68,6 +69,7 @@ const transactionIconGrabber = (transactionIcon: ITransactionIcon, iconFillAndSt
 };
 
 const ActivityContent: FC<ActivityItemProps> = ({ fullHistory, activity }) => {
+  const { t } = useTranslation();
   const iconFillAndStroke = fullHistory ? 'currentColor' : 'black';
   const icon = !activity.transactionIcon
     ? iconGrabber(activity.type, iconFillAndStroke)
@@ -112,7 +114,7 @@ const ActivityContent: FC<ActivityItemProps> = ({ fullHistory, activity }) => {
             <div>
               {activity.secondaryAddress && (
                 <>
-                  {`${isReceive ? 'From' : 'To'} `}
+                  {`${isReceive ? t('from') : t('to')} `}
                   <AddressShortView address={activity.secondaryAddress} trim={popup} />
                 </>
               )}

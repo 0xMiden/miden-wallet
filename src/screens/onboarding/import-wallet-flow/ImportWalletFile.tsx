@@ -190,8 +190,10 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
           }}
         >
           <Icon name={IconName.UploadFile} size="xxl" />
-          <p className="text-sm">Drag and drop file or {uploadFileComponent()}</p>
-          <p className="text-sm text-gray-200">.JSON</p>
+          <p className="text-sm">
+            {t('dragAndDropFile')} {uploadFileComponent()}
+          </p>
+          <p className="text-sm text-gray-200">{t('jsonFileType')}</p>
           <div>
             <input style={{ display: 'none' }} ref={walletFileRef} onChange={onUploadFile} type="file" />
           </div>
@@ -217,9 +219,7 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
 
       {walletFile != null && (
         <div className="flex flex-col w-[360px]">
-          <p className="text-sm text-black my-3">
-            Enter the password you set when exporting your wallet. This will decrypt the file and restore access.
-          </p>
+          <p className="text-sm text-black my-3">{t('enterDecryptionPassword')}</p>
           <FormField
             {...register('password', {
               required: PASSWORD_ERROR_CAPTION

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 
 import classNames from 'clsx';
-import { motion, AnimatePresence, LayoutGroup, MotionContext } from 'framer-motion';
+import { motion, MotionContext } from 'framer-motion';
 import { v4 as uuid } from 'uuid';
 
 import { Icon, IconName } from 'app/icons/v2';

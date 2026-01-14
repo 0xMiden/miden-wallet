@@ -4933,5 +4933,93 @@
   "accountPublicKey": {
     "message": "계정 공개 키",
     "englishSource": "Account Public Key"
+  },
+  "verifyingTransaction": {
+    "message": "거래 확인 중",
+    "englishSource": "Verifying transaction"
+  },
+  "transactionProcessingDescription": {
+    "message": "업로드된 거래 파일을 처리하여 세부정보를 확인하는 중입니다. 앱을 새로고침하거나 종료하지 마세요.",
+    "englishSource": "The uploaded transaction file is being processed to verify its details. Please do not refresh or close the app."
+  },
+  "yourAddress": {
+    "message": "귀하의 주소",
+    "englishSource": "Your address"
+  },
+  "errorClaiming": {
+    "message": "소유권 주장 오류:",
+    "englishSource": "Error Claiming: "
+  },
+  "addAccount": {
+    "message": "계정 추가",
+    "englishSource": "Add Account"
+  },
+  "faucetIdUpdated": {
+    "message": "수도꼭지 ID가 업데이트되었습니다.",
+    "englishSource": "Faucet ID Updated"
+  },
+  "connectivityIssueDetected": {
+    "message": "연결 문제가 감지되었습니다.",
+    "englishSource": "Connectivity Issue Detected"
+  },
+  "walletMayBeOffline": {
+    "message": "월렛이 오프라인이거나 동기화되지 않았을 수 있습니다.",
+    "englishSource": "Wallet may be offline or out of sync."
+  },
+  "noteConsumedSuccessfully": {
+    "message": "귀하의 메모가 성공적으로 사용되었습니다.",
+    "englishSource": "Your note was successfully consumed."
+  },
+  "noteConsumptionError": {
+    "message": "메모를 사용하는 중에 오류가 발생했습니다. 다시 시도해 주세요.",
+    "englishSource": "There was an error consuming your note. Please try again."
+  },
+  "dragAndDropFile": {
+    "message": "파일을 드래그 앤 드롭하거나",
+    "englishSource": "Drag and drop file or"
+  },
+  "jsonFileType": {
+    "message": ".JSON",
+    "englishSource": ".JSON"
+  },
+  "blocksUntilRecall": {
+    "message": "회수될 때까지 차단",
+    "englishSource": "Blocks until recall"
+  },
+  "recallBlocksDescription": {
+    "message": "수취인이 이 시간 내에 거래를 수락하지 않으면 자금이 귀하에게 반환됩니다.",
+    "englishSource": "If the recipient does not accept the transaction within this time, the funds will be returned to you."
+  },
+  "clearText": {
+    "message": "텍스트 지우기",
+    "englishSource": "Clear text"
+  },
+  "avatar": {
+    "message": "화신",
+    "englishSource": "avatar"
+  },
+  "byProceeding": {
+    "message": "계속 진행하면 다음에 동의하는 것으로 간주됩니다.",
+    "englishSource": "By proceeding, you agree to the"
+  },
+  "termsOfUsageLink": {
+    "message": "이용약관",
+    "englishSource": "Terms of Usage"
+  },
+  "privacyPolicyLink": {
+    "message": "개인 정보 보호 정책",
+    "englishSource": "Privacy Policy"
+  },
+  "andWord": {
+    "message": "그리고",
+    "englishSource": "and"
+  },
+  "transactionFileDescription": {
+    "message": "거래 파일",
+    "englishSource": "Transaction file"
+  },
+  "enterDecryptionPassword": {
+    "message": "지갑 내보내기 시 설정한 비밀번호를 입력하세요. 이렇게 하면 파일의 암호가 해독되고 액세스가 복원됩니다.",
+    "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
   }
 }

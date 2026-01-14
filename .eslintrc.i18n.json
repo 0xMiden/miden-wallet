@@ -1,0 +1,90 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": ["i18next"],
+  "rules": {
+    "i18next/no-literal-string": [
+      "error",
+      {
+        "mode": "jsx-only",
+        "markupOnly": true,
+        "jsx-components": {
+          "include": ["*"],
+          "exclude": ["Trans", "T"]
+        },
+        "jsx-attributes": {
+          "include": ["title", "alt", "placeholder", "label", "aria-label", "aria-placeholder", "aria-valuetext"],
+          "exclude": []
+        },
+        "words": {
+          "exclude": [
+            "^[A-Z_]+$",
+            "^[0-9.]+$",
+            "^\\*+$",
+            "^[a-z]{1,3}$",
+            "^#[0-9a-fA-F]+$",
+            "^[0-9]+px$",
+            "^https?://",
+            "^/[a-z]",
+            "^\\.",
+            "^bg-",
+            "^text-",
+            "^mb-",
+            "^mt-",
+            "^mx-",
+            "^my-",
+            "^p-",
+            "^w-",
+            "^h-",
+            "^flex",
+            "^opacity-",
+            "^<[a-z]+>$",
+            "^\\$",
+            "^•$",
+            "^ALEO$",
+            "^:$"
+          ]
+        },
+        "callees": {
+          "exclude": [
+            "console\\..*",
+            "classNames",
+            "clsx",
+            "navigate",
+            "t",
+            "i18n\\..*",
+            "require",
+            "import",
+            "Error",
+            ".*\\.getElementById",
+            ".*\\.querySelector",
+            ".*\\.classList\\..*",
+            ".*\\.split",
+            ".*\\.getData",
+            ".*\\.join",
+            ".*\\.includes",
+            "JSON\\..*",
+            "formatAmount",
+            "register",
+            "downloadData",
+            "getMessage"
+          ]
+        }
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx", "**/lib/i18n/**"],
+      "rules": {
+        "i18next/no-literal-string": "off"
+      }
+    }
+  ]
+}

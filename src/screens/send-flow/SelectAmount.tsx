@@ -91,7 +91,7 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({
               <p className="text-sm text-black">{`${token.balance?.toString()} ${token.name}`}</p>
             </div>
             <button onClick={() => onAmountChange(token.balance?.toString())} type="button">
-              <Chip label="Max" className="cursor-pointer font-bold" />
+              <Chip label={t('max')} className="cursor-pointer font-bold" />
             </button>
           </div>
         </div>

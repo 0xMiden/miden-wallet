@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC } from 'react';
 
 import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { T } from 'lib/i18n/react';
