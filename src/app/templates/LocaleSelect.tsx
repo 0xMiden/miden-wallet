@@ -36,6 +36,12 @@ const localeOptions: LocaleOption[] = [
     disabled: false
   },
   {
+    code: 'es',
+    flagName: 'es',
+    label: 'Spanish (Español)',
+    disabled: false
+  },
+  {
     code: 'fr',
     flagName: 'fr',
     label: 'French (Français)',

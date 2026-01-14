@@ -5,6 +5,7 @@ import { initReactI18next } from 'react-i18next';
 import de from '../public/_locales/de/de.json';
 import en from '../public/_locales/en/en.json';
 import en_GB from '../public/_locales/en_GB/en_GB.json';
+import es from '../public/_locales/es/es.json';
 import fr from '../public/_locales/fr/fr.json';
 import ja from '../public/_locales/ja/ja.json';
 import ko from '../public/_locales/ko/ko.json';
@@ -41,6 +42,9 @@ i18n
       },
       'en-GB': {
         translation: en_GB
+      },
+      es: {
+        translation: es
       },
       fr: {
         translation: fr
