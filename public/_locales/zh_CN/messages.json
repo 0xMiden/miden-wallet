@@ -20,11 +20,11 @@
     "englishSource": "Create or Restore account"
   },
   "faucetFileTitle": {
-    "message": "Faucet文件",
+    "message": "Faucet File",
     "englishSource": "Faucet File"
   },
   "faucetFile": {
-    "message": "Faucet文件",
+    "message": "Faucet file",
     "englishSource": "Faucet file"
   },
   "settings": {
@@ -286,7 +286,7 @@
     "englishSource": "Deposit to your wallet"
   },
   "depositToWalletDescription": {
-    "message": "点击存款方式来将钱存入您的钱包。使用Faucet可获取免费代币！",
+    "message": "Click on deposit method to get money on your wallet. Use faucet to get free coins!",
     "englishSource": "Click on deposit method to get money on your wallet. Use faucet to get free coins!"
   },
   "addToken": {
@@ -476,7 +476,7 @@
     "englishSource": "Watch $accountNumber$"
   },
   "accountsToRemoveConstraint": {
-    "message": "您的助记词将始终能够重新生成此钱包。删除它是不可能的。",
+    "message": "Your seed phrase will always be able to regenerate this wallet. It is impossible to delete it.",
     "englishSource": "Your seed phrase will always be able to regenerate this wallet. It is impossible to delete it."
   },
   "doNotSharePrivateKey": {
@@ -666,7 +666,7 @@
     "englishSource": "Create a new Wallet"
   },
   "createNewWalletDescription": {
-    "message": "没用过Aleo钱包？我们先设置一个！这样做会创建一个新钱包和助记词",
+    "message": "New to Leo Wallet? Let's set it up! This will create a new wallet and seed phrase",
     "englishSource": "New to Leo Wallet? Let's set it up! This will create a new wallet and seed phrase"
   },
   "delegate": {
@@ -738,7 +738,7 @@
     "englishSource": "Custom derivation path"
   },
   "mnemonicInputLabel": {
-    "message": "助记词",
+    "message": "Seed phrase",
     "englishSource": "Seed phrase"
   },
   "mnemonicInputPlaceholder": {
@@ -795,7 +795,7 @@
     "englishSource": "Something went wrong"
   },
   "faucetFileInputPrompt": {
-    "message": "拖放一个文件或点击下方区域来手动选择。您可以从$link$下载下来。",
+    "message": "Drag & drop a file or select it manually by clicking on the area below. You can download it from $link$.",
     "placeholders": {
       "link": {
         "content": "$1"
@@ -832,11 +832,11 @@
     "englishSource": "Also known as \"Export Account\", reveals private key for your selected account."
   },
   "revealSeedPhrase": {
-    "message": "显示助记词",
+    "message": "Reveal Seed Phrase",
     "englishSource": "Reveal Seed Phrase"
   },
   "revealSeedPhraseDescription": {
-    "message": "也称为“导出钱包”，您可能需要此助记词来在其他设备上访问您的钱包和账户。",
+    "message": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices.",
     "englishSource": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices."
   },
   "dApps": {
@@ -858,7 +858,7 @@
     "englishSource": "Activate Account"
   },
   "activateAccountDescription": {
-    "message": "这对于ICO/资金筹集活动或Testnet Faucet账户可能是必要的。",
+    "message": "It may be necessary for ICO/Fundraiser or testnet faucet accounts.",
     "englishSource": "It may be necessary for ICO/Fundraiser or testnet faucet accounts."
   },
   "removeAccount": {
@@ -898,7 +898,7 @@
     "englishSource": "Restore Account? Want to sign in another?"
   },
   "importWalletUsingSeedPhrase": {
-    "message": "使用助记词导入钱包",
+    "message": "Import Wallet using Seed Phrase",
     "englishSource": "Import Wallet using Seed Phrase"
   },
   "connectLedger": {
@@ -959,7 +959,7 @@
     "englishSource": "Secret"
   },
   "activateAccountSecretDescription": {
-    "message": "来自资金筹集账户或Faucet的“secret”字段",
+    "message": "'secret' field from Fundraiser Account or Faucet",
     "englishSource": "'secret' field from Fundraiser Account or Faucet"
   },
   "activateAccountSecretPlaceholder": {
@@ -1232,7 +1232,7 @@
     "englishSource": "Unknown:"
   },
   "backupNewSeedPhrase": {
-    "message": "备份新的助记词",
+    "message": "New Seed Phrase",
     "englishSource": "New Seed Phrase"
   },
   "attentionExclamation": {
@@ -1280,14 +1280,14 @@
     "englishSource": "Create"
   },
   "revealNewSeedPhrase": {
-    "message": "<b>点击下方区域</b>来显示新的助记词。\n此后，将此助记词写在一张纸上并<b>保存在安全的地方</b>。或者您也可以背下来。",
+    "message": "<b>Click on area below</b> to reveal your new Seed Phrase.\nThen, write this phrase on a piece of paper and <b>store in a secure location</b>. Or you can memorize it.",
     "englishSource": "<b>Click on area below</b> to reveal your new Seed Phrase.\nThen, write this phrase on a piece of paper and <b>store in a secure location</b>. Or you can memorize it."
   },
   "doNotSharePhrase": {
     "message": "<b>切勿分享</b>此助记词给任何人！它可用于窃取您全部的账户。"
   },
   "youWillNeedThisSeedPhrase": {
-    "message": "如果您曾经切换过浏览器或设备，您就需要此助记词来访问您的账户。",
+    "message": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever.",
     "englishSource": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever."
   },
   "unableToContinueWithoutConfirming": {
@@ -1295,7 +1295,7 @@
     "englishSource": "Unable to continue without confirming"
   },
   "backupedInputLabel": {
-    "message": "我备份了助记词",
+    "message": "I made Seed Phrase backup",
     "englishSource": "I made Seed Phrase backup"
   },
   "backupedInputDescription": {
@@ -1368,11 +1368,11 @@
     "englishSource": "Derivation path"
   },
   "seedPhrase": {
-    "message": "助记词",
+    "message": "Seed Phrase",
     "englishSource": "Seed Phrase"
   },
   "pathForHDAccounts": {
-    "message": "用于HD账户。它用于使用助记词恢复全部账户。",
+    "message": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase.",
     "description": "HD = Hierarchical Deterministic",
     "englishSource": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase."
   },
@@ -1385,7 +1385,7 @@
     "englishSource": "e.g. m/44'/1729'/..."
   },
   "keepSeedPhraseSecret": {
-    "message": "请保密。",
+    "message": "Keep it in secret.",
     "englishSource": "Keep it in secret."
   },
   "revealSecretPasswordInputDescription": {
@@ -1486,7 +1486,7 @@
     "englishSource": "Unable to estimate transaction to provided Recipient."
   },
   "makeSureToBackupSeedPhrase": {
-    "message": "请务必备份您的助记词！",
+    "message": "Make sure to back up your seed phrase!",
     "englishSource": "Make sure to back up your seed phrase!"
   },
   "exploreMore": {
@@ -2071,7 +2071,7 @@
     "englishSource": "Invalid JSON"
   },
   "notFaucetJson": {
-    "message": "不是Faucet JSON",
+    "message": "Not a faucet JSON",
     "englishSource": "Not a faucet JSON"
   },
   "faucetJson": {
@@ -2079,7 +2079,7 @@
     "englishSource": "Faucet JSON"
   },
   "faucetJsonDescription": {
-    "message": "您可以通过在此粘贴JSON来代替添加文件",
+    "message": "You can paste JSON here instead of adding file",
     "englishSource": "You can paste JSON here instead of adding file"
   },
   "selectFile": {
@@ -2243,7 +2243,7 @@
     "englishSource": "Inclusion of at least one special character, e.g., ! @ # ? ] - (optional, recommended)."
   },
   "seedInputNumberOfWords": {
-    "message": "我的种子短语是 $1 字",
+    "message": "My Seed phrase is $1 words",
     "englishSource": "My Seed phrase is $1 words"
   },
   "seedPasteFailedTooManyWords": {
@@ -2251,7 +2251,7 @@
     "englishSource": "Paste failed because it contained over 24 words."
   },
   "seedPhraseTip": {
-    "message": "您可以将整个秘密种子短语粘贴到任何字段中",
+    "message": "You can paste your entire secret Seed phrase into any field",
     "englishSource": "You can paste your entire secret Seed phrase into any field"
   },
   "assetMustBeSelected": {
@@ -2267,7 +2267,7 @@
     "englishSource": "Get"
   },
   "exolixWarningNote": {
-    "message": "请只存款 $currencyName$ 传输网络 $networkName$ .否则，您可能会永久失去您的资产。",
+    "message": "Please, deposit only $currencyName$ transfer network $networkName$. Otherwise, you may lose your assets permanently.",
     "placeholders": {
       "currencyName": {
         "content": "$1"
@@ -2283,7 +2283,7 @@
     "englishSource": "Mnemonic. Your secret 12 - 24 words phrase."
   },
   "mnemonicInputWarning": {
-    "message": "我们不存储您的助记词。不要丢失它！",
+    "message": "We don't store your seed phrase. Don't lose it!",
     "englishSource": "We don't store your seed phrase. Don't lose it!"
   },
   "importWallet": {
@@ -2315,7 +2315,7 @@
     "englishSource": "Only files of version 3 can be processed"
   },
   "kukaiWalletTypeError": {
-    "message": "无法显示此钱包类型的助记词",
+    "message": "Cannot reveal seed phrase for this wallet type",
     "englishSource": "Cannot reveal seed phrase for this wallet type"
   },
   "revealViewKey": {
@@ -2335,7 +2335,7 @@
     "englishSource": "You have entered the wrong password three times. Your wallet is being blocked for"
   },
   "importExistingWalletDescription": {
-    "message": "已经有钱包了？使用您的助记词或加密的密钥库文件将其导入",
+    "message": "Already have a wallet? Import it using your seed phrase or encrypted keystore file",
     "englishSource": "Already have a wallet? Import it using your seed phrase or encrypted keystore file"
   },
   "routingFee": {
@@ -2840,11 +2840,11 @@
     "englishSource": "Add this address to contacts?"
   },
   "verifySeedPhrase": {
-    "message": "验证种子短语",
+    "message": "Verify Seed Phrase",
     "englishSource": "Verify Seed Phrase"
   },
   "verifySeedPhraseDescription": {
-    "message": "用单词填写空白字段以验证您的种子短语备份",
+    "message": "Fill in the blank fields with the words to verify your Seed Phrase backup",
     "englishSource": "Fill in the blank fields with the words to verify your Seed Phrase backup"
   },
   "word": {
@@ -2997,7 +2997,7 @@
     "englishSource": "Attention"
   },
   "attentionDescription": {
-    "message": "切勿以任何借口与第三方共享您的私钥和助记词。",
+    "message": "Never and under any pretext share your private keys and seed phrase with third parties.",
     "englishSource": "Never and under any pretext share your private keys and seed phrase with third parties."
   },
   "attentionListTitle1": {
@@ -3605,7 +3605,7 @@
     "englishSource": "It can be used to steal all your accounts."
   },
   "changeSeedPhrase": {
-    "message": "更改种子短语",
+    "message": "Change Seed Phrase",
     "englishSource": "Change Seed Phrase"
   },
   "feeNotRequired": {
@@ -3661,35 +3661,35 @@
     "englishSource": "details"
   },
   "faucet": {
-    "message": "龙头",
+    "message": "Faucet",
     "englishSource": "Faucet"
   },
   "aleoFaucetDescription": {
-    "message": "所有分发的积分仅用于测试目的，没有价值。",
+    "message": "All distributed credits are for testing purposes and do not have value.",
     "englishSource": "All distributed credits are for testing purposes and do not have value."
   },
   "aleoFaucetStep1": {
-    "message": "用手机扫描二维码",
+    "message": "Scan the QR code with your Phone",
     "englishSource": "Scan the QR code with your Phone"
   },
   "aleoFaucetStep1Description": {
-    "message": "然后单击它向您显示的提示。",
+    "message": "And click on the prompt it shows you.",
     "englishSource": "And click on the prompt it shows you."
   },
   "aleoFaucetStep2": {
-    "message": "确认并发送短信",
+    "message": "Confirm and send the SMS",
     "englishSource": "Confirm and send the SMS"
   },
   "aleoFaucetStep2Description": {
-    "message": "（可能需要支付信息费和数据费）",
+    "message": "(Message and data rates may apply)",
     "englishSource": "(Message and data rates may apply)"
   },
   "aleoFaucetStep3": {
-    "message": "获得 Aleo 积分",
+    "message": "Get Aleo credits",
     "englishSource": "Get Aleo credits"
   },
   "aleoFaucetStep3Description": {
-    "message": "Aleo Faucet 会向您发送积分。",
+    "message": "Aleo Faucet will send you credits.",
     "englishSource": "Aleo Faucet will send you credits."
   },
   "deployAction": {
@@ -4005,7 +4005,7 @@
     "englishSource": "Initial stake must be at least 10 ALEO"
   },
   "pleaseNote": {
-    "message": "请注意",
+    "message": "Please Note",
     "englishSource": "Please Note"
   },
   "unstakingProcess": {
@@ -4095,17 +4095,17 @@
     "englishSource": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase."
   },
   "enterYourWalletSeedPhrase": {
-    "message": "输入你钱包的12个单词的种子短语。",
+    "message": "Enter your wallet's 12-word Seed phrase.",
     "note": "Onboarding",
     "englishSource": "Enter your wallet's 12-word Seed phrase."
   },
   "onlyAleoSeedPhrasesAreSupported": {
-    "message": "只支持Aleo种子短语。",
+    "message": "Only Aleo Seed phrases are supported.",
     "note": "Onboarding",
     "englishSource": "Only Aleo Seed phrases are supported."
   },
   "seedPhrasePlaceholder": {
-    "message": "12个单词的种子短语",
+    "message": "12-word Seed phrase",
     "note": "Onboarding",
     "englishSource": "12-word Seed phrase"
   },
@@ -4296,15 +4296,15 @@
     "englishSource": "Learn more"
   },
   "faucetId": {
-    "message": "水龙头ID",
+    "message": "Faucet ID",
     "englishSource": "Faucet ID"
   },
   "setNewFaucetId": {
-    "message": "设置新的水龙头 ID",
+    "message": "Set new Faucet ID",
     "englishSource": "Set new Faucet ID"
   },
   "setNewFaucetIdDescription": {
-    "message": "输入miden水龙头的ID",
+    "message": "Enter the ID of a miden faucet",
     "englishSource": "Enter the ID of a miden faucet"
   },
   "encryptedWalletFile": {
@@ -4324,7 +4324,7 @@
     "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
   },
   "editMidenFaucetId": {
-    "message": "编辑 Miden 水龙头 ID",
+    "message": "Edit Miden Faucet ID",
     "englishSource": "Edit Miden Faucet ID"
   },
   "exportWalletFile": {
@@ -4342,7 +4342,7 @@
     "englishSource": "Your wallet has been created."
   },
   "noSeedPhrase": {
-    "message": "没有种子短语",
+    "message": "No Seed Phrase",
     "note": "Onboarding",
     "englishSource": "No Seed Phrase"
   },
@@ -4352,7 +4352,7 @@
     "englishSource": "Recovery"
   },
   "yourAccountIsProtected": {
-    "message": "您的帐户受到加密文件而不是助记词的保护。",
+    "message": "Your account is protected by an encrypted file instead of a seed phrase.",
     "note": "Onboarding",
     "englishSource": "Your account is protected by an encrypted file instead of a seed phrase."
   },
@@ -4377,12 +4377,12 @@
     "englishSource": "Restore public balance with your 12-word phrase. To restore private balance, upload an encrypted backup file."
   },
   "importWithSeedPhrase": {
-    "message": "使用种子短语导入",
+    "message": "Import with Seed Phrase",
     "note": "Onboarding",
     "englishSource": "Import with Seed Phrase"
   },
   "importWithSeedPhraseDescription": {
-    "message": "使用现有的 12 字恢复短语。您还可以从其他钱包提供商导入钱包。",
+    "message": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers.",
     "note": "Onboarding",
     "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
   },
@@ -4397,7 +4397,7 @@
     "englishSource": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain"
   },
   "onlyMidenSeedPhrasesAreSupported": {
-    "message": "仅支持 Miden 种子短语。",
+    "message": "Only Miden Seed phrases are supported.",
     "englishSource": "Only Miden Seed phrases are supported."
   },
   "passwordsDoNotMatch": {
@@ -4409,7 +4409,7 @@
     "englishSource": "Wallet Reset Required"
   },
   "resetRequiredDescription": {
-    "message": "Miden 测试网已升级至 bech32 帐户 ID，以改善您的体验。要继续使用您的钱包，请从备份文件或助记词恢复，或创建一个新的。",
+    "message": "Miden Testnet has upgraded to bech32 account IDs to improve your experience. To keep using your wallet, please restore from a backup file or seed phrase, or create a new one.",
     "englishSource": "Miden Testnet has upgraded to bech32 account IDs to improve your experience. To keep using your wallet, please restore from a backup file or seed phrase, or create a new one."
   },
   "resetRequiredSecondDescription": {
@@ -4429,7 +4429,7 @@
     "englishSource": "If you've forgotten your password, you need to sign out and re-import your account. After that, you can create a new password."
   },
   "forgotPasswordSecondDescription": {
-    "message": "除非您知道 12 字种子短语或拥有加密备份文件，否则请勿注销。",
+    "message": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file.",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
   "signOut": {
@@ -4481,7 +4481,7 @@
     "englishSource": "Upload your encrypted wallet file to securely restore your account. Your data remains private, with only hashed information stored on-chain."
   },
   "goToFaucet": {
-    "message": "前往水龙头",
+    "message": "Go to Faucet",
     "englishSource": "Go to Faucet"
   },
   "explorePrivateAssets": {
@@ -4489,11 +4489,11 @@
     "englishSource": "Explore the world of private assets."
   },
   "autoConsumeSettings": {
-    "message": "自动使用 MIDEN 笔记",
+    "message": "Auto Consume MIDEN notes",
     "englishSource": "Auto Consume MIDEN notes"
   },
   "autoConsumeSettingsDescription": {
-    "message": "自动消耗将自动消耗来自官方Miden Faucet的笔记。",
+    "message": "Auto Consume will automatically consume notes from the official Miden Faucet.",
     "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
@@ -4685,11 +4685,11 @@
     "englishSource": "Timestamp"
   },
   "noteType": {
-    "message": "注释类型",
+    "message": "Note Type",
     "englishSource": "Note Type"
   },
   "noteId": {
-    "message": "注释ID",
+    "message": "Note ID",
     "englishSource": "Note ID"
   },
   "downloadGeneratedFile": {
@@ -4717,11 +4717,11 @@
     "englishSource": "Sign the following Word $word$?"
   },
   "sharePrivateNoteDataForAccount": {
-    "message": "共享帐户的所有私人笔记数据",
+    "message": "Share all private note data for account",
     "englishSource": "Share all private note data for account"
   },
   "downloadPrivateNoteData": {
-    "message": "下载私人笔记数据",
+    "message": "Download Private Note Data",
     "englishSource": "Download Private Note Data"
   },
   "transactionAffectsAccountStorage": {
@@ -4741,11 +4741,11 @@
     "englishSource": "Unknown"
   },
   "inputNotesConsumed": {
-    "message": "消耗的输入笔记",
+    "message": "Input notes consumed",
     "englishSource": "Input notes consumed"
   },
   "outputNotesCreated": {
-    "message": "创建的输出注释",
+    "message": "Output notes created",
     "englishSource": "Output notes created"
   },
   "storageChanged": {
@@ -4777,15 +4777,15 @@
     "englishSource": "Requests a transaction"
   },
   "requestsToConsumeNote": {
-    "message": "请求使用笔记",
+    "message": "Requests to consume a note",
     "englishSource": "Requests to consume a note"
   },
   "requestPrivateNotes": {
-    "message": "请求私人笔记",
+    "message": "Request Private Notes",
     "englishSource": "Request Private Notes"
   },
   "requestsPrivateNotes": {
-    "message": "请求私人笔记",
+    "message": "Requests private notes",
     "englishSource": "Requests private notes"
   },
   "confirmSignature": {
@@ -4809,15 +4809,15 @@
     "englishSource": "Request Import Private Note"
   },
   "importPrivateNote": {
-    "message": "导入私人笔记",
+    "message": "Import private note",
     "englishSource": "Import private note"
   },
   "requestConsumableNotes": {
-    "message": "索取消耗品备注",
+    "message": "Request Consumable Notes",
     "englishSource": "Request Consumable Notes"
   },
   "requestsConsumableNotes": {
-    "message": "索取消耗品备注",
+    "message": "Request consumable notes",
     "englishSource": "Request consumable notes"
   },
   "review": {
@@ -4865,7 +4865,7 @@
     "englishSource": "Get tokens"
   },
   "getTokensDescription": {
-    "message": "您可以从水龙头获取代币或从其他钱包或账户转移代币。",
+    "message": "You can get tokens from the faucet or transfer them from another wallet or account.",
     "englishSource": "You can get tokens from the faucet or transfer them from another wallet or account."
   },
   "transferTokens": {
@@ -4873,11 +4873,11 @@
     "englishSource": "Transfer tokens"
   },
   "midenFaucet": {
-    "message": "米登水龙头",
+    "message": "Miden Faucet",
     "englishSource": "Miden Faucet"
   },
   "midenFaucetDescription": {
-    "message": "单击下面的按钮会将您的地址复制到剪贴板并导航至 Miden Faucet。",
+    "message": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet.",
     "englishSource": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet."
   },
   "accountPublicKey": {
@@ -4905,7 +4905,7 @@
     "englishSource": "Add Account"
   },
   "faucetIdUpdated": {
-    "message": "水龙头 ID 已更新",
+    "message": "Faucet ID Updated",
     "englishSource": "Faucet ID Updated"
   },
   "connectivityIssueDetected": {
@@ -4917,11 +4917,11 @@
     "englishSource": "Wallet may be offline or out of sync."
   },
   "noteConsumedSuccessfully": {
-    "message": "您的笔记已成功消耗。",
+    "message": "Your note was successfully consumed.",
     "englishSource": "Your note was successfully consumed."
   },
   "noteConsumptionError": {
-    "message": "使用您的笔记时发生错误。请再试一次。",
+    "message": "There was an error consuming your note. Please try again.",
     "englishSource": "There was an error consuming your note. Please try again."
   },
   "dragAndDropFile": {

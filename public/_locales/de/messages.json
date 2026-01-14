@@ -20,11 +20,11 @@
     "englishSource": "Import account"
   },
   "faucetFileTitle": {
-    "message": "Faucet-Datei",
+    "message": "Faucet File",
     "englishSource": "Faucet File"
   },
   "faucetFile": {
-    "message": "Faucet-Datei",
+    "message": "Faucet file",
     "englishSource": "Faucet file"
   },
   "settings": {
@@ -290,7 +290,7 @@
     "englishSource": "Deposit to your wallet"
   },
   "depositToWalletDescription": {
-    "message": "Klicken Sie auf die Einzahlungsmethode, um Geld auf Ihre Wallet einzuzahlen. Verwenden Sie Faucet, um kostenlose Münzen zu erhalten!",
+    "message": "Click on deposit method to get money on your wallet. Use faucet to get free coins!",
     "englishSource": "Click on deposit method to get money on your wallet. Use faucet to get free coins!"
   },
   "addToken": {
@@ -500,7 +500,7 @@
     "englishSource": "Watch $accountNumber$"
   },
   "accountsToRemoveConstraint": {
-    "message": "Ihre Seed-Phrase wird diese Brieftasche immer regenerieren können. Es ist unmöglich, es zu löschen.",
+    "message": "Your seed phrase will always be able to regenerate this wallet. It is impossible to delete it.",
     "englishSource": "Your seed phrase will always be able to regenerate this wallet. It is impossible to delete it."
   },
   "doNotSharePrivateKey": {
@@ -690,7 +690,7 @@
     "englishSource": "Create a new Wallet"
   },
   "createNewWalletDescription": {
-    "message": "Neu bei Aleo Wallet? Richten wir es ein! Dadurch wird eine neue Wallet- und Seed-Phrase erstellt",
+    "message": "New to Leo Wallet? Let's set it up! This will create a new wallet and seed phrase",
     "englishSource": "New to Leo Wallet? Let's set it up! This will create a new wallet and seed phrase"
   },
   "delegate": {
@@ -762,7 +762,7 @@
     "englishSource": "Custom derivation path"
   },
   "mnemonicInputLabel": {
-    "message": "Seed-Phrase",
+    "message": "Seed phrase",
     "englishSource": "Seed phrase"
   },
   "mnemonicInputDescription": {
@@ -823,7 +823,7 @@
     "englishSource": "Something went wrong"
   },
   "faucetFileInputPrompt": {
-    "message": "Ziehen Sie eine Datei per Drag & Drop oder wählen Sie sie manuell aus, indem Sie auf den unteren Bereich klicken. Sie können sie von $link$ herunterladen.",
+    "message": "Drag & drop a file or select it manually by clicking on the area below. You can download it from $link$.",
     "placeholders": {
       "link": {
         "content": "$1"
@@ -856,7 +856,7 @@
     "englishSource": "Only files of version 3 can be processed"
   },
   "kukaiWalletTypeError": {
-    "message": "Seed-Phrase für diesen Wallet-Typ kann nicht angezeigt werden",
+    "message": "Cannot reveal seed phrase for this wallet type",
     "englishSource": "Cannot reveal seed phrase for this wallet type"
   },
   "accountAddressLabel": {
@@ -884,11 +884,11 @@
     "englishSource": "Also known as \"Export Account\", reveals private key for your selected account."
   },
   "revealSeedPhrase": {
-    "message": "Seed-Phrase freigeben",
+    "message": "Reveal Seed Phrase",
     "englishSource": "Reveal Seed Phrase"
   },
   "revealSeedPhraseDescription": {
-    "message": "Auch als \"Export-Wallet\" bekannt, Sie benötigen diese Seed-Phrase möglicherweise, um auf Ihre Wallet und Konten auf anderen Geräten zuzugreifen.",
+    "message": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices.",
     "englishSource": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices."
   },
   "dApps": {
@@ -910,7 +910,7 @@
     "englishSource": "Activate Account"
   },
   "activateAccountDescription": {
-    "message": "Dies kann für ICO/Geldgeber- oder Testnet-Faucet-Konten erforderlich sein.",
+    "message": "It may be necessary for ICO/Fundraiser or testnet faucet accounts.",
     "englishSource": "It may be necessary for ICO/Fundraiser or testnet faucet accounts."
   },
   "removeAccount": {
@@ -950,7 +950,7 @@
     "englishSource": "Restore Account? Want to sign in another?"
   },
   "importWalletUsingSeedPhrase": {
-    "message": "Wallet mit Seed-Phrase importieren",
+    "message": "Import Wallet using Seed Phrase",
     "englishSource": "Import Wallet using Seed Phrase"
   },
   "connectLedger": {
@@ -963,7 +963,7 @@
     "englishSource": "Import existing Wallet"
   },
   "importExistingWalletDescription": {
-    "message": "Haben Sie bereits eine Wallet? Importieren Sie sie mit Ihrer Seed-Phrase oder verschlüsselten Keystore-Datei",
+    "message": "Already have a wallet? Import it using your seed phrase or encrypted keystore file",
     "englishSource": "Already have a wallet? Import it using your seed phrase or encrypted keystore file"
   },
   "links": {
@@ -1015,7 +1015,7 @@
     "englishSource": "Secret"
   },
   "activateAccountSecretDescription": {
-    "message": "'Geheimnis'-Feld von Geldgeber-Konto oder Faucet",
+    "message": "'secret' field from Fundraiser Account or Faucet",
     "englishSource": "'secret' field from Fundraiser Account or Faucet"
   },
   "activateAccountSecretPlaceholder": {
@@ -1302,7 +1302,7 @@
     "englishSource": "Unknown:"
   },
   "backupNewSeedPhrase": {
-    "message": "Neue Seed-Phrase sichern",
+    "message": "New Seed Phrase",
     "englishSource": "New Seed Phrase"
   },
   "attentionExclamation": {
@@ -1378,14 +1378,14 @@
     "englishSource": "Import"
   },
   "revealNewSeedPhrase": {
-    "message": "<b>Klicken Sie auf den unteren Bereich</b>, um Ihre neue Seed-Phrase anzuzeigen.\nSchreiben Sie diese Phrase dann auf ein Blatt Papier und <b>bewahren Sie es an einem sicheren Ort auf</b>. Oder lernen Sie sie auswendig.",
+    "message": "<b>Click on area below</b> to reveal your new Seed Phrase.\nThen, write this phrase on a piece of paper and <b>store in a secure location</b>. Or you can memorize it.",
     "englishSource": "<b>Click on area below</b> to reveal your new Seed Phrase.\nThen, write this phrase on a piece of paper and <b>store in a secure location</b>. Or you can memorize it."
   },
   "doNotSharePhrase": {
     "message": "<b>Teilen Sie</b> diese Phrase mit NIEMANDEM! Sie kann verwendet werden, um alle Ihre Konten zu stehlen."
   },
   "youWillNeedThisSeedPhrase": {
-    "message": "Wenn Sie jemals zwischen Browsern oder Geräten wechseln, benötigen Sie diese Seed-Phrase, um auf Ihre Konten zuzugreifen.",
+    "message": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever.",
     "englishSource": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever."
   },
   "unableToContinueWithoutConfirming": {
@@ -1393,7 +1393,7 @@
     "englishSource": "Unable to continue without confirming"
   },
   "backupedInputLabel": {
-    "message": "Ich habe ein Seed-Phrasen-Backup erstellt",
+    "message": "I made Seed Phrase backup",
     "englishSource": "I made Seed Phrase backup"
   },
   "backupedInputDescription": {
@@ -1482,11 +1482,11 @@
     "englishSource": "The elliptical curve that the account will use."
   },
   "seedPhrase": {
-    "message": "Seed-Phrase",
+    "message": "Seed Phrase",
     "englishSource": "Seed Phrase"
   },
   "pathForHDAccounts": {
-    "message": "für HD-Konten. Dies ist das, was Sie verwenden, um alle Ihre Konten aus Ihrer Seed-Phrase wiederherzustellen.",
+    "message": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase.",
     "description": "HD = Hierarchical Deterministic",
     "englishSource": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase."
   },
@@ -1499,7 +1499,7 @@
     "englishSource": "e.g. m/44'/1729'/..."
   },
   "keepSeedPhraseSecret": {
-    "message": "Halten Sie ihn geheim.",
+    "message": "Keep it in secret.",
     "englishSource": "Keep it in secret."
   },
   "revealSecretPasswordInputDescription": {
@@ -1604,7 +1604,7 @@
     "englishSource": "Unable to estimate transaction to provided Recipient."
   },
   "makeSureToBackupSeedPhrase": {
-    "message": "Stellen Sie sicher, dass Sie Ihre Seed-Phrase sichern!",
+    "message": "Make sure to back up your seed phrase!",
     "englishSource": "Make sure to back up your seed phrase!"
   },
   "exploreMore": {
@@ -2210,15 +2210,15 @@
     "englishSource": "Invalid JSON"
   },
   "notFaucetJson": {
-    "message": "Kein Faucet-JSON",
+    "message": "Not a faucet JSON",
     "englishSource": "Not a faucet JSON"
   },
   "faucetJson": {
-    "message": "Faucet-JSON",
+    "message": "Faucet JSON",
     "englishSource": "Faucet JSON"
   },
   "faucetJsonDescription": {
-    "message": "Sie können JSON hier einfügen, anstatt eine Datei hinzuzufügen",
+    "message": "You can paste JSON here instead of adding file",
     "englishSource": "You can paste JSON here instead of adding file"
   },
   "unknownErrorFromRPC": {
@@ -2610,11 +2610,11 @@
     "englishSource": "Add this address to contacts?"
   },
   "verifySeedPhrase": {
-    "message": "Seed-Phrase überprüfen",
+    "message": "Verify Seed Phrase",
     "englishSource": "Verify Seed Phrase"
   },
   "verifySeedPhraseDescription": {
-    "message": "Füllen Sie die leeren Felder mit den Wörtern aus, um Ihr Seed Phrase-Backup zu überprüfen",
+    "message": "Fill in the blank fields with the words to verify your Seed Phrase backup",
     "englishSource": "Fill in the blank fields with the words to verify your Seed Phrase backup"
   },
   "word": {
@@ -2958,7 +2958,7 @@
     "englishSource": "Inclusion of at least one special character, e.g., ! @ # ? ] - (optional, recommended)."
   },
   "seedInputNumberOfWords": {
-    "message": "Meine Seed-Phrase ist $1 Wörter",
+    "message": "My Seed phrase is $1 words",
     "englishSource": "My Seed phrase is $1 words"
   },
   "seedPasteFailedTooManyWords": {
@@ -2966,7 +2966,7 @@
     "englishSource": "Paste failed because it contained over 24 words."
   },
   "seedPhraseTip": {
-    "message": "Sie können Ihre gesamte geheime Seed-Phrase in ein beliebiges Feld einfügen",
+    "message": "You can paste your entire secret Seed phrase into any field",
     "englishSource": "You can paste your entire secret Seed phrase into any field"
   },
   "assetMustBeSelected": {
@@ -2982,7 +2982,7 @@
     "englishSource": "Get"
   },
   "exolixWarningNote": {
-    "message": "Bitte nur Anzahlung $currencyName$ Übertragungsnetz $networkName$ . Andernfalls können Sie Ihr Vermögen dauerhaft verlieren.",
+    "message": "Please, deposit only $currencyName$ transfer network $networkName$. Otherwise, you may lose your assets permanently.",
     "placeholders": {
       "currencyName": {
         "content": "$1"
@@ -2994,7 +2994,7 @@
     "englishSource": "Please, deposit only $currencyName$ transfer network $networkName$. Otherwise, you may lose your assets permanently."
   },
   "mnemonicInputWarning": {
-    "message": "Wir speichern Ihre Seed-Phrase nicht. Verliere es nicht!",
+    "message": "We don't store your seed phrase. Don't lose it!",
     "englishSource": "We don't store your seed phrase. Don't lose it!"
   },
   "importWallet": {
@@ -3262,7 +3262,7 @@
     "englishSource": "Attention"
   },
   "attentionDescription": {
-    "message": "Geben Sie niemals und unter keinem Vorwand Ihre privaten Schlüssel und Seedphrasen an Dritte weiter.",
+    "message": "Never and under any pretext share your private keys and seed phrase with third parties.",
     "englishSource": "Never and under any pretext share your private keys and seed phrase with third parties."
   },
   "attentionListTitle1": {
@@ -3664,7 +3664,7 @@
     "englishSource": "It can be used to steal all your accounts."
   },
   "changeSeedPhrase": {
-    "message": "Seed-Phrase ändern",
+    "message": "Change Seed Phrase",
     "englishSource": "Change Seed Phrase"
   },
   "feeNotRequired": {
@@ -3735,35 +3735,35 @@
     "englishSource": "details"
   },
   "faucet": {
-    "message": "Wasserhahn",
+    "message": "Faucet",
     "englishSource": "Faucet"
   },
   "aleoFaucetDescription": {
-    "message": "Alle verteilten Credits dienen Testzwecken und haben keinen Wert.",
+    "message": "All distributed credits are for testing purposes and do not have value.",
     "englishSource": "All distributed credits are for testing purposes and do not have value."
   },
   "aleoFaucetStep1": {
-    "message": "Scannen Sie den QR-Code mit Ihrem Telefon",
+    "message": "Scan the QR code with your Phone",
     "englishSource": "Scan the QR code with your Phone"
   },
   "aleoFaucetStep1Description": {
-    "message": "Und klicken Sie auf die angezeigte Eingabeaufforderung.",
+    "message": "And click on the prompt it shows you.",
     "englishSource": "And click on the prompt it shows you."
   },
   "aleoFaucetStep2": {
-    "message": "Bestätigen Sie und senden Sie die SMS",
+    "message": "Confirm and send the SMS",
     "englishSource": "Confirm and send the SMS"
   },
   "aleoFaucetStep2Description": {
-    "message": "(Es können Nachrichten- und Datentarife anfallen.)",
+    "message": "(Message and data rates may apply)",
     "englishSource": "(Message and data rates may apply)"
   },
   "aleoFaucetStep3": {
-    "message": "Holen Sie sich Aleo-Credits",
+    "message": "Get Aleo credits",
     "englishSource": "Get Aleo credits"
   },
   "aleoFaucetStep3Description": {
-    "message": "Aleo Faucet sendet Ihnen Credits.",
+    "message": "Aleo Faucet will send you credits.",
     "englishSource": "Aleo Faucet will send you credits."
   },
   "deployAction": {
@@ -4069,7 +4069,7 @@
     "englishSource": "Initial stake must be at least 10 ALEO"
   },
   "pleaseNote": {
-    "message": "Bitte beachten Sie",
+    "message": "Please Note",
     "englishSource": "Please Note"
   },
   "unstakingProcess": {
@@ -4124,17 +4124,17 @@
     "englishSource": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase."
   },
   "enterYourWalletSeedPhrase": {
-    "message": "Geben Sie den 12-Wörter-Seed-Satz Ihres Wallets ein.",
+    "message": "Enter your wallet's 12-word Seed phrase.",
     "note": "Onboarding",
     "englishSource": "Enter your wallet's 12-word Seed phrase."
   },
   "onlyAleoSeedPhrasesAreSupported": {
-    "message": "Es werden nur Aleo-Seed-Sätze unterstützt.",
+    "message": "Only Aleo Seed phrases are supported.",
     "note": "Onboarding",
     "englishSource": "Only Aleo Seed phrases are supported."
   },
   "seedPhrasePlaceholder": {
-    "message": "12-Wörter-Seed-Satz",
+    "message": "12-word Seed phrase",
     "note": "Onboarding",
     "englishSource": "12-word Seed phrase"
   },
@@ -4325,15 +4325,15 @@
     "englishSource": "Learn more"
   },
   "faucetId": {
-    "message": "Wasserhahn-ID",
+    "message": "Faucet ID",
     "englishSource": "Faucet ID"
   },
   "setNewFaucetId": {
-    "message": "Legen Sie eine neue Faucet-ID fest",
+    "message": "Set new Faucet ID",
     "englishSource": "Set new Faucet ID"
   },
   "setNewFaucetIdDescription": {
-    "message": "Geben Sie die ID eines Miden-Wasserhahns ein",
+    "message": "Enter the ID of a miden faucet",
     "englishSource": "Enter the ID of a miden faucet"
   },
   "encryptedWalletFile": {
@@ -4353,7 +4353,7 @@
     "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
   },
   "editMidenFaucetId": {
-    "message": "Bearbeiten Sie die Miden Faucet-ID",
+    "message": "Edit Miden Faucet ID",
     "englishSource": "Edit Miden Faucet ID"
   },
   "exportWalletFile": {
@@ -4406,7 +4406,7 @@
     "englishSource": "Your wallet has been created."
   },
   "noSeedPhrase": {
-    "message": "Keine Seed-Phrase",
+    "message": "No Seed Phrase",
     "note": "Onboarding",
     "englishSource": "No Seed Phrase"
   },
@@ -4416,7 +4416,7 @@
     "englishSource": "Recovery"
   },
   "yourAccountIsProtected": {
-    "message": "Ihr Konto wird durch eine verschlüsselte Datei statt durch eine Seed-Phrase geschützt.",
+    "message": "Your account is protected by an encrypted file instead of a seed phrase.",
     "note": "Onboarding",
     "englishSource": "Your account is protected by an encrypted file instead of a seed phrase."
   },
@@ -4441,12 +4441,12 @@
     "englishSource": "Restore public balance with your 12-word phrase. To restore private balance, upload an encrypted backup file."
   },
   "importWithSeedPhrase": {
-    "message": "Mit Seed-Phrase importieren",
+    "message": "Import with Seed Phrase",
     "note": "Onboarding",
     "englishSource": "Import with Seed Phrase"
   },
   "importWithSeedPhraseDescription": {
-    "message": "Verwenden Sie eine vorhandene Wiederherstellungsphrase mit 12 Wörtern. Sie können auch Wallets von anderen Wallet-Anbietern importieren.",
+    "message": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers.",
     "note": "Onboarding",
     "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
   },
@@ -4461,7 +4461,7 @@
     "englishSource": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain"
   },
   "onlyMidenSeedPhrasesAreSupported": {
-    "message": "Es werden nur Miden Seed-Phrasen unterstützt.",
+    "message": "Only Miden Seed phrases are supported.",
     "englishSource": "Only Miden Seed phrases are supported."
   },
   "passwordsDoNotMatch": {
@@ -4473,7 +4473,7 @@
     "englishSource": "Wallet Reset Required"
   },
   "resetRequiredDescription": {
-    "message": "Miden Testnet hat ein Upgrade auf bech32-Konto-IDs durchgeführt, um Ihr Erlebnis zu verbessern. Um Ihr Wallet weiterhin verwenden zu können, stellen Sie es bitte aus einer Sicherungsdatei oder Seed-Phrase wieder her oder erstellen Sie eine neue.",
+    "message": "Miden Testnet has upgraded to bech32 account IDs to improve your experience. To keep using your wallet, please restore from a backup file or seed phrase, or create a new one.",
     "englishSource": "Miden Testnet has upgraded to bech32 account IDs to improve your experience. To keep using your wallet, please restore from a backup file or seed phrase, or create a new one."
   },
   "resetRequiredSecondDescription": {
@@ -4493,7 +4493,7 @@
     "englishSource": "If you've forgotten your password, you need to sign out and re-import your account. After that, you can create a new password."
   },
   "forgotPasswordSecondDescription": {
-    "message": "Melden Sie sich nicht ab, es sei denn, Sie kennen Ihre 12-Wörter-Seed-Phrase oder haben eine verschlüsselte Sicherungsdatei.",
+    "message": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file.",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
   "signOut": {
@@ -4545,7 +4545,7 @@
     "englishSource": "Upload your encrypted wallet file to securely restore your account. Your data remains private, with only hashed information stored on-chain."
   },
   "goToFaucet": {
-    "message": "Gehen Sie zu Wasserhahn",
+    "message": "Go to Faucet",
     "englishSource": "Go to Faucet"
   },
   "explorePrivateAssets": {
@@ -4553,11 +4553,11 @@
     "englishSource": "Explore the world of private assets."
   },
   "autoConsumeSettings": {
-    "message": "MIDEN-Noten automatisch konsumieren",
+    "message": "Auto Consume MIDEN notes",
     "englishSource": "Auto Consume MIDEN notes"
   },
   "autoConsumeSettingsDescription": {
-    "message": "Auto Consume verbraucht automatisch Banknoten aus dem offiziellen Miden Faucet.",
+    "message": "Auto Consume will automatically consume notes from the official Miden Faucet.",
     "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
@@ -4749,11 +4749,11 @@
     "englishSource": "Timestamp"
   },
   "noteType": {
-    "message": "Notiztyp",
+    "message": "Note Type",
     "englishSource": "Note Type"
   },
   "noteId": {
-    "message": "Notiz-ID",
+    "message": "Note ID",
     "englishSource": "Note ID"
   },
   "downloadGeneratedFile": {
@@ -4781,11 +4781,11 @@
     "englishSource": "Sign the following Word $word$?"
   },
   "sharePrivateNoteDataForAccount": {
-    "message": "Geben Sie alle privaten Notizdaten für das Konto frei",
+    "message": "Share all private note data for account",
     "englishSource": "Share all private note data for account"
   },
   "downloadPrivateNoteData": {
-    "message": "Laden Sie private Notizdaten herunter",
+    "message": "Download Private Note Data",
     "englishSource": "Download Private Note Data"
   },
   "transactionAffectsAccountStorage": {
@@ -4805,11 +4805,11 @@
     "englishSource": "Unknown"
   },
   "inputNotesConsumed": {
-    "message": "Eingabenotizen verbraucht",
+    "message": "Input notes consumed",
     "englishSource": "Input notes consumed"
   },
   "outputNotesCreated": {
-    "message": "Ausgabenotizen erstellt",
+    "message": "Output notes created",
     "englishSource": "Output notes created"
   },
   "storageChanged": {
@@ -4841,15 +4841,15 @@
     "englishSource": "Requests a transaction"
   },
   "requestsToConsumeNote": {
-    "message": "Anfragen zum Verzehr einer Notiz",
+    "message": "Requests to consume a note",
     "englishSource": "Requests to consume a note"
   },
   "requestPrivateNotes": {
-    "message": "Fordern Sie private Notizen an",
+    "message": "Request Private Notes",
     "englishSource": "Request Private Notes"
   },
   "requestsPrivateNotes": {
-    "message": "Fordert private Notizen an",
+    "message": "Requests private notes",
     "englishSource": "Requests private notes"
   },
   "confirmSignature": {
@@ -4869,19 +4869,19 @@
     "englishSource": "Requests assets"
   },
   "requestImportPrivateNote": {
-    "message": "Fordern Sie den Import einer privaten Notiz an",
+    "message": "Request Import Private Note",
     "englishSource": "Request Import Private Note"
   },
   "importPrivateNote": {
-    "message": "Private Notiz importieren",
+    "message": "Import private note",
     "englishSource": "Import private note"
   },
   "requestConsumableNotes": {
-    "message": "Fordern Sie Hinweise zu Verbrauchsmaterialien an",
+    "message": "Request Consumable Notes",
     "englishSource": "Request Consumable Notes"
   },
   "requestsConsumableNotes": {
-    "message": "Fordern Sie Hinweise zu Verbrauchsmaterialien an",
+    "message": "Request consumable notes",
     "englishSource": "Request consumable notes"
   },
   "review": {
@@ -4929,7 +4929,7 @@
     "englishSource": "Get tokens"
   },
   "getTokensDescription": {
-    "message": "Sie können Token aus dem Faucet beziehen oder sie von einer anderen Wallet oder einem anderen Konto übertragen.",
+    "message": "You can get tokens from the faucet or transfer them from another wallet or account.",
     "englishSource": "You can get tokens from the faucet or transfer them from another wallet or account."
   },
   "transferTokens": {
@@ -4937,11 +4937,11 @@
     "englishSource": "Transfer tokens"
   },
   "midenFaucet": {
-    "message": "Miden Wasserhahn",
+    "message": "Miden Faucet",
     "englishSource": "Miden Faucet"
   },
   "midenFaucetDescription": {
-    "message": "Wenn Sie auf die Schaltfläche unten klicken, wird Ihre Adresse in die Zwischenablage kopiert und Sie gelangen zum Miden Faucet.",
+    "message": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet.",
     "englishSource": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet."
   },
   "accountPublicKey": {
@@ -4969,7 +4969,7 @@
     "englishSource": "Add Account"
   },
   "faucetIdUpdated": {
-    "message": "Wasserhahn-ID aktualisiert",
+    "message": "Faucet ID Updated",
     "englishSource": "Faucet ID Updated"
   },
   "connectivityIssueDetected": {
@@ -4981,11 +4981,11 @@
     "englishSource": "Wallet may be offline or out of sync."
   },
   "noteConsumedSuccessfully": {
-    "message": "Ihre Notiz wurde erfolgreich verarbeitet.",
+    "message": "Your note was successfully consumed.",
     "englishSource": "Your note was successfully consumed."
   },
   "noteConsumptionError": {
-    "message": "Beim Verarbeiten Ihrer Notiz ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+    "message": "There was an error consuming your note. Please try again.",
     "englishSource": "There was an error consuming your note. Please try again."
   },
   "dragAndDropFile": {

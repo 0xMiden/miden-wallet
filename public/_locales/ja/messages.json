@@ -20,11 +20,11 @@
     "englishSource": "Create or Restore account"
   },
   "faucetFileTitle": {
-    "message": "フォーセットファイル",
+    "message": "Faucet File",
     "englishSource": "Faucet File"
   },
   "faucetFile": {
-    "message": "フォーセットファイル",
+    "message": "Faucet file",
     "englishSource": "Faucet file"
   },
   "settings": {
@@ -274,11 +274,11 @@
     "englishSource": "Use CoinSwitch"
   },
   "aleoFaucet": {
-    "message": "テゾスフォーセット",
+    "message": "Aleo Faucet",
     "englishSource": "Aleo Faucet"
   },
   "aleoFaucetAlpha": {
-    "message": "テゾスフォーセット（アルファ）",
+    "message": "Aleo Faucet (Alpha)",
     "englishSource": "Aleo Faucet (Alpha)"
   },
   "depositToWallet": {
@@ -286,7 +286,7 @@
     "englishSource": "Deposit to your wallet"
   },
   "depositToWalletDescription": {
-    "message": "ウォレットに入金するための入金方法をクリックしてください。フォーセットを使うと無料のコインが入手できます！",
+    "message": "Click on deposit method to get money on your wallet. Use faucet to get free coins!",
     "englishSource": "Click on deposit method to get money on your wallet. Use faucet to get free coins!"
   },
   "addToken": {
@@ -476,7 +476,7 @@
     "englishSource": "Watch $accountNumber$"
   },
   "accountsToRemoveConstraint": {
-    "message": "あなたのシードフレーズはいつでもこのウォレットを再生できます。削除することはできません。",
+    "message": "Your seed phrase will always be able to regenerate this wallet. It is impossible to delete it.",
     "englishSource": "Your seed phrase will always be able to regenerate this wallet. It is impossible to delete it."
   },
   "doNotSharePrivateKey": {
@@ -666,7 +666,7 @@
     "englishSource": "Create a new Wallet"
   },
   "createNewWalletDescription": {
-    "message": "テンプルウォレットを始めたばかりですか？一緒に設定してみましょう！これにより、 新しいウォレットとシードフレーズが作成されます",
+    "message": "New to Leo Wallet? Let's set it up! This will create a new wallet and seed phrase",
     "englishSource": "New to Leo Wallet? Let's set it up! This will create a new wallet and seed phrase"
   },
   "delegate": {
@@ -738,7 +738,7 @@
     "englishSource": "Custom derivation path"
   },
   "mnemonicInputLabel": {
-    "message": "シードフレーズ",
+    "message": "Seed phrase",
     "englishSource": "Seed phrase"
   },
   "mnemonicInputPlaceholder": {
@@ -795,7 +795,7 @@
     "englishSource": "Something went wrong"
   },
   "faucetFileInputPrompt": {
-    "message": "ファイルをドラッグ＆ドロップするか、下の領域をクリックして手動で選択してください。$link$からダウンロードできます。",
+    "message": "Drag & drop a file or select it manually by clicking on the area below. You can download it from $link$.",
     "placeholders": {
       "link": {
         "content": "$1"
@@ -832,11 +832,11 @@
     "englishSource": "Also known as \"Export Account\", reveals private key for your selected account."
   },
   "revealSeedPhrase": {
-    "message": "シードフレーズを表示",
+    "message": "Reveal Seed Phrase",
     "englishSource": "Reveal Seed Phrase"
   },
   "revealSeedPhraseDescription": {
-    "message": "「ウォレットのエクスポート」としても知られ、他のデバイスでウォレットやアカウントにアクセスするには、このシードフレーズが必要な場合があります。",
+    "message": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices.",
     "englishSource": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices."
   },
   "dApps": {
@@ -858,7 +858,7 @@
     "englishSource": "Activate Account"
   },
   "activateAccountDescription": {
-    "message": "ICO/ファンドレイザーやテストネットフォーセットアカウントに必要な場合があります。",
+    "message": "It may be necessary for ICO/Fundraiser or testnet faucet accounts.",
     "englishSource": "It may be necessary for ICO/Fundraiser or testnet faucet accounts."
   },
   "removeAccount": {
@@ -898,7 +898,7 @@
     "englishSource": "Restore Account? Want to sign in another?"
   },
   "importWalletUsingSeedPhrase": {
-    "message": "シードフレーズを使ってウォレットをインポート",
+    "message": "Import Wallet using Seed Phrase",
     "englishSource": "Import Wallet using Seed Phrase"
   },
   "connectLedger": {
@@ -959,7 +959,7 @@
     "englishSource": "Secret"
   },
   "activateAccountSecretDescription": {
-    "message": "ファンドレイザーアカウントまたはフォーセットの「秘密」フィールド",
+    "message": "'secret' field from Fundraiser Account or Faucet",
     "englishSource": "'secret' field from Fundraiser Account or Faucet"
   },
   "activateAccountSecretPlaceholder": {
@@ -1232,7 +1232,7 @@
     "englishSource": "Unknown:"
   },
   "backupNewSeedPhrase": {
-    "message": "新しいシードフレーズをバックアップ",
+    "message": "New Seed Phrase",
     "englishSource": "New Seed Phrase"
   },
   "attentionExclamation": {
@@ -1280,14 +1280,14 @@
     "englishSource": "Create"
   },
   "revealNewSeedPhrase": {
-    "message": "新しいシードフレーズを表示するには<b>下の領域をクリックしてください</b>。\nそして、このフレーズを紙に書いて、<b>安全な場所に保管してください</b>。または暗記することもできます。",
+    "message": "<b>Click on area below</b> to reveal your new Seed Phrase.\nThen, write this phrase on a piece of paper and <b>store in a secure location</b>. Or you can memorize it.",
     "englishSource": "<b>Click on area below</b> to reveal your new Seed Phrase.\nThen, write this phrase on a piece of paper and <b>store in a secure location</b>. Or you can memorize it."
   },
   "doNotSharePhrase": {
     "message": "<b>このフレーズを誰とも共有しないでください</b>! アカウントの乗っ取りに使用される恐れがあります。"
   },
   "youWillNeedThisSeedPhrase": {
-    "message": "ブラウザやデバイスを切り替えた場合、アカウントにアクセスするためにこのシードフレーズが必要になります。",
+    "message": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever.",
     "englishSource": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever."
   },
   "unableToContinueWithoutConfirming": {
@@ -1295,7 +1295,7 @@
     "englishSource": "Unable to continue without confirming"
   },
   "backupedInputLabel": {
-    "message": "シードフレーズのバックアップを作成しました",
+    "message": "I made Seed Phrase backup",
     "englishSource": "I made Seed Phrase backup"
   },
   "backupedInputDescription": {
@@ -1368,11 +1368,11 @@
     "englishSource": "Derivation path"
   },
   "seedPhrase": {
-    "message": "シードフレーズ",
+    "message": "Seed Phrase",
     "englishSource": "Seed Phrase"
   },
   "pathForHDAccounts": {
-    "message": "HDアカウント用。シードフレーズからすべてのアカウントを復元するために使用するものです。",
+    "message": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase.",
     "description": "HD = Hierarchical Deterministic",
     "englishSource": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase."
   },
@@ -1385,7 +1385,7 @@
     "englishSource": "e.g. m/44'/1729'/..."
   },
   "keepSeedPhraseSecret": {
-    "message": "秘密にしてください。",
+    "message": "Keep it in secret.",
     "englishSource": "Keep it in secret."
   },
   "revealSecretPasswordInputDescription": {
@@ -1486,7 +1486,7 @@
     "englishSource": "Unable to estimate transaction to provided Recipient."
   },
   "makeSureToBackupSeedPhrase": {
-    "message": "忘れずにシードフレーズをバックアップしてください！",
+    "message": "Make sure to back up your seed phrase!",
     "englishSource": "Make sure to back up your seed phrase!"
   },
   "exploreMore": {
@@ -2071,15 +2071,15 @@
     "englishSource": "Invalid JSON"
   },
   "notFaucetJson": {
-    "message": "フォーセットのJSONではありません",
+    "message": "Not a faucet JSON",
     "englishSource": "Not a faucet JSON"
   },
   "faucetJson": {
-    "message": "フォーセットのJSON",
+    "message": "Faucet JSON",
     "englishSource": "Faucet JSON"
   },
   "faucetJsonDescription": {
-    "message": "ファイルを追加する代わりに、ここにJSONを貼り付けることができます。",
+    "message": "You can paste JSON here instead of adding file",
     "englishSource": "You can paste JSON here instead of adding file"
   },
   "selectFile": {
@@ -2243,7 +2243,7 @@
     "englishSource": "Inclusion of at least one special character, e.g., ! @ # ? ] - (optional, recommended)."
   },
   "seedInputNumberOfWords": {
-    "message": "私のシードフレーズは $1 単語です",
+    "message": "My Seed phrase is $1 words",
     "englishSource": "My Seed phrase is $1 words"
   },
   "seedPasteFailedTooManyWords": {
@@ -2251,7 +2251,7 @@
     "englishSource": "Paste failed because it contained over 24 words."
   },
   "seedPhraseTip": {
-    "message": "秘密のシード フレーズ全体を任意のフィールドに貼り付けることができます",
+    "message": "You can paste your entire secret Seed phrase into any field",
     "englishSource": "You can paste your entire secret Seed phrase into any field"
   },
   "assetMustBeSelected": {
@@ -2267,7 +2267,7 @@
     "englishSource": "Get"
   },
   "exolixWarningNote": {
-    "message": "入金のみお願いします $currencyName$ 転送ネットワーク $networkName$ .そうしないと、資産を永久に失う可能性があります。",
+    "message": "Please, deposit only $currencyName$ transfer network $networkName$. Otherwise, you may lose your assets permanently.",
     "placeholders": {
       "currencyName": {
         "content": "$1"
@@ -2283,7 +2283,7 @@
     "englishSource": "Mnemonic. Your secret 12 - 24 words phrase."
   },
   "mnemonicInputWarning": {
-    "message": "シード フレーズは保存されません。失うな！",
+    "message": "We don't store your seed phrase. Don't lose it!",
     "englishSource": "We don't store your seed phrase. Don't lose it!"
   },
   "importWallet": {
@@ -2315,7 +2315,7 @@
     "englishSource": "Only files of version 3 can be processed"
   },
   "kukaiWalletTypeError": {
-    "message": "このウォレット タイプのシード フレーズを明らかにすることはできません",
+    "message": "Cannot reveal seed phrase for this wallet type",
     "englishSource": "Cannot reveal seed phrase for this wallet type"
   },
   "revealViewKey": {
@@ -2335,7 +2335,7 @@
     "englishSource": "You have entered the wrong password three times. Your wallet is being blocked for"
   },
   "importExistingWalletDescription": {
-    "message": "すでに財布をお持ちですか？シード フレーズまたは暗号化されたキーストア ファイルを使用してインポートします",
+    "message": "Already have a wallet? Import it using your seed phrase or encrypted keystore file",
     "englishSource": "Already have a wallet? Import it using your seed phrase or encrypted keystore file"
   },
   "routingFee": {
@@ -2890,11 +2890,11 @@
     "englishSource": "Add this address to contacts?"
   },
   "verifySeedPhrase": {
-    "message": "シード フレーズの確認",
+    "message": "Verify Seed Phrase",
     "englishSource": "Verify Seed Phrase"
   },
   "verifySeedPhraseDescription": {
-    "message": "空白のフィールドに単語を入力して、シード フレーズのバックアップを確認します",
+    "message": "Fill in the blank fields with the words to verify your Seed Phrase backup",
     "englishSource": "Fill in the blank fields with the words to verify your Seed Phrase backup"
   },
   "word": {
@@ -3047,7 +3047,7 @@
     "englishSource": "Attention"
   },
   "attentionDescription": {
-    "message": "秘密鍵とシード フレーズを第三者と決して共有しないでください。",
+    "message": "Never and under any pretext share your private keys and seed phrase with third parties.",
     "englishSource": "Never and under any pretext share your private keys and seed phrase with third parties."
   },
   "attentionListTitle1": {
@@ -3655,7 +3655,7 @@
     "englishSource": "It can be used to steal all your accounts."
   },
   "changeSeedPhrase": {
-    "message": "シード フレーズの変更",
+    "message": "Change Seed Phrase",
     "englishSource": "Change Seed Phrase"
   },
   "feeNotRequired": {
@@ -3711,35 +3711,35 @@
     "englishSource": "details"
   },
   "faucet": {
-    "message": "蛇口",
+    "message": "Faucet",
     "englishSource": "Faucet"
   },
   "aleoFaucetDescription": {
-    "message": "配布されたクレジットはすべてテスト目的であり、価値はありません。",
+    "message": "All distributed credits are for testing purposes and do not have value.",
     "englishSource": "All distributed credits are for testing purposes and do not have value."
   },
   "aleoFaucetStep1": {
-    "message": "携帯電話で QR コードをスキャンします",
+    "message": "Scan the QR code with your Phone",
     "englishSource": "Scan the QR code with your Phone"
   },
   "aleoFaucetStep1Description": {
-    "message": "そして、表示されるプロンプトをクリックします。",
+    "message": "And click on the prompt it shows you.",
     "englishSource": "And click on the prompt it shows you."
   },
   "aleoFaucetStep2": {
-    "message": "SMSを確認して送信する",
+    "message": "Confirm and send the SMS",
     "englishSource": "Confirm and send the SMS"
   },
   "aleoFaucetStep2Description": {
-    "message": "(メッセージ料金とデータ料金が適用される場合があります)",
+    "message": "(Message and data rates may apply)",
     "englishSource": "(Message and data rates may apply)"
   },
   "aleoFaucetStep3": {
-    "message": "Aleo クレジットを取得する",
+    "message": "Get Aleo credits",
     "englishSource": "Get Aleo credits"
   },
   "aleoFaucetStep3Description": {
-    "message": "Aleo Faucet からクレジットが送信されます。",
+    "message": "Aleo Faucet will send you credits.",
     "englishSource": "Aleo Faucet will send you credits."
   },
   "deployAction": {
@@ -4045,7 +4045,7 @@
     "englishSource": "Initial stake must be at least 10 ALEO"
   },
   "pleaseNote": {
-    "message": "ご注意ください",
+    "message": "Please Note",
     "englishSource": "Please Note"
   },
   "unstakingProcess": {
@@ -4135,17 +4135,17 @@
     "englishSource": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase."
   },
   "enterYourWalletSeedPhrase": {
-    "message": "ウォレットの12ワードのシードフレーズを入力してください。",
+    "message": "Enter your wallet's 12-word Seed phrase.",
     "note": "Onboarding",
     "englishSource": "Enter your wallet's 12-word Seed phrase."
   },
   "onlyAleoSeedPhrasesAreSupported": {
-    "message": "Aleoのシードフレーズのみがサポートされています。",
+    "message": "Only Aleo Seed phrases are supported.",
     "note": "Onboarding",
     "englishSource": "Only Aleo Seed phrases are supported."
   },
   "seedPhrasePlaceholder": {
-    "message": "12ワードのシードフレーズ",
+    "message": "12-word Seed phrase",
     "note": "Onboarding",
     "englishSource": "12-word Seed phrase"
   },
@@ -4336,15 +4336,15 @@
     "englishSource": "Learn more"
   },
   "faucetId": {
-    "message": "蛇口ID",
+    "message": "Faucet ID",
     "englishSource": "Faucet ID"
   },
   "setNewFaucetId": {
-    "message": "新しいフォーセット ID を設定する",
+    "message": "Set new Faucet ID",
     "englishSource": "Set new Faucet ID"
   },
   "setNewFaucetIdDescription": {
-    "message": "ミデン蛇口のIDを入力してください",
+    "message": "Enter the ID of a miden faucet",
     "englishSource": "Enter the ID of a miden faucet"
   },
   "encryptedWalletFile": {
@@ -4364,7 +4364,7 @@
     "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
   },
   "editMidenFaucetId": {
-    "message": "ミデン フォーセット ID の編集",
+    "message": "Edit Miden Faucet ID",
     "englishSource": "Edit Miden Faucet ID"
   },
   "exportWalletFile": {
@@ -4382,7 +4382,7 @@
     "englishSource": "Your wallet has been created."
   },
   "noSeedPhrase": {
-    "message": "シードフレーズなし",
+    "message": "No Seed Phrase",
     "note": "Onboarding",
     "englishSource": "No Seed Phrase"
   },
@@ -4392,7 +4392,7 @@
     "englishSource": "Recovery"
   },
   "yourAccountIsProtected": {
-    "message": "アカウントはシード フレーズではなく暗号化されたファイルによって保護されます。",
+    "message": "Your account is protected by an encrypted file instead of a seed phrase.",
     "note": "Onboarding",
     "englishSource": "Your account is protected by an encrypted file instead of a seed phrase."
   },
@@ -4417,12 +4417,12 @@
     "englishSource": "Restore public balance with your 12-word phrase. To restore private balance, upload an encrypted backup file."
   },
   "importWithSeedPhrase": {
-    "message": "シードフレーズを使用してインポートする",
+    "message": "Import with Seed Phrase",
     "note": "Onboarding",
     "englishSource": "Import with Seed Phrase"
   },
   "importWithSeedPhraseDescription": {
-    "message": "既存の 12 単語のリカバリ フレーズを使用します。他のウォレットプロバイダーからウォレットをインポートすることもできます。",
+    "message": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers.",
     "note": "Onboarding",
     "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
   },
@@ -4437,7 +4437,7 @@
     "englishSource": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain"
   },
   "onlyMidenSeedPhrasesAreSupported": {
-    "message": "ミデンシードのフレーズのみがサポートされています。",
+    "message": "Only Miden Seed phrases are supported.",
     "englishSource": "Only Miden Seed phrases are supported."
   },
   "passwordsDoNotMatch": {
@@ -4449,7 +4449,7 @@
     "englishSource": "Wallet Reset Required"
   },
   "resetRequiredDescription": {
-    "message": "エクスペリエンスを向上させるために、Miden Testnet は bech32 アカウント ID にアップグレードされました。ウォレットを引き続き使用するには、バックアップ ファイルまたはシード フレーズから復元するか、新しいものを作成してください。",
+    "message": "Miden Testnet has upgraded to bech32 account IDs to improve your experience. To keep using your wallet, please restore from a backup file or seed phrase, or create a new one.",
     "englishSource": "Miden Testnet has upgraded to bech32 account IDs to improve your experience. To keep using your wallet, please restore from a backup file or seed phrase, or create a new one."
   },
   "resetRequiredSecondDescription": {
@@ -4469,7 +4469,7 @@
     "englishSource": "If you've forgotten your password, you need to sign out and re-import your account. After that, you can create a new password."
   },
   "forgotPasswordSecondDescription": {
-    "message": "12 単語のシード フレーズを知っている場合、または暗号化されたバックアップ ファイルがない場合は、サインアウトしないでください。",
+    "message": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file.",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
   "signOut": {
@@ -4521,7 +4521,7 @@
     "englishSource": "Upload your encrypted wallet file to securely restore your account. Your data remains private, with only hashed information stored on-chain."
   },
   "goToFaucet": {
-    "message": "蛇口へ行く",
+    "message": "Go to Faucet",
     "englishSource": "Go to Faucet"
   },
   "explorePrivateAssets": {
@@ -4529,11 +4529,11 @@
     "englishSource": "Explore the world of private assets."
   },
   "autoConsumeSettings": {
-    "message": "MIDENノートの自動消費",
+    "message": "Auto Consume MIDEN notes",
     "englishSource": "Auto Consume MIDEN notes"
   },
   "autoConsumeSettingsDescription": {
-    "message": "自動消費は、公式 Miden Faucet からのノートを自動的に消費します。",
+    "message": "Auto Consume will automatically consume notes from the official Miden Faucet.",
     "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
@@ -4725,11 +4725,11 @@
     "englishSource": "Timestamp"
   },
   "noteType": {
-    "message": "音符の種類",
+    "message": "Note Type",
     "englishSource": "Note Type"
   },
   "noteId": {
-    "message": "ノートID",
+    "message": "Note ID",
     "englishSource": "Note ID"
   },
   "downloadGeneratedFile": {
@@ -4757,11 +4757,11 @@
     "englishSource": "Sign the following Word $word$?"
   },
   "sharePrivateNoteDataForAccount": {
-    "message": "アカウントのすべてのプライベートノートデータを共有する",
+    "message": "Share all private note data for account",
     "englishSource": "Share all private note data for account"
   },
   "downloadPrivateNoteData": {
-    "message": "プライベートノートデータのダウンロード",
+    "message": "Download Private Note Data",
     "englishSource": "Download Private Note Data"
   },
   "transactionAffectsAccountStorage": {
@@ -4781,11 +4781,11 @@
     "englishSource": "Unknown"
   },
   "inputNotesConsumed": {
-    "message": "消費されたノートを入力",
+    "message": "Input notes consumed",
     "englishSource": "Input notes consumed"
   },
   "outputNotesCreated": {
-    "message": "作成された出力ノート",
+    "message": "Output notes created",
     "englishSource": "Output notes created"
   },
   "storageChanged": {
@@ -4817,15 +4817,15 @@
     "englishSource": "Requests a transaction"
   },
   "requestsToConsumeNote": {
-    "message": "メモの使用リクエスト",
+    "message": "Requests to consume a note",
     "englishSource": "Requests to consume a note"
   },
   "requestPrivateNotes": {
-    "message": "プライベートメモをリクエストする",
+    "message": "Request Private Notes",
     "englishSource": "Request Private Notes"
   },
   "requestsPrivateNotes": {
-    "message": "プライベートメモをリクエストします",
+    "message": "Requests private notes",
     "englishSource": "Requests private notes"
   },
   "confirmSignature": {
@@ -4845,19 +4845,19 @@
     "englishSource": "Requests assets"
   },
   "requestImportPrivateNote": {
-    "message": "プライベートメモのインポートをリクエスト",
+    "message": "Request Import Private Note",
     "englishSource": "Request Import Private Note"
   },
   "importPrivateNote": {
-    "message": "プライベートメモをインポートする",
+    "message": "Import private note",
     "englishSource": "Import private note"
   },
   "requestConsumableNotes": {
-    "message": "消耗品メモのリクエスト",
+    "message": "Request Consumable Notes",
     "englishSource": "Request Consumable Notes"
   },
   "requestsConsumableNotes": {
-    "message": "消耗品メモをリクエストする",
+    "message": "Request consumable notes",
     "englishSource": "Request consumable notes"
   },
   "review": {
@@ -4905,7 +4905,7 @@
     "englishSource": "Get tokens"
   },
   "getTokensDescription": {
-    "message": "トークンは蛇口から取得したり、別のウォレットやアカウントから転送したりできます。",
+    "message": "You can get tokens from the faucet or transfer them from another wallet or account.",
     "englishSource": "You can get tokens from the faucet or transfer them from another wallet or account."
   },
   "transferTokens": {
@@ -4913,11 +4913,11 @@
     "englishSource": "Transfer tokens"
   },
   "midenFaucet": {
-    "message": "ミデン蛇口",
+    "message": "Miden Faucet",
     "englishSource": "Miden Faucet"
   },
   "midenFaucetDescription": {
-    "message": "下のボタンをクリックすると、アドレスがクリップボードにコピーされ、Miden Faucet に移動します。",
+    "message": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet.",
     "englishSource": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet."
   },
   "accountPublicKey": {
@@ -4945,7 +4945,7 @@
     "englishSource": "Add Account"
   },
   "faucetIdUpdated": {
-    "message": "蛇口IDが更新されました",
+    "message": "Faucet ID Updated",
     "englishSource": "Faucet ID Updated"
   },
   "connectivityIssueDetected": {
@@ -4957,11 +4957,11 @@
     "englishSource": "Wallet may be offline or out of sync."
   },
   "noteConsumedSuccessfully": {
-    "message": "メモは正常に消費されました。",
+    "message": "Your note was successfully consumed.",
     "englishSource": "Your note was successfully consumed."
   },
   "noteConsumptionError": {
-    "message": "メモを消費する際にエラーが発生しました。もう一度試してください。",
+    "message": "There was an error consuming your note. Please try again.",
     "englishSource": "There was an error consuming your note. Please try again."
   },
   "dragAndDropFile": {

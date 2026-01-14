@@ -681,7 +681,7 @@
     "englishSource": "Create a new Wallet"
   },
   "createNewWalletDescription": {
-    "message": "New to Aleo Wallet? Let's set it up! This will create a new wallet and seed phrase",
+    "message": "New to Leo Wallet? Let's set it up! This will create a new wallet and seed phrase",
     "englishSource": "New to Leo Wallet? Let's set it up! This will create a new wallet and seed phrase"
   },
   "delegate": {
@@ -1328,7 +1328,7 @@
     "englishSource": "<b>Copy</b> this phrase on paper and store it in a secure location."
   },
   "youWillNeedThisSeedPhrase": {
-    "message": "If you ever switch between browsers or devices, you will need this seed phrase to access your accounts.",
+    "message": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever.",
     "englishSource": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever."
   },
   "unableToContinueWithoutConfirming": {
@@ -2403,7 +2403,7 @@
     "englishSource": "Get"
   },
   "exolixWarningNote": {
-    "message": "Please, deposit only  $currencyName$  transfer network  $networkName$ . Otherwise, you may lose your assets permanently.",
+    "message": "Please, deposit only $currencyName$ transfer network $networkName$. Otherwise, you may lose your assets permanently.",
     "placeholders": {
       "currencyName": {
         "content": "$1"
