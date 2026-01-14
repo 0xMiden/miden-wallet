@@ -946,10 +946,6 @@
     "message": "Autre",
     "englishSource": "Other"
   },
-  "thousandFormat": {
-    "message": "mille k$",
-    "englishSource": "$thousand$k"
-  },
   "millionFormat": {
     "message": "$million$M",
     "placeholders": {
@@ -958,10 +954,6 @@
       }
     },
     "englishSource": "$million$M"
-  },
-  "billionFormat": {
-    "message": "milliards de dollars milliards de dollars",
-    "englishSource": "$billion$B"
   },
   "uploadFile": {
     "message": "Téléverser un fichier",

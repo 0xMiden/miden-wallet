@@ -946,18 +946,6 @@
     "message": "他の",
     "englishSource": "Other"
   },
-  "thousandFormat": {
-    "message": "$1000$",
-    "englishSource": "$thousand$k"
-  },
-  "millionFormat": {
-    "message": "百万ドル百万ドル",
-    "englishSource": "$million$M"
-  },
-  "billionFormat": {
-    "message": "$10億$B",
-    "englishSource": "$billion$B"
-  },
   "uploadFile": {
     "message": "ファイルをアップロードする",
     "englishSource": "Upload File"

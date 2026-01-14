@@ -946,18 +946,6 @@
     "message": "其他",
     "englishSource": "Other"
   },
-  "thousandFormat": {
-    "message": "$千$千",
-    "englishSource": "$thousand$k"
-  },
-  "millionFormat": {
-    "message": "$百万$M",
-    "englishSource": "$million$M"
-  },
-  "billionFormat": {
-    "message": "十亿美元B",
-    "englishSource": "$billion$B"
-  },
   "uploadFile": {
     "message": "上传文件",
     "englishSource": "Upload File"

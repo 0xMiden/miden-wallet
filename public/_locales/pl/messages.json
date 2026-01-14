@@ -863,18 +863,6 @@
     "message": "Inny",
     "englishSource": "Other"
   },
-  "thousandFormat": {
-    "message": "$tysiąc$k",
-    "englishSource": "$thousand$k"
-  },
-  "millionFormat": {
-    "message": "milion dolarów",
-    "englishSource": "$million$M"
-  },
-  "billionFormat": {
-    "message": "miliard dolarów",
-    "englishSource": "$billion$B"
-  },
   "uploadFile": {
     "message": "Prześlij plik",
     "englishSource": "Upload File"

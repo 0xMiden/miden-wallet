@@ -946,14 +946,6 @@
     "message": "다른",
     "englishSource": "Other"
   },
-  "thousandFormat": {
-    "message": "$천$k",
-    "englishSource": "$thousand$k"
-  },
-  "millionFormat": {
-    "message": "$백만$M",
-    "englishSource": "$million$M"
-  },
   "billionFormat": {
     "message": "$billion$B",
     "placeholders": {

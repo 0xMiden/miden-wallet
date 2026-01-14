@@ -946,18 +946,6 @@
     "message": "Другой",
     "englishSource": "Other"
   },
-  "thousandFormat": {
-    "message": "$тысяча$тыс.",
-    "englishSource": "$thousand$k"
-  },
-  "millionFormat": {
-    "message": "$миллион$М",
-    "englishSource": "$million$M"
-  },
-  "billionFormat": {
-    "message": "$миллиард$Б",
-    "englishSource": "$billion$B"
-  },
   "uploadFile": {
     "message": "Загрузить файл",
     "englishSource": "Upload File"
