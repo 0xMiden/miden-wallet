@@ -206,6 +206,15 @@ export async function requestConsumableNotes(sourcePublicKey: string) {
   return res.consumableNotes;
 }
 
+export async function waitForTransaction(txId: string) {
+  const res = await request({
+    type: MidenDAppMessageType.WaitForTransactionRequest,
+    txId
+  });
+  assertResponse(res.type === MidenDAppMessageType.WaitForTransactionResponse);
+  return res.transactionOutput;
+}
+
 function request(payload: MidenDAppRequest) {
   return new Promise<MidenDAppResponse>((resolve, reject) => {
     const reqId = nanoid();

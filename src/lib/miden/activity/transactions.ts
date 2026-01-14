@@ -5,9 +5,17 @@ import { consumeNoteId } from 'lib/miden-worker/consumeNoteId';
 import { sendTransaction } from 'lib/miden-worker/sendTransaction';
 import { submitTransaction } from 'lib/miden-worker/submitTransaction';
 import * as Repo from 'lib/miden/repo';
+import { u8ToB64 } from 'lib/shared/helpers';
 import { logger } from 'shared/logger';
 
-import { ConsumeTransaction, ITransaction, ITransactionStatus, SendTransaction, Transaction } from '../db/types';
+import {
+  ConsumeTransaction,
+  ITransaction,
+  ITransactionStatus,
+  SendTransaction,
+  Transaction,
+  TransactionOutput
+} from '../db/types';
 import { toNoteTypeString } from '../helpers';
 import { getBech32AddressFromAccountId } from '../sdk/helpers';
 import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
@@ -188,7 +196,8 @@ export const completeConsumeTransaction = async (id: string, result: Transaction
     faucetId,
     amount,
     noteType: toNoteTypeString(note.metadata().noteType()),
-    completedAt: Date.now() / 1000 // Convert to seconds.
+    completedAt: Date.now() / 1000, // Convert to seconds.
+    resultBytes: result.serialize()
   });
 };
 
@@ -310,7 +319,8 @@ export const completeSendTransaction = async (tx: SendTransaction, result: Trans
       displayMessage: 'Sent',
       transactionId: executedTx.id().toHex(),
       outputNoteIds,
-      completedAt: Math.floor(Date.now() / 1000) // seconds
+      completedAt: Math.floor(Date.now() / 1000), // seconds
+      resultBytes: result.serialize()
     });
   } catch (error) {
     console.error('Failed to update transaction status', {
@@ -406,7 +416,7 @@ export const cancelStuckTransactions = async () => {
     .filter(tx => {
       return tx.processingStartedAt && Date.now() - tx.processingStartedAt > MAX_WAIT_BEFORE_CANCEL;
     })
-    .map(async tx => cancelTransaction(tx));
+    .map(async tx => cancelTransaction(tx, 'Transaction took too long to process and was cancelled'));
 
   await Promise.all(cancelTransactionUpdates);
 };
@@ -466,17 +476,18 @@ export const generateTransaction = async (
   }
 };
 
-export const cancelTransaction = async (transaction: Transaction) => {
+export const cancelTransaction = async (transaction: Transaction, error: any) => {
   // Cancel the transaction
   await Repo.transactions.where({ id: transaction.id }).modify(dbTx => {
     dbTx.completedAt = Date.now() / 1000; // Convert to seconds
     dbTx.status = ITransactionStatus.Failed;
+    dbTx.error = error.toString();
   });
 };
 
-export const cancelTransactionById = async (id: string) => {
+export const cancelTransactionById = async (id: string, error: any) => {
   const tx = await Repo.transactions.where({ id }).first();
-  if (tx) await cancelTransaction(tx);
+  if (tx) await cancelTransaction(tx, error);
 };
 
 export const getTransactionById = async (id: string) => {
@@ -518,7 +529,7 @@ export const generateTransactionsLoop = async (
     console.log(e);
     // Cancel the transaction if it hasn't already been cancelled
     const tx = await Repo.transactions.where({ id: nextTransaction.id }).first();
-    if (tx && tx.status !== ITransactionStatus.Failed) await cancelTransaction(tx);
+    if (tx && tx.status !== ITransactionStatus.Failed) await cancelTransaction(tx, e);
     return false;
   }
 };
@@ -544,4 +555,56 @@ export const safeGenerateTransactionsLoop = async (
       logger.error('Error in safe generate transactions loop', e);
       return false;
     });
+};
+
+const WAIT_FOR_TX_TIMEOUT = 5 * 60_000; // 5 minutes
+
+export const waitForTransactionCompletion = async (transactionId: string) => {
+  return new Promise<TransactionOutput>(resolve => {
+    let subscription: { unsubscribe: () => void } | null = null;
+
+    const timeoutId = setTimeout(() => {
+      subscription?.unsubscribe();
+      resolve({ errorMessage: 'Transaction timed out' });
+    }, WAIT_FOR_TX_TIMEOUT);
+
+    const cleanup = () => {
+      clearTimeout(timeoutId);
+      subscription?.unsubscribe();
+    };
+
+    subscription = liveQuery(() => Repo.transactions.where({ id: transactionId }).first()).subscribe({
+      next: tx => {
+        if (!tx) {
+          // Transaction not found - resolve with error
+          cleanup();
+          resolve({ errorMessage: 'Transaction not found' });
+          return;
+        }
+
+        if (tx.status === ITransactionStatus.Completed) {
+          cleanup();
+          const txResult = TransactionResult.deserialize(tx.resultBytes!);
+          const res = {
+            txHash: tx.transactionId!,
+            outputNotes: txResult
+              .executedTransaction()
+              .outputNotes()
+              .notes()
+              .map(no => no.intoFull())
+              .filter(no => !!no)
+              .map(fullNote => u8ToB64(fullNote.serialize()))
+          };
+          resolve(res);
+        } else if (tx.status === ITransactionStatus.Failed) {
+          cleanup();
+          resolve({ errorMessage: tx.error || 'Transaction failed' });
+        }
+      },
+      error: err => {
+        cleanup();
+        resolve({ errorMessage: err?.message || 'Subscription error' });
+      }
+    });
+  });
 };

@@ -50,7 +50,7 @@ const Activity = memo<ActivityProps>(({ address, className, numItems, scrollPare
       latestPendingTransactions?.map(tx => {
         tx.cancel = async () => {
           if (tx.txId) {
-            await cancelTransactionById(tx.txId);
+            await cancelTransactionById(tx.txId, 'Transaction was cancelled by user');
             mutateTx();
           }
         };

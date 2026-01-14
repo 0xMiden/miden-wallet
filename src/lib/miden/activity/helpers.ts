@@ -148,7 +148,8 @@ export const interpretTransactionResult = <K extends keyof ITransaction>(
     inputNoteIds: inputNotes.map(note => note.id().toString()),
     amount: absoluteTransactionAmount !== BigInt(0) ? absoluteTransactionAmount : undefined,
     outputNoteIds: outputNotes.map(note => note.id().toString()),
-    faucetId
+    faucetId,
+    resultBytes: result.serialize()
   };
 
   return Object.assign(transaction, updates);

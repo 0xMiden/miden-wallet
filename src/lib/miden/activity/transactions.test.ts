@@ -189,7 +189,7 @@ describe('transactions utilities', () => {
         .mockReturnValueOnce({ first: jest.fn().mockResolvedValueOnce(tx) })
         .mockReturnValueOnce({ modify: mockModify });
 
-      await cancelTransactionById('tx-1');
+      await cancelTransactionById('tx-1', 'Test cancellation');
 
       expect(mockModify).toHaveBeenCalled();
     });
@@ -200,7 +200,7 @@ describe('transactions utilities', () => {
       });
 
       // Should not throw
-      await expect(cancelTransactionById('nonexistent')).resolves.toBeUndefined();
+      await expect(cancelTransactionById('nonexistent', 'Test cancellation')).resolves.toBeUndefined();
     });
   });
 
@@ -216,7 +216,7 @@ describe('transactions utilities', () => {
       mockTransactionsWhere.mockReturnValueOnce({ modify: mockModify });
 
       const tx = { id: 'tx-1' } as Transaction;
-      await cancelTransaction(tx);
+      await cancelTransaction(tx, 'Test error');
 
       expect(mockTransactionsWhere).toHaveBeenCalledWith({ id: 'tx-1' });
       expect(mockModify).toHaveBeenCalled();
