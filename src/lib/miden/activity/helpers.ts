@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 
 import { ITransaction } from '../db/types';
 import { getBech32AddressFromAccountId } from '../sdk/helpers';
+import { compareAccountIds } from './utils';
 
 export function tryParseTokenTransfers(
   parameters: any,
@@ -121,8 +122,9 @@ export const interpretTransactionResult = <K extends keyof ITransaction>(
   if (inputFaucetIds.length === 1 && outputFaucetIds.length === 0) {
     type = 'consume';
     const sender = getBech32AddressFromAccountId(inputNotes[0].note().metadata().sender());
-    displayMessage = sender === transaction.accountId ? 'Reclaimed' : 'Received';
-    if (sender !== transaction.accountId) {
+    const isReclaimed = compareAccountIds(sender, transaction.accountId);
+    displayMessage = isReclaimed ? 'Reclaimed' : 'Received';
+    if (!isReclaimed) {
       secondaryAccountId = sender;
     }
 

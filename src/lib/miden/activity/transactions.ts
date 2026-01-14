@@ -174,7 +174,7 @@ export const completeConsumeTransaction = async (id: string, result: Transaction
   const executedTransaction = result.executedTransaction();
 
   const dbTransaction = await Repo.transactions.where({ id }).first();
-  const reclaimed = dbTransaction?.accountId === sender;
+  const reclaimed = compareAccountIds(dbTransaction?.accountId ?? '', sender);
   const displayMessage = reclaimed ? 'Reclaimed' : 'Received';
   const secondaryAccountId = reclaimed ? undefined : sender;
   const asset = note.assets().fungibleAssets()[0];
@@ -392,7 +392,7 @@ export const getCompletedTransactions = async (
     transactions = transactions.concat(failedTransactions);
   }
   transactions.sort((tx1, tx2) => (tx1.completedAt || tx1.initiatedAt) - (tx2.completedAt || tx2.initiatedAt));
-  // transaction may or may not have the note tag
+  // Compare ignoring note tag suffix since stored vs queried account IDs may differ
   transactions = transactions.filter(tx => compareAccountIds(tx.accountId, accountId));
   return transactions.slice(offset, limit);
 };

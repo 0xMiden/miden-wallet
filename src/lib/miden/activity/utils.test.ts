@@ -1,0 +1,52 @@
+import { compareAccountIds } from './utils';
+
+describe('compareAccountIds', () => {
+  it('returns true for identical IDs without tags', () => {
+    expect(compareAccountIds('acc1', 'acc1')).toBe(true);
+  });
+
+  it('returns true for identical IDs with matching tags', () => {
+    expect(compareAccountIds('acc1_tag', 'acc1_tag')).toBe(true);
+  });
+
+  it('returns true for same base ID with different tags', () => {
+    expect(compareAccountIds('acc1_tag1', 'acc1_tag2')).toBe(true);
+  });
+
+  it('returns true when one ID has tag and other does not', () => {
+    expect(compareAccountIds('acc1', 'acc1_tag')).toBe(true);
+    expect(compareAccountIds('acc1_tag', 'acc1')).toBe(true);
+  });
+
+  it('returns false for different base IDs', () => {
+    expect(compareAccountIds('acc1', 'acc2')).toBe(false);
+    expect(compareAccountIds('acc1_tag', 'acc2_tag')).toBe(false);
+  });
+
+  it('returns false when first ID is empty', () => {
+    expect(compareAccountIds('', 'acc1')).toBe(false);
+  });
+
+  it('returns false when second ID is empty', () => {
+    expect(compareAccountIds('acc1', '')).toBe(false);
+  });
+
+  it('returns false when both IDs are empty', () => {
+    expect(compareAccountIds('', '')).toBe(false);
+  });
+
+  it('returns false when first ID is null or undefined', () => {
+    expect(compareAccountIds(null as unknown as string, 'acc1')).toBe(false);
+    expect(compareAccountIds(undefined as unknown as string, 'acc1')).toBe(false);
+  });
+
+  it('returns false when second ID is null or undefined', () => {
+    expect(compareAccountIds('acc1', null as unknown as string)).toBe(false);
+    expect(compareAccountIds('acc1', undefined as unknown as string)).toBe(false);
+  });
+
+  it('handles IDs with multiple underscores correctly', () => {
+    expect(compareAccountIds('acc1_tag_extra', 'acc1_other')).toBe(true);
+    expect(compareAccountIds('acc1_tag_extra', 'acc1')).toBe(true);
+  });
+});
