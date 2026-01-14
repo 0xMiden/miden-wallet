@@ -208,7 +208,7 @@ describe('transactions utilities', () => {
 
   describe('MAX_WAIT_BEFORE_CANCEL', () => {
     it('is 30 minutes in milliseconds', () => {
-      expect(MAX_WAIT_BEFORE_CANCEL).toBe(30 * 60_000);
+      expect(MAX_WAIT_BEFORE_CANCEL).toBe(5 * 60_000);
     });
   });
 

@@ -39,7 +39,6 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
       dedupingInterval: 3_000
     }
   );
-  console.log('Rendering GeneratingTransactionPage with txs:', txs);
   const onClose = useCallback(() => {
     const { hash } = window.location;
     if (!hash.includes('generating-transaction')) {
@@ -160,7 +159,7 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
     if (transactionComplete && !error) {
       return <Icon name={IconName.Success} size="3xl" />;
     }
-    if (error) {
+    if (transactionComplete && error) {
       return <Icon name={IconName.Failed} size="3xl" />;
     }
 
@@ -176,7 +175,7 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
     if (transactionComplete && !error) {
       return t('transactionCompleted');
     }
-    if (error) {
+    if (transactionComplete && error) {
       return t('transactionFailed');
     }
     return t('generatingTransaction');
@@ -200,7 +199,7 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
             <h1 className="font-semibold text-2xl lh-title">{headerText()}</h1>
             <p className="text-base text-center lh-title">
               {!error && transactionComplete && t('transactionSuccessDescription')}
-              {error && t('transactionErrorDescription')}
+              {error && transactionComplete && t('transactionErrorDescription')}
             </p>
           </div>
         </div>
