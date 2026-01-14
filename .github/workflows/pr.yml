@@ -10,6 +10,11 @@ on:
       - 'feat/**'
 
 jobs:
+  translations:
+    uses: ./.github/workflows/translations.yml
+    secrets: inherit
+
   ci:
+    needs: translations
     uses: ./.github/workflows/ci.yml
     secrets: inherit

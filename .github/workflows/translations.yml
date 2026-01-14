@@ -1,13 +1,10 @@
 name: Update Translations
 
 on:
-  pull_request:
-    branches:
-      - main
-      - dev
-      - next
-      - 'mw-**'
-      - 'feat/**'
+  workflow_call:
+    secrets:
+      GITHUB_TOKEN:
+        required: false
 
 jobs:
   update-translations:
