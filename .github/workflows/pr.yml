@@ -11,18 +11,131 @@ on:
 
 jobs:
   translations:
-    uses: ./.github/workflows/translations.yml
-    secrets: inherit
+    name: Update Translation Files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Code
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.head_ref }}
+
+      - name: Use Node 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Run Install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+
+      - name: Generate Translation Files
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: createTranslationFile
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          git diff --quiet public/_locales/ || echo "changes=true" >> $GITHUB_OUTPUT
+
+      # Only commit/push for non-fork PRs (forks can't push back)
+      - name: Commit and push translation updates
+        if: steps.git-check.outputs.changes == 'true' && github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add public/_locales/
+          git commit -m "chore: update translation files"
+          git push
 
   ci:
+    name: Test
     needs: translations
-    uses: ./.github/workflows/ci.yml
-    secrets: inherit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Code
+        uses: actions/checkout@v3
+
+      - name: Use Node 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Run Install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+
+      - name: Run ESLint
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: lint
+
+      - name: Run TypeScript Check
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: ts
+
+      - name: Run Unit Tests
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: test
+
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Build chrome
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: build:chrome
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright E2E
+        run: xvfb-run -a yarn test:e2e
 
   coverage:
+    name: Coverage Check (80% minimum)
     needs: translations
-    uses: ./.github/workflows/coverage.yml
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Code
+        uses: actions/checkout@v3
+
+      - name: Use Node 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Run Install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+
+      - name: Run Coverage Check
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: test:coverage
 
   i18n-check:
+    name: Check for non-i18n'd strings
     needs: translations
-    uses: ./.github/workflows/i18n-check.yml
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Check i18n compliance
+        run: yarn lint:i18n
