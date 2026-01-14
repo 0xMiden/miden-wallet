@@ -4,7 +4,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
-import { ReactComponent as InfoIcon } from 'app/icons/info-alert.svg';
 import AccountBanner from 'app/templates/AccountBanner';
 import { T, t } from 'lib/i18n/react';
 import { useMidenContext, useAccount } from 'lib/miden/front';

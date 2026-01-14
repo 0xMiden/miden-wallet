@@ -1,4 +1,4 @@
-import { MIDEN_METADATA, AssetMetadata, fetchFromStorage, putToStorage } from 'lib/miden/front';
+import { AssetMetadata, fetchFromStorage, putToStorage } from 'lib/miden/front';
 
 import {
   searchAssets,

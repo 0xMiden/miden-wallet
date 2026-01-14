@@ -2,7 +2,6 @@ import { BasicFungibleFaucetComponent } from '@demox-labs/miden-sdk';
 
 import { isMidenAsset } from 'lib/miden/assets';
 
-import { withWasmClientLock } from '../sdk/miden-client';
 import { MIDEN_METADATA, DEFAULT_TOKEN_METADATA } from './defaults';
 import { fetchTokenMetadata, NotFoundTokenMetadata } from './fetch';
 

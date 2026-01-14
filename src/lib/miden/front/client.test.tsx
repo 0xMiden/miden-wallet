@@ -74,6 +74,8 @@ describe('useMidenContext actions', () => {
         </Suspense>
       );
     });
+
+    expect(container).toBeDefined();
   });
 });
 
