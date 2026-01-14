@@ -3,6 +3,10 @@
     "message": "Miden - Miden钱包",
     "englishSource": "Miden Wallet"
   },
+  "appDesc": {
+    "message": "Miden 区块链的浏览器钱包",
+    "englishSource": "A browser wallet for the Miden blockchain"
+  },
   "createAccount": {
     "message": "创建或恢复帐户",
     "englishSource": "Create or Restore account"
@@ -186,13 +190,8 @@
     "englishSource": "1-16 characters, no special"
   },
   "defaultAccountName": {
-    "message": "账户$accountNumber$",
-    "placeholders": {
-      "accountNumber": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Account $accountNumber$"
+    "message": "帐户 {{accountNumber}}",
+    "englishSource": "Account {{accountNumber}}"
   },
   "doNotSharePrivateKey1": {
     "message": "不要与任何人分享！",
@@ -271,13 +270,8 @@
     "englishSource": "Oops!"
   },
   "smthWentWrongWhile": {
-    "message": "$action$时出错了",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Something went wrong while $action$"
+    "message": "{{action}} 时出了点问题",
+    "englishSource": "Something went wrong while {{action}}"
   },
   "mayHappenBecauseYouAreOffline": {
     "message": "发生这种情况可能是因为您当前离线了",
@@ -304,22 +298,12 @@
     "englishSource": "Private key cannot be revealed"
   },
   "youCannotGetPrivateKeyFromThisAccountType": {
-    "message": "您无法从$accountType$账户获取私钥。",
-    "placeholders": {
-      "accountType": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "You cannot get private key from $accountType$ accounts."
+    "message": "您无法从 {{accountType}} 帐户获取私钥。",
+    "englishSource": "You cannot get private key from {{accountType}} accounts."
   },
   "maximalAmount": {
-    "message": "最大：$amount$",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Maximal: $amount$"
+    "message": "最大：{{金额}}",
+    "englishSource": "Maximal: {{amount}}"
   },
   "accountName": {
     "message": "账户名称",
@@ -577,13 +561,8 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "$currency$资金不足",
-    "placeholders": {
-      "currency": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Not enough $currency$ funds"
+    "message": "{{currency}}资金不足",
+    "englishSource": "Not enough {{currency}} funds"
   },
   "failed": {
     "message": "失败",
@@ -598,26 +577,16 @@
     "englishSource": "This may happen because:"
   },
   "minimalFeeGreaterThanBalanceVerbose": {
-    "message": "此交易的最低费用高于您的余额。由于您向空的管理员账户转账，可能会向您高额费用。这需要收取一次性的0.06425 $gasTokenSymbol$ 消耗费；",
-    "placeholders": {
-      "gasTokenSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 $gasTokenSymbol$ burn fee;"
+    "message": "此交易的最低费用大于您的余额。由于您将资金转入空的经理账户，因此可能需要支付大笔费用。这需要一次性 0.06425 {{gasTokenSymbol}} 销毁费用；",
+    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 {{gasTokenSymbol}} burn fee;"
   },
   "networkOrOtherIssue": {
     "message": "网络或其他技术问题。",
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "确认$action$",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Confirm $action$"
+    "message": "确认{{操作}}",
+    "englishSource": "Confirm {{action}}"
   },
   "confirm": {
     "message": "确认",
@@ -724,13 +693,8 @@
     "englishSource": "Keep it in secret."
   },
   "revealSecretPasswordInputDescription": {
-    "message": "输入密码以显示$secretName$。",
-    "placeholders": {
-      "secretName": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Enter password to reveal the $secretName$."
+    "message": "输入密码以显示 {{secretName}}。",
+    "englishSource": "Enter password to reveal the {{secretName}}."
   },
   "reveal": {
     "message": "显示",
@@ -833,22 +797,12 @@
     "englishSource": "No assets found"
   },
   "ifYouDontSeeYourAsset": {
-    "message": "如果看不到自己的资产，\n请尝试点击$toClick$。",
-    "placeholders": {
-      "toClick": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "If you don't see your asset,\ntry to click $toClick$."
+    "message": "如果您没有看到您的资产，\n尝试点击 {{toClick}}。",
+    "englishSource": "If you don't see your asset,\ntry to click {{toClick}}."
   },
   "addressOfTokenContract": {
-    "message": "$assetSymbol$代币合约的地址。",
-    "placeholders": {
-      "assetSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Address of a $assetSymbol$ token contract."
+    "message": "{{assetSymbol}} 代币合约的地址。",
+    "englishSource": "Address of a {{assetSymbol}} token contract."
   },
   "searchAssets": {
     "message": "搜索资产…",
@@ -946,6 +900,18 @@
     "message": "其他",
     "englishSource": "Other"
   },
+  "thousandFormat": {
+    "message": "{{千}}k",
+    "englishSource": "{{thousand}}k"
+  },
+  "millionFormat": {
+    "message": "{{百万}}M",
+    "englishSource": "{{million}}M"
+  },
+  "billionFormat": {
+    "message": "{{十亿}}B",
+    "englishSource": "{{billion}}B"
+  },
   "uploadFile": {
     "message": "上传文件",
     "englishSource": "Upload File"
@@ -1004,13 +970,8 @@
     "englishSource": "Verify Seed Phrase"
   },
   "word": {
-    "message": "单词 $number$ ",
-    "placeholders": {
-      "number": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Word $number$"
+    "message": "单词 {{number}}",
+    "englishSource": "Word {{number}}"
   },
   "finish": {
     "message": "结束",
@@ -1667,8 +1628,8 @@
     "englishSource": "(invalid payload)"
   },
   "signTheFollowingWord": {
-    "message": "签署以下字词 $word$ ?",
-    "englishSource": "Sign the following Word $word$?"
+    "message": "签署以下单词 {{word}}？",
+    "englishSource": "Sign the following Word {{word}}?"
   },
   "sharePrivateNoteDataForAccount": {
     "message": "共享帐户的所有私人note数据",

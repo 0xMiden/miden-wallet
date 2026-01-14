@@ -3,6 +3,10 @@
     "message": "Miden - Miden Wallet",
     "englishSource": "Miden Wallet"
   },
+  "appDesc": {
+    "message": "A browser wallet for the Miden blockchain",
+    "englishSource": "A browser wallet for the Miden blockchain"
+  },
   "createAccount": {
     "message": "Create or Restore account",
     "englishSource": "Create or Restore account"
@@ -186,13 +190,8 @@
     "englishSource": "1-16 characters, no special"
   },
   "defaultAccountName": {
-    "message": "Account $accountNumber$",
-    "placeholders": {
-      "accountNumber": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Account $accountNumber$"
+    "message": "Account {{accountNumber}}",
+    "englishSource": "Account {{accountNumber}}"
   },
   "doNotSharePrivateKey1": {
     "message": "DO NOT share with anyone!",
@@ -271,13 +270,8 @@
     "englishSource": "Oops!"
   },
   "smthWentWrongWhile": {
-    "message": "Something went wrong while $action$",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Something went wrong while $action$"
+    "message": "Something went wrong while {{action}}",
+    "englishSource": "Something went wrong while {{action}}"
   },
   "mayHappenBecauseYouAreOffline": {
     "message": "This may happen because you are currently offline",
@@ -304,22 +298,12 @@
     "englishSource": "Private key cannot be revealed"
   },
   "youCannotGetPrivateKeyFromThisAccountType": {
-    "message": "You cannot get private key from $accountType$ accounts.",
-    "placeholders": {
-      "accountType": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "You cannot get private key from $accountType$ accounts."
+    "message": "You cannot get private key from {{accountType}} accounts.",
+    "englishSource": "You cannot get private key from {{accountType}} accounts."
   },
   "maximalAmount": {
-    "message": "Maximal: $amount$",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Maximal: $amount$"
+    "message": "Maximal: {{amount}}",
+    "englishSource": "Maximal: {{amount}}"
   },
   "accountName": {
     "message": "Account name",
@@ -577,13 +561,8 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "Not enough $currency$ funds",
-    "placeholders": {
-      "currency": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Not enough $currency$ funds"
+    "message": "Not enough {{currency}} funds",
+    "englishSource": "Not enough {{currency}} funds"
   },
   "failed": {
     "message": "Failed",
@@ -598,26 +577,16 @@
     "englishSource": "This may happen because:"
   },
   "minimalFeeGreaterThanBalanceVerbose": {
-    "message": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 $gasTokenSymbol$ burn fee;",
-    "placeholders": {
-      "gasTokenSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 $gasTokenSymbol$ burn fee;"
+    "message": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 {{gasTokenSymbol}} burn fee;",
+    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 {{gasTokenSymbol}} burn fee;"
   },
   "networkOrOtherIssue": {
     "message": "Network or other technical issue.",
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "Confirm $action$",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Confirm $action$"
+    "message": "Confirm {{action}}",
+    "englishSource": "Confirm {{action}}"
   },
   "confirm": {
     "message": "Confirm",
@@ -724,13 +693,8 @@
     "englishSource": "Keep it in secret."
   },
   "revealSecretPasswordInputDescription": {
-    "message": "Enter password to reveal the $secretName$.",
-    "placeholders": {
-      "secretName": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Enter password to reveal the $secretName$."
+    "message": "Enter password to reveal the {{secretName}}.",
+    "englishSource": "Enter password to reveal the {{secretName}}."
   },
   "reveal": {
     "message": "Reveal",
@@ -833,22 +797,12 @@
     "englishSource": "No assets found"
   },
   "ifYouDontSeeYourAsset": {
-    "message": "If you don't see your asset,\ntry to click $toClick$.",
-    "placeholders": {
-      "toClick": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "If you don't see your asset,\ntry to click $toClick$."
+    "message": "If you don't see your asset,\ntry to click {{toClick}}.",
+    "englishSource": "If you don't see your asset,\ntry to click {{toClick}}."
   },
   "addressOfTokenContract": {
-    "message": "Address of a $assetSymbol$ token contract.",
-    "placeholders": {
-      "assetSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Address of a $assetSymbol$ token contract."
+    "message": "Address of a {{assetSymbol}} token contract.",
+    "englishSource": "Address of a {{assetSymbol}} token contract."
   },
   "searchAssets": {
     "message": "Search assets...",
@@ -947,31 +901,16 @@
     "englishSource": "Other"
   },
   "thousandFormat": {
-    "message": "$thousand$k",
-    "placeholders": {
-      "thousand": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$thousand$k"
+    "message": "{{thousand}}k",
+    "englishSource": "{{thousand}}k"
   },
   "millionFormat": {
-    "message": "$million$M",
-    "placeholders": {
-      "million": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$million$M"
+    "message": "{{million}}M",
+    "englishSource": "{{million}}M"
   },
   "billionFormat": {
-    "message": "$billion$B",
-    "placeholders": {
-      "billion": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$billion$B"
+    "message": "{{billion}}B",
+    "englishSource": "{{billion}}B"
   },
   "uploadFile": {
     "message": "Upload File",
@@ -1031,13 +970,8 @@
     "englishSource": "Verify Seed Phrase"
   },
   "word": {
-    "message": "Word  $number$ ",
-    "placeholders": {
-      "number": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Word $number$"
+    "message": "Word {{number}}",
+    "englishSource": "Word {{number}}"
   },
   "finish": {
     "message": "Finish",
@@ -1694,8 +1628,8 @@
     "englishSource": "(invalid payload)"
   },
   "signTheFollowingWord": {
-    "message": "Sign the following Word  $word$ ?",
-    "englishSource": "Sign the following Word $word$?"
+    "message": "Sign the following Word {{word}}?",
+    "englishSource": "Sign the following Word {{word}}?"
   },
   "sharePrivateNoteDataForAccount": {
     "message": "Share all private note data for account",

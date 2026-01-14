@@ -38,27 +38,36 @@ export const test = base.extend<Fixtures>({
     await use(extensionPath);
   },
 
-  extensionContext: async ({ extensionPath }, use) => {
-    const userDataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'miden-wallet-pw-'));
+  extensionContext: [
+    async ({ extensionPath }, use) => {
+      const userDataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'miden-wallet-pw-'));
 
-    const context = await chromium.launchPersistentContext(userDataDir, {
-      headless: false, // extensions only run in headed Chromium
-      args: [`--disable-extensions-except=${extensionPath}`, `--load-extension=${extensionPath}`]
-    });
+      const context = await chromium.launchPersistentContext(userDataDir, {
+        headless: false, // extensions only run in headed Chromium
+        args: [`--disable-extensions-except=${extensionPath}`, `--load-extension=${extensionPath}`],
+        // Remove --disable-extensions from default args so our extension can load
+        ignoreDefaultArgs: ['--disable-extensions']
+      });
 
-    await use(context);
+      await use(context);
 
-    await context.close();
-    fs.rmSync(userDataDir, { recursive: true });
-  },
+      await context.close();
+      fs.rmSync(userDataDir, { recursive: true });
+    },
+    { timeout: 60_000 }
+  ],
 
-  extensionId: async ({ extensionContext }, use) => {
-    const serviceWorker =
-      extensionContext.serviceWorkers()[0] ?? (await extensionContext.waitForEvent('serviceworker'));
+  extensionId: [
+    async ({ extensionContext }, use) => {
+      const serviceWorker =
+        extensionContext.serviceWorkers()[0] ??
+        (await extensionContext.waitForEvent('serviceworker', { timeout: 30_000 }));
 
-    const extensionId = new URL(serviceWorker.url()).host;
-    await use(extensionId);
-  }
+      const extensionId = new URL(serviceWorker.url()).host;
+      await use(extensionId);
+    },
+    { timeout: 60_000 }
+  ]
 });
 
 export const expect = test.expect;

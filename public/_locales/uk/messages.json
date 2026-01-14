@@ -3,6 +3,10 @@
     "message": "Miden - Miden Wallet",
     "englishSource": "Miden Wallet"
   },
+  "appDesc": {
+    "message": "Браузерний гаманець для блокчейну Miden",
+    "englishSource": "A browser wallet for the Miden blockchain"
+  },
   "createAccount": {
     "message": "Створити або відновити аккаунт",
     "englishSource": "Create or Restore account"
@@ -186,13 +190,8 @@
     "englishSource": "1-16 characters, no special"
   },
   "defaultAccountName": {
-    "message": "Аккаунт $accountNumber$",
-    "placeholders": {
-      "accountNumber": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Account $accountNumber$"
+    "message": "Рахунок {{accountNumber}}",
+    "englishSource": "Account {{accountNumber}}"
   },
   "doNotSharePrivateKey1": {
     "message": "НЕ діліться ні з ким!",
@@ -271,13 +270,8 @@
     "englishSource": "Oops!"
   },
   "smthWentWrongWhile": {
-    "message": "Щось пішло не так $action$",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Something went wrong while $action$"
+    "message": "Щось пішло не так під час {{action}}",
+    "englishSource": "Something went wrong while {{action}}"
   },
   "mayHappenBecauseYouAreOffline": {
     "message": "Це може статися, оскільки ви зараз перебуваєте в режимі офлайн",
@@ -304,22 +298,12 @@
     "englishSource": "Private key cannot be revealed"
   },
   "youCannotGetPrivateKeyFromThisAccountType": {
-    "message": "Ви не можете отримати приватний ключ від $accountType$ аккаунтів.",
-    "placeholders": {
-      "accountType": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "You cannot get private key from $accountType$ accounts."
+    "message": "Ви не можете отримати закритий ключ від облікових записів {{accountType}}.",
+    "englishSource": "You cannot get private key from {{accountType}} accounts."
   },
   "maximalAmount": {
-    "message": "Максимум: $amount$",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Maximal: $amount$"
+    "message": "Максимальна: {{сума}}",
+    "englishSource": "Maximal: {{amount}}"
   },
   "accountName": {
     "message": "Ім'я аккаунту",
@@ -577,13 +561,8 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "Не достатньо коштів у $currency$",
-    "placeholders": {
-      "currency": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Not enough $currency$ funds"
+    "message": "Недостатньо {{currency}} коштів",
+    "englishSource": "Not enough {{currency}} funds"
   },
   "failed": {
     "message": "Невдача ;(",
@@ -598,26 +577,16 @@
     "englishSource": "This may happen because:"
   },
   "minimalFeeGreaterThanBalanceVerbose": {
-    "message": "Мінімальна комісія за цю транзакцію перевищує ваш баланс. Через надсилання коштів на порожній рахунок може знадобитися більша комісія. Для цього потрібна одноразова плата за активацію у розмірі 0,257 $gasTokenSymbol$;",
-    "placeholders": {
-      "gasTokenSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 $gasTokenSymbol$ burn fee;"
+    "message": "Мінімальна комісія за цю транзакцію перевищує ваш баланс. Може знадобитися велика комісія, оскільки ви надсилаєте кошти на порожній обліковий запис менеджера. Для цього потрібно одноразово сплатити комісію за запис у розмірі 0,06425 {{gasTokenSymbol}};",
+    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 {{gasTokenSymbol}} burn fee;"
   },
   "networkOrOtherIssue": {
     "message": "Проблеми мережі, або інші технічні проблеми.",
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "Підтвердити $action$",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Confirm $action$"
+    "message": "Підтвердити {{action}}",
+    "englishSource": "Confirm {{action}}"
   },
   "confirm": {
     "message": "Підтвердити",
@@ -724,13 +693,8 @@
     "englishSource": "Keep it in secret."
   },
   "revealSecretPasswordInputDescription": {
-    "message": "Введіть пароль, щоб показати $secretName$.",
-    "placeholders": {
-      "secretName": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Enter password to reveal the $secretName$."
+    "message": "Введіть пароль, щоб відкрити {{secretName}}.",
+    "englishSource": "Enter password to reveal the {{secretName}}."
   },
   "reveal": {
     "message": "Розкрити",
@@ -833,22 +797,12 @@
     "englishSource": "No assets found"
   },
   "ifYouDontSeeYourAsset": {
-    "message": "Якщо ви не бачите свій актив,\ntry клацніть $toClick$.",
-    "placeholders": {
-      "toClick": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "If you don't see your asset,\ntry to click $toClick$."
+    "message": "Якщо ви не бачите свій актив,\nспробуйте натиснути {{toClick}}.",
+    "englishSource": "If you don't see your asset,\ntry to click {{toClick}}."
   },
   "addressOfTokenContract": {
-    "message": "Адреса $assetSymbol$ контакту токена.",
-    "placeholders": {
-      "assetSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Address of a $assetSymbol$ token contract."
+    "message": "Адреса контракту маркера {{assetSymbol}}.",
+    "englishSource": "Address of a {{assetSymbol}} token contract."
   },
   "searchAssets": {
     "message": "Шукати...",
@@ -947,31 +901,16 @@
     "englishSource": "Other"
   },
   "thousandFormat": {
-    "message": "$thousand$ тис.",
-    "placeholders": {
-      "thousand": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$thousand$k"
+    "message": "{{thousand}}k",
+    "englishSource": "{{thousand}}k"
   },
   "millionFormat": {
-    "message": "$million$ млн",
-    "placeholders": {
-      "million": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$million$M"
+    "message": "{{мільйон}}М",
+    "englishSource": "{{million}}M"
   },
   "billionFormat": {
-    "message": "$billion$ млрд",
-    "placeholders": {
-      "billion": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$billion$B"
+    "message": "{{мільярд}}Б",
+    "englishSource": "{{billion}}B"
   },
   "uploadFile": {
     "message": "Завантажити файл",
@@ -1031,13 +970,8 @@
     "englishSource": "Verify Seed Phrase"
   },
   "word": {
-    "message": "Слово $number$ ",
-    "placeholders": {
-      "number": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Word $number$"
+    "message": "Слово {{число}}",
+    "englishSource": "Word {{number}}"
   },
   "finish": {
     "message": "Закінчити",
@@ -1694,8 +1628,8 @@
     "englishSource": "(invalid payload)"
   },
   "signTheFollowingWord": {
-    "message": "Підпишіть наступне Слово $word$ ?",
-    "englishSource": "Sign the following Word $word$?"
+    "message": "Підпишіть таке слово {{word}}?",
+    "englishSource": "Sign the following Word {{word}}?"
   },
   "sharePrivateNoteDataForAccount": {
     "message": "Поділіться всіма даними особистих нотаток для облікового запису",
