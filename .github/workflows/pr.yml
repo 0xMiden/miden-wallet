@@ -18,3 +18,11 @@ jobs:
     needs: translations
     uses: ./.github/workflows/ci.yml
     secrets: inherit
+
+  coverage:
+    needs: translations
+    uses: ./.github/workflows/coverage.yml
+
+  i18n-check:
+    needs: translations
+    uses: ./.github/workflows/i18n-check.yml

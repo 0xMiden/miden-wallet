@@ -1,13 +1,7 @@
 name: i18n Check
 
 on:
-  pull_request:
-    branches:
-      - main
-      - dev
-      - next
-      - 'mw-**'
-      - 'feat/**'
+  workflow_call:
 
 jobs:
   i18n-check:

@@ -1,13 +1,7 @@
 name: Code Coverage
 
 on:
-  pull_request:
-    branches:
-      - main
-      - dev
-      - next
-      - 'mw-**'
-      - 'feat/**'
+  workflow_call:
 
 jobs:
   coverage:
