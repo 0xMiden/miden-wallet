@@ -192,10 +192,11 @@ export class MidenClientInterface {
           amount: asset.amount().toString(),
           faucetId: getBech32AddressFromAccountId(asset.faucetId())
         }));
+      const noteMet = note.metadata();
       const details = {
         noteId: note.id().toString(),
-        noteType: note.metadata()?.noteType(),
-        senderAccountId: getBech32AddressFromAccountId(note.metadata()!.sender()),
+        noteType: noteMet?.noteType(),
+        senderAccountId: noteMet ? getBech32AddressFromAccountId(noteMet.sender()) : undefined,
         nullifier: note.nullifier(),
         state: note.state(),
         assets: assets
