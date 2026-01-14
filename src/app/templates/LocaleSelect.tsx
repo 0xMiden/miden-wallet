@@ -30,12 +30,6 @@ const localeOptions: LocaleOption[] = [
     disabled: false
   },
   {
-    code: 'en_GB',
-    flagName: 'gb',
-    label: 'English ‒ United Kingdom',
-    disabled: false
-  },
-  {
     code: 'es',
     flagName: 'es',
     label: 'Spanish (Español)',
