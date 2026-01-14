@@ -251,8 +251,8 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "Tohum ifadem 1 dolarlık kelimedir",
-    "englishSource": "My Seed phrase is $1 words"
+    "message": "Seed phrase değerim {{num}} kelimedir",
+    "englishSource": "My Seed phrase is {{num}} words"
   },
   "justValidPreGeneratedMnemonic": {
     "message": "Yalnızca daha önceden oluşturulmuş geçerli anımsatıcı ifade",

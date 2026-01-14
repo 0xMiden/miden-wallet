@@ -251,8 +251,8 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "私のSeed Phraseは$1ワードです",
-    "englishSource": "My Seed phrase is $1 words"
+    "message": "私の Seed phrase は {{num}} 語です",
+    "englishSource": "My Seed phrase is {{num}} words"
   },
   "justValidPreGeneratedMnemonic": {
     "message": "有効な事前生成されたニーモニック",

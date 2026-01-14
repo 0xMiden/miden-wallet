@@ -251,8 +251,8 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "내 Seed Phrase는 $1 단어입니다.",
-    "englishSource": "My Seed phrase is $1 words"
+    "message": "내 Seed phrase은 {{num}} 단어입니다",
+    "englishSource": "My Seed phrase is {{num}} words"
   },
   "justValidPreGeneratedMnemonic": {
     "message": "유효한 사전 생성 니모닉만",

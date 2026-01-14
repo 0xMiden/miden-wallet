@@ -251,8 +251,8 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "Ma Seed Phrase est constituée de mots à 1 $",
-    "englishSource": "My Seed phrase is $1 words"
+    "message": "Mon Seed phrase contient {{num}} mots",
+    "englishSource": "My Seed phrase is {{num}} words"
   },
   "justValidPreGeneratedMnemonic": {
     "message": "Juste un moyen mnémotechnique prégénéré et valide",
