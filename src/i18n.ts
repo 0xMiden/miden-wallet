@@ -9,6 +9,7 @@ import es from '../public/_locales/es/es.json';
 import fr from '../public/_locales/fr/fr.json';
 import ja from '../public/_locales/ja/ja.json';
 import ko from '../public/_locales/ko/ko.json';
+import pl from '../public/_locales/pl/pl.json';
 import pt from '../public/_locales/pt/pt.json';
 import ru from '../public/_locales/ru/ru.json';
 import tr from '../public/_locales/tr/tr.json';
@@ -54,6 +55,9 @@ i18n
       },
       ko: {
         translation: ko
+      },
+      pl: {
+        translation: pl
       },
       pt: {
         translation: pt

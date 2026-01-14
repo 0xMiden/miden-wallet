@@ -78,6 +78,12 @@ const localeOptions: LocaleOption[] = [
     disabled: false
   },
   {
+    code: 'pl',
+    flagName: 'pl',
+    label: 'Polish (Polski)',
+    disabled: false
+  },
+  {
     code: 'uk',
     flagName: 'ua',
     label: 'Ukrainian (Українська)',
