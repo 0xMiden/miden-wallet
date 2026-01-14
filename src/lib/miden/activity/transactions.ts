@@ -15,6 +15,7 @@ import { MidenClientCreateOptions } from '../sdk/miden-client-interface';
 import { ConsumableNote, NoteTypeEnum, NoteType as NoteTypeString } from '../types';
 import { interpretTransactionResult } from './helpers';
 import { importAllNotes, queueNoteImport, registerOutputNote } from './notes';
+import { compareAccountIds } from './utils';
 
 export const MAX_WAIT_BEFORE_CANCEL = 30 * 60_000; // 30 minutes
 
@@ -173,7 +174,7 @@ export const completeConsumeTransaction = async (id: string, result: Transaction
   const executedTransaction = result.executedTransaction();
 
   const dbTransaction = await Repo.transactions.where({ id }).first();
-  const reclaimed = dbTransaction?.accountId === sender;
+  const reclaimed = compareAccountIds(dbTransaction?.accountId ?? '', sender);
   const displayMessage = reclaimed ? 'Reclaimed' : 'Received';
   const secondaryAccountId = reclaimed ? undefined : sender;
   const asset = note.assets().fungibleAssets()[0];
@@ -354,7 +355,7 @@ export const getUncompletedTransactions = async (address: string) => {
 const getTransactionsInStatuses = async (statuses: ITransactionStatus[], accountId: string) => {
   let txs = await Repo.transactions.filter(rec => statuses.includes(rec.status)).toArray();
   txs.sort((tx1, tx2) => tx1.initiatedAt - tx2.initiatedAt);
-  txs = txs.filter(tx => tx.accountId === accountId);
+  txs = txs.filter(tx => compareAccountIds(tx.accountId, accountId));
 
   return txs;
 };
@@ -391,8 +392,8 @@ export const getCompletedTransactions = async (
     transactions = transactions.concat(failedTransactions);
   }
   transactions.sort((tx1, tx2) => (tx1.completedAt || tx1.initiatedAt) - (tx2.completedAt || tx2.initiatedAt));
-  transactions = transactions.filter(tx => tx.accountId === accountId);
-
+  // Compare ignoring note tag suffix since stored vs queried account IDs may differ
+  transactions = transactions.filter(tx => compareAccountIds(tx.accountId, accountId));
   return transactions.slice(offset, limit);
 };
 
