@@ -1105,5 +1105,7 @@
   "privacyPolicyLink": "Privacy Policy",
   "andWord": "and",
   "transactionFileDescription": "Transaction file",
-  "enterDecryptionPassword": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
+  "enterDecryptionPassword": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access.",
+  "first": "First",
+  "last": "Last"
 }

@@ -5040,8 +5040,8 @@
     "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
   },
   "first": {
-    "message": "First,",
-    "englishSource": "First,"
+    "message": "First",
+    "englishSource": "First"
   },
   "last": {
     "message": "Last",
