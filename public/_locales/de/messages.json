@@ -5035,5 +5035,13 @@
   "enterDecryptionPassword": {
     "message": "Geben Sie das Passwort ein, das Sie beim Exportieren Ihres Wallets festgelegt haben. Dadurch wird die Datei entschlüsselt und der Zugriff wiederhergestellt.",
     "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
+  },
+  "first": {
+    "message": "Erste",
+    "englishSource": "First"
+  },
+  "last": {
+    "message": "Zuletzt",
+    "englishSource": "Last"
   }
 }

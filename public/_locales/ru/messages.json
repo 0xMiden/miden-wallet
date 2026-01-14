@@ -4938,5 +4938,13 @@
   "enterDecryptionPassword": {
     "message": "Введите пароль, который вы установили при экспорте кошелька. Это позволит расшифровать файл и восстановить доступ.",
     "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
+  },
+  "first": {
+    "message": "Первый",
+    "englishSource": "First"
+  },
+  "last": {
+    "message": "Последний",
+    "englishSource": "Last"
   }
 }

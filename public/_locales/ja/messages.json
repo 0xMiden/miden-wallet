@@ -5011,5 +5011,13 @@
   "enterDecryptionPassword": {
     "message": "ウォレットをエクスポートするときに設定したパスワードを入力します。これにより、ファイルが復号化され、アクセスが復元されます。",
     "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
+  },
+  "first": {
+    "message": "初め",
+    "englishSource": "First"
+  },
+  "last": {
+    "message": "最後",
+    "englishSource": "Last"
   }
 }

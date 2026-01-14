@@ -5092,5 +5092,13 @@
   "enterDecryptionPassword": {
     "message": "Введіть пароль, який ви встановили під час експорту гаманця. Це розшифрує файл і відновить доступ.",
     "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
+  },
+  "first": {
+    "message": "перше",
+    "englishSource": "First"
+  },
+  "last": {
+    "message": "Останній",
+    "englishSource": "Last"
   }
 }

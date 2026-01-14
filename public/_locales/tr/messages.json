@@ -5035,5 +5035,13 @@
   "enterDecryptionPassword": {
     "message": "Cüzdanınızı dışa aktarırken belirlediğiniz şifreyi girin. Bu, dosyanın şifresini çözecek ve erişimi geri yükleyecektir.",
     "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
+  },
+  "first": {
+    "message": "Birinci",
+    "englishSource": "First"
+  },
+  "last": {
+    "message": "Son",
+    "englishSource": "Last"
   }
 }

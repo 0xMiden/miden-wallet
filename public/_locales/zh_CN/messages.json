@@ -4971,5 +4971,13 @@
   "enterDecryptionPassword": {
     "message": "输入您导出钱包时设置的密码。这将解密文件并恢复访问权限。",
     "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
+  },
+  "first": {
+    "message": "第一的",
+    "englishSource": "First"
+  },
+  "last": {
+    "message": "最后的",
+    "englishSource": "Last"
   }
 }

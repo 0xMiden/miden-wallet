@@ -5035,5 +5035,13 @@
   "enterDecryptionPassword": {
     "message": "Digite a senha que você definiu ao exportar sua carteira. Isso descriptografará o arquivo e restaurará o acesso.",
     "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
+  },
+  "first": {
+    "message": "Primeiro",
+    "englishSource": "First"
+  },
+  "last": {
+    "message": "Durar",
+    "englishSource": "Last"
   }
 }

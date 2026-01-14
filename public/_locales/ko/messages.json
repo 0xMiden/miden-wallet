@@ -5020,5 +5020,13 @@
   "enterDecryptionPassword": {
     "message": "지갑 내보내기 시 설정한 비밀번호를 입력하세요. 이렇게 하면 파일의 암호가 해독되고 액세스가 복원됩니다.",
     "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
+  },
+  "first": {
+    "message": "첫 번째",
+    "englishSource": "First"
+  },
+  "last": {
+    "message": "마지막",
+    "englishSource": "Last"
   }
 }

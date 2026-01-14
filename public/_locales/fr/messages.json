@@ -5005,5 +5005,13 @@
   "enterDecryptionPassword": {
     "message": "Entrez le mot de passe que vous avez défini lors de l'exportation de votre portefeuille. Cela décryptera le fichier et restaurera l'accès.",
     "englishSource": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access."
+  },
+  "first": {
+    "message": "D'abord",
+    "englishSource": "First"
+  },
+  "last": {
+    "message": "Dernier",
+    "englishSource": "Last"
   }
 }
