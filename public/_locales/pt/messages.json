@@ -630,8 +630,8 @@
     "englishSource": "Reset Extension"
   },
   "resetExtensionConfirmation": {
-    "message": "Tem a ceraleo creditsa de que pretende repor a carteira Aleo?\nComo resultado, todos os seus dados serão eliminados.",
-    "englishSource": "Are you sure you want to reset the Leo Wallet?\nAs a result, all your data will be deleted."
+    "message": "Tem certeza de que deseja redefinir a carteira Miden?\nComo resultado, todos os seus dados serão excluídos.",
+    "englishSource": "Are you sure you want to reset the Miden Wallet?\nAs a result, all your data will be deleted."
   },
   "failedToResetExtension": {
     "message": "Falha ao repor a extensão: $errorMessage$",
@@ -892,8 +892,8 @@
     "englishSource": "DApps"
   },
   "dAppsDescription": {
-    "message": "Nesta secção pode ativar a capacidade de interagir com aplicações descentralizadas que suportam a Carteira Aleo.",
-    "englishSource": "In this section you can enable ability to interact with decentralized applications that support Leo Wallet."
+    "message": "Nesta seção você pode ativar a capacidade de interagir com aplicativos descentralizados que suportam a Miden Wallet.",
+    "englishSource": "In this section you can enable ability to interact with decentralized applications that support Miden Wallet."
   },
   "networksDescription": {
     "message": "Nesta secção pode adicionar ou apagar redes Aleo personalizadas.",
@@ -921,8 +921,8 @@
     "englishSource": "About This App"
   },
   "aboutDescription": {
-    "message": "Utilize esta secção para ver meta informações sobre a Carteira Aleo.",
-    "englishSource": "Use this section to view meta info about Leo Wallet."
+    "message": "Use esta seção para visualizar meta informações sobre a Miden Wallet.",
+    "englishSource": "Use this section to view meta info about Miden Wallet."
   },
   "unlockWallet": {
     "message": "Desbloquear a Carteira",
@@ -2876,8 +2876,8 @@
     "englishSource": "Got it"
   },
   "changelogTitle": {
-    "message": "Carteira Leo atualizada",
-    "englishSource": "Leo Wallet updated"
+    "message": "Carteira Miden atualizada",
+    "englishSource": "Miden Wallet updated"
   },
   "changelogDescription": {
     "message": "Nesta atualização",
@@ -3626,8 +3626,8 @@
     "englishSource": "Advanced Settings"
   },
   "advancedSettingsDescription": {
-    "message": "Ferramentas para ajudá-lo a depurar e diagnosticar problemas com a Leo Wallet.",
-    "englishSource": "Tools to help you debug and diagnose issues with Leo Wallet."
+    "message": "Ferramentas para ajudá-lo a depurar e diagnosticar problemas com a Miden Wallet.",
+    "englishSource": "Tools to help you debug and diagnose issues with Miden Wallet."
   },
   "resync": {
     "message": "Ressincronizar",
@@ -3966,8 +3966,8 @@
     "englishSource": "Here you can configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
   },
   "mainAssetBalanceIsZero": {
-    "message": "Seu saldo de créditos Aleo (ativo principal) é zero. Créditos Aleo são necessários para a taxa.",
-    "englishSource": "Your aleo credits (main asset) balance is zero. Aleo credits are required for the fee."
+    "message": "Seu saldo de créditos Miden (ativo principal) é zero. Créditos Miden são necessários para a taxa.",
+    "englishSource": "Your Miden credits (main asset) balance is zero. Miden credits are required for the fee."
   },
   "stake": {
     "message": "Estaca",
@@ -4532,11 +4532,11 @@
     "englishSource": "Explore the world of private assets."
   },
   "autoConsumeSettings": {
-    "message": "Consumir automaticamente notas MIDEN",
+    "message": "Consumir automaticamente Notes MIDEN",
     "englishSource": "Auto Consume MIDEN notes"
   },
   "autoConsumeSettingsDescription": {
-    "message": "O Auto Consume consumirá automaticamente as notas do Miden Faucet oficial.",
+    "message": "O Auto Consume consumirá automaticamente as Notes do Miden Faucet oficial.",
     "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
@@ -4760,11 +4760,11 @@
     "englishSource": "Sign the following Word $word$?"
   },
   "sharePrivateNoteDataForAccount": {
-    "message": "Compartilhe todos os dados de Notes privadas da conta",
+    "message": "Compartilhe todos os dados de Note privadas da conta",
     "englishSource": "Share all private note data for account"
   },
   "downloadPrivateNoteData": {
-    "message": "Baixar dados de Notes privadas",
+    "message": "Baixar dados de Note privadas",
     "englishSource": "Download Private Note Data"
   },
   "transactionAffectsAccountStorage": {
@@ -4784,11 +4784,11 @@
     "englishSource": "Unknown"
   },
   "inputNotesConsumed": {
-    "message": "Notas de entrada consumidas",
+    "message": "Notes de entrada consumidas",
     "englishSource": "Input notes consumed"
   },
   "outputNotesCreated": {
-    "message": "Notas de saída criadas",
+    "message": "Notes de saída criadas",
     "englishSource": "Output notes created"
   },
   "storageChanged": {
@@ -4828,7 +4828,7 @@
     "englishSource": "Request Private Notes"
   },
   "requestsPrivateNotes": {
-    "message": "Solicita notas privadas",
+    "message": "Solicita Notes privadas",
     "englishSource": "Requests private notes"
   },
   "confirmSignature": {
@@ -4860,7 +4860,7 @@
     "englishSource": "Request Consumable Notes"
   },
   "requestsConsumableNotes": {
-    "message": "Solicite notas de consumíveis",
+    "message": "Solicite Notes de consumíveis",
     "englishSource": "Request consumable notes"
   },
   "review": {

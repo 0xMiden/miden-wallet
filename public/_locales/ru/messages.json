@@ -193,8 +193,8 @@
     "englishSource": "Got it"
   },
   "changelogTitle": {
-    "message": "Лев Кошелек обновлен",
-    "englishSource": "Leo Wallet updated"
+    "message": "Обновление кошелька Miden",
+    "englishSource": "Miden Wallet updated"
   },
   "changelogDescription": {
     "message": "В этом обновлении",
@@ -754,8 +754,8 @@
     "englishSource": "Reset Extension"
   },
   "resetExtensionConfirmation": {
-    "message": "Вы уверены, что хотите сбросить настройки Leo Wallet?\nВ результате все ваши данные будут удалены.",
-    "englishSource": "Are you sure you want to reset the Leo Wallet?\nAs a result, all your data will be deleted."
+    "message": "Вы уверены, что хотите сбросить настройки кошелька Miden?\nВ результате все ваши данные будут удалены.",
+    "englishSource": "Are you sure you want to reset the Miden Wallet?\nAs a result, all your data will be deleted."
   },
   "failedToResetExtension": {
     "message": "Не удалось сбросить расширение: $errorMessage$ ",
@@ -1052,8 +1052,8 @@
     "englishSource": "DApps"
   },
   "dAppsDescription": {
-    "message": "В этом разделе вы можете включить возможность взаимодействия с децентрализованными приложениями, поддерживающими Leo Wallet.",
-    "englishSource": "In this section you can enable ability to interact with decentralized applications that support Leo Wallet."
+    "message": "В этом разделе вы можете включить возможность взаимодействия с децентрализованными приложениями, поддерживающими Miden Wallet.",
+    "englishSource": "In this section you can enable ability to interact with decentralized applications that support Miden Wallet."
   },
   "networksDescription": {
     "message": "В этом разделе вы можете добавлять или удалять пользовательские сети Aleo.",
@@ -1085,8 +1085,8 @@
     "englishSource": "Info"
   },
   "aboutDescription": {
-    "message": "Используйте этот раздел для просмотра метаинформации о Leo Wallet.",
-    "englishSource": "Use this section to view meta info about Leo Wallet."
+    "message": "Используйте этот раздел для просмотра метаинформации о кошельке Miden.",
+    "englishSource": "Use this section to view meta info about Miden Wallet."
   },
   "unlockWallet": {
     "message": "Разблокировать кошелек",
@@ -3491,8 +3491,8 @@
     "englishSource": "Advanced Settings"
   },
   "advancedSettingsDescription": {
-    "message": "Инструменты, помогающие отлаживать и диагностировать проблемы с Leo Wallet.",
-    "englishSource": "Tools to help you debug and diagnose issues with Leo Wallet."
+    "message": "Инструменты, которые помогут вам отлаживать и диагностировать проблемы с Miden Wallet.",
+    "englishSource": "Tools to help you debug and diagnose issues with Miden Wallet."
   },
   "resync": {
     "message": "Повторная синхронизация",
@@ -3869,8 +3869,8 @@
     "englishSource": "Here you can configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
   },
   "mainAssetBalanceIsZero": {
-    "message": "Баланс ваших алео-кредитов (основного актива) равен нулю. Для оплаты комиссии необходимы кредиты Aleo.",
-    "englishSource": "Your aleo credits (main asset) balance is zero. Aleo credits are required for the fee."
+    "message": "Баланс ваших кредитов Miden (основной актив) равен нулю. Для оплаты необходимы кредиты Miden.",
+    "englishSource": "Your Miden credits (main asset) balance is zero. Miden credits are required for the fee."
   },
   "stake": {
     "message": "Ставка",
@@ -4631,11 +4631,11 @@
     "englishSource": "Timestamp"
   },
   "noteType": {
-    "message": "Тип Notes",
+    "message": "Тип Note",
     "englishSource": "Note Type"
   },
   "noteId": {
-    "message": "Идентификатор Notes",
+    "message": "Идентификатор Note",
     "englishSource": "Note ID"
   },
   "downloadGeneratedFile": {
@@ -4667,7 +4667,7 @@
     "englishSource": "Share all private note data for account"
   },
   "downloadPrivateNoteData": {
-    "message": "Загрузить данные личной Notes",
+    "message": "Загрузить данные личной Note",
     "englishSource": "Download Private Note Data"
   },
   "transactionAffectsAccountStorage": {
@@ -4723,7 +4723,7 @@
     "englishSource": "Requests a transaction"
   },
   "requestsToConsumeNote": {
-    "message": "Запросы на использование Notes",
+    "message": "Запросы на использование Note",
     "englishSource": "Requests to consume a note"
   },
   "requestPrivateNotes": {
@@ -4751,7 +4751,7 @@
     "englishSource": "Requests assets"
   },
   "requestImportPrivateNote": {
-    "message": "Запросить импорт личной Notes",
+    "message": "Запросить импорт личной Note",
     "englishSource": "Request Import Private Note"
   },
   "importPrivateNote": {
@@ -4867,7 +4867,7 @@
     "englishSource": "Your note was successfully consumed."
   },
   "noteConsumptionError": {
-    "message": "Произошла ошибка при использовании вашей Notes. Пожалуйста, попробуйте еще раз.",
+    "message": "Произошла ошибка при использовании вашей Note. Пожалуйста, попробуйте еще раз.",
     "englishSource": "There was an error consuming your note. Please try again."
   },
   "dragAndDropFile": {
@@ -4933,5 +4933,17 @@
   "languageDescription": {
     "message": "Изменить язык отображения",
     "englishSource": "Change the display language"
+  },
+  "thousandFormat": {
+    "message": "$тысяча$тыс.",
+    "englishSource": "$thousand$k"
+  },
+  "millionFormat": {
+    "message": "$миллион$М",
+    "englishSource": "$million$M"
+  },
+  "billionFormat": {
+    "message": "$миллиард$Б",
+    "englishSource": "$billion$B"
   }
 }

@@ -168,8 +168,8 @@
     "englishSource": "details"
   },
   "changelogTitle": {
-    "message": "Cartera Leo actualizada",
-    "englishSource": "Leo Wallet updated"
+    "message": "Cartera Miden actualizada",
+    "englishSource": "Miden Wallet updated"
   },
   "changelogDescription": {
     "message": "En esta actualización",
@@ -712,8 +712,8 @@
     "englishSource": "Reset Extension"
   },
   "resetExtensionConfirmation": {
-    "message": "¿Está seguro de que desea restablecer Leo Wallet?\nComo resultado, todos sus datos serán eliminados.",
-    "englishSource": "Are you sure you want to reset the Leo Wallet?\nAs a result, all your data will be deleted."
+    "message": "¿Está seguro de que desea restablecer Miden Wallet?\nComo resultado, todos sus datos serán eliminados.",
+    "englishSource": "Are you sure you want to reset the Miden Wallet?\nAs a result, all your data will be deleted."
   },
   "failedToResetExtension": {
     "message": "No se pudo restablecer la extensión: $errorMessage$ ",
@@ -1084,8 +1084,8 @@
     "englishSource": "DApps"
   },
   "dAppsDescription": {
-    "message": "En esta sección puede habilitar la capacidad de interactuar con aplicaciones descentralizadas que admitan Leo Wallet.",
-    "englishSource": "In this section you can enable ability to interact with decentralized applications that support Leo Wallet."
+    "message": "En esta sección puede habilitar la capacidad de interactuar con aplicaciones descentralizadas que admiten Miden Wallet.",
+    "englishSource": "In this section you can enable ability to interact with decentralized applications that support Miden Wallet."
   },
   "networksDescription": {
     "message": "En esta sección puede agregar o eliminar redes Aleo personalizadas.",
@@ -1120,8 +1120,8 @@
     "englishSource": "Advanced Settings"
   },
   "advancedSettingsDescription": {
-    "message": "Herramientas para ayudarle a depurar y diagnosticar problemas con Leo Wallet.",
-    "englishSource": "Tools to help you debug and diagnose issues with Leo Wallet."
+    "message": "Herramientas para ayudarle a depurar y diagnosticar problemas con Miden Wallet.",
+    "englishSource": "Tools to help you debug and diagnose issues with Miden Wallet."
   },
   "resync": {
     "message": "resincronizar",
@@ -1140,8 +1140,8 @@
     "englishSource": "Info"
   },
   "aboutDescription": {
-    "message": "Utilice esta sección para ver metainformación sobre Leo Wallet.",
-    "englishSource": "Use this section to view meta info about Leo Wallet."
+    "message": "Utilice esta sección para ver metainformación sobre Miden Wallet.",
+    "englishSource": "Use this section to view meta info about Miden Wallet."
   },
   "unlockWallet": {
     "message": "Desbloquear la billetera",
@@ -1888,8 +1888,8 @@
     "englishSource": "Click on Account you want to send funds to."
   },
   "mainAssetBalanceIsZero": {
-    "message": "El saldo de sus créditos aleo (activo principal) es cero. Se requieren créditos Aleo para pagar la tarifa.",
-    "englishSource": "Your aleo credits (main asset) balance is zero. Aleo credits are required for the fee."
+    "message": "El saldo de sus créditos Miden (activo principal) es cero. Se requieren créditos Miden para pagar la tarifa.",
+    "englishSource": "Your Miden credits (main asset) balance is zero. Miden credits are required for the fee."
   },
   "unableToSendTransactionAction": {
     "message": "No se puede enviar la transacción al destinatario proporcionado.",
@@ -3812,11 +3812,11 @@
     "englishSource": "Explore the world of private assets."
   },
   "autoConsumeSettings": {
-    "message": "Notas MIDEN de consumo automático",
+    "message": "Notes MIDEN de consumo automático",
     "englishSource": "Auto Consume MIDEN notes"
   },
   "autoConsumeSettingsDescription": {
-    "message": "Auto Consume consumirá automáticamente notas del Miden Faucet oficial.",
+    "message": "Auto Consume consumirá automáticamente Notes del Miden Faucet oficial.",
     "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
@@ -4044,11 +4044,11 @@
     "englishSource": "Sign the following Word $word$?"
   },
   "sharePrivateNoteDataForAccount": {
-    "message": "Compartir todos los datos de Notes privadas para la cuenta",
+    "message": "Compartir todos los datos de Note privadas para la cuenta",
     "englishSource": "Share all private note data for account"
   },
   "downloadPrivateNoteData": {
-    "message": "Descargar datos de Notes privadas",
+    "message": "Descargar datos de Note privadas",
     "englishSource": "Download Private Note Data"
   },
   "transactionAffectsAccountStorage": {
@@ -4068,11 +4068,11 @@
     "englishSource": "Unknown"
   },
   "inputNotesConsumed": {
-    "message": "Notas de entrada consumidas",
+    "message": "Notes de entrada consumidas",
     "englishSource": "Input notes consumed"
   },
   "outputNotesCreated": {
-    "message": "Notas de salida creadas",
+    "message": "Notes de salida creadas",
     "englishSource": "Output notes created"
   },
   "storageChanged": {
@@ -4112,7 +4112,7 @@
     "englishSource": "Request Private Notes"
   },
   "requestsPrivateNotes": {
-    "message": "Solicita notas privadas",
+    "message": "Solicita Notes privadas",
     "englishSource": "Requests private notes"
   },
   "confirmSignature": {
@@ -4144,7 +4144,7 @@
     "englishSource": "Request Consumable Notes"
   },
   "requestsConsumableNotes": {
-    "message": "Solicitar notas de consumibles",
+    "message": "Solicitar Notes de consumibles",
     "englishSource": "Request consumable notes"
   },
   "review": {
@@ -4330,5 +4330,17 @@
   "last": {
     "message": "Último",
     "englishSource": "Last"
+  },
+  "thousandFormat": {
+    "message": "$mil$k",
+    "englishSource": "$thousand$k"
+  },
+  "millionFormat": {
+    "message": "millones de dólares millones de dólares",
+    "englishSource": "$million$M"
+  },
+  "billionFormat": {
+    "message": "$ mil millones $ B",
+    "englishSource": "$billion$B"
   }
 }

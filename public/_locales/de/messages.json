@@ -689,7 +689,7 @@
     "englishSource": "Create a new Wallet"
   },
   "createNewWalletDescription": {
-    "message": "Neu bei Miden Wallet? Lass es uns einrichten! Dadurch werden ein neues Wallet und eine neue Seed-Phrase erstellt",
+    "message": "Neu bei Miden Wallet? Lass es uns einrichten! Dadurch werden ein neues Wallet und eine neue Seed Phrase erstellt",
     "englishSource": "New to Miden Wallet? Let's set it up! This will create a new wallet and Seed Phrase"
   },
   "delegate": {
@@ -2928,7 +2928,7 @@
     "englishSource": "Inclusion of at least one special character, e.g., ! @ # ? ] - (optional, recommended)."
   },
   "seedInputNumberOfWords": {
-    "message": "Meine Seed-Phrase besteht aus 1-Dollar-Wörtern",
+    "message": "Meine Seed Phrase besteht aus 1-Dollar-Wörtern",
     "englishSource": "My Seed phrase is $1 words"
   },
   "seedPasteFailedTooManyWords": {
@@ -2936,7 +2936,7 @@
     "englishSource": "Paste failed because it contained over 24 words."
   },
   "seedPhraseTip": {
-    "message": "Sie können Ihre gesamte geheime Seed-Phrase in jedes beliebige Feld einfügen",
+    "message": "Sie können Ihre gesamte geheime Seed Phrase in jedes beliebige Feld einfügen",
     "englishSource": "You can paste your entire secret Seed phrase into any field"
   },
   "assetMustBeSelected": {
@@ -4073,15 +4073,15 @@
     "englishSource": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase."
   },
   "enterYourWalletSeedPhrase": {
-    "message": "Geben Sie die 12-Wörter-Seed-Phrase Ihrer Brieftasche ein.",
+    "message": "Geben Sie die 12-Wörter-Seed Phrase Ihrer Brieftasche ein.",
     "englishSource": "Enter your wallet's 12-word Seed phrase."
   },
   "onlyAleoSeedPhrasesAreSupported": {
-    "message": "Es werden nur Aleo Seed-Phrasen unterstützt.",
+    "message": "Es werden nur Aleo Seed Phrases unterstützt.",
     "englishSource": "Only Aleo Seed phrases are supported."
   },
   "seedPhrasePlaceholder": {
-    "message": "12-Wörter-Seed-Phrase",
+    "message": "12-Wörter-Seed Phrase",
     "englishSource": "12-word Seed phrase"
   },
   "join": {
@@ -4402,7 +4402,7 @@
     "englishSource": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain"
   },
   "onlyMidenSeedPhrasesAreSupported": {
-    "message": "Es werden nur Miden Seed-Phrasen unterstützt.",
+    "message": "Es werden nur Miden Seed Phrases unterstützt.",
     "englishSource": "Only Miden Seed phrases are supported."
   },
   "passwordsDoNotMatch": {
@@ -4434,7 +4434,7 @@
     "englishSource": "If you've forgotten your password, you need to sign out and re-import your account. After that, you can create a new password."
   },
   "forgotPasswordSecondDescription": {
-    "message": "Melden Sie sich nicht ab, es sei denn, Sie kennen Ihre 12-Wörter-Seed-Phrase oder haben eine verschlüsselte Sicherungsdatei.",
+    "message": "Melden Sie sich nicht ab, es sei denn, Sie kennen Ihre 12-Wörter-Seed Phrase oder haben eine verschlüsselte Sicherungsdatei.",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
   "signOut": {
@@ -4494,7 +4494,7 @@
     "englishSource": "Explore the world of private assets."
   },
   "autoConsumeSettings": {
-    "message": "MIDEN-Noten automatisch konsumieren",
+    "message": "MIDEN-Notes automatisch konsumieren",
     "englishSource": "Auto Consume MIDEN notes"
   },
   "autoConsumeSettingsDescription": {
@@ -4690,11 +4690,11 @@
     "englishSource": "Timestamp"
   },
   "noteType": {
-    "message": "Notetyp",
+    "message": "Note Type",
     "englishSource": "Note Type"
   },
   "noteId": {
-    "message": "Note-ID",
+    "message": "Note ID",
     "englishSource": "Note ID"
   },
   "downloadGeneratedFile": {
@@ -4722,11 +4722,11 @@
     "englishSource": "Sign the following Word $word$?"
   },
   "sharePrivateNoteDataForAccount": {
-    "message": "Geben Sie alle privaten Notedaten für das Konto frei",
+    "message": "Geben Sie alle privaten Note Data für das Konto frei",
     "englishSource": "Share all private note data for account"
   },
   "downloadPrivateNoteData": {
-    "message": "Laden Sie private Notedaten herunter",
+    "message": "Laden Sie private Note Data herunter",
     "englishSource": "Download Private Note Data"
   },
   "transactionAffectsAccountStorage": {
@@ -4790,7 +4790,7 @@
     "englishSource": "Request Private Notes"
   },
   "requestsPrivateNotes": {
-    "message": "Fordert private Notizen an",
+    "message": "Fordert private Notes an",
     "englishSource": "Requests private notes"
   },
   "confirmSignature": {
@@ -4822,7 +4822,7 @@
     "englishSource": "Request Consumable Notes"
   },
   "requestsConsumableNotes": {
-    "message": "Fordern Sie Hinweise zu Verbrauchsmaterialien an",
+    "message": "Fordern Sie Notes zu Verbrauchsmaterialien an",
     "englishSource": "Request consumable notes"
   },
   "review": {
@@ -4998,7 +4998,7 @@
     "englishSource": "Built for Miden"
   },
   "midenFaucetLegacy": {
-    "message": "Miden Wasserhahn",
+    "message": "Miden Faucet",
     "englishSource": "Miden Faucet"
   },
   "midenFaucetLegacyDescription": {
@@ -5030,7 +5030,7 @@
     "englishSource": "Miden Faucet will send you credits."
   },
   "midenFaucetAlpha": {
-    "message": "Miden Wasserhahn (Alpha)",
+    "message": "Miden Faucet (Alpha)",
     "englishSource": "Miden Faucet (Alpha)"
   },
   "midenWalletOptions": {
@@ -5062,7 +5062,7 @@
     "englishSource": "Help us to improve Miden Wallet"
   },
   "onlyMidenSeedPhrasesAreSupportedLegacy": {
-    "message": "Es werden nur Miden Seed-Phrasen unterstützt.",
+    "message": "Es werden nur Miden Seed Phrases unterstützt.",
     "englishSource": "Only Miden Seed phrases are supported."
   }
 }

@@ -610,8 +610,8 @@
     "englishSource": "Reset Extension"
   },
   "resetExtensionConfirmation": {
-    "message": "Ти впевнений що бажаєш скинути the Aleo Wallet?\nЯк результат - буде видалена вся твоя інформація і доступ до грошей також буде скинуто.",
-    "englishSource": "Are you sure you want to reset the Leo Wallet?\nAs a result, all your data will be deleted."
+    "message": "Ви впевнені, що бажаєте скинути Miden Wallet?\nУ результаті всі ваші дані будуть видалені.",
+    "englishSource": "Are you sure you want to reset the Miden Wallet?\nAs a result, all your data will be deleted."
   },
   "failedToResetExtension": {
     "message": "Не вдалося скинути розширення: $errorMessage$",
@@ -848,8 +848,8 @@
     "englishSource": "DApps"
   },
   "dAppsDescription": {
-    "message": "У цьому розділі ви можете включити можливість взаємодії з децентралізованими додатками, які підтримують Aleo Wallet.",
-    "englishSource": "In this section you can enable ability to interact with decentralized applications that support Leo Wallet."
+    "message": "У цьому розділі ви можете ввімкнути можливість взаємодії з децентралізованими програмами, які підтримують Miden Wallet.",
+    "englishSource": "In this section you can enable ability to interact with decentralized applications that support Miden Wallet."
   },
   "networksDescription": {
     "message": "У цій секції ти можеш додати або видалити кастомні Aleo мережі",
@@ -877,8 +877,8 @@
     "englishSource": "About This App"
   },
   "aboutDescription": {
-    "message": "Використовуйте цей розділ, щоб переглянути метаінформацію про Aleo Wallet.",
-    "englishSource": "Use this section to view meta info about Leo Wallet."
+    "message": "Використовуйте цей розділ, щоб переглянути метаінформацію про гаманець Miden.",
+    "englishSource": "Use this section to view meta info about Miden Wallet."
   },
   "unlockWallet": {
     "message": "Розблокувати гаманець",
@@ -2384,8 +2384,8 @@
     "englishSource": "Got it"
   },
   "changelogTitle": {
-    "message": "Leo Wallet оновлено",
-    "englishSource": "Leo Wallet updated"
+    "message": "Miden Wallet оновлено",
+    "englishSource": "Miden Wallet updated"
   },
   "changelogDescription": {
     "message": "У цьому оновленні",
@@ -3698,8 +3698,8 @@
     "englishSource": "Advanced Settings"
   },
   "advancedSettingsDescription": {
-    "message": "Інструменти, які допоможуть вам налагодити та діагностувати проблеми з Leo Wallet.",
-    "englishSource": "Tools to help you debug and diagnose issues with Leo Wallet."
+    "message": "Інструменти, які допоможуть вам налагодити та діагностувати проблеми з Miden Wallet.",
+    "englishSource": "Tools to help you debug and diagnose issues with Miden Wallet."
   },
   "resync": {
     "message": "Повторна синхронізація",
@@ -4023,8 +4023,8 @@
     "englishSource": "Here you can configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
   },
   "mainAssetBalanceIsZero": {
-    "message": "Ваш баланс алео-кредитів (основного активу) дорівнює нулю. Для оплати потрібно кредити Aleo.",
-    "englishSource": "Your aleo credits (main asset) balance is zero. Aleo credits are required for the fee."
+    "message": "Баланс ваших кредитів Miden (основного активу) дорівнює нулю. Для комісії потрібні кредити Miden.",
+    "englishSource": "Your Miden credits (main asset) balance is zero. Miden credits are required for the fee."
   },
   "stake": {
     "message": "Ставка",
@@ -4821,7 +4821,7 @@
     "englishSource": "Share all private note data for account"
   },
   "downloadPrivateNoteData": {
-    "message": "Завантажте дані приватної Notes",
+    "message": "Завантажте дані приватної Note",
     "englishSource": "Download Private Note Data"
   },
   "transactionAffectsAccountStorage": {
@@ -4905,11 +4905,11 @@
     "englishSource": "Requests assets"
   },
   "requestImportPrivateNote": {
-    "message": "Надіслати запит на імпорт приватної Notes",
+    "message": "Надіслати запит на імпорт приватної Note",
     "englishSource": "Request Import Private Note"
   },
   "importPrivateNote": {
-    "message": "Імпорт приватної Notes",
+    "message": "Імпорт приватної Note",
     "englishSource": "Import private note"
   },
   "requestConsumableNotes": {
@@ -5021,7 +5021,7 @@
     "englishSource": "Your note was successfully consumed."
   },
   "noteConsumptionError": {
-    "message": "Під час використання вашої Notes сталася помилка. Спробуйте ще раз.",
+    "message": "Під час використання вашої Note сталася помилка. Спробуйте ще раз.",
     "englishSource": "There was an error consuming your note. Please try again."
   },
   "dragAndDropFile": {

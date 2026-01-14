@@ -630,8 +630,8 @@
     "englishSource": "Reset Extension"
   },
   "resetExtensionConfirmation": {
-    "message": "Aleo Wallet'i sıfırlamak istediğinizden emin misiniz?\nBunun sonucunda tüm verileriniz silinecektir.",
-    "englishSource": "Are you sure you want to reset the Leo Wallet?\nAs a result, all your data will be deleted."
+    "message": "Miden Cüzdanını sıfırlamak istediğinizden emin misiniz?\nSonuç olarak tüm verileriniz silinecektir.",
+    "englishSource": "Are you sure you want to reset the Miden Wallet?\nAs a result, all your data will be deleted."
   },
   "failedToResetExtension": {
     "message": "Uzantı sıfırlanamadı: $errorMessage$",
@@ -892,8 +892,8 @@
     "englishSource": "DApps"
   },
   "dAppsDescription": {
-    "message": "Bu bölümde, Aleo Wallet'i destekleyen merkezi olmayan uygulamalarla etkileşim kurabilmeyi etkinleştirebilirsiniz.",
-    "englishSource": "In this section you can enable ability to interact with decentralized applications that support Leo Wallet."
+    "message": "Bu bölümde Miden Wallet'ı destekleyen merkezi olmayan uygulamalarla etkileşime geçme özelliğini etkinleştirebilirsiniz.",
+    "englishSource": "In this section you can enable ability to interact with decentralized applications that support Miden Wallet."
   },
   "networksDescription": {
     "message": "Bu bölümde, özel Aleo ağları ekleyebilir ya da silebilirsiniz.",
@@ -921,8 +921,8 @@
     "englishSource": "About This App"
   },
   "aboutDescription": {
-    "message": "Aleo Wallet hakkında meta verileri görüntülemek için bu bölümü kullanın.",
-    "englishSource": "Use this section to view meta info about Leo Wallet."
+    "message": "Miden Cüzdan hakkındaki meta bilgileri görüntülemek için bu bölümü kullanın.",
+    "englishSource": "Use this section to view meta info about Miden Wallet."
   },
   "unlockWallet": {
     "message": "Cüzdan Kilidini Aç",
@@ -2875,8 +2875,8 @@
     "englishSource": "Got it"
   },
   "changelogTitle": {
-    "message": "Leo Cüzdan güncellendi",
-    "englishSource": "Leo Wallet updated"
+    "message": "Miden Cüzdan güncellendi",
+    "englishSource": "Miden Wallet updated"
   },
   "changelogDescription": {
     "message": "Bu güncellemede",
@@ -3633,8 +3633,8 @@
     "englishSource": "Advanced Settings"
   },
   "advancedSettingsDescription": {
-    "message": "Leo Wallet ile ilgili sorunları ayıklamanıza ve tanılamanıza yardımcı olacak araçlar.",
-    "englishSource": "Tools to help you debug and diagnose issues with Leo Wallet."
+    "message": "Miden Cüzdan'la ilgili sorunları ayıklamanıza ve teşhis etmenize yardımcı olacak araçlar.",
+    "englishSource": "Tools to help you debug and diagnose issues with Miden Wallet."
   },
   "resync": {
     "message": "Yeniden eşitle",
@@ -3973,8 +3973,8 @@
     "englishSource": "Here you can configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
   },
   "mainAssetBalanceIsZero": {
-    "message": "Aleo kredileriniz (ana varlık) bakiyeniz sıfır. Ücret için Aleo kredisi gereklidir.",
-    "englishSource": "Your aleo credits (main asset) balance is zero. Aleo credits are required for the fee."
+    "message": "Miden kredileri (ana varlık) bakiyeniz sıfırdır. Ücret için Miden kredisi gereklidir.",
+    "englishSource": "Your Miden credits (main asset) balance is zero. Miden credits are required for the fee."
   },
   "stake": {
     "message": "Bahis",
@@ -5393,7 +5393,7 @@
     "englishSource": "Contract not originated"
   },
   "notFaucetJson": {
-    "message": "Musluk değil JSON",
+    "message": "Faucet değil JSON",
     "englishSource": "Not a faucet JSON"
   },
   "inputOutputAssetsCannotBeSame": {

@@ -168,8 +168,8 @@
     "englishSource": "details"
   },
   "changelogTitle": {
-    "message": "Zaktualizowano portfel Leo",
-    "englishSource": "Leo Wallet updated"
+    "message": "Zaktualizowano portfel Miden",
+    "englishSource": "Miden Wallet updated"
   },
   "changelogDescription": {
     "message": "W tej aktualizacji",
@@ -712,8 +712,8 @@
     "englishSource": "Reset Extension"
   },
   "resetExtensionConfirmation": {
-    "message": "Czy na pewno chcesz zresetować portfel Leo?\nW rezultacie wszystkie Twoje dane zostaną usunięte.",
-    "englishSource": "Are you sure you want to reset the Leo Wallet?\nAs a result, all your data will be deleted."
+    "message": "Czy na pewno chcesz zresetować portfel Miden?\nW rezultacie wszystkie Twoje dane zostaną usunięte.",
+    "englishSource": "Are you sure you want to reset the Miden Wallet?\nAs a result, all your data will be deleted."
   },
   "failedToResetExtension": {
     "message": "Nie udało się zresetować rozszerzenia: $errorMessage$ ",
@@ -1088,8 +1088,8 @@
     "englishSource": "DApps"
   },
   "dAppsDescription": {
-    "message": "W tej sekcji możesz włączyć możliwość interakcji ze zdecentralizowanymi aplikacjami obsługującymi Leo Wallet.",
-    "englishSource": "In this section you can enable ability to interact with decentralized applications that support Leo Wallet."
+    "message": "W tej sekcji możesz włączyć możliwość interakcji ze zdecentralizowanymi aplikacjami obsługującymi Miden Wallet.",
+    "englishSource": "In this section you can enable ability to interact with decentralized applications that support Miden Wallet."
   },
   "networksDescription": {
     "message": "W tej sekcji możesz dodawać lub usuwać niestandardowe sieci Aleo.",
@@ -1124,8 +1124,8 @@
     "englishSource": "Advanced Settings"
   },
   "advancedSettingsDescription": {
-    "message": "Narzędzia pomagające w debugowaniu i diagnozowaniu problemów z portfelem Leo.",
-    "englishSource": "Tools to help you debug and diagnose issues with Leo Wallet."
+    "message": "Narzędzia pomagające w debugowaniu i diagnozowaniu problemów z portfelem Miden.",
+    "englishSource": "Tools to help you debug and diagnose issues with Miden Wallet."
   },
   "resync": {
     "message": "Synchronizuj ponownie",
@@ -1144,8 +1144,8 @@
     "englishSource": "Info"
   },
   "aboutDescription": {
-    "message": "Użyj tej sekcji, aby wyświetlić metainformacje o portfelu Leo.",
-    "englishSource": "Use this section to view meta info about Leo Wallet."
+    "message": "Użyj tej sekcji, aby wyświetlić metainformacje o portfelu Miden.",
+    "englishSource": "Use this section to view meta info about Miden Wallet."
   },
   "unlockWallet": {
     "message": "Odblokuj portfel",
@@ -1892,8 +1892,8 @@
     "englishSource": "Click on Account you want to send funds to."
   },
   "mainAssetBalanceIsZero": {
-    "message": "Saldo Twoich środków aleo (głównego aktywa) wynosi zero. Do uiszczenia opłaty wymagane są środki Aleo.",
-    "englishSource": "Your aleo credits (main asset) balance is zero. Aleo credits are required for the fee."
+    "message": "Saldo Twoich kredytów Miden (głównego aktywa) wynosi zero. Do opłaty wymagane są kredyty Miden.",
+    "englishSource": "Your Miden credits (main asset) balance is zero. Miden credits are required for the fee."
   },
   "unableToSendTransactionAction": {
     "message": "Nie można wysłać transakcji do podanego odbiorcy.",
@@ -3816,11 +3816,11 @@
     "englishSource": "Explore the world of private assets."
   },
   "autoConsumeSettings": {
-    "message": "Automatyczne zużywanie notatek MIDEN",
+    "message": "Automatyczne zużywanie Notes MIDEN",
     "englishSource": "Auto Consume MIDEN notes"
   },
   "autoConsumeSettingsDescription": {
-    "message": "Auto Consume automatycznie zużyje notatki z oficjalnego Miden Faucet.",
+    "message": "Auto Consume automatycznie zużyje Notes z oficjalnego Miden Faucet.",
     "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
@@ -4016,11 +4016,11 @@
     "englishSource": "Timestamp"
   },
   "noteType": {
-    "message": "Typ Notes",
+    "message": "Typ Note",
     "englishSource": "Note Type"
   },
   "noteId": {
-    "message": "Identyfikator Notes",
+    "message": "Identyfikator Note",
     "englishSource": "Note ID"
   },
   "downloadGeneratedFile": {
@@ -4048,11 +4048,11 @@
     "englishSource": "Sign the following Word $word$?"
   },
   "sharePrivateNoteDataForAccount": {
-    "message": "Udostępnij wszystkie prywatne dane Notes dla konta",
+    "message": "Udostępnij wszystkie prywatne dane Note dla konta",
     "englishSource": "Share all private note data for account"
   },
   "downloadPrivateNoteData": {
-    "message": "Pobierz dane prywatnych Notes",
+    "message": "Pobierz dane prywatnych Note",
     "englishSource": "Download Private Note Data"
   },
   "transactionAffectsAccountStorage": {
@@ -4072,11 +4072,11 @@
     "englishSource": "Unknown"
   },
   "inputNotesConsumed": {
-    "message": "Zużyte notatki wejściowe",
+    "message": "Zużyte Notes wejściowe",
     "englishSource": "Input notes consumed"
   },
   "outputNotesCreated": {
-    "message": "Utworzono notatki wyjściowe",
+    "message": "Utworzono Notes wyjściowe",
     "englishSource": "Output notes created"
   },
   "storageChanged": {
@@ -4108,7 +4108,7 @@
     "englishSource": "Requests a transaction"
   },
   "requestsToConsumeNote": {
-    "message": "Żądanie wykorzystania Notes",
+    "message": "Żądanie wykorzystania Note",
     "englishSource": "Requests to consume a note"
   },
   "requestPrivateNotes": {
@@ -4116,7 +4116,7 @@
     "englishSource": "Request Private Notes"
   },
   "requestsPrivateNotes": {
-    "message": "Prosi o prywatne notatki",
+    "message": "Prosi o prywatne Notes",
     "englishSource": "Requests private notes"
   },
   "confirmSignature": {
@@ -4136,7 +4136,7 @@
     "englishSource": "Requests assets"
   },
   "requestImportPrivateNote": {
-    "message": "Poproś o zaimportowanie prywatnej Notes",
+    "message": "Poproś o zaimportowanie prywatnej Note",
     "englishSource": "Request Import Private Note"
   },
   "importPrivateNote": {
@@ -4148,7 +4148,7 @@
     "englishSource": "Request Consumable Notes"
   },
   "requestsConsumableNotes": {
-    "message": "Poproś o notatki dotyczące materiałów eksploatacyjnych",
+    "message": "Poproś o Notes dotyczące materiałów eksploatacyjnych",
     "englishSource": "Request consumable notes"
   },
   "review": {
@@ -4276,7 +4276,7 @@
     "englishSource": "Your note was successfully consumed."
   },
   "noteConsumptionError": {
-    "message": "Wystąpił błąd podczas korzystania z Twojej Notes. Spróbuj ponownie.",
+    "message": "Wystąpił błąd podczas korzystania z Twojej Note. Spróbuj ponownie.",
     "englishSource": "There was an error consuming your note. Please try again."
   },
   "dragAndDropFile": {
@@ -4334,5 +4334,17 @@
   "last": {
     "message": "Ostatni",
     "englishSource": "Last"
+  },
+  "thousandFormat": {
+    "message": "$tysiąc$k",
+    "englishSource": "$thousand$k"
+  },
+  "millionFormat": {
+    "message": "milion dolarów",
+    "englishSource": "$million$M"
+  },
+  "billionFormat": {
+    "message": "miliard dolarów",
+    "englishSource": "$billion$B"
   }
 }

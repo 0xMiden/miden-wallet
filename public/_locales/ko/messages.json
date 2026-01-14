@@ -533,8 +533,8 @@
     "englishSource": "Reset Extension"
   },
   "resetExtensionConfirmation": {
-    "message": "타노스 지갑을 정말로 초기화하시겠습니까?\n그 결과 모든 데이터가 삭제됩니다.",
-    "englishSource": "Are you sure you want to reset the Leo Wallet?\nAs a result, all your data will be deleted."
+    "message": "정말로 Miden 지갑을 재설정하시겠습니까?\n결과적으로 모든 데이터가 삭제됩니다.",
+    "englishSource": "Are you sure you want to reset the Miden Wallet?\nAs a result, all your data will be deleted."
   },
   "failedToResetExtension": {
     "message": "익스텐션 초기화 실패: $errorMessage$",
@@ -767,8 +767,8 @@
     "englishSource": "DApps"
   },
   "dAppsDescription": {
-    "message": "이 섹션에서 타노스 지갑을 지원하는 분산 애플리케이션과 상호 소통하는 기능을 활성화할 수 있습니다.",
-    "englishSource": "In this section you can enable ability to interact with decentralized applications that support Leo Wallet."
+    "message": "이 섹션에서는 Miden Wallet을 지원하는 분산 애플리케이션과 상호 작용하는 기능을 활성화할 수 있습니다.",
+    "englishSource": "In this section you can enable ability to interact with decentralized applications that support Miden Wallet."
   },
   "networksDescription": {
     "message": "이 섹션에서 맞춤형 테조스 네트워크를 추가하거나 삭제할 수 있습니다.",
@@ -796,8 +796,8 @@
     "englishSource": "About This App"
   },
   "aboutDescription": {
-    "message": "이 섹션을 활용하여 타노스 지갑에 관한 메타 징보를 확인하세요.",
-    "englishSource": "Use this section to view meta info about Leo Wallet."
+    "message": "이 섹션을 사용하여 Miden Wallet에 대한 메타 정보를 확인하세요.",
+    "englishSource": "Use this section to view meta info about Miden Wallet."
   },
   "unlockWallet": {
     "message": "지갑 잠금 해제",
@@ -1993,8 +1993,8 @@
     "englishSource": "Got it"
   },
   "changelogTitle": {
-    "message": "레오 지갑 업데이트",
-    "englishSource": "Leo Wallet updated"
+    "message": "Miden 지갑이 업데이트되었습니다.",
+    "englishSource": "Miden Wallet updated"
   },
   "changelogDescription": {
     "message": "이번 업데이트에서",
@@ -3533,8 +3533,8 @@
     "englishSource": "Advanced Settings"
   },
   "advancedSettingsDescription": {
-    "message": "Leo Wallet의 문제를 디버깅하고 진단하는 데 도움이 되는 도구입니다.",
-    "englishSource": "Tools to help you debug and diagnose issues with Leo Wallet."
+    "message": "Miden Wallet 문제를 디버그하고 진단하는 데 도움이 되는 도구입니다.",
+    "englishSource": "Tools to help you debug and diagnose issues with Miden Wallet."
   },
   "resync": {
     "message": "재동기화",
@@ -3951,8 +3951,8 @@
     "englishSource": "Here you can configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
   },
   "mainAssetBalanceIsZero": {
-    "message": "귀하의 알레오 크레딧(주 자산) 잔액이 0입니다. 수수료를 지불하려면 Aleo 크레딧이 필요합니다.",
-    "englishSource": "Your aleo credits (main asset) balance is zero. Aleo credits are required for the fee."
+    "message": "귀하의 Miden 크레딧(주 자산) 잔액이 0입니다. 수수료에는 Miden 크레딧이 필요합니다.",
+    "englishSource": "Your Miden credits (main asset) balance is zero. Miden credits are required for the fee."
   },
   "stake": {
     "message": "말뚝",
@@ -4521,7 +4521,7 @@
     "englishSource": "Auto Consume MIDEN notes"
   },
   "autoConsumeSettingsDescription": {
-    "message": "자동 소비는 공식 Miden 수도꼭지의 노트를 자동으로 소비합니다.",
+    "message": "자동 소비는 공식 Miden Faucet의 노트를 자동으로 소비합니다.",
     "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
@@ -5015,5 +5015,13 @@
   "languageDescription": {
     "message": "표시 언어 변경",
     "englishSource": "Change the display language"
+  },
+  "thousandFormat": {
+    "message": "$천$k",
+    "englishSource": "$thousand$k"
+  },
+  "millionFormat": {
+    "message": "$백만$M",
+    "englishSource": "$million$M"
   }
 }

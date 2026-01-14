@@ -606,8 +606,8 @@
     "englishSource": "Reset Extension"
   },
   "resetExtensionConfirmation": {
-    "message": "是否確定要重設 Aleo 錢包？\n您所有的資料將因此刪除。",
-    "englishSource": "Are you sure you want to reset the Leo Wallet?\nAs a result, all your data will be deleted."
+    "message": "您确定要重置 Miden 钱包吗？\n结果，您的所有数据都将被删除。",
+    "englishSource": "Are you sure you want to reset the Miden Wallet?\nAs a result, all your data will be deleted."
   },
   "failedToResetExtension": {
     "message": "無法重設擴充功能：$errorMessage$",
@@ -840,8 +840,8 @@
     "englishSource": "DApps"
   },
   "dAppsDescription": {
-    "message": "在此區段，您可以啟用與支援 Aleo 錢包的分散式應用程式互動的能力。",
-    "englishSource": "In this section you can enable ability to interact with decentralized applications that support Leo Wallet."
+    "message": "在此部分中，您可以启用与支持 Miden Wallet 的去中心化应用程序交互的能力。",
+    "englishSource": "In this section you can enable ability to interact with decentralized applications that support Miden Wallet."
   },
   "networksDescription": {
     "message": "在此區段，您可以新增或刪除自訂的 Aleo 網路。",
@@ -869,8 +869,8 @@
     "englishSource": "About This App"
   },
   "aboutDescription": {
-    "message": "使用此區段檢視 Aleo 錢包的元資料。",
-    "englishSource": "Use this section to view meta info about Leo Wallet."
+    "message": "使用此部分查看有关 Miden 钱包的元信息。",
+    "englishSource": "Use this section to view meta info about Miden Wallet."
   },
   "unlockWallet": {
     "message": "解鎖錢包",
@@ -2141,8 +2141,8 @@
     "englishSource": "Got it"
   },
   "changelogTitle": {
-    "message": "Leo 钱包已更新",
-    "englishSource": "Leo Wallet updated"
+    "message": "Miden 钱包更新",
+    "englishSource": "Miden Wallet updated"
   },
   "changelogDescription": {
     "message": "在本次更新中",
@@ -3567,8 +3567,8 @@
     "englishSource": "Advanced Settings"
   },
   "advancedSettingsDescription": {
-    "message": "帮助您调试和诊断 Leo 钱包问题的工具。",
-    "englishSource": "Tools to help you debug and diagnose issues with Leo Wallet."
+    "message": "可帮助您调试和诊断 Miden 钱包问题的工具。",
+    "englishSource": "Tools to help you debug and diagnose issues with Miden Wallet."
   },
   "resync": {
     "message": "重新同步",
@@ -3902,8 +3902,8 @@
     "englishSource": "Here you can configure delegation of proof generation to a remote server. This will speed up proof generation but disclose the transaction details to a trusted server."
   },
   "mainAssetBalanceIsZero": {
-    "message": "您的 aleo 积分（主要资产）余额为零。费用需要 Aleo 积分。",
-    "englishSource": "Your aleo credits (main asset) balance is zero. Aleo credits are required for the fee."
+    "message": "您的 Miden 积分（主要资产）余额为零。费用需要 Miden 积分。",
+    "englishSource": "Your Miden credits (main asset) balance is zero. Miden credits are required for the fee."
   },
   "stake": {
     "message": "赌注",
@@ -4966,5 +4966,17 @@
   "languageDescription": {
     "message": "更改显示语言",
     "englishSource": "Change the display language"
+  },
+  "thousandFormat": {
+    "message": "$千$千",
+    "englishSource": "$thousand$k"
+  },
+  "millionFormat": {
+    "message": "$百万$M",
+    "englishSource": "$million$M"
+  },
+  "billionFormat": {
+    "message": "十亿美元B",
+    "englishSource": "$billion$B"
   }
 }
