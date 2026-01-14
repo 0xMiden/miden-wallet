@@ -20,11 +20,11 @@
     "englishSource": "Import account"
   },
   "faucetFileTitle": {
-    "message": "Faucet File",
+    "message": "Faucet Dosyası",
     "englishSource": "Faucet File"
   },
   "faucetFile": {
-    "message": "Faucet file",
+    "message": "Faucet dosyası",
     "englishSource": "Faucet file"
   },
   "settings": {
@@ -282,7 +282,7 @@
     "englishSource": "Aleo Faucet"
   },
   "aleoFaucetAlpha": {
-    "message": "Aleo Faucet (Alpha)",
+    "message": "Aleo Faucet (Alfa)",
     "englishSource": "Aleo Faucet (Alpha)"
   },
   "depositToWallet": {
@@ -290,7 +290,7 @@
     "englishSource": "Deposit to your wallet"
   },
   "depositToWalletDescription": {
-    "message": "Click on deposit method to get money on your wallet. Use faucet to get free coins!",
+    "message": "Cüzdanınıza para almak için para yatırma yöntemine tıklayın. Bedava para kazanmak için Faucet kullanın!",
     "englishSource": "Click on deposit method to get money on your wallet. Use faucet to get free coins!"
   },
   "addToken": {
@@ -301,15 +301,15 @@
     "message": "Varlık Ekle",
     "englishSource": "Add Asset"
   },
-  "contractNotAvailable": {
+  "contractNoteeeAvailable": {
     "message": "Bu adresteki sözleşme kullanılabilir değil. Bu ağda var mı?",
-    "englishSource": "The contract at this address is not available. Does it exist on this network?"
+    "englishSource": "The contract at this address is noteee available. Does it exist on this network?"
   },
   "noTransferMethod": {
     "message": "Transfer yöntemi yok",
     "englishSource": "No transfer method"
   },
-  "tokenDoesNotMatchStandard": {
+  "tokenDoesNoteeeMatchStandard": {
     "message": "Verilen varlık sözleşme $standard$ standardı ile eşleşmiyor",
     "placeholders": {
       "standard": {
@@ -450,13 +450,13 @@
     "message": "Geçersiz adres",
     "englishSource": "Invalid address"
   },
-  "contractNotExistOnNetwork": {
+  "contractNoteeeExistOnNetwork": {
     "message": "Bu akıllı sözleşme mevcut ağda yok",
     "englishSource": "This smart contract doesn't exist on current network"
   },
   "onlyKTContractAddressAllowed": {
     "message": "Yalnızca KT... sözleşme adresine izin verilir",
-    "description": "KT not translated",
+    "description": "KT noteee translated",
     "englishSource": "Only KT... contract address allowed"
   },
   "operationHash": {
@@ -482,7 +482,7 @@
   },
   "defaultManagedKTAccountName": {
     "message": "Yönetilen KT $accountNumber$",
-    "description": "KT not translated",
+    "description": "KT noteee translated",
     "placeholders": {
       "accountNumber": {
         "content": "$1"
@@ -500,10 +500,10 @@
     "englishSource": "Watch $accountNumber$"
   },
   "accountsToRemoveConstraint": {
-    "message": "Your seed phrase will always be able to regenerate this wallet. It is impossible to delete it.",
+    "message": "Tohum ifadeniz her zaman bu cüzdanı yeniden oluşturabilecektir. Onu silmek imkansızdır.",
     "englishSource": "Your seed phrase will always be able to regenerate this wallet. It is impossible to delete it."
   },
-  "doNotSharePrivateKey": {
+  "doNoteeeSharePrivateKey": {
     "message": "Bu karakter dizisini kimseyle <b>PAYLAŞMAYIN</b>! Mevcut hesabınızı çalmak için kullanılabilir."
   },
   "appWouldLikeToConnectToYourWallet": {
@@ -651,18 +651,18 @@
     "message": "Yeniden dene",
     "englishSource": "Retry"
   },
-  "privateKeyCannotBeRevealed": {
+  "privateKeyCannoteeeBeRevealed": {
     "message": "Özel anahtar ifşa edilemez",
-    "englishSource": "Private key cannot be revealed"
+    "englishSource": "Private key cannoteee be revealed"
   },
-  "youCannotGetPrivateKeyFromThisAccountType": {
+  "youCannoteeeGetPrivateKeyFromThisAccountType": {
     "message": "$accountType$ hesaplarından özel anahtar alamazsınız.",
     "placeholders": {
       "accountType": {
         "content": "$1"
       }
     },
-    "englishSource": "You cannot get private key from $accountType$ accounts."
+    "englishSource": "You cannoteee get private key from $accountType$ accounts."
   },
   "maximalAmount": {
     "message": "En fazla: $amount$",
@@ -690,7 +690,7 @@
     "englishSource": "Create a new Wallet"
   },
   "createNewWalletDescription": {
-    "message": "New to Leo Wallet? Let's set it up! This will create a new wallet and seed phrase",
+    "message": "Leo Cüzdan'da yeni misiniz? Hadi ayarlayalım! Bu, yeni bir cüzdan ve Seed Phrase yaratacaktır",
     "englishSource": "New to Leo Wallet? Let's set it up! This will create a new wallet and seed phrase"
   },
   "delegate": {
@@ -762,7 +762,7 @@
     "englishSource": "Custom derivation path"
   },
   "mnemonicInputLabel": {
-    "message": "Seed phrase",
+    "message": "Seed Phrase",
     "englishSource": "Seed phrase"
   },
   "mnemonicInputDescription": {
@@ -823,12 +823,7 @@
     "englishSource": "Something went wrong"
   },
   "faucetFileInputPrompt": {
-    "message": "Drag & drop a file or select it manually by clicking on the area below. You can download it from $link$.",
-    "placeholders": {
-      "link": {
-        "content": "$1"
-      }
-    },
+    "message": "Sürüklemek $link$ .",
     "englishSource": "Drag & drop a file or select it manually by clicking on the area below. You can download it from $link$."
   },
   "processing": {
@@ -839,9 +834,9 @@
     "message": "Kukai cüzdanı içe aktarılırken hata oluştu",
     "englishSource": "Error while importing Kukai wallet"
   },
-  "selectedFileFormatNotSupported": {
+  "selectedFileFormatNoteeeSupported": {
     "message": "Seçilen dosya formatı desteklenmiyor",
-    "englishSource": "The selected file format is not supported"
+    "englishSource": "The selected file format is noteee supported"
   },
   "fileHasSyntaxError": {
     "message": "Dosyada söz dizimi hatası var. Dosyanın doğru olduğundan emin olun.",
@@ -856,8 +851,8 @@
     "englishSource": "Only files of version 3 can be processed"
   },
   "kukaiWalletTypeError": {
-    "message": "Cannot reveal seed phrase for this wallet type",
-    "englishSource": "Cannot reveal seed phrase for this wallet type"
+    "message": "Bu cüzdan türü için çekirdek ifade görüntülenemiyor",
+    "englishSource": "Cannotee reveal seed phrase for this wallet type"
   },
   "accountAddressLabel": {
     "message": "Mevcut hesap adresiniz. Fon almak için paylaşın.",
@@ -884,11 +879,11 @@
     "englishSource": "Also known as \"Export Account\", reveals private key for your selected account."
   },
   "revealSeedPhrase": {
-    "message": "Reveal Seed Phrase",
+    "message": "Seed Phraseni Ortaya Çıkar",
     "englishSource": "Reveal Seed Phrase"
   },
   "revealSeedPhraseDescription": {
-    "message": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices.",
+    "message": "\"Cüzdanı Dışa Aktar\" olarak da bilinen bu başlangıç ​​ifadesine, diğer cihazlardaki cüzdanınıza ve hesaplarınıza erişmek için ihtiyacınız olabilir.",
     "englishSource": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices."
   },
   "dApps": {
@@ -910,7 +905,7 @@
     "englishSource": "Activate Account"
   },
   "activateAccountDescription": {
-    "message": "It may be necessary for ICO/Fundraiser or testnet faucet accounts.",
+    "message": "ICO/Bağış Toplama veya testnet Faucet hesapları için gerekli olabilir.",
     "englishSource": "It may be necessary for ICO/Fundraiser or testnet faucet accounts."
   },
   "removeAccount": {
@@ -946,11 +941,11 @@
     "englishSource": "Unlock"
   },
   "importNewAccountTitle": {
-    "message": "Hesap Kurtarılsın mı? Başka bir hesapta oturum açmak istiyor musunuz?",
-    "englishSource": "Restore Account? Want to sign in another?"
+    "message": "Hesap Geri Yüklensin mi? Başka bir oturum açmak ister misiniz?",
+    "englishSource": "Restore Account? Want to sign in anoteeher?"
   },
   "importWalletUsingSeedPhrase": {
-    "message": "Import Wallet using Seed Phrase",
+    "message": "Seed Phraseni Kullanarak Cüzdanı İçe Aktarın",
     "englishSource": "Import Wallet using Seed Phrase"
   },
   "connectLedger": {
@@ -963,7 +958,7 @@
     "englishSource": "Import existing Wallet"
   },
   "importExistingWalletDescription": {
-    "message": "Already have a wallet? Import it using your seed phrase or encrypted keystore file",
+    "message": "Zaten bir cüzdanınız var mı? Tohum ifadenizi veya şifrelenmiş anahtar deposu dosyanızı kullanarak içe aktarın",
     "englishSource": "Already have a wallet? Import it using your seed phrase or encrypted keystore file"
   },
   "links": {
@@ -1006,16 +1001,16 @@
     "message": "Hesap etkinleştirilecek.",
     "englishSource": "Account to be activated."
   },
-  "ifYouWantToActivateAnotherAccount": {
+  "ifYouWantToActivateAnoteeeherAccount": {
     "message": "Başka bir hesabı etkinleştirmek istiyorsanız lütfen sağ üst açılır menüden seçin.",
-    "englishSource": "If you want to activate another account - please, select it in the top-right dropdown."
+    "englishSource": "If you want to activate anoteeeher account - please, select it in the top-right dropdown."
   },
   "activateAccountSecret": {
     "message": "Gizli Anahtar",
     "englishSource": "Secret"
   },
   "activateAccountSecretDescription": {
-    "message": "'secret' field from Fundraiser Account or Faucet",
+    "message": "Bağış Toplama Hesabı veya Faucettan 'gizli' alan",
     "englishSource": "'secret' field from Fundraiser Account or Faucet"
   },
   "activateAccountSecretPlaceholder": {
@@ -1050,9 +1045,9 @@
     "message": "Varlık",
     "englishSource": "Asset"
   },
-  "selectAnotherAssetPrompt": {
+  "selectAnoteeeherAssetPrompt": {
     "message": "Başka bir varlık ya da token seçmek için alana tıklayın.",
-    "englishSource": "Click on area to select another asset or token."
+    "englishSource": "Click on area to select anoteeeher asset or token."
   },
   "disable": {
     "message": "devre dışı bırak",
@@ -1142,8 +1137,8 @@
     "englishSource": "Unknown baker"
   },
   "unknownBakerDescription": {
-    "message": "Verilen adres sistemimizde fırıncı olarak görünmüyor! Bu adrese fon devretme riskinin sorumluluğu size aittir.",
-    "englishSource": "Provided address is not known to us as a baker! Only delegate funds to it at your own risk."
+    "message": "Verilen adres bir fırıncı olarak bizim tarafımızdan bilinmiyor! Yalnızca risk size ait olmak üzere fonları ona devredin.",
+    "englishSource": "Provided address is notee known to us as a baker! Only delegate funds to it at your own risk."
   },
   "delegateToRecommendedBakers": {
     "message": "Önerilen Fırıncılara Devret",
@@ -1173,22 +1168,22 @@
     },
     "englishSource": "$amount$ cycles"
   },
-  "notEnoughFunds": {
+  "noteeeEnoughFunds": {
     "message": "Yeterli fon yok",
-    "englishSource": "Not enough funds"
+    "englishSource": "Noteee enough funds"
   },
-  "notEnoughCurrencyFunds": {
+  "noteeeEnoughCurrencyFunds": {
     "message": "Yeterli $currency$ fonu yok",
     "placeholders": {
       "currency": {
         "content": "$1"
       }
     },
-    "englishSource": "Not enough $currency$ funds"
+    "englishSource": "Noteee enough $currency$ funds"
   },
-  "notAllowed": {
+  "noteeeAllowed": {
     "message": "İzin verilmiyor",
-    "englishSource": "Not allowed"
+    "englishSource": "Noteee allowed"
   },
   "failed": {
     "message": "Başarısız",
@@ -1203,12 +1198,12 @@
     "englishSource": "Minimal fee for this transaction is greater than your balance."
   },
   "alreadyDelegatedFundsToBaker": {
-    "message": "Bu fırıncıya zaten fon devredildi. Yeniden delegasyon mümkün değil.",
-    "englishSource": "Already delegated funds to this baker. Re-delegation is not possible."
+    "message": "Bu fırıncıya zaten fon aktarıldı. Yeniden yetki devri mümkün değildir.",
+    "englishSource": "Already delegated funds to this baker. Re-delegation is notee possible."
   },
-  "bakerNotRegistered": {
+  "bakerNoteeeRegistered": {
     "message": "Belirtilen fırıncı kayıtlı değil.",
-    "englishSource": "Specified baker is not registered."
+    "englishSource": "Specified baker is noteee registered."
   },
   "unableToPerformActionToBaker": {
     "message": "Sağlanan Fırıncı için $action$ işlemi gerçekleştirilemiyor.",
@@ -1270,8 +1265,8 @@
     "englishSource": "Confirm Decryption Permission"
   },
   "confirmDecryptionPermissionDescription": {
-    "message": "Bu, geçmişinize kalıcı erişim sağlar ve iptal edilemez.",
-    "englishSource": "This will give permanent access to your history and cannot be revoked."
+    "message": "Bu, geçmişinize kalıcı erişim sağlayacaktır ve iptal edilemez.",
+    "englishSource": "This will give permanent access to your history and cannotee be revoked."
   },
   "confirmRisk": {
     "message": "Riski anlıyorum ve devam etmek istiyorum.",
@@ -1282,16 +1277,16 @@
     "englishSource": "Decryption Permission"
   },
   "NO_DECRYPT": {
-    "message": "Bu uygulama, görünüm anahtarlarınızdan herhangi birini kullanarak herhangi bir kaydın şifresini çözemez.",
-    "englishSource": "This app cannot decrypt any record using any of your view keys."
+    "message": "Bu uygulama, görüntüleme anahtarlarınızdan herhangi birini kullanarak hiçbir kaydın şifresini çözemez.",
+    "englishSource": "This app cannotee decrypt any record using any of your view keys."
   },
   "DECRYPT_UPON_REQUEST": {
     "message": "Bu uygulama, yalnızca sizin açık onayınızla kayıtların şifresini çözebilir. Herhangi bir şifre çözme isteği istenecektir.",
     "englishSource": "This app can only decrypt records with your explicit approval. You will be prompted for any decryption request."
   },
   "AUTO_DECRYPT": {
-    "message": "Bu uygulama, yalnızca cüzdanınız bağlıyken açık bir izin olmadan ihtiyaç duyduğu herhangi bir kaydın şifresini otomatik olarak çözebilir. ViewKey'inizi göremez.",
-    "englishSource": "This app can automatically decrypt any record it needs to without explicit permission only while your wallet is connected. It cannot see your ViewKey."
+    "message": "Bu uygulama, yalnızca cüzdanınız bağlıyken, açık izin gerektirmeden ihtiyaç duyduğu herhangi bir kaydın şifresini otomatik olarak çözebilir. ViewKey'inizi göremiyor.",
+    "englishSource": "This app can automatically decrypt any record it needs to without explicit permission only while your wallet is connected. It cannotee see your ViewKey."
   },
   "network": {
     "message": "Ağ",
@@ -1302,7 +1297,7 @@
     "englishSource": "Unknown:"
   },
   "backupNewSeedPhrase": {
-    "message": "New Seed Phrase",
+    "message": "Yeni Seed Phrase",
     "englishSource": "New Seed Phrase"
   },
   "attentionExclamation": {
@@ -1378,22 +1373,22 @@
     "englishSource": "Import"
   },
   "revealNewSeedPhrase": {
-    "message": "<b>Click on area below</b> to reveal your new Seed Phrase.\nThen, write this phrase on a piece of paper and <b>store in a secure location</b>. Or you can memorize it.",
+    "message": "Yeni Kaynak Cümlenizi ortaya çıkarmak için <b>aşağıdaki alanı tıklayın</b>.\nDaha sonra bu ifadeyi bir kağıda yazın ve <b>güvenli bir yerde saklayın</b>. Veya ezberleyebilirsiniz.",
     "englishSource": "<b>Click on area below</b> to reveal your new Seed Phrase.\nThen, write this phrase on a piece of paper and <b>store in a secure location</b>. Or you can memorize it."
   },
-  "doNotSharePhrase": {
+  "doNoteeeSharePhrase": {
     "message": "Bu sözcüğü kimseyle <b>PAYLAŞMAYIN</b>! Tüm hesaplarınızı çalmak için kullanılabilir."
   },
   "youWillNeedThisSeedPhrase": {
-    "message": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever.",
-    "englishSource": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever."
+    "message": "Lütfen gizli kurtarma ifadenizi yazın ve güvenli bir yerde saklayın. Bu ifade, hesabınızı kurtarmanın tek yoludur. Kimseyle paylaşmayın. Bu ifadeyi kullanan herkes varlıklarınızı sonsuza kadar alabilir.",
+    "englishSource": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do notee share it with anyone. Anyone with this phrase can take your assets forever."
   },
   "unableToContinueWithoutConfirming": {
     "message": "Onaylamadan devam edilemiyor",
     "englishSource": "Unable to continue without confirming"
   },
   "backupedInputLabel": {
-    "message": "I made Seed Phrase backup",
+    "message": "Seed Phrase yedeğini aldım",
     "englishSource": "I made Seed Phrase backup"
   },
   "backupedInputDescription": {
@@ -1441,13 +1436,13 @@
     "message": "Kaldırılacak hesap.",
     "englishSource": "Account to be removed."
   },
-  "ifYouWantToRemoveAnotherAccount": {
+  "ifYouWantToRemoveAnoteeeherAccount": {
     "message": "Başka bir hesabı kaldırmak istiyorsanız sağ üst açılır menüden seçin.",
-    "englishSource": "If you want to remove another account - select it in the top-right dropdown."
+    "englishSource": "If you want to remove anoteeeher account - select it in the top-right dropdown."
   },
-  "cannotBeRemoved": {
+  "cannoteeeBeRemoved": {
     "message": "Kaldırılamıyor",
-    "englishSource": "Cannot be removed"
+    "englishSource": "Cannoteee be removed"
   },
   "importedPlural": {
     "message": "içe aktarıldı",
@@ -1462,8 +1457,8 @@
     "englishSource": "Remove"
   },
   "ifYouWantToRevealPrivateKeyFromOtherAccount": {
-    "message": "Başka bir hesaptaki özel anahtarı göstermek istiyorsanız sağ üst açılır menüden seçmeniz gerekir.",
-    "englishSource": "If you want to reveal a view key from another account - you should select it in the top-right dropdown."
+    "message": "Başka bir hesaptaki bir görüntüleme anahtarını ortaya çıkarmak istiyorsanız bunu sağ üstteki açılır menüden seçmelisiniz.",
+    "englishSource": "If you want to reveal a view key from anoteeher account - you should select it in the top-right dropdown."
   },
   "privateKeyFieldDescription": {
     "message": "Mevcut hesap anahtarı. Kimseyle paylaşmayın.",
@@ -1486,8 +1481,7 @@
     "englishSource": "Seed Phrase"
   },
   "pathForHDAccounts": {
-    "message": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase.",
-    "description": "HD = Hierarchical Deterministic",
+    "message": "HD hesaplar için. Bu, tüm hesaplarınızı tohum ifadenizden kurtarmak için kullandığınız şeydir.",
     "englishSource": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase."
   },
   "derivationPathExample": {
@@ -1499,7 +1493,7 @@
     "englishSource": "e.g. m/44'/1729'/..."
   },
   "keepSeedPhraseSecret": {
-    "message": "Keep it in secret.",
+    "message": "Bunu gizli tut.",
     "englishSource": "Keep it in secret."
   },
   "revealSecretPasswordInputDescription": {
@@ -1604,7 +1598,7 @@
     "englishSource": "Unable to estimate transaction to provided Recipient."
   },
   "makeSureToBackupSeedPhrase": {
-    "message": "Make sure to back up your seed phrase!",
+    "message": "Tohum ifadenizi yedeklediğinizden emin olun!",
     "englishSource": "Make sure to back up your seed phrase!"
   },
   "exploreMore": {
@@ -1645,8 +1639,8 @@
     "englishSource": "Current networks"
   },
   "deleteNetworkHint": {
-    "message": "Ağı silmek için X simgesine tıklayın. Ağı düzenlemek için ağı silin ve yeni parametrelerle başka bir ağ ekleyin.",
-    "englishSource": "Click on the X icon to delete the network. If you want to edit network, just delete it and add another with new params."
+    "message": "Ağı silmek için X simgesine tıklayın. Ağı düzenlemek istiyorsanız, onu silin ve yeni parametrelerle başka bir tane ekleyin.",
+    "englishSource": "Click on the X icon to delete the network. If you want to edit network, just delete it and add anoteeher with new params."
   },
   "preview": {
     "message": "Önizleme",
@@ -1660,9 +1654,9 @@
     "message": "konfirmasyon bilgileri alınıyor",
     "englishSource": "fetching confirmation details"
   },
-  "notIdentified": {
+  "noteeeIdentified": {
     "message": "Tanımlanmadı",
-    "englishSource": "Not identified"
+    "englishSource": "Noteee identified"
   },
   "connection": {
     "message": "Bağlantı",
@@ -1759,7 +1753,7 @@
   },
   "languageAndCountry": {
     "message": "Varsayılan olarak tarayıcınızın dilini kullanırız. Hoşunuza gitmediyse aşağıda değiştirin.",
-    "englishSource": "By default, we use the language of your browser. Change it below if that's not to your liking."
+    "englishSource": "By default, we use the language of your browser. Change it below if that's notee to your liking."
   },
   "generalSettings": {
     "message": "Genel",
@@ -1885,9 +1879,9 @@
     "message": "Aktivasyon",
     "englishSource": "Activation"
   },
-  "youAreNotContractManager": {
+  "youAreNoteeeContractManager": {
     "message": "Sözleşme yöneticisi değilsiniz",
-    "englishSource": "You are not a contract manager"
+    "englishSource": "You are noteee a contract manager"
   },
   "contract": {
     "message": "Sözleşme",
@@ -1909,9 +1903,9 @@
     "message": "İçe aktarmak istediğiniz Sözleşmeye tıklayın.",
     "englishSource": "Click on Contract you want to import."
   },
-  "notContractAddress": {
+  "noteeeContractAddress": {
     "message": "Sözleşme adresi değil",
-    "englishSource": "Not a contract address"
+    "englishSource": "Noteee a contract address"
   },
   "contractAlreadyImported": {
     "message": "Bu sözleşme zaten içe aktarılmış",
@@ -1934,23 +1928,23 @@
     },
     "englishSource": "Contract address $address$, which is referred by token contract to, is invalid."
   },
-  "someNetworkIsNotCurrent": {
+  "someNetworkIsNoteeeCurrent": {
     "message": "$network$ ağı belirtildi ve bu ağ, mevcut ağ değil",
     "placeholders": {
       "network": {
         "content": "$1"
       }
     },
-    "englishSource": "$network$ network was specified, which is not current network"
+    "englishSource": "$network$ network was specified, which is noteee current network"
   },
-  "someNetworkWithChainIdIsNotCurrent": {
+  "someNetworkWithChainIdIsNoteeeCurrent": {
     "message": "Zincir kimliği $chainId$ belirtildi ve bu kimlik, mevcut ağın zincir kimliği değil",
     "placeholders": {
       "chainId": {
         "content": "$1"
       }
     },
-    "englishSource": "Chain ID $chainId$ was specified, which is not chain ID of current network"
+    "englishSource": "Chain ID $chainId$ was specified, which is noteee chain ID of current network"
   },
   "popupSettings": {
     "message": "Açılır mesaj modu",
@@ -1972,18 +1966,18 @@
     "message": "Yönetilen Sözleşme",
     "englishSource": "Managed Contract"
   },
-  "referredByTokenContractNotFound": {
+  "referredByTokenContractNoteeeFound": {
     "message": "Token sözleşmesinin başvurduğu sözleşme $address$ bulunamadı.",
     "placeholders": {
       "address": {
         "content": "$1"
       }
     },
-    "englishSource": "Contract $address$, which is referred by token contract to, was not found."
+    "englishSource": "Contract $address$, which is referred by token contract to, was noteee found."
   },
-  "tokenContractNotFound": {
+  "tokenContractNoteeeFound": {
     "message": "Sözleşme bulunamadı.",
-    "englishSource": "The contract was not found."
+    "englishSource": "The contract was noteee found."
   },
   "failedToParseMetadata": {
     "message": "Meta veriler ayrıştırılamadı",
@@ -2006,7 +2000,7 @@
     "message": "Geçersiz yönetilen sözleşme",
     "englishSource": "Invalid managed contract"
   },
-  "someMethodNotDefinedInContract": {
+  "someMethodNoteeeDefinedInContract": {
     "message": "'$name$' yöntemi sözleşmede tanımlı değil.",
     "placeholders": {
       "name": {
@@ -2015,7 +2009,7 @@
     },
     "englishSource": "'$name$' method isn't defined in contract."
   },
-  "someMethodSignatureDoesNotMatchStandard": {
+  "someMethodSignatureDoesNoteeeMatchStandard": {
     "message": "'$name$' yönteminin imzası standart ile uyuşmuyor.",
     "placeholders": {
       "name": {
@@ -2174,12 +2168,11 @@
   },
   "invalidRpcCantGetChainId": {
     "message": "Geçersiz RPC: Zincir kimliği alınamıyor",
-    "description": "RPC = Remote Procedure Call (https://en.wikipedia.org/wiki/Remote_procedure_call)",
-    "englishSource": "Invalid RPC: Cannot get chain id"
+    "englishSource": "Invalid RPC: Cannotee get chain id"
   },
-  "contractNotOriginated": {
+  "contractNoteeeOriginated": {
     "message": "Sözleşme oluşturulmadı",
-    "englishSource": "Contract not originated"
+    "englishSource": "Contract noteee originated"
   },
   "welcomeTo": {
     "message": "Hoş geldiniz",
@@ -2209,16 +2202,16 @@
     "message": "Geçersiz JSON",
     "englishSource": "Invalid JSON"
   },
-  "notFaucetJson": {
-    "message": "Not a faucet JSON",
-    "englishSource": "Not a faucet JSON"
+  "noteeeFaucetJson": {
+    "message": "Noteee a faucet JSON",
+    "englishSource": "Noteee a faucet JSON"
   },
   "faucetJson": {
     "message": "Faucet JSON",
     "englishSource": "Faucet JSON"
   },
   "faucetJsonDescription": {
-    "message": "You can paste JSON here instead of adding file",
+    "message": "Dosya eklemek yerine JSON'u buraya yapıştırabilirsiniz",
     "englishSource": "You can paste JSON here instead of adding file"
   },
   "unknownErrorFromRPC": {
@@ -2290,9 +2283,9 @@
     "message": "Alınan minimum",
     "englishSource": "Minimum received"
   },
-  "inputOutputAssetsCannotBeSame": {
+  "inputOutputAssetsCannoteeeBeSame": {
     "message": "Giriş ve çıkış varlıkları aynı olamaz",
-    "englishSource": "Input and output assets cannot be the same"
+    "englishSource": "Input and output assets cannoteee be the same"
   },
   "amountMustBeReservedForNetworkFees": {
     "message": "Ağ ücretlerini ödemek için $amount$ ayrılmalıdır",
@@ -2327,9 +2320,9 @@
     "message": "Token kimliğini belirtin",
     "englishSource": "Specify token ID"
   },
-  "notWhitelistedTokenWarning": {
+  "noteeeWhitelistedTokenWarning": {
     "message": "Dikkat! Alım satım yapmak istediğiniz token'lerin biri beyaz listeye alınmamış. Bu işlemi riskin sorumluluğunu üstlenerek yapabilirsiniz.",
-    "englishSource": "Attention! One of the tokens you’re trying to exchange is not whitelisted. You can interact with them at your own risk."
+    "englishSource": "Attention! One of the tokens you’re trying to exchange is noteee whitelisted. You can interact with them at your own risk."
   },
   "tvl": {
     "message": "TVL",
@@ -2590,16 +2583,16 @@
     "englishSource": "Own"
   },
   "counterErrorDescription": {
-    "message": "Bu işlemi şu anda gerçekleştiremezsiniz!\nLütfen önceki işleminiz uygulanana kadar bekleyin ve bundan sonra yeniden deneyin.",
-    "englishSource": "You can not conduct the operation at the moment!\nPlease, wait when your previous operation is applied and retry."
+    "message": "Şu anda operasyonu gerçekleştiremezsiniz!\nLütfen bir önceki işleminizin uygulanmasını bekleyip tekrar deneyiniz.",
+    "englishSource": "You can notee conduct the operation at the moment!\nPlease, wait when your previous operation is applied and retry."
   },
   "swapDisclaimerTitle": {
     "message": "Sorumluluk Reddi. Beta version, takas bölümünü kullanmadan önce okuyun.",
     "englishSource": "Disclaimer. Beta version, read before using the SWAP section."
   },
   "swapDisclaimerContent": {
-    "message": "Aleo Wallet, yalnızca Aleo Dexes ile etkileşim kurmayı sağlayan bir arabirim sunar. \n\nŞunlardan sorumlu değiliz: DEX sorunları, görüntülenen token'lar, fiyat, borsa oranları ve kullanıcı alım satım kararları. \n\nTakas Bölümünü kullanmadan önce, ilgili belgeleri inceleyerek DEX(AMM) protokollerinin çalışma şeklini anlamanız gerekir. \n\nBu bölümün kullanılması yalnızca kullanıcının sorumluluğundadır.",
-    "englishSource": "Leo wallet only provides an interface to interact with the Aleo Dexes. \n\nWe are not responsible for: DEX issues, displayed tokens, price, exchange rates, and user trading decisions. \n\nBefore using this Swap Section, you should review the relevant documentation to understand how the DEX(AMM) protocols work. \n\nUsing this section is solely the user's responsibility."
+    "message": "Leo cüzdanı yalnızca Aleo Dex'lerle etkileşime geçmek için bir arayüz sağlar. \n\nŞunlardan sorumlu değiliz: DEX sorunları, görüntülenen tokenlar, fiyat, döviz kurları ve kullanıcı ticaret kararları. \n\nBu Takas Bölümünü kullanmadan önce DEX(AMM) protokollerinin nasıl çalıştığını anlamak için ilgili belgeleri incelemelisiniz. \n\nBu bölümün kullanılması tamamen kullanıcının sorumluluğundadır.",
+    "englishSource": "Leo wallet only provides an interface to interact with the Aleo Dexes. \n\nWe are notee responsible for: DEX issues, displayed tokens, price, exchange rates, and user trading decisions. \n\nBefore using this Swap Section, you should review the relevant documentation to understand how the DEX(AMM) protocols work. \n\nUsing this section is solely the user's responsibility."
   },
   "noContactsFound": {
     "message": "Kişi bulunamadı",
@@ -2610,11 +2603,11 @@
     "englishSource": "Add this address to contacts?"
   },
   "verifySeedPhrase": {
-    "message": "Verify Seed Phrase",
+    "message": "Başlangıç ​​İfadesini Doğrulayın",
     "englishSource": "Verify Seed Phrase"
   },
   "verifySeedPhraseDescription": {
-    "message": "Fill in the blank fields with the words to verify your Seed Phrase backup",
+    "message": "Seed Phrase yedeklemenizi doğrulamak için boş alanları kelimelerle doldurun",
     "englishSource": "Fill in the blank fields with the words to verify your Seed Phrase backup"
   },
   "word": {
@@ -2725,7 +2718,7 @@
     "englishSource": "Transaction ID:"
   },
   "atomDepositMemo": {
-    "message": "Atom Yatırma Notu",
+    "message": "Atom Yatırma Noteeeu",
     "englishSource": "Atom Deposit Memo"
   },
   "recipientAddress": {
@@ -2818,8 +2811,8 @@
     "englishSource": "Min:"
   },
   "warningTopUpServiceMessage": {
-    "message": "Token alım satım özelliği üçüncü taraf hizmetidir. Aleo Wallet, üçüncü taraf hizmetlerin çalışmalarından sorumlu değildir.",
-    "englishSource": "The token exchange feature is provided by a third party. The Leo Wallet is not responsible for the work of third-party services."
+    "message": "Token değişimi özelliği üçüncü bir tarafça sağlanır. Leo Cüzdan üçüncü taraf hizmetlerinin çalışmalarından sorumlu değildir.",
+    "englishSource": "The token exchange feature is provided by a third party. The Leo Wallet is notee responsible for the work of third-party services."
   },
   "clickToRevealField": {
     "message": "Bu alanı ortaya çıkarmak için tıklayın",
@@ -2926,7 +2919,7 @@
     "message": "\"Anahtar deposu dosyası\" parolası, bir uzantı parolası olarak kullanılamayacak kadar zayıf. Yeni bir tane ayarlamanız gerekiyor.",
     "englishSource": "The \"keystore file\" password is too weak to use as an extension password. You need to set a new one."
   },
-  "doNotShareViewKey": {
+  "doNoteeeShareViewKey": {
     "message": "<b>YALNIZCA GÜVENDİĞİNİZ KİŞİLERLE PAYLAŞIN</b> Tüm işlem geçmişinizi görüntülemek için kullanılabilir."
   },
   "signPayload": {
@@ -2958,7 +2951,7 @@
     "englishSource": "Inclusion of at least one special character, e.g., ! @ # ? ] - (optional, recommended)."
   },
   "seedInputNumberOfWords": {
-    "message": "My Seed phrase is $1 words",
+    "message": "Tohum ifadem 1 dolarlık kelimedir",
     "englishSource": "My Seed phrase is $1 words"
   },
   "seedPasteFailedTooManyWords": {
@@ -2966,7 +2959,7 @@
     "englishSource": "Paste failed because it contained over 24 words."
   },
   "seedPhraseTip": {
-    "message": "You can paste your entire secret Seed phrase into any field",
+    "message": "Gizli Seed ifadenizin tamamını herhangi bir alana yapıştırabilirsiniz",
     "englishSource": "You can paste your entire secret Seed phrase into any field"
   },
   "assetMustBeSelected": {
@@ -2981,7 +2974,7 @@
     "message": "Almak",
     "englishSource": "Get"
   },
-  "exolixWarningNote": {
+  "exolixWarningNoteeee": {
     "message": "Please, deposit only $currencyName$ transfer network $networkName$. Otherwise, you may lose your assets permanently.",
     "placeholders": {
       "currencyName": {
@@ -2994,7 +2987,7 @@
     "englishSource": "Please, deposit only $currencyName$ transfer network $networkName$. Otherwise, you may lose your assets permanently."
   },
   "mnemonicInputWarning": {
-    "message": "We don't store your seed phrase. Don't lose it!",
+    "message": "Tohum cümlenizi saklamıyoruz. Sakın kaybetme!",
     "englishSource": "We don't store your seed phrase. Don't lose it!"
   },
   "importWallet": {
@@ -3026,8 +3019,8 @@
     "englishSource": "Routing Fee"
   },
   "routingFeeTooltip": {
-    "message": "Aleo DEX'ler arasında en karlı değişim yolunu seçtiğiniz için.\n\nDEX komisyonları dahil değildir.",
-    "englishSource": "For choosing the most profitable exchange route among Aleo DEXes. \n\nDEXes commissions are not included."
+    "message": "Aleo DEX'ler arasında en karlı değişim rotasını seçtiğiniz için. \n\nDEX komisyonları dahil değildir.",
+    "englishSource": "For choosing the most profitable exchange route among Aleo DEXes. \n\nDEXes commissions are notee included."
   },
   "staking": {
     "message": "esnetme",
@@ -3090,8 +3083,8 @@
     "englishSource": "Address of a registered producer."
   },
   "ifYouWantToRevealViewKeyFromOtherAccount": {
-    "message": "Başka bir hesaptan bir görünüm anahtarını ortaya çıkarmak istiyorsanız - sağ üstteki açılır menüden seçmelisiniz.",
-    "englishSource": "If you want to reveal a view key from another account - you should select it in the top-right dropdown."
+    "message": "Başka bir hesaptaki bir görüntüleme anahtarını ortaya çıkarmak istiyorsanız bunu sağ üstteki açılır menüden seçmelisiniz.",
+    "englishSource": "If you want to reveal a view key from anoteeher account - you should select it in the top-right dropdown."
   },
   "viewKeyFieldDescription": {
     "message": "Cari hesap görünümü anahtarı. Gizli tut. Bu anahtara sahip olan herkes işlem geçmişinizi görebilir",
@@ -3174,8 +3167,8 @@
     "englishSource": "You can use the \"Buy\" button and top up your Aleo Credits balance, using cryptocurrencies, debit, or credit cards."
   },
   "howToStartHint": {
-    "message": "Ayrıca, adresinizi kopyalayabilir ve başka bir cüzdandan veya Exchange'den ona para gönderebilirsiniz. Adresi kopyalamak için ana cüzdan ekranında üzerine tıklayın veya “Al” seçeneğini kullanın.",
-    "englishSource": "Also, you can copy your address and send coins to it from another wallet or Exchange. To copy the address, click on it on the main wallet screen or use “Receive”."
+    "message": "Ayrıca adresinizi kopyalayıp başka bir cüzdandan veya Exchange'den ona para gönderebilirsiniz. Adresi kopyalamak için ana cüzdan ekranında üzerine tıklayın veya “Al” seçeneğini kullanın.",
+    "englishSource": "Also, you can copy your address and send coins to it from anoteeher wallet or Exchange. To copy the address, click on it on the main wallet screen or use “Receive”."
   },
   "tokensCollectibleDetails": {
     "message": "Jetonlar",
@@ -3206,8 +3199,8 @@
     "englishSource": "Next, you will see the “Networks” selector, which allows you to select a node (RPC) to which your Leo extension will be connected."
   },
   "profileRpcHint2": {
-    "message": "Bakiyeniz görüntülenmiyorsa, düğümü değiştirmeyi deneyin.",
-    "englishSource": "If your balance is not displayed, try changing the node."
+    "message": "Bakiyeniz görüntülenmiyorsa düğümü değiştirmeyi deneyin.",
+    "englishSource": "If your balance is notee displayed, try changing the node."
   },
   "profileRpcHint3": {
     "message": "Bunları takip ederek önceden tanımlanmış bir listeden seçim yapabilir veya RPC'yi manuel olarak ekleyebilirsiniz.",
@@ -3254,7 +3247,7 @@
     "englishSource": "Join our communities in Telegram and Discord."
   },
   "congratsDescription6": {
-    "message": "Not: Aleo dünyasını keşfetmede iyi şanslar!",
+    "message": "Noteee: Aleo dünyasını keşfetmede iyi şanslar!",
     "englishSource": "PS: Good luck exploring the Aleo world!"
   },
   "attention": {
@@ -3262,7 +3255,7 @@
     "englishSource": "Attention"
   },
   "attentionDescription": {
-    "message": "Never and under any pretext share your private keys and seed phrase with third parties.",
+    "message": "Hiçbir zaman ve hiçbir bahane altında özel anahtarlarınızı ve tohum ifadenizi üçüncü taraflarla paylaşmayın.",
     "englishSource": "Never and under any pretext share your private keys and seed phrase with third parties."
   },
   "attentionListTitle1": {
@@ -3302,8 +3295,8 @@
     "englishSource": "Use one browser’s tab at a time to make transactions;"
   },
   "attentionListItem8": {
-    "message": "Kullanılmadığı zaman cüzdanı kilitli tutun.",
-    "englishSource": "Keep the wallet locked when it is not in usage."
+    "message": "Kullanılmadığı zamanlarda cüzdanı kilitli tutun.",
+    "englishSource": "Keep the wallet locked when it is notee in usage."
   },
   "takeCare": {
     "message": "Kripto dünyasında güvenliğinize dikkat edin!",
@@ -3522,19 +3515,19 @@
     },
     "englishSource": "Powered by {{companyName}}"
   },
-  "doNotSharePrivateKey1": {
+  "doNoteeeSharePrivateKey1": {
     "message": "kimseyle PAYLAŞMAYIN!",
     "englishSource": "DO NOT share with anyone!"
   },
-  "doNotSharePrivateKey2": {
+  "doNoteeeSharePrivateKey2": {
     "message": "Cari hesabınızı çalmak için kullanılabilir.",
     "englishSource": "It can be used to steal your current account."
   },
-  "doNotShareViewKey1": {
+  "doNoteeeShareViewKey1": {
     "message": "Sadece güvendiğiniz kişilerle paylaşın!",
     "englishSource": "Only share with people you trust!"
   },
-  "doNotShareViewKey2": {
+  "doNoteeeShareViewKey2": {
     "message": "Tüm işlem geçmişinizi görüntülemek için kullanılabilir.",
     "englishSource": "It can be used to view all of your transaction history."
   },
@@ -3655,19 +3648,19 @@
     "message": "Ücretsiz",
     "englishSource": "No Fee"
   },
-  "doNotSharePhrase1": {
+  "doNoteeeSharePhrase1": {
     "message": "Bu cümleyi kimseyle PAYLAŞMAYIN!",
     "englishSource": "DO NOT share this phrase with anyone!"
   },
-  "doNotSharePhrase2": {
+  "doNoteeeSharePhrase2": {
     "message": "Tüm hesaplarınızı çalmak için kullanılabilir.",
     "englishSource": "It can be used to steal all your accounts."
   },
   "changeSeedPhrase": {
-    "message": "Change Seed Phrase",
+    "message": "Başlangıç ​​İfadesini Değiştir",
     "englishSource": "Change Seed Phrase"
   },
-  "feeNotRequired": {
+  "feeNoteeeRequired": {
     "message": "Şu anda herhangi bir ücret talep edilmemektedir.",
     "englishSource": "There is currently no fee required."
   },
@@ -3739,31 +3732,31 @@
     "englishSource": "Faucet"
   },
   "aleoFaucetDescription": {
-    "message": "All distributed credits are for testing purposes and do not have value.",
-    "englishSource": "All distributed credits are for testing purposes and do not have value."
+    "message": "Dağıtılan tüm krediler test amaçlıdır ve herhangi bir değeri yoktur.",
+    "englishSource": "All distributed credits are for testing purposes and do notee have value."
   },
   "aleoFaucetStep1": {
-    "message": "Scan the QR code with your Phone",
+    "message": "Telefonunuzla QR kodunu tarayın",
     "englishSource": "Scan the QR code with your Phone"
   },
   "aleoFaucetStep1Description": {
-    "message": "And click on the prompt it shows you.",
+    "message": "Ve size gösterdiği istemi tıklayın.",
     "englishSource": "And click on the prompt it shows you."
   },
   "aleoFaucetStep2": {
-    "message": "Confirm and send the SMS",
+    "message": "SMS'i onaylayın ve gönderin",
     "englishSource": "Confirm and send the SMS"
   },
   "aleoFaucetStep2Description": {
-    "message": "(Message and data rates may apply)",
+    "message": "(Mesaj ve veri ücretleri geçerli olabilir)",
     "englishSource": "(Message and data rates may apply)"
   },
   "aleoFaucetStep3": {
-    "message": "Get Aleo credits",
+    "message": "Aleo kredileri alın",
     "englishSource": "Get Aleo credits"
   },
   "aleoFaucetStep3Description": {
-    "message": "Aleo Faucet will send you credits.",
+    "message": "Aleo Faucet size kredi gönderecek.",
     "englishSource": "Aleo Faucet will send you credits."
   },
   "deployAction": {
@@ -3844,8 +3837,8 @@
     "englishSource": "GPU Acceleration *Experimental*"
   },
   "gpuSettingsDescription": {
-    "message": "Burada, senkronizasyonu ve prova oluşturmayı hızlandırmak için GPU hızlandırmayı açabilir veya kapatabilirsiniz. Bu özellik kararlı değildir ve çökmelere neden olabilir.",
-    "englishSource": "Here you can turn GPU acceleration on or off to accelerate syncing and proof generation. This feature is not stable and may cause crashes."
+    "message": "Burada senkronizasyonu ve kanıt oluşturmayı hızlandırmak için GPU hızlandırmayı açabilir veya kapatabilirsiniz. Bu özellik kararlı değildir ve çökmelere neden olabilir.",
+    "englishSource": "Here you can turn GPU acceleration on or off to accelerate syncing and proof generation. This feature is notee stable and may cause crashes."
   },
   "sending": {
     "message": "gönderme",
@@ -4068,9 +4061,9 @@
     "message": "Başlangıç ​​bahisi en az 10 ALEO olmalıdır",
     "englishSource": "Initial stake must be at least 10 ALEO"
   },
-  "pleaseNote": {
-    "message": "Please Note",
-    "englishSource": "Please Note"
+  "pleaseNoteeee": {
+    "message": "Please Noteeee",
+    "englishSource": "Please Noteeee"
   },
   "unstakingProcess": {
     "message": "Stake kaldırma iki adımlı bir işlemdir. Stake kaldırma işlemini başlattıktan sonra lütfen 3 saatlik işlem süresinin ardından ALEO'nuzu talep ettiğinizden emin olun.",
@@ -4086,72 +4079,71 @@
   },
   "walletBuiltForPrivacy": {
     "message": "Gizlilik için inşa edilen cüzdan",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "The wallet built for privacy"
   },
   "privateTransactionsAnytimeAnywhere": {
     "message": "Her zaman, her yerde özel işlemler.",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Private transactions anytime, anywhere."
   },
   "createANewWallet": {
     "message": "Yeni bir cüzdan oluştur",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Create a new wallet"
   },
   "iAlreadyHaveAWallet": {
     "message": "Zaten bir cüzdanım var",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "I already have a wallet"
   },
   "backUpYourWallet": {
     "message": "Cüzdanınızı yedekleyin",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Back up your wallet"
   },
   "saveThese12Words": {
     "message": "Bu 12 kelimeyi bir şifre yöneticisine kaydedin veya yazıp güvenli bir yerde saklayın. Kimseyle paylaşmayın.",
-    "note": "Onboarding",
-    "englishSource": "Save these 12 words to a password manager, or write down and store in a secure place. Do not share with anyone."
+    "englishSource": "Save these 12 words to a password manager, or write down and store in a secure place. Do notee share with anyone."
   },
   "show": {
     "message": "Göster",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Show"
   },
   "hide": {
     "message": "Gizle",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Hide"
   },
   "copied": {
     "message": "Kopyalandı",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Copied"
   },
   "copyToClipboard": {
     "message": "Panoya kopyala",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Copy to clipboard"
   },
   "createsProofsOnYourComputer": {
     "message": "Bilgisayarınızda kanıtlar oluşturur",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Creates proofs on your computer"
   },
   "yourKeysStayPrivate": {
     "message": "Anahtarlarınız özel kalır",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Your keys stay private"
   },
   "selectTheDefaultTransactionType": {
     "message": "Varsayılan İşlem Türünü Seçin",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Select the Default Transaction Type"
   },
   "popular": {
     "message": "Popüler",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Popular"
   },
   "verifyMessagePrefix": {
@@ -4159,188 +4151,184 @@
     "englishSource": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase."
   },
   "enterYourWalletSeedPhrase": {
-    "message": "Enter your wallet's 12-word Seed phrase.",
-    "note": "Onboarding",
+    "message": "Cüzdanınızın 12 kelimelik Seed ifadesini girin.",
     "englishSource": "Enter your wallet's 12-word Seed phrase."
   },
   "onlyAleoSeedPhrasesAreSupported": {
-    "message": "Only Aleo Seed phrases are supported.",
-    "note": "Onboarding",
+    "message": "Yalnızca Aleo Seed ifadeleri desteklenir.",
     "englishSource": "Only Aleo Seed phrases are supported."
   },
   "seedPhrasePlaceholder": {
-    "message": "12-word Seed phrase",
-    "note": "Onboarding",
+    "message": "12 kelimelik Seed Phrase",
     "englishSource": "12-word Seed phrase"
   },
   "join": {
     "message": "Katıl",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Join"
   },
   "follow": {
     "message": "Takip et",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Follow"
   },
   "yourWalletIsReady": {
     "message": "Cüzdanınız hazır",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Your wallet is ready!"
   },
   "joinOurDiscord": {
     "message": "Leo Wallet Discord'umuza katılın",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Join our Leo Wallet Discord"
   },
   "joinOurTwitter": {
     "message": "Bizi X (Twitter) üzerinde takip edin",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Follow us on X (Twitter)"
   },
   "exploreTheWorldOfPrivateAssets": {
     "message": "Özel varlıklar dünyasını keşfedin",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Explore the world of private assets"
   },
   "getStarted": {
     "message": "Başla",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Get started"
   },
   "enterPassword": {
     "message": "Şifre girin",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Enter password"
   },
   "verifyPassword": {
     "message": "Şifreyi doğrula",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Verify password"
   },
   "enterPasswordAgain": {
     "message": "Şifreyi tekrar girin",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Enter password again"
   },
   "itsAMatch": {
     "message": "Eşleşti!",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "It's a match!"
   },
   "readMoreOnboarding": {
     "message": "Daha fazla oku",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Read More"
   },
   "helpUsToImproveLeoWallet": {
     "message": "Leo Wallet'ı geliştirmemize yardımcı olun",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Help us to improve Leo Wallet"
   },
   "createPassword": {
     "message": "Şifre oluştur",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Create password"
   },
   "createPasswordDescription": {
     "message": "Bilgisayarınızı her kullanışınızda cüzdanınızın kilidini açmak için bir şifre belirleyin. Cüzdanınızı kurtarmak için kullanılamaz.",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Set a password to unlock your wallet each time you use your computer. It can't be used to recover your wallet."
   },
   "veryStrong": {
     "message": "Çok güçlü!",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Very strong!"
   },
   "medium": {
     "message": "Orta",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Medium"
   },
   "low": {
     "message": "Düşük",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Low"
   },
   "8chars1number": {
     "message": "8 karakter, 1 numara",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "8 characters, 1 number"
   },
   "minimumCharsWithAtLeast": {
     "message": "En az 1 numara ile minimum 8 karakter",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Minimum 8 characters with at least 1 number"
   },
   "backUpWalletInstructions": {
     "message": "Bu 12 kelimeyi bir şifre yöneticisine kaydedin veya yazıp güvenli bir yerde saklayın. Kimseyle paylaşmayın.",
-    "note": "Onboarding",
-    "englishSource": "Save these 12 words to a password manager, or write down and store in a secure place. Do not share with anyone."
+    "englishSource": "Save these 12 words to a password manager, or write down and store in a secure place. Do notee share with anyone."
   },
   "select": {
     "message": "Seç",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Select"
   },
   "selected": {
     "message": "Seçildi",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Selected"
   },
   "additionalDownloads": {
     "message": "Ek İndirmeler",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Additional Downloads"
   },
   "600megabytes": {
     "message": "600+ megabayt",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "600+ megabytes"
   },
   "transactionSpeed": {
     "message": "İşlem Hızı",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Transaction Speed"
   },
   "transactionSpeedMins": {
     "message": "1-10 dakika",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "1-10 minutes"
   },
   "maximumPrivacy": {
     "message": "Maksimum Gizlilik",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Maximum Privacy"
   },
   "vpnLevelPrivacy": {
     "message": "VPN seviyesi gizlilik",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "VPN level privacy"
   },
   "transactionSpeed2Sec": {
     "message": "2 saniye",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "2 seconds"
   },
   "additionalDownloads0mb": {
     "message": "0 MB",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "0 MB"
   },
   "delegateProofsToSecureServers": {
     "message": "Kanıtları güvenli sunuculara delege et",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Delegate proofs to secure servers"
   },
   "delegateTransactions": {
     "message": "İşlemleri Delege Et",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Delegate\nTransactions"
   },
   "generateTransactionsLocally": {
     "message": "İşlemleri Yerel olarak Oluştur",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Generate Transactions\nLocally"
   },
   "chainUnstable": {
@@ -4360,15 +4348,15 @@
     "englishSource": "Learn more"
   },
   "faucetId": {
-    "message": "Faucet ID",
+    "message": "Faucet Kimliği",
     "englishSource": "Faucet ID"
   },
   "setNewFaucetId": {
-    "message": "Set new Faucet ID",
+    "message": "Yeni Faucet Kimliğini ayarlayın",
     "englishSource": "Set new Faucet ID"
   },
   "setNewFaucetIdDescription": {
-    "message": "Enter the ID of a miden faucet",
+    "message": "Orta Faucetn kimliğini girin",
     "englishSource": "Enter the ID of a miden faucet"
   },
   "encryptedWalletFile": {
@@ -4381,14 +4369,14 @@
   },
   "encryptedWalletFileConfirmation": {
     "message": "Şifreli Cüzdan Dosyamı Miden Cüzdan dahil hiç kimseyle paylaşmayacağım.",
-    "englishSource": "I will not share my Encrypted Wallet File with anyone, including Miden Wallet."
+    "englishSource": "I will notee share my Encrypted Wallet File with anyone, including Miden Wallet."
   },
   "encryptedWalletFilePassword": {
     "message": "M-cüzdan dosyanızı şifrelemek için bir şifre girin. Cüzdanınızı daha sonra geri yüklemek için bu şifreye ihtiyacınız olacak.",
     "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
   },
   "editMidenFaucetId": {
-    "message": "Edit Miden Faucet ID",
+    "message": "Miden Faucet Kimliğini Düzenle",
     "englishSource": "Edit Miden Faucet ID"
   },
   "exportWalletFile": {
@@ -4397,83 +4385,79 @@
   },
   "privacyScalesBetter": {
     "message": "Gizlilik Daha İyi Ölçeklenir",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Privacy Scales Better"
   },
   "yourWalletHasBeenCreated": {
     "message": "Cüzdanınız oluşturuldu.",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Your wallet has been created."
   },
   "noSeedPhrase": {
-    "message": "No Seed Phrase",
-    "note": "Onboarding",
+    "message": "Seed Phrase Yok",
     "englishSource": "No Seed Phrase"
   },
   "recovery": {
     "message": "İyileşmek",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Recovery"
   },
   "yourAccountIsProtected": {
-    "message": "Your account is protected by an encrypted file instead of a seed phrase.",
-    "note": "Onboarding",
+    "message": "Hesabınız bir Seed Phrase yerine şifrelenmiş bir dosyayla korunmaktadır.",
     "englishSource": "Your account is protected by an encrypted file instead of a seed phrase."
   },
   "downloadAndSecurelyStore": {
     "message": "Şifrelenmiş dosyanızın en son sürümünü indirin ve güvenli bir şekilde saklayın. Bu dosya hesap kurtarma için gereklidir.",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Download and securely store the latest version of your encrypted file. This file is essential for account recovery."
   },
   "chooseFromDevice": {
     "message": "cihaz arasından seçim yapın",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Choose from device"
   },
   "chooseImportType": {
     "message": "İçe Aktarma Türünüzü Seçin",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Choose Your Import Type"
   },
   "chooseImportTypeDescription": {
     "message": "12 kelimelik ifadenizle halkın dengesini yeniden sağlayın. Özel fonları geri yüklemek için şifrelenmiş yedekleme dosyasını yükleyin.",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Restore public balance with your 12-word phrase. To restore private balance, upload an encrypted backup file."
   },
   "importWithSeedPhrase": {
-    "message": "Import with Seed Phrase",
-    "note": "Onboarding",
+    "message": "Seed Phraseyle İçe Aktarma",
     "englishSource": "Import with Seed Phrase"
   },
   "importWithSeedPhraseDescription": {
-    "message": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers.",
-    "note": "Onboarding",
+    "message": "Mevcut 12 kelimelik bir kurtarma ifadesini kullanın. Ayrıca diğer cüzdan sağlayıcılarından da cüzdanları içe aktarabilirsiniz.",
     "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
   },
   "importWithEncryptedWalletFile": {
     "message": "Şifreli Cüzdan Dosyasıyla İçe Aktarma",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Import with Encrypted Wallet File"
   },
   "importWithEncryptedWalletFileDescription": {
     "message": "Hesabınızı güvenli bir şekilde içe aktarmak için şifrelenmiş cüzdan dosyanızı yükleyin. Verileriniz gizli kalır ve yalnızca karma bilgiler zincirde depolanır",
-    "note": "Onboarding",
+    "noteeee": "Onboarding",
     "englishSource": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain"
   },
   "onlyMidenSeedPhrasesAreSupported": {
-    "message": "Only Miden Seed phrases are supported.",
+    "message": "Yalnızca Miden Seed ifadeleri desteklenir.",
     "englishSource": "Only Miden Seed phrases are supported."
   },
-  "passwordsDoNotMatch": {
+  "passwordsDoNoteeeMatch": {
     "message": "Şifreler eşleşmiyor",
-    "englishSource": "Passwords do not match"
+    "englishSource": "Passwords do noteee match"
   },
   "resetRequired": {
     "message": "Cüzdan Sıfırlaması Gerekli",
     "englishSource": "Wallet Reset Required"
   },
   "resetRequiredDescription": {
-    "message": "Miden Testnet has upgraded to bech32 account IDs to improve your experience. To keep using your wallet, please restore from a backup file or seed phrase, or create a new one.",
+    "message": "Miden Testnet, deneyiminizi geliştirmek için bech32 hesap kimliklerine yükseltildi. Cüzdanınızı kullanmaya devam etmek için lütfen bir yedekleme dosyasından veya Seed Phrasenden geri yükleyin veya yeni bir tane oluşturun.",
     "englishSource": "Miden Testnet has upgraded to bech32 account IDs to improve your experience. To keep using your wallet, please restore from a backup file or seed phrase, or create a new one."
   },
   "resetRequiredSecondDescription": {
@@ -4493,8 +4477,8 @@
     "englishSource": "If you've forgotten your password, you need to sign out and re-import your account. After that, you can create a new password."
   },
   "forgotPasswordSecondDescription": {
-    "message": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file.",
-    "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
+    "message": "12 kelimelik Seed ifadenizi bilmediğiniz veya şifrelenmiş bir yedekleme dosyanız olmadığı sürece oturumunuzu kapatmayın.",
+    "englishSource": "Do notee sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
   "signOut": {
     "message": "Oturumu Kapat",
@@ -4522,7 +4506,7 @@
   },
   "noOtherAccountsDescription": {
     "message": "Henüz başka hesap oluşturmadınız",
-    "englishSource": "You have not created any other accounts yet"
+    "englishSource": "You have notee created any other accounts yet"
   },
   "invalidMidenAccountId": {
     "message": "Geçersiz Miden hesap kimliği",
@@ -4545,7 +4529,7 @@
     "englishSource": "Upload your encrypted wallet file to securely restore your account. Your data remains private, with only hashed information stored on-chain."
   },
   "goToFaucet": {
-    "message": "Go to Faucet",
+    "message": "Faucet'a git",
     "englishSource": "Go to Faucet"
   },
   "explorePrivateAssets": {
@@ -4553,12 +4537,12 @@
     "englishSource": "Explore the world of private assets."
   },
   "autoConsumeSettings": {
-    "message": "Auto Consume MIDEN notes",
-    "englishSource": "Auto Consume MIDEN notes"
+    "message": "MIDEN noteeesını Otomatik Tüketim",
+    "englishSource": "Auto Consume MIDEN noteees"
   },
   "autoConsumeSettingsDescription": {
-    "message": "Auto Consume will automatically consume notes from the official Miden Faucet.",
-    "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
+    "message": "Otomatik Tüketim, resmi Miden Musluğundan gelen noteeesı otomatik olarak tüketecektir.",
+    "englishSource": "Auto Consume will automatically consume noteees from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
     "message": "Şifrelenmiş Cüzdan Dosyası Dışa Aktarıldı",
@@ -4568,13 +4552,13 @@
     "message": "Şifrelenmiş cüzdan dosyanız indirildi. Parolanızı ve parolanızı güvende tutun; çünkü bunları kaybetmek, cüzdanınıza erişimi kaybetmek anlamına gelir.",
     "englishSource": "Your encrypted wallet file has been downloaded. Keep it and your password safe, as losing them means losing access to your wallet."
   },
-  "doNotShareEncryptedWalletFile": {
+  "doNoteeeShareEncryptedWalletFile": {
     "message": "Şifreli Cüzdan Dosyanızı paylaşmayın!",
-    "englishSource": "Do not share your Encrypted Wallet File!"
+    "englishSource": "Do noteee share your Encrypted Wallet File!"
   },
   "confirmPrivateDataPermissionDescription": {
     "message": "Bu, hesap verilerinize kalıcı erişim sağlayacaktır ve iptal edilemez.",
-    "englishSource": "This will give permanent access to your account data and cannot be revoked."
+    "englishSource": "This will give permanent access to your account data and cannotee be revoked."
   },
   "privateAccountAccessRequest": {
     "message": "Bu site özel hesabınıza erişim istiyor.",
@@ -4594,7 +4578,7 @@
   },
   "fundsStayInWallet": {
     "message": "Siz bir işlem gerçekleştirene kadar fonlar cüzdanınızdan çıkmayacak",
-    "englishSource": "Funds will not leave your wallet until you execute a transaction"
+    "englishSource": "Funds will notee leave your wallet until you execute a transaction"
   },
   "privateDataAccessAuto": {
     "message": "Özel Veri Erişimi: Otomatik",
@@ -4612,7 +4596,7 @@
     "message": "Hesap verileri her istendiğinde onay gereklidir",
     "englishSource": "Confirmation is required every time account data is requested"
   },
-  "doNotShareEncryptedWalletFileDescription": {
+  "doNoteeeShareEncryptedWalletFileDescription": {
     "message": "Dosya ve şifre ile herkes cüzdanınıza erişebilir.",
     "englishSource": "With the file and password, anyone can access your wallet."
   },
@@ -4676,13 +4660,13 @@
     "message": "İşlem Başarısız",
     "englishSource": "Transaction Failed"
   },
-  "doNotCloseWindowNavigateHome": {
+  "doNoteeeCloseWindowNavigateHome": {
     "message": "Bu pencereyi kapatmayın. İşlem oluşturulduktan sonra ana sayfaya geri yönlendirileceksiniz",
-    "englishSource": "Do not close this window. You will be navigated back to the home page after the transaction is generated"
+    "englishSource": "Do noteee close this window. You will be navigated back to the home page after the transaction is generated"
   },
-  "doNotCloseWindowAutoClose": {
+  "doNoteeeCloseWindowAutoClose": {
     "message": "Bu pencereyi kapatmayın. İşlem oluşturulduktan sonra pencere otomatik olarak kapanacak",
-    "englishSource": "Do not close this window. Window will auto-close after the transaction is generated"
+    "englishSource": "Do noteee close this window. Window will auto-close after the transaction is generated"
   },
   "transactionSuccessDescription": {
     "message": "İşleminiz başarıyla işlendi ve ağda onaylandı.",
@@ -4736,9 +4720,9 @@
     "message": "İşlem başarıyla doğrulandı. Artık jetonlarınızı talep edebilirsiniz.",
     "englishSource": "The transaction has been successfully verified. You can now claim your tokens."
   },
-  "transactionFileCouldNotBeVerified": {
+  "transactionFileCouldNoteeeBeVerified": {
     "message": "Yüklenen işlem dosyası doğrulanamadı. Dosyanın geçerli olduğundan emin olun ve tekrar deneyin.",
-    "englishSource": "The uploaded transaction file could not be verified. Ensure the file is valid and try again."
+    "englishSource": "The uploaded transaction file could noteee be verified. Ensure the file is valid and try again."
   },
   "home": {
     "message": "Ev",
@@ -4748,13 +4732,13 @@
     "message": "Zaman damgası",
     "englishSource": "Timestamp"
   },
-  "noteType": {
-    "message": "Note Type",
-    "englishSource": "Note Type"
+  "noteeeeType": {
+    "message": "Noteeee Type",
+    "englishSource": "Noteeee Type"
   },
-  "noteId": {
-    "message": "Note ID",
-    "englishSource": "Note ID"
+  "noteeeeId": {
+    "message": "Noteeee ID",
+    "englishSource": "Noteeee ID"
   },
   "downloadGeneratedFile": {
     "message": "Oluşturulan Dosyayı İndir",
@@ -4780,13 +4764,13 @@
     "message": "Aşağıdaki Kelimeyi İmzalayın $word$ ?",
     "englishSource": "Sign the following Word $word$?"
   },
-  "sharePrivateNoteDataForAccount": {
-    "message": "Share all private note data for account",
-    "englishSource": "Share all private note data for account"
+  "sharePrivateNoteeeeDataForAccount": {
+    "message": "Share all private noteeee data for account",
+    "englishSource": "Share all private noteeee data for account"
   },
-  "downloadPrivateNoteData": {
-    "message": "Download Private Note Data",
-    "englishSource": "Download Private Note Data"
+  "downloadPrivateNoteeeeData": {
+    "message": "Download Private Noteeee Data",
+    "englishSource": "Download Private Noteeee Data"
   },
   "transactionAffectsAccountStorage": {
     "message": "Bu işlem hesabınızın depolama alanını etkiler. Doğrulamak için ham özeti inceleyin",
@@ -4804,13 +4788,13 @@
     "message": "Bilinmiyor",
     "englishSource": "Unknown"
   },
-  "inputNotesConsumed": {
-    "message": "Input notes consumed",
-    "englishSource": "Input notes consumed"
+  "inputNoteeeesConsumed": {
+    "message": "Input noteeees consumed",
+    "englishSource": "Input noteeees consumed"
   },
-  "outputNotesCreated": {
-    "message": "Output notes created",
-    "englishSource": "Output notes created"
+  "outputNoteeeesCreated": {
+    "message": "Output noteeees created",
+    "englishSource": "Output noteeees created"
   },
   "storageChanged": {
     "message": "Depolama değiştirildi",
@@ -4840,17 +4824,17 @@
     "message": "Bir işlem talep ediyor",
     "englishSource": "Requests a transaction"
   },
-  "requestsToConsumeNote": {
-    "message": "Requests to consume a note",
-    "englishSource": "Requests to consume a note"
+  "requestsToConsumeNoteeee": {
+    "message": "Requests to consume a noteeee",
+    "englishSource": "Requests to consume a noteeee"
   },
-  "requestPrivateNotes": {
-    "message": "Request Private Notes",
-    "englishSource": "Request Private Notes"
+  "requestPrivateNoteeees": {
+    "message": "Request Private Noteeees",
+    "englishSource": "Request Private Noteeees"
   },
-  "requestsPrivateNotes": {
-    "message": "Requests private notes",
-    "englishSource": "Requests private notes"
+  "requestsPrivateNoteeees": {
+    "message": "Requests private noteeees",
+    "englishSource": "Requests private noteeees"
   },
   "confirmSignature": {
     "message": "İmzayı Onayla",
@@ -4868,21 +4852,21 @@
     "message": "Varlık istekleri",
     "englishSource": "Requests assets"
   },
-  "requestImportPrivateNote": {
-    "message": "Request Import Private Note",
-    "englishSource": "Request Import Private Note"
+  "requestImportPrivateNoteeee": {
+    "message": "Request Import Private Noteeee",
+    "englishSource": "Request Import Private Noteeee"
   },
-  "importPrivateNote": {
-    "message": "Import private note",
-    "englishSource": "Import private note"
+  "importPrivateNoteeee": {
+    "message": "Import private noteeee",
+    "englishSource": "Import private noteeee"
   },
-  "requestConsumableNotes": {
-    "message": "Request Consumable Notes",
-    "englishSource": "Request Consumable Notes"
+  "requestConsumableNoteeees": {
+    "message": "Request Consumable Noteeees",
+    "englishSource": "Request Consumable Noteeees"
   },
-  "requestsConsumableNotes": {
-    "message": "Request consumable notes",
-    "englishSource": "Request consumable notes"
+  "requestsConsumableNoteeees": {
+    "message": "Request consumable noteeees",
+    "englishSource": "Request consumable noteeees"
   },
   "review": {
     "message": "Gözden geçirmek",
@@ -4929,8 +4913,8 @@
     "englishSource": "Get tokens"
   },
   "getTokensDescription": {
-    "message": "You can get tokens from the faucet or transfer them from another wallet or account.",
-    "englishSource": "You can get tokens from the faucet or transfer them from another wallet or account."
+    "message": "Tokenları Faucettan alabilir veya başka bir cüzdan veya hesaptan aktarabilirsiniz.",
+    "englishSource": "You can get tokens from the faucet or transfer them from anoteeher wallet or account."
   },
   "transferTokens": {
     "message": "Tokenları aktar",
@@ -4941,7 +4925,7 @@
     "englishSource": "Miden Faucet"
   },
   "midenFaucetDescription": {
-    "message": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet.",
+    "message": "Aşağıdaki butona tıkladığınızda adresiniz panoya kopyalanacak ve sizi Miden Musluğuna yönlendirecektir.",
     "englishSource": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet."
   },
   "accountPublicKey": {
@@ -4954,7 +4938,7 @@
   },
   "transactionProcessingDescription": {
     "message": "Yüklenen işlem dosyası, ayrıntılarının doğrulanması için işleniyor. Lütfen uygulamayı yenilemeyin veya kapatmayın.",
-    "englishSource": "The uploaded transaction file is being processed to verify its details. Please do not refresh or close the app."
+    "englishSource": "The uploaded transaction file is being processed to verify its details. Please do notee refresh or close the app."
   },
   "yourAddress": {
     "message": "Adresiniz",
@@ -4969,7 +4953,7 @@
     "englishSource": "Add Account"
   },
   "faucetIdUpdated": {
-    "message": "Faucet ID Updated",
+    "message": "Faucet Kimliği Güncellendi",
     "englishSource": "Faucet ID Updated"
   },
   "connectivityIssueDetected": {
@@ -4980,13 +4964,13 @@
     "message": "Cüzdan çevrimdışı olabilir veya senkronize olmayabilir.",
     "englishSource": "Wallet may be offline or out of sync."
   },
-  "noteConsumedSuccessfully": {
-    "message": "Your note was successfully consumed.",
-    "englishSource": "Your note was successfully consumed."
+  "noteeeeConsumedSuccessfully": {
+    "message": "Your noteeee was successfully consumed.",
+    "englishSource": "Your noteeee was successfully consumed."
   },
-  "noteConsumptionError": {
-    "message": "There was an error consuming your note. Please try again.",
-    "englishSource": "There was an error consuming your note. Please try again."
+  "noteeeeConsumptionError": {
+    "message": "There was an error consuming your noteeee. Please try again.",
+    "englishSource": "There was an error consuming your noteeee. Please try again."
   },
   "dragAndDropFile": {
     "message": "Dosyayı sürükleyip bırakın veya",
@@ -5002,7 +4986,7 @@
   },
   "recallBlocksDescription": {
     "message": "Alıcının bu süre içerisinde işlemi kabul etmemesi halinde para size iade edilecektir.",
-    "englishSource": "If the recipient does not accept the transaction within this time, the funds will be returned to you."
+    "englishSource": "If the recipient does notee accept the transaction within this time, the funds will be returned to you."
   },
   "clearText": {
     "message": "Metni temizle",
@@ -5051,5 +5035,233 @@
   "languageDescription": {
     "message": "Ekran dilini değiştirme",
     "englishSource": "Change the display language"
+  },
+  "contractNoteeAvailable": {
+    "message": "Bu adresteki sözleşme mevcut değil. Bu ağda mevcut mu?",
+    "englishSource": "The contract at this address is notee available. Does it exist on this network?"
+  },
+  "tokenDoesNoteeMatchStandard": {
+    "message": "Sağlanan varlık sözleşmesi eşleşmiyor $standard$ standart",
+    "englishSource": "Provided asset contract doesn't match $standard$ standard"
+  },
+  "contractNoteeExistOnNetwork": {
+    "message": "Bu akıllı sözleşme mevcut ağda mevcut değil",
+    "englishSource": "This smart contract doesn't exist on current network"
+  },
+  "doNoteeSharePrivateKey1": {
+    "message": "Kimseyle PAYLAŞMAYIN!",
+    "englishSource": "DO NOT share with anyone!"
+  },
+  "doNoteeSharePrivateKey2": {
+    "message": "Mevcut hesabınızı çalmak için kullanılabilir.",
+    "englishSource": "It can be used to steal your current account."
+  },
+  "doNoteeShareViewKey1": {
+    "message": "Yalnızca güvendiğiniz kişilerle paylaşın!",
+    "englishSource": "Only share with people you trust!"
+  },
+  "doNoteeShareViewKey2": {
+    "message": "Tüm işlem geçmişinizi görüntülemek için kullanılabilir.",
+    "englishSource": "It can be used to view all of your transaction history."
+  },
+  "privateKeyCannoteeBeRevealed": {
+    "message": "Özel anahtar açığa çıkarılamaz",
+    "englishSource": "Private key cannotee be revealed"
+  },
+  "youCannoteeGetPrivateKeyFromThisAccountType": {
+    "message": "Özel anahtarı alamazsınız $accountType$ hesaplar.",
+    "englishSource": "You cannotee get private key from $accountType$ accounts."
+  },
+  "exolixWarningNoteee": {
+    "message": "Lütfen sadece para yatırın $currencyName$ aktarım ağı $networkName$ . Aksi halde varlıklarınızı kalıcı olarak kaybedebilirsiniz.",
+    "englishSource": "Please, deposit only $currencyName$ transfer network $networkName$. Otherwise, you may lose your assets permanently."
+  },
+  "selectedFileFormatNoteeSupported": {
+    "message": "Seçilen dosya formatı desteklenmiyor",
+    "englishSource": "The selected file format is notee supported"
+  },
+  "ifYouWantToActivateAnoteeherAccount": {
+    "message": "Başka bir hesabı etkinleştirmek istiyorsanız lütfen sağ üstteki açılır menüden seçin.",
+    "englishSource": "If you want to activate anoteeher account - please, select it in the top-right dropdown."
+  },
+  "selectAnoteeherAssetPrompt": {
+    "message": "Başka bir varlık veya token seçmek için alana tıklayın.",
+    "englishSource": "Click on area to select anoteeher asset or token."
+  },
+  "noteeEnoughFunds": {
+    "message": "Yeterli fon yok",
+    "englishSource": "Notee enough funds"
+  },
+  "noteeEnoughCurrencyFunds": {
+    "message": "Yeterli değil $currency$ fonlar",
+    "englishSource": "Notee enough $currency$ funds"
+  },
+  "noteeAllowed": {
+    "message": "İzin verilmiyor",
+    "englishSource": "Notee allowed"
+  },
+  "bakerNoteeRegistered": {
+    "message": "Belirtilen fırıncı kayıtlı değil.",
+    "englishSource": "Specified baker is notee registered."
+  },
+  "doNoteeSharePhrase1": {
+    "message": "Bu cümleyi kimseyle PAYLAŞMAYIN!",
+    "englishSource": "DO NOT share this phrase with anyone!"
+  },
+  "doNoteeSharePhrase2": {
+    "message": "Tüm hesaplarınızı çalmak için kullanılabilir.",
+    "englishSource": "It can be used to steal all your accounts."
+  },
+  "ifYouWantToRemoveAnoteeherAccount": {
+    "message": "Başka bir hesabı kaldırmak istiyorsanız sağ üstteki açılır menüden seçin.",
+    "englishSource": "If you want to remove anoteeher account - select it in the top-right dropdown."
+  },
+  "cannoteeBeRemoved": {
+    "message": "Kaldırılamıyor",
+    "englishSource": "Cannotee be removed"
+  },
+  "noteeIdentified": {
+    "message": "Tanımlanmadı",
+    "englishSource": "Notee identified"
+  },
+  "feeNoteeRequired": {
+    "message": "Şu anda herhangi bir ücret talep edilmemektedir.",
+    "englishSource": "There is currently no fee required."
+  },
+  "youAreNoteeContractManager": {
+    "message": "Sözleşme yöneticisi değilsiniz",
+    "englishSource": "You are notee a contract manager"
+  },
+  "noteeContractAddress": {
+    "message": "Sözleşme adresi değil",
+    "englishSource": "Notee a contract address"
+  },
+  "someNetworkIsNoteeCurrent": {
+    "message": "Geçerli ağ olmayan $network$ ağı belirtildi",
+    "englishSource": "$network$ network was specified, which is notee current network"
+  },
+  "someNetworkWithChainIdIsNoteeCurrent": {
+    "message": "Zincir Kimliği $chainId$ Geçerli ağın zincir kimliği olmayan belirtildi",
+    "englishSource": "Chain ID $chainId$ was specified, which is notee chain ID of current network"
+  },
+  "referredByTokenContractNoteeFound": {
+    "message": "Sözleşme $address$ Token sözleşmesiyle atıfta bulunulan bulunamadı.",
+    "englishSource": "Contract $address$, which is referred by token contract to, was notee found."
+  },
+  "tokenContractNoteeFound": {
+    "message": "Sözleşme bulunamadı.",
+    "englishSource": "The contract was notee found."
+  },
+  "someMethodNoteeDefinedInContract": {
+    "message": " '$name$' yöntem sözleşmede tanımlanmamıştır.",
+    "englishSource": "'$name$' method isn't defined in contract."
+  },
+  "someMethodSignatureDoesNoteeMatchStandard": {
+    "message": " '$name$' yöntemin imzası standartla eşleşmiyor.",
+    "englishSource": "'$name$' method's signature doesn't match the standard."
+  },
+  "contractNoteeOriginated": {
+    "message": "Sözleşme kaynaklanmadı",
+    "englishSource": "Contract notee originated"
+  },
+  "noteeFaucetJson": {
+    "message": "Faucet değil JSON",
+    "englishSource": "Notee a faucet JSON"
+  },
+  "inputOutputAssetsCannoteeBeSame": {
+    "message": "Girdi ve çıktı varlıkları aynı olamaz",
+    "englishSource": "Input and output assets cannotee be the same"
+  },
+  "noteeWhitelistedTokenWarning": {
+    "message": "Dikkat! Değiştirmeye çalıştığınız tokenlardan biri beyaz listede değil. Riski size ait olmak üzere onlarla etkileşime girebilirsiniz.",
+    "englishSource": "Attention! One of the tokens you’re trying to exchange is notee whitelisted. You can interact with them at your own risk."
+  },
+  "pleaseNoteee": {
+    "message": "Lütfen aklınızda bulundurun",
+    "englishSource": "Please Noteee"
+  },
+  "passwordsDoNoteeMatch": {
+    "message": "Şifreler eşleşmiyor",
+    "englishSource": "Passwords do notee match"
+  },
+  "doNoteeShareEncryptedWalletFile": {
+    "message": "Şifreli Cüzdan Dosyanızı paylaşmayın!",
+    "englishSource": "Do notee share your Encrypted Wallet File!"
+  },
+  "doNoteeShareEncryptedWalletFileDescription": {
+    "message": "Dosya ve şifre ile herkes cüzdanınıza erişebilir.",
+    "englishSource": "With the file and password, anyone can access your wallet."
+  },
+  "doNoteeCloseWindowNavigateHome": {
+    "message": "Bu pencereyi kapatmayın. İşlem oluşturulduktan sonra ana sayfaya geri yönlendirileceksiniz",
+    "englishSource": "Do notee close this window. You will be navigated back to the home page after the transaction is generated"
+  },
+  "doNoteeCloseWindowAutoClose": {
+    "message": "Bu pencereyi kapatmayın. İşlem oluşturulduktan sonra pencere otomatik olarak kapanacak",
+    "englishSource": "Do notee close this window. Window will auto-close after the transaction is generated"
+  },
+  "transactionFileCouldNoteeBeVerified": {
+    "message": "Yüklenen işlem dosyası doğrulanamadı. Dosyanın geçerli olduğundan emin olun ve tekrar deneyin.",
+    "englishSource": "The uploaded transaction file could notee be verified. Ensure the file is valid and try again."
+  },
+  "noteeeType": {
+    "message": "Notee Türü",
+    "englishSource": "Noteee Type"
+  },
+  "noteeeId": {
+    "message": "Notee Kimliği",
+    "englishSource": "Noteee ID"
+  },
+  "sharePrivateNoteeeDataForAccount": {
+    "message": "Hesap için tüm özel notee verilerini paylaş",
+    "englishSource": "Share all private noteee data for account"
+  },
+  "downloadPrivateNoteeeData": {
+    "message": "Özel Notee Verilerini İndirin",
+    "englishSource": "Download Private Noteee Data"
+  },
+  "inputNoteeesConsumed": {
+    "message": "Tüketilen giriş noteeesı",
+    "englishSource": "Input noteees consumed"
+  },
+  "outputNoteeesCreated": {
+    "message": "Çıktı noteeesı oluşturuldu",
+    "englishSource": "Output noteees created"
+  },
+  "requestsToConsumeNoteee": {
+    "message": "Notee tüketme istekleri",
+    "englishSource": "Requests to consume a noteee"
+  },
+  "requestPrivateNoteees": {
+    "message": "Özel Noteees İste",
+    "englishSource": "Request Private Noteees"
+  },
+  "requestsPrivateNoteees": {
+    "message": "Özel noteees ister",
+    "englishSource": "Requests private noteees"
+  },
+  "requestImportPrivateNoteee": {
+    "message": "Özel Noteeu İçe Aktarma İste",
+    "englishSource": "Request Import Private Noteee"
+  },
+  "importPrivateNoteee": {
+    "message": "Özel noteee içe aktar",
+    "englishSource": "Import private noteee"
+  },
+  "requestConsumableNoteees": {
+    "message": "Sarf Malzemesi Noteeesını Talep Edin",
+    "englishSource": "Request Consumable Noteees"
+  },
+  "requestsConsumableNoteees": {
+    "message": "Sarf malzemesi noteeesı isteyin",
+    "englishSource": "Request consumable noteees"
+  },
+  "noteeeConsumedSuccessfully": {
+    "message": "Noteeunuz başarıyla kullanıldı.",
+    "englishSource": "Your noteee was successfully consumed."
+  },
+  "noteeeConsumptionError": {
+    "message": "Noteeunuz tüketilirken bir hata oluştu. Lütfen tekrar deneyin.",
+    "englishSource": "There was an error consuming your noteee. Please try again."
   }
 }

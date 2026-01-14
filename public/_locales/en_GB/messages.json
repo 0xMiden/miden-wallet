@@ -814,12 +814,7 @@
     "englishSource": "Something went wrong"
   },
   "faucetFileInputPrompt": {
-    "message": "Drag & drop a file or select it manually by clicking on the area below. You can download it from $link$.",
-    "placeholders": {
-      "link": {
-        "content": "$1"
-      }
-    },
+    "message": "Drag & drop a file or select it manually by clicking on the area below. You can download it from  $link$ .",
     "englishSource": "Drag & drop a file or select it manually by clicking on the area below. You can download it from $link$."
   },
   "processing": {
@@ -1414,7 +1409,6 @@
   },
   "pathForHDAccounts": {
     "message": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase.",
-    "description": "HD = Hierarchical Deterministic",
     "englishSource": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase."
   },
   "derivationPathExample": {
@@ -2403,15 +2397,7 @@
     "englishSource": "Get"
   },
   "exolixWarningNote": {
-    "message": "Please, deposit only $currencyName$ transfer network $networkName$. Otherwise, you may lose your assets permanently.",
-    "placeholders": {
-      "currencyName": {
-        "content": "$1"
-      },
-      "networkName": {
-        "content": "$1"
-      }
-    },
+    "message": "Please, deposit only  $currencyName$  transfer network  $networkName$ . Otherwise, you may lose your assets permanently.",
     "englishSource": "Please, deposit only $currencyName$ transfer network $networkName$. Otherwise, you may lose your assets permanently."
   },
   "mnemonicInputWarning": {
@@ -4163,17 +4149,14 @@
   },
   "enterYourWalletSeedPhrase": {
     "message": "Enter your wallet's 12-word Seed phrase.",
-    "note": "Onboarding",
     "englishSource": "Enter your wallet's 12-word Seed phrase."
   },
   "onlyAleoSeedPhrasesAreSupported": {
     "message": "Only Aleo Seed phrases are supported.",
-    "note": "Onboarding",
     "englishSource": "Only Aleo Seed phrases are supported."
   },
   "seedPhrasePlaceholder": {
     "message": "12-word Seed phrase",
-    "note": "Onboarding",
     "englishSource": "12-word Seed phrase"
   },
   "join": {
@@ -4410,7 +4393,6 @@
   },
   "noSeedPhrase": {
     "message": "No Seed Phrase",
-    "note": "Onboarding",
     "englishSource": "No Seed Phrase"
   },
   "recovery": {
@@ -4420,7 +4402,6 @@
   },
   "yourAccountIsProtected": {
     "message": "Your account is protected by an encrypted file instead of a seed phrase.",
-    "note": "Onboarding",
     "englishSource": "Your account is protected by an encrypted file instead of a seed phrase."
   },
   "downloadAndSecurelyStore": {
@@ -4445,12 +4426,10 @@
   },
   "importWithSeedPhrase": {
     "message": "Import with Seed Phrase",
-    "note": "Onboarding",
     "englishSource": "Import with Seed Phrase"
   },
   "importWithSeedPhraseDescription": {
     "message": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers.",
-    "note": "Onboarding",
     "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
   },
   "importWithEncryptedWalletFile": {
@@ -4556,12 +4535,12 @@
     "englishSource": "Explore the world of private assets."
   },
   "autoConsumeSettings": {
-    "message": "Auto Consume MIDEN notes",
-    "englishSource": "Auto Consume MIDEN notes"
+    "message": "Auto Consume MIDEN Notes",
+    "englishSource": "Auto Consume MIDEN Notes"
   },
   "autoConsumeSettingsDescription": {
-    "message": "Auto Consume will automatically consume notes from the official Miden Faucet.",
-    "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
+    "message": "Auto Consume will automatically consume Notes from the official Miden Faucet.",
+    "englishSource": "Auto Consume will automatically consume Notes from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
     "message": "Encrypted Wallet File Exported",
@@ -4808,12 +4787,12 @@
     "englishSource": "Unknown"
   },
   "inputNotesConsumed": {
-    "message": "Input notes consumed",
-    "englishSource": "Input notes consumed"
+    "message": "Input Notes consumed",
+    "englishSource": "Input Notes consumed"
   },
   "outputNotesCreated": {
-    "message": "Output notes created",
-    "englishSource": "Output notes created"
+    "message": "Output Notes created",
+    "englishSource": "Output Notes created"
   },
   "storageChanged": {
     "message": "Storage changed",
@@ -4852,8 +4831,8 @@
     "englishSource": "Request Private Notes"
   },
   "requestsPrivateNotes": {
-    "message": "Requests private notes",
-    "englishSource": "Requests private notes"
+    "message": "Requests private Notes",
+    "englishSource": "Requests private Notes"
   },
   "confirmSignature": {
     "message": "Confirm Signature",
@@ -4884,8 +4863,8 @@
     "englishSource": "Request Consumable Notes"
   },
   "requestsConsumableNotes": {
-    "message": "Request consumable notes",
-    "englishSource": "Request consumable notes"
+    "message": "Request consumable Notes",
+    "englishSource": "Request consumable Notes"
   },
   "review": {
     "message": "Review",

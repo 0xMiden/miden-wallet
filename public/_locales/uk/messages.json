@@ -20,11 +20,11 @@
     "englishSource": "Import account"
   },
   "faucetFileTitle": {
-    "message": "Faucet File",
+    "message": "Файл для Faucet",
     "englishSource": "Faucet File"
   },
   "faucetFile": {
-    "message": "Faucet file",
+    "message": "Напилок для Faucet",
     "englishSource": "Faucet file"
   },
   "settings": {
@@ -274,11 +274,11 @@
     "englishSource": "Use CoinSwitch"
   },
   "aleoFaucet": {
-    "message": "Aleo Faucet",
+    "message": "Алео Faucet",
     "englishSource": "Aleo Faucet"
   },
   "aleoFaucetAlpha": {
-    "message": "Aleo Faucet (Alpha)",
+    "message": "Aleo Faucet (Альфа)",
     "englishSource": "Aleo Faucet (Alpha)"
   },
   "depositToWallet": {
@@ -286,7 +286,7 @@
     "englishSource": "Deposit to your wallet"
   },
   "depositToWalletDescription": {
-    "message": "Click on deposit method to get money on your wallet. Use faucet to get free coins!",
+    "message": "Натисніть спосіб депозиту, щоб отримати гроші на свій гаманець. Використовуйте Faucet, щоб отримати безкоштовні монети!",
     "englishSource": "Click on deposit method to get money on your wallet. Use faucet to get free coins!"
   },
   "addToken": {
@@ -480,7 +480,7 @@
     "englishSource": "Watch $accountNumber$"
   },
   "accountsToRemoveConstraint": {
-    "message": "Your seed phrase will always be able to regenerate this wallet. It is impossible to delete it.",
+    "message": "Ваша Seed Phrase завжди зможе відновити цей гаманець. Видалити його неможливо.",
     "englishSource": "Your seed phrase will always be able to regenerate this wallet. It is impossible to delete it."
   },
   "doNotSharePrivateKey": {
@@ -670,7 +670,7 @@
     "englishSource": "Create a new Wallet"
   },
   "createNewWalletDescription": {
-    "message": "New to Leo Wallet? Let's set it up! This will create a new wallet and seed phrase",
+    "message": "Вперше користуєтеся Leo Wallet? Давайте налаштуємо! Це створить новий гаманець і вихідну фразу",
     "englishSource": "New to Leo Wallet? Let's set it up! This will create a new wallet and seed phrase"
   },
   "delegate": {
@@ -742,7 +742,7 @@
     "englishSource": "Custom derivation path"
   },
   "mnemonicInputLabel": {
-    "message": "Seed phrase",
+    "message": "Насіння фраза",
     "englishSource": "Seed phrase"
   },
   "mnemonicInputDescription": {
@@ -803,12 +803,7 @@
     "englishSource": "Something went wrong"
   },
   "faucetFileInputPrompt": {
-    "message": "Drag & drop a file or select it manually by clicking on the area below. You can download it from $link$.",
-    "placeholders": {
-      "link": {
-        "content": "$1"
-      }
-    },
+    "message": "Перетягнути $link$ .",
     "englishSource": "Drag & drop a file or select it manually by clicking on the area below. You can download it from $link$."
   },
   "processing": {
@@ -840,11 +835,11 @@
     "englishSource": "Also known as \"Export Account\", reveals private key for your selected account."
   },
   "revealSeedPhrase": {
-    "message": "Reveal Seed Phrase",
+    "message": "Розкрити насіннєву фразу",
     "englishSource": "Reveal Seed Phrase"
   },
   "revealSeedPhraseDescription": {
-    "message": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices.",
+    "message": "Також відомий як «Експортувати гаманець». Ця Seed Phrase може знадобитися для доступу до вашого гаманця та облікових записів на інших пристроях.",
     "englishSource": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices."
   },
   "dApps": {
@@ -866,7 +861,7 @@
     "englishSource": "Activate Account"
   },
   "activateAccountDescription": {
-    "message": "It may be necessary for ICO/Fundraiser or testnet faucet accounts.",
+    "message": "Це може знадобитися для облікових записів Faucetів ICO/Fundraiser або testnet.",
     "englishSource": "It may be necessary for ICO/Fundraiser or testnet faucet accounts."
   },
   "removeAccount": {
@@ -906,7 +901,7 @@
     "englishSource": "Restore Account? Want to sign in another?"
   },
   "importWalletUsingSeedPhrase": {
-    "message": "Import Wallet using Seed Phrase",
+    "message": "Імпортувати гаманець за допомогою початкової фрази",
     "englishSource": "Import Wallet using Seed Phrase"
   },
   "connectLedger": {
@@ -919,7 +914,7 @@
     "englishSource": "Import existing Wallet"
   },
   "importExistingWalletDescription": {
-    "message": "Already have a wallet? Import it using your seed phrase or encrypted keystore file",
+    "message": "Вже маєте гаманець? Імпортуйте його за допомогою початкової фрази або зашифрованого файлу сховища ключів",
     "englishSource": "Already have a wallet? Import it using your seed phrase or encrypted keystore file"
   },
   "links": {
@@ -971,7 +966,7 @@
     "englishSource": "Secret"
   },
   "activateAccountSecretDescription": {
-    "message": "'secret' field from Fundraiser Account or Faucet",
+    "message": "«секретне» поле з облікового запису Fundraiser або Faucet",
     "englishSource": "'secret' field from Fundraiser Account or Faucet"
   },
   "activateAccountSecretPlaceholder": {
@@ -1262,7 +1257,7 @@
     "englishSource": "Unknown:"
   },
   "backupNewSeedPhrase": {
-    "message": "New Seed Phrase",
+    "message": "Нова Seed Phrase",
     "englishSource": "New Seed Phrase"
   },
   "attentionExclamation": {
@@ -1310,14 +1305,14 @@
     "englishSource": "Create"
   },
   "revealNewSeedPhrase": {
-    "message": "<b>Click on area below</b> to reveal your new Seed Phrase.\nThen, write this phrase on a piece of paper and <b>store in a secure location</b>. Or you can memorize it.",
+    "message": "<b>Натисніть область нижче</b>, щоб відкрити вашу нову Seed Phrase.\nПотім напишіть цю фразу на аркуші паперу та <b>зберігайте в безпечному місці</b>. Або ви можете запам'ятати його.",
     "englishSource": "<b>Click on area below</b> to reveal your new Seed Phrase.\nThen, write this phrase on a piece of paper and <b>store in a secure location</b>. Or you can memorize it."
   },
   "doNotSharePhrase": {
     "message": "<b>Не діліться</b> цією фразою ні з ким!З її допомогою можна вкрасти усі ваші аккаунти та кошти!"
   },
   "youWillNeedThisSeedPhrase": {
-    "message": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever.",
+    "message": "Будь ласка, запишіть свою секретну фразу відновлення та зберігайте її в безпечному місці. Ця фраза є єдиним способом відновити обліковий запис. Не діліться ним ні з ким. Будь-хто з цією фразою може назавжди забрати ваші активи.",
     "englishSource": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever."
   },
   "unableToContinueWithoutConfirming": {
@@ -1325,7 +1320,7 @@
     "englishSource": "Unable to continue without confirming"
   },
   "backupedInputLabel": {
-    "message": "I made Seed Phrase backup",
+    "message": "Я зробив резервну копію початкової фрази",
     "englishSource": "I made Seed Phrase backup"
   },
   "backupedInputDescription": {
@@ -1398,12 +1393,11 @@
     "englishSource": "Derivation path"
   },
   "seedPhrase": {
-    "message": "Seed Phrase",
+    "message": "Фраза насіння",
     "englishSource": "Seed Phrase"
   },
   "pathForHDAccounts": {
-    "message": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase.",
-    "description": "HD = Hierarchical Deterministic",
+    "message": "для облікових записів HD. Це те, що ви використовуєте, щоб відновити всі свої облікові записи з початкової фрази.",
     "englishSource": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase."
   },
   "derivationPathExample": {
@@ -1415,7 +1409,7 @@
     "englishSource": "e.g. m/44'/1729'/..."
   },
   "keepSeedPhraseSecret": {
-    "message": "Keep it in secret.",
+    "message": "Тримайте це в секреті.",
     "englishSource": "Keep it in secret."
   },
   "revealSecretPasswordInputDescription": {
@@ -1516,7 +1510,7 @@
     "englishSource": "Unable to estimate transaction to provided Recipient."
   },
   "makeSureToBackupSeedPhrase": {
-    "message": "Make sure to back up your seed phrase!",
+    "message": "Обов’язково створіть резервну копію початкової фрази!",
     "englishSource": "Make sure to back up your seed phrase!"
   },
   "exploreMore": {
@@ -2101,7 +2095,7 @@
     "englishSource": "Invalid JSON"
   },
   "notFaucetJson": {
-    "message": "Not a faucet JSON",
+    "message": "Не Faucet JSON",
     "englishSource": "Not a faucet JSON"
   },
   "faucetJson": {
@@ -2109,7 +2103,7 @@
     "englishSource": "Faucet JSON"
   },
   "faucetJsonDescription": {
-    "message": "You can paste JSON here instead of adding file",
+    "message": "Ви можете вставити сюди JSON замість додавання файлу",
     "englishSource": "You can paste JSON here instead of adding file"
   },
   "unknownErrorFromRPC": {
@@ -2482,7 +2476,7 @@
     "englishSource": "Inclusion of at least one special character, e.g., ! @ # ? ] - (optional, recommended)."
   },
   "seedInputNumberOfWords": {
-    "message": "My Seed phrase is $1 words",
+    "message": "Моя фраза Seed складається з $1 слів",
     "englishSource": "My Seed phrase is $1 words"
   },
   "seedPasteFailedTooManyWords": {
@@ -2490,7 +2484,7 @@
     "englishSource": "Paste failed because it contained over 24 words."
   },
   "seedPhraseTip": {
-    "message": "You can paste your entire secret Seed phrase into any field",
+    "message": "Ви можете вставити всю секретну фразу Seed у будь-яке поле",
     "englishSource": "You can paste your entire secret Seed phrase into any field"
   },
   "assetMustBeSelected": {
@@ -2506,19 +2500,11 @@
     "englishSource": "Get"
   },
   "exolixWarningNote": {
-    "message": "Please, deposit only $currencyName$ transfer network $networkName$. Otherwise, you may lose your assets permanently.",
-    "placeholders": {
-      "currencyName": {
-        "content": "$1"
-      },
-      "networkName": {
-        "content": "$1"
-      }
-    },
+    "message": "Будь ласка, тільки депозит $currencyName$ мережа передачі $networkName$ . В іншому випадку ви можете назавжди втратити свої активи.",
     "englishSource": "Please, deposit only $currencyName$ transfer network $networkName$. Otherwise, you may lose your assets permanently."
   },
   "mnemonicInputWarning": {
-    "message": "We don't store your seed phrase. Don't lose it!",
+    "message": "Ми не зберігаємо вашу вихідну фразу. Не втрачайте!",
     "englishSource": "We don't store your seed phrase. Don't lose it!"
   },
   "importWallet": {
@@ -2550,7 +2536,7 @@
     "englishSource": "Only files of version 3 can be processed"
   },
   "kukaiWalletTypeError": {
-    "message": "Cannot reveal seed phrase for this wallet type",
+    "message": "Неможливо відкрити вихідну фразу для цього типу гаманця",
     "englishSource": "Cannot reveal seed phrase for this wallet type"
   },
   "revealViewKey": {
@@ -2971,11 +2957,11 @@
     "englishSource": "Add this address to contacts?"
   },
   "verifySeedPhrase": {
-    "message": "Verify Seed Phrase",
+    "message": "Перевірте вихідну фразу",
     "englishSource": "Verify Seed Phrase"
   },
   "verifySeedPhraseDescription": {
-    "message": "Fill in the blank fields with the words to verify your Seed Phrase backup",
+    "message": "Заповніть порожні поля словами, щоб підтвердити резервну копію початкової фрази",
     "englishSource": "Fill in the blank fields with the words to verify your Seed Phrase backup"
   },
   "word": {
@@ -3040,7 +3026,7 @@
     "englishSource": "You can use the \"Buy\" button and top up your Aleo Credits balance, using cryptocurrencies, debit, or credit cards."
   },
   "howToStartHint": {
-    "message": "Також ви можете скопіювати свою адресу та відправити на неї монети з іншого гаманця або біржі. Щоб скопіювати адресу, клацніть її на головному екрані гаманця або скористайтеся «Отримати».",
+    "message": "Також ви можете скопіювати свою адресу та відправити на неї монети з іншого гаманця або біржі. Щоб скопіювати адресу, клацніть її на головному еfaucetі гаманця або скористайтеся «Отримати».",
     "englishSource": "Also, you can copy your address and send coins to it from another wallet or Exchange. To copy the address, click on it on the main wallet screen or use “Receive”."
   },
   "tokensCollectibleDetails": {
@@ -3128,7 +3114,7 @@
     "englishSource": "Attention"
   },
   "attentionDescription": {
-    "message": "Never and under any pretext share your private keys and seed phrase with third parties.",
+    "message": "Ніколи та ні під яким приводом не діліться своїми особистими ключами та початковою фразою третім особам.",
     "englishSource": "Never and under any pretext share your private keys and seed phrase with third parties."
   },
   "attentionListTitle1": {
@@ -3140,7 +3126,7 @@
     "englishSource": "Your wallet can be targeted through a browser 0days or via other malicious extension installed;"
   },
   "attentionListItem2": {
-    "message": "Зловмисне програмне забезпечення, встановлене в системі, потенційно може маніпулювати екраном;",
+    "message": "Зловмисне програмне забезпечення, встановлене в системі, потенційно може маніпулювати еfaucetом;",
     "englishSource": "The screen can potentially be manipulated by malicious software installed in the system;"
   },
   "attentionListItem3": {
@@ -3736,7 +3722,7 @@
     "englishSource": "It can be used to steal all your accounts."
   },
   "changeSeedPhrase": {
-    "message": "Change Seed Phrase",
+    "message": "Змінити Seed Phrase",
     "englishSource": "Change Seed Phrase"
   },
   "feeNotRequired": {
@@ -3796,31 +3782,31 @@
     "englishSource": "Faucet"
   },
   "aleoFaucetDescription": {
-    "message": "All distributed credits are for testing purposes and do not have value.",
+    "message": "Усі розподілені кредити призначені для тестування та не мають цінності.",
     "englishSource": "All distributed credits are for testing purposes and do not have value."
   },
   "aleoFaucetStep1": {
-    "message": "Scan the QR code with your Phone",
+    "message": "Відскануйте QR-код за допомогою свого телефону",
     "englishSource": "Scan the QR code with your Phone"
   },
   "aleoFaucetStep1Description": {
-    "message": "And click on the prompt it shows you.",
+    "message": "І клацніть підказку, яку вона вам покаже.",
     "englishSource": "And click on the prompt it shows you."
   },
   "aleoFaucetStep2": {
-    "message": "Confirm and send the SMS",
+    "message": "Підтвердьте та надішліть SMS",
     "englishSource": "Confirm and send the SMS"
   },
   "aleoFaucetStep2Description": {
-    "message": "(Message and data rates may apply)",
+    "message": "(Може стягуватися плата за повідомлення та передачу даних)",
     "englishSource": "(Message and data rates may apply)"
   },
   "aleoFaucetStep3": {
-    "message": "Get Aleo credits",
+    "message": "Отримайте кредити Aleo",
     "englishSource": "Get Aleo credits"
   },
   "aleoFaucetStep3Description": {
-    "message": "Aleo Faucet will send you credits.",
+    "message": "Aleo Faucet надішле вам кредити.",
     "englishSource": "Aleo Faucet will send you credits."
   },
   "deployAction": {
@@ -4126,7 +4112,7 @@
     "englishSource": "Initial stake must be at least 10 ALEO"
   },
   "pleaseNote": {
-    "message": "Please Note",
+    "message": "Зверніть увагу",
     "englishSource": "Please Note"
   },
   "unstakingProcess": {
@@ -4216,18 +4202,15 @@
     "englishSource": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase."
   },
   "enterYourWalletSeedPhrase": {
-    "message": "Enter your wallet's 12-word Seed phrase.",
-    "note": "Onboarding",
+    "message": "Введіть Seed Phrase свого гаманця з 12 слів.",
     "englishSource": "Enter your wallet's 12-word Seed phrase."
   },
   "onlyAleoSeedPhrasesAreSupported": {
-    "message": "Only Aleo Seed phrases are supported.",
-    "note": "Onboarding",
+    "message": "Підтримуються лише фрази Aleo Seed.",
     "englishSource": "Only Aleo Seed phrases are supported."
   },
   "seedPhrasePlaceholder": {
-    "message": "12-word Seed phrase",
-    "note": "Onboarding",
+    "message": "Початкова фраза з 12 слів",
     "englishSource": "12-word Seed phrase"
   },
   "join": {
@@ -4417,15 +4400,15 @@
     "englishSource": "Learn more"
   },
   "faucetId": {
-    "message": "Faucet ID",
+    "message": "ID Faucet",
     "englishSource": "Faucet ID"
   },
   "setNewFaucetId": {
-    "message": "Set new Faucet ID",
+    "message": "Встановити новий ідентифікатор Faucet",
     "englishSource": "Set new Faucet ID"
   },
   "setNewFaucetIdDescription": {
-    "message": "Enter the ID of a miden faucet",
+    "message": "Введіть ідентифікатор змішувача miden",
     "englishSource": "Enter the ID of a miden faucet"
   },
   "encryptedWalletFile": {
@@ -4433,7 +4416,7 @@
     "englishSource": "Encrypted Wallet File"
   },
   "encryptedWalletFileDescription": {
-    "message": "Введіть свій пароль, щоб отримати доступ до зашифрованого файлу гаманця. Вимкніть спільний доступ до екрана. Ні з ким не діліться цим.",
+    "message": "Введіть свій пароль, щоб отримати доступ до зашифрованого файлу гаманця. Вимкніть спільний доступ до еfaucetа. Ні з ким не діліться цим.",
     "englishSource": "Enter your password to access your Encrypted Wallet File. Turn off screen sharing. Don't share it with anyone."
   },
   "encryptedWalletFileConfirmation": {
@@ -4445,7 +4428,7 @@
     "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
   },
   "editMidenFaucetId": {
-    "message": "Edit Miden Faucet ID",
+    "message": "Редагувати ідентифікатор Faucet Miden",
     "englishSource": "Edit Miden Faucet ID"
   },
   "exportWalletFile": {
@@ -4463,8 +4446,7 @@
     "englishSource": "Your wallet has been created."
   },
   "noSeedPhrase": {
-    "message": "No Seed Phrase",
-    "note": "Onboarding",
+    "message": "Без початкової фрази",
     "englishSource": "No Seed Phrase"
   },
   "recovery": {
@@ -4473,8 +4455,7 @@
     "englishSource": "Recovery"
   },
   "yourAccountIsProtected": {
-    "message": "Your account is protected by an encrypted file instead of a seed phrase.",
-    "note": "Onboarding",
+    "message": "Ваш обліковий запис захищено зашифрованим файлом замість вихідної фрази.",
     "englishSource": "Your account is protected by an encrypted file instead of a seed phrase."
   },
   "downloadAndSecurelyStore": {
@@ -4498,13 +4479,11 @@
     "englishSource": "Restore public balance with your 12-word phrase. To restore private balance, upload an encrypted backup file."
   },
   "importWithSeedPhrase": {
-    "message": "Import with Seed Phrase",
-    "note": "Onboarding",
+    "message": "Імпорт із початковою фразою",
     "englishSource": "Import with Seed Phrase"
   },
   "importWithSeedPhraseDescription": {
-    "message": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers.",
-    "note": "Onboarding",
+    "message": "Використовуйте існуючу фразу відновлення з 12 слів. Ви також можете імпортувати гаманці від інших постачальників гаманців.",
     "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
   },
   "importWithEncryptedWalletFile": {
@@ -4518,7 +4497,7 @@
     "englishSource": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain"
   },
   "onlyMidenSeedPhrasesAreSupported": {
-    "message": "Only Miden Seed phrases are supported.",
+    "message": "Підтримуються лише фрази Miden Seed.",
     "englishSource": "Only Miden Seed phrases are supported."
   },
   "passwordsDoNotMatch": {
@@ -4530,7 +4509,7 @@
     "englishSource": "Wallet Reset Required"
   },
   "resetRequiredDescription": {
-    "message": "Miden Testnet has upgraded to bech32 account IDs to improve your experience. To keep using your wallet, please restore from a backup file or seed phrase, or create a new one.",
+    "message": "Miden Testnet оновив ідентифікатори облікових записів bech32, щоб покращити ваш досвід. Щоб і надалі користуватися гаманцем, відновіть із резервної копії файлу чи вихідної фрази або створіть нову.",
     "englishSource": "Miden Testnet has upgraded to bech32 account IDs to improve your experience. To keep using your wallet, please restore from a backup file or seed phrase, or create a new one."
   },
   "resetRequiredSecondDescription": {
@@ -4550,7 +4529,7 @@
     "englishSource": "If you've forgotten your password, you need to sign out and re-import your account. After that, you can create a new password."
   },
   "forgotPasswordSecondDescription": {
-    "message": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file.",
+    "message": "Не виходьте з облікового запису, якщо ви не знаєте свою Seed Phrase з 12 слів або не маєте зашифрованого резервного файлу.",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
   "signOut": {
@@ -4602,7 +4581,7 @@
     "englishSource": "Upload your encrypted wallet file to securely restore your account. Your data remains private, with only hashed information stored on-chain."
   },
   "goToFaucet": {
-    "message": "Go to Faucet",
+    "message": "Перейдіть до Faucet",
     "englishSource": "Go to Faucet"
   },
   "explorePrivateAssets": {
@@ -4610,12 +4589,12 @@
     "englishSource": "Explore the world of private assets."
   },
   "autoConsumeSettings": {
-    "message": "Auto Consume MIDEN notes",
-    "englishSource": "Auto Consume MIDEN notes"
+    "message": "Автоматичне споживання нотаток MIDEN",
+    "englishSource": "Auto Consume MIDEN Notes"
   },
   "autoConsumeSettingsDescription": {
-    "message": "Auto Consume will automatically consume notes from the official Miden Faucet.",
-    "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
+    "message": "Auto Consume автоматично споживатиме Notes з офіційного Miden Faucet.",
+    "englishSource": "Auto Consume will automatically consume Notes from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
     "message": "Зашифрований файл гаманця експортовано",
@@ -4806,11 +4785,11 @@
     "englishSource": "Timestamp"
   },
   "noteType": {
-    "message": "Note Type",
+    "message": "Тип примітки",
     "englishSource": "Note Type"
   },
   "noteId": {
-    "message": "Note ID",
+    "message": "ID примітки",
     "englishSource": "Note ID"
   },
   "downloadGeneratedFile": {
@@ -4838,11 +4817,11 @@
     "englishSource": "Sign the following Word $word$?"
   },
   "sharePrivateNoteDataForAccount": {
-    "message": "Share all private note data for account",
+    "message": "Поділіться всіма даними особистих нотаток для облікового запису",
     "englishSource": "Share all private note data for account"
   },
   "downloadPrivateNoteData": {
-    "message": "Download Private Note Data",
+    "message": "Завантажте дані приватної Notes",
     "englishSource": "Download Private Note Data"
   },
   "transactionAffectsAccountStorage": {
@@ -4862,12 +4841,12 @@
     "englishSource": "Unknown"
   },
   "inputNotesConsumed": {
-    "message": "Input notes consumed",
-    "englishSource": "Input notes consumed"
+    "message": "Вхідні Notes використано",
+    "englishSource": "Input Notes consumed"
   },
   "outputNotesCreated": {
-    "message": "Output notes created",
-    "englishSource": "Output notes created"
+    "message": "Вихідні Notes створені",
+    "englishSource": "Output Notes created"
   },
   "storageChanged": {
     "message": "Пам'ять змінено",
@@ -4898,16 +4877,16 @@
     "englishSource": "Requests a transaction"
   },
   "requestsToConsumeNote": {
-    "message": "Requests to consume a note",
+    "message": "Прохання спожити записку",
     "englishSource": "Requests to consume a note"
   },
   "requestPrivateNotes": {
-    "message": "Request Private Notes",
+    "message": "Запит на особисті Notes",
     "englishSource": "Request Private Notes"
   },
   "requestsPrivateNotes": {
-    "message": "Requests private notes",
-    "englishSource": "Requests private notes"
+    "message": "Запитує особисті Notes",
+    "englishSource": "Requests private Notes"
   },
   "confirmSignature": {
     "message": "Підтвердити підпис",
@@ -4926,20 +4905,20 @@
     "englishSource": "Requests assets"
   },
   "requestImportPrivateNote": {
-    "message": "Request Import Private Note",
+    "message": "Надіслати запит на імпорт приватної Notes",
     "englishSource": "Request Import Private Note"
   },
   "importPrivateNote": {
-    "message": "Import private note",
+    "message": "Імпорт приватної Notes",
     "englishSource": "Import private note"
   },
   "requestConsumableNotes": {
-    "message": "Request Consumable Notes",
+    "message": "Запит на примітки до витратних матеріалів",
     "englishSource": "Request Consumable Notes"
   },
   "requestsConsumableNotes": {
-    "message": "Request consumable notes",
-    "englishSource": "Request consumable notes"
+    "message": "Вимагайте приміток до витратних матеріалів",
+    "englishSource": "Request consumable Notes"
   },
   "review": {
     "message": "огляд",
@@ -4986,7 +4965,7 @@
     "englishSource": "Get tokens"
   },
   "getTokensDescription": {
-    "message": "You can get tokens from the faucet or transfer them from another wallet or account.",
+    "message": "Ви можете отримати токени з Faucet або переказати їх з іншого гаманця чи облікового запису.",
     "englishSource": "You can get tokens from the faucet or transfer them from another wallet or account."
   },
   "transferTokens": {
@@ -4994,11 +4973,11 @@
     "englishSource": "Transfer tokens"
   },
   "midenFaucet": {
-    "message": "Miden Faucet",
+    "message": "Faucet Miden",
     "englishSource": "Miden Faucet"
   },
   "midenFaucetDescription": {
-    "message": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet.",
+    "message": "Натискання кнопки нижче скопіює вашу адресу в буфер обміну та переведе вас до Miden Faucet.",
     "englishSource": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet."
   },
   "accountPublicKey": {
@@ -5026,7 +5005,7 @@
     "englishSource": "Add Account"
   },
   "faucetIdUpdated": {
-    "message": "Faucet ID Updated",
+    "message": "Ідентифікатор Faucet оновлено",
     "englishSource": "Faucet ID Updated"
   },
   "connectivityIssueDetected": {
@@ -5038,11 +5017,11 @@
     "englishSource": "Wallet may be offline or out of sync."
   },
   "noteConsumedSuccessfully": {
-    "message": "Your note was successfully consumed.",
+    "message": "Вашу note успішно використано.",
     "englishSource": "Your note was successfully consumed."
   },
   "noteConsumptionError": {
-    "message": "There was an error consuming your note. Please try again.",
+    "message": "Під час використання вашої Notes сталася помилка. Спробуйте ще раз.",
     "englishSource": "There was an error consuming your note. Please try again."
   },
   "dragAndDropFile": {

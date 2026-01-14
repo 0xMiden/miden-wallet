@@ -20,11 +20,11 @@
     "englishSource": "Create or Restore account"
   },
   "faucetFileTitle": {
-    "message": "Faucet File",
+    "message": "Faucet 파일",
     "englishSource": "Faucet File"
   },
   "faucetFile": {
-    "message": "Faucet file",
+    "message": "Faucet 파일",
     "englishSource": "Faucet file"
   },
   "settings": {
@@ -265,11 +265,11 @@
     "englishSource": "Use CoinSwitch"
   },
   "aleoFaucet": {
-    "message": "Aleo Faucet",
+    "message": "알레오 Faucet",
     "englishSource": "Aleo Faucet"
   },
   "aleoFaucetAlpha": {
-    "message": "Aleo Faucet (Alpha)",
+    "message": "알레오 Faucet(알파)",
     "englishSource": "Aleo Faucet (Alpha)"
   },
   "depositToWallet": {
@@ -277,7 +277,7 @@
     "englishSource": "Deposit to your wallet"
   },
   "depositToWalletDescription": {
-    "message": "Click on deposit method to get money on your wallet. Use faucet to get free coins!",
+    "message": "지갑에 돈을 입금하려면 입금 방법을 클릭하세요. Faucet를 사용하여 무료 코인을 받으세요!",
     "englishSource": "Click on deposit method to get money on your wallet. Use faucet to get free coins!"
   },
   "addToken": {
@@ -439,7 +439,7 @@
     "englishSource": "1-16 characters, no special"
   },
   "accountsToRemoveConstraint": {
-    "message": "Your seed phrase will always be able to regenerate this wallet. It is impossible to delete it.",
+    "message": "귀하의 Seed Phrase는 항상 이 지갑을 재생성할 수 있습니다. 삭제하는 것은 불가능합니다.",
     "englishSource": "Your seed phrase will always be able to regenerate this wallet. It is impossible to delete it."
   },
   "doNotSharePrivateKey": {
@@ -593,7 +593,7 @@
     "englishSource": "Create a new Wallet"
   },
   "createNewWalletDescription": {
-    "message": "New to Leo Wallet? Let's set it up! This will create a new wallet and seed phrase",
+    "message": "Leo 지갑을 처음 사용하시나요? 설정해 봅시다! 그러면 새로운 지갑과 Seed Phrase가 생성됩니다.",
     "englishSource": "New to Leo Wallet? Let's set it up! This will create a new wallet and seed phrase"
   },
   "delegate": {
@@ -665,7 +665,7 @@
     "englishSource": "Custom derivation path"
   },
   "mnemonicInputLabel": {
-    "message": "Seed phrase",
+    "message": "Seed Phrase",
     "englishSource": "Seed phrase"
   },
   "mnemonicInputPlaceholder": {
@@ -722,12 +722,7 @@
     "englishSource": "Something went wrong"
   },
   "faucetFileInputPrompt": {
-    "message": "Drag & drop a file or select it manually by clicking on the area below. You can download it from $link$.",
-    "placeholders": {
-      "link": {
-        "content": "$1"
-      }
-    },
+    "message": "견인 $link$ .",
     "englishSource": "Drag & drop a file or select it manually by clicking on the area below. You can download it from $link$."
   },
   "processing": {
@@ -759,11 +754,11 @@
     "englishSource": "Also known as \"Export Account\", reveals private key for your selected account."
   },
   "revealSeedPhrase": {
-    "message": "Reveal Seed Phrase",
+    "message": "Seed Phrase 공개",
     "englishSource": "Reveal Seed Phrase"
   },
   "revealSeedPhraseDescription": {
-    "message": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices.",
+    "message": "\"지갑 내보내기\"라고도 알려진 이 Seed Phrase는 다른 장치에서 지갑과 계정에 액세스하는 데 필요할 수 있습니다.",
     "englishSource": "Also known as \"Export Wallet\", you may need this seed phrase to access your wallet and accounts on other devices."
   },
   "dApps": {
@@ -785,7 +780,7 @@
     "englishSource": "Activate Account"
   },
   "activateAccountDescription": {
-    "message": "It may be necessary for ICO/Fundraiser or testnet faucet accounts.",
+    "message": "ICO/펀드레이저 또는 테스트넷 Faucet 계정에 필요할 수 있습니다.",
     "englishSource": "It may be necessary for ICO/Fundraiser or testnet faucet accounts."
   },
   "removeAccount": {
@@ -825,7 +820,7 @@
     "englishSource": "Restore Account? Want to sign in another?"
   },
   "importWalletUsingSeedPhrase": {
-    "message": "Import Wallet using Seed Phrase",
+    "message": "Seed Phrase를 사용하여 지갑 가져오기",
     "englishSource": "Import Wallet using Seed Phrase"
   },
   "connectLedger": {
@@ -886,7 +881,7 @@
     "englishSource": "Secret"
   },
   "activateAccountSecretDescription": {
-    "message": "'secret' field from Fundraiser Account or Faucet",
+    "message": "Fundraiser 계정 또는 Faucet의 '비밀' 필드",
     "englishSource": "'secret' field from Fundraiser Account or Faucet"
   },
   "activateAccountSecretPlaceholder": {
@@ -1159,7 +1154,7 @@
     "englishSource": "Unknown:"
   },
   "backupNewSeedPhrase": {
-    "message": "New Seed Phrase",
+    "message": "새로운 Seed Phrase",
     "englishSource": "New Seed Phrase"
   },
   "attentionExclamation": {
@@ -1207,14 +1202,14 @@
     "englishSource": "Create"
   },
   "revealNewSeedPhrase": {
-    "message": "<b>Click on area below</b> to reveal your new Seed Phrase.\nThen, write this phrase on a piece of paper and <b>store in a secure location</b>. Or you can memorize it.",
+    "message": "<b>아래 영역을 클릭</b>하여 새로운 Seed Phrase를 확인하세요.\n그런 다음 종이에 이 문구를 적고 <b>안전한 장소에 보관</b>하세요. 아니면 암기해도 됩니다.",
     "englishSource": "<b>Click on area below</b> to reveal your new Seed Phrase.\nThen, write this phrase on a piece of paper and <b>store in a secure location</b>. Or you can memorize it."
   },
   "doNotSharePhrase": {
     "message": "아무하고도 이 문구를 <b>공유하지 마세요!</b> 모든 계정을 도난 당할 수 있습니다."
   },
   "youWillNeedThisSeedPhrase": {
-    "message": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever.",
+    "message": "비밀 Seed Phrase를 적어서 안전한 곳에 보관해주세요. 이 문구는 계정을 복구할 수 있는 유일한 방법입니다. 누구와도 공유하지 마십시오. 이 문구를 아는 사람은 누구나 귀하의 자산을 영원히 가져갈 수 있습니다.",
     "englishSource": "Please write down your secret recovery phrase and keep it in a safe place. This phrase is the only way to recover your account. Do not share it with anyone. Anyone with this phrase can take your assets forever."
   },
   "unableToContinueWithoutConfirming": {
@@ -1222,7 +1217,7 @@
     "englishSource": "Unable to continue without confirming"
   },
   "backupedInputLabel": {
-    "message": "I made Seed Phrase backup",
+    "message": "Seed Phrase 백업을 만들었어요",
     "englishSource": "I made Seed Phrase backup"
   },
   "backupedInputDescription": {
@@ -1299,8 +1294,7 @@
     "englishSource": "Seed Phrase"
   },
   "pathForHDAccounts": {
-    "message": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase.",
-    "description": "HD = Hierarchical Deterministic",
+    "message": "HD 계정의 경우. 이것은 Seed Phrase에서 모든 계정을 복구하는 데 사용하는 것입니다.",
     "englishSource": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase."
   },
   "derivationPathExample": {
@@ -1312,7 +1306,7 @@
     "englishSource": "e.g. m/44'/1729'/..."
   },
   "keepSeedPhraseSecret": {
-    "message": "Keep it in secret.",
+    "message": "비밀로 유지하세요.",
     "englishSource": "Keep it in secret."
   },
   "revealSecretPasswordInputDescription": {
@@ -1413,7 +1407,7 @@
     "englishSource": "Unable to estimate transaction to provided Recipient."
   },
   "makeSureToBackupSeedPhrase": {
-    "message": "Make sure to back up your seed phrase!",
+    "message": "Seed Phrase를 꼭 백업해두세요!",
     "englishSource": "Make sure to back up your seed phrase!"
   },
   "exploreMore": {
@@ -1923,7 +1917,7 @@
     "englishSource": "Invalid JSON"
   },
   "notFaucetJson": {
-    "message": "Not a faucet JSON",
+    "message": "Faucet JSON이 아님",
     "englishSource": "Not a faucet JSON"
   },
   "faucetJson": {
@@ -1931,7 +1925,7 @@
     "englishSource": "Faucet JSON"
   },
   "faucetJsonDescription": {
-    "message": "You can paste JSON here instead of adding file",
+    "message": "파일을 추가하는 대신 여기에 JSON을 붙여넣을 수 있습니다.",
     "englishSource": "You can paste JSON here instead of adding file"
   },
   "selectFile": {
@@ -2095,7 +2089,7 @@
     "englishSource": "Inclusion of at least one special character, e.g., ! @ # ? ] - (optional, recommended)."
   },
   "seedInputNumberOfWords": {
-    "message": "My Seed phrase is $1 words",
+    "message": "내 Seed Phrase는 $1 단어입니다.",
     "englishSource": "My Seed phrase is $1 words"
   },
   "seedPasteFailedTooManyWords": {
@@ -2103,7 +2097,7 @@
     "englishSource": "Paste failed because it contained over 24 words."
   },
   "seedPhraseTip": {
-    "message": "You can paste your entire secret Seed phrase into any field",
+    "message": "전체 비밀 Seed 문구를 어떤 필드에나 붙여넣을 수 있습니다.",
     "englishSource": "You can paste your entire secret Seed phrase into any field"
   },
   "assetMustBeSelected": {
@@ -2119,15 +2113,7 @@
     "englishSource": "Get"
   },
   "exolixWarningNote": {
-    "message": "Please, deposit only $currencyName$ transfer network $networkName$. Otherwise, you may lose your assets permanently.",
-    "placeholders": {
-      "currencyName": {
-        "content": "$1"
-      },
-      "networkName": {
-        "content": "$1"
-      }
-    },
+    "message": "입금만 부탁드립니다 $currencyName$ 환승 네트워크 $networkName$ . 그렇지 않으면 자산을 영구적으로 잃을 수 있습니다.",
     "englishSource": "Please, deposit only $currencyName$ transfer network $networkName$. Otherwise, you may lose your assets permanently."
   },
   "mnemonicInputDescription": {
@@ -2135,7 +2121,7 @@
     "englishSource": "Mnemonic. Your secret 12 - 24 words phrase."
   },
   "mnemonicInputWarning": {
-    "message": "We don't store your seed phrase. Don't lose it!",
+    "message": "우리는 귀하의 Seed Phrase를 저장하지 않습니다. 그것을 잃지 마세요!",
     "englishSource": "We don't store your seed phrase. Don't lose it!"
   },
   "importWallet": {
@@ -2167,7 +2153,7 @@
     "englishSource": "Only files of version 3 can be processed"
   },
   "kukaiWalletTypeError": {
-    "message": "Cannot reveal seed phrase for this wallet type",
+    "message": "이 지갑 유형에 대한 Seed Phrase를 공개할 수 없습니다",
     "englishSource": "Cannot reveal seed phrase for this wallet type"
   },
   "revealViewKey": {
@@ -2187,7 +2173,7 @@
     "englishSource": "You have entered the wrong password three times. Your wallet is being blocked for"
   },
   "importExistingWalletDescription": {
-    "message": "Already have a wallet? Import it using your seed phrase or encrypted keystore file",
+    "message": "이미 지갑이 있나요? Seed Phrase 또는 암호화된 키 저장소 파일을 사용하여 가져옵니다.",
     "englishSource": "Already have a wallet? Import it using your seed phrase or encrypted keystore file"
   },
   "routingFee": {
@@ -2733,11 +2719,11 @@
     "englishSource": "Add this address to contacts?"
   },
   "verifySeedPhrase": {
-    "message": "Verify Seed Phrase",
+    "message": "Seed Phrase 확인",
     "englishSource": "Verify Seed Phrase"
   },
   "verifySeedPhraseDescription": {
-    "message": "Fill in the blank fields with the words to verify your Seed Phrase backup",
+    "message": "Seed Phrase 백업을 확인하려면 빈 필드에 단어를 입력하세요.",
     "englishSource": "Fill in the blank fields with the words to verify your Seed Phrase backup"
   },
   "word": {
@@ -2890,7 +2876,7 @@
     "englishSource": "Attention"
   },
   "attentionDescription": {
-    "message": "Never and under any pretext share your private keys and seed phrase with third parties.",
+    "message": "어떤 구실로도 개인 키와 Seed Phrase를 제3자와 공유하지 마십시오.",
     "englishSource": "Never and under any pretext share your private keys and seed phrase with third parties."
   },
   "attentionListTitle1": {
@@ -3141,7 +3127,7 @@
     "englishSource": "Transaction ID:"
   },
   "atomDepositMemo": {
-    "message": "아톰 입금 메모",
+    "message": "아톰 입금 Note",
     "englishSource": "Atom Deposit Memo"
   },
   "recipientAddress": {
@@ -3571,7 +3557,7 @@
     "englishSource": "It can be used to steal all your accounts."
   },
   "changeSeedPhrase": {
-    "message": "Change Seed Phrase",
+    "message": "Seed Phrase 변경",
     "englishSource": "Change Seed Phrase"
   },
   "firefoxLedgerConnectionError": {
@@ -3724,31 +3710,31 @@
     "englishSource": "Faucet"
   },
   "aleoFaucetDescription": {
-    "message": "All distributed credits are for testing purposes and do not have value.",
+    "message": "모든 배포된 크레딧은 테스트 목적으로만 사용되며 가치가 없습니다.",
     "englishSource": "All distributed credits are for testing purposes and do not have value."
   },
   "aleoFaucetStep1": {
-    "message": "Scan the QR code with your Phone",
+    "message": "휴대폰으로 QR 코드를 스캔하세요",
     "englishSource": "Scan the QR code with your Phone"
   },
   "aleoFaucetStep1Description": {
-    "message": "And click on the prompt it shows you.",
+    "message": "그리고 표시되는 프롬프트를 클릭하세요.",
     "englishSource": "And click on the prompt it shows you."
   },
   "aleoFaucetStep2": {
-    "message": "Confirm and send the SMS",
+    "message": "SMS 확인 및 보내기",
     "englishSource": "Confirm and send the SMS"
   },
   "aleoFaucetStep2Description": {
-    "message": "(Message and data rates may apply)",
+    "message": "(메시지 및 데이터 요금이 부과될 수 있습니다)",
     "englishSource": "(Message and data rates may apply)"
   },
   "aleoFaucetStep3": {
-    "message": "Get Aleo credits",
+    "message": "Aleo 크레딧 받기",
     "englishSource": "Get Aleo credits"
   },
   "aleoFaucetStep3Description": {
-    "message": "Aleo Faucet will send you credits.",
+    "message": "Aleo Faucet에서 크레딧을 보내드립니다.",
     "englishSource": "Aleo Faucet will send you credits."
   },
   "deployAction": {
@@ -4054,7 +4040,7 @@
     "englishSource": "Initial stake must be at least 10 ALEO"
   },
   "pleaseNote": {
-    "message": "Please Note",
+    "message": "참고하세요",
     "englishSource": "Please Note"
   },
   "unstakingProcess": {
@@ -4140,22 +4126,19 @@
     "englishSource": "Popular"
   },
   "verifyMessagePrefix": {
-    "message": "비밀 복구 문구를 저장했는지 확인하세요. 문구에서 첫 번째 단어와 마지막 단어를 선택하세요.",
+    "message": "비밀 Seed Phrase를 저장했는지 확인하세요. 문구에서 첫 번째 단어와 마지막 단어를 선택하세요.",
     "englishSource": "Confirm you've saved your secret recovery phrase. Select the first and last words from your phrase."
   },
   "enterYourWalletSeedPhrase": {
-    "message": "Enter your wallet's 12-word Seed phrase.",
-    "note": "Onboarding",
+    "message": "지갑의 12단어 Seed Phrase를 입력하세요.",
     "englishSource": "Enter your wallet's 12-word Seed phrase."
   },
   "onlyAleoSeedPhrasesAreSupported": {
-    "message": "Only Aleo Seed phrases are supported.",
-    "note": "Onboarding",
+    "message": "Aleo Seed 문구만 지원됩니다.",
     "englishSource": "Only Aleo Seed phrases are supported."
   },
   "seedPhrasePlaceholder": {
-    "message": "12-word Seed phrase",
-    "note": "Onboarding",
+    "message": "12단어 Seed Phrase",
     "englishSource": "12-word Seed phrase"
   },
   "join": {
@@ -4349,11 +4332,11 @@
     "englishSource": "Faucet ID"
   },
   "setNewFaucetId": {
-    "message": "Set new Faucet ID",
+    "message": "새로운 Faucet ID 설정",
     "englishSource": "Set new Faucet ID"
   },
   "setNewFaucetIdDescription": {
-    "message": "Enter the ID of a miden faucet",
+    "message": "미덴 Faucet의 ID를 입력하세요",
     "englishSource": "Enter the ID of a miden faucet"
   },
   "encryptedWalletFile": {
@@ -4373,7 +4356,7 @@
     "englishSource": "Enter a password to encrypt your wallet file. You'll need this password to restore your wallet later."
   },
   "editMidenFaucetId": {
-    "message": "Edit Miden Faucet ID",
+    "message": "Miden Faucet ID 편집",
     "englishSource": "Edit Miden Faucet ID"
   },
   "exportWalletFile": {
@@ -4391,8 +4374,7 @@
     "englishSource": "Your wallet has been created."
   },
   "noSeedPhrase": {
-    "message": "No Seed Phrase",
-    "note": "Onboarding",
+    "message": "Seed Phrase 없음",
     "englishSource": "No Seed Phrase"
   },
   "recovery": {
@@ -4401,8 +4383,7 @@
     "englishSource": "Recovery"
   },
   "yourAccountIsProtected": {
-    "message": "Your account is protected by an encrypted file instead of a seed phrase.",
-    "note": "Onboarding",
+    "message": "귀하의 계정은 Seed Phrase 대신 암호화된 파일로 보호됩니다.",
     "englishSource": "Your account is protected by an encrypted file instead of a seed phrase."
   },
   "downloadAndSecurelyStore": {
@@ -4426,13 +4407,11 @@
     "englishSource": "Restore public balance with your 12-word phrase. To restore private balance, upload an encrypted backup file."
   },
   "importWithSeedPhrase": {
-    "message": "Import with Seed Phrase",
-    "note": "Onboarding",
+    "message": "Seed Phrase로 가져오기",
     "englishSource": "Import with Seed Phrase"
   },
   "importWithSeedPhraseDescription": {
-    "message": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers.",
-    "note": "Onboarding",
+    "message": "기존 12단어 Seed Phrase를 사용하세요. 다른 지갑 제공업체로부터 지갑을 가져올 수도 있습니다.",
     "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
   },
   "importWithEncryptedWalletFile": {
@@ -4446,7 +4425,7 @@
     "englishSource": "Upload your encrypted wallet file to securely import your account. Your data remains private, with only hashed information stored on-chain"
   },
   "onlyMidenSeedPhrasesAreSupported": {
-    "message": "Only Miden Seed phrases are supported.",
+    "message": "Miden Seed 구문만 지원됩니다.",
     "englishSource": "Only Miden Seed phrases are supported."
   },
   "passwordsDoNotMatch": {
@@ -4458,7 +4437,7 @@
     "englishSource": "Wallet Reset Required"
   },
   "resetRequiredDescription": {
-    "message": "Miden Testnet has upgraded to bech32 account IDs to improve your experience. To keep using your wallet, please restore from a backup file or seed phrase, or create a new one.",
+    "message": "Miden Testnet은 귀하의 경험을 향상시키기 위해 bech32 계정 ID로 업그레이드되었습니다. 지갑을 계속 사용하려면 백업 파일이나 Seed Phrase를 복원하거나 새로 생성하세요.",
     "englishSource": "Miden Testnet has upgraded to bech32 account IDs to improve your experience. To keep using your wallet, please restore from a backup file or seed phrase, or create a new one."
   },
   "resetRequiredSecondDescription": {
@@ -4478,7 +4457,7 @@
     "englishSource": "If you've forgotten your password, you need to sign out and re-import your account. After that, you can create a new password."
   },
   "forgotPasswordSecondDescription": {
-    "message": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file.",
+    "message": "12단어 Seed 문구를 모르거나 암호화된 백업 파일이 없으면 로그아웃하지 마세요.",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
   "signOut": {
@@ -4530,7 +4509,7 @@
     "englishSource": "Upload your encrypted wallet file to securely restore your account. Your data remains private, with only hashed information stored on-chain."
   },
   "goToFaucet": {
-    "message": "Go to Faucet",
+    "message": "Faucet로 이동",
     "englishSource": "Go to Faucet"
   },
   "explorePrivateAssets": {
@@ -4538,12 +4517,12 @@
     "englishSource": "Explore the world of private assets."
   },
   "autoConsumeSettings": {
-    "message": "Auto Consume MIDEN notes",
-    "englishSource": "Auto Consume MIDEN notes"
+    "message": "MIDEN Note 자동 소비",
+    "englishSource": "Auto Consume MIDEN Notes"
   },
   "autoConsumeSettingsDescription": {
-    "message": "Auto Consume will automatically consume notes from the official Miden Faucet.",
-    "englishSource": "Auto Consume will automatically consume notes from the official Miden Faucet."
+    "message": "자동 소비는 공식 Miden Faucet의 Note를 자동으로 소비합니다.",
+    "englishSource": "Auto Consume will automatically consume Notes from the official Miden Faucet."
   },
   "encryptedWalletFileExported": {
     "message": "암호화된 지갑 파일을 내보냈습니다.",
@@ -4686,7 +4665,7 @@
     "englishSource": "On-chain Account (Public)"
   },
   "onChainAccountDescription": {
-    "message": "기존 12단어 복구 문구를 사용하세요. 다른 지갑 제공업체로부터 지갑을 가져올 수도 있습니다.",
+    "message": "기존 12단어 Seed Phrase를 사용하세요. 다른 지갑 제공업체로부터 지갑을 가져올 수도 있습니다.",
     "englishSource": "Use an existing 12 word recovery phrase. You can also import wallets from other wallet providers."
   },
   "offChainAccountPrivate": {
@@ -4734,7 +4713,7 @@
     "englishSource": "Timestamp"
   },
   "noteType": {
-    "message": "Note Type",
+    "message": "Note 유형",
     "englishSource": "Note Type"
   },
   "noteId": {
@@ -4766,11 +4745,11 @@
     "englishSource": "Sign the following Word $word$?"
   },
   "sharePrivateNoteDataForAccount": {
-    "message": "Share all private note data for account",
+    "message": "계정의 모든 비공개 Note 데이터 공유",
     "englishSource": "Share all private note data for account"
   },
   "downloadPrivateNoteData": {
-    "message": "Download Private Note Data",
+    "message": "개인 Note 데이터 다운로드",
     "englishSource": "Download Private Note Data"
   },
   "transactionAffectsAccountStorage": {
@@ -4790,12 +4769,12 @@
     "englishSource": "Unknown"
   },
   "inputNotesConsumed": {
-    "message": "Input notes consumed",
-    "englishSource": "Input notes consumed"
+    "message": "소비된 입력 Note",
+    "englishSource": "Input Notes consumed"
   },
   "outputNotesCreated": {
-    "message": "Output notes created",
-    "englishSource": "Output notes created"
+    "message": "생성된 출력 Note",
+    "englishSource": "Output Notes created"
   },
   "storageChanged": {
     "message": "저장용량이 변경됨",
@@ -4826,16 +4805,16 @@
     "englishSource": "Requests a transaction"
   },
   "requestsToConsumeNote": {
-    "message": "Requests to consume a note",
+    "message": "Note 사용 요청",
     "englishSource": "Requests to consume a note"
   },
   "requestPrivateNotes": {
-    "message": "Request Private Notes",
+    "message": "비공개 Note 요청",
     "englishSource": "Request Private Notes"
   },
   "requestsPrivateNotes": {
-    "message": "Requests private notes",
-    "englishSource": "Requests private notes"
+    "message": "비공개 Note 요청",
+    "englishSource": "Requests private Notes"
   },
   "confirmSignature": {
     "message": "서명 확인",
@@ -4854,20 +4833,20 @@
     "englishSource": "Requests assets"
   },
   "requestImportPrivateNote": {
-    "message": "Request Import Private Note",
+    "message": "개인 Note 가져오기 요청",
     "englishSource": "Request Import Private Note"
   },
   "importPrivateNote": {
-    "message": "Import private note",
+    "message": "비공개 Note 가져오기",
     "englishSource": "Import private note"
   },
   "requestConsumableNotes": {
-    "message": "Request Consumable Notes",
+    "message": "소모품 Note 요청",
     "englishSource": "Request Consumable Notes"
   },
   "requestsConsumableNotes": {
-    "message": "Request consumable notes",
-    "englishSource": "Request consumable notes"
+    "message": "소모품 Note 요청",
+    "englishSource": "Request consumable Notes"
   },
   "review": {
     "message": "검토",
@@ -4914,7 +4893,7 @@
     "englishSource": "Get tokens"
   },
   "getTokensDescription": {
-    "message": "You can get tokens from the faucet or transfer them from another wallet or account.",
+    "message": "Faucet에서 토큰을 얻거나 다른 지갑이나 계정에서 전송할 수 있습니다.",
     "englishSource": "You can get tokens from the faucet or transfer them from another wallet or account."
   },
   "transferTokens": {
@@ -4922,11 +4901,11 @@
     "englishSource": "Transfer tokens"
   },
   "midenFaucet": {
-    "message": "Miden Faucet",
+    "message": "미덴 Faucet",
     "englishSource": "Miden Faucet"
   },
   "midenFaucetDescription": {
-    "message": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet.",
+    "message": "아래 버튼을 클릭하면 주소가 클립보드에 복사되고 Miden Faucet로 이동됩니다.",
     "englishSource": "Clicking the button below will copy your address to the clipboard and navigate you to the Miden Faucet."
   },
   "accountPublicKey": {
@@ -4954,7 +4933,7 @@
     "englishSource": "Add Account"
   },
   "faucetIdUpdated": {
-    "message": "Faucet ID Updated",
+    "message": "Faucet ID가 업데이트되었습니다.",
     "englishSource": "Faucet ID Updated"
   },
   "connectivityIssueDetected": {
@@ -4966,11 +4945,11 @@
     "englishSource": "Wallet may be offline or out of sync."
   },
   "noteConsumedSuccessfully": {
-    "message": "Your note was successfully consumed.",
+    "message": "귀하의 Note가 성공적으로 사용되었습니다.",
     "englishSource": "Your note was successfully consumed."
   },
   "noteConsumptionError": {
-    "message": "There was an error consuming your note. Please try again.",
+    "message": "Note를 사용하는 중에 오류가 발생했습니다. 다시 시도해 주세요.",
     "englishSource": "There was an error consuming your note. Please try again."
   },
   "dragAndDropFile": {
