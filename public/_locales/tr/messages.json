@@ -3,6 +3,10 @@
     "message": "Miden - Miden Wallet",
     "englishSource": "Miden Wallet"
   },
+  "appDesc": {
+    "message": "Miden blok zinciri için bir tarayıcı cüzdanı",
+    "englishSource": "A browser wallet for the Miden blockchain"
+  },
   "createAccount": {
     "message": "Hesap Oluştur veya Geri Yükle",
     "englishSource": "Create or Restore account"
@@ -186,13 +190,8 @@
     "englishSource": "1-16 characters, no special"
   },
   "defaultAccountName": {
-    "message": "Hesap $accountNumber$",
-    "placeholders": {
-      "accountNumber": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Account $accountNumber$"
+    "message": "Hesap {{accountNumber}}",
+    "englishSource": "Account {{accountNumber}}"
   },
   "doNotSharePrivateKey1": {
     "message": "Kimseyle PAYLAŞMAYIN!",
@@ -251,8 +250,8 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "Tohum ifadem 1 dolarlık kelimedir",
-    "englishSource": "My Seed phrase is $1 words"
+    "message": "Seed phrase değerim {{num}} kelimedir",
+    "englishSource": "My Seed phrase is {{num}} words"
   },
   "justValidPreGeneratedMnemonic": {
     "message": "Yalnızca daha önceden oluşturulmuş geçerli anımsatıcı ifade",
@@ -271,13 +270,8 @@
     "englishSource": "Oops!"
   },
   "smthWentWrongWhile": {
-    "message": "$action$ sırasında bir hata oluştu",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Something went wrong while $action$"
+    "message": "{{action}} sırasında bir şeyler ters gitti",
+    "englishSource": "Something went wrong while {{action}}"
   },
   "mayHappenBecauseYouAreOffline": {
     "message": "Bunun nedeni şu anda çevrimdışı olmanız olabilir",
@@ -304,17 +298,12 @@
     "englishSource": "Private key cannot be revealed"
   },
   "youCannotGetPrivateKeyFromThisAccountType": {
-    "message": "Özel anahtarı alamazsınız $accountType$ hesaplar.",
-    "englishSource": "You cannot get private key from $accountType$ accounts."
+    "message": "{{accountType}} hesaplarından özel anahtar alamazsınız.",
+    "englishSource": "You cannot get private key from {{accountType}} accounts."
   },
   "maximalAmount": {
-    "message": "En fazla: $amount$",
-    "placeholders": {
-      "amount": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Maximal: $amount$"
+    "message": "Maksimum: {{miktar}}",
+    "englishSource": "Maximal: {{amount}}"
   },
   "accountName": {
     "message": "Hesap adı",
@@ -572,8 +561,8 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "Yeterli değil $currency$ fonlar",
-    "englishSource": "Not enough $currency$ funds"
+    "message": "Yeterli {{currency}} fon yok",
+    "englishSource": "Not enough {{currency}} funds"
   },
   "failed": {
     "message": "Başarısız",
@@ -588,26 +577,16 @@
     "englishSource": "This may happen because:"
   },
   "minimalFeeGreaterThanBalanceVerbose": {
-    "message": "Bu işlem için en düşük ücret bakiyenizin üzerindedir. Boş bir Yönetici hesabına fon gönderdiğiniz için yüksek ücret gerekebilir. Bunun için tek seferlik 0,06425 $gasTokenSymbol$ yakma ücreti gereklidir;",
-    "placeholders": {
-      "gasTokenSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 $gasTokenSymbol$ burn fee;"
+    "message": "Bu işlemin minimum ücreti bakiyenizden daha fazla. Boş bir Yönetici hesabına para göndermeniz nedeniyle büyük bir ücret gerekebilir. Bu, bir defaya mahsus 0,06425 {{gasTokenSymbol}} tutarında yakma ücreti gerektirir;",
+    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 {{gasTokenSymbol}} burn fee;"
   },
   "networkOrOtherIssue": {
     "message": "Ağ sorunu veya başka bir teknik sorun.",
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "$action$ işlemini onayla",
-    "placeholders": {
-      "action": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Confirm $action$"
+    "message": "{{action}} onayla",
+    "englishSource": "Confirm {{action}}"
   },
   "confirm": {
     "message": "Onayla",
@@ -714,13 +693,8 @@
     "englishSource": "Keep it in secret."
   },
   "revealSecretPasswordInputDescription": {
-    "message": "$secretName$ sözcüğünü göstermek için parola girin.",
-    "placeholders": {
-      "secretName": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Enter password to reveal the $secretName$."
+    "message": "{{secretName}}'ı ortaya çıkarmak için şifreyi girin.",
+    "englishSource": "Enter password to reveal the {{secretName}}."
   },
   "reveal": {
     "message": "Göster",
@@ -823,22 +797,12 @@
     "englishSource": "No assets found"
   },
   "ifYouDontSeeYourAsset": {
-    "message": "Varlığınızı görmezseniz\n$toClick$ öğesine tıklamayı deneyin.",
-    "placeholders": {
-      "toClick": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "If you don't see your asset,\ntry to click $toClick$."
+    "message": "Varlığınızı göremiyorsanız,\n{{toClick}} tıklamayı deneyin.",
+    "englishSource": "If you don't see your asset,\ntry to click {{toClick}}."
   },
   "addressOfTokenContract": {
-    "message": "$assetSymbol$ token sözleşmesinin adresi.",
-    "placeholders": {
-      "assetSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Address of a $assetSymbol$ token contract."
+    "message": "{{assetSymbol}} token sözleşmesinin adresi.",
+    "englishSource": "Address of a {{assetSymbol}} token contract."
   },
   "searchAssets": {
     "message": "Varlıkları ara...",
@@ -937,31 +901,16 @@
     "englishSource": "Other"
   },
   "thousandFormat": {
-    "message": "$thousand$k",
-    "placeholders": {
-      "thousand": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$thousand$k"
+    "message": "{{bin}}k",
+    "englishSource": "{{thousand}}k"
   },
   "millionFormat": {
-    "message": "$million$M",
-    "placeholders": {
-      "million": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$million$M"
+    "message": "{{milyon}}M",
+    "englishSource": "{{million}}M"
   },
   "billionFormat": {
-    "message": "$billion$B",
-    "placeholders": {
-      "billion": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "$billion$B"
+    "message": "{{milyar}}B",
+    "englishSource": "{{billion}}B"
   },
   "uploadFile": {
     "message": "Dosya yükleme",
@@ -1021,13 +970,8 @@
     "englishSource": "Verify Seed Phrase"
   },
   "word": {
-    "message": "Sözcük $number$",
-    "placeholders": {
-      "number": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Word $number$"
+    "message": "Kelime {{sayı}}",
+    "englishSource": "Word {{number}}"
   },
   "finish": {
     "message": "Bitir",
@@ -1683,8 +1627,8 @@
     "englishSource": "(invalid payload)"
   },
   "signTheFollowingWord": {
-    "message": "Aşağıdaki Kelimeyi İmzalayın $word$ ?",
-    "englishSource": "Sign the following Word $word$?"
+    "message": "Aşağıdaki Kelime {{kelime}} imzalansın mı?",
+    "englishSource": "Sign the following Word {{word}}?"
   },
   "sharePrivateNoteDataForAccount": {
     "message": "Hesap için tüm özel not verilerini paylaş",

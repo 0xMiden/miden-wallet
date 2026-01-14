@@ -209,50 +209,59 @@ const Settings: FC<SettingsProps> = ({ tabSlug }) => {
     }
   }, [popup]);
 
+  const contentHeight = fullPage ? '491px' : '459px';
+
   return (
     <PageLayout
       pageTitle={activeTab ? t(activeTab.titleI18nKey) : t('settings')}
       hasBackAction={activeTab ? true : false}
     >
-      <div className={classNames('flex flex-col flex-1', activeTab ? '' : 'pb-4')} style={{ minHeight: '458px' }}>
-        <div className="px-4 overflow-y-auto" style={fullPage ? {} : { maxHeight: '458px' }}>
-          {activeTab ? (
-            <activeTab.Component />
-          ) : (
-            <div className="flex flex-col w-full">
-              {listMenuItems.map(({ slug, titleI18nKey, Icon, testID, insertHR, iconStyle, fullDialog }, i) => {
-                const linkTo = fullDialog ? slug : `/settings/${slug}`;
-                return (
+      <div className="px-4">
+        <div
+          className={classNames('-mx-4 bg-white overflow-y-auto', activeTab ? '' : 'pb-4')}
+          style={{ height: contentHeight }}
+        >
+          <div className="px-4">
+            {activeTab ? (
+              <activeTab.Component />
+            ) : (
+              <div className="flex flex-col w-full">
+                {listMenuItems.map(({ slug, titleI18nKey, Icon, testID, insertHR, iconStyle, fullDialog }, i) => {
+                  const linkTo = fullDialog ? slug : `/settings/${slug}`;
+                  return (
+                    <MenuItem
+                      key={titleI18nKey}
+                      slug={linkTo}
+                      titleI18nKey={titleI18nKey}
+                      Icon={Icon}
+                      iconStyle={iconStyle}
+                      testID={testID?.toString() || ''}
+                      insertHR={insertHR}
+                      linksOutsideOfWallet={false}
+                    />
+                  );
+                })}
+                {popup && (
                   <MenuItem
-                    key={titleI18nKey}
-                    slug={linkTo}
-                    titleI18nKey={titleI18nKey}
-                    Icon={Icon}
-                    iconStyle={iconStyle}
-                    testID={testID?.toString() || ''}
-                    insertHR={insertHR}
-                    linksOutsideOfWallet={false}
+                    key={'maximise'}
+                    Icon={MaximiseIcon}
+                    titleI18nKey={fullPage ? 'openNewTab' : 'maximiseView'}
+                    slug={'/fullpage.html'}
+                    onClick={handleMaximiseViewClick}
+                    insertHR={false}
+                    iconStyle={{ stroke: '#000', strokeWidth: '2px' }}
+                    linksOutsideOfWallet={true}
+                    testID={''}
                   />
-                );
-              })}
-              {popup && (
-                <MenuItem
-                  key={'maximise'}
-                  Icon={MaximiseIcon}
-                  titleI18nKey={fullPage ? 'openNewTab' : 'maximiseView'}
-                  slug={'/fullpage.html'}
-                  onClick={handleMaximiseViewClick}
-                  insertHR={false}
-                  iconStyle={{ stroke: '#000', strokeWidth: '2px' }}
-                  linksOutsideOfWallet={true}
-                  testID={''}
-                />
-              )}
-            </div>
-          )}
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
-      <Footer />
+      <div className="flex-none w-full absolute bottom-0">
+        <Footer />
+      </div>
     </PageLayout>
   );
 };

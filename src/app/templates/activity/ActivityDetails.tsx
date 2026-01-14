@@ -240,13 +240,13 @@ const formatDate = (timestamp: number | string): string => {
       date = new Date(timestamp);
     }
   } else {
-    return t('invalidDate');
+    return 'Invalid Date';
   }
 
   // Check if the date is valid
   if (isNaN(date.getTime())) {
-    console.error(t('invalidDate'), timestamp);
-    return t('invalidDate');
+    console.error('Invalid Date', timestamp);
+    return 'Invalid Date';
   }
 
   const currentLanguage = getCurrentLocale();
