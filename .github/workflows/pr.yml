@@ -13,6 +13,8 @@ jobs:
   translations:
     name: Update Translation Files
     runs-on: ubuntu-latest
+    outputs:
+      committed: ${{ steps.commit.outputs.committed }}
     steps:
       - name: Check Out Code
         uses: actions/checkout@v3
@@ -42,6 +44,7 @@ jobs:
 
       # Only commit/push for non-fork PRs (forks can't push back)
       - name: Commit and push translation updates
+        id: commit
         if: steps.git-check.outputs.changes == 'true' && github.event.pull_request.head.repo.full_name == github.repository
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -49,10 +52,13 @@ jobs:
           git add public/_locales/
           git commit -m "chore: update translation files"
           git push
+          echo "committed=true" >> $GITHUB_OUTPUT
 
   ci:
     name: Test
     needs: translations
+    # Skip if translations committed - new workflow run will handle it
+    if: needs.translations.outputs.committed != 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Check Out Code
@@ -100,6 +106,8 @@ jobs:
   coverage:
     name: Coverage Check (80% minimum)
     needs: translations
+    # Skip if translations committed - new workflow run will handle it
+    if: needs.translations.outputs.committed != 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Check Out Code
@@ -123,6 +131,8 @@ jobs:
   i18n-check:
     name: Check for non-i18n'd strings
     needs: translations
+    # Skip if translations committed - new workflow run will handle it
+    if: needs.translations.outputs.committed != 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Check Out Code
