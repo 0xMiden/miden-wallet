@@ -15,6 +15,7 @@ import { MidenClientCreateOptions } from '../sdk/miden-client-interface';
 import { ConsumableNote, NoteTypeEnum, NoteType as NoteTypeString } from '../types';
 import { interpretTransactionResult } from './helpers';
 import { importAllNotes, queueNoteImport, registerOutputNote } from './notes';
+import { compareAccountIds } from './utils';
 
 export const MAX_WAIT_BEFORE_CANCEL = 30 * 60_000; // 30 minutes
 
@@ -354,7 +355,7 @@ export const getUncompletedTransactions = async (address: string) => {
 const getTransactionsInStatuses = async (statuses: ITransactionStatus[], accountId: string) => {
   let txs = await Repo.transactions.filter(rec => statuses.includes(rec.status)).toArray();
   txs.sort((tx1, tx2) => tx1.initiatedAt - tx2.initiatedAt);
-  txs = txs.filter(tx => tx.accountId === accountId);
+  txs = txs.filter(tx => compareAccountIds(tx.accountId, accountId));
 
   return txs;
 };
@@ -392,7 +393,7 @@ export const getCompletedTransactions = async (
   }
   transactions.sort((tx1, tx2) => (tx1.completedAt || tx1.initiatedAt) - (tx2.completedAt || tx2.initiatedAt));
   // transaction may or may not have the note tag
-  transactions = transactions.filter(tx => tx.accountId.split('_')[0] === accountId.split('_')[0]);
+  transactions = transactions.filter(tx => compareAccountIds(tx.accountId, accountId));
   return transactions.slice(offset, limit);
 };
 
