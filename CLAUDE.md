@@ -400,7 +400,6 @@ Run `yarn format` to auto-fix formatting issues if needed.
 - **Sync:** `WalletStoreProvider` subscribes to `StateUpdated` broadcasts
 
 Frontend hooks that use Zustand:
-
 - `useMidenContext()` - main wallet state and actions
 - `useAllBalances()` - token balances with polling
 - `useAllTokensBaseMetadata()` - asset metadata cache
@@ -621,7 +620,6 @@ The wallet uses an IndexedDB-first pattern for instant UI updates:
 - This separation allows showing cached balances instantly while syncing in background
 
 **Important distinction:**
-
 - `getAccount(accountId)` - reads balance from IndexedDB (local cache)
 - `syncState()` - syncs with Miden node and updates IndexedDB
 - `importAccountById(assetId)` - imports **asset/token metadata**, not account balances
@@ -667,7 +665,6 @@ The lock ensures only one WASM operation runs at a time across the entire app, p
 ### Jest Mock Gotchas
 
 **Module path resolution:** Mock paths must match how the source file imports the module:
-
 ```typescript
 // If actions.ts imports: import { Vault } from 'lib/miden/back/vault';
 // Then mock with the same path:
@@ -676,7 +673,6 @@ jest.mock('lib/miden/back/vault', () => ({ ... }));
 ```
 
 **jsdom limitations:** `window.location.reload` cannot be mocked in jsdom. Use try-catch:
-
 ```typescript
 try {
   functionThatCallsReload();
@@ -686,7 +682,6 @@ try {
 ```
 
 **React test cleanup:** Prevent test pollution by cleaning up React roots:
-
 ```typescript
 afterEach(() => {
   testRoot.unmount();
@@ -705,13 +700,11 @@ When adding new translatable strings, add them to `public/_locales/en/en.json`, 
 ### Adding new i18n strings
 
 1. Add the key to `public/_locales/en/en.json` in flat format:
-
    ```json
    "myNewKey": "My new translatable string"
    ```
 
 2. Use in React components with `useTranslation` hook:
-
    ```typescript
    import { useTranslation } from 'react-i18next';
 
