@@ -170,8 +170,8 @@
     "englishSource": "Check now"
   },
   "theLendingProtocol": {
-    "message": "The lending protocol on Aleo.",
-    "englishSource": "The lending protocol on Aleo."
+    "message": "The lending protocol on Miden.",
+    "englishSource": "The lending protocol on Miden."
   },
   "alreadyLaunched": {
     "message": "Already Launched!",
@@ -195,19 +195,8 @@
     "englishSource": "Zero Swap commissions for two weeks - celebrate the $text$ with us!"
   },
   "zeroSwapCommissionDescription": {
-    "message": "From $date1$ till $date2$, Leo users may conduct trades via our router in the $text$ section without our dev commissions.\n\nEnjoy the most lucrative exchange rates and trade without fees in one place.",
-    "placeholders": {
-      "date1": {
-        "content": "$1"
-      },
-      "date2": {
-        "content": "$2"
-      },
-      "text": {
-        "content": "$3"
-      }
-    },
-    "englishSource": "From $date1$ till $date2$, Leo users may conduct trades via our router in the $text$ section without our dev commissions.\n\nEnjoy the most lucrative exchange rates and trade without fees in one place."
+    "message": "From  $date1$  till  $date2$ , Miden users may conduct trades via our router in the  $text$  section without our dev commissions.\n\nEnjoy the most lucrative exchange rates and trade without fees in one place.",
+    "englishSource": "From $date1$ till $date2$, Miden users may conduct trades via our router in the $text$ section without our dev commissions.\n\nEnjoy the most lucrative exchange rates and trade without fees in one place."
   },
   "okGotIt": {
     "message": "Got it",
@@ -218,8 +207,8 @@
     "englishSource": "details"
   },
   "changelogTitle": {
-    "message": "Leo Wallet updated",
-    "englishSource": "Leo Wallet updated"
+    "message": "Miden Wallet updated",
+    "englishSource": "Miden Wallet updated"
   },
   "changelogDescription": {
     "message": "In this update",
@@ -915,9 +904,8 @@
     "englishSource": "Try again"
   },
   "testnetbeta": {
-    "message": "Aleo Testnet Beta",
-    "description": "Testnet Beta",
-    "englishSource": "Aleo Testnet Beta"
+    "message": "Miden Testnet Beta",
+    "englishSource": "Miden Testnet Beta"
   },
   "leoWalletOptions": {
     "message": "Leo Wallet | Options",
@@ -928,8 +916,8 @@
     "englishSource": "Reset Extension"
   },
   "resetExtensionConfirmation": {
-    "message": "Are you sure you want to reset the Leo Wallet?\nAs a result, all your data will be deleted.",
-    "englishSource": "Are you sure you want to reset the Leo Wallet?\nAs a result, all your data will be deleted."
+    "message": "Are you sure you want to reset the Miden Wallet?\nAs a result, all your data will be deleted.",
+    "englishSource": "Are you sure you want to reset the Miden Wallet?\nAs a result, all your data will be deleted."
   },
   "failedToResetExtension": {
     "message": "Failed to reset extension: $errorMessage$",
@@ -1004,8 +992,8 @@
     "englishSource": "Create a new Wallet"
   },
   "createNewWalletDescription": {
-    "message": "New to Leo Wallet? Let's set it up! This will create a new wallet and seed phrase",
-    "englishSource": "New to Leo Wallet? Let's set it up! This will create a new wallet and seed phrase"
+    "message": "New to Miden Wallet? Let's set it up! This will create a new wallet and Seed Phrase",
+    "englishSource": "New to Miden Wallet? Let's set it up! This will create a new wallet and Seed Phrase"
   },
   "delegate": {
     "message": "Delegate",
@@ -1367,13 +1355,12 @@
     "englishSource": "DApps"
   },
   "dAppsDescription": {
-    "message": "In this section you can enable ability to interact with decentralized applications that support Leo Wallet.",
-    "englishSource": "In this section you can enable ability to interact with decentralized applications that support Leo Wallet."
+    "message": "In this section you can enable ability to interact with decentralized applications that support Miden Wallet.",
+    "englishSource": "In this section you can enable ability to interact with decentralized applications that support Miden Wallet."
   },
   "networksDescription": {
-    "message": "In this section you can add or delete custom Aleo networks.",
-    "description": "Aleo = blockchain name (https://aleo.com/)",
-    "englishSource": "In this section you can add or delete custom Aleo networks."
+    "message": "In this section you can add or delete custom Miden networks.",
+    "englishSource": "In this section you can add or delete custom Miden networks."
   },
   "activateAccount": {
     "message": "Activate Account",
@@ -1404,8 +1391,8 @@
     "englishSource": "Advanced Settings"
   },
   "advancedSettingsDescription": {
-    "message": "Tools to help you debug and diagnose issues with Leo Wallet.",
-    "englishSource": "Tools to help you debug and diagnose issues with Leo Wallet."
+    "message": "Tools to help you debug and diagnose issues with Miden Wallet.",
+    "englishSource": "Tools to help you debug and diagnose issues with Miden Wallet."
   },
   "resync": {
     "message": "Resync",
@@ -1424,8 +1411,8 @@
     "englishSource": "Info"
   },
   "aboutDescription": {
-    "message": "Use this section to view meta info about Leo Wallet.",
-    "englishSource": "Use this section to view meta info about Leo Wallet."
+    "message": "Use this section to view meta info about Miden Wallet.",
+    "englishSource": "Use this section to view meta info about Miden Wallet."
   },
   "unlockWallet": {
     "message": "Unlock the Wallet",
@@ -1636,8 +1623,8 @@
     "englishSource": "Routing Fee"
   },
   "routingFeeTooltip": {
-    "message": "For choosing the most profitable exchange route among Aleo DEXes. \n\nDEXes commissions are not included.",
-    "englishSource": "For choosing the most profitable exchange route among Aleo DEXes. \n\nDEXes commissions are not included."
+    "message": "For choosing the most profitable exchange route among Miden DEXes. \n\nDEXes commissions are not included.",
+    "englishSource": "For choosing the most profitable exchange route among Miden DEXes. \n\nDEXes commissions are not included."
   },
   "space": {
     "message": "Space",
@@ -1676,16 +1663,16 @@
     "englishSource": "Earn 5.6% interest"
   },
   "delegationPointsHead2": {
-    "message": "on your Aleo",
-    "englishSource": "on your Aleo"
+    "message": "on your Miden",
+    "englishSource": "on your Miden"
   },
   "delegationPointsHead3": {
     "message": "annualy from Baking rewards",
     "englishSource": "annualy from Baking rewards"
   },
   "delegationPoint1": {
-    "message": "Your first reward in Aleo will be paid approximately in 36 days.",
-    "englishSource": "Your first reward in Aleo will be paid approximately in 36 days."
+    "message": "Your first reward in Miden will be paid approximately in 36 days.",
+    "englishSource": "Your first reward in Miden will be paid approximately in 36 days."
   },
   "delegationPoint2": {
     "message": "Then, you receive a reward every 3 days.",
@@ -1696,8 +1683,8 @@
     "englishSource": "Earn rate varies over time. Check the current rate in your Wallet."
   },
   "delegationPoint4": {
-    "message": "Your Aleo tokens are never locked. Send anytime!",
-    "englishSource": "Your Aleo tokens are never locked. Send anytime!"
+    "message": "Your Miden tokens are never locked. Send anytime!",
+    "englishSource": "Your Miden tokens are never locked. Send anytime!"
   },
   "baker": {
     "message": "Baker",
@@ -2176,30 +2163,24 @@
     "englishSource": "Address to send $assetSymbol$ funds to."
   },
   "tokensRecepientInputDescriptionWithDomain": {
-    "message": "Address or Aleo domain to send $assetSymbol$ funds to.",
-    "placeholders": {
-      "assetSymbol": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Address or Aleo domain to send $assetSymbol$ funds to."
+    "message": "Address or Miden domain to send  $assetSymbol$  funds to.",
+    "englishSource": "Address or Miden domain to send $assetSymbol$ funds to."
   },
   "addressInputDescription": {
-    "message": "Address of Aleo account or smart contract.",
-    "englishSource": "Address of Aleo account or smart contract."
+    "message": "Address of Miden account or Smart Contract.",
+    "englishSource": "Address of Miden account or Smart Contract."
   },
   "addressInputDescriptionWithDomain": {
-    "message": "Address or Aleo domain of the account or smart contract.",
-    "englishSource": "Address or Aleo domain of the account or smart contract."
+    "message": "Address or Miden domain of the account or Smart Contract.",
+    "englishSource": "Address or Miden domain of the account or Smart Contract."
   },
   "recipientInputPlaceholder": {
     "message": "e.g. 0xb3d1df68...",
     "englishSource": "e.g. 0xb3d1df68..."
   },
   "recipientInputPlaceholderWithDomain": {
-    "message": "e.g. 0xb3d1df68...",
-    "description": "alice.aleo = domain like google.com",
-    "englishSource": "e.g. alice.aleo or 0xb3d1df68..."
+    "message": "e.g. alice.miden or 0xb3d1df68...",
+    "englishSource": "e.g. alice.miden or 0xb3d1df68..."
   },
   "tryingToTransferToYourself": {
     "message": "You're trying to transfer funds to yourself.\nPlease, ensure that it's exactly what you want.",
@@ -2247,8 +2228,8 @@
     "englishSource": "Click on Account you want to send funds to."
   },
   "mainAssetBalanceIsZero": {
-    "message": "Your aleo credits (main asset) balance is zero. Aleo credits are required for the fee.",
-    "englishSource": "Your aleo credits (main asset) balance is zero. Aleo credits are required for the fee."
+    "message": "Your Miden credits (main asset) balance is zero. Miden credits are required for the fee.",
+    "englishSource": "Your Miden credits (main asset) balance is zero. Miden credits are required for the fee."
   },
   "unableToSendTransactionAction": {
     "message": "Unable to send transaction to provided Recipient.",
@@ -2959,8 +2940,8 @@
     "englishSource": "Failed to send request to $url$. Invalid request provided or RPC node is temporarily unreachable."
   },
   "emptyImplicitContract": {
-    "message": "Your account is empty. Deposit any aleo credits amount on this account to activate it",
-    "englishSource": "Your account is empty. Deposit any aleo credits amount on this account to activate it"
+    "message": "Your account is empty. Deposit any Miden credits amount on this account to activate it",
+    "englishSource": "Your account is empty. Deposit any Miden credits amount on this account to activate it"
   },
   "balanceTooLow": {
     "message": "Gas token balance is too low",
@@ -3108,8 +3089,8 @@
     "englishSource": "Help & Community"
   },
   "communityResourcesTitle": {
-    "message": "You may always find additional info about the Leo wallet or ask for help on the next resources.",
-    "englishSource": "You may always find additional info about the Leo wallet or ask for help on the next resources."
+    "message": "You may always find additional info about the Miden wallet or ask for help on the next resources.",
+    "englishSource": "You may always find additional info about the Miden wallet or ask for help on the next resources."
   },
   "helpAndCommunityDescription": {
     "message": "Use this section if you want to be a part of our community or need help.",
@@ -3352,8 +3333,8 @@
     "englishSource": "Copy Error Logs"
   },
   "dAppsListTvlDescription": {
-    "message": "Total Value Locked. The value in aleo credits is the total amount of aleo credits locked in dApps. The value in USD is the total amount of aleo credits and tokens locked there.",
-    "englishSource": "Total Value Locked. The value in aleo credits is the total amount of aleo credits locked in dApps. The value in USD is the total amount of aleo credits and tokens locked there."
+    "message": "Total Value Locked. The value in Miden credits is the total amount of Miden credits locked in dApps. The value in USD is the total amount of Miden credits and tokens locked there.",
+    "englishSource": "Total Value Locked. The value in Miden credits is the total amount of Miden credits locked in dApps. The value in USD is the total amount of Miden credits and tokens locked there."
   },
   "noFavoriteDApps": {
     "message": "You don't have any favorite dApps",
@@ -3378,12 +3359,12 @@
     "englishSource": "Unknown account"
   },
   "ledgerLiveBridgeGuide": {
-    "message": "To connect to Ledger, please activate the Ledger Live application on your device, open Aleo Wallet application and allow a WebSocket connection to your Leo account.",
-    "englishSource": "To connect to Ledger, please activate the Ledger Live application on your device, open Aleo Wallet application and allow a WebSocket connection to your Leo account."
+    "message": "To connect to Ledger, please activate the Ledger Live application on your device, open Miden Wallet application and allow a WebSocket connection to your Miden account.",
+    "englishSource": "To connect to Ledger, please activate the Ledger Live application on your device, open Miden Wallet application and allow a WebSocket connection to your Miden account."
   },
   "ledgerBridgeGuide": {
-    "message": "To connect the Ledger, please activate your device and open Aleo Wallet application.",
-    "englishSource": "To connect the Ledger, please activate your device and open Aleo Wallet application."
+    "message": "To connect the Ledger, please activate your device and open Miden Wallet application.",
+    "englishSource": "To connect the Ledger, please activate your device and open Miden Wallet application."
   },
   "noExchangerFoundForToken": {
     "message": "No exchanger was found for token $symbol$ ($name$).",
@@ -3446,8 +3427,8 @@
     "englishSource": "Disclaimer. Beta version, read before using the SWAP section."
   },
   "swapDisclaimerContent": {
-    "message": "Leo wallet only provides an interface to interact with the Aleo Dexes. \n\nWe are not responsible for: DEX issues, displayed tokens, price, exchange rates, and user trading decisions. \n\nBefore using this Swap Section, you should review the relevant documentation to understand how the DEX(AMM) protocols work. \n\nUsing this section is solely the user's responsibility.",
-    "englishSource": "Leo wallet only provides an interface to interact with the Aleo Dexes. \n\nWe are not responsible for: DEX issues, displayed tokens, price, exchange rates, and user trading decisions. \n\nBefore using this Swap Section, you should review the relevant documentation to understand how the DEX(AMM) protocols work. \n\nUsing this section is solely the user's responsibility."
+    "message": "Miden wallet only provides an interface to interact with the Miden Dexes. \n\nWe are not responsible for: DEX issues, displayed tokens, price, exchange rates, and user trading decisions. \n\nBefore using this Swap Section, you should review the relevant documentation to understand how the DEX(AMM) protocols work. \n\nUsing this section is solely the user's responsibility.",
+    "englishSource": "Miden wallet only provides an interface to interact with the Miden Dexes. \n\nWe are not responsible for: DEX issues, displayed tokens, price, exchange rates, and user trading decisions. \n\nBefore using this Swap Section, you should review the relevant documentation to understand how the DEX(AMM) protocols work. \n\nUsing this section is solely the user's responsibility."
   },
   "noContactsFound": {
     "message": "No contacts found",
@@ -3507,24 +3488,24 @@
     "englishSource": "Your address and balance"
   },
   "addressBalanceDescription": {
-    "message": "After creating an account, you’ll get a unique address — your personal identifier in the Aleo blockchain. If you would like to receive and use Aleo credits or Aleo-built tokens in Leo, you should use this address.",
-    "englishSource": "After creating an account, you’ll get a unique address — your personal identifier in the Aleo blockchain. If you would like to receive and use Aleo credits or Aleo-built tokens in Leo, you should use this address."
+    "message": "After creating an account, you'll get a unique address — your personal identifier in the Miden blockchain. If you would like to receive and use Miden credits or Miden-built tokens in Miden, you should use this address.",
+    "englishSource": "After creating an account, you'll get a unique address — your personal identifier in the Miden blockchain. If you would like to receive and use Miden credits or Miden-built tokens in Miden, you should use this address."
   },
   "addressBalanceHint": {
-    "message": "The balance of your Aleo credits is displayed under the public address.",
-    "englishSource": "The balance of your Aleo credits is displayed under the public address."
+    "message": "The balance of your Miden credits is displayed under the public address.",
+    "englishSource": "The balance of your Miden credits is displayed under the public address."
   },
   "howToStartDetails": {
     "message": "How to start",
     "englishSource": "How to start"
   },
   "howToStartDescription1": {
-    "message": "To start using your wallet and interacting with the Aleo DApps ecosystem, the account balance must be positive. To do this, top up your address with Aleo Credits coins.",
-    "englishSource": "To start using your wallet and interacting with the Aleo DApps ecosystem, the account balance must be positive. To do this, top up your address with Aleo Credits coins."
+    "message": "To start using your wallet and interacting with the Miden DApps ecosystem, the account balance must be positive. To do this, top up your address with Miden Credits coins.",
+    "englishSource": "To start using your wallet and interacting with the Miden DApps ecosystem, the account balance must be positive. To do this, top up your address with Miden Credits coins."
   },
   "howToStartDescription2": {
-    "message": "You can use the \"Buy\" button and top up your Aleo Credits balance, using cryptocurrencies, debit, or credit cards.",
-    "englishSource": "You can use the \"Buy\" button and top up your Aleo Credits balance, using cryptocurrencies, debit, or credit cards."
+    "message": "You can use the \"Buy\" button and top up your Miden Credits balance, using cryptocurrencies, debit, or credit cards.",
+    "englishSource": "You can use the \"Buy\" button and top up your Miden Credits balance, using cryptocurrencies, debit, or credit cards."
   },
   "howToStartHint": {
     "message": "Also, you can copy your address and send coins to it from another wallet or Exchange. To copy the address, click on it on the main wallet screen or use “Receive”.",
@@ -3555,8 +3536,8 @@
     "englishSource": "At the top of the interface, you can see your account robo-icon. By clicking on it, you will see the parameters for interaction with accounts, the settings button, and the extension view mode."
   },
   "profileRpcHint1": {
-    "message": "Next, you will see the “Networks” selector, which allows you to select a node (RPC) to which your Leo extension will be connected.",
-    "englishSource": "Next, you will see the “Networks” selector, which allows you to select a node (RPC) to which your Leo extension will be connected."
+    "message": "Next, you will see the \"Networks\" selector, which allows you to select a node (RPC) to which your Miden extension will be connected.",
+    "englishSource": "Next, you will see the \"Networks\" selector, which allows you to select a node (RPC) to which your Miden extension will be connected."
   },
   "profileRpcHint2": {
     "message": "If your balance is not displayed, try changing the node.",
@@ -3591,12 +3572,12 @@
     "englishSource": "Thanks for your attention!"
   },
   "congratsDescription2": {
-    "message": "Now you know about the basic and most important functions of the Leo wallet.",
-    "englishSource": "Now you know about the basic and most important functions of the Leo wallet."
+    "message": "Now you know about the basic and most important functions of the Miden wallet.",
+    "englishSource": "Now you know about the basic and most important functions of the Miden wallet."
   },
   "congratsDescription3": {
-    "message": "You can learn all features of the Leo from our “Educational series” on YouTube.",
-    "englishSource": "You can learn all features of the Leo from our “Educational series” on YouTube."
+    "message": "You can learn all features of the Miden wallet from our 'Educational series' on YouTube.",
+    "englishSource": "You can learn all features of the Miden wallet from our 'Educational series' on YouTube."
   },
   "congratsDescription4": {
     "message": "Also, instructions and guides are available in our knowledge base.",
@@ -3607,8 +3588,8 @@
     "englishSource": "Join our communities in Telegram and Discord."
   },
   "congratsDescription6": {
-    "message": "PS: Good luck exploring the Aleo world!",
-    "englishSource": "PS: Good luck exploring the Aleo world!"
+    "message": "PS: Good luck exploring the Miden world!",
+    "englishSource": "PS: Good luck exploring the Miden world!"
   },
   "attention": {
     "message": "Attention",
@@ -3643,8 +3624,8 @@
     "englishSource": "To keep your assets safe, we recommend:"
   },
   "attentionListItem5": {
-    "message": "Move your funds from “hot” wallet to “cold” as soon as possible (Leo wallet supports integration with “Ledger Nano” devices);",
-    "englishSource": "Move your funds from “hot” wallet to “cold” as soon as possible (Leo wallet supports integration with “Ledger Nano” devices);"
+    "message": "Move your funds from 'hot' wallet to 'cold' as soon as possible (Miden wallet supports integration with 'Ledger Nano' devices);",
+    "englishSource": "Move your funds from 'hot' wallet to 'cold' as soon as possible (Miden wallet supports integration with 'Ledger Nano' devices);"
   },
   "attentionListItem6": {
     "message": "Use separate browsers for web-surfing and wallet’s operating;",
@@ -3703,37 +3684,32 @@
     "englishSource": "Buy With Exolix"
   },
   "buyWithExolixDescription": {
-    "message": "Exchange $number$ cryptocurrencies to Aleo Credits or USDT Aleo instantly and without registration",
-    "placeholders": {
-      "number": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Exchange $number$ cryptocurrencies to Aleo Credits or USDT Aleo instantly and without registration"
+    "message": "Exchange  $number$  cryptocurrencies to Miden Credits or USDT Miden instantly and without registration",
+    "englishSource": "Exchange $number$ cryptocurrencies to Miden Credits or USDT Miden instantly and without registration"
   },
   "buyWithMoonPay": {
     "message": "Buy With MoonPay",
     "englishSource": "Buy With MoonPay"
   },
   "buyWithMoonPayDescription": {
-    "message": "Crypto just got easy. Buy Aleo Credits in minutes using Visa, Mastercard, and all major debit and credit cards.",
-    "englishSource": "Crypto just got easy. Buy Aleo Credits in minutes using Visa, Mastercard, and all major debit and credit cards."
+    "message": "Crypto just got easy. Buy Miden Credits in minutes using Visa, Mastercard, and all major debit and credit cards.",
+    "englishSource": "Crypto just got easy. Buy Miden Credits in minutes using Visa, Mastercard, and all major debit and credit cards."
   },
   "buyWithRamp": {
     "message": "Buy With Ramp",
     "englishSource": "Buy With Ramp"
   },
   "buyWithRampDescription": {
-    "message": "Buy Aleo Credits  using Visa, Mastercard, and all major debit and credit cards. Ramp is available in 160+ countries and territories.",
-    "englishSource": "Buy Aleo Credits  using Visa, Mastercard, and all major debit and credit cards. Ramp is available in 160+ countries and territories."
+    "message": "Buy Miden Credits  using Visa, Mastercard, and all major debit and credit cards. Ramp is available in 160+ countries and territories.",
+    "englishSource": "Buy Miden Credits  using Visa, Mastercard, and all major debit and credit cards. Ramp is available in 160+ countries and territories."
   },
   "buyWithAliceBob": {
-    "message": "Buy Aleo Credits with Alice-Bob (UAH only)",
-    "englishSource": "Buy Aleo Credits with Alice-Bob (UAH only)"
+    "message": "Buy Miden Credits with Alice-Bob (UAH only)",
+    "englishSource": "Buy Miden Credits with Alice-Bob (UAH only)"
   },
   "buyWithAliceBobDescription": {
-    "message": "Fast and cost-effective exchange of UAH to Aleo Credits.",
-    "englishSource": "Fast and cost-effective exchange of UAH to Aleo Credits."
+    "message": "Fast and cost-effective exchange of UAH to Miden Credits.",
+    "englishSource": "Fast and cost-effective exchange of UAH to Miden Credits."
   },
   "buyWithUtorgDescription": {
     "message": "Licensed fiat-to-crypto gateway. 187+ countries, AI-powered KYC, Apple Pay, Google Pay.",
@@ -3749,24 +3725,16 @@
     "englishSource": "Top up $gasTokenName$ balance"
   },
   "buyWithUtorg": {
-    "message": "Buy Aleo Credits with UTORG",
-    "englishSource": "Buy Aleo Credits with UTORG"
+    "message": "Buy Miden Credits with UTORG",
+    "englishSource": "Buy Miden Credits with UTORG"
   },
   "buyWithCard": {
     "message": "Buy with Debit/Credit Card",
     "englishSource": "Buy with Debit/Credit Card"
   },
   "topUpDescription": {
-    "message": "Leo integrated third-party solutions to buy $gasTokenName1$ with crypto or a Debit/Credit card. Choose a provider, follow guides, get $gasTokenName2$ on your account.",
-    "placeholders": {
-      "gasTokenName1": {
-        "content": "$1"
-      },
-      "gasTokenName2": {
-        "content": "$2"
-      }
-    },
-    "englishSource": "Leo integrated third-party solutions to buy $gasTokenName1$ with crypto or a Debit/Credit card. Choose a provider, follow guides, get $gasTokenName2$ on your account."
+    "message": "Miden integrated third-party solutions to buy  $gasTokenName1$  with crypto or a Debit/Credit card. Choose a provider, follow guides, get  $gasTokenName2$  on your account.",
+    "englishSource": "Miden integrated third-party solutions to buy $gasTokenName1$ with crypto or a Debit/Credit card. Choose a provider, follow guides, get $gasTokenName2$ on your account."
   },
   "enterAmount": {
     "message": "Please enter the amount:",
@@ -3805,13 +3773,8 @@
     "englishSource": "Enter exchange details"
   },
   "exchangeDetailsDescription": {
-    "message": "Top up your Aleo Credits or USDT Aleo balance instantly with $number$ cryptocurrencies",
-    "placeholders": {
-      "number": {
-        "content": "$1"
-      }
-    },
-    "englishSource": "Top up your Aleo Credits or USDT Aleo balance instantly with $number$ cryptocurrencies"
+    "message": "Top up your Miden Credits or USDT Miden balance instantly with  $number$  cryptocurrencies",
+    "englishSource": "Top up your Miden Credits or USDT Miden balance instantly with $number$ cryptocurrencies"
   },
   "privacyAndPolicyLinks": {
     "message": "By clicking $buttonContent$ you agree with \n$termsOfUse$ and $privacyPolicy$",
@@ -3959,8 +3922,8 @@
     "englishSource": "Min:"
   },
   "warningTopUpServiceMessage": {
-    "message": "The token exchange feature is provided by a third party. The Leo Wallet is not responsible for the work of third-party services.",
-    "englishSource": "The token exchange feature is provided by a third party. The Leo Wallet is not responsible for the work of third-party services."
+    "message": "The token exchange feature is provided by a third party. The Miden Wallet is not responsible for the work of third-party services.",
+    "englishSource": "The token exchange feature is provided by a third party. The Miden Wallet is not responsible for the work of third-party services."
   },
   "selectTokensToSwap": {
     "message": "Please, select tokens to swap",
@@ -4128,12 +4091,12 @@
     "englishSource": "Please Note"
   },
   "unstakingProcess": {
-    "message": "Unstaking is a two-step process. After initiating unstaking, please ensure to claim your ALEO after the  3‑hour processing period.",
-    "englishSource": "Unstaking is a two-step process. After initiating unstaking, please ensure to claim your ALEO after the  3‑hour processing period."
+    "message": "Unstaking is a two-step process. After initiating unstaking, please ensure to claim your MIDEN after the  3‑hour processing period.",
+    "englishSource": "Unstaking is a two-step process. After initiating unstaking, please ensure to claim your MIDEN after the  3‑hour processing period."
   },
   "testNetIsDown": {
-    "message": "Aleo Testnet Beta is down.",
-    "englishSource": "Aleo Testnet Beta is down."
+    "message": "Miden Testnet Beta is down.",
+    "englishSource": "Miden Testnet Beta is down."
   },
   "checkStatus": {
     "message": "Check status",
@@ -4244,9 +4207,8 @@
     "englishSource": "Your wallet is ready!"
   },
   "joinOurDiscord": {
-    "message": "Join our Leo Wallet Discord",
-    "note": "Onboarding",
-    "englishSource": "Join our Leo Wallet Discord"
+    "message": "Join our Miden Wallet Discord",
+    "englishSource": "Join our Miden Wallet Discord"
   },
   "joinOurTwitter": {
     "message": "Follow us on X (Twitter)",
@@ -4399,16 +4361,16 @@
     "englishSource": "Generate Transactions\nLocally"
   },
   "chainUnstable": {
-    "message": "Due to instability of Aleo Testnet3, transactions may fail.",
-    "englishSource": "Due to instability of Aleo Testnet3, transactions may fail."
+    "message": "Due to instability of Miden Testnet, transactions may fail.",
+    "englishSource": "Due to instability of Miden Testnet, transactions may fail."
   },
   "dataReset": {
     "message": "Data Reset.",
     "englishSource": "Data Reset."
   },
   "transactionHistoryLost": {
-    "message": "We want to inform you that all transaction history has been lost due to a recent reset of the Aleo Testnet3.",
-    "englishSource": "We want to inform you that all transaction history has been lost due to a recent reset of the Aleo Testnet3."
+    "message": "We want to inform you that all transaction history has been lost due to a recent reset of the Miden Testnet.",
+    "englishSource": "We want to inform you that all transaction history has been lost due to a recent reset of the Miden Testnet."
   },
   "learnMore": {
     "message": "Learn more",
@@ -5035,5 +4997,77 @@
   "languageDescription": {
     "message": "Change the display language",
     "englishSource": "Change the display language"
+  },
+  "buildForMiden": {
+    "message": "Built for Miden",
+    "englishSource": "Built for Miden"
+  },
+  "midenFaucetLegacy": {
+    "message": "Miden Faucet",
+    "englishSource": "Miden Faucet"
+  },
+  "midenFaucetLegacyDescription": {
+    "message": "All distributed credits are for testing purposes and do not have value.",
+    "englishSource": "All distributed credits are for testing purposes and do not have value."
+  },
+  "midenFaucetStep1": {
+    "message": "Scan the QR code with your Phone",
+    "englishSource": "Scan the QR code with your Phone"
+  },
+  "midenFaucetStep1Description": {
+    "message": "And click on the prompt it shows you.",
+    "englishSource": "And click on the prompt it shows you."
+  },
+  "midenFaucetStep2": {
+    "message": "Confirm and send the SMS",
+    "englishSource": "Confirm and send the SMS"
+  },
+  "midenFaucetStep2Description": {
+    "message": "(Message and data rates may apply)",
+    "englishSource": "(Message and data rates may apply)"
+  },
+  "midenFaucetStep3": {
+    "message": "Get Miden credits",
+    "englishSource": "Get Miden credits"
+  },
+  "midenFaucetStep3Description": {
+    "message": "Miden Faucet will send you credits.",
+    "englishSource": "Miden Faucet will send you credits."
+  },
+  "midenFaucetAlpha": {
+    "message": "Miden Faucet (Alpha)",
+    "englishSource": "Miden Faucet (Alpha)"
+  },
+  "midenWalletOptions": {
+    "message": "Miden Wallet | Options",
+    "englishSource": "Miden Wallet | Options"
+  },
+  "waitingOnMiden": {
+    "message": "Miden currently doesn't support this functionality.",
+    "englishSource": "Miden currently doesn't support this functionality."
+  },
+  "midenApy": {
+    "message": "APY: 6%",
+    "englishSource": "APY: 6%"
+  },
+  "midenWalletFeeWarning": {
+    "message": "Miden Wallet doesn't apply any fees to exchanges for now but it may apply in the future.",
+    "englishSource": "Miden Wallet doesn't apply any fees to exchanges for now but it may apply in the future."
+  },
+  "scanQRWithMidenMobile": {
+    "message": "Scan this QR-code with your Miden Wallet Mobile app.",
+    "englishSource": "Scan this QR-code with your Miden Wallet Mobile app."
+  },
+  "mustStakeAtLeastTenMiden": {
+    "message": "Initial stake must be at least 10 MIDEN",
+    "englishSource": "Initial stake must be at least 10 MIDEN"
+  },
+  "helpUsToImproveMidenWallet": {
+    "message": "Help us to improve Miden Wallet",
+    "englishSource": "Help us to improve Miden Wallet"
+  },
+  "onlyMidenSeedPhrasesAreSupportedLegacy": {
+    "message": "Only Miden Seed phrases are supported.",
+    "englishSource": "Only Miden Seed phrases are supported."
   }
 }
