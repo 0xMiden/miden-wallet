@@ -15,15 +15,21 @@ import uk from '../public/_locales/uk/uk.json';
 import zh_CN from '../public/_locales/zh_CN/zh_CN.json';
 import zh_TW from '../public/_locales/zh_TW/zh_TW.json';
 
+// Read saved locale from localStorage (normalized: en_GB -> en-GB for i18next)
+const savedLocale = localStorage.getItem('locale')?.replace('_', '-');
+
 i18n
-  // .use(HttpBackend)
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
+    // Use saved locale if available, otherwise let LanguageDetector handle it
+    lng: savedLocale || undefined,
     fallbackLng: 'en',
     debug: false,
     interpolation: {
-      escapeValue: false
+      escapeValue: false,
+      prefix: '$',
+      suffix: '$'
     },
     nonExplicitSupportedLngs: true,
     resources: {

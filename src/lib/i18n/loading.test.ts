@@ -12,6 +12,10 @@ jest.mock('webextension-polyfill', () => ({
   }
 }));
 
+jest.mock('i18next', () => ({
+  changeLanguage: jest.fn(() => Promise.resolve())
+}));
+
 jest.mock('./core', () => ({
   init: jest.fn(() => Promise.resolve())
 }));
@@ -21,16 +25,8 @@ jest.mock('./saving', () => ({
 }));
 
 describe('i18n/loading', () => {
-  let consoleErrorSpy: jest.SpyInstance;
-
   beforeEach(() => {
     jest.clearAllMocks();
-    // Suppress jsdom console.error for window.location.reload() not implemented
-    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-  });
-
-  afterEach(() => {
-    consoleErrorSpy.mockRestore();
   });
 
   describe('REFRESH_MSGTYPE', () => {
@@ -56,19 +52,13 @@ describe('i18n/loading', () => {
   });
 
   describe('updateLocale', () => {
-    it('saves locale and notifies others', () => {
+    it('saves locale and notifies others', async () => {
       const { saveLocale } = jest.requireMock('./saving');
 
-      // updateLocale will call window.location.reload() which throws in jsdom
-      // We catch it since we only care about verifying saveLocale and sendMessage
-      try {
-        updateLocale('fr-FR');
-      } catch {
-        // reload throws in jsdom, which is expected
-      }
+      await updateLocale('fr-FR');
 
       expect(saveLocale).toHaveBeenCalledWith('fr-FR');
-      expect(browser.runtime.sendMessage).toHaveBeenCalledWith({ type: REFRESH_MSGTYPE });
+      expect(browser.runtime.sendMessage).toHaveBeenCalledWith({ type: REFRESH_MSGTYPE, locale: 'fr-FR' });
     });
   });
 });

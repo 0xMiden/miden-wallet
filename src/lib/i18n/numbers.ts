@@ -1,10 +1,10 @@
 import BigNumber from 'bignumber.js';
+import i18n from 'i18next';
 import memoize from 'micro-memoize';
 
 import { MIDEN_METADATA } from 'lib/miden/metadata';
 
 import { getCurrentLocale, getNumberSymbols } from './core';
-import { t } from './react';
 
 type FormatParams = {
   decimalPlaces?: number;
@@ -110,7 +110,11 @@ export function toShortened(value: BigNumber.Value) {
     return toLocalFixed(bn.toPrecision(1));
   }
   bn = bn.integerValue();
-  const formats = ['thousandFormat', 'millionFormat', 'billionFormat'];
+  const formats = [
+    { key: 'thousandFormat', param: 'thousand' },
+    { key: 'millionFormat', param: 'million' },
+    { key: 'billionFormat', param: 'billion' }
+  ];
   let formatIndex = -1;
   while (bn.abs().gte(1000) && formatIndex < formats.length - 1) {
     formatIndex++;
@@ -120,7 +124,8 @@ export function toShortened(value: BigNumber.Value) {
   if (formatIndex === -1) {
     return toLocalFixed(bn);
   }
-  return t(formats[formatIndex], toLocalFixed(bn));
+  const { key, param } = formats[formatIndex];
+  return i18n.t(key, { [param]: toLocalFixed(bn) });
 }
 
 export function toFixedRoundedDown(value: number, precision: number) {
