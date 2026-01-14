@@ -59,13 +59,46 @@ export const OpenInFullPage: FC = () => {
   const appEnv = useAppEnv();
 
   useLayoutEffect(() => {
-    openInFullPage();
-    if (appEnv.popup) {
-      window.close();
-    }
+    const urls = onboardingUrls();
+    browser.tabs.query({}).then(tabs => {
+      const onboardingTab = tabs.find(t => t.url && urls.includes(t.url));
+      if (onboardingTab?.id) {
+        browser.tabs.update(onboardingTab.id, { active: true });
+        if (appEnv.popup) {
+          window.close();
+        }
+      } else {
+        // unable to find existing onboarding tab, open a new one
+        openInFullPage();
+        if (appEnv.popup) {
+          window.close();
+        }
+      }
+    });
   }, [appEnv.popup]);
 
   return null;
+};
+
+export const onboardingUrls = () => {
+  const hashes = [
+    '',
+    '/',
+    '/#select-wallet-type',
+    '/#select-import-type',
+    '/#import-from-file',
+    '/#import-seed-phrase',
+    '/#backup-seed-phrase',
+    '/#verify-seed-phrase',
+    '/#create-password',
+    '/#confirmation'
+  ];
+
+  const urls = hashes.map(hash => {
+    return browser.runtime.getURL(createUrl('fullpage.html', '', hash));
+  });
+
+  return urls;
 };
 
 export function openInFullPage() {
