@@ -241,7 +241,7 @@ describe('ConsumableNoteComponent', () => {
 
     const retryButton = testContainer.querySelector('[data-testid="claim-button"]');
     expect(retryButton?.textContent).toBe('retry');
-    expect(testContainer.textContent).toContain('Error Claiming');
+    expect(testContainer.textContent).toContain('errorClaiming');
   });
 
   it('resumes waiting for in-progress transaction on mount', async () => {
@@ -336,7 +336,7 @@ describe('ConsumableNoteComponent', () => {
       await new Promise(resolve => setTimeout(resolve, 0));
     });
 
-    expect(testContainer.textContent).toContain('Error Claiming');
+    expect(testContainer.textContent).toContain('errorClaiming');
     const retryButton = testContainer.querySelector('[data-testid="claim-button"]');
     expect(retryButton?.textContent).toBe('retry');
   });
