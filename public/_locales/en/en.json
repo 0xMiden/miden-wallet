@@ -54,7 +54,7 @@
   "atLeast1SpecialCharacter": "Inclusion of at least one special character, e.g., ! @ # ? ] - (optional, recommended).",
   "mnemonicWordsAmountConstraint": "12, 15, 18, 21 or 24 words in English",
   "mnemonicSpacingConstraint": "Each word separated with a single space",
-  "seedInputNumberOfWords": "My Seed phrase is $1 words",
+  "seedInputNumberOfWords": "My Seed phrase is {{num}} words",
   "justValidPreGeneratedMnemonic": "Just valid pre-generated mnemonic",
   "seedPasteFailedTooManyWords": "Paste failed because it contained over 24 words.",
   "seedPhraseTip": "You can paste your entire secret Seed phrase into any field",

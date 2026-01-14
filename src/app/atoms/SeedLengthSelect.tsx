@@ -61,7 +61,7 @@ export const SeedLengthSelect: FC<SeedLengthSelectProps> = ({
       className={classNames('absolute right-0 z-10 text-black border-2 rounded-md bg-white cursor-pointer')}
     >
       <div className={classNames('flex flex-row justify-around p-2')} onClick={() => setIsOpen(!isOpen)}>
-        <span className="text-base">{t('seedInputNumberOfWords', [`${selectedOption}`])}</span>
+        <span className="text-base">{t('seedInputNumberOfWords', { num: selectedOption })}</span>
         <SelectArrowDownIcon className="ml-1 w-5 h-5" />
       </div>
       <ul className={classNames(!isOpen && 'hidden')}>
@@ -79,7 +79,7 @@ export const SeedLengthSelect: FC<SeedLengthSelectProps> = ({
               )}
               style={{ fontSize: 17 }}
             >
-              <span style={{ fontSize: 13 }}>{t('seedInputNumberOfWords', [`${option}`])}</span>
+              <span style={{ fontSize: 13 }}>{t('seedInputNumberOfWords', { num: option })}</span>
             </li>
           );
         })}
