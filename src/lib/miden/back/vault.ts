@@ -356,6 +356,42 @@ export class Vault {
     });
   }
 
+  async importAccount(privateKey: string) {
+    return withError('Failed to import account', async () => {
+      const allAccounts = await fetchAndDecryptOneWithLegacyFallBack<WalletAccount[]>(accountsStrgKey, this.passKey);
+      const secretKey = SecretKey.deserialize(new Uint8Array(Buffer.from(privateKey, 'hex')));
+      const pubKeyWord = secretKey.publicKey().toCommitment();
+
+      const pubKeyHex = pubKeyWord.toHex().slice(2); // remove '0x' prefix
+      console.log({ pubKeyHex });
+      const publicKey = await withWasmClientLock(async () => {
+        const midenClient = await getMidenClient();
+        return await midenClient.importPublicAccountFromPrivateKey(secretKey);
+      });
+      console.log({ publicKey });
+      const newAccount: WalletAccount = {
+        publicKey,
+        name: getNewAccountName(allAccounts),
+        isPublic: true,
+        type: WalletType.OnChain,
+        hdIndex: -1 // -1 indicates imported account
+      };
+
+      const newAllAccounts = concatAccount(allAccounts, newAccount);
+
+      await encryptAndSaveMany(
+        [
+          [accPubKeyStrgKey(pubKeyHex), pubKeyHex],
+          [accountsStrgKey, newAllAccounts],
+          [accAuthSecretKeyStrgKey(pubKeyHex), privateKey]
+        ],
+        this.passKey
+      );
+
+      return newAllAccounts;
+    });
+  }
+
   async getCurrentAccount() {
     const currAccountPubkey = await getPlain<string>(currentAccPubKeyStrgKey);
     const allAccounts = await this.fetchAccounts();

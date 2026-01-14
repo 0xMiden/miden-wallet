@@ -104,6 +104,7 @@ export interface WalletActions {
   editAccountName: (accountPublicKey: string, name: string) => Promise<void>;
   revealMnemonic: (password: string) => Promise<string>;
   revealPrivateKey: (accountPublicKey: string, password: string) => Promise<string>;
+  importPublicAccountByPrivateKey: (privateKey: string) => Promise<void>;
 
   // Settings actions
   updateSettings: (newSettings: Partial<WalletSettings>) => Promise<void>;

@@ -159,7 +159,13 @@ export function editAccount(accPublicKey: string, name: string) {
   });
 }
 
-export function importAccount(privateKey: string, encPassword?: string) {}
+export function importAccount(privateKey: string) {
+  console.log('importAccount called');
+  return withUnlocked(async ({ vault }) => {
+    const accounts = await vault.importAccount(privateKey);
+    accountsUpdated({ accounts });
+  });
+}
 
 export function importMnemonicAccount(mnemonic: string, password?: string, derivationPath?: string) {}
 

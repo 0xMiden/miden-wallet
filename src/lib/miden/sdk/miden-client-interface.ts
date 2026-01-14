@@ -149,6 +149,24 @@ export class MidenClientInterface {
     return getBech32AddressFromAccountId(account.id());
   }
 
+  async importPublicAccountFromPrivateKey(privateKey: SecretKey): Promise<string> {
+    console.log('Importing public account from private key, secret key:', privateKey);
+    const accountBuilder = new AccountBuilder(new Uint8Array(32).fill(0))
+      .accountType(AccountType.RegularAccountImmutableCode)
+      .storageMode(AccountStorageMode.public())
+      .withAuthComponent(AccountComponent.createAuthComponent(privateKey))
+      .withBasicWalletComponent();
+    const wallet = accountBuilder.build().account;
+    console.log('Importing public account from private key, account id:', wallet.id().toString());
+    // add the secret key to the web client's keystore
+    await this.webClient.addAccountSecretKeyToWebStore(privateKey);
+    // register the new account in the web client
+    await this.webClient.importAccountById(wallet.id());
+    const walletId = getBech32AddressFromAccountId(wallet.id());
+
+    return walletId;
+  }
+
   // TODO: is this method even used?
   async consumeTransaction(accountId: string, listOfNoteIds: string[], delegateTransaction?: boolean) {
     console.log('Consuming transaction...');

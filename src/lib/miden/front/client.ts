@@ -8,6 +8,7 @@ import { WalletAccount, WalletRequest, WalletResponse, WalletSettings, WalletSta
 import { useWalletStore } from 'lib/store';
 import { WalletType } from 'screens/onboarding/types';
 
+import { store } from '../back/store';
 import { MidenState } from '../types';
 import { AutoSync } from './autoSync';
 
@@ -64,6 +65,7 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   const storeGetAllDAppSessions = useWalletStore(s => s.getAllDAppSessions);
   const storeRemoveDAppSession = useWalletStore(s => s.removeDAppSession);
   const storeResetConfirmation = useWalletStore(s => s.resetConfirmation);
+  const storeImportAccountByPrivateKey = useWalletStore(s => s.importPublicAccountByPrivateKey);
 
   // Build the state object for backward compatibility
   const state: MidenState = useMemo(
@@ -267,7 +269,12 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   const confirmDAppBulkTransactions = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {}, []);
   const confirmDAppDeploy = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {}, []);
   const getOwnedRecords = useCallback(async (accPublicKey: string) => {}, []);
-
+  const importPublicAccountByPrivateKey = useCallback(
+    async (privateKey: string) => {
+      await storeImportAccountByPrivateKey(privateKey);
+    },
+    [storeImportAccountByPrivateKey]
+  );
   return {
     state,
     // Aliases
@@ -318,7 +325,8 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     removeDAppSession,
     decryptCiphertexts,
     getOwnedRecords,
-    importWalletFromClient
+    importWalletFromClient,
+    importPublicAccountByPrivateKey
   };
 });
 
