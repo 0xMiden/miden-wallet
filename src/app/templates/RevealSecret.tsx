@@ -2,14 +2,14 @@ import React, { FC, useCallback, useEffect, useLayoutEffect, useMemo, useRef } f
 
 import classNames from 'clsx';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import Alert from 'app/atoms/Alert';
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
-import { getAccountBadgeTitle } from 'app/defaults';
+import { useAccountBadgeTitle } from 'app/defaults';
 import { Icon, IconName } from 'app/icons/v2';
 import AccountBanner from 'app/templates/AccountBanner';
-import { T, t } from 'lib/i18n/react';
 import { useAccount, useSecretState, useMidenContext } from 'lib/miden/front';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 
@@ -24,6 +24,8 @@ type RevealSecretProps = {
 };
 
 const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
+  const { t } = useTranslation();
+  const accountBadgeTitle = useAccountBadgeTitle();
   const { revealMnemonic } = useMidenContext();
   const account = useAccount();
   const { fieldRef: secretFieldRef, copy, copied } = useCopyToClipboard();
@@ -98,7 +100,7 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
               <span className="text-xs">{t('doNotShareViewKey2')}</span>
             </div>
           ),
-          fieldDesc: <T id="viewKeyFieldDescription" />
+          fieldDesc: t('viewKeyFieldDescription')
         };
 
       case 'private-key':
@@ -115,7 +117,7 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
               <span className="text-xs">{t('doNotSharePrivateKey2')}</span>
             </div>
           ),
-          fieldDesc: <T id="privateKeyFieldDescription" />
+          fieldDesc: t('privateKeyFieldDescription')
         };
 
       case 'seed-phrase':
@@ -125,27 +127,17 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
           derivationPathBanner: (
             <div className={classNames('mb-6 mt-4', 'flex flex-col')}>
               <h2 className={classNames('mb-4', 'leading-tight', 'flex flex-col')}>
-                <T id="derivationPath">
-                  {message => (
-                    <span className="text-black font-medium" style={{ fontSize: '14px', lineHeight: '20px' }}>
-                      {message}
-                    </span>
-                  )}
-                </T>
+                <span className="text-black font-medium" style={{ fontSize: '14px', lineHeight: '20px' }}>
+                  {t('derivationPath')}
+                </span>
 
-                <T id="pathForHDAccounts">
-                  {message => (
-                    <span className={classNames('mt-2', 'text-xs  text-black')} style={{ maxWidth: '90%' }}>
-                      {message}
-                    </span>
-                  )}
-                </T>
+                <span className={classNames('mt-2', 'text-xs  text-black')} style={{ maxWidth: '90%' }}>
+                  {t('pathForHDAccounts')}
+                </span>
               </h2>
 
               <div className={classNames('w-full', 'border rounded-md', 'p-2', 'flex items-center')}>
-                <T id="derivationPathExample">
-                  {message => <span className="text-sm font-medium text-black">{message}</span>}
-                </T>
+                <span className="text-sm font-medium text-black">{t('derivationPathExample')}</span>
               </div>
             </div>
           ),
@@ -159,12 +151,12 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
           ),
           fieldDesc: (
             <>
-              <T id="youWillNeedThisSeedPhrase" /> <T id="keepSeedPhraseSecret" />
+              {t('youWillNeedThisSeedPhrase')} {t('keepSeedPhraseSecret')}
             </>
           )
         };
     }
-  }, [reveal]);
+  }, [reveal, t]);
 
   const forbidPrivateKeyRevealing = reveal === 'private-key';
   const mainContent = useMemo(() => {
@@ -174,9 +166,8 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
           title={t('privateKeyCannotBeRevealed')}
           description={
             <p>
-              <T
-                id="youCannotGetPrivateKeyFromThisAccountType"
-                substitutions={[
+              {t('youCannotGetPrivateKeyFromThisAccountType', {
+                accountType: (
                   <span
                     key="account-type"
                     className={classNames('rounded-sm', 'border', 'px-1 py-px', 'font-normal leading-tight')}
@@ -185,10 +176,10 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
                       borderColor: 'currentColor'
                     }}
                   >
-                    {getAccountBadgeTitle()}
+                    {accountBadgeTitle}
                   </span>
-                ]}
-              />
+                )
+              })}
             </p>
           }
           className="mb-4 bg-blue-200 border-primary-500 rounded-none text-black"
@@ -252,13 +243,7 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
               style={{ fontSize: '16px', lineHeight: '24px' }}
               onClick={copy}
             >
-              {copied ? (
-                <T id="copiedAddress" />
-              ) : (
-                <>
-                  <T id="copyAddressToClipboard" />
-                </>
-              )}
+              {copied ? t('copiedAddress') : t('copyAddressToClipboard')}
             </button>
           </div>
         </>
@@ -280,24 +265,20 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
           onChange={() => clearErrors()}
         />
 
-        <T id="reveal">
-          {message => (
-            <FormSubmitButton
-              className="capitalize w-full justify-center mt-6"
-              loading={isSubmitting}
-              style={{
-                fontSize: '18px',
-                lineHeight: '24px',
-                paddingLeft: '0.5rem',
-                paddingRight: '0.5rem',
-                paddingTop: '12px',
-                paddingBottom: '12px'
-              }}
-            >
-              {message}
-            </FormSubmitButton>
-          )}
-        </T>
+        <FormSubmitButton
+          className="capitalize w-full justify-center mt-6"
+          loading={isSubmitting}
+          style={{
+            fontSize: '18px',
+            lineHeight: '24px',
+            paddingLeft: '0.5rem',
+            paddingRight: '0.5rem',
+            paddingTop: '12px',
+            paddingBottom: '12px'
+          }}
+        >
+          {t('reveal')}
+        </FormSubmitButton>
       </form>
     );
   }, [
@@ -312,7 +293,9 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
     clearErrors,
     copy,
     copied,
-    secretFieldRef
+    secretFieldRef,
+    t,
+    accountBadgeTitle
   ]);
 
   return (

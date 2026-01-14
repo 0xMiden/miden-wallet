@@ -1,12 +1,13 @@
 import React, { FC, useCallback, useRef } from 'react';
 
 import ToggleSwitch from 'app/atoms/ToggleSwitch';
-import { T } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 import { isPopupModeEnabled, setPopupMode } from 'lib/popup-mode';
 
 import { GeneralSettingsSelectors } from './GeneralSettings.selectors';
 
 const PopupSettings: FC<{}> = () => {
+  const { t } = useTranslation();
   const popupEnabled = isPopupModeEnabled();
   const changingRef = useRef(false);
 
@@ -29,11 +30,11 @@ const PopupSettings: FC<{}> = () => {
               lineHeight: '20px'
             }}
           >
-            <T id="popupSettings" />
+            {t('popupSettings')}
           </span>
 
           <span className="mt-1 text-black" style={{ fontSize: '12px', lineHeight: '16px' }}>
-            <T id="popupSettingsDescription" />
+            {t('popupSettingsDescription')}
           </span>
         </label>
       </div>

@@ -1,8 +1,8 @@
 import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
-import { T } from '../../lib/i18n/react';
 import { ReactComponent as LockAltIcon } from '../icons/lock-alt.svg';
 
 interface SeedWordInputProps {
@@ -30,6 +30,7 @@ export const SeedWordInput: FC<SeedWordInputProps> = ({
   onPaste,
   className
 }) => {
+  const { t } = useTranslation();
   const [focused, setFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const isError = submitted ? !value : false;
@@ -129,7 +130,7 @@ export const SeedWordInput: FC<SeedWordInputProps> = ({
         >
           <p className={classNames('flex items-center', 'text-gray-500 text-sm')}>
             <LockAltIcon className={classNames('mr-1', 'h-6 w-auto', 'stroke-current stroke-2')} />
-            <T id="clickToReveal">{message => <span>{message}</span>}</T>
+            <span>{t('clickToReveal')}</span>
           </p>
         </div>
       )}

@@ -4,7 +4,7 @@ import classNames from 'clsx';
 
 import { ReactComponent as ContactBookIcon } from 'app/icons/contact-book.svg';
 import { TestIDProps } from 'lib/analytics';
-import { T } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 
 import ContactsDropdownItem from './ContactsDropdownItem';
 
@@ -15,6 +15,7 @@ export type ContactsDropdownProps = TestIDProps & {
 };
 
 const ContactsDropdown = memo<ContactsDropdownProps>(({ onSelect, searchTerm, fullPage, testID, testIDProperties }) => {
+  const { t } = useTranslation();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const filteredContacts: any[] = useMemo(() => [], []);
@@ -63,9 +64,7 @@ const ContactsDropdown = memo<ContactsDropdownProps>(({ onSelect, searchTerm, fu
       ) : (
         <div className={classNames('flex items-center justify-start my-6', 'text-black text-black')}>
           <ContactBookIcon className="w-5 h-auto mr-1 stroke-current" />
-          <span>
-            <T id="noContactsFound" />
-          </span>
+          <span>{t('noContactsFound')}</span>
         </div>
       )}
     </div>

@@ -5,7 +5,9 @@ import browser from 'webextension-polyfill';
 
 import Flag from 'app/atoms/Flag';
 import { AnalyticsEventCategory, AnalyticsEventEnum, useAnalytics } from 'lib/analytics';
-import { getCurrentLocale, T, updateLocale } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
+
+import { getCurrentLocale, updateLocale } from 'lib/i18n/react';
 
 import IconifiedSelect, { IconifiedSelectOptionRenderProps } from './IconifiedSelect';
 
@@ -100,6 +102,7 @@ const localeIsDisabled = ({ disabled }: LocaleOption) => !!disabled;
 const getLocaleCode = ({ code }: LocaleOption) => code;
 
 const LocaleSelect: FC<LocaleSelectProps> = ({ className }) => {
+  const { t } = useTranslation();
   const selectedLocale = getCurrentLocale();
   const { trackEvent } = useAnalytics();
 
@@ -111,12 +114,10 @@ const LocaleSelect: FC<LocaleSelectProps> = ({ className }) => {
   const title = useMemo(
     () => (
       <h2 className={classNames('mb-4', 'leading-tight', 'flex flex-col')}>
-        <span className="text-black font-medium text-black">
-          <T id="languageAndCountry" />
-        </span>
+        <span className="text-black font-medium text-black">{t('languageAndCountry')}</span>
       </h2>
     ),
-    []
+    [t]
   );
 
   const handleLocaleChange = useCallback(
@@ -151,6 +152,7 @@ const LocaleIcon: FC<IconifiedSelectOptionRenderProps<LocaleOption>> = ({ option
 );
 
 const LocaleInMenuContent: FC<IconifiedSelectOptionRenderProps<LocaleOption>> = ({ option: { disabled, label } }) => {
+  const { t } = useTranslation();
   return (
     <div className={classNames('relative w-full text-lg text-black')}>
       {label}
@@ -165,7 +167,7 @@ const LocaleInMenuContent: FC<IconifiedSelectOptionRenderProps<LocaleOption>> = 
               'text-xs font-semibold uppercase'
             )}
           >
-            <T id="soon" />
+            {t('soon')}
           </div>
         </div>
       )}

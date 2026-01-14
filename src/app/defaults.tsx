@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-import { T, t } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 
 export const ACTIVITY_PAGE_SIZE = 1000;
 export const NFT_PAGE_SIZE = 100;
@@ -31,18 +31,29 @@ export const specialCharacterRegx = /[!@#$%^&*()_+\-=\]{};':"\\|,.<>?]/;
 export const URL_PATTERN =
   /(^(https:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$)|(^http(s)?:\/\/localhost:[0-9]+$)/;
 
-export const MNEMONIC_ERROR_CAPTION = (
-  <ul className="list-disc list-inside">
-    <T id="mnemonicWordsAmountConstraint">{message => <li>{message}</li>}</T>
-    <T id="mnemonicSpacingConstraint">{message => <li>{message}</li>}</T>
-    <T id="justValidPreGeneratedMnemonic">{message => <li>{message}</li>}</T>
-  </ul>
-);
+export const MnemonicErrorCaption: FC = () => {
+  const { t } = useTranslation();
+  return (
+    <ul className="list-disc list-inside">
+      <li>{t('mnemonicWordsAmountConstraint')}</li>
+      <li>{t('mnemonicSpacingConstraint')}</li>
+      <li>{t('justValidPreGeneratedMnemonic')}</li>
+    </ul>
+  );
+};
 
 export function formatMnemonic(m: string) {
   return m.replace(/\n/g, ' ').trim();
 }
 
-export function getAccountBadgeTitle() {
+export function useAccountBadgeTitle() {
+  const { t } = useTranslation();
   return t('importedAccount');
+}
+
+// Deprecated: Use useAccountBadgeTitle() hook instead in React components
+export function getAccountBadgeTitle() {
+  // This function is kept for backward compatibility but should be migrated
+  // to useAccountBadgeTitle() in components that can use hooks
+  return 'Imported';
 }

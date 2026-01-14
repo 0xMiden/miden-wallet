@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
-import { t, T } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 import { setFaucetIdSetting } from 'lib/miden/assets';
 
 const SUBMIT_ERROR_TYPE = 'submit-error';
@@ -15,6 +15,7 @@ type FormData = {
 };
 
 const EditMidenFaucetId: FC = () => {
+  const { t } = useTranslation();
   const faucetId = useMidenFaucetId();
   const {
     register,
@@ -76,24 +77,20 @@ const EditMidenFaucetId: FC = () => {
           }}
         />
 
-        <T id="setNewFaucetId">
-          {message => (
-            <FormSubmitButton
-              className="capitalize w-full justify-center mt-6"
-              loading={isSubmitting}
-              style={{
-                fontSize: '18px',
-                lineHeight: '24px',
-                paddingLeft: '0.5rem',
-                paddingRight: '0.5rem',
-                paddingTop: '12px',
-                paddingBottom: '12px'
-              }}
-            >
-              {message}
-            </FormSubmitButton>
-          )}
-        </T>
+        <FormSubmitButton
+          className="capitalize w-full justify-center mt-6"
+          loading={isSubmitting}
+          style={{
+            fontSize: '18px',
+            lineHeight: '24px',
+            paddingLeft: '0.5rem',
+            paddingRight: '0.5rem',
+            paddingTop: '12px',
+            paddingBottom: '12px'
+          }}
+        >
+          {t('setNewFaucetId')}
+        </FormSubmitButton>
 
         {submitSuccess && <div className="mt-4 text-green-600 text-sm font-medium">{t('faucetIdUpdated')}</div>}
       </form>

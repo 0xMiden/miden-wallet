@@ -4,7 +4,7 @@ import classNames from 'clsx';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import { ActivitySpinner } from 'app/atoms/ActivitySpinner';
-import { T } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 
 import ActivityItem from './ActivityItem';
 import { IActivity } from './IActivity';
@@ -21,6 +21,7 @@ type ActivityViewProps = {
 
 const ActivityView = memo<ActivityViewProps>(
   ({ activities, initialLoading, loadMore, hasMore, scrollParentRef, fullHistory, className }) => {
+    const { t } = useTranslation();
     const noActivities = activities.length === 0;
     const noOperationsClass = fullHistory
       ? 'mt-8 items-center text-left text-black'
@@ -32,7 +33,7 @@ const ActivityView = memo<ActivityViewProps>(
       ) : (
         <div className={classNames('mb-12', 'flex flex-col justify-left', noOperationsClass)}>
           <h3 className="text-sm text-left" style={{ maxWidth: '20rem' }}>
-            <T id="noOperationsFound" />
+            {t('noOperationsFound')}
           </h3>
         </div>
       );

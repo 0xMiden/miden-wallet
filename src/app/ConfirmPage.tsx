@@ -5,6 +5,7 @@ import React, { FC, Suspense, useCallback, useEffect, useMemo, useState } from '
 import { Address, FungibleAsset, NetworkId, SigningInputs, SigningInputsType, Word } from '@demox-labs/miden-sdk';
 import { PrivateDataPermission } from '@demox-labs/miden-wallet-adapter-base';
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import Spinner from 'app/atoms/Spinner/Spinner';
 import ErrorBoundary from 'app/ErrorBoundary';
@@ -12,7 +13,6 @@ import ContentContainer from 'app/layouts/ContentContainer';
 import Unlock from 'app/pages/Unlock';
 import { Button, ButtonVariant } from 'components/Button';
 import { CustomRpsContext } from 'lib/analytics';
-import { T, t } from 'lib/i18n/react';
 import { AssetMetadata, MIDEN_METADATA, useAccount, useMidenContext } from 'lib/miden/front';
 import { getTokenMetadata } from 'lib/miden/metadata/utils';
 import { MidenDAppPayload } from 'lib/miden/types';
@@ -39,6 +39,7 @@ import PrivateDataPermissionBanner from './templates/PrivateDataPermissionBanner
 import PrivateDataPermissionCheckbox from './templates/PrivateDataPermissionCheckbox';
 
 const ConfirmPage: FC = () => {
+  const { t } = useTranslation();
   const { ready } = useMidenContext();
 
   return useMemo(
@@ -65,7 +66,7 @@ const ConfirmPage: FC = () => {
       ) : (
         <Unlock openForgotPasswordInFullPage={true} />
       ),
-    [ready]
+    [ready, t]
   );
 };
 
@@ -110,6 +111,7 @@ interface PayloadContentProps {
 }
 
 const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account }) => {
+  const { t } = useTranslation();
   let content: string | React.ReactNode = t('noPreview');
 
   switch (payload.type) {
@@ -252,15 +254,11 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
 
   return (
     <div className={classNames('w-full', 'flex flex-col')}>
-      {t(`Payload`) && (
+      {t('Payload') && (
         <h2 className={classNames('mb-2', 'leading-tight', 'flex flex-col')}>
-          <T id={`Payload`}>
-            {message => (
-              <span className="text-black font-medium" style={{ fontSize: '14px', lineHeight: '20px' }}>
-                {message}
-              </span>
-            )}
-          </T>
+          <span className="text-black font-medium" style={{ fontSize: '14px', lineHeight: '20px' }}>
+            {t('Payload')}
+          </span>
         </h2>
       )}
       <span className="text-sm text-black">{error ? error : content}</span>
@@ -274,6 +272,7 @@ type FungibleAssetDetails = {
 };
 
 const SigningInputsPayloadContent: React.FC<{ bytes: Uint8Array }> = ({ bytes }) => {
+  const { t } = useTranslation();
   const [removedFungibleAssets, setRemovedFungibleAssets] = useState<FungibleAsset[]>([]);
   const [addedFungibleAssets, setAddedFungibleAssets] = useState<FungibleAsset[]>([]);
   const [removedFungibleAssetsDetails, setRemovedFungibleAssetsDetails] = useState<FungibleAssetDetails[]>([]);
@@ -474,6 +473,7 @@ const SigningInputsPayloadContent: React.FC<{ bytes: Uint8Array }> = ({ bytes })
 export default ConfirmPage;
 
 const ConfirmDAppForm: FC = () => {
+  const { t } = useTranslation();
   const {
     getDAppPayload,
     confirmDAppPermission,

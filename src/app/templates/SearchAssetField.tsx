@@ -3,7 +3,7 @@ import React, { FC, InputHTMLAttributes } from 'react';
 import classNames from 'clsx';
 
 import SearchField from 'app/templates/SearchField';
-import { t } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 
 type SearchAssetFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   value: string;
@@ -11,6 +11,7 @@ type SearchAssetFieldProps = InputHTMLAttributes<HTMLInputElement> & {
 };
 
 const SearchAssetField: FC<SearchAssetFieldProps> = ({ className, ...rest }) => {
+  const { t } = useTranslation();
   return (
     <SearchField
       className={classNames(

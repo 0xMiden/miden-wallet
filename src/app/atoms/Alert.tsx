@@ -1,9 +1,9 @@
 import React, { FC, HTMLAttributes, ReactNode, useEffect, useRef } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as CloseIcon } from 'app/icons/close.svg';
-import { t } from 'lib/i18n/react';
 
 type AlertProps = HTMLAttributes<HTMLDivElement> & {
   type?: 'success' | 'warn' | 'error';
@@ -24,6 +24,7 @@ const Alert: FC<AlertProps> = ({
   onClose,
   ...rest
 }) => {
+  const { t } = useTranslation();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

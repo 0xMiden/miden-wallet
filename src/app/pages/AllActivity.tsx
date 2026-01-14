@@ -6,7 +6,7 @@ import { useAppEnv } from 'app/env';
 import PageLayout from 'app/layouts/PageLayout';
 import Footer from 'app/layouts/PageLayout/Footer';
 import Activity from 'app/templates/activity/Activity';
-import { T } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 import { useAccount } from 'lib/miden/front';
 
 type AllActivityProps = {
@@ -14,20 +14,14 @@ type AllActivityProps = {
 };
 
 const AllActivity: FC<AllActivityProps> = ({ programId }) => {
+  const { t } = useTranslation();
   const account = useAccount();
   const scrollParentRef = useRef<HTMLDivElement>(null);
   const { fullPage } = useAppEnv();
   const height = fullPage ? '491px' : '459px';
 
   return (
-    <PageLayout
-      pageTitle={
-        <>
-          <T id="activity" />
-        </>
-      }
-      hasBackAction={false}
-    >
+    <PageLayout pageTitle={<>{t('activity')}</>} hasBackAction={false}>
       <div className="px-4">
         <div
           className={classNames('-mx-4 pb-4', 'bg-white overflow-y-scroll z-30 relative')}

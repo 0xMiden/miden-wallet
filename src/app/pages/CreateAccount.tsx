@@ -8,7 +8,7 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { ACCOUNT_NAME_PATTERN } from 'app/defaults';
 import { ReactComponent as ArrowRightIcon } from 'app/icons/arrow-right.svg';
 import PageLayout from 'app/layouts/PageLayout';
-import { T, t } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 import { useMidenContext, useAllAccounts } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
 import { WalletType } from 'screens/onboarding/types';
@@ -34,6 +34,7 @@ const WalletTypeOptions = [
 const SUBMIT_ERROR_TYPE = 'submit-error';
 
 const CreateAccount: FC = () => {
+  const { t } = useTranslation();
   const [selectedWalletType, setSelectedWalletType] = useState<WalletType>(WalletType.OnChain);
   const { createAccount, updateCurrentAccount } = useMidenContext();
   const allAccounts = useAllAccounts();
@@ -98,13 +99,7 @@ const CreateAccount: FC = () => {
   );
 
   return (
-    <PageLayout
-      pageTitle={
-        <>
-          <T id="createAccount" />
-        </>
-      }
-    >
+    <PageLayout pageTitle={<>{t('createAccount')}</>}>
       <div className="w-full max-w-sm mx-auto px-4">
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormField
@@ -151,24 +146,20 @@ const CreateAccount: FC = () => {
             ))}
           </div>
 
-          <T id="createAccount">
-            {message => (
-              <FormSubmitButton
-                className="capitalize w-full justify-center"
-                loading={isSubmitting}
-                style={{
-                  fontSize: '18px',
-                  lineHeight: '24px',
-                  paddingLeft: '0.5rem',
-                  paddingRight: '0.5rem',
-                  paddingTop: '12px',
-                  paddingBottom: '12px'
-                }}
-              >
-                {message}
-              </FormSubmitButton>
-            )}
-          </T>
+          <FormSubmitButton
+            className="capitalize w-full justify-center"
+            loading={isSubmitting}
+            style={{
+              fontSize: '18px',
+              lineHeight: '24px',
+              paddingLeft: '0.5rem',
+              paddingRight: '0.5rem',
+              paddingTop: '12px',
+              paddingBottom: '12px'
+            }}
+          >
+            {t('createAccount')}
+          </FormSubmitButton>
         </form>
       </div>
     </PageLayout>

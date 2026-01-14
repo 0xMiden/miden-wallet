@@ -8,7 +8,7 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import NoSpaceField from 'app/atoms/NoSpaceField';
 import TabSwitcher from 'app/atoms/TabSwitcher';
 import PageLayout from 'app/layouts/PageLayout';
-import { T, t } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 import { useMidenContext, useAllAccounts } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
 
@@ -25,6 +25,7 @@ interface ImportTabDescriptor {
 }
 
 const ImportAccount: FC<ImportAccountProps> = ({ tabSlug }) => {
+  const { t } = useTranslation();
   const allAccounts = useAllAccounts();
   const { updateCurrentAccount } = useMidenContext();
 
@@ -63,7 +64,7 @@ const ImportAccount: FC<ImportAccountProps> = ({ tabSlug }) => {
     <PageLayout
       pageTitle={
         <>
-          <T id="importAccount">{message => <span className="capitalize">{message}</span>}</T>
+          <span className="capitalize">{t('importAccount')}</span>
         </>
       }
     >
@@ -84,6 +85,7 @@ interface ByPrivateKeyFormData {
 }
 
 const ByPrivateKeyForm: FC = () => {
+  const { t } = useTranslation();
   const { importAccount } = useMidenContext();
 
   const {
@@ -158,6 +160,7 @@ interface WatchOnlyFormData {
 }
 
 const WatchOnlyForm: FC = () => {
+  const { t } = useTranslation();
   const { importWatchOnlyAccount } = useMidenContext();
 
   const {

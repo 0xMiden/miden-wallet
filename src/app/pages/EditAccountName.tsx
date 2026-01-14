@@ -7,7 +7,7 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { ACCOUNT_NAME_PATTERN } from 'app/defaults';
 import PageLayout from 'app/layouts/PageLayout';
 import { useFormAnalytics } from 'lib/analytics';
-import { T, t } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 import { useAccount, useMidenContext } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
 
@@ -18,6 +18,7 @@ type FormData = {
 const SUBMIT_ERROR_TYPE = 'submit-error';
 
 const UpdateAccountName: FC = () => {
+  const { t } = useTranslation();
   const { editAccountName } = useMidenContext();
   const account = useAccount();
   const formAnalytics = useFormAnalytics('ChangeAccountName');
@@ -63,13 +64,7 @@ const UpdateAccountName: FC = () => {
   );
 
   return (
-    <PageLayout
-      pageTitle={
-        <>
-          <T id="editAccountName" />
-        </>
-      }
-    >
+    <PageLayout pageTitle={<>{t('editAccountName')}</>}>
       <div className="w-full max-w-sm mx-auto mt-6 px-4" style={{ height: '420px' }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormField
@@ -91,24 +86,20 @@ const UpdateAccountName: FC = () => {
             errorCaption={errors.name?.message}
           />
 
-          <T id="save">
-            {message => (
-              <FormSubmitButton
-                className="capitalize w-full justify-center mt-8"
-                loading={isSubmitting}
-                style={{
-                  fontSize: '18px',
-                  lineHeight: '24px',
-                  paddingLeft: '0.5rem',
-                  paddingRight: '0.5rem',
-                  paddingTop: '12px',
-                  paddingBottom: '12px'
-                }}
-              >
-                {message}
-              </FormSubmitButton>
-            )}
-          </T>
+          <FormSubmitButton
+            className="capitalize w-full justify-center mt-8"
+            loading={isSubmitting}
+            style={{
+              fontSize: '18px',
+              lineHeight: '24px',
+              paddingLeft: '0.5rem',
+              paddingRight: '0.5rem',
+              paddingTop: '12px',
+              paddingBottom: '12px'
+            }}
+          >
+            {t('save')}
+          </FormSubmitButton>
         </form>
       </div>
     </PageLayout>

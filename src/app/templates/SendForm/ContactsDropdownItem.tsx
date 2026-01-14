@@ -7,7 +7,7 @@ import { Button } from 'app/atoms/Button';
 import ColorIdenticon from 'app/atoms/ColorIdenticon';
 import Name from 'app/atoms/Name';
 import { TestIDProps } from 'lib/analytics';
-import { T } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 
 import { SendFormSelectors } from '../SendForm.selectors';
 
@@ -17,6 +17,7 @@ type ContactsDropdownItemProps = ComponentProps<typeof Button> &
   };
 
 const ContactsDropdownItem: FC<ContactsDropdownItemProps> = ({ active, testID, testIDProperties, ...rest }) => {
+  const { t } = useTranslation();
   const ref = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     if (active) {
@@ -67,7 +68,7 @@ const ContactsDropdownItem: FC<ContactsDropdownItemProps> = ({ active, testID, t
             )}
             style={{ fontSize: '0.6rem' }}
           >
-            <T id="ownAccount" />
+            {t('ownAccount')}
           </span>
         </div>
       </div>

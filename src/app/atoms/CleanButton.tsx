@@ -1,9 +1,9 @@
 import React, { FC, HTMLAttributes, useMemo } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as CloseIcon } from 'app/icons/close.svg';
-import { t } from 'lib/i18n/react';
 import useTippy from 'lib/ui/useTippy';
 
 type CleanButtonProps = HTMLAttributes<HTMLButtonElement> & {
@@ -18,6 +18,7 @@ const CleanButton: FC<CleanButtonProps> = ({
   iconStyle = {},
   ...rest
 }) => {
+  const { t } = useTranslation();
   const tippyProps = useMemo(
     () => ({
       trigger: 'mouseenter',

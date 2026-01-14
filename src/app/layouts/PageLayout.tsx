@@ -1,6 +1,7 @@
 import React, { ComponentProps, FC, ReactNode, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import DocBg from 'app/a11y/DocBg';
 import { Button } from 'app/atoms/Button';
@@ -9,7 +10,6 @@ import { useAppEnv } from 'app/env';
 import ErrorBoundary from 'app/ErrorBoundary';
 import { Icon, IconName } from 'app/icons/v2';
 import ContentContainer from 'app/layouts/ContentContainer';
-import { T } from 'lib/i18n/react';
 import { PropsWithChildren } from 'lib/props-with-children';
 import { goBack, HistoryAction, navigate, useLocation } from 'lib/woozie';
 
@@ -115,6 +115,7 @@ const Toolbar: FC<ToolbarProps> = ({
   showBottomBorder,
   titleContainerClassName
 }) => {
+  const { t } = useTranslation();
   const { historyPosition, pathname } = useLocation();
   const { registerBackHandler, onBack } = useAppEnv();
   const { setOnboardingCompleted } = useOnboardingProgress();
@@ -236,7 +237,7 @@ const Toolbar: FC<ToolbarProps> = ({
             )}
             onClick={() => setOnboardingCompleted(true)}
           >
-            <T id="skip" />
+            {t('skip')}
           </Button>
         </div>
       )}

@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import AccountBanner from 'app/templates/AccountBanner';
-import { T, t } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 import { useMidenContext, useAccount } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
 
@@ -16,6 +16,7 @@ type FormData = {
 };
 
 const RemoveAccount: FC = () => {
+  const { t } = useTranslation();
   const { removeAccount } = useMidenContext();
   const account = useAccount();
 
@@ -59,9 +60,9 @@ const RemoveAccount: FC = () => {
       <AccountBanner
         labelDescription={
           <>
-            <T id="accountToBeRemoved" />
+            {t('accountToBeRemoved')}
             <br />
-            <T id="ifYouWantToRemoveAnotherAccount" />
+            {t('ifYouWantToRemoveAnotherAccount')}
           </>
         }
         className="mb-6"
@@ -80,26 +81,22 @@ const RemoveAccount: FC = () => {
           containerClassName="mb-4"
         />
 
-        <T id="remove">
-          {message => (
-            <FormSubmitButton
-              loading={isSubmitting}
-              disabled={isSubmitting}
-              className="capitalize w-full justify-center mt-6"
-              style={{
-                fontSize: '18px',
-                lineHeight: '24px',
-                paddingLeft: '0.5rem',
-                paddingRight: '0.5rem',
-                paddingTop: '12px',
-                paddingBottom: '12px'
-              }}
-              testID="RemoveAccount/RemoveAccountButton"
-            >
-              {message}
-            </FormSubmitButton>
-          )}
-        </T>
+        <FormSubmitButton
+          loading={isSubmitting}
+          disabled={isSubmitting}
+          className="capitalize w-full justify-center mt-6"
+          style={{
+            fontSize: '18px',
+            lineHeight: '24px',
+            paddingLeft: '0.5rem',
+            paddingRight: '0.5rem',
+            paddingTop: '12px',
+            paddingBottom: '12px'
+          }}
+          testID="RemoveAccount/RemoveAccountButton"
+        >
+          {t('remove')}
+        </FormSubmitButton>
       </form>
     </div>
   );

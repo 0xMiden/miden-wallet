@@ -10,7 +10,7 @@ import { ReactComponent as SearchIcon } from 'app/icons/search.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import { AssetIcon } from 'app/templates/AssetIcon';
 import SearchAssetField from 'app/templates/SearchAssetField';
-import { T, t } from 'lib/i18n/react';
+import { useTranslation } from 'react-i18next';
 import { AssetTypesEnum } from 'lib/miden/assets/types';
 import { getAssetName, getAssetSymbol, useAssetMetadata } from 'lib/miden/front';
 import { Link } from 'lib/woozie';
@@ -22,22 +22,26 @@ interface Props {
   assetType: string;
 }
 
-const ManageAssets: FC<Props> = ({ assetType }) => (
-  <PageLayout
-    pageTitle={
-      <>
-        <ControlCentreIcon className="w-auto h-4 mr-1 stroke-current" />
-        <T id={assetType === AssetTypesEnum.Collectibles ? 'manageCollectibles' : 'manageTokens'} />
-      </>
-    }
-  >
-    <ManageAssetsContent assetType={assetType} />
-  </PageLayout>
-);
+const ManageAssets: FC<Props> = ({ assetType }) => {
+  const { t } = useTranslation();
+  return (
+    <PageLayout
+      pageTitle={
+        <>
+          <ControlCentreIcon className="w-auto h-4 mr-1 stroke-current" />
+          {t(assetType === AssetTypesEnum.Collectibles ? 'manageCollectibles' : 'manageTokens')}
+        </>
+      }
+    >
+      <ManageAssetsContent assetType={assetType} />
+    </PageLayout>
+  );
+};
 
 export default ManageAssets;
 
 const ManageAssetsContent: FC<Props> = ({ assetType }) => {
+  const { t } = useTranslation();
   return (
     <div className="w-full max-w-sm mx-auto mb-6">
       <div className="mt-1 mb-3 w-full flex items-strech">
@@ -58,7 +62,7 @@ const ManageAssetsContent: FC<Props> = ({ assetType }) => {
           testID={ManageAssetsSelectors.AddTokenButton}
         >
           <AddIcon className={classNames('mr-1 h-5 w-auto stroke-current stroke-2')} />
-          <T id={assetType === AssetTypesEnum.Collectibles ? 'addCollectible' : 'addToken'} />
+          {t(assetType === AssetTypesEnum.Collectibles ? 'addCollectible' : 'addToken')}
         </Link>
       </div>
       <LoadingComponent loading={true} searchValue={'searchValue'} assetType={assetType} />
@@ -77,6 +81,7 @@ type ListItemProps = {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ListItem = memo<ListItemProps>(({ assetSlug, assetId, last, checked, onUpdate, assetType }) => {
+  const { t } = useTranslation();
   const metadata = useAssetMetadata(assetSlug, assetId);
 
   const handleCheckboxChange = useCallback(
@@ -144,22 +149,22 @@ interface LoadingComponentProps {
 }
 
 const LoadingComponent: React.FC<LoadingComponentProps> = ({ loading, searchValue, assetType }) => {
+  const { t } = useTranslation();
   return loading ? null : (
     <div className={classNames('my-8', 'flex flex-col items-center justify-center', 'text-gray-500')}>
       <p className={classNames('mb-2', 'flex items-center justify-center', 'text-black text-black ')}>
         {Boolean(searchValue) && <SearchIcon className="w-5 h-auto mr-1 stroke-current" />}
 
-        <span>
-          <T id="noAssetsFound" />
-        </span>
+        <span>{t('noAssetsFound')}</span>
       </p>
 
       <p className={classNames('text-center text-xs ')}>
-        <T id="ifYouDontSeeYourAsset" substitutions={[<RenderAssetComponent assetType={assetType} />]} />
+        {t('ifYouDontSeeYourAsset', { asset: <RenderAssetComponent assetType={assetType} /> })}
       </p>
     </div>
   );
 };
-const RenderAssetComponent: React.FC<{ assetType: string }> = ({ assetType }) => (
-  <b>{assetType === AssetTypesEnum.Collectibles ? <T id={'addCollectible'} /> : <T id={'addToken'} />}</b>
-);
+const RenderAssetComponent: React.FC<{ assetType: string }> = ({ assetType }) => {
+  const { t } = useTranslation();
+  return <b>{t(assetType === AssetTypesEnum.Collectibles ? 'addCollectible' : 'addToken')}</b>;
+};

@@ -1,9 +1,9 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as SelectArrowDownIcon } from 'app/icons/select-arrow-down.svg';
-import { t } from 'lib/i18n/react';
 
 interface SeedLengthSelectProps {
   options: Array<string>;
@@ -20,6 +20,7 @@ export const SeedLengthSelect: FC<SeedLengthSelectProps> = ({
   setShowSeed,
   onChange
 }) => {
+  const { t } = useTranslation();
   const [selectedOption, setSelectedOption] = useState(defaultOption ?? '');
   const [isOpen, setIsOpen] = useState(false);
 
