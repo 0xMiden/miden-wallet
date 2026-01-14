@@ -205,7 +205,6 @@ export interface MidenDAppConsumableNotesResponse extends MidenDAppMessageBase {
 export interface MidenDappWaitForTxRequest extends MidenDAppMessageBase {
   type: MidenDAppMessageType.WaitForTransactionRequest;
   txId: string;
-  interval?: number;
 }
 
 export interface MidenDAppWaitForTxResponse extends MidenDAppMessageBase {

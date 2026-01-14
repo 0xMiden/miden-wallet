@@ -206,11 +206,10 @@ export async function requestConsumableNotes(sourcePublicKey: string) {
   return res.consumableNotes;
 }
 
-export async function waitForTransaction(txId: string, interval?: number) {
+export async function waitForTransaction(txId: string) {
   const res = await request({
     type: MidenDAppMessageType.WaitForTransactionRequest,
-    txId,
-    interval
+    txId
   });
   assertResponse(res.type === MidenDAppMessageType.WaitForTransactionResponse);
   return res.transactionOutput;

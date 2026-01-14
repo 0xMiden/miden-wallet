@@ -66,8 +66,8 @@ export class MidenWindowObject extends EventEmitter<MidenWalletEvents> implement
     return { privateNotes: res };
   }
 
-  async waitForTransaction(txId: string, interval?: number): Promise<TransactionOutput> {
-    const res = await waitForTransaction(txId, interval);
+  async waitForTransaction(txId: string): Promise<TransactionOutput> {
+    const res = await waitForTransaction(txId);
     return res;
   }
 

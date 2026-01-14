@@ -1007,7 +1007,7 @@ export async function waitForTransaction(req: MidenDappWaitForTxRequest): Promis
   if (!req.txId) {
     throw new Error(MidenDAppErrorType.InvalidParams);
   }
-  const res = await waitForTransactionCompletion(req.txId, req.interval);
+  const res = await waitForTransactionCompletion(req.txId);
   return {
     type: MidenDAppMessageType.WaitForTransactionResponse,
     transactionOutput: res
