@@ -3,10 +3,6 @@
     "message": "Лео - Кошелек Алео",
     "englishSource": "Miden Wallet"
   },
-  "appDesc": {
-    "message": "Браузерный кошелек для блокчейна Miden",
-    "englishSource": "A browser wallet for the Miden blockchain"
-  },
   "createAccount": {
     "message": "Создать или восстановить учетную запись",
     "englishSource": "Create or Restore account"
@@ -255,13 +251,8 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "Мой Seed phrase $num$ слова",
-    "englishSource": "My Seed phrase is $num$ words",
-    "placeholders": {
-      "num": {
-        "content": "$1"
-      }
-    }
+    "message": "Моя исходная фраза — это слова за 1 доллар.",
+    "englishSource": "My Seed phrase is $1 words"
   },
   "justValidPreGeneratedMnemonic": {
     "message": "Просто действительная предварительно сгенерированная мнемоника",
@@ -323,12 +314,12 @@
   },
   "maximalAmount": {
     "message": "Максимум: $amount$ ",
-    "englishSource": "Maximal: $amount$",
     "placeholders": {
       "amount": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Maximal: $amount$"
   },
   "accountName": {
     "message": "Название аккаунта",
@@ -585,13 +576,13 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "Недостаточно $currency$ средства",
-    "englishSource": "Not enough $currency$ funds",
+    "message": "Недостаточно $currency$ фонды",
     "placeholders": {
       "currency": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Not enough $currency$ funds"
   },
   "failed": {
     "message": "Не удалось",
@@ -620,12 +611,12 @@
   },
   "confirmAction": {
     "message": "Подтверждать $action$ ",
-    "englishSource": "Confirm $action$",
     "placeholders": {
       "action": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Confirm $action$"
   },
   "confirm": {
     "message": "Подтверждать",
@@ -1980,186 +1971,5 @@
   "last": {
     "message": "Последний",
     "englishSource": "Last"
-  },
-  "dappBrowser": {
-    "message": "Браузер децентрализованных приложений",
-    "englishSource": "DApp Browser"
-  },
-  "dappBrowserComingSoon": {
-    "message": "Вскоре",
-    "englishSource": "Coming soon"
-  },
-  "dappBrowserDescription": {
-    "message": "Просматривайте децентрализованные приложения и безопасно подключите свой кошелек",
-    "englishSource": "Browse decentralized apps and connect your wallet securely"
-  },
-  "enterUrl": {
-    "message": "Введите URL или выполните поиск",
-    "englishSource": "Enter URL or search"
-  },
-  "go": {
-    "message": "Идти",
-    "englishSource": "Go"
-  },
-  "recentSites": {
-    "message": "Недавний",
-    "englishSource": "Recent"
-  },
-  "loading": {
-    "message": "Загрузка...",
-    "englishSource": "Loading..."
-  },
-  "favourites": {
-    "message": "Избранное",
-    "englishSource": "Favourites"
-  },
-  "approve": {
-    "message": "Утвердить",
-    "englishSource": "Approve"
-  },
-  "dappConnectionRequest": {
-    "message": "Это приложение хочет подключиться к вашему кошельку",
-    "englishSource": "This app wants to connect to your wallet"
-  },
-  "dappTransactionRequest": {
-    "message": "Это приложение запрашивает транзакцию",
-    "englishSource": "This app is requesting a transaction"
-  },
-  "noAccountSelected": {
-    "message": "Аккаунт не выбран",
-    "englishSource": "No account selected"
-  },
-  "biometricUnlock": {
-    "message": "Биометрическая разблокировка",
-    "englishSource": "Biometric Unlock"
-  },
-  "biometricUnlockDescription": {
-    "message": "Используйте Face ID или отпечаток пальца, чтобы разблокировать кошелек вместо ввода пароля.",
-    "englishSource": "Use Face ID or fingerprint to unlock your wallet instead of entering your password."
-  },
-  "biometricSetup": {
-    "message": "Настройка биометрической разблокировки",
-    "englishSource": "Set Up Biometric Unlock"
-  },
-  "biometricSetupDescription": {
-    "message": "Используйте свое лицо или отпечаток пальца, чтобы быстро разблокировать кошелек.",
-    "englishSource": "Use your face or fingerprint to quickly unlock your wallet."
-  },
-  "biometricSetupSubtitle": {
-    "message": "Включите биометрическую аутентификацию для более быстрого и безопасного доступа к вашему кошельку.",
-    "englishSource": "Enable biometric authentication for faster, more secure access to your wallet."
-  },
-  "enableBiometric": {
-    "message": "Включить биометрию",
-    "englishSource": "Enable Biometric"
-  },
-  "skipBiometricSetup": {
-    "message": "Пропустить сейчас",
-    "englishSource": "Skip for now"
-  },
-  "biometricAuthRequired": {
-    "message": "Требуется биометрическая аутентификация",
-    "englishSource": "Biometric authentication required"
-  },
-  "unlockWithBiometric": {
-    "message": "Разблокировка с помощью биометрии",
-    "englishSource": "Unlock with biometric"
-  },
-  "biometricFailed": {
-    "message": "Биометрическая аутентификация не удалась",
-    "englishSource": "Biometric authentication failed"
-  },
-  "biometricNotAvailable": {
-    "message": "Биометрическая аутентификация недоступна на этом устройстве.",
-    "englishSource": "Biometric authentication is not available on this device"
-  },
-  "usePasswordInstead": {
-    "message": "Вместо этого используйте пароль",
-    "englishSource": "Use Password Instead"
-  },
-  "biometricEnabled": {
-    "message": "Биометрическая разблокировка включена",
-    "englishSource": "Biometric unlock enabled"
-  },
-  "biometricDisabled": {
-    "message": "Биометрическая разблокировка отключена",
-    "englishSource": "Biometric unlock disabled"
-  },
-  "enterPasswordToEnableBiometric": {
-    "message": "Введите свой пароль, чтобы включить биометрическую разблокировку",
-    "englishSource": "Enter your password to enable biometric unlock"
-  },
-  "faceId": {
-    "message": "Идентификатор лица",
-    "englishSource": "Face ID"
-  },
-  "touchId": {
-    "message": "Touch ID",
-    "englishSource": "Touch ID"
-  },
-  "fingerprint": {
-    "message": "Отпечаток пальца",
-    "englishSource": "Fingerprint"
-  },
-  "biometricType": {
-    "message": "Биометрический тип",
-    "englishSource": "Biometric Type"
-  },
-  "scanQr": {
-    "message": "Сканировать QR-код",
-    "englishSource": "Scan QR Code"
-  },
-  "cameraPermissionDenied": {
-    "message": "Разрешение на камеру отклонено",
-    "englishSource": "Camera permission denied"
-  },
-  "noQrCodeFound": {
-    "message": "QR-код не найден",
-    "englishSource": "No QR code found"
-  },
-  "emptyQrCode": {
-    "message": "Пустой QR-код",
-    "englishSource": "Empty QR code"
-  },
-  "invalidMidenAddress": {
-    "message": "Неверный адрес Майдена",
-    "englishSource": "Invalid Miden address"
-  },
-  "scanCancelled": {
-    "message": "Сканирование отменено",
-    "englishSource": "Scan cancelled"
-  },
-  "hapticFeedback": {
-    "message": "Тактильная обратная связь",
-    "englishSource": "Haptic Feedback"
-  },
-  "hapticFeedbackDescription": {
-    "message": "Почувствуйте вибрацию при нажатии кнопок и элементов управления.",
-    "englishSource": "Feel a vibration when tapping buttons and controls"
-  },
-  "noNotesToClaim": {
-    "message": "В настоящее время у вас нет notes, на которые можно претендовать, но когда вы это сделаете, они появятся здесь.",
-    "englishSource": "You don't currently have notes to claim, but when you do, they will appear here."
-  },
-  "noteReceivedTitle": {
-    "message": "Вы получили note",
-    "englishSource": "You have received a note"
-  },
-  "noteReceivedTapToClaim": {
-    "message": "Нажмите здесь, чтобы потребовать это",
-    "englishSource": "Tap here to claim it"
-  },
-  "tokenHistory": {
-    "message": "$tokenName$ История",
-    "englishSource": "$tokenName$ History",
-    "placeholders": {
-      "tokenname": {
-        "content": "$1"
-      }
-    }
-  },
-  "historyDetails": {
-    "message": "Подробности",
-    "englishSource": "Details"
   }
 }

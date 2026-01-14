@@ -3,10 +3,6 @@
     "message": "Miden - Miden Wallet",
     "englishSource": "Miden Wallet"
   },
-  "appDesc": {
-    "message": "Браузерний гаманець для блокчейну Miden",
-    "englishSource": "A browser wallet for the Miden blockchain"
-  },
   "createAccount": {
     "message": "Створити або відновити аккаунт",
     "englishSource": "Create or Restore account"
@@ -255,13 +251,8 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "Мій Seed phrase є $num$ слова",
-    "englishSource": "My Seed phrase is $num$ words",
-    "placeholders": {
-      "num": {
-        "content": "$1"
-      }
-    }
+    "message": "Моя фраза Seed складається з $1 слів",
+    "englishSource": "My Seed phrase is $1 words"
   },
   "justValidPreGeneratedMnemonic": {
     "message": "Провалідуй пре-генеровану мнємоніку",
@@ -322,13 +313,13 @@
     }
   },
   "maximalAmount": {
-    "message": "Максимальний: $amount$ ",
-    "englishSource": "Maximal: $amount$",
+    "message": "Максимум: $amount$",
     "placeholders": {
       "amount": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Maximal: $amount$"
   },
   "accountName": {
     "message": "Ім'я аккаунту",
@@ -585,13 +576,13 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "недостатньо $currency$ коштів",
-    "englishSource": "Not enough $currency$ funds",
+    "message": "Не достатньо коштів у $currency$",
     "placeholders": {
       "currency": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Not enough $currency$ funds"
   },
   "failed": {
     "message": "Невдача ;(",
@@ -619,13 +610,13 @@
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "Підтвердити $action$ ",
-    "englishSource": "Confirm $action$",
+    "message": "Підтвердити $action$",
     "placeholders": {
       "action": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Confirm $action$"
   },
   "confirm": {
     "message": "Підтвердити",
@@ -953,6 +944,28 @@
   "other": {
     "message": "Інше",
     "englishSource": "Other"
+  },
+  "thousandFormat": {
+    "message": "$thousand$ тис.",
+    "placeholders": {
+      "thousand": {
+        "content": "$1"
+      }
+    },
+    "englishSource": "$thousand$k"
+  },
+  "millionFormat": {
+    "message": "$million$ млн",
+    "placeholders": {
+      "million": {
+        "content": "$1"
+      }
+    },
+    "englishSource": "$million$M"
+  },
+  "billionFormat": {
+    "message": "{{мільярд}}Б",
+    "englishSource": "{{billion}}B"
   },
   "uploadFile": {
     "message": "Завантажити файл",
@@ -1980,186 +1993,5 @@
   "last": {
     "message": "Останній",
     "englishSource": "Last"
-  },
-  "dappBrowser": {
-    "message": "Браузер DApp",
-    "englishSource": "DApp Browser"
-  },
-  "dappBrowserComingSoon": {
-    "message": "Скоро буде",
-    "englishSource": "Coming soon"
-  },
-  "dappBrowserDescription": {
-    "message": "Переглядайте децентралізовані програми та безпечно підключіть свій гаманець",
-    "englishSource": "Browse decentralized apps and connect your wallet securely"
-  },
-  "enterUrl": {
-    "message": "Введіть URL або знайдіть",
-    "englishSource": "Enter URL or search"
-  },
-  "go": {
-    "message": "Іди",
-    "englishSource": "Go"
-  },
-  "recentSites": {
-    "message": "Останні",
-    "englishSource": "Recent"
-  },
-  "loading": {
-    "message": "Завантаження...",
-    "englishSource": "Loading..."
-  },
-  "favourites": {
-    "message": "Вибране",
-    "englishSource": "Favourites"
-  },
-  "approve": {
-    "message": "Затвердити",
-    "englishSource": "Approve"
-  },
-  "dappConnectionRequest": {
-    "message": "Ця програма хоче підключитися до вашого гаманця",
-    "englishSource": "This app wants to connect to your wallet"
-  },
-  "dappTransactionRequest": {
-    "message": "Ця програма запитує трансакцію",
-    "englishSource": "This app is requesting a transaction"
-  },
-  "noAccountSelected": {
-    "message": "Обліковий запис не вибрано",
-    "englishSource": "No account selected"
-  },
-  "biometricUnlock": {
-    "message": "Біометричне розблокування",
-    "englishSource": "Biometric Unlock"
-  },
-  "biometricUnlockDescription": {
-    "message": "Використовуйте ідентифікатор обличчя або відбиток пальця, щоб розблокувати гаманець замість введення пароля.",
-    "englishSource": "Use Face ID or fingerprint to unlock your wallet instead of entering your password."
-  },
-  "biometricSetup": {
-    "message": "Налаштувати біометричне розблокування",
-    "englishSource": "Set Up Biometric Unlock"
-  },
-  "biometricSetupDescription": {
-    "message": "Використовуйте своє обличчя або відбиток пальця, щоб швидко розблокувати свій гаманець.",
-    "englishSource": "Use your face or fingerprint to quickly unlock your wallet."
-  },
-  "biometricSetupSubtitle": {
-    "message": "Увімкніть біометричну автентифікацію для швидшого та безпечнішого доступу до вашого гаманця.",
-    "englishSource": "Enable biometric authentication for faster, more secure access to your wallet."
-  },
-  "enableBiometric": {
-    "message": "Увімкнути біометрію",
-    "englishSource": "Enable Biometric"
-  },
-  "skipBiometricSetup": {
-    "message": "Пропустити поки що",
-    "englishSource": "Skip for now"
-  },
-  "biometricAuthRequired": {
-    "message": "Потрібна біометрична автентифікація",
-    "englishSource": "Biometric authentication required"
-  },
-  "unlockWithBiometric": {
-    "message": "Розблокуйте за допомогою біометрії",
-    "englishSource": "Unlock with biometric"
-  },
-  "biometricFailed": {
-    "message": "Помилка біометричної автентифікації",
-    "englishSource": "Biometric authentication failed"
-  },
-  "biometricNotAvailable": {
-    "message": "Біометрична автентифікація недоступна на цьому пристрої",
-    "englishSource": "Biometric authentication is not available on this device"
-  },
-  "usePasswordInstead": {
-    "message": "Замість цього використовуйте пароль",
-    "englishSource": "Use Password Instead"
-  },
-  "biometricEnabled": {
-    "message": "Біометричне розблокування ввімкнено",
-    "englishSource": "Biometric unlock enabled"
-  },
-  "biometricDisabled": {
-    "message": "Біометричне розблокування вимкнено",
-    "englishSource": "Biometric unlock disabled"
-  },
-  "enterPasswordToEnableBiometric": {
-    "message": "Введіть свій пароль, щоб увімкнути біометричне розблокування",
-    "englishSource": "Enter your password to enable biometric unlock"
-  },
-  "faceId": {
-    "message": "Face ID",
-    "englishSource": "Face ID"
-  },
-  "touchId": {
-    "message": "Touch ID",
-    "englishSource": "Touch ID"
-  },
-  "fingerprint": {
-    "message": "Відбиток пальця",
-    "englishSource": "Fingerprint"
-  },
-  "biometricType": {
-    "message": "Біометричний тип",
-    "englishSource": "Biometric Type"
-  },
-  "scanQr": {
-    "message": "Відскануйте QR-код",
-    "englishSource": "Scan QR Code"
-  },
-  "cameraPermissionDenied": {
-    "message": "Відмовлено в дозволі на камеру",
-    "englishSource": "Camera permission denied"
-  },
-  "noQrCodeFound": {
-    "message": "QR-код не знайдено",
-    "englishSource": "No QR code found"
-  },
-  "emptyQrCode": {
-    "message": "Порожній QR-код",
-    "englishSource": "Empty QR code"
-  },
-  "invalidMidenAddress": {
-    "message": "Недійсна адреса Miden",
-    "englishSource": "Invalid Miden address"
-  },
-  "scanCancelled": {
-    "message": "Сканування скасовано",
-    "englishSource": "Scan cancelled"
-  },
-  "hapticFeedback": {
-    "message": "Тактильний зворотний зв'язок",
-    "englishSource": "Haptic Feedback"
-  },
-  "hapticFeedbackDescription": {
-    "message": "Відчуйте вібрацію під час натискання кнопок і елементів керування",
-    "englishSource": "Feel a vibration when tapping buttons and controls"
-  },
-  "noNotesToClaim": {
-    "message": "Зараз у вас немає notes, щоб вимагати, але коли ви це зробите, вони з’являться тут.",
-    "englishSource": "You don't currently have notes to claim, but when you do, they will appear here."
-  },
-  "noteReceivedTitle": {
-    "message": "Ви отримали note",
-    "englishSource": "You have received a note"
-  },
-  "noteReceivedTapToClaim": {
-    "message": "Торкніться тут, щоб отримати його",
-    "englishSource": "Tap here to claim it"
-  },
-  "tokenHistory": {
-    "message": "Історія $tokenName$",
-    "englishSource": "$tokenName$ History",
-    "placeholders": {
-      "tokenname": {
-        "content": "$1"
-      }
-    }
-  },
-  "historyDetails": {
-    "message": "Подробиці",
-    "englishSource": "Details"
   }
 }

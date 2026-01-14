@@ -1,6 +1,5 @@
 {
   "appName": "Miden Wallet",
-  "appDesc": "A browser wallet for the Miden blockchain",
   "createAccount": "Create or Restore account",
   "importAccount": "Import account",
   "settings": "Settings",

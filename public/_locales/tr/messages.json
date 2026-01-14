@@ -3,10 +3,6 @@
     "message": "Miden - Miden Wallet",
     "englishSource": "Miden Wallet"
   },
-  "appDesc": {
-    "message": "Miden blok zinciri için bir tarayıcı cüzdanı",
-    "englishSource": "A browser wallet for the Miden blockchain"
-  },
   "createAccount": {
     "message": "Hesap Oluştur veya Geri Yükle",
     "englishSource": "Create or Restore account"
@@ -255,13 +251,8 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "Benim Seed phrase'ım: $num$ kelimeler",
-    "englishSource": "My Seed phrase is $num$ words",
-    "placeholders": {
-      "num": {
-        "content": "$1"
-      }
-    }
+    "message": "Tohum ifadem 1 dolarlık kelimedir",
+    "englishSource": "My Seed phrase is $1 words"
   },
   "justValidPreGeneratedMnemonic": {
     "message": "Yalnızca daha önceden oluşturulmuş geçerli anımsatıcı ifade",
@@ -314,21 +305,16 @@
   },
   "youCannotGetPrivateKeyFromThisAccountType": {
     "message": "Özel anahtarı alamazsınız $accountType$ hesaplar.",
-    "englishSource": "You cannot get private key from $accountType$ accounts.",
-    "placeholders": {
-      "accounttype": {
-        "content": "$1"
-      }
-    }
+    "englishSource": "You cannot get private key from $accountType$ accounts."
   },
   "maximalAmount": {
-    "message": "Maksimum: $amount$ ",
-    "englishSource": "Maximal: $amount$",
+    "message": "En fazla: $amount$",
     "placeholders": {
       "amount": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Maximal: $amount$"
   },
   "accountName": {
     "message": "Hesap adı",
@@ -586,12 +572,7 @@
   },
   "notEnoughCurrencyFunds": {
     "message": "Yeterli değil $currency$ fonlar",
-    "englishSource": "Not enough $currency$ funds",
-    "placeholders": {
-      "currency": {
-        "content": "$1"
-      }
-    }
+    "englishSource": "Not enough $currency$ funds"
   },
   "failed": {
     "message": "Başarısız",
@@ -619,13 +600,13 @@
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "Onaylamak $action$ ",
-    "englishSource": "Confirm $action$",
+    "message": "$action$ işlemini onayla",
     "placeholders": {
       "action": {
         "content": "$1"
       }
-    }
+    },
+    "englishSource": "Confirm $action$"
   },
   "confirm": {
     "message": "Onayla",
@@ -1967,186 +1948,5 @@
   "last": {
     "message": "Son",
     "englishSource": "Last"
-  },
-  "dappBrowser": {
-    "message": "DApp Tarayıcısı",
-    "englishSource": "DApp Browser"
-  },
-  "dappBrowserComingSoon": {
-    "message": "Yakında gelecek",
-    "englishSource": "Coming soon"
-  },
-  "dappBrowserDescription": {
-    "message": "Merkezi olmayan uygulamalara göz atın ve cüzdanınızı güvenli bir şekilde bağlayın",
-    "englishSource": "Browse decentralized apps and connect your wallet securely"
-  },
-  "enterUrl": {
-    "message": "URL'yi girin veya arayın",
-    "englishSource": "Enter URL or search"
-  },
-  "go": {
-    "message": "Gitmek",
-    "englishSource": "Go"
-  },
-  "recentSites": {
-    "message": "Son",
-    "englishSource": "Recent"
-  },
-  "loading": {
-    "message": "Yükleniyor...",
-    "englishSource": "Loading..."
-  },
-  "favourites": {
-    "message": "Favoriler",
-    "englishSource": "Favourites"
-  },
-  "approve": {
-    "message": "Onaylamak",
-    "englishSource": "Approve"
-  },
-  "dappConnectionRequest": {
-    "message": "Bu uygulama cüzdanınıza bağlanmak istiyor",
-    "englishSource": "This app wants to connect to your wallet"
-  },
-  "dappTransactionRequest": {
-    "message": "Bu uygulama bir işlem istiyor",
-    "englishSource": "This app is requesting a transaction"
-  },
-  "noAccountSelected": {
-    "message": "Hesap seçilmedi",
-    "englishSource": "No account selected"
-  },
-  "biometricUnlock": {
-    "message": "Biyometrik Kilit Açma",
-    "englishSource": "Biometric Unlock"
-  },
-  "biometricUnlockDescription": {
-    "message": "Cüzdanınızın kilidini açmak için şifrenizi girmek yerine Face ID'yi veya parmak izini kullanın.",
-    "englishSource": "Use Face ID or fingerprint to unlock your wallet instead of entering your password."
-  },
-  "biometricSetup": {
-    "message": "Biyometrik Kilit Açmayı Ayarlama",
-    "englishSource": "Set Up Biometric Unlock"
-  },
-  "biometricSetupDescription": {
-    "message": "Cüzdanınızın kilidini hızla açmak için yüzünüzü veya parmak izinizi kullanın.",
-    "englishSource": "Use your face or fingerprint to quickly unlock your wallet."
-  },
-  "biometricSetupSubtitle": {
-    "message": "Cüzdanınıza daha hızlı ve daha güvenli erişim için biyometrik kimlik doğrulamayı etkinleştirin.",
-    "englishSource": "Enable biometric authentication for faster, more secure access to your wallet."
-  },
-  "enableBiometric": {
-    "message": "Biyometriyi Etkinleştir",
-    "englishSource": "Enable Biometric"
-  },
-  "skipBiometricSetup": {
-    "message": "Şimdilik atla",
-    "englishSource": "Skip for now"
-  },
-  "biometricAuthRequired": {
-    "message": "Biyometrik kimlik doğrulama gerekli",
-    "englishSource": "Biometric authentication required"
-  },
-  "unlockWithBiometric": {
-    "message": "Biyometrik ile kilidi açın",
-    "englishSource": "Unlock with biometric"
-  },
-  "biometricFailed": {
-    "message": "Biyometrik kimlik doğrulama başarısız oldu",
-    "englishSource": "Biometric authentication failed"
-  },
-  "biometricNotAvailable": {
-    "message": "Bu cihazda biyometrik kimlik doğrulama kullanılamıyor",
-    "englishSource": "Biometric authentication is not available on this device"
-  },
-  "usePasswordInstead": {
-    "message": "Bunun yerine Şifre Kullan",
-    "englishSource": "Use Password Instead"
-  },
-  "biometricEnabled": {
-    "message": "Biyometrik kilit açma etkin",
-    "englishSource": "Biometric unlock enabled"
-  },
-  "biometricDisabled": {
-    "message": "Biyometrik kilit açma devre dışı bırakıldı",
-    "englishSource": "Biometric unlock disabled"
-  },
-  "enterPasswordToEnableBiometric": {
-    "message": "Biyometrik kilit açmayı etkinleştirmek için şifrenizi girin",
-    "englishSource": "Enter your password to enable biometric unlock"
-  },
-  "faceId": {
-    "message": "Yüz Kimliği",
-    "englishSource": "Face ID"
-  },
-  "touchId": {
-    "message": "Dokunmatik Kimlik",
-    "englishSource": "Touch ID"
-  },
-  "fingerprint": {
-    "message": "Parmak izi",
-    "englishSource": "Fingerprint"
-  },
-  "biometricType": {
-    "message": "Biyometrik Tip",
-    "englishSource": "Biometric Type"
-  },
-  "scanQr": {
-    "message": "QR Kodunu Tara",
-    "englishSource": "Scan QR Code"
-  },
-  "cameraPermissionDenied": {
-    "message": "Kamera izni reddedildi",
-    "englishSource": "Camera permission denied"
-  },
-  "noQrCodeFound": {
-    "message": "QR kodu bulunamadı",
-    "englishSource": "No QR code found"
-  },
-  "emptyQrCode": {
-    "message": "QR kodunu boşalt",
-    "englishSource": "Empty QR code"
-  },
-  "invalidMidenAddress": {
-    "message": "Geçersiz Miden adresi",
-    "englishSource": "Invalid Miden address"
-  },
-  "scanCancelled": {
-    "message": "Tarama iptal edildi",
-    "englishSource": "Scan cancelled"
-  },
-  "hapticFeedback": {
-    "message": "Dokunsal Geribildirim",
-    "englishSource": "Haptic Feedback"
-  },
-  "hapticFeedbackDescription": {
-    "message": "Düğmelere ve kontrollere dokunduğunuzda bir titreşim hissedin",
-    "englishSource": "Feel a vibration when tapping buttons and controls"
-  },
-  "noNotesToClaim": {
-    "message": "Şu anda talep edebileceğiniz notes yok, ancak aldığınızda burada görünecekler.",
-    "englishSource": "You don't currently have notes to claim, but when you do, they will appear here."
-  },
-  "noteReceivedTitle": {
-    "message": "Bir note aldınız",
-    "englishSource": "You have received a note"
-  },
-  "noteReceivedTapToClaim": {
-    "message": "Hak talebinde bulunmak için buraya dokunun",
-    "englishSource": "Tap here to claim it"
-  },
-  "tokenHistory": {
-    "message": "$tokenName$ Geçmiş",
-    "englishSource": "$tokenName$ History",
-    "placeholders": {
-      "tokenname": {
-        "content": "$1"
-      }
-    }
-  },
-  "historyDetails": {
-    "message": "Detaylar",
-    "englishSource": "Details"
   }
 }
