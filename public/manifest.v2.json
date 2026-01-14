@@ -11,7 +11,7 @@
   },
 
   "description": "__MSG_appDesc__",
-  "__chrome|firefox|opera__homepage_url": "https://demoxlabs.xyz",
+  "__chrome|firefox|opera__homepage_url": "https://miden.xyz",
   "short_name": "Miden Wallet",
 
   "permissions": [
@@ -25,9 +25,9 @@
   ],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
 
-  "__chrome|firefox__author": "https://demoxlabs.xyz",
+  "__chrome|firefox__author": "Miden",
   "__opera__developer": {
-    "name": "https://demoxlabs.xyz"
+    "name": "Miden"
   },
 
   "__firefox__applications": {

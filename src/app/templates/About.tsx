@@ -25,12 +25,12 @@ const About: FC = () => {
         {[
           {
             key: 'website',
-            link: 'https://demoxlabs.xyz',
+            link: 'https://miden.xyz',
             insertHR: false
           },
           {
             key: 'twitter',
-            link: 'https://x.com/DemoxLabs',
+            link: 'https://x.com/0xMiden',
             insertHR: false
           },
           {
