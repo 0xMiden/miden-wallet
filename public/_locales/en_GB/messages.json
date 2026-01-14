@@ -5046,5 +5046,13 @@
   "last": {
     "message": "Last",
     "englishSource": "Last"
+  },
+  "language": {
+    "message": "Language",
+    "englishSource": "Language"
+  },
+  "languageDescription": {
+    "message": "Change the display language",
+    "englishSource": "Change the display language"
   }
 }

@@ -5043,5 +5043,13 @@
   "last": {
     "message": "Durar",
     "englishSource": "Last"
+  },
+  "language": {
+    "message": "Linguagem",
+    "englishSource": "Language"
+  },
+  "languageDescription": {
+    "message": "Alterar o idioma de exibição",
+    "englishSource": "Change the display language"
   }
 }

@@ -4946,5 +4946,13 @@
   "last": {
     "message": "Последний",
     "englishSource": "Last"
+  },
+  "language": {
+    "message": "Язык",
+    "englishSource": "Language"
+  },
+  "languageDescription": {
+    "message": "Изменить язык отображения",
+    "englishSource": "Change the display language"
   }
 }

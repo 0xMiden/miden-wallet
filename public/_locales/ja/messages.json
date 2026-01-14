@@ -5019,5 +5019,13 @@
   "last": {
     "message": "最後",
     "englishSource": "Last"
+  },
+  "language": {
+    "message": "言語",
+    "englishSource": "Language"
+  },
+  "languageDescription": {
+    "message": "表示言語を変更する",
+    "englishSource": "Change the display language"
   }
 }

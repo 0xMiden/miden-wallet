@@ -4979,5 +4979,13 @@
   "last": {
     "message": "最后的",
     "englishSource": "Last"
+  },
+  "language": {
+    "message": "语言",
+    "englishSource": "Language"
+  },
+  "languageDescription": {
+    "message": "更改显示语言",
+    "englishSource": "Change the display language"
   }
 }

@@ -5100,5 +5100,13 @@
   "last": {
     "message": "Останній",
     "englishSource": "Last"
+  },
+  "language": {
+    "message": "Мова",
+    "englishSource": "Language"
+  },
+  "languageDescription": {
+    "message": "Змініть мову відображення",
+    "englishSource": "Change the display language"
   }
 }

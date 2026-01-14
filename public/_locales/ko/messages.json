@@ -5028,5 +5028,13 @@
   "last": {
     "message": "마지막",
     "englishSource": "Last"
+  },
+  "language": {
+    "message": "언어",
+    "englishSource": "Language"
+  },
+  "languageDescription": {
+    "message": "표시 언어 변경",
+    "englishSource": "Change the display language"
   }
 }

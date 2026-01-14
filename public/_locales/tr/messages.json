@@ -5043,5 +5043,13 @@
   "last": {
     "message": "Son",
     "englishSource": "Last"
+  },
+  "language": {
+    "message": "Dil",
+    "englishSource": "Language"
+  },
+  "languageDescription": {
+    "message": "Ekran dilini değiştirme",
+    "englishSource": "Change the display language"
   }
 }
