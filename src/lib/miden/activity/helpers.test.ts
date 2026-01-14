@@ -177,7 +177,8 @@ describe('activity/helpers', () => {
         inputNotes: () => ({ notes: () => inputNotes }),
         outputNotes: () => ({ notes: () => outputNotes }),
         id: () => ({ toHex: () => 'tx-hex-id' })
-      })
+      }),
+      serialize: () => new Uint8Array([])
     });
 
     it('interprets consume transaction (receive)', () => {
