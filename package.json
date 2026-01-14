@@ -24,7 +24,6 @@
     "lint:fix": "eslint --fix ./src",
     "lint:i18n": "eslint src --config .eslintrc.i18n.json --no-eslintrc",
     "test:e2e": "playwright test",
-    "test:e2e:ui": "EXTENSION_DIST=dist/chrome_unpacked playwright test playwright/tests/popup-smoke.spec.ts",
     "playwright:install": "playwright install --with-deps chromium",
     "clear:lint": "rimraf node_modules/.cache/eslint-loader",
     "clear:webpack-cache": "rimraf node_modules/.cache/webpack",
