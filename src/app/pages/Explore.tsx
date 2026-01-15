@@ -75,7 +75,7 @@ const Explore: FC = () => {
     await openFaucetWebview({ url: faucetUrl, title: t('midenFaucet'), recipientAddress: address });
   }, [network.id, t, address]);
 
-  const { data: failedDbTransactions } = useRetryableSWR(
+  const { data: failedConsumeTransactions } = useRetryableSWR(
     [`failed-transactions`, address],
     async () => getFailedConsumeTransactions(address),
     {
@@ -114,7 +114,7 @@ const Explore: FC = () => {
     if (notesToClaim.length === 0) {
       return;
     }
-    const failedConsumeNoteTxIds = failedDbTransactions?.map(tx => tx.noteId) || [];
+    const failedConsumeNoteTxIds = failedConsumeTransactions?.map(tx => tx.noteId) || [];
     const promises = notesToClaim.map(async note => {
       if (failedConsumeNoteTxIds?.includes(note.id)) {
         console.warn('Skipping auto-consume for note with previous failed transaction', note.id);
@@ -131,7 +131,7 @@ const Explore: FC = () => {
     startBackgroundTransactionProcessing(signTransaction);
   }, [
     midenNotes,
-    failedDbTransactions,
+    failedConsumeTransactions,
     isDelegatedProvingEnabled,
     mutateClaimableNotes,
     account.publicKey,
