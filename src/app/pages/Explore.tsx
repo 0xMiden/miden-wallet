@@ -52,7 +52,7 @@ const Explore: FC = () => {
   const address = account.publicKey;
   const { fullPage } = useAppEnv();
 
-  const { data: failedDbTransactions } = useRetryableSWR(
+  const { data: failedConsumeTransactions } = useRetryableSWR(
     [`failed-transactions`, address],
     async () => getFailedConsumeTransactions(address),
     {
@@ -85,7 +85,7 @@ const Explore: FC = () => {
     if (!shouldAutoConsume || !hasAutoConsumableNotes) {
       return;
     }
-    const failedConsumeNoteTxIds = failedDbTransactions?.map(tx => tx.noteId);
+    const failedConsumeNoteTxIds = failedConsumeTransactions?.map(tx => tx.noteId);
     const promises = midenNotes!.map(async note => {
       if (failedConsumeNoteTxIds?.includes(note.id)) {
         console.warn('Skipping auto-consume for note with previous failed transaction', note.id);
@@ -99,7 +99,7 @@ const Explore: FC = () => {
     mutateClaimableNotes();
   }, [
     midenNotes,
-    failedDbTransactions,
+    failedConsumeTransactions,
     isDelegatedProvingEnabled,
     mutateClaimableNotes,
     account.publicKey,
