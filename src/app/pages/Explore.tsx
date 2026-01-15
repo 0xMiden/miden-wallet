@@ -84,6 +84,10 @@ const Explore: FC = () => {
       dedupingInterval: 10_000
     }
   );
+  const failedConsumeNoteIds = useMemo(() => {
+    return new Set(failedConsumeTransactions?.map(tx => tx.noteId) ?? []);
+  }, [failedConsumeTransactions]);
+  const hasLoadedFailedConsumeTransactions = failedConsumeTransactions !== undefined;
   const midenNotes = useMemo(() => {
     if (!shouldAutoConsume || !claimableNotes) {
       return [];
@@ -105,7 +109,7 @@ const Explore: FC = () => {
   }, [midenNotes]);
 
   const autoConsumeMidenNotes = useCallback(async () => {
-    if (!shouldAutoConsume || !hasAutoConsumableNotes) {
+    if (!shouldAutoConsume || !hasAutoConsumableNotes || !hasLoadedFailedConsumeTransactions) {
       return;
     }
 
@@ -114,9 +118,8 @@ const Explore: FC = () => {
     if (notesToClaim.length === 0) {
       return;
     }
-    const failedConsumeNoteTxIds = failedConsumeTransactions?.map(tx => tx.noteId) || [];
     const promises = notesToClaim.map(async note => {
-      if (failedConsumeNoteTxIds?.includes(note.id)) {
+      if (failedConsumeNoteIds.has(note.id)) {
         console.warn('Skipping auto-consume for note with previous failed transaction', note.id);
         return;
       }
@@ -129,7 +132,8 @@ const Explore: FC = () => {
     startBackgroundTransactionProcessing(signTransaction);
   }, [
     midenNotes,
-    failedConsumeTransactions,
+    failedConsumeNoteIds,
+    hasLoadedFailedConsumeTransactions,
     isDelegatedProvingEnabled,
     mutateClaimableNotes,
     account.publicKey,
