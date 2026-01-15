@@ -16,6 +16,7 @@ import { TestIDProps } from 'lib/analytics';
 import { MIDEN_NETWORK_NAME, MIDEN_FAUCET_ENDPOINTS } from 'lib/miden-chain/constants';
 import { getFaucetUrl } from 'lib/miden-chain/faucet';
 import {
+  getFailedConsumeTransactions,
   hasQueuedTransactions,
   initiateConsumeTransaction,
   startBackgroundTransactionProcessing
@@ -74,6 +75,15 @@ const Explore: FC = () => {
     await openFaucetWebview({ url: faucetUrl, title: t('midenFaucet'), recipientAddress: address });
   }, [network.id, t, address]);
 
+  const { data: failedDbTransactions } = useRetryableSWR(
+    [`failed-transactions`, address],
+    async () => getFailedConsumeTransactions(address),
+    {
+      revalidateOnMount: true,
+      refreshInterval: 15_000,
+      dedupingInterval: 10_000
+    }
+  );
   const midenNotes = useMemo(() => {
     if (!shouldAutoConsume || !claimableNotes) {
       return [];
@@ -104,9 +114,15 @@ const Explore: FC = () => {
     if (notesToClaim.length === 0) {
       return;
     }
-
+    const failedConsumeNoteTxIds = failedDbTransactions?.map(tx => tx.noteId) || [];
     const promises = notesToClaim.map(async note => {
-      await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
+      if (failedConsumeNoteTxIds?.includes(note.id)) {
+        console.warn('Skipping auto-consume for note with previous failed transaction', note.id);
+        return;
+      }
+      if (!note.isBeingClaimed) {
+        await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
+      }
     });
     await Promise.all(promises);
     mutateClaimableNotes();
@@ -115,6 +131,7 @@ const Explore: FC = () => {
     startBackgroundTransactionProcessing(signTransaction);
   }, [
     midenNotes,
+    failedDbTransactions,
     isDelegatedProvingEnabled,
     mutateClaimableNotes,
     account.publicKey,
