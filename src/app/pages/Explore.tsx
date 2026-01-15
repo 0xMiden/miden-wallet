@@ -85,7 +85,7 @@ const Explore: FC = () => {
     if (!shouldAutoConsume || !hasAutoConsumableNotes) {
       return;
     }
-    const failedConsumeNoteTxIds = failedDbTransactions?.filter(tx => tx.type === 'consume').map(tx => tx.noteId);
+    const failedConsumeNoteTxIds = failedDbTransactions?.map(tx => tx.noteId);
     const promises = midenNotes!.map(async note => {
       if (failedConsumeNoteTxIds?.includes(note.id)) {
         console.warn('Skipping auto-consume for note with previous failed transaction', note.id);
