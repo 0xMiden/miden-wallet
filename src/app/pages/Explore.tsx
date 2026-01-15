@@ -15,7 +15,7 @@ import { ConnectivityIssueBanner } from 'components/ConnectivityIssueBanner';
 import { TestIDProps } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { MIDEN_NETWORK_NAME, MIDEN_FAUCET_ENDPOINTS } from 'lib/miden-chain/constants';
-import { hasQueuedTransactions, initiateConsumeTransaction } from 'lib/miden/activity';
+import { getFailedConsumeTransactions, hasQueuedTransactions, initiateConsumeTransaction } from 'lib/miden/activity';
 import { setFaucetIdSetting, useAccount, useAllBalances, useAllTokensBaseMetadata } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { isAutoConsumeEnabled, isDelegateProofEnabled } from 'lib/settings/helpers';
@@ -52,6 +52,15 @@ const Explore: FC = () => {
   const address = account.publicKey;
   const { fullPage } = useAppEnv();
 
+  const { data: failedDbTransactions } = useRetryableSWR(
+    [`failed-transactions`, address],
+    async () => getFailedConsumeTransactions(address),
+    {
+      revalidateOnMount: true,
+      refreshInterval: 15_000,
+      dedupingInterval: 10_000
+    }
+  );
   const midenNotes = useMemo(() => {
     if (!shouldAutoConsume || !claimableNotes) {
       return [];
@@ -76,8 +85,12 @@ const Explore: FC = () => {
     if (!shouldAutoConsume || !hasAutoConsumableNotes) {
       return;
     }
-
+    const failedConsumeNoteTxIds = failedDbTransactions?.filter(tx => tx.type === 'consume').map(tx => tx.noteId);
     const promises = midenNotes!.map(async note => {
+      if (failedConsumeNoteTxIds?.includes(note.id)) {
+        console.warn('Skipping auto-consume for note with previous failed transaction', note.id);
+        return;
+      }
       if (!note.isBeingClaimed) {
         await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
       }
@@ -86,6 +99,7 @@ const Explore: FC = () => {
     mutateClaimableNotes();
   }, [
     midenNotes,
+    failedDbTransactions,
     isDelegatedProvingEnabled,
     mutateClaimableNotes,
     account.publicKey,
@@ -195,7 +209,7 @@ const Explore: FC = () => {
         </div>
       </div>
       <div className="flex-none">
-        <Footer activityBadge={hasAutoConsumableNotes} />
+        <Footer activityBadge={queuedDbTransactions} />
       </div>
     </div>
   );
