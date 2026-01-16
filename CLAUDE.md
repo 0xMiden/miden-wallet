@@ -2,9 +2,11 @@
 
 This file provides guidance for Claude Code when working on this repository.
 
+**Self-maintaining document:** Proactively update this file when you learn something worth remembering - new patterns, gotchas, debugging techniques, or project-specific knowledge. Don't wait to be asked.
+
 ## Project Overview
 
-Miden Wallet is a browser extension wallet for the Miden blockchain. It's built as a Chrome/Firefox extension with a React frontend and a service worker backend.
+Miden Wallet is a browser extension wallet for the Miden blockchain, also available as a mobile app for iOS and Android. The browser version is built as a Chrome/Firefox extension with a React frontend and a service worker backend. The mobile app uses Capacitor to wrap the web app in a native shell.
 
 ## Architecture
 
@@ -51,6 +53,87 @@ yarn test             # Run Jest tests
 yarn lint             # ESLint
 yarn format           # Prettier
 ```
+
+## Mobile Development
+
+**IMPORTANT:** Always use these yarn scripts for mobile development. Do not run Capacitor or Xcode commands directly.
+
+**IMPORTANT:** When testing mobile changes, always build and run the simulator yourself. Never tell the user to build/test changes themselves - do it for them.
+
+**Node version:** Capacitor CLI requires Node >= 22. Use nvm to switch:
+```bash
+source ~/.nvm/nvm.sh && nvm use 22 && yarn mobile:ios:run
+# or for Android:
+source ~/.nvm/nvm.sh && nvm use 22 && yarn mobile:android
+```
+
+### iOS
+
+```bash
+yarn mobile:ios           # Build, sync, and open in Xcode
+yarn mobile:ios:run       # Build and run on iOS Simulator (includes FaceID setup)
+yarn mobile:ios:build     # Build for iOS Simulator only
+yarn mobile:ios:faceid    # Fix FaceID enrollment on simulator
+```
+
+### Android
+
+```bash
+yarn mobile:android              # Build, sync, and open in Android Studio
+yarn mobile:android:fingerprint  # Trigger fingerprint auth on emulator
+```
+
+### Build Only
+
+```bash
+yarn build:mobile         # Production build for mobile (outputs to dist/mobile/)
+yarn build:mobile:dev     # Development build for mobile
+yarn mobile:sync          # Build and sync with Capacitor (no IDE open)
+```
+
+### Workflow
+
+1. Make code changes in `src/`
+2. Run `yarn mobile:ios:run` to build and test on iOS Simulator
+3. Or run `yarn mobile:ios` to open in Xcode for debugging
+
+The mobile app shares the same React codebase as the browser extension. Mobile-specific code uses `isMobile()` checks from `lib/mobile/platform.ts`.
+
+### Platform-Specific Changes
+
+**CRITICAL:** This app builds for three platforms: Chrome extension, iOS, and Android. When fixing bugs or adding features:
+
+1. **Isolate platform-specific fixes** - If a bug only affects iOS, wrap the fix with platform detection (e.g., `if (isIOS()) { ... }`). Don't apply iOS fixes globally unless they genuinely apply to all platforms.
+2. **Test across platforms** - Changes to shared code can break other platforms unexpectedly.
+3. **Use platform detection** - `isMobile()`, `isIOS()`, `isAndroid()` from `lib/mobile/platform.ts` for conditional logic.
+
+### Known iOS-Specific Issues
+
+- **WASM/WebWorker behavior** - iOS Safari has different WebWorker/WASM memory handling than Android/Chrome
+- **IndexedDB quirks** - Safari's IndexedDB implementation has known limitations (e.g., doesn't work in private browsing, stricter storage quotas)
+- **Memory pressure** - iOS is more aggressive about limiting memory; watch for OOM issues with multiple WASM worker instances
+
+### Debugging iOS Issues
+
+**Debug UI components:** When adding debug panels to the UI, ensure all text is **selectable** (use `select-text` or `user-select: text`) so the user can copy/paste error messages instead of retyping them.
+
+**IMPORTANT:** Do NOT use `console.log` for iOS debugging - those logs go to Safari Web Inspector which Claude Code cannot access.
+
+**Instead, use native iOS logging that can be read via CLI:**
+```bash
+# Stream logs from running simulator (filter for webkit/app logs)
+xcrun simctl spawn booted log stream --predicate 'process == "App"' --level debug
+
+# Or capture to file for later analysis
+xcrun simctl spawn booted log stream --predicate 'process == "App"' > ios_logs.txt &
+```
+
+**For JavaScript code, use Capacitor's native logging or write to a debug file** that can be read from the simulator's file system.
+
+**Alternative: Safari Web Inspector (manual, last resort):**
+1. Run the app in simulator: `yarn mobile:ios:run`
+2. Open Safari on Mac → Develop menu → Simulator → select the app
+3. Console tab shows JavaScript logs
 
 ## Code Style (Prettier)
 

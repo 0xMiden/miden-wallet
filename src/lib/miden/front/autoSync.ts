@@ -6,6 +6,22 @@ import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
+// Debug info for iOS troubleshooting - exposed globally so UI can read it
+export type SyncDebugInfo = {
+  syncCount: number;
+  lastSyncTime: string;
+  lastBlockNum: number | null;
+  lastError?: string;
+};
+
+// Global debug info that can be read by UI components
+export const syncDebugInfo: SyncDebugInfo = {
+  syncCount: 0,
+  lastSyncTime: 'never',
+  lastBlockNum: null,
+  lastError: undefined
+};
+
 export class Sync {
   lastHeight: number = 0;
   lastRecordId: number = 0;
@@ -51,6 +67,7 @@ export class Sync {
       const blockNum = await withWasmClientLock(async () => {
         const client = await getMidenClient();
         if (!client) {
+          syncDebugInfo.lastError = 'getMidenClient returned null';
           return null;
         }
         const syncSummary = await client.syncState();
@@ -59,7 +76,16 @@ export class Sync {
 
       if (blockNum !== null) {
         this.lastHeight = blockNum;
+        syncDebugInfo.lastBlockNum = blockNum;
+        syncDebugInfo.lastError = undefined;
       }
+      syncDebugInfo.syncCount++;
+      syncDebugInfo.lastSyncTime = new Date().toLocaleTimeString();
+    } catch (error) {
+      // Log error but continue the sync loop - don't let errors stop syncing
+      console.error('[AutoSync] Error during sync:', error);
+      syncDebugInfo.lastError = String(error);
+      syncDebugInfo.lastSyncTime = new Date().toLocaleTimeString();
     } finally {
       // Set syncing status to false after sync completes
       useWalletStore.getState().setSyncStatus(false);

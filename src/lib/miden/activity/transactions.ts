@@ -153,6 +153,9 @@ export const initiateConsumeTransaction = async (
   return dbTransaction.id;
 };
 
+// Timeout for waiting on consume transactions (5 minutes)
+const WAIT_FOR_CONSUME_TX_TIMEOUT = 5 * 60_000;
+
 export const waitForConsumeTx = async (id: string, signal?: AbortSignal): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
     if (signal?.aborted) {
@@ -160,24 +163,36 @@ export const waitForConsumeTx = async (id: string, signal?: AbortSignal): Promis
       return;
     }
 
-    const subscription = liveQuery(() => Repo.transactions.where({ id }).first()).subscribe(tx => {
+    let subscription: { unsubscribe: () => void } | null = null;
+
+    const timeoutId = setTimeout(() => {
+      subscription?.unsubscribe();
+      reject(new Error('Transaction timed out. Please try again.'));
+    }, WAIT_FOR_CONSUME_TX_TIMEOUT);
+
+    const cleanup = () => {
+      clearTimeout(timeoutId);
+      subscription?.unsubscribe();
+    };
+
+    subscription = liveQuery(() => Repo.transactions.where({ id }).first()).subscribe(tx => {
       if (!tx) {
-        subscription.unsubscribe();
+        cleanup();
         reject(new Error('Transaction not found'));
         return;
       }
 
       if (tx.status === ITransactionStatus.Completed) {
-        subscription.unsubscribe();
+        cleanup();
         resolve(tx.transactionId!);
       } else if (tx.status === ITransactionStatus.Failed) {
-        subscription.unsubscribe();
+        cleanup();
         reject(new Error('Consume transaction failed'));
       }
     });
 
     signal?.addEventListener('abort', () => {
-      subscription.unsubscribe();
+      cleanup();
       reject(new DOMException('Aborted', 'AbortError'));
     });
   });

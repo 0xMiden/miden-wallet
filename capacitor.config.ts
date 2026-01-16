@@ -5,9 +5,10 @@ const config: CapacitorConfig = {
   appName: 'Miden Wallet',
   webDir: 'dist/mobile',
   server: {
-    // Use HTTP to allow mixed content requests to Miden transport layer
+    // Use HTTP scheme on both platforms to allow network requests from WASM workers
     // Note: This is for development/testnet only. Production should use HTTPS throughout.
     androidScheme: 'http',
+    iosScheme: 'http',
     cleartext: true
   },
   plugins: {
