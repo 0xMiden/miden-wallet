@@ -5,12 +5,7 @@ import wordslist from 'bip39/src/wordlists/english.json';
 
 import { formatMnemonic } from 'app/defaults';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
-import {
-  authenticate,
-  checkBiometricAvailability,
-  setBiometricEnabled,
-  storeCredential
-} from 'lib/biometric';
+import { authenticate, checkBiometricAvailability, setBiometricEnabled, storeCredential } from 'lib/biometric';
 import { useMidenContext } from 'lib/miden/front';
 import { isMobile } from 'lib/platform';
 import { WalletStatus } from 'lib/shared/types';

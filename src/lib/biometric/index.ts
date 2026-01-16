@@ -244,7 +244,12 @@ export async function setBiometricEnabled(enabled: boolean): Promise<void> {
     console.log('[Biometric] setBiometricEnabled: verification read:', JSON.stringify(verification));
 
     if (verification.value !== valueToSet) {
-      console.error('[Biometric] setBiometricEnabled: VERIFICATION FAILED! Expected:', valueToSet, 'Got:', verification.value);
+      console.error(
+        '[Biometric] setBiometricEnabled: VERIFICATION FAILED! Expected:',
+        valueToSet,
+        'Got:',
+        verification.value
+      );
     } else {
       console.log('[Biometric] setBiometricEnabled: preference verified successfully');
     }

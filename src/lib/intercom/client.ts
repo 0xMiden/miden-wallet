@@ -1,7 +1,6 @@
 import { isMobile } from 'lib/platform';
 
 import { deserializeError } from './helpers';
-import { getMobileIntercomAdapter } from './mobile-adapter';
 import { MessageType, RequestMessage } from './types';
 
 /**
@@ -21,14 +20,55 @@ async function getBrowser() {
   return browserPolyfill.default;
 }
 
+// Lazy-loaded mobile adapter (only loaded in mobile context)
+let mobileAdapterModule: typeof import('./mobile-adapter') | null = null;
+async function getMobileAdapter() {
+  if (!mobileAdapterModule) {
+    mobileAdapterModule = await import('./mobile-adapter');
+  }
+  return mobileAdapterModule.getMobileIntercomAdapter();
+}
+
 /**
  * Creates the appropriate intercom client based on the platform
  */
 export function createIntercomClient(): IIntercomClient {
   if (isMobile()) {
-    return getMobileIntercomAdapter();
+    // Return a wrapper that lazily loads the mobile adapter
+    return new MobileIntercomClientWrapper();
   }
   return new IntercomClient();
+}
+
+/**
+ * Wrapper that lazily loads the mobile adapter
+ */
+class MobileIntercomClientWrapper implements IIntercomClient {
+  private adapterPromise: Promise<IIntercomClient> | null = null;
+
+  private getAdapter(): Promise<IIntercomClient> {
+    if (!this.adapterPromise) {
+      this.adapterPromise = getMobileAdapter();
+    }
+    return this.adapterPromise;
+  }
+
+  async request(payload: any): Promise<any> {
+    const adapter = await this.getAdapter();
+    return adapter.request(payload);
+  }
+
+  subscribe(callback: (data: any) => void): () => void {
+    let unsubscribe: (() => void) | null = null;
+    this.getAdapter().then(adapter => {
+      unsubscribe = adapter.subscribe(callback);
+    });
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
+  }
 }
 
 export class IntercomClient implements IIntercomClient {
