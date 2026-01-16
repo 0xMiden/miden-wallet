@@ -77,12 +77,15 @@ export function resetHistoryPosition() {
   notifyListeners();
 }
 
-patchMethod('pushState', HistoryAction.Push);
-patchMethod('replaceState', HistoryAction.Replace);
+// Only run side effects in browser context (not in service workers)
+if (typeof window !== 'undefined') {
+  patchMethod('pushState', HistoryAction.Push);
+  patchMethod('replaceState', HistoryAction.Replace);
 
-window.addEventListener(HistoryAction.Pop, handlePopstate);
-window.addEventListener(HistoryAction.Push, handlePushstate);
-window.addEventListener(HistoryAction.Replace, handleReplacestate);
+  window.addEventListener(HistoryAction.Pop, handlePopstate);
+  window.addEventListener(HistoryAction.Push, handlePushstate);
+  window.addEventListener(HistoryAction.Replace, handleReplacestate);
+}
 
 function handlePopstate() {
   patchHistory(HistoryAction.Pop);

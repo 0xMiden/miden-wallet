@@ -1,10 +1,11 @@
-import { Preferences } from '@capacitor/preferences';
-
 import { isMobile } from './index';
 
 /**
  * Storage provider interface that abstracts browser.storage.local
  * for cross-platform compatibility.
+ *
+ * Note: Capacitor Preferences is imported lazily to avoid 'window is not defined'
+ * errors in service worker contexts.
  */
 export interface StorageProvider {
   get(keys: string[]): Promise<Record<string, any>>;
@@ -32,11 +33,18 @@ export class ExtensionStorage implements StorageProvider {
   }
 }
 
+// Lazy-load Capacitor Preferences to avoid window errors in service workers
+async function getPreferences() {
+  const { Preferences } = await import('@capacitor/preferences');
+  return Preferences;
+}
+
 /**
  * Capacitor storage implementation using @capacitor/preferences
  */
 export class CapacitorStorage implements StorageProvider {
   async get(keys: string[]): Promise<Record<string, any>> {
+    const Preferences = await getPreferences();
     const result: Record<string, any> = {};
     for (const key of keys) {
       const { value } = await Preferences.get({ key });
@@ -53,6 +61,7 @@ export class CapacitorStorage implements StorageProvider {
   }
 
   async set(items: Record<string, any>): Promise<void> {
+    const Preferences = await getPreferences();
     for (const [key, value] of Object.entries(items)) {
       const serialized = typeof value === 'string' ? value : JSON.stringify(value);
       await Preferences.set({ key, value: serialized });
@@ -60,6 +69,7 @@ export class CapacitorStorage implements StorageProvider {
   }
 
   async remove(keys: string[]): Promise<void> {
+    const Preferences = await getPreferences();
     for (const key of keys) {
       await Preferences.remove({ key });
     }

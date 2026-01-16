@@ -2,36 +2,45 @@
  * Platform detection utilities for cross-platform code sharing
  * between browser extension and mobile app.
  *
- * Note: Capacitor is imported lazily to avoid 'window is not defined'
- * errors in service worker contexts.
+ * IMPORTANT: This file is imported by service worker code (background.js).
+ * Service workers don't have `window`, so we must check for it before
+ * doing anything that requires window or Capacitor.
  */
 
 export type PlatformType = 'extension' | 'mobile' | 'web';
 
-// Lazy-load Capacitor to avoid issues in service workers
-let _capacitor: typeof import('@capacitor/core').Capacitor | null = null;
+// Cache for Capacitor detection result
+let _isCapacitorCached: boolean | null = null;
+let _capacitorPlatform: string | null = null;
 
-function getCapacitor(): typeof import('@capacitor/core').Capacitor | null {
-  if (_capacitor === null) {
-    try {
-      // Only import Capacitor if window exists (not in service worker)
-      if (typeof window !== 'undefined') {
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        _capacitor = require('@capacitor/core').Capacitor;
-      }
-    } catch {
-      _capacitor = null;
-    }
-  }
-  return _capacitor;
+/**
+ * Check if we're in a service worker context (no window available)
+ */
+function isServiceWorker(): boolean {
+  return typeof window === 'undefined';
 }
 
 /**
  * Detects if running in a Capacitor native app (iOS/Android)
  */
 export function isCapacitor(): boolean {
-  const capacitor = getCapacitor();
-  return capacitor?.isNativePlatform() ?? false;
+  // Service workers are never in Capacitor context
+  if (isServiceWorker()) {
+    return false;
+  }
+
+  if (_isCapacitorCached === null) {
+    try {
+      // Check for Capacitor global that's set when running in native app
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const cap = (window as any).Capacitor;
+      _isCapacitorCached = cap?.isNativePlatform?.() ?? false;
+      _capacitorPlatform = cap?.getPlatform?.() ?? null;
+    } catch {
+      _isCapacitorCached = false;
+    }
+  }
+  return _isCapacitorCached;
 }
 
 /**
@@ -45,16 +54,18 @@ export function isExtension(): boolean {
  * Detects if running on iOS
  */
 export function isIOS(): boolean {
-  const capacitor = getCapacitor();
-  return capacitor?.getPlatform() === 'ios';
+  if (isServiceWorker()) return false;
+  isCapacitor(); // Ensure cache is populated
+  return _capacitorPlatform === 'ios';
 }
 
 /**
  * Detects if running on Android
  */
 export function isAndroid(): boolean {
-  const capacitor = getCapacitor();
-  return capacitor?.getPlatform() === 'android';
+  if (isServiceWorker()) return false;
+  isCapacitor(); // Ensure cache is populated
+  return _capacitorPlatform === 'android';
 }
 
 /**
