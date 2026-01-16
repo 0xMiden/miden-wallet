@@ -1,5 +1,5 @@
 import { MidenMessageType, MidenRequest, MidenResponse } from 'lib/miden/types';
-import { WalletType } from 'screens/onboarding/types';
+import { AuthScheme, WalletType } from 'screens/onboarding/types';
 
 import {
   SendPageEventRequest,
@@ -169,6 +169,7 @@ export interface LoadingResponse extends WalletMessageBase {
 export interface NewWalletRequest extends WalletMessageBase {
   type: WalletMessageType.NewWalletRequest;
   password: string;
+  authScheme: AuthScheme;
   mnemonic?: string;
   ownMnemonic?: boolean;
 }

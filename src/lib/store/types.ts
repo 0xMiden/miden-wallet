@@ -4,7 +4,7 @@ import { ExchangeRateRecord, FiatCurrencyOption } from 'lib/fiat-curency';
 import { AssetMetadata } from 'lib/miden/metadata';
 import { MidenDAppSessions, MidenNetwork, MidenState } from 'lib/miden/types';
 import { WalletAccount, WalletSettings, WalletStatus } from 'lib/shared/types';
-import { WalletType } from 'screens/onboarding/types';
+import { AuthScheme, WalletType } from 'screens/onboarding/types';
 
 import { TokenBalanceData } from '../miden/front/balance';
 
@@ -94,7 +94,7 @@ export interface WalletActions {
   syncFromBackend: (state: MidenState) => void;
 
   // Auth actions
-  registerWallet: (password: string, mnemonic?: string, ownMnemonic?: boolean) => Promise<void>;
+  registerWallet: (password: string, authScheme: AuthScheme, mnemonic?: string, ownMnemonic?: boolean) => Promise<void>;
   importWalletFromClient: (
     password: string,
     mnemonic: string,

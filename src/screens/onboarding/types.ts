@@ -16,8 +16,8 @@ export enum ImportType {
 }
 
 export enum AuthScheme {
-  ECDSA = 'ecdsa',
-  Falcon = 'falcon'
+  Falcon = 0,
+  ECDSA = 1
 }
 
 export enum OnboardingStep {

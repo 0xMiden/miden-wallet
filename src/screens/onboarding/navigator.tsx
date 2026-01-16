@@ -38,7 +38,7 @@ const Header: React.FC<{
   onBack: () => void;
   step: OnboardingStep;
   onboardingType?: 'import' | 'create' | null;
-}> = ({ step, onBack }) => {
+}> = ({ step, onBack, onboardingType }) => {
   // Hide header on full-screen steps
   if (
     step === OnboardingStep.Confirmation ||
@@ -55,10 +55,12 @@ const Header: React.FC<{
     currentStep = 1;
   } else if (step === OnboardingStep.VerifySeedPhrase) {
     currentStep = 2;
+  } else if (step === OnboardingStep.SelectAuthScheme) {
+    currentStep = 3;
   } else if (step === OnboardingStep.SelectImportType) {
     currentStep = 1;
   } else if (step === OnboardingStep.CreatePassword) {
-    currentStep = 3;
+    currentStep = 4;
   } else if (step === OnboardingStep.ImportFromSeed || step === OnboardingStep.ImportFromFile) {
     currentStep = 2;
   }
@@ -79,7 +81,11 @@ const Header: React.FC<{
         }}
       />
 
-      <ProgressIndicator currentStep={currentStep || 1} steps={3} className={currentStep ? '' : 'opacity-0'} />
+      <ProgressIndicator
+        currentStep={currentStep || 1}
+        steps={onboardingType === 'import' ? 3 : 4}
+        className={currentStep ? '' : 'opacity-0'}
+      />
     </div>
   );
 };

@@ -16,7 +16,7 @@ import * as Passworder from 'lib/miden/passworder';
 import { clearStorage } from 'lib/miden/reset';
 import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
 import { WalletAccount, WalletSettings } from 'lib/shared/types';
-import { WalletType } from 'screens/onboarding/types';
+import { AuthScheme, WalletType } from 'screens/onboarding/types';
 
 import { compareAccountIds } from '../activity/utils';
 import { getBech32AddressFromAccountId } from '../sdk/helpers';
@@ -79,7 +79,7 @@ export class Vault {
     });
   }
 
-  static async spawn(password: string, mnemonic?: string, ownMnemonic?: boolean) {
+  static async spawn(password: string, authScheme: AuthScheme, mnemonic?: string, ownMnemonic?: boolean) {
     return withError('Failed to create wallet', async () => {
       const passKey = await Passworder.generateKey(password);
 
@@ -104,10 +104,10 @@ export class Vault {
           } catch (e) {
             // TODO: Need some way to propagate this up. Should we fail the entire process or just log it?
             console.error('Failed to import wallet from seed in spawn, creating new wallet instead', e);
-            return await midenClient.createMidenWallet(WalletType.OnChain, walletSeed);
+            return await midenClient.createMidenWallet(WalletType.OnChain, authScheme, walletSeed);
           }
         } else {
-          return await midenClient.createMidenWallet(WalletType.OnChain, walletSeed);
+          return await midenClient.createMidenWallet(WalletType.OnChain, authScheme, walletSeed);
         }
       });
 
@@ -201,7 +201,7 @@ export class Vault {
     return DEFAULT_SETTINGS;
   }
 
-  async createHDAccount(walletType: WalletType, name?: string): Promise<WalletAccount[]> {
+  async createHDAccount(walletType: WalletType, name?: string, authScheme: AuthScheme = 0): Promise<WalletAccount[]> {
     return withError('Failed to create account', async () => {
       const [mnemonic, allAccounts] = await Promise.all([
         fetchAndDecryptOneWithLegacyFallBack<string>(mnemonicStrgKey, this.passKey),
@@ -232,10 +232,10 @@ export class Vault {
             return await midenClient.importPublicMidenWalletFromSeed(walletSeed);
           } catch (e) {
             console.warn('Failed to import wallet from seed, creating new wallet instead', e);
-            return await midenClient.createMidenWallet(walletType, walletSeed);
+            return await midenClient.createMidenWallet(walletType, authScheme, walletSeed);
           }
         } else {
-          return await midenClient.createMidenWallet(walletType, walletSeed);
+          return await midenClient.createMidenWallet(walletType, authScheme, walletSeed);
         }
       });
 

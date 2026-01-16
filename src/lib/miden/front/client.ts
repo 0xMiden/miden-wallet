@@ -6,7 +6,7 @@ import constate from 'constate';
 import { createIntercomClient, IIntercomClient } from 'lib/intercom/client';
 import { WalletAccount, WalletRequest, WalletResponse, WalletSettings, WalletStatus } from 'lib/shared/types';
 import { useWalletStore } from 'lib/store';
-import { WalletType } from 'screens/onboarding/types';
+import { AuthScheme, WalletType } from 'screens/onboarding/types';
 
 import { store } from '../back/store';
 import { MidenState } from '../types';
@@ -96,8 +96,8 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
 
   // Wrap store actions in useCallback for stable references
   const registerWallet = useCallback(
-    async (password: string, mnemonic?: string, ownMnemonic?: boolean) => {
-      await storeRegisterWallet(password, mnemonic, ownMnemonic);
+    async (password: string, authScheme: AuthScheme, mnemonic?: string, ownMnemonic?: boolean) => {
+      await storeRegisterWallet(password, authScheme, mnemonic, ownMnemonic);
     },
     [storeRegisterWallet]
   );

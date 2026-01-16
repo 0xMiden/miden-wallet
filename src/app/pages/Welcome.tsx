@@ -60,6 +60,7 @@ const Welcome: FC = () => {
         try {
           await registerWallet(
             password,
+            authScheme,
             seedPhraseFormatted,
             onboardingType === OnboardingType.Import // might be able to leverage ownMnemonic to determine whther to attempt imports in general
           );
@@ -77,6 +78,7 @@ const Welcome: FC = () => {
     }
   }, [
     password,
+    authScheme,
     seedPhrase,
     importedWithFile,
     registerWallet,
