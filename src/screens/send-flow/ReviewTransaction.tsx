@@ -8,6 +8,7 @@ import { Icon, IconName } from 'app/icons/v2';
 import { Button, ButtonVariant } from 'components/Button';
 import { NavigationHeader } from 'components/NavigationHeader';
 import { useAccount } from 'lib/miden/front';
+import { isMobile } from 'lib/platform';
 import { truncateAddress } from 'utils/string';
 
 import { RecallBlocksModal } from './RecallBlocksModal';
@@ -134,21 +135,26 @@ export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
 
         <hr className="h-px bg-grey-100" />
 
-        <div className="flex flex-col gap-y-2">
-          <span className="flex flex-row items-center justify-between py-2">
-            <label className="text-sm text-grey-600">{t('delegateTransaction')}</label>
-            <div className="flex flex-row items-center">
-              <ToggleSwitch
-                checked={delegateTransaction}
-                onChange={handleDelegateTransactionToggle}
-                name="delegateTransaction"
-                containerClassName="my-1"
-              />
+        {/* Hide delegate transaction toggle on mobile - always delegated */}
+        {!isMobile() && (
+          <>
+            <div className="flex flex-col gap-y-2">
+              <span className="flex flex-row items-center justify-between py-2">
+                <label className="text-sm text-grey-600">{t('delegateTransaction')}</label>
+                <div className="flex flex-row items-center">
+                  <ToggleSwitch
+                    checked={delegateTransaction}
+                    onChange={handleDelegateTransactionToggle}
+                    name="delegateTransaction"
+                    containerClassName="my-1"
+                  />
+                </div>
+              </span>
             </div>
-          </span>
-        </div>
 
-        <hr className="h-px bg-grey-100" />
+            <hr className="h-px bg-grey-100" />
+          </>
+        )}
 
         <div className="flex flex-col gap-y-2">
           <span className="flex flex-row items-center justify-between py-2">

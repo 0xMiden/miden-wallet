@@ -11,6 +11,7 @@ import { CircleButton } from 'components/CircleButton';
 import { NavigationHeader } from 'components/NavigationHeader';
 import { Toggle } from 'components/Toggle';
 import { Tooltip } from 'components/Tooltip';
+import { isMobile } from 'lib/platform';
 import colors from 'utils/tailwind-colors';
 
 import {
@@ -120,35 +121,40 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
         </div>
         {error ? <Alert title={error} variant={AlertVariant.Error} /> : null}
 
-        <hr className="h-px bg-grey-100" />
+        {/* Hide delegate transaction toggle on mobile - always delegated */}
+        {!isMobile() && (
+          <>
+            <hr className="h-px bg-grey-100" />
 
-        <div className="flex flex-row justify-between items-center ">
-          <span className="flex flex-row gap-x-1">
-            <p className="text-sm text-grey-600">{t('delegateThisTransaction')}</p>
-            <div className="relative">
-              <Icon
-                name={IconName.Information}
-                fill={colors.grey[600]}
-                size="sm"
-                onMouseEnter={onInfoMouseEnter}
-                onMouseLeave={onInfoMouseLeave}
-              />
+            <div className="flex flex-row justify-between items-center ">
+              <span className="flex flex-row gap-x-1">
+                <p className="text-sm text-grey-600">{t('delegateThisTransaction')}</p>
+                <div className="relative">
+                  <Icon
+                    name={IconName.Information}
+                    fill={colors.grey[600]}
+                    size="sm"
+                    onMouseEnter={onInfoMouseEnter}
+                    onMouseLeave={onInfoMouseLeave}
+                  />
 
-              <div
-                className={classNames(
-                  'absolute z-10 -left-[90px] bottom-[170%] w-[200px] transition duration-300 ease-in-out',
-                  {
-                    'opacity-0 pointer-events-none': !isTooltipVisible,
-                    'opacity-100 pointer-events-auto': isTooltipVisible
-                  }
-                )}
-              >
-                <Tooltip arrowPosition="bottom" title={t('delegateTransactionTooltip')} />
-              </div>
+                  <div
+                    className={classNames(
+                      'absolute z-10 -left-[90px] bottom-[170%] w-[200px] transition duration-300 ease-in-out',
+                      {
+                        'opacity-0 pointer-events-none': !isTooltipVisible,
+                        'opacity-100 pointer-events-auto': isTooltipVisible
+                      }
+                    )}
+                  >
+                    <Tooltip arrowPosition="bottom" title={t('delegateTransactionTooltip')} />
+                  </div>
+                </div>
+              </span>
+              <Toggle value={delegateTransaction} onChangeValue={onToggleDelegate} />
             </div>
-          </span>
-          <Toggle value={delegateTransaction} onChangeValue={onToggleDelegate} />
-        </div>
+          </>
+        )}
 
         <span className="flex-1" />
         <Button
