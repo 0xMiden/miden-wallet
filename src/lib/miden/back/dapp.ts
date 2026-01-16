@@ -38,6 +38,7 @@ import {
   MidenDAppWaitForTxRequest,
   MidenDAppWaitForTxResponse
 } from 'lib/adapter/types';
+import { dappConfirmationStore } from 'lib/dapp-browser/confirmation-store';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { intercom } from 'lib/miden/back/defaults';
 import { Vault } from 'lib/miden/back/vault';
@@ -185,19 +186,36 @@ export async function generatePromisifyRequestPermission(
   privateDataPermission?: PrivateDataPermission,
   allowedPrivateData?: AllowedPrivateData
 ): Promise<MidenDAppPermissionResponse> {
-  // On mobile, auto-approve using the current account (TODO: add proper confirmation UI)
+  // On mobile, use confirmation store to request user approval
   if (isMobile()) {
-    const currentAccountPubKey = await Vault.getCurrentAccountPublicKey();
-    if (!currentAccountPubKey) {
+    const id = nanoid();
+    console.log('[DApp] Mobile requesting confirmation for:', origin);
+
+    // Request confirmation from the user via the confirmation store
+    const result = await dappConfirmationStore.requestConfirmation({
+      id,
+      type: 'connect',
+      origin,
+      appMeta,
+      network,
+      networkRpc,
+      privateDataPermission: privateDataPermission || PrivateDataPermission.UponRequest,
+      allowedPrivateData: allowedPrivateData || AllowedPrivateData.None,
+      existingPermission
+    });
+
+    if (!result.confirmed || !result.accountPublicKey) {
       throw new Error(MidenDAppErrorType.NotGranted);
     }
 
+    const accountPublicKey = result.accountPublicKey;
     let publicKey: string | null = null;
+
     try {
       publicKey = await withUnlocked(async () => {
         return await withWasmClientLock(async () => {
           const midenClient = await getMidenClient();
-          const account = await midenClient.getAccount(currentAccountPubKey);
+          const account = await midenClient.getAccount(accountPublicKey);
           const publicKeys = account!.getPublicKeys();
           return u8ToB64(publicKeys[0].serialize());
         });
@@ -211,19 +229,19 @@ export async function generatePromisifyRequestPermission(
       await setDApp(origin, {
         network,
         appMeta,
-        accountId: currentAccountPubKey,
-        privateDataPermission: privateDataPermission || PrivateDataPermission.UponRequest,
+        accountId: accountPublicKey,
+        privateDataPermission: result.privateDataPermission || PrivateDataPermission.UponRequest,
         allowedPrivateData: allowedPrivateData || AllowedPrivateData.None,
         publicKey: publicKey!
       });
     }
 
-    console.log('[DApp] Mobile auto-approved connection for:', origin);
+    console.log('[DApp] Mobile approved connection for:', origin);
     return {
       type: MidenDAppMessageType.PermissionResponse,
-      accountId: currentAccountPubKey,
+      accountId: accountPublicKey,
       network,
-      privateDataPermission: privateDataPermission || PrivateDataPermission.UponRequest,
+      privateDataPermission: result.privateDataPermission || PrivateDataPermission.UponRequest,
       allowedPrivateData: allowedPrivateData || AllowedPrivateData.None,
       publicKey: publicKey!
     };

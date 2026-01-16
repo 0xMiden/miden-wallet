@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import { InAppBrowser, ToolBarType } from '@capgo/inappbrowser';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +11,12 @@ import faucetIcon from 'app/misc/dapp-icons/faucet.png';
 import midenIcon from 'app/misc/dapp-icons/miden.png';
 import xIcon from 'app/misc/dapp-icons/x.png';
 import zoroIcon from 'app/misc/dapp-icons/zoro.png';
+import DAppConnectionModal from 'app/templates/DAppConnectionModal';
+import {
+  dappConfirmationStore,
+  DAppConfirmationRequest,
+  DAppConfirmationResult
+} from 'lib/dapp-browser/confirmation-store';
 import { INJECTION_SCRIPT } from 'lib/dapp-browser/injection-script';
 import { handleWebViewMessage, WebViewMessage } from 'lib/dapp-browser/message-handler';
 import { isMobile } from 'lib/platform';
@@ -37,12 +43,35 @@ const Browser: FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [recentUrls, setRecentUrls] = useState<string[]>([]);
 
+  // DApp confirmation state
+  const [pendingConfirmation, setPendingConfirmation] = useState<DAppConfirmationRequest | null>(null);
+  const [isBrowserOpen, setIsBrowserOpen] = useState(false);
+  const pendingUrlRef = useRef<string | null>(null);
+  const originRef = useRef<string | null>(null);
+
   // On mobile, use responsive dimensions (same pattern as Explore page)
   const containerStyle = isMobile()
     ? { minHeight: '100vh', width: '100%' }
     : fullPage
       ? { height: '640px', width: '600px' }
       : { height: '600px', width: '360px' };
+
+  // Subscribe to confirmation store
+  useEffect(() => {
+    const unsubscribe = dappConfirmationStore.subscribe(() => {
+      const request = dappConfirmationStore.getPendingRequest();
+      if (request && isBrowserOpen) {
+        console.log('[Browser] Confirmation requested, closing browser for UI');
+        // Store the current URL and close the browser to show confirmation UI
+        pendingUrlRef.current = url;
+        setPendingConfirmation(request);
+        // Close the browser so user can see the confirmation modal
+        InAppBrowser.close().catch(e => console.error('[Browser] Error closing browser:', e));
+        setIsBrowserOpen(false);
+      }
+    });
+    return unsubscribe;
+  }, [isBrowserOpen, url]);
 
   const normalizeUrl = useCallback((inputUrl: string): string => {
     let normalized = inputUrl.trim();
@@ -53,7 +82,7 @@ const Browser: FC = () => {
   }, []);
 
   const openBrowser = useCallback(
-    async (targetUrl: string) => {
+    async (targetUrl: string, skipRecentUpdate = false) => {
       const normalizedUrl = normalizeUrl(targetUrl);
       console.log('[Browser] Opening URL (fullscreen):', normalizedUrl);
 
@@ -67,12 +96,15 @@ const Browser: FC = () => {
       try {
         const urlObj = new URL(normalizedUrl);
         const origin = urlObj.origin;
+        originRef.current = origin;
 
-        // Add to recent URLs
-        setRecentUrls(prev => {
-          const filtered = prev.filter(u => u !== normalizedUrl);
-          return [normalizedUrl, ...filtered].slice(0, 10);
-        });
+        // Add to recent URLs (skip if reopening after confirmation)
+        if (!skipRecentUpdate) {
+          setRecentUrls(prev => {
+            const filtered = prev.filter(u => u !== normalizedUrl);
+            return [normalizedUrl, ...filtered].slice(0, 10);
+          });
+        }
 
         // Set up listeners BEFORE opening
         const messageListener = await InAppBrowser.addListener('messageFromWebview', async event => {
@@ -96,6 +128,7 @@ const Browser: FC = () => {
           messageListener.remove();
           closeListener.remove();
           setIsLoading(false);
+          setIsBrowserOpen(false);
         });
 
         const loadListener = await InAppBrowser.addListener('browserPageLoaded', async () => {
@@ -134,6 +167,7 @@ const Browser: FC = () => {
           showReloadButton: true
         });
 
+        setIsBrowserOpen(true);
         console.log('[Browser] openWebView returned successfully');
       } catch (error) {
         console.error('[Browser] Error opening browser:', error);
@@ -141,6 +175,31 @@ const Browser: FC = () => {
       }
     },
     [normalizeUrl, t]
+  );
+
+  // Handle confirmation result
+  const handleConfirmationResult = useCallback(
+    async (result: DAppConfirmationResult) => {
+      console.log('[Browser] Confirmation result:', result);
+      const savedUrl = pendingUrlRef.current;
+
+      // Clear the pending confirmation
+      setPendingConfirmation(null);
+      pendingUrlRef.current = null;
+
+      // Resolve the confirmation in the store
+      dappConfirmationStore.resolveConfirmation(result);
+
+      // Reopen the browser with the same URL if user approved
+      // (we need to reopen regardless to send the response back to the DApp)
+      if (savedUrl) {
+        // Small delay to let the confirmation promise resolve
+        setTimeout(() => {
+          openBrowser(savedUrl, true);
+        }, 100);
+      }
+    },
+    [openBrowser]
   );
 
   const handleSubmit = useCallback(
@@ -246,6 +305,11 @@ const Browser: FC = () => {
       </div>
 
       <Footer />
+
+      {/* DApp Confirmation Modal */}
+      {pendingConfirmation && (
+        <DAppConnectionModal request={pendingConfirmation} onResult={handleConfirmationResult} />
+      )}
     </div>
   );
 };

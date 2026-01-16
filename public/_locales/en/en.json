@@ -460,5 +460,8 @@
   "go": "Go",
   "recentSites": "Recent",
   "loading": "Loading...",
-  "favourites": "Favourites"
+  "favourites": "Favourites",
+  "approve": "Approve",
+  "dappConnectionRequest": "This app wants to connect to your wallet",
+  "noAccountSelected": "No account selected"
 }
