@@ -16,7 +16,7 @@ const AuthSchemeOptions = [
   },
   {
     id: AuthScheme.ECDSA,
-    title: 'ECDSA(secp256k1))',
+    title: 'ECDSA(secp256k1)',
     description:
       'Does not provide security against future quantum attacks. Widely adopted and supported, ECDSA offers shorter keys and faster proving times.'
   }
@@ -26,15 +26,21 @@ export interface SelectAuthSchemeScreenProps {
   onSubmit?: () => void;
   authScheme: AuthScheme;
   setAuthScheme: (authScheme: AuthScheme) => void;
+  onCreateAccountScreen?: boolean;
 }
 
-const SelectAuthScheme = ({ onSubmit, authScheme, setAuthScheme }: SelectAuthSchemeScreenProps) => {
+const SelectAuthScheme = ({
+  onSubmit,
+  authScheme,
+  setAuthScheme,
+  onCreateAccountScreen = false
+}: SelectAuthSchemeScreenProps) => {
   const handleWalletTypeSelect = (type: AuthScheme) => {
     setAuthScheme(type);
   };
 
   return (
-    <div className="w-full max-w-sm mx-auto p-6">
+    <div className={classNames('w-full max-w-sm mx-auto', onCreateAccountScreen ? '' : 'p-6')}>
       {/* Wallet Type Selection */}
       <div className="mb-8">
         <div className="font-medium mb-4" style={{ fontSize: '14px', lineHeight: '20px' }}>
@@ -56,10 +62,11 @@ const SelectAuthScheme = ({ onSubmit, authScheme, setAuthScheme }: SelectAuthSch
           </div>
         ))}
       </div>
-
-      <div className="w-[360px] flex flex-col gap-2 self-center">
-        <Button title={t('continue')} onClick={onSubmit} />
-      </div>
+      {!onCreateAccountScreen && (
+        <div className="w-[360px] flex flex-col gap-2 self-center">
+          <Button title={t('continue')} onClick={onSubmit} />
+        </div>
+      )}
     </div>
   );
 };

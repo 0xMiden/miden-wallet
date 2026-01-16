@@ -123,7 +123,7 @@ export function getCurrentAccount() {
   });
 }
 
-export function createHDAccount(walletType: WalletType, name?: string) {
+export function createHDAccount(walletType: WalletType, authScheme: AuthScheme, name?: string) {
   return withUnlocked(async ({ vault }) => {
     if (name) {
       name = name.trim();
@@ -132,7 +132,7 @@ export function createHDAccount(walletType: WalletType, name?: string) {
       }
     }
 
-    const accounts = await vault.createHDAccount(walletType, name);
+    const accounts = await vault.createHDAccount(walletType, authScheme, name);
     accountsUpdated({ accounts });
   });
 }

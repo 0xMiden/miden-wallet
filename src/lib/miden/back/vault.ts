@@ -201,7 +201,7 @@ export class Vault {
     return DEFAULT_SETTINGS;
   }
 
-  async createHDAccount(walletType: WalletType, name?: string, authScheme: AuthScheme = 0): Promise<WalletAccount[]> {
+  async createHDAccount(walletType: WalletType, authScheme: AuthScheme, name?: string): Promise<WalletAccount[]> {
     return withError('Failed to create account', async () => {
       const [mnemonic, allAccounts] = await Promise.all([
         fetchAndDecryptOneWithLegacyFallBack<string>(mnemonicStrgKey, this.passKey),

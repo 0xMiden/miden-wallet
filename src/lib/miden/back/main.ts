@@ -48,7 +48,7 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
       await Actions.lock();
       return { type: WalletMessageType.LockResponse };
     case WalletMessageType.CreateAccountRequest:
-      await Actions.createHDAccount(req.walletType, req.name);
+      await Actions.createHDAccount(req.walletType, req.authScheme, req.name);
       return { type: WalletMessageType.CreateAccountResponse };
     // case WalletMessageType.DecryptCiphertextsRequest:
     //   const texts = await Actions.decryptCiphertexts(req.accPublicKey, req.ciphertexts);

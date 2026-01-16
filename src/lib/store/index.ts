@@ -145,10 +145,11 @@ export const useWalletStore = create<WalletStore>()(
     },
 
     // Account actions
-    createAccount: async (walletType, name) => {
+    createAccount: async (walletType, authScheme, name) => {
       const res = await request({
         type: WalletMessageType.CreateAccountRequest,
         walletType,
+        authScheme,
         name
       });
       assertResponse(res.type === WalletMessageType.CreateAccountResponse);

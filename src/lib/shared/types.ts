@@ -198,6 +198,7 @@ export interface LockResponse extends WalletMessageBase {
 export interface CreateAccountRequest extends WalletMessageBase {
   type: WalletMessageType.CreateAccountRequest;
   walletType: WalletType;
+  authScheme: AuthScheme;
   name?: string;
 }
 

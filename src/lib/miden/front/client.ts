@@ -122,8 +122,8 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   );
 
   const createAccount = useCallback(
-    async (walletType: WalletType, name?: string) => {
-      await storeCreateAccount(walletType, name);
+    async (walletType: WalletType, authScheme: AuthScheme, name?: string) => {
+      await storeCreateAccount(walletType, authScheme, name);
     },
     [storeCreateAccount]
   );

@@ -38,7 +38,6 @@ async function waitForReadyState(syncFromBackend: (state: any) => void, maxAttem
 const Welcome: FC = () => {
   const { hash } = useLocation();
   const [step, setStep] = useState(OnboardingStep.Welcome);
-  console.log(step);
   const [seedPhrase, setSeedPhrase] = useState<string[] | null>(null);
   const [authScheme, setAuthScheme] = useState<AuthScheme>(AuthScheme.Falcon);
   const [onboardingType, setOnboardingType] = useState<OnboardingType | null>(null);
