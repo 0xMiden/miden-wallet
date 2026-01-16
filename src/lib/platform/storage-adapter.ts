@@ -33,10 +33,12 @@ export class ExtensionStorage implements StorageProvider {
   }
 }
 
-// Lazy-load Capacitor Preferences to avoid window errors in service workers
-async function getPreferences() {
-  const { Preferences } = await import('@capacitor/preferences');
-  return Preferences;
+// Lazy-load Capacitor Preferences using require() to avoid:
+// 1. window errors in service workers (static import would bundle it)
+// 2. Android issues with dynamic import()
+function getPreferences(): typeof import('@capacitor/preferences').Preferences {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  return require('@capacitor/preferences').Preferences;
 }
 
 /**
@@ -44,7 +46,7 @@ async function getPreferences() {
  */
 export class CapacitorStorage implements StorageProvider {
   async get(keys: string[]): Promise<Record<string, any>> {
-    const Preferences = await getPreferences();
+    const Preferences = getPreferences();
     const result: Record<string, any> = {};
     for (const key of keys) {
       const { value } = await Preferences.get({ key });
@@ -61,7 +63,7 @@ export class CapacitorStorage implements StorageProvider {
   }
 
   async set(items: Record<string, any>): Promise<void> {
-    const Preferences = await getPreferences();
+    const Preferences = getPreferences();
     for (const [key, value] of Object.entries(items)) {
       const serialized = typeof value === 'string' ? value : JSON.stringify(value);
       await Preferences.set({ key, value: serialized });
@@ -69,7 +71,7 @@ export class CapacitorStorage implements StorageProvider {
   }
 
   async remove(keys: string[]): Promise<void> {
-    const Preferences = await getPreferences();
+    const Preferences = getPreferences();
     for (const key of keys) {
       await Preferences.remove({ key });
     }

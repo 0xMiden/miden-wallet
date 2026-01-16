@@ -32,6 +32,25 @@ export type ModifyLocation = (location: LocationState) => LocationUpdates;
 export type To = string | LocationUpdates | ModifyLocation;
 
 export function createLocationState(): LocationState {
+  // Guard for service worker context
+  if (typeof window === 'undefined') {
+    return {
+      trigger: null,
+      historyLength: 0,
+      historyPosition: 0,
+      state: null,
+      hash: '',
+      host: '',
+      hostname: '',
+      href: '',
+      origin: '',
+      pathname: '/',
+      port: '',
+      protocol: '',
+      search: ''
+    };
+  }
+
   const {
     length: historyLength,
     lastAction: trigger = null,

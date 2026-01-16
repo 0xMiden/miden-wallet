@@ -32,6 +32,8 @@ export function useHistory() {
 }
 
 export function changeState(action: HistoryAction.Push | HistoryAction.Replace, state: any, url: string) {
+  if (typeof window === 'undefined') return;
+
   const title = ''; // Deprecated stuff
 
   if (USE_LOCATION_HASH_AS_URL) {
@@ -51,6 +53,7 @@ export function changeState(action: HistoryAction.Push | HistoryAction.Replace, 
 }
 
 export function go(delta: number) {
+  if (typeof window === 'undefined') return;
   window.history.go(delta);
 }
 
@@ -73,6 +76,7 @@ export function createUrl(pathname: string = '/', search: string = '', hash: str
 }
 
 export function resetHistoryPosition() {
+  if (typeof window === 'undefined') return;
   (window.history as PatchedHistory).position = 0;
   notifyListeners();
 }

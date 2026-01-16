@@ -9,38 +9,32 @@
 
 export type PlatformType = 'extension' | 'mobile' | 'web';
 
-// Cache for Capacitor detection result
-let _isCapacitorCached: boolean | null = null;
-let _capacitorPlatform: string | null = null;
+// Lazy-load Capacitor to avoid issues in service workers
+let _capacitor: typeof import('@capacitor/core').Capacitor | null = null;
+let _capacitorChecked = false;
 
-/**
- * Check if we're in a service worker context (no window available)
- */
-function isServiceWorker(): boolean {
-  return typeof window === 'undefined';
+function getCapacitor(): typeof import('@capacitor/core').Capacitor | null {
+  if (!_capacitorChecked) {
+    _capacitorChecked = true;
+    try {
+      // Only import Capacitor if window exists (not in service worker)
+      if (typeof window !== 'undefined') {
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        _capacitor = require('@capacitor/core').Capacitor;
+      }
+    } catch {
+      _capacitor = null;
+    }
+  }
+  return _capacitor;
 }
 
 /**
  * Detects if running in a Capacitor native app (iOS/Android)
  */
 export function isCapacitor(): boolean {
-  // Service workers are never in Capacitor context
-  if (isServiceWorker()) {
-    return false;
-  }
-
-  if (_isCapacitorCached === null) {
-    try {
-      // Check for Capacitor global that's set when running in native app
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const cap = (window as any).Capacitor;
-      _isCapacitorCached = cap?.isNativePlatform?.() ?? false;
-      _capacitorPlatform = cap?.getPlatform?.() ?? null;
-    } catch {
-      _isCapacitorCached = false;
-    }
-  }
-  return _isCapacitorCached;
+  const capacitor = getCapacitor();
+  return capacitor?.isNativePlatform() ?? false;
 }
 
 /**
@@ -54,18 +48,16 @@ export function isExtension(): boolean {
  * Detects if running on iOS
  */
 export function isIOS(): boolean {
-  if (isServiceWorker()) return false;
-  isCapacitor(); // Ensure cache is populated
-  return _capacitorPlatform === 'ios';
+  const capacitor = getCapacitor();
+  return capacitor?.getPlatform() === 'ios';
 }
 
 /**
  * Detects if running on Android
  */
 export function isAndroid(): boolean {
-  if (isServiceWorker()) return false;
-  isCapacitor(); // Ensure cache is populated
-  return _capacitorPlatform === 'android';
+  const capacitor = getCapacitor();
+  return capacitor?.getPlatform() === 'android';
 }
 
 /**
