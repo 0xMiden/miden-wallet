@@ -15,9 +15,9 @@ interface SimplePageLayoutProps extends PropsWithChildren {
 
 const SimplePageLayout: FC<SimplePageLayoutProps> = ({ title, icon, children }) => {
   const { fullPage } = useAppEnv();
-  // On mobile, don't apply fixed dimensions - let the layout be responsive
+  // On mobile, use fixed height with dvh (dynamic viewport height) for proper iOS handling
   const containerStyle = isMobile()
-    ? { minHeight: '100vh', width: '100%' }
+    ? { height: '100dvh', width: '100%', overflow: 'hidden' }
     : fullPage
       ? { height: '600px', width: '360px', margin: 'auto', overflow: 'hidden' }
       : {};

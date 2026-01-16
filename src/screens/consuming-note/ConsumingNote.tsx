@@ -121,10 +121,10 @@ export const ConsumingNotePage: FC<ConsumingNotePageProps> = ({ noteId }) => {
     }
   }, [tryConsumeNote, status, generateTransaction, onClose, noteToConsume, noteConsumeTimeoutId]);
 
-  // On mobile, use full height responsive layout
+  // On mobile, use fixed height with dvh (dynamic viewport height) for proper iOS handling
   const isMobileDevice = typeof window !== 'undefined' && /Android|iPhone|iPad/i.test(navigator.userAgent);
   const containerClass = isMobileDevice
-    ? 'min-h-screen w-full'
+    ? 'h-[100dvh] w-full'
     : 'h-[640px] max-h-[640px] w-[600px] max-w-[600px] border rounded-3xl';
 
   return (

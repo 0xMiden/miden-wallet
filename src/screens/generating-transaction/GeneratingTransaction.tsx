@@ -107,10 +107,10 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
   useBeforeUnload(!error && transactions.length !== 0, downloadAll);
   const progress = transactions.length > 0 ? (1 / transactions.length) * 80 : 0;
 
-  // On mobile, use full height responsive layout
+  // On mobile, use fixed height with dvh (dynamic viewport height) for proper iOS handling
   const isMobileDevice = typeof window !== 'undefined' && /Android|iPhone|iPad/i.test(navigator.userAgent);
   const containerClass = isMobileDevice
-    ? 'min-h-screen w-full'
+    ? 'h-[100dvh] w-full'
     : 'h-[640px] max-h-[640px] w-[600px] max-w-[600px] border rounded-3xl';
 
   return (

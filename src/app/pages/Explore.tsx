@@ -145,9 +145,9 @@ const Explore: FC = () => {
     return null;
   }
 
-  // On mobile, use responsive dimensions
+  // On mobile, use fixed height with dvh (dynamic viewport height) for proper iOS handling
   const size = isMobile()
-    ? { minHeight: '100vh', width: '100%' }
+    ? { height: '100dvh', width: '100%' }
     : fullPage
       ? { height: '640px', width: '600px' }
       : { height: '600px', width: '360px' };

@@ -396,10 +396,10 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     ]
   );
 
-  // On mobile, use full height responsive layout
+  // On mobile, use fixed height with dvh (dynamic viewport height) for proper iOS handling
   const isMobileDevice = isMobile();
   const containerClass = isMobileDevice
-    ? 'min-h-screen w-full'
+    ? 'h-[100dvh] w-full'
     : fullPage
       ? 'h-[640px] max-h-[640px] w-[600px] max-w-[600px] border rounded-3xl'
       : 'h-[600px] max-h-[600px] w-[360px] max-w-[360px]';
