@@ -4,5 +4,6 @@ export enum OnboardingSelectors {
   ImportWalletButton = 'Onboarding/ImportWalletButton',
   NewSeedPhraseButton = 'Onboarding/NewSeedPhraseButton',
   VerifySeedPhraseButton = 'Onboarding/VerifySeedPhraseButton',
+  SelectAuthSchemePage = 'Onboarding/SelectAuthSchemePage',
   ConfirmExistingSeedPhraseButton = 'Onboarding/ConfirmExistingSeedPhraseButton'
 }

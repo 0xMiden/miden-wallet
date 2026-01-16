@@ -15,11 +15,17 @@ export enum ImportType {
   WalletFile = 'wallet-file'
 }
 
+export enum AuthScheme {
+  ECDSA = 'ecdsa',
+  Falcon = 'falcon'
+}
+
 export enum OnboardingStep {
   Welcome = 'welcome',
   SelectWalletType = 'select-wallet-type',
   BackupSeedPhrase = 'backup-seed-phrase',
   VerifySeedPhrase = 'verify-seed-phrase',
+  SelectAuthScheme = 'select-auth-scheme',
   SelectImportType = 'select-import-type',
   ImportFromSeed = 'import-from-seed',
   ImportFromFile = 'import-from-file',
@@ -107,6 +113,11 @@ export type BackAction = {
   id: 'back';
 };
 
+export type SelectAuthSchemeAction = {
+  id: 'select-auth-scheme';
+  payload: AuthScheme;
+};
+
 export type OnboardingAction =
   | CreateWalletAction
   | BackupSeedPhraseAction
@@ -121,7 +132,8 @@ export type OnboardingAction =
   | BackAction
   | ImportFromFileAction
   | ImportFromSeedAction
-  | ImportWalletFileSubmitAction;
+  | ImportWalletFileSubmitAction
+  | SelectAuthSchemeAction;
 
 // TODO: Potentially make this into what the onboarding flows use to render the
 // steps rather than hardcode the path in onboarding flow

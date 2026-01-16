@@ -14,7 +14,7 @@ import { useWalletStore } from 'lib/store';
 import { fetchStateFromBackend } from 'lib/store/hooks/useIntercomSync';
 import { navigate, useLocation } from 'lib/woozie';
 import { OnboardingFlow } from 'screens/onboarding/navigator';
-import { ImportType, OnboardingAction, OnboardingStep, OnboardingType } from 'screens/onboarding/types';
+import { AuthScheme, ImportType, OnboardingAction, OnboardingStep, OnboardingType } from 'screens/onboarding/types';
 
 /**
  * Wait for the wallet state to become Ready after registration.
@@ -38,7 +38,9 @@ async function waitForReadyState(syncFromBackend: (state: any) => void, maxAttem
 const Welcome: FC = () => {
   const { hash } = useLocation();
   const [step, setStep] = useState(OnboardingStep.Welcome);
+  console.log(step);
   const [seedPhrase, setSeedPhrase] = useState<string[] | null>(null);
+  const [authScheme, setAuthScheme] = useState<AuthScheme>(AuthScheme.Falcon);
   const [onboardingType, setOnboardingType] = useState<OnboardingType | null>(null);
   const [importType, setImportType] = useState<ImportType | null>(null);
   const [password, setPassword] = useState<string | null>(null);
@@ -125,6 +127,9 @@ const Welcome: FC = () => {
       case 'verify-seed-phrase':
         navigate('/#verify-seed-phrase');
         break;
+      case 'select-auth-scheme':
+        navigate('/#select-auth-scheme');
+        break;
       case 'create-password':
         navigate('/#create-password');
         break;
@@ -196,7 +201,7 @@ const Welcome: FC = () => {
           navigate('/#backup-seed-phrase');
         } else if (step === OnboardingStep.CreatePassword) {
           if (onboardingType === OnboardingType.Create) {
-            navigate('/#verify-seed-phrase');
+            navigate('/#select-auth-scheme');
           } else {
             if (importType === ImportType.WalletFile) {
               navigate('/#import-from-file');
@@ -206,6 +211,8 @@ const Welcome: FC = () => {
           }
         } else if (step === OnboardingStep.ImportFromFile || step === OnboardingStep.ImportFromSeed) {
           navigate('/#select-import-type');
+        } else if (step === OnboardingStep.SelectAuthScheme) {
+          navigate('/#verify-seed-phrase');
         }
         break;
       default:
@@ -244,6 +251,9 @@ const Welcome: FC = () => {
       case '#create-password':
         setStep(OnboardingStep.CreatePassword);
         break;
+      case '#select-auth-scheme':
+        setStep(OnboardingStep.SelectAuthScheme);
+        break;
       case '#confirmation':
         if (!password) {
           navigate('/');
@@ -280,6 +290,8 @@ const Welcome: FC = () => {
       password={password}
       isLoading={isLoading}
       onAction={onAction}
+      authScheme={authScheme}
+      setAuthScheme={setAuthScheme}
     />
   );
 };
