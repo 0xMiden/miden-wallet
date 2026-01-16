@@ -9,7 +9,8 @@
  * to access, providing hardware-level security for the vault decryption key.
  */
 
-import { isMobile } from 'lib/platform';
+import { isMobile, isIOS } from 'lib/platform';
+import { LocalBiometric, LocalBiometricPlugin } from './localBiometricPlugin';
 
 // Storage key for biometric-protected vault credential
 const BIOMETRIC_CREDENTIAL_KEY = 'vault_biometric_key';
@@ -19,6 +20,27 @@ const BIOMETRIC_ENABLED_KEY = 'biometric_enabled';
 // Lazy-load the plugin to avoid issues in non-mobile contexts
 let _nativeBiometricModule: typeof import('capacitor-native-biometric') | null = null;
 let _biometricChecked = false;
+
+// Get the appropriate biometric plugin based on platform
+// iOS: Use our custom LocalBiometric plugin (Swift)
+// Android: Use capacitor-native-biometric package
+function getBiometricPlugin():
+  | LocalBiometricPlugin
+  | typeof import('capacitor-native-biometric').NativeBiometric
+  | null {
+  if (!isMobile() || typeof window === 'undefined') {
+    return null;
+  }
+
+  // iOS: Use custom LocalBiometric plugin
+  if (isIOS()) {
+    console.log('[Biometric] Using LocalBiometric plugin for iOS');
+    return LocalBiometric;
+  }
+
+  // Android: Use capacitor-native-biometric
+  return getNativeBiometricModule()?.NativeBiometric ?? null;
+}
 
 function getNativeBiometricModule(): typeof import('capacitor-native-biometric') | null {
   if (!_biometricChecked) {
@@ -52,10 +74,10 @@ export interface BiometricAvailability {
  */
 export async function checkBiometricAvailability(): Promise<BiometricAvailability> {
   console.log('[Biometric] checkBiometricAvailability called');
-  const module = getNativeBiometricModule();
+  const plugin = getBiometricPlugin();
 
-  if (!module) {
-    console.log('[Biometric] NativeBiometric module is null');
+  if (!plugin) {
+    console.log('[Biometric] Biometric plugin is null');
     return {
       isAvailable: false,
       biometryType: 'none',
@@ -64,13 +86,13 @@ export async function checkBiometricAvailability(): Promise<BiometricAvailabilit
   }
 
   try {
-    console.log('[Biometric] Calling NativeBiometric.isAvailable()');
-    const result = await module.NativeBiometric.isAvailable();
+    console.log('[Biometric] Calling isAvailable()');
+    const result = await plugin.isAvailable();
     console.log('[Biometric] isAvailable result:', JSON.stringify(result));
     let biometryType: BiometricAvailability['biometryType'] = 'none';
 
-    // BiometryType enum from capacitor-native-biometric:
-    // 1 = TOUCH_ID/FINGERPRINT, 2 = FACE_ID, 3 = IRIS, 4 = MULTIPLE
+    // BiometryType enum:
+    // 1 = TOUCH_ID/FINGERPRINT, 2 = FACE_ID, 3 = IRIS, 4 = MULTIPLE/OPTIC_ID
     switch (result.biometryType) {
       case 1:
         biometryType = 'fingerprint';
@@ -110,21 +132,29 @@ export async function checkBiometricAvailability(): Promise<BiometricAvailabilit
  * @param reason - The reason to display to the user (e.g., "Unlock your wallet")
  */
 export async function authenticate(reason: string): Promise<boolean> {
-  const module = getNativeBiometricModule();
+  const plugin = getBiometricPlugin();
 
-  if (!module) {
+  if (!plugin) {
     return false;
   }
 
   try {
-    await module.NativeBiometric.verifyIdentity({
-      reason,
-      title: 'Miden Wallet',
-      subtitle: reason,
-      description: '',
-      useFallback: true,
-      fallbackTitle: 'Use Password'
-    });
+    // iOS LocalBiometric has simpler API, Android capacitor-native-biometric has more options
+    if (isIOS()) {
+      await plugin.verifyIdentity({
+        reason,
+        useFallback: true
+      });
+    } else {
+      await (plugin as typeof import('capacitor-native-biometric').NativeBiometric).verifyIdentity({
+        reason,
+        title: 'Miden Wallet',
+        subtitle: reason,
+        description: '',
+        useFallback: true,
+        fallbackTitle: 'Use Password'
+      });
+    }
     return true;
   } catch {
     return false;
@@ -139,13 +169,13 @@ export async function authenticate(reason: string): Promise<boolean> {
  * @param value - The credential value to store (typically the password or derived key)
  */
 export async function storeCredential(value: string): Promise<void> {
-  const module = getNativeBiometricModule();
+  const plugin = getBiometricPlugin();
 
-  if (!module) {
+  if (!plugin) {
     throw new Error('Biometric plugin not available');
   }
 
-  await module.NativeBiometric.setCredentials({
+  await plugin.setCredentials({
     username: BIOMETRIC_CREDENTIAL_KEY,
     password: value,
     server: 'miden.wallet.biometric'
@@ -159,14 +189,14 @@ export async function storeCredential(value: string): Promise<void> {
  * @returns The stored credential value, or null if not found or authentication failed
  */
 export async function getCredential(): Promise<string | null> {
-  const module = getNativeBiometricModule();
+  const plugin = getBiometricPlugin();
 
-  if (!module) {
+  if (!plugin) {
     return null;
   }
 
   try {
-    const credentials = await module.NativeBiometric.getCredentials({
+    const credentials = await plugin.getCredentials({
       server: 'miden.wallet.biometric'
     });
     return credentials.password;
@@ -180,14 +210,14 @@ export async function getCredential(): Promise<string | null> {
  * Call this when the user disables biometric unlock or resets the wallet.
  */
 export async function deleteCredential(): Promise<void> {
-  const module = getNativeBiometricModule();
+  const plugin = getBiometricPlugin();
 
-  if (!module) {
+  if (!plugin) {
     return;
   }
 
   try {
-    await module.NativeBiometric.deleteCredentials({
+    await plugin.deleteCredentials({
       server: 'miden.wallet.biometric'
     });
   } catch {
@@ -271,24 +301,31 @@ export async function setBiometricEnabled(enabled: boolean): Promise<void> {
  * @returns The stored password if successful, null otherwise
  */
 export async function unlockWithBiometric(reason: string): Promise<string | null> {
-  const module = getNativeBiometricModule();
+  const plugin = getBiometricPlugin();
 
-  if (!module) {
+  if (!plugin) {
     return null;
   }
 
   try {
     // First verify identity
-    await module.NativeBiometric.verifyIdentity({
-      reason,
-      title: 'Miden Wallet',
-      subtitle: reason,
-      description: '',
-      useFallback: false
-    });
+    if (isIOS()) {
+      await plugin.verifyIdentity({
+        reason,
+        useFallback: false
+      });
+    } else {
+      await (plugin as typeof import('capacitor-native-biometric').NativeBiometric).verifyIdentity({
+        reason,
+        title: 'Miden Wallet',
+        subtitle: reason,
+        description: '',
+        useFallback: false
+      });
+    }
 
     // Then get the stored credential
-    const credentials = await module.NativeBiometric.getCredentials({
+    const credentials = await plugin.getCredentials({
       server: 'miden.wallet.biometric'
     });
 

@@ -111,8 +111,9 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
   // Check biometric availability on mount (mobile only)
   useEffect(() => {
     const checkBiometric = async () => {
-      console.log('[CreatePassword] Checking biometric, isMobile:', isMobile());
-      if (!isMobile()) {
+      const mobile = isMobile();
+      console.log('[CreatePassword] Checking biometric, isMobile:', mobile);
+      if (!mobile) {
         console.log('[CreatePassword] Not mobile, skipping biometric check');
         return;
       }
