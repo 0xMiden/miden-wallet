@@ -51,3 +51,7 @@ DerivedData
 *.xcuserstate
 
 *storybook.log
+
+# Xcode generated
+ios/App/App.xcworkspace/
+ios/App/App.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
