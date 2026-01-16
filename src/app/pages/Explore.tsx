@@ -1,6 +1,7 @@
 import React, { FC, FunctionComponent, SVGProps, useCallback, useEffect, useMemo } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import { openLoadingFullPage, useAppEnv } from 'app/env';
 import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
@@ -10,15 +11,14 @@ import { ReactComponent as SendIcon } from 'app/icons/send.svg';
 import Footer from 'app/layouts/PageLayout/Footer';
 import Header from 'app/layouts/PageLayout/Header';
 import AddressChip from 'app/templates/AddressChip';
-import { isMobile } from 'lib/platform';
 import { ChainInstabilityBanner } from 'components/ChainInstabilityBanner';
 import { ConnectivityIssueBanner } from 'components/ConnectivityIssueBanner';
 import { TestIDProps } from 'lib/analytics';
-import { useTranslation } from 'react-i18next';
 import { MIDEN_NETWORK_NAME, MIDEN_FAUCET_ENDPOINTS } from 'lib/miden-chain/constants';
 import { hasQueuedTransactions, initiateConsumeTransaction } from 'lib/miden/activity';
 import { setFaucetIdSetting, useAccount, useAllBalances, useAllTokensBaseMetadata } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
+import { isMobile } from 'lib/platform';
 import { isAutoConsumeEnabled, isDelegateProofEnabled } from 'lib/settings/helpers';
 import { useRetryableSWR } from 'lib/swr';
 import useTippy, { TippyProps } from 'lib/ui/useTippy';
@@ -111,6 +111,9 @@ const Explore: FC = () => {
   );
 
   useEffect(() => {
+    // On mobile, don't auto-open the modal - it's intrusive and blocks UI
+    // The modal is opened explicitly when user initiates send/claim
+    if (isMobile()) return;
     if (queuedDbTransactions) openLoadingFullPage();
   }, [queuedDbTransactions]);
 

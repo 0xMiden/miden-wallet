@@ -1,9 +1,9 @@
 import React, { FC, InputHTMLAttributes } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import SearchField from 'app/templates/SearchField';
-import { useTranslation } from 'react-i18next';
 
 type SearchAssetFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   value: string;

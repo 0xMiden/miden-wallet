@@ -1,7 +1,7 @@
 import { Buffer } from 'buffer';
 
-import { getStorageProvider, StorageProvider } from 'lib/platform/storage-adapter';
 import * as Passworder from 'lib/miden/passworder';
+import { getStorageProvider, StorageProvider } from 'lib/platform/storage-adapter';
 
 // Get platform-appropriate storage provider
 const storage: StorageProvider = getStorageProvider();

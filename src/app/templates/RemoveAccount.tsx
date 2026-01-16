@@ -1,11 +1,11 @@
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import AccountBanner from 'app/templates/AccountBanner';
-import { useTranslation } from 'react-i18next';
 import { useMidenContext, useAccount } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
 

@@ -2,6 +2,7 @@ import { FC, useCallback, useLayoutEffect, useRef } from 'react';
 
 import constate from 'constate';
 
+import { transactionModalState } from 'lib/mobile/transaction-modal';
 import { isMobile } from 'lib/platform';
 import { createUrl } from 'lib/woozie';
 
@@ -155,7 +156,6 @@ async function createLoadingFullPageUrl() {
 export async function openLoadingFullPage() {
   if (isMobile()) {
     // On mobile, open the transaction progress modal
-    const { transactionModalState } = await import('lib/mobile/transaction-modal');
     transactionModalState.open();
     return;
   }
@@ -176,7 +176,6 @@ export async function openLoadingFullPage() {
 export async function closeLoadingFullPage() {
   if (isMobile()) {
     // On mobile, close the transaction progress modal
-    const { transactionModalState } = await import('lib/mobile/transaction-modal');
     transactionModalState.close();
     return;
   }

@@ -1,10 +1,10 @@
 import React, { ComponentProps, FC } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import FormField from 'app/atoms/FormField';
 import { ReactComponent as CopyIcon } from 'app/icons/copy.svg';
-import { useTranslation } from 'react-i18next';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 
 type AssetInfoProps = {

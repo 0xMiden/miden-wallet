@@ -1,6 +1,5 @@
-import { isMobile } from 'lib/platform';
-import { getStorageProvider } from 'lib/platform/storage-adapter';
 import * as Repo from 'lib/miden/repo';
+import { isMobile } from 'lib/platform';
 
 export async function clearStorage(clearDb: boolean = true) {
   if (clearDb) {
@@ -9,11 +8,7 @@ export async function clearStorage(clearDb: boolean = true) {
   }
 
   if (isMobile()) {
-    // On mobile, use the storage adapter
-    const storage = getStorageProvider();
-    // Clear all keys by setting them to undefined individually
-    // Note: The adapter doesn't have a clear() method, so we'd need to
-    // track keys or use native Preferences.clear()
+    // On mobile, use native Capacitor Preferences.clear()
     const { Preferences } = await import('@capacitor/preferences');
     await Preferences.clear();
   } else {

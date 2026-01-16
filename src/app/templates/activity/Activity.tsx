@@ -26,6 +26,14 @@ const Activity = memo<ActivityProps>(({ address, className, numItems, scrollPare
   const [hasMore, setHasMore] = useState(true);
   const [restActivities, setRestActivities] = useSafeState<Array<IActivity>>([], safeStateKey);
 
+  // TEMPORARILY DISABLED: Force cancel causing OOM issues
+  // useEffect(() => {
+  //   if (isMobile()) {
+  //     console.log('[Activity] Mobile detected, force-cancelling all in-progress transactions');
+  //     forceCaneclAllInProgressTransactions();
+  //   }
+  // }, []);
+
   const { data: latestTransactions, isValidating: transactionsFetching } = useRetryableSWR(
     [`latest-transactions`, address],
     async () => fetchTransactionsAsActivities(address),

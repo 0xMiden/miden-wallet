@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import Alert from 'app/atoms/Alert';
 import { NotEnoughFundsError, ZeroBalanceError, ZeroTEZBalanceError } from 'app/defaults';
-import { useTranslation } from 'react-i18next';
 
 type SendErrorAlertProps = {
   type: 'submit' | 'estimation';

@@ -5,7 +5,6 @@ import Fuse from 'fuse.js';
 import PQueue from 'p-queue';
 
 import { useGasToken } from 'app/hooks/useGasToken';
-import { getStorageProvider } from 'lib/platform/storage-adapter';
 import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
 import {
   MIDEN_METADATA,
@@ -18,6 +17,7 @@ import {
   usePassiveStorage,
   isMidenAsset
 } from 'lib/miden/front';
+import { getStorageProvider } from 'lib/platform/storage-adapter';
 import { useWalletStore } from 'lib/store';
 import { useRetryableSWR } from 'lib/swr';
 

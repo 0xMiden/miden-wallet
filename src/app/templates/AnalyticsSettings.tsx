@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { useTranslation } from 'react-i18next';
+
 import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { useAnalyticsSettings } from 'lib/analytics';
-import { useTranslation } from 'react-i18next';
 
 import { GeneralSettingsSelectors } from './GeneralSettings.selectors';
 

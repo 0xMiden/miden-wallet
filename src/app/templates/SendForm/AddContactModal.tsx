@@ -2,6 +2,7 @@ import React, { FC, useCallback } from 'react';
 
 import classNames from 'clsx';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import AddressShortView from 'app/atoms/AddressShortView';
 import AnimalIdenticon from 'app/atoms/AnimalIdenticon';
@@ -9,7 +10,6 @@ import FormField from 'app/atoms/FormField';
 import FormSecondaryButton from 'app/atoms/FormSecondaryButton';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import ModalWithTitle from 'app/templates/ModalWithTitle';
-import { useTranslation } from 'react-i18next';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
 type AddContactModalProps = {

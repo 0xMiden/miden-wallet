@@ -281,11 +281,21 @@ export class MidenClientInterface {
 
   async submitTransaction(
     transactionResultBytes: Uint8Array,
-    delegateTransaction?: boolean
+    delegateTransaction?: boolean,
+    skipSync?: boolean
   ): Promise<TransactionResult> {
-    await this.syncState();
+    console.log('[submitTransaction] Starting, skipSync:', skipSync, 'delegate:', delegateTransaction);
+    // Skip sync on mobile to reduce memory pressure - AutoSync handles this
+    if (!skipSync) {
+      console.log('[submitTransaction] Syncing state...');
+      await this.syncState();
+      console.log('[submitTransaction] Sync complete');
+    }
+    console.log('[submitTransaction] Deserializing transaction result...');
     const transactionResult = TransactionResult.deserialize(transactionResultBytes);
+    console.log('[submitTransaction] Deserialized, calling proveAndSubmit...');
     await this.proveAndSubmitTransactionWithFallback(transactionResult, delegateTransaction);
+    console.log('[submitTransaction] Complete');
     return transactionResult;
   }
 
@@ -333,12 +343,17 @@ export class MidenClientInterface {
   }
 
   private async proveAndSubmitTransaction(transactionResult: TransactionResult, delegateTransaction?: boolean) {
+    console.log('[proveAndSubmit] Creating prover, delegated:', delegateTransaction);
     const transactionProver = delegateTransaction
       ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(this.network)!)
       : TransactionProver.newLocalProver();
+    console.log('[proveAndSubmit] Proving transaction...');
     const provenTransaction = await this.webClient.proveTransaction(transactionResult, transactionProver);
+    console.log('[proveAndSubmit] Submitting proven transaction...');
     const submissionHeight = await this.webClient.submitProvenTransaction(provenTransaction, transactionResult);
+    console.log('[proveAndSubmit] Applying transaction...');
     await this.webClient.applyTransaction(transactionResult, submissionHeight);
+    console.log('[proveAndSubmit] Complete');
     return;
   }
 

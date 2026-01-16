@@ -47,7 +47,14 @@ export const ConsumingNotePage: FC<ConsumingNotePageProps> = ({ noteId }) => {
   }, [claimableNotes, noteId]);
 
   const tryConsumeNote = useCallback(async () => {
-    console.log('[ConsumingNote] tryConsumeNote called, status:', status, 'noteToConsume:', noteToConsume?.id, 'timedOut:', noteConsumeTimedOut);
+    console.log(
+      '[ConsumingNote] tryConsumeNote called, status:',
+      status,
+      'noteToConsume:',
+      noteToConsume?.id,
+      'timedOut:',
+      noteConsumeTimedOut
+    );
     if (noteConsumeTimedOut) {
       console.log('[ConsumingNote] Note consume timed out, setting TxQueued');
       setStatus(ConsumingNoteStatus.TxQueued);
@@ -114,14 +121,19 @@ export const ConsumingNotePage: FC<ConsumingNotePageProps> = ({ noteId }) => {
     }
   }, [tryConsumeNote, status, generateTransaction, onClose, noteToConsume, noteConsumeTimeoutId]);
 
+  // On mobile, use full height responsive layout
+  const isMobileDevice = typeof window !== 'undefined' && /Android|iPhone|iPad/i.test(navigator.userAgent);
+  const containerClass = isMobileDevice
+    ? 'min-h-screen w-full'
+    : 'h-[640px] max-h-[640px] w-[600px] max-w-[600px] border rounded-3xl';
+
   return (
     <div
       className={classNames(
-        'h-[640px] max-h-[640px] w-[600px] max-w-[600px]',
+        containerClass,
         'mx-auto overflow-hidden ',
         'flex flex-1',
         'flex-col bg-white p-6',
-        'border rounded-3xl',
         'overflow-hidden relative'
       )}
     >

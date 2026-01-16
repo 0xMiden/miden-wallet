@@ -107,9 +107,9 @@ export class SendTransaction implements ITransaction {
   completedAt?: number;
   displayMessage?: string;
   displayIcon: ITransactionIcon;
-  extraInputs: { recallBlocks?: number; delegateTransaction?: boolean } = {
-    recallBlocks: undefined,
-    delegateTransaction: undefined
+  delegateTransaction?: boolean;
+  extraInputs: { recallBlocks?: number } = {
+    recallBlocks: undefined
   };
 
   constructor(
@@ -133,7 +133,7 @@ export class SendTransaction implements ITransaction {
     this.displayIcon = 'SEND';
     this.displayMessage = 'Sending';
     this.extraInputs.recallBlocks = recallBlocks;
-    this.extraInputs.delegateTransaction = delegateTransaction;
+    this.delegateTransaction = delegateTransaction;
   }
 }
 

@@ -1,7 +1,7 @@
 import { WalletState } from 'lib/shared/types';
 import { useWalletStore } from 'lib/store';
 
-import { getMidenClient } from '../sdk/miden-client';
+import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
@@ -33,17 +33,24 @@ export class Sync {
     if (isGeneratingUrl) {
       return;
     }
-    const client = await getMidenClient();
-    if (!client) {
-      return;
-    }
 
     // Set syncing status to true before sync
     useWalletStore.getState().setSyncStatus(true);
 
     try {
-      const syncSummary = await client.syncState();
-      this.lastHeight = syncSummary.blockNum();
+      // Wrap WASM client operations in a lock to prevent concurrent access
+      const blockNum = await withWasmClientLock(async () => {
+        const client = await getMidenClient();
+        if (!client) {
+          return null;
+        }
+        const syncSummary = await client.syncState();
+        return syncSummary.blockNum();
+      });
+
+      if (blockNum !== null) {
+        this.lastHeight = blockNum;
+      }
     } finally {
       // Set syncing status to false after sync completes
       useWalletStore.getState().setSyncStatus(false);

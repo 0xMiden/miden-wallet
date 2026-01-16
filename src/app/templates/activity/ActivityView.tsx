@@ -1,10 +1,10 @@
 import React, { memo, RefObject } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import { ActivitySpinner } from 'app/atoms/ActivitySpinner';
-import { useTranslation } from 'react-i18next';
 
 import ActivityItem from './ActivityItem';
 import { IActivity } from './IActivity';

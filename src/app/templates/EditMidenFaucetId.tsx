@@ -1,11 +1,11 @@
 import React, { FC, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
-import { useTranslation } from 'react-i18next';
 import { setFaucetIdSetting } from 'lib/miden/assets';
 
 const SUBMIT_ERROR_TYPE = 'submit-error';

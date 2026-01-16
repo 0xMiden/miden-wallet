@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 
-import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { useTranslation } from 'react-i18next';
+
+import ToggleSwitch from 'app/atoms/ToggleSwitch';
 
 import { GeneralSettingsSelectors } from './GeneralSettings.selectors';
 

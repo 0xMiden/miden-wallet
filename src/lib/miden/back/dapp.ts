@@ -11,21 +11,6 @@ import {
 import { nanoid } from 'nanoid';
 import type { Runtime } from 'webextension-polyfill';
 
-import { isMobile } from 'lib/platform';
-import { getStorageProvider } from 'lib/platform/storage-adapter';
-
-// Lazy-loaded browser polyfill (only in extension context)
-let browserModule: typeof import('webextension-polyfill') | null = null;
-async function getBrowser() {
-  if (isMobile()) {
-    throw new Error('Browser extension APIs not available on mobile');
-  }
-  if (!browserModule) {
-    browserModule = await import('webextension-polyfill');
-  }
-  return browserModule.default;
-}
-
 import {
   MidenDAppDisconnectRequest,
   MidenDAppDisconnectResponse,
@@ -67,6 +52,8 @@ import {
   MidenMessageType,
   MidenRequest
 } from 'lib/miden/types';
+import { isMobile } from 'lib/platform';
+import { getStorageProvider } from 'lib/platform/storage-adapter';
 import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
 import { WalletStatus } from 'lib/shared/types';
 import { capitalizeFirstLetter, truncateAddress } from 'utils/string';
@@ -81,6 +68,18 @@ import {
 import { getBech32AddressFromAccountId } from '../sdk/helpers';
 import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 import { store, withUnlocked } from './store';
+
+// Lazy-loaded browser polyfill (only in extension context)
+let browserModule: typeof import('webextension-polyfill') | null = null;
+async function getBrowser() {
+  if (isMobile()) {
+    throw new Error('Browser extension APIs not available on mobile');
+  }
+  if (!browserModule) {
+    browserModule = await import('webextension-polyfill');
+  }
+  return browserModule.default;
+}
 
 const CONFIRM_WINDOW_WIDTH = 380;
 const CONFIRM_WINDOW_HEIGHT = 632;

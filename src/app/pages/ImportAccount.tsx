@@ -1,6 +1,7 @@
 import React, { FC, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import Alert from 'app/atoms/Alert';
 import FormField from 'app/atoms/FormField';
@@ -8,7 +9,6 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import NoSpaceField from 'app/atoms/NoSpaceField';
 import TabSwitcher from 'app/atoms/TabSwitcher';
 import PageLayout from 'app/layouts/PageLayout';
-import { useTranslation } from 'react-i18next';
 import { useMidenContext, useAllAccounts } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
 

@@ -1,10 +1,6 @@
 import React, { ComponentProps, FC, Suspense } from 'react';
 
 // Lock-up checks are extension-only - skip on mobile
-import { isMobile } from 'lib/platform';
-if (!isMobile()) {
-  import('lib/lock-up/run-checks');
-}
 
 import AwaitFonts from 'app/a11y/AwaitFonts';
 import AwaitI18N from 'app/a11y/AwaitI18N';
@@ -16,15 +12,18 @@ import ErrorBoundary from 'app/ErrorBoundary';
 import Dialogs from 'app/layouts/Dialogs';
 import PageRouter from 'app/PageRouter';
 import { ExtensionMessageListener } from 'components/ConnectivityIssueBanner';
-import { MidenProvider } from 'lib/miden/front';
-import { isMobile as checkIsMobile } from 'lib/platform';
 import { TransactionProgressModal } from 'components/TransactionProgressModal';
+import { MidenProvider } from 'lib/miden/front';
+import { isMobile as checkIsMobile, isMobile } from 'lib/platform';
 import { PropsWithChildren } from 'lib/props-with-children';
 import { DialogsProvider } from 'lib/ui/dialog';
 import * as Woozie from 'lib/woozie';
 import '../i18n';
 
 import ConfirmPage from './ConfirmPage';
+if (!isMobile()) {
+  import('lib/lock-up/run-checks');
+}
 
 interface AppProps extends Partial<PropsWithChildren> {
   env: ComponentProps<typeof AppEnvProvider>;
@@ -55,13 +54,15 @@ const App: FC<AppProps> = ({ env }) => {
 export default App;
 
 const AppProvider: FC<AppProps> = ({ children, env }) => {
+  console.log('[AppProvider] Rendering, isMobile:', checkIsMobile());
   return (
     <AppEnvProvider {...env}>
       <Woozie.Provider>
         <ExtensionMessageListener />
         <MidenProvider>
           {children}
-          {checkIsMobile() && <TransactionProgressModal />}
+          {/* Always render on mobile for debugging */}
+          <TransactionProgressModal />
         </MidenProvider>
       </Woozie.Provider>
     </AppEnvProvider>

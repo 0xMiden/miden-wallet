@@ -8,9 +8,10 @@ import * as yup from 'yup';
 import { openLoadingFullPage, useAppEnv } from 'app/env';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { stringToBigInt } from 'lib/i18n/numbers';
-import { initiateSendTransaction } from 'lib/miden/activity';
+import { initiateSendTransaction, waitForTransactionCompletion } from 'lib/miden/activity';
 import { useAccount, useAllAccounts } from 'lib/miden/front';
 import { NoteTypeEnum } from 'lib/miden/types';
+import { isMobile } from 'lib/platform';
 import { isDelegateProofEnabled } from 'lib/settings/helpers';
 import { navigate } from 'lib/woozie';
 import { isValidMidenAddress } from 'utils/miden';
@@ -109,13 +110,24 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     navigate('/');
   }, []);
 
-  const onGenerateTransaction = useCallback(() => {
+  const onGenerateTransaction = useCallback(async () => {
+    // On mobile, open the modal and go back to home
+    // The modal handles the entire transaction flow
+    if (isMobile()) {
+      console.log('[SendManager] Opening modal...');
+      await openLoadingFullPage();
+      console.log('[SendManager] Modal opened, NOT navigating for debug');
+      // Don't navigate - stay on page to see if modal appears
+      // navigate('/');
+      return;
+    }
+
     if (fullPage) {
       navigate('/generating-transaction-full');
       return;
     }
 
-    openLoadingFullPage();
+    await openLoadingFullPage();
     navigateTo(SendFlowStep.TransactionInitiated);
   }, [fullPage, navigateTo]);
 
@@ -193,7 +205,9 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       }
       try {
         clearErrors('root');
-        await initiateSendTransaction(
+
+        // Step 1: Create the transaction (same as Receive's initiateConsumeTransaction)
+        const txId = await initiateSendTransaction(
           publicKey!,
           recipientAddress!,
           token!.id,
@@ -202,7 +216,23 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
           recallBlocks ? parseInt(recallBlocks) : undefined,
           delegateTransaction
         );
-        onAction({ id: SendFlowActionId.GenerateTransaction });
+
+        // Step 2: Open the loading modal (same as Receive)
+        await openLoadingFullPage();
+
+        // Step 3: Wait for transaction completion (same as Receive's waitForConsumeTx)
+        const result = await waitForTransactionCompletion(txId);
+
+        if (result.errorMessage) {
+          setError('root', { type: 'manual', message: result.errorMessage });
+        } else {
+          // Success - navigate to home on mobile, or completion screen on desktop
+          if (isMobile()) {
+            navigate('/');
+          } else {
+            onAction({ id: SendFlowActionId.GenerateTransaction });
+          }
+        }
       } catch (e: any) {
         if (e.message) {
           setError('root', { type: 'manual', message: e.message });
@@ -366,16 +396,21 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     ]
   );
 
+  // On mobile, use full height responsive layout
+  const isMobileDevice = isMobile();
+  const containerClass = isMobileDevice
+    ? 'min-h-screen w-full'
+    : fullPage
+      ? 'h-[640px] max-h-[640px] w-[600px] max-w-[600px] border rounded-3xl'
+      : 'h-[600px] max-h-[600px] w-[360px] max-w-[360px]';
+
   return (
     <div
       className={classNames(
-        fullPage
-          ? 'h-[640px] max-h-[640px] w-[600px] max-w-[600px]'
-          : 'h-[600px] max-h-[600px] w-[360px] max-w-[360px]',
+        containerClass,
         'mx-auto overflow-hidden ',
         'flex flex-1',
         'flex-col bg-white',
-        fullPage && 'border rounded-3xl',
         'overflow-hidden relative'
       )}
       data-testid="send-flow"

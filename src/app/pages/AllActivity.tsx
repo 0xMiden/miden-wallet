@@ -1,12 +1,12 @@
 import React, { FC, useRef } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import { useAppEnv } from 'app/env';
 import PageLayout from 'app/layouts/PageLayout';
 import Footer from 'app/layouts/PageLayout/Footer';
 import Activity from 'app/templates/activity/Activity';
-import { useTranslation } from 'react-i18next';
 import { useAccount } from 'lib/miden/front';
 
 type AllActivityProps = {

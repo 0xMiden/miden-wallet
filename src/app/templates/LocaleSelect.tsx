@@ -1,13 +1,12 @@
 import React, { useMemo, useCallback, FC } from 'react';
 
 import classNames from 'clsx';
-
-import Flag from 'app/atoms/Flag';
-import { isMobile } from 'lib/platform';
-import { AnalyticsEventCategory, AnalyticsEventEnum, useAnalytics } from 'lib/analytics';
 import { useTranslation } from 'react-i18next';
 
+import Flag from 'app/atoms/Flag';
+import { AnalyticsEventCategory, AnalyticsEventEnum, useAnalytics } from 'lib/analytics';
 import { getCurrentLocale, updateLocale } from 'lib/i18n/react';
+import { isMobile } from 'lib/platform';
 
 import IconifiedSelect, { IconifiedSelectOptionRenderProps } from './IconifiedSelect';
 

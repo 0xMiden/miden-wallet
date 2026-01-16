@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import ColorIdenticon from 'app/atoms/ColorIdenticon';
 import Name from 'app/atoms/Name';
 import { ReactComponent as Checkmark } from 'app/icons/checkmark-alt.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import { Button, ButtonVariant } from 'components/Button';
-import { useTranslation } from 'react-i18next';
 import { useAccount, useAllAccounts, useMidenContext } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
 import { truncateAddress } from 'utils/string';

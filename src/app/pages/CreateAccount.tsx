@@ -2,13 +2,13 @@ import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 're
 
 import classNames from 'clsx';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { ACCOUNT_NAME_PATTERN } from 'app/defaults';
 import { ReactComponent as ArrowRightIcon } from 'app/icons/arrow-right.svg';
 import PageLayout from 'app/layouts/PageLayout';
-import { useTranslation } from 'react-i18next';
 import { useMidenContext, useAllAccounts } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
 import { WalletType } from 'screens/onboarding/types';

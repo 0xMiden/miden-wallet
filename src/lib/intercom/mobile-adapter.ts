@@ -1,7 +1,7 @@
 import * as Actions from 'lib/miden/back/actions';
 import { store, toFront } from 'lib/miden/back/store';
-import { WalletMessageType, WalletRequest, WalletResponse } from 'lib/shared/types';
 import { MidenMessageType } from 'lib/miden/types';
+import { WalletMessageType, WalletRequest, WalletResponse } from 'lib/shared/types';
 
 type SubscriptionCallback = (data: any) => void;
 
@@ -67,11 +67,7 @@ export class MobileIntercomAdapter {
         };
 
       case WalletMessageType.NewWalletRequest:
-        await Actions.registerNewWallet(
-          (req as any).password,
-          (req as any).mnemonic,
-          (req as any).ownMnemonic
-        );
+        await Actions.registerNewWallet((req as any).password, (req as any).mnemonic, (req as any).ownMnemonic);
         return { type: WalletMessageType.NewWalletResponse };
 
       case WalletMessageType.ImportFromClientRequest:
@@ -126,10 +122,7 @@ export class MobileIntercomAdapter {
         };
 
       case WalletMessageType.SignTransactionRequest:
-        const signature = await Actions.signTransaction(
-          (req as any).publicKey,
-          (req as any).signingInputs
-        );
+        const signature = await Actions.signTransaction((req as any).publicKey, (req as any).signingInputs);
         return {
           type: WalletMessageType.SignTransactionResponse,
           signature

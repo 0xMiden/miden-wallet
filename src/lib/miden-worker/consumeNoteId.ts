@@ -1,16 +1,37 @@
 import { spawn, Thread, Worker } from 'threads';
 
 import { addConnectivityIssue } from 'lib/miden/activity/connectivity-issues';
+import { isMobile } from 'lib/platform';
 import { ConsumeNoteIdWorker } from 'workers/consumeNoteId';
-// Import the function that can actually modify the frontend state
 
-export const consumeNoteId = async (
+// Main thread implementation for mobile (avoids worker OOM issues)
+// Reuses the singleton client to avoid spawning new SDK workers
+const consumeNoteIdMainThread = async (
+  transactionResultBytes: Uint8Array,
+  delegateTransaction?: boolean
+): Promise<Uint8Array> => {
+  console.log('[consumeNoteId] Running on main thread (mobile), reusing singleton client');
+  const { getMidenClient, withWasmClientLock } = await import('lib/miden/sdk/miden-client');
+
+  // Wrap in WASM lock to prevent concurrent access errors
+  await withWasmClientLock(async () => {
+    // Don't pass options - reuse the singleton client to avoid creating new workers
+    const midenClient = await getMidenClient();
+
+    console.log('[consumeNoteId] Submitting transaction...');
+    await midenClient.submitTransaction(transactionResultBytes, delegateTransaction);
+    console.log('[consumeNoteId] Transaction submitted successfully');
+  });
+
+  return transactionResultBytes;
+};
+
+// Worker implementation for desktop
+const consumeNoteIdWorker = async (
   transactionResultBytes: Uint8Array,
   delegateTransaction?: boolean
 ): Promise<Uint8Array> => {
   console.log('[consumeNoteId] Starting worker spawn...');
-  console.log('[consumeNoteId] Worker URL: ./consumeNoteId.js');
-  console.log('[consumeNoteId] Current location:', window.location.href);
 
   let worker;
   try {
@@ -30,32 +51,35 @@ export const consumeNoteId = async (
     const resultPromise = new Promise<Uint8Array>((resolve, reject) => {
       observable.subscribe({
         next: message => {
-          // Here we handle the different message types
           if (message.type === 'connectivity_issue') {
-            console.log('Caller: Received connectivity issue from worker.');
-            // This code runs in the main context, so this call is safe!
+            console.log('[consumeNoteId] Received connectivity issue from worker');
             addConnectivityIssue();
           } else if (message.type === 'result') {
-            // Resolve the promise with the final payload
             resolve(message.payload);
           }
         },
         error: err => {
-          // Reject the promise if the worker throws an error
+          console.error('[consumeNoteId] Worker error:', err);
           reject(err);
         },
-        // The `complete` handler isn't strictly necessary if `resolve` is always called,
-        // but it's good practice.
         complete: () => {
-          console.log('Worker stream completed.');
+          console.log('[consumeNoteId] Worker stream completed');
         }
       });
     });
 
-    // Await the promise that wraps the subscription
     return await resultPromise;
   } finally {
-    // Ensure the worker is terminated in all cases
     await Thread.terminate(worker);
   }
+};
+
+export const consumeNoteId = async (
+  transactionResultBytes: Uint8Array,
+  delegateTransaction?: boolean
+): Promise<Uint8Array> => {
+  if (isMobile()) {
+    return consumeNoteIdMainThread(transactionResultBytes, delegateTransaction);
+  }
+  return consumeNoteIdWorker(transactionResultBytes, delegateTransaction);
 };

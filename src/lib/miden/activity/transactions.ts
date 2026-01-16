@@ -5,6 +5,7 @@ import { consumeNoteId } from 'lib/miden-worker/consumeNoteId';
 import { sendTransaction } from 'lib/miden-worker/sendTransaction';
 import { submitTransaction } from 'lib/miden-worker/submitTransaction';
 import * as Repo from 'lib/miden/repo';
+import { isMobile } from 'lib/platform';
 import { u8ToB64 } from 'lib/shared/helpers';
 import { logger } from 'shared/logger';
 
@@ -25,7 +26,9 @@ import { interpretTransactionResult } from './helpers';
 import { importAllNotes, queueNoteImport, registerOutputNote } from './notes';
 import { compareAccountIds } from './utils';
 
-export const MAX_WAIT_BEFORE_CANCEL = 30 * 60_000; // 30 minutes
+// On mobile, use a shorter timeout since there's no background processing
+// On desktop extension, transactions can run in background tabs
+export const MAX_WAIT_BEFORE_CANCEL = isMobile() ? 2 * 60_000 : 30 * 60_000; // 2 mins on mobile, 30 mins on desktop
 
 export const requestCustomTransaction = async (
   accountId: string,
@@ -422,6 +425,19 @@ export const cancelStuckTransactions = async () => {
     })
     .map(async tx => cancelTransaction(tx, 'Transaction took too long to process and was cancelled'));
 
+  await Promise.all(cancelTransactionUpdates);
+};
+
+/**
+ * TEMPORARY: Force cancel ALL in-progress transactions regardless of time.
+ * Used for debugging stuck transactions on mobile.
+ */
+export const forceCaneclAllInProgressTransactions = async () => {
+  const transactions = await getTransactionsInProgress();
+  console.log('[forceCaneclAllInProgressTransactions] Cancelling', transactions.length, 'transactions');
+  const cancelTransactionUpdates = transactions.map(async tx =>
+    cancelTransaction(tx, 'Transaction force-cancelled for debugging')
+  );
   await Promise.all(cancelTransactionUpdates);
 };
 

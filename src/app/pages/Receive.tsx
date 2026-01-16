@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import FormField from 'app/atoms/FormField';
 import { openLoadingFullPage, useAppEnv } from 'app/env';
-import { useMidenClient } from 'app/hooks/useMidenClient';
 import { Icon, IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
 import AddressChip from 'app/templates/AddressChip';
@@ -14,7 +13,9 @@ import { formatBigInt } from 'lib/i18n/numbers';
 import { getUncompletedTransactions, initiateConsumeTransaction, waitForConsumeTx } from 'lib/miden/activity';
 import { AssetMetadata, useAccount } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
+import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
 import { ConsumableNote } from 'lib/miden/types';
+import { isMobile } from 'lib/platform';
 import { isDelegateProofEnabled } from 'lib/settings/helpers';
 import { WalletAccount } from 'lib/shared/types';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
@@ -27,7 +28,6 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const { t } = useTranslation();
   const account = useAccount();
   const address = account.publicKey;
-  const { midenClient } = useMidenClient();
   const { fieldRef, copy } = useCopyToClipboard();
   const { data: claimableNotes, mutate: mutateClaimableNotes } = useClaimableNotes(address);
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
@@ -118,6 +118,11 @@ export const Receive: React.FC<ReceiveProps> = () => {
 
       // Refresh the list - this will remove successfully claimed notes
       await mutateClaimableNotes();
+
+      // Navigate to home on mobile after successful claim all
+      if (isMobile()) {
+        navigate('/', HistoryAction.Replace);
+      }
     } finally {
       setClaimingNoteIds(new Set());
     }
@@ -132,29 +137,29 @@ export const Receive: React.FC<ReceiveProps> = () => {
     }
   };
 
-  const handleFileChange = useCallback(
-    (file: File) => {
-      if (!midenClient) return;
+  const handleFileChange = useCallback((file: File) => {
+    const reader = new FileReader();
+    reader.onload = async (e: ProgressEvent<FileReader>) => {
+      try {
+        if (e.target?.result instanceof ArrayBuffer) {
+          const noteBytesAsUint8Array = new Uint8Array(e.target.result);
 
-      const reader = new FileReader();
-      reader.onload = async (e: ProgressEvent<FileReader>) => {
-        try {
-          if (e.target?.result instanceof ArrayBuffer) {
-            const noteBytesAsUint8Array = new Uint8Array(e.target.result);
-
-            const noteId = await midenClient.importNoteBytes(noteBytesAsUint8Array);
+          // Wrap WASM client operations in a lock to prevent concurrent access
+          const noteId = await withWasmClientLock(async () => {
+            const midenClient = await getMidenClient();
+            const id = await midenClient.importNoteBytes(noteBytesAsUint8Array);
             await midenClient.syncState();
-            navigate(`/import-note-pending/${noteId}`);
-          }
-        } catch (error) {
-          console.error('Error during note import:', error);
-          navigate('/import-note-failure');
+            return id;
+          });
+          navigate(`/import-note-pending/${noteId}`);
         }
-      };
-      reader.readAsArrayBuffer(file);
-    },
-    [midenClient]
-  );
+      } catch (error) {
+        console.error('Error during note import:', error);
+        navigate('/import-note-failure');
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  }, []);
 
   const onDropFile = useCallback(
     (e: React.DragEvent<HTMLDivElement>) => {
@@ -369,6 +374,10 @@ export const ConsumableNoteComponent = ({
       const txHash = await waitForConsumeTx(id, signal);
       await mutateClaimableNotes();
       console.log('Successfully consumed note, tx hash:', txHash);
+      // Navigate to home on mobile after successful claim
+      if (isMobile()) {
+        navigate('/', HistoryAction.Replace);
+      }
     } catch (error) {
       if (error instanceof DOMException && error.name === 'AbortError') {
         return;

@@ -1,7 +1,6 @@
 import PQueue from 'p-queue';
 
 import { MidenDAppMessageType, MidenDAppRequest, MidenDAppResponse } from 'lib/adapter/types';
-import { getStorageProvider } from 'lib/platform/storage-adapter';
 import {
   toFront,
   store,
@@ -15,6 +14,7 @@ import {
   currentAccountUpdated
 } from 'lib/miden/back/store';
 import { Vault } from 'lib/miden/back/vault';
+import { getStorageProvider } from 'lib/platform/storage-adapter';
 import { WalletSettings, WalletState } from 'lib/shared/types';
 import { WalletType } from 'screens/onboarding/types';
 

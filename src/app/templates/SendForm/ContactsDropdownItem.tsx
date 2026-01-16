@@ -1,13 +1,13 @@
 import React, { ComponentProps, FC, useEffect, useRef } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import AddressShortView from 'app/atoms/AddressShortView';
 import { Button } from 'app/atoms/Button';
 import ColorIdenticon from 'app/atoms/ColorIdenticon';
 import Name from 'app/atoms/Name';
 import { TestIDProps } from 'lib/analytics';
-import { useTranslation } from 'react-i18next';
 
 import { SendFormSelectors } from '../SendForm.selectors';
 
