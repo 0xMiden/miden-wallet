@@ -32,24 +32,20 @@ export const INJECTION_SCRIPT = `
   const pendingRequests = new Map();
   let requestId = 0;
 
-  // Send message to native app
+  // Send message to native app via Capacitor InAppBrowser
   function sendToNative(type, payload, reqId) {
-    const message = JSON.stringify({ type, payload, reqId });
+    const message = { type, payload, reqId };
 
-    // Try webkit (iOS)
-    if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.midenWallet) {
-      window.webkit.messageHandlers.midenWallet.postMessage(message);
+    // Use Capacitor InAppBrowser's mobileApp interface
+    if (window.mobileApp && window.mobileApp.postMessage) {
+      console.log('[MidenWallet] Sending message via mobileApp:', type, reqId);
+      window.mobileApp.postMessage(message);
       return;
     }
 
-    // Try Android
-    if (window.midenWalletNative && window.midenWalletNative.postMessage) {
-      window.midenWalletNative.postMessage(message);
-      return;
-    }
-
-    // Fallback: use window.postMessage for testing in regular browser
-    window.postMessage({ __midenNative: true, type, payload, reqId }, '*');
+    // Fallback for testing in regular browser
+    console.warn('[MidenWallet] mobileApp not available, using window.postMessage fallback');
+    window.postMessage({ __midenNative: true, ...message }, '*');
   }
 
   // Make request to wallet

@@ -185,6 +185,50 @@ export async function generatePromisifyRequestPermission(
   privateDataPermission?: PrivateDataPermission,
   allowedPrivateData?: AllowedPrivateData
 ): Promise<MidenDAppPermissionResponse> {
+  // On mobile, auto-approve using the current account (TODO: add proper confirmation UI)
+  if (isMobile()) {
+    const currentAccountPubKey = await Vault.getCurrentAccountPublicKey();
+    if (!currentAccountPubKey) {
+      throw new Error(MidenDAppErrorType.NotGranted);
+    }
+
+    let publicKey: string | null = null;
+    try {
+      publicKey = await withUnlocked(async () => {
+        return await withWasmClientLock(async () => {
+          const midenClient = await getMidenClient();
+          const account = await midenClient.getAccount(currentAccountPubKey);
+          const publicKeys = account!.getPublicKeys();
+          return u8ToB64(publicKeys[0].serialize());
+        });
+      });
+    } catch (e) {
+      console.error('[DApp] Error fetching account public key:', e);
+      throw new Error(MidenDAppErrorType.NotGranted);
+    }
+
+    if (!existingPermission) {
+      await setDApp(origin, {
+        network,
+        appMeta,
+        accountId: currentAccountPubKey,
+        privateDataPermission: privateDataPermission || PrivateDataPermission.UponRequest,
+        allowedPrivateData: allowedPrivateData || AllowedPrivateData.None,
+        publicKey: publicKey!
+      });
+    }
+
+    console.log('[DApp] Mobile auto-approved connection for:', origin);
+    return {
+      type: MidenDAppMessageType.PermissionResponse,
+      accountId: currentAccountPubKey,
+      network,
+      privateDataPermission: privateDataPermission || PrivateDataPermission.UponRequest,
+      allowedPrivateData: allowedPrivateData || AllowedPrivateData.None,
+      publicKey: publicKey!
+    };
+  }
+
   return new Promise(async (resolve, reject) => {
     const id = nanoid();
 
