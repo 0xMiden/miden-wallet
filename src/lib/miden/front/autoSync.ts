@@ -1,3 +1,4 @@
+import { isMobile } from 'lib/platform';
 import { WalletState } from 'lib/shared/types';
 import { useWalletStore } from 'lib/store';
 
@@ -31,6 +32,14 @@ export class Sync {
     // Don't sync on the generating transaction page
     const isGeneratingUrl = this.getCurrentUrl().search('generating-transaction') > -1;
     if (isGeneratingUrl) {
+      return;
+    }
+
+    // On mobile, don't sync while transaction modal is open to avoid lock contention
+    if (isMobile() && useWalletStore.getState().isTransactionModalOpen) {
+      console.log('[AutoSync] Skipping sync while transaction modal is open');
+      await sleep(1000);
+      await this.sync();
       return;
     }
 

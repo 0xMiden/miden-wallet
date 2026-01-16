@@ -52,6 +52,30 @@ yarn lint             # ESLint
 yarn format           # Prettier
 ```
 
+## Code Style (Prettier)
+
+This project uses Prettier for code formatting. Always write code that conforms to Prettier rules:
+
+- **Line length:** Max 120 characters. Break long lines, especially `console.log` statements with multiple arguments
+- **Multi-argument calls:** When function calls exceed line length, put each argument on its own line:
+  ```typescript
+  // Good
+  console.log(
+    '[Component] message:',
+    value1,
+    'key2:',
+    value2
+  );
+
+  // Bad - will fail prettier
+  console.log('[Component] message:', value1, 'key2:', value2, 'key3:', value3);
+  ```
+- **Trailing commas:** Use trailing commas in multi-line arrays/objects
+- **Semicolons:** Always use semicolons
+- **Quotes:** Single quotes for strings
+
+Run `yarn format` to auto-fix formatting issues if needed.
+
 ## State Management
 
 - **Backend:** Effector store in `src/lib/miden/back/store.ts`

@@ -1,31 +1,8 @@
 import { spawn, Thread, Transfer, Worker } from 'threads';
 
-import { isMobile } from 'lib/platform';
 import { SubmitTransaction } from 'workers/submitTransaction';
 
-// Main thread implementation for mobile (avoids worker OOM issues)
-const submitTransactionMainThread = async (
-  transactionResultBytes: Uint8Array,
-  delegateTransaction?: boolean
-): Promise<Uint8Array> => {
-  console.log('[submitTransaction] Running on main thread (mobile)');
-  const { getMidenClient, withWasmClientLock } = await import('lib/miden/sdk/miden-client');
-
-  // Wrap in WASM lock to prevent concurrent access errors
-  await withWasmClientLock(async () => {
-    const midenClient = await getMidenClient();
-
-    console.log('[submitTransaction] Submitting transaction (skipSync=true for mobile)...');
-    // Skip syncState on mobile to reduce memory pressure - AutoSync handles this
-    await midenClient.submitTransaction(transactionResultBytes, delegateTransaction, true);
-    console.log('[submitTransaction] Transaction submitted successfully');
-  });
-
-  return transactionResultBytes;
-};
-
-// Worker implementation for desktop
-const submitTransactionWorker = async (
+export const submitTransaction = async (
   transactionResultBytes: Uint8Array,
   delegateTransaction?: boolean
 ): Promise<Uint8Array> => {
@@ -56,14 +33,4 @@ const submitTransactionWorker = async (
     await Thread.terminate(worker);
     throw e;
   }
-};
-
-export const submitTransaction = async (
-  transactionResultBytes: Uint8Array,
-  delegateTransaction?: boolean
-): Promise<Uint8Array> => {
-  if (isMobile()) {
-    return submitTransactionMainThread(transactionResultBytes, delegateTransaction);
-  }
-  return submitTransactionWorker(transactionResultBytes, delegateTransaction);
 };

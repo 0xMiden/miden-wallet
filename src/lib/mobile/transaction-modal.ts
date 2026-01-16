@@ -29,6 +29,11 @@ export const transactionModalState = {
   subscribe: (listener: Listener) => {
     listeners.add(listener);
     console.log('[TransactionModal] Subscribed, total listeners:', listeners.size, 'instanceId:', moduleId);
+    // Immediately notify listener of current state to avoid race conditions
+    if (isModalOpen) {
+      console.log('[TransactionModal] Notifying new subscriber of open state');
+      listener(true);
+    }
     return () => {
       listeners.delete(listener);
       console.log('[TransactionModal] Unsubscribed, remaining listeners:', listeners.size, 'instanceId:', moduleId);

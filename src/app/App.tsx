@@ -12,7 +12,6 @@ import ErrorBoundary from 'app/ErrorBoundary';
 import Dialogs from 'app/layouts/Dialogs';
 import PageRouter from 'app/PageRouter';
 import { ExtensionMessageListener } from 'components/ConnectivityIssueBanner';
-import { TransactionProgressModal } from 'components/TransactionProgressModal';
 import { MidenProvider } from 'lib/miden/front';
 import { isMobile as checkIsMobile, isMobile } from 'lib/platform';
 import { PropsWithChildren } from 'lib/props-with-children';
@@ -59,11 +58,7 @@ const AppProvider: FC<AppProps> = ({ children, env }) => {
     <AppEnvProvider {...env}>
       <Woozie.Provider>
         <ExtensionMessageListener />
-        <MidenProvider>
-          {children}
-          {/* Always render on mobile for debugging */}
-          <TransactionProgressModal />
-        </MidenProvider>
+        <MidenProvider>{children}</MidenProvider>
       </Woozie.Provider>
     </AppEnvProvider>
   );

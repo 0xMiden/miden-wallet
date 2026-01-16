@@ -2,8 +2,8 @@ import { FC, useCallback, useLayoutEffect, useRef } from 'react';
 
 import constate from 'constate';
 
-import { transactionModalState } from 'lib/mobile/transaction-modal';
 import { isMobile } from 'lib/platform';
+import { useWalletStore } from 'lib/store';
 import { createUrl } from 'lib/woozie';
 
 export const IS_DEV_ENV = process.env.NODE_ENV === 'development';
@@ -155,8 +155,9 @@ async function createLoadingFullPageUrl() {
 
 export async function openLoadingFullPage() {
   if (isMobile()) {
-    // On mobile, open the transaction progress modal
-    transactionModalState.open();
+    // On mobile, open the transaction progress modal via Zustand
+    console.log('[env] openLoadingFullPage called');
+    useWalletStore.getState().openTransactionModal();
     return;
   }
 
@@ -175,8 +176,9 @@ export async function openLoadingFullPage() {
 
 export async function closeLoadingFullPage() {
   if (isMobile()) {
-    // On mobile, close the transaction progress modal
-    transactionModalState.close();
+    // On mobile, close the transaction progress modal via Zustand
+    console.log('[env] closeLoadingFullPage called');
+    useWalletStore.getState().closeTransactionModal();
     return;
   }
 

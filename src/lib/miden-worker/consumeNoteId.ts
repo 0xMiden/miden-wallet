@@ -1,33 +1,9 @@
 import { spawn, Thread, Worker } from 'threads';
 
 import { addConnectivityIssue } from 'lib/miden/activity/connectivity-issues';
-import { isMobile } from 'lib/platform';
 import { ConsumeNoteIdWorker } from 'workers/consumeNoteId';
 
-// Main thread implementation for mobile (avoids worker OOM issues)
-// Reuses the singleton client to avoid spawning new SDK workers
-const consumeNoteIdMainThread = async (
-  transactionResultBytes: Uint8Array,
-  delegateTransaction?: boolean
-): Promise<Uint8Array> => {
-  console.log('[consumeNoteId] Running on main thread (mobile), reusing singleton client');
-  const { getMidenClient, withWasmClientLock } = await import('lib/miden/sdk/miden-client');
-
-  // Wrap in WASM lock to prevent concurrent access errors
-  await withWasmClientLock(async () => {
-    // Don't pass options - reuse the singleton client to avoid creating new workers
-    const midenClient = await getMidenClient();
-
-    console.log('[consumeNoteId] Submitting transaction...');
-    await midenClient.submitTransaction(transactionResultBytes, delegateTransaction);
-    console.log('[consumeNoteId] Transaction submitted successfully');
-  });
-
-  return transactionResultBytes;
-};
-
-// Worker implementation for desktop
-const consumeNoteIdWorker = async (
+export const consumeNoteId = async (
   transactionResultBytes: Uint8Array,
   delegateTransaction?: boolean
 ): Promise<Uint8Array> => {
@@ -72,14 +48,4 @@ const consumeNoteIdWorker = async (
   } finally {
     await Thread.terminate(worker);
   }
-};
-
-export const consumeNoteId = async (
-  transactionResultBytes: Uint8Array,
-  delegateTransaction?: boolean
-): Promise<Uint8Array> => {
-  if (isMobile()) {
-    return consumeNoteIdMainThread(transactionResultBytes, delegateTransaction);
-  }
-  return consumeNoteIdWorker(transactionResultBytes, delegateTransaction);
 };

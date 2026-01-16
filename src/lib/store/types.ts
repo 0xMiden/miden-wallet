@@ -65,6 +65,14 @@ export interface SyncSlice {
 }
 
 /**
+ * Transaction modal state (mobile only)
+ */
+export interface TransactionModalSlice {
+  /** Whether the transaction progress modal is open */
+  isTransactionModalOpen: boolean;
+}
+
+/**
  * Actions for wallet mutations
  */
 export interface WalletActions {
@@ -147,6 +155,14 @@ export interface SyncActions {
 }
 
 /**
+ * Transaction modal actions
+ */
+export interface TransactionModalActions {
+  openTransactionModal: () => void;
+  closeTransactionModal: () => void;
+}
+
+/**
  * Combined store type
  */
 export interface WalletStore
@@ -157,8 +173,10 @@ export interface WalletStore
     UISlice,
     FiatCurrencySlice,
     SyncSlice,
+    TransactionModalSlice,
     WalletActions,
     BalanceActions,
     AssetActions,
     FiatCurrencyActions,
-    SyncActions {}
+    SyncActions,
+    TransactionModalActions {}

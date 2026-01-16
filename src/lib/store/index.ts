@@ -67,6 +67,9 @@ export const useWalletStore = create<WalletStore>()(
     lastSyncedAt: null,
     hasCompletedInitialSync: false,
 
+    // Initial transaction modal state (mobile only)
+    isTransactionModalOpen: false,
+
     // Sync action - updates store from backend state
     syncFromBackend: (state: MidenState) => {
       set({
@@ -419,6 +422,18 @@ export const useWalletStore = create<WalletStore>()(
       } else {
         set({ isSyncing });
       }
+    },
+
+    // Transaction modal actions (mobile only)
+    openTransactionModal: () => {
+      console.log('[WalletStore] Opening transaction modal');
+      console.log('[WalletStore] Open call stack:', new Error().stack);
+      set({ isTransactionModalOpen: true });
+    },
+    closeTransactionModal: () => {
+      console.log('[WalletStore] Closing transaction modal');
+      console.log('[WalletStore] Close call stack:', new Error().stack);
+      set({ isTransactionModalOpen: false });
     }
   }))
 );
