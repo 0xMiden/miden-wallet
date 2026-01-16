@@ -285,33 +285,6 @@ export class Vault {
 
   static async spawnFromMidenClient(password: string, mnemonic: string): Promise<Vault> {
     return withError('Failed to spawn from miden client', async (): Promise<Vault> => {
-      // Wrap WASM client operations in a lock to prevent concurrent access
-      const accounts = await withWasmClientLock(async () => {
-        const midenClient = await getMidenClient();
-        const accountHeaders = await midenClient.getAccounts();
-        const accts = [];
-
-        // Have to do this sequentially else the wasm fails
-        for (const accountHeader of accountHeaders) {
-          const account = await midenClient.getAccount(getBech32AddressFromAccountId(accountHeader.id()));
-          accts.push(account);
-        }
-        return accts;
-      });
-
-      const newAccounts = [];
-      for (let i = 0; i < accounts.length; i++) {
-        const acc = accounts[i];
-        if (acc) {
-          newAccounts.push({
-            publicKey: getBech32AddressFromAccountId(acc.id()),
-            name: 'Miden Account ' + (i + 1),
-            isPublic: acc.isPublic(),
-            type: WalletType.OnChain
-          });
-        }
-      }
-
       // Generate random vault key (256-bit)
       const vaultKeyBytes = Passworder.generateVaultKey();
       const vaultKey = await Passworder.importVaultKey(vaultKeyBytes);
@@ -336,6 +309,35 @@ export class Vault {
         // Password-based protection (user opted out of biometrics or hardware not available)
         const passwordProtectedVaultKey = await Passworder.encryptVaultKeyWithPassword(vaultKeyBytes, password);
         await savePlain(VAULT_KEY_PASSWORD_STORAGE_KEY, passwordProtectedVaultKey);
+      }
+      // Wrap WASM client operations in a lock to prevent concurrent access
+      const accounts = await withWasmClientLock(async () => {
+        const midenClient = await getMidenClient();
+        const accountHeaders = await midenClient.getAccounts();
+        const accts = [];
+
+        // Have to do this sequentially else the wasm fails
+        for (const accountHeader of accountHeaders) {
+          const account = await midenClient.getAccount(getBech32AddressFromAccountId(accountHeader.id()));
+          if (!account || account.isFaucet()) {
+            continue;
+          }
+          accts.push(account);
+        }
+        return accts;
+      });
+
+      const newAccounts = [];
+      for (let i = 0; i < accounts.length; i++) {
+        const acc = accounts[i];
+        if (acc) {
+          newAccounts.push({
+            publicKey: getBech32AddressFromAccountId(acc.id()),
+            name: 'Miden Account ' + (i + 1),
+            isPublic: acc.isPublic(),
+            type: WalletType.OnChain
+          });
+        }
       }
 
       await encryptAndSaveMany(
