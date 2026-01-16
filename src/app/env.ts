@@ -156,7 +156,6 @@ async function createLoadingFullPageUrl() {
 export async function openLoadingFullPage() {
   if (isMobile()) {
     // On mobile, open the transaction progress modal via Zustand
-    console.log('[env] openLoadingFullPage called');
     useWalletStore.getState().openTransactionModal();
     return;
   }
@@ -177,7 +176,6 @@ export async function openLoadingFullPage() {
 export async function closeLoadingFullPage() {
   if (isMobile()) {
     // On mobile, close the transaction progress modal via Zustand
-    console.log('[env] closeLoadingFullPage called');
     useWalletStore.getState().closeTransactionModal();
     return;
   }

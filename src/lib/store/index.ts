@@ -426,13 +426,9 @@ export const useWalletStore = create<WalletStore>()(
 
     // Transaction modal actions (mobile only)
     openTransactionModal: () => {
-      console.log('[WalletStore] Opening transaction modal');
-      console.log('[WalletStore] Open call stack:', new Error().stack);
       set({ isTransactionModalOpen: true });
     },
     closeTransactionModal: () => {
-      console.log('[WalletStore] Closing transaction modal');
-      console.log('[WalletStore] Close call stack:', new Error().stack);
       set({ isTransactionModalOpen: false });
     }
   }))
