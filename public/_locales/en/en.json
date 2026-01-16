@@ -458,5 +458,6 @@
   "dappBrowserDescription": "Browse decentralized apps and connect your wallet securely",
   "enterUrl": "Enter URL or search",
   "go": "Go",
-  "recentSites": "Recent"
+  "recentSites": "Recent",
+  "loading": "Loading..."
 }

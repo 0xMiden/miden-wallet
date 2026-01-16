@@ -29,27 +29,25 @@ const Browser: FC = () => {
 
   const normalizeUrl = useCallback((inputUrl: string): string => {
     let normalized = inputUrl.trim();
-
-    // Add https:// if no protocol specified
     if (!normalized.startsWith('http://') && !normalized.startsWith('https://')) {
       normalized = 'https://' + normalized;
     }
-
     return normalized;
   }, []);
 
   const openBrowser = useCallback(
     async (targetUrl: string) => {
       const normalizedUrl = normalizeUrl(targetUrl);
+      console.log('[Browser] Opening URL (fullscreen):', normalizedUrl);
 
       if (!normalizedUrl || normalizedUrl === 'https://') {
         return;
       }
 
       setIsLoading(true);
+      setUrl(normalizedUrl);
 
       try {
-        // Extract origin for DApp permissions
         const urlObj = new URL(normalizedUrl);
         const origin = urlObj.origin;
 
@@ -59,26 +57,15 @@ const Browser: FC = () => {
           return [normalizedUrl, ...filtered].slice(0, 10);
         });
 
-        // Open the InAppBrowser
-        await InAppBrowser.openWebView({
-          url: normalizedUrl,
-          title: t('dappBrowser'),
-          toolbarType: ToolBarType.NAVIGATION,
-          showArrow: true,
-          isPresentAfterPageLoad: false,
-          // Inject the wallet adapter script
-          preShowScript: INJECTION_SCRIPT
-        });
-
-        // Listen for messages from the WebView
+        // Set up listeners BEFORE opening
         const messageListener = await InAppBrowser.addListener('messageFromWebview', async event => {
+          console.log('[Browser] Message from WebView:', event);
           try {
-            const message: WebViewMessage = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
-
-            // Process the message and get response
+            // The event uses 'detail' property per @capgo/inappbrowser types
+            const eventData = event.detail || event;
+            const message: WebViewMessage =
+              typeof eventData === 'string' ? JSON.parse(eventData) : (eventData as WebViewMessage);
             const response = await handleWebViewMessage(message, origin);
-
-            // Send response back to WebView
             await InAppBrowser.executeScript({
               code: `window.__midenWalletResponse(${JSON.stringify(JSON.stringify(response))});`
             });
@@ -87,25 +74,50 @@ const Browser: FC = () => {
           }
         });
 
-        // Listen for browser close
         const closeListener = await InAppBrowser.addListener('closeEvent', () => {
+          console.log('[Browser] Browser closed event');
           messageListener.remove();
           closeListener.remove();
           setIsLoading(false);
         });
 
-        // Listen for page load to re-inject script if needed
-        const loadListener = await InAppBrowser.addListener('pageLoaded', async () => {
-          // Re-inject the script on each page load
-          await InAppBrowser.executeScript({
-            code: INJECTION_SCRIPT
-          });
+        const loadListener = await InAppBrowser.addListener('browserPageLoaded', async () => {
+          console.log('[Browser] Page loaded, injecting script');
+          setIsLoading(false);
+          try {
+            await InAppBrowser.executeScript({ code: INJECTION_SCRIPT });
+          } catch (e) {
+            console.error('[Browser] Error injecting script:', e);
+          }
         });
 
-        // Clean up load listener on close
+        const errorListener = await InAppBrowser.addListener('pageLoadError', () => {
+          console.error('[Browser] Page load error');
+          setIsLoading(false);
+        });
+
+        const urlChangeListener = await InAppBrowser.addListener('urlChangeEvent', event => {
+          console.log('[Browser] URL changed:', event.url);
+          if (event.url) {
+            setUrl(event.url);
+          }
+        });
+
         InAppBrowser.addListener('closeEvent', () => {
           loadListener.remove();
+          errorListener.remove();
+          urlChangeListener.remove();
         });
+
+        // Open fullscreen WebView with navigation toolbar
+        await InAppBrowser.openWebView({
+          url: normalizedUrl,
+          title: t('dappBrowser'),
+          toolbarType: ToolBarType.NAVIGATION,
+          showReloadButton: true
+        });
+
+        console.log('[Browser] openWebView returned successfully');
       } catch (error) {
         console.error('[Browser] Error opening browser:', error);
         setIsLoading(false);
@@ -126,18 +138,19 @@ const Browser: FC = () => {
     (e: React.KeyboardEvent) => {
       if (e.key === 'Enter') {
         e.preventDefault();
-        openBrowser(url);
+        handleSubmit(e as unknown as React.FormEvent);
       }
     },
-    [url, openBrowser]
+    [handleSubmit]
   );
 
   return (
     <div className="flex flex-col m-auto bg-white" style={containerStyle}>
       <Header />
-      <main className="flex-grow flex flex-col px-4 py-4">
-        {/* URL Input */}
-        <form onSubmit={handleSubmit} className="mb-4">
+
+      {/* URL Input */}
+      <div className="flex-none px-4 pt-4 pb-2">
+        <form onSubmit={handleSubmit}>
           <div className="flex items-center gap-2">
             <div className="flex-grow relative">
               <div className="absolute left-3 top-1/2 -translate-y-1/2">
@@ -164,7 +177,9 @@ const Browser: FC = () => {
             </button>
           </div>
         </form>
+      </div>
 
+      <main className="flex-grow flex flex-col px-4">
         {/* Recent URLs */}
         {recentUrls.length > 0 && (
           <div className="mb-4">
@@ -193,9 +208,8 @@ const Browser: FC = () => {
           </div>
         )}
       </main>
-      <div className="flex-none">
-        <Footer />
-      </div>
+
+      <Footer />
     </div>
   );
 };
