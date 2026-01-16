@@ -855,6 +855,53 @@ const generatePromisifyTransaction = async (
     reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
   }
 
+  // On mobile, use confirmation store to request user approval
+  if (isMobile()) {
+    console.log('[DApp] Mobile requesting transaction confirmation');
+
+    const result = await dappConfirmationStore.requestConfirmation({
+      id,
+      type: 'transaction',
+      origin: dApp.appMeta.name,
+      appMeta: dApp.appMeta,
+      network: dApp.network,
+      networkRpc,
+      privateDataPermission: dApp.privateDataPermission,
+      allowedPrivateData: dApp.allowedPrivateData,
+      existingPermission: true,
+      transactionMessages,
+      sourcePublicKey: req.sourcePublicKey
+    });
+
+    if (!result.confirmed) {
+      reject(new Error(MidenDAppErrorType.NotGranted));
+      return;
+    }
+
+    try {
+      const transactionId = await withUnlocked(async () => {
+        const { payload } = req.transaction;
+        const { address, recipientAddress, transactionRequest, inputNoteIds, importNotes } =
+          payload as MidenCustomTransaction;
+        return await requestCustomTransaction(
+          address,
+          transactionRequest,
+          inputNoteIds,
+          importNotes,
+          result.delegate || false,
+          recipientAddress || undefined
+        );
+      });
+      resolve({
+        type: MidenDAppMessageType.TransactionResponse,
+        transactionId
+      } as any);
+    } catch (e) {
+      reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+    }
+    return;
+  }
+
   await requestConfirm({
     id,
     payload: {
@@ -945,6 +992,52 @@ const generatePromisifySendTransaction = async (
     reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
   }
 
+  // On mobile, use confirmation store to request user approval
+  if (isMobile()) {
+    console.log('[DApp] Mobile requesting send transaction confirmation');
+
+    const result = await dappConfirmationStore.requestConfirmation({
+      id,
+      type: 'transaction',
+      origin: dApp.appMeta.name,
+      appMeta: dApp.appMeta,
+      network: dApp.network,
+      networkRpc,
+      privateDataPermission: dApp.privateDataPermission,
+      allowedPrivateData: dApp.allowedPrivateData,
+      existingPermission: true,
+      transactionMessages,
+      sourcePublicKey: req.sourcePublicKey
+    });
+
+    if (!result.confirmed) {
+      reject(new Error(MidenDAppErrorType.NotGranted));
+      return;
+    }
+
+    try {
+      const transactionId = await withUnlocked(async () => {
+        const { senderAddress, recipientAddress, faucetId, noteType, amount, recallBlocks } = req.transaction;
+        return await initiateSendTransaction(
+          senderAddress,
+          recipientAddress,
+          faucetId,
+          noteType as any,
+          BigInt(amount),
+          recallBlocks,
+          result.delegate || false
+        );
+      });
+      resolve({
+        type: MidenDAppMessageType.SendTransactionResponse,
+        transactionId
+      } as any);
+    } catch (e) {
+      reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+    }
+    return;
+  }
+
   await requestConfirm({
     id,
     payload: {
@@ -1032,6 +1125,47 @@ const generatePromisifyConsumeTransaction = async (
     });
   } catch (e) {
     reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+  }
+
+  // On mobile, use confirmation store to request user approval
+  if (isMobile()) {
+    console.log('[DApp] Mobile requesting consume transaction confirmation');
+
+    const result = await dappConfirmationStore.requestConfirmation({
+      id,
+      type: 'consume',
+      origin: dApp.appMeta.name,
+      appMeta: dApp.appMeta,
+      network: dApp.network,
+      networkRpc,
+      privateDataPermission: dApp.privateDataPermission,
+      allowedPrivateData: dApp.allowedPrivateData,
+      existingPermission: true,
+      transactionMessages,
+      sourcePublicKey: req.sourcePublicKey
+    });
+
+    if (!result.confirmed) {
+      reject(new Error(MidenDAppErrorType.NotGranted));
+      return;
+    }
+
+    try {
+      const transactionId = await withUnlocked(async () => {
+        const { noteId, noteBytes } = req.transaction;
+        if (noteBytes) {
+          await queueNoteImport(noteBytes);
+        }
+        return await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId, result.delegate || false);
+      });
+      resolve({
+        type: MidenDAppMessageType.ConsumeResponse,
+        transactionId
+      });
+    } catch (e) {
+      reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+    }
+    return;
   }
 
   await requestConfirm({

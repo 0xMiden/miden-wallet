@@ -85,11 +85,13 @@ const Browser: FC = () => {
         // Generate and inject the confirmation overlay into the webview
         const overlayScript = generateConfirmationOverlayScript(request, shortAccountId, {
           connectionRequest: t('dappConnectionRequest'),
+          transactionRequest: t('dappTransactionRequest'),
           account: t('account'),
           network: t('network'),
           noAccountSelected: t('noAccountSelected'),
           deny: t('deny'),
-          approve: t('approve')
+          approve: t('approve'),
+          confirm: t('confirm')
         });
 
         InAppBrowser.executeScript({ code: overlayScript }).catch(e =>

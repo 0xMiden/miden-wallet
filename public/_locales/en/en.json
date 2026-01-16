@@ -463,6 +463,7 @@
   "favourites": "Favourites",
   "approve": "Approve",
   "dappConnectionRequest": "This app wants to connect to your wallet",
+  "dappTransactionRequest": "This app is requesting a transaction",
   "noAccountSelected": "No account selected",
   "biometricUnlock": "Biometric Unlock",
   "biometricUnlockDescription": "Use Face ID or fingerprint to unlock your wallet instead of entering your password.",

@@ -8,7 +8,7 @@ import { DappMetadata, PrivateDataPermission, AllowedPrivateData } from '@demox-
 
 export interface DAppConfirmationRequest {
   id: string;
-  type: 'connect' | 'sign' | 'transaction';
+  type: 'connect' | 'sign' | 'transaction' | 'consume';
   origin: string;
   appMeta: DappMetadata;
   network: string;
@@ -16,12 +16,17 @@ export interface DAppConfirmationRequest {
   privateDataPermission: PrivateDataPermission;
   allowedPrivateData: AllowedPrivateData;
   existingPermission: boolean;
+  // Transaction-specific fields
+  transactionMessages?: string[];
+  sourcePublicKey?: string;
 }
 
 export interface DAppConfirmationResult {
   confirmed: boolean;
   accountPublicKey?: string;
   privateDataPermission?: PrivateDataPermission;
+  // Transaction-specific result
+  delegate?: boolean;
 }
 
 type ConfirmationResolver = (result: DAppConfirmationResult) => void;

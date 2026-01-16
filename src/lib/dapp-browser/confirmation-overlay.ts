@@ -5,6 +5,17 @@
 
 import { DAppConfirmationRequest } from './confirmation-store';
 
+export interface OverlayTranslations {
+  connectionRequest: string;
+  transactionRequest: string;
+  account: string;
+  network: string;
+  noAccountSelected: string;
+  deny: string;
+  approve: string;
+  confirm: string;
+}
+
 /**
  * Generates JavaScript code to inject a confirmation overlay into the webview.
  * When user approves/denies, it sends a message back via mobileApp.postMessage.
@@ -12,19 +23,14 @@ import { DAppConfirmationRequest } from './confirmation-store';
 export function generateConfirmationOverlayScript(
   request: DAppConfirmationRequest,
   shortAccountId: string,
-  translations: {
-    connectionRequest: string;
-    account: string;
-    network: string;
-    noAccountSelected: string;
-    deny: string;
-    approve: string;
-  }
+  translations: OverlayTranslations
 ): string {
   const appName = request.appMeta?.name || request.origin;
   const origin = request.origin;
   const network = request.network;
   const requestId = request.id;
+  const isTransaction = request.type === 'transaction' || request.type === 'consume';
+  const transactionMessages = request.transactionMessages || [];
 
   return `
 (function() {
@@ -126,6 +132,21 @@ export function generateConfirmationOverlayScript(
         text-transform: capitalize;
         font-family: inherit;
       }
+      .miden-tx-messages {
+        background: #f9fafb;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+      .miden-tx-message {
+        font-size: 13px;
+        color: #4b5563;
+        padding: 4px 0;
+        border-bottom: 1px solid #e5e7eb;
+      }
+      .miden-tx-message:last-child {
+        border-bottom: none;
+      }
       .miden-modal-actions {
         padding: 24px;
         border-top: 1px solid #f0f0f0;
@@ -175,11 +196,17 @@ export function generateConfirmationOverlayScript(
         </div>
       </div>
       <div class="miden-modal-content">
-        <p class="miden-modal-description">${escapeHtml(translations.connectionRequest)}</p>
-        <div class="miden-info-box">
-          <p class="miden-info-label">${escapeHtml(translations.account)}</p>
-          <p class="miden-info-value">${escapeHtml(shortAccountId || translations.noAccountSelected)}</p>
-        </div>
+        <p class="miden-modal-description">${isTransaction ? escapeHtml(translations.transactionRequest) : escapeHtml(translations.connectionRequest)}</p>
+        ${
+          isTransaction
+            ? `<div class="miden-tx-messages">
+                ${transactionMessages.map(msg => `<div class="miden-tx-message">${escapeHtml(msg)}</div>`).join('')}
+              </div>`
+            : `<div class="miden-info-box">
+                <p class="miden-info-label">${escapeHtml(translations.account)}</p>
+                <p class="miden-info-value">${escapeHtml(shortAccountId || translations.noAccountSelected)}</p>
+              </div>`
+        }
         <div class="miden-info-box" style="margin-bottom: 0;">
           <p class="miden-info-label">${escapeHtml(translations.network)}</p>
           <p class="miden-info-value capitalize">${escapeHtml(network)}</p>
@@ -187,7 +214,7 @@ export function generateConfirmationOverlayScript(
       </div>
       <div class="miden-modal-actions">
         <button class="miden-btn miden-btn-deny" id="miden-btn-deny">${escapeHtml(translations.deny)}</button>
-        <button class="miden-btn miden-btn-approve" id="miden-btn-approve" ${!shortAccountId ? 'disabled' : ''}>${escapeHtml(translations.approve)}</button>
+        <button class="miden-btn miden-btn-approve" id="miden-btn-approve" ${!shortAccountId && !isTransaction ? 'disabled' : ''}>${isTransaction ? escapeHtml(translations.confirm) : escapeHtml(translations.approve)}</button>
       </div>
     </div>
   \`;
