@@ -13,10 +13,9 @@ import { formatBigInt } from 'lib/i18n/numbers';
 import { getUncompletedTransactions, initiateConsumeTransaction, waitForConsumeTx } from 'lib/miden/activity';
 import { AssetMetadata, useAccount } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
-import { syncDebugInfo } from 'lib/miden/front/autoSync';
 import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
 import { ConsumableNote } from 'lib/miden/types';
-import { isIOS, isMobile } from 'lib/platform';
+import { isMobile } from 'lib/platform';
 import { isDelegateProofEnabled } from 'lib/settings/helpers';
 import { WalletAccount } from 'lib/shared/types';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
@@ -30,7 +29,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const account = useAccount();
   const address = account.publicKey;
   const { fieldRef, copy } = useCopyToClipboard();
-  const { data: claimableNotes, mutate: mutateClaimableNotes, debugInfo } = useClaimableNotes(address);
+  const { data: claimableNotes, mutate: mutateClaimableNotes } = useClaimableNotes(address);
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
   const { popup } = useAppEnv();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -39,13 +38,6 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const [claimingNoteIds, setClaimingNoteIds] = useState<Set<string>>(new Set());
   // Track individual note claiming states reported by child components
   const [individualClaimingIds, setIndividualClaimingIds] = useState<Set<string>>(new Set());
-  // Force re-render for sync debug info on iOS
-  const [, forceUpdate] = useState(0);
-  useEffect(() => {
-    if (!isIOS()) return;
-    const interval = setInterval(() => forceUpdate(n => n + 1), 2000);
-    return () => clearInterval(interval);
-  }, []);
   const claimAllAbortRef = useRef<AbortController | null>(null);
 
   // Callback for child components to report their claiming state
@@ -280,31 +272,6 @@ export const Receive: React.FC<ReceiveProps> = () => {
             </div>
           )}
         </div>
-        {/* iOS Debug Panel - visible only on iOS for troubleshooting */}
-        {isIOS() && (
-          <div className="w-5/6 md:w-1/2 mx-auto mt-4 p-3 bg-yellow-100 rounded text-xs font-mono">
-            <div className="font-bold mb-2">iOS Debug Info:</div>
-            <div className="mb-2 pb-2 border-b border-yellow-300">
-              <div className="font-semibold">Sync Status:</div>
-              <div>Sync count: {syncDebugInfo.syncCount}</div>
-              <div>Last sync: {syncDebugInfo.lastSyncTime}</div>
-              <div>Block num: {syncDebugInfo.lastBlockNum ?? 'none'}</div>
-              {syncDebugInfo.lastError && <div className="text-red-600">Sync error: {syncDebugInfo.lastError}</div>}
-            </div>
-            {debugInfo && (
-              <div>
-                <div className="font-semibold">Notes Fetch:</div>
-                <div>Raw notes from SDK: {debugInfo.rawNotesCount}</div>
-                <div>Parsed notes: {debugInfo.parsedNotesCount}</div>
-                <div>Notes with metadata: {debugInfo.notesWithMetadataCount}</div>
-                <div>Missing faucet IDs: {debugInfo.missingFaucetIds.length > 0 ? debugInfo.missingFaucetIds.join(', ') : 'none'}</div>
-                <div>Metadata cache keys: {debugInfo.metadataCacheKeys.length}</div>
-                <div>Last fetch: {debugInfo.lastFetchTime}</div>
-                {debugInfo.error && <div className="text-red-600">Fetch error: {debugInfo.error}</div>}
-              </div>
-            )}
-          </div>
-        )}
       </div>
     </PageLayout>
   );
