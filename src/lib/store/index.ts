@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 
-import { IntercomClient } from 'lib/intercom';
+import { createIntercomClient, IIntercomClient } from 'lib/intercom/client';
 import { fetchTokenMetadata } from 'lib/miden/metadata';
 import { MidenMessageType, MidenState } from 'lib/miden/types';
 import { WalletMessageType, WalletRequest, WalletResponse, WalletStatus } from 'lib/shared/types';
@@ -10,10 +10,10 @@ import { WalletStore } from './types';
 import { fetchBalances } from './utils/fetchBalances';
 
 // Singleton intercom client
-let intercom: IntercomClient | null = null;
-function getIntercom(): IntercomClient {
+let intercom: IIntercomClient | null = null;
+function getIntercom(): IIntercomClient {
   if (!intercom) {
-    intercom = new IntercomClient();
+    intercom = createIntercomClient();
   }
   return intercom;
 }

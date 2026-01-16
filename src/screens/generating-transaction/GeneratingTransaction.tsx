@@ -107,14 +107,19 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
   useBeforeUnload(!error && transactions.length !== 0, downloadAll);
   const progress = transactions.length > 0 ? (1 / transactions.length) * 80 : 0;
 
+  // On mobile, use full height responsive layout
+  const isMobileDevice = typeof window !== 'undefined' && /Android|iPhone|iPad/i.test(navigator.userAgent);
+  const containerClass = isMobileDevice
+    ? 'min-h-screen w-full'
+    : 'h-[640px] max-h-[640px] w-[600px] max-w-[600px] border rounded-3xl';
+
   return (
     <div
       className={classNames(
-        'h-[640px] max-h-[640px] w-[600px] max-w-[600px]',
+        containerClass,
         'mx-auto overflow-hidden ',
         'flex flex-1',
         'flex-col bg-white p-6',
-        'border rounded-3xl',
         'overflow-hidden relative'
       )}
     >

@@ -5,6 +5,7 @@ import classNames from 'clsx';
 import DocBg from 'app/a11y/DocBg';
 import { useAppEnv } from 'app/env';
 import ContentContainer from 'app/layouts/ContentContainer';
+import { isMobile } from 'lib/platform';
 import { PropsWithChildren } from 'lib/props-with-children';
 
 interface SimplePageLayoutProps extends PropsWithChildren {
@@ -14,8 +15,13 @@ interface SimplePageLayoutProps extends PropsWithChildren {
 
 const SimplePageLayout: FC<SimplePageLayoutProps> = ({ title, icon, children }) => {
   const { fullPage } = useAppEnv();
-  const containerStyle = fullPage ? { height: '600px', width: '360px', margin: 'auto', overflow: 'hidden' } : {};
-  const containerClass = fullPage ? 'shadow-2xl' : '';
+  // On mobile, don't apply fixed dimensions - let the layout be responsive
+  const containerStyle = isMobile()
+    ? { minHeight: '100vh', width: '100%' }
+    : fullPage
+      ? { height: '600px', width: '360px', margin: 'auto', overflow: 'hidden' }
+      : {};
+  const containerClass = fullPage && !isMobile() ? 'shadow-2xl' : '';
 
   return (
     <>

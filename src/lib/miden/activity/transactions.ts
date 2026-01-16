@@ -134,14 +134,18 @@ export const initiateConsumeTransaction = async (
   note: ConsumableNote,
   delegateTransaction?: boolean
 ): Promise<string> => {
+  console.log('[initiateConsumeTransaction] Starting for note:', note.id);
   const dbTransaction = new ConsumeTransaction(accountId, note, delegateTransaction);
   const uncompletedTransactions = await getUncompletedTransactions(accountId);
+  console.log('[initiateConsumeTransaction] Uncompleted transactions:', uncompletedTransactions.length);
   const existingTransaction = uncompletedTransactions.find(tx => tx.type === 'consume' && tx.noteId === note.id);
   if (existingTransaction) {
+    console.log('[initiateConsumeTransaction] Found existing transaction:', existingTransaction.id);
     return existingTransaction.id;
   }
 
   await Repo.transactions.add(dbTransaction);
+  console.log('[initiateConsumeTransaction] Added new transaction:', dbTransaction.id);
 
   return dbTransaction.id;
 };
@@ -425,10 +429,13 @@ export const generateTransaction = async (
   transaction: Transaction,
   signCallback: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
 ) => {
+  console.log('[generateTransaction] Starting transaction:', transaction.type, transaction.id);
+
   // Mark transaction as in progress
   await updateTransactionStatus(transaction.id, ITransactionStatus.GeneratingTransaction, {
     processingStartedAt: Date.now()
   });
+  console.log('[generateTransaction] Status updated to GeneratingTransaction');
 
   // Process transaction
   let resultBytes: Uint8Array;
@@ -442,20 +449,28 @@ export const generateTransaction = async (
   };
 
   // Wrap WASM client operations in a lock to prevent concurrent access
+  console.log('[generateTransaction] Acquiring WASM lock...');
   const transactionResultBytes = await withWasmClientLock(async () => {
+    console.log('[generateTransaction] WASM lock acquired, getting client...');
     const midenClient = await getMidenClient(options);
+    console.log('[generateTransaction] Client obtained, executing transaction type:', transaction.type);
     switch (transaction.type) {
       case 'send':
         return midenClient.sendTransaction(transaction as SendTransaction);
       case 'consume':
-        return midenClient.consumeNoteId(transaction as ConsumeTransaction);
+        console.log('[generateTransaction] Calling midenClient.consumeNoteId...');
+        const consumeResult = await midenClient.consumeNoteId(transaction as ConsumeTransaction);
+        console.log('[generateTransaction] midenClient.consumeNoteId completed, result size:', consumeResult.length);
+        return consumeResult;
       case 'execute':
       default:
         return midenClient.newTransaction(transaction.accountId, transaction.requestBytes!);
     }
   });
+  console.log('[generateTransaction] WASM operation complete, result size:', transactionResultBytes.length);
 
   // Worker calls and completion are outside the lock
+  console.log('[generateTransaction] Starting worker call for type:', transaction.type);
   switch (transaction.type) {
     case 'send':
       resultBytes = await sendTransaction(transactionResultBytes, transaction.delegateTransaction);
@@ -463,7 +478,9 @@ export const generateTransaction = async (
       await completeSendTransaction(transaction as SendTransaction, result);
       break;
     case 'consume':
+      console.log('[generateTransaction] Calling consumeNoteId worker...');
       resultBytes = await consumeNoteId(transactionResultBytes, transaction.delegateTransaction);
+      console.log('[generateTransaction] consumeNoteId worker completed');
       result = TransactionResult.deserialize(transactionResultBytes);
       await completeConsumeTransaction(transaction.id, result);
       break;
@@ -499,32 +516,42 @@ export const getTransactionById = async (id: string) => {
 export const generateTransactionsLoop = async (
   signCallback: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
 ): Promise<boolean | void> => {
+  console.log('[generateTransactionsLoop] Starting...');
   await cancelStuckTransactions();
+  console.log('[generateTransactionsLoop] Cancelled stuck transactions');
 
   // Import any notes needed for queued transactions
   await importAllNotes();
+  console.log('[generateTransactionsLoop] Imported all notes');
 
   // Wait for other in progress transactions
   const inProgressTransactions = await getTransactionsInProgress();
+  console.log('[generateTransactionsLoop] In-progress transactions:', inProgressTransactions.length);
   if (inProgressTransactions.length > 0) {
+    console.log('[generateTransactionsLoop] Waiting for in-progress transactions, returning early');
     return;
   }
 
   // Find transactions waiting to process
   const queuedTransactions = await Repo.transactions.filter(rec => rec.status === ITransactionStatus.Queued).toArray();
   queuedTransactions.sort((tx1, tx2) => tx1.initiatedAt - tx2.initiatedAt);
+  console.log('[generateTransactionsLoop] Queued transactions:', queuedTransactions.length);
   if (queuedTransactions.length === 0) {
+    console.log('[generateTransactionsLoop] No queued transactions, returning early');
     return;
   }
 
   // Process next transaction
   const nextTransaction = queuedTransactions[0];
+  console.log('[generateTransactionsLoop] Processing next transaction:', nextTransaction.type, nextTransaction.id);
 
   // Call safely to cancel transaction and unlock records if something goes wrong
   try {
     await generateTransaction(nextTransaction, signCallback);
+    console.log('[generateTransactionsLoop] Transaction completed successfully');
     return true;
   } catch (e) {
+    console.log('[generateTransactionsLoop] Transaction failed:', e);
     logger.warning('Failed to generate transaction', e);
     console.log(e);
     // Cancel the transaction if it hasn't already been cancelled

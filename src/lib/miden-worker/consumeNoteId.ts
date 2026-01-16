@@ -8,7 +8,21 @@ export const consumeNoteId = async (
   transactionResultBytes: Uint8Array,
   delegateTransaction?: boolean
 ): Promise<Uint8Array> => {
-  const worker = await spawn<ConsumeNoteIdWorker>(new Worker('./consumeNoteId.js'));
+  console.log('[consumeNoteId] Starting worker spawn...');
+  console.log('[consumeNoteId] Worker URL: ./consumeNoteId.js');
+  console.log('[consumeNoteId] Current location:', window.location.href);
+
+  let worker;
+  try {
+    console.log('[consumeNoteId] Creating Worker instance...');
+    const workerInstance = new Worker('./consumeNoteId.js');
+    console.log('[consumeNoteId] Worker instance created, spawning...');
+    worker = await spawn<ConsumeNoteIdWorker>(workerInstance);
+    console.log('[consumeNoteId] Worker spawned successfully');
+  } catch (err) {
+    console.error('[consumeNoteId] Worker spawn failed:', err);
+    throw err;
+  }
 
   try {
     const observable = worker(transactionResultBytes, delegateTransaction);

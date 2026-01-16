@@ -1,11 +1,21 @@
 import { enUS, enGB, fr, zhCN, zhTW, ja, ko, uk, ru, Locale } from 'date-fns/locale';
 import i18n from 'i18next';
-import browser from 'webextension-polyfill';
+
+import { isMobile } from 'lib/platform';
 
 import cldrjsLocales from './cldrjs-locales.json';
 import { areLocalesEqual, processTemplate, toList } from './helpers';
 import { getSavedLocale } from './saving';
 import { FetchedLocaleMessages, LocaleMessages, Substitutions } from './types';
+
+// Lazy-loaded browser polyfill (only in extension context)
+let browserModule: typeof import('webextension-polyfill') | null = null;
+async function getBrowser() {
+  if (!browserModule) {
+    browserModule = await import('webextension-polyfill');
+  }
+  return browserModule.default;
+}
 
 const dateFnsLocales: Record<string, Locale> = {
   en: enUS,
@@ -62,7 +72,19 @@ export function getMessage(messageName: string, substitutions?: Substitutions) {
   const val = fetchedLocaleMessages.target?.[messageName] ?? fetchedLocaleMessages.fallback?.[messageName];
 
   if (!val) {
-    return browser.i18n.getMessage(messageName, substitutions);
+    // On mobile, use i18next directly; on extension, use browser.i18n
+    if (isMobile()) {
+      return i18n.t(messageName, substitutions as any) || messageName;
+    }
+    // For extension, we need to call browser.i18n synchronously
+    // Since this is a sync function, we'll return the key if browser isn't loaded
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const browser = require('webextension-polyfill');
+      return browser.i18n.getMessage(messageName, substitutions);
+    } catch {
+      return messageName;
+    }
   }
 
   try {
@@ -102,17 +124,44 @@ export function getCurrentLocale() {
 }
 
 export function getNativeLocale() {
-  return browser.i18n.getUILanguage();
+  if (isMobile()) {
+    // On mobile, use navigator.language (e.g., 'en-US' -> 'en')
+    return navigator.language?.split('-')[0] || 'en';
+  }
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const browser = require('webextension-polyfill');
+    return browser.i18n.getUILanguage();
+  } catch {
+    return 'en';
+  }
 }
 
 export function getDefaultLocale(): string {
-  const manifest = browser.runtime.getManifest();
-  return (manifest as any).default_locale || 'en';
+  if (isMobile()) {
+    return 'en';
+  }
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const browser = require('webextension-polyfill');
+    const manifest = browser.runtime.getManifest();
+    return (manifest as any).default_locale || 'en';
+  } catch {
+    return 'en';
+  }
 }
 
 export async function fetchLocaleMessages(locale: string) {
   const dirName = locale.replace('-', '_');
-  const url = browser.runtime.getURL(`_locales/${dirName}/messages.json`);
+
+  let url: string;
+  if (isMobile()) {
+    // On mobile (Capacitor), use relative URL
+    url = `/_locales/${dirName}/messages.json`;
+  } else {
+    const browser = await getBrowser();
+    url = browser.runtime.getURL(`_locales/${dirName}/messages.json`);
+  }
 
   try {
     const res = await fetch(url);

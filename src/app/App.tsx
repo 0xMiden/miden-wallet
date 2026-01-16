@@ -1,6 +1,10 @@
 import React, { ComponentProps, FC, Suspense } from 'react';
 
-import 'lib/lock-up/run-checks';
+// Lock-up checks are extension-only - skip on mobile
+import { isMobile } from 'lib/platform';
+if (!isMobile()) {
+  import('lib/lock-up/run-checks');
+}
 
 import AwaitFonts from 'app/a11y/AwaitFonts';
 import AwaitI18N from 'app/a11y/AwaitI18N';
@@ -13,6 +17,8 @@ import Dialogs from 'app/layouts/Dialogs';
 import PageRouter from 'app/PageRouter';
 import { ExtensionMessageListener } from 'components/ConnectivityIssueBanner';
 import { MidenProvider } from 'lib/miden/front';
+import { isMobile as checkIsMobile } from 'lib/platform';
+import { TransactionProgressModal } from 'components/TransactionProgressModal';
 import { PropsWithChildren } from 'lib/props-with-children';
 import { DialogsProvider } from 'lib/ui/dialog';
 import * as Woozie from 'lib/woozie';
@@ -53,7 +59,10 @@ const AppProvider: FC<AppProps> = ({ children, env }) => {
     <AppEnvProvider {...env}>
       <Woozie.Provider>
         <ExtensionMessageListener />
-        <MidenProvider>{children}</MidenProvider>
+        <MidenProvider>
+          {children}
+          {checkIsMobile() && <TransactionProgressModal />}
+        </MidenProvider>
       </Woozie.Provider>
     </AppEnvProvider>
   );

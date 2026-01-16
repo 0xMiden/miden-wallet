@@ -1,11 +1,26 @@
 import { BasicFungibleFaucetComponent } from '@demox-labs/miden-sdk';
-import browser from 'webextension-polyfill';
 
 import { isMidenAsset } from 'lib/miden/assets';
+import { isMobile } from 'lib/platform';
 
 import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 import { DEFAULT_TOKEN_METADATA, MIDEN_METADATA } from './defaults';
 import { AssetMetadata, DetailedAssetMetdata } from './types';
+
+// Get asset URL that works on both extension and mobile
+function getAssetUrl(path: string): string {
+  if (isMobile()) {
+    return `/${path}`;
+  }
+
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const browser = require('webextension-polyfill');
+    return browser.runtime.getURL(path);
+  } catch {
+    return `/${path}`;
+  }
+}
 
 export async function fetchTokenMetadata(
   assetId: string
@@ -45,7 +60,7 @@ export async function fetchTokenMetadata(
       symbol,
       name: symbol,
       shouldPreferSymbol: true,
-      thumbnailUri: browser.runtime.getURL('misc/token-logos/default.svg')
+      thumbnailUri: getAssetUrl('misc/token-logos/default.svg')
     };
 
     const detailed: DetailedAssetMetdata = {

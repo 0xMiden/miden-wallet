@@ -10,6 +10,7 @@ import { useAppEnv } from 'app/env';
 import ErrorBoundary from 'app/ErrorBoundary';
 import { Icon, IconName } from 'app/icons/v2';
 import ContentContainer from 'app/layouts/ContentContainer';
+import { isMobile } from 'lib/platform';
 import { PropsWithChildren } from 'lib/props-with-children';
 import { goBack, HistoryAction, navigate, useLocation } from 'lib/woozie';
 
@@ -32,7 +33,12 @@ const PageLayout: FC<PageLayoutProps> = ({
 }) => {
   const { fullPage } = useAppEnv();
 
-  const containerStyles = fullPage ? { height: '640px', width: '600px' } : { height: '600px', width: '360px' };
+  // On mobile, don't apply fixed dimensions - let the layout be responsive
+  const containerStyles = isMobile()
+    ? { minHeight: '100vh', width: '100%' }
+    : fullPage
+      ? { height: '640px', width: '600px' }
+      : { height: '600px', width: '360px' };
 
   return (
     <>

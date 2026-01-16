@@ -10,6 +10,7 @@ import { ReactComponent as SendIcon } from 'app/icons/send.svg';
 import Footer from 'app/layouts/PageLayout/Footer';
 import Header from 'app/layouts/PageLayout/Header';
 import AddressChip from 'app/templates/AddressChip';
+import { isMobile } from 'lib/platform';
 import { ChainInstabilityBanner } from 'components/ChainInstabilityBanner';
 import { ConnectivityIssueBanner } from 'components/ConnectivityIssueBanner';
 import { TestIDProps } from 'lib/analytics';
@@ -141,7 +142,12 @@ const Explore: FC = () => {
     return null;
   }
 
-  const size = fullPage ? { height: '640px', width: '600px' } : { height: '600px', width: '360px' };
+  // On mobile, use responsive dimensions
+  const size = isMobile()
+    ? { minHeight: '100vh', width: '100%' }
+    : fullPage
+      ? { height: '640px', width: '600px' }
+      : { height: '600px', width: '360px' };
   const background = 'url(/misc/bg.svg) white center top / cover no-repeat';
   const sendLink = allTokenBalances.length > 0 ? '/send' : '/get-tokens';
 

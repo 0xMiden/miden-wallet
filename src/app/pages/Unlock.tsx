@@ -13,6 +13,7 @@ import { Button, ButtonVariant } from 'components/Button';
 import { useFormAnalytics } from 'lib/analytics';
 import { useLocalStorage, useMidenContext } from 'lib/miden/front';
 import { MidenSharedStorageKey } from 'lib/miden/types';
+import { isMobile } from 'lib/platform';
 import { navigate } from 'lib/woozie';
 
 type FormData = {
@@ -75,7 +76,14 @@ const Unlock: FC<UnlockProps> = ({ openForgotPasswordInFullPage = false }) => {
 
         formAnalytics.trackSubmitSuccess();
         setAttempt(1);
-        window.location.reload();
+
+        // On mobile, don't reload - the backend state is already updated in-process.
+        // Just navigate to home to trigger a re-render with the unlocked state.
+        if (isMobile()) {
+          navigate('/');
+        } else {
+          window.location.reload();
+        }
       } catch (err: any) {
         formAnalytics.trackSubmitFail();
         if (attempt >= LAST_ATTEMPT) setTimeLock(Date.now());

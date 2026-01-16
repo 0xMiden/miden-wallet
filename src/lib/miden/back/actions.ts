@@ -1,7 +1,7 @@
 import PQueue from 'p-queue';
-import browser from 'webextension-polyfill';
 
 import { MidenDAppMessageType, MidenDAppRequest, MidenDAppResponse } from 'lib/adapter/types';
+import { getStorageProvider } from 'lib/platform/storage-adapter';
 import {
   toFront,
   store,
@@ -57,11 +57,12 @@ export async function getFrontState(): Promise<WalletState> {
 }
 
 export async function isDAppEnabled() {
+  const storage = getStorageProvider();
   const bools = await Promise.all([
     Vault.isExist(),
     (async () => {
       const key = MidenSharedStorageKey.DAppEnabled;
-      const items = await browser.storage.local.get([key]);
+      const items = await storage.get([key]);
       return key in items ? items[key] : true;
     })()
   ]);

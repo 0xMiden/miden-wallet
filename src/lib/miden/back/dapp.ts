@@ -9,7 +9,22 @@ import {
   SendTransaction
 } from '@demox-labs/miden-wallet-adapter-base';
 import { nanoid } from 'nanoid';
-import browser, { Runtime } from 'webextension-polyfill';
+import type { Runtime } from 'webextension-polyfill';
+
+import { isMobile } from 'lib/platform';
+import { getStorageProvider } from 'lib/platform/storage-adapter';
+
+// Lazy-loaded browser polyfill (only in extension context)
+let browserModule: typeof import('webextension-polyfill') | null = null;
+async function getBrowser() {
+  if (isMobile()) {
+    throw new Error('Browser extension APIs not available on mobile');
+  }
+  if (!browserModule) {
+    browserModule = await import('webextension-polyfill');
+  }
+  return browserModule.default;
+}
 
 import {
   MidenDAppDisconnectRequest,
@@ -1015,7 +1030,8 @@ export async function waitForTransaction(req: MidenDAppWaitForTxRequest): Promis
 }
 
 export async function getAllDApps(): Promise<MidenDAppSessions> {
-  const items = await browser.storage.local.get([STORAGE_KEY]);
+  const storage = getStorageProvider();
+  const items = await storage.get([STORAGE_KEY]);
   const dAppsSessions = (items[STORAGE_KEY] as MidenDAppSessions) || {};
   return dAppsSessions;
 }
@@ -1052,7 +1068,8 @@ export function cleanDApps() {
 }
 
 function setDApps(newDApps: MidenDAppSessions) {
-  return browser.storage.local.set({ [STORAGE_KEY]: newDApps });
+  const storage = getStorageProvider();
+  return storage.set({ [STORAGE_KEY]: newDApps });
 }
 
 type RequestConfirmParams = {
@@ -1063,6 +1080,13 @@ type RequestConfirmParams = {
 };
 
 async function requestConfirm({ id, payload, onDecline, handleIntercomRequest }: RequestConfirmParams) {
+  // DApp confirmation windows are not available on mobile (Phase 3 feature)
+  if (isMobile()) {
+    throw new Error('DApp confirmation is not yet supported on mobile');
+  }
+
+  const browser = await getBrowser();
+
   let closing = false;
   const close = async () => {
     if (closing) return;

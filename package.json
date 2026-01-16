@@ -14,6 +14,11 @@
     "build:chrome": "cross-env DISABLE_TS_CHECKER=true NODE_ENV=development MODE_ENV=production TARGET_BROWSER=chrome MANIFEST_VERSION=3 webpack && TARGET_BROWSER=chrome yarn zip",
     "build:firefox": "cross-env DISABLE_TS_CHECKER=true NODE_ENV=development MODE_ENV=production TARGET_BROWSER=firefox MANIFEST_VERSION=2 webpack && TARGET_BROWSER=firefox yarn zip",
     "build:safari": "cross-env DISABLE_TS_CHECKER=true NODE_ENV=development MODE_ENV=production TARGET_BROWSER=safari MANIFEST_VERSION=2 webpack && TARGET_BROWSER=safari yarn zip",
+    "build:mobile": "rimraf ./dist/mobile && cross-env DISABLE_TS_CHECKER=true NODE_ENV=development MODE_ENV=production webpack --config webpack.mobile.config.js",
+    "build:mobile:dev": "cross-env DISABLE_TS_CHECKER=true NODE_ENV=development MODE_ENV=development webpack --config webpack.mobile.config.js",
+    "mobile:sync": "yarn build:mobile && npx cap sync",
+    "mobile:ios": "yarn mobile:sync && npx cap open ios",
+    "mobile:android": "yarn mobile:sync && npx cap open android",
     "zip": "ts-node --project ./tsconfig-utility.json ./utility/buildZip.ts",
     "test": "jest",
     "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
@@ -34,6 +39,11 @@
     "build:storybook": "storybook build -c .storybook -o storybook-deploy/public"
   },
   "dependencies": {
+    "@capacitor/android": "^8.0.1",
+    "@capacitor/cli": "^8.0.1",
+    "@capacitor/core": "^8.0.1",
+    "@capacitor/ios": "^8.0.1",
+    "@capacitor/preferences": "^8.0.0",
     "@demox-labs/aleo-hd-key": "^0.0.1",
     "@demox-labs/miden-sdk": "0.12.5",
     "@demox-labs/miden-wallet-adapter-base": "0.10.0",
