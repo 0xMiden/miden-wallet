@@ -148,6 +148,9 @@ export const INJECTION_SCRIPT = `
       this.network = network;
       this.publicKey = b64ToU8(res.publicKey);
 
+      // Emit connect event for wallet adapters that listen to events
+      this.emit('connect', this.publicKey);
+
       return this.permission;
     }
 
@@ -156,6 +159,7 @@ export const INJECTION_SCRIPT = `
       this.address = undefined;
       this.permission = undefined;
       this.publicKey = undefined;
+      this.emit('disconnect');
     }
 
     async requestSend(transaction) {
