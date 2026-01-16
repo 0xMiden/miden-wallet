@@ -319,7 +319,7 @@ export class Vault {
         // Have to do this sequentially else the wasm fails
         for (const accountHeader of accountHeaders) {
           const account = await midenClient.getAccount(getBech32AddressFromAccountId(accountHeader.id()));
-          if (!account || account.isFaucet()) {
+          if (!account || account.isFaucet() || account.isNetwork()) {
             continue;
           }
           accts.push(account);
