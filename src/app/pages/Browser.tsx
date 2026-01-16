@@ -16,21 +16,21 @@ import { generateConfirmationOverlayScript } from 'lib/dapp-browser/confirmation
 import { dappConfirmationStore, DAppConfirmationRequest } from 'lib/dapp-browser/confirmation-store';
 import { INJECTION_SCRIPT } from 'lib/dapp-browser/injection-script';
 import { handleWebViewMessage, WebViewMessage } from 'lib/dapp-browser/message-handler';
-import { isIOS, isMobile } from 'lib/platform';
+import { isMobile } from 'lib/platform';
 import { useWalletStore } from 'lib/store';
 
 const DEFAULT_URL = 'https://';
 
 /**
  * Send response back to the webview's injection script.
- * On iOS, adds a small delay and retry logic because executeScript can be unreliable
+ * On mobile, adds a small delay and retry logic because executeScript can be unreliable
  * after user interactions (like dismissing the confirmation overlay).
  */
 async function sendResponseToWebview(response: unknown, retries = 3): Promise<void> {
   const code = `window.__midenWalletResponse(${JSON.stringify(JSON.stringify(response))});`;
 
-  // On iOS, add a small delay before executing script to let the JS context stabilize
-  if (isIOS()) {
+  // On mobile, add a small delay before executing script to let the JS context stabilize
+  if (isMobile()) {
     await new Promise(resolve => setTimeout(resolve, 100));
   }
 
@@ -40,8 +40,8 @@ async function sendResponseToWebview(response: unknown, retries = 3): Promise<vo
       return;
     } catch (error) {
       console.warn(`[Browser] executeScript attempt ${attempt} failed:`, error);
-      if (attempt < retries && isIOS()) {
-        // Wait before retry on iOS
+      if (attempt < retries && isMobile()) {
+        // Wait before retry on mobile
         await new Promise(resolve => setTimeout(resolve, 100 * attempt));
       } else if (attempt === retries) {
         throw error;

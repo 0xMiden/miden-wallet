@@ -23,10 +23,12 @@ export interface WebViewResponse {
  */
 export async function handleWebViewMessage(message: WebViewMessage, origin: string): Promise<WebViewResponse> {
   const { payload, reqId } = message;
+  console.log('[MessageHandler] Received message:', { type: message.type, reqId, payloadType: typeof payload });
 
   try {
     // Handle PING for availability check
     if (payload === 'PING') {
+      console.log('[MessageHandler] Responding to PING');
       return {
         type: 'MIDEN_PAGE_RESPONSE',
         payload: 'PONG',
@@ -35,7 +37,9 @@ export async function handleWebViewMessage(message: WebViewMessage, origin: stri
     }
 
     // Process the DApp request
+    console.log('[MessageHandler] Processing DApp request:', (payload as MidenDAppRequest)?.type);
     const response = await processDApp(origin, payload as MidenDAppRequest);
+    console.log('[MessageHandler] DApp request completed:', { reqId, responseType: response?.type });
 
     return {
       type: 'MIDEN_PAGE_RESPONSE',
@@ -44,7 +48,7 @@ export async function handleWebViewMessage(message: WebViewMessage, origin: stri
     };
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error('[DAppBrowser] Error processing message:', errorMessage);
+    console.error('[MessageHandler] Error processing message:', errorMessage);
 
     return {
       type: 'MIDEN_PAGE_ERROR_RESPONSE',

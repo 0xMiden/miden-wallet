@@ -59,7 +59,7 @@ import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
 import { WalletStatus } from 'lib/shared/types';
 import { capitalizeFirstLetter, truncateAddress } from 'utils/string';
 
-import { queueNoteImport } from '../activity';
+import { queueNoteImport, startBackgroundTransactionProcessing } from '../activity';
 import {
   initiateSendTransaction,
   requestCustomTransaction,
@@ -879,18 +879,24 @@ const generatePromisifyTransaction = async (
     }
 
     try {
-      const transactionId = await withUnlocked(async () => {
+      const transactionId = await withUnlocked(async ({ vault }) => {
         const { payload } = req.transaction;
         const { address, recipientAddress, transactionRequest, inputNoteIds, importNotes } =
           payload as MidenCustomTransaction;
-        return await requestCustomTransaction(
+        // On mobile, always delegate transactions to avoid memory issues with local proving
+        const txId = await requestCustomTransaction(
           address,
           transactionRequest,
           inputNoteIds,
           importNotes,
-          result.delegate || false,
+          true,
           recipientAddress || undefined
         );
+        // Start background processing on mobile
+        startBackgroundTransactionProcessing((publicKey, signingInputs) =>
+          vault.signTransaction(publicKey, signingInputs)
+        );
+        return txId;
       });
       resolve({
         type: MidenDAppMessageType.TransactionResponse,
@@ -1016,17 +1022,23 @@ const generatePromisifySendTransaction = async (
     }
 
     try {
-      const transactionId = await withUnlocked(async () => {
+      const transactionId = await withUnlocked(async ({ vault }) => {
         const { senderAddress, recipientAddress, faucetId, noteType, amount, recallBlocks } = req.transaction;
-        return await initiateSendTransaction(
+        // On mobile, always delegate transactions to avoid memory issues with local proving
+        const txId = await initiateSendTransaction(
           senderAddress,
           recipientAddress,
           faucetId,
           noteType as any,
           BigInt(amount),
           recallBlocks,
-          result.delegate || false
+          true
         );
+        // Start background processing on mobile
+        startBackgroundTransactionProcessing((publicKey, signingInputs) =>
+          vault.signTransaction(publicKey, signingInputs)
+        );
+        return txId;
       });
       resolve({
         type: MidenDAppMessageType.SendTransactionResponse,
@@ -1151,12 +1163,18 @@ const generatePromisifyConsumeTransaction = async (
     }
 
     try {
-      const transactionId = await withUnlocked(async () => {
+      const transactionId = await withUnlocked(async ({ vault }) => {
         const { noteId, noteBytes } = req.transaction;
         if (noteBytes) {
           await queueNoteImport(noteBytes);
         }
-        return await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId, result.delegate || false);
+        // On mobile, always delegate transactions to avoid memory issues with local proving
+        const txId = await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId, true);
+        // Start background processing on mobile
+        startBackgroundTransactionProcessing((publicKey, signingInputs) =>
+          vault.signTransaction(publicKey, signingInputs)
+        );
+        return txId;
       });
       resolve({
         type: MidenDAppMessageType.ConsumeResponse,

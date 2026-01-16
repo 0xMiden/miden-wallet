@@ -502,22 +502,27 @@ export const generateTransaction = async (
 
   // Worker calls and completion are outside the lock
   console.log('[generateTransaction] Starting worker call for type:', transaction.type);
+
+  // On mobile, always delegate transactions to avoid memory issues with local proving
+  const shouldDelegate = isMobile() ? true : transaction.delegateTransaction;
+  console.log('[generateTransaction] Delegation:', shouldDelegate, '(mobile:', isMobile(), ')');
+
   switch (transaction.type) {
     case 'send':
-      resultBytes = await sendTransaction(transactionResultBytes, transaction.delegateTransaction);
+      resultBytes = await sendTransaction(transactionResultBytes, shouldDelegate);
       result = TransactionResult.deserialize(resultBytes);
       await completeSendTransaction(transaction as SendTransaction, result);
       break;
     case 'consume':
       console.log('[generateTransaction] Calling consumeNoteId worker...');
-      resultBytes = await consumeNoteId(transactionResultBytes, transaction.delegateTransaction);
+      resultBytes = await consumeNoteId(transactionResultBytes, shouldDelegate);
       console.log('[generateTransaction] consumeNoteId worker completed');
       result = TransactionResult.deserialize(transactionResultBytes);
       await completeConsumeTransaction(transaction.id, result);
       break;
     case 'execute':
     default:
-      resultBytes = await submitTransaction(transactionResultBytes, transaction.delegateTransaction);
+      resultBytes = await submitTransaction(transactionResultBytes, shouldDelegate);
       result = TransactionResult.deserialize(resultBytes);
       await completeCustomTransaction(transaction, result);
       break;
@@ -613,6 +618,53 @@ export const safeGenerateTransactionsLoop = async (
       logger.error('Error in safe generate transactions loop', e);
       return false;
     });
+};
+
+/**
+ * Start background transaction processing for mobile dApp transactions.
+ * This runs the transaction loop without any UI, using the backend's signTransaction directly.
+ * Polls every 5 seconds until all queued transactions are processed.
+ */
+export const startBackgroundTransactionProcessing = async (
+  signTransaction: (publicKey: string, signingInputs: string) => Promise<string>
+) => {
+  console.log('[BackgroundTxProcessor] Starting background transaction processing');
+
+  const signCallback = async (publicKey: string, signingInputs: string): Promise<Uint8Array> => {
+    const signatureHex = await signTransaction(publicKey, signingInputs);
+    return new Uint8Array(Buffer.from(signatureHex, 'hex'));
+  };
+
+  // Process transactions in a loop until none are left
+  const processLoop = async () => {
+    let hasMore = true;
+    let attempts = 0;
+    const maxAttempts = 60; // Max 5 minutes (60 * 5 seconds)
+
+    while (hasMore && attempts < maxAttempts) {
+      attempts++;
+      console.log('[BackgroundTxProcessor] Processing attempt', attempts);
+
+      const result = await safeGenerateTransactionsLoop(signCallback);
+      console.log('[BackgroundTxProcessor] Loop result:', result);
+
+      // Check if there are more transactions to process
+      const remaining = await getAllUncompletedTransactions();
+      hasMore = remaining.length > 0;
+
+      if (hasMore) {
+        // Wait before next attempt
+        await new Promise(resolve => setTimeout(resolve, 5000));
+      }
+    }
+
+    console.log('[BackgroundTxProcessor] Processing complete');
+  };
+
+  // Run in background (don't await)
+  processLoop().catch(e => {
+    console.error('[BackgroundTxProcessor] Error:', e);
+  });
 };
 
 const WAIT_FOR_TX_TIMEOUT = 5 * 60_000; // 5 minutes
