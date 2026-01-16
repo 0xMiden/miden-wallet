@@ -1,7 +1,7 @@
 import { Observable } from 'threads/observable';
 import { expose } from 'threads/worker';
 
-import { getMidenClient } from 'lib/miden/sdk/miden-client';
+import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
 
 export type WorkerMessage = { type: 'connectivity_issue' } | { type: 'result'; payload: Uint8Array };
 
@@ -9,20 +9,22 @@ function consumeNoteId(transactionResultBytes: Uint8Array, delegateTransaction?:
   return new Observable(observer => {
     (async () => {
       try {
-        const handleConnectivityIssue = () => {
-          console.log('Worker: Detected connectivity issue. Emitting event.');
-          observer.next({ type: 'connectivity_issue' });
-        };
+        await withWasmClientLock(async () => {
+          const handleConnectivityIssue = () => {
+            console.log('Worker: Detected connectivity issue. Emitting event.');
+            observer.next({ type: 'connectivity_issue' });
+          };
 
-        const midenClient = await getMidenClient({
-          onConnectivityIssue: handleConnectivityIssue
+          const midenClient = await getMidenClient({
+            onConnectivityIssue: handleConnectivityIssue
+          });
+
+          await midenClient.submitTransaction(transactionResultBytes, delegateTransaction);
+
+          observer.next({ type: 'result', payload: transactionResultBytes });
+
+          observer.complete();
         });
-
-        await midenClient.submitTransaction(transactionResultBytes, delegateTransaction);
-
-        observer.next({ type: 'result', payload: transactionResultBytes });
-
-        observer.complete();
       } catch (e) {
         observer.error(e);
       }

@@ -233,6 +233,37 @@ The wallet uses an IndexedDB-first pattern for instant UI updates:
 - `syncState()` - syncs with Miden node and updates IndexedDB
 - `importAccountById(assetId)` - imports **asset/token metadata**, not account balances
 
+## WASM Client Concurrency
+
+**CRITICAL:** The Miden WASM client cannot handle concurrent access. Concurrent calls cause:
+```
+Error: recursive use of an object detected which would lead to unsafe aliasing in rust
+```
+
+**Always wrap WASM client operations in `withWasmClientLock`:**
+
+```typescript
+import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
+
+// CORRECT - always use the lock
+const result = await withWasmClientLock(async () => {
+  const midenClient = await getMidenClient();
+  return midenClient.someOperation();
+});
+
+// WRONG - direct access without lock causes concurrency errors
+const midenClient = await getMidenClient();
+const result = await midenClient.someOperation();
+```
+
+**This applies everywhere**, including:
+- Transaction workers in `src/workers/` (consumeNoteId.ts, sendTransaction.ts, submitTransaction.ts)
+- Backend operations in `src/lib/miden/back/`
+- Frontend hooks in `src/lib/miden/front/`
+- Any new code that accesses `getMidenClient()`
+
+The lock ensures only one WASM operation runs at a time across the entire app, preventing AutoSync, dApp requests, and user operations from conflicting.
+
 ## Testing
 
 - Unit tests in `*.test.ts` files alongside source
