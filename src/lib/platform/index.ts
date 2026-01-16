@@ -1,17 +1,37 @@
-import { Capacitor } from '@capacitor/core';
-
 /**
  * Platform detection utilities for cross-platform code sharing
  * between browser extension and mobile app.
+ *
+ * Note: Capacitor is imported lazily to avoid 'window is not defined'
+ * errors in service worker contexts.
  */
 
 export type PlatformType = 'extension' | 'mobile' | 'web';
+
+// Lazy-load Capacitor to avoid issues in service workers
+let _capacitor: typeof import('@capacitor/core').Capacitor | null = null;
+
+function getCapacitor(): typeof import('@capacitor/core').Capacitor | null {
+  if (_capacitor === null) {
+    try {
+      // Only import Capacitor if window exists (not in service worker)
+      if (typeof window !== 'undefined') {
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        _capacitor = require('@capacitor/core').Capacitor;
+      }
+    } catch {
+      _capacitor = null;
+    }
+  }
+  return _capacitor;
+}
 
 /**
  * Detects if running in a Capacitor native app (iOS/Android)
  */
 export function isCapacitor(): boolean {
-  return Capacitor.isNativePlatform();
+  const capacitor = getCapacitor();
+  return capacitor?.isNativePlatform() ?? false;
 }
 
 /**
@@ -25,14 +45,16 @@ export function isExtension(): boolean {
  * Detects if running on iOS
  */
 export function isIOS(): boolean {
-  return Capacitor.getPlatform() === 'ios';
+  const capacitor = getCapacitor();
+  return capacitor?.getPlatform() === 'ios';
 }
 
 /**
  * Detects if running on Android
  */
 export function isAndroid(): boolean {
-  return Capacitor.getPlatform() === 'android';
+  const capacitor = getCapacitor();
+  return capacitor?.getPlatform() === 'android';
 }
 
 /**
