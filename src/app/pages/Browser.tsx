@@ -307,9 +307,7 @@ const Browser: FC = () => {
       <Footer />
 
       {/* DApp Confirmation Modal */}
-      {pendingConfirmation && (
-        <DAppConnectionModal request={pendingConfirmation} onResult={handleConfirmationResult} />
-      )}
+      {pendingConfirmation && <DAppConnectionModal request={pendingConfirmation} onResult={handleConfirmationResult} />}
     </div>
   );
 };

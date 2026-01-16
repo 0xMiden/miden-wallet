@@ -18,7 +18,6 @@ const DAppConnectionModal: FC<DAppConnectionModalProps> = ({ request, onResult }
   const { t } = useTranslation();
   const currentAccount = useWalletStore(s => s.currentAccount);
   const accounts = useWalletStore(s => s.accounts);
-  const status = useWalletStore(s => s.status);
 
   // Use current account or fallback to first account
   // Note: account objects use 'publicKey' not 'accountId'
