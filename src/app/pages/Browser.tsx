@@ -16,10 +16,39 @@ import { generateConfirmationOverlayScript } from 'lib/dapp-browser/confirmation
 import { dappConfirmationStore, DAppConfirmationRequest } from 'lib/dapp-browser/confirmation-store';
 import { INJECTION_SCRIPT } from 'lib/dapp-browser/injection-script';
 import { handleWebViewMessage, WebViewMessage } from 'lib/dapp-browser/message-handler';
-import { isMobile } from 'lib/platform';
+import { isIOS, isMobile } from 'lib/platform';
 import { useWalletStore } from 'lib/store';
 
 const DEFAULT_URL = 'https://';
+
+/**
+ * Send response back to the webview's injection script.
+ * On iOS, adds a small delay and retry logic because executeScript can be unreliable
+ * after user interactions (like dismissing the confirmation overlay).
+ */
+async function sendResponseToWebview(response: unknown, retries = 3): Promise<void> {
+  const code = `window.__midenWalletResponse(${JSON.stringify(JSON.stringify(response))});`;
+
+  // On iOS, add a small delay before executing script to let the JS context stabilize
+  if (isIOS()) {
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
+
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      await InAppBrowser.executeScript({ code });
+      return;
+    } catch (error) {
+      console.warn(`[Browser] executeScript attempt ${attempt} failed:`, error);
+      if (attempt < retries && isIOS()) {
+        // Wait before retry on iOS
+        await new Promise(resolve => setTimeout(resolve, 100 * attempt));
+      } else if (attempt === retries) {
+        throw error;
+      }
+    }
+  }
+}
 
 interface Favourite {
   name: string;
@@ -163,9 +192,7 @@ const Browser: FC = () => {
             // Handle regular wallet messages
             const walletMessage = message as WebViewMessage;
             const response = await handleWebViewMessage(walletMessage, origin);
-            await InAppBrowser.executeScript({
-              code: `window.__midenWalletResponse(${JSON.stringify(JSON.stringify(response))});`
-            });
+            await sendResponseToWebview(response);
           } catch (error) {
             console.error('[Browser] Error handling WebView message:', error);
           }
