@@ -1,6 +1,7 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { InAppBrowser, ToolBarType } from '@capgo/inappbrowser';
+import { PrivateDataPermission } from '@demox-labs/miden-wallet-adapter-base';
 import { useTranslation } from 'react-i18next';
 
 import { useAppEnv } from 'app/env';
@@ -11,15 +12,12 @@ import faucetIcon from 'app/misc/dapp-icons/faucet.png';
 import midenIcon from 'app/misc/dapp-icons/miden.png';
 import xIcon from 'app/misc/dapp-icons/x.png';
 import zoroIcon from 'app/misc/dapp-icons/zoro.png';
-import DAppConnectionModal from 'app/templates/DAppConnectionModal';
-import {
-  dappConfirmationStore,
-  DAppConfirmationRequest,
-  DAppConfirmationResult
-} from 'lib/dapp-browser/confirmation-store';
+import { generateConfirmationOverlayScript } from 'lib/dapp-browser/confirmation-overlay';
+import { dappConfirmationStore, DAppConfirmationRequest } from 'lib/dapp-browser/confirmation-store';
 import { INJECTION_SCRIPT } from 'lib/dapp-browser/injection-script';
 import { handleWebViewMessage, WebViewMessage } from 'lib/dapp-browser/message-handler';
 import { isMobile } from 'lib/platform';
+import { useWalletStore } from 'lib/store';
 
 const DEFAULT_URL = 'https://';
 
@@ -44,10 +42,30 @@ const Browser: FC = () => {
   const [recentUrls, setRecentUrls] = useState<string[]>([]);
 
   // DApp confirmation state
-  const [pendingConfirmation, setPendingConfirmation] = useState<DAppConfirmationRequest | null>(null);
   const [isBrowserOpen, setIsBrowserOpen] = useState(false);
-  const pendingUrlRef = useRef<string | null>(null);
+  const pendingConfirmationRef = useRef<DAppConfirmationRequest | null>(null);
   const originRef = useRef<string | null>(null);
+
+  // Account info for confirmations
+  const currentAccount = useWalletStore(s => s.currentAccount);
+  const accounts = useWalletStore(s => s.accounts);
+
+  const accountId = useMemo(() => {
+    if (currentAccount?.publicKey) return currentAccount.publicKey;
+    if (accounts && accounts.length > 0) return accounts[0].publicKey;
+    return null;
+  }, [currentAccount, accounts]);
+
+  const shortAccountId = useMemo(() => {
+    if (!accountId) return '';
+    return `${accountId.slice(0, 10)}...${accountId.slice(-8)}`;
+  }, [accountId]);
+
+  // Keep a ref of accountId for use in callbacks that may be stale
+  const accountIdRef = useRef(accountId);
+  useEffect(() => {
+    accountIdRef.current = accountId;
+  }, [accountId]);
 
   // On mobile, use responsive dimensions (same pattern as Explore page)
   const containerStyle = isMobile()
@@ -56,22 +74,31 @@ const Browser: FC = () => {
       ? { height: '640px', width: '600px' }
       : { height: '600px', width: '360px' };
 
-  // Subscribe to confirmation store
+  // Subscribe to confirmation store and inject overlay when needed
   useEffect(() => {
     const unsubscribe = dappConfirmationStore.subscribe(() => {
       const request = dappConfirmationStore.getPendingRequest();
       if (request && isBrowserOpen) {
-        console.log('[Browser] Confirmation requested, closing browser for UI');
-        // Store the current URL and close the browser to show confirmation UI
-        pendingUrlRef.current = url;
-        setPendingConfirmation(request);
-        // Close the browser so user can see the confirmation modal
-        InAppBrowser.close().catch(e => console.error('[Browser] Error closing browser:', e));
-        setIsBrowserOpen(false);
+        console.log('[Browser] Confirmation requested, injecting overlay');
+        pendingConfirmationRef.current = request;
+
+        // Generate and inject the confirmation overlay into the webview
+        const overlayScript = generateConfirmationOverlayScript(request, shortAccountId, {
+          connectionRequest: t('dappConnectionRequest'),
+          account: t('account'),
+          network: t('network'),
+          noAccountSelected: t('noAccountSelected'),
+          deny: t('deny'),
+          approve: t('approve')
+        });
+
+        InAppBrowser.executeScript({ code: overlayScript }).catch(e =>
+          console.error('[Browser] Error injecting confirmation overlay:', e)
+        );
       }
     });
     return unsubscribe;
-  }, [isBrowserOpen, url]);
+  }, [isBrowserOpen, shortAccountId, t]);
 
   const normalizeUrl = useCallback((inputUrl: string): string => {
     let normalized = inputUrl.trim();
@@ -112,9 +139,28 @@ const Browser: FC = () => {
           try {
             // The event uses 'detail' property per @capgo/inappbrowser types
             const eventData = event.detail || event;
-            const message: WebViewMessage =
-              typeof eventData === 'string' ? JSON.parse(eventData) : (eventData as WebViewMessage);
-            const response = await handleWebViewMessage(message, origin);
+            const message = typeof eventData === 'string' ? JSON.parse(eventData) : eventData;
+
+            // Handle confirmation response from injected overlay
+            if (message.type === 'MIDEN_CONFIRMATION_RESPONSE') {
+              console.log('[Browser] Confirmation response:', message);
+              const pendingRequest = pendingConfirmationRef.current;
+              if (pendingRequest && message.requestId === pendingRequest.id) {
+                pendingConfirmationRef.current = null;
+                dappConfirmationStore.resolveConfirmation({
+                  confirmed: message.confirmed,
+                  accountPublicKey: message.confirmed ? accountIdRef.current || undefined : undefined,
+                  privateDataPermission: message.confirmed
+                    ? pendingRequest.privateDataPermission || PrivateDataPermission.UponRequest
+                    : undefined
+                });
+              }
+              return;
+            }
+
+            // Handle regular wallet messages
+            const walletMessage = message as WebViewMessage;
+            const response = await handleWebViewMessage(walletMessage, origin);
             await InAppBrowser.executeScript({
               code: `window.__midenWalletResponse(${JSON.stringify(JSON.stringify(response))});`
             });
@@ -175,31 +221,6 @@ const Browser: FC = () => {
       }
     },
     [normalizeUrl, t]
-  );
-
-  // Handle confirmation result
-  const handleConfirmationResult = useCallback(
-    async (result: DAppConfirmationResult) => {
-      console.log('[Browser] Confirmation result:', result);
-      const savedUrl = pendingUrlRef.current;
-
-      // Clear the pending confirmation
-      setPendingConfirmation(null);
-      pendingUrlRef.current = null;
-
-      // Resolve the confirmation in the store
-      dappConfirmationStore.resolveConfirmation(result);
-
-      // Reopen the browser with the same URL if user approved
-      // (we need to reopen regardless to send the response back to the DApp)
-      if (savedUrl) {
-        // Small delay to let the confirmation promise resolve
-        setTimeout(() => {
-          openBrowser(savedUrl, true);
-        }, 100);
-      }
-    },
-    [openBrowser]
   );
 
   const handleSubmit = useCallback(
@@ -305,9 +326,6 @@ const Browser: FC = () => {
       </div>
 
       <Footer />
-
-      {/* DApp Confirmation Modal */}
-      {pendingConfirmation && <DAppConnectionModal request={pendingConfirmation} onResult={handleConfirmationResult} />}
     </div>
   );
 };
