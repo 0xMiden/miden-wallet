@@ -1,0 +1,269 @@
+/**
+ * This script is injected into web pages loaded in the DApp browser.
+ * It creates a `window.midenWallet` object that DApps can use to interact with the wallet.
+ * Communication happens via webkit/android message handlers provided by Capacitor InAppBrowser.
+ */
+
+export const INJECTION_SCRIPT = `
+(function() {
+  if (window.midenWallet) return; // Already injected
+
+  // Simple EventEmitter implementation
+  class EventEmitter {
+    constructor() {
+      this._events = {};
+    }
+    on(event, listener) {
+      if (!this._events[event]) this._events[event] = [];
+      this._events[event].push(listener);
+      return () => this.off(event, listener);
+    }
+    off(event, listener) {
+      if (!this._events[event]) return;
+      this._events[event] = this._events[event].filter(l => l !== listener);
+    }
+    emit(event, ...args) {
+      if (!this._events[event]) return;
+      this._events[event].forEach(listener => listener(...args));
+    }
+  }
+
+  // Pending requests map
+  const pendingRequests = new Map();
+  let requestId = 0;
+
+  // Send message to native app
+  function sendToNative(type, payload, reqId) {
+    const message = JSON.stringify({ type, payload, reqId });
+
+    // Try webkit (iOS)
+    if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.midenWallet) {
+      window.webkit.messageHandlers.midenWallet.postMessage(message);
+      return;
+    }
+
+    // Try Android
+    if (window.midenWalletNative && window.midenWalletNative.postMessage) {
+      window.midenWalletNative.postMessage(message);
+      return;
+    }
+
+    // Fallback: use window.postMessage for testing in regular browser
+    window.postMessage({ __midenNative: true, type, payload, reqId }, '*');
+  }
+
+  // Make request to wallet
+  function request(payload) {
+    return new Promise((resolve, reject) => {
+      const reqId = 'req_' + (++requestId);
+      pendingRequests.set(reqId, { resolve, reject });
+      sendToNative('MIDEN_PAGE_REQUEST', payload, reqId);
+
+      // Timeout after 5 minutes (for long operations like proof generation)
+      setTimeout(() => {
+        if (pendingRequests.has(reqId)) {
+          pendingRequests.delete(reqId);
+          reject(new Error('Request timeout'));
+        }
+      }, 300000);
+    });
+  }
+
+  // Handle response from native app
+  window.__midenWalletResponse = function(responseStr) {
+    try {
+      const response = typeof responseStr === 'string' ? JSON.parse(responseStr) : responseStr;
+      const { type, payload, reqId, error } = response;
+
+      const pending = pendingRequests.get(reqId);
+      if (!pending) return;
+
+      pendingRequests.delete(reqId);
+
+      if (type === 'MIDEN_PAGE_ERROR_RESPONSE' || error) {
+        pending.reject(new Error(error || payload || 'Unknown error'));
+      } else {
+        pending.resolve(payload);
+      }
+    } catch (e) {
+      console.error('[MidenWallet] Error handling response:', e);
+    }
+  };
+
+  // Helper functions
+  function b64ToU8(b64) {
+    const binary = atob(b64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    return bytes;
+  }
+
+  function u8ToB64(u8) {
+    let binary = '';
+    for (let i = 0; i < u8.length; i++) {
+      binary += String.fromCharCode(u8[i]);
+    }
+    return btoa(binary);
+  }
+
+  function bytesToHex(bytes) {
+    return Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  // MidenWallet class
+  class MidenWallet extends EventEmitter {
+    constructor() {
+      super();
+      this.address = undefined;
+      this.publicKey = undefined;
+      this.permission = undefined;
+      this.appName = undefined;
+      this.network = undefined;
+    }
+
+    async isAvailable() {
+      try {
+        const res = await request('PING');
+        return res === 'PONG';
+      } catch {
+        return false;
+      }
+    }
+
+    async connect(privateDataPermission, network, allowedPrivateData) {
+      const res = await request({
+        type: 'PERMISSION_REQUEST',
+        appMeta: { name: window.location.hostname },
+        force: false,
+        privateDataPermission,
+        network,
+        allowedPrivateData
+      });
+
+      this.permission = {
+        rpc: res.network,
+        address: res.accountId,
+        privateDataPermission: res.privateDataPermission,
+        allowedPrivateData: res.allowedPrivateData
+      };
+      this.address = res.accountId;
+      this.network = network;
+      this.publicKey = b64ToU8(res.publicKey);
+
+      return this.permission;
+    }
+
+    async disconnect() {
+      await request({ type: 'DISCONNECT_REQUEST' });
+      this.address = undefined;
+      this.permission = undefined;
+      this.publicKey = undefined;
+    }
+
+    async requestSend(transaction) {
+      const res = await request({
+        type: 'SEND_TRANSACTION_REQUEST',
+        sourcePublicKey: this.address,
+        transaction
+      });
+      return { transactionId: res.transactionId };
+    }
+
+    async requestConsume(transaction) {
+      const res = await request({
+        type: 'CONSUME_REQUEST',
+        sourcePublicKey: this.address,
+        transaction
+      });
+      return { transactionId: res.transactionId };
+    }
+
+    async requestTransaction(transaction) {
+      const res = await request({
+        type: 'TRANSACTION_REQUEST',
+        sourcePublicKey: this.address,
+        transaction
+      });
+      return { transactionId: res.transactionId };
+    }
+
+    async requestPrivateNotes(notefilterType, noteIds) {
+      const res = await request({
+        type: 'PRIVATE_NOTES_REQUEST',
+        sourcePublicKey: this.address,
+        notefilterType,
+        noteIds
+      });
+      return { privateNotes: res.privateNotes };
+    }
+
+    async waitForTransaction(txId) {
+      const res = await request({
+        type: 'WAIT_FOR_TRANSACTION_REQUEST',
+        txId
+      });
+      return res.transactionOutput;
+    }
+
+    async signBytes(data, kind) {
+      const publicKeyAsHex = bytesToHex(this.publicKey);
+      const messageAsB64 = u8ToB64(data);
+
+      const res = await request({
+        type: 'SIGN_REQUEST',
+        sourceAccountId: this.address,
+        sourcePublicKey: publicKeyAsHex,
+        payload: messageAsB64,
+        kind
+      });
+
+      return { signature: b64ToU8(res.signature) };
+    }
+
+    async importPrivateNote(note) {
+      const noteAsB64 = u8ToB64(note);
+
+      const res = await request({
+        type: 'IMPORT_PRIVATE_NOTE_REQUEST',
+        sourcePublicKey: this.address,
+        note: noteAsB64
+      });
+
+      return { noteId: res.noteId };
+    }
+
+    async requestAssets() {
+      const res = await request({
+        type: 'ASSETS_REQUEST',
+        sourcePublicKey: this.address
+      });
+      return { assets: res.assets };
+    }
+
+    async requestConsumableNotes() {
+      const res = await request({
+        type: 'CONSUMABLE_NOTES_REQUEST',
+        sourcePublicKey: this.address
+      });
+      return { consumableNotes: res.consumableNotes };
+    }
+  }
+
+  // Create and expose the wallet instance
+  const midenWallet = new MidenWallet();
+
+  try {
+    Object.defineProperty(window, 'midenWallet', {
+      value: midenWallet,
+      writable: false,
+      configurable: false
+    });
+  } catch (e) {
+    window.midenWallet = midenWallet;
+  }
+
+  console.log('[MidenWallet] Wallet adapter injected');
+})();
+`;

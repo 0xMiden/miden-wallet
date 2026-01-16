@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { IconName } from 'app/icons/v2';
 import { FooterIconWrapper } from 'components/FooterIconWrapper';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
+import { isMobile } from 'lib/platform';
 
 interface FooterProps {
   activityBadge?: boolean;
@@ -12,6 +13,10 @@ const Footer: FC<FooterProps> = ({ activityBadge }) => {
   const { trackEvent } = useAnalytics();
   const onSettingsClick = () => {
     trackEvent('Footer/Settings', AnalyticsEventCategory.ButtonPress, { type: 'settings' });
+  };
+
+  const onBrowserClick = () => {
+    trackEvent('Footer/Browser', AnalyticsEventCategory.ButtonPress, { type: 'browser' });
   };
 
   const onHomeClick = () => {
@@ -39,6 +44,14 @@ const Footer: FC<FooterProps> = ({ activityBadge }) => {
           linkTo={'/settings'}
           onClick={onSettingsClick}
         />
+        {isMobile() && (
+          <FooterIconWrapper
+            icon={IconName.Globe}
+            iconFill={IconName.GlobalFill}
+            linkTo={'/browser'}
+            onClick={onBrowserClick}
+          />
+        )}
       </div>
     </footer>
   );

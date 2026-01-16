@@ -452,5 +452,11 @@
   "andWord": "and",
   "enterDecryptionPassword": "Enter the password you set when exporting your wallet. This will decrypt the file and restore access.",
   "first": "First",
-  "last": "Last"
+  "last": "Last",
+  "dappBrowser": "DApp Browser",
+  "dappBrowserComingSoon": "Coming soon",
+  "dappBrowserDescription": "Browse decentralized apps and connect your wallet securely",
+  "enterUrl": "Enter URL or search",
+  "go": "Go",
+  "recentSites": "Recent"
 }

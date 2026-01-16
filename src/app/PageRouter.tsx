@@ -18,6 +18,7 @@ import { SendFlow } from 'screens/send-flow/SendManager';
 
 import RootSuspenseFallback from './a11y/RootSuspenseFallback';
 import AllActivity from './pages/AllActivity';
+import Browser from './pages/Browser';
 import EditAccountName from './pages/EditAccountName';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import ForgotPasswordInfo from './pages/ForgotPassword/ForgotPasswordInfo';
@@ -100,6 +101,7 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   ['/manage-assets/:assetType?', onlyReady(({ assetType }) => <ManageAssets assetType={assetType!} />)],
   ['/send', onlyReady(() => <SendFlow isLoading={false} />)],
   ['/settings/:tabSlug?', onlyReady(({ tabSlug }) => <Settings tabSlug={tabSlug} />)],
+  ['/browser', onlyReady(() => <Browser />)],
   ['/encrypted-wallet-file', onlyReady(() => <EncryptedFileFlow />)],
   ['/generating-transaction', onlyReady(() => <GeneratingTransactionPage />)],
   ['/generating-transaction-full', onlyReady(() => <GeneratingTransactionPage keepOpen={true} />)],

@@ -1194,6 +1194,11 @@
   resolved "https://registry.yarnpkg.com/@capacitor/preferences/-/preferences-8.0.0.tgz#43fa0b7c538bc0ad9b8625b457cba2a8835bb14e"
   integrity sha512-NsE7Srk9Zr0SxiVelHGiAJR7M238eyCD6dI/sDhu3ckKwFrXn8/GRyGr+SZcnGLlQKy948li8Pfcfr0dqxNf1g==
 
+"@capgo/inappbrowser@^8.0.6":
+  version "8.0.6"
+  resolved "https://registry.yarnpkg.com/@capgo/inappbrowser/-/inappbrowser-8.0.6.tgz#b9d5f241748b56634c0af9e88006186990ed521f"
+  integrity sha512-OTVM9p+zvhtPbjUjMJQNx3gLRigTLUBqvfQqYy4yOKFCRJvTVd/jdYbr9Xhe9GDO9JJzbCsVOPOAQloUvEcsUA==
+
 "@chromatic-com/storybook@^1.5.0":
   version "1.9.0"
   resolved "https://registry.npmjs.org/@chromatic-com/storybook/-/storybook-1.9.0.tgz"

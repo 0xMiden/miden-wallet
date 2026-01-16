@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
 
 import classNames from 'clsx';
+import { createPortal } from 'react-dom';
 import Modal from 'react-modal';
 
 import { safeGenerateTransactionsLoop as dbTransactionsLoop, getAllUncompletedTransactions } from 'lib/miden/activity';
