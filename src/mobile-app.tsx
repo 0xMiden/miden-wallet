@@ -1,8 +1,8 @@
 import './main.css';
 
-import { Capacitor } from '@capacitor/core';
 import React from 'react';
 
+import { Capacitor } from '@capacitor/core';
 import { createRoot } from 'react-dom/client';
 
 import App from 'app/App';

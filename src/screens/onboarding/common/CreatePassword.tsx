@@ -3,8 +3,11 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
+import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { MIN_PASSWORD_LENGTH, STRONG_PASSWORD_LENGTH } from 'app/constants';
 import { Icon, IconName } from 'app/icons/v2';
+import { checkBiometricAvailability, BiometricAvailability } from 'lib/biometric';
+import { isMobile } from 'lib/platform';
 import { Button } from 'components/Button';
 import { Input } from 'components/Input';
 import { Link } from 'components/Link';
@@ -22,7 +25,7 @@ const lettersNumbersMixtureRegx = /(?=.*\d)(?=.*[A-Za-z])/;
 const specialCharacterRegx = /[!@#$%^&*()_+\-=\]{};':"\\|,.<>?]/;
 
 export interface CreatePasswordScreenProps extends Omit<React.ButtonHTMLAttributes<HTMLDivElement>, 'onSubmit'> {
-  onSubmit?: (password: string) => void;
+  onSubmit?: (password: string, enableBiometric: boolean) => void;
 }
 
 export const PasswordStrengthIndicator = ({
@@ -100,6 +103,46 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
   });
   const verifyPasswordRef = useRef<HTMLInputElement>(null);
 
+  // Biometric state - only used on mobile
+  const [biometricAvailable, setBiometricAvailable] = useState(false);
+  const [biometricType, setBiometricType] = useState<BiometricAvailability['biometryType']>('none');
+  const [enableBiometric, setEnableBiometric] = useState(false);
+
+  // Check biometric availability on mount (mobile only)
+  useEffect(() => {
+    const checkBiometric = async () => {
+      console.log('[CreatePassword] Checking biometric, isMobile:', isMobile());
+      if (!isMobile()) {
+        console.log('[CreatePassword] Not mobile, skipping biometric check');
+        return;
+      }
+
+      try {
+        const availability = await checkBiometricAvailability();
+        console.log('[CreatePassword] Biometric availability:', availability);
+        setBiometricAvailable(availability.isAvailable);
+        setBiometricType(availability.biometryType);
+        // Default to enabled if available
+        setEnableBiometric(availability.isAvailable);
+      } catch (err) {
+        console.error('[CreatePassword] Error checking biometric:', err);
+      }
+    };
+    checkBiometric();
+  }, []);
+
+  // Get biometric label based on type
+  const getBiometricLabel = useCallback(() => {
+    switch (biometricType) {
+      case 'face':
+        return t('faceId');
+      case 'fingerprint':
+        return t('fingerprint');
+      default:
+        return t('biometricUnlock');
+    }
+  }, [biometricType, t]);
+
   const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
@@ -128,9 +171,9 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
 
   const onPasswordSubmit = useCallback(() => {
     if (isValidPassword && onSubmit) {
-      onSubmit(password);
+      onSubmit(password, enableBiometric);
     }
-  }, [isValidPassword, onSubmit, password]);
+  }, [isValidPassword, onSubmit, password, enableBiometric]);
 
   const onPasswordVisibilityToggle = useCallback(() => {
     setIsPasswordVisible(prev => !prev);
@@ -209,6 +252,24 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
             {t('passwordsDoNotMatch')}
           </p>
         </div>
+
+        {/* Biometric toggle - only shown on mobile when available */}
+        {biometricAvailable && (
+          <div className="flex items-center justify-between w-[360px] mt-4 p-4 bg-grey-50 rounded-lg">
+            <div className="flex items-center gap-3">
+              <Icon name={IconName.FaceId} size="md" className="text-primary-500" />
+              <div className="flex flex-col">
+                <span className="text-sm font-medium">{getBiometricLabel()}</span>
+                <span className="text-xs text-grey-600">{t('biometricSetupSubtitle')}</span>
+              </div>
+            </div>
+            <ToggleSwitch
+              checked={enableBiometric}
+              onChange={e => setEnableBiometric(e.target.checked)}
+              name="enableBiometric"
+            />
+          </div>
+        )}
       </article>
       <div className="w-[360px] flex flex-col gap-2 self-center">
         <Button title={t('continue')} disabled={!isValidPassword} onClick={onPasswordSubmit} />

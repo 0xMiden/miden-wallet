@@ -6,5 +6,6 @@ export enum GeneralSettingsSelectors {
   LockUpToggle = 'General Settings/LockUpToggle',
   PopupToggle = 'General Settings/PopupToggle',
   AutoCloseToggle = 'General Settings/AutoCloseToggle',
-  AutoConsumeToggle = 'General Settings/AutoConsumeToggle'
+  AutoConsumeToggle = 'General Settings/AutoConsumeToggle',
+  BiometricToggle = 'General Settings/BiometricToggle'
 }
