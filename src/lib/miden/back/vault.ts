@@ -143,23 +143,21 @@ export class Vault {
         // Have to do this sequentially else the wasm fails
         for (const accountHeader of accountHeaders) {
           const account = await midenClient.getAccount(getBech32AddressFromAccountId(accountHeader.id()));
+          if (!account || account.isFaucet()) {
+            continue;
+          }
           accts.push(account);
         }
         return accts;
       });
 
-      const newAccounts = [];
-      for (let i = 0; i < accounts.length; i++) {
-        const acc = accounts[i];
-        if (acc) {
-          newAccounts.push({
-            publicKey: getBech32AddressFromAccountId(acc.id()),
-            name: 'Miden Account ' + (i + 1),
-            isPublic: acc.isPublic(),
-            type: WalletType.OnChain
-          });
-        }
-      }
+      const newAccounts = accounts.map((acc, i) => ({
+        publicKey: getBech32AddressFromAccountId(acc.id()),
+        name: 'Miden Account ' + (i + 1),
+        isPublic: acc.isPublic(),
+        type: WalletType.OnChain
+      }));
+
       const passKey = await Passworder.generateKey(password);
 
       await clearStorage(false);
