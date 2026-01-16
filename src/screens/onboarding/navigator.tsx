@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Icon, IconName } from 'app/icons/v2';
 import { CircleButton } from 'components/CircleButton';
 import { ProgressIndicator } from 'components/ProgressIndicator';
+import { isMobile } from 'lib/platform';
 
 import { ConfirmationScreen } from './common/Confirmation';
 import { CreatePasswordScreen } from './common/CreatePassword';
@@ -181,18 +182,18 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
     onAction?.({ id: 'back' });
   };
 
+  const mobile = isMobile();
+
   return (
     <div
       className={classNames(
-        'w-[37.5rem] h-[40rem] mx-auto',
-        'border border-gray-100',
         'flex flex-col',
-        'rounded-3xl',
         'bg-white',
-        'overflow-hidden'
+        'overflow-hidden',
+        mobile ? 'w-full h-full' : 'w-[37.5rem] h-[40rem] mx-auto border border-gray-100 rounded-3xl'
       )}
     >
-      <div className="h-full w-full">
+      <div className="flex-1 flex flex-col">
         <AnimatePresence mode={'wait'} initial={false}>
           {step !== OnboardingStep.Confirmation && step !== OnboardingStep.SelectTransactionType && (
             <Header onBack={onBack} step={step} onboardingType={onboardingType} key={'header'} />
@@ -200,7 +201,7 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
         </AnimatePresence>
         <AnimatePresence mode={'wait'} initial={false}>
           <motion.div
-            className="h-full"
+            className="flex-1 flex flex-col"
             key={step}
             initial="initialState"
             animate="animateState"

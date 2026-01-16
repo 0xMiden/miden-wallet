@@ -1,6 +1,9 @@
 import React, { FC } from 'react';
 
+import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
+
+import { isMobile } from 'lib/platform';
 
 interface OnboardingViewProps {
   renderHeader: () => JSX.Element;
@@ -10,14 +13,22 @@ interface OnboardingViewProps {
 }
 
 const OnboardingView: FC<OnboardingViewProps> = ({ renderHeader, renderStep, step, navigationDirection }) => {
+  const mobile = isMobile();
+
   return (
-    <div className="w-[37.5rem] h-[40rem] border border-gray-100 mx-auto flex flex-col bg-white rounded-3xl overflow-hidden">
+    <div
+      className={clsx(
+        'flex flex-col bg-white overflow-hidden',
+        mobile ? 'w-full h-full' : 'w-[37.5rem] h-[40rem] border border-gray-100 mx-auto rounded-3xl'
+      )}
+    >
       <AnimatePresence mode={'wait'} initial={false}>
         {renderHeader()}
       </AnimatePresence>
       <AnimatePresence mode={'wait'} initial={false}>
         <motion.div
           key={step}
+          className="flex-1 flex flex-col"
           initial="initialState"
           animate="animateState"
           exit="exitState"
