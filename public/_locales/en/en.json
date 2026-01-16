@@ -459,5 +459,6 @@
   "enterUrl": "Enter URL or search",
   "go": "Go",
   "recentSites": "Recent",
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "favourites": "Favourites"
 }

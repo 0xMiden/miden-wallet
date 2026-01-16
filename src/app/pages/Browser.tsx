@@ -7,11 +7,28 @@ import { useAppEnv } from 'app/env';
 import { Icon, IconName } from 'app/icons/v2';
 import Footer from 'app/layouts/PageLayout/Footer';
 import Header from 'app/layouts/PageLayout/Header';
+import faucetIcon from 'app/misc/dapp-icons/faucet.png';
+import midenIcon from 'app/misc/dapp-icons/miden.png';
+import xIcon from 'app/misc/dapp-icons/x.png';
+import zoroIcon from 'app/misc/dapp-icons/zoro.png';
 import { INJECTION_SCRIPT } from 'lib/dapp-browser/injection-script';
 import { handleWebViewMessage, WebViewMessage } from 'lib/dapp-browser/message-handler';
 import { isMobile } from 'lib/platform';
 
 const DEFAULT_URL = 'https://';
+
+interface Favourite {
+  name: string;
+  url: string;
+  icon: string;
+}
+
+const FAVOURITES: Favourite[] = [
+  { name: 'Miden', url: 'https://miden.xyz', icon: midenIcon },
+  { name: 'Zoro', url: 'https://app.zoroswap.com/', icon: zoroIcon },
+  { name: 'Faucet', url: 'https://faucet.testnet.miden.io/', icon: faucetIcon },
+  { name: 'Miden X', url: 'https://x.com/0xMiden', icon: xIcon }
+];
 
 const Browser: FC = () => {
   const { t } = useTranslation();
@@ -208,6 +225,25 @@ const Browser: FC = () => {
           </div>
         )}
       </main>
+
+      {/* Favourites Section */}
+      <div className="flex-none px-4 pb-4">
+        <h3 className="text-sm font-medium text-grey-500 mb-3">{t('favourites')}</h3>
+        <div className="grid grid-cols-4 gap-4">
+          {FAVOURITES.map(fav => (
+            <button
+              key={fav.url}
+              onClick={() => openBrowser(fav.url)}
+              className="flex flex-col items-center gap-1.5 p-2 rounded-xl hover:bg-grey-50 active:bg-grey-100 transition-colors"
+            >
+              <div className="w-12 h-12 rounded-xl bg-grey-100 flex items-center justify-center overflow-hidden">
+                <img src={fav.icon} alt={fav.name} className="w-8 h-8 object-contain" />
+              </div>
+              <span className="text-xs text-grey-600 text-center truncate w-full">{fav.name}</span>
+            </button>
+          ))}
+        </div>
+      </div>
 
       <Footer />
     </div>
