@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 
+import { Directory, Encoding, Filesystem } from '@capacitor/filesystem';
+import { Share } from '@capacitor/share';
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
@@ -8,6 +10,7 @@ import { Icon, IconName } from 'app/icons/v2';
 import { Alert, AlertVariant } from 'components/Alert';
 import { Button, ButtonVariant } from 'components/Button';
 import { useMidenContext } from 'lib/miden/front';
+import { isMobile } from 'lib/platform';
 import { deriveKey, encrypt, encryptJson, generateKey, generateSalt } from 'lib/miden/passworder';
 import { exportDb } from 'lib/miden/repo';
 import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
@@ -63,32 +66,43 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({
       encryptedPasswordCheck
     };
 
-    const encoder = new TextEncoder();
-    // TODO: Type the top level json fields here
-    const fileBytes = encoder.encode(JSON.stringify(encryptedWalletFile));
+    const fileContent = JSON.stringify(encryptedWalletFile);
+    const fullFileName = `${fileName}${EXTENSION}`;
 
-    const blob = new Blob([new Uint8Array(fileBytes)], { type: 'application/json' });
+    if (isMobile()) {
+      // On mobile, write to cache directory and share
+      try {
+        const result = await Filesystem.writeFile({
+          path: fullFileName,
+          data: fileContent,
+          directory: Directory.Cache,
+          encoding: Encoding.UTF8
+        });
 
-    // Create a URL for the Blob
-    const url = URL.createObjectURL(blob);
+        await Share.share({
+          title: fullFileName,
+          url: result.uri,
+          dialogTitle: t('saveEncryptedWalletFile')
+        });
+      } catch (error) {
+        console.error('Failed to export file on mobile:', error);
+      }
+    } else {
+      // On desktop, use standard download approach
+      const encoder = new TextEncoder();
+      const fileBytes = encoder.encode(fileContent);
+      const blob = new Blob([new Uint8Array(fileBytes)], { type: 'application/json' });
 
-    // Create a temporary anchor element
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${fileName}${EXTENSION}`;
-
-    // Append the anchor to the document
-    document.body.appendChild(a);
-
-    // Programmatically click the anchor to trigger the download
-    a.click();
-
-    // Remove the anchor from the document
-    document.body.removeChild(a);
-
-    // Revoke the object URL to free up resources
-    URL.revokeObjectURL(url);
-  }, [walletPassword, filePassword, fileName, revealMnemonic]);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fullFileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  }, [walletPassword, filePassword, fileName, revealMnemonic, t]);
 
   useEffect(() => {
     getExportFile();

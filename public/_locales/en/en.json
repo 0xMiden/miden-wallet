@@ -332,6 +332,7 @@
   "autoConsumeSettingsDescription": "Auto Consume will automatically consume notes from the official Miden Faucet.",
   "encryptedWalletFileExported": "Encrypted Wallet File Exported",
   "encryptedWalletFileExportedDescription": "Your encrypted wallet file has been downloaded. Keep it and your password safe, as losing them means losing access to your wallet.",
+  "saveEncryptedWalletFile": "Save Encrypted Wallet File",
   "doNotShareEncryptedWalletFile": "Do not share your Encrypted Wallet File!",
   "permissionLabel": "Private Data Permission",
   "confirmPrivateDataPermissionDescription": "This will give permanent access to your account data and cannot be revoked.",
