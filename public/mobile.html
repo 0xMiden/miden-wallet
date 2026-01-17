@@ -17,6 +17,19 @@
         overflow-x: hidden;
       }
 
+      /* Text rendering improvements */
+      html {
+        -webkit-text-size-adjust: 100%;
+        -moz-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+      }
+
       /* Safe area padding for notched devices */
       body {
         padding-top: env(safe-area-inset-top);
