@@ -311,20 +311,15 @@ export class Vault {
   }
 
   async signTransaction(publicKey: string, signingInputs: string): Promise<string> {
-    try {
-      const secretKey = await fetchAndDecryptOneWithLegacyFallBack<string>(
-        accAuthSecretKeyStrgKey(publicKey),
-        this.passKey
-      );
-      let secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
-      const wasmSigningInputs = SigningInputs.deserialize(new Uint8Array(Buffer.from(signingInputs, 'hex')));
-      const wasmSecretKey = SecretKey.deserialize(secretKeyBytes);
-      const signature = wasmSecretKey.signData(wasmSigningInputs);
-      return Buffer.from(signature.serialize()).toString('hex');
-    } catch (e) {
-      console.error('Error signing transaction in vault', e);
-      throw e;
-    }
+    const secretKey = await fetchAndDecryptOneWithLegacyFallBack<string>(
+      accAuthSecretKeyStrgKey(publicKey),
+      this.passKey
+    );
+    let secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
+    const wasmSigningInputs = SigningInputs.deserialize(new Uint8Array(Buffer.from(signingInputs, 'hex')));
+    const wasmSecretKey = SecretKey.deserialize(secretKeyBytes);
+    const signature = wasmSecretKey.signData(wasmSigningInputs);
+    return Buffer.from(signature.serialize()).toString('hex');
   }
 
   async getAuthSecretKey(key: string) {
