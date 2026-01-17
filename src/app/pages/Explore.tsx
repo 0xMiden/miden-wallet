@@ -15,8 +15,8 @@ import { ChainInstabilityBanner } from 'components/ChainInstabilityBanner';
 import { ConnectivityIssueBanner } from 'components/ConnectivityIssueBanner';
 import { TestIDProps } from 'lib/analytics';
 import { MIDEN_NETWORK_NAME, MIDEN_FAUCET_ENDPOINTS } from 'lib/miden-chain/constants';
-import { hasQueuedTransactions, initiateConsumeTransaction } from 'lib/miden/activity';
-import { setFaucetIdSetting, useAccount, useAllBalances, useAllTokensBaseMetadata } from 'lib/miden/front';
+import { hasQueuedTransactions, initiateConsumeTransaction, startBackgroundTransactionProcessing } from 'lib/miden/activity';
+import { setFaucetIdSetting, useAccount, useAllBalances, useAllTokensBaseMetadata, useMidenContext } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { isMobile } from 'lib/platform';
 import { isAutoConsumeEnabled, isDelegateProofEnabled } from 'lib/settings/helpers';
@@ -39,6 +39,7 @@ const Explore: FC = () => {
   };
   const account = useAccount();
   const midenFaucetId = useMidenFaucetId();
+  const { signTransaction } = useMidenContext();
 
   const allTokensBaseMetadata = useAllTokensBaseMetadata();
   // Call useAllBalances before useClaimableNotes - balance fetch is fast (~5ms)
@@ -78,20 +79,28 @@ const Explore: FC = () => {
       return;
     }
 
-    const promises = midenNotes!.map(async note => {
-      if (!note.isBeingClaimed) {
-        await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
-      }
+    // Filter to only notes not already being claimed
+    const notesToClaim = midenNotes!.filter(note => !note.isBeingClaimed);
+    if (notesToClaim.length === 0) {
+      return;
+    }
+
+    const promises = notesToClaim.map(async note => {
+      await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
     });
     await Promise.all(promises);
     mutateClaimableNotes();
+
+    // Process auto-consume transactions silently in the background (no modal/tab)
+    startBackgroundTransactionProcessing(signTransaction);
   }, [
     midenNotes,
     isDelegatedProvingEnabled,
     mutateClaimableNotes,
     account.publicKey,
     shouldAutoConsume,
-    hasAutoConsumableNotes
+    hasAutoConsumableNotes,
+    signTransaction
   ]);
 
   useEffect(() => {
