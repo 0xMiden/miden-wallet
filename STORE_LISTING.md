@@ -190,6 +190,50 @@ The app requires network connectivity to sync with the Miden blockchain for send
 
 ---
 
+## Release Build Commands
+
+### Android
+
+```bash
+# 1. Generate release keystore (one-time)
+yarn mobile:android:keystore
+
+# 2. Create keystore.properties (copy from example and fill in)
+cp android/keystore.properties.example android/keystore.properties
+# Edit android/keystore.properties with your passwords
+
+# 3. Build release AAB (for Play Store)
+yarn mobile:android:release
+
+# 4. Or build release APK (for direct distribution)
+yarn mobile:android:release:apk
+```
+
+Output locations:
+- AAB: `android/app/build/outputs/bundle/release/app-release.aab`
+- APK: `android/app/build/outputs/apk/release/app-release.apk`
+
+### iOS
+
+```bash
+# 1. Update ExportOptions.plist with your Team ID
+# Edit ios/App/ExportOptions.plist
+
+# 2. Build release archive
+yarn mobile:ios:release
+
+# 3. Export for App Store (requires valid signing)
+yarn mobile:ios:export
+```
+
+Output locations:
+- Archive: `ios/App/build/MidenWallet.xcarchive`
+- Export: `ios/App/build/export/`
+
+Alternatively, open Xcode and use Product > Archive for a GUI workflow.
+
+---
+
 ## Checklist Before Submission
 
 ### iOS App Store

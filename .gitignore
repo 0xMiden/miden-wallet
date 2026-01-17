@@ -55,3 +55,11 @@ DerivedData
 # Xcode generated
 ios/App/App.xcworkspace/
 ios/App/App.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+
+# Android release signing
+android/keystore.properties
+android/app/*.keystore
+android/app/*.jks
+
+# iOS build artifacts
+ios/App/build/
