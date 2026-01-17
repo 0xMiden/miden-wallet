@@ -14,6 +14,12 @@ const config: CapacitorConfig = {
   plugins: {
     Preferences: {
       // No special config needed
+    },
+    Keyboard: {
+      // Prevent keyboard from pushing content - overlay instead
+      resize: 'none',
+      // Show accessory bar (Done button) on iOS
+      resizeOnFullScreen: true
     }
   }
 };

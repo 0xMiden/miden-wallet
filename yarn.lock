@@ -1196,6 +1196,11 @@
   resolved "https://registry.yarnpkg.com/@capacitor/ios/-/ios-8.0.1.tgz#ae9bb9ad821d25f480e531dfd24d7c4148773eb8"
   integrity sha512-pDxwQtx3n07DBhRKFGvYh4g00ruIsT7HxPm6IIT+tJD8VuTNgwgWYmEOZzfHkG6mZuCe03KqCsuD+aVmg5Rctg==
 
+"@capacitor/keyboard@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/keyboard/-/keyboard-8.0.0.tgz#d8706953dadbe7cac9e274da2fb8acfcd75e5e03"
+  integrity sha512-ycPW6iQyFwzDK95jihesj5EGiyyGSfbBqNek11iNp9tBOB7zDeYkUA2S/vPpOETt3dhP6pWr7a9gNVGuEfj11g==
+
 "@capacitor/preferences@^8.0.0":
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/@capacitor/preferences/-/preferences-8.0.0.tgz#43fa0b7c538bc0ad9b8625b457cba2a8835bb14e"

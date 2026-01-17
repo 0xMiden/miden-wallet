@@ -47,6 +47,7 @@
     "@capacitor/cli": "^8.0.1",
     "@capacitor/core": "^8.0.1",
     "@capacitor/ios": "^8.0.1",
+    "@capacitor/keyboard": "^8.0.0",
     "@capacitor/preferences": "^8.0.0",
     "@capgo/inappbrowser": "^8.0.6",
     "@demox-labs/aleo-hd-key": "^0.0.1",
