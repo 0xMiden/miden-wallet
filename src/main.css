@@ -90,6 +90,16 @@ button,
   appearance: none;
 }
 
+/**
+ * Fix sticky hover/tap states on touch devices.
+ */
+@media (hover: none) {
+  /* Remove tap highlight on mobile */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
 @tailwind components;
 
 @tailwind utilities;

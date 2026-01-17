@@ -269,7 +269,10 @@ const ActionButton: FC<ActionButtonProps> = ({
     <>
       <div className={classNames('mb-1 flex flex-col items-center', 'rounded-lg', 'pt-1')}>
         <div
-          className="py-1 flex flex-col justify-center bg-primary-500 hover:bg-primary-600"
+          className={classNames(
+            'py-1 flex flex-col justify-center bg-primary-500',
+            !isMobile() && 'hover:bg-primary-600'
+          )}
           style={{
             height: '48px',
             width: '48px',
