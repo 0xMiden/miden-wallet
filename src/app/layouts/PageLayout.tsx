@@ -194,7 +194,10 @@ const Toolbar: FC<ToolbarProps> = ({
         borderBottom: showBottomBorder ? '1px solid #E9EBEF' : 'none'
       }}
     >
-      <div className="flex justify-between w-full" style={{ paddingTop: isMobile() ? '24px' : '14px', paddingBottom: '14px' }}>
+      <div
+        className="flex justify-between w-full"
+        style={{ paddingTop: isMobile() ? '24px' : '14px', paddingBottom: '14px' }}
+      >
         {pageTitle && (
           <div
             className={classNames('flex items-center', 'text-black', 'text-right font-semibold leading-none')}

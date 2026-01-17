@@ -317,6 +317,21 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     clearErrors('recipientAddress');
   }, [onAction, clearErrors]);
 
+  const onScannedAddress = useCallback(
+    (address: string) => {
+      onAction({
+        id: SendFlowActionId.SetFormValues,
+        payload: { recipientAddress: address }
+      });
+      if (!isValidMidenAddress(address)) {
+        setError('recipientAddress', { type: 'manual', message: 'invalidMidenAccountId' });
+      } else {
+        clearErrors('recipientAddress');
+      }
+    },
+    [onAction, setError, clearErrors]
+  );
+
   const renderStep = useCallback(
     (route: Route) => {
       switch (route.name) {
@@ -329,6 +344,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
               isValidAddress={!errors.recipientAddress && validations.recipientAddress.isValidSync(recipientAddress)}
               error={errors.recipientAddress?.message?.toString()}
               onAddressChange={onAddressChange}
+              onScannedAddress={onScannedAddress}
               onYourAccounts={() => goToStep(SendFlowStep.AccountsList)}
               onGoNext={() => goToStep(SendFlowStep.SelectAmount)}
               onClear={onClearAddress}
@@ -383,6 +399,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       errors.recipientAddress,
       errors.amount,
       onAddressChange,
+      onScannedAddress,
       onClearAddress,
       onClose,
       goBack,

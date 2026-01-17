@@ -7,8 +7,8 @@ import FormField from 'app/atoms/FormField';
 import { openLoadingFullPage, useAppEnv } from 'app/env';
 import { Icon, IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
-import AddressChip from 'app/templates/AddressChip';
 import { Button, ButtonVariant } from 'components/Button';
+import { QRCode } from 'components/QRCode';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { getUncompletedTransactions, initiateConsumeTransaction, waitForConsumeTx } from 'lib/miden/activity';
 import { AssetMetadata, useAccount } from 'lib/miden/front';
@@ -29,7 +29,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const { t } = useTranslation();
   const account = useAccount();
   const address = account.publicKey;
-  const { fieldRef, copy } = useCopyToClipboard();
+  const { fieldRef, copy, copied } = useCopyToClipboard();
   const { data: claimableNotes, mutate: mutateClaimableNotes } = useClaimableNotes(address);
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
   const { popup } = useAppEnv();
@@ -216,29 +216,9 @@ export const Receive: React.FC<ReceiveProps> = () => {
         data-testid="receive-page"
       >
         <FormField ref={fieldRef} value={address} style={{ display: 'none' }} />
-        <div className="w-5/6 md:w-1/2 mx-auto pb-6 flex flex-col gap-y-2">
-          <p className="text-sm md:text-xs text-gray-400">{t('yourAddress')}</p>
-          <div className="flex items-center gap-x-1">
-            <div className="min-w-0 flex-1">
-              {popup ? (
-                <AddressChip address={address} trim={false} className="flex items-center text-sm" />
-              ) : (
-                <p className="text-sm break-all">{truncateAddress(address, true, 12, 4, 12)}</p>
-              )}
-            </div>
-            {!popup && (
-              <button
-                onClick={e => {
-                  e.currentTarget.blur();
-                  hapticLight();
-                  copy();
-                }}
-                className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-lg bg-grey-50 hover:bg-grey-100 transition duration-300 ease-in-out"
-              >
-                <Icon name={IconName.Copy} size="md" fill="black" />
-              </button>
-            )}
-          </div>
+        <div className="w-5/6 md:w-1/2 mx-auto pb-4 flex flex-col items-center">
+          <QRCode address={address} size={80} onCopy={copy} className="w-full" />
+          {copied && <p className="text-xs text-primary-500 mt-1 transition-opacity duration-200">{t('copied')}</p>}
         </div>
         <div className="w-5/6 md:w-1/2 mx-auto" style={{ borderBottom: '1px solid #E9EBEF' }}></div>
         <div className="flex flex-col justify-center items-center gap-y-2 p-6">

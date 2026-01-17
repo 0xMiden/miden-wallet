@@ -20,10 +20,7 @@ const AllActivity: FC<AllActivityProps> = ({ programId }) => {
   return (
     <PageLayout pageTitle={<>{t('activity')}</>} hasBackAction={false}>
       <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
-        <div
-          className={classNames('flex-1 min-h-0 overflow-y-auto', 'bg-white z-30 relative')}
-          ref={scrollParentRef}
-        >
+        <div className={classNames('flex-1 min-h-0 overflow-y-auto', 'bg-white z-30 relative')} ref={scrollParentRef}>
           <div className="px-4">
             <Activity
               address={account.publicKey}

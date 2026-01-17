@@ -37,7 +37,12 @@
   },
   "versionLabel": {
     "message": "version: $version$",
-    "englishSource": "version: $version$"
+    "englishSource": "version: $version$",
+    "placeholders": {
+      "version": {
+        "content": "$1"
+      }
+    }
   },
   "resetPermissionsConfirmation": {
     "message": "Are you sure you want to reset permissions for\n {{origin}}?",

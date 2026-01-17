@@ -5230,6 +5230,11 @@ canvas-renderer@~2.1.1:
   resolved "https://registry.npmjs.org/canvas-renderer/-/canvas-renderer-2.1.1.tgz"
   integrity sha512-/V0XetN7s1Mk3NO7x2wxPZYv0pLMQtGAhecuOuKR88beiYCUle1AbCcFZNLu+4NVzi9RVHS0rXtIgzPEaKidLw==
 
+capacitor-barcode-scanner@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/capacitor-barcode-scanner/-/capacitor-barcode-scanner-2.5.0.tgz#b37b533628ea5c2937dd6591981517155afbcab3"
+  integrity sha512-6BVbTZrtBS/nAGKTdb9VXm869AxjzNAQw0EJ3O0r4MHavD1mit98zedzFZ4EVqbBdxVMEwzF/xEn/gn93v5kqg==
+
 capacitor-native-biometric@^4.2.2:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/capacitor-native-biometric/-/capacitor-native-biometric-4.2.2.tgz#04c3cde40926b9eb4ab9f0c4c3194401d910795a"

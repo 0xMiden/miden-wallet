@@ -484,5 +484,11 @@
   "faceId": "Face ID",
   "touchId": "Touch ID",
   "fingerprint": "Fingerprint",
-  "biometricType": "Biometric Type"
+  "biometricType": "Biometric Type",
+  "scanQr": "Scan QR Code",
+  "Camera permission denied": "Camera permission denied",
+  "No QR code found": "No QR code found",
+  "Empty QR code": "Empty QR code",
+  "Invalid Miden address": "Invalid Miden address",
+  "Scan cancelled": "Scan cancelled"
 }

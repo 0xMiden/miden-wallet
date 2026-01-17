@@ -17,11 +17,13 @@
 		50B271D11FEDC1A000F3C39B /* public in Resources */ = {isa = PBXBuildFile; fileRef = 50B271D01FEDC1A000F3C39B /* public */; };
 		83CCE39C02FD0BF8DD39551F /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6B2865F76F213517CFCCD1 /* AppViewController.swift */; };
 		B54E83DC5BCCDB512256423A /* LocalBiometricPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A34DAD709C71D553F88951 /* LocalBiometricPlugin.swift */; };
+		C7D4E92A3F8B1C5D00A2B9E1 /* BarcodeScannerPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D4E92B3F8B1C5D00A2B9E2 /* BarcodeScannerPlugin.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1A6B2865F76F213517CFCCD1 /* AppViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
 		21A34DAD709C71D553F88951 /* LocalBiometricPlugin.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalBiometricPlugin.swift; sourceTree = "<group>"; };
+		C7D4E92B3F8B1C5D00A2B9E2 /* BarcodeScannerPlugin.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BarcodeScannerPlugin.swift; sourceTree = "<group>"; };
 		2FAD9762203C412B000D30F8 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
 		50379B222058CBB4000EE86E /* capacitor.config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = capacitor.config.json; sourceTree = "<group>"; };
 		504EC3041FED79650016851F /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,6 +79,7 @@
 				2FAD9762203C412B000D30F8 /* config.xml */,
 				50B271D01FEDC1A000F3C39B /* public */,
 				21A34DAD709C71D553F88951 /* LocalBiometricPlugin.swift */,
+				C7D4E92B3F8B1C5D00A2B9E2 /* BarcodeScannerPlugin.swift */,
 				1A6B2865F76F213517CFCCD1 /* AppViewController.swift */,
 				873F0344C8952CB5585102E0 /* App.entitlements */,
 			);
@@ -166,6 +169,7 @@
 			files = (
 				504EC3081FED79650016851F /* AppDelegate.swift in Sources */,
 				B54E83DC5BCCDB512256423A /* LocalBiometricPlugin.swift in Sources */,
+				C7D4E92A3F8B1C5D00A2B9E1 /* BarcodeScannerPlugin.swift in Sources */,
 				83CCE39C02FD0BF8DD39551F /* AppViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

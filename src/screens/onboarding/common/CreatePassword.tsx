@@ -6,11 +6,11 @@ import { useTranslation } from 'react-i18next';
 import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { MIN_PASSWORD_LENGTH, STRONG_PASSWORD_LENGTH } from 'app/constants';
 import { Icon, IconName } from 'app/icons/v2';
-import { checkBiometricAvailability, BiometricAvailability } from 'lib/biometric';
-import { isMobile } from 'lib/platform';
 import { Button } from 'components/Button';
 import { Input } from 'components/Input';
 import { Link } from 'components/Link';
+import { checkBiometricAvailability, BiometricAvailability } from 'lib/biometric';
+import { isMobile } from 'lib/platform';
 
 export interface PasswordValidation {
   minChar: boolean;

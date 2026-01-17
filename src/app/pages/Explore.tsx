@@ -16,10 +16,21 @@ import { ConnectivityIssueBanner } from 'components/ConnectivityIssueBanner';
 import { TestIDProps } from 'lib/analytics';
 import { MIDEN_NETWORK_NAME, MIDEN_FAUCET_ENDPOINTS } from 'lib/miden-chain/constants';
 import { getFaucetUrl } from 'lib/miden-chain/faucet';
-import { hasQueuedTransactions, initiateConsumeTransaction, startBackgroundTransactionProcessing } from 'lib/miden/activity';
-import { setFaucetIdSetting, useAccount, useAllBalances, useAllTokensBaseMetadata, useMidenContext, useNetwork } from 'lib/miden/front';
-import { openFaucetWebview } from 'lib/mobile/faucet-webview';
+import {
+  hasQueuedTransactions,
+  initiateConsumeTransaction,
+  startBackgroundTransactionProcessing
+} from 'lib/miden/activity';
+import {
+  setFaucetIdSetting,
+  useAccount,
+  useAllBalances,
+  useAllTokensBaseMetadata,
+  useMidenContext,
+  useNetwork
+} from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
+import { openFaucetWebview } from 'lib/mobile/faucet-webview';
 import { isMobile } from 'lib/platform';
 import { isAutoConsumeEnabled, isDelegateProofEnabled } from 'lib/settings/helpers';
 import { useRetryableSWR } from 'lib/swr';

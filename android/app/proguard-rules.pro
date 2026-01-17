@@ -62,6 +62,11 @@
 # Share plugin
 -keep class com.capacitorjs.plugins.share.** { *; }
 
+# Barcode scanning plugin
+-keep class com.niceforyou.barcodescanner.** { *; }
+-keep class com.niceforyou.capacitor.barcodescanner.** { *; }
+-keep class com.google.mlkit.vision.barcode.** { *; }
+
 # Don't warn about missing classes in optional dependencies
 -dontwarn org.conscrypt.**
 -dontwarn org.bouncycastle.**

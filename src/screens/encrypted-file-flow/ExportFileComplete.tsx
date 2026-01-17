@@ -10,10 +10,10 @@ import { Icon, IconName } from 'app/icons/v2';
 import { Alert, AlertVariant } from 'components/Alert';
 import { Button, ButtonVariant } from 'components/Button';
 import { useMidenContext } from 'lib/miden/front';
-import { isMobile } from 'lib/platform';
 import { deriveKey, encrypt, encryptJson, generateKey, generateSalt } from 'lib/miden/passworder';
 import { exportDb } from 'lib/miden/repo';
 import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
+import { isMobile } from 'lib/platform';
 import { EncryptedWalletFile, ENCRYPTED_WALLET_FILE_PASSWORD_CHECK, DecryptedWalletFile } from 'screens/shared';
 
 export interface ExportFileCompleteProps {

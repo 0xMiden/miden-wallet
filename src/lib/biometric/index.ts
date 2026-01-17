@@ -10,6 +10,7 @@
  */
 
 import { isMobile, isIOS } from 'lib/platform';
+
 import { LocalBiometric, LocalBiometricPlugin } from './localBiometricPlugin';
 
 // Storage key for biometric-protected vault credential

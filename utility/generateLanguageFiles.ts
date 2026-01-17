@@ -240,10 +240,18 @@ async function translateFile(code: string) {
   for (const key in englishFile) {
     const englishMessage = englishFile[key]; // en.json is flat: "key": "value"
     const newMessage = await translateSegment(englishMessage, code);
-    newFile[key] = {
+    const entry: any = {
       message: newMessage,
       englishSource: englishMessage
     };
+
+    // Add Chrome i18n placeholders if the message contains $placeholder$ patterns
+    const placeholders = generateChromePlaceholders(englishMessage);
+    if (placeholders) {
+      entry.placeholders = placeholders;
+    }
+
+    newFile[key] = entry;
   }
 
   // Post-process ALL entries to fix any technical terms that escaped protection
@@ -275,29 +283,40 @@ async function translateWithDiff(fileName: string, code: string, replaceFile: bo
     const englishMessage = englishFile[key]; // en.json is flat: "key": "value"
     const existingItem = existingFile[key];
 
+    // Generate Chrome i18n placeholders if needed
+    const placeholders = generateChromePlaceholders(englishMessage);
+
     if (!existingItem) {
       // Missing translation - translate it
       console.log(`Translating "${key}" (missing)`);
       const newMessage = await translateSegment(englishMessage, code);
-      newFile[key] = {
+      const entry: any = {
         message: newMessage,
         englishSource: englishMessage
       };
+      if (placeholders) entry.placeholders = placeholders;
+      newFile[key] = entry;
     } else if (!existingItem.englishSource) {
       // Existing translation without englishSource - add it without re-translating
       // (one-time migration for existing translations)
-      newFile[key] = { ...existingItem, englishSource: englishMessage };
+      const entry: any = { ...existingItem, englishSource: englishMessage };
+      if (placeholders) entry.placeholders = placeholders;
+      newFile[key] = entry;
     } else if (existingItem.englishSource !== englishMessage) {
       // English source has changed - re-translate
       console.log(`Translating "${key}" (English changed)`);
       const newMessage = await translateSegment(englishMessage, code);
-      newFile[key] = {
+      const entry: any = {
         message: newMessage,
         englishSource: englishMessage
       };
+      if (placeholders) entry.placeholders = placeholders;
+      newFile[key] = entry;
     } else {
-      // Translation is up to date
-      newFile[key] = existingItem;
+      // Translation is up to date - but ensure placeholders are present
+      const entry: any = { ...existingItem };
+      if (placeholders) entry.placeholders = placeholders;
+      newFile[key] = entry;
     }
   }
 
@@ -362,14 +381,42 @@ async function translateSegment(segment: string, code: string) {
   }
 }
 
+// Extract $placeholder$ patterns from a message and generate Chrome i18n placeholders object
+function generateChromePlaceholders(message: string): Record<string, { content: string }> | undefined {
+  const placeholderRegex = /\$([a-zA-Z_][a-zA-Z0-9_]*)\$/g;
+  const matches = [...message.matchAll(placeholderRegex)];
+
+  if (matches.length === 0) {
+    return undefined;
+  }
+
+  const placeholders: Record<string, { content: string }> = {};
+  matches.forEach((match, index) => {
+    const placeholderName = match[1].toLowerCase();
+    // Chrome i18n uses $1, $2, etc. for substitution values
+    placeholders[placeholderName] = { content: `$${index + 1}` };
+  });
+
+  return placeholders;
+}
+
 // Generate en/messages.json directly from en.json (no translation needed)
 function generateEnglishMessages() {
   const newFile: any = {};
   for (const key in englishFile) {
-    newFile[key] = {
-      message: englishFile[key],
-      englishSource: englishFile[key]
+    const message = englishFile[key];
+    const entry: any = {
+      message: message,
+      englishSource: message
     };
+
+    // Add Chrome i18n placeholders if the message contains $placeholder$ patterns
+    const placeholders = generateChromePlaceholders(message);
+    if (placeholders) {
+      entry.placeholders = placeholders;
+    }
+
+    newFile[key] = entry;
   }
   const filePath = path.join(root, 'public/_locales/en/messages.json');
   fs.writeFileSync(filePath, JSON.stringify(newFile, null, 2));
