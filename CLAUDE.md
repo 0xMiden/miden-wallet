@@ -91,6 +91,21 @@ yarn build:mobile:dev     # Development build for mobile
 yarn mobile:sync          # Build and sync with Capacitor (no IDE open)
 ```
 
+### Release Builds
+
+```bash
+# Android
+yarn mobile:android:keystore     # Generate release keystore (one-time)
+yarn mobile:android:release      # Build AAB for Play Store
+yarn mobile:android:release:apk  # Build APK for direct distribution
+
+# iOS
+yarn mobile:ios:release          # Build release archive
+yarn mobile:ios:export           # Export IPA for App Store
+```
+
+See `STORE_LISTING.md` for full app store submission checklist and instructions.
+
 ### Workflow
 
 1. Make code changes in `src/`
@@ -112,6 +127,49 @@ The mobile app shares the same React codebase as the browser extension. Mobile-s
 - **WASM/WebWorker behavior** - iOS Safari has different WebWorker/WASM memory handling than Android/Chrome
 - **IndexedDB quirks** - Safari's IndexedDB implementation has known limitations (e.g., doesn't work in private browsing, stricter storage quotas)
 - **Memory pressure** - iOS is more aggressive about limiting memory; watch for OOM issues with multiple WASM worker instances
+
+### File Downloads on Mobile
+
+**The standard web download approach does NOT work on mobile:**
+```typescript
+// This works on desktop but NOT on iOS/Android WebView
+const a = document.createElement('a');
+a.href = URL.createObjectURL(blob);
+a.download = 'file.json';
+a.click();  // Does nothing on mobile!
+```
+
+**Use Capacitor Filesystem + Share plugins instead:**
+```typescript
+import { Directory, Encoding, Filesystem } from '@capacitor/filesystem';
+import { Share } from '@capacitor/share';
+import { isMobile } from 'lib/platform';
+
+if (isMobile()) {
+  // Write to cache, then share
+  const result = await Filesystem.writeFile({
+    path: 'file.json',
+    data: fileContent,
+    directory: Directory.Cache,
+    encoding: Encoding.UTF8
+  });
+  await Share.share({ url: result.uri });
+} else {
+  // Standard web download for desktop
+}
+```
+
+### Adding Capacitor Plugins
+
+When adding new Capacitor plugins:
+
+1. Install: `yarn add @capacitor/plugin-name`
+2. Sync: `yarn mobile:sync` (updates iOS and Android native projects)
+3. **Update ProGuard rules** for Android release builds in `android/app/proguard-rules.pro`:
+   ```
+   -keep class com.capacitorjs.plugins.pluginname.** { *; }
+   ```
+4. Check if iOS needs Info.plist permissions (most plugins document this)
 
 ### Debugging iOS Issues
 
@@ -329,6 +387,38 @@ Use `$placeholder$` format for dynamic values:
 ```json
 "greeting": "Hello $name$, you have $count$ messages"
 ```
+
+## Transaction Processing
+
+### Background Transaction Processing
+
+For operations that should happen silently (like auto-consume), use `startBackgroundTransactionProcessing`:
+
+```typescript
+import { startBackgroundTransactionProcessing } from 'lib/miden/activity';
+import { useMidenContext } from 'lib/miden/front';
+
+const { signTransaction } = useMidenContext();
+
+// Queue transactions first
+await initiateConsumeTransaction(accountPublicKey, note, isDelegatedProvingEnabled);
+
+// Then process silently in background (no modal/tab)
+startBackgroundTransactionProcessing(signTransaction);
+```
+
+This is preferred over `openLoadingFullPage()` for automatic operations because:
+- Doesn't interrupt the user with a modal (mobile) or new tab (desktop)
+- Polls every 5 seconds for up to 5 minutes
+- Works on both mobile and desktop
+
+### Transaction States
+
+Transactions flow through these states in `ITransactionStatus`:
+1. `Queued` (0) - Initial state when transaction is created
+2. `GeneratingTransaction` (1) - Being processed
+3. `Completed` (2) - Successfully finished
+4. `Failed` (3) - Error occurred
 
 ## Important Notes
 
