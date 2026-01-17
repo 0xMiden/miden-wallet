@@ -52,9 +52,6 @@
 # Splash Screen plugin
 -keep class com.capacitorjs.plugins.splashscreen.** { *; }
 
-# Status Bar plugin
--keep class com.capacitorjs.plugins.statusbar.** { *; }
-
 # In-App Browser plugin
 -keep class ee.niceforyou.inappbrowser.** { *; }
 -keep class com.niceforyou.inappbrowser.** { *; }

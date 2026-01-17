@@ -159,17 +159,23 @@ if (isMobile()) {
 }
 ```
 
-### Adding Capacitor Plugins
+### Adding/Removing Capacitor Plugins
 
-When adding new Capacitor plugins:
+When **adding** new Capacitor plugins:
 
 1. Install: `yarn add @capacitor/plugin-name`
 2. Sync: `yarn mobile:sync` (updates iOS and Android native projects)
-3. **Update ProGuard rules** for Android release builds in `android/app/proguard-rules.pro`:
+3. **Add ProGuard rules** for Android release builds in `android/app/proguard-rules.pro`:
    ```
    -keep class com.capacitorjs.plugins.pluginname.** { *; }
    ```
 4. Check if iOS needs Info.plist permissions (most plugins document this)
+
+When **removing** Capacitor plugins:
+
+1. Uninstall: `yarn remove @capacitor/plugin-name`
+2. Sync: `yarn mobile:sync` (updates iOS and Android native projects)
+3. **Remove ProGuard rules** from `android/app/proguard-rules.pro` for the removed plugin
 
 ### Debugging iOS Issues
 

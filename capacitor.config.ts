@@ -21,12 +21,6 @@ const config: CapacitorConfig = {
       // Show accessory bar (Done button) on iOS
       resizeOnFullScreen: true
     },
-    StatusBar: {
-      // Use light content (white text/icons) for dark backgrounds
-      // Or dark content (black text/icons) for light backgrounds
-      style: 'LIGHT',
-      backgroundColor: '#FFFFFF'
-    },
     SplashScreen: {
       // Auto-hide after app is ready
       launchAutoHide: true,
