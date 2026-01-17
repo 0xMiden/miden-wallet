@@ -515,6 +515,7 @@ export interface ImportFromClientRequest extends WalletMessageBase {
   type: WalletMessageType.ImportFromClientRequest;
   password: string;
   mnemonic: string;
+  walletAccounts: WalletAccount[];
 }
 
 export interface ImportFromClientResponse extends WalletMessageBase {

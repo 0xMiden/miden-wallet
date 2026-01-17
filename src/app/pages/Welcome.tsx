@@ -9,7 +9,7 @@ import { authenticate, checkBiometricAvailability, setBiometricEnabled, storeCre
 import { useMidenContext } from 'lib/miden/front';
 import { useMobileBackHandler } from 'lib/mobile/useMobileBackHandler';
 import { isMobile } from 'lib/platform';
-import { WalletStatus } from 'lib/shared/types';
+import { WalletStatus, WalletAccount } from 'lib/shared/types';
 import { useWalletStore } from 'lib/store';
 import { fetchStateFromBackend } from 'lib/store/hooks/useIntercomSync';
 import { navigate, useLocation } from 'lib/woozie';
@@ -45,6 +45,7 @@ const Welcome: FC = () => {
   const [enableBiometric, setEnableBiometric] = useState(false);
   const [importedWithFile, setImportedWithFile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [importedWalletAccounts, setImportedWalletAccounts] = useState<WalletAccount[]>([]);
   const { registerWallet, importWalletFromClient } = useMidenContext();
   const { trackEvent } = useAnalytics();
   const syncFromBackend = useWalletStore(s => s.syncFromBackend);
@@ -65,13 +66,21 @@ const Welcome: FC = () => {
       } else {
         try {
           console.log('importing wallet from client');
-          await importWalletFromClient(password, seedPhraseFormatted);
+          await importWalletFromClient(password, seedPhraseFormatted, importedWalletAccounts);
         } catch (e) {
           console.error(e);
         }
       }
     }
-  }, [password, seedPhrase, importedWithFile, registerWallet, onboardingType, importWalletFromClient]);
+  }, [
+    password,
+    seedPhrase,
+    importedWithFile,
+    registerWallet,
+    onboardingType,
+    importWalletFromClient,
+    importedWalletAccounts
+  ]);
 
   const onAction = async (action: OnboardingAction) => {
     let eventCategory = AnalyticsEventCategory.ButtonPress;
@@ -93,8 +102,8 @@ const Welcome: FC = () => {
         break;
       case 'import-wallet-file-submit':
         const seedPhrase = action.payload.split(' ');
-        console.log({ seedPhrase });
         setSeedPhrase(seedPhrase);
+        setImportedWalletAccounts(action.walletAccounts);
         setImportedWithFile(true);
         navigate('/#create-password');
         break;

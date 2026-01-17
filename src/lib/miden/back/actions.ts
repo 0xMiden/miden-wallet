@@ -15,7 +15,7 @@ import {
 } from 'lib/miden/back/store';
 import { Vault } from 'lib/miden/back/vault';
 import { getStorageProvider } from 'lib/platform/storage-adapter';
-import { WalletSettings, WalletState } from 'lib/shared/types';
+import { WalletAccount, WalletSettings, WalletState } from 'lib/shared/types';
 import { WalletType } from 'screens/onboarding/types';
 
 import { MidenSharedStorageKey } from '../types';
@@ -77,9 +77,9 @@ export function registerNewWallet(password: string, mnemonic?: string, ownMnemon
   });
 }
 
-export function registerImportedWallet(password: string, mnemonic: string) {
+export function registerImportedWallet(password: string, mnemonic: string, walletAccounts: WalletAccount[]) {
   return withInited(async () => {
-    await Vault.spawnFromMidenClient(password, mnemonic);
+    await Vault.spawnFromMidenClient(password, mnemonic, walletAccounts);
     await unlock(password);
   });
 }
