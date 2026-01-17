@@ -70,6 +70,8 @@ export interface SyncSlice {
 export interface TransactionModalSlice {
   /** Whether the transaction progress modal is open */
   isTransactionModalOpen: boolean;
+  /** Whether the dApp browser is open (mobile only) */
+  isDappBrowserOpen: boolean;
 }
 
 /**
@@ -160,6 +162,7 @@ export interface SyncActions {
 export interface TransactionModalActions {
   openTransactionModal: () => void;
   closeTransactionModal: () => void;
+  setDappBrowserOpen: (isOpen: boolean) => void;
 }
 
 /**

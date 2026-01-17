@@ -21,6 +21,11 @@ import { useWalletStore } from 'lib/store';
 
 const DEFAULT_URL = 'https://';
 
+// Helper to format timestamp for logging
+function ts(): string {
+  return new Date().toISOString().slice(11, 23);
+}
+
 /**
  * Send response back to the webview's injection script.
  * On mobile, adds a small delay and retry logic because executeScript can be unreliable
@@ -71,7 +76,8 @@ const Browser: FC = () => {
   const [recentUrls, setRecentUrls] = useState<string[]>([]);
 
   // DApp confirmation state
-  const [isBrowserOpen, setIsBrowserOpen] = useState(false);
+  const isBrowserOpen = useWalletStore(s => s.isDappBrowserOpen);
+  const setDappBrowserOpen = useWalletStore(s => s.setDappBrowserOpen);
   const pendingConfirmationRef = useRef<DAppConfirmationRequest | null>(null);
   const originRef = useRef<string | null>(null);
 
@@ -108,7 +114,7 @@ const Browser: FC = () => {
     const unsubscribe = dappConfirmationStore.subscribe(() => {
       const request = dappConfirmationStore.getPendingRequest();
       if (request && isBrowserOpen) {
-        console.log('[Browser] Confirmation requested, injecting overlay');
+        console.log(`[Browser] [${ts()}] Confirmation requested, injecting overlay`);
         pendingConfirmationRef.current = request;
 
         // Generate and inject the confirmation overlay into the webview
@@ -166,7 +172,7 @@ const Browser: FC = () => {
 
         // Set up listeners BEFORE opening
         const messageListener = await InAppBrowser.addListener('messageFromWebview', async event => {
-          console.log('[Browser] Message from WebView:', event);
+          console.log(`[Browser] [${ts()}] Message from WebView:`, event);
           try {
             // The event uses 'detail' property per @capgo/inappbrowser types
             const eventData = event.detail || event;
@@ -174,10 +180,12 @@ const Browser: FC = () => {
 
             // Handle confirmation response from injected overlay
             if (message.type === 'MIDEN_CONFIRMATION_RESPONSE') {
-              console.log('[Browser] Confirmation response:', message);
+              const confirmTs = Date.now();
+              console.log(`[Browser] [${ts()}] CONFIRM_FLOW: Step 1 - Received confirmation response`);
               const pendingRequest = pendingConfirmationRef.current;
               if (pendingRequest && message.requestId === pendingRequest.id) {
                 pendingConfirmationRef.current = null;
+                console.log(`[Browser] [${ts()}] CONFIRM_FLOW: Step 2 - Calling resolveConfirmation`);
                 dappConfirmationStore.resolveConfirmation({
                   confirmed: message.confirmed,
                   accountPublicKey: message.confirmed ? accountIdRef.current || undefined : undefined,
@@ -185,14 +193,27 @@ const Browser: FC = () => {
                     ? pendingRequest.privateDataPermission || PrivateDataPermission.UponRequest
                     : undefined
                 });
+                console.log(
+                  `[Browser] [${ts()}] CONFIRM_FLOW: Step 3 - resolveConfirmation returned +${Date.now() - confirmTs}ms`
+                );
               }
               return;
             }
 
             // Handle regular wallet messages
             const walletMessage = message as WebViewMessage;
+            const handleStart = Date.now();
+            console.log(
+              `[Browser] [${ts()}] MESSAGE_FLOW: Step 1 - Received ${walletMessage.type || 'unknown'} reqId=${walletMessage.reqId}`
+            );
             const response = await handleWebViewMessage(walletMessage, origin);
+            console.log(
+              `[Browser] [${ts()}] MESSAGE_FLOW: Step 2 - handleWebViewMessage done +${Date.now() - handleStart}ms`
+            );
             await sendResponseToWebview(response);
+            console.log(
+              `[Browser] [${ts()}] MESSAGE_FLOW: Step 3 - sendResponseToWebview done +${Date.now() - handleStart}ms total`
+            );
           } catch (error) {
             console.error('[Browser] Error handling WebView message:', error);
           }
@@ -203,11 +224,11 @@ const Browser: FC = () => {
           messageListener.remove();
           closeListener.remove();
           setIsLoading(false);
-          setIsBrowserOpen(false);
+          setDappBrowserOpen(false);
         });
 
         const loadListener = await InAppBrowser.addListener('browserPageLoaded', async () => {
-          console.log('[Browser] Page loaded, injecting script');
+          console.log(`[Browser] [${ts()}] Page loaded, injecting script`);
           setIsLoading(false);
           try {
             await InAppBrowser.executeScript({ code: INJECTION_SCRIPT });
@@ -242,7 +263,7 @@ const Browser: FC = () => {
           showReloadButton: true
         });
 
-        setIsBrowserOpen(true);
+        setDappBrowserOpen(true);
         console.log('[Browser] openWebView returned successfully');
       } catch (error) {
         console.error('[Browser] Error opening browser:', error);

@@ -69,6 +69,7 @@ export const useWalletStore = create<WalletStore>()(
 
     // Initial transaction modal state (mobile only)
     isTransactionModalOpen: false,
+    isDappBrowserOpen: false,
 
     // Sync action - updates store from backend state
     syncFromBackend: (state: MidenState) => {
@@ -430,6 +431,11 @@ export const useWalletStore = create<WalletStore>()(
     },
     closeTransactionModal: () => {
       set({ isTransactionModalOpen: false });
+    },
+
+    // DApp browser state (mobile only)
+    setDappBrowserOpen: (isOpen: boolean) => {
+      set({ isDappBrowserOpen: isOpen });
     }
   }))
 );

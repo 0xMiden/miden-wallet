@@ -51,10 +51,20 @@ export class Sync {
       return;
     }
 
+    const storeState = useWalletStore.getState();
+
     // On mobile, don't sync while transaction modal is open to avoid lock contention
-    if (isMobile() && useWalletStore.getState().isTransactionModalOpen) {
+    if (isMobile() && storeState.isTransactionModalOpen) {
       console.log('[AutoSync] Skipping sync while transaction modal is open');
-      await sleep(1000);
+      await sleep(3000);
+      await this.sync();
+      return;
+    }
+
+    // On mobile, don't sync while dApp browser is open to avoid lock contention
+    if (isMobile() && storeState.isDappBrowserOpen) {
+      console.log('[AutoSync] Skipping sync while dApp browser is open');
+      await sleep(3000);
       await this.sync();
       return;
     }
@@ -91,7 +101,7 @@ export class Sync {
       useWalletStore.getState().setSyncStatus(false);
     }
 
-    await sleep(1000);
+    await sleep(3000);
     await this.sync();
   }
 }
