@@ -1,5 +1,6 @@
 import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { Keyboard } from '@capacitor/keyboard';
 import { InAppBrowser, ToolBarType } from '@capgo/inappbrowser';
 import { PrivateDataPermission } from '@demox-labs/miden-wallet-adapter-base';
 import { useTranslation } from 'react-i18next';
@@ -24,6 +25,27 @@ const DEFAULT_URL = 'https://';
 // Helper to format timestamp for logging
 function ts(): string {
   return new Date().toISOString().slice(11, 23);
+}
+
+/**
+ * Reset viewport after webview closes.
+ * Fixes bug where viewport stays shrunk (as if keyboard is open) after closing webview.
+ */
+async function resetViewportAfterWebview(): Promise<void> {
+  try {
+    // Force hide keyboard to reset viewport
+    await Keyboard.hide();
+  } catch {
+    // Keyboard plugin may fail if no keyboard was shown, ignore
+  }
+
+  // Blur active element as fallback
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
+
+  // Force a small scroll to trigger viewport recalculation
+  window.scrollTo(0, 0);
 }
 
 /**
@@ -219,12 +241,13 @@ const Browser: FC = () => {
           }
         });
 
-        const closeListener = await InAppBrowser.addListener('closeEvent', () => {
+        const closeListener = await InAppBrowser.addListener('closeEvent', async () => {
           console.log('[Browser] Browser closed event');
           messageListener.remove();
           closeListener.remove();
           setIsLoading(false);
           setDappBrowserOpen(false);
+          await resetViewportAfterWebview();
         });
 
         const loadListener = await InAppBrowser.addListener('browserPageLoaded', async () => {

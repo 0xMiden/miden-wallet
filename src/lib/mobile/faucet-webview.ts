@@ -1,8 +1,30 @@
 import { Directory, Encoding, Filesystem } from '@capacitor/filesystem';
+import { Keyboard } from '@capacitor/keyboard';
 import { Share } from '@capacitor/share';
 import { InAppBrowser, ToolBarType } from '@capgo/inappbrowser';
 
 import { isMobile } from 'lib/platform';
+
+/**
+ * Reset viewport after webview closes.
+ * Fixes bug where viewport stays shrunk (as if keyboard is open) after closing webview.
+ */
+async function resetViewportAfterWebview(): Promise<void> {
+  try {
+    // Force hide keyboard to reset viewport
+    await Keyboard.hide();
+  } catch {
+    // Keyboard plugin may fail if no keyboard was shown, ignore
+  }
+
+  // Blur active element as fallback
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
+
+  // Force a small scroll to trigger viewport recalculation
+  window.scrollTo(0, 0);
+}
 
 const DOWNLOAD_INTERCEPTOR_SCRIPT = `
 (function() {
@@ -221,10 +243,11 @@ export async function openFaucetWebview({ url, title, recipientAddress }: Faucet
   });
 
   // Clean up listeners when browser closes
-  const closeListener = await InAppBrowser.addListener('closeEvent', () => {
+  const closeListener = await InAppBrowser.addListener('closeEvent', async () => {
     messageListener.remove();
     loadListener.remove();
     closeListener.remove();
+    await resetViewportAfterWebview();
   });
 
   // Open the webview with download interceptor injected at document start
