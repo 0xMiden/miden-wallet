@@ -9,45 +9,85 @@ const DOWNLOAD_INTERCEPTOR_SCRIPT = `
   if (window.__downloadInterceptorInjected) return;
   window.__downloadInterceptorInjected = true;
 
-  // Intercept <a download> clicks
+  // Store blob URLs and their base64 content
+  const blobRegistry = new Map();
+
+  // Helper to convert ArrayBuffer to base64
+  function arrayBufferToBase64(buffer) {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    for (let i = 0; i < bytes.byteLength; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary);
+  }
+
+  // Override URL.createObjectURL to capture blob content as base64
+  const originalCreateObjectURL = URL.createObjectURL;
+  URL.createObjectURL = function(blob) {
+    const url = originalCreateObjectURL.call(this, blob);
+    if (blob instanceof Blob) {
+      blob.arrayBuffer().then(buffer => {
+        const base64 = arrayBufferToBase64(buffer);
+        blobRegistry.set(url, base64);
+      }).catch(() => {});
+    }
+    return url;
+  };
+
+  function handleDownload(href, filename) {
+    // Check if we have the blob content cached
+    if (blobRegistry.has(href)) {
+      const base64Content = blobRegistry.get(href);
+      window.mobileApp.postMessage({
+        detail: {
+          type: 'DOWNLOAD_FILE',
+          filename: filename,
+          content: base64Content,
+          isBase64: true
+        }
+      });
+      return;
+    }
+
+    // Fallback to fetching as binary
+    fetch(href)
+      .then(r => r.arrayBuffer())
+      .then(buffer => {
+        const base64Content = arrayBufferToBase64(buffer);
+        window.mobileApp.postMessage({
+          detail: {
+            type: 'DOWNLOAD_FILE',
+            filename: filename,
+            content: base64Content,
+            isBase64: true
+          }
+        });
+      })
+      .catch(err => console.error('Download error:', err));
+  }
+
+  // Intercept programmatic clicks on anchor elements
+  const originalClick = HTMLAnchorElement.prototype.click;
+  HTMLAnchorElement.prototype.click = function() {
+    if (this.hasAttribute('download')) {
+      const href = this.href;
+      const filename = this.download || 'download';
+      handleDownload(href, filename);
+      return;
+    }
+    return originalClick.apply(this, arguments);
+  };
+
+  // Intercept manual clicks on <a download> links
   document.addEventListener('click', function(e) {
     const link = e.target.closest('a[download]');
     if (link) {
       e.preventDefault();
       e.stopPropagation();
-
-      const href = link.href;
-      const filename = link.download || 'download';
-
-      // Handle blob URLs
-      if (href.startsWith('blob:')) {
-        fetch(href)
-          .then(r => r.text())
-          .then(content => {
-            window.mobileApp.postMessage({
-              type: 'DOWNLOAD_FILE',
-              filename: filename,
-              content: content
-            });
-          })
-          .catch(err => console.error('Download intercept error:', err));
-      } else {
-        // Handle regular URLs - fetch and send content
-        fetch(href)
-          .then(r => r.text())
-          .then(content => {
-            window.mobileApp.postMessage({
-              type: 'DOWNLOAD_FILE',
-              filename: filename,
-              content: content
-            });
-          })
-          .catch(err => console.error('Download intercept error:', err));
-      }
+      handleDownload(link.href, link.download || 'download');
     }
   }, true);
-
-  console.log('[FaucetWebview] Download interceptor injected');
 })();
 `;
 
@@ -79,47 +119,70 @@ export async function openFaucetWebview({ url, title, recipientAddress }: Faucet
     `
     : '';
 
+  // Guard to prevent duplicate download processing
+  let isProcessingDownload = false;
+
   // Set up message listener for download requests
   const messageListener = await InAppBrowser.addListener('messageFromWebview', async event => {
     try {
-      const eventData = (event as { detail?: unknown }).detail || event;
-      const message = typeof eventData === 'string' ? JSON.parse(eventData) : eventData;
+      // The event should directly contain our data since notifyListeners passes messageBody as data
+      const eventData = event as { detail?: { type?: string; filename?: string; content?: string } };
+      const detail = eventData.detail;
 
-      if (message.type === 'DOWNLOAD_FILE') {
-        const { filename, content } = message;
+      if (!detail) {
+        return;
+      }
 
-        // Write to cache directory
+      if (detail.type === 'DOWNLOAD_FILE') {
+        // Prevent duplicate processing
+        if (isProcessingDownload) {
+          return;
+        }
+        isProcessingDownload = true;
+        const { filename, content } = detail;
+
+        // Write to cache directory as base64 (no encoding = binary/base64)
         const result = await Filesystem.writeFile({
           path: filename,
           data: content,
-          directory: Directory.Cache,
-          encoding: Encoding.UTF8
+          directory: Directory.Cache
         });
 
-        // Open share dialog for user to save
-        await Share.share({
-          title: filename,
-          url: result.uri,
-          dialogTitle: 'Save file'
-        });
+        // Store the URI for later sharing
+        const fileUri = result.uri;
+        const fileTitle = filename;
+
+        // Close browser first
+        await InAppBrowser.close();
+
+        // Use setTimeout to completely decouple share from InAppBrowser context
+        setTimeout(async () => {
+          try {
+            await Share.share({
+              files: [fileUri],
+              dialogTitle: 'Save ' + fileTitle
+            });
+          } catch (e) {
+            alert('Share error: ' + (e as Error).message);
+          }
+        }, 1000);
       }
     } catch (error) {
-      console.error('[FaucetWebview] Error handling message:', error);
+      // Show alert with error for debugging
+      if (typeof alert !== 'undefined') {
+        alert('Error: ' + (error as Error).message);
+      }
     }
   });
 
-  // Inject scripts when page loads (only on faucet domains)
+  // Inject prefill script when page loads (needs DOM to be ready)
   const loadListener = await InAppBrowser.addListener('browserPageLoaded', async () => {
     try {
-      const currentUrl = new URL(url);
-      if (FAUCET_DOMAINS.some(domain => currentUrl.hostname.includes(domain))) {
-        await InAppBrowser.executeScript({ code: DOWNLOAD_INTERCEPTOR_SCRIPT });
-        if (prefillAddressScript) {
-          await InAppBrowser.executeScript({ code: prefillAddressScript });
-        }
+      if (prefillAddressScript) {
+        await InAppBrowser.executeScript({ code: prefillAddressScript });
       }
     } catch (e) {
-      console.error('[FaucetWebview] Error injecting script:', e);
+      console.error('[FaucetWebview] Error injecting prefill script:', e);
     }
   });
 
@@ -130,11 +193,14 @@ export async function openFaucetWebview({ url, title, recipientAddress }: Faucet
     closeListener.remove();
   });
 
-  // Open the webview
+  // Open the webview with download interceptor injected at document start
   await InAppBrowser.openWebView({
     url,
     title,
     toolbarType: ToolBarType.NAVIGATION,
-    showReloadButton: true
+    showReloadButton: true,
+    isPresentAfterPageLoad: true,
+    preShowScript: DOWNLOAD_INTERCEPTOR_SCRIPT,
+    preShowScriptInjectionTime: 'documentStart'
   });
 }
