@@ -20,6 +20,28 @@ const config: CapacitorConfig = {
       resize: 'none',
       // Show accessory bar (Done button) on iOS
       resizeOnFullScreen: true
+    },
+    StatusBar: {
+      // Use light content (white text/icons) for dark backgrounds
+      // Or dark content (black text/icons) for light backgrounds
+      style: 'LIGHT',
+      backgroundColor: '#FFFFFF'
+    },
+    SplashScreen: {
+      // Auto-hide after app is ready
+      launchAutoHide: true,
+      // Show splash for at least 1 second
+      launchShowDuration: 1000,
+      // Fade out animation duration
+      launchFadeOutDuration: 300,
+      // Background color while loading
+      backgroundColor: '#FFFFFF',
+      // Don't show spinner - we have a logo
+      showSpinner: false,
+      // Android: scale image to fit
+      androidScaleType: 'CENTER_CROP',
+      // iOS: use dark spinner if needed
+      iosSpinnerStyle: 'small'
     }
   }
 };

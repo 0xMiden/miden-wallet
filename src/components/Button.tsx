@@ -3,6 +3,7 @@ import React from 'react';
 import classNames from 'clsx';
 
 import { IconName } from 'app/icons/v2';
+import { hapticLight, hapticMedium } from 'lib/mobile/haptics';
 import { IconOrComponent } from 'utils/icon-or-component';
 
 import { Loader } from './Loader';
@@ -95,6 +96,12 @@ export const Button: React.FC<ButtonProps> = ({
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.blur();
+    // Haptic feedback - medium for danger, light for others
+    if (variant === ButtonVariant.Danger) {
+      hapticMedium();
+    } else {
+      hapticLight();
+    }
     props.onClick?.(e);
   };
 

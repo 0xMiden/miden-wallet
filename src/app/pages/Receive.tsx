@@ -15,6 +15,7 @@ import { AssetMetadata, useAccount } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
 import { ConsumableNote } from 'lib/miden/types';
+import { hapticLight } from 'lib/mobile/haptics';
 import { isMobile } from 'lib/platform';
 import { isDelegateProofEnabled } from 'lib/settings/helpers';
 import { WalletAccount } from 'lib/shared/types';
@@ -229,6 +230,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
               <button
                 onClick={e => {
                   e.currentTarget.blur();
+                  hapticLight();
                   copy();
                 }}
                 className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-lg bg-grey-50 hover:bg-grey-100 transition duration-300 ease-in-out"
