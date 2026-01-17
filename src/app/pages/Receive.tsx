@@ -217,13 +217,25 @@ export const Receive: React.FC<ReceiveProps> = () => {
         <FormField ref={fieldRef} value={address} style={{ display: 'none' }} />
         <div className="w-5/6 md:w-1/2 mx-auto pb-6 flex flex-col gap-y-2">
           <p className="text-sm md:text-xs text-gray-400">{t('yourAddress')}</p>
-          <div className="flex items-center justify-between">
-            {popup ? (
-              <AddressChip address={address} trim={false} className="flex items-center text-sm" />
-            ) : (
-              <p className="text-sm">{address}</p>
+          <div className="flex items-center gap-x-1">
+            <div className="min-w-0 flex-1">
+              {popup ? (
+                <AddressChip address={address} trim={false} className="flex items-center text-sm" />
+              ) : (
+                <p className="text-sm break-all">{truncateAddress(address, true, 12, 4, 12)}</p>
+              )}
+            </div>
+            {!popup && (
+              <button
+                onClick={e => {
+                  e.currentTarget.blur();
+                  copy();
+                }}
+                className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-lg bg-grey-50 hover:bg-grey-100 transition duration-300 ease-in-out"
+              >
+                <Icon name={IconName.Copy} size="md" fill="black" />
+              </button>
             )}
-            {!popup && <Icon name={IconName.Copy} onClick={copy} style={{ cursor: 'pointer' }} />}
           </div>
         </div>
         <div className="w-5/6 md:w-1/2 mx-auto" style={{ borderBottom: '1px solid #E9EBEF' }}></div>
