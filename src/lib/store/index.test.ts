@@ -301,12 +301,13 @@ describe('useWalletStore', () => {
       mockRequest.mockResolvedValueOnce({ type: WalletMessageType.ImportFromClientResponse });
 
       const { importWalletFromClient } = useWalletStore.getState();
-      await importWalletFromClient('password123', 'mnemonic words');
+      await importWalletFromClient('password123', 'mnemonic words', []);
 
       expect(mockRequest).toHaveBeenCalledWith({
         type: WalletMessageType.ImportFromClientRequest,
         password: 'password123',
-        mnemonic: 'mnemonic words'
+        mnemonic: 'mnemonic words',
+        walletAccounts: []
       });
     });
 

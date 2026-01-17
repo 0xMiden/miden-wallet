@@ -77,6 +77,7 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
       const midenClientDbContent = decryptedWallet.midenClientDbContent;
       const walletDbContent = decryptedWallet.walletDbContent;
       const seedPhrase = decryptedWallet.seedPhrase;
+      const walletAccounts = decryptedWallet.accounts;
 
       // Wrap WASM client operations in a lock to prevent concurrent access
       await withWasmClientLock(async () => {
