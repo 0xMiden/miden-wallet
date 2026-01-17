@@ -88,6 +88,35 @@ const DOWNLOAD_INTERCEPTOR_SCRIPT = `
       handleDownload(link.href, link.download || 'download');
     }
   }, true);
+
+  // Watch for "TOKENS MINTED!" success message and auto-close browser
+  let successMessageSent = false;
+  function checkForSuccessMessage() {
+    if (successMessageSent) return;
+    const bodyText = document.body ? document.body.innerText : '';
+    if (bodyText.includes('TOKENS MINTED!') && bodyText.includes('CLICK ANYWHERE TO CONTINUE')) {
+      successMessageSent = true;
+      // Small delay so user can see the success message
+      setTimeout(() => {
+        window.mobileApp.postMessage({
+          detail: { type: 'PUBLIC_NOTE_SUCCESS' }
+        });
+      }, 750);
+    }
+  }
+
+  // Use MutationObserver to detect DOM changes
+  const observer = new MutationObserver(checkForSuccessMessage);
+  if (document.body) {
+    observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+  } else {
+    document.addEventListener('DOMContentLoaded', function() {
+      observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+    });
+  }
+
+  // Also poll periodically as a fallback
+  setInterval(checkForSuccessMessage, 1000);
 })();
 `;
 
@@ -166,6 +195,11 @@ export async function openFaucetWebview({ url, title, recipientAddress }: Faucet
             alert('Share error: ' + (e as Error).message);
           }
         }, 1000);
+      }
+
+      if (detail.type === 'PUBLIC_NOTE_SUCCESS') {
+        // Auto-close browser when public note minting is complete
+        await InAppBrowser.close();
       }
     } catch (error) {
       // Show alert with error for debugging
