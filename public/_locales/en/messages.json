@@ -36,8 +36,8 @@
     "englishSource": "Click on the X icon to reset permissions."
   },
   "versionLabel": {
-    "message": "version: {{version}}",
-    "englishSource": "version: {{version}}"
+    "message": "version: $version$",
+    "englishSource": "version: $version$"
   },
   "resetPermissionsConfirmation": {
     "message": "Are you sure you want to reset permissions for\n {{origin}}?",
