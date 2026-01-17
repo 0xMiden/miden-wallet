@@ -116,7 +116,8 @@ export class Vault {
         name: 'Miden Account 1',
         isPublic: true,
         type: WalletType.OnChain,
-        hdIndex: hdAccIndex
+        hdIndex: hdAccIndex,
+        authScheme
       };
       const newAccounts = [initialAccount];
 
@@ -246,7 +247,8 @@ export class Vault {
         name: accName,
         publicKey: walletId,
         isPublic: walletType === WalletType.OnChain,
-        hdIndex: hdAccIndex
+        hdIndex: hdAccIndex,
+        authScheme
       };
 
       const newAllAcounts = concatAccount(allAccounts, newAccount);
