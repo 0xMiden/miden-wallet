@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Logo from 'app/atoms/Logo';
+import pkg from '../../../package.json';
 
 import MenuItem from './MenuItem';
 
@@ -16,7 +17,7 @@ const About: FC = () => {
 
         <div className="text-center">
           <h4 className="text-xl font-semibold">{t('appName')}</h4>
-          <p className="text-sm text-gray-200">{t('versionLabel', { version: process.env.VERSION })}</p>
+          <p className="text-sm text-gray-200">{t('versionLabel', { version: pkg.version })}</p>
         </div>
       </div>
 
