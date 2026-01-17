@@ -39,7 +39,7 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
       await Actions.registerNewWallet(req.password, req.mnemonic, req.ownMnemonic);
       return { type: WalletMessageType.NewWalletResponse };
     case WalletMessageType.ImportFromClientRequest:
-      await Actions.registerImportedWallet(req.password, req.mnemonic);
+      await Actions.registerImportedWallet(req.password, req.mnemonic, req.walletAccounts);
       return { type: WalletMessageType.ImportFromClientResponse };
     case WalletMessageType.UnlockRequest:
       await Actions.unlock(req.password);

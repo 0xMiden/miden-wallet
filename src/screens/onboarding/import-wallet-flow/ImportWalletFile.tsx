@@ -10,6 +10,7 @@ import { Icon, IconName } from 'app/icons/v2';
 import { decrypt, decryptJson, deriveKey, generateKey } from 'lib/miden/passworder';
 import { importDb } from 'lib/miden/repo';
 import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
+import type { WalletAccount } from 'lib/shared/types';
 import { DecryptedWalletFile, ENCRYPTED_WALLET_FILE_PASSWORD_CHECK, EncryptedWalletFile } from 'screens/shared';
 
 interface FormData {
@@ -18,7 +19,7 @@ interface FormData {
 
 export interface ImportWalletFileScreenProps {
   className?: string;
-  onSubmit?: (seedPhrase: string) => void;
+  onSubmit?: (seedPhrase: string, walletAccounts: WalletAccount[]) => void;
 }
 
 type WalletFile = EncryptedWalletFile & {
@@ -84,7 +85,7 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
       });
       await importDb(walletDbContent);
 
-      onSubmit(seedPhrase);
+      onSubmit(seedPhrase, walletAccounts);
     } catch (error) {
       console.error('Decryption failed:', error);
       setIsWrongPassword(true); // Ensure error appears in case of failure

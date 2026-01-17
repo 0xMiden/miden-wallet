@@ -7,6 +7,7 @@ import { Icon, IconName } from 'app/icons/v2';
 import { CircleButton } from 'components/CircleButton';
 import { ProgressIndicator } from 'components/ProgressIndicator';
 import { isMobile } from 'lib/platform';
+import type { WalletAccount } from 'lib/shared/types';
 
 import { ConfirmationScreen } from './common/Confirmation';
 import { CreatePasswordScreen } from './common/CreatePassword';
@@ -163,8 +164,8 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
     const onImportSeedPhraseSubmit = (seedPhrase: string) =>
       onForwardAction?.({ id: 'import-seed-phrase-submit', payload: seedPhrase });
 
-    const onImportFileSubmit = (seedPhrase: string) => {
-      onForwardAction?.({ id: 'import-wallet-file-submit', payload: seedPhrase });
+    const onImportFileSubmit = (seedPhrase: string, walletAccounts: WalletAccount[]) => {
+      onForwardAction?.({ id: 'import-wallet-file-submit', payload: seedPhrase, walletAccounts });
     };
 
     switch (step) {
