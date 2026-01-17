@@ -17,6 +17,7 @@ import { ReactComponent as PendingIcon } from 'app/icons/rotate.svg';
 import { ReactComponent as SendIcon } from 'app/icons/send.svg';
 import { ExploreSelectors } from 'app/pages/Explore.selectors';
 import { ITransactionIcon } from 'lib/miden/db/types';
+import { isMobile } from 'lib/platform';
 import { Link } from 'lib/woozie';
 
 import { ActivityType, IActivity } from './IActivity';
@@ -88,9 +89,9 @@ const ActivityContent: FC<ActivityItemProps> = ({ fullHistory, activity }) => {
   );
 
   return (
-    <div className="w-full flex px-4 md:px-6 m-auto py-3 gap-x-2 md:gap-x-4 hover:bg-gray-800 focus:bg-gray-800 transition-colors duration-500 ease-in-out cursor-pointer">
+    <div className="w-full flex px-4 md:px-6 m-auto py-3 gap-x-2 md:gap-x-4 hover:bg-gray-800 focus:bg-gray-800 transition-colors duration-500 ease-in-out cursor-pointer overflow-hidden">
       <div
-        className={`flex items-center ${animateSpin}`}
+        className={`flex items-center flex-shrink-0 ${animateSpin}`}
         style={{
           backgroundColor: '#FFE6D9',
           borderRadius: '20px',
@@ -104,27 +105,27 @@ const ActivityContent: FC<ActivityItemProps> = ({ fullHistory, activity }) => {
         {icon}
       </div>
 
-      <div className="flex items-center flex-grow">
-        <div className="flex flex-col flex-grow">
-          <div className="text-sm break-all font-medium">
+      <div className="flex items-center flex-grow min-w-0">
+        <div className="flex flex-col flex-grow min-w-0">
+          <div className="text-sm font-medium truncate">
             <span>{activity.message}</span>
           </div>
 
-          <div className="flex text-xs text-gray-600">
-            <div>
-              {activity.secondaryAddress && (
-                <>
-                  {`${isReceive ? t('from') : t('to')} `}
-                  <AddressShortView address={activity.secondaryAddress} trim={popup} />
-                </>
-              )}
-            </div>
+          <div className="text-xs text-gray-600 truncate">
+            {activity.secondaryAddress && (
+              <>
+                {`${isReceive ? t('from') : t('to')} `}
+                <AddressShortView address={activity.secondaryAddress} trim={isMobile() || popup} />
+              </>
+            )}
           </div>
         </div>
       </div>
       {activity.amount && (
-        <div className="flex items-center flex-col justify-end">
-          <div className={`text-sm self-end font-medium ${isReceive ? 'text-green-500' : ''}`}>{activity.amount}</div>
+        <div className="flex items-center flex-col justify-end flex-shrink-0">
+          <div className={`text-sm self-end font-medium whitespace-nowrap ${isReceive ? 'text-green-500' : ''}`}>
+            {activity.amount}
+          </div>
           {activity.token && (
             <div>
               <span className="text-gray-600">
@@ -135,7 +136,7 @@ const ActivityContent: FC<ActivityItemProps> = ({ fullHistory, activity }) => {
         </div>
       )}
       {activity.cancel && (
-        <div className="flex justify-end">
+        <div className="flex justify-end flex-shrink-0">
           <Button
             className="hover:bg-gray-900 active:bg-gray-800 rounded-md px-1"
             onClick={handleCancelClick}
@@ -146,7 +147,7 @@ const ActivityContent: FC<ActivityItemProps> = ({ fullHistory, activity }) => {
         </div>
       )}
       {activity.explorerLink && (
-        <div className="flex items-center justify-end rounded-md">
+        <div className="flex items-center justify-end rounded-md flex-shrink-0">
           <ExploreIcon stroke={'black'} height={'18px'} width={'18px'} />
         </div>
       )}
