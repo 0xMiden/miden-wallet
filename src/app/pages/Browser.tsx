@@ -1,6 +1,5 @@
 import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { Keyboard } from '@capacitor/keyboard';
 import { InAppBrowser, ToolBarType } from '@capgo/inappbrowser';
 import { PrivateDataPermission } from '@demox-labs/miden-wallet-adapter-base';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +16,7 @@ import { generateConfirmationOverlayScript } from 'lib/dapp-browser/confirmation
 import { dappConfirmationStore, DAppConfirmationRequest } from 'lib/dapp-browser/confirmation-store';
 import { INJECTION_SCRIPT } from 'lib/dapp-browser/injection-script';
 import { handleWebViewMessage, WebViewMessage } from 'lib/dapp-browser/message-handler';
+import { resetViewportAfterWebview } from 'lib/mobile/viewport-reset';
 import { isMobile } from 'lib/platform';
 import { useWalletStore } from 'lib/store';
 
@@ -25,27 +25,6 @@ const DEFAULT_URL = 'https://';
 // Helper to format timestamp for logging
 function ts(): string {
   return new Date().toISOString().slice(11, 23);
-}
-
-/**
- * Reset viewport after webview closes.
- * Fixes bug where viewport stays shrunk (as if keyboard is open) after closing webview.
- */
-async function resetViewportAfterWebview(): Promise<void> {
-  try {
-    // Force hide keyboard to reset viewport
-    await Keyboard.hide();
-  } catch {
-    // Keyboard plugin may fail if no keyboard was shown, ignore
-  }
-
-  // Blur active element as fallback
-  if (document.activeElement instanceof HTMLElement) {
-    document.activeElement.blur();
-  }
-
-  // Force a small scroll to trigger viewport recalculation
-  window.scrollTo(0, 0);
 }
 
 /**
