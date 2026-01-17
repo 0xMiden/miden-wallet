@@ -57,13 +57,27 @@ const FAUCET_DOMAINS = ['faucet.testnet.miden.io', 'faucet.devnet.miden.io', 'lo
 export interface FaucetWebviewOptions {
   url: string;
   title: string;
+  recipientAddress?: string;
 }
 
-export async function openFaucetWebview({ url, title }: FaucetWebviewOptions): Promise<void> {
+export async function openFaucetWebview({ url, title, recipientAddress }: FaucetWebviewOptions): Promise<void> {
   if (!isMobile()) {
     window.open(url, '_blank');
     return;
   }
+
+  // Script to prefill the recipient address input
+  const prefillAddressScript = recipientAddress
+    ? `
+    (function() {
+      const input = document.getElementById('recipient-address');
+      if (input) {
+        input.value = '${recipientAddress}';
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    })();
+    `
+    : '';
 
   // Set up message listener for download requests
   const messageListener = await InAppBrowser.addListener('messageFromWebview', async event => {
@@ -94,12 +108,15 @@ export async function openFaucetWebview({ url, title }: FaucetWebviewOptions): P
     }
   });
 
-  // Inject download interceptor when page loads (only on faucet domains)
+  // Inject scripts when page loads (only on faucet domains)
   const loadListener = await InAppBrowser.addListener('browserPageLoaded', async () => {
     try {
       const currentUrl = new URL(url);
       if (FAUCET_DOMAINS.some(domain => currentUrl.hostname.includes(domain))) {
         await InAppBrowser.executeScript({ code: DOWNLOAD_INTERCEPTOR_SCRIPT });
+        if (prefillAddressScript) {
+          await InAppBrowser.executeScript({ code: prefillAddressScript });
+        }
       }
     } catch (e) {
       console.error('[FaucetWebview] Error injecting script:', e);

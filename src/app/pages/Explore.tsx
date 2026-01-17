@@ -59,8 +59,8 @@ const Explore: FC = () => {
 
   const handleFaucetClick = useCallback(async () => {
     const faucetUrl = getFaucetUrl(network.id);
-    await openFaucetWebview({ url: faucetUrl, title: t('midenFaucet') });
-  }, [network.id, t]);
+    await openFaucetWebview({ url: faucetUrl, title: t('midenFaucet'), recipientAddress: address });
+  }, [network.id, t, address]);
 
   const midenNotes = useMemo(() => {
     if (!shouldAutoConsume || !claimableNotes) {
