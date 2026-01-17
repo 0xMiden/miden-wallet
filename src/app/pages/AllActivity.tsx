@@ -3,7 +3,6 @@ import React, { FC, useRef } from 'react';
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
-import { useAppEnv } from 'app/env';
 import PageLayout from 'app/layouts/PageLayout';
 import Footer from 'app/layouts/PageLayout/Footer';
 import Activity from 'app/templates/activity/Activity';
@@ -17,27 +16,26 @@ const AllActivity: FC<AllActivityProps> = ({ programId }) => {
   const { t } = useTranslation();
   const account = useAccount();
   const scrollParentRef = useRef<HTMLDivElement>(null);
-  const { fullPage } = useAppEnv();
-  const height = fullPage ? '491px' : '459px';
 
   return (
     <PageLayout pageTitle={<>{t('activity')}</>} hasBackAction={false}>
-      <div className="px-4">
+      <div className="flex flex-col flex-1 min-h-0">
         <div
-          className={classNames('-mx-4 pb-4', 'bg-white overflow-y-scroll z-30 relative')}
-          style={{ height }}
+          className={classNames('flex-1 overflow-y-auto', 'bg-white z-30 relative')}
           ref={scrollParentRef}
         >
-          <Activity
-            address={account.publicKey}
-            programId={programId}
-            fullHistory={true}
-            scrollParentRef={scrollParentRef}
-          />
+          <div className="px-4">
+            <Activity
+              address={account.publicKey}
+              programId={programId}
+              fullHistory={true}
+              scrollParentRef={scrollParentRef}
+            />
+          </div>
         </div>
-      </div>
-      <div className="flex-none w-full absolute bottom-0">
-        <Footer />
+        <div className="flex-none">
+          <Footer />
+        </div>
       </div>
     </PageLayout>
   );
