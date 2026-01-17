@@ -45,13 +45,13 @@ const PageLayout: FC<PageLayoutProps> = ({
       <DocBg bgClassName="bg-white" />
 
       <div
-        className={classNames('bg-white m-auto rounded-3xl relative flex flex-col flex-1')}
+        className={classNames('bg-white m-auto rounded-3xl relative flex flex-col flex-1 min-h-0 overflow-hidden')}
         style={{ ...containerStyles }}
       >
         <ContentPaper>
           {!hideToolbar && <Toolbar {...toolbarProps} />}
 
-          <div className="flex flex-col flex-1" style={contentContainerStyle}>
+          <div className="flex flex-col flex-1 min-h-0 overflow-hidden" style={contentContainerStyle}>
             <ErrorBoundary whileMessage="displaying this page">
               <Suspense fallback={<SpinnerSection />}>{children}</Suspense>
             </ErrorBoundary>
@@ -74,7 +74,7 @@ const ContentPaper: FC<ContentPaparProps> = ({ className, style = {}, children, 
   return appEnv.fullPage ? (
     <ContentContainer>
       <div
-        className={classNames('bg-white', 'rounded-3xl', 'flex flex-col flex-1', className)}
+        className={classNames('bg-white', 'rounded-3xl', 'flex flex-col flex-1 min-h-0 overflow-hidden', className)}
         style={{ minHeight: '20rem', ...style }}
         {...rest}
       >
@@ -84,7 +84,7 @@ const ContentPaper: FC<ContentPaparProps> = ({ className, style = {}, children, 
   ) : (
     <ContentContainer
       padding={false}
-      className={classNames('bg-white flex flex-col flex-1', className)}
+      className={classNames('bg-white flex flex-col flex-1 min-h-0 overflow-hidden', className)}
       style={style}
       {...rest}
     >
