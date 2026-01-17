@@ -5,17 +5,61 @@
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# Capacitor WebView rules
+# Keep Capacitor classes and plugins
+-keep class com.getcapacitor.** { *; }
+-keep class com.miden.wallet.** { *; }
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# Keep JavaScript interfaces for WebView
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# Keep native methods
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+# Keep Parcelable implementations
+-keepclassmembers class * implements android.os.Parcelable {
+    static ** CREATOR;
+}
+
+# Keep R8 from stripping interface methods
+-keep interface * {
+    <methods>;
+}
+
+# Preserve the line number information for debugging stack traces.
+-keepattributes SourceFile,LineNumberTable
+
+# Hide the original source file name in stack traces
+-renamesourcefileattribute SourceFile
+
+# Biometric plugin
+-keep class androidx.biometric.** { *; }
+-keep class com.niceforyou.biometric.** { *; }
+
+# Haptics plugin
+-keep class com.capacitorjs.plugins.haptics.** { *; }
+
+# Preferences plugin
+-keep class com.capacitorjs.plugins.preferences.** { *; }
+
+# Keyboard plugin
+-keep class com.capacitorjs.plugins.keyboard.** { *; }
+
+# Splash Screen plugin
+-keep class com.capacitorjs.plugins.splashscreen.** { *; }
+
+# Status Bar plugin
+-keep class com.capacitorjs.plugins.statusbar.** { *; }
+
+# In-App Browser plugin
+-keep class ee.niceforyou.inappbrowser.** { *; }
+-keep class com.niceforyou.inappbrowser.** { *; }
+
+# Don't warn about missing classes in optional dependencies
+-dontwarn org.conscrypt.**
+-dontwarn org.bouncycastle.**
+-dontwarn org.openjsse.**
