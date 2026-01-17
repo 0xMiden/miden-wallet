@@ -18,8 +18,8 @@ export const Chip: React.FC<ChipProps> = ({ label, selected, className, ...props
     <label
       {...props}
       className={classNames(
-        'flex items-center',
-        'px-4 h-8 rounded-full',
+        'flex items-center justify-center',
+        'px-3 py-2 min-h-8 rounded-full',
         'transition duration-300 ease-in-out',
         'font-base text-sm',
         stateClassName,
