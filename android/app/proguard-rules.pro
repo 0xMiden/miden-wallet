@@ -59,6 +59,12 @@
 -keep class ee.niceforyou.inappbrowser.** { *; }
 -keep class com.niceforyou.inappbrowser.** { *; }
 
+# Filesystem plugin
+-keep class com.capacitorjs.plugins.filesystem.** { *; }
+
+# Share plugin
+-keep class com.capacitorjs.plugins.share.** { *; }
+
 # Don't warn about missing classes in optional dependencies
 -dontwarn org.conscrypt.**
 -dontwarn org.bouncycastle.**
