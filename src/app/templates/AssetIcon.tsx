@@ -68,7 +68,7 @@ export const AssetIcon: FC<AssetIconProps> = ({ assetSlug, assetId, className, s
       style={{
         border: '1px solid #E9EBEF',
         borderRadius: '20px',
-        padding: assetSlug === 'miden' ? '4px 6px' : '0',
+        width: '36px',
         height: '36px'
       }}
     >
