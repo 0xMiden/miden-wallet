@@ -75,6 +75,18 @@ export interface TransactionModalSlice {
 }
 
 /**
+ * Note toast state (mobile only)
+ */
+export interface NoteToastSlice {
+  /** Set of note IDs that have been seen (to detect new notes) */
+  seenNoteIds: Set<string>;
+  /** Whether the note received toast is visible */
+  isNoteToastVisible: boolean;
+  /** Timestamp when the toast was shown (used as key to reset timer) */
+  noteToastShownAt: number | null;
+}
+
+/**
  * Actions for wallet mutations
  */
 export interface WalletActions {
@@ -166,6 +178,18 @@ export interface TransactionModalActions {
 }
 
 /**
+ * Note toast actions (mobile only)
+ */
+export interface NoteToastActions {
+  /** Check if new notes have been received and show toast if so */
+  checkForNewNotes: (currentNoteIds: string[]) => void;
+  /** Dismiss the note received toast */
+  dismissNoteToast: () => void;
+  /** Reset all seen notes (used when switching accounts) */
+  resetSeenNotes: () => void;
+}
+
+/**
  * Combined store type
  */
 export interface WalletStore
@@ -177,9 +201,11 @@ export interface WalletStore
     FiatCurrencySlice,
     SyncSlice,
     TransactionModalSlice,
+    NoteToastSlice,
     WalletActions,
     BalanceActions,
     AssetActions,
     FiatCurrencyActions,
     SyncActions,
-    TransactionModalActions {}
+    TransactionModalActions,
+    NoteToastActions {}

@@ -71,6 +71,11 @@ export const useWalletStore = create<WalletStore>()(
     isTransactionModalOpen: false,
     isDappBrowserOpen: false,
 
+    // Initial note toast state (mobile only)
+    seenNoteIds: new Set<string>(),
+    isNoteToastVisible: false,
+    noteToastShownAt: null,
+
     // Sync action - updates store from backend state
     syncFromBackend: (state: MidenState) => {
       set({
@@ -125,9 +130,12 @@ export const useWalletStore = create<WalletStore>()(
     },
 
     updateCurrentAccount: async accountPublicKey => {
-      const { accounts, currentAccount } = get();
+      const { accounts, currentAccount, resetSeenNotes } = get();
       const prevAccount = currentAccount;
       const newAccount = accounts.find(a => a.publicKey === accountPublicKey) || null;
+
+      // Reset seen notes when switching accounts
+      resetSeenNotes();
 
       // Optimistic update
       if (newAccount) {
@@ -436,6 +444,39 @@ export const useWalletStore = create<WalletStore>()(
     // DApp browser state (mobile only)
     setDappBrowserOpen: (isOpen: boolean) => {
       set({ isDappBrowserOpen: isOpen });
+    },
+
+    // Note toast actions (mobile only)
+    checkForNewNotes: (currentNoteIds: string[]) => {
+      const { seenNoteIds } = get();
+
+      // Find note IDs that weren't previously seen
+      const newNoteIds = currentNoteIds.filter(id => !seenNoteIds.has(id));
+
+      if (newNoteIds.length > 0) {
+        // Update seen notes and show toast
+        const updatedSeenNotes = new Set(seenNoteIds);
+        for (const id of newNoteIds) {
+          updatedSeenNotes.add(id);
+        }
+        set({
+          seenNoteIds: updatedSeenNotes,
+          isNoteToastVisible: true,
+          noteToastShownAt: Date.now()
+        });
+      }
+    },
+
+    dismissNoteToast: () => {
+      set({ isNoteToastVisible: false });
+    },
+
+    resetSeenNotes: () => {
+      set({
+        seenNoteIds: new Set<string>(),
+        isNoteToastVisible: false,
+        noteToastShownAt: null
+      });
     }
   }))
 );

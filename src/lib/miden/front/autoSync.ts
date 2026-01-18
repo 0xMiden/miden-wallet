@@ -61,14 +61,6 @@ export class Sync {
       return;
     }
 
-    // On mobile, don't sync while dApp browser is open to avoid lock contention
-    if (isMobile() && storeState.isDappBrowserOpen) {
-      console.log('[AutoSync] Skipping sync while dApp browser is open');
-      await sleep(3000);
-      await this.sync();
-      return;
-    }
-
     // Set syncing status to true before sync
     useWalletStore.getState().setSyncStatus(true);
 

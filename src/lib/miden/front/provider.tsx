@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useMemo } from 'react';
 
+import { NoteToastProvider } from 'components/NoteToastProvider';
 import { TransactionProgressModal } from 'components/TransactionProgressModal';
 import { FiatCurrencyProvider } from 'lib/fiat-curency';
 import { MidenContextProvider, useMidenContext } from 'lib/miden/front/client';
@@ -75,7 +76,11 @@ const ConditionalProviders: FC<PropsWithChildren> = ({ children }) => {
     () =>
       ready ? (
         <TokensMetadataProvider>
-          <FiatCurrencyProvider>{children}</FiatCurrencyProvider>
+          <FiatCurrencyProvider>
+            {children}
+            {/* NoteToastProvider monitors for new notes and shows toast on mobile */}
+            <NoteToastProvider />
+          </FiatCurrencyProvider>
         </TokensMetadataProvider>
       ) : (
         <>{children}</>
