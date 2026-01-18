@@ -6,8 +6,8 @@ import { useTranslation } from 'react-i18next';
 import FormField from 'app/atoms/FormField';
 import { openLoadingFullPage, useAppEnv } from 'app/env';
 import { Icon, IconName } from 'app/icons/v2';
-import PageLayout from 'app/layouts/PageLayout';
 import { Button, ButtonVariant } from 'components/Button';
+import { NavigationHeader } from 'components/NavigationHeader';
 import { CardItem } from 'components/CardItem';
 import { QRCode } from 'components/QRCode';
 import { SyncWaveBackground } from 'components/SyncWaveBackground';
@@ -44,7 +44,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const { fieldRef, copy, copied } = useCopyToClipboard();
   const { data: claimableNotes, mutate: mutateClaimableNotes } = useClaimableNotes(address);
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
-  const { popup } = useAppEnv();
+  const { popup, fullPage } = useAppEnv();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const safeClaimableNotes = (claimableNotes ?? []).filter((n): n is NonNullable<typeof n> => n != null);
   const [isDragging, setIsDragging] = useState(false);
@@ -254,7 +254,13 @@ export const Receive: React.FC<ReceiveProps> = () => {
     individualClaimingIds
   ]);
 
-  const pageTitle = <>{t('receive')}</>;
+  const handleClose = () => {
+    if (fromNotification) {
+      goBack();
+    } else {
+      navigate('/', HistoryAction.Replace);
+    }
+  };
 
   const handleButtonClick = () => {
     // Trigger the hidden input's click event
@@ -320,25 +326,18 @@ export const Receive: React.FC<ReceiveProps> = () => {
     [handleFileChange]
   );
 
+  // Match SendManager's container sizing
+  const containerClass = isMobile()
+    ? 'h-[100dvh] w-full'
+    : fullPage
+      ? 'h-[640px] max-h-[640px] w-[600px] max-w-[600px] border rounded-3xl'
+      : 'h-[600px] max-h-[600px] w-[360px] max-w-[360px]';
+
   return (
-    <PageLayout
-      pageTitle={pageTitle}
-      showBottomBorder={false}
-      titleContainerClassName="w-5/6 md:w-1/2 mx-auto"
-      step={1}
-      setStep={newStep => {
-        if (newStep === 0) {
-          if (fromNotification) {
-            // Go back to where user was before tapping notification
-            goBack();
-          } else {
-            navigate('/', HistoryAction.Replace);
-          }
-        }
-      }}
-      skip={false}
-    >
+    <div className={classNames(containerClass, 'mx-auto overflow-hidden flex flex-col bg-white')}>
+      <NavigationHeader mode="close" title={t('receive')} onClose={handleClose} showBorder />
       <div
+        className="flex-1 overflow-y-auto"
         onDrop={onDropFile}
         onDragOver={e => e.preventDefault()}
         onDragEnter={onDragEnter}
@@ -403,7 +402,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
           )}
         </div>
       </div>
-    </PageLayout>
+    </div>
   );
 };
 

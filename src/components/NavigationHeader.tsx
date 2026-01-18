@@ -11,11 +11,20 @@ export interface NavigationHeaderProps extends HTMLAttributes<HTMLDivElement> {
   mode?: 'back' | 'close';
   onBack?: () => void;
   onClose?: () => void;
+  showBorder?: boolean;
 }
 
-export const NavigationHeader: React.FC<NavigationHeaderProps> = ({ className, onBack, onClose, ...props }) => {
+export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
+  className,
+  onBack,
+  onClose,
+  showBorder = false,
+  ...props
+}) => {
   return (
-    <div className={classNames('flex flex-row p-4 gap-x-4 items-center', className)}>
+    <div
+      className={classNames('flex flex-row p-4 gap-x-4 items-center', showBorder && 'border-b border-grey-100', className)}
+    >
       {onBack ? <CircleButton icon={IconName.ArrowLeft} onClick={onBack} /> : null}
       <h1 className="flex-1 text-lg font-semibold">{props.title}</h1>
       {onClose ? <CircleButton icon={IconName.Close} onClick={onClose} /> : null}

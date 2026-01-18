@@ -97,7 +97,7 @@ export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
 
   return (
     <div className="flex-1 flex flex-col">
-      <NavigationHeader mode="back" title={t('review')} onBack={onGoBack} />
+      <NavigationHeader mode="back" title={t('review')} onBack={onGoBack} showBorder />
       <div className="flex flex-col flex-1 p-4 gap-y-4 md:w-[460px] md:mx-auto">
         <span className="flex flex-row items-end gap-x-2 justify-center p-6">
           <p className="text-2xl leading-8">{`${amount} ${token}`}</p>
