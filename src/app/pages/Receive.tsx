@@ -53,6 +53,8 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const [individualClaimingIds, setIndividualClaimingIds] = useState<Set<string>>(new Set());
   // Track notes that failed during Claim All
   const [failedNoteIds, setFailedNoteIds] = useState<Set<string>>(new Set());
+  // Track notes being checked for state from node
+  const [checkingNoteIds, setCheckingNoteIds] = useState<Set<string>>(new Set());
   const claimAllAbortRef = useRef<AbortController | null>(null);
 
   // Callback for child components to report their claiming state
@@ -101,46 +103,57 @@ export const Receive: React.FC<ReceiveProps> = () => {
     return () => clearInterval(interval);
   }, [mutateClaimableNotes]);
 
-  // Check for failed notes: both from local IndexedDB and node state
+  // Check for failed notes: both from local IndexedDB and node state (only once on mount)
+  const hasCheckedFailedNotes = useRef(false);
   useEffect(() => {
     const checkFailedNotes = async () => {
       if (safeClaimableNotes.length === 0) return;
+      if (hasCheckedFailedNotes.current) return;
+      hasCheckedFailedNotes.current = true;
+
+      // Show loading wave on all notes while checking
+      const noteIdsToCheck = new Set(safeClaimableNotes.map(n => n.id));
+      setCheckingNoteIds(noteIdsToCheck);
 
       const failedIds = new Set<string>();
 
-      // 1. Check local IndexedDB for failed consume transactions
-      const failedTxs = await getFailedTransactions();
-      for (const tx of failedTxs) {
-        if (tx.type === 'consume' && tx.noteId) {
-          failedIds.add(tx.noteId);
-        }
-      }
-
-      // 2. Check node state for Invalid notes
       try {
-        const { InputNoteState, NoteFilter, NoteFilterTypes, NoteId } = await import('@demox-labs/miden-sdk');
-        const noteIds = safeClaimableNotes.map(n => NoteId.fromHex(n.id));
-        const noteDetails = await withWasmClientLock(async () => {
-          const midenClient = await getMidenClient();
-          const noteFilter = new NoteFilter(NoteFilterTypes.List, noteIds);
-          return await midenClient.getInputNoteDetails(noteFilter);
-        });
-
-        for (const note of noteDetails) {
-          if (note.state === InputNoteState.Invalid) {
-            failedIds.add(note.noteId);
+        // 1. Check local IndexedDB for failed consume transactions
+        const failedTxs = await getFailedTransactions();
+        for (const tx of failedTxs) {
+          if (tx.type === 'consume' && tx.noteId) {
+            failedIds.add(tx.noteId);
           }
         }
-      } catch (err) {
-        console.error('[Receive] Error checking node state for notes:', err);
-      }
 
-      // Only include notes that are still claimable (shown in UI)
-      const claimableNoteIds = new Set(safeClaimableNotes.map(n => n.id));
-      const failedClaimableNotes = new Set([...failedIds].filter(id => claimableNoteIds.has(id)));
+        // 2. Check node state for Invalid notes
+        try {
+          const { InputNoteState, NoteFilter, NoteFilterTypes, NoteId } = await import('@demox-labs/miden-sdk');
+          const noteIds = safeClaimableNotes.map(n => NoteId.fromHex(n.id));
+          const noteDetails = await withWasmClientLock(async () => {
+            const midenClient = await getMidenClient();
+            const noteFilter = new NoteFilter(NoteFilterTypes.List, noteIds);
+            return await midenClient.getInputNoteDetails(noteFilter);
+          });
 
-      if (failedClaimableNotes.size > 0) {
-        setFailedNoteIds(prev => new Set([...prev, ...failedClaimableNotes]));
+          for (const note of noteDetails) {
+            if (note.state === InputNoteState.Invalid) {
+              failedIds.add(note.noteId);
+            }
+          }
+        } catch (err) {
+          console.error('[Receive] Error checking node state for notes:', err);
+        }
+
+        // Only include notes that are still claimable (shown in UI)
+        const claimableNoteIds = new Set(safeClaimableNotes.map(n => n.id));
+        const failedClaimableNotes = new Set([...failedIds].filter(id => claimableNoteIds.has(id)));
+
+        if (failedClaimableNotes.size > 0) {
+          setFailedNoteIds(prev => new Set([...prev, ...failedClaimableNotes]));
+        }
+      } finally {
+        setCheckingNoteIds(new Set());
       }
     };
 
@@ -371,6 +384,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
                     isDelegatedProvingEnabled={isDelegatedProvingEnabled}
                     isClaimingFromParent={claimingNoteIds.has(note.id)}
                     hasFailedFromParent={failedNoteIds.has(note.id)}
+                    isCheckingFromParent={checkingNoteIds.has(note.id)}
                     onClaimingStateChange={handleClaimingStateChange}
                   />
                 ))}
@@ -400,6 +414,7 @@ interface ConsumableNoteProps {
   isDelegatedProvingEnabled: boolean;
   isClaimingFromParent?: boolean;
   hasFailedFromParent?: boolean;
+  isCheckingFromParent?: boolean;
   onClaimingStateChange?: (noteId: string, isClaiming: boolean) => void;
 }
 
@@ -410,11 +425,12 @@ export const ConsumableNoteComponent = ({
   isDelegatedProvingEnabled,
   isClaimingFromParent = false,
   hasFailedFromParent = false,
+  isCheckingFromParent = false,
   onClaimingStateChange
 }: ConsumableNoteProps) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(note.isBeingClaimed || false);
-  const showSpinner = isLoading || isClaimingFromParent;
+  const showSpinner = isLoading || isClaimingFromParent || isCheckingFromParent;
   const [error, setError] = useState<string | null>(null);
   const hasError = error || hasFailedFromParent;
   const abortControllerRef = useRef<AbortController | null>(null);
