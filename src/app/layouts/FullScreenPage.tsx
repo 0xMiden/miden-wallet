@@ -1,16 +1,15 @@
 import React, { FC, useEffect, useRef } from 'react';
 
-import { isMobile } from 'lib/platform';
 import { PropsWithChildren } from 'lib/props-with-children';
 
 /**
- * Wrapper for full-screen pages (Send, Receive, etc.) that slides in from the right on mobile.
+ * Wrapper for full-screen pages (Send, Receive, etc.) that slides in from the right.
  */
 const FullScreenPage: FC<PropsWithChildren> = ({ children }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!isMobile() || !containerRef.current) return;
+    if (!containerRef.current) return;
 
     const el = containerRef.current;
     el.classList.add('mobile-page-enter');
@@ -26,10 +25,6 @@ const FullScreenPage: FC<PropsWithChildren> = ({ children }) => {
       el.removeEventListener('animationend', handleAnimationEnd);
     };
   }, []);
-
-  if (!isMobile()) {
-    return <>{children}</>;
-  }
 
   return (
     <div ref={containerRef} className="flex flex-col h-full w-full" style={{ willChange: 'transform, opacity' }}>

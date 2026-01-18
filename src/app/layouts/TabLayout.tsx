@@ -20,12 +20,12 @@ const TabLayout: FC<PropsWithChildren> = ({ children }) => {
   const { pathname } = useLocation();
   const contentRef = useRef<HTMLDivElement>(null);
 
-  // Animate content on route change (mobile only)
+  // Animate content on route change
   // Remove class after animation completes to prevent replay on display toggle
   // (resetViewportAfterWebview toggles display:none which restarts CSS animations)
   useEffect(() => {
-    if (!isMobile() || !contentRef.current) return;
-    if (isReturningFromWebview()) return;
+    if (!contentRef.current) return;
+    if (isMobile() && isReturningFromWebview()) return;
 
     const el = contentRef.current;
     el.classList.remove('mobile-page-enter');
@@ -57,7 +57,7 @@ const TabLayout: FC<PropsWithChildren> = ({ children }) => {
       <div
         ref={contentRef}
         className="flex-1 flex flex-col min-h-0 overflow-hidden"
-        style={isMobile() ? { willChange: 'transform, opacity' } : undefined}
+        style={{ willChange: 'transform, opacity' }}
       >
         {children}
       </div>
