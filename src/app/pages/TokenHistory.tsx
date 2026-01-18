@@ -26,9 +26,9 @@ const TokenHistory: FC<TokenHistoryProps> = ({ tokenId }) => {
 
   return (
     <PageLayout pageTitle={t('tokenHistory', { tokenName })} hasBackAction={true}>
-      <div className="flex flex-col flex-1 min-h-0 md:w-[460px] md:mx-auto">
+      <div className="flex flex-col flex-1 min-h-0">
         <div className={classNames('flex-1 min-h-0 overflow-y-auto', 'bg-white z-30 relative')} ref={scrollParentRef}>
-          <div className="px-4">
+          <div className="px-4 md:w-[460px] md:mx-auto">
             <History
               address={account.publicKey}
               tokenId={tokenId}
@@ -37,7 +37,7 @@ const TokenHistory: FC<TokenHistoryProps> = ({ tokenId }) => {
             />
           </div>
         </div>
-        <div className="flex-none p-4">
+        <div className="flex-none p-4 md:w-[460px] md:mx-auto">
           <Button title={t('close')} variant={ButtonVariant.Secondary} onClick={goBack} />
         </div>
       </div>
