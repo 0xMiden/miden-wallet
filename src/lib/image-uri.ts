@@ -18,6 +18,11 @@ export const formatAssetUri = (url = '') => {
     return url;
   }
 
+  // Handle relative URLs (used on mobile)
+  if (url.startsWith('/')) {
+    return url;
+  }
+
   return '';
 };
 
