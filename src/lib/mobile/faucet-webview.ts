@@ -211,14 +211,17 @@ export async function openFaucetWebview({ url, title, recipientAddress }: Faucet
     }
   });
 
-  // Inject prefill script when page loads (needs DOM to be ready)
+  // Inject scripts when page loads (needs DOM to be ready)
   const loadListener = await InAppBrowser.addListener('browserPageLoaded', async () => {
     try {
+      // Inject download interceptor first
+      await InAppBrowser.executeScript({ code: DOWNLOAD_INTERCEPTOR_SCRIPT });
+      // Then prefill address if provided
       if (prefillAddressScript) {
         await InAppBrowser.executeScript({ code: prefillAddressScript });
       }
     } catch (e) {
-      console.error('[FaucetWebview] Error injecting prefill script:', e);
+      console.error('[FaucetWebview] Error injecting scripts:', e);
     }
   });
 
@@ -231,14 +234,12 @@ export async function openFaucetWebview({ url, title, recipientAddress }: Faucet
     await resetViewportAfterWebview();
   });
 
-  // Open the webview with download interceptor injected at document start
+  // Open the webview immediately (scripts injected via browserPageLoaded listener)
   await InAppBrowser.openWebView({
     url,
     title,
     toolbarType: ToolBarType.NAVIGATION,
     showReloadButton: true,
-    isPresentAfterPageLoad: true,
-    preShowScript: DOWNLOAD_INTERCEPTOR_SCRIPT,
-    preShowScriptInjectionTime: 'documentStart'
+    isPresentAfterPageLoad: false
   });
 }
