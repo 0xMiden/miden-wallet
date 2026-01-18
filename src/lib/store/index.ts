@@ -221,10 +221,11 @@ export const useWalletStore = create<WalletStore>()(
       return res.privateKey;
     },
 
-    importPublicAccountByPrivateKey: async privateKey => {
+    importPublicAccountByPrivateKey: async (privateKey, name) => {
       const res = await request({
         type: WalletMessageType.ImportAccountRequest,
-        privateKey
+        privateKey,
+        name
       });
       assertResponse(res.type === WalletMessageType.ImportAccountResponse);
     },

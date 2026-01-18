@@ -164,10 +164,9 @@ export function editAccount(accPublicKey: string, name: string) {
   });
 }
 
-export function importAccount(privateKey: string) {
-  console.log('importAccount called');
+export function importAccount(privateKey: string, name?: string) {
   return withUnlocked(async ({ vault }) => {
-    const accounts = await vault.importAccount(privateKey);
+    const accounts = await vault.importAccount(privateKey, name);
     accountsUpdated({ accounts });
   });
 }

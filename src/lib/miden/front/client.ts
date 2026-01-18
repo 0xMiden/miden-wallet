@@ -275,8 +275,8 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   const confirmDAppDeploy = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {}, []);
   const getOwnedRecords = useCallback(async (accPublicKey: string) => {}, []);
   const importPublicAccountByPrivateKey = useCallback(
-    async (privateKey: string) => {
-      await storeImportAccountByPrivateKey(privateKey);
+    async (privateKey: string, name?: string) => {
+      await storeImportAccountByPrivateKey(privateKey, name);
     },
     [storeImportAccountByPrivateKey]
   );

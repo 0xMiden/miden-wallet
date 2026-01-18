@@ -375,7 +375,7 @@ export class Vault {
     });
   }
 
-  async importAccount(privateKey: string) {
+  async importAccount(privateKey: string, name?: string): Promise<WalletAccount[]> {
     return withError('Failed to import account', async () => {
       const allAccounts = await fetchAndDecryptOneWithLegacyFallBack<WalletAccount[]>(accountsStrgKey, this.passKey);
       const secretKey = SecretKey.deserialize(new Uint8Array(Buffer.from(privateKey, 'hex')));
@@ -388,7 +388,7 @@ export class Vault {
       });
       const newAccount: WalletAccount = {
         publicKey,
-        name: getNewAccountName(allAccounts),
+        name: name || `Imported Account ${allAccounts.length + 1}`,
         isPublic: true,
         type: WalletType.OnChain,
         hdIndex: -1 // -1 indicates imported account

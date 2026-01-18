@@ -114,7 +114,7 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
-  }, [walletPassword, filePassword, fileName, revealMnemonic, t, accounts]);
+  }, [walletPassword, filePassword, fileName, revealMnemonic, t, accounts, revealPrivateKey]);
 
   useEffect(() => {
     getExportFile();
