@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 
 import { useAppEnv } from 'app/env';
 import { Icon, IconName } from 'app/icons/v2';
-import Footer from 'app/layouts/PageLayout/Footer';
 import Header from 'app/layouts/PageLayout/Header';
 import faucetIcon from 'app/misc/dapp-icons/faucet.png';
 import midenIcon from 'app/misc/dapp-icons/miden.png';
@@ -17,6 +16,7 @@ import { dappConfirmationStore, DAppConfirmationRequest } from 'lib/dapp-browser
 import { INJECTION_SCRIPT } from 'lib/dapp-browser/injection-script';
 import { handleWebViewMessage, WebViewMessage } from 'lib/dapp-browser/message-handler';
 import { resetViewportAfterWebview } from 'lib/mobile/viewport-reset';
+import { markReturningFromWebview } from 'lib/mobile/webview-state';
 import { isMobile } from 'lib/platform';
 import { useWalletStore } from 'lib/store';
 
@@ -222,6 +222,7 @@ const Browser: FC = () => {
 
         const closeListener = await InAppBrowser.addListener('closeEvent', async () => {
           console.log('[Browser] Browser closed event');
+          markReturningFromWebview();
           messageListener.remove();
           closeListener.remove();
           setIsLoading(false);
@@ -293,8 +294,9 @@ const Browser: FC = () => {
     [handleSubmit]
   );
 
+  // Content only - container and footer provided by TabLayout
   return (
-    <div className="flex flex-col m-auto bg-white" style={containerStyle}>
+    <>
       <Header />
 
       {/* URL Input */}
@@ -376,9 +378,7 @@ const Browser: FC = () => {
           ))}
         </div>
       </div>
-
-      <Footer />
-    </div>
+    </>
   );
 };
 

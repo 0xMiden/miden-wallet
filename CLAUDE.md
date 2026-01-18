@@ -60,6 +60,8 @@ yarn format           # Prettier
 
 **IMPORTANT:** When testing mobile changes, always build and run the simulator yourself. Never tell the user to build/test changes themselves - do it for them.
 
+**iOS Simulator:** Always use **iPhone 17** as the default simulator for testing.
+
 **Node version:** Capacitor CLI requires Node >= 22. Use nvm to switch:
 ```bash
 source ~/.nvm/nvm.sh && nvm use 22 && yarn mobile:ios:run

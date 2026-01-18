@@ -3,6 +3,7 @@ import { Share } from '@capacitor/share';
 import { InAppBrowser, ToolBarType } from '@capgo/inappbrowser';
 
 import { resetViewportAfterWebview } from 'lib/mobile/viewport-reset';
+import { markReturningFromWebview } from 'lib/mobile/webview-state';
 import { isMobile } from 'lib/platform';
 
 const DOWNLOAD_INTERCEPTOR_SCRIPT = `
@@ -223,6 +224,7 @@ export async function openFaucetWebview({ url, title, recipientAddress }: Faucet
 
   // Clean up listeners when browser closes
   const closeListener = await InAppBrowser.addListener('closeEvent', async () => {
+    markReturningFromWebview();
     messageListener.remove();
     loadListener.remove();
     closeListener.remove();

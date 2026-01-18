@@ -197,3 +197,22 @@ button,
 ::-webkit-scrollbar-button {
   display: none;
 }
+
+/**
+ * Mobile page slide-in animation
+ */
+
+@keyframes mobile-slide-in {
+  from {
+    transform: translateX(8%);
+    opacity: 0.5;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.mobile-page-enter {
+  animation: mobile-slide-in 0.15s ease-out both;
+}

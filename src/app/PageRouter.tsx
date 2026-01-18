@@ -1,6 +1,8 @@
 import React, { FC, useLayoutEffect, useMemo } from 'react';
 
 import { OpenInFullPage, useAppEnv } from 'app/env';
+import FullScreenPage from 'app/layouts/FullScreenPage';
+import TabLayout from 'app/layouts/TabLayout';
 import CreateAccount from 'app/pages/CreateAccount';
 import Explore from 'app/pages/Explore';
 import Faucet from 'app/pages/Faucet';
@@ -85,30 +87,179 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
     }
   ],
   ['/loading', (_p, ctx) => (ctx.ready ? <Woozie.Redirect to={'/'} /> : <RootSuspenseFallback />)],
-  ['/', (_p, ctx) => (ctx.ready ? <Explore /> : <Welcome />)],
-  ['/select-account', onlyReady(() => <SelectAccount />)],
-  ['/create-account', onlyReady(() => <CreateAccount />)],
-  ['/edit-name', onlyReady(() => <EditAccountName />)],
-  ['/import-account/:tabSlug?', onlyReady(({ tabSlug }) => <ImportAccount tabSlug={tabSlug} />)],
-  ['/receive', onlyReady(() => <Receive />)],
-  ['/faucet', onlyReady(() => <Faucet />)],
-  ['/get-tokens', onlyReady(() => <GetTokens />)],
-  ['/activity/:programId?', onlyReady(({ programId }) => <AllActivity programId={programId} />)],
+  // Tab pages - wrapped in TabLayout with persistent footer
+  [
+    '/',
+    (_p, ctx) =>
+      ctx.ready ? (
+        <TabLayout>
+          <Explore />
+        </TabLayout>
+      ) : (
+        <Welcome />
+      )
+  ],
+  [
+    '/activity/:programId?',
+    onlyReady(({ programId }) => (
+      <TabLayout>
+        <AllActivity programId={programId} />
+      </TabLayout>
+    ))
+  ],
+  [
+    '/settings/:tabSlug?',
+    onlyReady(({ tabSlug }) => (
+      <TabLayout>
+        <Settings tabSlug={tabSlug} />
+      </TabLayout>
+    ))
+  ],
+  [
+    '/browser',
+    onlyReady(() => (
+      <TabLayout>
+        <Browser />
+      </TabLayout>
+    ))
+  ],
+  // Full-screen pages - wrapped in FullScreenPage for slide animation
+  [
+    '/select-account',
+    onlyReady(() => (
+      <FullScreenPage>
+        <SelectAccount />
+      </FullScreenPage>
+    ))
+  ],
+  [
+    '/create-account',
+    onlyReady(() => (
+      <FullScreenPage>
+        <CreateAccount />
+      </FullScreenPage>
+    ))
+  ],
+  [
+    '/edit-name',
+    onlyReady(() => (
+      <FullScreenPage>
+        <EditAccountName />
+      </FullScreenPage>
+    ))
+  ],
+  [
+    '/import-account/:tabSlug?',
+    onlyReady(({ tabSlug }) => (
+      <FullScreenPage>
+        <ImportAccount tabSlug={tabSlug} />
+      </FullScreenPage>
+    ))
+  ],
+  [
+    '/receive',
+    onlyReady(() => (
+      <FullScreenPage>
+        <Receive />
+      </FullScreenPage>
+    ))
+  ],
+  [
+    '/faucet',
+    onlyReady(() => (
+      <FullScreenPage>
+        <Faucet />
+      </FullScreenPage>
+    ))
+  ],
+  [
+    '/get-tokens',
+    onlyReady(() => (
+      <FullScreenPage>
+        <GetTokens />
+      </FullScreenPage>
+    ))
+  ],
   [
     '/activity-details/:transactionId',
-    onlyReady(({ transactionId }) => <ActivityDetails transactionId={transactionId!} />)
+    onlyReady(({ transactionId }) => (
+      <FullScreenPage>
+        <ActivityDetails transactionId={transactionId!} />
+      </FullScreenPage>
+    ))
   ],
-  ['/manage-assets/:assetType?', onlyReady(({ assetType }) => <ManageAssets assetType={assetType!} />)],
-  ['/send', onlyReady(() => <SendFlow isLoading={false} />)],
-  ['/settings/:tabSlug?', onlyReady(({ tabSlug }) => <Settings tabSlug={tabSlug} />)],
-  ['/browser', onlyReady(() => <Browser />)],
-  ['/encrypted-wallet-file', onlyReady(() => <EncryptedFileFlow />)],
-  ['/generating-transaction', onlyReady(() => <GeneratingTransactionPage />)],
-  ['/generating-transaction-full', onlyReady(() => <GeneratingTransactionPage keepOpen={true} />)],
-  ['/consuming-note/:noteId', onlyReady(({ noteId }) => <ConsumingNotePage noteId={noteId!} />)],
-  ['/import-note-pending/:noteId', onlyReady(({ noteId }) => <ImportNotePending noteId={noteId!} />)],
-  ['/import-note-success', onlyReady(() => <ImportNoteResult success={true} />)],
-  ['/import-note-failure', onlyReady(() => <ImportNoteResult success={false} />)],
+  [
+    '/manage-assets/:assetType?',
+    onlyReady(({ assetType }) => (
+      <FullScreenPage>
+        <ManageAssets assetType={assetType!} />
+      </FullScreenPage>
+    ))
+  ],
+  [
+    '/send',
+    onlyReady(() => (
+      <FullScreenPage>
+        <SendFlow isLoading={false} />
+      </FullScreenPage>
+    ))
+  ],
+  [
+    '/encrypted-wallet-file',
+    onlyReady(() => (
+      <FullScreenPage>
+        <EncryptedFileFlow />
+      </FullScreenPage>
+    ))
+  ],
+  [
+    '/generating-transaction',
+    onlyReady(() => (
+      <FullScreenPage>
+        <GeneratingTransactionPage />
+      </FullScreenPage>
+    ))
+  ],
+  [
+    '/generating-transaction-full',
+    onlyReady(() => (
+      <FullScreenPage>
+        <GeneratingTransactionPage keepOpen={true} />
+      </FullScreenPage>
+    ))
+  ],
+  [
+    '/consuming-note/:noteId',
+    onlyReady(({ noteId }) => (
+      <FullScreenPage>
+        <ConsumingNotePage noteId={noteId!} />
+      </FullScreenPage>
+    ))
+  ],
+  [
+    '/import-note-pending/:noteId',
+    onlyReady(({ noteId }) => (
+      <FullScreenPage>
+        <ImportNotePending noteId={noteId!} />
+      </FullScreenPage>
+    ))
+  ],
+  [
+    '/import-note-success',
+    onlyReady(() => (
+      <FullScreenPage>
+        <ImportNoteResult success={true} />
+      </FullScreenPage>
+    ))
+  ],
+  [
+    '/import-note-failure',
+    onlyReady(() => (
+      <FullScreenPage>
+        <ImportNoteResult success={false} />
+      </FullScreenPage>
+    ))
+  ],
   ['*', () => <Woozie.Redirect to="/" />]
 ]);
 

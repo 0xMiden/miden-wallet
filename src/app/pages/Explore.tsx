@@ -8,7 +8,6 @@ import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
 import { ReactComponent as FaucetIcon } from 'app/icons/faucet.svg';
 import { ReactComponent as ReceiveIcon } from 'app/icons/receive.svg';
 import { ReactComponent as SendIcon } from 'app/icons/send.svg';
-import Footer from 'app/layouts/PageLayout/Footer';
 import Header from 'app/layouts/PageLayout/Header';
 import AddressChip from 'app/templates/AddressChip';
 import { ChainInstabilityBanner } from 'components/ChainInstabilityBanner';
@@ -173,17 +172,12 @@ const Explore: FC = () => {
     return null;
   }
 
-  // On mobile, use fixed height with dvh (dynamic viewport height) for proper iOS handling
-  const size = isMobile()
-    ? { height: '100dvh', width: '100%' }
-    : fullPage
-      ? { height: '640px', width: '600px' }
-      : { height: '600px', width: '360px' };
   const background = 'url(/misc/bg.svg) white center top / cover no-repeat';
   const sendLink = allTokenBalances.length > 0 ? '/send' : '/get-tokens';
 
+  // Content only - container and footer provided by TabLayout
   return (
-    <div className={classNames('flex flex-col m-auto bg-white', fullPage && 'rounded-3xl')} style={size}>
+    <>
       <ConnectivityIssueBanner />
       <ChainInstabilityBanner />
       <div className={classNames('flex-none', fullPage && 'rounded-t-3xl')} style={{ background }}>
@@ -232,10 +226,7 @@ const Explore: FC = () => {
           <Tokens />
         </div>
       </div>
-      <div className="flex-none">
-        <Footer activityBadge={hasAutoConsumableNotes} />
-      </div>
-    </div>
+    </>
   );
 };
 

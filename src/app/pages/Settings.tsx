@@ -3,6 +3,7 @@ import React, { FC, useCallback, useMemo } from 'react';
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
+import { Button } from 'app/atoms/Button';
 import { openInFullPage, useAppEnv } from 'app/env';
 import { ReactComponent as AppsIcon } from 'app/icons/apps.svg';
 import { ReactComponent as ContactBookIcon } from 'app/icons/contact-book.svg';
@@ -14,8 +15,7 @@ import { ReactComponent as MaximiseIcon } from 'app/icons/maximise.svg';
 import { ReactComponent as SettingsIcon } from 'app/icons/settings.svg';
 import { ReactComponent as StickerIcon } from 'app/icons/sticker.svg';
 import { ReactComponent as ToolIcon } from 'app/icons/tool.svg';
-import PageLayout from 'app/layouts/PageLayout';
-import Footer from 'app/layouts/PageLayout/Footer';
+import { Icon, IconName } from 'app/icons/v2';
 import About from 'app/templates/About';
 import AddressBook from 'app/templates/AddressBook';
 import DAppSettings from 'app/templates/DAppSettings';
@@ -25,6 +25,8 @@ import LanguageSettings from 'app/templates/LanguageSettings';
 import MenuItem from 'app/templates/MenuItem';
 import RevealSecret from 'app/templates/RevealSecret';
 import { useAccount } from 'lib/miden/front';
+import { isMobile } from 'lib/platform';
+import { goBack, navigate } from 'lib/woozie';
 import { EncryptedFileFlow } from 'screens/encrypted-file-flow/EncryptedFileManager';
 
 import AdvancedSettings from './AdvancedSettings';
@@ -209,60 +211,78 @@ const Settings: FC<SettingsProps> = ({ tabSlug }) => {
     }
   }, [popup]);
 
-  const contentHeight = fullPage ? '491px' : '459px';
+  const handleBack = useCallback(() => {
+    if (activeTab) {
+      navigate('/settings');
+    } else {
+      goBack();
+    }
+  }, [activeTab]);
 
+  // Content only - container and footer provided by TabLayout
   return (
-    <PageLayout
-      pageTitle={activeTab ? t(activeTab.titleI18nKey) : t('settings')}
-      hasBackAction={activeTab ? true : false}
-    >
-      <div className="px-4">
-        <div
-          className={classNames('-mx-4 bg-white overflow-y-auto', activeTab ? '' : 'pb-4')}
-          style={{ height: contentHeight }}
-        >
-          <div className="px-4">
-            {activeTab ? (
-              <activeTab.Component />
-            ) : (
-              <div className="flex flex-col w-full">
-                {listMenuItems.map(({ slug, titleI18nKey, Icon, testID, insertHR, iconStyle, fullDialog }, i) => {
-                  const linkTo = fullDialog ? slug : `/settings/${slug}`;
-                  return (
-                    <MenuItem
-                      key={titleI18nKey}
-                      slug={linkTo}
-                      titleI18nKey={titleI18nKey}
-                      Icon={Icon}
-                      iconStyle={iconStyle}
-                      testID={testID?.toString() || ''}
-                      insertHR={insertHR}
-                      linksOutsideOfWallet={false}
-                    />
-                  );
-                })}
-                {popup && (
-                  <MenuItem
-                    key={'maximise'}
-                    Icon={MaximiseIcon}
-                    titleI18nKey={fullPage ? 'openNewTab' : 'maximiseView'}
-                    slug={'/fullpage.html'}
-                    onClick={handleMaximiseViewClick}
-                    insertHR={false}
-                    iconStyle={{ stroke: '#000', strokeWidth: '2px' }}
-                    linksOutsideOfWallet={true}
-                    testID={''}
-                  />
-                )}
-              </div>
+    <>
+      {/* Header */}
+      <div
+        className="flex-none px-4 bg-white border-b border-grey-100 flex justify-between items-center"
+        style={{ paddingTop: isMobile() ? '24px' : '14px', paddingBottom: '14px' }}
+      >
+        <h1 className="text-lg font-semibold text-black">{activeTab ? t(activeTab.titleI18nKey) : t('settings')}</h1>
+        {activeTab && (
+          <Button
+            className={classNames(
+              'p-2',
+              'rounded-full',
+              'flex',
+              'text-black font-bold',
+              'hover:bg-black hover:bg-opacity-5',
+              'transition duration-300 ease-in-out'
+            )}
+            onClick={handleBack}
+          >
+            <Icon name={IconName.Close} fill={'black'} />
+          </Button>
+        )}
+      </div>
+
+      {/* Content */}
+      <div className="flex-1 min-h-0 overflow-y-auto bg-white px-4">
+        {activeTab ? (
+          <activeTab.Component />
+        ) : (
+          <div className="flex flex-col w-full py-4">
+            {listMenuItems.map(({ slug, titleI18nKey, Icon: MenuIcon, testID, insertHR, iconStyle, fullDialog }) => {
+              const linkTo = fullDialog ? slug : `/settings/${slug}`;
+              return (
+                <MenuItem
+                  key={titleI18nKey}
+                  slug={linkTo}
+                  titleI18nKey={titleI18nKey}
+                  Icon={MenuIcon}
+                  iconStyle={iconStyle}
+                  testID={testID?.toString() || ''}
+                  insertHR={insertHR}
+                  linksOutsideOfWallet={false}
+                />
+              );
+            })}
+            {popup && (
+              <MenuItem
+                key={'maximise'}
+                Icon={MaximiseIcon}
+                titleI18nKey={fullPage ? 'openNewTab' : 'maximiseView'}
+                slug={'/fullpage.html'}
+                onClick={handleMaximiseViewClick}
+                insertHR={false}
+                iconStyle={{ stroke: '#000', strokeWidth: '2px' }}
+                linksOutsideOfWallet={true}
+                testID={''}
+              />
             )}
           </div>
-        </div>
+        )}
       </div>
-      <div className="flex-none w-full absolute bottom-0">
-        <Footer />
-      </div>
-    </PageLayout>
+    </>
   );
 };
 
