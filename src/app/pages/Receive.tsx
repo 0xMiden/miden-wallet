@@ -13,6 +13,7 @@ import { QRCode } from 'components/QRCode';
 import { SyncWaveBackground } from 'components/SyncWaveBackground';
 import { formatBigInt } from 'lib/i18n/numbers';
 import {
+  getFailedTransactions,
   getUncompletedTransactions,
   initiateConsumeTransaction,
   verifyStuckTransactionsFromNode,
@@ -99,6 +100,52 @@ export const Receive: React.FC<ReceiveProps> = () => {
     const interval = setInterval(checkStuckTransactions, 3000);
     return () => clearInterval(interval);
   }, [mutateClaimableNotes]);
+
+  // Check for failed notes: both from local IndexedDB and node state
+  useEffect(() => {
+    const checkFailedNotes = async () => {
+      if (safeClaimableNotes.length === 0) return;
+
+      const failedIds = new Set<string>();
+
+      // 1. Check local IndexedDB for failed consume transactions
+      const failedTxs = await getFailedTransactions();
+      for (const tx of failedTxs) {
+        if (tx.type === 'consume' && tx.noteId) {
+          failedIds.add(tx.noteId);
+        }
+      }
+
+      // 2. Check node state for Invalid notes
+      try {
+        const { InputNoteState, NoteFilter, NoteFilterTypes, NoteId } = await import('@demox-labs/miden-sdk');
+        const noteIds = safeClaimableNotes.map(n => NoteId.fromHex(n.id));
+        const noteDetails = await withWasmClientLock(async () => {
+          const midenClient = await getMidenClient();
+          const noteFilter = new NoteFilter(NoteFilterTypes.List, noteIds);
+          return await midenClient.getInputNoteDetails(noteFilter);
+        });
+
+        for (const note of noteDetails) {
+          if (note.state === InputNoteState.Invalid) {
+            failedIds.add(note.noteId);
+          }
+        }
+      } catch (err) {
+        console.error('[Receive] Error checking node state for notes:', err);
+      }
+
+      // Only include notes that are still claimable (shown in UI)
+      const claimableNoteIds = new Set(safeClaimableNotes.map(n => n.id));
+      const failedClaimableNotes = new Set([...failedIds].filter(id => claimableNoteIds.has(id)));
+
+      if (failedClaimableNotes.size > 0) {
+        setFailedNoteIds(prev => new Set([...prev, ...failedClaimableNotes]));
+      }
+    };
+
+    checkFailedNotes();
+  }, [safeClaimableNotes]);
 
   const handleClaimAll = useCallback(async () => {
     if (unclaimedNotes.length === 0) return;
@@ -468,7 +515,7 @@ export const ConsumableNoteComponent = ({
       <SyncWaveBackground isSyncing={showSpinner} className="rounded-lg" />
       <CardItem
         iconLeft={<Icon name={IconName.ArrowRightDownFilledCircle} size="lg" />}
-        title={hasError ? t('errorClaiming') : amountText}
+        title={hasError ? `${t('error')}: ${amountText}` : amountText}
         subtitle={truncateAddress(note.senderAddress)}
         iconRight={
           !showSpinner ? (
