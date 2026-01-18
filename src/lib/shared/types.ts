@@ -153,8 +153,7 @@ export interface WalletAccount {
   isPublic: boolean;
   type: WalletType;
   hdIndex: number;
-  // Optional here for backwards compatibility
-  authScheme?: AuthScheme;
+  authScheme: AuthScheme;
 }
 
 export interface WalletNetwork {

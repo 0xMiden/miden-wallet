@@ -175,7 +175,10 @@ export class Vault {
             await midenClient.webClient.addAccountSecretKeyToWebStore(sk);
           } else {
             const walletSeed = deriveClientSeed(walletAccount.type, mnemonic, walletAccount.hdIndex);
-            const secretKey = SecretKey.rpoFalconWithRNG(walletSeed);
+            const secretKey =
+              walletAccount.authScheme === AuthScheme.Falcon
+                ? SecretKey.rpoFalconWithRNG(walletSeed)
+                : SecretKey.ecdsaWithRNG(walletSeed);
             await midenClient.webClient.addAccountSecretKeyToWebStore(secretKey);
           }
         }
@@ -380,7 +383,11 @@ export class Vault {
   async importAccount(privateKey: string, name?: string): Promise<WalletAccount[]> {
     return withError('Failed to import account', async () => {
       const allAccounts = await fetchAndDecryptOneWithLegacyFallBack<WalletAccount[]>(accountsStrgKey, this.passKey);
-      const secretKey = SecretKey.deserialize(new Uint8Array(Buffer.from(privateKey, 'hex')));
+      const buff = Buffer.from(privateKey, 'hex');
+      if (buff[0] !== 0 && buff[0] !== 1) {
+        throw new PublicError('Invalid private key format');
+      }
+      const secretKey = SecretKey.deserialize(new Uint8Array(buff));
       const pubKeyWord = secretKey.publicKey().toCommitment();
 
       const pubKeyHex = pubKeyWord.toHex().slice(2); // remove '0x' prefix
@@ -393,6 +400,7 @@ export class Vault {
         name: name || `Imported Account ${allAccounts.length + 1}`,
         isPublic: true,
         type: WalletType.OnChain,
+        authScheme: buff[0] === 0 ? AuthScheme.Falcon : AuthScheme.ECDSA,
         hdIndex: -1 // -1 indicates imported account
       };
 
