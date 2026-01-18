@@ -1,11 +1,11 @@
 import { ITransactionIcon } from 'lib/miden/db/types';
 
-export interface IActivity {
+export interface IHistoryEntry {
   key: string;
   address: string;
   timestamp: number;
   message: string;
-  type: ActivityType;
+  type: HistoryEntryType;
 
   // Optional properties
   token?: string;
@@ -21,11 +21,11 @@ export interface IActivity {
   externalTxId?: string;
 }
 
-/// The activity type. For sorting purposes, the order of the activity type matters. In a given transaction
-/// within a given block, many activities can occur at the exact same timestamp (multiple notes sent and received).
+/// The history entry type. For sorting purposes, the order matters. In a given transaction
+/// within a given block, many entries can occur at the exact same timestamp (multiple notes sent and received).
 /// Lower numbers are displayed as having happened before higher numbers -- e.g. a
 /// record spent should sequentially happen before a record received in the same transaction.
-export enum ActivityType {
+export enum HistoryEntryType {
   PendingTransaction = 1,
   ProcessingTransaction = 2,
   CompletedTransaction = 3

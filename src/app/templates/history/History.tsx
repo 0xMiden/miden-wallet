@@ -1,6 +1,6 @@
 import React, { memo, RefObject, useMemo, useState } from 'react';
 
-import { ACTIVITY_PAGE_SIZE } from 'app/defaults';
+import { HISTORY_PAGE_SIZE } from 'app/defaults';
 import { cancelTransactionById, getCompletedTransactions, getUncompletedTransactions } from 'lib/miden/activity';
 import { formatTransactionStatus, ITransactionStatus } from 'lib/miden/db/types';
 import { getTokenMetadata } from 'lib/miden/metadata/utils';
@@ -8,35 +8,28 @@ import { formatAmount } from 'lib/shared/format';
 import { useRetryableSWR } from 'lib/swr';
 import useSafeState from 'lib/ui/useSafeState';
 
-import ActivityView from './ActivityView';
-import { ActivityType, IActivity } from './IActivity';
+import HistoryView from './HistoryView';
+import { HistoryEntryType, IHistoryEntry } from './IHistoryEntry';
 
-type ActivityProps = {
+type HistoryProps = {
   address: string;
   programId?: string | null;
   numItems?: number;
   scrollParentRef?: RefObject<HTMLDivElement>;
   className?: string;
   fullHistory?: boolean;
+  tokenId?: string;
 };
 
-const Activity = memo<ActivityProps>(({ address, className, numItems, scrollParentRef, fullHistory }) => {
-  const safeStateKey = useMemo(() => ['activities', address].join('_'), [address]);
+const History = memo<HistoryProps>(({ address, className, numItems, scrollParentRef, fullHistory, tokenId }) => {
+  const safeStateKey = useMemo(() => ['history', address, tokenId].join('_'), [address, tokenId]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [restActivities, setRestActivities] = useSafeState<Array<IActivity>>([], safeStateKey);
-
-  // TEMPORARILY DISABLED: Force cancel causing OOM issues
-  // useEffect(() => {
-  //   if (isMobile()) {
-  //     console.log('[Activity] Mobile detected, force-cancelling all in-progress transactions');
-  //     forceCaneclAllInProgressTransactions();
-  //   }
-  // }, []);
+  const [restEntries, setRestEntries] = useSafeState<Array<IHistoryEntry>>([], safeStateKey);
 
   const { data: latestTransactions, isValidating: transactionsFetching } = useRetryableSWR(
-    [`latest-transactions`, address],
-    async () => fetchTransactionsAsActivities(address),
+    [`latest-transactions`, address, tokenId],
+    async () => fetchTransactionsAsHistoryEntries(address, undefined, undefined, tokenId),
     {
       revalidateOnMount: true,
       refreshInterval: 10_000,
@@ -45,8 +38,8 @@ const Activity = memo<ActivityProps>(({ address, className, numItems, scrollPare
   );
 
   const { data: latestPendingTransactions, mutate: mutateTx } = useRetryableSWR(
-    [`latest-pending-transactions`, address],
-    async () => fetchPendingTransactionsAsActivities(address),
+    [`latest-pending-transactions`, address, tokenId],
+    async () => fetchPendingTransactionsAsHistoryEntries(address, tokenId),
     {
       revalidateOnMount: true,
       refreshInterval: 5_000,
@@ -68,9 +61,9 @@ const Activity = memo<ActivityProps>(({ address, className, numItems, scrollPare
   );
 
   // Don't sort the pending transactions, earliest should come first as they are processed first
-  const allActivities = useMemo(
-    () => pendingTransactions.concat(mergeAndSort(latestTransactions ?? [], restActivities)),
-    [latestTransactions, restActivities, pendingTransactions]
+  const allEntries = useMemo(
+    () => pendingTransactions.concat(mergeAndSort(latestTransactions ?? [], restEntries)),
+    [latestTransactions, restEntries, pendingTransactions]
   );
 
   const loadMore = async (page: number) => {
@@ -79,27 +72,27 @@ const Activity = memo<ActivityProps>(({ address, className, numItems, scrollPare
       return;
     }
     setIsLoading(true);
-    const offset = ACTIVITY_PAGE_SIZE * page;
-    const limit = ACTIVITY_PAGE_SIZE;
-    const olderTransactions = await fetchTransactionsAsActivities(address, offset, limit);
-    const allRestActivities = mergeAndSort(restActivities, olderTransactions);
+    const offset = HISTORY_PAGE_SIZE * page;
+    const limit = HISTORY_PAGE_SIZE;
+    const olderTransactions = await fetchTransactionsAsHistoryEntries(address, offset, limit, tokenId);
+    const allRestEntries = mergeAndSort(restEntries, olderTransactions);
 
-    if (allRestActivities.length === 0) {
+    if (allRestEntries.length === 0) {
       setHasMore(false);
     }
-    setRestActivities(allRestActivities);
+    setRestEntries(allRestEntries);
     setIsLoading(false);
   };
 
-  let activities: IActivity[] = allActivities;
+  let entries: IHistoryEntry[] = allEntries;
   if (numItems) {
-    const maxIndex = Math.min(numItems, allActivities.length);
-    activities = activities.slice(0, maxIndex);
+    const maxIndex = Math.min(numItems, allEntries.length);
+    entries = entries.slice(0, maxIndex);
   }
 
   return (
-    <ActivityView
-      activities={activities ?? []}
+    <HistoryView
+      entries={entries ?? []}
       initialLoading={transactionsFetching}
       loadMore={loadMore}
       hasMore={hasMore}
@@ -110,40 +103,47 @@ const Activity = memo<ActivityProps>(({ address, className, numItems, scrollPare
   );
 });
 
-export default Activity;
+export default History;
 
-async function fetchTransactionsAsActivities(address: string, offset?: number, limit?: number): Promise<IActivity[]> {
-  const transactions = await getCompletedTransactions(address, offset, limit);
-  const activities = transactions.map(async tx => {
+async function fetchTransactionsAsHistoryEntries(
+  address: string,
+  offset?: number,
+  limit?: number,
+  tokenId?: string
+): Promise<IHistoryEntry[]> {
+  const transactions = await getCompletedTransactions(address, offset, limit, false, tokenId);
+  const entries = transactions.map(async tx => {
     const updateMessageForFailed = tx.status === ITransactionStatus.Failed ? 'Transaction failed' : tx.displayMessage;
     const icon = tx.status === ITransactionStatus.Failed ? 'FAILED' : tx.displayIcon;
     const tokenMetadata = tx.faucetId ? await getTokenMetadata(tx.faucetId) : undefined;
-    const activity = {
+    const entry = {
       address: address,
       key: `completed-${tx.id}`,
       timestamp: tx.completedAt,
       message: updateMessageForFailed,
-      type: ActivityType.CompletedTransaction,
+      type: HistoryEntryType.CompletedTransaction,
       transactionIcon: icon,
       amount: tx.amount ? formatAmount(tx.amount, tx.type, tokenMetadata?.decimals) : undefined,
       token: tokenMetadata ? tokenMetadata.symbol : undefined,
       secondaryAddress: tx.secondaryAccountId,
       txId: tx.id,
       noteType: tx.noteType
-    } as IActivity;
+    } as IHistoryEntry;
 
-    return activity;
+    return entry;
   });
 
-  return await Promise.all(activities);
+  return await Promise.all(entries);
 }
 
-async function fetchPendingTransactionsAsActivities(address: string): Promise<IActivity[]> {
-  let pendingTransactions = await getUncompletedTransactions(address);
+async function fetchPendingTransactionsAsHistoryEntries(address: string, tokenId?: string): Promise<IHistoryEntry[]> {
+  let pendingTransactions = await getUncompletedTransactions(address, tokenId);
 
-  const activityPromises = pendingTransactions.map(async tx => {
-    const activityType =
-      tx.status !== ITransactionStatus.Queued ? ActivityType.ProcessingTransaction : ActivityType.PendingTransaction;
+  const entryPromises = pendingTransactions.map(async tx => {
+    const entryType =
+      tx.status !== ITransactionStatus.Queued
+        ? HistoryEntryType.ProcessingTransaction
+        : HistoryEntryType.PendingTransaction;
     const tokenMetadata = tx.faucetId ? await getTokenMetadata(tx.faucetId) : undefined;
     return {
       key: `pending-${tx.id}`,
@@ -155,23 +155,23 @@ async function fetchPendingTransactionsAsActivities(address: string): Promise<IA
       token: tokenMetadata ? tokenMetadata.symbol : undefined,
       secondaryAddress: tx.secondaryAccountId,
       txId: tx.id,
-      type: activityType,
+      type: entryType,
       noteType: tx.noteType
-    } as IActivity;
+    } as IHistoryEntry;
   });
-  const activities = await Promise.all(activityPromises);
-  return activities;
+  const entries = await Promise.all(entryPromises);
+  return entries;
 }
 
-function mergeAndSort(base?: IActivity[], toAppend: IActivity[] = []) {
+function mergeAndSort(base?: IHistoryEntry[], toAppend: IHistoryEntry[] = []) {
   if (!base) return [];
 
   const uniqueKeys = new Set<string>();
-  const uniques: IActivity[] = [];
-  for (const activity of [...base, ...toAppend]) {
-    if (!uniqueKeys.has(activity.key)) {
-      uniqueKeys.add(activity.key);
-      uniques.push(activity);
+  const uniques: IHistoryEntry[] = [];
+  for (const entry of [...base, ...toAppend]) {
+    if (!uniqueKeys.has(entry.key)) {
+      uniqueKeys.add(entry.key);
+      uniques.push(entry);
     }
   }
   uniques.sort((r1, r2) => r2.timestamp - r1.timestamp || r2.type - r1.type);

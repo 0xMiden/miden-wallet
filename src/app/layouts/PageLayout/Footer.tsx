@@ -6,10 +6,10 @@ import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
 import { isMobile } from 'lib/platform';
 
 interface FooterProps {
-  activityBadge?: boolean;
+  historyBadge?: boolean;
 }
 
-const Footer: FC<FooterProps> = ({ activityBadge }) => {
+const Footer: FC<FooterProps> = ({ historyBadge }) => {
   const { trackEvent } = useAnalytics();
   const onSettingsClick = () => {
     trackEvent('Footer/Settings', AnalyticsEventCategory.ButtonPress, { type: 'settings' });
@@ -23,8 +23,8 @@ const Footer: FC<FooterProps> = ({ activityBadge }) => {
     trackEvent('Footer/Home', AnalyticsEventCategory.ButtonPress, { type: 'home' });
   };
 
-  const onActivityClick = () => {
-    trackEvent('Footer/Activity', AnalyticsEventCategory.ButtonPress, { type: 'activity' });
+  const onHistoryClick = () => {
+    trackEvent('Footer/History', AnalyticsEventCategory.ButtonPress, { type: 'history' });
   };
 
   return (
@@ -34,9 +34,9 @@ const Footer: FC<FooterProps> = ({ activityBadge }) => {
         <FooterIconWrapper
           icon={IconName.Time}
           iconFill={IconName.TimeFill}
-          linkTo={'/activity'}
-          onClick={onActivityClick}
-          badge={activityBadge}
+          linkTo={'/history'}
+          onClick={onHistoryClick}
+          badge={historyBadge}
         />
         <FooterIconWrapper
           icon={IconName.Settings}

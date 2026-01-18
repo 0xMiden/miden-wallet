@@ -387,15 +387,18 @@ export const hasQueuedTransactions = async () => {
   return tx.length > 0;
 };
 
-export const getUncompletedTransactions = async (address: string) => {
+export const getUncompletedTransactions = async (address: string, tokenId?: string) => {
   const statuses = [ITransactionStatus.Queued, ITransactionStatus.GeneratingTransaction];
-  return await getTransactionsInStatuses(statuses, address);
+  return await getTransactionsInStatuses(statuses, address, tokenId);
 };
 
-const getTransactionsInStatuses = async (statuses: ITransactionStatus[], accountId: string) => {
+const getTransactionsInStatuses = async (statuses: ITransactionStatus[], accountId: string, tokenId?: string) => {
   let txs = await Repo.transactions.filter(rec => statuses.includes(rec.status)).toArray();
   txs.sort((tx1, tx2) => tx1.initiatedAt - tx2.initiatedAt);
   txs = txs.filter(tx => compareAccountIds(tx.accountId, accountId));
+  if (tokenId) {
+    txs = txs.filter(tx => tx.faucetId === tokenId);
+  }
 
   return txs;
 };
@@ -424,7 +427,8 @@ export const getCompletedTransactions = async (
   accountId: string,
   offset?: number,
   limit?: number,
-  includeFailed: boolean = false
+  includeFailed: boolean = false,
+  tokenId?: string
 ) => {
   let transactions = await Repo.transactions.filter(tx => tx.status === ITransactionStatus.Completed).toArray();
   if (includeFailed) {
@@ -434,6 +438,9 @@ export const getCompletedTransactions = async (
   transactions.sort((tx1, tx2) => (tx1.completedAt || tx1.initiatedAt) - (tx2.completedAt || tx2.initiatedAt));
   // Compare ignoring note tag suffix since stored vs queried account IDs may differ
   transactions = transactions.filter(tx => compareAccountIds(tx.accountId, accountId));
+  if (tokenId) {
+    transactions = transactions.filter(tx => tx.faucetId === tokenId);
+  }
   return transactions.slice(offset, limit);
 };
 

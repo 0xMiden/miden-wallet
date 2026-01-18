@@ -19,7 +19,7 @@ import { GeneratingTransactionPage } from 'screens/generating-transaction/Genera
 import { SendFlow } from 'screens/send-flow/SendManager';
 
 import RootSuspenseFallback from './a11y/RootSuspenseFallback';
-import AllActivity from './pages/AllActivity';
+import AllHistory from './pages/AllHistory';
 import Browser from './pages/Browser';
 import EditAccountName from './pages/EditAccountName';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
@@ -30,7 +30,8 @@ import ImportNoteResult from './pages/ImportNoteResult';
 import ManageAssets from './pages/ManageAssets';
 import ResetRequired from './pages/ResetRequired';
 import SelectAccount from './pages/SelectAccount';
-import { ActivityDetails } from './templates/activity/ActivityDetails';
+import TokenHistory from './pages/TokenHistory';
+import { HistoryDetails } from './templates/history/HistoryDetails';
 
 interface RouteContext {
   popup: boolean;
@@ -100,10 +101,10 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
       )
   ],
   [
-    '/activity/:programId?',
+    '/history/:programId?',
     onlyReady(({ programId }) => (
       <TabLayout>
-        <AllActivity programId={programId} />
+        <AllHistory programId={programId} />
       </TabLayout>
     ))
   ],
@@ -181,10 +182,18 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
     ))
   ],
   [
-    '/activity-details/:transactionId',
+    '/history-details/:transactionId',
     onlyReady(({ transactionId }) => (
       <FullScreenPage>
-        <ActivityDetails transactionId={transactionId!} />
+        <HistoryDetails transactionId={transactionId!} />
+      </FullScreenPage>
+    ))
+  ],
+  [
+    '/token-history/:tokenId',
+    onlyReady(({ tokenId }) => (
+      <FullScreenPage>
+        <TokenHistory tokenId={tokenId!} />
       </FullScreenPage>
     ))
   ],

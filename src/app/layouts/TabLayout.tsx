@@ -3,7 +3,7 @@ import React, { FC, useEffect, useRef } from 'react';
 import classNames from 'clsx';
 
 import { useAppEnv } from 'app/env';
-import { useActivityBadge } from 'app/hooks/useActivityBadge';
+import { useHistoryBadge } from 'app/hooks/useHistoryBadge';
 import Footer from 'app/layouts/PageLayout/Footer';
 import { isReturningFromWebview } from 'lib/mobile/webview-state';
 import { isMobile } from 'lib/platform';
@@ -11,11 +11,11 @@ import { PropsWithChildren } from 'lib/props-with-children';
 import { useLocation } from 'lib/woozie';
 
 /**
- * Layout for tab-based pages (Home, Activity, Settings, Browser).
+ * Layout for tab-based pages (Home, History, Settings, Browser).
  * Provides a persistent footer and animated content area.
  */
 const TabLayout: FC<PropsWithChildren> = ({ children }) => {
-  const activityBadge = useActivityBadge();
+  const historyBadge = useHistoryBadge();
   const { fullPage } = useAppEnv();
   const { pathname } = useLocation();
   const contentRef = useRef<HTMLDivElement>(null);
@@ -64,7 +64,7 @@ const TabLayout: FC<PropsWithChildren> = ({ children }) => {
 
       {/* Persistent footer */}
       <div className="flex-none">
-        <Footer activityBadge={activityBadge} />
+        <Footer historyBadge={historyBadge} />
       </div>
     </div>
   );

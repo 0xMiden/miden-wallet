@@ -6,11 +6,11 @@ import InfiniteScroll from 'react-infinite-scroller';
 
 import { ActivitySpinner } from 'app/atoms/ActivitySpinner';
 
-import ActivityItem from './ActivityItem';
-import { IActivity } from './IActivity';
+import HistoryItem from './HistoryItem';
+import { IHistoryEntry } from './IHistoryEntry';
 
-type ActivityViewProps = {
-  activities: IActivity[];
+type HistoryViewProps = {
+  entries: IHistoryEntry[];
   initialLoading: boolean;
   loadMore: (page: number) => Promise<void>;
   hasMore: boolean;
@@ -19,15 +19,15 @@ type ActivityViewProps = {
   className?: string;
 };
 
-const ActivityView = memo<ActivityViewProps>(
-  ({ activities, initialLoading, loadMore, hasMore, scrollParentRef, fullHistory, className }) => {
+const HistoryView = memo<HistoryViewProps>(
+  ({ entries, initialLoading, loadMore, hasMore, scrollParentRef, fullHistory, className }) => {
     const { t } = useTranslation();
-    const noActivities = activities.length === 0;
+    const noEntries = entries.length === 0;
     const noOperationsClass = fullHistory
       ? 'mt-8 items-center text-left text-black'
       : 'm-4 items-start text-left text-black';
 
-    if (noActivities) {
+    if (noEntries) {
       return initialLoading ? (
         <ActivitySpinner />
       ) : (
@@ -44,12 +44,12 @@ const ActivityView = memo<ActivityViewProps>(
       return (
         <>
           <div className={classNames('w-full', 'flex flex-col', className)}>
-            {activities?.map((activity, index) => (
-              <ActivityItem
-                activity={activity}
-                key={activity.key}
+            {entries?.map((entry, index) => (
+              <HistoryItem
+                entry={entry}
+                key={entry.key}
                 fullHistory={fullHistory}
-                lastActivity={index === activities.length - 1}
+                lastEntry={index === entries.length - 1}
               />
             ))}
           </div>
@@ -57,7 +57,7 @@ const ActivityView = memo<ActivityViewProps>(
       );
     }
 
-    // Handle full page view from AllActivity
+    // Handle full page view from AllHistory
     return (
       <>
         <div className={classNames('w-full pb-6', 'flex flex-col ', className)}>
@@ -67,13 +67,13 @@ const ActivityView = memo<ActivityViewProps>(
             useWindow={false}
             getScrollParent={() => scrollParentRef.current}
           >
-            {activities?.map((activity, index) => {
+            {entries?.map((entry, index) => {
               return (
-                <ActivityItem
-                  activity={activity}
-                  key={activity.key}
+                <HistoryItem
+                  entry={entry}
+                  key={entry.key}
                   fullHistory={fullHistory}
-                  lastActivity={index === activities.length - 1}
+                  lastEntry={index === entries.length - 1}
                 />
               );
             })}
@@ -84,4 +84,4 @@ const ActivityView = memo<ActivityViewProps>(
   }
 );
 
-export default ActivityView;
+export default HistoryView;

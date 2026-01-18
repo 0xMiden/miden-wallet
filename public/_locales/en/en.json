@@ -186,7 +186,7 @@
   "add": "Add",
   "assets": "Assets",
   "tokens": "Tokens",
-  "activity": "Activities",
+  "history": "History",
   "proofGenerationTab": "An open tab is required to efficiently generate transaction proofs",
   "manageTokens": "Manage Tokens",
   "noAssetsFound": "No assets found",
@@ -338,7 +338,7 @@
   "confirmPrivateDataPermissionDescription": "This will give permanent access to your account data and cannot be revoked.",
   "privateAccountAccessRequest": "This site is requesting access to your private account.",
   "publicAccountAccessRequest": "This site is requesting access to your public account.",
-  "balanceAccess": "Let it see your wallet balance and activity",
+  "balanceAccess": "Let it see your wallet balance and history",
   "sendTransactionRequests": "Let it send you requests for transactions",
   "fundsStayInWallet": "Funds will not leave your wallet until you execute a transaction",
   "privateDataAccessAuto": "Private Data Access: Automatic",
@@ -497,5 +497,7 @@
   "hapticFeedbackDescription": "Feel a vibration when tapping buttons and controls",
   "noNotesToClaim": "You don't currently have notes to claim, but when you do, they will appear here.",
   "noteReceivedTitle": "You have received a note",
-  "noteReceivedTapToClaim": "Tap here to claim it"
+  "noteReceivedTapToClaim": "Tap here to claim it",
+  "tokenHistory": "$tokenName$ History",
+  "historyDetails": "Details"
 }

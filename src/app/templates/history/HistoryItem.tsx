@@ -20,19 +20,19 @@ import { ITransactionIcon } from 'lib/miden/db/types';
 import { isMobile } from 'lib/platform';
 import { Link } from 'lib/woozie';
 
-import { ActivityType, IActivity } from './IActivity';
+import { HistoryEntryType, IHistoryEntry } from './IHistoryEntry';
 
-type ActivityItemProps = {
-  activity: IActivity;
+type HistoryItemProps = {
+  entry: IHistoryEntry;
   fullHistory?: boolean;
   className?: string;
-  lastActivity?: boolean;
+  lastEntry?: boolean;
 };
 
-const iconGrabber = (activityType: ActivityType, iconFillAndStroke: string) => {
-  switch (activityType) {
-    case ActivityType.PendingTransaction:
-    case ActivityType.ProcessingTransaction:
+const iconGrabber = (entryType: HistoryEntryType, iconFillAndStroke: string) => {
+  switch (entryType) {
+    case HistoryEntryType.PendingTransaction:
+    case HistoryEntryType.ProcessingTransaction:
       return <PendingIcon height={'24px'} width={'24px'} />;
     default:
       return <BoxIcon height={'24px'} width={'24px'} fill={iconFillAndStroke} stroke={iconFillAndStroke} />;
@@ -69,23 +69,23 @@ const transactionIconGrabber = (transactionIcon: ITransactionIcon, iconFillAndSt
   }
 };
 
-const ActivityContent: FC<ActivityItemProps> = ({ fullHistory, activity }) => {
+const HistoryContent: FC<HistoryItemProps> = ({ fullHistory, entry }) => {
   const { t } = useTranslation();
   const iconFillAndStroke = fullHistory ? 'currentColor' : 'black';
-  const icon = !activity.transactionIcon
-    ? iconGrabber(activity.type, iconFillAndStroke)
-    : transactionIconGrabber(activity.transactionIcon, iconFillAndStroke);
-  const animateSpin = activity.type === ActivityType.ProcessingTransaction ? 'animate-spin' : '';
-  const isReceive = activity.transactionIcon === 'RECEIVE' || activity.message === 'Consuming';
+  const icon = !entry.transactionIcon
+    ? iconGrabber(entry.type, iconFillAndStroke)
+    : transactionIconGrabber(entry.transactionIcon, iconFillAndStroke);
+  const animateSpin = entry.type === HistoryEntryType.ProcessingTransaction ? 'animate-spin' : '';
+  const isReceive = entry.transactionIcon === 'RECEIVE' || entry.message === 'Consuming';
   const { popup } = useAppEnv();
 
   const handleCancelClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
       e.stopPropagation();
-      activity.cancel?.();
+      entry.cancel?.();
     },
-    [activity]
+    [entry]
   );
 
   return (
@@ -108,34 +108,34 @@ const ActivityContent: FC<ActivityItemProps> = ({ fullHistory, activity }) => {
       <div className="flex items-center flex-grow min-w-0">
         <div className="flex flex-col flex-grow min-w-0">
           <div className="text-sm font-medium truncate">
-            <span>{activity.message}</span>
+            <span>{entry.message}</span>
           </div>
 
           <div className="text-xs text-gray-600 truncate">
-            {activity.secondaryAddress && (
+            {entry.secondaryAddress && (
               <>
                 {`${isReceive ? t('from') : t('to')} `}
-                <AddressShortView address={activity.secondaryAddress} trim={isMobile() || popup} />
+                <AddressShortView address={entry.secondaryAddress} trim={isMobile() || popup} />
               </>
             )}
           </div>
         </div>
       </div>
-      {activity.amount && (
+      {entry.amount && (
         <div className="flex items-center flex-col justify-end flex-shrink-0">
           <div className={`text-sm self-end font-medium whitespace-nowrap ${isReceive ? 'text-green-500' : ''}`}>
-            {activity.amount}
+            {entry.amount}
           </div>
-          {activity.token && (
+          {entry.token && (
             <div>
               <span className="text-gray-600">
-                <HashShortView hash={activity.token} />
+                <HashShortView hash={entry.token} />
               </span>
             </div>
           )}
         </div>
       )}
-      {activity.cancel && (
+      {entry.cancel && (
         <div className="flex justify-end flex-shrink-0">
           <Button
             className="hover:bg-gray-900 active:bg-gray-800 rounded-md px-1"
@@ -146,7 +146,7 @@ const ActivityContent: FC<ActivityItemProps> = ({ fullHistory, activity }) => {
           </Button>
         </div>
       )}
-      {activity.explorerLink && (
+      {entry.explorerLink && (
         <div className="flex items-center justify-end rounded-md flex-shrink-0">
           <ExploreIcon stroke={'black'} height={'18px'} width={'18px'} />
         </div>
@@ -155,20 +155,20 @@ const ActivityContent: FC<ActivityItemProps> = ({ fullHistory, activity }) => {
   );
 };
 
-const ActivityItem = memo<ActivityItemProps>(({ className, fullHistory, activity }) => {
+const HistoryItem = memo<HistoryItemProps>(({ className, fullHistory, entry }) => {
   const itemClassName = fullHistory ? 'text-black' : 'text-black';
 
   return (
     <div className={classNames('w-full', itemClassName, className)}>
-      {activity.explorerLink ? (
-        <a draggable={false} href={activity.explorerLink} target="_blank" rel="noreferrer">
-          {ActivityContent({ className, fullHistory, activity })}
+      {entry.explorerLink ? (
+        <a draggable={false} href={entry.explorerLink} target="_blank" rel="noreferrer">
+          {HistoryContent({ className, fullHistory, entry })}
         </a>
       ) : (
-        <Link to={`/activity-details/${activity.txId}`}>{ActivityContent({ className, fullHistory, activity })}</Link>
+        <Link to={`/history-details/${entry.txId}`}>{HistoryContent({ className, fullHistory, entry })}</Link>
       )}
     </div>
   );
 });
 
-export default ActivityItem;
+export default HistoryItem;

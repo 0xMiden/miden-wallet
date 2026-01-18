@@ -6,10 +6,10 @@ import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { isAutoConsumeEnabled } from 'lib/settings/helpers';
 
 /**
- * Hook that returns whether there are auto-consumable notes (for the activity badge).
+ * Hook that returns whether there are auto-consumable notes (for the history badge).
  * Extracted from Explore page logic to share with TabLayout.
  */
-export function useActivityBadge(): boolean {
+export function useHistoryBadge(): boolean {
   const account = useAccount();
   const midenFaucetId = useMidenFaucetId();
   const { data: claimableNotes } = useClaimableNotes(account.publicKey);

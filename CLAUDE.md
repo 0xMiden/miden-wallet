@@ -327,7 +327,7 @@ Component-based navigator in `src/components/Navigator.tsx` for multi-step flows
 | Route | Component | Back Behavior |
 |-------|-----------|---------------|
 | `/` | Explore (Home) | Minimize app (Android) / Nothing (iOS) |
-| `/activity/:programId?` | Activity | → Home |
+| `/history/:programId?` | AllHistory | → Home |
 | `/settings/:tabSlug?` | Settings | Sub-tab → Settings main → Home |
 | `/browser` | Browser | → Home |
 
@@ -356,7 +356,8 @@ Component-based navigator in `src/components/Navigator.tsx` for multi-step flows
 | `/create-account` | CreateAccount | → Previous |
 | `/edit-name` | EditAccountName | → Previous |
 | `/import-account/:tabSlug?` | ImportAccount | → Previous |
-| `/activity-details/:transactionId` | ActivityDetails | → Activity |
+| `/history-details/:transactionId` | HistoryDetails | → History |
+| `/token-history/:tokenId` | TokenHistory | → Home |
 | `/manage-assets/:assetType?` | ManageAssets | → Home |
 | `/encrypted-wallet-file` | EncryptedFileFlow | See Encrypted Flow below |
 | `/generating-transaction` | GeneratingTransaction | (Modal - no back) |

@@ -18,9 +18,9 @@ import { capitalizeFirstLetter } from 'utils/string';
 
 import AddressChip from '../AddressChip';
 import HashChip from '../HashChip';
-import { IActivity } from './IActivity';
+import { IHistoryEntry } from './IHistoryEntry';
 
-interface ActivityDetailsProps {
+interface HistoryDetailsProps {
   transactionId: string;
 }
 
@@ -67,11 +67,11 @@ const AccountDisplay: FC<{
   return <AddressChip address={address} fill="#9E9E9E" className="ml-2" displayName={displayName} />;
 });
 
-export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => {
+export const HistoryDetails: FC<HistoryDetailsProps> = ({ transactionId }) => {
   const { t } = useTranslation();
   const allAccounts = useAllAccounts();
   const account = useAccount();
-  const [activity, setActivity] = useState<IActivity | null>(null);
+  const [entry, setEntry] = useState<IHistoryEntry | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
 
@@ -81,7 +81,7 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
       const tx = await getTransactionById(transactionId);
       const tokenMetadata = tx.faucetId ? await getTokenMetadata(tx.faucetId) : undefined;
 
-      const activity = {
+      const historyEntry = {
         address: tx.accountId,
         key: `completed-${tx.id}`,
         timestamp: tx.completedAt,
@@ -94,24 +94,24 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
         noteType: tx.noteType,
         noteId: tx.outputNoteIds?.[0],
         externalTxId: tx.transactionId
-      } as IActivity;
+      } as IHistoryEntry;
 
-      setActivity(activity);
+      setEntry(historyEntry);
     } catch (error) {
-      console.error('[ActivityDetails] Failed to load transaction:', error);
+      console.error('[HistoryDetails] Failed to load transaction:', error);
       setLoadError(error instanceof Error ? error.message : 'Failed to load transaction');
     }
-  }, [transactionId, setActivity]);
+  }, [transactionId, setEntry]);
 
   const handleDownload = useCallback(async () => {
-    if (!activity?.noteId) return;
+    if (!entry?.noteId) return;
 
     try {
       setIsDownloading(true);
       // Wrap WASM client operations in a lock to prevent concurrent access
       const noteBytes = await withWasmClientLock(async () => {
         const midenClient = await getMidenClient();
-        return midenClient.exportNote(activity.noteId!, NoteExportType.DETAILS);
+        return midenClient.exportNote(entry.noteId!, NoteExportType.DETAILS);
       });
 
       const ab = new ArrayBuffer(noteBytes.byteLength);
@@ -121,7 +121,7 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `midenNote${activity.noteId.slice(0, 6)}.mno`;
+      a.download = `midenNote${entry.noteId.slice(0, 6)}.mno`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -131,48 +131,48 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
     } finally {
       setIsDownloading(false);
     }
-  }, [activity?.noteId]);
+  }, [entry?.noteId]);
 
   const handleViewOnExplorer = useCallback(() => {
-    if (!activity?.externalTxId) return;
-    window.open(`https://testnet.midenscan.com/tx/${activity.externalTxId}`, '_blank');
-  }, [activity]);
+    if (!entry?.externalTxId) return;
+    window.open(`https://testnet.midenscan.com/tx/${entry.externalTxId}`, '_blank');
+  }, [entry]);
 
   useEffect(() => {
-    if (!activity && !loadError) loadTransaction();
-  }, [loadTransaction, activity, loadError]);
+    if (!entry && !loadError) loadTransaction();
+  }, [loadTransaction, entry, loadError]);
 
-  const showDownloadButton = activity?.message === 'Sent' && activity?.noteType === 'private' && activity?.noteId;
-  const fromAddress = activity?.message === 'Sent' ? activity?.address : activity?.secondaryAddress;
-  const toAddress = activity?.message === 'Sent' ? activity?.secondaryAddress : activity?.address;
+  const showDownloadButton = entry?.message === 'Sent' && entry?.noteType === 'private' && entry?.noteId;
+  const fromAddress = entry?.message === 'Sent' ? entry?.address : entry?.secondaryAddress;
+  const toAddress = entry?.message === 'Sent' ? entry?.secondaryAddress : entry?.address;
 
   return (
-    <PageLayout pageTitle={activity?.message || t('activityDetails')} hasBackAction={true}>
+    <PageLayout pageTitle={entry?.message || t('historyDetails')} hasBackAction={true}>
       {loadError ? (
         <div className="flex-1 flex flex-col items-center justify-center p-4">
           <p className="text-red-500 text-center mb-2">{t('smthWentWrong')}</p>
           <p className="text-gray-600 text-sm text-center select-text">{loadError}</p>
           <p className="text-gray-400 text-xs text-center mt-2 select-text">ID: {transactionId}</p>
         </div>
-      ) : activity === null ? (
+      ) : entry === null ? (
         <ActivitySpinner />
       ) : (
         <div className="flex-1 flex flex-col">
           <div className="flex flex-col flex-1 py-2 px-4 justify-between md:w-[460px] md:mx-auto">
             <div className="flex flex-col gap-y-4">
               <div className="flex flex-col items-center justify-center mb-8">
-                <p className="text-4xl font-semibold leading-tight">{activity.amount}</p>
-                <p className="text-base leading-normal text-gray-600">{activity.token}</p>
+                <p className="text-4xl font-semibold leading-tight">{entry.amount}</p>
+                <p className="text-base leading-normal text-gray-600">{entry.token}</p>
               </div>
 
               <div className="flex flex-col gap-y-2">
                 <span className="flex flex-row justify-between">
                   <label className="text-sm text-grey-600">{t('status')}</label>
-                  <StatusDisplay message={activity.message} />
+                  <StatusDisplay message={entry.message} />
                 </span>
                 <span className="flex flex-row justify-between whitespace-pre-line">
                   <label className="text-sm text-grey-600">{t('timestamp')}</label>
-                  <p className="text-sm text-right">{formatDate(activity.timestamp)}</p>
+                  <p className="text-sm text-right">{formatDate(entry.timestamp)}</p>
                 </span>
               </div>
 
@@ -191,19 +191,19 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
 
               <hr className="h-px bg-grey-100" />
 
-              {activity.noteType && (
+              {entry.noteType && (
                 <div className="flex flex-col gap-y-2">
                   <span className="flex flex-row justify-between">
                     <label className="text-sm text-grey-600">{t('noteType')}</label>
-                    <p className="text-sm">{capitalizeFirstLetter(activity.noteType)}</p>
+                    <p className="text-sm">{capitalizeFirstLetter(entry.noteType)}</p>
                   </span>
                 </div>
               )}
-              {activity.noteId && (
+              {entry.noteId && (
                 <div className="flex flex-col gap-y-2">
                   <span className="flex flex-row justify-between">
                     <label className="text-sm text-grey-600">{t('noteId')}</label>
-                    <HashChip hash={activity.noteId || ''} trimHash={true} fill="#9E9E9E" className="ml-2" />
+                    <HashChip hash={entry.noteId || ''} trimHash={true} fill="#9E9E9E" className="ml-2" />
                   </span>
                 </div>
               )}

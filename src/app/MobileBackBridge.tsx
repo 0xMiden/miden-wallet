@@ -4,7 +4,7 @@ import { useMobileBackHandler } from 'lib/mobile/useMobileBackHandler';
 import { goBack, HistoryAction, navigate, useLocation } from 'lib/woozie';
 
 // Tab pages that should go to home on back (when no history)
-const TAB_PAGES = ['/activity', '/settings', '/browser'];
+const TAB_PAGES = ['/history', '/settings', '/browser'];
 
 /**
  * Bridges hardware back button/gesture with Woozie navigation.
@@ -14,7 +14,7 @@ const TAB_PAGES = ['/activity', '/settings', '/browser'];
  *
  * Behavior:
  * - Settings subpage (/settings/xxx): go to /settings
- * - Tab pages (activity, settings, browser) with no history: go to home
+ * - Tab pages (history, settings, browser) with no history: go to home
  * - If historyPosition > 0: go back in history
  * - Other pages with no history: go to home
  * - Home with no history: return false (let system handle - minimize on Android)
@@ -33,7 +33,7 @@ export const MobileBackBridge: FC = () => {
       return true;
     }
 
-    // Tab pages (activity, settings, browser) -> go to home
+    // Tab pages (history, settings, browser) -> go to home
     if (isTabPage) {
       navigate('/', HistoryAction.Replace);
       return true;
