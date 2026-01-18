@@ -73,27 +73,34 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
   const account = useAccount();
   const [activity, setActivity] = useState<IActivity | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   const loadTransaction = useCallback(async () => {
-    const tx = await getTransactionById(transactionId);
-    const tokenMetadata = tx.faucetId ? await getTokenMetadata(tx.faucetId) : undefined;
+    try {
+      setLoadError(null);
+      const tx = await getTransactionById(transactionId);
+      const tokenMetadata = tx.faucetId ? await getTokenMetadata(tx.faucetId) : undefined;
 
-    const activity = {
-      address: tx.accountId,
-      key: `completed-${tx.id}`,
-      timestamp: tx.completedAt,
-      message: tx.displayMessage,
-      transactionIcon: tx.displayIcon,
-      amount: tx.amount ? formatAmount(tx.amount, tx.type, tokenMetadata?.decimals) : undefined,
-      token: tokenMetadata ? tokenMetadata.symbol : undefined,
-      secondaryAddress: tx.secondaryAccountId,
-      txId: tx.id,
-      noteType: tx.noteType,
-      noteId: tx.outputNoteIds?.[0],
-      externalTxId: tx.transactionId
-    } as IActivity;
+      const activity = {
+        address: tx.accountId,
+        key: `completed-${tx.id}`,
+        timestamp: tx.completedAt,
+        message: tx.displayMessage,
+        transactionIcon: tx.displayIcon,
+        amount: tx.amount ? formatAmount(tx.amount, tx.type, tokenMetadata?.decimals) : undefined,
+        token: tokenMetadata ? tokenMetadata.symbol : undefined,
+        secondaryAddress: tx.secondaryAccountId,
+        txId: tx.id,
+        noteType: tx.noteType,
+        noteId: tx.outputNoteIds?.[0],
+        externalTxId: tx.transactionId
+      } as IActivity;
 
-    setActivity(activity);
+      setActivity(activity);
+    } catch (error) {
+      console.error('[ActivityDetails] Failed to load transaction:', error);
+      setLoadError(error instanceof Error ? error.message : 'Failed to load transaction');
+    }
   }, [transactionId, setActivity]);
 
   const handleDownload = useCallback(async () => {
@@ -132,16 +139,22 @@ export const ActivityDetails: FC<ActivityDetailsProps> = ({ transactionId }) => 
   }, [activity]);
 
   useEffect(() => {
-    if (!activity) loadTransaction();
-  }, [loadTransaction, activity]);
+    if (!activity && !loadError) loadTransaction();
+  }, [loadTransaction, activity, loadError]);
 
   const showDownloadButton = activity?.message === 'Sent' && activity?.noteType === 'private' && activity?.noteId;
   const fromAddress = activity?.message === 'Sent' ? activity?.address : activity?.secondaryAddress;
   const toAddress = activity?.message === 'Sent' ? activity?.secondaryAddress : activity?.address;
 
   return (
-    <PageLayout pageTitle={activity?.message} hasBackAction={true}>
-      {activity === null ? (
+    <PageLayout pageTitle={activity?.message || t('activityDetails')} hasBackAction={true}>
+      {loadError ? (
+        <div className="flex-1 flex flex-col items-center justify-center p-4">
+          <p className="text-red-500 text-center mb-2">{t('smthWentWrong')}</p>
+          <p className="text-gray-600 text-sm text-center select-text">{loadError}</p>
+          <p className="text-gray-400 text-xs text-center mt-2 select-text">ID: {transactionId}</p>
+        </div>
+      ) : activity === null ? (
         <ActivitySpinner />
       ) : (
         <div className="flex-1 flex flex-col">
@@ -251,7 +264,8 @@ const formatDate = (timestamp: number | string): string => {
     return 'Invalid Date';
   }
 
-  const currentLanguage = getCurrentLocale();
+  // Convert locale from underscore format (en_GB) to BCP 47 hyphen format (en-GB)
+  const currentLanguage = getCurrentLocale()?.replace('_', '-') || 'en';
 
   const datePart = date.toLocaleString(currentLanguage, {
     month: 'short',
