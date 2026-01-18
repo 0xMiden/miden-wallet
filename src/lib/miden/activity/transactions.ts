@@ -517,7 +517,7 @@ export const generateTransaction = async (
       console.log('[generateTransaction] Calling consumeNoteId worker...');
       resultBytes = await consumeNoteId(transactionResultBytes, shouldDelegate);
       console.log('[generateTransaction] consumeNoteId worker completed');
-      result = TransactionResult.deserialize(transactionResultBytes);
+      result = TransactionResult.deserialize(resultBytes);
       await completeConsumeTransaction(transaction.id, result);
       break;
     case 'execute':
