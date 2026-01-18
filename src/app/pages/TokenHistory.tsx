@@ -3,10 +3,12 @@ import React, { FC, useRef } from 'react';
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
-import PageLayout from 'app/layouts/PageLayout';
+import { useAppEnv } from 'app/env';
 import History from 'app/templates/history/History';
 import { Button, ButtonVariant } from 'components/Button';
+import { NavigationHeader } from 'components/NavigationHeader';
 import { useAccount, useAllBalances, useAllTokensBaseMetadata } from 'lib/miden/front';
+import { isMobile } from 'lib/platform';
 import { goBack } from 'lib/woozie';
 
 type TokenHistoryProps = {
@@ -15,6 +17,7 @@ type TokenHistoryProps = {
 
 const TokenHistory: FC<TokenHistoryProps> = ({ tokenId }) => {
   const { t } = useTranslation();
+  const { fullPage } = useAppEnv();
   const account = useAccount();
   const scrollParentRef = useRef<HTMLDivElement>(null);
   const allTokensMetadata = useAllTokensBaseMetadata();
@@ -24,24 +27,30 @@ const TokenHistory: FC<TokenHistoryProps> = ({ tokenId }) => {
   const tokenFromBalances = balances?.find(b => b.tokenId === tokenId);
   const tokenName = tokenFromBalances?.metadata?.symbol || allTokensMetadata[tokenId]?.symbol || t('unknown');
 
+  const handleClose = () => goBack();
+
+  // Match SendManager's container sizing
+  const containerClass = isMobile()
+    ? 'h-[100dvh] w-full'
+    : fullPage
+      ? 'h-[640px] max-h-[640px] w-[600px] max-w-[600px] border rounded-3xl'
+      : 'h-[600px] max-h-[600px] w-[360px] max-w-[360px]';
+
   return (
-    <PageLayout pageTitle={t('tokenHistory', { tokenName })} hasBackAction={true}>
-      <div className="flex flex-col flex-1 min-h-0">
+    <div className={classNames(containerClass, 'mx-auto overflow-hidden flex flex-col bg-white')}>
+      <NavigationHeader mode="close" title={t('tokenHistory', { tokenName })} onClose={handleClose} />
+      <div className="flex flex-col flex-1 p-4 justify-between md:w-[460px] md:mx-auto min-h-0">
         <div className={classNames('flex-1 min-h-0 overflow-y-auto', 'bg-white z-30 relative')} ref={scrollParentRef}>
-          <div className="px-4 md:w-[460px] md:mx-auto">
-            <History
-              address={account.publicKey}
-              tokenId={tokenId}
-              fullHistory={true}
-              scrollParentRef={scrollParentRef}
-            />
-          </div>
+          <History
+            address={account.publicKey}
+            tokenId={tokenId}
+            fullHistory={true}
+            scrollParentRef={scrollParentRef}
+          />
         </div>
-        <div className="flex-none p-4 md:w-[460px] md:mx-auto">
-          <Button title={t('close')} variant={ButtonVariant.Secondary} onClick={goBack} />
-        </div>
+        <Button title={t('close')} variant={ButtonVariant.Secondary} onClick={handleClose} />
       </div>
-    </PageLayout>
+    </div>
   );
 };
 
