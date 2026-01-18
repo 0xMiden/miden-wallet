@@ -124,7 +124,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
       // Refresh the list - this will remove successfully claimed notes
       await mutateClaimableNotes();
 
-      // Navigate to home on mobile after successful claim all
+      // Navigate to home on mobile after claiming all notes
       if (isMobile()) {
         navigate('/', HistoryAction.Replace);
       }
@@ -382,10 +382,11 @@ export const ConsumableNoteComponent = ({
       const id = await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
       await openLoadingFullPage();
       const txHash = await waitForConsumeTx(id, signal);
-      await mutateClaimableNotes();
+      const remainingNotes = await mutateClaimableNotes();
       console.log('Successfully consumed note, tx hash:', txHash);
-      // Navigate to home on mobile after successful claim
-      if (isMobile()) {
+
+      // Navigate to home on mobile if no more notes to claim
+      if (isMobile() && (!remainingNotes || remainingNotes.length === 0)) {
         navigate('/', HistoryAction.Replace);
       }
     } catch (error) {
