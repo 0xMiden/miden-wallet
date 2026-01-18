@@ -124,6 +124,30 @@ The mobile app shares the same React codebase as the browser extension. Mobile-s
 2. **Test across platforms** - Changes to shared code can break other platforms unexpectedly.
 3. **Use platform detection** - `isMobile()`, `isIOS()`, `isAndroid()` from `lib/mobile/platform.ts` for conditional logic.
 
+### Haptic Feedback
+
+**IMPORTANT:** When adding new tappable components (buttons, links, toggles, list items, etc.), always add haptic feedback for mobile users.
+
+```typescript
+import { hapticLight, hapticMedium, hapticSelection } from 'lib/mobile/haptics';
+
+// Use hapticLight() for button taps, navigation links, card clicks
+// Use hapticMedium() for toggles, checkboxes, radio buttons
+// Use hapticSelection() for tab changes, footer navigation
+```
+
+The haptic functions automatically check `isMobile()` and the user's haptic feedback setting - no need to wrap in conditionals.
+
+Components that already have haptics (for reference):
+- `components/Button.tsx`, `app/atoms/Button.tsx` - buttons
+- `lib/woozie/Link.tsx` - navigation links
+- `components/Toggle.tsx`, `app/atoms/ToggleSwitch.tsx` - toggles
+- `components/TabBar.tsx`, `app/atoms/TabSwitcher.tsx` - tabs
+- `components/FooterIconWrapper.tsx` - footer navigation
+- `components/CardItem.tsx`, `components/ListItem.tsx` - tappable items
+- `components/Chip.tsx`, `components/CircleButton.tsx` - misc buttons
+- `app/atoms/Checkbox.tsx`, `components/RadioButton.tsx` - form controls
+
 ### Known iOS-Specific Issues
 
 - **WASM/WebWorker behavior** - iOS Safari has different WebWorker/WASM memory handling than Android/Chrome
