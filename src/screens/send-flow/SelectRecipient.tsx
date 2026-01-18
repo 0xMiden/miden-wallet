@@ -7,7 +7,6 @@ import { Button, ButtonVariant } from 'components/Button';
 import { NavigationHeader } from 'components/NavigationHeader';
 import { TextArea } from 'components/TextArea';
 import { hapticSuccess, hapticError } from 'lib/mobile/haptics';
-import { isMobile } from 'lib/platform';
 import { scanQRCode, isScanAvailable } from 'lib/qr';
 
 export interface SelectRecipientProps {

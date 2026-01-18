@@ -123,7 +123,7 @@ const DOWNLOAD_INTERCEPTOR_SCRIPT = `
 `;
 
 // Allowed faucet domains for script injection (App Store compliance)
-const FAUCET_DOMAINS = ['faucet.testnet.miden.io', 'faucet.devnet.miden.io', 'localhost'];
+const _FAUCET_DOMAINS = ['faucet.testnet.miden.io', 'faucet.devnet.miden.io', 'localhost'];
 
 export interface FaucetWebviewOptions {
   url: string;

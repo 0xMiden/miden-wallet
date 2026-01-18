@@ -22,7 +22,15 @@ export interface ListItemProps extends React.ComponentProps<'div'> {
  * @param {ListItemProps} props - properties that define the ListItem component
  * @returns {JSX.Element} - rendered ListItem component
  */
-export const ListItem: React.FC<ListItemProps> = ({ className, title, subtitle, iconLeft, iconRight, onClick, ...props }) => {
+export const ListItem: React.FC<ListItemProps> = ({
+  className,
+  title,
+  subtitle,
+  iconLeft,
+  iconRight,
+  onClick,
+  ...props
+}) => {
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (onClick) {
       hapticLight();

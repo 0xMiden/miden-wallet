@@ -32,11 +32,7 @@ const FullScreenPage: FC<PropsWithChildren> = ({ children }) => {
   }
 
   return (
-    <div
-      ref={containerRef}
-      className="flex flex-col h-full w-full"
-      style={{ willChange: 'transform, opacity' }}
-    >
+    <div ref={containerRef} className="flex flex-col h-full w-full" style={{ willChange: 'transform, opacity' }}>
       {children}
     </div>
   );
