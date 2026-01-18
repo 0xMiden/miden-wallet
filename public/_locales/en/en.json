@@ -492,5 +492,6 @@
   "Invalid Miden address": "Invalid Miden address",
   "Scan cancelled": "Scan cancelled",
   "hapticFeedback": "Haptic Feedback",
-  "hapticFeedbackDescription": "Feel a vibration when tapping buttons and controls"
+  "hapticFeedbackDescription": "Feel a vibration when tapping buttons and controls",
+  "noNotesToClaim": "You don't currently have notes to claim, but when you do, they will appear here."
 }

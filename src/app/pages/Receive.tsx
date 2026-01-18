@@ -235,26 +235,33 @@ export const Receive: React.FC<ReceiveProps> = () => {
         </div>
         <div className="w-5/6 md:w-1/2 mx-auto" style={{ borderBottom: '1px solid #E9EBEF' }}></div>
         <div className="w-5/6 md:w-1/2 mx-auto py-6">
-          {claimableNotes !== undefined && claimableNotes.length > 0 && (
-            <p className="text-md text-gray-600 mb-4">{t('readyToClaim')}</p>
+          {safeClaimableNotes.length === 0 ? (
+            <div className="flex flex-col items-center pt-20">
+              <Icon name={IconName.Coins} size="xl" className="mb-3 text-gray-600" />
+              <p className="text-sm text-center text-gray-600">{t('noNotesToClaim')}</p>
+            </div>
+          ) : (
+            <>
+              <p className="text-md text-gray-600 mb-4">{t('readyToClaim')}</p>
+              {/* Scrollable notes container */}
+              <div
+                className="flex flex-col gap-y-4 overflow-y-auto"
+                style={{ maxHeight: '160px', scrollbarGutter: 'stable' }}
+              >
+                {safeClaimableNotes.map(note => (
+                  <ConsumableNoteComponent
+                    key={note.id}
+                    note={note}
+                    mutateClaimableNotes={mutateClaimableNotes}
+                    account={account}
+                    isDelegatedProvingEnabled={isDelegatedProvingEnabled}
+                    isClaimingFromParent={claimingNoteIds.has(note.id)}
+                    onClaimingStateChange={handleClaimingStateChange}
+                  />
+                ))}
+              </div>
+            </>
           )}
-          {/* Scrollable notes container */}
-          <div
-            className="flex flex-col gap-y-4 overflow-y-auto"
-            style={{ maxHeight: '160px', scrollbarGutter: 'stable' }}
-          >
-            {safeClaimableNotes.map(note => (
-              <ConsumableNoteComponent
-                key={note.id}
-                note={note}
-                mutateClaimableNotes={mutateClaimableNotes}
-                account={account}
-                isDelegatedProvingEnabled={isDelegatedProvingEnabled}
-                isClaimingFromParent={claimingNoteIds.has(note.id)}
-                onClaimingStateChange={handleClaimingStateChange}
-              />
-            ))}
-          </div>
           {unclaimedNotes.length > 0 && (
             <div className="flex justify-center mt-4">
               <Button
