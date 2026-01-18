@@ -87,7 +87,7 @@ const ForgotPassword: FC = () => {
           setStep(ForgotPasswordStep.CreatePassword);
           break;
         case 'create-password-submit':
-          setPassword(action.payload);
+          setPassword(action.payload.password);
           setStep(ForgotPasswordStep.Confirmation);
           break;
         case 'confirmation':

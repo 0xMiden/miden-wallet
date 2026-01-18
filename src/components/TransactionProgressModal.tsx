@@ -92,6 +92,7 @@ export const TransactionProgressModal: FC = () => {
         clearTimeout(timeoutId);
       };
     }
+    return undefined;
   }, [isOpen, hasLoadedOnce, transactions.length, error, closeModal]);
 
   const handleClose = useCallback(() => {
@@ -140,7 +141,7 @@ export const TransactionProgressModal: FC = () => {
         progress={progress}
         onDoneClick={handleClose}
         transactionComplete={transactionComplete}
-        error={error}
+        hasErrors={error}
       />
     </Modal>,
     modalRoot

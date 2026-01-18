@@ -1,5 +1,6 @@
 import { enUS, enGB, fr, zhCN, zhTW, ja, ko, uk, ru, Locale } from 'date-fns/locale';
 import i18n from 'i18next';
+import type { Browser } from 'webextension-polyfill';
 
 import { isMobile } from 'lib/platform';
 
@@ -9,12 +10,13 @@ import { getSavedLocale } from './saving';
 import { FetchedLocaleMessages, LocaleMessages, Substitutions } from './types';
 
 // Lazy-loaded browser polyfill (only in extension context)
-let browserModule: typeof import('webextension-polyfill') | null = null;
-async function getBrowser() {
-  if (!browserModule) {
-    browserModule = await import('webextension-polyfill');
+let browserInstance: Browser | null = null;
+async function getBrowser(): Promise<Browser> {
+  if (!browserInstance) {
+    const module = await import('webextension-polyfill');
+    browserInstance = module.default;
   }
-  return browserModule.default;
+  return browserInstance;
 }
 
 const dateFnsLocales: Record<string, Locale> = {

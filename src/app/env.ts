@@ -1,6 +1,7 @@
 import { FC, useCallback, useLayoutEffect, useRef } from 'react';
 
 import constate from 'constate';
+import type { Browser, Tabs } from 'webextension-polyfill';
 
 import { isMobile } from 'lib/platform';
 import { useWalletStore } from 'lib/store';
@@ -9,15 +10,16 @@ import { createUrl } from 'lib/woozie';
 export const IS_DEV_ENV = process.env.NODE_ENV === 'development';
 
 // Lazy-loaded browser polyfill (only in extension context)
-let browserModule: typeof import('webextension-polyfill') | null = null;
-async function getBrowser() {
+let browserInstance: Browser | null = null;
+async function getBrowser(): Promise<Browser> {
   if (isMobile()) {
     throw new Error('Browser APIs not available on mobile');
   }
-  if (!browserModule) {
-    browserModule = await import('webextension-polyfill');
+  if (!browserInstance) {
+    const module = await import('webextension-polyfill');
+    browserInstance = module.default;
   }
-  return browserModule.default;
+  return browserInstance;
 }
 
 export type AppEnvironment = {
@@ -82,7 +84,7 @@ export const OpenInFullPage: FC = () => {
         const browser = await getBrowser();
         const urls = await onboardingUrls();
         const tabs = await browser.tabs.query({});
-        const onboardingTab = tabs.find(t => t.url && urls.includes(t.url));
+        const onboardingTab = tabs.find((t: Tabs.Tab) => t.url && urls.includes(t.url));
         if (onboardingTab?.id) {
           browser.tabs.update(onboardingTab.id, { active: true });
           if (appEnv.popup) {
@@ -166,7 +168,7 @@ export async function openLoadingFullPage() {
 
   // If not already open, open generating transaction url
   const openTabs = await browser.tabs.query({});
-  if (openTabs.filter(t => t.url === generatingTransactionUrl).length === 0)
+  if (openTabs.filter((t: Tabs.Tab) => t.url === generatingTransactionUrl).length === 0)
     browser.tabs.create({
       url: generatingTransactionUrl,
       active: false
@@ -186,9 +188,9 @@ export async function closeLoadingFullPage() {
 
   const openTabs = await browser.tabs.query({});
   const ids = openTabs
-    .filter(t => t.url === generatingTransactionUrl)
-    .map(t => t.id)
-    .filter(id => !!id) as number[];
+    .filter((t: Tabs.Tab) => t.url === generatingTransactionUrl)
+    .map((t: Tabs.Tab) => t.id)
+    .filter((id): id is number => !!id);
 
   browser.tabs.remove(ids);
 }
@@ -211,7 +213,7 @@ export async function openConsumingFullPage(noteId: string) {
   const consumingTransactionUrl = await createConsumingFullPageUrl(noteId);
 
   const openTabs = await browser.tabs.query({});
-  if (openTabs.filter(t => t.url === consumingTransactionUrl).length === 0)
+  if (openTabs.filter((t: Tabs.Tab) => t.url === consumingTransactionUrl).length === 0)
     browser.tabs.create({
       url: consumingTransactionUrl,
       active: false
@@ -228,9 +230,9 @@ export async function closeConsumingFullPage(noteId: string) {
 
   const openTabs = await browser.tabs.query({});
   const ids = openTabs
-    .filter(t => t.url === consumingTransactionUrl)
-    .map(t => t.id)
-    .filter(id => !!id) as number[];
+    .filter((t: Tabs.Tab) => t.url === consumingTransactionUrl)
+    .map((t: Tabs.Tab) => t.id)
+    .filter((id): id is number => !!id);
 
   browser.tabs.remove(ids);
 }

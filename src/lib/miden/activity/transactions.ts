@@ -626,13 +626,12 @@ export const safeGenerateTransactionsLoop = async (
  * Polls every 5 seconds until all queued transactions are processed.
  */
 export const startBackgroundTransactionProcessing = async (
-  signTransaction: (publicKey: string, signingInputs: string) => Promise<string>
+  signTransaction: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
 ) => {
   console.log('[BackgroundTxProcessor] Starting background transaction processing');
 
   const signCallback = async (publicKey: string, signingInputs: string): Promise<Uint8Array> => {
-    const signatureHex = await signTransaction(publicKey, signingInputs);
-    return new Uint8Array(Buffer.from(signatureHex, 'hex'));
+    return signTransaction(publicKey, signingInputs);
   };
 
   // Process transactions in a loop until none are left

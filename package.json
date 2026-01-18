@@ -10,7 +10,7 @@
     "watch:dist": "mv3-hot-reload",
     "build": "yarn build:extension && yarn build:mobile",
     "build:extension": "cross-env DISABLE_TS_CHECKER=true NODE_ENV=development MODE_ENV=production MANIFEST_VERSION=3 webpack",
-    "prebuild": "rimraf ./dist && yarn clear:webpack-cache",
+    "prebuild": "rimraf ./dist && yarn clear:webpack-cache && yarn ts",
     "prebuild:extension": "rimraf ./dist && yarn clear:webpack-cache",
     "build-all": "rimraf ./dist && run-s build:*",
     "build:chrome": "cross-env DISABLE_TS_CHECKER=true NODE_ENV=development MODE_ENV=production TARGET_BROWSER=chrome MANIFEST_VERSION=3 webpack && TARGET_BROWSER=chrome yarn zip",

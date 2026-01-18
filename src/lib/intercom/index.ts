@@ -1,3 +1,4 @@
 export * from './types';
-export { IntercomClient, createIntercomClient, IIntercomClient } from './client';
+export { IntercomClient, createIntercomClient } from './client';
+export type { IIntercomClient } from './client';
 export { IntercomServer } from './server';

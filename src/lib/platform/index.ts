@@ -41,7 +41,9 @@ export function isCapacitor(): boolean {
  * Detects if running in a browser extension context
  */
 export function isExtension(): boolean {
-  return typeof browser !== 'undefined' && !!browser?.runtime?.id;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const browserGlobal = (globalThis as any).browser;
+  return typeof browserGlobal !== 'undefined' && !!browserGlobal?.runtime?.id;
 }
 
 /**

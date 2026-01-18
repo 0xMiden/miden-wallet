@@ -235,7 +235,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
         // Step 3: Wait for transaction completion (same as Receive's waitForConsumeTx)
         const result = await waitForTransactionCompletion(txId);
 
-        if (result.errorMessage) {
+        if ('errorMessage' in result) {
           setError('root', { type: 'manual', message: result.errorMessage });
         } else {
           // Success - navigate to home on mobile, or completion screen on desktop

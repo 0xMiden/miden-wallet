@@ -71,15 +71,17 @@ import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 import { store, withUnlocked } from './store';
 
 // Lazy-loaded browser polyfill (only in extension context)
-let browserModule: typeof import('webextension-polyfill') | null = null;
-async function getBrowser() {
+type Browser = import('webextension-polyfill').Browser;
+let browserInstance: Browser | null = null;
+async function getBrowser(): Promise<Browser> {
   if (isMobile()) {
     throw new Error('Browser extension APIs not available on mobile');
   }
-  if (!browserModule) {
-    browserModule = await import('webextension-polyfill');
+  if (!browserInstance) {
+    const module = await import('webextension-polyfill');
+    browserInstance = module.default;
   }
-  return browserModule.default;
+  return browserInstance;
 }
 
 const CONFIRM_WINDOW_WIDTH = 380;
@@ -893,9 +895,10 @@ const generatePromisifyTransaction = async (
           recipientAddress || undefined
         );
         // Start background processing on mobile
-        startBackgroundTransactionProcessing((publicKey, signingInputs) =>
-          vault.signTransaction(publicKey, signingInputs)
-        );
+        startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
+          const signatureHex = await vault.signTransaction(publicKey, signingInputs);
+          return new Uint8Array(Buffer.from(signatureHex, 'hex'));
+        });
         return txId;
       });
       resolve({
@@ -1035,9 +1038,10 @@ const generatePromisifySendTransaction = async (
           true
         );
         // Start background processing on mobile
-        startBackgroundTransactionProcessing((publicKey, signingInputs) =>
-          vault.signTransaction(publicKey, signingInputs)
-        );
+        startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
+          const signatureHex = await vault.signTransaction(publicKey, signingInputs);
+          return new Uint8Array(Buffer.from(signatureHex, 'hex'));
+        });
         return txId;
       });
       resolve({
@@ -1171,9 +1175,10 @@ const generatePromisifyConsumeTransaction = async (
         // On mobile, always delegate transactions to avoid memory issues with local proving
         const txId = await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId, true);
         // Start background processing on mobile
-        startBackgroundTransactionProcessing((publicKey, signingInputs) =>
-          vault.signTransaction(publicKey, signingInputs)
-        );
+        startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
+          const signatureHex = await vault.signTransaction(publicKey, signingInputs);
+          return new Uint8Array(Buffer.from(signatureHex, 'hex'));
+        });
         return txId;
       });
       resolve({

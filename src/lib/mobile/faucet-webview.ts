@@ -172,6 +172,13 @@ export async function openFaucetWebview({ url, title, recipientAddress }: Faucet
         isProcessingDownload = true;
         const { filename, content } = detail;
 
+        // Guard against missing filename or content
+        if (!filename || !content) {
+          console.error('DOWNLOAD_FILE: missing filename or content');
+          isProcessingDownload = false;
+          return;
+        }
+
         // Write to cache directory as base64 (no encoding = binary/base64)
         const result = await Filesystem.writeFile({
           path: filename,

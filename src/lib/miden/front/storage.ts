@@ -66,12 +66,7 @@ export function onStorageChanged<T = any>(key: string, callback: (newValue: T) =
   // Lazy load browser for extension
   import('webextension-polyfill').then(browserModule => {
     const browser = browserModule.default;
-    const handleChanged = (
-      changes: {
-        [s: string]: { newValue?: T; oldValue?: T };
-      },
-      areaName: string
-    ) => {
+    const handleChanged = (changes: Record<string, { newValue?: unknown; oldValue?: unknown }>, areaName: string) => {
       if (areaName === 'local' && key in changes) {
         callback(changes[key].newValue as T);
       }

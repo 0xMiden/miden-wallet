@@ -1,3 +1,5 @@
+import type { Browser } from 'webextension-polyfill';
+
 import { isMobile } from 'lib/platform';
 
 import { deserializeError } from './helpers';
@@ -12,12 +14,13 @@ export interface IIntercomClient {
 }
 
 // Lazy-loaded browser polyfill (only loaded in extension context)
-let browserPolyfill: typeof import('webextension-polyfill') | null = null;
-async function getBrowser() {
-  if (!browserPolyfill) {
-    browserPolyfill = await import('webextension-polyfill');
+let browserInstance: Browser | null = null;
+async function getBrowser(): Promise<Browser> {
+  if (!browserInstance) {
+    const module = await import('webextension-polyfill');
+    browserInstance = module.default;
   }
-  return browserPolyfill.default;
+  return browserInstance;
 }
 
 // Lazy-loaded mobile adapter (only loaded in mobile context)

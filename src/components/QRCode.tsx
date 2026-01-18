@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 
 import classNames from 'clsx';
-// @ts-expect-error react-qr-svg has no types
 import { useTranslation } from 'react-i18next';
 import { QRCode as QRCodeSvg } from 'react-qr-svg';
 

@@ -4,7 +4,8 @@
  * coordinate between the backend (dapp.ts) and the frontend (Browser.tsx).
  */
 
-import { DappMetadata, PrivateDataPermission, AllowedPrivateData } from '@demox-labs/miden-wallet-adapter-base';
+import { PrivateDataPermission, AllowedPrivateData } from '@demox-labs/miden-wallet-adapter-base';
+import { DappMetadata } from 'lib/miden/types';
 
 export interface DAppConfirmationRequest {
   id: string;
