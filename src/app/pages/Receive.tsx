@@ -50,6 +50,8 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const [claimingNoteIds, setClaimingNoteIds] = useState<Set<string>>(new Set());
   // Track individual note claiming states reported by child components
   const [individualClaimingIds, setIndividualClaimingIds] = useState<Set<string>>(new Set());
+  // Track notes that failed during Claim All
+  const [failedNoteIds, setFailedNoteIds] = useState<Set<string>>(new Set());
   const claimAllAbortRef = useRef<AbortController | null>(null);
 
   // Callback for child components to report their claiming state
@@ -126,6 +128,9 @@ export const Receive: React.FC<ReceiveProps> = () => {
     let failed = 0;
     let queueFailed = 0;
 
+    // Clear previous failures
+    setFailedNoteIds(new Set());
+
     try {
       // Queue all transactions first, before opening loading page
       // This ensures all notes get queued even if the popup closes
@@ -137,7 +142,8 @@ export const Receive: React.FC<ReceiveProps> = () => {
         } catch (err) {
           console.error('Error queuing note for claim:', note.id, err);
           queueFailed++;
-          // Remove from claiming set if failed to queue
+          // Mark as failed and remove from claiming set
+          setFailedNoteIds(prev => new Set(prev).add(note.id));
           setClaimingNoteIds(prev => {
             const next = new Set(prev);
             next.delete(note.id);
@@ -150,7 +156,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
       await openLoadingFullPage();
 
       // Wait for all transactions to complete
-      for (const { txId } of transactionIds) {
+      for (const { noteId, txId } of transactionIds) {
         if (signal.aborted) break;
         try {
           await waitForConsumeTx(txId, signal);
@@ -161,6 +167,8 @@ export const Receive: React.FC<ReceiveProps> = () => {
           }
           console.error('Error waiting for transaction:', txId, err);
           failed++;
+          // Mark this note as failed
+          setFailedNoteIds(prev => new Set(prev).add(noteId));
         }
         // Note: Don't remove from claimingNoteIds here - keep spinner visible
         // until mutateClaimableNotes() refreshes the list and removes the note
@@ -315,6 +323,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
                     account={account}
                     isDelegatedProvingEnabled={isDelegatedProvingEnabled}
                     isClaimingFromParent={claimingNoteIds.has(note.id)}
+                    hasFailedFromParent={failedNoteIds.has(note.id)}
                     onClaimingStateChange={handleClaimingStateChange}
                   />
                 ))}
@@ -343,6 +352,7 @@ interface ConsumableNoteProps {
   mutateClaimableNotes: ReturnType<typeof useClaimableNotes>['mutate'];
   isDelegatedProvingEnabled: boolean;
   isClaimingFromParent?: boolean;
+  hasFailedFromParent?: boolean;
   onClaimingStateChange?: (noteId: string, isClaiming: boolean) => void;
 }
 
@@ -352,12 +362,14 @@ export const ConsumableNoteComponent = ({
   account,
   isDelegatedProvingEnabled,
   isClaimingFromParent = false,
+  hasFailedFromParent = false,
   onClaimingStateChange
 }: ConsumableNoteProps) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(note.isBeingClaimed || false);
   const showSpinner = isLoading || isClaimingFromParent;
   const [error, setError] = useState<string | null>(null);
+  const hasError = error || hasFailedFromParent;
   const abortControllerRef = useRef<AbortController | null>(null);
   // Track if we've verified the claim status to prevent sync effect from re-enabling loading
   const hasVerifiedClaimStatus = useRef(false);
@@ -456,7 +468,7 @@ export const ConsumableNoteComponent = ({
       <SyncWaveBackground isSyncing={showSpinner} className="rounded-lg" />
       <CardItem
         iconLeft={<Icon name={IconName.ArrowRightDownFilledCircle} size="lg" />}
-        title={error ? t('errorClaiming') : amountText}
+        title={hasError ? t('errorClaiming') : amountText}
         subtitle={truncateAddress(note.senderAddress)}
         iconRight={
           !showSpinner ? (
@@ -464,7 +476,7 @@ export const ConsumableNoteComponent = ({
               className="w-[75px] h-[36px] text-md"
               variant={ButtonVariant.Primary}
               onClick={handleConsume}
-              title={error ? t('retry') : t('claim')}
+              title={hasError ? t('retry') : t('claim')}
             />
           ) : undefined
         }
