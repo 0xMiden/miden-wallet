@@ -66,6 +66,8 @@ yarn lint             # ESLint
 yarn format           # Prettier
 ```
 
+**IMPORTANT:** Always run `yarn lint` and `yarn format` before `yarn build`. The build will fail on lint/prettier errors.
+
 ## Mobile Development
 
 **IMPORTANT:** Always use these yarn scripts for mobile development. Do not run Capacitor or Xcode commands directly.

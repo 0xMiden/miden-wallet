@@ -283,9 +283,7 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
             />
           )}
           {/* Show Hide button while transaction is in progress */}
-          {!transactionComplete && (
-            <Button title={t('hide')} variant={ButtonVariant.Primary} onClick={onDoneClick} />
-          )}
+          {!transactionComplete && <Button title={t('hide')} variant={ButtonVariant.Primary} onClick={onDoneClick} />}
         </div>
       </div>
     </>
