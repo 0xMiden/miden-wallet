@@ -7,7 +7,6 @@ import FormField from 'app/atoms/FormField';
 import { openLoadingFullPage, useAppEnv } from 'app/env';
 import { Icon, IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
-import { Alert, AlertVariant } from 'components/Alert';
 import { Button, ButtonVariant } from 'components/Button';
 import { QRCode } from 'components/QRCode';
 import { formatBigInt } from 'lib/i18n/numbers';
@@ -50,8 +49,6 @@ export const Receive: React.FC<ReceiveProps> = () => {
   // Track individual note claiming states reported by child components
   const [individualClaimingIds, setIndividualClaimingIds] = useState<Set<string>>(new Set());
   const claimAllAbortRef = useRef<AbortController | null>(null);
-  // Track claim all results for summary display
-  const [claimAllResult, setClaimAllResult] = useState<{ succeeded: number; failed: number } | null>(null);
 
   // Callback for child components to report their claiming state
   const handleClaimingStateChange = useCallback((noteId: string, isClaiming: boolean) => {
@@ -105,9 +102,6 @@ export const Receive: React.FC<ReceiveProps> = () => {
     claimAllAbortRef.current?.abort();
     claimAllAbortRef.current = new AbortController();
     const signal = claimAllAbortRef.current.signal;
-
-    // Clear any previous result
-    setClaimAllResult(null);
 
     // Refresh the claimable notes list before queueing to avoid race conditions
     // with auto-consume (Explore page may have already started claiming some notes)
@@ -173,17 +167,8 @@ export const Receive: React.FC<ReceiveProps> = () => {
       // Refresh the list - this will remove successfully claimed notes
       await mutateClaimableNotes();
 
-      // Add queue failures to the failed count
-      failed += queueFailed;
-
-      // Show summary if there were any failures (or mixed results)
-      // Only show if we actually processed multiple notes and had failures
-      const totalAttempted = succeeded + failed;
-      if (totalAttempted > 0 && failed > 0) {
-        setClaimAllResult({ succeeded, failed });
-      }
-
       // Navigate to home on mobile after claiming all notes (only if all succeeded)
+      failed += queueFailed;
       if (isMobile() && failed === 0) {
         navigate('/', HistoryAction.Replace);
       }
@@ -310,24 +295,8 @@ export const Receive: React.FC<ReceiveProps> = () => {
         </div>
         <div className="w-5/6 md:w-1/2 mx-auto" style={{ borderBottom: '1px solid #E9EBEF' }}></div>
         <div className="w-5/6 md:w-1/2 mx-auto py-6 flex flex-col">
-          {/* Claim All result summary */}
-          {claimAllResult && (
-            <Alert
-              variant={claimAllResult.succeeded > 0 ? AlertVariant.Warning : AlertVariant.Error}
-              title={t('claimAllSummary', {
-                succeeded: claimAllResult.succeeded,
-                failed: claimAllResult.failed
-              })}
-              className="mb-4"
-            />
-          )}
-          {safeClaimableNotes.length === 0 && !claimAllResult ? (
+          {safeClaimableNotes.length === 0 ? (
             <div className="flex flex-col items-center pt-20">
-              <Icon name={IconName.Coins} size="xl" className="mb-3 text-gray-600" />
-              <p className="text-sm text-center text-gray-600">{t('noNotesToClaim')}</p>
-            </div>
-          ) : safeClaimableNotes.length === 0 && claimAllResult ? (
-            <div className="flex flex-col items-center pt-12">
               <Icon name={IconName.Coins} size="xl" className="mb-3 text-gray-600" />
               <p className="text-sm text-center text-gray-600">{t('noNotesToClaim')}</p>
             </div>
