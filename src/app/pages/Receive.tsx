@@ -8,7 +8,9 @@ import { openLoadingFullPage, useAppEnv } from 'app/env';
 import { Icon, IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
 import { Button, ButtonVariant } from 'components/Button';
+import { CardItem } from 'components/CardItem';
 import { QRCode } from 'components/QRCode';
+import { SyncWaveBackground } from 'components/SyncWaveBackground';
 import { formatBigInt } from 'lib/i18n/numbers';
 import {
   getUncompletedTransactions,
@@ -304,7 +306,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
             <>
               <p className="text-md text-gray-600 mb-4">{t('readyToClaim', { count: safeClaimableNotes.length })}</p>
               {/* Scrollable notes container */}
-              <div className="flex flex-col gap-y-4 overflow-y-auto max-h-[28vh]">
+              <div className="flex flex-col gap-2 overflow-y-auto max-h-[28vh]">
                 {safeClaimableNotes.map(note => (
                   <ConsumableNoteComponent
                     key={note.id}
@@ -447,32 +449,27 @@ export const ConsumableNoteComponent = ({
       setIsLoading(false);
     }
   }, [account, isDelegatedProvingEnabled, mutateClaimableNotes, note]);
+  const amountText = `${formatBigInt(BigInt(note.amount), note.metadata?.decimals || 6)} ${note.metadata?.symbol || 'UNKNOWN'}`;
+
   return (
-    <div className="flex items-center justify-between w-full">
-      <div className="flex items-center gap-x-2 flex-1 min-w-0">
-        <Icon name={IconName.ArrowRightDownFilledCircle} size="lg" />
-        <div className="flex flex-col min-w-0">
-          <p className="text-md font-bold truncate">
-            {error ? t('errorClaiming') : ''}
-            {`${formatBigInt(BigInt(note.amount), note.metadata?.decimals || 6)} ${note.metadata?.symbol || 'UNKNOWN'}`}
-          </p>
-          <p className="text-xs text-gray-500">{truncateAddress(note.senderAddress)}</p>
-        </div>
-      </div>
-      <div className="flex-shrink-0 ml-4">
-        {showSpinner ? (
-          <div className="w-[75px] h-[36px] flex items-center justify-center">
-            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-500"></div>
-          </div>
-        ) : (
-          <Button
-            className="w-[75px] h-[36px] text-md"
-            variant={ButtonVariant.Primary}
-            onClick={handleConsume}
-            title={error ? t('retry') : t('claim')}
-          />
-        )}
-      </div>
+    <div className="relative flex">
+      <SyncWaveBackground isSyncing={showSpinner} className="rounded-lg" />
+      <CardItem
+        iconLeft={<Icon name={IconName.ArrowRightDownFilledCircle} size="lg" />}
+        title={error ? t('errorClaiming') : amountText}
+        subtitle={truncateAddress(note.senderAddress)}
+        iconRight={
+          !showSpinner ? (
+            <Button
+              className="w-[75px] h-[36px] text-md"
+              variant={ButtonVariant.Primary}
+              onClick={handleConsume}
+              title={error ? t('retry') : t('claim')}
+            />
+          ) : undefined
+        }
+        className="flex-1 border border-grey-50 rounded-lg"
+      />
     </div>
   );
 };
