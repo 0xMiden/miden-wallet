@@ -3,6 +3,7 @@ import React from 'react';
 import classNames from 'clsx';
 
 import { Icon, IconName, IconSize } from 'app/icons/v2';
+import { hapticLight } from 'lib/mobile/haptics';
 import { IconOrComponent } from 'utils/icon-or-component';
 
 /**
@@ -53,8 +54,15 @@ export const CardItem: React.FC<CardItemProps> = ({
   titleRight,
   subtitleRight,
   hoverable = false,
+  onClick,
   ...props
 }) => {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (hoverable && onClick) {
+      hapticLight();
+      onClick(e);
+    }
+  };
   const cardItemClasses = classNames(
     'flex items-center justify-evenly', // Layout classes
     'h-[56px] p-2', // Size and padding classes
@@ -67,7 +75,7 @@ export const CardItem: React.FC<CardItemProps> = ({
   );
 
   return (
-    <div {...props} className={cardItemClasses}>
+    <div {...props} className={cardItemClasses} onClick={handleClick}>
       <div className="shrink-0">{iconLeft && <LeftIconOrComponent icon={iconLeft} color="black" />}</div>
       <div className="flex flex-1 overflow-hidden">
         <div className="flex-1 flex-col flex justify-center overflow-hidden">

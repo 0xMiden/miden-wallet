@@ -30,6 +30,7 @@ import {
 } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { openFaucetWebview } from 'lib/mobile/faucet-webview';
+import { hapticLight } from 'lib/mobile/haptics';
 import { isMobile } from 'lib/platform';
 import { isAutoConsumeEnabled, isDelegateProofEnabled } from 'lib/settings/helpers';
 import { useRetryableSWR } from 'lib/swr';
@@ -302,11 +303,15 @@ const ActionButton: FC<ActionButtonProps> = ({
   }
 
   if (onClick) {
+    const handleClick = () => {
+      hapticLight();
+      onClick();
+    };
     return (
       <button
         type="button"
         className={classNames('flex flex-col items-center', className)}
-        onClick={onClick}
+        onClick={handleClick}
         data-testid={testID}
       >
         {buttonContent}

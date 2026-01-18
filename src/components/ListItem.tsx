@@ -3,6 +3,7 @@ import React from 'react';
 import classNames from 'clsx';
 
 import { IconName } from 'app/icons/v2';
+import { hapticLight } from 'lib/mobile/haptics';
 import { IconOrComponent } from 'utils/icon-or-component';
 
 /**
@@ -21,7 +22,13 @@ export interface ListItemProps extends React.ComponentProps<'div'> {
  * @param {ListItemProps} props - properties that define the ListItem component
  * @returns {JSX.Element} - rendered ListItem component
  */
-export const ListItem: React.FC<ListItemProps> = ({ className, title, subtitle, iconLeft, iconRight, ...props }) => {
+export const ListItem: React.FC<ListItemProps> = ({ className, title, subtitle, iconLeft, iconRight, onClick, ...props }) => {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (onClick) {
+      hapticLight();
+      onClick(e);
+    }
+  };
   const ListItemClasses = classNames(
     'flex items-center justify-evenly', // Layout classes
     'h-[48px] p-2', // Size and padding classes
@@ -34,7 +41,7 @@ export const ListItem: React.FC<ListItemProps> = ({ className, title, subtitle, 
   );
 
   return (
-    <div {...props} className={ListItemClasses}>
+    <div {...props} className={ListItemClasses} onClick={handleClick}>
       {iconLeft && <IconOrComponent icon={iconLeft} color="black" />}
       <div className="flex flex-1 justify-between overflow-hidden">
         {title && <div className="text-sm text-black truncate text-ellipsis ">{title}</div>}

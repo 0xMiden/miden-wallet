@@ -3,6 +3,7 @@ import React from 'react';
 import classNames from 'clsx';
 
 import { Icon, IconName } from 'app/icons/v2';
+import { hapticSelection } from 'lib/mobile/haptics';
 import colors from 'utils/tailwind-colors';
 
 export interface TabProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -44,6 +45,7 @@ export interface TabBarProps extends React.HTMLAttributes<HTMLDivElement> {
 export const TabBar: React.FC<TabBarProps> = ({ tabs, className, onTabChange, ...props }) => {
   const handleTabChange = (index: number) => {
     if (onTabChange) {
+      hapticSelection();
       onTabChange(index);
     }
   };

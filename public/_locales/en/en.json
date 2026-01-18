@@ -490,5 +490,7 @@
   "No QR code found": "No QR code found",
   "Empty QR code": "Empty QR code",
   "Invalid Miden address": "Invalid Miden address",
-  "Scan cancelled": "Scan cancelled"
+  "Scan cancelled": "Scan cancelled",
+  "hapticFeedback": "Haptic Feedback",
+  "hapticFeedbackDescription": "Feel a vibration when tapping buttons and controls"
 }

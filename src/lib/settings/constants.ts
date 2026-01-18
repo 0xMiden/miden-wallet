@@ -6,3 +6,6 @@ export const DEFAULT_AUTO_CLOSE = true;
 
 export const AUTO_CONSUME_STORAGE_KEY = 'auto_consume_setting';
 export const DEFAULT_AUTO_CONSUME = true;
+
+export const HAPTIC_FEEDBACK_STORAGE_KEY = 'haptic_feedback_setting';
+export const DEFAULT_HAPTIC_FEEDBACK = true;

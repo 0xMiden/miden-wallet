@@ -4,6 +4,7 @@ import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
 import { AnalyticsEventCategory, TestIDProps, useAnalytics } from 'lib/analytics';
+import { hapticLight } from 'lib/mobile/haptics';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 import useTippy from 'lib/ui/useTippy';
 
@@ -53,6 +54,7 @@ const CopyButton: FC<CopyButtonProps> = ({
   const smallClassName = small ? 'text-xs p-1' : 'text-sm py-1 px-2';
 
   const handleCopyPress = () => {
+    hapticLight();
     testID !== undefined && trackEvent(testID, AnalyticsEventCategory.ButtonPress, testIDProperties);
 
     return copy();

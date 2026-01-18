@@ -3,6 +3,7 @@ import React from 'react';
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
+import { hapticSelection } from 'lib/mobile/haptics';
 import { Link } from 'lib/woozie';
 
 type TabDescriptor = {
@@ -37,6 +38,7 @@ const TabSwitcher: React.FC<TabSwitcherProps> = ({ className, tabs, activeTabSlu
             key={slug}
             to={`${urlPrefix}/${slug}`}
             replace
+            onClick={() => hapticSelection()}
             className={classNames(
               'text-center cursor-pointer rounded-lg py-3 px-3 mx-px',
               'text-black font-medium',

@@ -3,6 +3,7 @@ import React, { forwardRef, InputHTMLAttributes, useCallback, useEffect, useStat
 import classNames from 'clsx';
 
 import { AnalyticsEventCategory, TestIDProps, useAnalytics } from 'lib/analytics';
+import { hapticMedium } from 'lib/mobile/haptics';
 import { checkedHandler } from 'lib/ui/inputHandlers';
 
 type ToggleSwitchProps = InputHTMLAttributes<HTMLInputElement> &
@@ -36,6 +37,7 @@ const ToggleSwitch = forwardRef<HTMLInputElement, ToggleSwitchProps>(
 
     const handleChange = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
+        hapticMedium();
         testID !== undefined && trackEvent(testID, AnalyticsEventCategory.Toggle, testIDProperties);
         checkedHandler(e, onChange!, setLocalChecked);
       },

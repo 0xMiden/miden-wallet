@@ -1,6 +1,7 @@
 import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 
 import { isMobile } from 'lib/platform';
+import { isHapticFeedbackEnabled } from 'lib/settings/helpers';
 
 /**
  * Haptic feedback utilities for mobile.
@@ -11,7 +12,7 @@ import { isMobile } from 'lib/platform';
  * Light impact - for button taps, selections
  */
 export const hapticLight = async () => {
-  if (!isMobile()) return;
+  if (!isMobile() || !isHapticFeedbackEnabled()) return;
   try {
     await Haptics.impact({ style: ImpactStyle.Light });
   } catch {
@@ -23,7 +24,7 @@ export const hapticLight = async () => {
  * Medium impact - for toggles, significant actions
  */
 export const hapticMedium = async () => {
-  if (!isMobile()) return;
+  if (!isMobile() || !isHapticFeedbackEnabled()) return;
   try {
     await Haptics.impact({ style: ImpactStyle.Medium });
   } catch {
@@ -35,7 +36,7 @@ export const hapticMedium = async () => {
  * Heavy impact - for destructive actions, important confirmations
  */
 export const hapticHeavy = async () => {
-  if (!isMobile()) return;
+  if (!isMobile() || !isHapticFeedbackEnabled()) return;
   try {
     await Haptics.impact({ style: ImpactStyle.Heavy });
   } catch {
@@ -47,7 +48,7 @@ export const hapticHeavy = async () => {
  * Success notification - for completed transactions, successful operations
  */
 export const hapticSuccess = async () => {
-  if (!isMobile()) return;
+  if (!isMobile() || !isHapticFeedbackEnabled()) return;
   try {
     await Haptics.notification({ type: NotificationType.Success });
   } catch {
@@ -59,7 +60,7 @@ export const hapticSuccess = async () => {
  * Warning notification - for warnings, requires attention
  */
 export const hapticWarning = async () => {
-  if (!isMobile()) return;
+  if (!isMobile() || !isHapticFeedbackEnabled()) return;
   try {
     await Haptics.notification({ type: NotificationType.Warning });
   } catch {
@@ -71,7 +72,7 @@ export const hapticWarning = async () => {
  * Error notification - for failed operations, errors
  */
 export const hapticError = async () => {
-  if (!isMobile()) return;
+  if (!isMobile() || !isHapticFeedbackEnabled()) return;
   try {
     await Haptics.notification({ type: NotificationType.Error });
   } catch {
@@ -83,7 +84,7 @@ export const hapticError = async () => {
  * Selection changed - for picker changes, list selections
  */
 export const hapticSelection = async () => {
-  if (!isMobile()) return;
+  if (!isMobile() || !isHapticFeedbackEnabled()) return;
   try {
     await Haptics.selectionChanged();
   } catch {
