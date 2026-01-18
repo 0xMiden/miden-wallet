@@ -26,6 +26,8 @@ import {
 } from 'lib/miden-chain/constants';
 import { WalletType } from 'screens/onboarding/types';
 
+import { isMobile } from 'lib/platform';
+
 import { ConsumeTransaction, SendTransaction } from '../db/types';
 import { toNoteType } from '../helpers';
 import { NoteExportType } from './constants';
@@ -328,17 +330,18 @@ export class MidenClientInterface {
     delegateTransaction?: boolean
   ) {
     try {
-      try {
-        await this.proveAndSubmitTransaction(transactionResult, delegateTransaction);
-      } catch (error) {
-        if (delegateTransaction) {
-          console.log('Error proving delegated transaction, falling back to local prover:', error);
-          this.onConnectivityIssue?.();
-          await this.proveAndSubmitTransaction(transactionResult, false);
-        }
-      }
+      await this.proveAndSubmitTransaction(transactionResult, delegateTransaction);
     } catch (error) {
-      console.error('Error submitting transaction:', error);
+      // On mobile, never fall back to local prover (too resource-intensive)
+      if (delegateTransaction && !isMobile()) {
+        console.log('Error proving delegated transaction, falling back to local prover:', error);
+        this.onConnectivityIssue?.();
+        // Fallback to local prover - if this throws, error propagates to caller
+        await this.proveAndSubmitTransaction(transactionResult, false);
+      } else {
+        // Not using delegation or on mobile, propagate the error
+        throw error;
+      }
     }
   }
 
