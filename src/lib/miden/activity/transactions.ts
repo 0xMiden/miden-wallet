@@ -1,4 +1,12 @@
-import { Address, Note, TransactionResult } from '@demox-labs/miden-sdk';
+import {
+  Address,
+  InputNoteState,
+  Note,
+  NoteFilter,
+  NoteFilterTypes,
+  NoteId,
+  TransactionResult
+} from '@demox-labs/miden-sdk';
 import { liveQuery } from 'dexie';
 
 import { consumeNoteId } from 'lib/miden-worker/consumeNoteId';
@@ -454,6 +462,87 @@ export const forceCaneclAllInProgressTransactions = async () => {
     cancelTransaction(tx, 'Transaction force-cancelled for debugging')
   );
   await Promise.all(cancelTransactionUpdates);
+};
+
+/**
+ * InputNoteState values that indicate a note has been consumed
+ */
+const CONSUMED_NOTE_STATES = [
+  InputNoteState.ConsumedAuthenticatedLocal,
+  InputNoteState.ConsumedUnauthenticatedLocal,
+  InputNoteState.ConsumedExternal
+];
+
+/**
+ * Verify stuck transactions by checking note state from the node.
+ * For consume transactions:
+ * - If the note has been consumed on-chain, mark the transaction as completed
+ * - If the note is invalid or tx has been stuck too long, mark as failed
+ * Returns the number of transactions that were resolved.
+ */
+export const verifyStuckTransactionsFromNode = async (): Promise<number> => {
+  // Check both Queued and GeneratingTransaction statuses
+  const stuckTransactions = await getAllUncompletedTransactions();
+  if (stuckTransactions.length === 0) return 0;
+
+  // Filter to only consume transactions with a noteId
+  const consumeTransactions = stuckTransactions.filter(
+    (tx): tx is ConsumeTransaction => tx.type === 'consume' && !!tx.noteId
+  );
+
+  if (consumeTransactions.length === 0) return 0;
+
+  console.log('[verifyStuckTransactionsFromNode] Checking', consumeTransactions.length, 'stuck consume transactions');
+
+  let resolvedCount = 0;
+
+  // Check each stuck consume transaction (AutoSync handles syncState separately)
+  for (const tx of consumeTransactions) {
+    try {
+      const noteDetails = await withWasmClientLock(async () => {
+        const midenClient = await getMidenClient();
+        const noteId = NoteId.fromHex(tx.noteId);
+        const noteFilter = new NoteFilter(NoteFilterTypes.List, [noteId]);
+        return await midenClient.getInputNoteDetails(noteFilter);
+      });
+
+      if (noteDetails.length === 0) {
+        console.log('[verifyStuckTransactionsFromNode] Note not found:', tx.noteId);
+        continue;
+      }
+
+      const note = noteDetails[0];
+      console.log('[verifyStuckTransactionsFromNode] Note', tx.noteId, 'state:', InputNoteState[note.state]);
+
+      if (CONSUMED_NOTE_STATES.includes(note.state)) {
+        // Note has been consumed on-chain - mark transaction as completed
+        console.log('[verifyStuckTransactionsFromNode] Note consumed, marking tx completed:', tx.id);
+        await updateTransactionStatus(tx.id, ITransactionStatus.Completed, {
+          displayMessage: 'Received',
+          completedAt: Date.now() / 1000
+        });
+        resolvedCount++;
+      } else if (note.state === InputNoteState.Invalid) {
+        // Note is invalid - mark transaction as failed
+        console.log('[verifyStuckTransactionsFromNode] Note invalid, marking tx failed:', tx.id);
+        await cancelTransaction(tx, 'Note is invalid');
+        resolvedCount++;
+      } else if (
+        note.state === InputNoteState.Committed ||
+        note.state === InputNoteState.Expected ||
+        note.state === InputNoteState.Unverified
+      ) {
+        // Note is still claimable - tx never made it to node, mark as failed so user can retry
+        console.log('[verifyStuckTransactionsFromNode] Note still claimable, marking tx failed:', tx.id);
+        await cancelTransaction(tx, 'Transaction was interrupted');
+        resolvedCount++;
+      }
+    } catch (err) {
+      console.error('[verifyStuckTransactionsFromNode] Error checking tx:', tx.id, err);
+    }
+  }
+
+  return resolvedCount;
 };
 
 export const generateTransaction = async (

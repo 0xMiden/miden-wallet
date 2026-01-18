@@ -11,7 +11,12 @@ import { Alert, AlertVariant } from 'components/Alert';
 import { Button, ButtonVariant } from 'components/Button';
 import { QRCode } from 'components/QRCode';
 import { formatBigInt } from 'lib/i18n/numbers';
-import { getUncompletedTransactions, initiateConsumeTransaction, waitForConsumeTx } from 'lib/miden/activity';
+import {
+  getUncompletedTransactions,
+  initiateConsumeTransaction,
+  verifyStuckTransactionsFromNode,
+  waitForConsumeTx
+} from 'lib/miden/activity';
 import { AssetMetadata, useAccount } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
@@ -75,6 +80,24 @@ export const Receive: React.FC<ReceiveProps> = () => {
       claimAllAbortRef.current?.abort();
     };
   }, []);
+
+  // Poll for stuck transactions and verify their state from the node
+  useEffect(() => {
+    const checkStuckTransactions = async () => {
+      const resolved = await verifyStuckTransactionsFromNode();
+      if (resolved > 0) {
+        // Refresh claimable notes if any transactions were resolved
+        mutateClaimableNotes();
+      }
+    };
+
+    // Check immediately on mount
+    checkStuckTransactions();
+
+    // Then poll every 3 seconds
+    const interval = setInterval(checkStuckTransactions, 3000);
+    return () => clearInterval(interval);
+  }, [mutateClaimableNotes]);
 
   const handleClaimAll = useCallback(async () => {
     if (unclaimedNotes.length === 0) return;
