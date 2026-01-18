@@ -15,6 +15,7 @@ import { useAnalytics } from 'lib/analytics';
 import { safeGenerateTransactionsLoop as dbTransactionsLoop, getAllUncompletedTransactions } from 'lib/miden/activity';
 import { useExportNotes } from 'lib/miden/activity/notes';
 import { useMidenContext } from 'lib/miden/front';
+import { isMobile } from 'lib/platform';
 import { isAutoCloseEnabled } from 'lib/settings/helpers';
 import { useRetryableSWR } from 'lib/swr';
 import { navigate } from 'lib/woozie';
@@ -190,7 +191,7 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
 
   return (
     <>
-      {!transactionComplete && !error && <Alert variant={AlertVariant.Warning} title={alertText()} />}
+      {!transactionComplete && !error && !isMobile() && <Alert variant={AlertVariant.Warning} title={alertText()} />}
       <div className="flex-1 flex flex-col justify-center md:w-[460px] md:mx-auto">
         <div className="flex flex-col justify-center items-center">
           <div className={classNames('w-40 aspect-square flex items-center justify-center mb-8')}>{renderIcon()}</div>
@@ -212,12 +213,14 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
               onClick={downloadAll}
             />
           )}
-          <Button
-            title={t('done')}
-            variant={outputNotes.length > 0 ? ButtonVariant.Secondary : ButtonVariant.Primary}
-            onClick={onDoneClick}
-            disabled={!transactionComplete && !error}
-          />
+          {(!isMobile() || transactionComplete || error) && (
+            <Button
+              title={t('done')}
+              variant={outputNotes.length > 0 ? ButtonVariant.Secondary : ButtonVariant.Primary}
+              onClick={onDoneClick}
+              disabled={!transactionComplete && !error}
+            />
+          )}
         </div>
       </div>
     </>
