@@ -103,8 +103,13 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   );
 
   const importWalletFromClient = useCallback(
-    async (password: string, mnemonic: string, walletAccounts: WalletAccount[]) => {
-      await storeImportWalletFromClient(password, mnemonic, walletAccounts);
+    async (
+      password: string,
+      mnemonic: string,
+      walletAccounts: WalletAccount[],
+      skForImportedAccounts: Record<string, string>
+    ) => {
+      await storeImportWalletFromClient(password, mnemonic, walletAccounts, skForImportedAccounts);
     },
     [storeImportWalletFromClient]
   );

@@ -134,7 +134,12 @@ export class Vault {
     });
   }
 
-  static async spawnFromMidenClient(password: string, mnemonic: string, walletAccounts: WalletAccount[]) {
+  static async spawnFromMidenClient(
+    password: string,
+    mnemonic: string,
+    walletAccounts: WalletAccount[],
+    skForImportedAccounts: Record<string, string>
+  ) {
     return withError('Failed to spawn from miden client', async () => {
       await clearStorage(false);
 
@@ -160,9 +165,18 @@ export class Vault {
           if (!walletAccount) {
             throw new PublicError('Account from Miden Client not found in provided wallet accounts');
           }
-          const walletSeed = deriveClientSeed(walletAccount.type, mnemonic, walletAccount.hdIndex);
-          const secretKey = SecretKey.rpoFalconWithRNG(walletSeed);
-          await midenClient.webClient.addAccountSecretKeyToWebStore(secretKey);
+          if (walletAccount.hdIndex === -1) {
+            const skHex = skForImportedAccounts[walletAccount.publicKey];
+            if (!skHex) {
+              throw new PublicError('Secret key for imported account not found');
+            }
+            const sk = SecretKey.deserialize(new Uint8Array(Buffer.from(skHex, 'hex')));
+            await midenClient.webClient.addAccountSecretKeyToWebStore(sk);
+          } else {
+            const walletSeed = deriveClientSeed(walletAccount.type, mnemonic, walletAccount.hdIndex);
+            const secretKey = SecretKey.rpoFalconWithRNG(walletSeed);
+            await midenClient.webClient.addAccountSecretKeyToWebStore(secretKey);
+          }
         }
       });
 
@@ -348,11 +362,16 @@ export class Vault {
   static async revealPrivateKey(accPublicKey: string, password: string) {
     const passKey = await Vault.toValidPassKey(password);
     return await withError('Failed to reveal private key', async () => {
-      const secretKeyHex = await fetchAndDecryptOneWithLegacyFallBack<string>(
-        accAuthSecretKeyStrgKey(accPublicKey),
-        passKey
-      );
-      return secretKeyHex;
+      try {
+        const secretKeyHex = await fetchAndDecryptOneWithLegacyFallBack<string>(
+          accAuthSecretKeyStrgKey(accPublicKey),
+          passKey
+        );
+        return secretKeyHex;
+      } catch (e) {
+        console.error('Error fetching and decrypting private key:', e);
+        throw e;
+      }
     });
   }
 
@@ -363,12 +382,10 @@ export class Vault {
       const pubKeyWord = secretKey.publicKey().toCommitment();
 
       const pubKeyHex = pubKeyWord.toHex().slice(2); // remove '0x' prefix
-      console.log({ pubKeyHex });
       const publicKey = await withWasmClientLock(async () => {
         const midenClient = await getMidenClient();
         return await midenClient.importPublicAccountFromPrivateKey(secretKey);
       });
-      console.log({ publicKey });
       const newAccount: WalletAccount = {
         publicKey,
         name: getNewAccountName(allAccounts),

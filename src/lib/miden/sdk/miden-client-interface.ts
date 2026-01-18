@@ -150,14 +150,12 @@ export class MidenClientInterface {
   }
 
   async importPublicAccountFromPrivateKey(privateKey: SecretKey): Promise<string> {
-    console.log('Importing public account from private key, secret key:', privateKey);
     const accountBuilder = new AccountBuilder(new Uint8Array(32).fill(0))
       .accountType(AccountType.RegularAccountImmutableCode)
       .storageMode(AccountStorageMode.public())
       .withAuthComponent(AccountComponent.createAuthComponent(privateKey))
       .withBasicWalletComponent();
     const wallet = accountBuilder.build().account;
-    console.log('Importing public account from private key, account id:', wallet.id().toString());
     // add the secret key to the web client's keystore
     await this.webClient.addAccountSecretKeyToWebStore(privateKey);
     // register the new account in the web client
@@ -198,6 +196,15 @@ export class MidenClientInterface {
   async getAccount(accountId: string) {
     const result = await this.webClient.getAccount(accountIdStringToSdk(accountId));
     return result;
+  }
+
+  async getAccountPkcByPublicKey(publicKey: string): Promise<string> {
+    const acc = await this.webClient.getAccount(accountIdStringToSdk(publicKey));
+    if (!acc) {
+      throw new Error('Account not found');
+    }
+    const result = acc.getPublicKeys()[0].toHex();
+    return result.slice(2); // remove 0x prefix
   }
 
   async importAccountById(accountId: string) {

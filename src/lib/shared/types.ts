@@ -503,6 +503,7 @@ export interface ImportFromClientRequest extends WalletMessageBase {
   password: string;
   mnemonic: string;
   walletAccounts: WalletAccount[];
+  skForImportedAccounts: Record<string, string>;
 }
 
 export interface ImportFromClientResponse extends WalletMessageBase {

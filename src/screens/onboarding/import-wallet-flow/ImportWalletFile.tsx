@@ -19,7 +19,11 @@ interface FormData {
 
 export interface ImportWalletFileScreenProps {
   className?: string;
-  onSubmit?: (seedPhrase: string, walletAccounts: WalletAccount[]) => void;
+  onSubmit?: (
+    seedPhrase: string,
+    walletAccounts: WalletAccount[],
+    skForImportedAccounts: Record<string, string>
+  ) => void;
 }
 
 type WalletFile = EncryptedWalletFile & {
@@ -78,6 +82,7 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
       const walletDbContent = decryptedWallet.walletDbContent;
       const seedPhrase = decryptedWallet.seedPhrase;
       const walletAccounts = decryptedWallet.accounts;
+      const skForImportedAccounts = decryptedWallet.secretKeysForImportedAccounts;
 
       // Wrap WASM client operations in a lock to prevent concurrent access
       await withWasmClientLock(async () => {
@@ -86,7 +91,7 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
       });
       await importDb(walletDbContent);
 
-      onSubmit(seedPhrase, walletAccounts);
+      onSubmit(seedPhrase, walletAccounts, skForImportedAccounts);
     } catch (error) {
       console.error('Decryption failed:', error);
       setIsWrongPassword(true); // Ensure error appears in case of failure

@@ -34,7 +34,7 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({
   onGoBack
 }) => {
   const { t } = useTranslation();
-  const { revealMnemonic, accounts } = useMidenContext();
+  const { revealMnemonic, accounts, revealPrivateKey } = useMidenContext();
   const { fullPage } = useAppEnv();
 
   const getExportFile = useCallback(async () => {
@@ -46,14 +46,25 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({
     const walletDbDump = await exportDb();
 
     const seedPhrase = await revealMnemonic(walletPassword);
+    const secretKeysForImportedAccounts: Record<string, string> = {};
+    await withWasmClientLock(async () => {
+      const midenClient = await getMidenClient();
+      for (const account of accounts) {
+        if (account.hdIndex === -1) {
+          const pubKey = await midenClient.getAccountPkcByPublicKey(account.publicKey);
+          const sk = await revealPrivateKey(pubKey, walletPassword);
+          secretKeysForImportedAccounts[account.publicKey] = sk;
+        }
+      }
+    });
 
     const filePayload: DecryptedWalletFile = {
       seedPhrase,
       midenClientDbContent: midenClientDbDump,
       walletDbContent: walletDbDump,
-      accounts
+      accounts,
+      secretKeysForImportedAccounts
     };
-
     const salt = generateSalt();
     const passKey = await generateKey(filePassword);
     const derivedKey = await deriveKey(passKey, salt);

@@ -95,6 +95,7 @@ export type ImportWalletFileSubmitAction = {
   id: 'import-wallet-file-submit';
   payload: string;
   walletAccounts: WalletAccount[];
+  skForImportedAccounts: Record<string, string>;
 };
 
 export type ImportSeedPhraseSubmitAction = {

@@ -6,6 +6,7 @@ export type DecryptedWalletFile = {
   midenClientDbContent: string;
   walletDbContent: string;
   accounts: WalletAccount[];
+  secretKeysForImportedAccounts: Record<string, string>;
 };
 
 export type EncryptedWalletFile = {

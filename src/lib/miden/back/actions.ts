@@ -77,9 +77,14 @@ export function registerNewWallet(password: string, mnemonic?: string, ownMnemon
   });
 }
 
-export function registerImportedWallet(password: string, mnemonic: string, walletAccounts: WalletAccount[]) {
+export function registerImportedWallet(
+  password: string,
+  mnemonic: string,
+  walletAccounts: WalletAccount[],
+  skForImportedAccounts: Record<string, string>
+) {
   return withInited(async () => {
-    await Vault.spawnFromMidenClient(password, mnemonic, walletAccounts);
+    await Vault.spawnFromMidenClient(password, mnemonic, walletAccounts, skForImportedAccounts);
     await unlock(password);
   });
 }

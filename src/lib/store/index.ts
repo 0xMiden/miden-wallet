@@ -124,12 +124,13 @@ export const useWalletStore = create<WalletStore>()(
       // State will be synced via StateUpdated notification
     },
 
-    importWalletFromClient: async (password, mnemonic, walletAccounts) => {
+    importWalletFromClient: async (password, mnemonic, walletAccounts, skForImportedAccounts) => {
       const res = await request({
         type: WalletMessageType.ImportFromClientRequest,
         password,
         mnemonic,
-        walletAccounts
+        walletAccounts,
+        skForImportedAccounts
       });
       assertResponse(res.type === WalletMessageType.ImportFromClientResponse);
     },
@@ -221,12 +222,10 @@ export const useWalletStore = create<WalletStore>()(
     },
 
     importPublicAccountByPrivateKey: async privateKey => {
-      console.log(privateKey);
       const res = await request({
         type: WalletMessageType.ImportAccountRequest,
         privateKey
       });
-      console.log(res);
       assertResponse(res.type === WalletMessageType.ImportAccountResponse);
     },
 
