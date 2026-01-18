@@ -43,6 +43,18 @@ src/
 └── workers/             # Background service worker entry
 ```
 
+## Key Modules
+
+Quick reference for commonly needed utilities:
+
+| Module | Path | Exports |
+|--------|------|---------|
+| Platform detection | `lib/platform` | `isMobile()`, `isIOS()`, `isAndroid()`, `isExtension()` |
+| Haptic feedback | `lib/mobile/haptics` | `hapticLight()`, `hapticMedium()`, `hapticSelection()` |
+| Mobile back handler | `lib/mobile/back-handler` | `initMobileBackHandler()`, `useMobileBackHandler()` |
+| Navigation (Woozie) | `lib/woozie` | `navigate()`, `goBack()`, `useLocation()`, `<Link>` |
+| App environment | `app/env` | `useAppEnv()`, `registerBackHandler()`, `onBack()` |
+
 ## Commands
 
 ```bash
@@ -114,7 +126,7 @@ See `STORE_LISTING.md` for full app store submission checklist and instructions.
 2. Run `yarn mobile:ios:run` to build and test on iOS Simulator
 3. Or run `yarn mobile:ios` to open in Xcode for debugging
 
-The mobile app shares the same React codebase as the browser extension. Mobile-specific code uses `isMobile()` checks from `lib/mobile/platform.ts`.
+The mobile app shares the same React codebase as the browser extension. Mobile-specific code uses `isMobile()` checks from `lib/platform`.
 
 ### Platform-Specific Changes
 
@@ -122,7 +134,7 @@ The mobile app shares the same React codebase as the browser extension. Mobile-s
 
 1. **Isolate platform-specific fixes** - If a bug only affects iOS, wrap the fix with platform detection (e.g., `if (isIOS()) { ... }`). Don't apply iOS fixes globally unless they genuinely apply to all platforms.
 2. **Test across platforms** - Changes to shared code can break other platforms unexpectedly.
-3. **Use platform detection** - `isMobile()`, `isIOS()`, `isAndroid()` from `lib/mobile/platform.ts` for conditional logic.
+3. **Use platform detection** - `isMobile()`, `isIOS()`, `isAndroid()` from `lib/platform` for conditional logic.
 
 ### Haptic Feedback
 
@@ -273,6 +285,162 @@ intercom.broadcast({ type: WalletMessageType.StateUpdated });
 ```
 
 Message types defined in `src/lib/shared/types.ts`.
+
+## Navigation Architecture
+
+**IMPORTANT - Maintain this section:** When adding new screens, routes, or modifying navigation flows, update the route maps and flow documentation below. This ensures mobile back button handling stays correct and future developers understand the navigation structure.
+
+The app uses **two separate navigation systems**:
+
+### 1. Woozie (Global Page Navigation)
+
+Custom lightweight router in `src/lib/woozie/`. Uses History API with hash-based URLs (`USE_LOCATION_HASH_AS_URL = true`).
+
+**Key exports:**
+- `navigate(path)` - Navigate to a route
+- `goBack()` - Go back in history (`window.history.go(-1)`)
+- `useLocation()` - Get current `pathname`, `historyPosition`, etc.
+- `<Link to="/path">` - Declarative navigation with haptic feedback
+
+**History tracking:**
+- `historyPosition` tracks position in navigation stack (0 = first page in session)
+- Used to determine if back navigation is available
+
+### 2. Navigator (Internal Step Navigation)
+
+Component-based navigator in `src/components/Navigator.tsx` for multi-step flows.
+
+**Used by:**
+- `SendManager` (`src/screens/send-flow/SendManager.tsx`)
+- `EncryptedFileManager` (`src/screens/encrypted-file-flow/EncryptedFileManager.tsx`)
+
+**Key exports:**
+- `useNavigator()` - Returns `{ navigateTo, goBack, cardStack, activeRoute }`
+- `cardStack` - Array of visited routes (step history)
+- `goBack()` - Pops from cardStack (only works if `cardStack.length > 1`)
+
+### Route Map
+
+**Tab Pages** (with persistent footer, via `TabLayout`):
+| Route | Component | Back Behavior |
+|-------|-----------|---------------|
+| `/` | Explore (Home) | Minimize app (Android) / Nothing (iOS) |
+| `/activity/:programId?` | Activity | → Home |
+| `/settings/:tabSlug?` | Settings | Sub-tab → Settings main → Home |
+| `/browser` | Browser | → Home |
+
+**Settings Sub-Tabs** (`/settings/:tabSlug`):
+| Tab Slug | Component | Notes |
+|----------|-----------|-------|
+| `general-settings` | GeneralSettings | Theme, analytics, haptics |
+| `language` | LanguageSettings | App language selection |
+| `address-book` | AddressBook | Saved contacts |
+| `reveal-seed-phrase` | RevealSeedPhrase | Only shown for non-public accounts |
+| `edit-miden-faucet-id` | EditMidenFaucetId | Hidden from menu |
+| `encrypted-wallet-file` | EncryptedFileFlow | Opens as full dialog (see flow below) |
+| `advanced-settings` | AdvancedSettings | Developer options |
+| `dapps` | DAppSettings | Authorized dApps management |
+| `about` | About | Version info, links |
+| `networks` | NetworksSettings | Hidden from menu |
+
+**Full-Screen Pages** (slide animation, via `FullScreenPage` or `PageLayout`):
+| Route | Component | Back Behavior |
+|-------|-----------|---------------|
+| `/send` | SendFlow | See Send Flow below |
+| `/receive` | Receive | → Home |
+| `/faucet` | Faucet | → Home |
+| `/get-tokens` | GetTokens | → Home |
+| `/select-account` | SelectAccount | → Home |
+| `/create-account` | CreateAccount | → Previous |
+| `/edit-name` | EditAccountName | → Previous |
+| `/import-account/:tabSlug?` | ImportAccount | → Previous |
+| `/activity-details/:transactionId` | ActivityDetails | → Activity |
+| `/manage-assets/:assetType?` | ManageAssets | → Home |
+| `/encrypted-wallet-file` | EncryptedFileFlow | See Encrypted Flow below |
+| `/generating-transaction` | GeneratingTransaction | (Modal - no back) |
+| `/consuming-note/:noteId` | ConsumingNote | (Processing - no back) |
+| `/import-note-pending/:noteId` | ImportNotePending | → Home |
+| `/import-note-success` | ImportNoteSuccess | → Home |
+| `/import-note-failure` | ImportNoteFailure | → Home |
+
+**Onboarding/Auth Routes** (catch-all when locked):
+- `/reset-required`, `/reset-wallet`, `/forgot-password`, `/forgot-password-info`
+
+### Send Flow Steps (Internal Navigator)
+
+Route: `/send` → `SendManager` with internal step navigation:
+
+| Step | Component | Back Behavior |
+|------|-----------|---------------|
+| 1. SelectToken | Token picker | → Close flow (Home) |
+| 2. SelectRecipient | Address input | → SelectToken |
+| 3. AccountsList | Modal overlay | → Dismiss (stays on SelectRecipient) |
+| 4. SelectAmount | Amount input | → SelectRecipient |
+| 5. ReviewTransaction | Confirm details | → SelectAmount |
+| 6. GeneratingTransaction | Processing | (No back) |
+| 7. TransactionInitiated | Success | → Home |
+
+### Encrypted File Flow Steps (Internal Navigator)
+
+Route: `/encrypted-wallet-file` → `EncryptedFileManager`:
+
+| Step | Component | Back Behavior |
+|------|-----------|---------------|
+| 1. CreatePassword | Password setup | → Close flow (Settings) |
+| 2. ConfirmPassword | Confirm password | → CreatePassword |
+| 3. ExportFile | Download file | → ConfirmPassword |
+
+### Onboarding Flow (State-Based Navigation)
+
+**IMPORTANT:** Unlike SendManager/EncryptedFileManager, the onboarding flow does NOT use the Navigator component. It uses hash-based URLs (`/#step-name`) with React state to track the current step.
+
+Route: `/` (when wallet is locked/new) → `Welcome.tsx` with hash-based steps:
+
+| Hash | Step | Back Behavior |
+|------|------|---------------|
+| (none) | Welcome | Minimize app (Android) / Nothing (iOS) |
+| `#backup-seed-phrase` | BackupSeedPhrase | → Welcome |
+| `#verify-seed-phrase` | VerifySeedPhrase | → BackupSeedPhrase |
+| `#select-import-type` | SelectImportType | → Welcome |
+| `#import-from-seed` | ImportFromSeed | → SelectImportType |
+| `#import-from-file` | ImportFromFile | → SelectImportType |
+| `#create-password` | CreatePassword | → Previous step (depends on flow) |
+| `#confirmation` | Confirmation | (No back while loading) |
+
+**Navigation pattern:**
+- Steps navigate via `navigate('/#step-name')` which updates the URL hash
+- `useEffect` watches the hash and updates `step` state accordingly
+- Back navigation calls `onAction({ id: 'back' })` which has switch logic for each step
+- Mobile back handler in `Welcome.tsx` triggers this same `onAction({ id: 'back' })`
+
+**Forgot Password Flow** (`/forgot-password` → `ForgotPassword.tsx`) uses the same pattern with `ForgotPasswordStep` enum.
+
+### Back Handler System
+
+**Global handler** in `src/app/env.ts`:
+- `registerBackHandler(handler)` - Register a back handler (returns unregister function)
+- `onBack()` - Calls the current handler
+- Stack-based: handlers can be layered (modals on top of pages)
+
+**PageLayout** (`src/app/layouts/PageLayout.tsx`) registers default handler:
+```typescript
+// If history available, go back; otherwise go home
+if (historyPosition > 0) {
+  goBack();
+} else if (!inHome) {
+  navigate('/', HistoryAction.Replace);
+}
+```
+
+### Mobile Back Button
+
+**IMPORTANT:** Hardware back button on Android and swipe-back on iOS require `@capacitor/app` plugin and explicit handling. Without it, back gestures close the app instead of navigating.
+
+Back handlers must be registered for:
+1. Global navigation (MobileBackBridge component)
+2. Navigator-based flows (SendManager, EncryptedFileManager)
+3. State-based flows (Welcome/onboarding, ForgotPassword)
+4. Modals/dialogs that should close on back
 
 ## Code Patterns
 

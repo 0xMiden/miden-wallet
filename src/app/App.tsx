@@ -9,6 +9,7 @@ import DisableOutlinesForClick from 'app/a11y/DisableOutlinesForClick';
 import RootSuspenseFallback from 'app/a11y/RootSuspenseFallback';
 import { AppEnvProvider } from 'app/env';
 import ErrorBoundary from 'app/ErrorBoundary';
+import { MobileBackBridge } from 'app/MobileBackBridge';
 import Dialogs from 'app/layouts/Dialogs';
 import PageRouter from 'app/PageRouter';
 import { ExtensionMessageListener } from 'components/ConnectivityIssueBanner';
@@ -58,6 +59,7 @@ const AppProvider: FC<AppProps> = ({ children, env }) => {
     <AppEnvProvider {...env}>
       <Woozie.Provider>
         <ExtensionMessageListener />
+        {checkIsMobile() && <MobileBackBridge />}
         <MidenProvider>{children}</MidenProvider>
       </Woozie.Provider>
     </AppEnvProvider>

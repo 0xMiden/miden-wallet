@@ -8,6 +8,7 @@ import { createRoot } from 'react-dom/client';
 import App from 'app/App';
 import { WindowType } from 'app/env';
 import { getMobileIntercomAdapter } from 'lib/intercom/mobile-adapter';
+import { initMobileBackHandler } from 'lib/mobile/back-handler';
 
 // Show error on screen for debugging
 function showError(message: string, error?: unknown) {
@@ -40,6 +41,9 @@ async function initMobile() {
 
     console.log('Mobile app: Initializing adapter');
     await adapter.init();
+
+    console.log('Mobile app: Initializing back handler');
+    await initMobileBackHandler();
 
     console.log('Mobile app: Backend initialized, rendering UI');
 

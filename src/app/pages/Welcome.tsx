@@ -7,6 +7,7 @@ import { formatMnemonic } from 'app/defaults';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
 import { authenticate, checkBiometricAvailability, setBiometricEnabled, storeCredential } from 'lib/biometric';
 import { useMidenContext } from 'lib/miden/front';
+import { useMobileBackHandler } from 'lib/mobile/useMobileBackHandler';
 import { isMobile } from 'lib/platform';
 import { WalletStatus } from 'lib/shared/types';
 import { useWalletStore } from 'lib/store';
@@ -242,6 +243,21 @@ const Welcome: FC = () => {
         break;
     }
   }, [hash, password]);
+
+  // Handle mobile back button/gesture in onboarding flow
+  useMobileBackHandler(() => {
+    // On welcome screen, let system handle (minimize on Android)
+    if (step === OnboardingStep.Welcome) {
+      return false;
+    }
+    // On confirmation/loading screen, don't allow back
+    if (step === OnboardingStep.Confirmation && isLoading) {
+      return true; // Consume but don't navigate
+    }
+    // Trigger the onboarding back action
+    onAction({ id: 'back' });
+    return true;
+  }, [step, isLoading, onAction]);
 
   return (
     <OnboardingFlow

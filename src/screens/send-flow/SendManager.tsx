@@ -11,6 +11,7 @@ import { stringToBigInt } from 'lib/i18n/numbers';
 import { initiateSendTransaction, waitForTransactionCompletion } from 'lib/miden/activity';
 import { useAccount, useAllAccounts } from 'lib/miden/front';
 import { NoteTypeEnum } from 'lib/miden/types';
+import { useMobileBackHandler } from 'lib/mobile/useMobileBackHandler';
 import { isMobile } from 'lib/platform';
 import { isDelegateProofEnabled } from 'lib/settings/helpers';
 import { navigate } from 'lib/woozie';
@@ -85,7 +86,7 @@ export interface SendManagerProps {
 }
 
 export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
-  const { navigateTo, goBack } = useNavigator();
+  const { navigateTo, goBack, cardStack } = useNavigator();
   const allAccounts = useAllAccounts();
   const { publicKey } = useAccount();
   const { fullPage } = useAppEnv();
@@ -109,6 +110,17 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const onClose = useCallback(() => {
     navigate('/');
   }, []);
+
+  // Handle mobile back button/gesture
+  useMobileBackHandler(() => {
+    if (cardStack.length > 1) {
+      goBack(); // Go to previous step
+      return true;
+    }
+    // On first step, close entire flow
+    onClose();
+    return true;
+  }, [cardStack.length, goBack, onClose]);
 
   const onGenerateTransaction = useCallback(async () => {
     // On mobile, open the modal and go back to home

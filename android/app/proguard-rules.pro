@@ -62,6 +62,9 @@
 # Share plugin
 -keep class com.capacitorjs.plugins.share.** { *; }
 
+# App plugin
+-keep class com.capacitorjs.plugins.app.** { *; }
+
 # Barcode scanning plugin
 -keep class com.niceforyou.barcodescanner.** { *; }
 -keep class com.niceforyou.capacitor.barcodescanner.** { *; }

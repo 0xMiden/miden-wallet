@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAppEnv } from 'app/env';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
+import { useMobileBackHandler } from 'lib/mobile/useMobileBackHandler';
 import { navigate } from 'lib/woozie';
 import EncryptedWalletFileWalletPassword from 'screens/encrypted-file-flow/EncryptedWalletFileWalletPassword';
 
@@ -33,12 +34,23 @@ const ROUTES: Route[] = [
 export interface EncryptedFileManagerProps {}
 
 export const EncryptedFileManager: React.FC<{}> = () => {
-  const { navigateTo, goBack } = useNavigator();
+  const { navigateTo, goBack, cardStack } = useNavigator();
   const { fullPage } = useAppEnv();
 
   const onClose = useCallback(() => {
     navigate('/settings');
   }, []);
+
+  // Handle mobile back button/gesture
+  useMobileBackHandler(() => {
+    if (cardStack.length > 1) {
+      goBack(); // Go to previous step
+      return true;
+    }
+    // On first step, close entire flow
+    onClose();
+    return true;
+  }, [cardStack.length, goBack, onClose]);
 
   const { register, watch, handleSubmit, formState, setError, clearErrors, setValue } = useForm<EncryptedFileForm>({
     defaultValues: {
