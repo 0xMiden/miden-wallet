@@ -20,15 +20,19 @@ import { isMobile } from 'lib/platform';
 import { isDelegateProofEnabled } from 'lib/settings/helpers';
 import { WalletAccount } from 'lib/shared/types';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
-import { HistoryAction, navigate } from 'lib/woozie';
+import { goBack, HistoryAction, navigate, useLocation } from 'lib/woozie';
 import { truncateAddress } from 'utils/string';
 
 export interface ReceiveProps {}
 
 export const Receive: React.FC<ReceiveProps> = () => {
   const { t } = useTranslation();
+  const { search } = useLocation();
   const account = useAccount();
   const address = account.publicKey;
+
+  // Check if opened from notification (should go back instead of home on close)
+  const fromNotification = new URLSearchParams(search).get('fromNotification') === 'true';
   const { fieldRef, copy, copied } = useCopyToClipboard();
   const { data: claimableNotes, mutate: mutateClaimableNotes } = useClaimableNotes(address);
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
@@ -203,7 +207,12 @@ export const Receive: React.FC<ReceiveProps> = () => {
       step={1}
       setStep={newStep => {
         if (newStep === 0) {
-          navigate('/', HistoryAction.Replace);
+          if (fromNotification) {
+            // Go back to where user was before tapping notification
+            goBack();
+          } else {
+            navigate('/', HistoryAction.Replace);
+          }
         }
       }}
       skip={false}

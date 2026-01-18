@@ -2,12 +2,42 @@ import { InAppBrowser } from '@capgo/inappbrowser';
 import { LocalNotifications } from '@capacitor/local-notifications';
 
 import { hapticSuccess } from 'lib/mobile/haptics';
-import { isMobile } from 'lib/platform';
+import { isAndroid, isMobile } from 'lib/platform';
 import { useWalletStore } from 'lib/store';
 import { navigate } from 'lib/woozie';
 
 // Notification ID for note received - using a fixed ID so new notes replace old notification
 const NOTE_RECEIVED_NOTIFICATION_ID = 1001;
+
+// Android notification channel for high-priority notifications (heads-up display)
+const NOTE_CHANNEL_ID = 'miden_notes';
+
+// Android importance levels (from NotificationManager)
+// 4 = IMPORTANCE_HIGH - shows everywhere, makes noise, peeks (heads-up)
+// 5 = IMPORTANCE_MAX - same as HIGH but also uses full-screen intent
+const IMPORTANCE_HIGH = 4;
+
+/**
+ * Create Android notification channel with high importance for heads-up notifications.
+ * Must be called before scheduling notifications on Android.
+ */
+async function createNotificationChannel(): Promise<void> {
+  if (!isAndroid()) return;
+
+  try {
+    await LocalNotifications.createChannel({
+      id: NOTE_CHANNEL_ID,
+      name: 'Notes',
+      description: 'Notifications for received notes',
+      importance: IMPORTANCE_HIGH, // Required for heads-up display
+      visibility: 1, // Public
+      vibration: true,
+      sound: 'default'
+    });
+  } catch (error) {
+    console.error('[NativeNotifications] Error creating channel:', error);
+  }
+}
 
 /**
  * Request permission for local notifications.
@@ -54,10 +84,12 @@ export async function showNoteReceivedNotification(title: string, body: string):
           schedule: { at: new Date(Date.now() + 100) },
           // Auto-dismiss after 15 seconds
           autoCancel: true,
+          // Android: use high-importance channel for heads-up display
+          channelId: NOTE_CHANNEL_ID,
           // Extra data for handling tap
           extra: {
             type: 'note_received',
-            navigateTo: '/receive'
+            navigateTo: '/receive?fromNotification=true'
           }
         }
       ]
@@ -110,5 +142,6 @@ export async function initNativeNotifications(): Promise<void> {
   if (!isMobile()) return;
 
   await requestNotificationPermission();
+  await createNotificationChannel();
   await setupNotificationTapListener();
 }
