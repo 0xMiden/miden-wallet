@@ -13,6 +13,8 @@ jobs:
   translations:
     name: Update Translation Files
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     outputs:
       committed: ${{ steps.commit.outputs.committed }}
     steps:
