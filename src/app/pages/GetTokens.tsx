@@ -7,15 +7,21 @@ import { IconName } from 'app/icons/v2';
 import PageLayout from 'app/layouts/PageLayout';
 import { Button, ButtonVariant } from 'components/Button';
 import { Message } from 'components/Message';
+import { getFaucetUrl } from 'lib/miden-chain/faucet';
+import { useNetwork } from 'lib/miden/front';
+import { openFaucetWebview } from 'lib/mobile/faucet-webview';
 import { navigate } from 'lib/woozie';
 
 export interface GetTokensProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const GetTokens: React.FC<GetTokensProps> = ({ className, ...props }) => {
   const { t } = useTranslation();
-  const onFaucetClick = useCallback(() => {
-    window.open('https://faucet.testnet.miden.io', '_blank');
-  }, []);
+  const network = useNetwork();
+
+  const onFaucetClick = useCallback(async () => {
+    const faucetUrl = getFaucetUrl(network.id);
+    await openFaucetWebview({ url: faucetUrl, title: t('midenFaucet') });
+  }, [network.id, t]);
 
   const onTransferClick = useCallback(() => {
     navigate('/receive');

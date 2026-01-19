@@ -7,7 +7,7 @@ type ContentContainerProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 const ContentContainer: FC<ContentContainerProps> = ({ padding = true, className, ...rest }) => (
-  <div className={classNames('w-full flex flex-col flex-1', className)} {...rest} />
+  <div className={classNames('w-full flex flex-col flex-1 min-h-0 overflow-hidden', className)} {...rest} />
 );
 
 export default ContentContainer;

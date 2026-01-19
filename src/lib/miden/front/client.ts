@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { AllowedPrivateData, PrivateDataPermission } from '@demox-labs/miden-wallet-adapter-base';
 import constate from 'constate';
 
-import { IntercomClient } from 'lib/intercom';
+import { createIntercomClient, IIntercomClient } from 'lib/intercom/client';
 import { WalletRequest, WalletResponse, WalletSettings, WalletStatus } from 'lib/shared/types';
 import { useWalletStore } from 'lib/store';
 import { WalletType } from 'screens/onboarding/types';
@@ -11,10 +11,10 @@ import { WalletType } from 'screens/onboarding/types';
 import { MidenState } from '../types';
 import { AutoSync } from './autoSync';
 
-let intercom: IntercomClient | null;
+let intercom: IIntercomClient | null;
 function getIntercom() {
   if (!intercom) {
-    intercom = new IntercomClient();
+    intercom = createIntercomClient();
   }
   return intercom;
 }

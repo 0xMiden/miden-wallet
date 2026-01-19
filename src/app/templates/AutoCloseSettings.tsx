@@ -3,12 +3,12 @@ import React, { FC, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ToggleSwitch from 'app/atoms/ToggleSwitch';
+import { isMobile } from 'lib/platform';
 import { isAutoCloseEnabled, setAutoCloseSetting } from 'lib/settings/helpers';
 
 import { GeneralSettingsSelectors } from './GeneralSettings.selectors';
 
 const AutoCloseSettings: FC<{}> = () => {
-  const gpuEnabled = isAutoCloseEnabled();
   const changingRef = useRef(false);
   const { t } = useTranslation();
   const handleAutoCloseChange = useCallback((evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,6 +18,13 @@ const AutoCloseSettings: FC<{}> = () => {
     setAutoCloseSetting(evt.target.checked);
     changingRef.current = false;
   }, []);
+
+  // Hide on mobile - it's always enabled there
+  if (isMobile()) {
+    return null;
+  }
+
+  const gpuEnabled = isAutoCloseEnabled();
 
   return (
     <div className="flex w-full justify-between mt-6">

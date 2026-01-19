@@ -1,6 +1,7 @@
 import React, { FC, memo, useCallback } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import Checkbox from 'app/atoms/Checkbox';
 import { ReactComponent as AddIcon } from 'app/icons/add-to-list.svg';
@@ -10,7 +11,6 @@ import { ReactComponent as SearchIcon } from 'app/icons/search.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import { AssetIcon } from 'app/templates/AssetIcon';
 import SearchAssetField from 'app/templates/SearchAssetField';
-import { useTranslation } from 'react-i18next';
 import { AssetTypesEnum } from 'lib/miden/assets/types';
 import { getAssetName, getAssetSymbol, useAssetMetadata } from 'lib/miden/front';
 import { Link } from 'lib/woozie';

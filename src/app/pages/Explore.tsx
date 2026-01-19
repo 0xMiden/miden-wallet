@@ -1,23 +1,37 @@
 import React, { FC, FunctionComponent, SVGProps, useCallback, useEffect, useMemo } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import { openLoadingFullPage, useAppEnv } from 'app/env';
 import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
 import { ReactComponent as FaucetIcon } from 'app/icons/faucet.svg';
 import { ReactComponent as ReceiveIcon } from 'app/icons/receive.svg';
 import { ReactComponent as SendIcon } from 'app/icons/send.svg';
-import Footer from 'app/layouts/PageLayout/Footer';
 import Header from 'app/layouts/PageLayout/Header';
 import AddressChip from 'app/templates/AddressChip';
 import { ChainInstabilityBanner } from 'components/ChainInstabilityBanner';
 import { ConnectivityIssueBanner } from 'components/ConnectivityIssueBanner';
 import { TestIDProps } from 'lib/analytics';
-import { useTranslation } from 'react-i18next';
 import { MIDEN_NETWORK_NAME, MIDEN_FAUCET_ENDPOINTS } from 'lib/miden-chain/constants';
-import { hasQueuedTransactions, initiateConsumeTransaction } from 'lib/miden/activity';
-import { setFaucetIdSetting, useAccount, useAllBalances, useAllTokensBaseMetadata } from 'lib/miden/front';
+import { getFaucetUrl } from 'lib/miden-chain/faucet';
+import {
+  hasQueuedTransactions,
+  initiateConsumeTransaction,
+  startBackgroundTransactionProcessing
+} from 'lib/miden/activity';
+import {
+  setFaucetIdSetting,
+  useAccount,
+  useAllBalances,
+  useAllTokensBaseMetadata,
+  useMidenContext,
+  useNetwork
+} from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
+import { openFaucetWebview } from 'lib/mobile/faucet-webview';
+import { hapticLight } from 'lib/mobile/haptics';
+import { isMobile } from 'lib/platform';
 import { isAutoConsumeEnabled, isDelegateProofEnabled } from 'lib/settings/helpers';
 import { useRetryableSWR } from 'lib/swr';
 import useTippy, { TippyProps } from 'lib/ui/useTippy';
@@ -38,6 +52,7 @@ const Explore: FC = () => {
   };
   const account = useAccount();
   const midenFaucetId = useMidenFaucetId();
+  const { signTransaction } = useMidenContext();
 
   const allTokensBaseMetadata = useAllTokensBaseMetadata();
   // Call useAllBalances before useClaimableNotes - balance fetch is fast (~5ms)
@@ -51,6 +66,12 @@ const Explore: FC = () => {
 
   const address = account.publicKey;
   const { fullPage } = useAppEnv();
+  const network = useNetwork();
+
+  const handleFaucetClick = useCallback(async () => {
+    const faucetUrl = getFaucetUrl(network.id);
+    await openFaucetWebview({ url: faucetUrl, title: t('midenFaucet'), recipientAddress: address });
+  }, [network.id, t, address]);
 
   const midenNotes = useMemo(() => {
     if (!shouldAutoConsume || !claimableNotes) {
@@ -77,20 +98,28 @@ const Explore: FC = () => {
       return;
     }
 
-    const promises = midenNotes!.map(async note => {
-      if (!note.isBeingClaimed) {
-        await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
-      }
+    // Filter to only notes not already being claimed
+    const notesToClaim = midenNotes!.filter(note => !note.isBeingClaimed);
+    if (notesToClaim.length === 0) {
+      return;
+    }
+
+    const promises = notesToClaim.map(async note => {
+      await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
     });
     await Promise.all(promises);
     mutateClaimableNotes();
+
+    // Process auto-consume transactions silently in the background (no modal/tab)
+    startBackgroundTransactionProcessing(signTransaction);
   }, [
     midenNotes,
     isDelegatedProvingEnabled,
     mutateClaimableNotes,
     account.publicKey,
     shouldAutoConsume,
-    hasAutoConsumableNotes
+    hasAutoConsumableNotes,
+    signTransaction
   ]);
 
   useEffect(() => {
@@ -110,6 +139,9 @@ const Explore: FC = () => {
   );
 
   useEffect(() => {
+    // On mobile, don't auto-open the modal - it's intrusive and blocks UI
+    // The modal is opened explicitly when user initiates send/claim
+    if (isMobile()) return;
     if (queuedDbTransactions) openLoadingFullPage();
   }, [queuedDbTransactions]);
 
@@ -141,12 +173,12 @@ const Explore: FC = () => {
     return null;
   }
 
-  const size = fullPage ? { height: '640px', width: '600px' } : { height: '600px', width: '360px' };
   const background = 'url(/misc/bg.svg) white center top / cover no-repeat';
   const sendLink = allTokenBalances.length > 0 ? '/send' : '/get-tokens';
 
+  // Content only - container and footer provided by TabLayout
   return (
-    <div className={classNames('flex flex-col m-auto bg-white', fullPage && 'rounded-3xl')} style={size}>
+    <>
       <ConnectivityIssueBanner />
       <ChainInstabilityBanner />
       <div className={classNames('flex-none', fullPage && 'rounded-t-3xl')} style={{ background }}>
@@ -181,7 +213,8 @@ const Explore: FC = () => {
             <ActionButton
               label={t('faucet')}
               Icon={FaucetIcon}
-              to="/faucet"
+              to={isMobile() ? undefined : '/faucet'}
+              onClick={isMobile() ? handleFaucetClick : undefined}
               testID={ExploreSelectors.FaucetButton}
               iconStyle={{ height: '20px', width: '20px', stroke: 'none' }}
             />
@@ -194,10 +227,7 @@ const Explore: FC = () => {
           <Tokens />
         </div>
       </div>
-      <div className="flex-none">
-        <Footer activityBadge={hasAutoConsumableNotes} />
-      </div>
-    </div>
+    </>
   );
 };
 
@@ -206,7 +236,8 @@ export default Explore;
 interface ActionButtonProps extends TestIDProps {
   label: React.ReactNode;
   Icon: FunctionComponent<SVGProps<SVGSVGElement>>;
-  to: To;
+  to?: To;
+  onClick?: () => void;
   disabled?: boolean;
   tippyProps?: Partial<TippyProps>;
   className?: string;
@@ -217,6 +248,7 @@ const ActionButton: FC<ActionButtonProps> = ({
   label,
   Icon,
   to,
+  onClick,
   disabled,
   tippyProps = {},
   testID,
@@ -225,49 +257,76 @@ const ActionButton: FC<ActionButtonProps> = ({
   iconStyle
 }) => {
   const spanRef = useTippy<HTMLSpanElement>(tippyProps);
-  const commonButtonProps = useMemo(
-    () => ({
-      className: `flex flex-col items-center`,
-      type: 'button' as const,
-      children: (
-        <>
-          <div className={classNames('mb-1 flex flex-col items-center', 'rounded-lg', 'pt-1')}>
-            <div
-              className="py-1 flex flex-col justify-center bg-primary-500 hover:bg-primary-600"
-              style={{
-                height: '48px',
-                width: '48px',
-                borderRadius: '24px'
-              }}
-            >
-              <Icon
-                style={{
-                  margin: 'auto',
-                  height: '12px',
-                  width: '12px',
-                  stroke: `${disabled ? '#CBD5E0' : '#FFF'}`,
-                  ...iconStyle
-                }}
-              />
-            </div>
-            <span
-              className={classNames('text-xs text-center', disabled ? 'text-gray-400' : 'text-black', 'py-1')}
-              style={{
-                fontSize: '12px',
-                lineHeight: '16px'
-              }}
-            >
-              {label}
-            </span>
-          </div>
-        </>
-      )
-    }),
-    [disabled, Icon, label, iconStyle]
+  const buttonContent = (
+    <>
+      <div className={classNames('mb-1 flex flex-col items-center', 'rounded-lg', 'pt-1')}>
+        <div
+          className={classNames(
+            'py-1 flex flex-col justify-center bg-primary-500',
+            !isMobile() && 'hover:bg-primary-600'
+          )}
+          style={{
+            height: '48px',
+            width: '48px',
+            borderRadius: '24px'
+          }}
+        >
+          <Icon
+            style={{
+              margin: 'auto',
+              height: '12px',
+              width: '12px',
+              stroke: `${disabled ? '#CBD5E0' : '#FFF'}`,
+              ...iconStyle
+            }}
+          />
+        </div>
+        <span
+          className={classNames('text-xs text-center', disabled ? 'text-gray-400' : 'text-black', 'py-1')}
+          style={{
+            fontSize: '12px',
+            lineHeight: '16px'
+          }}
+        >
+          {label}
+        </span>
+      </div>
+    </>
   );
-  return disabled ? (
-    <span {...commonButtonProps} className={className} ref={spanRef}></span>
-  ) : (
-    <Link testID={testID} testIDProperties={testIDProperties} to={to} {...commonButtonProps} className={className} />
+
+  if (disabled) {
+    return (
+      <span className={classNames('flex flex-col items-center', className)} ref={spanRef}>
+        {buttonContent}
+      </span>
+    );
+  }
+
+  if (onClick) {
+    const handleClick = () => {
+      hapticLight();
+      onClick();
+    };
+    return (
+      <button
+        type="button"
+        className={classNames('flex flex-col items-center', className)}
+        onClick={handleClick}
+        data-testid={testID}
+      >
+        {buttonContent}
+      </button>
+    );
+  }
+
+  return (
+    <Link
+      testID={testID}
+      testIDProperties={testIDProperties}
+      to={to!}
+      className={classNames('flex flex-col items-center', className)}
+    >
+      {buttonContent}
+    </Link>
   );
 };

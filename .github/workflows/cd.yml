@@ -25,10 +25,10 @@ jobs:
       - name: Check Out Code
         uses: actions/checkout@v3
 
-      - name: Use Node 20
+      - name: Use Node 22
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 22
 
       # - name: Create Dotenv File
       #   run: |

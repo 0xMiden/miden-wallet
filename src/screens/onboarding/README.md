@@ -1,9 +1,11 @@
 # Onboarding Feature Documentation
 
 ## Overview
+
 The onboarding feature guides the user through setting up their wallet in the application. This includes creating a new wallet or importing an existing one. The flow is divided into two main paths: creating a wallet and importing a wallet.
 
 ## Directory Structure
+
 - **common**: Contains components that are shared across different flows such as creating a password and the confirmation screen.
 - **createWalletFlow**: Contains components specific to the process of creating a new wallet.
 - **importWalletFlow**: Contains components specific to the process of importing an existing wallet.
@@ -11,10 +13,12 @@ The onboarding feature guides the user through setting up their wallet in the ap
 ## Screen Flow
 
 ### Welcome Screen
+
 - **Path**: `createWalletFlow/Welcome.tsx`
 - **Description**: The entry point of the onboarding process. The user is greeted and given the choice to either create a new wallet or import an existing one.
 
 ### Create Wallet Flow
+
 - **Back Up Your Wallet**
   - **Path**: `createWalletFlow/BackUpWallet.tsx`
   - **Description**: Guides the user through backing up their new wallet by noting down the seed phrase.
@@ -32,6 +36,7 @@ The onboarding feature guides the user through setting up their wallet in the ap
   - **Description**: A final confirmation screen summarizing the wallet setup.
 
 ### Import Wallet Flow
+
 - **Import Wallet (Seed Phrase)**
   - **Path**: `importWalletFlow/ImportSeedPhrase.tsx`
   - **Description**: Allows the user to input their existing seed phrase to import their wallet.

@@ -1,9 +1,26 @@
+import { isMobile } from 'lib/platform';
 import { WalletState } from 'lib/shared/types';
 import { useWalletStore } from 'lib/store';
 
-import { getMidenClient } from '../sdk/miden-client';
+import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
+
+// Debug info for iOS troubleshooting - exposed globally so UI can read it
+export type SyncDebugInfo = {
+  syncCount: number;
+  lastSyncTime: string;
+  lastBlockNum: number | null;
+  lastError?: string;
+};
+
+// Global debug info that can be read by UI components
+export const syncDebugInfo: SyncDebugInfo = {
+  syncCount: 0,
+  lastSyncTime: 'never',
+  lastBlockNum: null,
+  lastError: undefined
+};
 
 export class Sync {
   lastHeight: number = 0;
@@ -33,8 +50,14 @@ export class Sync {
     if (isGeneratingUrl) {
       return;
     }
-    const client = await getMidenClient();
-    if (!client) {
+
+    const storeState = useWalletStore.getState();
+
+    // On mobile, don't sync while transaction modal is open to avoid lock contention
+    if (isMobile() && storeState.isTransactionModalOpen) {
+      console.log('[AutoSync] Skipping sync while transaction modal is open');
+      await sleep(3000);
+      await this.sync();
       return;
     }
 
@@ -42,14 +65,35 @@ export class Sync {
     useWalletStore.getState().setSyncStatus(true);
 
     try {
-      const syncSummary = await client.syncState();
-      this.lastHeight = syncSummary.blockNum();
+      // Wrap WASM client operations in a lock to prevent concurrent access
+      const blockNum = await withWasmClientLock(async () => {
+        const client = await getMidenClient();
+        if (!client) {
+          syncDebugInfo.lastError = 'getMidenClient returned null';
+          return null;
+        }
+        const syncSummary = await client.syncState();
+        return syncSummary.blockNum();
+      });
+
+      if (blockNum !== null) {
+        this.lastHeight = blockNum;
+        syncDebugInfo.lastBlockNum = blockNum;
+        syncDebugInfo.lastError = undefined;
+      }
+      syncDebugInfo.syncCount++;
+      syncDebugInfo.lastSyncTime = new Date().toLocaleTimeString();
+    } catch (error) {
+      // Log error but continue the sync loop - don't let errors stop syncing
+      console.error('[AutoSync] Error during sync:', error);
+      syncDebugInfo.lastError = String(error);
+      syncDebugInfo.lastSyncTime = new Date().toLocaleTimeString();
     } finally {
       // Set syncing status to false after sync completes
       useWalletStore.getState().setSyncStatus(false);
     }
 
-    await sleep(1000);
+    await sleep(3000);
     await this.sync();
   }
 }

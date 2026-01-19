@@ -32,6 +32,8 @@ export function useHistory() {
 }
 
 export function changeState(action: HistoryAction.Push | HistoryAction.Replace, state: any, url: string) {
+  if (typeof window === 'undefined') return;
+
   const title = ''; // Deprecated stuff
 
   if (USE_LOCATION_HASH_AS_URL) {
@@ -51,6 +53,7 @@ export function changeState(action: HistoryAction.Push | HistoryAction.Replace, 
 }
 
 export function go(delta: number) {
+  if (typeof window === 'undefined') return;
   window.history.go(delta);
 }
 
@@ -73,16 +76,20 @@ export function createUrl(pathname: string = '/', search: string = '', hash: str
 }
 
 export function resetHistoryPosition() {
+  if (typeof window === 'undefined') return;
   (window.history as PatchedHistory).position = 0;
   notifyListeners();
 }
 
-patchMethod('pushState', HistoryAction.Push);
-patchMethod('replaceState', HistoryAction.Replace);
+// Only run side effects in browser context (not in service workers)
+if (typeof window !== 'undefined') {
+  patchMethod('pushState', HistoryAction.Push);
+  patchMethod('replaceState', HistoryAction.Replace);
 
-window.addEventListener(HistoryAction.Pop, handlePopstate);
-window.addEventListener(HistoryAction.Push, handlePushstate);
-window.addEventListener(HistoryAction.Replace, handleReplacestate);
+  window.addEventListener(HistoryAction.Pop, handlePopstate);
+  window.addEventListener(HistoryAction.Push, handlePushstate);
+  window.addEventListener(HistoryAction.Replace, handleReplacestate);
+}
 
 function handlePopstate() {
   patchHistory(HistoryAction.Pop);

@@ -1,8 +1,9 @@
 import React, { FC, useMemo, useState } from 'react';
 
+import { useTranslation } from 'react-i18next';
+
 import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { Button, ButtonVariant } from 'components/Button';
-import { useTranslation } from 'react-i18next';
 import { useAccount } from 'lib/miden/front';
 
 const AdvancedSettings: FC = () => {

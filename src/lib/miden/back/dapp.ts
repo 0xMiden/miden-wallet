@@ -9,7 +9,7 @@ import {
   SendTransaction
 } from '@demox-labs/miden-wallet-adapter-base';
 import { nanoid } from 'nanoid';
-import browser, { Runtime } from 'webextension-polyfill';
+import type { Runtime } from 'webextension-polyfill';
 
 import {
   MidenDAppDisconnectRequest,
@@ -38,6 +38,7 @@ import {
   MidenDAppWaitForTxRequest,
   MidenDAppWaitForTxResponse
 } from 'lib/adapter/types';
+import { dappConfirmationStore } from 'lib/dapp-browser/confirmation-store';
 import { formatBigInt } from 'lib/i18n/numbers';
 import { intercom } from 'lib/miden/back/defaults';
 import { Vault } from 'lib/miden/back/vault';
@@ -52,11 +53,13 @@ import {
   MidenMessageType,
   MidenRequest
 } from 'lib/miden/types';
+import { isMobile } from 'lib/platform';
+import { getStorageProvider } from 'lib/platform/storage-adapter';
 import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
 import { WalletStatus } from 'lib/shared/types';
 import { capitalizeFirstLetter, truncateAddress } from 'utils/string';
 
-import { queueNoteImport } from '../activity';
+import { queueNoteImport, startBackgroundTransactionProcessing } from '../activity';
 import {
   initiateSendTransaction,
   requestCustomTransaction,
@@ -66,6 +69,20 @@ import {
 import { getBech32AddressFromAccountId } from '../sdk/helpers';
 import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 import { store, withUnlocked } from './store';
+
+// Lazy-loaded browser polyfill (only in extension context)
+type Browser = import('webextension-polyfill').Browser;
+let browserInstance: Browser | null = null;
+async function getBrowser(): Promise<Browser> {
+  if (isMobile()) {
+    throw new Error('Browser extension APIs not available on mobile');
+  }
+  if (!browserInstance) {
+    const module = await import('webextension-polyfill');
+    browserInstance = module.default;
+  }
+  return browserInstance;
+}
 
 const CONFIRM_WINDOW_WIDTH = 380;
 const CONFIRM_WINDOW_HEIGHT = 632;
@@ -171,6 +188,67 @@ export async function generatePromisifyRequestPermission(
   privateDataPermission?: PrivateDataPermission,
   allowedPrivateData?: AllowedPrivateData
 ): Promise<MidenDAppPermissionResponse> {
+  // On mobile, use confirmation store to request user approval
+  if (isMobile()) {
+    const id = nanoid();
+    console.log('[DApp] Mobile requesting confirmation for:', origin);
+
+    // Request confirmation from the user via the confirmation store
+    const result = await dappConfirmationStore.requestConfirmation({
+      id,
+      type: 'connect',
+      origin,
+      appMeta,
+      network,
+      networkRpc,
+      privateDataPermission: privateDataPermission || PrivateDataPermission.UponRequest,
+      allowedPrivateData: allowedPrivateData || AllowedPrivateData.None,
+      existingPermission
+    });
+
+    if (!result.confirmed || !result.accountPublicKey) {
+      throw new Error(MidenDAppErrorType.NotGranted);
+    }
+
+    const accountPublicKey = result.accountPublicKey;
+    let publicKey: string | null = null;
+
+    try {
+      publicKey = await withUnlocked(async () => {
+        return await withWasmClientLock(async () => {
+          const midenClient = await getMidenClient();
+          const account = await midenClient.getAccount(accountPublicKey);
+          const publicKeys = account!.getPublicKeys();
+          return u8ToB64(publicKeys[0].serialize());
+        });
+      });
+    } catch (e) {
+      console.error('[DApp] Error fetching account public key:', e);
+      throw new Error(MidenDAppErrorType.NotGranted);
+    }
+
+    if (!existingPermission) {
+      await setDApp(origin, {
+        network,
+        appMeta,
+        accountId: accountPublicKey,
+        privateDataPermission: result.privateDataPermission || PrivateDataPermission.UponRequest,
+        allowedPrivateData: allowedPrivateData || AllowedPrivateData.None,
+        publicKey: publicKey!
+      });
+    }
+
+    console.log('[DApp] Mobile approved connection for:', origin);
+    return {
+      type: MidenDAppMessageType.PermissionResponse,
+      accountId: accountPublicKey,
+      network,
+      privateDataPermission: result.privateDataPermission || PrivateDataPermission.UponRequest,
+      allowedPrivateData: allowedPrivateData || AllowedPrivateData.None,
+      publicKey: publicKey!
+    };
+  }
+
   return new Promise(async (resolve, reject) => {
     const id = nanoid();
 
@@ -779,6 +857,60 @@ const generatePromisifyTransaction = async (
     reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
   }
 
+  // On mobile, use confirmation store to request user approval
+  if (isMobile()) {
+    console.log('[DApp] Mobile requesting transaction confirmation');
+
+    const result = await dappConfirmationStore.requestConfirmation({
+      id,
+      type: 'transaction',
+      origin: dApp.appMeta.name,
+      appMeta: dApp.appMeta,
+      network: dApp.network,
+      networkRpc,
+      privateDataPermission: dApp.privateDataPermission,
+      allowedPrivateData: dApp.allowedPrivateData,
+      existingPermission: true,
+      transactionMessages,
+      sourcePublicKey: req.sourcePublicKey
+    });
+
+    if (!result.confirmed) {
+      reject(new Error(MidenDAppErrorType.NotGranted));
+      return;
+    }
+
+    try {
+      const transactionId = await withUnlocked(async ({ vault }) => {
+        const { payload } = req.transaction;
+        const { address, recipientAddress, transactionRequest, inputNoteIds, importNotes } =
+          payload as MidenCustomTransaction;
+        // On mobile, always delegate transactions to avoid memory issues with local proving
+        const txId = await requestCustomTransaction(
+          address,
+          transactionRequest,
+          inputNoteIds,
+          importNotes,
+          true,
+          recipientAddress || undefined
+        );
+        // Start background processing on mobile
+        startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
+          const signatureHex = await vault.signTransaction(publicKey, signingInputs);
+          return new Uint8Array(Buffer.from(signatureHex, 'hex'));
+        });
+        return txId;
+      });
+      resolve({
+        type: MidenDAppMessageType.TransactionResponse,
+        transactionId
+      } as any);
+    } catch (e) {
+      reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+    }
+    return;
+  }
+
   await requestConfirm({
     id,
     payload: {
@@ -867,6 +999,59 @@ const generatePromisifySendTransaction = async (
     });
   } catch (e) {
     reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+  }
+
+  // On mobile, use confirmation store to request user approval
+  if (isMobile()) {
+    console.log('[DApp] Mobile requesting send transaction confirmation');
+
+    const result = await dappConfirmationStore.requestConfirmation({
+      id,
+      type: 'transaction',
+      origin: dApp.appMeta.name,
+      appMeta: dApp.appMeta,
+      network: dApp.network,
+      networkRpc,
+      privateDataPermission: dApp.privateDataPermission,
+      allowedPrivateData: dApp.allowedPrivateData,
+      existingPermission: true,
+      transactionMessages,
+      sourcePublicKey: req.sourcePublicKey
+    });
+
+    if (!result.confirmed) {
+      reject(new Error(MidenDAppErrorType.NotGranted));
+      return;
+    }
+
+    try {
+      const transactionId = await withUnlocked(async ({ vault }) => {
+        const { senderAddress, recipientAddress, faucetId, noteType, amount, recallBlocks } = req.transaction;
+        // On mobile, always delegate transactions to avoid memory issues with local proving
+        const txId = await initiateSendTransaction(
+          senderAddress,
+          recipientAddress,
+          faucetId,
+          noteType as any,
+          BigInt(amount),
+          recallBlocks,
+          true
+        );
+        // Start background processing on mobile
+        startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
+          const signatureHex = await vault.signTransaction(publicKey, signingInputs);
+          return new Uint8Array(Buffer.from(signatureHex, 'hex'));
+        });
+        return txId;
+      });
+      resolve({
+        type: MidenDAppMessageType.SendTransactionResponse,
+        transactionId
+      } as any);
+    } catch (e) {
+      reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+    }
+    return;
   }
 
   await requestConfirm({
@@ -958,6 +1143,54 @@ const generatePromisifyConsumeTransaction = async (
     reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
   }
 
+  // On mobile, use confirmation store to request user approval
+  if (isMobile()) {
+    console.log('[DApp] Mobile requesting consume transaction confirmation');
+
+    const result = await dappConfirmationStore.requestConfirmation({
+      id,
+      type: 'consume',
+      origin: dApp.appMeta.name,
+      appMeta: dApp.appMeta,
+      network: dApp.network,
+      networkRpc,
+      privateDataPermission: dApp.privateDataPermission,
+      allowedPrivateData: dApp.allowedPrivateData,
+      existingPermission: true,
+      transactionMessages,
+      sourcePublicKey: req.sourcePublicKey
+    });
+
+    if (!result.confirmed) {
+      reject(new Error(MidenDAppErrorType.NotGranted));
+      return;
+    }
+
+    try {
+      const transactionId = await withUnlocked(async ({ vault }) => {
+        const { noteId, noteBytes } = req.transaction;
+        if (noteBytes) {
+          await queueNoteImport(noteBytes);
+        }
+        // On mobile, always delegate transactions to avoid memory issues with local proving
+        const txId = await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId, true);
+        // Start background processing on mobile
+        startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
+          const signatureHex = await vault.signTransaction(publicKey, signingInputs);
+          return new Uint8Array(Buffer.from(signatureHex, 'hex'));
+        });
+        return txId;
+      });
+      resolve({
+        type: MidenDAppMessageType.ConsumeResponse,
+        transactionId
+      });
+    } catch (e) {
+      reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
+    }
+    return;
+  }
+
   await requestConfirm({
     id,
     payload: {
@@ -1015,7 +1248,8 @@ export async function waitForTransaction(req: MidenDAppWaitForTxRequest): Promis
 }
 
 export async function getAllDApps(): Promise<MidenDAppSessions> {
-  const items = await browser.storage.local.get([STORAGE_KEY]);
+  const storage = getStorageProvider();
+  const items = await storage.get([STORAGE_KEY]);
   const dAppsSessions = (items[STORAGE_KEY] as MidenDAppSessions) || {};
   return dAppsSessions;
 }
@@ -1052,7 +1286,8 @@ export function cleanDApps() {
 }
 
 function setDApps(newDApps: MidenDAppSessions) {
-  return browser.storage.local.set({ [STORAGE_KEY]: newDApps });
+  const storage = getStorageProvider();
+  return storage.set({ [STORAGE_KEY]: newDApps });
 }
 
 type RequestConfirmParams = {
@@ -1063,6 +1298,13 @@ type RequestConfirmParams = {
 };
 
 async function requestConfirm({ id, payload, onDecline, handleIntercomRequest }: RequestConfirmParams) {
+  // DApp confirmation windows are not available on mobile (Phase 3 feature)
+  if (isMobile()) {
+    throw new Error('DApp confirmation is not yet supported on mobile');
+  }
+
+  const browser = await getBrowser();
+
   let closing = false;
   const close = async () => {
     if (closing) return;

@@ -8,14 +8,21 @@ import { PropsWithChildren } from 'lib/props-with-children';
 export type CustomModalProps = Modal.Props & Partial<PropsWithChildren>;
 
 const CustomModal: FC<CustomModalProps> = props => {
-  const { className, overlayClassName, ...restProps } = props;
+  const { className, overlayClassName, isOpen, ...restProps } = props;
+
+  const rootElement = document.getElementById('root');
+
+  if (!rootElement) {
+    return null;
+  }
 
   return (
     <Modal
       id={'custom-modal'}
       {...restProps}
+      isOpen={isOpen}
       className={classNames('bg-white rounded z-30 shadow-2xl', className)}
-      appElement={document.getElementById('root')!}
+      appElement={rootElement}
       closeTimeoutMS={200}
       overlayClassName={classNames(
         'fixed inset-0 z-30',

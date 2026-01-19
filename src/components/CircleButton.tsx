@@ -3,6 +3,7 @@ import React from 'react';
 import classNames from 'clsx';
 
 import { Icon, IconName, IconSize } from 'app/icons/v2';
+import { hapticLight } from 'lib/mobile/haptics';
 import colors from 'utils/tailwind-colors';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -23,6 +24,7 @@ export const CircleButton: React.FC<ButtonProps> = ({
 }) => {
   const iconColor = disabled ? colors.grey[300] : color || 'black';
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    hapticLight();
     e.currentTarget.blur();
     props.onClick?.(e);
   };

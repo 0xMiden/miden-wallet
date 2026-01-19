@@ -61,7 +61,7 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({
 
   return (
     <div className="flex-1 flex flex-col relative">
-      <NavigationHeader mode="back" title={`${t('send')} ${token.name}`} onBack={onGoBack} />
+      <NavigationHeader mode="back" title={`${t('send')} ${token.name}`} onBack={onGoBack} showBorder />
       <div className="flex-1 flex flex-col p-4 md:w-[460px] md:mx-auto">
         <div
           onKeyDown={onTransactionAmountKeyDown}

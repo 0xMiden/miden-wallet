@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Button } from 'components/Button';
 import { Chip } from 'components/Chip';
+import { hapticLight } from 'lib/mobile/haptics';
 
 export interface VerifySeedPhraseScreenProps extends React.ButtonHTMLAttributes<HTMLDivElement> {
   seedPhrase: string[];
@@ -25,6 +26,7 @@ export const VerifySeedPhraseScreen: React.FC<VerifySeedPhraseScreenProps> = ({
 
   const onSelectWord = useCallback(
     (index: number) => {
+      hapticLight();
       // we select first word if index was not selected before
       if (firstSelectedWordIndex === null && index !== secondSelectedWordIndex) {
         setFirstSelectedWord(index);

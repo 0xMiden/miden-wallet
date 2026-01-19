@@ -1,7 +1,8 @@
 import React, { FC, useCallback, useRef } from 'react';
 
-import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { useTranslation } from 'react-i18next';
+
+import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { isDelegateProofEnabled, setDelegateProofSetting } from 'lib/settings/helpers';
 
 import { GeneralSettingsSelectors } from './GeneralSettings.selectors';

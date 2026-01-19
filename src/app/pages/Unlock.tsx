@@ -11,9 +11,12 @@ import SimplePageLayout from 'app/layouts/SimplePageLayout';
 import LogoVerticalTitle from 'app/misc/logo-vertical-title.svg';
 import { Button, ButtonVariant } from 'components/Button';
 import { useFormAnalytics } from 'lib/analytics';
+import { isBiometricEnabled } from 'lib/biometric';
 import { useLocalStorage, useMidenContext } from 'lib/miden/front';
 import { MidenSharedStorageKey } from 'lib/miden/types';
+import { isMobile } from 'lib/platform';
 import { navigate } from 'lib/woozie';
+import { BiometricUnlock } from 'screens/biometric-unlock';
 
 type FormData = {
   password: string;
@@ -42,11 +45,54 @@ const Unlock: FC<UnlockProps> = ({ openForgotPasswordInFullPage = false }) => {
   const { unlock } = useMidenContext();
   const formAnalytics = useFormAnalytics('UnlockWallet');
   const { popup } = useAppEnv();
-  console.log('popup', popup);
 
   const [attempt, setAttempt] = useLocalStorage<number>(MidenSharedStorageKey.PasswordAttempts, 1);
   const [timelock, setTimeLock] = useLocalStorage<number>(MidenSharedStorageKey.TimeLock, 0);
   const lockLevel = LOCK_TIME * Math.floor(attempt / 3);
+
+  // BIOMETRIC UNLOCK STATE - Only used on mobile (PRIMARY ISOLATION GUARD)
+  // On extension, showBiometric will always be false
+  const [showBiometric, setShowBiometric] = useState(false);
+  const [biometricChecked, setBiometricChecked] = useState(false);
+
+  // Check if biometric is enabled on mount (only on mobile)
+  useEffect(() => {
+    const checkBiometric = async () => {
+      // PRIMARY ISOLATION GUARD: Only check biometric on mobile
+      console.log('[Unlock] checkBiometric called, isMobile:', isMobile());
+      if (!isMobile()) {
+        setBiometricChecked(true);
+        return;
+      }
+
+      const enabled = await isBiometricEnabled();
+      console.log('[Unlock] isBiometricEnabled returned:', enabled);
+      setShowBiometric(enabled);
+      setBiometricChecked(true);
+    };
+    checkBiometric();
+  }, []);
+
+  // Handle successful biometric unlock
+  const handleBiometricSuccess = useCallback(
+    async (password: string) => {
+      try {
+        await unlock(password);
+        setAttempt(1);
+        navigate('/');
+      } catch (err: any) {
+        console.error('Biometric unlock failed:', err);
+        // Fall back to password unlock
+        setShowBiometric(false);
+      }
+    },
+    [unlock, setAttempt]
+  );
+
+  // Handle fallback to password
+  const handleFallbackToPassword = useCallback(() => {
+    setShowBiometric(false);
+  }, []);
 
   const [timeleft, setTimeleft] = useState(getTimeLeft(timelock, lockLevel));
 
@@ -75,7 +121,14 @@ const Unlock: FC<UnlockProps> = ({ openForgotPasswordInFullPage = false }) => {
 
         formAnalytics.trackSubmitSuccess();
         setAttempt(1);
-        window.location.reload();
+
+        // On mobile, don't reload - the backend state is already updated in-process.
+        // Just navigate to home to trigger a re-render with the unlocked state.
+        if (isMobile()) {
+          navigate('/');
+        } else {
+          window.location.reload();
+        }
       } catch (err: any) {
         formAnalytics.trackSubmitFail();
         if (attempt >= LAST_ATTEMPT) setTimeLock(Date.now());
@@ -120,6 +173,28 @@ const Unlock: FC<UnlockProps> = ({ openForgotPasswordInFullPage = false }) => {
     };
   }, [timelock, lockLevel, setTimeLock]);
 
+  // Wait for biometric check to complete before rendering
+  // This prevents flash of password form on mobile when biometric is enabled
+  if (!biometricChecked) {
+    return (
+      <SimplePageLayout
+        icon={
+          <>
+            <img alt="Miden Wallet Logo" src={`${LogoVerticalTitle}`} />
+          </>
+        }
+      >
+        <div className="flex items-center justify-center h-32">{/* Loading state */}</div>
+      </SimplePageLayout>
+    );
+  }
+
+  // Show biometric unlock screen (only on mobile when biometric is enabled)
+  if (showBiometric) {
+    return <BiometricUnlock onSuccess={handleBiometricSuccess} onFallbackToPassword={handleFallbackToPassword} />;
+  }
+
+  // Show password unlock form (default for extension, fallback for mobile)
   return (
     <SimplePageLayout
       icon={

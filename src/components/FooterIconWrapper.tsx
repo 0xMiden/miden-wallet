@@ -3,6 +3,7 @@ import React from 'react';
 import classNames from 'clsx';
 
 import { Icon, IconName } from 'app/icons/v2';
+import { hapticSelection } from 'lib/mobile/haptics';
 import { Link, useLocation } from 'lib/woozie';
 
 export interface FooterIconWrapperProps {
@@ -22,8 +23,13 @@ export const FooterIconWrapper: React.FC<FooterIconWrapperProps> = ({ linkTo, on
     currentPathSegment === linkTo.replace('/', '') ||
     (currentPathSegment === 'activity-details' && linkTo === '/activity');
 
+  const handleClick = () => {
+    hapticSelection();
+    onClick();
+  };
+
   return (
-    <Link to={linkTo} onClick={onClick}>
+    <Link to={linkTo} onClick={handleClick}>
       <div
         className={classNames(
           'flex relative flex-col items-center p-3 rounded-full hover:bg-grey-25',

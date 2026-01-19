@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppEnv } from 'app/env';
 import { ReactComponent as ArrowIcon } from 'app/icons/arrow-right-top-alt.svg';
 import { ReactComponent as ChevronRightIcon } from 'app/icons/chevron-right.svg';
+import { hapticLight } from 'lib/mobile/haptics';
 import { Link } from 'lib/woozie';
 
 type MenuItemProps = {
@@ -96,10 +97,14 @@ const MenuItem: FC<MenuItemProps> = ({
   insertHR,
   linksOutsideOfWallet
 }) => {
+  const handleExternalClick = () => {
+    hapticLight();
+  };
+
   return (
     <div>
       {linksOutsideOfWallet ? (
-        <a href={slug} target="_blank" rel="noreferrer">
+        <a href={slug} target="_blank" rel="noreferrer" onClick={handleExternalClick}>
           {ClickableContent({ titleI18nKey, Icon, iconStyle, insertHR, linksOutsideOfWallet })}
         </a>
       ) : (

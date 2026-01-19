@@ -2,9 +2,9 @@ import React, { FC } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-export const ACTIVITY_PAGE_SIZE = 1000;
+export const HISTORY_PAGE_SIZE = 1000;
 export const NFT_PAGE_SIZE = 100;
-export const ACTIVITY_SUMMARY_SIZE = 3;
+export const HISTORY_SUMMARY_SIZE = 3;
 export const OP_STACK_PREVIEW_SIZE = 2;
 
 export class ArtificialError extends Error {}

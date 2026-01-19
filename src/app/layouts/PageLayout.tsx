@@ -10,6 +10,7 @@ import { useAppEnv } from 'app/env';
 import ErrorBoundary from 'app/ErrorBoundary';
 import { Icon, IconName } from 'app/icons/v2';
 import ContentContainer from 'app/layouts/ContentContainer';
+import { isMobile } from 'lib/platform';
 import { PropsWithChildren } from 'lib/props-with-children';
 import { goBack, HistoryAction, navigate, useLocation } from 'lib/woozie';
 
@@ -32,20 +33,25 @@ const PageLayout: FC<PageLayoutProps> = ({
 }) => {
   const { fullPage } = useAppEnv();
 
-  const containerStyles = fullPage ? { height: '640px', width: '600px' } : { height: '600px', width: '360px' };
+  // On mobile, use 100% to inherit from parent chain (body has safe area padding)
+  const containerStyles = isMobile()
+    ? { height: '100%', width: '100%' }
+    : fullPage
+      ? { height: '640px', width: '600px' }
+      : { height: '600px', width: '360px' };
 
   return (
     <>
       <DocBg bgClassName="bg-white" />
 
       <div
-        className={classNames('bg-white m-auto rounded-3xl relative flex flex-col flex-1')}
+        className={classNames('bg-white m-auto rounded-3xl relative flex flex-col flex-1 min-h-0 overflow-hidden')}
         style={{ ...containerStyles }}
       >
         <ContentPaper>
           {!hideToolbar && <Toolbar {...toolbarProps} />}
 
-          <div className="flex flex-col flex-1" style={contentContainerStyle}>
+          <div className="flex flex-col flex-1 min-h-0 overflow-hidden" style={contentContainerStyle}>
             <ErrorBoundary whileMessage="displaying this page">
               <Suspense fallback={<SpinnerSection />}>{children}</Suspense>
             </ErrorBoundary>
@@ -68,7 +74,7 @@ const ContentPaper: FC<ContentPaparProps> = ({ className, style = {}, children, 
   return appEnv.fullPage ? (
     <ContentContainer>
       <div
-        className={classNames('bg-white', 'rounded-3xl', 'flex flex-col flex-1', className)}
+        className={classNames('bg-white', 'rounded-3xl', 'flex flex-col flex-1 min-h-0 overflow-hidden', className)}
         style={{ minHeight: '20rem', ...style }}
         {...rest}
       >
@@ -78,7 +84,7 @@ const ContentPaper: FC<ContentPaparProps> = ({ className, style = {}, children, 
   ) : (
     <ContentContainer
       padding={false}
-      className={classNames('bg-white flex flex-col flex-1', className)}
+      className={classNames('bg-white flex flex-col flex-1 min-h-0 overflow-hidden', className)}
       style={style}
       {...rest}
     >
@@ -188,7 +194,10 @@ const Toolbar: FC<ToolbarProps> = ({
         borderBottom: showBottomBorder ? '1px solid #E9EBEF' : 'none'
       }}
     >
-      <div className="flex justify-between w-full" style={{ paddingTop: '14px', paddingBottom: '14px' }}>
+      <div
+        className="flex justify-between w-full"
+        style={{ paddingTop: isMobile() ? '24px' : '14px', paddingBottom: '14px' }}
+      >
         {pageTitle && (
           <div
             className={classNames('flex items-center', 'text-black', 'text-right font-semibold leading-none')}

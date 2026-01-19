@@ -6,7 +6,9 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Icon, IconName } from 'app/icons/v2';
 import { CircleButton } from 'components/CircleButton';
 import { ProgressIndicator } from 'components/ProgressIndicator';
+import { isMobile } from 'lib/platform';
 
+import { BiometricSetupScreen } from './common/BiometricSetup';
 import { ConfirmationScreen } from './common/Confirmation';
 import { CreatePasswordScreen } from './common/CreatePassword';
 import { WelcomeScreen } from './common/Welcome';
@@ -23,6 +25,7 @@ export interface OnboardingFlowProps {
   seedPhrase: string[] | null;
   onboardingType: OnboardingType | null;
   step: OnboardingStep;
+  password?: string | null;
   isLoading?: boolean;
   onAction?: (action: OnboardingAction) => void;
 }
@@ -32,7 +35,12 @@ const Header: React.FC<{
   step: OnboardingStep;
   onboardingType?: 'import' | 'create' | null;
 }> = ({ step, onBack }) => {
-  if (step === OnboardingStep.Confirmation || step === OnboardingStep.SelectTransactionType) {
+  // Hide header on full-screen steps
+  if (
+    step === OnboardingStep.Confirmation ||
+    step === OnboardingStep.SelectTransactionType ||
+    step === OnboardingStep.BiometricSetup
+  ) {
     return null;
   }
 
@@ -77,6 +85,7 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
   seedPhrase,
   onboardingType,
   step,
+  password,
   isLoading,
   onAction
 }) => {
@@ -136,8 +145,11 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
         payload: WalletType.OnChain
       });
 
-    const onCreatePasswordSubmit = (password: string) =>
-      onForwardAction?.({ id: 'create-password-submit', payload: password });
+    const onCreatePasswordSubmit = (password: string, enableBiometric: boolean) =>
+      onForwardAction?.({ id: 'create-password-submit', payload: { password, enableBiometric } });
+
+    const onBiometricSetupSubmit = (biometricEnabled: boolean) =>
+      onForwardAction?.({ id: 'biometric-setup-submit', payload: biometricEnabled });
 
     const onSelectTransactionTypeSubmit = () =>
       onForwardAction?.({ id: 'select-transaction-type', payload: 'private' });
@@ -166,6 +178,10 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
         return <ImportWalletFileScreen onSubmit={onImportFileSubmit} />;
       case OnboardingStep.CreatePassword:
         return <CreatePasswordScreen onSubmit={onCreatePasswordSubmit} />;
+      case OnboardingStep.BiometricSetup:
+        // Note: This step is only reached on mobile (guarded in Welcome.tsx)
+        // The BiometricSetupScreen also has a secondary guard that auto-skips on non-mobile
+        return <BiometricSetupScreen password={password || ''} onSubmit={onBiometricSetupSubmit} />;
       case OnboardingStep.SelectTransactionType:
         return <SelectTransactionTypeScreen onSubmit={onSelectTransactionTypeSubmit} />;
       case OnboardingStep.Confirmation:
@@ -174,33 +190,35 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
       default:
         return <></>;
     }
-  }, [step, isLoading, onForwardAction, seedPhrase, wordslist]);
+  }, [step, isLoading, onForwardAction, seedPhrase, wordslist, password]);
 
   const onBack = () => {
     setNavigationDirection('backward');
     onAction?.({ id: 'back' });
   };
 
+  const mobile = isMobile();
+
   return (
     <div
       className={classNames(
-        'w-[37.5rem] h-[40rem] mx-auto',
-        'border border-gray-100',
         'flex flex-col',
-        'rounded-3xl',
         'bg-white',
-        'overflow-hidden'
+        'overflow-hidden',
+        mobile ? 'w-full h-full' : 'w-[37.5rem] h-[40rem] mx-auto border border-gray-100 rounded-3xl'
       )}
     >
-      <div className="h-full w-full">
+      <div className="flex-1 flex flex-col">
         <AnimatePresence mode={'wait'} initial={false}>
-          {step !== OnboardingStep.Confirmation && step !== OnboardingStep.SelectTransactionType && (
-            <Header onBack={onBack} step={step} onboardingType={onboardingType} key={'header'} />
-          )}
+          {step !== OnboardingStep.Confirmation &&
+            step !== OnboardingStep.SelectTransactionType &&
+            step !== OnboardingStep.BiometricSetup && (
+              <Header onBack={onBack} step={step} onboardingType={onboardingType} key={'header'} />
+            )}
         </AnimatePresence>
         <AnimatePresence mode={'wait'} initial={false}>
           <motion.div
-            className="h-full"
+            className="flex-1 flex flex-col"
             key={step}
             initial="initialState"
             animate="animateState"

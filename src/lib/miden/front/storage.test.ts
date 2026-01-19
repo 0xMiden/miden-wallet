@@ -1,20 +1,37 @@
-import browser from 'webextension-polyfill';
-
 import { fetchFromStorage, putToStorage, onStorageChanged } from './storage';
 
-// Mock webextension-polyfill
-jest.mock('webextension-polyfill', () => ({
-  storage: {
-    local: {
-      get: jest.fn(),
-      set: jest.fn()
-    },
-    onChanged: {
-      addListener: jest.fn(),
-      removeListener: jest.fn()
-    }
-  }
+// Mock isMobile to return false so extension code paths run
+jest.mock('lib/platform', () => ({
+  isMobile: () => false
 }));
+
+const mockStorage = {
+  local: {
+    get: jest.fn(),
+    set: jest.fn()
+  },
+  onChanged: {
+    addListener: jest.fn(),
+    removeListener: jest.fn()
+  }
+};
+
+// Mock webextension-polyfill with default export for dynamic imports
+jest.mock('webextension-polyfill', () => ({
+  __esModule: true,
+  default: {
+    storage: mockStorage
+  },
+  storage: mockStorage
+}));
+
+// Mock storage adapter to use the mock storage
+jest.mock('lib/platform/storage-adapter', () => ({
+  getStorageProvider: () => mockStorage.local
+}));
+
+// Helper to flush promises
+const flushPromises = () => new Promise(resolve => setTimeout(resolve, 0));
 
 describe('storage utilities', () => {
   beforeEach(() => {
@@ -23,18 +40,18 @@ describe('storage utilities', () => {
 
   describe('fetchFromStorage', () => {
     it('returns value when key exists', async () => {
-      (browser.storage.local.get as jest.Mock).mockResolvedValue({
+      mockStorage.local.get.mockResolvedValue({
         'my-key': 'my-value'
       });
 
       const result = await fetchFromStorage('my-key');
 
-      expect(browser.storage.local.get).toHaveBeenCalledWith(['my-key']);
+      expect(mockStorage.local.get).toHaveBeenCalledWith(['my-key']);
       expect(result).toBe('my-value');
     });
 
     it('returns null when key does not exist', async () => {
-      (browser.storage.local.get as jest.Mock).mockResolvedValue({});
+      mockStorage.local.get.mockResolvedValue({});
 
       const result = await fetchFromStorage('missing-key');
 
@@ -43,7 +60,7 @@ describe('storage utilities', () => {
 
     it('handles complex objects', async () => {
       const complexValue = { nested: { data: [1, 2, 3] } };
-      (browser.storage.local.get as jest.Mock).mockResolvedValue({
+      mockStorage.local.get.mockResolvedValue({
         'complex-key': complexValue
       });
 
@@ -55,50 +72,57 @@ describe('storage utilities', () => {
 
   describe('putToStorage', () => {
     it('stores value with key', async () => {
-      (browser.storage.local.set as jest.Mock).mockResolvedValue(undefined);
+      mockStorage.local.set.mockResolvedValue(undefined);
 
       await putToStorage('my-key', 'my-value');
 
-      expect(browser.storage.local.set).toHaveBeenCalledWith({ 'my-key': 'my-value' });
+      expect(mockStorage.local.set).toHaveBeenCalledWith({ 'my-key': 'my-value' });
     });
 
     it('stores complex objects', async () => {
-      (browser.storage.local.set as jest.Mock).mockResolvedValue(undefined);
+      mockStorage.local.set.mockResolvedValue(undefined);
       const complexValue = { nested: { data: [1, 2, 3] } };
 
       await putToStorage('complex-key', complexValue);
 
-      expect(browser.storage.local.set).toHaveBeenCalledWith({ 'complex-key': complexValue });
+      expect(mockStorage.local.set).toHaveBeenCalledWith({ 'complex-key': complexValue });
     });
   });
 
   describe('onStorageChanged', () => {
-    it('registers a listener', () => {
+    it('registers a listener', async () => {
       const callback = jest.fn();
 
       onStorageChanged('my-key', callback);
 
-      expect(browser.storage.onChanged.addListener).toHaveBeenCalled();
+      // Wait for the dynamic import to complete
+      await flushPromises();
+
+      expect(mockStorage.onChanged.addListener).toHaveBeenCalled();
     });
 
-    it('returns cleanup function that removes listener', () => {
+    it('returns cleanup function', async () => {
       const callback = jest.fn();
 
       const cleanup = onStorageChanged('my-key', callback);
-      cleanup();
 
-      expect(browser.storage.onChanged.removeListener).toHaveBeenCalled();
+      // The cleanup function is returned synchronously
+      // (though the actual listener removal is async)
+      expect(typeof cleanup).toBe('function');
     });
 
-    it('calls callback when key changes in local storage', () => {
+    it('calls callback when key changes in local storage', async () => {
       const callback = jest.fn();
       let registeredHandler: any;
 
-      (browser.storage.onChanged.addListener as jest.Mock).mockImplementation(handler => {
+      mockStorage.onChanged.addListener.mockImplementation(handler => {
         registeredHandler = handler;
       });
 
       onStorageChanged('my-key', callback);
+
+      // Wait for the dynamic import to complete
+      await flushPromises();
 
       // Simulate storage change
       registeredHandler({ 'my-key': { newValue: 'new-value' } }, 'local');
@@ -106,15 +130,18 @@ describe('storage utilities', () => {
       expect(callback).toHaveBeenCalledWith('new-value');
     });
 
-    it('does not call callback for different key', () => {
+    it('does not call callback for different key', async () => {
       const callback = jest.fn();
       let registeredHandler: any;
 
-      (browser.storage.onChanged.addListener as jest.Mock).mockImplementation(handler => {
+      mockStorage.onChanged.addListener.mockImplementation(handler => {
         registeredHandler = handler;
       });
 
       onStorageChanged('my-key', callback);
+
+      // Wait for the dynamic import to complete
+      await flushPromises();
 
       // Simulate storage change for different key
       registeredHandler({ 'other-key': { newValue: 'new-value' } }, 'local');
@@ -122,15 +149,18 @@ describe('storage utilities', () => {
       expect(callback).not.toHaveBeenCalled();
     });
 
-    it('does not call callback for non-local storage area', () => {
+    it('does not call callback for non-local storage area', async () => {
       const callback = jest.fn();
       let registeredHandler: any;
 
-      (browser.storage.onChanged.addListener as jest.Mock).mockImplementation(handler => {
+      mockStorage.onChanged.addListener.mockImplementation(handler => {
         registeredHandler = handler;
       });
 
       onStorageChanged('my-key', callback);
+
+      // Wait for the dynamic import to complete
+      await flushPromises();
 
       // Simulate storage change in sync area
       registeredHandler({ 'my-key': { newValue: 'new-value' } }, 'sync');

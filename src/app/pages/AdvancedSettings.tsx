@@ -2,12 +2,12 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import { useMidenClient } from 'app/hooks/useMidenClient';
 import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
 import { IconName } from 'app/icons/v2';
 import HashChip from 'app/templates/HashChip';
 import { ListItem } from 'components/ListItem';
 import { useAccount } from 'lib/miden/front';
+import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
 import { bytesToHex } from 'lib/shared/helpers';
 import { Link } from 'lib/woozie';
 import { truncateAddress } from 'utils/string';
@@ -15,25 +15,24 @@ import { truncateAddress } from 'utils/string';
 const AdvancedSettings: FC = () => {
   const { t } = useTranslation();
   const walletAccount = useAccount();
-  const { midenClient, midenClientLoading } = useMidenClient();
   const faucetId = useMidenFaucetId();
   const faucetIdShortened = truncateAddress(faucetId, false);
   const [publicKey, setPublicKey] = useState<string | null>(null);
 
   const fetchPublicKey = useCallback(async () => {
-    if (!midenClient) return;
-
-    const account = await midenClient.getAccount(walletAccount.publicKey);
-    const publicKeys = account!.getPublicKeys();
-    const publicKey = bytesToHex(publicKeys[0].serialize());
-    setPublicKey(publicKey);
-  }, [walletAccount.publicKey, midenClient]);
+    // Wrap WASM client operations in a lock to prevent concurrent access
+    const key = await withWasmClientLock(async () => {
+      const midenClient = await getMidenClient();
+      const account = await midenClient.getAccount(walletAccount.publicKey);
+      const publicKeys = account!.getPublicKeys();
+      return bytesToHex(publicKeys[0].serialize());
+    });
+    setPublicKey(key);
+  }, [walletAccount.publicKey]);
 
   useEffect(() => {
-    if (midenClientLoading || !midenClient) return;
-
     fetchPublicKey();
-  }, [fetchPublicKey, midenClient, midenClientLoading]);
+  }, [fetchPublicKey]);
 
   return (
     <div className="flex justify-center py-6">

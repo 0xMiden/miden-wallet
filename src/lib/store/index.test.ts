@@ -8,11 +8,13 @@ import { useWalletStore, selectIsReady, selectIsLocked, selectIsIdle, getInterco
 
 // Mock the intercom module
 const mockRequest = jest.fn();
-jest.mock('lib/intercom', () => ({
-  IntercomClient: jest.fn().mockImplementation(() => ({
-    request: mockRequest,
-    subscribe: jest.fn(() => () => {})
-  }))
+const mockIntercomClient = {
+  request: mockRequest,
+  subscribe: jest.fn(() => () => {})
+};
+jest.mock('lib/intercom/client', () => ({
+  createIntercomClient: jest.fn(() => mockIntercomClient),
+  IntercomClient: jest.fn().mockImplementation(() => mockIntercomClient)
 }));
 
 // Mock fetchTokenMetadata

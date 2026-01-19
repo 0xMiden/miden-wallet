@@ -65,6 +65,28 @@ export interface SyncSlice {
 }
 
 /**
+ * Transaction modal state (mobile only)
+ */
+export interface TransactionModalSlice {
+  /** Whether the transaction progress modal is open */
+  isTransactionModalOpen: boolean;
+  /** Whether the dApp browser is open (mobile only) */
+  isDappBrowserOpen: boolean;
+}
+
+/**
+ * Note toast state (mobile only)
+ */
+export interface NoteToastSlice {
+  /** Set of note IDs that have been seen (to detect new notes) */
+  seenNoteIds: Set<string>;
+  /** Whether the note received toast is visible */
+  isNoteToastVisible: boolean;
+  /** Timestamp when the toast was shown (used as key to reset timer) */
+  noteToastShownAt: number | null;
+}
+
+/**
  * Actions for wallet mutations
  */
 export interface WalletActions {
@@ -147,6 +169,27 @@ export interface SyncActions {
 }
 
 /**
+ * Transaction modal actions
+ */
+export interface TransactionModalActions {
+  openTransactionModal: () => void;
+  closeTransactionModal: () => void;
+  setDappBrowserOpen: (isOpen: boolean) => void;
+}
+
+/**
+ * Note toast actions (mobile only)
+ */
+export interface NoteToastActions {
+  /** Check if new notes have been received and show toast if so */
+  checkForNewNotes: (currentNoteIds: string[]) => void;
+  /** Dismiss the note received toast */
+  dismissNoteToast: () => void;
+  /** Reset all seen notes (used when switching accounts) */
+  resetSeenNotes: () => void;
+}
+
+/**
  * Combined store type
  */
 export interface WalletStore
@@ -157,8 +200,12 @@ export interface WalletStore
     UISlice,
     FiatCurrencySlice,
     SyncSlice,
+    TransactionModalSlice,
+    NoteToastSlice,
     WalletActions,
     BalanceActions,
     AssetActions,
     FiatCurrencyActions,
-    SyncActions {}
+    SyncActions,
+    TransactionModalActions,
+    NoteToastActions {}

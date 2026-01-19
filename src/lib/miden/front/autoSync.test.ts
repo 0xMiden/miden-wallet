@@ -8,7 +8,8 @@ jest.mock('../sdk/miden-client', () => {
       Promise.resolve({
         syncState: mockSyncState
       })
-    )
+    ),
+    withWasmClientLock: jest.fn(callback => callback())
   };
 });
 
@@ -65,11 +66,15 @@ describe('AutoSync', () => {
     expect(mockSyncState).toHaveBeenCalledTimes(1);
     expect(sync.lastHeight).toBe(1);
 
-    await advanceTimeAndFlush(1100);
+    // Sync interval is 3 seconds
+    await advanceTimeAndFlush(3100);
     expect(mockSyncState).toHaveBeenCalledTimes(2);
     expect(sync.lastHeight).toBe(2);
 
-    await advanceTimeAndFlush(1100);
+    await advanceTimeAndFlush(3100);
+    // Extra flushes to ensure the async operation completes
+    await Promise.resolve();
+    await Promise.resolve();
     expect(mockSyncState).toHaveBeenCalledTimes(3);
     expect(sync.lastHeight).toBe(3);
   });
@@ -83,7 +88,8 @@ describe('AutoSync', () => {
 
     sync.updateState({ status: 'ready' } as any);
 
-    await advanceTimeAndFlush(1000);
+    // Sync interval is 3 seconds
+    await advanceTimeAndFlush(3100);
 
     expect(mockSyncState.mock.calls.length).toBe(2);
   });

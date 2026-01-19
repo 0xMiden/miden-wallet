@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
 
+import { useTranslation } from 'react-i18next';
+
 import FormSecondaryButton from 'app/atoms/FormSecondaryButton';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import ModalWithTitle, { ModalWithTitleProps } from 'app/templates/ModalWithTitle';
-import { useTranslation } from 'react-i18next';
 
 export type ConfirmationModalProps = ModalWithTitleProps & {
   onConfirm: () => void;

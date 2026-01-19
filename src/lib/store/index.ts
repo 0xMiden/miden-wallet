@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 
-import { IntercomClient } from 'lib/intercom';
+import { createIntercomClient, IIntercomClient } from 'lib/intercom/client';
 import { fetchTokenMetadata } from 'lib/miden/metadata';
 import { MidenMessageType, MidenState } from 'lib/miden/types';
 import { WalletMessageType, WalletRequest, WalletResponse, WalletStatus } from 'lib/shared/types';
@@ -10,10 +10,10 @@ import { WalletStore } from './types';
 import { fetchBalances } from './utils/fetchBalances';
 
 // Singleton intercom client
-let intercom: IntercomClient | null = null;
-function getIntercom(): IntercomClient {
+let intercom: IIntercomClient | null = null;
+function getIntercom(): IIntercomClient {
   if (!intercom) {
-    intercom = new IntercomClient();
+    intercom = createIntercomClient();
   }
   return intercom;
 }
@@ -66,6 +66,15 @@ export const useWalletStore = create<WalletStore>()(
     isSyncing: false,
     lastSyncedAt: null,
     hasCompletedInitialSync: false,
+
+    // Initial transaction modal state (mobile only)
+    isTransactionModalOpen: false,
+    isDappBrowserOpen: false,
+
+    // Initial note toast state (mobile only)
+    seenNoteIds: new Set<string>(),
+    isNoteToastVisible: false,
+    noteToastShownAt: null,
 
     // Sync action - updates store from backend state
     syncFromBackend: (state: MidenState) => {
@@ -121,9 +130,12 @@ export const useWalletStore = create<WalletStore>()(
     },
 
     updateCurrentAccount: async accountPublicKey => {
-      const { accounts, currentAccount } = get();
+      const { accounts, currentAccount, resetSeenNotes } = get();
       const prevAccount = currentAccount;
       const newAccount = accounts.find(a => a.publicKey === accountPublicKey) || null;
+
+      // Reset seen notes when switching accounts
+      resetSeenNotes();
 
       // Optimistic update
       if (newAccount) {
@@ -419,6 +431,52 @@ export const useWalletStore = create<WalletStore>()(
       } else {
         set({ isSyncing });
       }
+    },
+
+    // Transaction modal actions (mobile only)
+    openTransactionModal: () => {
+      set({ isTransactionModalOpen: true });
+    },
+    closeTransactionModal: () => {
+      set({ isTransactionModalOpen: false });
+    },
+
+    // DApp browser state (mobile only)
+    setDappBrowserOpen: (isOpen: boolean) => {
+      set({ isDappBrowserOpen: isOpen });
+    },
+
+    // Note toast actions (mobile only)
+    checkForNewNotes: (currentNoteIds: string[]) => {
+      const { seenNoteIds } = get();
+
+      // Find note IDs that weren't previously seen
+      const newNoteIds = currentNoteIds.filter(id => !seenNoteIds.has(id));
+
+      if (newNoteIds.length > 0) {
+        // Update seen notes and show toast
+        const updatedSeenNotes = new Set(seenNoteIds);
+        for (const id of newNoteIds) {
+          updatedSeenNotes.add(id);
+        }
+        set({
+          seenNoteIds: updatedSeenNotes,
+          isNoteToastVisible: true,
+          noteToastShownAt: Date.now()
+        });
+      }
+    },
+
+    dismissNoteToast: () => {
+      set({ isNoteToastVisible: false });
+    },
+
+    resetSeenNotes: () => {
+      set({
+        seenNoteIds: new Set<string>(),
+        isNoteToastVisible: false,
+        noteToastShownAt: null
+      });
     }
   }))
 );

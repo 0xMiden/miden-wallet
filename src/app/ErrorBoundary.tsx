@@ -78,7 +78,7 @@ const ErrorDisplay: FC<ErrorDisplayProps> = ({ className, whileMessage, windowTy
         <h2 className="mb-1 text-2xl">{t('oops')}</h2>
 
         <p className="mb-4 text-sm opacity-90 text-center ">
-          {whileMessage ? t('smthWentWrongWhile', { substitution: whileMessage }) : t('smthWentWrong')}
+          {whileMessage ? t('smthWentWrongWhile', { action: whileMessage }) : t('smthWentWrong')}
           {!online && (
             <>
               {'. '}

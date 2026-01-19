@@ -1,16 +1,26 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 
 import { getUncompletedTransactions } from 'lib/miden/activity';
+import { isIOS } from 'lib/platform';
 import { useRetryableSWR } from 'lib/swr';
 
 import { isMidenFaucet } from '../assets';
 import { AssetMetadata, MIDEN_METADATA } from '../metadata';
 import { getBech32AddressFromAccountId } from '../sdk/helpers';
 import { getMidenClient, runWhenClientIdle, withWasmClientLock } from '../sdk/miden-client';
-import { MidenClientCreateOptions } from '../sdk/miden-client-interface';
 import { ConsumableNote } from '../types';
 import { useTokensMetadata } from './assets';
-import { useMidenContext } from './client';
+
+// Debug info for iOS troubleshooting
+export type ClaimableNotesDebugInfo = {
+  rawNotesCount: number;
+  parsedNotesCount: number;
+  notesWithMetadataCount: number;
+  missingFaucetIds: string[];
+  metadataCacheKeys: string[];
+  lastFetchTime: string;
+  error?: string;
+};
 
 // -------------------- Types --------------------
 
@@ -125,29 +135,33 @@ async function persistMetadataIfAny(
 
 export function useClaimableNotes(publicAddress: string, enabled: boolean = true) {
   const { allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata } = useTokensMetadata();
-  const { getAuthSecretKey, signTransaction } = useMidenContext();
+  const debugInfoRef = useRef<ClaimableNotesDebugInfo>({
+    rawNotesCount: 0,
+    parsedNotesCount: 0,
+    notesWithMetadataCount: 0,
+    missingFaucetIds: [],
+    metadataCacheKeys: [],
+    lastFetchTime: 'never'
+  });
 
   const fetchClaimableNotes = useCallback(async () => {
-    const options: MidenClientCreateOptions = {
-      getKeyCallback: async (key: Uint8Array) => {
-        console.log('getKeyCallback', key);
-        const keyString = Buffer.from(key).toString('hex');
-        const secretKey = await getAuthSecretKey(keyString);
-        return new Uint8Array(Buffer.from(secretKey, 'hex'));
-      },
-      signCallback: async (publicKey: Uint8Array, signingInputs: Uint8Array) => {
-        console.log('signCallback', publicKey, signingInputs);
-        const keyString = Buffer.from(publicKey).toString('hex');
-        const signingInputsString = Buffer.from(signingInputs).toString('hex');
-        const result = await signTransaction(keyString, signingInputsString);
-        return result;
-      }
-    };
-    // Wrap all WASM client operations in a lock to prevent concurrent access
-    const rawNotes = await withWasmClientLock(async () => {
-      const midenClient = await getMidenClient(options);
-      return midenClient.getConsumableNotes(publicAddress);
-    });
+    // Note: getConsumableNotes is a read-only operation that doesn't need key/sign callbacks.
+    // Using getMidenClient() without options avoids disposing/recreating the client on every fetch,
+    // which caused issues on iOS due to constant WASM worker churn.
+    let rawNotes: any[] = [];
+    try {
+      rawNotes = await withWasmClientLock(async () => {
+        const midenClient = await getMidenClient();
+        return midenClient.getConsumableNotes(publicAddress);
+      });
+    } catch (e) {
+      debugInfoRef.current = {
+        ...debugInfoRef.current,
+        error: `getConsumableNotes failed: ${e}`,
+        lastFetchTime: new Date().toISOString()
+      };
+      throw e;
+    }
 
     const uncompletedTxs = await getUncompletedTransactions(publicAddress);
 
@@ -183,21 +197,40 @@ export function useClaimableNotes(publicAddress: string, enabled: boolean = true
 
     // 4) Return notes with available metadata immediately
     // Notes without metadata will appear after metadata fetch completes and SWR revalidates
-    return attachMetadataToNotes(parsedNotes, metadataByFaucetId);
-  }, [
-    publicAddress,
-    allTokensBaseMetadataRef,
-    fetchMetadata,
-    setTokensBaseMetadata,
-    getAuthSecretKey,
-    signTransaction
-  ]);
+    const result = attachMetadataToNotes(parsedNotes, metadataByFaucetId);
+
+    // Update debug info
+    debugInfoRef.current = {
+      rawNotesCount: rawNotes?.length ?? 0,
+      parsedNotesCount: parsedNotes.length,
+      notesWithMetadataCount: result.length,
+      missingFaucetIds,
+      metadataCacheKeys: Object.keys(allTokensBaseMetadataRef.current || {}),
+      lastFetchTime: new Date().toISOString(),
+      error: undefined
+    };
+
+    return result;
+  }, [publicAddress, allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata]);
 
   const key = enabled ? ['claimable-notes', publicAddress] : null;
-  return useRetryableSWR(key, enabled ? fetchClaimableNotes : null, {
+  const swrResult = useRetryableSWR(key, enabled ? fetchClaimableNotes : null, {
     revalidateOnFocus: false,
     dedupingInterval: 10_000,
     refreshInterval: 5_000,
-    onError: e => console.error('Error fetching claimable notes:', e)
+    onError: e => {
+      console.error('Error fetching claimable notes:', e);
+      debugInfoRef.current = {
+        ...debugInfoRef.current,
+        error: `SWR error: ${e}`,
+        lastFetchTime: new Date().toISOString()
+      };
+    }
   });
+
+  // Return both SWR result and debug info (debug info only used on iOS)
+  return {
+    ...swrResult,
+    debugInfo: isIOS() ? debugInfoRef.current : undefined
+  };
 }

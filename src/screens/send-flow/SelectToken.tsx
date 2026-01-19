@@ -58,7 +58,7 @@ export const SelectToken: React.FC<SelectTokenScreenProps> = ({ className, onAct
 
   return (
     <div {...props} className={classNames('flex-1 flex flex-col ', className)}>
-      <NavigationHeader mode="close" title={t('chooseToken')} onClose={onCancel} />
+      <NavigationHeader mode="close" title={t('chooseToken')} onClose={onCancel} showBorder />
       <div className="flex flex-col flex-1 p-4 justify-between md:w-[460px] md:mx-auto">
         <div className="flex-1">
           {tokens?.map(token => (
@@ -73,7 +73,7 @@ export const SelectToken: React.FC<SelectTokenScreenProps> = ({ className, onAct
                 <AssetIcon
                   assetSlug={token.name.toLowerCase()}
                   assetId={token.id}
-                  size={token.name.toLowerCase() === 'miden' ? 24 : 34}
+                  size={24}
                   className="mr-2 flex-shrink-0 rounded bg-white"
                 />
               }

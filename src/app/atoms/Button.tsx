@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { AnalyticsEventCategory, TestIDProps, useAnalytics } from 'lib/analytics';
+import { hapticLight } from 'lib/mobile/haptics';
 
 interface Props
   extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, TestIDProps {}
@@ -10,6 +11,7 @@ export const Button = React.forwardRef<HTMLButtonElement, Props>(
     const { trackEvent } = useAnalytics();
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      hapticLight();
       testID !== undefined && trackEvent(testID, AnalyticsEventCategory.ButtonPress, testIDProperties);
 
       return onClick !== undefined && onClick(e);

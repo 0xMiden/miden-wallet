@@ -127,8 +127,16 @@ class MidenClientSingleton {
   /**
    * Get or create the singleton MidenClientInterface instance.
    * This instance does not specify any options and is never disposed.
+   * On mobile, if instanceWithOptions already exists, return that to avoid
+   * creating multiple clients (which causes OOM from multiple WASM worker instances).
    */
   async getInstance(): Promise<MidenClientInterface> {
+    // On mobile, reuse any existing client to avoid OOM from multiple worker instances
+    if (this.instanceWithOptions) {
+      console.log('[MidenClientSingleton] Reusing instanceWithOptions for getInstance()');
+      return this.instanceWithOptions;
+    }
+
     if (this.instance) {
       return this.instance;
     }

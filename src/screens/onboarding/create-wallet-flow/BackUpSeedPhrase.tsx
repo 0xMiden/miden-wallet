@@ -52,7 +52,7 @@ export const BackUpSeedPhraseScreen: React.FC<BackUpSeedPhraseScreenProps> = ({
         <p className="text-sm font-normal mt-2 text-center w-[500px]">{t('backUpWalletInstructions')}</p>
       </div>
 
-      <article className="grid grid-cols-3 gap-4 w-[82%] self-center">
+      <article className="grid grid-cols-3 gap-3 w-full px-4 sm:w-[82%] sm:px-0 self-center">
         {seedPhrase.map((word, index) => (
           <Chip
             key={`seed-word-${index}`}

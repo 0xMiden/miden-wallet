@@ -37,22 +37,22 @@
     "englishSource": "Click on the X icon to reset permissions."
   },
   "versionLabel": {
-    "message": "버전: $version$",
+    "message": "버전: $version$ ",
+    "englishSource": "version: $version$",
     "placeholders": {
       "version": {
         "content": "$1"
       }
-    },
-    "englishSource": "version: {{version}}"
+    }
   },
   "resetPermissionsConfirmation": {
-    "message": "$origin$에 대한 접근 권한을 정말로 초기화하시겠습니까?",
+    "message": "다음에 대한 권한을 재설정하시겠습니까? $origin$ ?",
+    "englishSource": "Are you sure you want to reset permissions for\n $origin$?",
     "placeholders": {
       "origin": {
         "content": "$1"
       }
-    },
-    "englishSource": "Are you sure you want to reset permissions for\n {{origin}}?"
+    }
   },
   "clickToRevealField": {
     "message": "이 필드를 표시하려면 클릭하세요.",
@@ -190,8 +190,13 @@
     "englishSource": "1-16 characters, no special"
   },
   "defaultAccountName": {
-    "message": "계정 {{accountNumber}}",
-    "englishSource": "Account {{accountNumber}}"
+    "message": "계정 $accountNumber$ ",
+    "englishSource": "Account $accountNumber$",
+    "placeholders": {
+      "accountnumber": {
+        "content": "$1"
+      }
+    }
   },
   "doNotSharePrivateKey1": {
     "message": "누구와도 공유하지 마십시오!",
@@ -250,8 +255,13 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "내 Seed phrase은 {{num}} 단어입니다",
-    "englishSource": "My Seed phrase is {{num}} words"
+    "message": "내 Seed phrase은(는) $num$ 단어",
+    "englishSource": "My Seed phrase is $num$ words",
+    "placeholders": {
+      "num": {
+        "content": "$1"
+      }
+    }
   },
   "justValidPreGeneratedMnemonic": {
     "message": "유효한 사전 생성 니모닉만",
@@ -270,8 +280,13 @@
     "englishSource": "Oops!"
   },
   "smthWentWrongWhile": {
-    "message": "{{action}} 동안 문제가 발생했습니다.",
-    "englishSource": "Something went wrong while {{action}}"
+    "message": "그 동안 문제가 발생했습니다. $action$ ",
+    "englishSource": "Something went wrong while $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
   },
   "mayHappenBecauseYouAreOffline": {
     "message": "현재 오프라인 상태여서 이런 문제가 발생했을 수 있습니다",
@@ -298,12 +313,22 @@
     "englishSource": "Private key cannot be revealed"
   },
   "youCannotGetPrivateKeyFromThisAccountType": {
-    "message": "{{accountType}} 계정에서는 개인 키를 얻을 수 없습니다.",
-    "englishSource": "You cannot get private key from {{accountType}} accounts."
+    "message": "개인 키를 얻을 수 없습니다 $accountType$ 계정.",
+    "englishSource": "You cannot get private key from $accountType$ accounts.",
+    "placeholders": {
+      "accounttype": {
+        "content": "$1"
+      }
+    }
   },
   "maximalAmount": {
-    "message": "최대: {{금액}}",
-    "englishSource": "Maximal: {{amount}}"
+    "message": "최대: $amount$ ",
+    "englishSource": "Maximal: $amount$",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
   },
   "accountName": {
     "message": "계정 이름",
@@ -526,14 +551,13 @@
     "englishSource": "enable"
   },
   "dAppsCheckmarkPrompt": {
-    "message": "분산 앱 상호 소통 기능을 $action$하려면 체크표시를 클릭하세요",
-    "description": "DApps = Decentralized Applications",
+    "message": "토글을 클릭하면 $action$ DApp 상호작용 기능",
+    "englishSource": "Click on the toggle to $action$ DApps interaction feature",
     "placeholders": {
       "action": {
         "content": "$1"
       }
-    },
-    "englishSource": "Click on the toggle to {{action}} DApps interaction feature"
+    }
   },
   "dAppsInteraction": {
     "message": "분산 앱 상호 소통",
@@ -561,8 +585,13 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "{{currency}} 자금이 충분하지 않습니다.",
-    "englishSource": "Not enough {{currency}} funds"
+    "message": "충분하지 않다 $currency$ 자금",
+    "englishSource": "Not enough $currency$ funds",
+    "placeholders": {
+      "currency": {
+        "content": "$1"
+      }
+    }
   },
   "failed": {
     "message": "실패",
@@ -577,16 +606,26 @@
     "englishSource": "This may happen because:"
   },
   "minimalFeeGreaterThanBalanceVerbose": {
-    "message": "이 거래에 대한 최소 수수료가 잔액보다 큽니다. 빈 관리자 계정으로 자금을 보내기 때문에 많은 수수료가 필요할 수 있습니다. 이를 위해서는 일회성 0.06425 {{gasTokenSymbol}} 소각 수수료가 필요합니다.",
-    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 {{gasTokenSymbol}} burn fee;"
+    "message": "이 거래에 대한 최소 수수료가 잔액보다 큽니다. 빈 관리자 계정으로 자금을 보내기 때문에 많은 수수료가 필요할 수 있습니다. 일회성 0.06425가 필요합니다. $gasTokenSymbol$ 화상 수수료;",
+    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 $gasTokenSymbol$ burn fee;",
+    "placeholders": {
+      "gastokensymbol": {
+        "content": "$1"
+      }
+    }
   },
   "networkOrOtherIssue": {
     "message": "네트워크 혹은 기타 기술적인 문제입니다.",
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "{{작업}} 확인",
-    "englishSource": "Confirm {{action}}"
+    "message": "확인하다 $action$ ",
+    "englishSource": "Confirm $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
   },
   "confirm": {
     "message": "확인",
@@ -693,8 +732,13 @@
     "englishSource": "Keep it in secret."
   },
   "revealSecretPasswordInputDescription": {
-    "message": "{{secretName}}을(를) 공개하려면 비밀번호를 입력하세요.",
-    "englishSource": "Enter password to reveal the {{secretName}}."
+    "message": "비밀번호를 입력하면 공개됩니다 $secretName$ .",
+    "englishSource": "Enter password to reveal the $secretName$.",
+    "placeholders": {
+      "secretname": {
+        "content": "$1"
+      }
+    }
   },
   "reveal": {
     "message": "공개",
@@ -780,9 +824,9 @@
     "message": "토큰",
     "englishSource": "Tokens"
   },
-  "activity": {
-    "message": "활동",
-    "englishSource": "Activities"
+  "history": {
+    "message": "역사",
+    "englishSource": "History"
   },
   "proofGenerationTab": {
     "message": "트랜잭션 증명을 효율적으로 생성하려면 열린 탭이 필요합니다.",
@@ -797,12 +841,22 @@
     "englishSource": "No assets found"
   },
   "ifYouDontSeeYourAsset": {
-    "message": "자산이 표시되지 않으면\n{{toClick}}을 클릭해 보세요.",
-    "englishSource": "If you don't see your asset,\ntry to click {{toClick}}."
+    "message": "자산이 표시되지 않으면\n클릭해 보세요 $toClick$ .",
+    "englishSource": "If you don't see your asset,\ntry to click $toClick$.",
+    "placeholders": {
+      "toclick": {
+        "content": "$1"
+      }
+    }
   },
   "addressOfTokenContract": {
-    "message": "{{assetSymbol}} 토큰 계약의 주소입니다.",
-    "englishSource": "Address of a {{assetSymbol}} token contract."
+    "message": "주소 $assetSymbol$ 토큰 계약.",
+    "englishSource": "Address of a $assetSymbol$ token contract.",
+    "placeholders": {
+      "assetsymbol": {
+        "content": "$1"
+      }
+    }
   },
   "searchAssets": {
     "message": "자산 검색...",
@@ -900,18 +954,6 @@
     "message": "다른",
     "englishSource": "Other"
   },
-  "thousandFormat": {
-    "message": "{{천}}천",
-    "englishSource": "{{thousand}}k"
-  },
-  "millionFormat": {
-    "message": "{{백만}}백만",
-    "englishSource": "{{million}}M"
-  },
-  "billionFormat": {
-    "message": "{{십억}}B",
-    "englishSource": "{{billion}}B"
-  },
   "uploadFile": {
     "message": "파일 업로드",
     "englishSource": "Upload File"
@@ -970,8 +1012,13 @@
     "englishSource": "Verify Seed Phrase"
   },
   "word": {
-    "message": "단어 {{번호}}",
-    "englishSource": "Word {{number}}"
+    "message": "단어 $number$ ",
+    "englishSource": "Word $number$",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
   },
   "finish": {
     "message": "마치다",
@@ -1410,6 +1457,10 @@
     "message": "암호화된 지갑 파일이 다운로드되었습니다. 해당 정보와 비밀번호를 분실하면 지갑에 접근할 수 없게 되므로 안전하게 보관하세요.",
     "englishSource": "Your encrypted wallet file has been downloaded. Keep it and your password safe, as losing them means losing access to your wallet."
   },
+  "saveEncryptedWalletFile": {
+    "message": "암호화된 지갑 파일 저장",
+    "englishSource": "Save Encrypted Wallet File"
+  },
   "doNotShareEncryptedWalletFile": {
     "message": "암호화된 지갑 파일을 공유하지 마세요!",
     "englishSource": "Do not share your Encrypted Wallet File!"
@@ -1436,8 +1487,8 @@
     "englishSource": "This site is requesting access to your public account."
   },
   "balanceAccess": {
-    "message": "지갑 잔액과 활동을 확인하세요",
-    "englishSource": "Let it see your wallet balance and activity"
+    "message": "지갑 잔액과 내역을 확인하세요",
+    "englishSource": "Let it see your wallet balance and history"
   },
   "sendTransactionRequests": {
     "message": "거래 요청을 보내도록 하세요.",
@@ -1543,6 +1594,15 @@
     "message": "거래를 처리하는 중에 오류가 발생했습니다. 다시 시도해 주세요.",
     "englishSource": "There was an error processing your transaction. Please try again."
   },
+  "multipleTransactionsFailed": {
+    "message": "$count$ 거래가 실패했습니다. 다시 시도해 주세요.",
+    "englishSource": "$count$ transactions failed. Please try again.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
   "downloadGeneratedFiles": {
     "message": "생성된 파일 다운로드",
     "englishSource": "Download Generated Files"
@@ -1628,8 +1688,13 @@
     "englishSource": "(invalid payload)"
   },
   "signTheFollowingWord": {
-    "message": "다음 단어 {{word}}에 서명하시겠습니까?",
-    "englishSource": "Sign the following Word {{word}}?"
+    "message": "다음 단어에 서명하세요 $word$ ?",
+    "englishSource": "Sign the following Word $word$?",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
   },
   "sharePrivateNoteDataForAccount": {
     "message": "계정의 모든 비공개 Note 데이터 공유",
@@ -1767,9 +1832,26 @@
     "message": "모두 청구",
     "englishSource": "Claim All"
   },
+  "claimAllSummary": {
+    "message": "$succeeded$ 성공, $failed$ 실패",
+    "englishSource": "$succeeded$ succeeded, $failed$ failed",
+    "placeholders": {
+      "succeeded": {
+        "content": "$1"
+      },
+      "failed": {
+        "content": "$2"
+      }
+    }
+  },
   "readyToClaim": {
-    "message": "청구 준비 완료",
-    "englishSource": "Ready to claim"
+    "message": "$count$ notes 청구 준비 완료",
+    "englishSource": "$count$ notes ready to claim",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
   "addTokens": {
     "message": "토큰 추가",
@@ -1898,5 +1980,186 @@
   "last": {
     "message": "마지막",
     "englishSource": "Last"
+  },
+  "dappBrowser": {
+    "message": "DApp 브라우저",
+    "englishSource": "DApp Browser"
+  },
+  "dappBrowserComingSoon": {
+    "message": "곧 출시 예정",
+    "englishSource": "Coming soon"
+  },
+  "dappBrowserDescription": {
+    "message": "분산형 앱을 탐색하고 지갑을 안전하게 연결하세요",
+    "englishSource": "Browse decentralized apps and connect your wallet securely"
+  },
+  "enterUrl": {
+    "message": "URL을 입력하거나 검색하세요.",
+    "englishSource": "Enter URL or search"
+  },
+  "go": {
+    "message": "가다",
+    "englishSource": "Go"
+  },
+  "recentSites": {
+    "message": "최근의",
+    "englishSource": "Recent"
+  },
+  "loading": {
+    "message": "로드 중...",
+    "englishSource": "Loading..."
+  },
+  "favourites": {
+    "message": "즐겨찾기",
+    "englishSource": "Favourites"
+  },
+  "approve": {
+    "message": "승인하다",
+    "englishSource": "Approve"
+  },
+  "dappConnectionRequest": {
+    "message": "이 앱이 지갑에 연결하려고 합니다.",
+    "englishSource": "This app wants to connect to your wallet"
+  },
+  "dappTransactionRequest": {
+    "message": "이 앱에서 거래를 요청하고 있습니다.",
+    "englishSource": "This app is requesting a transaction"
+  },
+  "noAccountSelected": {
+    "message": "선택한 계정이 없습니다.",
+    "englishSource": "No account selected"
+  },
+  "biometricUnlock": {
+    "message": "생체 인식 잠금 해제",
+    "englishSource": "Biometric Unlock"
+  },
+  "biometricUnlockDescription": {
+    "message": "비밀번호를 입력하는 대신 Face ID나 지문을 사용하여 지갑을 잠금 해제하세요.",
+    "englishSource": "Use Face ID or fingerprint to unlock your wallet instead of entering your password."
+  },
+  "biometricSetup": {
+    "message": "생체 인식 잠금 해제 설정",
+    "englishSource": "Set Up Biometric Unlock"
+  },
+  "biometricSetupDescription": {
+    "message": "얼굴이나 지문을 사용하여 지갑을 빠르게 잠금 해제하세요.",
+    "englishSource": "Use your face or fingerprint to quickly unlock your wallet."
+  },
+  "biometricSetupSubtitle": {
+    "message": "지갑에 더 빠르고 안전하게 액세스하려면 생체 인증을 활성화하세요.",
+    "englishSource": "Enable biometric authentication for faster, more secure access to your wallet."
+  },
+  "enableBiometric": {
+    "message": "생체 인식 활성화",
+    "englishSource": "Enable Biometric"
+  },
+  "skipBiometricSetup": {
+    "message": "지금은 건너뛰기",
+    "englishSource": "Skip for now"
+  },
+  "biometricAuthRequired": {
+    "message": "생체인증 필요",
+    "englishSource": "Biometric authentication required"
+  },
+  "unlockWithBiometric": {
+    "message": "생체 인식으로 잠금 해제",
+    "englishSource": "Unlock with biometric"
+  },
+  "biometricFailed": {
+    "message": "생체 인증 실패",
+    "englishSource": "Biometric authentication failed"
+  },
+  "biometricNotAvailable": {
+    "message": "이 기기에서는 생체 인증을 사용할 수 없습니다.",
+    "englishSource": "Biometric authentication is not available on this device"
+  },
+  "usePasswordInstead": {
+    "message": "대신 비밀번호를 사용하세요",
+    "englishSource": "Use Password Instead"
+  },
+  "biometricEnabled": {
+    "message": "생체 인식 잠금 해제 활성화됨",
+    "englishSource": "Biometric unlock enabled"
+  },
+  "biometricDisabled": {
+    "message": "생체 인식 잠금 해제가 비활성화되었습니다.",
+    "englishSource": "Biometric unlock disabled"
+  },
+  "enterPasswordToEnableBiometric": {
+    "message": "생체 인식 잠금 해제를 활성화하려면 비밀번호를 입력하세요",
+    "englishSource": "Enter your password to enable biometric unlock"
+  },
+  "faceId": {
+    "message": "페이스ID",
+    "englishSource": "Face ID"
+  },
+  "touchId": {
+    "message": "터치 ID",
+    "englishSource": "Touch ID"
+  },
+  "fingerprint": {
+    "message": "지문",
+    "englishSource": "Fingerprint"
+  },
+  "biometricType": {
+    "message": "생체 인식 유형",
+    "englishSource": "Biometric Type"
+  },
+  "scanQr": {
+    "message": "QR 코드 스캔",
+    "englishSource": "Scan QR Code"
+  },
+  "cameraPermissionDenied": {
+    "message": "카메라 권한이 거부되었습니다",
+    "englishSource": "Camera permission denied"
+  },
+  "noQrCodeFound": {
+    "message": "QR 코드를 찾을 수 없습니다",
+    "englishSource": "No QR code found"
+  },
+  "emptyQrCode": {
+    "message": "빈 QR 코드",
+    "englishSource": "Empty QR code"
+  },
+  "invalidMidenAddress": {
+    "message": "잘못된 미덴 주소",
+    "englishSource": "Invalid Miden address"
+  },
+  "scanCancelled": {
+    "message": "스캔이 취소되었습니다.",
+    "englishSource": "Scan cancelled"
+  },
+  "hapticFeedback": {
+    "message": "햅틱 피드백",
+    "englishSource": "Haptic Feedback"
+  },
+  "hapticFeedbackDescription": {
+    "message": "버튼과 컨트롤을 탭할 때 진동이 느껴집니다.",
+    "englishSource": "Feel a vibration when tapping buttons and controls"
+  },
+  "noNotesToClaim": {
+    "message": "현재 신청할 notes이 없지만 신청하면 여기에 표시됩니다.",
+    "englishSource": "You don't currently have notes to claim, but when you do, they will appear here."
+  },
+  "noteReceivedTitle": {
+    "message": "note을(를) 받았습니다.",
+    "englishSource": "You have received a note"
+  },
+  "noteReceivedTapToClaim": {
+    "message": "여기를 탭하여 신청하세요.",
+    "englishSource": "Tap here to claim it"
+  },
+  "tokenHistory": {
+    "message": "$tokenName$ 내역",
+    "englishSource": "$tokenName$ History",
+    "placeholders": {
+      "tokenname": {
+        "content": "$1"
+      }
+    }
+  },
+  "historyDetails": {
+    "message": "세부",
+    "englishSource": "Details"
   }
 }

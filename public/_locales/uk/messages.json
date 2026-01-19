@@ -37,22 +37,22 @@
     "englishSource": "Click on the X icon to reset permissions."
   },
   "versionLabel": {
-    "message": "version: $version$",
+    "message": "версія: $version$ ",
+    "englishSource": "version: $version$",
     "placeholders": {
       "version": {
         "content": "$1"
       }
-    },
-    "englishSource": "version: {{version}}"
+    }
   },
   "resetPermissionsConfirmation": {
-    "message": "Ви впевнені, що бажаєте скинути дозволи для\n$origin$?",
+    "message": "Ви впевнені, що бажаєте скинути дозволи для $origin$ ?",
+    "englishSource": "Are you sure you want to reset permissions for\n $origin$?",
     "placeholders": {
       "origin": {
         "content": "$1"
       }
-    },
-    "englishSource": "Are you sure you want to reset permissions for\n {{origin}}?"
+    }
   },
   "clickToRevealField": {
     "message": "Натисніть, щоб відкрити це поле",
@@ -190,8 +190,13 @@
     "englishSource": "1-16 characters, no special"
   },
   "defaultAccountName": {
-    "message": "Рахунок {{accountNumber}}",
-    "englishSource": "Account {{accountNumber}}"
+    "message": "Обліковий запис $accountNumber$ ",
+    "englishSource": "Account $accountNumber$",
+    "placeholders": {
+      "accountnumber": {
+        "content": "$1"
+      }
+    }
   },
   "doNotSharePrivateKey1": {
     "message": "НЕ діліться ні з ким!",
@@ -250,8 +255,13 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "Мій Seed phrase містить {{num}} слів",
-    "englishSource": "My Seed phrase is {{num}} words"
+    "message": "Мій Seed phrase є $num$ слова",
+    "englishSource": "My Seed phrase is $num$ words",
+    "placeholders": {
+      "num": {
+        "content": "$1"
+      }
+    }
   },
   "justValidPreGeneratedMnemonic": {
     "message": "Провалідуй пре-генеровану мнємоніку",
@@ -270,8 +280,13 @@
     "englishSource": "Oops!"
   },
   "smthWentWrongWhile": {
-    "message": "Щось пішло не так під час {{action}}",
-    "englishSource": "Something went wrong while {{action}}"
+    "message": "Під час щось пішло не так $action$ ",
+    "englishSource": "Something went wrong while $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
   },
   "mayHappenBecauseYouAreOffline": {
     "message": "Це може статися, оскільки ви зараз перебуваєте в режимі офлайн",
@@ -298,12 +313,22 @@
     "englishSource": "Private key cannot be revealed"
   },
   "youCannotGetPrivateKeyFromThisAccountType": {
-    "message": "Ви не можете отримати закритий ключ від облікових записів {{accountType}}.",
-    "englishSource": "You cannot get private key from {{accountType}} accounts."
+    "message": "Ви не можете отримати закритий ключ від $accountType$ облікові записи.",
+    "englishSource": "You cannot get private key from $accountType$ accounts.",
+    "placeholders": {
+      "accounttype": {
+        "content": "$1"
+      }
+    }
   },
   "maximalAmount": {
-    "message": "Максимальна: {{сума}}",
-    "englishSource": "Maximal: {{amount}}"
+    "message": "Максимальний: $amount$ ",
+    "englishSource": "Maximal: $amount$",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
   },
   "accountName": {
     "message": "Ім'я аккаунту",
@@ -526,14 +551,13 @@
     "englishSource": "enable"
   },
   "dAppsCheckmarkPrompt": {
-    "message": "Клацніть на галочку щоб $action$ функцію взаємодію з DApp'ками",
-    "description": "DApps = Decentralized Applications",
+    "message": "Натисніть на перемикач, щоб $action$ Функція взаємодії DApps",
+    "englishSource": "Click on the toggle to $action$ DApps interaction feature",
     "placeholders": {
       "action": {
         "content": "$1"
       }
-    },
-    "englishSource": "Click on the toggle to {{action}} DApps interaction feature"
+    }
   },
   "dAppsInteraction": {
     "message": "Взаємодія з DApp`ками",
@@ -561,8 +585,13 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "Недостатньо {{currency}} коштів",
-    "englishSource": "Not enough {{currency}} funds"
+    "message": "недостатньо $currency$ коштів",
+    "englishSource": "Not enough $currency$ funds",
+    "placeholders": {
+      "currency": {
+        "content": "$1"
+      }
+    }
   },
   "failed": {
     "message": "Невдача ;(",
@@ -577,16 +606,26 @@
     "englishSource": "This may happen because:"
   },
   "minimalFeeGreaterThanBalanceVerbose": {
-    "message": "Мінімальна комісія за цю транзакцію перевищує ваш баланс. Може знадобитися велика комісія, оскільки ви надсилаєте кошти на порожній обліковий запис менеджера. Для цього потрібно одноразово сплатити комісію за запис у розмірі 0,06425 {{gasTokenSymbol}};",
-    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 {{gasTokenSymbol}} burn fee;"
+    "message": "Мінімальна комісія за цю транзакцію перевищує ваш баланс. Може знадобитися велика комісія, оскільки ви надсилаєте кошти на порожній обліковий запис менеджера. Для цього потрібно одноразово 0,06425 $gasTokenSymbol$ плата за спалювання;",
+    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 $gasTokenSymbol$ burn fee;",
+    "placeholders": {
+      "gastokensymbol": {
+        "content": "$1"
+      }
+    }
   },
   "networkOrOtherIssue": {
     "message": "Проблеми мережі, або інші технічні проблеми.",
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "Підтвердити {{action}}",
-    "englishSource": "Confirm {{action}}"
+    "message": "Підтвердити $action$ ",
+    "englishSource": "Confirm $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
   },
   "confirm": {
     "message": "Підтвердити",
@@ -693,8 +732,13 @@
     "englishSource": "Keep it in secret."
   },
   "revealSecretPasswordInputDescription": {
-    "message": "Введіть пароль, щоб відкрити {{secretName}}.",
-    "englishSource": "Enter password to reveal the {{secretName}}."
+    "message": "Введіть пароль, щоб відкрити $secretName$ .",
+    "englishSource": "Enter password to reveal the $secretName$.",
+    "placeholders": {
+      "secretname": {
+        "content": "$1"
+      }
+    }
   },
   "reveal": {
     "message": "Розкрити",
@@ -780,9 +824,9 @@
     "message": "Жетони",
     "englishSource": "Tokens"
   },
-  "activity": {
-    "message": "Активність",
-    "englishSource": "Activities"
+  "history": {
+    "message": "історія",
+    "englishSource": "History"
   },
   "proofGenerationTab": {
     "message": "Для ефективного створення підтверджень транзакцій потрібна відкрита вкладка",
@@ -797,12 +841,22 @@
     "englishSource": "No assets found"
   },
   "ifYouDontSeeYourAsset": {
-    "message": "Якщо ви не бачите свій актив,\nспробуйте натиснути {{toClick}}.",
-    "englishSource": "If you don't see your asset,\ntry to click {{toClick}}."
+    "message": "Якщо ви не бачите свій актив,\nспробуйте натиснути $toClick$ .",
+    "englishSource": "If you don't see your asset,\ntry to click $toClick$.",
+    "placeholders": {
+      "toclick": {
+        "content": "$1"
+      }
+    }
   },
   "addressOfTokenContract": {
-    "message": "Адреса контракту маркера {{assetSymbol}}.",
-    "englishSource": "Address of a {{assetSymbol}} token contract."
+    "message": "Адреса а $assetSymbol$ символічний контракт.",
+    "englishSource": "Address of a $assetSymbol$ token contract.",
+    "placeholders": {
+      "assetsymbol": {
+        "content": "$1"
+      }
+    }
   },
   "searchAssets": {
     "message": "Шукати...",
@@ -900,18 +954,6 @@
     "message": "Інше",
     "englishSource": "Other"
   },
-  "thousandFormat": {
-    "message": "{{thousand}}k",
-    "englishSource": "{{thousand}}k"
-  },
-  "millionFormat": {
-    "message": "{{мільйон}}М",
-    "englishSource": "{{million}}M"
-  },
-  "billionFormat": {
-    "message": "{{мільярд}}Б",
-    "englishSource": "{{billion}}B"
-  },
   "uploadFile": {
     "message": "Завантажити файл",
     "englishSource": "Upload File"
@@ -970,8 +1012,13 @@
     "englishSource": "Verify Seed Phrase"
   },
   "word": {
-    "message": "Слово {{число}}",
-    "englishSource": "Word {{number}}"
+    "message": "Слово $number$ ",
+    "englishSource": "Word $number$",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
   },
   "finish": {
     "message": "Закінчити",
@@ -1410,6 +1457,10 @@
     "message": "Ваш зашифрований файл гаманця завантажено. Зберігайте його та свій пароль у безпеці, оскільки їх втрата означає втрату доступу до вашого гаманця.",
     "englishSource": "Your encrypted wallet file has been downloaded. Keep it and your password safe, as losing them means losing access to your wallet."
   },
+  "saveEncryptedWalletFile": {
+    "message": "Збережіть зашифрований файл гаманця",
+    "englishSource": "Save Encrypted Wallet File"
+  },
   "doNotShareEncryptedWalletFile": {
     "message": "Не діліться своїм зашифрованим файлом гаманця!",
     "englishSource": "Do not share your Encrypted Wallet File!"
@@ -1436,8 +1487,8 @@
     "englishSource": "This site is requesting access to your public account."
   },
   "balanceAccess": {
-    "message": "Дозвольте йому бачити ваш баланс гаманця та активність",
-    "englishSource": "Let it see your wallet balance and activity"
+    "message": "Дозвольте йому бачити баланс вашого гаманця та історію",
+    "englishSource": "Let it see your wallet balance and history"
   },
   "sendTransactionRequests": {
     "message": "Дозвольте йому надсилати вам запити на транзакції",
@@ -1543,6 +1594,15 @@
     "message": "Під час обробки вашої транзакції сталася помилка. Спробуйте ще раз.",
     "englishSource": "There was an error processing your transaction. Please try again."
   },
+  "multipleTransactionsFailed": {
+    "message": "$count$ транзакцій не вдалося. Спробуйте ще раз.",
+    "englishSource": "$count$ transactions failed. Please try again.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
   "downloadGeneratedFiles": {
     "message": "Завантажте згенеровані файли",
     "englishSource": "Download Generated Files"
@@ -1628,8 +1688,13 @@
     "englishSource": "(invalid payload)"
   },
   "signTheFollowingWord": {
-    "message": "Підпишіть таке слово {{word}}?",
-    "englishSource": "Sign the following Word {{word}}?"
+    "message": "Підпишіть наступне Слово $word$ ?",
+    "englishSource": "Sign the following Word $word$?",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
   },
   "sharePrivateNoteDataForAccount": {
     "message": "Поділіться всіма даними особистих нотаток для облікового запису",
@@ -1767,9 +1832,26 @@
     "message": "Вимагати всіх",
     "englishSource": "Claim All"
   },
+  "claimAllSummary": {
+    "message": "$succeeded$ вдалося, $failed$ не вдалося",
+    "englishSource": "$succeeded$ succeeded, $failed$ failed",
+    "placeholders": {
+      "succeeded": {
+        "content": "$1"
+      },
+      "failed": {
+        "content": "$2"
+      }
+    }
+  },
   "readyToClaim": {
-    "message": "Готовий претендувати",
-    "englishSource": "Ready to claim"
+    "message": "$count$ notes готовий претендувати",
+    "englishSource": "$count$ notes ready to claim",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
   "addTokens": {
     "message": "Додайте жетони",
@@ -1898,5 +1980,186 @@
   "last": {
     "message": "Останній",
     "englishSource": "Last"
+  },
+  "dappBrowser": {
+    "message": "Браузер DApp",
+    "englishSource": "DApp Browser"
+  },
+  "dappBrowserComingSoon": {
+    "message": "Скоро буде",
+    "englishSource": "Coming soon"
+  },
+  "dappBrowserDescription": {
+    "message": "Переглядайте децентралізовані програми та безпечно підключіть свій гаманець",
+    "englishSource": "Browse decentralized apps and connect your wallet securely"
+  },
+  "enterUrl": {
+    "message": "Введіть URL або знайдіть",
+    "englishSource": "Enter URL or search"
+  },
+  "go": {
+    "message": "Іди",
+    "englishSource": "Go"
+  },
+  "recentSites": {
+    "message": "Останні",
+    "englishSource": "Recent"
+  },
+  "loading": {
+    "message": "Завантаження...",
+    "englishSource": "Loading..."
+  },
+  "favourites": {
+    "message": "Вибране",
+    "englishSource": "Favourites"
+  },
+  "approve": {
+    "message": "Затвердити",
+    "englishSource": "Approve"
+  },
+  "dappConnectionRequest": {
+    "message": "Ця програма хоче підключитися до вашого гаманця",
+    "englishSource": "This app wants to connect to your wallet"
+  },
+  "dappTransactionRequest": {
+    "message": "Ця програма запитує трансакцію",
+    "englishSource": "This app is requesting a transaction"
+  },
+  "noAccountSelected": {
+    "message": "Обліковий запис не вибрано",
+    "englishSource": "No account selected"
+  },
+  "biometricUnlock": {
+    "message": "Біометричне розблокування",
+    "englishSource": "Biometric Unlock"
+  },
+  "biometricUnlockDescription": {
+    "message": "Використовуйте ідентифікатор обличчя або відбиток пальця, щоб розблокувати гаманець замість введення пароля.",
+    "englishSource": "Use Face ID or fingerprint to unlock your wallet instead of entering your password."
+  },
+  "biometricSetup": {
+    "message": "Налаштувати біометричне розблокування",
+    "englishSource": "Set Up Biometric Unlock"
+  },
+  "biometricSetupDescription": {
+    "message": "Використовуйте своє обличчя або відбиток пальця, щоб швидко розблокувати свій гаманець.",
+    "englishSource": "Use your face or fingerprint to quickly unlock your wallet."
+  },
+  "biometricSetupSubtitle": {
+    "message": "Увімкніть біометричну автентифікацію для швидшого та безпечнішого доступу до вашого гаманця.",
+    "englishSource": "Enable biometric authentication for faster, more secure access to your wallet."
+  },
+  "enableBiometric": {
+    "message": "Увімкнути біометрію",
+    "englishSource": "Enable Biometric"
+  },
+  "skipBiometricSetup": {
+    "message": "Пропустити поки що",
+    "englishSource": "Skip for now"
+  },
+  "biometricAuthRequired": {
+    "message": "Потрібна біометрична автентифікація",
+    "englishSource": "Biometric authentication required"
+  },
+  "unlockWithBiometric": {
+    "message": "Розблокуйте за допомогою біометрії",
+    "englishSource": "Unlock with biometric"
+  },
+  "biometricFailed": {
+    "message": "Помилка біометричної автентифікації",
+    "englishSource": "Biometric authentication failed"
+  },
+  "biometricNotAvailable": {
+    "message": "Біометрична автентифікація недоступна на цьому пристрої",
+    "englishSource": "Biometric authentication is not available on this device"
+  },
+  "usePasswordInstead": {
+    "message": "Замість цього використовуйте пароль",
+    "englishSource": "Use Password Instead"
+  },
+  "biometricEnabled": {
+    "message": "Біометричне розблокування ввімкнено",
+    "englishSource": "Biometric unlock enabled"
+  },
+  "biometricDisabled": {
+    "message": "Біометричне розблокування вимкнено",
+    "englishSource": "Biometric unlock disabled"
+  },
+  "enterPasswordToEnableBiometric": {
+    "message": "Введіть свій пароль, щоб увімкнути біометричне розблокування",
+    "englishSource": "Enter your password to enable biometric unlock"
+  },
+  "faceId": {
+    "message": "Face ID",
+    "englishSource": "Face ID"
+  },
+  "touchId": {
+    "message": "Touch ID",
+    "englishSource": "Touch ID"
+  },
+  "fingerprint": {
+    "message": "Відбиток пальця",
+    "englishSource": "Fingerprint"
+  },
+  "biometricType": {
+    "message": "Біометричний тип",
+    "englishSource": "Biometric Type"
+  },
+  "scanQr": {
+    "message": "Відскануйте QR-код",
+    "englishSource": "Scan QR Code"
+  },
+  "cameraPermissionDenied": {
+    "message": "Відмовлено в дозволі на камеру",
+    "englishSource": "Camera permission denied"
+  },
+  "noQrCodeFound": {
+    "message": "QR-код не знайдено",
+    "englishSource": "No QR code found"
+  },
+  "emptyQrCode": {
+    "message": "Порожній QR-код",
+    "englishSource": "Empty QR code"
+  },
+  "invalidMidenAddress": {
+    "message": "Недійсна адреса Miden",
+    "englishSource": "Invalid Miden address"
+  },
+  "scanCancelled": {
+    "message": "Сканування скасовано",
+    "englishSource": "Scan cancelled"
+  },
+  "hapticFeedback": {
+    "message": "Тактильний зворотний зв'язок",
+    "englishSource": "Haptic Feedback"
+  },
+  "hapticFeedbackDescription": {
+    "message": "Відчуйте вібрацію під час натискання кнопок і елементів керування",
+    "englishSource": "Feel a vibration when tapping buttons and controls"
+  },
+  "noNotesToClaim": {
+    "message": "Зараз у вас немає notes, щоб вимагати, але коли ви це зробите, вони з’являться тут.",
+    "englishSource": "You don't currently have notes to claim, but when you do, they will appear here."
+  },
+  "noteReceivedTitle": {
+    "message": "Ви отримали note",
+    "englishSource": "You have received a note"
+  },
+  "noteReceivedTapToClaim": {
+    "message": "Торкніться тут, щоб отримати його",
+    "englishSource": "Tap here to claim it"
+  },
+  "tokenHistory": {
+    "message": "Історія $tokenName$",
+    "englishSource": "$tokenName$ History",
+    "placeholders": {
+      "tokenname": {
+        "content": "$1"
+      }
+    }
+  },
+  "historyDetails": {
+    "message": "Подробиці",
+    "englishSource": "Details"
   }
 }

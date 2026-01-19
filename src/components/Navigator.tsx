@@ -135,8 +135,8 @@ type AnimationConfig = {
 };
 
 const PushInitialPosition: AnimationConfig = {
-  x: '1vw',
-  opacity: 0,
+  x: '8%',
+  opacity: 1,
   backgroundColor: '#ffffff',
   y: '0vw',
   scale: 1
@@ -151,17 +151,17 @@ const FocusPosition: AnimationConfig = {
 };
 
 const PushExitPosition: AnimationConfig = {
-  x: '1vw',
+  x: '0vw',
   y: '0vw',
-  opacity: 0,
+  opacity: 1,
   scale: 1,
   backgroundColor: '#ffffff'
 };
 
 const PushHiddenPosition: AnimationConfig = {
-  x: '-1vw',
+  x: '0vw',
   y: '0vw',
-  opacity: 0,
+  opacity: 1,
   scale: 1,
   backgroundColor: '#ffffff'
 };
@@ -203,7 +203,7 @@ export const DefaultAnimationConfig = {
 export const Navigator: React.FC<NavigatorProps> = ({
   renderRoute,
   initialRouteName,
-  animationDuration = 0.2,
+  animationDuration = 0.15,
   animationConfig = DefaultAnimationConfig
 }) => {
   const { direction, cardStack, routes, activeRoute, activeIndex, navigateTo } = useNavigator();
@@ -262,7 +262,7 @@ export const Navigator: React.FC<NavigatorProps> = ({
           transition={{
             duration: animationDuration,
             when: 'beforeChildren',
-            ease: 'linear'
+            ease: 'easeOut'
           }}
           layoutRoot
           variants={animationVariants}

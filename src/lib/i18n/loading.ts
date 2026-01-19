@@ -1,5 +1,6 @@
 import i18n from 'i18next';
-import { runtime } from 'webextension-polyfill';
+
+import { isMobile } from 'lib/platform';
 
 import { init } from './core';
 import { saveLocale } from './saving';
@@ -11,14 +12,20 @@ function normalizeLocale(locale: string): string {
   return locale.replace('_', '-');
 }
 
-runtime.onMessage.addListener((msg: unknown) => {
-  if (typeof msg === 'object' && msg !== null && (msg as { type?: string }).type === REFRESH_MSGTYPE) {
-    const locale = (msg as { locale?: string }).locale;
-    if (locale) {
-      i18n.changeLanguage(normalizeLocale(locale));
-    }
-  }
-});
+// Set up extension message listener for cross-tab locale sync (extension only)
+if (!isMobile()) {
+  import('webextension-polyfill').then(browserModule => {
+    const runtime = browserModule.runtime;
+    runtime.onMessage.addListener((msg: unknown) => {
+      if (typeof msg === 'object' && msg !== null && (msg as { type?: string }).type === REFRESH_MSGTYPE) {
+        const locale = (msg as { locale?: string }).locale;
+        if (locale) {
+          i18n.changeLanguage(normalizeLocale(locale));
+        }
+      }
+    });
+  });
+}
 
 export function onInited(callback: () => void) {
   init().then(callback);
@@ -31,5 +38,14 @@ export async function updateLocale(locale: string) {
 }
 
 function notifyOthers(locale: string) {
-  runtime.sendMessage({ type: REFRESH_MSGTYPE, locale });
+  // On mobile, no need to notify other tabs/windows
+  if (isMobile()) {
+    return;
+  }
+
+  import('webextension-polyfill').then(browserModule => {
+    browserModule.runtime.sendMessage({ type: REFRESH_MSGTYPE, locale }).catch(() => {
+      // Ignore errors when no other contexts are listening
+    });
+  });
 }

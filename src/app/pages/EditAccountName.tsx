@@ -1,13 +1,13 @@
 import React, { FC, useCallback, useMemo } from 'react';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { ACCOUNT_NAME_PATTERN } from 'app/defaults';
 import PageLayout from 'app/layouts/PageLayout';
 import { useFormAnalytics } from 'lib/analytics';
-import { useTranslation } from 'react-i18next';
 import { useAccount, useMidenContext } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
 

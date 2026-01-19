@@ -1,7 +1,10 @@
 import { Buffer } from 'buffer';
-import browser from 'webextension-polyfill';
 
 import * as Passworder from 'lib/miden/passworder';
+import { getStorageProvider, StorageProvider } from 'lib/platform/storage-adapter';
+
+// Get platform-appropriate storage provider
+const storage: StorageProvider = getStorageProvider();
 
 export async function isStored(storageKey: string) {
   storageKey = await wrapStorageKey(storageKey);
@@ -44,20 +47,20 @@ export async function encryptAndSaveMany(items: [string, any][], passKey: Crypto
 }
 
 export async function removeMany(keys: string[]) {
-  await browser.storage.local.remove(await Promise.all(keys.map(wrapStorageKey)));
+  await storage.remove(await Promise.all(keys.map(wrapStorageKey)));
 }
 
 export async function getPlain<T>(key: string): Promise<T | undefined> {
-  const items = await browser.storage.local.get([key]);
+  const items = await storage.get([key]);
   return items[key] as T | undefined;
 }
 
 export function savePlain<T>(key: string, value: T) {
-  return browser.storage.local.set({ [key]: value });
+  return storage.set({ [key]: value });
 }
 
 async function fetchEncryptedOne<T>(key: string) {
-  const items = await browser.storage.local.get([key]);
+  const items = await storage.get([key]);
   if (items[key] !== undefined) {
     return items[key] as T;
   } else {
@@ -69,7 +72,7 @@ async function saveEncrypted<T>(items: { [k: string]: T } | [string, T][]) {
   if (Array.isArray(items)) {
     items = iterToObj(items);
   }
-  await browser.storage.local.set(items);
+  await storage.set(items);
 }
 
 function iterToObj(iter: [string, any][]) {
@@ -105,7 +108,7 @@ export async function isStoredLegacy(storageKey: string) {
  * @deprecated
  */
 export async function removeManyLegacy(keys: string[]) {
-  await browser.storage.local.remove(keys);
+  await storage.remove(keys);
 }
 
 /**

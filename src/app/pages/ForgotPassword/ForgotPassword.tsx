@@ -6,6 +6,7 @@ import wordsList from 'bip39/src/wordlists/english.json';
 import { formatMnemonic } from 'app/defaults';
 import { useMidenContext } from 'lib/miden/front';
 import { clearClientStorage } from 'lib/miden/reset';
+import { useMobileBackHandler } from 'lib/mobile/useMobileBackHandler';
 import { navigate } from 'lib/woozie';
 import { ForgotPasswordFlow } from 'screens/onboarding/forgot-password-navigator';
 import { ForgotPasswordAction, ForgotPasswordStep, OnboardingType } from 'screens/onboarding/types';
@@ -86,7 +87,7 @@ const ForgotPassword: FC = () => {
           setStep(ForgotPasswordStep.CreatePassword);
           break;
         case 'create-password-submit':
-          setPassword(action.payload);
+          setPassword(action.payload.password);
           setStep(ForgotPasswordStep.Confirmation);
           break;
         case 'confirmation':
@@ -118,6 +119,22 @@ const ForgotPassword: FC = () => {
     },
     [register, step, onboardingType]
   );
+
+  // Handle mobile back button/gesture in forgot password flow
+  useMobileBackHandler(() => {
+    // On welcome screen, go back to unlock page
+    if (step === ForgotPasswordStep.Welcome) {
+      navigate('/');
+      return true;
+    }
+    // On confirmation/loading screen, don't allow back
+    if (step === ForgotPasswordStep.Confirmation && isLoading) {
+      return true; // Consume but don't navigate
+    }
+    // Trigger the forgot password back action
+    onAction({ id: 'back' });
+    return true;
+  }, [step, isLoading, onAction]);
 
   return (
     <ForgotPasswordFlow

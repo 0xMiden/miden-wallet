@@ -64,6 +64,10 @@ export const test = base.extend<Fixtures>({
         (await extensionContext.waitForEvent('serviceworker', { timeout: 30_000 }));
 
       const extensionId = new URL(serviceWorker.url()).host;
+
+      // Wait a bit for the extension to fully initialize (IndexedDB, state, etc.)
+      await new Promise(resolve => setTimeout(resolve, 500));
+
       await use(extensionId);
     },
     { timeout: 60_000 }

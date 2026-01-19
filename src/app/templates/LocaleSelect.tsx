@@ -1,13 +1,12 @@
 import React, { useMemo, useCallback, FC } from 'react';
 
 import classNames from 'clsx';
-import browser from 'webextension-polyfill';
+import { useTranslation } from 'react-i18next';
 
 import Flag from 'app/atoms/Flag';
 import { AnalyticsEventCategory, AnalyticsEventEnum, useAnalytics } from 'lib/analytics';
-import { useTranslation } from 'react-i18next';
-
 import { getCurrentLocale, updateLocale } from 'lib/i18n/react';
+import { isMobile } from 'lib/platform';
 
 import IconifiedSelect, { IconifiedSelectOptionRenderProps } from './IconifiedSelect';
 
@@ -149,9 +148,22 @@ const LocaleSelect: FC<LocaleSelectProps> = ({ className }) => {
 
 export default LocaleSelect;
 
-const LocaleIcon: FC<IconifiedSelectOptionRenderProps<LocaleOption>> = ({ option: { flagName, code } }) => (
-  <Flag alt={code} className="ml-2 mr-3" src={browser.runtime.getURL(`/misc/country-flags/flag-${flagName}.svg`)} />
-);
+const LocaleIcon: FC<IconifiedSelectOptionRenderProps<LocaleOption>> = ({ option: { flagName, code } }) => {
+  // On mobile, use relative URL; on extension, use browser.runtime.getURL
+  const flagUrl = isMobile()
+    ? `/misc/country-flags/flag-${flagName}.svg`
+    : (() => {
+        try {
+          // eslint-disable-next-line @typescript-eslint/no-var-requires
+          const browser = require('webextension-polyfill');
+          return browser.runtime.getURL(`/misc/country-flags/flag-${flagName}.svg`);
+        } catch {
+          return `/misc/country-flags/flag-${flagName}.svg`;
+        }
+      })();
+
+  return <Flag alt={code} className="ml-2 mr-3" src={flagUrl} />;
+};
 
 const LocaleInMenuContent: FC<IconifiedSelectOptionRenderProps<LocaleOption>> = ({ option: { disabled, label } }) => {
   const { t } = useTranslation();

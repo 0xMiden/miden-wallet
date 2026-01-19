@@ -3,6 +3,7 @@ import React, { HTMLAttributes } from 'react';
 import classNames from 'clsx';
 import { motion } from 'framer-motion';
 
+import { hapticMedium } from 'lib/mobile/haptics';
 import colors from 'utils/tailwind-colors';
 
 export interface ToggleProps extends HTMLAttributes<HTMLDivElement> {
@@ -21,6 +22,7 @@ export const Toggle: React.FC<ToggleProps> = ({
 }) => {
   const toggleSwitch = () => {
     if (!disabled && onChangeValue) {
+      hapticMedium();
       onChangeValue(!value);
     }
   };

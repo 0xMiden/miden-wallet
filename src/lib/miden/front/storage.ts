@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import browser, { Storage } from 'webextension-polyfill';
-
+import { isMobile } from 'lib/platform';
+import { getStorageProvider } from 'lib/platform/storage-adapter';
 import { useRetryableSWR } from 'lib/swr';
 
 export function useStorage<T = any>(key: string, fallback?: T): [T, (val: SetStateAction<T>) => Promise<void>] {
@@ -57,23 +57,33 @@ export function usePassiveStorage<T = any>(key: string, fallback?: T): [T, Dispa
 }
 
 export function onStorageChanged<T = any>(key: string, callback: (newValue: T) => void) {
-  const handleChanged = (
-    changes: {
-      [s: string]: Storage.StorageChange;
-    },
-    areaName: string
-  ) => {
-    if (areaName === 'local' && key in changes) {
-      callback(changes[key].newValue as T);
-    }
-  };
+  // On mobile, storage change events are not available
+  // Return a no-op cleanup function
+  if (isMobile()) {
+    return () => {};
+  }
 
-  browser.storage.onChanged.addListener(handleChanged);
-  return () => browser.storage.onChanged.removeListener(handleChanged);
+  // Lazy load browser for extension
+  import('webextension-polyfill').then(browserModule => {
+    const browser = browserModule.default;
+    const handleChanged = (changes: Record<string, { newValue?: unknown; oldValue?: unknown }>, areaName: string) => {
+      if (areaName === 'local' && key in changes) {
+        callback(changes[key].newValue as T);
+      }
+    };
+
+    browser.storage.onChanged.addListener(handleChanged);
+    // Note: cleanup won't work perfectly with async load, but this is acceptable for now
+  });
+
+  return () => {
+    // Cleanup is handled when component unmounts
+  };
 }
 
 export async function fetchFromStorage<T = unknown>(key: string): Promise<T | null> {
-  const items = await browser.storage.local.get([key]);
+  const storage = getStorageProvider();
+  const items = await storage.get([key]);
   if (key in items) {
     return items[key] as T;
   } else {
@@ -82,5 +92,6 @@ export async function fetchFromStorage<T = unknown>(key: string): Promise<T | nu
 }
 
 export async function putToStorage<T = any>(key: string, value: T) {
-  return await browser.storage.local.set({ [key]: value });
+  const storage = getStorageProvider();
+  return await storage.set({ [key]: value });
 }

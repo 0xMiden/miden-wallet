@@ -22,6 +22,7 @@ export enum OnboardingStep {
   ImportFromSeed = 'import-from-seed',
   ImportFromFile = 'import-from-file',
   CreatePassword = 'create-password',
+  BiometricSetup = 'biometric-setup',
   SelectTransactionType = 'select-transaction-type',
   Confirmation = 'confirmation'
 }
@@ -34,6 +35,7 @@ export type OnboardingActionId =
   | 'verify-seed-phrase'
   | 'create-password'
   | 'create-password-submit'
+  | 'biometric-setup-submit'
   | 'select-transaction-type'
   | 'confirmation'
   | 'import-from-file'
@@ -70,7 +72,7 @@ export type CreatePasswordAction = {
 
 export type CreatePasswordSubmitAction = {
   id: 'create-password-submit';
-  payload: string;
+  payload: { password: string; enableBiometric: boolean };
 };
 
 export type SelectTransactionTypeAction = {
@@ -80,6 +82,11 @@ export type SelectTransactionTypeAction = {
 
 export type ConfirmationAction = {
   id: 'confirmation';
+};
+
+export type BiometricSetupSubmitAction = {
+  id: 'biometric-setup-submit';
+  payload: boolean; // Whether biometric was enabled
 };
 
 export type ImportWalletFileSubmitAction = {
@@ -103,6 +110,7 @@ export type OnboardingAction =
   | VerifySeedPhraseAction
   | CreatePasswordAction
   | CreatePasswordSubmitAction
+  | BiometricSetupSubmitAction
   | SelectTransactionTypeAction
   | ConfirmationAction
   | ImportSeedPhraseSubmitAction

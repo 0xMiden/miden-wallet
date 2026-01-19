@@ -28,7 +28,7 @@ const FormSecondaryButton: FC<FormSecondaryButtonProps> = ({
     className={classNames(
       'relative',
       small ? 'px-6' : 'px-8',
-      'bg-white rounded',
+      'bg-white rounded-3xl',
       'border-2 border-primary-orange',
       'flex items-center',
       loading ? 'text-transparent' : 'text-primary-orange',

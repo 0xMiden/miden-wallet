@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import BigNumber from 'bignumber.js';
 import Fuse from 'fuse.js';
 import PQueue from 'p-queue';
-import browser from 'webextension-polyfill';
 
 import { useGasToken } from 'app/hooks/useGasToken';
 import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
@@ -18,6 +17,7 @@ import {
   usePassiveStorage,
   isMidenAsset
 } from 'lib/miden/front';
+import { getStorageProvider } from 'lib/platform/storage-adapter';
 import { useWalletStore } from 'lib/store';
 import { useRetryableSWR } from 'lib/swr';
 
@@ -141,7 +141,7 @@ export function useTokensMetadata() {
 
   const setTokensDetailedMetadata = useCallback(
     (toSet: Record<string, DetailedAssetMetdata>) =>
-      browser.storage.local.set(mapObjectKeys(toSet, getDetailedMetadataStorageKey)),
+      getStorageProvider().set(mapObjectKeys(toSet, getDetailedMetadataStorageKey)),
     []
   );
 
@@ -164,7 +164,7 @@ export function useTokensMetadata() {
 
 // Helper to set detailed metadata to storage
 async function setTokensDetailedMetadataStorage(toSet: Record<string, DetailedAssetMetdata>): Promise<void> {
-  await browser.storage.local.set(mapObjectKeys(toSet, getDetailedMetadataStorageKey));
+  await getStorageProvider().set(mapObjectKeys(toSet, getDetailedMetadataStorageKey));
 }
 
 export async function setTokensBaseMetadata(toSet: Record<string, AssetMetadata>): Promise<void> {

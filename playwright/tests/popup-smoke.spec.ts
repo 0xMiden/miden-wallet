@@ -73,7 +73,8 @@ test.describe('Fullpage UI', () => {
     await page.goto(fullpageUrl, { waitUntil: 'domcontentloaded' });
 
     await expect(page).toHaveTitle('Miden Wallet');
-    await page.waitForSelector('#root');
+    // Wait for React to render content into #root (not just for #root to exist)
+    await page.waitForSelector('#root > *', { timeout: 30000 });
 
     expect(errors).toHaveLength(0);
   });
@@ -212,7 +213,7 @@ test.describe('Fullpage UI', () => {
     const page = await extensionContext.newPage();
 
     await page.goto(fullpageUrl, { waitUntil: 'domcontentloaded' });
-    await page.waitForSelector('#root');
+    await page.waitForSelector('#root > *', { timeout: 30000 });
 
     await page.goto(`${fullpageUrl}#/send`, { waitUntil: 'domcontentloaded' });
     const sendFlow = page.getByTestId('send-flow');
@@ -234,7 +235,7 @@ test.describe('Fullpage UI', () => {
     const page = await extensionContext.newPage();
 
     await page.goto(fullpageUrl, { waitUntil: 'domcontentloaded' });
-    await page.waitForSelector('#root');
+    await page.waitForSelector('#root > *', { timeout: 30000 });
 
     await page.goto(`${fullpageUrl}#/receive`, { waitUntil: 'domcontentloaded' });
 

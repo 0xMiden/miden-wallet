@@ -37,22 +37,22 @@
     "englishSource": "Click on the X icon to reset permissions."
   },
   "versionLabel": {
-    "message": "バージョン: $version$",
+    "message": "バージョン: $version$ ",
+    "englishSource": "version: $version$",
     "placeholders": {
       "version": {
         "content": "$1"
       }
-    },
-    "englishSource": "version: {{version}}"
+    }
   },
   "resetPermissionsConfirmation": {
-    "message": "$origin$?\nの権限をリセットしますか？",
+    "message": "の権限をリセットしてもよろしいですか? $origin$ ?",
+    "englishSource": "Are you sure you want to reset permissions for\n $origin$?",
     "placeholders": {
       "origin": {
         "content": "$1"
       }
-    },
-    "englishSource": "Are you sure you want to reset permissions for\n {{origin}}?"
+    }
   },
   "clickToRevealField": {
     "message": "クリックしてこのフィールドを表示します",
@@ -190,8 +190,13 @@
     "englishSource": "1-16 characters, no special"
   },
   "defaultAccountName": {
-    "message": "アカウント {{アカウント番号}}",
-    "englishSource": "Account {{accountNumber}}"
+    "message": "アカウント $accountNumber$ ",
+    "englishSource": "Account $accountNumber$",
+    "placeholders": {
+      "accountnumber": {
+        "content": "$1"
+      }
+    }
   },
   "doNotSharePrivateKey1": {
     "message": "誰とも共有しないでください。",
@@ -250,8 +255,13 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "私の Seed phrase は {{num}} 語です",
-    "englishSource": "My Seed phrase is {{num}} words"
+    "message": "私の Seed phrase は $num$ 言葉",
+    "englishSource": "My Seed phrase is $num$ words",
+    "placeholders": {
+      "num": {
+        "content": "$1"
+      }
+    }
   },
   "justValidPreGeneratedMnemonic": {
     "message": "有効な事前生成されたニーモニック",
@@ -270,8 +280,13 @@
     "englishSource": "Oops!"
   },
   "smthWentWrongWhile": {
-    "message": "{{action}}中に問題が発生しました",
-    "englishSource": "Something went wrong while {{action}}"
+    "message": "途中で何か問題が発生しました $action$ ",
+    "englishSource": "Something went wrong while $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
   },
   "mayHappenBecauseYouAreOffline": {
     "message": "現在オフラインであるために発生する可能性があります。",
@@ -298,12 +313,22 @@
     "englishSource": "Private key cannot be revealed"
   },
   "youCannotGetPrivateKeyFromThisAccountType": {
-    "message": "{{accountType}} アカウントから秘密キーを取得することはできません。",
-    "englishSource": "You cannot get private key from {{accountType}} accounts."
+    "message": "から秘密鍵を取得することはできません $accountType$ アカウント。",
+    "englishSource": "You cannot get private key from $accountType$ accounts.",
+    "placeholders": {
+      "accounttype": {
+        "content": "$1"
+      }
+    }
   },
   "maximalAmount": {
-    "message": "最大値: {{金額}}",
-    "englishSource": "Maximal: {{amount}}"
+    "message": "最大値: $amount$ ",
+    "englishSource": "Maximal: $amount$",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
   },
   "accountName": {
     "message": "アカウント名",
@@ -526,14 +551,13 @@
     "englishSource": "enable"
   },
   "dAppsCheckmarkPrompt": {
-    "message": "チェックマークをクリックして、DAppsインタラクション機能を$action$",
-    "description": "DApps = Decentralized Applications",
+    "message": "トグルをクリックして、 $action$ DAppsインタラクション機能",
+    "englishSource": "Click on the toggle to $action$ DApps interaction feature",
     "placeholders": {
       "action": {
         "content": "$1"
       }
-    },
-    "englishSource": "Click on the toggle to {{action}} DApps interaction feature"
+    }
   },
   "dAppsInteraction": {
     "message": "DAppsインタラクション",
@@ -561,8 +585,13 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "{{currency}} の資金が不足しています",
-    "englishSource": "Not enough {{currency}} funds"
+    "message": "足りない $currency$ 資金",
+    "englishSource": "Not enough $currency$ funds",
+    "placeholders": {
+      "currency": {
+        "content": "$1"
+      }
+    }
   },
   "failed": {
     "message": "失敗しました",
@@ -577,16 +606,26 @@
     "englishSource": "This may happen because:"
   },
   "minimalFeeGreaterThanBalanceVerbose": {
-    "message": "この取引の最低手数料は残高を超えています。空のマネージャー アカウントに資金を送金すると、多額の手数料が必要になる場合があります。それには 0.06425 {{gasTokenSymbol}} の書き込み手数料が 1 回限り必要です。",
-    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 {{gasTokenSymbol}} burn fee;"
+    "message": "この取引の最低手数料は残高を超えています。空のマネージャー アカウントに資金を送金すると、多額の手数料が必要になる場合があります。それには 1 回限りの 0.06425 が必要です $gasTokenSymbol$ 火傷手数料。",
+    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 $gasTokenSymbol$ burn fee;",
+    "placeholders": {
+      "gastokensymbol": {
+        "content": "$1"
+      }
+    }
   },
   "networkOrOtherIssue": {
     "message": "ネットワークまたは他の技術的な問題",
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "{{アクション}}を確認してください",
-    "englishSource": "Confirm {{action}}"
+    "message": "確認する $action$ ",
+    "englishSource": "Confirm $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
   },
   "confirm": {
     "message": "確定",
@@ -693,8 +732,13 @@
     "englishSource": "Keep it in secret."
   },
   "revealSecretPasswordInputDescription": {
-    "message": "パスワードを入力すると、{{secretName}} が表示されます。",
-    "englishSource": "Enter password to reveal the {{secretName}}."
+    "message": "パスワードを入力すると表示されます $secretName$ .",
+    "englishSource": "Enter password to reveal the $secretName$.",
+    "placeholders": {
+      "secretname": {
+        "content": "$1"
+      }
+    }
   },
   "reveal": {
     "message": "表示",
@@ -780,9 +824,9 @@
     "message": "トークン",
     "englishSource": "Tokens"
   },
-  "activity": {
-    "message": "アクティビティ",
-    "englishSource": "Activities"
+  "history": {
+    "message": "歴史",
+    "englishSource": "History"
   },
   "proofGenerationTab": {
     "message": "トランザクション証明を効率的に生成するには、開いているタブが必要です",
@@ -797,12 +841,22 @@
     "englishSource": "No assets found"
   },
   "ifYouDontSeeYourAsset": {
-    "message": "アセットが表示されない場合は、\n{{toClick}} をクリックしてみてください。",
-    "englishSource": "If you don't see your asset,\ntry to click {{toClick}}."
+    "message": "アセットが表示されない場合は、\nクリックしてみてください $toClick$ .",
+    "englishSource": "If you don't see your asset,\ntry to click $toClick$.",
+    "placeholders": {
+      "toclick": {
+        "content": "$1"
+      }
+    }
   },
   "addressOfTokenContract": {
-    "message": "{{assetSymbol}} トークン コントラクトのアドレス。",
-    "englishSource": "Address of a {{assetSymbol}} token contract."
+    "message": "の住所 $assetSymbol$ トークン契約。",
+    "englishSource": "Address of a $assetSymbol$ token contract.",
+    "placeholders": {
+      "assetsymbol": {
+        "content": "$1"
+      }
+    }
   },
   "searchAssets": {
     "message": "アセットを検索...",
@@ -900,18 +954,6 @@
     "message": "他の",
     "englishSource": "Other"
   },
-  "thousandFormat": {
-    "message": "{{千}}k",
-    "englishSource": "{{thousand}}k"
-  },
-  "millionFormat": {
-    "message": "{{百万}}M",
-    "englishSource": "{{million}}M"
-  },
-  "billionFormat": {
-    "message": "{{十億}}B",
-    "englishSource": "{{billion}}B"
-  },
   "uploadFile": {
     "message": "ファイルをアップロードする",
     "englishSource": "Upload File"
@@ -970,8 +1012,13 @@
     "englishSource": "Verify Seed Phrase"
   },
   "word": {
-    "message": "単語 {{数字}}",
-    "englishSource": "Word {{number}}"
+    "message": "言葉 $number$ ",
+    "englishSource": "Word $number$",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
   },
   "finish": {
     "message": "終了",
@@ -1410,6 +1457,10 @@
     "message": "暗号化されたウォレット ファイルがダウンロードされました。パスワードとパスワードを紛失するとウォレットにアクセスできなくなるため、安全に保管してください。",
     "englishSource": "Your encrypted wallet file has been downloaded. Keep it and your password safe, as losing them means losing access to your wallet."
   },
+  "saveEncryptedWalletFile": {
+    "message": "暗号化されたウォレットファイルを保存する",
+    "englishSource": "Save Encrypted Wallet File"
+  },
   "doNotShareEncryptedWalletFile": {
     "message": "暗号化されたウォレット ファイルを共有しないでください。",
     "englishSource": "Do not share your Encrypted Wallet File!"
@@ -1436,8 +1487,8 @@
     "englishSource": "This site is requesting access to your public account."
   },
   "balanceAccess": {
-    "message": "ウォレットの残高とアクティビティを確認させます",
-    "englishSource": "Let it see your wallet balance and activity"
+    "message": "ウォレットの残高と履歴を確認させます",
+    "englishSource": "Let it see your wallet balance and history"
   },
   "sendTransactionRequests": {
     "message": "トランザクションのリクエストを送信させます",
@@ -1543,6 +1594,15 @@
     "message": "トランザクションの処理中にエラーが発生しました。もう一度試してください。",
     "englishSource": "There was an error processing your transaction. Please try again."
   },
+  "multipleTransactionsFailed": {
+    "message": "$count$ 個のトランザクションが失敗しました。もう一度試してください。",
+    "englishSource": "$count$ transactions failed. Please try again.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
   "downloadGeneratedFiles": {
     "message": "生成されたファイルをダウンロードする",
     "englishSource": "Download Generated Files"
@@ -1628,8 +1688,13 @@
     "englishSource": "(invalid payload)"
   },
   "signTheFollowingWord": {
-    "message": "次の単語に署名します {{word}}?",
-    "englishSource": "Sign the following Word {{word}}?"
+    "message": "次の単語に署名します $word$ ?",
+    "englishSource": "Sign the following Word $word$?",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
   },
   "sharePrivateNoteDataForAccount": {
     "message": "アカウントのすべてのプライベートNoteデータを共有する",
@@ -1767,9 +1832,26 @@
     "message": "すべてを請求する",
     "englishSource": "Claim All"
   },
+  "claimAllSummary": {
+    "message": "$succeeded$ は成功しました、$failed$ は失敗しました",
+    "englishSource": "$succeeded$ succeeded, $failed$ failed",
+    "placeholders": {
+      "succeeded": {
+        "content": "$1"
+      },
+      "failed": {
+        "content": "$2"
+      }
+    }
+  },
   "readyToClaim": {
-    "message": "請求する準備ができています",
-    "englishSource": "Ready to claim"
+    "message": "$count$ notes 請求の準備ができました",
+    "englishSource": "$count$ notes ready to claim",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
   "addTokens": {
     "message": "トークンの追加",
@@ -1898,5 +1980,186 @@
   "last": {
     "message": "最後",
     "englishSource": "Last"
+  },
+  "dappBrowser": {
+    "message": "DAppブラウザ",
+    "englishSource": "DApp Browser"
+  },
+  "dappBrowserComingSoon": {
+    "message": "近日公開",
+    "englishSource": "Coming soon"
+  },
+  "dappBrowserDescription": {
+    "message": "分散型アプリを閲覧し、ウォレットを安全に接続します",
+    "englishSource": "Browse decentralized apps and connect your wallet securely"
+  },
+  "enterUrl": {
+    "message": "URLを入力するか検索してください",
+    "englishSource": "Enter URL or search"
+  },
+  "go": {
+    "message": "行く",
+    "englishSource": "Go"
+  },
+  "recentSites": {
+    "message": "最近の",
+    "englishSource": "Recent"
+  },
+  "loading": {
+    "message": "読み込み中...",
+    "englishSource": "Loading..."
+  },
+  "favourites": {
+    "message": "お気に入り",
+    "englishSource": "Favourites"
+  },
+  "approve": {
+    "message": "承認する",
+    "englishSource": "Approve"
+  },
+  "dappConnectionRequest": {
+    "message": "このアプリはあなたのウォレットに接続しようとしています",
+    "englishSource": "This app wants to connect to your wallet"
+  },
+  "dappTransactionRequest": {
+    "message": "このアプリはトランザクションを要求しています",
+    "englishSource": "This app is requesting a transaction"
+  },
+  "noAccountSelected": {
+    "message": "アカウントが選択されていません",
+    "englishSource": "No account selected"
+  },
+  "biometricUnlock": {
+    "message": "生体認証によるロック解除",
+    "englishSource": "Biometric Unlock"
+  },
+  "biometricUnlockDescription": {
+    "message": "パスワードを入力する代わりに、Face ID または指紋を使用してウォレットのロックを解除します。",
+    "englishSource": "Use Face ID or fingerprint to unlock your wallet instead of entering your password."
+  },
+  "biometricSetup": {
+    "message": "生体認証によるロック解除を設定する",
+    "englishSource": "Set Up Biometric Unlock"
+  },
+  "biometricSetupDescription": {
+    "message": "顔または指紋を使用して、ウォレットのロックをすばやく解除します。",
+    "englishSource": "Use your face or fingerprint to quickly unlock your wallet."
+  },
+  "biometricSetupSubtitle": {
+    "message": "生体認証を有効にすると、ウォレットへのアクセスがより速く、より安全になります。",
+    "englishSource": "Enable biometric authentication for faster, more secure access to your wallet."
+  },
+  "enableBiometric": {
+    "message": "生体認証を有効にする",
+    "englishSource": "Enable Biometric"
+  },
+  "skipBiometricSetup": {
+    "message": "今のところスキップしてください",
+    "englishSource": "Skip for now"
+  },
+  "biometricAuthRequired": {
+    "message": "生体認証が必要です",
+    "englishSource": "Biometric authentication required"
+  },
+  "unlockWithBiometric": {
+    "message": "生体認証によるロック解除",
+    "englishSource": "Unlock with biometric"
+  },
+  "biometricFailed": {
+    "message": "生体認証に失敗しました",
+    "englishSource": "Biometric authentication failed"
+  },
+  "biometricNotAvailable": {
+    "message": "このデバイスでは生体認証は利用できません",
+    "englishSource": "Biometric authentication is not available on this device"
+  },
+  "usePasswordInstead": {
+    "message": "代わりにパスワードを使用してください",
+    "englishSource": "Use Password Instead"
+  },
+  "biometricEnabled": {
+    "message": "生体認証によるロック解除が有効になっています",
+    "englishSource": "Biometric unlock enabled"
+  },
+  "biometricDisabled": {
+    "message": "生体認証によるロック解除が無効になっています",
+    "englishSource": "Biometric unlock disabled"
+  },
+  "enterPasswordToEnableBiometric": {
+    "message": "パスワードを入力して生体認証によるロック解除を有効にします",
+    "englishSource": "Enter your password to enable biometric unlock"
+  },
+  "faceId": {
+    "message": "顔認証",
+    "englishSource": "Face ID"
+  },
+  "touchId": {
+    "message": "タッチID",
+    "englishSource": "Touch ID"
+  },
+  "fingerprint": {
+    "message": "指紋",
+    "englishSource": "Fingerprint"
+  },
+  "biometricType": {
+    "message": "生体認証タイプ",
+    "englishSource": "Biometric Type"
+  },
+  "scanQr": {
+    "message": "QRコードをスキャン",
+    "englishSource": "Scan QR Code"
+  },
+  "cameraPermissionDenied": {
+    "message": "カメラの許可が拒否されました",
+    "englishSource": "Camera permission denied"
+  },
+  "noQrCodeFound": {
+    "message": "QRコードが見つかりませんでした",
+    "englishSource": "No QR code found"
+  },
+  "emptyQrCode": {
+    "message": "空の QR コード",
+    "englishSource": "Empty QR code"
+  },
+  "invalidMidenAddress": {
+    "message": "無効なミデンアドレス",
+    "englishSource": "Invalid Miden address"
+  },
+  "scanCancelled": {
+    "message": "スキャンがキャンセルされました",
+    "englishSource": "Scan cancelled"
+  },
+  "hapticFeedback": {
+    "message": "触覚フィードバック",
+    "englishSource": "Haptic Feedback"
+  },
+  "hapticFeedbackDescription": {
+    "message": "ボタンやコントロールをタップすると振動を感じる",
+    "englishSource": "Feel a vibration when tapping buttons and controls"
+  },
+  "noNotesToClaim": {
+    "message": "現在、申請できる notes はありませんが、申請するとここに表示されます。",
+    "englishSource": "You don't currently have notes to claim, but when you do, they will appear here."
+  },
+  "noteReceivedTitle": {
+    "message": "note を受け取りました",
+    "englishSource": "You have received a note"
+  },
+  "noteReceivedTapToClaim": {
+    "message": "ここをタップして申請してください",
+    "englishSource": "Tap here to claim it"
+  },
+  "tokenHistory": {
+    "message": "$tokenName$ の歴史",
+    "englishSource": "$tokenName$ History",
+    "placeholders": {
+      "tokenname": {
+        "content": "$1"
+      }
+    }
+  },
+  "historyDetails": {
+    "message": "詳細",
+    "englishSource": "Details"
   }
 }

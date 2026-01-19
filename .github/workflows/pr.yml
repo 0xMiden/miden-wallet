@@ -13,8 +13,8 @@ jobs:
   translations:
     name: Update Translation Files
     runs-on: ubuntu-latest
-    outputs:
-      committed: ${{ steps.commit.outputs.committed }}
+    permissions:
+      contents: write
     steps:
       - name: Check Out Code
         uses: actions/checkout@v3
@@ -22,10 +22,10 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.head_ref }}
 
-      - name: Use Node 20
+      - name: Use Node 22
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Run Install
         uses: borales/actions-yarn@v4
@@ -57,17 +57,17 @@ jobs:
   ci:
     name: Test
     needs: translations
-    # Skip if translations committed - new workflow run will handle it
-    if: needs.translations.outputs.committed != 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Check Out Code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
 
-      - name: Use Node 20
+      - name: Use Node 22
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Run Install
         uses: borales/actions-yarn@v4
@@ -106,17 +106,17 @@ jobs:
   coverage:
     name: Coverage Check (80% minimum)
     needs: translations
-    # Skip if translations committed - new workflow run will handle it
-    if: needs.translations.outputs.committed != 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Check Out Code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
 
-      - name: Use Node 20
+      - name: Use Node 22
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Run Install
         uses: borales/actions-yarn@v4
@@ -131,17 +131,17 @@ jobs:
   i18n-check:
     name: Check for non-i18n'd strings
     needs: translations
-    # Skip if translations committed - new workflow run will handle it
-    if: needs.translations.outputs.committed != 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Check Out Code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: yarn
 
       - name: Install dependencies

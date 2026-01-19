@@ -12,9 +12,14 @@ import { Icon, IconName } from 'app/icons/v2';
 import { Alert, AlertVariant } from 'components/Alert';
 import { Button, ButtonVariant } from 'components/Button';
 import { useAnalytics } from 'lib/analytics';
-import { safeGenerateTransactionsLoop as dbTransactionsLoop, getAllUncompletedTransactions } from 'lib/miden/activity';
+import {
+  safeGenerateTransactionsLoop as dbTransactionsLoop,
+  getAllUncompletedTransactions,
+  getFailedTransactions
+} from 'lib/miden/activity';
 import { useExportNotes } from 'lib/miden/activity/notes';
 import { useMidenContext } from 'lib/miden/front';
+import { isMobile } from 'lib/platform';
 import { isAutoCloseEnabled } from 'lib/settings/helpers';
 import { useRetryableSWR } from 'lib/swr';
 import { navigate } from 'lib/woozie';
@@ -27,8 +32,13 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
   const { signTransaction } = useMidenContext();
   const { pageEvent, trackEvent } = useAnalytics();
   const [outputNotes, downloadAll] = useExportNotes();
-  const [error, setError] = useState(false);
   const intervalIdRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  // Track failed transaction count during this session
+  const [failedCount, setFailedCount] = useState(0);
+  // Track if we've started processing (to know when we can show Done on mobile)
+  const [hasStartedProcessing, setHasStartedProcessing] = useState(false);
+  // Track initial failed count to calculate new failures during this session
+  const initialFailedCountRef = useRef<number | null>(null);
 
   const { data: txs, mutate: mutateTx } = useRetryableSWR(
     [`all-latest-generating-transactions`],
@@ -39,6 +49,29 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
       dedupingInterval: 3_000
     }
   );
+
+  // Poll for failed transactions to track failures during this session
+  const { data: failedTxs } = useRetryableSWR([`all-failed-transactions`], async () => getFailedTransactions(), {
+    revalidateOnMount: true,
+    refreshInterval: 5_000,
+    dedupingInterval: 3_000
+  });
+
+  // Track new failures during this session
+  useEffect(() => {
+    if (failedTxs) {
+      if (initialFailedCountRef.current === null) {
+        // First load - set initial count
+        initialFailedCountRef.current = failedTxs.length;
+      } else {
+        // Calculate new failures since session started
+        const newFailures = failedTxs.length - initialFailedCountRef.current;
+        if (newFailures > 0) {
+          setFailedCount(newFailures);
+        }
+      }
+    }
+  }, [failedTxs]);
 
   const onClose = useCallback(() => {
     const { hash } = window.location;
@@ -61,6 +94,17 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
 
   const transactions = useMemo(() => txs || [], [txs]);
   const prevTransactionsLength = useRef<number>();
+
+  // Debug: log transaction state changes
+  useEffect(() => {
+    console.log('[GeneratingTransaction] State:', {
+      txCount: transactions.length,
+      hasStartedProcessing,
+      failedCount,
+      transactionIds: transactions.map(t => ({ id: t.id, status: t.status, type: t.type }))
+    });
+  }, [transactions, hasStartedProcessing, failedCount]);
+
   useEffect(() => {
     if (
       outputNotes.length === 0 &&
@@ -78,22 +122,24 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
   }, [transactions, trackEvent, outputNotes, onClose]);
 
   const generateTransaction = useCallback(async () => {
+    setHasStartedProcessing(true);
     try {
       const success = await dbTransactionsLoop(signTransaction);
+      // Don't stop on failure - continue processing remaining transactions
+      // The failed transaction is already marked as Failed in IndexedDB
       if (success === false) {
-        setError(true);
-        if (intervalIdRef.current) clearInterval(intervalIdRef.current);
+        console.log('[GeneratingTransaction] Transaction failed, continuing to process remaining transactions');
       }
 
       mutateTx();
-    } catch {
-      setError(true);
-      if (intervalIdRef.current) clearInterval(intervalIdRef.current);
+    } catch (e) {
+      // Log but don't stop - other transactions may still succeed
+      console.error('[GeneratingTransaction] Error in transaction loop:', e);
+      mutateTx();
     }
   }, [mutateTx, signTransaction]);
 
   useEffect(() => {
-    if (error) return;
     generateTransaction();
     intervalIdRef.current = setInterval(() => {
       generateTransaction();
@@ -102,19 +148,26 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
       if (intervalIdRef.current) clearInterval(intervalIdRef.current);
       intervalIdRef.current = null;
     };
-  }, [generateTransaction, error]);
+  }, [generateTransaction]);
 
-  useBeforeUnload(!error && transactions.length !== 0, downloadAll);
+  useBeforeUnload(transactions.length !== 0, downloadAll);
   const progress = transactions.length > 0 ? (1 / transactions.length) * 80 : 0;
+  const transactionComplete = transactions.length === 0 && hasStartedProcessing;
+  const hasErrors = failedCount > 0;
+
+  // On mobile, use h-full to inherit from parent chain (body has safe area padding)
+  const isMobileDevice = typeof window !== 'undefined' && /Android|iPhone|iPad/i.test(navigator.userAgent);
+  const containerClass = isMobileDevice
+    ? 'h-full w-full'
+    : 'h-[640px] max-h-[640px] w-[600px] max-w-[600px] border rounded-3xl';
 
   return (
     <div
       className={classNames(
-        'h-[640px] max-h-[640px] w-[600px] max-w-[600px]',
+        containerClass,
         'mx-auto overflow-hidden ',
         'flex flex-1',
         'flex-col bg-white p-6',
-        'border rounded-3xl',
         'overflow-hidden relative'
       )}
     >
@@ -122,9 +175,10 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
         <GeneratingTransaction
           progress={progress}
           onDoneClick={onClose}
-          transactionComplete={transactions.length === 0}
+          transactionComplete={transactionComplete}
+          hasErrors={hasErrors}
+          failedCount={failedCount}
           keepOpen={keepOpen}
-          error={error}
         />
       </div>
     </div>
@@ -134,7 +188,8 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
 export interface GeneratingTransactionProps {
   onDoneClick: () => void;
   transactionComplete: boolean;
-  error: boolean;
+  hasErrors?: boolean;
+  failedCount?: number;
   keepOpen?: boolean;
   progress?: number;
 }
@@ -142,7 +197,8 @@ export interface GeneratingTransactionProps {
 export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
   onDoneClick,
   transactionComplete,
-  error,
+  hasErrors = false,
+  failedCount = 0,
   keepOpen,
   progress = 80
 }) => {
@@ -150,11 +206,12 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
   const [outputNotes, downloadAll] = useExportNotes();
 
   const renderIcon = useCallback(() => {
-    if (transactionComplete && !error) {
-      return <Icon name={IconName.Success} size="3xl" />;
-    }
-    if (error) {
+    if (transactionComplete && hasErrors) {
+      // Mixed results or all failed - show warning/error icon
       return <Icon name={IconName.Failed} size="3xl" />;
+    }
+    if (transactionComplete) {
+      return <Icon name={IconName.Success} size="3xl" />;
     }
 
     return (
@@ -163,17 +220,30 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
         <CircularProgress borderWeight={2} progress={progress} circleColor="black" circleSize={55} spin={true} />
       </div>
     );
-  }, [transactionComplete, error, progress]);
+  }, [transactionComplete, hasErrors, progress]);
 
   const headerText = useCallback(() => {
-    if (transactionComplete && !error) {
-      return t('transactionCompleted');
-    }
-    if (error) {
+    if (transactionComplete && hasErrors) {
       return t('transactionFailed');
     }
+    if (transactionComplete) {
+      return t('transactionCompleted');
+    }
     return t('generatingTransaction');
-  }, [transactionComplete, error, t]);
+  }, [transactionComplete, hasErrors, t]);
+
+  const descriptionText = useCallback(() => {
+    if (transactionComplete && hasErrors) {
+      if (failedCount > 1) {
+        return t('multipleTransactionsFailed', { count: failedCount });
+      }
+      return t('transactionErrorDescription');
+    }
+    if (transactionComplete) {
+      return t('transactionSuccessDescription');
+    }
+    return '';
+  }, [transactionComplete, hasErrors, failedCount, t]);
 
   const alertText = useCallback(() => {
     if (keepOpen) {
@@ -185,20 +255,17 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
 
   return (
     <>
-      {!transactionComplete && !error && <Alert variant={AlertVariant.Warning} title={alertText()} />}
+      {!transactionComplete && !isMobile() && <Alert variant={AlertVariant.Warning} title={alertText()} />}
       <div className="flex-1 flex flex-col justify-center md:w-[460px] md:mx-auto">
         <div className="flex flex-col justify-center items-center">
           <div className={classNames('w-40 aspect-square flex items-center justify-center mb-8')}>{renderIcon()}</div>
           <div className="flex flex-col items-center">
             <h1 className="font-semibold text-2xl lh-title">{headerText()}</h1>
-            <p className="text-base text-center lh-title">
-              {!error && transactionComplete && t('transactionSuccessDescription')}
-              {error && t('transactionErrorDescription')}
-            </p>
+            <p className="text-base text-center lh-title">{descriptionText()}</p>
           </div>
         </div>
         <div className="mt-8 flex flex-col gap-y-4">
-          {outputNotes.length > 0 && transactionComplete && !error && (
+          {outputNotes.length > 0 && transactionComplete && !hasErrors && (
             <Button
               title={t('downloadGeneratedFiles')}
               iconLeft={IconName.Download}
@@ -207,12 +274,16 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
               onClick={downloadAll}
             />
           )}
-          <Button
-            title={t('done')}
-            variant={outputNotes.length > 0 ? ButtonVariant.Secondary : ButtonVariant.Primary}
-            onClick={onDoneClick}
-            disabled={!transactionComplete && !error}
-          />
+          {/* Show Done button when transaction is complete */}
+          {transactionComplete && (
+            <Button
+              title={t('done')}
+              variant={outputNotes.length > 0 ? ButtonVariant.Secondary : ButtonVariant.Primary}
+              onClick={onDoneClick}
+            />
+          )}
+          {/* Show Hide button while transaction is in progress */}
+          {!transactionComplete && <Button title={t('hide')} variant={ButtonVariant.Primary} onClick={onDoneClick} />}
         </div>
       </div>
     </>

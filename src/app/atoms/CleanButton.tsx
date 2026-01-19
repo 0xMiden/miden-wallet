@@ -4,6 +4,7 @@ import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as CloseIcon } from 'app/icons/close.svg';
+import { hapticLight } from 'lib/mobile/haptics';
 import useTippy from 'lib/ui/useTippy';
 
 type CleanButtonProps = HTMLAttributes<HTMLButtonElement> & {
@@ -16,8 +17,13 @@ const CleanButton: FC<CleanButtonProps> = ({
   className,
   style = {},
   iconStyle = {},
+  onClick,
   ...rest
 }) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    hapticLight();
+    onClick?.(e);
+  };
   const { t } = useTranslation();
   const tippyProps = useMemo(
     () => ({
@@ -46,6 +52,7 @@ const CleanButton: FC<CleanButtonProps> = ({
       )}
       style={{ right: '0.4rem', bottom: bottomOffset, padding: '2px', ...style }}
       tabIndex={-1}
+      onClick={handleClick}
       {...rest}
     >
       <CloseIcon className="w-auto h-4 stroke-white" fill="white" strokeWidth={2} style={iconStyle} />

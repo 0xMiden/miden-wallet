@@ -1,9 +1,10 @@
 import React, { memo } from 'react';
 
+import { useTranslation } from 'react-i18next';
+
 import { openInFullPage, useAppEnv } from 'app/env';
 import { ReactComponent as ArrowRightIcon } from 'app/icons/arrow-right.svg';
 import { ReactComponent as InformationIcon } from 'app/icons/information.svg';
-import { useTranslation } from 'react-i18next';
 
 type SyncBannerProps = {
   syncText: string;

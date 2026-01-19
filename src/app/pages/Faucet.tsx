@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
@@ -7,7 +7,11 @@ import PageLayout from 'app/layouts/PageLayout';
 import { Button } from 'components/Button';
 import { Message } from 'components/Message';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
-import { useAccount } from 'lib/miden/front';
+import { getFaucetUrl } from 'lib/miden-chain/faucet';
+import { useAccount, useNetwork } from 'lib/miden/front';
+import { openFaucetWebview } from 'lib/mobile/faucet-webview';
+import { isMobile } from 'lib/platform';
+import { goBack } from 'lib/woozie';
 
 async function copyTextToClipboard(text: string): Promise<void> {
   if (!navigator.clipboard) {
@@ -28,13 +32,27 @@ const Faucet: FC = () => {
   const account = useAccount();
   const address = account.publicKey;
   const { trackEvent } = useAnalytics();
+  const network = useNetwork();
 
-  const onFaucetClick = useCallback(() => {
+  const openFaucet = useCallback(async () => {
     copyTextToClipboard(address);
     trackEvent('Faucet/AddressCopied', AnalyticsEventCategory.ButtonPress);
     setCopied(true);
-    window.open('https://faucet.testnet.miden.io', '_blank');
-  }, [address, trackEvent]);
+    const faucetUrl = getFaucetUrl(network.id);
+    await openFaucetWebview({ url: faucetUrl, title: t('midenFaucet') });
+  }, [address, trackEvent, network.id, t]);
+
+  // On mobile, open the faucet webview immediately and go back when closed
+  useEffect(() => {
+    if (isMobile()) {
+      openFaucet().then(() => goBack());
+    }
+  }, [openFaucet]);
+
+  // On mobile, show nothing while the webview is open
+  if (isMobile()) {
+    return null;
+  }
 
   return (
     <PageLayout pageTitle={<span>{t('faucet')}</span>}>
@@ -50,7 +68,7 @@ const Faucet: FC = () => {
           />
         </div>
         <div className="p-4 flex flex-col gap-y-4">
-          <Button onClick={onFaucetClick}>
+          <Button onClick={openFaucet}>
             <span className="text-base font-medium text-white">{copied ? t('copiedAddress') : t('goToFaucet')}</span>
           </Button>
         </div>

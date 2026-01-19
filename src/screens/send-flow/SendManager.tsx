@@ -8,9 +8,11 @@ import * as yup from 'yup';
 import { openLoadingFullPage, useAppEnv } from 'app/env';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { stringToBigInt } from 'lib/i18n/numbers';
-import { initiateSendTransaction } from 'lib/miden/activity';
+import { initiateSendTransaction, waitForTransactionCompletion } from 'lib/miden/activity';
 import { useAccount, useAllAccounts } from 'lib/miden/front';
 import { NoteTypeEnum } from 'lib/miden/types';
+import { useMobileBackHandler } from 'lib/mobile/useMobileBackHandler';
+import { isMobile } from 'lib/platform';
 import { isDelegateProofEnabled } from 'lib/settings/helpers';
 import { navigate } from 'lib/woozie';
 import { isValidMidenAddress } from 'utils/miden';
@@ -84,7 +86,7 @@ export interface SendManagerProps {
 }
 
 export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
-  const { navigateTo, goBack } = useNavigator();
+  const { navigateTo, goBack, cardStack } = useNavigator();
   const allAccounts = useAllAccounts();
   const { publicKey } = useAccount();
   const { fullPage } = useAppEnv();
@@ -109,13 +111,35 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     navigate('/');
   }, []);
 
-  const onGenerateTransaction = useCallback(() => {
+  // Handle mobile back button/gesture
+  useMobileBackHandler(() => {
+    if (cardStack.length > 1) {
+      goBack(); // Go to previous step
+      return true;
+    }
+    // On first step, close entire flow
+    onClose();
+    return true;
+  }, [cardStack.length, goBack, onClose]);
+
+  const onGenerateTransaction = useCallback(async () => {
+    // On mobile, open the modal and go back to home
+    // The modal handles the entire transaction flow
+    if (isMobile()) {
+      console.log('[SendManager] Opening modal...');
+      await openLoadingFullPage();
+      console.log('[SendManager] Modal opened, NOT navigating for debug');
+      // Don't navigate - stay on page to see if modal appears
+      // navigate('/');
+      return;
+    }
+
     if (fullPage) {
       navigate('/generating-transaction-full');
       return;
     }
 
-    openLoadingFullPage();
+    await openLoadingFullPage();
     navigateTo(SendFlowStep.TransactionInitiated);
   }, [fullPage, navigateTo]);
 
@@ -193,7 +217,9 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       }
       try {
         clearErrors('root');
-        await initiateSendTransaction(
+
+        // Step 1: Create the transaction (same as Receive's initiateConsumeTransaction)
+        const txId = await initiateSendTransaction(
           publicKey!,
           recipientAddress!,
           token!.id,
@@ -202,7 +228,23 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
           recallBlocks ? parseInt(recallBlocks) : undefined,
           delegateTransaction
         );
-        onAction({ id: SendFlowActionId.GenerateTransaction });
+
+        // Step 2: Open the loading modal (same as Receive)
+        await openLoadingFullPage();
+
+        // Step 3: Wait for transaction completion (same as Receive's waitForConsumeTx)
+        const result = await waitForTransactionCompletion(txId);
+
+        if ('errorMessage' in result) {
+          setError('root', { type: 'manual', message: result.errorMessage });
+        } else {
+          // Success - navigate to home on mobile, or completion screen on desktop
+          if (isMobile()) {
+            navigate('/');
+          } else {
+            onAction({ id: SendFlowActionId.GenerateTransaction });
+          }
+        }
       } catch (e: any) {
         if (e.message) {
           setError('root', { type: 'manual', message: e.message });
@@ -287,6 +329,21 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     clearErrors('recipientAddress');
   }, [onAction, clearErrors]);
 
+  const onScannedAddress = useCallback(
+    (address: string) => {
+      onAction({
+        id: SendFlowActionId.SetFormValues,
+        payload: { recipientAddress: address }
+      });
+      if (!isValidMidenAddress(address)) {
+        setError('recipientAddress', { type: 'manual', message: 'invalidMidenAccountId' });
+      } else {
+        clearErrors('recipientAddress');
+      }
+    },
+    [onAction, setError, clearErrors]
+  );
+
   const renderStep = useCallback(
     (route: Route) => {
       switch (route.name) {
@@ -299,6 +356,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
               isValidAddress={!errors.recipientAddress && validations.recipientAddress.isValidSync(recipientAddress)}
               error={errors.recipientAddress?.message?.toString()}
               onAddressChange={onAddressChange}
+              onScannedAddress={onScannedAddress}
               onYourAccounts={() => goToStep(SendFlowStep.AccountsList)}
               onGoNext={() => goToStep(SendFlowStep.SelectAmount)}
               onClear={onClearAddress}
@@ -353,6 +411,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       errors.recipientAddress,
       errors.amount,
       onAddressChange,
+      onScannedAddress,
       onClearAddress,
       onClose,
       goBack,
@@ -366,16 +425,21 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     ]
   );
 
+  // On mobile, use h-full to inherit from parent chain (body has safe area padding)
+  const isMobileDevice = isMobile();
+  const containerClass = isMobileDevice
+    ? 'h-full w-full'
+    : fullPage
+      ? 'h-[640px] max-h-[640px] w-[600px] max-w-[600px] border rounded-3xl'
+      : 'h-[600px] max-h-[600px] w-[360px] max-w-[360px]';
+
   return (
     <div
       className={classNames(
-        fullPage
-          ? 'h-[640px] max-h-[640px] w-[600px] max-w-[600px]'
-          : 'h-[600px] max-h-[600px] w-[360px] max-w-[360px]',
+        containerClass,
         'mx-auto overflow-hidden ',
         'flex flex-1',
         'flex-col bg-white',
-        fullPage && 'border rounded-3xl',
         'overflow-hidden relative'
       )}
       data-testid="send-flow"

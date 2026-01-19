@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useMemo, memo } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as ContactBookIcon } from 'app/icons/contact-book.svg';
 import { TestIDProps } from 'lib/analytics';
-import { useTranslation } from 'react-i18next';
 
 import ContactsDropdownItem from './ContactsDropdownItem';
 

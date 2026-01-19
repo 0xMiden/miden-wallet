@@ -3,6 +3,7 @@ import React, { forwardRef, InputHTMLAttributes, useCallback, useEffect, useStat
 import classNames from 'clsx';
 
 import { ReactComponent as CheckmarkIcon } from 'app/icons/checkmark.svg';
+import { hapticMedium } from 'lib/mobile/haptics';
 import { blurHandler, checkedHandler, focusHandler } from 'lib/ui/inputHandlers';
 
 type CheckboxProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -19,7 +20,10 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     }, [setLocalChecked, checked]);
 
     const handleChange = useCallback(
-      (e: React.ChangeEvent<HTMLInputElement>) => checkedHandler(e, onChange!, setLocalChecked),
+      (e: React.ChangeEvent<HTMLInputElement>) => {
+        hapticMedium();
+        checkedHandler(e, onChange!, setLocalChecked);
+      },
       [onChange, setLocalChecked]
     );
 

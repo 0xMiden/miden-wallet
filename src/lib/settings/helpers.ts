@@ -4,7 +4,9 @@ import {
   DEFAULT_AUTO_CLOSE,
   AUTO_CLOSE_STORAGE_KEY,
   AUTO_CONSUME_STORAGE_KEY,
-  DEFAULT_AUTO_CONSUME
+  DEFAULT_AUTO_CONSUME,
+  HAPTIC_FEEDBACK_STORAGE_KEY,
+  DEFAULT_HAPTIC_FEEDBACK
 } from './constants';
 
 function setSetting(key: string, value: boolean) {
@@ -40,4 +42,12 @@ export function setAutoConsumeSetting(enabled: boolean) {
 
 export function isAutoConsumeEnabled() {
   return getSetting(AUTO_CONSUME_STORAGE_KEY, DEFAULT_AUTO_CONSUME);
+}
+
+export function setHapticFeedbackSetting(enabled: boolean) {
+  setSetting(HAPTIC_FEEDBACK_STORAGE_KEY, enabled);
+}
+
+export function isHapticFeedbackEnabled() {
+  return getSetting(HAPTIC_FEEDBACK_STORAGE_KEY, DEFAULT_HAPTIC_FEEDBACK);
 }

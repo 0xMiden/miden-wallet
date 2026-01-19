@@ -9,6 +9,7 @@ import { CardItem } from 'components/CardItem';
 import { SyncWaveBackground } from 'components/SyncWaveBackground';
 import { useAccount, useAllTokensBaseMetadata, useAllBalances } from 'lib/miden/front';
 import { useWalletStore } from 'lib/store';
+import { navigate } from 'lib/woozie';
 import { truncateAddress } from 'utils/string';
 
 const Tokens: FC = () => {
@@ -50,6 +51,8 @@ const Tokens: FC = () => {
                     titleRight={`$${balance.toFixed(2)}`}
                     subtitleRight={balance.toFixed(2)}
                     className="flex-1 border border-grey-50 rounded-lg"
+                    hoverable={true}
+                    onClick={() => navigate(`/token-history/${tokenId}`)}
                   />
                 </div>
               );

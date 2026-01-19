@@ -136,7 +136,7 @@ export const ForgotPasswordFlow: FC<ForgotPasswordFlowProps> = ({
       onForwardAction({ id: 'import-seed-phrase-submit', payload: seedPhrase });
 
     const onCreatePasswordSubmit = (password: string) =>
-      onForwardAction({ id: 'create-password-submit', payload: password });
+      onForwardAction({ id: 'create-password-submit', payload: { password, enableBiometric: false } });
 
     // const onCreateWalletSubmit = () => onForwardAction({ id: 'create-wallet' });
 

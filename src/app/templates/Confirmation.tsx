@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import { Button } from 'app/atoms/Button';
 import { useAppEnv } from 'app/env';
 import { ReactComponent as InfoIcon } from 'app/icons/info-alert.svg';
 import { ReactComponent as SuccessIcon } from 'app/icons/success.svg';
-import { useTranslation } from 'react-i18next';
 import useTippy from 'lib/ui/useTippy';
 import Link from 'lib/woozie/Link';
 

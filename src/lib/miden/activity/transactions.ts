@@ -1,10 +1,19 @@
-import { Address, Note, TransactionResult } from '@demox-labs/miden-sdk';
+import {
+  Address,
+  InputNoteState,
+  Note,
+  NoteFilter,
+  NoteFilterTypes,
+  NoteId,
+  TransactionResult
+} from '@demox-labs/miden-sdk';
 import { liveQuery } from 'dexie';
 
 import { consumeNoteId } from 'lib/miden-worker/consumeNoteId';
 import { sendTransaction } from 'lib/miden-worker/sendTransaction';
 import { submitTransaction } from 'lib/miden-worker/submitTransaction';
 import * as Repo from 'lib/miden/repo';
+import { isMobile } from 'lib/platform';
 import { u8ToB64 } from 'lib/shared/helpers';
 import { logger } from 'shared/logger';
 
@@ -25,7 +34,9 @@ import { interpretTransactionResult } from './helpers';
 import { importAllNotes, queueNoteImport, registerOutputNote } from './notes';
 import { compareAccountIds } from './utils';
 
-export const MAX_WAIT_BEFORE_CANCEL = 30 * 60_000; // 30 minutes
+// On mobile, use a shorter timeout since there's no background processing
+// On desktop extension, transactions can run in background tabs
+export const MAX_WAIT_BEFORE_CANCEL = isMobile() ? 2 * 60_000 : 30 * 60_000; // 2 mins on mobile, 30 mins on desktop
 
 export const requestCustomTransaction = async (
   accountId: string,
@@ -134,17 +145,24 @@ export const initiateConsumeTransaction = async (
   note: ConsumableNote,
   delegateTransaction?: boolean
 ): Promise<string> => {
+  console.log('[initiateConsumeTransaction] Starting for note:', note.id);
   const dbTransaction = new ConsumeTransaction(accountId, note, delegateTransaction);
   const uncompletedTransactions = await getUncompletedTransactions(accountId);
+  console.log('[initiateConsumeTransaction] Uncompleted transactions:', uncompletedTransactions.length);
   const existingTransaction = uncompletedTransactions.find(tx => tx.type === 'consume' && tx.noteId === note.id);
   if (existingTransaction) {
+    console.log('[initiateConsumeTransaction] Found existing transaction:', existingTransaction.id);
     return existingTransaction.id;
   }
 
   await Repo.transactions.add(dbTransaction);
+  console.log('[initiateConsumeTransaction] Added new transaction:', dbTransaction.id);
 
   return dbTransaction.id;
 };
+
+// Timeout for waiting on consume transactions (5 minutes)
+const WAIT_FOR_CONSUME_TX_TIMEOUT = 5 * 60_000;
 
 export const waitForConsumeTx = async (id: string, signal?: AbortSignal): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
@@ -153,24 +171,36 @@ export const waitForConsumeTx = async (id: string, signal?: AbortSignal): Promis
       return;
     }
 
-    const subscription = liveQuery(() => Repo.transactions.where({ id }).first()).subscribe(tx => {
+    let subscription: { unsubscribe: () => void } | null = null;
+
+    const timeoutId = setTimeout(() => {
+      subscription?.unsubscribe();
+      reject(new Error('Transaction timed out. Please try again.'));
+    }, WAIT_FOR_CONSUME_TX_TIMEOUT);
+
+    const cleanup = () => {
+      clearTimeout(timeoutId);
+      subscription?.unsubscribe();
+    };
+
+    subscription = liveQuery(() => Repo.transactions.where({ id }).first()).subscribe(tx => {
       if (!tx) {
-        subscription.unsubscribe();
+        cleanup();
         reject(new Error('Transaction not found'));
         return;
       }
 
       if (tx.status === ITransactionStatus.Completed) {
-        subscription.unsubscribe();
+        cleanup();
         resolve(tx.transactionId!);
       } else if (tx.status === ITransactionStatus.Failed) {
-        subscription.unsubscribe();
+        cleanup();
         reject(new Error('Consume transaction failed'));
       }
     });
 
     signal?.addEventListener('abort', () => {
-      subscription.unsubscribe();
+      cleanup();
       reject(new DOMException('Aborted', 'AbortError'));
     });
   });
@@ -357,15 +387,18 @@ export const hasQueuedTransactions = async () => {
   return tx.length > 0;
 };
 
-export const getUncompletedTransactions = async (address: string) => {
+export const getUncompletedTransactions = async (address: string, tokenId?: string) => {
   const statuses = [ITransactionStatus.Queued, ITransactionStatus.GeneratingTransaction];
-  return await getTransactionsInStatuses(statuses, address);
+  return await getTransactionsInStatuses(statuses, address, tokenId);
 };
 
-const getTransactionsInStatuses = async (statuses: ITransactionStatus[], accountId: string) => {
+const getTransactionsInStatuses = async (statuses: ITransactionStatus[], accountId: string, tokenId?: string) => {
   let txs = await Repo.transactions.filter(rec => statuses.includes(rec.status)).toArray();
   txs.sort((tx1, tx2) => tx1.initiatedAt - tx2.initiatedAt);
   txs = txs.filter(tx => compareAccountIds(tx.accountId, accountId));
+  if (tokenId) {
+    txs = txs.filter(tx => tx.faucetId === tokenId);
+  }
 
   return txs;
 };
@@ -394,7 +427,8 @@ export const getCompletedTransactions = async (
   accountId: string,
   offset?: number,
   limit?: number,
-  includeFailed: boolean = false
+  includeFailed: boolean = false,
+  tokenId?: string
 ) => {
   let transactions = await Repo.transactions.filter(tx => tx.status === ITransactionStatus.Completed).toArray();
   if (includeFailed) {
@@ -404,6 +438,9 @@ export const getCompletedTransactions = async (
   transactions.sort((tx1, tx2) => (tx1.completedAt || tx1.initiatedAt) - (tx2.completedAt || tx2.initiatedAt));
   // Compare ignoring note tag suffix since stored vs queried account IDs may differ
   transactions = transactions.filter(tx => compareAccountIds(tx.accountId, accountId));
+  if (tokenId) {
+    transactions = transactions.filter(tx => tx.faucetId === tokenId);
+  }
   return transactions.slice(offset, limit);
 };
 
@@ -421,14 +458,140 @@ export const cancelStuckTransactions = async () => {
   await Promise.all(cancelTransactionUpdates);
 };
 
+/**
+ * TEMPORARY: Force cancel ALL in-progress transactions regardless of time.
+ * Used for debugging stuck transactions on mobile.
+ */
+export const forceCaneclAllInProgressTransactions = async () => {
+  const transactions = await getTransactionsInProgress();
+  console.log('[forceCaneclAllInProgressTransactions] Cancelling', transactions.length, 'transactions');
+  const cancelTransactionUpdates = transactions.map(async tx =>
+    cancelTransaction(tx, 'Transaction force-cancelled for debugging')
+  );
+  await Promise.all(cancelTransactionUpdates);
+};
+
+/**
+ * InputNoteState values that indicate a note has been consumed
+ */
+const CONSUMED_NOTE_STATES = [
+  InputNoteState.ConsumedAuthenticatedLocal,
+  InputNoteState.ConsumedUnauthenticatedLocal,
+  InputNoteState.ConsumedExternal
+];
+
+// Minimum time a transaction must be in GeneratingTransaction status before we consider it "stuck"
+// This prevents cancelling transactions that are actively being processed
+const MIN_PROCESSING_TIME_BEFORE_STUCK = 60_000; // 1 minute
+
+/**
+ * Verify stuck transactions by checking note state from the node.
+ * For consume transactions:
+ * - If the note has been consumed on-chain, mark the transaction as completed
+ * - If the note is invalid, mark as failed
+ * - If the note is still claimable AND the tx has been processing for > 1 minute, mark as failed
+ *
+ * IMPORTANT: Only checks GeneratingTransaction status, NOT Queued.
+ * Queued transactions haven't started processing yet, so the note being claimable is expected.
+ *
+ * Returns the number of transactions that were resolved.
+ */
+export const verifyStuckTransactionsFromNode = async (): Promise<number> => {
+  // Only check GeneratingTransaction status - NOT Queued
+  // Queued transactions haven't started processing yet, so the note being claimable is expected
+  const inProgressTransactions = await getTransactionsInProgress();
+  if (inProgressTransactions.length === 0) return 0;
+
+  // Filter to only consume transactions with a noteId
+  const consumeTransactions = inProgressTransactions.filter(
+    (tx): tx is ConsumeTransaction => tx.type === 'consume' && !!(tx as ConsumeTransaction).noteId
+  );
+
+  if (consumeTransactions.length === 0) return 0;
+
+  console.log(
+    '[verifyStuckTransactionsFromNode] Checking',
+    consumeTransactions.length,
+    'in-progress consume transactions'
+  );
+
+  let resolvedCount = 0;
+
+  // Check each stuck consume transaction (AutoSync handles syncState separately)
+  for (const tx of consumeTransactions) {
+    try {
+      const noteDetails = await withWasmClientLock(async () => {
+        const midenClient = await getMidenClient();
+        const noteId = NoteId.fromHex(tx.noteId);
+        const noteFilter = new NoteFilter(NoteFilterTypes.List, [noteId]);
+        return await midenClient.getInputNoteDetails(noteFilter);
+      });
+
+      if (noteDetails.length === 0) {
+        console.log('[verifyStuckTransactionsFromNode] Note not found:', tx.noteId);
+        continue;
+      }
+
+      const note = noteDetails[0];
+      console.log('[verifyStuckTransactionsFromNode] Note', tx.noteId, 'state:', InputNoteState[note.state]);
+
+      if (CONSUMED_NOTE_STATES.includes(note.state)) {
+        // Note has been consumed on-chain - mark transaction as completed
+        console.log('[verifyStuckTransactionsFromNode] Note consumed, marking tx completed:', tx.id);
+        await updateTransactionStatus(tx.id, ITransactionStatus.Completed, {
+          displayMessage: 'Received',
+          completedAt: Date.now() / 1000
+        });
+        resolvedCount++;
+      } else if (note.state === InputNoteState.Invalid) {
+        // Note is invalid - mark transaction as failed
+        console.log('[verifyStuckTransactionsFromNode] Note invalid, marking tx failed:', tx.id);
+        await cancelTransaction(tx, 'Note is invalid');
+        resolvedCount++;
+      } else if (
+        note.state === InputNoteState.Committed ||
+        note.state === InputNoteState.Expected ||
+        note.state === InputNoteState.Unverified
+      ) {
+        // Note is still claimable - only cancel if tx has been processing for a while
+        // This prevents cancelling transactions that are actively being processed
+        const processingTime = tx.processingStartedAt ? Date.now() - tx.processingStartedAt : 0;
+        if (processingTime > MIN_PROCESSING_TIME_BEFORE_STUCK) {
+          console.log(
+            '[verifyStuckTransactionsFromNode] Note still claimable after',
+            Math.round(processingTime / 1000),
+            's, marking tx failed:',
+            tx.id
+          );
+          await cancelTransaction(tx, 'Transaction was interrupted');
+          resolvedCount++;
+        } else {
+          console.log(
+            '[verifyStuckTransactionsFromNode] Note still claimable but tx only processing for',
+            Math.round(processingTime / 1000),
+            's, waiting...'
+          );
+        }
+      }
+    } catch (err) {
+      console.error('[verifyStuckTransactionsFromNode] Error checking tx:', tx.id, err);
+    }
+  }
+
+  return resolvedCount;
+};
+
 export const generateTransaction = async (
   transaction: Transaction,
   signCallback: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
 ) => {
+  console.log('[generateTransaction] Starting transaction:', transaction.type, transaction.id);
+
   // Mark transaction as in progress
   await updateTransactionStatus(transaction.id, ITransactionStatus.GeneratingTransaction, {
     processingStartedAt: Date.now()
   });
+  console.log('[generateTransaction] Status updated to GeneratingTransaction');
 
   // Process transaction
   let resultBytes: Uint8Array;
@@ -442,34 +605,49 @@ export const generateTransaction = async (
   };
 
   // Wrap WASM client operations in a lock to prevent concurrent access
+  console.log('[generateTransaction] Acquiring WASM lock...');
   const transactionResultBytes = await withWasmClientLock(async () => {
+    console.log('[generateTransaction] WASM lock acquired, getting client...');
     const midenClient = await getMidenClient(options);
+    console.log('[generateTransaction] Client obtained, executing transaction type:', transaction.type);
     switch (transaction.type) {
       case 'send':
         return midenClient.sendTransaction(transaction as SendTransaction);
       case 'consume':
-        return midenClient.consumeNoteId(transaction as ConsumeTransaction);
+        console.log('[generateTransaction] Calling midenClient.consumeNoteId...');
+        const consumeResult = await midenClient.consumeNoteId(transaction as ConsumeTransaction);
+        console.log('[generateTransaction] midenClient.consumeNoteId completed, result size:', consumeResult.length);
+        return consumeResult;
       case 'execute':
       default:
         return midenClient.newTransaction(transaction.accountId, transaction.requestBytes!);
     }
   });
+  console.log('[generateTransaction] WASM operation complete, result size:', transactionResultBytes.length);
 
   // Worker calls and completion are outside the lock
+  console.log('[generateTransaction] Starting worker call for type:', transaction.type);
+
+  // On mobile, always delegate transactions to avoid memory issues with local proving
+  const shouldDelegate = isMobile() ? true : transaction.delegateTransaction;
+  console.log('[generateTransaction] Delegation:', shouldDelegate, '(mobile:', isMobile(), ')');
+
   switch (transaction.type) {
     case 'send':
-      resultBytes = await sendTransaction(transactionResultBytes, transaction.delegateTransaction);
+      resultBytes = await sendTransaction(transactionResultBytes, shouldDelegate);
       result = TransactionResult.deserialize(resultBytes);
       await completeSendTransaction(transaction as SendTransaction, result);
       break;
     case 'consume':
-      resultBytes = await consumeNoteId(transactionResultBytes, transaction.delegateTransaction);
-      result = TransactionResult.deserialize(transactionResultBytes);
+      console.log('[generateTransaction] Calling consumeNoteId worker...');
+      resultBytes = await consumeNoteId(transactionResultBytes, shouldDelegate);
+      console.log('[generateTransaction] consumeNoteId worker completed');
+      result = TransactionResult.deserialize(resultBytes);
       await completeConsumeTransaction(transaction.id, result);
       break;
     case 'execute':
     default:
-      resultBytes = await submitTransaction(transactionResultBytes, transaction.delegateTransaction);
+      resultBytes = await submitTransaction(transactionResultBytes, shouldDelegate);
       result = TransactionResult.deserialize(resultBytes);
       await completeCustomTransaction(transaction, result);
       break;
@@ -499,32 +677,42 @@ export const getTransactionById = async (id: string) => {
 export const generateTransactionsLoop = async (
   signCallback: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
 ): Promise<boolean | void> => {
+  console.log('[generateTransactionsLoop] Starting...');
   await cancelStuckTransactions();
+  console.log('[generateTransactionsLoop] Cancelled stuck transactions');
 
   // Import any notes needed for queued transactions
   await importAllNotes();
+  console.log('[generateTransactionsLoop] Imported all notes');
 
   // Wait for other in progress transactions
   const inProgressTransactions = await getTransactionsInProgress();
+  console.log('[generateTransactionsLoop] In-progress transactions:', inProgressTransactions.length);
   if (inProgressTransactions.length > 0) {
+    console.log('[generateTransactionsLoop] Waiting for in-progress transactions, returning early');
     return;
   }
 
   // Find transactions waiting to process
   const queuedTransactions = await Repo.transactions.filter(rec => rec.status === ITransactionStatus.Queued).toArray();
   queuedTransactions.sort((tx1, tx2) => tx1.initiatedAt - tx2.initiatedAt);
+  console.log('[generateTransactionsLoop] Queued transactions:', queuedTransactions.length);
   if (queuedTransactions.length === 0) {
+    console.log('[generateTransactionsLoop] No queued transactions, returning early');
     return;
   }
 
   // Process next transaction
   const nextTransaction = queuedTransactions[0];
+  console.log('[generateTransactionsLoop] Processing next transaction:', nextTransaction.type, nextTransaction.id);
 
   // Call safely to cancel transaction and unlock records if something goes wrong
   try {
     await generateTransaction(nextTransaction, signCallback);
+    console.log('[generateTransactionsLoop] Transaction completed successfully');
     return true;
   } catch (e) {
+    console.log('[generateTransactionsLoop] Transaction failed:', e);
     logger.warning('Failed to generate transaction', e);
     console.log(e);
     // Cancel the transaction if it hasn't already been cancelled
@@ -555,6 +743,52 @@ export const safeGenerateTransactionsLoop = async (
       logger.error('Error in safe generate transactions loop', e);
       return false;
     });
+};
+
+/**
+ * Start background transaction processing for mobile dApp transactions.
+ * This runs the transaction loop without any UI, using the backend's signTransaction directly.
+ * Polls every 5 seconds until all queued transactions are processed.
+ */
+export const startBackgroundTransactionProcessing = async (
+  signTransaction: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
+) => {
+  console.log('[BackgroundTxProcessor] Starting background transaction processing');
+
+  const signCallback = async (publicKey: string, signingInputs: string): Promise<Uint8Array> => {
+    return signTransaction(publicKey, signingInputs);
+  };
+
+  // Process transactions in a loop until none are left
+  const processLoop = async () => {
+    let hasMore = true;
+    let attempts = 0;
+    const maxAttempts = 60; // Max 5 minutes (60 * 5 seconds)
+
+    while (hasMore && attempts < maxAttempts) {
+      attempts++;
+      console.log('[BackgroundTxProcessor] Processing attempt', attempts);
+
+      const result = await safeGenerateTransactionsLoop(signCallback);
+      console.log('[BackgroundTxProcessor] Loop result:', result);
+
+      // Check if there are more transactions to process
+      const remaining = await getAllUncompletedTransactions();
+      hasMore = remaining.length > 0;
+
+      if (hasMore) {
+        // Wait before next attempt
+        await new Promise(resolve => setTimeout(resolve, 5000));
+      }
+    }
+
+    console.log('[BackgroundTxProcessor] Processing complete');
+  };
+
+  // Run in background (don't await)
+  processLoop().catch(e => {
+    console.error('[BackgroundTxProcessor] Error:', e);
+  });
 };
 
 const WAIT_FOR_TX_TIMEOUT = 5 * 60_000; // 5 minutes
