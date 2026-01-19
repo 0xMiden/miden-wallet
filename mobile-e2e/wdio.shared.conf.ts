@@ -20,7 +20,7 @@ export const config: Partial<Options.Testrunner> = {
 
   mochaOpts: {
     ui: 'bdd',
-    timeout: 180000, // 3 minutes for tests involving wallet import
+    timeout: 300000, // 5 minutes for tests involving wallet import/creation
   },
 
   // Hooks

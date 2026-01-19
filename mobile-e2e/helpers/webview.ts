@@ -243,6 +243,9 @@ export async function setReactInputValue(testId: string, value: string): Promise
 /**
  * Disable biometrics toggle on Create Password screen
  * This avoids Face ID prompts during testing
+ *
+ * The ToggleSwitch component uses an invisible checkbox input for click handling
+ * with name="enableBiometric"
  */
 export async function disableBiometricsToggle(): Promise<boolean> {
   const currentContext = await getCurrentContext();
@@ -256,30 +259,29 @@ export async function disableBiometricsToggle(): Promise<boolean> {
   }
 
   const result = await browser.execute(() => {
-    // Find the biometrics toggle - it's usually a checkbox or switch input
-    // Look for inputs with type checkbox or role switch near "Face ID" or "biometric" text
-    const toggles = document.querySelectorAll('input[type="checkbox"], [role="switch"]');
+    // Find the biometric toggle checkbox by name
+    const biometricCheckbox = document.querySelector(
+      'input[type="checkbox"][name="enableBiometric"]'
+    ) as HTMLInputElement;
 
-    for (const toggle of toggles) {
-      const el = toggle as HTMLInputElement;
-      // Check if it's checked/enabled and click to disable
-      if (el.checked || el.getAttribute('aria-checked') === 'true') {
-        el.click();
-        return true;
-      }
+    if (biometricCheckbox && biometricCheckbox.checked) {
+      // Click to uncheck
+      biometricCheckbox.click();
+      return true;
     }
 
-    // Also try finding by looking for Face ID related elements
-    const labels = document.querySelectorAll('label, div, span');
-    for (const label of labels) {
-      if (label.textContent?.toLowerCase().includes('face id') ||
-          label.textContent?.toLowerCase().includes('biometric')) {
-        // Find nearby toggle
-        const parent = label.closest('div');
-        if (parent) {
-          const toggle = parent.querySelector('input[type="checkbox"], [role="switch"]') as HTMLInputElement;
-          if (toggle && (toggle.checked || toggle.getAttribute('aria-checked') === 'true')) {
-            toggle.click();
+    // Fallback: find any checked checkbox in the biometric section
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    for (const checkbox of checkboxes) {
+      const input = checkbox as HTMLInputElement;
+      if (input.checked) {
+        // Check if it's near biometric text
+        const parent = input.closest('div');
+        const section = parent?.closest('div.bg-grey-50') || parent?.closest('[class*="rounded-lg"]');
+        if (section) {
+          const sectionText = section.textContent?.toLowerCase() || '';
+          if (sectionText.includes('face id') || sectionText.includes('biometric')) {
+            input.click();
             return true;
           }
         }
@@ -368,6 +370,52 @@ export async function setPasswordInputs(password: string, confirmPassword: strin
     password,
     confirmPassword
   );
+
+  if (!isInWebview) {
+    await switchToNativeContext();
+  }
+
+  return result as boolean;
+}
+
+/**
+ * Set unlock password input via WebView JavaScript
+ * For the lock screen which has only one password input
+ */
+export async function setUnlockPasswordInput(password: string): Promise<boolean> {
+  const currentContext = await getCurrentContext();
+  const isInWebview = currentContext.includes('WEBVIEW');
+
+  if (!isInWebview) {
+    const switched = await switchToWebviewContext();
+    if (!switched) {
+      throw new Error('Failed to switch to WebView context');
+    }
+  }
+
+  const result = await browser.execute((pwd: string) => {
+    const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+      window.HTMLInputElement.prototype,
+      'value'
+    )?.set;
+
+    // Find password input on unlock screen
+    const input = document.querySelector('input[type="password"]') as HTMLInputElement;
+    if (!input) {
+      console.error('Could not find password input');
+      return false;
+    }
+
+    if (nativeInputValueSetter) {
+      nativeInputValueSetter.call(input, pwd);
+    } else {
+      input.value = pwd;
+    }
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+
+    return true;
+  }, password);
 
   if (!isInWebview) {
     await switchToNativeContext();

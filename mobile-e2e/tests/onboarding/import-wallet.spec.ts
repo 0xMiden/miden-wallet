@@ -78,8 +78,13 @@ describe('Onboarding - Import Wallet', () => {
       throw new Error('Failed to set password inputs via WebView');
     }
 
+    // Wait a moment for biometric toggle to render (it loads async)
+    await browser.pause(1000);
+
     // Disable biometrics toggle to avoid Face ID prompt
-    await disableBiometricsToggle();
+    // Note: This may return false if biometrics not available on simulator
+    const biometricDisabled = await disableBiometricsToggle();
+    console.log('[Test] Biometric toggle disabled:', biometricDisabled);
 
     // Switch back to native context for button interactions
     await switchToNativeContext();
@@ -91,8 +96,9 @@ describe('Onboarding - Import Wallet', () => {
     await passwordContinue.click();
 
     // Wait for wallet import to complete and Get started button to appear
+    // Wallet import involves key generation and node sync which can take 2+ minutes
     const getStartedButton = await $(Selectors.getStartedButton);
-    await getStartedButton.waitForDisplayed({ timeout: 90000 });
+    await getStartedButton.waitForDisplayed({ timeout: 180000 });
     await getStartedButton.click();
 
     // Verify we're on Explore page

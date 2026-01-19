@@ -49,7 +49,7 @@ export const Selectors = {
   importWalletButton: iosButton('I already have a wallet'),
   showSeedPhraseButton: iosButton('Show'),
   backupSeedPhrase: iosText('Backup seed phrase'),
-  verifySeedPhrase: iosText('Verify seed phrase'),
+  verifySeedPhrase: iosText('Verify Seed Phrase'),
   importSelectType: iosText('Choose Your Import Type'),
   importSeedPhraseOption: iosText('Import with Seed Phrase'),
   importFromFileOption: iosText('Import with Encrypted Wallet File'),

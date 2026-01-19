@@ -5,11 +5,16 @@ import path from 'path';
 export const config: Options.Testrunner = {
   ...sharedConfig,
 
-  // Only run the working tests for now
-  specs: ['./tests/onboarding/import-wallet.spec.ts'],
+  // Run all onboarding tests
+  specs: [
+    './tests/onboarding/import-wallet.spec.ts',
+    './tests/onboarding/create-wallet.spec.ts',
+    './tests/onboarding/seed-validation.spec.ts'
+  ],
 
-  // Run tests sequentially (one at a time)
+  // Run tests sequentially (one at a time) - crucial for mobile where only one simulator can run
   maxInstances: 1,
+  maxInstancesPerCapability: 1,
 
   services: [
     [
@@ -34,7 +39,7 @@ export const config: Options.Testrunner = {
         '../ios/App/build-sim/Build/Products/Debug-iphonesimulator/App.app'
       ),
       'appium:noReset': false,
-      'appium:fullReset': false,
+      'appium:fullReset': true,
       'appium:newCommandTimeout': 240,
       // WebView context settings
       'appium:webviewConnectTimeout': 30000,

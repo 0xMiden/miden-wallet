@@ -1,10 +1,20 @@
 import { resetAppState, waitForAppReady, TEST_PASSWORD } from '../../fixtures/app';
-import { Selectors, seedWordSelector, verifyWordSelector } from '../../helpers/selectors';
+import { getSeedWordsFromBackup } from '../../fixtures/wallet';
+import { Selectors, verifyWordSelector } from '../../helpers/selectors';
+import {
+  setPasswordInputs,
+  disableBiometricsToggle,
+  switchToNativeContext,
+  switchToWebviewContext
+} from '../../helpers/webview';
 
 describe('Onboarding - Create Wallet', () => {
   beforeEach(async () => {
     await resetAppState();
   });
+
+  // Tests that check partial flows should run first
+  // The full flow test that creates a wallet should run last
 
   it('should display welcome screen on first launch', async () => {
     await waitForAppReady();
@@ -19,77 +29,6 @@ describe('Onboarding - Create Wallet', () => {
     await expect(importButton).toBeDisplayed();
   });
 
-  it('should complete create wallet flow and show Explore page', async () => {
-    await waitForAppReady();
-
-    // Click "Create a new wallet"
-    const createButton = await $(Selectors.createWalletButton);
-    await createButton.waitForDisplayed({ timeout: 15000 });
-    await createButton.click();
-
-    // Wait for backup screen
-    const showButton = await $(Selectors.showSeedPhraseButton);
-    await showButton.waitForDisplayed({ timeout: 15000 });
-    await showButton.click();
-
-    // Extract seed words for verification
-    const seedWords: string[] = [];
-    for (let i = 0; i < 12; i++) {
-      const wordElement = await $(seedWordSelector(i));
-      await wordElement.waitForDisplayed({ timeout: 5000 });
-      const text = await wordElement.getText();
-      seedWords.push(text);
-    }
-
-    expect(seedWords.length).toBe(12);
-    expect(seedWords[0]).toBeTruthy();
-    expect(seedWords[11]).toBeTruthy();
-
-    // Click Continue
-    const continueButton = await $(Selectors.continueButton);
-    await continueButton.click();
-
-    // Verify seed phrase screen
-    const verifySeedPhrase = await $(Selectors.verifySeedPhrase);
-    await verifySeedPhrase.waitForDisplayed({ timeout: 15000 });
-
-    // Select first and last words
-    const firstWordButton = await $(verifyWordSelector(seedWords[0]));
-    await firstWordButton.waitForDisplayed({ timeout: 10000 });
-    await firstWordButton.click();
-
-    const lastWordButton = await $(verifyWordSelector(seedWords[11]));
-    await lastWordButton.click();
-
-    // Continue to password
-    const verifyContinue = await $(Selectors.continueButton);
-    await verifyContinue.click();
-
-    // Set password
-    const passwordInput = await $(Selectors.passwordInput);
-    await passwordInput.waitForDisplayed({ timeout: 15000 });
-    await passwordInput.setValue(TEST_PASSWORD);
-
-    const confirmInput = await $(Selectors.confirmPasswordInput);
-    await confirmInput.setValue(TEST_PASSWORD);
-
-    const passwordContinue = await $(Selectors.continueButton);
-    await passwordContinue.click();
-
-    // Complete onboarding
-    const getStartedButton = await $(Selectors.getStartedButton);
-    await getStartedButton.waitForDisplayed({ timeout: 30000 });
-    await getStartedButton.click();
-
-    // Verify we're on Explore page
-    const sendButton = await $(Selectors.sendButton);
-    await sendButton.waitForDisplayed({ timeout: 30000 });
-    await expect(sendButton).toBeDisplayed();
-
-    const receiveButton = await $(Selectors.receiveButton);
-    await expect(receiveButton).toBeDisplayed();
-  });
-
   it('should show 12 seed words on backup screen', async () => {
     await waitForAppReady();
 
@@ -100,12 +39,15 @@ describe('Onboarding - Create Wallet', () => {
     await showButton.waitForDisplayed({ timeout: 15000 });
     await showButton.click();
 
-    // Verify all 12 words are displayed
-    for (let i = 0; i < 12; i++) {
-      const wordElement = await $(seedWordSelector(i));
-      await expect(wordElement).toBeDisplayed();
-      const text = await wordElement.getText();
-      expect(text.length).toBeGreaterThan(0);
+    // Wait a moment for words to be visible
+    await browser.pause(500);
+
+    // Verify all 12 words are displayed via WebView JavaScript
+    const seedWords = await getSeedWordsFromBackup();
+    expect(seedWords.length).toBe(12);
+
+    for (const word of seedWords) {
+      expect(word.length).toBeGreaterThan(0);
     }
   });
 
@@ -119,10 +61,15 @@ describe('Onboarding - Create Wallet', () => {
     await showButton.waitForDisplayed({ timeout: 15000 });
     await showButton.click();
 
-    // Get the correct words
-    const firstWordElement = await $(seedWordSelector(0));
-    const firstWord = await firstWordElement.getText();
+    // Wait a moment for words to be visible
+    await browser.pause(500);
 
+    // Get the correct words via WebView JavaScript
+    const seedWords = await getSeedWordsFromBackup();
+    const firstWord = seedWords[0];
+
+    // Switch to native context for button clicks
+    await switchToNativeContext();
     const continueButton = await $(Selectors.continueButton);
     await continueButton.click();
 
@@ -144,5 +91,92 @@ describe('Onboarding - Create Wallet', () => {
     // Still should not be enabled (need both words)
     const stillDisabled = await verifyContinue.isEnabled();
     expect(stillDisabled).toBe(false);
+  });
+
+  // This test creates a wallet and should run LAST since it leaves the app
+  // in a state where subsequent tests cannot start fresh without fullReset
+  it('should complete create wallet flow and show Explore page', async () => {
+    await waitForAppReady();
+
+    // Click "Create a new wallet"
+    const createButton = await $(Selectors.createWalletButton);
+    await createButton.waitForDisplayed({ timeout: 15000 });
+    await createButton.click();
+
+    // Wait for backup screen
+    const showButton = await $(Selectors.showSeedPhraseButton);
+    await showButton.waitForDisplayed({ timeout: 15000 });
+    await showButton.click();
+
+    // Wait a moment for words to be visible
+    await browser.pause(500);
+
+    // Extract seed words for verification via WebView JavaScript
+    const seedWords = await getSeedWordsFromBackup();
+
+    expect(seedWords.length).toBe(12);
+    expect(seedWords[0]).toBeTruthy();
+    expect(seedWords[11]).toBeTruthy();
+
+    // Click Continue (switch to native context first)
+    await switchToNativeContext();
+    const continueButton = await $(Selectors.continueButton);
+    await continueButton.click();
+
+    // Verify seed phrase screen
+    const verifySeedPhrase = await $(Selectors.verifySeedPhrase);
+    await verifySeedPhrase.waitForDisplayed({ timeout: 15000 });
+
+    // Select first and last words
+    const firstWordButton = await $(verifyWordSelector(seedWords[0]));
+    await firstWordButton.waitForDisplayed({ timeout: 10000 });
+    await firstWordButton.click();
+
+    const lastWordButton = await $(verifyWordSelector(seedWords[11]));
+    await lastWordButton.click();
+
+    // Continue to password
+    const verifyContinue = await $(Selectors.continueButton);
+    await verifyContinue.click();
+
+    // Wait for password screen
+    const passwordScreen = await $(Selectors.createPassword);
+    await passwordScreen.waitForDisplayed({ timeout: 15000 });
+
+    // Use WebView JavaScript to set password values
+    const passwordSuccess = await setPasswordInputs(TEST_PASSWORD, TEST_PASSWORD);
+    if (!passwordSuccess) {
+      throw new Error('Failed to set password inputs via WebView');
+    }
+
+    // Wait a moment for biometric toggle to render (it loads async)
+    await browser.pause(1000);
+
+    // Disable biometrics toggle to avoid Face ID prompt
+    // Note: This may return false if biometrics not available on simulator
+    const biometricDisabled = await disableBiometricsToggle();
+    console.log('[Test] Biometric toggle disabled:', biometricDisabled);
+
+    // Switch back to native context for button interactions
+    await switchToNativeContext();
+    await browser.pause(500);
+
+    const passwordContinue = await $(Selectors.continueButton);
+    await passwordContinue.waitForEnabled({ timeout: 10000 });
+    await passwordContinue.click();
+
+    // Complete onboarding - wait for wallet to be ready
+    // Wallet creation involves key generation and node sync which can take 2+ minutes
+    const getStartedButton = await $(Selectors.getStartedButton);
+    await getStartedButton.waitForDisplayed({ timeout: 180000 });
+    await getStartedButton.click();
+
+    // Verify we're on Explore page
+    const sendButton = await $(Selectors.sendButton);
+    await sendButton.waitForDisplayed({ timeout: 30000 });
+    await expect(sendButton).toBeDisplayed();
+
+    const receiveButton = await $(Selectors.receiveButton);
+    await expect(receiveButton).toBeDisplayed();
   });
 });

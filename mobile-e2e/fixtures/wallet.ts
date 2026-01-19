@@ -4,8 +4,38 @@
  */
 
 import { TEST_MNEMONIC, TEST_PASSWORD, triggerBiometricMatch, waitForAppReady } from './app';
-import { Selectors, seedWordSelector, seedPhraseInputSelector, verifyWordSelector } from '../helpers/selectors';
+import { Selectors, verifyWordSelector } from '../helpers/selectors';
 import { $ } from '@wdio/globals';
+import {
+  setSeedPhraseInputs,
+  setPasswordInputs,
+  setUnlockPasswordInput,
+  disableBiometricsToggle,
+  switchToNativeContext,
+  switchToWebviewContext
+} from '../helpers/webview';
+
+/**
+ * Get seed words from the backup screen via WebView JavaScript
+ * Returns array of 12 seed words
+ */
+export async function getSeedWordsFromBackup(): Promise<string[]> {
+  await switchToWebviewContext();
+
+  const words = await browser.execute(() => {
+    const seedWords: string[] = [];
+    for (let i = 0; i < 12; i++) {
+      const el = document.querySelector(`[data-testid="seed-word-text-${i}"]`);
+      if (el && el.textContent) {
+        seedWords.push(el.textContent.trim());
+      }
+    }
+    return seedWords;
+  });
+
+  await switchToNativeContext();
+  return words as string[];
+}
 
 /**
  * Complete the onboarding flow to create a new wallet
@@ -23,15 +53,18 @@ export async function createNewWallet(password: string = TEST_PASSWORD): Promise
   await showButton.waitForDisplayed({ timeout: 15000 });
   await showButton.click();
 
-  // Get seed words for verification
-  const seedWords: string[] = [];
-  for (let i = 0; i < 12; i++) {
-    const wordElement = await $(seedWordSelector(i));
-    const text = await wordElement.getText();
-    seedWords.push(text);
+  // Wait a moment for words to be visible
+  await browser.pause(500);
+
+  // Get seed words for verification via WebView JavaScript
+  const seedWords = await getSeedWordsFromBackup();
+
+  if (seedWords.length !== 12) {
+    throw new Error(`Expected 12 seed words, got ${seedWords.length}`);
   }
 
   // Click Continue
+  await switchToNativeContext();
   const continueButton = await $(Selectors.continueButton);
   await continueButton.click();
 
@@ -47,11 +80,11 @@ export async function createNewWallet(password: string = TEST_PASSWORD): Promise
   await verifyContinue.click();
 
   // Set password
-  await setPassword(password);
+  await setPasswordWithWebView(password);
 
   // Complete onboarding
   const getStartedButton = await $(Selectors.getStartedButton);
-  await getStartedButton.waitForDisplayed({ timeout: 30000 });
+  await getStartedButton.waitForDisplayed({ timeout: 180000 });
   await getStartedButton.click();
 
   // Wait for explore page
@@ -78,24 +111,31 @@ export async function importWalletFromSeed(
   await seedPhraseOption.waitForDisplayed({ timeout: 15000 });
   await seedPhraseOption.click();
 
-  // Enter seed words
+  // Wait for seed phrase inputs to be visible
+  await browser.pause(500);
+
+  // Enter seed words via WebView JavaScript
   const words = mnemonic.split(' ');
-  for (let i = 0; i < words.length; i++) {
-    const input = await $(seedPhraseInputSelector(i));
-    await input.waitForDisplayed({ timeout: 5000 });
-    await input.setValue(words[i]);
+  const success = await setSeedPhraseInputs(words);
+  if (!success) {
+    throw new Error('Failed to set seed phrase inputs via WebView');
   }
+
+  // Switch back to native context for button interactions
+  await switchToNativeContext();
+  await browser.pause(500);
 
   // Click Continue
   const continueButton = await $(Selectors.continueButton);
+  await continueButton.waitForEnabled({ timeout: 10000 });
   await continueButton.click();
 
   // Set password
-  await setPassword(password);
+  await setPasswordWithWebView(password);
 
   // Complete onboarding
   const getStartedButton = await $(Selectors.getStartedButton);
-  await getStartedButton.waitForDisplayed({ timeout: 30000 });
+  await getStartedButton.waitForDisplayed({ timeout: 180000 });
   await getStartedButton.click();
 
   // Wait for explore page
@@ -104,9 +144,10 @@ export async function importWalletFromSeed(
 }
 
 /**
- * Set password during onboarding
+ * Set password during onboarding using WebView JavaScript
+ * This properly triggers React events unlike native Appium typing
  */
-async function setPassword(password: string): Promise<void> {
+async function setPasswordWithWebView(password: string): Promise<void> {
   // First wait for the password screen to be displayed
   const passwordScreen = await $(Selectors.createPassword);
   await passwordScreen.waitForDisplayed({ timeout: 15000 });
@@ -114,22 +155,22 @@ async function setPassword(password: string): Promise<void> {
   // Small pause to ensure screen transition is complete
   await browser.pause(500);
 
-  // Find and fill password inputs
-  const passwordInput = await $(Selectors.passwordInput);
-  await passwordInput.waitForDisplayed({ timeout: 10000 });
-  await passwordInput.setValue(password);
+  // Use WebView JavaScript to set password values
+  const success = await setPasswordInputs(password, password);
+  if (!success) {
+    throw new Error('Failed to set password inputs via WebView');
+  }
 
-  // Small pause between inputs
-  await browser.pause(300);
+  // Disable biometrics toggle to avoid Face ID prompt
+  await disableBiometricsToggle();
 
-  const confirmInput = await $(Selectors.confirmPasswordInput);
-  await confirmInput.waitForDisplayed({ timeout: 5000 });
-  await confirmInput.setValue(password);
+  // Switch back to native context for button interactions
+  await switchToNativeContext();
+  await browser.pause(500);
 
   // Wait for continue button and click
-  await browser.pause(300);
   const continueButton = await $(Selectors.continueButton);
-  await continueButton.waitForDisplayed({ timeout: 5000 });
+  await continueButton.waitForEnabled({ timeout: 10000 });
   await continueButton.click();
 }
 
@@ -137,11 +178,20 @@ async function setPassword(password: string): Promise<void> {
  * Unlock the wallet with password
  */
 export async function unlockWallet(password: string = TEST_PASSWORD): Promise<void> {
-  const passwordInput = await $(Selectors.unlockPasswordInput);
-  await passwordInput.waitForDisplayed({ timeout: 15000 });
-  await passwordInput.setValue(password);
-
+  // Wait for unlock screen
   const unlockButton = await $(Selectors.unlockButton);
+  await unlockButton.waitForDisplayed({ timeout: 15000 });
+
+  // Use WebView JavaScript to set password
+  const success = await setUnlockPasswordInput(password);
+  if (!success) {
+    throw new Error('Failed to set unlock password via WebView');
+  }
+
+  // Switch back to native context for button click
+  await switchToNativeContext();
+  await browser.pause(500);
+
   await unlockButton.click();
 
   // Wait for explore page
