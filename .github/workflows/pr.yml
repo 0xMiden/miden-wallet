@@ -15,8 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    outputs:
-      committed: ${{ steps.commit.outputs.committed }}
     steps:
       - name: Check Out Code
         uses: actions/checkout@v3
@@ -59,12 +57,12 @@ jobs:
   ci:
     name: Test
     needs: translations
-    # Skip if translations committed - new workflow run will handle it
-    if: needs.translations.outputs.committed != 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Check Out Code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Use Node 22
         uses: actions/setup-node@v3
@@ -108,12 +106,12 @@ jobs:
   coverage:
     name: Coverage Check (80% minimum)
     needs: translations
-    # Skip if translations committed - new workflow run will handle it
-    if: needs.translations.outputs.committed != 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Check Out Code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Use Node 22
         uses: actions/setup-node@v3
@@ -133,12 +131,12 @@ jobs:
   i18n-check:
     name: Check for non-i18n'd strings
     needs: translations
-    # Skip if translations committed - new workflow run will handle it
-    if: needs.translations.outputs.committed != 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Check Out Code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Setup Node
         uses: actions/setup-node@v4

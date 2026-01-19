@@ -504,7 +504,7 @@ export const verifyStuckTransactionsFromNode = async (): Promise<number> => {
 
   // Filter to only consume transactions with a noteId
   const consumeTransactions = inProgressTransactions.filter(
-    (tx): tx is ConsumeTransaction => tx.type === 'consume' && !!tx.noteId
+    (tx): tx is ConsumeTransaction => tx.type === 'consume' && !!(tx as ConsumeTransaction).noteId
   );
 
   if (consumeTransactions.length === 0) return 0;
