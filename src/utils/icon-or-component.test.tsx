@@ -2,8 +2,6 @@ import React from 'react';
 
 import { render, screen } from '@testing-library/react';
 
-import { IconName } from 'app/icons/v2';
-
 import { IconOrComponent } from './icon-or-component';
 
 // Mock Icon component
@@ -12,34 +10,37 @@ jest.mock('app/icons/v2', () => ({
     <span data-testid="icon" data-name={name} data-fill={fill} data-size={size} className={className} />
   ),
   IconName: {
-    Send: 'Send',
-    Receive: 'Receive',
+    ArrowRight: 'ArrowRight',
+    ArrowLeft: 'ArrowLeft',
     Settings: 'Settings'
   }
 }));
 
+// Import the mocked IconName
+const { IconName } = jest.requireMock('app/icons/v2');
+
 describe('IconOrComponent', () => {
   it('renders Icon when icon prop is an IconName', () => {
-    render(<IconOrComponent icon={IconName.Send} color="blue" />);
+    render(<IconOrComponent icon={IconName.ArrowRight} color="blue" />);
 
     expect(screen.getByTestId('icon')).toBeInTheDocument();
-    expect(screen.getByTestId('icon')).toHaveAttribute('data-name', 'Send');
+    expect(screen.getByTestId('icon')).toHaveAttribute('data-name', 'ArrowRight');
   });
 
   it('passes color to Icon', () => {
-    render(<IconOrComponent icon={IconName.Send} color="red" />);
+    render(<IconOrComponent icon={IconName.ArrowRight} color="red" />);
 
     expect(screen.getByTestId('icon')).toHaveAttribute('data-fill', 'red');
   });
 
   it('uses default size md', () => {
-    render(<IconOrComponent icon={IconName.Send} color="blue" />);
+    render(<IconOrComponent icon={IconName.ArrowRight} color="blue" />);
 
     expect(screen.getByTestId('icon')).toHaveAttribute('data-size', 'md');
   });
 
   it('passes custom size to Icon', () => {
-    render(<IconOrComponent icon={IconName.Send} color="blue" size="lg" />);
+    render(<IconOrComponent icon={IconName.ArrowRight} color="blue" size="lg" />);
 
     expect(screen.getByTestId('icon')).toHaveAttribute('data-size', 'lg');
   });
@@ -60,7 +61,7 @@ describe('IconOrComponent', () => {
   });
 
   it('applies w-6 h-6 classes to Icon', () => {
-    render(<IconOrComponent icon={IconName.Send} color="blue" />);
+    render(<IconOrComponent icon={IconName.ArrowRight} color="blue" />);
 
     expect(screen.getByTestId('icon')).toHaveClass('w-6', 'h-6');
   });

@@ -127,9 +127,8 @@ describe('back-handler', () => {
       register(handler2);
 
       // Trigger back button
-      if (backButtonCallback) {
-        backButtonCallback();
-      }
+      expect(backButtonCallback).not.toBeNull();
+      backButtonCallback!();
 
       expect(order).toEqual([2, 1]); // Reverse order
     });
@@ -164,9 +163,8 @@ describe('back-handler', () => {
       register(handler1);
       register(handler2);
 
-      if (backButtonCallback) {
-        backButtonCallback();
-      }
+      expect(backButtonCallback).not.toBeNull();
+      backButtonCallback!();
 
       expect(handler2).toHaveBeenCalled();
       expect(handler1).not.toHaveBeenCalled(); // Should not be reached
@@ -197,9 +195,8 @@ describe('back-handler', () => {
       const { initMobileBackHandler: init } = await import('./back-handler');
       await init();
 
-      if (backButtonCallback) {
-        backButtonCallback();
-      }
+      expect(backButtonCallback).not.toBeNull();
+      backButtonCallback!();
 
       expect(mockMinimizeApp).toHaveBeenCalled();
     });
@@ -229,9 +226,8 @@ describe('back-handler', () => {
       const { initMobileBackHandler: init } = await import('./back-handler');
       await init();
 
-      if (backButtonCallback) {
-        backButtonCallback();
-      }
+      expect(backButtonCallback).not.toBeNull();
+      backButtonCallback!();
 
       expect(mockMinimizeApp).not.toHaveBeenCalled();
     });
