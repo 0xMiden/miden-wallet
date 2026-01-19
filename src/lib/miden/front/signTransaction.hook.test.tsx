@@ -12,37 +12,36 @@ import { WalletStoreProvider } from 'lib/store/WalletStoreProvider';
 
 jest.mock('../sdk/miden-client', () => jest.requireActual('../../../../__mocks__/lib/miden/sdk/miden-client'));
 
-jest.mock('lib/intercom', () => {
-  class MockIntercomClient {
-    private calls = 0;
-    request = jest.fn(async (req: any) => {
-      if (req.type === WalletMessageType.GetStateRequest) {
-        return {
-          type: WalletMessageType.GetStateResponse,
-          state: {
-            status: WalletStatus.Ready,
-            accounts: [{ publicKey: 'miden-account-1', name: 'Acc', isPublic: true, type: 'on-chain', hdIndex: 0 }],
-            networks: [],
-            settings: {},
-            currentAccount: { publicKey: 'miden-account-1', name: 'Acc', isPublic: true, type: 'on-chain', hdIndex: 0 },
-            ownMnemonic: true
-          }
-        };
-      }
-      if (req.type === WalletMessageType.SignTransactionRequest) {
-        return {
-          type: WalletMessageType.SignTransactionResponse,
-          signature: 'abcd'
-        };
-      }
-      throw new Error(`Unhandled request ${req.type}`);
-    });
+const mockIntercomClient = {
+  request: jest.fn(async (req: any) => {
+    if (req.type === WalletMessageType.GetStateRequest) {
+      return {
+        type: WalletMessageType.GetStateResponse,
+        state: {
+          status: WalletStatus.Ready,
+          accounts: [{ publicKey: 'miden-account-1', name: 'Acc', isPublic: true, type: 'on-chain', hdIndex: 0 }],
+          networks: [],
+          settings: {},
+          currentAccount: { publicKey: 'miden-account-1', name: 'Acc', isPublic: true, type: 'on-chain', hdIndex: 0 },
+          ownMnemonic: true
+        }
+      };
+    }
+    if (req.type === WalletMessageType.SignTransactionRequest) {
+      return {
+        type: WalletMessageType.SignTransactionResponse,
+        signature: 'abcd'
+      };
+    }
+    throw new Error(`Unhandled request ${req.type}`);
+  }),
+  subscribe: jest.fn(() => () => {})
+};
 
-    subscribe = jest.fn(() => () => {});
-  }
-
-  return { IntercomClient: MockIntercomClient };
-});
+jest.mock('lib/intercom/client', () => ({
+  createIntercomClient: jest.fn(() => mockIntercomClient),
+  IntercomClient: jest.fn().mockImplementation(() => mockIntercomClient)
+}));
 
 // Reset store state before each test
 beforeEach(() => {

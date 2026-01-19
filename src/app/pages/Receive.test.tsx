@@ -38,6 +38,11 @@ jest.mock('components/Button', () => ({
   ButtonVariant: { Primary: 'Primary', Secondary: 'Secondary' }
 }));
 
+jest.mock('components/SyncWaveBackground', () => ({
+  SyncWaveBackground: ({ isSyncing }: { isSyncing: boolean }) =>
+    isSyncing ? <div data-testid="sync-wave" /> : null
+}));
+
 jest.mock('lib/i18n/numbers', () => ({
   formatBigInt: (value: bigint) => value.toString()
 }));
@@ -50,8 +55,9 @@ jest.mock('lib/miden/front', () => ({
   useAccount: () => ({ publicKey: 'test-account-123' })
 }));
 
-const mockMutateClaimableNotes = jest.fn();
-const mockUseClaimableNotes = jest.fn(() => ({ data: [] as any[], mutate: mockMutateClaimableNotes }));
+let currentClaimableNotes: any[] = [];
+const mockMutateClaimableNotes = jest.fn(() => Promise.resolve(currentClaimableNotes));
+const mockUseClaimableNotes = jest.fn(() => ({ data: currentClaimableNotes, mutate: mockMutateClaimableNotes }));
 jest.mock('lib/miden/front/claimable-notes', () => ({
   useClaimableNotes: () => mockUseClaimableNotes()
 }));
@@ -67,6 +73,7 @@ jest.mock('lib/ui/useCopyToClipboard', () => ({
 
 jest.mock('lib/woozie', () => ({
   navigate: jest.fn(),
+  useLocation: () => ({ search: '' }),
   HistoryAction: { Replace: 'Replace' }
 }));
 
@@ -74,14 +81,33 @@ jest.mock('utils/string', () => ({
   truncateAddress: (addr: string) => addr?.slice(0, 8) || ''
 }));
 
+jest.mock('lib/miden/sdk/miden-client', () => ({
+  getMidenClient: jest.fn(() =>
+    Promise.resolve({
+      getInputNoteDetails: jest.fn(() => Promise.resolve([]))
+    })
+  ),
+  withWasmClientLock: jest.fn(callback => callback())
+}));
+
+jest.mock('@demox-labs/miden-sdk', () => ({
+  InputNoteState: { Invalid: 'Invalid' },
+  NoteFilter: jest.fn(),
+  NoteFilterTypes: { List: 'List' },
+  NoteId: { fromHex: jest.fn((id: string) => id) }
+}));
+
 const mockInitiateConsumeTransaction = jest.fn();
 const mockWaitForConsumeTx = jest.fn();
 const mockGetUncompletedTransactions = jest.fn();
+const mockGetFailedTransactions = jest.fn();
 
 jest.mock('lib/miden/activity', () => ({
   initiateConsumeTransaction: (...args: any[]) => mockInitiateConsumeTransaction(...args),
   waitForConsumeTx: (...args: any[]) => mockWaitForConsumeTx(...args),
-  getUncompletedTransactions: (...args: any[]) => mockGetUncompletedTransactions(...args)
+  getUncompletedTransactions: (...args: any[]) => mockGetUncompletedTransactions(...args),
+  verifyStuckTransactionsFromNode: jest.fn().mockResolvedValue(0),
+  getFailedTransactions: (...args: any[]) => mockGetFailedTransactions(...args)
 }));
 
 describe('ConsumableNoteComponent', () => {
@@ -115,7 +141,9 @@ describe('ConsumableNoteComponent', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    currentClaimableNotes = [];
     mockGetUncompletedTransactions.mockResolvedValue([]);
+    mockGetFailedTransactions.mockResolvedValue([]);
     mockInitiateConsumeTransaction.mockResolvedValue('tx-id-123');
     mockWaitForConsumeTx.mockResolvedValue('tx-hash-456');
     // Suppress expected console.error calls during error handling tests
@@ -178,7 +206,7 @@ describe('ConsumableNoteComponent', () => {
       );
     });
 
-    const spinner = testContainer.querySelector('.animate-spin');
+    const spinner = testContainer.querySelector('[data-testid="sync-wave"]');
     expect(spinner).toBeTruthy();
   });
 
@@ -241,7 +269,7 @@ describe('ConsumableNoteComponent', () => {
 
     const retryButton = testContainer.querySelector('[data-testid="claim-button"]');
     expect(retryButton?.textContent).toBe('retry');
-    expect(testContainer.textContent).toContain('errorClaiming');
+    expect(testContainer.textContent).toContain('error:');
   });
 
   it('resumes waiting for in-progress transaction on mount', async () => {
@@ -298,7 +326,7 @@ describe('ConsumableNoteComponent', () => {
     });
 
     // Initially shows spinner (before the async lookup completes)
-    expect(testContainer.querySelector('.animate-spin')).toBeTruthy();
+    expect(testContainer.querySelector('[data-testid="sync-wave"]')).toBeTruthy();
 
     // Now resolve with no transactions found
     await act(async () => {
@@ -336,7 +364,7 @@ describe('ConsumableNoteComponent', () => {
       await new Promise(resolve => setTimeout(resolve, 0));
     });
 
-    expect(testContainer.textContent).toContain('errorClaiming');
+    expect(testContainer.textContent).toContain('error:');
     const retryButton = testContainer.querySelector('[data-testid="claim-button"]');
     expect(retryButton?.textContent).toBe('retry');
   });
@@ -412,10 +440,11 @@ describe('Receive - Claim All', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    currentClaimableNotes = [];
     mockGetUncompletedTransactions.mockResolvedValue([]);
+    mockGetFailedTransactions.mockResolvedValue([]);
     mockInitiateConsumeTransaction.mockResolvedValue('tx-id-123');
     mockWaitForConsumeTx.mockResolvedValue('tx-hash-456');
-    mockUseClaimableNotes.mockReturnValue({ data: [], mutate: mockMutateClaimableNotes });
     // Suppress expected console.error calls during error handling tests
     consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
@@ -438,7 +467,7 @@ describe('Receive - Claim All', () => {
     testContainer = document.createElement('div');
     testRoot = createRoot(testContainer);
 
-    mockUseClaimableNotes.mockReturnValue({ data: [], mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = [];
 
     await act(async () => {
       testRoot!.render(<Receive />);
@@ -454,7 +483,7 @@ describe('Receive - Claim All', () => {
     testRoot = createRoot(testContainer);
 
     const notes = [createMockNote('note-1'), createMockNote('note-2')];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     await act(async () => {
       testRoot!.render(<Receive />);
@@ -470,7 +499,7 @@ describe('Receive - Claim All', () => {
     testRoot = createRoot(testContainer);
 
     const notes = [createMockNote('note-1'), createMockNote('note-2'), createMockNote('note-3')];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     let txIdCounter = 0;
     mockInitiateConsumeTransaction.mockImplementation(() => Promise.resolve(`tx-id-${++txIdCounter}`));
@@ -502,7 +531,7 @@ describe('Receive - Claim All', () => {
     testRoot = createRoot(testContainer);
 
     const notes = [createMockNote('note-1'), createMockNote('note-2'), createMockNote('note-3')];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     let callCount = 0;
     mockInitiateConsumeTransaction.mockImplementation(() => {
@@ -545,7 +574,7 @@ describe('Receive - Claim All', () => {
       createMockNote('note-2', { isBeingClaimed: true }),
       createMockNote('note-3', { isBeingClaimed: false })
     ];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     await act(async () => {
       testRoot!.render(<Receive />);
@@ -572,7 +601,7 @@ describe('Receive - Claim All', () => {
     testRoot = createRoot(testContainer);
 
     const notes = [createMockNote('note-1'), createMockNote('note-2')];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     // Let transactions queue, but hang on waitForConsumeTx to keep spinners visible
     let txIdCounter = 0;
@@ -593,7 +622,7 @@ describe('Receive - Claim All', () => {
     });
 
     // Should show spinners for individual notes
-    const spinners = testContainer.querySelectorAll('.animate-spin');
+    const spinners = testContainer.querySelectorAll('[data-testid="sync-wave"]');
     expect(spinners.length).toBe(2); // One spinner per note
 
     // Claim All button should NOT be visible (no unclaimed notes)
@@ -632,10 +661,11 @@ describe('Receive - Dynamic Note Arrivals', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    currentClaimableNotes = [];
     mockGetUncompletedTransactions.mockResolvedValue([]);
+    mockGetFailedTransactions.mockResolvedValue([]);
     mockInitiateConsumeTransaction.mockResolvedValue('tx-id-123');
     mockWaitForConsumeTx.mockResolvedValue('tx-hash-456');
-    mockUseClaimableNotes.mockReturnValue({ data: [], mutate: mockMutateClaimableNotes });
     consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
@@ -659,7 +689,7 @@ describe('Receive - Dynamic Note Arrivals', () => {
 
     // Start with 3 notes
     const initialNotes = [createMockNote('note-1'), createMockNote('note-2'), createMockNote('note-3')];
-    mockUseClaimableNotes.mockReturnValue({ data: initialNotes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = initialNotes;
 
     // Hang on waitForConsumeTx to simulate in-progress claiming
     const waitPromises: { resolve: (value: string) => void }[] = [];
@@ -684,7 +714,7 @@ describe('Receive - Dynamic Note Arrivals', () => {
     });
 
     // Verify spinners are showing and Claim All is hidden (no unclaimed notes)
-    expect(testContainer.querySelectorAll('.animate-spin').length).toBe(3);
+    expect(testContainer.querySelectorAll('[data-testid="sync-wave"]').length).toBe(3);
     let currentButtons = testContainer.querySelectorAll('[data-testid="claim-button"]');
     expect(Array.from(currentButtons).find(b => b.textContent === 'claimAll')).toBeFalsy();
 
@@ -695,7 +725,7 @@ describe('Receive - Dynamic Note Arrivals', () => {
       createMockNote('note-3', { isBeingClaimed: true }),
       createMockNote('note-4') // New note!
     ];
-    mockUseClaimableNotes.mockReturnValue({ data: notesWithNewArrival, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notesWithNewArrival;
 
     // Re-render to simulate SWR update
     await act(async () => {
@@ -710,7 +740,7 @@ describe('Receive - Dynamic Note Arrivals', () => {
     expect(newClaimAllButton.disabled).toBeFalsy();
 
     // Should still show spinners for the 3 original notes
-    expect(testContainer.querySelectorAll('.animate-spin').length).toBe(3);
+    expect(testContainer.querySelectorAll('[data-testid="sync-wave"]').length).toBe(3);
 
     // New note should have a Claim button
     const claimButtons = Array.from(currentButtons).filter(b => b.textContent === 'claim');
@@ -727,7 +757,7 @@ describe('Receive - Dynamic Note Arrivals', () => {
       createMockNote('note-2', { isBeingClaimed: true }),
       createMockNote('note-3') // New unclaimed note
     ];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     await act(async () => {
       testRoot!.render(<Receive />);
@@ -756,7 +786,7 @@ describe('Receive - Dynamic Note Arrivals', () => {
     testRoot = createRoot(testContainer);
 
     const notes = [createMockNote('note-1'), createMockNote('note-2'), createMockNote('note-3')];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     // Make individual claims hang
     mockWaitForConsumeTx.mockReturnValue(new Promise(() => {}));
@@ -776,7 +806,7 @@ describe('Receive - Dynamic Note Arrivals', () => {
     });
 
     // One spinner should appear
-    expect(testContainer.querySelectorAll('.animate-spin').length).toBe(1);
+    expect(testContainer.querySelectorAll('[data-testid="sync-wave"]').length).toBe(1);
 
     // Clear mock to track new calls
     mockInitiateConsumeTransaction.mockClear();
@@ -806,7 +836,7 @@ describe('Receive - Dynamic Note Arrivals', () => {
       createMockNote('note-1', { isBeingClaimed: true }),
       createMockNote('note-2', { isBeingClaimed: true })
     ];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     // Mock uncompleted transactions so the resume waiting effect doesn't clear loading
     mockGetUncompletedTransactions.mockResolvedValue([
@@ -831,7 +861,7 @@ describe('Receive - Dynamic Note Arrivals', () => {
     expect(claimAllButton).toBeFalsy();
 
     // Should show spinners
-    expect(testContainer.querySelectorAll('.animate-spin').length).toBe(2);
+    expect(testContainer.querySelectorAll('[data-testid="sync-wave"]').length).toBe(2);
   });
 
   it('handles rapid consecutive Claim All clicks correctly', async () => {
@@ -839,7 +869,7 @@ describe('Receive - Dynamic Note Arrivals', () => {
     testRoot = createRoot(testContainer);
 
     const notes = [createMockNote('note-1'), createMockNote('note-2')];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     // Hang on waitForConsumeTx
     mockWaitForConsumeTx.mockReturnValue(new Promise(() => {}));
@@ -874,7 +904,7 @@ describe('Receive - Dynamic Note Arrivals', () => {
 
     // Start with 2 notes
     const initialNotes = [createMockNote('note-1'), createMockNote('note-2')];
-    mockUseClaimableNotes.mockReturnValue({ data: initialNotes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = initialNotes;
 
     mockWaitForConsumeTx.mockReturnValue(new Promise(() => {}));
 
@@ -899,7 +929,7 @@ describe('Receive - Dynamic Note Arrivals', () => {
       createMockNote('note-4'), // New
       createMockNote('note-5') // New
     ];
-    mockUseClaimableNotes.mockReturnValue({ data: notesWithNewArrivals, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notesWithNewArrivals;
 
     await act(async () => {
       testRoot!.render(<Receive />);
@@ -907,7 +937,7 @@ describe('Receive - Dynamic Note Arrivals', () => {
     });
 
     // Should show 2 spinners (original notes) and 3 Claim buttons (new notes)
-    expect(testContainer.querySelectorAll('.animate-spin').length).toBe(2);
+    expect(testContainer.querySelectorAll('[data-testid="sync-wave"]').length).toBe(2);
 
     const currentButtons = testContainer.querySelectorAll('[data-testid="claim-button"]');
     const claimButtons = Array.from(currentButtons).filter(b => b.textContent === 'claim');
@@ -930,7 +960,7 @@ describe('Receive - Dynamic Note Arrivals', () => {
       createMockNote('note-4'), // Unclaimed
       createMockNote('note-5') // Unclaimed
     ];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     await act(async () => {
       testRoot!.render(<Receive />);
@@ -982,10 +1012,11 @@ describe('Receive - Claiming State Reporting', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    currentClaimableNotes = [];
     mockGetUncompletedTransactions.mockResolvedValue([]);
+    mockGetFailedTransactions.mockResolvedValue([]);
     mockInitiateConsumeTransaction.mockResolvedValue('tx-id-123');
     mockWaitForConsumeTx.mockResolvedValue('tx-hash-456');
-    mockUseClaimableNotes.mockReturnValue({ data: [], mutate: mockMutateClaimableNotes });
     consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
@@ -1008,7 +1039,7 @@ describe('Receive - Claiming State Reporting', () => {
     testRoot = createRoot(testContainer);
 
     const notes = [createMockNote('note-1'), createMockNote('note-2')];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     // Hang on transaction to keep claim in progress
     mockWaitForConsumeTx.mockReturnValue(new Promise(() => {}));
@@ -1029,7 +1060,7 @@ describe('Receive - Claiming State Reporting', () => {
     });
 
     // First note should now show spinner
-    expect(testContainer.querySelectorAll('.animate-spin').length).toBe(1);
+    expect(testContainer.querySelectorAll('[data-testid="sync-wave"]').length).toBe(1);
 
     // Claim All should still be visible (for the second unclaimed note)
     buttons = testContainer.querySelectorAll('[data-testid="claim-button"]');
@@ -1046,7 +1077,7 @@ describe('Receive - Claiming State Reporting', () => {
     testRoot = createRoot(testContainer);
 
     const notes = [createMockNote('note-1')];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     let resolveWait: (value: string) => void;
     mockWaitForConsumeTx.mockImplementation(
@@ -1090,7 +1121,7 @@ describe('Receive - Claiming State Reporting', () => {
 
     // Start with unclaimed note
     const initialNotes = [createMockNote('note-1', { isBeingClaimed: false })];
-    mockUseClaimableNotes.mockReturnValue({ data: initialNotes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = initialNotes;
 
     await act(async () => {
       testRoot!.render(<Receive />);
@@ -1103,7 +1134,7 @@ describe('Receive - Claiming State Reporting', () => {
     // Simulate SWR update where note is now being claimed (popup was reopened)
     // Also mock the uncompleted transactions to include this note
     const updatedNotes = [createMockNote('note-1', { isBeingClaimed: true })];
-    mockUseClaimableNotes.mockReturnValue({ data: updatedNotes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = updatedNotes;
     mockGetUncompletedTransactions.mockResolvedValue([{ id: 'tx-1', type: 'consume', noteId: 'note-1' }]);
     mockWaitForConsumeTx.mockReturnValue(new Promise(() => {})); // Hang to keep spinner visible
 
@@ -1113,7 +1144,7 @@ describe('Receive - Claiming State Reporting', () => {
     });
 
     // Should now show spinner
-    expect(testContainer.querySelectorAll('.animate-spin').length).toBe(1);
+    expect(testContainer.querySelectorAll('[data-testid="sync-wave"]').length).toBe(1);
 
     // Claim All should be hidden
     buttons = testContainer.querySelectorAll('[data-testid="claim-button"]');
@@ -1125,7 +1156,7 @@ describe('Receive - Claiming State Reporting', () => {
     testRoot = createRoot(testContainer);
 
     const notes = [createMockNote('note-1'), createMockNote('note-2')];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     // First call fails, subsequent calls succeed
     mockWaitForConsumeTx.mockRejectedValueOnce(new Error('Transaction failed'));
@@ -1159,7 +1190,7 @@ describe('Receive - Claiming State Reporting', () => {
     testRoot = createRoot(testContainer);
 
     const notes = [createMockNote('note-1'), createMockNote('note-2')];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     // First individual claim fails
     mockWaitForConsumeTx.mockRejectedValueOnce(new Error('Transaction failed'));
@@ -1207,7 +1238,7 @@ describe('Receive - Claiming State Reporting', () => {
     testRoot = createRoot(testContainer);
 
     const notes = [createMockNote('note-1')];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     // Claim will fail
     mockWaitForConsumeTx.mockRejectedValueOnce(new Error('Transaction failed'));
@@ -1240,7 +1271,7 @@ describe('Receive - Claiming State Reporting', () => {
     testRoot = createRoot(testContainer);
 
     const notes = [createMockNote('note-1'), createMockNote('note-2')];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     // First claim fails, retry succeeds
     mockWaitForConsumeTx.mockRejectedValueOnce(new Error('Transaction failed')).mockResolvedValue('tx-hash');
@@ -1306,10 +1337,11 @@ describe('Receive - Edge Cases', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    currentClaimableNotes = [];
     mockGetUncompletedTransactions.mockResolvedValue([]);
+    mockGetFailedTransactions.mockResolvedValue([]);
     mockInitiateConsumeTransaction.mockResolvedValue('tx-id-123');
     mockWaitForConsumeTx.mockResolvedValue('tx-hash-456');
-    mockUseClaimableNotes.mockReturnValue({ data: [], mutate: mockMutateClaimableNotes });
     consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
@@ -1331,7 +1363,7 @@ describe('Receive - Edge Cases', () => {
     testContainer = document.createElement('div');
     testRoot = createRoot(testContainer);
 
-    mockUseClaimableNotes.mockReturnValue({ data: [], mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = [];
 
     await act(async () => {
       testRoot!.render(<Receive />);
@@ -1339,14 +1371,14 @@ describe('Receive - Edge Cases', () => {
 
     // No Claim buttons or spinners should be present
     expect(testContainer.querySelectorAll('[data-testid="claim-button"]').length).toBe(1); // Only upload button
-    expect(testContainer.querySelectorAll('.animate-spin').length).toBe(0);
+    expect(testContainer.querySelectorAll('[data-testid="sync-wave"]').length).toBe(0);
   });
 
   it('handles undefined claimable notes', async () => {
     testContainer = document.createElement('div');
     testRoot = createRoot(testContainer);
 
-    mockUseClaimableNotes.mockReturnValue({ data: undefined as any, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = undefined as any;
 
     await act(async () => {
       testRoot!.render(<Receive />);
@@ -1363,7 +1395,7 @@ describe('Receive - Edge Cases', () => {
     testRoot = createRoot(testContainer);
 
     const notes = [createMockNote('note-1'), null, createMockNote('note-2'), undefined] as any[];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     await act(async () => {
       testRoot!.render(<Receive />);
@@ -1380,7 +1412,7 @@ describe('Receive - Edge Cases', () => {
     testRoot = createRoot(testContainer);
 
     const notes = [createMockNote('note-1')];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     await act(async () => {
       testRoot!.render(<Receive />);
@@ -1398,7 +1430,7 @@ describe('Receive - Edge Cases', () => {
 
     // Create 20 notes
     const notes = Array.from({ length: 20 }, (_, i) => createMockNote(`note-${i + 1}`));
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     await act(async () => {
       testRoot!.render(<Receive />);
@@ -1419,7 +1451,7 @@ describe('Receive - Edge Cases', () => {
     testRoot = createRoot(testContainer);
 
     const notes = [createMockNote('note-1'), createMockNote('note-2'), createMockNote('note-3')];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     mockWaitForConsumeTx.mockReturnValue(new Promise(() => {}));
 
@@ -1437,7 +1469,7 @@ describe('Receive - Edge Cases', () => {
     });
 
     // All notes should show spinners
-    expect(testContainer.querySelectorAll('.animate-spin').length).toBe(3);
+    expect(testContainer.querySelectorAll('[data-testid="sync-wave"]').length).toBe(3);
 
     // No Claim buttons should remain
     const currentButtons = testContainer.querySelectorAll('[data-testid="claim-button"]');
@@ -1458,7 +1490,7 @@ describe('Receive - Edge Cases', () => {
       createMockNote('note-3'),
       createMockNote('note-4')
     ];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     mockWaitForConsumeTx.mockReturnValue(new Promise(() => {}));
 
@@ -1477,7 +1509,7 @@ describe('Receive - Edge Cases', () => {
     });
 
     // 1 spinner should appear
-    expect(testContainer.querySelectorAll('.animate-spin').length).toBe(1);
+    expect(testContainer.querySelectorAll('[data-testid="sync-wave"]').length).toBe(1);
 
     // Click Claim All for remaining notes
     mockInitiateConsumeTransaction.mockClear();
@@ -1490,7 +1522,7 @@ describe('Receive - Edge Cases', () => {
     });
 
     // All 4 notes should now show spinners
-    expect(testContainer.querySelectorAll('.animate-spin').length).toBe(4);
+    expect(testContainer.querySelectorAll('[data-testid="sync-wave"]').length).toBe(4);
 
     // Claim All should have only processed notes 2, 3, 4
     expect(mockInitiateConsumeTransaction).toHaveBeenCalledTimes(3);
@@ -1503,7 +1535,7 @@ describe('Receive - Edge Cases', () => {
     testRoot = createRoot(testContainer);
 
     const notes = [createMockNote('note-1'), createMockNote('note-2')];
-    mockUseClaimableNotes.mockReturnValue({ data: notes, mutate: mockMutateClaimableNotes });
+    currentClaimableNotes = notes;
 
     let capturedSignal: AbortSignal | null = null;
     // Make first waitForConsumeTx hang to ensure we're mid-operation when unmounting

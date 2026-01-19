@@ -77,10 +77,9 @@ describe('GeneratingTransactionPage interval cleanup', () => {
     jest.restoreAllMocks();
   });
 
-  it('clears the polling interval when the transaction loop reports failure', async () => {
+  it('continues polling when the transaction loop reports failure', async () => {
     safeGenerateTransactionsLoopMock.mockReturnValue(false);
     const setIntervalSpy = jest.spyOn(global, 'setInterval');
-    const clearIntervalSpy = jest.spyOn(global, 'clearInterval');
 
     const container = document.createElement('div');
     const root = createRoot(container);
@@ -94,23 +93,22 @@ describe('GeneratingTransactionPage interval cleanup', () => {
     });
 
     expect(setIntervalSpy).toHaveBeenCalled();
-    expect(clearIntervalSpy).toHaveBeenCalled();
 
     const callsBefore = safeGenerateTransactionsLoopMock.mock.calls.length;
-    act(() => {
+    await act(async () => {
       jest.advanceTimersByTime(30_000);
     });
-    expect(safeGenerateTransactionsLoopMock.mock.calls.length).toBe(callsBefore);
+    // New behavior: loop continues processing even after failure
+    expect(safeGenerateTransactionsLoopMock.mock.calls.length).toBeGreaterThan(callsBefore);
 
     act(() => root.unmount());
   });
 
-  it('clears the polling interval when the transaction loop throws', async () => {
+  it('continues polling when the transaction loop throws', async () => {
     safeGenerateTransactionsLoopMock.mockImplementation(() => {
       throw new Error('boom');
     });
     const setIntervalSpy = jest.spyOn(global, 'setInterval');
-    const clearIntervalSpy = jest.spyOn(global, 'clearInterval');
 
     const container = document.createElement('div');
     const root = createRoot(container);
@@ -124,13 +122,13 @@ describe('GeneratingTransactionPage interval cleanup', () => {
     });
 
     expect(setIntervalSpy).toHaveBeenCalled();
-    expect(clearIntervalSpy).toHaveBeenCalled();
 
     const callsBefore = safeGenerateTransactionsLoopMock.mock.calls.length;
-    act(() => {
+    await act(async () => {
       jest.advanceTimersByTime(30_000);
     });
-    expect(safeGenerateTransactionsLoopMock.mock.calls.length).toBe(callsBefore);
+    // New behavior: loop continues processing even after errors
+    expect(safeGenerateTransactionsLoopMock.mock.calls.length).toBeGreaterThan(callsBefore);
 
     act(() => root.unmount());
   });
