@@ -53,6 +53,7 @@ export const SelectImportTypeScreen = ({ onSubmit, ...props }: SelectImportTypeS
             { 'mb-8': option.isLast }
           )}
           onClick={() => onSubmit?.(option.id)}
+          data-testid={option.id === ImportType.SeedPhrase ? 'import-seed-phrase-option' : 'import-from-file-option'}
         >
           <div className="flex flex-row justify-between items-center">
             <h2 className="font-medium text-base">{option.title}</h2>

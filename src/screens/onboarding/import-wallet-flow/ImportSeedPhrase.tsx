@@ -74,6 +74,7 @@ export const ImportSeedPhraseScreen: React.FC<ImportSeedPhraseScreenProps> = ({
               newSeedPhrase[index] = event.target.value;
               setSeedPhrase(newSeedPhrase);
             }}
+            data-testid={`seed-phrase-input-${index}`}
           />
         ))}
       </div>
@@ -85,6 +86,7 @@ export const ImportSeedPhraseScreen: React.FC<ImportSeedPhraseScreenProps> = ({
         onClick={handleSubmit}
         disabled={!isValid}
         className="w-[360px] mt-8"
+        testID="continue-button"
       />
     </div>
   );

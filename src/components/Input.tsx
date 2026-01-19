@@ -22,6 +22,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     { label, prefix, icon, suffix, containerClassName, inputClassName, labelClassName, iconClassName, ...props },
     ref
   ) => {
+    // Use label or placeholder as aria-label for accessibility (helps iOS native context detection)
+    const ariaLabel = props['aria-label'] || label || props.placeholder;
+
     return (
       <div className={classNames('flex flex-col gap-2', containerClassName)}>
         {label && <label className={classNames('text-sm font-medium', labelClassName)}>{label}</label>}
@@ -42,6 +45,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
           <input
             ref={ref}
+            aria-label={ariaLabel}
             className={classNames(
               'flex-1',
               'py-3',

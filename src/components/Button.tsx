@@ -21,6 +21,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   iconLeft?: React.ReactNode | IconName;
   iconRight?: React.ReactNode | IconName;
   isLoading?: boolean;
+  testID?: string;
 }
 
 const propsPerButtonVariant = {
@@ -67,6 +68,7 @@ export const Button: React.FC<ButtonProps> = ({
   className,
   isLoading,
   children,
+  testID,
   ...props
 }) => {
   let color = propsPerButtonVariant[variant].color;
@@ -118,6 +120,7 @@ export const Button: React.FC<ButtonProps> = ({
       )}
       disabled={disabled}
       type="button"
+      data-testid={testID}
       {...props}
       onClick={onClick}
     >
