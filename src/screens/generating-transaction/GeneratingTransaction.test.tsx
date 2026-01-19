@@ -10,7 +10,7 @@ jest.mock('react-i18next', () => ({
 }));
 
 jest.mock('app/atoms/CircularProgress', () => () => null);
-jest.mock('components/Alert', () => ({ Alert: () => null }));
+jest.mock('components/Alert', () => ({ Alert: () => null, AlertVariant: { Warning: 'Warning' } }));
 jest.mock('components/Button', () => ({ Button: () => null, ButtonVariant: {} }));
 jest.mock('app/icons/v2', () => ({
   Icon: () => null,

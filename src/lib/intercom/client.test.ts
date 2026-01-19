@@ -20,11 +20,25 @@ const mockPort = {
   postMessage: mockPostMessage
 };
 
+const mockRuntime = {
+  connect: jest.fn(() => mockPort)
+};
+
 jest.mock('webextension-polyfill', () => ({
-  runtime: {
-    connect: jest.fn(() => mockPort)
-  }
+  __esModule: true,
+  default: {
+    runtime: mockRuntime
+  },
+  runtime: mockRuntime
 }));
+
+// Helper to flush all pending promises with fake timers
+const flushPromises = async () => {
+  // Run pending timers and promises
+  await Promise.resolve();
+  jest.runAllTimers();
+  await Promise.resolve();
+};
 
 describe('IntercomClient', () => {
   let client: IntercomClient;
@@ -40,13 +54,20 @@ describe('IntercomClient', () => {
     jest.useRealTimers();
   });
 
-  it('creates client and connects to port', () => {
-    const browser = require('webextension-polyfill');
-    expect(browser.runtime.connect).toHaveBeenCalledWith({ name: 'INTERCOM' });
+  it('creates client and connects to port', async () => {
+    // Wait for async initialization
+    await flushPromises();
+    expect(mockRuntime.connect).toHaveBeenCalledWith({ name: 'INTERCOM' });
   });
 
   it('sends request and resolves on response', async () => {
+    // Wait for port initialization
+    await flushPromises();
+
     const requestPromise = client.request({ action: 'test' });
+
+    // Wait for the listener to be added
+    await flushPromises();
 
     // Get the message listener
     const messageListener = mockAddListener.mock.calls[0][0];
@@ -68,7 +89,13 @@ describe('IntercomClient', () => {
   });
 
   it('sends request and rejects on error', async () => {
+    // Wait for port initialization
+    await flushPromises();
+
     const requestPromise = client.request({ action: 'test' });
+
+    // Wait for the listener to be added
+    await flushPromises();
 
     // Get the message listener
     const messageListener = mockAddListener.mock.calls[0][0];
@@ -86,7 +113,13 @@ describe('IntercomClient', () => {
   });
 
   it('ignores messages with different reqId', async () => {
+    // Wait for port initialization
+    await flushPromises();
+
     const requestPromise = client.request({ action: 'test' });
+
+    // Wait for the listener to be added
+    await flushPromises();
 
     // Get the message listener
     const messageListener = mockAddListener.mock.calls[0][0];
@@ -110,14 +143,19 @@ describe('IntercomClient', () => {
   });
 
   it('increments reqId for each request', async () => {
+    // Wait for port initialization
+    await flushPromises();
+
     // First request
     const promise1 = client.request({ action: 'first' });
+    await flushPromises();
     const messageListener1 = mockAddListener.mock.calls[0][0];
     messageListener1({ type: MessageType.Res, reqId: 0, data: {} });
     await promise1;
 
     // Second request
     const promise2 = client.request({ action: 'second' });
+    await flushPromises();
     const messageListener2 = mockAddListener.mock.calls[1][0];
     messageListener2({ type: MessageType.Res, reqId: 1, data: {} });
     await promise2;
@@ -126,9 +164,15 @@ describe('IntercomClient', () => {
     expect(mockPostMessage).toHaveBeenNthCalledWith(2, expect.objectContaining({ reqId: 1 }));
   });
 
-  it('subscribes to notifications and calls callback', () => {
+  it('subscribes to notifications and calls callback', async () => {
+    // Wait for port initialization
+    await flushPromises();
+
     const callback = jest.fn();
     client.subscribe(callback);
+
+    // Wait for the subscription listener to be added
+    await flushPromises();
 
     // Get the subscription listener
     const subListener = mockAddListener.mock.calls[0][0];
@@ -142,7 +186,10 @@ describe('IntercomClient', () => {
     expect(callback).toHaveBeenCalledWith({ event: 'update' });
   });
 
-  it('unsubscribes when calling returned function', () => {
+  it('unsubscribes when calling returned function', async () => {
+    // Wait for port initialization
+    await flushPromises();
+
     const callback = jest.fn();
     const unsubscribe = client.subscribe(callback);
 
@@ -151,9 +198,15 @@ describe('IntercomClient', () => {
     expect(mockRemoveListener).toHaveBeenCalled();
   });
 
-  it('subscribe ignores non-Sub messages', () => {
+  it('subscribe ignores non-Sub messages', async () => {
+    // Wait for port initialization
+    await flushPromises();
+
     const callback = jest.fn();
     client.subscribe(callback);
+
+    // Wait for the subscription listener to be added
+    await flushPromises();
 
     // Get the subscription listener
     const subListener = mockAddListener.mock.calls[0][0];
@@ -167,18 +220,20 @@ describe('IntercomClient', () => {
     expect(callback).not.toHaveBeenCalled();
   });
 
-  it('reconnects after disconnect', () => {
-    const browser = require('webextension-polyfill');
+  it('reconnects after disconnect', async () => {
+    // Wait for port initialization
+    await flushPromises();
 
     // Trigger disconnect
     if (disconnectCallback) {
       disconnectCallback();
     }
 
-    // Advance timers by 1 second
+    // Advance timers by 1 second and flush
     jest.advanceTimersByTime(1000);
+    await flushPromises();
 
     // Should have reconnected
-    expect(browser.runtime.connect).toHaveBeenCalledTimes(2);
+    expect(mockRuntime.connect).toHaveBeenCalledTimes(2);
   });
 });

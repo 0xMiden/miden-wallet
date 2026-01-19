@@ -2,14 +2,25 @@ import browser from 'webextension-polyfill';
 
 import { REFRESH_MSGTYPE, onInited, updateLocale } from './loading';
 
-// Mock dependencies
+// Mock isMobile to return false so extension code paths run
+jest.mock('lib/platform', () => ({
+  isMobile: () => false
+}));
+
+const mockRuntime = {
+  onMessage: {
+    addListener: jest.fn()
+  },
+  sendMessage: jest.fn().mockResolvedValue(undefined)
+};
+
+// Mock dependencies - include both default export and named export for dynamic imports
 jest.mock('webextension-polyfill', () => ({
-  runtime: {
-    onMessage: {
-      addListener: jest.fn()
-    },
-    sendMessage: jest.fn()
-  }
+  __esModule: true,
+  default: {
+    runtime: mockRuntime
+  },
+  runtime: mockRuntime
 }));
 
 jest.mock('i18next', () => ({
@@ -57,8 +68,11 @@ describe('i18n/loading', () => {
 
       await updateLocale('fr-FR');
 
+      // Wait for the dynamic import to complete
+      await new Promise(resolve => setTimeout(resolve, 0));
+
       expect(saveLocale).toHaveBeenCalledWith('fr-FR');
-      expect(browser.runtime.sendMessage).toHaveBeenCalledWith({ type: REFRESH_MSGTYPE, locale: 'fr-FR' });
+      expect(mockRuntime.sendMessage).toHaveBeenCalledWith({ type: REFRESH_MSGTYPE, locale: 'fr-FR' });
     });
   });
 });

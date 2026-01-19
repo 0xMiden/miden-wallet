@@ -8,7 +8,8 @@ jest.mock('../sdk/miden-client', () => {
       Promise.resolve({
         syncState: mockSyncState
       })
-    )
+    ),
+    withWasmClientLock: jest.fn(callback => callback())
   };
 });
 
