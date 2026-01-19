@@ -22,10 +22,10 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.head_ref }}
 
-      - name: Use Node 20
+      - name: Use Node 22
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Run Install
         uses: borales/actions-yarn@v4
@@ -64,10 +64,10 @@ jobs:
       - name: Check Out Code
         uses: actions/checkout@v3
 
-      - name: Use Node 20
+      - name: Use Node 22
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Run Install
         uses: borales/actions-yarn@v4
@@ -113,10 +113,10 @@ jobs:
       - name: Check Out Code
         uses: actions/checkout@v3
 
-      - name: Use Node 20
+      - name: Use Node 22
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Run Install
         uses: borales/actions-yarn@v4
@@ -141,7 +141,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: yarn
 
       - name: Install dependencies
