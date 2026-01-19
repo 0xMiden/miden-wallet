@@ -79,4 +79,46 @@ describe('logger', () => {
 
     expect((logger as any).sendLogToServer).not.toHaveBeenCalled();
   });
+
+  it('censors private keys in log meta', async () => {
+    process.env.MODE_ENV = 'production';
+    localStorage.setItem('analytics', JSON.stringify({ enabled: true }));
+
+    const privateKey = `APrivateKey${'x'.repeat(48)}`;
+    await logger.info('test', { key: privateKey });
+
+    const logArg = (logger as any).sendLogToServer.mock.calls[0][0];
+    expect(logArg.meta.key).toBe('APrivateKey****');
+  });
+
+  it('censors message containing private keys', async () => {
+    process.env.MODE_ENV = 'production';
+    localStorage.setItem('analytics', JSON.stringify({ enabled: true }));
+
+    const privateKey = `APrivateKey${'x'.repeat(48)}`;
+    await logger.info(`User key: ${privateKey}`);
+
+    const logArg = (logger as any).sendLogToServer.mock.calls[0][0];
+    expect(logArg.message).toBe('User key: APrivateKey****');
+  });
+
+  it('handles empty analytics localStorage', async () => {
+    process.env.MODE_ENV = 'production';
+    // No analytics in localStorage
+
+    await logger.info('message');
+
+    // Should still call since analytics is not explicitly disabled
+    expect((logger as any).sendLogToServer).toHaveBeenCalled();
+  });
+
+  it('handles null meta gracefully', async () => {
+    process.env.MODE_ENV = 'production';
+    localStorage.setItem('analytics', JSON.stringify({ enabled: true }));
+
+    await logger.info('message', null);
+
+    const logArg = (logger as any).sendLogToServer.mock.calls[0][0];
+    expect(logArg.meta.walletVersion).toBeDefined();
+  });
 });

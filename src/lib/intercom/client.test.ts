@@ -1,5 +1,14 @@
-import { IntercomClient } from './client';
+import { createIntercomClient, IntercomClient } from './client';
 import { MessageType } from './types';
+
+// Mock lib/platform for createIntercomClient tests
+jest.mock('lib/platform', () => ({
+  isMobile: jest.fn(() => false)
+}));
+
+import { isMobile } from 'lib/platform';
+
+const mockIsMobile = isMobile as jest.MockedFunction<typeof isMobile>;
 
 // Mock webextension-polyfill before importing
 const mockAddListener = jest.fn();
@@ -235,5 +244,32 @@ describe('IntercomClient', () => {
 
     // Should have reconnected
     expect(mockRuntime.connect).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe('createIntercomClient', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    mockIsMobile.mockReturnValue(false);
+  });
+
+  it('returns IntercomClient when not on mobile', () => {
+    mockIsMobile.mockReturnValue(false);
+
+    const client = createIntercomClient();
+
+    expect(client).toBeInstanceOf(IntercomClient);
+  });
+
+  it('returns MobileIntercomClientWrapper when on mobile', () => {
+    mockIsMobile.mockReturnValue(true);
+
+    const client = createIntercomClient();
+
+    // Should not be an IntercomClient
+    expect(client).not.toBeInstanceOf(IntercomClient);
+    // But should have the interface methods
+    expect(typeof client.request).toBe('function');
+    expect(typeof client.subscribe).toBe('function');
   });
 });

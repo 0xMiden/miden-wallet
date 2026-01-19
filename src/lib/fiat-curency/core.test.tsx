@@ -1,9 +1,10 @@
-import { renderHook } from '@testing-library/react';
+import { render, renderHook } from '@testing-library/react';
+import React from 'react';
 
 import { useWalletStore } from 'lib/store';
 
 import { FIAT_CURRENCIES } from './consts';
-import { getFiatCurrencyKey, useFiatCurrency, useAssetFiatCurrencyPrice } from './core';
+import { FiatCurrencyProvider, getFiatCurrencyKey, useFiatCurrency, useAssetFiatCurrencyPrice } from './core';
 import { FiatCurrenciesEnum } from './types';
 
 // Mock dependencies
@@ -105,6 +106,44 @@ describe('fiat-currency/core', () => {
 
       // selectedFiatCurrency defaults to FIAT_CURRENCIES[0], so it should still calculate
       expect(result.current).not.toBeNull();
+    });
+  });
+
+  describe('FiatCurrencyProvider', () => {
+    it('renders children', () => {
+      const { getByText } = render(
+        <FiatCurrencyProvider>
+          <div>Test Child</div>
+        </FiatCurrencyProvider>
+      );
+
+      expect(getByText('Test Child')).toBeInTheDocument();
+    });
+
+    it('syncs stored currency to Zustand', () => {
+      const setSelectedFiatCurrency = jest.fn();
+      useWalletStore.setState({ setSelectedFiatCurrency });
+
+      render(
+        <FiatCurrencyProvider>
+          <div>Test</div>
+        </FiatCurrencyProvider>
+      );
+
+      expect(setSelectedFiatCurrency).toHaveBeenCalledWith(FIAT_CURRENCIES[0]);
+    });
+
+    it('syncs fiat rates to Zustand', () => {
+      const setFiatRates = jest.fn();
+      useWalletStore.setState({ setFiatRates });
+
+      render(
+        <FiatCurrencyProvider>
+          <div>Test</div>
+        </FiatCurrencyProvider>
+      );
+
+      expect(setFiatRates).toHaveBeenCalledWith({ usd: 1 });
     });
   });
 });
