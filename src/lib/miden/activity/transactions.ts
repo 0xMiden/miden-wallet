@@ -480,26 +480,40 @@ const CONSUMED_NOTE_STATES = [
   InputNoteState.ConsumedExternal
 ];
 
+// Minimum time a transaction must be in GeneratingTransaction status before we consider it "stuck"
+// This prevents cancelling transactions that are actively being processed
+const MIN_PROCESSING_TIME_BEFORE_STUCK = 60_000; // 1 minute
+
 /**
  * Verify stuck transactions by checking note state from the node.
  * For consume transactions:
  * - If the note has been consumed on-chain, mark the transaction as completed
- * - If the note is invalid or tx has been stuck too long, mark as failed
+ * - If the note is invalid, mark as failed
+ * - If the note is still claimable AND the tx has been processing for > 1 minute, mark as failed
+ *
+ * IMPORTANT: Only checks GeneratingTransaction status, NOT Queued.
+ * Queued transactions haven't started processing yet, so the note being claimable is expected.
+ *
  * Returns the number of transactions that were resolved.
  */
 export const verifyStuckTransactionsFromNode = async (): Promise<number> => {
-  // Check both Queued and GeneratingTransaction statuses
-  const stuckTransactions = await getAllUncompletedTransactions();
-  if (stuckTransactions.length === 0) return 0;
+  // Only check GeneratingTransaction status - NOT Queued
+  // Queued transactions haven't started processing yet, so the note being claimable is expected
+  const inProgressTransactions = await getTransactionsInProgress();
+  if (inProgressTransactions.length === 0) return 0;
 
   // Filter to only consume transactions with a noteId
-  const consumeTransactions = stuckTransactions.filter(
+  const consumeTransactions = inProgressTransactions.filter(
     (tx): tx is ConsumeTransaction => tx.type === 'consume' && !!tx.noteId
   );
 
   if (consumeTransactions.length === 0) return 0;
 
-  console.log('[verifyStuckTransactionsFromNode] Checking', consumeTransactions.length, 'stuck consume transactions');
+  console.log(
+    '[verifyStuckTransactionsFromNode] Checking',
+    consumeTransactions.length,
+    'in-progress consume transactions'
+  );
 
   let resolvedCount = 0;
 
@@ -539,10 +553,25 @@ export const verifyStuckTransactionsFromNode = async (): Promise<number> => {
         note.state === InputNoteState.Expected ||
         note.state === InputNoteState.Unverified
       ) {
-        // Note is still claimable - tx never made it to node, mark as failed so user can retry
-        console.log('[verifyStuckTransactionsFromNode] Note still claimable, marking tx failed:', tx.id);
-        await cancelTransaction(tx, 'Transaction was interrupted');
-        resolvedCount++;
+        // Note is still claimable - only cancel if tx has been processing for a while
+        // This prevents cancelling transactions that are actively being processed
+        const processingTime = tx.processingStartedAt ? Date.now() - tx.processingStartedAt : 0;
+        if (processingTime > MIN_PROCESSING_TIME_BEFORE_STUCK) {
+          console.log(
+            '[verifyStuckTransactionsFromNode] Note still claimable after',
+            Math.round(processingTime / 1000),
+            's, marking tx failed:',
+            tx.id
+          );
+          await cancelTransaction(tx, 'Transaction was interrupted');
+          resolvedCount++;
+        } else {
+          console.log(
+            '[verifyStuckTransactionsFromNode] Note still claimable but tx only processing for',
+            Math.round(processingTime / 1000),
+            's, waiting...'
+          );
+        }
       }
     } catch (err) {
       console.error('[verifyStuckTransactionsFromNode] Error checking tx:', tx.id, err);
