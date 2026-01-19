@@ -24,9 +24,8 @@ import {
   MIDEN_PROVING_ENDPOINTS,
   MIDEN_TRANSPORT_LAYER_NAME
 } from 'lib/miden-chain/constants';
-import { WalletType } from 'screens/onboarding/types';
-
 import { isMobile } from 'lib/platform';
+import { WalletType } from 'screens/onboarding/types';
 
 import { ConsumeTransaction, SendTransaction } from '../db/types';
 import { toNoteType } from '../helpers';

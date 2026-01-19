@@ -2,6 +2,8 @@ import React from 'react';
 
 import { render, screen, fireEvent } from '@testing-library/react';
 
+import { hapticLight, hapticMedium } from 'lib/mobile/haptics';
+
 import { Button, ButtonVariant } from './Button';
 
 // Mock Loader component
@@ -17,10 +19,12 @@ jest.mock('lib/mobile/haptics', () => ({
 
 // Mock IconOrComponent
 jest.mock('utils/icon-or-component', () => ({
-  IconOrComponent: ({ icon, color }: any) => <span data-testid="icon" data-color={color}>{icon}</span>
+  IconOrComponent: ({ icon, color }: any) => (
+    <span data-testid="icon" data-color={color}>
+      {icon}
+    </span>
+  )
 }));
-
-import { hapticLight, hapticMedium } from 'lib/mobile/haptics';
 
 describe('Button', () => {
   beforeEach(() => {

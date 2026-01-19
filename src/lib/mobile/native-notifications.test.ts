@@ -1,5 +1,10 @@
-import { InAppBrowser } from '@capgo/inappbrowser';
 import { LocalNotifications } from '@capacitor/local-notifications';
+import { InAppBrowser } from '@capgo/inappbrowser';
+
+import { hapticSuccess } from 'lib/mobile/haptics';
+import { isMobile, isAndroid } from 'lib/platform';
+import { useWalletStore } from 'lib/store';
+import { navigate } from 'lib/woozie';
 
 import {
   requestNotificationPermission,
@@ -43,11 +48,6 @@ jest.mock('lib/store', () => ({
 jest.mock('lib/woozie', () => ({
   navigate: jest.fn()
 }));
-
-import { hapticSuccess } from 'lib/mobile/haptics';
-import { isMobile, isAndroid } from 'lib/platform';
-import { useWalletStore } from 'lib/store';
-import { navigate } from 'lib/woozie';
 
 const mockIsMobile = isMobile as jest.MockedFunction<typeof isMobile>;
 const mockIsAndroid = isAndroid as jest.MockedFunction<typeof isAndroid>;

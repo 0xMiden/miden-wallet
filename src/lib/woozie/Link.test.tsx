@@ -1,8 +1,12 @@
 /**
  * @jest-environment jsdom
  */
-import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
+
+import { fireEvent, render, screen } from '@testing-library/react';
+
+import { hapticLight } from 'lib/mobile/haptics';
+import { changeState, HistoryAction } from 'lib/woozie/history';
 
 import Link from './Link';
 
@@ -39,9 +43,6 @@ jest.mock('lib/woozie/history', () => ({
   changeState: jest.fn(),
   HistoryAction: { Push: 'pushstate', Replace: 'replacestate' }
 }));
-
-import { hapticLight } from 'lib/mobile/haptics';
-import { changeState, HistoryAction } from 'lib/woozie/history';
 
 describe('Link', () => {
   beforeEach(() => {

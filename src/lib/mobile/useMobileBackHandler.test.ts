@@ -1,5 +1,7 @@
 import { renderHook } from '@testing-library/react';
 
+import { isMobile } from 'lib/platform';
+
 import { useMobileBackHandler } from './useMobileBackHandler';
 
 const mockRegisterMobileBackHandler = jest.fn();
@@ -11,8 +13,6 @@ jest.mock('lib/platform', () => ({
 jest.mock('./back-handler', () => ({
   registerMobileBackHandler: (handler: () => boolean | void) => mockRegisterMobileBackHandler(handler)
 }));
-
-import { isMobile } from 'lib/platform';
 
 const mockIsMobile = isMobile as jest.MockedFunction<typeof isMobile>;
 

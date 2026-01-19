@@ -1,3 +1,4 @@
+import { isMobile } from './index';
 import { CapacitorStorage, ExtensionStorage, getStorageProvider } from './storage-adapter';
 
 // Mock isMobile
@@ -35,8 +36,6 @@ jest.mock('@capacitor/preferences', () => ({
     remove: (...args: unknown[]) => mockPreferencesRemove(...args)
   }
 }));
-
-import { isMobile } from './index';
 
 const mockIsMobile = isMobile as jest.MockedFunction<typeof isMobile>;
 

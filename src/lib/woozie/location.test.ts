@@ -1,8 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-import { renderHook } from '@testing-library/react';
 import React from 'react';
+
+import { renderHook } from '@testing-library/react';
 
 import { createLocationState, createLocationUpdates, LocationProvider, useLocation, LocationState } from './location';
 

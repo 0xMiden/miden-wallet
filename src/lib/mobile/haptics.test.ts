@@ -1,5 +1,8 @@
 import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 
+import { isMobile } from 'lib/platform';
+import { isHapticFeedbackEnabled } from 'lib/settings/helpers';
+
 import {
   hapticLight,
   hapticMedium,
@@ -35,9 +38,6 @@ jest.mock('lib/platform', () => ({
 jest.mock('lib/settings/helpers', () => ({
   isHapticFeedbackEnabled: jest.fn()
 }));
-
-import { isMobile } from 'lib/platform';
-import { isHapticFeedbackEnabled } from 'lib/settings/helpers';
 
 const mockIsMobile = isMobile as jest.MockedFunction<typeof isMobile>;
 const mockIsHapticEnabled = isHapticFeedbackEnabled as jest.MockedFunction<typeof isHapticFeedbackEnabled>;

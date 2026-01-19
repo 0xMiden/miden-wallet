@@ -1,5 +1,8 @@
 import { renderHook, act } from '@testing-library/react';
 
+import { AnalyticsEventCategory } from 'lib/miden/analytics-types';
+import { WalletMessageType } from 'lib/shared/types';
+
 import { sendTrackEvent, sendPageEvent, sendPerformanceEvent, useAnalyticsState } from './use-analytics-state.hook';
 
 // Mock dependencies
@@ -21,9 +24,6 @@ jest.mock('lib/miden/front/local-storage', () => ({
 jest.mock('nanoid', () => ({
   nanoid: () => 'test-user-id'
 }));
-
-import { AnalyticsEventCategory } from 'lib/miden/analytics-types';
-import { WalletMessageType } from 'lib/shared/types';
 
 describe('useAnalyticsState', () => {
   beforeEach(() => {
@@ -53,13 +53,9 @@ describe('sendTrackEvent', () => {
   });
 
   it('sends track event request with all parameters', async () => {
-    await sendTrackEvent(
-      'user-123',
-      'https://rpc.example.com',
-      'button_click',
-      AnalyticsEventCategory.ButtonPress,
-      { button: 'submit' }
-    );
+    await sendTrackEvent('user-123', 'https://rpc.example.com', 'button_click', AnalyticsEventCategory.ButtonPress, {
+      button: 'submit'
+    });
 
     expect(mockRequest).toHaveBeenCalledWith({
       type: WalletMessageType.SendTrackEventRequest,

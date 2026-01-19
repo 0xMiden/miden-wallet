@@ -94,8 +94,8 @@ describe('usePageRouterAnalytics', () => {
   });
 
   it('re-tracks when pathname changes', () => {
-    const { rerender } = renderHook(({ pathname, search, isContextReady }) =>
-      usePageRouterAnalytics(pathname, search, isContextReady),
+    const { rerender } = renderHook(
+      ({ pathname, search, isContextReady }) => usePageRouterAnalytics(pathname, search, isContextReady),
       { initialProps: { pathname: '/home', search: '', isContextReady: true } }
     );
 
@@ -109,8 +109,8 @@ describe('usePageRouterAnalytics', () => {
   });
 
   it('re-tracks when search changes', () => {
-    const { rerender } = renderHook(({ pathname, search, isContextReady }) =>
-      usePageRouterAnalytics(pathname, search, isContextReady),
+    const { rerender } = renderHook(
+      ({ pathname, search, isContextReady }) => usePageRouterAnalytics(pathname, search, isContextReady),
       { initialProps: { pathname: '/home', search: '', isContextReady: true } }
     );
 

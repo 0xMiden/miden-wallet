@@ -1,5 +1,6 @@
-import { render, renderHook } from '@testing-library/react';
 import React from 'react';
+
+import { render, renderHook } from '@testing-library/react';
 
 import { useWalletStore } from 'lib/store';
 

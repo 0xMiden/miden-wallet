@@ -1,3 +1,6 @@
+import * as Actions from 'lib/miden/back/actions';
+import { store } from 'lib/miden/back/store';
+import { MidenMessageType } from 'lib/miden/types';
 import { WalletMessageType } from 'lib/shared/types';
 
 import { MobileIntercomAdapter, getMobileIntercomAdapter } from './mobile-adapter';
@@ -40,10 +43,6 @@ jest.mock('lib/miden/back/store', () => {
     toFront: jest.fn(state => state)
   };
 });
-
-import * as Actions from 'lib/miden/back/actions';
-import { MidenMessageType } from 'lib/miden/types';
-import { store } from 'lib/miden/back/store';
 
 describe('MobileIntercomAdapter', () => {
   let adapter: MobileIntercomAdapter;
@@ -347,10 +346,7 @@ describe('MobileIntercomAdapter', () => {
       // Trigger a state change
       (store as any)._triggerWatch();
 
-      expect(consoleSpy).toHaveBeenCalledWith(
-        'MobileIntercomAdapter: Error in subscriber callback',
-        expect.any(Error)
-      );
+      expect(consoleSpy).toHaveBeenCalledWith('MobileIntercomAdapter: Error in subscriber callback', expect.any(Error));
       // Normal callback should still be called
       expect(normalCallback).toHaveBeenCalled();
 

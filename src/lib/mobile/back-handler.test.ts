@@ -1,5 +1,7 @@
 import { App } from '@capacitor/app';
 
+import { isMobile, isAndroid } from 'lib/platform';
+
 import { initMobileBackHandler, registerMobileBackHandler } from './back-handler';
 
 jest.mock('@capacitor/app', () => ({
@@ -13,8 +15,6 @@ jest.mock('lib/platform', () => ({
   isMobile: jest.fn(),
   isAndroid: jest.fn()
 }));
-
-import { isMobile, isAndroid } from 'lib/platform';
 
 const mockIsMobile = isMobile as jest.MockedFunction<typeof isMobile>;
 const mockIsAndroid = isAndroid as jest.MockedFunction<typeof isAndroid>;

@@ -2,6 +2,9 @@ import React from 'react';
 
 import { render, screen, fireEvent } from '@testing-library/react';
 
+import { AnalyticsEventCategory } from 'lib/analytics';
+import { hapticLight } from 'lib/mobile/haptics';
+
 import { Button } from './Button';
 
 // Mock analytics
@@ -19,9 +22,6 @@ jest.mock('lib/analytics', () => ({
 jest.mock('lib/mobile/haptics', () => ({
   hapticLight: jest.fn()
 }));
-
-import { hapticLight } from 'lib/mobile/haptics';
-import { AnalyticsEventCategory } from 'lib/analytics';
 
 describe('Button', () => {
   beforeEach(() => {

@@ -1,5 +1,7 @@
 import { renderHook, act } from '@testing-library/react';
 
+import { AnalyticsEventCategory } from 'lib/miden/analytics-types';
+
 import { useAnalytics } from './use-analytics.hook';
 
 // Mock dependencies
@@ -22,8 +24,6 @@ jest.mock('./use-analytics-state.hook', () => ({
 jest.mock('./use-analytics-network.hook', () => ({
   useAnalyticsNetwork: () => mockRpc
 }));
-
-import { AnalyticsEventCategory } from 'lib/miden/analytics-types';
 
 describe('useAnalytics', () => {
   beforeEach(() => {

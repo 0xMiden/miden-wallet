@@ -5,8 +5,8 @@ import wordsList from 'bip39/src/wordlists/english.json';
 
 import { formatMnemonic } from 'app/defaults';
 import { useMidenContext } from 'lib/miden/front';
-import { useMobileBackHandler } from 'lib/mobile/useMobileBackHandler';
 import { clearClientStorage } from 'lib/miden/reset';
+import { useMobileBackHandler } from 'lib/mobile/useMobileBackHandler';
 import { navigate } from 'lib/woozie';
 import { ForgotPasswordFlow } from 'screens/onboarding/forgot-password-navigator';
 import { ForgotPasswordAction, ForgotPasswordStep, OnboardingType } from 'screens/onboarding/types';

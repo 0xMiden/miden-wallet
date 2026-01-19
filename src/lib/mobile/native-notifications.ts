@@ -1,5 +1,5 @@
-import { InAppBrowser } from '@capgo/inappbrowser';
 import { LocalNotifications } from '@capacitor/local-notifications';
+import { InAppBrowser } from '@capgo/inappbrowser';
 
 import { hapticSuccess } from 'lib/mobile/haptics';
 import { isAndroid, isMobile } from 'lib/platform';

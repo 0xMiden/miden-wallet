@@ -2,6 +2,9 @@ import React from 'react';
 
 import { render } from '@testing-library/react';
 
+import { initNativeNotifications, showNoteReceivedNotification } from 'lib/mobile/native-notifications';
+import { isMobile } from 'lib/platform';
+
 import { NoteToastProvider } from './NoteToastProvider';
 
 // Mock dependencies
@@ -37,9 +40,6 @@ let mockStoreState = {
 jest.mock('lib/store', () => ({
   useWalletStore: (selector: (state: typeof mockStoreState) => unknown) => selector(mockStoreState)
 }));
-
-import { isMobile } from 'lib/platform';
-import { initNativeNotifications, showNoteReceivedNotification } from 'lib/mobile/native-notifications';
 
 const mockIsMobile = isMobile as jest.MockedFunction<typeof isMobile>;
 

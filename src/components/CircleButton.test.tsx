@@ -2,6 +2,9 @@ import React from 'react';
 
 import { render, screen, fireEvent } from '@testing-library/react';
 
+import { IconName } from 'app/icons/v2';
+import { hapticLight } from 'lib/mobile/haptics';
+
 import { CircleButton } from './CircleButton';
 
 // Mock Icon component
@@ -26,9 +29,6 @@ jest.mock('utils/tailwind-colors', () => ({
     300: '#d1d5db'
   }
 }));
-
-import { IconName } from 'app/icons/v2';
-import { hapticLight } from 'lib/mobile/haptics';
 
 describe('CircleButton', () => {
   beforeEach(() => {

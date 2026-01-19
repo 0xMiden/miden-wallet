@@ -1,14 +1,4 @@
 import {
-  setDelegateProofSetting,
-  isDelegateProofEnabled,
-  setAutoCloseSetting,
-  isAutoCloseEnabled,
-  setAutoConsumeSetting,
-  isAutoConsumeEnabled,
-  setHapticFeedbackSetting,
-  isHapticFeedbackEnabled
-} from './helpers';
-import {
   DELEGATE_PROOF_STORAGE_KEY,
   AUTO_CLOSE_STORAGE_KEY,
   AUTO_CONSUME_STORAGE_KEY,
@@ -18,6 +8,16 @@ import {
   DEFAULT_AUTO_CONSUME,
   DEFAULT_HAPTIC_FEEDBACK
 } from './constants';
+import {
+  setDelegateProofSetting,
+  isDelegateProofEnabled,
+  setAutoCloseSetting,
+  isAutoCloseEnabled,
+  setAutoConsumeSetting,
+  isAutoConsumeEnabled,
+  setHapticFeedbackSetting,
+  isHapticFeedbackEnabled
+} from './helpers';
 
 describe('settings helpers', () => {
   beforeEach(() => {

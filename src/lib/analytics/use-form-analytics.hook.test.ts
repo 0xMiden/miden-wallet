@@ -1,5 +1,7 @@
 import { renderHook, act } from '@testing-library/react';
 
+import { AnalyticsEventCategory } from 'lib/miden/analytics-types';
+
 import { useFormAnalytics } from './use-form-analytics.hook';
 
 // Mock useAnalytics
@@ -12,8 +14,6 @@ jest.mock('./use-analytics.hook', () => ({
     performanceEvent: jest.fn()
   })
 }));
-
-import { AnalyticsEventCategory } from 'lib/miden/analytics-types';
 
 describe('useFormAnalytics', () => {
   beforeEach(() => {

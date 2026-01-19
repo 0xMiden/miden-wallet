@@ -2,6 +2,8 @@ import React from 'react';
 
 import { render, screen } from '@testing-library/react';
 
+import { IconName } from 'app/icons/v2';
+
 import { IconOrComponent } from './icon-or-component';
 
 // Mock Icon component
@@ -15,8 +17,6 @@ jest.mock('app/icons/v2', () => ({
     Settings: 'Settings'
   }
 }));
-
-import { IconName } from 'app/icons/v2';
 
 describe('IconOrComponent', () => {
   it('renders Icon when icon prop is an IconName', () => {

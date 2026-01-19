@@ -5,6 +5,7 @@
  */
 
 import { PrivateDataPermission, AllowedPrivateData } from '@demox-labs/miden-wallet-adapter-base';
+
 import { DappMetadata } from 'lib/miden/types';
 
 export interface DAppConfirmationRequest {

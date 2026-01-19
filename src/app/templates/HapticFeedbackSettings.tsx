@@ -3,8 +3,8 @@ import React, { FC, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ToggleSwitch from 'app/atoms/ToggleSwitch';
-import { isHapticFeedbackEnabled, setHapticFeedbackSetting } from 'lib/settings/helpers';
 import { isMobile } from 'lib/platform';
+import { isHapticFeedbackEnabled, setHapticFeedbackSetting } from 'lib/settings/helpers';
 
 import { GeneralSettingsSelectors } from './GeneralSettings.selectors';
 

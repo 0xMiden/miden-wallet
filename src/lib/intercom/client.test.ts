@@ -1,3 +1,5 @@
+import { isMobile } from 'lib/platform';
+
 import { createIntercomClient, IntercomClient } from './client';
 import { MessageType } from './types';
 
@@ -5,8 +7,6 @@ import { MessageType } from './types';
 jest.mock('lib/platform', () => ({
   isMobile: jest.fn(() => false)
 }));
-
-import { isMobile } from 'lib/platform';
 
 const mockIsMobile = isMobile as jest.MockedFunction<typeof isMobile>;
 

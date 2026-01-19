@@ -1,8 +1,11 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen } from '@testing-library/react';
 import React from 'react';
+
+import { render, screen } from '@testing-library/react';
+
+import { changeState, HistoryAction } from 'lib/woozie/history';
 
 import Redirect from './Redirect';
 
@@ -24,8 +27,6 @@ jest.mock('lib/woozie/location', () => ({
     return { ...to, state: to.state };
   }
 }));
-
-import { changeState, HistoryAction } from 'lib/woozie/history';
 
 describe('Redirect', () => {
   beforeEach(() => {

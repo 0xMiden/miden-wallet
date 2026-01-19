@@ -1,5 +1,8 @@
-import { act, renderHook } from '@testing-library/react';
 import React from 'react';
+
+import { act, renderHook } from '@testing-library/react';
+
+import { isMobile } from 'lib/platform';
 
 import { AppEnvProvider, useAppEnv, WindowType, IS_DEV_ENV, onboardingUrls, openInFullPage } from './env';
 
@@ -45,8 +48,6 @@ jest.mock('webextension-polyfill', () => ({
     sendMessage: (...args: unknown[]) => mockSendMessage(...args)
   }
 }));
-
-import { isMobile } from 'lib/platform';
 
 const mockIsMobile = isMobile as jest.MockedFunction<typeof isMobile>;
 
