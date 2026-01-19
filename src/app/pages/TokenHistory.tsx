@@ -29,9 +29,9 @@ const TokenHistory: FC<TokenHistoryProps> = ({ tokenId }) => {
 
   const handleClose = () => goBack();
 
-  // Match SendManager's container sizing
+  // Match SendManager's container sizing - use h-full to inherit from parent (body has safe area padding)
   const containerClass = isMobile()
-    ? 'h-[100dvh] w-full'
+    ? 'h-full w-full'
     : fullPage
       ? 'h-[640px] max-h-[640px] w-[600px] max-w-[600px] border rounded-3xl'
       : 'h-[600px] max-h-[600px] w-[360px] max-w-[360px]';

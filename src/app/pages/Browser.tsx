@@ -103,13 +103,6 @@ const Browser: FC = () => {
     accountIdRef.current = accountId;
   }, [accountId]);
 
-  // On mobile, use fixed height with dvh (dynamic viewport height) for proper iOS handling
-  const containerStyle = isMobile()
-    ? { height: '100dvh', width: '100%' }
-    : fullPage
-      ? { height: '640px', width: '600px' }
-      : { height: '600px', width: '360px' };
-
   // Subscribe to confirmation store and inject overlay when needed
   useEffect(() => {
     const unsubscribe = dappConfirmationStore.subscribe(() => {

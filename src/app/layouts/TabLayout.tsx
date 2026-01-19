@@ -44,9 +44,9 @@ const TabLayout: FC<PropsWithChildren> = ({ children }) => {
     };
   }, [pathname]);
 
-  // Container sizing
+  // Container sizing - use 100% to inherit from parent chain (body has safe area padding)
   const containerStyles = isMobile()
-    ? { height: '100dvh', width: '100%' }
+    ? { height: '100%', width: '100%' }
     : fullPage
       ? { height: '640px', width: '600px' }
       : { height: '600px', width: '360px' };

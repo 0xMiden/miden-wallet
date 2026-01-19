@@ -33,9 +33,9 @@ const PageLayout: FC<PageLayoutProps> = ({
 }) => {
   const { fullPage } = useAppEnv();
 
-  // On mobile, use fixed height with dvh (dynamic viewport height) for proper iOS handling
+  // On mobile, use 100% to inherit from parent chain (body has safe area padding)
   const containerStyles = isMobile()
-    ? { height: '100dvh', width: '100%' }
+    ? { height: '100%', width: '100%' }
     : fullPage
       ? { height: '640px', width: '600px' }
       : { height: '600px', width: '360px' };

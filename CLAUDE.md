@@ -239,6 +239,37 @@ xcrun simctl spawn booted log stream --predicate 'process == "App"' > ios_logs.t
 2. Open Safari on Mac → Develop menu → Simulator → select the app
 3. Console tab shows JavaScript logs
 
+### Verifying Mobile UI Fixes
+
+**IMPORTANT:** When fixing mobile UI issues (layout, spacing, safe areas, etc.), always verify the fix by taking screenshots from the simulator and analyzing them visually. Do not rely solely on code inspection.
+
+**Workflow for UI fixes:**
+1. Build and run on simulator: `yarn mobile:ios:run`
+2. Take a screenshot: `xcrun simctl io booted screenshot /tmp/screenshot.png`
+3. Read the screenshot file to visually verify the fix
+4. If authentication is needed, trigger FaceID: `xcrun simctl spawn booted notifyutil -p com.apple.BiometricKit_Sim.fingerTouch.match`
+5. Wait briefly and take another screenshot: `sleep 2 && xcrun simctl io booted screenshot /tmp/screenshot2.png`
+
+**Example verification flow:**
+```bash
+# Build and launch
+source ~/.nvm/nvm.sh && nvm use 22 && yarn mobile:ios:run
+
+# Take screenshot after app loads
+xcrun simctl io booted screenshot /tmp/ios-test.png
+
+# Authenticate if needed (for locked wallet)
+xcrun simctl spawn booted notifyutil -p com.apple.BiometricKit_Sim.fingerTouch.match
+
+# Wait and capture main screen
+sleep 2 && xcrun simctl io booted screenshot /tmp/ios-main.png
+```
+
+**Common iOS layout issues and fixes:**
+- **Grey bar at bottom:** Usually caused by `100dvh` height not accounting for safe areas. Use `100%` instead and ensure `mobile.html` body has proper safe area padding.
+- **Content cut off:** Check if containers have `overflow: hidden` without proper height constraints.
+- **Safe area gaps:** Ensure `public/mobile.html` has `padding: env(safe-area-inset-*)` on body, and body background color matches app background (white).
+
 ## Code Style (Prettier)
 
 This project uses Prettier for code formatting. Always write code that conforms to Prettier rules:
