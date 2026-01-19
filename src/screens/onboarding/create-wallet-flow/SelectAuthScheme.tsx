@@ -1,10 +1,10 @@
 import React from 'react';
 
 import classNames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as ArrowRightIcon } from 'app/icons/arrow-right.svg';
 import { Button } from 'components/Button';
-import { t } from 'lib/i18n/react';
 import { AuthScheme } from 'screens/onboarding/types';
 
 const AuthSchemeOptions = [
@@ -35,6 +35,7 @@ const SelectAuthScheme = ({
   setAuthScheme,
   onCreateAccountScreen = false
 }: SelectAuthSchemeScreenProps) => {
+  const { t } = useTranslation();
   const handleWalletTypeSelect = (type: AuthScheme) => {
     setAuthScheme(type);
   };

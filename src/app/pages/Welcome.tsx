@@ -129,6 +129,7 @@ const Welcome: FC = () => {
         navigate('/#verify-seed-phrase');
         break;
       case 'select-auth-scheme':
+        setAuthScheme(action.payload);
         navigate('/#select-auth-scheme');
         break;
       case 'create-password':

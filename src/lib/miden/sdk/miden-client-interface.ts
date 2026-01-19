@@ -117,8 +117,8 @@ export class MidenClientInterface {
     // Create a new wallet
     const accountStorageMode =
       walletType === WalletType.OnChain ? AccountStorageMode.public() : AccountStorageMode.private();
-
-    const secretKey = SecretKey.rpoFalconWithRNG(seed);
+    const secretKey =
+      authScheme === AuthScheme.Falcon ? SecretKey.rpoFalconWithRNG(seed) : SecretKey.ecdsaWithRNG(seed);
     // create a new account with 0 seed so we can recreate it later from the secret key
     const accountBuilder = new AccountBuilder(new Uint8Array(32).fill(0))
       .accountType(AccountType.RegularAccountImmutableCode)

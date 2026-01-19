@@ -101,9 +101,8 @@ const CreateAccount: FC = () => {
       if (isSubmitting) return;
 
       clearErrors('name');
-
+      console.log(selectedAuthScheme);
       try {
-        // TODO: Pass selectedAuthScheme to createAccount when backend support is added
         await createAccount(selectedWalletType, selectedAuthScheme, name);
       } catch (err: any) {
         console.error(err);
