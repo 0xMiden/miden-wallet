@@ -2097,23 +2097,23 @@
     "message": "Scanner le code QR",
     "englishSource": "Scan QR Code"
   },
-  "Camera permission denied": {
+  "cameraPermissionDenied": {
     "message": "Autorisation de la caméra refusée",
     "englishSource": "Camera permission denied"
   },
-  "No QR code found": {
+  "noQrCodeFound": {
     "message": "Aucun code QR trouvé",
     "englishSource": "No QR code found"
   },
-  "Empty QR code": {
+  "emptyQrCode": {
     "message": "Code QR vide",
     "englishSource": "Empty QR code"
   },
-  "Invalid Miden address": {
+  "invalidMidenAddress": {
     "message": "Adresse Miden invalide",
     "englishSource": "Invalid Miden address"
   },
-  "Scan cancelled": {
+  "scanCancelled": {
     "message": "Analyse annulée",
     "englishSource": "Scan cancelled"
   },

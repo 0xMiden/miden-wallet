@@ -2109,23 +2109,23 @@
     "message": "QR 코드 스캔",
     "englishSource": "Scan QR Code"
   },
-  "Camera permission denied": {
+  "cameraPermissionDenied": {
     "message": "카메라 권한이 거부되었습니다",
     "englishSource": "Camera permission denied"
   },
-  "No QR code found": {
+  "noQrCodeFound": {
     "message": "QR 코드를 찾을 수 없습니다",
     "englishSource": "No QR code found"
   },
-  "Empty QR code": {
+  "emptyQrCode": {
     "message": "빈 QR 코드",
     "englishSource": "Empty QR code"
   },
-  "Invalid Miden address": {
+  "invalidMidenAddress": {
     "message": "잘못된 미덴 주소",
     "englishSource": "Invalid Miden address"
   },
-  "Scan cancelled": {
+  "scanCancelled": {
     "message": "스캔이 취소되었습니다.",
     "englishSource": "Scan cancelled"
   },

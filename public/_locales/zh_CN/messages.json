@@ -2109,23 +2109,23 @@
     "message": "扫描二维码",
     "englishSource": "Scan QR Code"
   },
-  "Camera permission denied": {
+  "cameraPermissionDenied": {
     "message": "相机权限被拒绝",
     "englishSource": "Camera permission denied"
   },
-  "No QR code found": {
+  "noQrCodeFound": {
     "message": "未找到二维码",
     "englishSource": "No QR code found"
   },
-  "Empty QR code": {
+  "emptyQrCode": {
     "message": "空二维码",
     "englishSource": "Empty QR code"
   },
-  "Invalid Miden address": {
+  "invalidMidenAddress": {
     "message": "米登地址无效",
     "englishSource": "Invalid Miden address"
   },
-  "Scan cancelled": {
+  "scanCancelled": {
     "message": "扫描已取消",
     "englishSource": "Scan cancelled"
   },

@@ -25,7 +25,8 @@ const BarcodeScanner = registerPlugin<BarcodeScannerPlugin>('BarcodeScanner');
 export interface ScanResult {
   success: boolean;
   address?: string;
-  error?: string;
+  /** i18n key for the error message */
+  errorKey?: string;
 }
 
 /**
@@ -43,7 +44,7 @@ export function isScanAvailable(): boolean {
  */
 export async function scanQRCode(): Promise<ScanResult> {
   if (!isMobile()) {
-    return { success: false, error: 'QR scanning is only available on mobile' };
+    return { success: false, errorKey: 'noQrCodeFound' };
   }
 
   try {
@@ -61,7 +62,7 @@ export async function scanQRCode(): Promise<ScanResult> {
     }
 
     if (!barcode) {
-      return { success: false, error: 'No QR code found' };
+      return { success: false, errorKey: 'noQrCodeFound' };
     }
 
     // Decode the address (strips miden: prefix if present)
@@ -69,7 +70,7 @@ export async function scanQRCode(): Promise<ScanResult> {
 
     // Validate the address
     if (!isValidMidenAddress(address)) {
-      return { success: false, error: 'Invalid Miden address' };
+      return { success: false, errorKey: 'invalidMidenAddress' };
     }
 
     return { success: true, address };
@@ -78,10 +79,16 @@ export async function scanQRCode(): Promise<ScanResult> {
 
     // Handle user cancellation
     if (message.includes('cancel') || message.includes('dismissed') || message.includes('Cancel')) {
-      return { success: false, error: 'Scan cancelled' };
+      return { success: false, errorKey: 'scanCancelled' };
     }
 
-    return { success: false, error: message };
+    // Handle camera permission denied
+    if (message.includes('permission') || message.includes('denied')) {
+      return { success: false, errorKey: 'cameraPermissionDenied' };
+    }
+
+    // For unknown errors, return a generic error key
+    return { success: false, errorKey: 'smthWentWrong' };
   }
 }
 

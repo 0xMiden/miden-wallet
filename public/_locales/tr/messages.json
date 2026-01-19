@@ -2096,23 +2096,23 @@
     "message": "QR Kodunu Tara",
     "englishSource": "Scan QR Code"
   },
-  "Camera permission denied": {
+  "cameraPermissionDenied": {
     "message": "Kamera izni reddedildi",
     "englishSource": "Camera permission denied"
   },
-  "No QR code found": {
+  "noQrCodeFound": {
     "message": "QR kodu bulunamadı",
     "englishSource": "No QR code found"
   },
-  "Empty QR code": {
+  "emptyQrCode": {
     "message": "QR kodunu boşalt",
     "englishSource": "Empty QR code"
   },
-  "Invalid Miden address": {
+  "invalidMidenAddress": {
     "message": "Geçersiz Miden adresi",
     "englishSource": "Invalid Miden address"
   },
-  "Scan cancelled": {
+  "scanCancelled": {
     "message": "Tarama iptal edildi",
     "englishSource": "Scan cancelled"
   },

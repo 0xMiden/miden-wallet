@@ -45,9 +45,9 @@ export const SelectRecipient: React.FC<SelectRecipientProps> = ({
     if (result.success && result.address) {
       hapticSuccess();
       onScannedAddress?.(result.address);
-    } else if (result.error && result.error !== 'Scan cancelled') {
+    } else if (result.errorKey && result.errorKey !== 'scanCancelled') {
       hapticError();
-      setScanError(result.error);
+      setScanError(result.errorKey);
     }
   }, [onScannedAddress]);
 

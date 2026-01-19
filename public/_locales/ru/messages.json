@@ -2109,23 +2109,23 @@
     "message": "Сканировать QR-код",
     "englishSource": "Scan QR Code"
   },
-  "Camera permission denied": {
+  "cameraPermissionDenied": {
     "message": "Разрешение на камеру отклонено",
     "englishSource": "Camera permission denied"
   },
-  "No QR code found": {
+  "noQrCodeFound": {
     "message": "QR-код не найден",
     "englishSource": "No QR code found"
   },
-  "Empty QR code": {
+  "emptyQrCode": {
     "message": "Пустой QR-код",
     "englishSource": "Empty QR code"
   },
-  "Invalid Miden address": {
-    "message": "Неверный адрес Мидена",
+  "invalidMidenAddress": {
+    "message": "Неверный адрес Майдена",
     "englishSource": "Invalid Miden address"
   },
-  "Scan cancelled": {
+  "scanCancelled": {
     "message": "Сканирование отменено",
     "englishSource": "Scan cancelled"
   },
