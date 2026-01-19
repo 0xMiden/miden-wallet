@@ -38,21 +38,21 @@
   },
   "versionLabel": {
     "message": "версия: $version$ ",
+    "englishSource": "version: $version$",
     "placeholders": {
       "version": {
         "content": "$1"
       }
-    },
-    "englishSource": "version: {{version}}"
+    }
   },
   "resetPermissionsConfirmation": {
     "message": "Вы уверены, что хотите сбросить разрешения для $origin$ ?",
+    "englishSource": "Are you sure you want to reset permissions for\n $origin$?",
     "placeholders": {
       "origin": {
         "content": "$1"
       }
-    },
-    "englishSource": "Are you sure you want to reset permissions for\n {{origin}}?"
+    }
   },
   "clickToRevealField": {
     "message": "Нажмите, чтобы открыть это поле",
@@ -190,8 +190,13 @@
     "englishSource": "1-16 characters, no special"
   },
   "defaultAccountName": {
-    "message": "Аккаунт {{accountNumber}}",
-    "englishSource": "Account {{accountNumber}}"
+    "message": "Счет $accountNumber$ ",
+    "englishSource": "Account $accountNumber$",
+    "placeholders": {
+      "accountnumber": {
+        "content": "$1"
+      }
+    }
   },
   "doNotSharePrivateKey1": {
     "message": "НЕ ДЕЛИТЬСЯ ни с кем!",
@@ -250,8 +255,13 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "Мой Seed phrase – {{num}} слов",
-    "englishSource": "My Seed phrase is {{num}} words"
+    "message": "Мой Seed phrase $num$ слова",
+    "englishSource": "My Seed phrase is $num$ words",
+    "placeholders": {
+      "num": {
+        "content": "$1"
+      }
+    }
   },
   "justValidPreGeneratedMnemonic": {
     "message": "Просто действительная предварительно сгенерированная мнемоника",
@@ -270,8 +280,13 @@
     "englishSource": "Oops!"
   },
   "smthWentWrongWhile": {
-    "message": "Что-то пошло не так, пока {{action}}",
-    "englishSource": "Something went wrong while {{action}}"
+    "message": "Что-то пошло не так, пока $action$ ",
+    "englishSource": "Something went wrong while $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
   },
   "mayHappenBecauseYouAreOffline": {
     "message": "Это может произойти из-за того, что вы сейчас не в сети",
@@ -298,12 +313,22 @@
     "englishSource": "Private key cannot be revealed"
   },
   "youCannotGetPrivateKeyFromThisAccountType": {
-    "message": "Вы не можете получить закрытый ключ из учетных записей {{accountType}}.",
-    "englishSource": "You cannot get private key from {{accountType}} accounts."
+    "message": "Вы не можете получить закрытый ключ от $accountType$ счета.",
+    "englishSource": "You cannot get private key from $accountType$ accounts.",
+    "placeholders": {
+      "accounttype": {
+        "content": "$1"
+      }
+    }
   },
   "maximalAmount": {
-    "message": "Максимум: {{количество}}",
-    "englishSource": "Maximal: {{amount}}"
+    "message": "Максимум: $amount$ ",
+    "englishSource": "Maximal: $amount$",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
   },
   "accountName": {
     "message": "Название аккаунта",
@@ -526,14 +551,13 @@
     "englishSource": "enable"
   },
   "dAppsCheckmarkPrompt": {
-    "message": "Нажмите на галочку, чтобы $action$ Функция взаимодействия DApps",
-    "description": "DApps = Decentralized Applications",
+    "message": "Нажмите на переключатель, чтобы $action$ Функция взаимодействия с децентрализованными приложениями",
+    "englishSource": "Click on the toggle to $action$ DApps interaction feature",
     "placeholders": {
       "action": {
         "content": "$1"
       }
-    },
-    "englishSource": "Click on the toggle to {{action}} DApps interaction feature"
+    }
   },
   "dAppsInteraction": {
     "message": "Взаимодействие DApps",
@@ -561,8 +585,13 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "Недостаточно средств в размере {{currency}}.",
-    "englishSource": "Not enough {{currency}} funds"
+    "message": "Недостаточно $currency$ средства",
+    "englishSource": "Not enough $currency$ funds",
+    "placeholders": {
+      "currency": {
+        "content": "$1"
+      }
+    }
   },
   "failed": {
     "message": "Не удалось",
@@ -577,16 +606,26 @@
     "englishSource": "This may happen because:"
   },
   "minimalFeeGreaterThanBalanceVerbose": {
-    "message": "Минимальная комиссия за эту транзакцию превышает ваш баланс. Может потребоваться большая комиссия, поскольку вы отправляете средства на пустой управляющий счет. Для этого требуется единовременная плата за сжигание в размере 0,06425 {{gasTokenSymbol}};",
-    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 {{gasTokenSymbol}} burn fee;"
+    "message": "Минимальная комиссия за эту транзакцию превышает ваш баланс. Может потребоваться большая комиссия, поскольку вы отправляете средства на пустой управляющий счет. Для этого требуется единоразовый 0,06425. $gasTokenSymbol$ плата за сжигание;",
+    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 $gasTokenSymbol$ burn fee;",
+    "placeholders": {
+      "gastokensymbol": {
+        "content": "$1"
+      }
+    }
   },
   "networkOrOtherIssue": {
     "message": "Сеть или другая техническая проблема.",
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "Подтвердите {{действие}}",
-    "englishSource": "Confirm {{action}}"
+    "message": "Подтверждать $action$ ",
+    "englishSource": "Confirm $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
   },
   "confirm": {
     "message": "Подтверждать",
@@ -693,8 +732,13 @@
     "englishSource": "Keep it in secret."
   },
   "revealSecretPasswordInputDescription": {
-    "message": "Введите пароль, чтобы раскрыть {{secretName}}.",
-    "englishSource": "Enter password to reveal the {{secretName}}."
+    "message": "Введите пароль, чтобы открыть $secretName$ .",
+    "englishSource": "Enter password to reveal the $secretName$.",
+    "placeholders": {
+      "secretname": {
+        "content": "$1"
+      }
+    }
   },
   "reveal": {
     "message": "Показывать",
@@ -780,9 +824,9 @@
     "message": "Токены",
     "englishSource": "Tokens"
   },
-  "activity": {
-    "message": "Мероприятия",
-    "englishSource": "Activities"
+  "history": {
+    "message": "История",
+    "englishSource": "History"
   },
   "proofGenerationTab": {
     "message": "Открытая вкладка необходима для эффективного создания доказательств транзакций.",
@@ -797,12 +841,22 @@
     "englishSource": "No assets found"
   },
   "ifYouDontSeeYourAsset": {
-    "message": "Если вы не видите свой актив,\nпопробуйте нажать {{toClick}}.",
-    "englishSource": "If you don't see your asset,\ntry to click {{toClick}}."
+    "message": "Если вы не видите свой актив,\nпопробуй нажать $toClick$ .",
+    "englishSource": "If you don't see your asset,\ntry to click $toClick$.",
+    "placeholders": {
+      "toclick": {
+        "content": "$1"
+      }
+    }
   },
   "addressOfTokenContract": {
-    "message": "Адрес контракта токена {{assetSymbol}}.",
-    "englishSource": "Address of a {{assetSymbol}} token contract."
+    "message": "Адрес $assetSymbol$ токен-контракт.",
+    "englishSource": "Address of a $assetSymbol$ token contract.",
+    "placeholders": {
+      "assetsymbol": {
+        "content": "$1"
+      }
+    }
   },
   "searchAssets": {
     "message": "Искать активы...",
@@ -900,18 +954,6 @@
     "message": "Другой",
     "englishSource": "Other"
   },
-  "thousandFormat": {
-    "message": "{{тысяча}} тыс.",
-    "englishSource": "{{thousand}}k"
-  },
-  "millionFormat": {
-    "message": "{{миллион}}М",
-    "englishSource": "{{million}}M"
-  },
-  "billionFormat": {
-    "message": "{{миллиард}}Б",
-    "englishSource": "{{billion}}B"
-  },
   "uploadFile": {
     "message": "Загрузить файл",
     "englishSource": "Upload File"
@@ -970,8 +1012,13 @@
     "englishSource": "Verify Seed Phrase"
   },
   "word": {
-    "message": "Слово {{номер}}",
-    "englishSource": "Word {{number}}"
+    "message": "Слово $number$ ",
+    "englishSource": "Word $number$",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
   },
   "finish": {
     "message": "Заканчивать",
@@ -1410,6 +1457,10 @@
     "message": "Ваш зашифрованный файл кошелька загружен. Храните его и свой пароль в безопасности, поскольку их потеря означает потерю доступа к вашему кошельку.",
     "englishSource": "Your encrypted wallet file has been downloaded. Keep it and your password safe, as losing them means losing access to your wallet."
   },
+  "saveEncryptedWalletFile": {
+    "message": "Сохранить зашифрованный файл кошелька",
+    "englishSource": "Save Encrypted Wallet File"
+  },
   "doNotShareEncryptedWalletFile": {
     "message": "Не передавайте свой зашифрованный файл кошелька!",
     "englishSource": "Do not share your Encrypted Wallet File!"
@@ -1436,8 +1487,8 @@
     "englishSource": "This site is requesting access to your public account."
   },
   "balanceAccess": {
-    "message": "Пусть он видит баланс и активность вашего кошелька",
-    "englishSource": "Let it see your wallet balance and activity"
+    "message": "Пусть он увидит баланс и историю вашего кошелька",
+    "englishSource": "Let it see your wallet balance and history"
   },
   "sendTransactionRequests": {
     "message": "Пусть он отправляет вам запросы на транзакции",
@@ -1543,6 +1594,15 @@
     "message": "При обработке вашей транзакции произошла ошибка. Пожалуйста, попробуйте еще раз.",
     "englishSource": "There was an error processing your transaction. Please try again."
   },
+  "multipleTransactionsFailed": {
+    "message": "Не удалось провести $count$ транзакций. Пожалуйста, попробуйте еще раз.",
+    "englishSource": "$count$ transactions failed. Please try again.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
   "downloadGeneratedFiles": {
     "message": "Загрузить сгенерированные файлы",
     "englishSource": "Download Generated Files"
@@ -1628,8 +1688,13 @@
     "englishSource": "(invalid payload)"
   },
   "signTheFollowingWord": {
-    "message": "Подпишите следующее слово {{word}}?",
-    "englishSource": "Sign the following Word {{word}}?"
+    "message": "Подпишите следующее слово $word$ ?",
+    "englishSource": "Sign the following Word $word$?",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
   },
   "sharePrivateNoteDataForAccount": {
     "message": "Поделитесь всеми данными личных заметок для учетной записи",
@@ -1767,9 +1832,26 @@
     "message": "Претендовать на все",
     "englishSource": "Claim All"
   },
+  "claimAllSummary": {
+    "message": "$succeeded$ успешно, $failed$ не удалось",
+    "englishSource": "$succeeded$ succeeded, $failed$ failed",
+    "placeholders": {
+      "succeeded": {
+        "content": "$1"
+      },
+      "failed": {
+        "content": "$2"
+      }
+    }
+  },
   "readyToClaim": {
-    "message": "Готов предъявить претензии",
-    "englishSource": "Ready to claim"
+    "message": "$count$ notes готов подать заявку",
+    "englishSource": "$count$ notes ready to claim",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
   "addTokens": {
     "message": "Добавить токены",
@@ -1898,5 +1980,186 @@
   "last": {
     "message": "Последний",
     "englishSource": "Last"
+  },
+  "dappBrowser": {
+    "message": "Браузер децентрализованных приложений",
+    "englishSource": "DApp Browser"
+  },
+  "dappBrowserComingSoon": {
+    "message": "Вскоре",
+    "englishSource": "Coming soon"
+  },
+  "dappBrowserDescription": {
+    "message": "Просматривайте децентрализованные приложения и безопасно подключите свой кошелек",
+    "englishSource": "Browse decentralized apps and connect your wallet securely"
+  },
+  "enterUrl": {
+    "message": "Введите URL или выполните поиск",
+    "englishSource": "Enter URL or search"
+  },
+  "go": {
+    "message": "Идти",
+    "englishSource": "Go"
+  },
+  "recentSites": {
+    "message": "Недавний",
+    "englishSource": "Recent"
+  },
+  "loading": {
+    "message": "Загрузка...",
+    "englishSource": "Loading..."
+  },
+  "favourites": {
+    "message": "Избранное",
+    "englishSource": "Favourites"
+  },
+  "approve": {
+    "message": "Утвердить",
+    "englishSource": "Approve"
+  },
+  "dappConnectionRequest": {
+    "message": "Это приложение хочет подключиться к вашему кошельку",
+    "englishSource": "This app wants to connect to your wallet"
+  },
+  "dappTransactionRequest": {
+    "message": "Это приложение запрашивает транзакцию",
+    "englishSource": "This app is requesting a transaction"
+  },
+  "noAccountSelected": {
+    "message": "Аккаунт не выбран",
+    "englishSource": "No account selected"
+  },
+  "biometricUnlock": {
+    "message": "Биометрическая разблокировка",
+    "englishSource": "Biometric Unlock"
+  },
+  "biometricUnlockDescription": {
+    "message": "Используйте Face ID или отпечаток пальца, чтобы разблокировать кошелек вместо ввода пароля.",
+    "englishSource": "Use Face ID or fingerprint to unlock your wallet instead of entering your password."
+  },
+  "biometricSetup": {
+    "message": "Настройка биометрической разблокировки",
+    "englishSource": "Set Up Biometric Unlock"
+  },
+  "biometricSetupDescription": {
+    "message": "Используйте свое лицо или отпечаток пальца, чтобы быстро разблокировать кошелек.",
+    "englishSource": "Use your face or fingerprint to quickly unlock your wallet."
+  },
+  "biometricSetupSubtitle": {
+    "message": "Включите биометрическую аутентификацию для более быстрого и безопасного доступа к вашему кошельку.",
+    "englishSource": "Enable biometric authentication for faster, more secure access to your wallet."
+  },
+  "enableBiometric": {
+    "message": "Включить биометрию",
+    "englishSource": "Enable Biometric"
+  },
+  "skipBiometricSetup": {
+    "message": "Пропустить сейчас",
+    "englishSource": "Skip for now"
+  },
+  "biometricAuthRequired": {
+    "message": "Требуется биометрическая аутентификация",
+    "englishSource": "Biometric authentication required"
+  },
+  "unlockWithBiometric": {
+    "message": "Разблокировка с помощью биометрии",
+    "englishSource": "Unlock with biometric"
+  },
+  "biometricFailed": {
+    "message": "Биометрическая аутентификация не удалась",
+    "englishSource": "Biometric authentication failed"
+  },
+  "biometricNotAvailable": {
+    "message": "Биометрическая аутентификация недоступна на этом устройстве.",
+    "englishSource": "Biometric authentication is not available on this device"
+  },
+  "usePasswordInstead": {
+    "message": "Вместо этого используйте пароль",
+    "englishSource": "Use Password Instead"
+  },
+  "biometricEnabled": {
+    "message": "Биометрическая разблокировка включена",
+    "englishSource": "Biometric unlock enabled"
+  },
+  "biometricDisabled": {
+    "message": "Биометрическая разблокировка отключена",
+    "englishSource": "Biometric unlock disabled"
+  },
+  "enterPasswordToEnableBiometric": {
+    "message": "Введите свой пароль, чтобы включить биометрическую разблокировку",
+    "englishSource": "Enter your password to enable biometric unlock"
+  },
+  "faceId": {
+    "message": "Идентификатор лица",
+    "englishSource": "Face ID"
+  },
+  "touchId": {
+    "message": "Touch ID",
+    "englishSource": "Touch ID"
+  },
+  "fingerprint": {
+    "message": "Отпечаток пальца",
+    "englishSource": "Fingerprint"
+  },
+  "biometricType": {
+    "message": "Биометрический тип",
+    "englishSource": "Biometric Type"
+  },
+  "scanQr": {
+    "message": "Сканировать QR-код",
+    "englishSource": "Scan QR Code"
+  },
+  "Camera permission denied": {
+    "message": "Разрешение на камеру отклонено",
+    "englishSource": "Camera permission denied"
+  },
+  "No QR code found": {
+    "message": "QR-код не найден",
+    "englishSource": "No QR code found"
+  },
+  "Empty QR code": {
+    "message": "Пустой QR-код",
+    "englishSource": "Empty QR code"
+  },
+  "Invalid Miden address": {
+    "message": "Неверный адрес Мидена",
+    "englishSource": "Invalid Miden address"
+  },
+  "Scan cancelled": {
+    "message": "Сканирование отменено",
+    "englishSource": "Scan cancelled"
+  },
+  "hapticFeedback": {
+    "message": "Тактильная обратная связь",
+    "englishSource": "Haptic Feedback"
+  },
+  "hapticFeedbackDescription": {
+    "message": "Почувствуйте вибрацию при нажатии кнопок и элементов управления.",
+    "englishSource": "Feel a vibration when tapping buttons and controls"
+  },
+  "noNotesToClaim": {
+    "message": "В настоящее время у вас нет notes, на которые можно претендовать, но когда вы это сделаете, они появятся здесь.",
+    "englishSource": "You don't currently have notes to claim, but when you do, they will appear here."
+  },
+  "noteReceivedTitle": {
+    "message": "Вы получили note",
+    "englishSource": "You have received a note"
+  },
+  "noteReceivedTapToClaim": {
+    "message": "Нажмите здесь, чтобы потребовать это",
+    "englishSource": "Tap here to claim it"
+  },
+  "tokenHistory": {
+    "message": "$tokenName$ История",
+    "englishSource": "$tokenName$ History",
+    "placeholders": {
+      "tokenname": {
+        "content": "$1"
+      }
+    }
+  },
+  "historyDetails": {
+    "message": "Подробности",
+    "englishSource": "Details"
   }
 }

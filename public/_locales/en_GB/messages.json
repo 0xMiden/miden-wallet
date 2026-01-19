@@ -37,22 +37,22 @@
     "englishSource": "Click on the X icon to reset permissions."
   },
   "versionLabel": {
-    "message": "version: $version$",
+    "message": "version:  $version$ ",
+    "englishSource": "version: $version$",
     "placeholders": {
       "version": {
         "content": "$1"
       }
-    },
-    "englishSource": "version: {{version}}"
+    }
   },
   "resetPermissionsConfirmation": {
-    "message": "Are you sure you want to reset permissions for\n$origin$?",
+    "message": "Are you sure you want to reset permissions for\n  $origin$ ?",
+    "englishSource": "Are you sure you want to reset permissions for\n $origin$?",
     "placeholders": {
       "origin": {
         "content": "$1"
       }
-    },
-    "englishSource": "Are you sure you want to reset permissions for\n {{origin}}?"
+    }
   },
   "clickToRevealField": {
     "message": "Click to reveal this field",
@@ -190,8 +190,13 @@
     "englishSource": "1-16 characters, no special"
   },
   "defaultAccountName": {
-    "message": "Account {{accountNumber}}",
-    "englishSource": "Account {{accountNumber}}"
+    "message": "Account  $accountNumber$ ",
+    "englishSource": "Account $accountNumber$",
+    "placeholders": {
+      "accountnumber": {
+        "content": "$1"
+      }
+    }
   },
   "doNotSharePrivateKey1": {
     "message": "DO NOT share with anyone!",
@@ -250,8 +255,13 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "My Seed phrase is {{num}} words",
-    "englishSource": "My Seed phrase is {{num}} words"
+    "message": "My Seed phrase is  $num$  words",
+    "englishSource": "My Seed phrase is $num$ words",
+    "placeholders": {
+      "num": {
+        "content": "$1"
+      }
+    }
   },
   "justValidPreGeneratedMnemonic": {
     "message": "Just valid pre-generated mnemonic",
@@ -270,8 +280,13 @@
     "englishSource": "Oops!"
   },
   "smthWentWrongWhile": {
-    "message": "Something went wrong while {{action}}",
-    "englishSource": "Something went wrong while {{action}}"
+    "message": "Something went wrong while  $action$ ",
+    "englishSource": "Something went wrong while $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
   },
   "mayHappenBecauseYouAreOffline": {
     "message": "This may happen because you are currently offline",
@@ -298,12 +313,22 @@
     "englishSource": "Private key cannot be revealed"
   },
   "youCannotGetPrivateKeyFromThisAccountType": {
-    "message": "You cannot get private key from {{accountType}} accounts.",
-    "englishSource": "You cannot get private key from {{accountType}} accounts."
+    "message": "You cannot get private key from  $accountType$  accounts.",
+    "englishSource": "You cannot get private key from $accountType$ accounts.",
+    "placeholders": {
+      "accounttype": {
+        "content": "$1"
+      }
+    }
   },
   "maximalAmount": {
-    "message": "Maximal: {{amount}}",
-    "englishSource": "Maximal: {{amount}}"
+    "message": "Maximal:  $amount$ ",
+    "englishSource": "Maximal: $amount$",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
   },
   "accountName": {
     "message": "Account name",
@@ -526,14 +551,13 @@
     "englishSource": "enable"
   },
   "dAppsCheckmarkPrompt": {
-    "message": "Click on the checkmark to $action$ DApps interaction feature",
-    "description": "DApps = Decentralized Applications",
+    "message": "Click on the toggle to  $action$  DApps interaction feature",
+    "englishSource": "Click on the toggle to $action$ DApps interaction feature",
     "placeholders": {
       "action": {
         "content": "$1"
       }
-    },
-    "englishSource": "Click on the toggle to {{action}} DApps interaction feature"
+    }
   },
   "dAppsInteraction": {
     "message": "DApps interaction",
@@ -561,8 +585,13 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "Not enough {{currency}} funds",
-    "englishSource": "Not enough {{currency}} funds"
+    "message": "Not enough  $currency$  funds",
+    "englishSource": "Not enough $currency$ funds",
+    "placeholders": {
+      "currency": {
+        "content": "$1"
+      }
+    }
   },
   "failed": {
     "message": "Failed",
@@ -577,16 +606,26 @@
     "englishSource": "This may happen because:"
   },
   "minimalFeeGreaterThanBalanceVerbose": {
-    "message": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 {{gasTokenSymbol}} burn fee;",
-    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 {{gasTokenSymbol}} burn fee;"
+    "message": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425  $gasTokenSymbol$  burn fee;",
+    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 $gasTokenSymbol$ burn fee;",
+    "placeholders": {
+      "gastokensymbol": {
+        "content": "$1"
+      }
+    }
   },
   "networkOrOtherIssue": {
     "message": "Network or other technical issue.",
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "Confirm {{action}}",
-    "englishSource": "Confirm {{action}}"
+    "message": "Confirm  $action$ ",
+    "englishSource": "Confirm $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
   },
   "confirm": {
     "message": "Confirm",
@@ -693,8 +732,13 @@
     "englishSource": "Keep it in secret."
   },
   "revealSecretPasswordInputDescription": {
-    "message": "Enter password to reveal the {{secretName}}.",
-    "englishSource": "Enter password to reveal the {{secretName}}."
+    "message": "Enter password to reveal the  $secretName$ .",
+    "englishSource": "Enter password to reveal the $secretName$.",
+    "placeholders": {
+      "secretname": {
+        "content": "$1"
+      }
+    }
   },
   "reveal": {
     "message": "Reveal",
@@ -780,9 +824,9 @@
     "message": "Tokens",
     "englishSource": "Tokens"
   },
-  "activity": {
-    "message": "Activities",
-    "englishSource": "Activities"
+  "history": {
+    "message": "History",
+    "englishSource": "History"
   },
   "proofGenerationTab": {
     "message": "An open tab is required to efficiently generate transaction proofs",
@@ -797,12 +841,22 @@
     "englishSource": "No assets found"
   },
   "ifYouDontSeeYourAsset": {
-    "message": "If you don't see your asset,\ntry to click {{toClick}}.",
-    "englishSource": "If you don't see your asset,\ntry to click {{toClick}}."
+    "message": "If you don't see your asset,\ntry to click  $toClick$ .",
+    "englishSource": "If you don't see your asset,\ntry to click $toClick$.",
+    "placeholders": {
+      "toclick": {
+        "content": "$1"
+      }
+    }
   },
   "addressOfTokenContract": {
-    "message": "Address of a {{assetSymbol}} token contract.",
-    "englishSource": "Address of a {{assetSymbol}} token contract."
+    "message": "Address of a  $assetSymbol$  token contract.",
+    "englishSource": "Address of a $assetSymbol$ token contract.",
+    "placeholders": {
+      "assetsymbol": {
+        "content": "$1"
+      }
+    }
   },
   "searchAssets": {
     "message": "Search assets...",
@@ -901,16 +955,31 @@
     "englishSource": "Other"
   },
   "thousandFormat": {
-    "message": "{{thousand}}k",
-    "englishSource": "{{thousand}}k"
+    "message": "$thousand$k",
+    "englishSource": "$thousand$k",
+    "placeholders": {
+      "thousand": {
+        "content": "$1"
+      }
+    }
   },
   "millionFormat": {
-    "message": "{{million}}M",
-    "englishSource": "{{million}}M"
+    "message": "$million$M",
+    "englishSource": "$million$M",
+    "placeholders": {
+      "million": {
+        "content": "$1"
+      }
+    }
   },
   "billionFormat": {
-    "message": "{{billion}}B",
-    "englishSource": "{{billion}}B"
+    "message": "$billion$B",
+    "englishSource": "$billion$B",
+    "placeholders": {
+      "billion": {
+        "content": "$1"
+      }
+    }
   },
   "uploadFile": {
     "message": "Upload File",
@@ -970,8 +1039,13 @@
     "englishSource": "Verify Seed Phrase"
   },
   "word": {
-    "message": "Word {{number}}",
-    "englishSource": "Word {{number}}"
+    "message": "Word  $number$ ",
+    "englishSource": "Word $number$",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
   },
   "finish": {
     "message": "Finish",
@@ -1410,6 +1484,10 @@
     "message": "Your encrypted wallet file has been downloaded. Keep it and your password safe, as losing them means losing access to your wallet.",
     "englishSource": "Your encrypted wallet file has been downloaded. Keep it and your password safe, as losing them means losing access to your wallet."
   },
+  "saveEncryptedWalletFile": {
+    "message": "Save Encrypted Wallet File",
+    "englishSource": "Save Encrypted Wallet File"
+  },
   "doNotShareEncryptedWalletFile": {
     "message": "Do not share your Encrypted Wallet File!",
     "englishSource": "Do not share your Encrypted Wallet File!"
@@ -1436,8 +1514,8 @@
     "englishSource": "This site is requesting access to your public account."
   },
   "balanceAccess": {
-    "message": "Let it see your wallet balance and activity",
-    "englishSource": "Let it see your wallet balance and activity"
+    "message": "Let it see your wallet balance and history",
+    "englishSource": "Let it see your wallet balance and history"
   },
   "sendTransactionRequests": {
     "message": "Let it send you requests for transactions",
@@ -1543,6 +1621,15 @@
     "message": "There was an error processing your transaction. Please try again.",
     "englishSource": "There was an error processing your transaction. Please try again."
   },
+  "multipleTransactionsFailed": {
+    "message": "$count$ transactions failed. Please try again.",
+    "englishSource": "$count$ transactions failed. Please try again.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
   "downloadGeneratedFiles": {
     "message": "Download Generated Files",
     "englishSource": "Download Generated Files"
@@ -1628,8 +1715,13 @@
     "englishSource": "(invalid payload)"
   },
   "signTheFollowingWord": {
-    "message": "Sign the following Word {{word}}?",
-    "englishSource": "Sign the following Word {{word}}?"
+    "message": "Sign the following Word  $word$ ?",
+    "englishSource": "Sign the following Word $word$?",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
   },
   "sharePrivateNoteDataForAccount": {
     "message": "Share all private note data for account",
@@ -1767,9 +1859,26 @@
     "message": "Claim All",
     "englishSource": "Claim All"
   },
+  "claimAllSummary": {
+    "message": "$succeeded$ succeeded, $failed$ failed",
+    "englishSource": "$succeeded$ succeeded, $failed$ failed",
+    "placeholders": {
+      "succeeded": {
+        "content": "$1"
+      },
+      "failed": {
+        "content": "$2"
+      }
+    }
+  },
   "readyToClaim": {
-    "message": "Ready to claim",
-    "englishSource": "Ready to claim"
+    "message": "$count$ notes ready to claim",
+    "englishSource": "$count$ notes ready to claim",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
   "addTokens": {
     "message": "Add tokens",
@@ -1898,5 +2007,186 @@
   "last": {
     "message": "Last",
     "englishSource": "Last"
+  },
+  "dappBrowser": {
+    "message": "DApp Browser",
+    "englishSource": "DApp Browser"
+  },
+  "dappBrowserComingSoon": {
+    "message": "Coming soon",
+    "englishSource": "Coming soon"
+  },
+  "dappBrowserDescription": {
+    "message": "Browse decentralized apps and connect your wallet securely",
+    "englishSource": "Browse decentralized apps and connect your wallet securely"
+  },
+  "enterUrl": {
+    "message": "Enter URL or search",
+    "englishSource": "Enter URL or search"
+  },
+  "go": {
+    "message": "Go",
+    "englishSource": "Go"
+  },
+  "recentSites": {
+    "message": "Recent",
+    "englishSource": "Recent"
+  },
+  "loading": {
+    "message": "Loading...",
+    "englishSource": "Loading..."
+  },
+  "favourites": {
+    "message": "Favourites",
+    "englishSource": "Favourites"
+  },
+  "approve": {
+    "message": "Approve",
+    "englishSource": "Approve"
+  },
+  "dappConnectionRequest": {
+    "message": "This app wants to connect to your wallet",
+    "englishSource": "This app wants to connect to your wallet"
+  },
+  "dappTransactionRequest": {
+    "message": "This app is requesting a transaction",
+    "englishSource": "This app is requesting a transaction"
+  },
+  "noAccountSelected": {
+    "message": "No account selected",
+    "englishSource": "No account selected"
+  },
+  "biometricUnlock": {
+    "message": "Biometric Unlock",
+    "englishSource": "Biometric Unlock"
+  },
+  "biometricUnlockDescription": {
+    "message": "Use Face ID or fingerprint to unlock your wallet instead of entering your password.",
+    "englishSource": "Use Face ID or fingerprint to unlock your wallet instead of entering your password."
+  },
+  "biometricSetup": {
+    "message": "Set Up Biometric Unlock",
+    "englishSource": "Set Up Biometric Unlock"
+  },
+  "biometricSetupDescription": {
+    "message": "Use your face or fingerprint to quickly unlock your wallet.",
+    "englishSource": "Use your face or fingerprint to quickly unlock your wallet."
+  },
+  "biometricSetupSubtitle": {
+    "message": "Enable biometric authentication for faster, more secure access to your wallet.",
+    "englishSource": "Enable biometric authentication for faster, more secure access to your wallet."
+  },
+  "enableBiometric": {
+    "message": "Enable Biometric",
+    "englishSource": "Enable Biometric"
+  },
+  "skipBiometricSetup": {
+    "message": "Skip for now",
+    "englishSource": "Skip for now"
+  },
+  "biometricAuthRequired": {
+    "message": "Biometric authentication required",
+    "englishSource": "Biometric authentication required"
+  },
+  "unlockWithBiometric": {
+    "message": "Unlock with biometric",
+    "englishSource": "Unlock with biometric"
+  },
+  "biometricFailed": {
+    "message": "Biometric authentication failed",
+    "englishSource": "Biometric authentication failed"
+  },
+  "biometricNotAvailable": {
+    "message": "Biometric authentication is not available on this device",
+    "englishSource": "Biometric authentication is not available on this device"
+  },
+  "usePasswordInstead": {
+    "message": "Use Password Instead",
+    "englishSource": "Use Password Instead"
+  },
+  "biometricEnabled": {
+    "message": "Biometric unlock enabled",
+    "englishSource": "Biometric unlock enabled"
+  },
+  "biometricDisabled": {
+    "message": "Biometric unlock disabled",
+    "englishSource": "Biometric unlock disabled"
+  },
+  "enterPasswordToEnableBiometric": {
+    "message": "Enter your password to enable biometric unlock",
+    "englishSource": "Enter your password to enable biometric unlock"
+  },
+  "faceId": {
+    "message": "Face ID",
+    "englishSource": "Face ID"
+  },
+  "touchId": {
+    "message": "Touch ID",
+    "englishSource": "Touch ID"
+  },
+  "fingerprint": {
+    "message": "Fingerprint",
+    "englishSource": "Fingerprint"
+  },
+  "biometricType": {
+    "message": "Biometric Type",
+    "englishSource": "Biometric Type"
+  },
+  "scanQr": {
+    "message": "Scan QR Code",
+    "englishSource": "Scan QR Code"
+  },
+  "Camera permission denied": {
+    "message": "Camera permission denied",
+    "englishSource": "Camera permission denied"
+  },
+  "No QR code found": {
+    "message": "No QR code found",
+    "englishSource": "No QR code found"
+  },
+  "Empty QR code": {
+    "message": "Empty QR code",
+    "englishSource": "Empty QR code"
+  },
+  "Invalid Miden address": {
+    "message": "Invalid Miden address",
+    "englishSource": "Invalid Miden address"
+  },
+  "Scan cancelled": {
+    "message": "Scan cancelled",
+    "englishSource": "Scan cancelled"
+  },
+  "hapticFeedback": {
+    "message": "Haptic Feedback",
+    "englishSource": "Haptic Feedback"
+  },
+  "hapticFeedbackDescription": {
+    "message": "Feel a vibration when tapping buttons and controls",
+    "englishSource": "Feel a vibration when tapping buttons and controls"
+  },
+  "noNotesToClaim": {
+    "message": "You don't currently have notes to claim, but when you do, they will appear here.",
+    "englishSource": "You don't currently have notes to claim, but when you do, they will appear here."
+  },
+  "noteReceivedTitle": {
+    "message": "You have received a note",
+    "englishSource": "You have received a note"
+  },
+  "noteReceivedTapToClaim": {
+    "message": "Tap here to claim it",
+    "englishSource": "Tap here to claim it"
+  },
+  "tokenHistory": {
+    "message": "$tokenName$ History",
+    "englishSource": "$tokenName$ History",
+    "placeholders": {
+      "tokenname": {
+        "content": "$1"
+      }
+    }
+  },
+  "historyDetails": {
+    "message": "Details",
+    "englishSource": "Details"
   }
 }

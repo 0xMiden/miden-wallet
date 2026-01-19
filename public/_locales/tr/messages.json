@@ -37,22 +37,22 @@
     "englishSource": "Click on the X icon to reset permissions."
   },
   "versionLabel": {
-    "message": "sürüm: $version$",
+    "message": "sürüm: $version$ ",
+    "englishSource": "version: $version$",
     "placeholders": {
       "version": {
         "content": "$1"
       }
-    },
-    "englishSource": "version: {{version}}"
+    }
   },
   "resetPermissionsConfirmation": {
-    "message": "$origin$ için izinleri sıfırlamak\nistediğinizden emin misiniz?",
+    "message": "İzinlerini sıfırlamak istediğinizden emin misiniz? $origin$ ?",
+    "englishSource": "Are you sure you want to reset permissions for\n $origin$?",
     "placeholders": {
       "origin": {
         "content": "$1"
       }
-    },
-    "englishSource": "Are you sure you want to reset permissions for\n {{origin}}?"
+    }
   },
   "clickToRevealField": {
     "message": "Bu alanı ortaya çıkarmak için tıklayın",
@@ -190,8 +190,13 @@
     "englishSource": "1-16 characters, no special"
   },
   "defaultAccountName": {
-    "message": "Hesap {{accountNumber}}",
-    "englishSource": "Account {{accountNumber}}"
+    "message": "Hesap $accountNumber$ ",
+    "englishSource": "Account $accountNumber$",
+    "placeholders": {
+      "accountnumber": {
+        "content": "$1"
+      }
+    }
   },
   "doNotSharePrivateKey1": {
     "message": "Kimseyle PAYLAŞMAYIN!",
@@ -250,8 +255,13 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "Seed phrase değerim {{num}} kelimedir",
-    "englishSource": "My Seed phrase is {{num}} words"
+    "message": "Benim Seed phrase'ım: $num$ kelimeler",
+    "englishSource": "My Seed phrase is $num$ words",
+    "placeholders": {
+      "num": {
+        "content": "$1"
+      }
+    }
   },
   "justValidPreGeneratedMnemonic": {
     "message": "Yalnızca daha önceden oluşturulmuş geçerli anımsatıcı ifade",
@@ -270,8 +280,13 @@
     "englishSource": "Oops!"
   },
   "smthWentWrongWhile": {
-    "message": "{{action}} sırasında bir şeyler ters gitti",
-    "englishSource": "Something went wrong while {{action}}"
+    "message": "Bu sırada bir şeyler ters gitti $action$ ",
+    "englishSource": "Something went wrong while $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
   },
   "mayHappenBecauseYouAreOffline": {
     "message": "Bunun nedeni şu anda çevrimdışı olmanız olabilir",
@@ -298,12 +313,22 @@
     "englishSource": "Private key cannot be revealed"
   },
   "youCannotGetPrivateKeyFromThisAccountType": {
-    "message": "{{accountType}} hesaplarından özel anahtar alamazsınız.",
-    "englishSource": "You cannot get private key from {{accountType}} accounts."
+    "message": "Özel anahtarı alamazsınız $accountType$ hesaplar.",
+    "englishSource": "You cannot get private key from $accountType$ accounts.",
+    "placeholders": {
+      "accounttype": {
+        "content": "$1"
+      }
+    }
   },
   "maximalAmount": {
-    "message": "Maksimum: {{miktar}}",
-    "englishSource": "Maximal: {{amount}}"
+    "message": "Maksimum: $amount$ ",
+    "englishSource": "Maximal: $amount$",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
   },
   "accountName": {
     "message": "Hesap adı",
@@ -526,14 +551,13 @@
     "englishSource": "enable"
   },
   "dAppsCheckmarkPrompt": {
-    "message": "DApps etkileşim özelliğine yönelik $action$ için onay işaretine tıklayın",
-    "description": "DApps = Decentralized Applications",
+    "message": "Geçiş düğmesine tıklayın $action$ DApps etkileşim özelliği",
+    "englishSource": "Click on the toggle to $action$ DApps interaction feature",
     "placeholders": {
       "action": {
         "content": "$1"
       }
-    },
-    "englishSource": "Click on the toggle to {{action}} DApps interaction feature"
+    }
   },
   "dAppsInteraction": {
     "message": "DApps etkileşimi",
@@ -561,8 +585,13 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "Yeterli {{currency}} fon yok",
-    "englishSource": "Not enough {{currency}} funds"
+    "message": "Yeterli değil $currency$ fonlar",
+    "englishSource": "Not enough $currency$ funds",
+    "placeholders": {
+      "currency": {
+        "content": "$1"
+      }
+    }
   },
   "failed": {
     "message": "Başarısız",
@@ -577,16 +606,26 @@
     "englishSource": "This may happen because:"
   },
   "minimalFeeGreaterThanBalanceVerbose": {
-    "message": "Bu işlemin minimum ücreti bakiyenizden daha fazla. Boş bir Yönetici hesabına para göndermeniz nedeniyle büyük bir ücret gerekebilir. Bu, bir defaya mahsus 0,06425 {{gasTokenSymbol}} tutarında yakma ücreti gerektirir;",
-    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 {{gasTokenSymbol}} burn fee;"
+    "message": "Bu işlemin minimum ücreti bakiyenizden daha fazla. Boş bir Yönetici hesabına para göndermeniz nedeniyle büyük bir ücret gerekebilir. Bu bir kerelik 0,06425 gerektirir $gasTokenSymbol$ yanık ücreti;",
+    "englishSource": "Minimal fee for this transaction is greater than your balance. A large fee may be required because of you sending funds to an empty Manager account. That requires a one-time 0.06425 $gasTokenSymbol$ burn fee;",
+    "placeholders": {
+      "gastokensymbol": {
+        "content": "$1"
+      }
+    }
   },
   "networkOrOtherIssue": {
     "message": "Ağ sorunu veya başka bir teknik sorun.",
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "{{action}} onayla",
-    "englishSource": "Confirm {{action}}"
+    "message": "Onaylamak $action$ ",
+    "englishSource": "Confirm $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
   },
   "confirm": {
     "message": "Onayla",
@@ -693,8 +732,13 @@
     "englishSource": "Keep it in secret."
   },
   "revealSecretPasswordInputDescription": {
-    "message": "{{secretName}}'ı ortaya çıkarmak için şifreyi girin.",
-    "englishSource": "Enter password to reveal the {{secretName}}."
+    "message": "ortaya çıkarmak için şifreyi girin $secretName$ .",
+    "englishSource": "Enter password to reveal the $secretName$.",
+    "placeholders": {
+      "secretname": {
+        "content": "$1"
+      }
+    }
   },
   "reveal": {
     "message": "Göster",
@@ -780,9 +824,9 @@
     "message": "Token'lar",
     "englishSource": "Tokens"
   },
-  "activity": {
-    "message": "Aktivite",
-    "englishSource": "Activities"
+  "history": {
+    "message": "Tarih",
+    "englishSource": "History"
   },
   "proofGenerationTab": {
     "message": "İşlem kanıtlarını verimli bir şekilde oluşturmak için açık bir sekme gereklidir",
@@ -797,12 +841,22 @@
     "englishSource": "No assets found"
   },
   "ifYouDontSeeYourAsset": {
-    "message": "Varlığınızı göremiyorsanız,\n{{toClick}} tıklamayı deneyin.",
-    "englishSource": "If you don't see your asset,\ntry to click {{toClick}}."
+    "message": "Varlığınızı göremiyorsanız,\ntıklamayı dene $toClick$ .",
+    "englishSource": "If you don't see your asset,\ntry to click $toClick$.",
+    "placeholders": {
+      "toclick": {
+        "content": "$1"
+      }
+    }
   },
   "addressOfTokenContract": {
-    "message": "{{assetSymbol}} token sözleşmesinin adresi.",
-    "englishSource": "Address of a {{assetSymbol}} token contract."
+    "message": "Bir kişinin adresi $assetSymbol$ jeton sözleşmesi.",
+    "englishSource": "Address of a $assetSymbol$ token contract.",
+    "placeholders": {
+      "assetsymbol": {
+        "content": "$1"
+      }
+    }
   },
   "searchAssets": {
     "message": "Varlıkları ara...",
@@ -900,18 +954,6 @@
     "message": "Diğer",
     "englishSource": "Other"
   },
-  "thousandFormat": {
-    "message": "{{bin}}k",
-    "englishSource": "{{thousand}}k"
-  },
-  "millionFormat": {
-    "message": "{{milyon}}M",
-    "englishSource": "{{million}}M"
-  },
-  "billionFormat": {
-    "message": "{{milyar}}B",
-    "englishSource": "{{billion}}B"
-  },
   "uploadFile": {
     "message": "Dosya yükleme",
     "englishSource": "Upload File"
@@ -970,8 +1012,13 @@
     "englishSource": "Verify Seed Phrase"
   },
   "word": {
-    "message": "Kelime {{sayı}}",
-    "englishSource": "Word {{number}}"
+    "message": "Kelime $number$ ",
+    "englishSource": "Word $number$",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
   },
   "finish": {
     "message": "Bitir",
@@ -1409,6 +1456,10 @@
     "message": "Şifrelenmiş cüzdan dosyanız indirildi. Parolanızı ve parolanızı güvende tutun; çünkü bunları kaybetmek, cüzdanınıza erişimi kaybetmek anlamına gelir.",
     "englishSource": "Your encrypted wallet file has been downloaded. Keep it and your password safe, as losing them means losing access to your wallet."
   },
+  "saveEncryptedWalletFile": {
+    "message": "Şifreli Cüzdan Dosyasını Kaydet",
+    "englishSource": "Save Encrypted Wallet File"
+  },
   "doNotShareEncryptedWalletFile": {
     "message": "Şifreli Cüzdan Dosyanızı paylaşmayın!",
     "englishSource": "Do not share your Encrypted Wallet File!"
@@ -1435,8 +1486,8 @@
     "englishSource": "This site is requesting access to your public account."
   },
   "balanceAccess": {
-    "message": "Cüzdan bakiyenizi ve etkinliğinizi görmesine izin verin",
-    "englishSource": "Let it see your wallet balance and activity"
+    "message": "Cüzdan bakiyenizi ve geçmişinizi görmesine izin verin",
+    "englishSource": "Let it see your wallet balance and history"
   },
   "sendTransactionRequests": {
     "message": "Size işlem istekleri göndermesine izin verin",
@@ -1542,6 +1593,15 @@
     "message": "İşleminiz gerçekleştirilirken bir hata oluştu. Lütfen tekrar deneyin.",
     "englishSource": "There was an error processing your transaction. Please try again."
   },
+  "multipleTransactionsFailed": {
+    "message": "$count$ işlemleri başarısız oldu. Lütfen tekrar deneyin.",
+    "englishSource": "$count$ transactions failed. Please try again.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
   "downloadGeneratedFiles": {
     "message": "Oluşturulan Dosyaları İndir",
     "englishSource": "Download Generated Files"
@@ -1627,8 +1687,13 @@
     "englishSource": "(invalid payload)"
   },
   "signTheFollowingWord": {
-    "message": "Aşağıdaki Kelime {{kelime}} imzalansın mı?",
-    "englishSource": "Sign the following Word {{word}}?"
+    "message": "Aşağıdaki Kelimeyi İmzalayın $word$ ?",
+    "englishSource": "Sign the following Word $word$?",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
   },
   "sharePrivateNoteDataForAccount": {
     "message": "Hesap için tüm özel not verilerini paylaş",
@@ -1767,8 +1832,13 @@
     "englishSource": "Claim All"
   },
   "readyToClaim": {
-    "message": "Hak talebinde bulunmaya hazır",
-    "englishSource": "Ready to claim"
+    "message": "$count$ notes talep edilmeye hazır",
+    "englishSource": "$count$ notes ready to claim",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
   "addTokens": {
     "message": "Jeton ekle",
@@ -1897,5 +1967,186 @@
   "last": {
     "message": "Son",
     "englishSource": "Last"
+  },
+  "dappBrowser": {
+    "message": "DApp Tarayıcısı",
+    "englishSource": "DApp Browser"
+  },
+  "dappBrowserComingSoon": {
+    "message": "Yakında gelecek",
+    "englishSource": "Coming soon"
+  },
+  "dappBrowserDescription": {
+    "message": "Merkezi olmayan uygulamalara göz atın ve cüzdanınızı güvenli bir şekilde bağlayın",
+    "englishSource": "Browse decentralized apps and connect your wallet securely"
+  },
+  "enterUrl": {
+    "message": "URL'yi girin veya arayın",
+    "englishSource": "Enter URL or search"
+  },
+  "go": {
+    "message": "Gitmek",
+    "englishSource": "Go"
+  },
+  "recentSites": {
+    "message": "Son",
+    "englishSource": "Recent"
+  },
+  "loading": {
+    "message": "Yükleniyor...",
+    "englishSource": "Loading..."
+  },
+  "favourites": {
+    "message": "Favoriler",
+    "englishSource": "Favourites"
+  },
+  "approve": {
+    "message": "Onaylamak",
+    "englishSource": "Approve"
+  },
+  "dappConnectionRequest": {
+    "message": "Bu uygulama cüzdanınıza bağlanmak istiyor",
+    "englishSource": "This app wants to connect to your wallet"
+  },
+  "dappTransactionRequest": {
+    "message": "Bu uygulama bir işlem istiyor",
+    "englishSource": "This app is requesting a transaction"
+  },
+  "noAccountSelected": {
+    "message": "Hesap seçilmedi",
+    "englishSource": "No account selected"
+  },
+  "biometricUnlock": {
+    "message": "Biyometrik Kilit Açma",
+    "englishSource": "Biometric Unlock"
+  },
+  "biometricUnlockDescription": {
+    "message": "Cüzdanınızın kilidini açmak için şifrenizi girmek yerine Face ID'yi veya parmak izini kullanın.",
+    "englishSource": "Use Face ID or fingerprint to unlock your wallet instead of entering your password."
+  },
+  "biometricSetup": {
+    "message": "Biyometrik Kilit Açmayı Ayarlama",
+    "englishSource": "Set Up Biometric Unlock"
+  },
+  "biometricSetupDescription": {
+    "message": "Cüzdanınızın kilidini hızla açmak için yüzünüzü veya parmak izinizi kullanın.",
+    "englishSource": "Use your face or fingerprint to quickly unlock your wallet."
+  },
+  "biometricSetupSubtitle": {
+    "message": "Cüzdanınıza daha hızlı ve daha güvenli erişim için biyometrik kimlik doğrulamayı etkinleştirin.",
+    "englishSource": "Enable biometric authentication for faster, more secure access to your wallet."
+  },
+  "enableBiometric": {
+    "message": "Biyometriyi Etkinleştir",
+    "englishSource": "Enable Biometric"
+  },
+  "skipBiometricSetup": {
+    "message": "Şimdilik atla",
+    "englishSource": "Skip for now"
+  },
+  "biometricAuthRequired": {
+    "message": "Biyometrik kimlik doğrulama gerekli",
+    "englishSource": "Biometric authentication required"
+  },
+  "unlockWithBiometric": {
+    "message": "Biyometrik ile kilidi açın",
+    "englishSource": "Unlock with biometric"
+  },
+  "biometricFailed": {
+    "message": "Biyometrik kimlik doğrulama başarısız oldu",
+    "englishSource": "Biometric authentication failed"
+  },
+  "biometricNotAvailable": {
+    "message": "Bu cihazda biyometrik kimlik doğrulama kullanılamıyor",
+    "englishSource": "Biometric authentication is not available on this device"
+  },
+  "usePasswordInstead": {
+    "message": "Bunun yerine Şifre Kullan",
+    "englishSource": "Use Password Instead"
+  },
+  "biometricEnabled": {
+    "message": "Biyometrik kilit açma etkin",
+    "englishSource": "Biometric unlock enabled"
+  },
+  "biometricDisabled": {
+    "message": "Biyometrik kilit açma devre dışı bırakıldı",
+    "englishSource": "Biometric unlock disabled"
+  },
+  "enterPasswordToEnableBiometric": {
+    "message": "Biyometrik kilit açmayı etkinleştirmek için şifrenizi girin",
+    "englishSource": "Enter your password to enable biometric unlock"
+  },
+  "faceId": {
+    "message": "Yüz Kimliği",
+    "englishSource": "Face ID"
+  },
+  "touchId": {
+    "message": "Dokunmatik Kimlik",
+    "englishSource": "Touch ID"
+  },
+  "fingerprint": {
+    "message": "Parmak izi",
+    "englishSource": "Fingerprint"
+  },
+  "biometricType": {
+    "message": "Biyometrik Tip",
+    "englishSource": "Biometric Type"
+  },
+  "scanQr": {
+    "message": "QR Kodunu Tara",
+    "englishSource": "Scan QR Code"
+  },
+  "Camera permission denied": {
+    "message": "Kamera izni reddedildi",
+    "englishSource": "Camera permission denied"
+  },
+  "No QR code found": {
+    "message": "QR kodu bulunamadı",
+    "englishSource": "No QR code found"
+  },
+  "Empty QR code": {
+    "message": "QR kodunu boşalt",
+    "englishSource": "Empty QR code"
+  },
+  "Invalid Miden address": {
+    "message": "Geçersiz Miden adresi",
+    "englishSource": "Invalid Miden address"
+  },
+  "Scan cancelled": {
+    "message": "Tarama iptal edildi",
+    "englishSource": "Scan cancelled"
+  },
+  "hapticFeedback": {
+    "message": "Dokunsal Geribildirim",
+    "englishSource": "Haptic Feedback"
+  },
+  "hapticFeedbackDescription": {
+    "message": "Düğmelere ve kontrollere dokunduğunuzda bir titreşim hissedin",
+    "englishSource": "Feel a vibration when tapping buttons and controls"
+  },
+  "noNotesToClaim": {
+    "message": "Şu anda talep edebileceğiniz notes yok, ancak aldığınızda burada görünecekler.",
+    "englishSource": "You don't currently have notes to claim, but when you do, they will appear here."
+  },
+  "noteReceivedTitle": {
+    "message": "Bir note aldınız",
+    "englishSource": "You have received a note"
+  },
+  "noteReceivedTapToClaim": {
+    "message": "Hak talebinde bulunmak için buraya dokunun",
+    "englishSource": "Tap here to claim it"
+  },
+  "tokenHistory": {
+    "message": "$tokenName$ Geçmiş",
+    "englishSource": "$tokenName$ History",
+    "placeholders": {
+      "tokenname": {
+        "content": "$1"
+      }
+    }
+  },
+  "historyDetails": {
+    "message": "Detaylar",
+    "englishSource": "Details"
   }
 }
