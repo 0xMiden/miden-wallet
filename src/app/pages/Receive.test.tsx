@@ -39,8 +39,7 @@ jest.mock('components/Button', () => ({
 }));
 
 jest.mock('components/SyncWaveBackground', () => ({
-  SyncWaveBackground: ({ isSyncing }: { isSyncing: boolean }) =>
-    isSyncing ? <div data-testid="sync-wave" /> : null
+  SyncWaveBackground: ({ isSyncing }: { isSyncing: boolean }) => (isSyncing ? <div data-testid="sync-wave" /> : null)
 }));
 
 jest.mock('lib/i18n/numbers', () => ({
