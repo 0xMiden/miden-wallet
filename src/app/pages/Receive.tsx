@@ -337,7 +337,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
     <div className={classNames(containerClass, 'mx-auto overflow-hidden flex flex-col bg-white')}>
       <NavigationHeader mode="close" title={t('receive')} onClose={handleClose} showBorder />
       <div
-        className="flex-1 overflow-y-auto"
+        className="flex-1 flex flex-col min-h-0"
         onDrop={onDropFile}
         onDragOver={e => e.preventDefault()}
         onDragEnter={onDragEnter}
@@ -345,25 +345,29 @@ export const Receive: React.FC<ReceiveProps> = () => {
         data-testid="receive-page"
       >
         <FormField ref={fieldRef} value={address} style={{ display: 'none' }} />
-        <div className="w-5/6 md:w-1/2 mx-auto pb-4 flex flex-col items-center">
-          <QRCode address={address} size={80} onCopy={copy} className="w-full" />
-          {copied && <p className="text-xs text-primary-500 mt-1 transition-opacity duration-200">{t('copied')}</p>}
+        {/* Fixed top section - QR code and upload */}
+        <div className="flex-shrink-0">
+          <div className="w-5/6 md:w-1/2 mx-auto pb-4 flex flex-col items-center">
+            <QRCode address={address} size={80} onCopy={copy} className="w-full" />
+            {copied && <p className="text-xs text-primary-500 mt-1 transition-opacity duration-200">{t('copied')}</p>}
+          </div>
+          <div className="w-5/6 md:w-1/2 mx-auto" style={{ borderBottom: '1px solid #E9EBEF' }}></div>
+          <div className="flex flex-col justify-center items-center gap-y-2 p-6">
+            <p className="text-xs text-gray-400">{t('alreadyHaveTransactionFile')}</p>
+            <Button
+              className={classNames('w-5/6 md:w-1/2')}
+              variant={isDragging ? ButtonVariant.Primary : ButtonVariant.Secondary}
+              onClick={handleButtonClick}
+              title={t('uploadFile')}
+              style={{ cursor: 'pointer' }}
+              iconLeft={true ? IconName.File : null}
+            />
+            <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={onUploadFile} />
+          </div>
+          <div className="w-5/6 md:w-1/2 mx-auto" style={{ borderBottom: '1px solid #E9EBEF' }}></div>
         </div>
-        <div className="w-5/6 md:w-1/2 mx-auto" style={{ borderBottom: '1px solid #E9EBEF' }}></div>
-        <div className="flex flex-col justify-center items-center gap-y-2 p-6">
-          <p className="text-xs text-gray-400">{t('alreadyHaveTransactionFile')}</p>
-          <Button
-            className={classNames('w-5/6 md:w-1/2')}
-            variant={isDragging ? ButtonVariant.Primary : ButtonVariant.Secondary}
-            onClick={handleButtonClick}
-            title={t('uploadFile')}
-            style={{ cursor: 'pointer' }}
-            iconLeft={true ? IconName.File : null}
-          />
-          <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={onUploadFile} />
-        </div>
-        <div className="w-5/6 md:w-1/2 mx-auto" style={{ borderBottom: '1px solid #E9EBEF' }}></div>
-        <div className="w-5/6 md:w-1/2 mx-auto py-6 flex flex-col">
+        {/* Scrollable notes section */}
+        <div className="flex-1 min-h-0 w-5/6 md:w-1/2 mx-auto py-4 flex flex-col">
           {safeClaimableNotes.length === 0 ? (
             <div className="flex flex-col items-center pt-20">
               <Icon name={IconName.Coins} size="xl" className="mb-3 text-gray-600" />
@@ -371,9 +375,11 @@ export const Receive: React.FC<ReceiveProps> = () => {
             </div>
           ) : (
             <>
-              <p className="text-md text-gray-600 mb-4">{t('readyToClaim', { count: safeClaimableNotes.length })}</p>
+              <p className="text-md text-gray-600 mb-4 flex-shrink-0">
+                {t('readyToClaim', { count: safeClaimableNotes.length })}
+              </p>
               {/* Scrollable notes container */}
-              <div className="flex flex-col gap-2 overflow-y-auto max-h-[28vh]">
+              <div className="flex flex-col gap-2 overflow-y-auto flex-1 min-h-0">
                 {safeClaimableNotes.map(note => (
                   <ConsumableNoteComponent
                     key={note.id}
@@ -391,7 +397,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
             </>
           )}
           {unclaimedNotes.length > 0 && (
-            <div className="flex justify-center mt-8 pb-4">
+            <div className="flex justify-center mt-4 pb-4 flex-shrink-0">
               <Button
                 className="w-[120px] h-[40px] text-md"
                 variant={ButtonVariant.Primary}
