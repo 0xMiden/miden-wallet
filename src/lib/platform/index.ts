@@ -42,8 +42,11 @@ export function isCapacitor(): boolean {
  */
 export function isExtension(): boolean {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const browserGlobal = (globalThis as any).browser;
-  return typeof browserGlobal !== 'undefined' && !!browserGlobal?.runtime?.id;
+  const g = globalThis as any;
+  // Check for Firefox (browser.runtime.id) or Chrome (chrome.runtime.id)
+  const browserRuntime = g.browser?.runtime?.id;
+  const chromeRuntime = g.chrome?.runtime?.id;
+  return !!(browserRuntime || chromeRuntime);
 }
 
 /**

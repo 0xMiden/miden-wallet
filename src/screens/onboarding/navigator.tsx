@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Icon, IconName } from 'app/icons/v2';
 import { CircleButton } from 'components/CircleButton';
 import { ProgressIndicator } from 'components/ProgressIndicator';
-import { isMobile } from 'lib/platform';
+import { isExtension, isMobile } from 'lib/platform';
 
 import { BiometricSetupScreen } from './common/BiometricSetup';
 import { ConfirmationScreen } from './common/Confirmation';
@@ -225,7 +225,8 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
             exit="exitState"
             transition={{
               type: 'tween',
-              duration: 0.2
+              // Disable animations for Chrome extension
+              duration: isExtension() ? 0 : 0.2
             }}
             variants={{
               initialState: {

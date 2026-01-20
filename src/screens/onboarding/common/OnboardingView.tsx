@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { isMobile } from 'lib/platform';
+import { isExtension, isMobile } from 'lib/platform';
 
 interface OnboardingViewProps {
   renderHeader: () => JSX.Element;
@@ -14,6 +14,7 @@ interface OnboardingViewProps {
 
 const OnboardingView: FC<OnboardingViewProps> = ({ renderHeader, renderStep, step, navigationDirection }) => {
   const mobile = isMobile();
+  const skipAnimations = isExtension();
 
   return (
     <div
@@ -29,12 +30,12 @@ const OnboardingView: FC<OnboardingViewProps> = ({ renderHeader, renderStep, ste
         <motion.div
           key={step}
           className="flex-1 flex flex-col"
-          initial="initialState"
+          initial={skipAnimations ? false : 'initialState'}
           animate="animateState"
-          exit="exitState"
+          exit={skipAnimations ? undefined : 'exitState'}
           transition={{
             type: 'tween',
-            duration: 0.2
+            duration: skipAnimations ? 0 : 0.2
           }}
           variants={{
             initialState: {

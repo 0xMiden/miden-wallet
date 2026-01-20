@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState, useCallback, ReactNode, use
 
 import { AnimatePresence, motion } from 'framer-motion';
 
+import { isExtension } from 'lib/platform';
+
 export type AnimationDirection = 'forward' | 'backward' | 'up' | 'down';
 export type AnimationIn = 'push' | 'present';
 export type AnimationOut = 'pop' | 'dismiss';
@@ -208,6 +210,9 @@ export const Navigator: React.FC<NavigatorProps> = ({
 }) => {
   const { direction, cardStack, routes, activeRoute, activeIndex, navigateTo } = useNavigator();
 
+  // Disable animations for Chrome extension
+  const effectiveDuration = isExtension() ? 0 : animationDuration;
+
   useEffect(() => {
     // const initialRoute = routes.find(r => r.name === initialRouteName);
     // console.log(initialRoute);
@@ -260,7 +265,7 @@ export const Navigator: React.FC<NavigatorProps> = ({
           exit="exitPosition"
           className="flex-1 flex"
           transition={{
-            duration: animationDuration,
+            duration: effectiveDuration,
             when: 'beforeChildren',
             ease: 'easeOut'
           }}
