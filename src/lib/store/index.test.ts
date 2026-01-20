@@ -25,7 +25,7 @@ jest.mock('lib/miden/metadata', () => ({
 
 // Mock fetchBalances utility
 jest.mock('./utils/fetchBalances', () => ({
-  fetchBalances: jest.fn()
+  fetchBalances: jest.fn().mockResolvedValue([])
 }));
 
 describe('useWalletStore', () => {
