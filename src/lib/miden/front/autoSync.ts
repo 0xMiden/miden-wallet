@@ -1,5 +1,5 @@
 import { isMobile } from 'lib/platform';
-import { WalletState } from 'lib/shared/types';
+import { WalletState, WalletStatus } from 'lib/shared/types';
 import { useWalletStore } from 'lib/store';
 
 import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
@@ -38,20 +38,42 @@ export class Sync {
     const previousState = this.state;
     this.state = state;
 
-    if (!previousState) {
-      // Start repeatedly syncing
+    // When wallet becomes Ready, start the sync loop
+    // (balance fetch is handled by syncFromBackend in Zustand store)
+    const justBecameReady =
+      state.status === WalletStatus.Ready && (!previousState || previousState.status !== WalletStatus.Ready);
+
+    if (justBecameReady) {
+      this.initializeAndSync();
+    } else if (!previousState) {
+      // First state update but not Ready yet - start sync loop (will wait until Ready)
       this.sync();
     }
   }
 
+  /**
+   * Start the sync loop when wallet becomes Ready.
+   * Balance fetch is handled by syncFromBackend in the Zustand store (earliest possible point).
+   */
+  private initializeAndSync() {
+    this.sync();
+  }
+
   async sync() {
+    const storeState = useWalletStore.getState();
+
+    // Don't sync when wallet isn't ready (locked/idle) - no account to sync
+    if (storeState.status !== WalletStatus.Ready) {
+      await sleep(3000);
+      await this.sync();
+      return;
+    }
+
     // Don't sync on the generating transaction page
     const isGeneratingUrl = this.getCurrentUrl().search('generating-transaction') > -1;
     if (isGeneratingUrl) {
       return;
     }
-
-    const storeState = useWalletStore.getState();
 
     // On mobile, don't sync while transaction modal is open to avoid lock contention
     if (isMobile() && storeState.isTransactionModalOpen) {

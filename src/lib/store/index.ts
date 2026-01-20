@@ -78,6 +78,9 @@ export const useWalletStore = create<WalletStore>()(
 
     // Sync action - updates store from backend state
     syncFromBackend: (state: MidenState) => {
+      const prevStatus = get().status;
+      const justBecameReady = state.status === WalletStatus.Ready && prevStatus !== WalletStatus.Ready;
+
       set({
         status: state.status,
         accounts: state.accounts,
@@ -88,6 +91,25 @@ export const useWalletStore = create<WalletStore>()(
         isInitialized: true,
         lastSyncedAt: Date.now()
       });
+
+      // Immediately fetch balances when wallet becomes Ready (before any React effects)
+      if (justBecameReady && state.currentAccount) {
+        const address = state.currentAccount.publicKey;
+        fetchBalances(address, get().assetsMetadata)
+          .then(balances => {
+            set(s => ({
+              balances: { ...s.balances, [address]: balances },
+              balancesLoading: { ...s.balancesLoading, [address]: false },
+              balancesLastFetched: { ...s.balancesLastFetched, [address]: Date.now() }
+            }));
+          })
+          .catch(err => {
+            console.warn('[syncFromBackend] Initial balance fetch failed:', err);
+            set(s => ({
+              balancesLoading: { ...s.balancesLoading, [address]: false }
+            }));
+          });
+      }
     },
 
     // Auth actions
