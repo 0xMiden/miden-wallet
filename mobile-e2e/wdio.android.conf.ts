@@ -13,7 +13,8 @@ export const config: Options.Testrunner = {
     './tests/onboarding/import-wallet.spec.ts',
     './tests/onboarding/create-wallet.spec.ts',
     './tests/onboarding/seed-validation.spec.ts',
-    './tests/wallet/wallet-features.spec.ts'
+    './tests/wallet/send.spec.ts',
+    './tests/wallet/receive.spec.ts'
   ],
 
   services: [
