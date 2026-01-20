@@ -198,7 +198,6 @@ export const Selectors = {
   get confirmTransactionButton() { return platformButton('Confirm'); },
   get rejectTransactionButton() { return platformButton('Reject'); },
   get transactionConfirmationOverlay() { return platformText('Confirm Transaction'); },
-  get copyAddressButton() { return platformButton('Copy'); },
 };
 
 /**

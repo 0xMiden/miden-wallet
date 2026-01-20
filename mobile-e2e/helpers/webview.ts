@@ -428,6 +428,345 @@ export async function setUnlockPasswordInput(password: string): Promise<boolean>
  * Set all seed phrase inputs by index (0-11)
  * Uses data-testid pattern: seed-phrase-input-{index}
  */
+/**
+ * Click a link element via WebView JavaScript
+ * This is needed on iOS where Link components have accessible="false"
+ * and cannot be clicked via native Appium interactions.
+ *
+ * @param textContent - The text content to match (partial match)
+ * @param href - Optional href to match exactly
+ */
+export async function clickLinkViaJS(textContent: string, href?: string): Promise<boolean> {
+  const currentContext = await getCurrentContext();
+  const isInWebview = currentContext.includes('WEBVIEW');
+
+  if (!isInWebview) {
+    const switched = await switchToWebviewContext();
+    if (!switched) {
+      throw new Error('Failed to switch to WebView context');
+    }
+  }
+
+  const result = await browser.execute(
+    (text: string, hrefPattern: string | undefined) => {
+      // First try to find by href if provided
+      if (hrefPattern) {
+        const linkByHref = document.querySelector(`a[href="${hrefPattern}"]`) as HTMLElement;
+        if (linkByHref) {
+          linkByHref.click();
+          return true;
+        }
+      }
+
+      // Fall back to finding by text content
+      const links = document.querySelectorAll('a');
+      for (const link of links) {
+        if (link.textContent?.includes(text)) {
+          (link as HTMLElement).click();
+          return true;
+        }
+      }
+
+      // Try buttons if no link found
+      const buttons = document.querySelectorAll('button');
+      for (const button of buttons) {
+        if (button.textContent?.includes(text)) {
+          button.click();
+          return true;
+        }
+      }
+
+      return false;
+    },
+    textContent,
+    href
+  );
+
+  // Wait for navigation
+  await browser.pause(500);
+
+  if (!isInWebview) {
+    await switchToNativeContext();
+  }
+
+  return result as boolean;
+}
+
+/**
+ * Check if we're running on iOS
+ */
+export function isIOSPlatform(): boolean {
+  // @ts-expect-error - driver is global in wdio
+  return typeof driver !== 'undefined' && driver.isIOS;
+}
+
+/**
+ * Click on a navigation link (Send, Receive, etc.) from the Explore page
+ * On iOS, uses WebView JS click because Link components have accessible="false"
+ * On Android, uses native click
+ *
+ * @param linkText - The text of the link (e.g., "Send", "Receive")
+ * @param href - Optional href path (e.g., "/send", "/receive")
+ */
+export async function clickExploreLink(linkText: string, href?: string): Promise<void> {
+  if (isIOSPlatform()) {
+    // iOS: Use WebView JS click
+    const clicked = await clickLinkViaJS(linkText, href);
+    if (!clicked) {
+      throw new Error(`Failed to click link "${linkText}" via JS`);
+    }
+    // Extra wait for iOS navigation
+    await browser.pause(1000);
+  } else {
+    // Android: Use native click
+    const button = await $(`//*[contains(@text, "${linkText}")]`);
+    await button.waitForDisplayed({ timeout: 15000 });
+    await button.click();
+  }
+}
+
+/**
+ * Get the coordinates of an element containing the specified text
+ * Returns center coordinates for native tap
+ */
+export async function getElementCoordinatesByText(
+  textContent: string
+): Promise<{ x: number; y: number } | null> {
+  const currentContext = await getCurrentContext();
+  const isInWebview = currentContext.includes('WEBVIEW');
+
+  if (!isInWebview) {
+    const switched = await switchToWebviewContext();
+    if (!switched) {
+      return null;
+    }
+  }
+
+  const result = await browser.execute((text: string) => {
+    // Find element containing the text
+    const allElements = document.querySelectorAll('*');
+    for (const el of allElements) {
+      if (el.textContent?.includes(text)) {
+        // Walk up the DOM tree to find a clickable container
+        let current: HTMLElement | null = el as HTMLElement;
+        while (current && current !== document.body) {
+          const classes = current.className || '';
+          if (classes.includes('cursor-pointer') || classes.includes('hover:bg-grey')) {
+            const rect = current.getBoundingClientRect();
+            return {
+              x: Math.round(rect.left + rect.width / 2),
+              y: Math.round(rect.top + rect.height / 2),
+              found: true
+            };
+          }
+          current = current.parentElement;
+        }
+      }
+    }
+    return { found: false };
+  }, textContent);
+
+  if (!isInWebview) {
+    await switchToNativeContext();
+  }
+
+  if ((result as { found: boolean }).found) {
+    return { x: (result as { x: number }).x, y: (result as { y: number }).y };
+  }
+  return null;
+}
+
+/**
+ * Click an element by its text content via WebView JavaScript
+ * Useful for clicking buttons and other interactive elements that have
+ * accessibility issues on iOS.
+ *
+ * @param textContent - The text content to match (partial match)
+ */
+export async function clickElementByTextViaJS(textContent: string): Promise<boolean> {
+  const currentContext = await getCurrentContext();
+  const isInWebview = currentContext.includes('WEBVIEW');
+
+  if (!isInWebview) {
+    const switched = await switchToWebviewContext();
+    if (!switched) {
+      throw new Error('Failed to switch to WebView context');
+    }
+  }
+
+  const result = await browser.execute((text: string) => {
+    // Helper to simulate full click with touch events for mobile
+    const simulateClick = (element: HTMLElement): void => {
+      const rect = element.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      // Try touch events first (for mobile)
+      if ('ontouchstart' in window) {
+        const touchStart = new TouchEvent('touchstart', {
+          bubbles: true,
+          cancelable: true,
+          view: window,
+          touches: [
+            new Touch({
+              identifier: 0,
+              target: element,
+              clientX: centerX,
+              clientY: centerY
+            })
+          ]
+        });
+        const touchEnd = new TouchEvent('touchend', {
+          bubbles: true,
+          cancelable: true,
+          view: window,
+          touches: []
+        });
+        element.dispatchEvent(touchStart);
+        element.dispatchEvent(touchEnd);
+      }
+
+      // Also dispatch mouse/click events
+      const clickEvent = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+        view: window,
+        clientX: centerX,
+        clientY: centerY
+      });
+      element.dispatchEvent(clickEvent);
+    };
+
+    // Try all clickable elements first
+    const clickableElements = document.querySelectorAll('button, a, [role="button"]');
+    for (const el of clickableElements) {
+      if (el.textContent?.includes(text)) {
+        simulateClick(el as HTMLElement);
+        return { success: true, method: 'clickable-element' };
+      }
+    }
+
+    // Find element containing the text
+    const allElements = document.querySelectorAll('*');
+    for (const el of allElements) {
+      // Check if element's text content contains the search text
+      if (el.textContent?.includes(text)) {
+        // Walk up the DOM tree to find a clickable container
+        // React CardItem pattern: div with cursor-pointer class has the onClick
+        let current: HTMLElement | null = el as HTMLElement;
+        while (current && current !== document.body) {
+          const classes = current.className || '';
+          // Check for cursor-pointer or hover:bg-grey classes (CardItem pattern)
+          if (
+            classes.includes('cursor-pointer') ||
+            classes.includes('hover:bg-grey')
+          ) {
+            simulateClick(current);
+            return { success: true, method: 'cursor-pointer-parent', classes };
+          }
+          current = current.parentElement;
+        }
+      }
+    }
+
+    // Fall back to finding element with exact match and clicking it
+    for (const el of allElements) {
+      if (el.textContent?.trim() === text) {
+        simulateClick(el as HTMLElement);
+        return { success: true, method: 'exact-match-fallback' };
+      }
+    }
+
+    return { success: false };
+  }, textContent);
+
+  console.log('clickElementByTextViaJS result:', result);
+
+  await browser.pause(500);
+
+  if (!isInWebview) {
+    await switchToNativeContext();
+  }
+
+  return (result as { success: boolean }).success;
+}
+
+/**
+ * Navigate to home page via WebView JavaScript
+ * Uses window.location to go directly to the home route
+ */
+export async function navigateToHomeViaJS(): Promise<void> {
+  const currentContext = await getCurrentContext();
+  const isInWebview = currentContext.includes('WEBVIEW');
+
+  if (!isInWebview) {
+    const switched = await switchToWebviewContext();
+    if (!switched) {
+      throw new Error('Failed to switch to WebView context');
+    }
+  }
+
+  await browser.execute(() => {
+    // Navigate to home by changing the hash
+    window.location.hash = '#/';
+  });
+
+  await browser.pause(1000);
+
+  if (!isInWebview) {
+    await switchToNativeContext();
+  }
+}
+
+/**
+ * Click the close/back button via WebView JavaScript
+ * Looks for buttons with aria-label="Close" or "Go back"
+ */
+export async function clickCloseButtonViaJS(): Promise<boolean> {
+  const currentContext = await getCurrentContext();
+  const isInWebview = currentContext.includes('WEBVIEW');
+
+  if (!isInWebview) {
+    const switched = await switchToWebviewContext();
+    if (!switched) {
+      throw new Error('Failed to switch to WebView context');
+    }
+  }
+
+  const result = await browser.execute(() => {
+    // Try aria-label="Close"
+    let closeButton = document.querySelector('[aria-label="Close"]') as HTMLElement;
+    if (closeButton) {
+      closeButton.click();
+      return true;
+    }
+
+    // Try aria-label="Go back"
+    closeButton = document.querySelector('[aria-label="Go back"]') as HTMLElement;
+    if (closeButton) {
+      closeButton.click();
+      return true;
+    }
+
+    // Try data-testid="nav-close"
+    closeButton = document.querySelector('[data-testid="nav-close"]') as HTMLElement;
+    if (closeButton) {
+      closeButton.click();
+      return true;
+    }
+
+    return false;
+  });
+
+  await browser.pause(500);
+
+  if (!isInWebview) {
+    await switchToNativeContext();
+  }
+
+  return result as boolean;
+}
+
 export async function setSeedPhraseInputs(words: string[]): Promise<boolean> {
   const currentContext = await getCurrentContext();
   const isInWebview = currentContext.includes('WEBVIEW');

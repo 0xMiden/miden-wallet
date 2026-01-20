@@ -5,11 +5,17 @@ import path from 'path';
 export const config: Options.Testrunner = {
   ...sharedConfig,
 
-  // Run all onboarding tests
+  // Fail fast - stop after first failure (for faster debugging)
+  bail: 1,
+
+  // Run onboarding tests, then wallet feature tests
   specs: [
     './tests/onboarding/import-wallet.spec.ts',
     './tests/onboarding/create-wallet.spec.ts',
-    './tests/onboarding/seed-validation.spec.ts'
+    './tests/onboarding/seed-validation.spec.ts',
+    './tests/wallet/wallet-features.spec.ts',
+    './tests/wallet/send.spec.ts',
+    './tests/wallet/receive.spec.ts'
   ],
 
   // Run tests sequentially (one at a time) - crucial for mobile where only one simulator can run
