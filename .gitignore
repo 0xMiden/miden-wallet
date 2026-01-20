@@ -63,3 +63,8 @@ android/app/*.jks
 
 # iOS build artifacts
 ios/App/build/
+ios/App/build-sim/
+
+# Mobile E2E test artifacts
+mobile-e2e/screenshots/
+mobile-e2e/logs/
