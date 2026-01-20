@@ -167,9 +167,7 @@ describe('Onboarding - Seed Phrase Validation', () => {
     expect(isEnabled).toBe(false);
   });
 
-  // Skip this test - the app may not automatically trim whitespace from seed inputs
-  // This is a test of app functionality that may need to be implemented
-  it.skip('should trim whitespace from seed words', async () => {
+  it('should trim whitespace from seed words', async () => {
     await waitForAppReady();
 
     const importButton = await $(Selectors.importWalletButton);
