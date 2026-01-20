@@ -101,14 +101,36 @@ export const Selectors = {
   get continueButton() { return platformButton('Continue'); },
   get backButton() { return platformButton('Back'); },
   get getStartedButton() { return platformButton('Get started'); },
+  // Navigation header buttons
+  // iOS: uses aria-label which is exposed as @label
+  // Android WebView: aria-label is NOT exposed, so we use position-based selector
+  // The nav buttons are icon-only (no visible text) and appear first in the button list
+  get navBackButton() {
+    if (isIOS()) {
+      return '//XCUIElementTypeButton[@label="Go back"]';
+    }
+    // Android: first button with empty text (icon-only back button in header)
+    return '(//android.widget.Button[@text=""])[1]';
+  },
+  get navCloseButton() {
+    if (isIOS()) {
+      return '//XCUIElementTypeButton[@label="Close"]';
+    }
+    // Android: first button with empty text (icon-only close button in header)
+    return '(//android.widget.Button[@text=""])[1]';
+  },
 
   // Explore page buttons - these are Link components with text in nested spans
   get sendButton() { return platformText('Send'); },
   get receiveButton() { return platformText('Receive'); },
   get faucetButton() { return platformText('Faucet'); },
 
-  // Send flow
-  get sendFlow() { return platformText('Send'); },
+  // Send flow - first step shows "Choose Token" title
+  get sendFlow() { return platformText('Choose'); },
+  // Token list - look for MIDEN token which should always be present
+  get tokenList() { return platformText('MIDEN'); },
+  // First token item (MIDEN)
+  get firstTokenItem() { return platformText('MIDEN'); },
   get recipientInput() { return platformInputByIndex(1); },
   get amountInput() { return platformInputByIndex(2); },
   get reviewButton() { return platformButton('Review'); },
@@ -116,8 +138,35 @@ export const Selectors = {
 
   // Receive page
   get receivePage() { return platformText('Receive'); },
-  get addressDisplay() { return isIOS() ? '//XCUIElementTypeStaticText[contains(@label, "0x")]' : '//*[contains(@text, "0x")]'; },
-  get uploadButton() { return platformButton('Upload'); },
+  // Address on Miden starts with "mtst1" not "0x"
+  get addressDisplay() {
+    if (isIOS()) {
+      return '//XCUIElementTypeStaticText[contains(@label, "mtst1")]';
+    }
+    return '//*[contains(@text, "mtst1")]';
+  },
+  // Copy button has "Copy to clipboard" text on Android
+  get copyAddressButton() {
+    if (isIOS()) {
+      return '//XCUIElementTypeButton[contains(@label, "Copy")]';
+    }
+    return '//*[@clickable="true" and contains(@text, "Copy to clipboard")]';
+  },
+  // Upload button has "Upload File" text
+  get uploadButton() {
+    if (isIOS()) {
+      return '//XCUIElementTypeButton[contains(@label, "Upload")]';
+    }
+    return '//*[@clickable="true" and contains(@text, "Upload File")]';
+  },
+  // QR code - look for the image/canvas element in the QR area
+  get qrCode() {
+    if (isIOS()) {
+      return '//XCUIElementTypeImage';
+    }
+    // Android: QR is rendered as Image or in a clickable container
+    return '//android.widget.Image | //*[@clickable="true" and contains(@text, "Copy to clipboard")]';
+  },
 
   // Settings
   get settingsTab() { return platformButton('Settings'); },

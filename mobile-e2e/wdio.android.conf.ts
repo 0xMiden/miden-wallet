@@ -5,11 +5,15 @@ import path from 'path';
 export const config: Options.Testrunner = {
   ...sharedConfig,
 
-  // Run only onboarding tests (wallet/dapp tests require pre-existing wallet state)
+  // Fail fast - stop after first failure (for faster debugging)
+  bail: 1,
+
+  // Run onboarding tests, then wallet feature tests
   specs: [
     './tests/onboarding/import-wallet.spec.ts',
     './tests/onboarding/create-wallet.spec.ts',
-    './tests/onboarding/seed-validation.spec.ts'
+    './tests/onboarding/seed-validation.spec.ts',
+    './tests/wallet/wallet-features.spec.ts'
   ],
 
   services: [
