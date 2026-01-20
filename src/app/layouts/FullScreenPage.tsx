@@ -1,11 +1,11 @@
 import React, { FC, useEffect, useRef } from 'react';
 
-import { isExtension } from 'lib/platform';
+import { isMobile } from 'lib/platform';
 import { PropsWithChildren } from 'lib/props-with-children';
 
 /**
  * Wrapper for full-screen pages (Send, Receive, etc.) that slides in from the right.
- * Animation is disabled for the Chrome extension.
+ * Animation is only enabled for mobile (disabled for Chrome extension).
  */
 const FullScreenPage: FC<PropsWithChildren> = ({ children }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -13,8 +13,8 @@ const FullScreenPage: FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Skip animation for Chrome extension
-    if (isExtension()) return;
+    // Only animate on mobile
+    if (!isMobile()) return;
 
     const el = containerRef.current;
     el.classList.add('mobile-page-enter');

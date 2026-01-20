@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useCallback, ReactNode, use
 
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { isExtension } from 'lib/platform';
+import { isMobile } from 'lib/platform';
 
 export type AnimationDirection = 'forward' | 'backward' | 'up' | 'down';
 export type AnimationIn = 'push' | 'present';
@@ -210,8 +210,8 @@ export const Navigator: React.FC<NavigatorProps> = ({
 }) => {
   const { direction, cardStack, routes, activeRoute, activeIndex, navigateTo } = useNavigator();
 
-  // Disable animations for Chrome extension
-  const effectiveDuration = isExtension() ? 0 : animationDuration;
+  // Only animate on mobile (disable for Chrome extension)
+  const effectiveDuration = isMobile() ? animationDuration : 0;
 
   useEffect(() => {
     // const initialRoute = routes.find(r => r.name === initialRouteName);
