@@ -7,18 +7,26 @@ describe('platform detection', () => {
   });
 
   describe('isExtension', () => {
-    it('returns true when browser.runtime.id exists', () => {
+    afterEach(() => {
+      delete (globalThis as any).browser;
+      delete (globalThis as any).chrome;
+    });
+
+    it('returns true when browser.runtime.id exists (Firefox)', () => {
       (globalThis as any).browser = { runtime: { id: 'test-extension-id' } };
 
       const { isExtension } = require('./index');
       expect(isExtension()).toBe(true);
-
-      delete (globalThis as any).browser;
     });
 
-    it('returns false when browser is undefined', () => {
-      delete (globalThis as any).browser;
+    it('returns true when chrome.runtime.id exists (Chrome)', () => {
+      (globalThis as any).chrome = { runtime: { id: 'test-chrome-extension-id' } };
 
+      const { isExtension } = require('./index');
+      expect(isExtension()).toBe(true);
+    });
+
+    it('returns false when neither browser nor chrome is defined', () => {
       const { isExtension } = require('./index');
       expect(isExtension()).toBe(false);
     });
@@ -28,8 +36,6 @@ describe('platform detection', () => {
 
       const { isExtension } = require('./index');
       expect(isExtension()).toBe(false);
-
-      delete (globalThis as any).browser;
     });
 
     it('returns false when browser.runtime.id is undefined', () => {
@@ -37,8 +43,13 @@ describe('platform detection', () => {
 
       const { isExtension } = require('./index');
       expect(isExtension()).toBe(false);
+    });
 
-      delete (globalThis as any).browser;
+    it('returns false when chrome.runtime.id is undefined', () => {
+      (globalThis as any).chrome = { runtime: {} };
+
+      const { isExtension } = require('./index');
+      expect(isExtension()).toBe(false);
     });
   });
 
@@ -87,7 +98,12 @@ describe('platform detection', () => {
   });
 
   describe('getPlatform', () => {
-    it('returns extension when in extension context', () => {
+    afterEach(() => {
+      delete (globalThis as any).browser;
+      delete (globalThis as any).chrome;
+    });
+
+    it('returns extension when in extension context (Firefox)', () => {
       jest.doMock('@capacitor/core', () => {
         throw new Error('Module not found');
       });
@@ -95,15 +111,22 @@ describe('platform detection', () => {
 
       const { getPlatform } = require('./index');
       expect(getPlatform()).toBe('extension');
+    });
 
-      delete (globalThis as any).browser;
+    it('returns extension when in extension context (Chrome)', () => {
+      jest.doMock('@capacitor/core', () => {
+        throw new Error('Module not found');
+      });
+      (globalThis as any).chrome = { runtime: { id: 'test-chrome-id' } };
+
+      const { getPlatform } = require('./index');
+      expect(getPlatform()).toBe('extension');
     });
 
     it('returns web when not in extension or mobile', () => {
       jest.doMock('@capacitor/core', () => {
         throw new Error('Module not found');
       });
-      delete (globalThis as any).browser;
 
       const { getPlatform } = require('./index');
       expect(getPlatform()).toBe('web');

@@ -2,6 +2,7 @@ import React, { FC, useLayoutEffect, useState } from 'react';
 
 import CSSTransition from 'react-transition-group/CSSTransition';
 
+import { isExtension } from 'lib/platform';
 import { PropsWithChildren } from 'lib/props-with-children';
 
 const BootAnimation: FC<PropsWithChildren> = ({ children }) => {
@@ -12,7 +13,7 @@ const BootAnimation: FC<PropsWithChildren> = ({ children }) => {
   }, [setBooted]);
 
   return (
-    <CSSTransition in={booted} timeout={200}>
+    <CSSTransition in={booted} timeout={isExtension() ? 0 : 200}>
       {children}
     </CSSTransition>
   );

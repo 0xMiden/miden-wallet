@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 
 import { Button, ButtonVariant } from 'components/Button';
 import { Input } from 'components/Input';
+import { isExtension } from 'lib/platform';
 
 export interface RecallBlocksModalProps extends Modal.Props {
   recallBlocksInput?: string;
@@ -27,7 +28,7 @@ export const RecallBlocksModal: FC<RecallBlocksModalProps> = ({
       {...restProps}
       className={classNames('w-full bg-white px-4 py-6 md:rounded-b z-30 shadow-2xl')}
       appElement={document.getElementById('root')!}
-      closeTimeoutMS={200}
+      closeTimeoutMS={isExtension() ? 0 : 200}
       overlayClassName={classNames('absolute inset-0 z-30', 'bg-black bg-opacity-75', 'flex items-end justify-center')}
       onAfterOpen={() => {
         document.body.classList.add('overscroll-y-none');

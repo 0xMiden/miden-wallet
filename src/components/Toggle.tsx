@@ -4,6 +4,7 @@ import classNames from 'clsx';
 import { motion } from 'framer-motion';
 
 import { hapticMedium } from 'lib/mobile/haptics';
+import { isExtension } from 'lib/platform';
 import colors from 'utils/tailwind-colors';
 
 export interface ToggleProps extends HTMLAttributes<HTMLDivElement> {
@@ -47,13 +48,17 @@ export const Toggle: React.FC<ToggleProps> = ({
           'bg-primary-500': !value
         })}
         animate={{ backgroundColor: value ? '#ffffff' : colors.primary[500] }}
-        layout
-        transition={{
-          type: 'spring',
-          stiffness: 700,
-          damping: 30,
-          backgroundColor: { duration: 0.2 }
-        }}
+        layout={!isExtension()}
+        transition={
+          isExtension()
+            ? { duration: 0 }
+            : {
+                type: 'spring',
+                stiffness: 700,
+                damping: 30,
+                backgroundColor: { duration: 0.2 }
+              }
+        }
       />
     </div>
   );

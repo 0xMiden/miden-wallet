@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
 
 import classNames from 'clsx';
-import { motion, MotionContext } from 'framer-motion';
+import { motion, MotionConfig } from 'framer-motion';
 import { v4 as uuid } from 'uuid';
 
 import { Icon, IconName } from 'app/icons/v2';
+import { isExtension } from 'lib/platform';
 import colors from 'utils/tailwind-colors';
 
 export interface TabPickerItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -75,14 +76,15 @@ export const TabPicker: React.FC<TabPickerProps> = ({ tabs, className, onTabChan
   };
 
   const animationId = useMemo(() => uuid(), []);
+  const skipAnimations = isExtension();
 
   return (
     <div className={classNames('flex', 'rounded-full overflow-hidden p-1', 'bg-grey-50', className)} {...props}>
-      <MotionContext.Provider value={{}}>
+      <MotionConfig transition={skipAnimations ? { duration: 0 } : undefined}>
         {tabs.map((tab, index) => (
           <TabPickerItem key={tab.id} {...tab} onClick={() => handleTabChange(index)} animationId={animationId} />
         ))}
-      </MotionContext.Provider>
+      </MotionConfig>
     </div>
   );
 };

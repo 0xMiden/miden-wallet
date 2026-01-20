@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import classNames from 'clsx';
 import Modal from 'react-modal';
 
+import { isExtension } from 'lib/platform';
 import { PropsWithChildren } from 'lib/props-with-children';
 
 export type CustomModalProps = Modal.Props & Partial<PropsWithChildren>;
@@ -23,7 +24,7 @@ const CustomModal: FC<CustomModalProps> = props => {
       isOpen={isOpen}
       className={classNames('bg-white rounded z-30 shadow-2xl', className)}
       appElement={rootElement}
-      closeTimeoutMS={200}
+      closeTimeoutMS={isExtension() ? 0 : 200}
       overlayClassName={classNames(
         'fixed inset-0 z-30',
         'bg-black bg-opacity-75',
