@@ -5,6 +5,13 @@ import path from 'path';
 export const config: Options.Testrunner = {
   ...sharedConfig,
 
+  // Run only onboarding tests (wallet/dapp tests require pre-existing wallet state)
+  specs: [
+    './tests/onboarding/import-wallet.spec.ts',
+    './tests/onboarding/create-wallet.spec.ts',
+    './tests/onboarding/seed-validation.spec.ts'
+  ],
+
   services: [
     [
       'appium',
@@ -20,7 +27,7 @@ export const config: Options.Testrunner = {
   capabilities: [
     {
       platformName: 'Android',
-      'appium:deviceName': 'Pixel 8',
+      'appium:deviceName': 'sdk_gphone64_arm64',
       'appium:platformVersion': '14',
       'appium:automationName': 'UiAutomator2',
       'appium:app': path.resolve(__dirname, '../android/app/build/outputs/apk/debug/app-debug.apk'),
@@ -28,6 +35,11 @@ export const config: Options.Testrunner = {
       'appium:fullReset': false,
       'appium:newCommandTimeout': 240,
       'appium:autoGrantPermissions': true,
+      // UiAutomator2 stability settings
+      'appium:uiautomator2ServerLaunchTimeout': 60000,
+      'appium:uiautomator2ServerInstallTimeout': 60000,
+      'appium:skipUnlock': true,
+      'appium:disableWindowAnimation': true,
       // WebView context settings
       'appium:webviewConnectTimeout': 30000,
       'appium:fullContextList': true,
