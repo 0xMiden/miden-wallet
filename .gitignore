@@ -52,8 +52,9 @@ DerivedData
 
 *storybook.log
 
-# Xcode generated
-ios/App/App.xcworkspace/
+# Xcode generated (keep workspace for CI, ignore user data)
+ios/App/App.xcworkspace/xcuserdata/
+ios/App/App.xcworkspace/xcshareddata/
 ios/App/App.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
 
 # Android release signing
