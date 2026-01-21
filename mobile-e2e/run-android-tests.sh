@@ -34,9 +34,10 @@ fi
 
 EMULATOR_NAME="Pixel_API_34"
 EMU_PID=""
+STARTED_EMULATOR=false
 
 cleanup() {
-  if [ -n "$EMU_PID" ]; then
+  if [ "$STARTED_EMULATOR" = true ] && [ -n "$EMU_PID" ]; then
     echo "Shutting down emulator (PID: $EMU_PID)..."
     kill "$EMU_PID" 2>/dev/null || true
   fi
@@ -44,17 +45,23 @@ cleanup() {
 
 trap cleanup EXIT
 
-echo "Starting Android emulator: $EMULATOR_NAME"
-"$ANDROID_HOME/emulator/emulator" -avd "$EMULATOR_NAME" -no-window -no-audio -no-boot-anim &
-EMU_PID=$!
+# Check if an emulator is already running (e.g., in CI)
+if "$ANDROID_HOME/platform-tools/adb" get-state 2>/dev/null | grep -q "device"; then
+  echo "Emulator already running, skipping emulator startup..."
+else
+  echo "Starting Android emulator: $EMULATOR_NAME"
+  "$ANDROID_HOME/emulator/emulator" -avd "$EMULATOR_NAME" -no-window -no-audio -no-boot-anim &
+  EMU_PID=$!
+  STARTED_EMULATOR=true
 
-echo "Waiting for emulator to connect..."
-"$ANDROID_HOME/platform-tools/adb" wait-for-device
+  echo "Waiting for emulator to connect..."
+  "$ANDROID_HOME/platform-tools/adb" wait-for-device
 
-echo "Waiting for emulator to boot..."
-while [ "$("$ANDROID_HOME/platform-tools/adb" shell getprop sys.boot_completed 2>/dev/null)" != "1" ]; do
-  sleep 2
-done
+  echo "Waiting for emulator to boot..."
+  while [ "$("$ANDROID_HOME/platform-tools/adb" shell getprop sys.boot_completed 2>/dev/null)" != "1" ]; do
+    sleep 2
+  done
+fi
 
 echo "Emulator ready. Running tests..."
 wdio run mobile-e2e/wdio.android.conf.ts

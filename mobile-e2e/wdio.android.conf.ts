@@ -57,8 +57,10 @@ export const config: Options.Testrunner = {
   capabilities: [
     {
       platformName: 'Android',
-      'appium:deviceName': 'sdk_gphone64_arm64',
-      'appium:platformVersion': '14',
+      // Device name varies by environment - let Appium auto-detect
+      'appium:deviceName': 'Android Emulator',
+      // CI uses API 31 (Android 12), local dev may vary - use 12 for CI compatibility
+      'appium:platformVersion': '12',
       'appium:automationName': 'UiAutomator2',
       'appium:app': path.resolve(__dirname, '../android/app/build/outputs/apk/debug/app-debug.apk'),
       'appium:noReset': false,

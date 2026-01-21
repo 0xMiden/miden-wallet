@@ -286,9 +286,8 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot-load
           disable-animations: true
           script: |
-            appium --relaxed-security &
-            sleep 10
-            yarn test:e2e:android
+            # Run wdio directly - emulator is already running from the action
+            wdio run mobile-e2e/wdio.android.conf.ts
 
       - name: Upload test screenshots
         if: failure()
