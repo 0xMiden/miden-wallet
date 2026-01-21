@@ -52,10 +52,11 @@ DerivedData
 
 *storybook.log
 
-# Xcode generated (keep workspace for CI, ignore user data)
+# Xcode generated (keep workspace and Package.resolved for CI)
 ios/App/App.xcworkspace/xcuserdata/
 ios/App/App.xcworkspace/xcshareddata/
-ios/App/App.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+ios/App/App.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/*
+!ios/App/App.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
 
 # Android release signing
 android/keystore.properties
