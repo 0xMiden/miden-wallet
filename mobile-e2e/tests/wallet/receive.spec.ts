@@ -1,11 +1,6 @@
 import { ensureWalletReady } from '../../fixtures/wallet';
 import { Selectors } from '../../helpers/selectors';
-import {
-  clickExploreLink,
-  switchToNativeContext,
-  isIOSPlatform,
-  navigateToHomeViaJS
-} from '../../helpers/webview';
+import { clickExploreLink, navigateToHomeViaJS } from '../../helpers/webview';
 
 describe('Wallet - Receive Page', () => {
   beforeEach(async () => {
@@ -13,26 +8,11 @@ describe('Wallet - Receive Page', () => {
   });
 
   afterEach(async () => {
-    // Navigate back to Explore page
-    if (isIOSPlatform()) {
-      // iOS: use WebView JS navigation (most reliable)
-      try {
-        await navigateToHomeViaJS();
-      } catch {
-        // Ignore errors - might already be on home
-      }
-    } else {
-      // Android: use native close button
-      try {
-        await switchToNativeContext();
-        const closeButton = await $(Selectors.navCloseButton);
-        if (await closeButton.isExisting()) {
-          await closeButton.click();
-          await browser.pause(1500);
-        }
-      } catch {
-        // Already on Explore or close button not found
-      }
+    // Navigate back to Explore page using WebView JS (most reliable for both platforms)
+    try {
+      await navigateToHomeViaJS();
+    } catch {
+      // Ignore errors - might already be on home
     }
   });
 
@@ -41,7 +21,7 @@ describe('Wallet - Receive Page', () => {
     await clickExploreLink('Receive', '/receive');
 
     const receivePage = await $(Selectors.receivePage);
-    await receivePage.waitForDisplayed({ timeout: 15000 });
+    await receivePage.waitForDisplayed({ timeout: 10000 });
     await expect(receivePage).toBeDisplayed();
   });
 
@@ -49,7 +29,7 @@ describe('Wallet - Receive Page', () => {
     await clickExploreLink('Receive', '/receive');
 
     const receivePage = await $(Selectors.receivePage);
-    await receivePage.waitForDisplayed({ timeout: 15000 });
+    await receivePage.waitForDisplayed({ timeout: 10000 });
 
     // Address is displayed inside the QR code/copy button area
     // The "Copy to clipboard" button wraps the address display
@@ -58,7 +38,7 @@ describe('Wallet - Receive Page', () => {
 
     // Click to copy and verify it works (no error thrown)
     await copyButton.click();
-    await browser.pause(500);
+    await browser.pause(300);
     // If we got here without error, address was copied successfully
   });
 
@@ -70,7 +50,7 @@ describe('Wallet - Receive Page', () => {
     await clickExploreLink('Receive', '/receive');
 
     const receivePage = await $(Selectors.receivePage);
-    await receivePage.waitForDisplayed({ timeout: 15000 });
+    await receivePage.waitForDisplayed({ timeout: 10000 });
 
     // Should have copy button
     const copyButton = await $(Selectors.copyAddressButton);
@@ -80,14 +60,14 @@ describe('Wallet - Receive Page', () => {
     await copyButton.click();
 
     // Brief pause for UI feedback
-    await browser.pause(500);
+    await browser.pause(300);
   });
 
   it('should show upload button for importing notes', async () => {
     await clickExploreLink('Receive', '/receive');
 
     const receivePage = await $(Selectors.receivePage);
-    await receivePage.waitForDisplayed({ timeout: 15000 });
+    await receivePage.waitForDisplayed({ timeout: 10000 });
 
     // Should have upload button
     const uploadButton = await $(Selectors.uploadButton);
@@ -98,19 +78,14 @@ describe('Wallet - Receive Page', () => {
     await clickExploreLink('Receive', '/receive');
 
     const receivePage = await $(Selectors.receivePage);
-    await receivePage.waitForDisplayed({ timeout: 15000 });
+    await receivePage.waitForDisplayed({ timeout: 10000 });
 
-    // Navigate back to home via JS (most reliable method on iOS)
-    if (isIOSPlatform()) {
-      await navigateToHomeViaJS();
-    } else {
-      const closeButton = await $(Selectors.navCloseButton);
-      await closeButton.click();
-    }
+    // Navigate back to home via JS (most reliable method for both platforms)
+    await navigateToHomeViaJS();
 
     // Should be back on Explore page - verify by looking for Receive text
     const receiveText = await $(Selectors.receiveButton);
-    await receiveText.waitForDisplayed({ timeout: 15000 });
+    await receiveText.waitForDisplayed({ timeout: 10000 });
     await expect(receiveText).toBeDisplayed();
   });
 
@@ -118,7 +93,7 @@ describe('Wallet - Receive Page', () => {
     await clickExploreLink('Receive', '/receive');
 
     const receivePage = await $(Selectors.receivePage);
-    await receivePage.waitForDisplayed({ timeout: 15000 });
+    await receivePage.waitForDisplayed({ timeout: 10000 });
 
     // Look for "Your Address" text
     const addressLabel = await $('//*[contains(@text, "Your") or contains(@label, "Your")]');
