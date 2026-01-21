@@ -276,6 +276,12 @@ jobs:
           ./gradlew assembleDebug
           cd ..
 
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
       - name: Install Appium
         run: |
           npm install -g appium
@@ -283,17 +289,18 @@ jobs:
 
       - name: Run Android E2E tests
         uses: reactivecircus/android-emulator-runner@v2
-        timeout-minutes: 30
+        timeout-minutes: 45
         with:
           api-level: 31
           target: default
           arch: x86_64
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot-load
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot-save
           disable-animations: true
           script: |
             # Start Appium server (wdio service doesn't work reliably in CI)
             appium --relaxed-security --log-level info &
-            sleep 10
+            sleep 15
             # Run wdio directly - emulator is already running from the action
             npx wdio run mobile-e2e/wdio.android.conf.ts
 

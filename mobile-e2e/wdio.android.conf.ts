@@ -68,11 +68,13 @@ export const config: Options.Testrunner = {
       'appium:app': path.resolve(__dirname, '../android/app/build/outputs/apk/debug/app-debug.apk'),
       'appium:noReset': false,
       'appium:fullReset': false,
-      'appium:newCommandTimeout': 240,
+      'appium:newCommandTimeout': 300,
       'appium:autoGrantPermissions': true,
-      // UiAutomator2 stability settings
-      'appium:uiautomator2ServerLaunchTimeout': 60000,
-      'appium:uiautomator2ServerInstallTimeout': 60000,
+      // UiAutomator2 stability settings - CI emulator is slow
+      'appium:uiautomator2ServerLaunchTimeout': 180000,
+      'appium:uiautomator2ServerInstallTimeout': 180000,
+      'appium:appWaitDuration': 60000,
+      'appium:adbExecTimeout': 120000,
       'appium:skipUnlock': true,
       'appium:disableWindowAnimation': true,
       // WebView context settings

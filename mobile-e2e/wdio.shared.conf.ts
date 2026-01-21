@@ -12,7 +12,7 @@ export const config: Partial<Options.Testrunner> = {
   bail: 0,
 
   waitforTimeout: 10000,
-  connectionRetryTimeout: 120000,
+  connectionRetryTimeout: 300000, // 5 minutes - CI emulator + app install is slow
   connectionRetryCount: 3,
 
   framework: 'mocha',
