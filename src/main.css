@@ -251,3 +251,9 @@ button,
 .extension-no-animations .tippy-box {
   transition: none !important;
 }
+
+/* Re-enable sync wave animation (override the global disable) */
+.extension-no-animations .animate-gradient-wave {
+  animation-duration: 2s !important;
+  animation-delay: 0s !important;
+}

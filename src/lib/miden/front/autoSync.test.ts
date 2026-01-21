@@ -1,6 +1,9 @@
+import { WalletStatus } from 'lib/shared/types';
+
 import { Sync } from './autoSync';
 
 const mockSyncState = jest.fn();
+const mockSetSyncStatus = jest.fn();
 
 jest.mock('../sdk/miden-client', () => {
   return {
@@ -12,6 +15,17 @@ jest.mock('../sdk/miden-client', () => {
     withWasmClientLock: jest.fn(callback => callback())
   };
 });
+
+// Mock the store to return Ready status
+jest.mock('lib/store', () => ({
+  useWalletStore: {
+    getState: jest.fn(() => ({
+      status: WalletStatus.Ready,
+      isTransactionModalOpen: false,
+      setSyncStatus: mockSetSyncStatus
+    }))
+  }
+}));
 
 // Helper to advance time and flush promises in an interleaved way
 async function advanceTimeAndFlush(ms: number, steps = 20) {
@@ -29,6 +43,7 @@ describe('AutoSync', () => {
   beforeEach(() => {
     jest.useFakeTimers();
     jest.clearAllMocks();
+    mockSetSyncStatus.mockClear();
     sync = new Sync();
 
     // Mock getCurrentUrl to return localhost by default
@@ -47,11 +62,12 @@ describe('AutoSync', () => {
     jest.useRealTimers();
   });
 
-  it('should start syncing when state is updated from undefined', async () => {
+  it('should start syncing when state becomes Ready', async () => {
     expect(sync.lastHeight).toBe(0);
     expect(sync.state).toBeUndefined();
 
-    sync.updateState({ status: 'idle' } as any);
+    // Transition from undefined to Ready triggers sync
+    sync.updateState({ status: WalletStatus.Ready } as any);
 
     await advanceTimeAndFlush(100);
 
@@ -60,7 +76,7 @@ describe('AutoSync', () => {
   });
 
   it('should sync automatically and repeatedly', async () => {
-    sync.updateState({ status: 'idle' } as any);
+    sync.updateState({ status: WalletStatus.Ready } as any);
 
     await advanceTimeAndFlush(100);
     expect(mockSyncState).toHaveBeenCalledTimes(1);
@@ -80,13 +96,15 @@ describe('AutoSync', () => {
   });
 
   it('should not start a new sync loop if state was already set', async () => {
-    sync.updateState({ status: 'idle' } as any);
+    // First update with Ready status starts sync
+    sync.updateState({ status: WalletStatus.Ready } as any);
 
     await advanceTimeAndFlush(100);
     const callCountAfterFirstUpdate = mockSyncState.mock.calls.length;
     expect(callCountAfterFirstUpdate).toBe(1);
 
-    sync.updateState({ status: 'ready' } as any);
+    // Second update with same status should not start another loop
+    sync.updateState({ status: WalletStatus.Ready } as any);
 
     // Sync interval is 3 seconds
     await advanceTimeAndFlush(3100);
@@ -97,7 +115,7 @@ describe('AutoSync', () => {
   it('should not sync when on generating-transaction page', async () => {
     jest.spyOn(sync, 'getCurrentUrl').mockReturnValue('http://localhost/generating-transaction');
 
-    sync.updateState({ status: 'idle' } as any);
+    sync.updateState({ status: WalletStatus.Ready } as any);
 
     // Give the async sync() a chance to run and check the URL
     await Promise.resolve();
