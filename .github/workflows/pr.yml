@@ -276,37 +276,14 @@ jobs:
           npm install -g appium
           appium driver install uiautomator2 || echo "Driver already installed"
 
-      - name: AVD cache
-        uses: actions/cache@v4
-        id: avd-cache
-        with:
-          path: |
-            ~/.android/avd/*
-            ~/.android/adb*
-          key: avd-api-34-${{ runner.os }}
-
-      - name: Create AVD and generate snapshot
-        if: steps.avd-cache.outputs.cache-hit != 'true'
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 34
-          target: google_apis
-          arch: x86_64
-          profile: pixel_6
-          force-avd-creation: false
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
-          disable-animations: true
-          script: echo "Generated AVD snapshot for caching."
-
       - name: Run Android E2E tests
         uses: reactivecircus/android-emulator-runner@v2
+        timeout-minutes: 30
         with:
-          api-level: 34
-          target: google_apis
+          api-level: 31
+          target: default
           arch: x86_64
-          profile: pixel_6
-          force-avd-creation: false
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot-load
           disable-animations: true
           script: |
             appium --relaxed-security &
