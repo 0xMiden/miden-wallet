@@ -589,6 +589,398 @@ afterEach(() => {
 });
 ```
 
+## CI/CD (GitHub Actions)
+
+### Translations Job Ordering
+
+**CRITICAL:** The `translations` job in `pr.yml` runs first and may commit updated translation files. This commit triggers GitHub's `cancel-in-progress` behavior, which would cancel any jobs that started before the commit.
+
+**All other CI jobs must use `needs: translations`:**
+```yaml
+ios-e2e:
+  name: iOS E2E Tests
+  needs: translations  # REQUIRED - wait for translations to finish
+  runs-on: macos-14
+  # ...
+```
+
+**Why this matters:**
+1. PR workflow has `concurrency: { cancel-in-progress: true }`
+2. If translations job commits files while other jobs are running, those jobs get cancelled
+3. Using `needs: translations` ensures jobs start only after any translation commits are done
+
+**When adding new CI jobs to `pr.yml`:**
+- Always add `needs: translations` to prevent cancellation
+- Jobs can run in parallel with each other (e.g., `ios-e2e` and `android-e2e` both need `translations` but run concurrently)
+- Only add dependencies between jobs if one truly requires another's output
+
+**Workflow files:**
+- `.github/workflows/pr.yml` - Main PR workflow (translations, ci, coverage, i18n-check, ios-e2e, android-e2e)
+- `.github/workflows/mobile-e2e.yml` - Manual-only workflow for standalone mobile E2E runs
+
+## Mobile E2E Testing
+
+Mobile E2E tests use WebdriverIO + Appium to test the iOS and Android apps on simulators/emulators. Tests are located in `mobile-e2e/`.
+
+### Directory Structure
+
+```
+mobile-e2e/
+├── fixtures/           # Test setup helpers
+│   ├── app.ts          # App launch, reset, system alerts
+│   └── wallet.ts       # Wallet creation, import, unlock helpers
+├── helpers/            # Utility functions
+│   ├── selectors.ts    # Cross-platform element selectors
+│   └── webview.ts      # WebView context switching, JS execution
+├── tests/              # Test files organized by feature
+│   ├── onboarding/     # Wallet creation/import tests
+│   └── wallet/         # Send/receive tests
+├── wdio.shared.conf.ts # Shared WebdriverIO config
+├── wdio.ios.conf.ts    # iOS-specific config
+└── wdio.android.conf.ts # Android-specific config
+```
+
+### Running Tests
+
+```bash
+yarn test:e2e:ios       # Run iOS tests (requires iOS Simulator)
+yarn test:e2e:android   # Run Android tests (requires Android Emulator)
+```
+
+**Prerequisites:**
+- iOS: Xcode with iOS Simulator, build with `yarn mobile:ios:build`
+- Android: Android Emulator running, build APK with `cd android && ./gradlew assembleDebug`
+
+### Architecture: Native Context vs WebView Context
+
+This is the most important concept for mobile E2E testing. The app is a Capacitor WebView app, meaning:
+
+- **Native Context (`NATIVE_APP`)**: Appium sees native iOS/Android element hierarchy. XPath selectors like `//XCUIElementTypeButton` work here. Text/labels are accessible via `@label` (iOS) or `@text` (Android).
+
+- **WebView Context (`WEBVIEW_xxx`)**: Appium sees the actual HTML DOM. CSS selectors and DOM queries work here. Use `browser.execute()` to run JavaScript.
+
+**Key insight**: Most element interactions work in **native context** using XPath selectors. Switch to WebView context only when you need to:
+1. Execute JavaScript (set React input values, click inaccessible elements)
+2. Query the DOM directly
+
+```typescript
+import { switchToNativeContext, switchToWebviewContext } from '../helpers/webview';
+
+// Default: native context - use XPath selectors
+const button = await $(Selectors.continueButton);
+await button.click();
+
+// Switch to WebView for JS execution
+await switchToWebviewContext();
+await browser.execute(() => {
+  document.querySelector('input').value = 'test';
+});
+await switchToNativeContext();
+```
+
+### Key Helper Functions
+
+#### Selectors (`helpers/selectors.ts`)
+
+Platform-aware selectors that work in native context:
+
+```typescript
+import { Selectors, verifyWordSelector } from '../helpers/selectors';
+
+// Pre-defined selectors (resolve at runtime based on platform)
+await $(Selectors.createWalletButton);  // "Create a new wallet" button
+await $(Selectors.sendButton);          // "Send" button on home
+await $(Selectors.continueButton);      // "Continue" button
+
+// Dynamic selectors
+await $(verifyWordSelector('abandon')); // Word button during seed verification
+```
+
+**How selectors work:**
+- iOS: `//XCUIElementTypeButton[@label="text"]` or `//XCUIElementTypeButton[contains(@label, "text")]`
+- Android: `//*[@clickable="true" and contains(@text, "text")]`
+
+#### WebView Helpers (`helpers/webview.ts`)
+
+```typescript
+import {
+  switchToNativeContext,
+  switchToWebviewContext,
+  setPasswordInputs,
+  setSeedPhraseInputs,
+  disableBiometricsToggle,
+  clickLinkViaJS,
+  navigateToHomeViaJS
+} from '../helpers/webview';
+
+// Set password fields (triggers React onChange properly)
+await setPasswordInputs('Password123!', 'Password123!');
+
+// Set all 12 seed phrase inputs
+await setSeedPhraseInputs(['abandon', 'abandon', ...]);
+
+// Disable biometrics toggle to avoid Face ID prompt
+await disableBiometricsToggle();
+
+// Click link when native selector doesn't work (iOS accessibility issues)
+await clickLinkViaJS('Send', '/send');
+
+// Navigate home directly via JS (works around close button issues)
+await navigateToHomeViaJS();
+```
+
+#### App Fixtures (`fixtures/app.ts`)
+
+```typescript
+import {
+  resetAppState,
+  waitForAppReady,
+  dismissSystemAlerts,
+  TEST_PASSWORD,
+  TEST_MNEMONIC
+} from '../fixtures/app';
+
+// Reset app to fresh state (clears data without reinstalling)
+await resetAppState();
+
+// Wait for app to load past splash screen
+await waitForAppReady();
+
+// Dismiss iOS system alerts (notification permission, etc.)
+await dismissSystemAlerts();
+```
+
+#### Wallet Fixtures (`fixtures/wallet.ts`)
+
+```typescript
+import {
+  createNewWallet,
+  importWalletFromSeed,
+  unlockWallet,
+  ensureWalletReady,
+  getSeedWordsFromBackup
+} from '../fixtures/wallet';
+
+// Create new wallet with default password
+await createNewWallet();
+
+// Import wallet from seed phrase
+await importWalletFromSeed(TEST_MNEMONIC, TEST_PASSWORD);
+
+// Unlock existing wallet
+await unlockWallet(TEST_PASSWORD);
+
+// Get seed words shown on backup screen
+const words = await getSeedWordsFromBackup();
+```
+
+### Common Pitfalls and Gotchas
+
+#### 1. React Input Values Don't Trigger onChange
+
+**Problem:** Native Appium `setValue()` doesn't trigger React's onChange handlers.
+
+**Solution:** Use WebView JS helpers that dispatch proper events:
+```typescript
+// WRONG - value is set but React doesn't see it
+const input = await $(Selectors.passwordInput);
+await input.setValue('password');
+
+// CORRECT - use WebView helper
+await setPasswordInputs('password', 'password');
+```
+
+#### 2. iOS Elements with `accessible="false"`
+
+**Problem:** Some React components (like `<Link>`) render with `accessible="false"`, making them invisible to native Appium selectors.
+
+**Solution:** Use WebView JS click:
+```typescript
+// WRONG - element not found or not clickable
+const sendLink = await $(Selectors.sendButton);
+await sendLink.click();
+
+// CORRECT for iOS - use JS click
+await clickLinkViaJS('Send', '/send');
+```
+
+#### 3. Android aria-label Not Exposed
+
+**Problem:** On Android WebView, `aria-label` attributes are NOT exposed to native accessibility hierarchy.
+
+**Solution:** Use position-based selectors or visible text:
+```typescript
+// iOS: aria-label works
+'//XCUIElementTypeButton[@label="Go back"]'
+
+// Android: use position or visible text instead
+'(//android.widget.Button[@text=""])[1]'  // First empty-text button
+'//*[@clickable="true" and contains(@text, "Back")]'
+```
+
+#### 4. iOS System Alerts Block Tests
+
+**Problem:** iOS shows notification permission dialogs that block test execution.
+
+**Solution:** Dismiss alerts programmatically:
+```typescript
+// Call after actions that might trigger alerts
+await createButton.click();
+await dismissSystemAlerts();  // Handles "Allow Notifications?" etc.
+```
+
+#### 5. iOS fullReset is Slow
+
+**Problem:** `fullReset: true` reinstalls the app on every test file, adding 30-60s.
+
+**Solution:** Use `fullReset: false` with simctl data clearing:
+```typescript
+// In wdio.ios.conf.ts - use fast reset
+'appium:fullReset': false,
+
+// In before hook - clear data via simctl
+function clearIOSAppData() {
+  const containerPath = execSync(
+    `xcrun simctl get_app_container booted com.miden.wallet data`
+  ).toString().trim();
+  execSync(`rm -rf "${containerPath}/Library/WebKit"`);
+  execSync(`rm -rf "${containerPath}/Library/Preferences"`);
+  // ... etc
+}
+```
+
+#### 6. Context Switching Overhead
+
+**Problem:** Frequent context switches add latency.
+
+**Solution:** Batch operations in the same context:
+```typescript
+// WRONG - switches back and forth
+await switchToWebviewContext();
+await setInput1();
+await switchToNativeContext();
+await clickButton();
+await switchToWebviewContext();
+await setInput2();
+
+// CORRECT - batch WebView operations
+await switchToWebviewContext();
+await setInput1();
+await setInput2();
+await switchToNativeContext();
+await clickButton();
+```
+
+#### 7. Wallet Creation Takes 2+ Minutes
+
+**Problem:** Wallet creation involves key generation and node sync which genuinely takes time.
+
+**Solution:** Use long timeouts for the "Get started" button (wallet ready screen):
+```typescript
+// 180 seconds for wallet creation to complete
+const getStartedButton = await $(Selectors.getStartedButton);
+await getStartedButton.waitForDisplayed({ timeout: 180000 });
+```
+
+### Writing New Tests
+
+#### Test File Template
+
+```typescript
+import { resetAppState, waitForAppReady, TEST_PASSWORD } from '../../fixtures/app';
+import { Selectors } from '../../helpers/selectors';
+
+describe('Feature Name', () => {
+  beforeEach(async () => {
+    await resetAppState();  // Fresh app state for each test
+  });
+
+  it('should do something', async () => {
+    await waitForAppReady();
+
+    // Find elements using Selectors
+    const button = await $(Selectors.someButton);
+    await button.waitForDisplayed({ timeout: 10000 });
+    await button.click();
+
+    // Verify result
+    const result = await $(Selectors.expectedElement);
+    await expect(result).toBeDisplayed();
+  });
+});
+```
+
+#### Adding New Selectors
+
+Add to `helpers/selectors.ts`:
+```typescript
+export const Selectors = {
+  // ... existing selectors
+
+  // Use getter for platform-aware selector
+  get myNewButton() {
+    return platformButton('Button Text');
+  },
+  get myNewText() {
+    return platformText('Some text');
+  },
+};
+```
+
+#### Platform-Specific Test Logic
+
+```typescript
+import { isIOSPlatform } from '../helpers/webview';
+
+if (isIOSPlatform()) {
+  // iOS-specific behavior
+  await clickLinkViaJS('Send', '/send');
+} else {
+  // Android-specific behavior
+  const button = await $('//*[contains(@text, "Send")]');
+  await button.click();
+}
+```
+
+### Configuration Reference
+
+#### iOS Config (`wdio.ios.conf.ts`)
+
+Key capabilities:
+- `appium:fullReset: false` - Fast reset via simctl
+- `appium:nativeWebTap: true` - Better WebView element interaction
+- `appium:webviewConnectTimeout: 30000` - Time to wait for WebView context
+
+#### Android Config (`wdio.android.conf.ts`)
+
+Key capabilities:
+- `appium:autoGrantPermissions: true` - Auto-accept permission dialogs
+- `appium:disableWindowAnimation: true` - Faster tests
+- `appium:skipUnlock: true` - Skip lock screen
+
+#### Shared Config (`wdio.shared.conf.ts`)
+
+- `mochaOpts.timeout: 120000` - 2 min timeout per test
+- `afterTest` hook takes screenshot on failure
+
+### Debugging Tips
+
+1. **Screenshots on failure**: Automatically saved to `mobile-e2e/screenshots/`
+
+2. **Appium logs**: Check `mobile-e2e/logs/appium-ios.log` or `appium-android.log`
+
+3. **Element inspection**: Use Appium Inspector or:
+   ```typescript
+   const source = await driver.getPageSource();
+   console.log(source);
+   ```
+
+4. **Context debugging**:
+   ```typescript
+   const contexts = await driver.getContexts();
+   console.log('Available contexts:', contexts);
+   ```
+
 ## Internationalization (i18n)
 
 **IMPORTANT:** All user-facing text in React components MUST be internationalized. Never use hardcoded strings for UI text - always use `t('key')` or the `<T id="key" />` component. CI will block PRs with non-i18n'd strings (enforced by `yarn lint:i18n`).
