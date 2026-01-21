@@ -3,6 +3,7 @@
  * Handles app launch, reset, and common setup operations
  */
 
+import { execSync } from 'child_process';
 import { Selectors, setWebViewContext } from '../helpers/selectors';
 
 export const TEST_PASSWORD = 'Password123!';
@@ -34,49 +35,49 @@ async function trySwitchToWebView(): Promise<boolean> {
   return false;
 }
 
-// Track if we've already dismissed the notification alert this session
-let notificationAlertDismissed = false;
-
 /**
  * Dismiss any iOS system alerts (notification permissions, etc.)
+ * This can be called multiple times as alerts may appear at different points in the flow
  */
-async function dismissSystemAlerts(): Promise<void> {
-  // Only check for notification alert once per session
-  if (notificationAlertDismissed) {
+export async function dismissSystemAlerts(): Promise<void> {
+  // Only check on iOS
+  if (!driver.isIOS) {
     return;
   }
 
-  // Try finding iOS permission buttons directly (avoids noisy warnings)
+  // Brief pause to let alert appear
+  await browser.pause(300);
+
+  // Try Appium's native alert handling first
   try {
-    const allowButton = await $('//XCUIElementTypeButton[@name="Allow"]');
-    if (await allowButton.isExisting()) {
-      await allowButton.click();
-      await browser.pause(500);
-      notificationAlertDismissed = true;
+    const alertText = await driver.getAlertText();
+    if (alertText) {
+      console.log('[dismissSystemAlerts] Found alert:', alertText);
+      // Dismiss the alert (clicks the default/cancel button)
+      await driver.dismissAlert();
+      await browser.pause(300);
       return;
     }
   } catch {
-    // No Allow button
+    // No alert present via native API
   }
 
+  // Fallback: Try to find and click alert buttons directly
   try {
-    const dontAllowButton = await $('//XCUIElementTypeButton[@name="Don\'t Allow"]');
-    if (await dontAllowButton.isExisting()) {
-      await dontAllowButton.click();
-      await browser.pause(500);
-      notificationAlertDismissed = true;
+    // Look for any alert button
+    const alertButtons = await $$('//XCUIElementTypeAlert//XCUIElementTypeButton');
+    if (alertButtons.length > 0) {
+      // Click the first button (usually "Don't Allow" or cancel)
+      console.log('[dismissSystemAlerts] Found alert buttons, clicking first one');
+      await alertButtons[0].click();
+      await browser.pause(300);
+      return;
     }
   } catch {
-    // No Don't Allow button
+    // No alert buttons found
   }
 }
 
-/**
- * Reset the alert dismissed flag (call at start of each test)
- */
-export function resetAlertState(): void {
-  notificationAlertDismissed = false;
-}
 
 /**
  * Wait for the app to be ready (past splash screen)
@@ -86,15 +87,16 @@ export async function waitForAppReady(): Promise<void> {
   // Try to switch to WebView context (optional, works without it)
   await trySwitchToWebView();
 
+  // Dismiss system alerts once at start (not every poll iteration)
+  await dismissSystemAlerts();
+
   // Wait for app to show welcome screen or main screen
   // Using XPath that works in native context
   const startTime = Date.now();
   const timeout = 30000;
+  let pollInterval = 100; // Start with 100ms, use exponential backoff
 
   while (Date.now() - startTime < timeout) {
-    // Check for and dismiss any system alerts (notification permissions, etc.)
-    await dismissSystemAlerts();
-
     try {
       // Try to find various screens that indicate the app is ready:
       // 1. Welcome screen (new wallet) - "Create a new wallet" button
@@ -118,28 +120,70 @@ export async function waitForAppReady(): Promise<void> {
     } catch {
       // Elements not found yet, keep waiting
     }
-    await browser.pause(500);
+    await browser.pause(pollInterval);
+    // Exponential backoff: 100ms -> 200ms -> 400ms, capped at 500ms
+    pollInterval = Math.min(pollInterval * 2, 500);
   }
 
   throw new Error('App did not load within timeout');
 }
 
 /**
+ * Clear iOS app data using simctl commands (much faster than fullReset)
+ * This clears IndexedDB, Preferences, Caches without reinstalling the app
+ */
+async function clearIOSAppData(): Promise<void> {
+  const bundleId = 'com.miden.wallet';
+
+  try {
+    // Get the app data container path
+    const containerPath = execSync(`xcrun simctl get_app_container booted ${bundleId} data`, {
+      encoding: 'utf-8'
+    }).trim();
+
+    if (containerPath) {
+      // Clear WebKit data (IndexedDB, LocalStorage)
+      execSync(`rm -rf "${containerPath}/Library/WebKit"`, { encoding: 'utf-8' });
+      // Clear Preferences (Capacitor Preferences/UserDefaults)
+      execSync(`rm -rf "${containerPath}/Library/Preferences"`, { encoding: 'utf-8' });
+      // Clear Caches
+      execSync(`rm -rf "${containerPath}/Library/Caches"`, { encoding: 'utf-8' });
+      // Clear Documents
+      execSync(`rm -rf "${containerPath}/Documents"`, { encoding: 'utf-8' });
+      // Clear localStorage/sessionStorage (kvstore)
+      execSync(`rm -rf "${containerPath}/Library/kvstore"`, { encoding: 'utf-8' });
+      // Clear Cookies
+      execSync(`rm -rf "${containerPath}/Library/Cookies"`, { encoding: 'utf-8' });
+      // Clear Saved Application State (prevents state restoration)
+      execSync(`rm -rf "${containerPath}/Library/Saved Application State"`, { encoding: 'utf-8' });
+      // Also clear tmp directory
+      execSync(`rm -rf "${containerPath}/tmp"/*`, { encoding: 'utf-8' });
+      console.log('[iOS resetAppState] Cleared app data via simctl');
+    }
+  } catch (e) {
+    console.warn('[clearIOSAppData] Failed to clear app data:', e);
+  }
+}
+
+/**
  * Reset app state by clearing storage
- * Note: This uses Appium's reset capabilities
+ * For iOS: Uses simctl to clear app data directories (fast, no reinstall)
+ * For Android: Just terminates and relaunches (fullReset: false handles data clearing)
  */
 export async function resetAppState(): Promise<void> {
-  // Try to clear app data/storage (removes wallet state)
+  // Terminate the app first
   try {
-    // On iOS, we need to remove the app and reinstall to clear data
-    // But for faster tests, we just terminate and relaunch
-    // The app should start fresh if no wallet exists
     await driver.terminateApp('com.miden.wallet');
   } catch {
     // App might not be running
   }
 
-  await browser.pause(500);
+  // On iOS, clear app data using simctl (fast alternative to fullReset)
+  if (driver.isIOS) {
+    await clearIOSAppData();
+  }
+
+  await browser.pause(300);
   await driver.activateApp('com.miden.wallet');
   await waitForAppReady();
 }

@@ -1,4 +1,4 @@
-import { resetAppState, waitForAppReady, TEST_PASSWORD } from '../../fixtures/app';
+import { resetAppState, waitForAppReady, TEST_PASSWORD, dismissSystemAlerts } from '../../fixtures/app';
 import { getSeedWordsFromBackup } from '../../fixtures/wallet';
 import { Selectors, verifyWordSelector } from '../../helpers/selectors';
 import {
@@ -35,12 +35,15 @@ describe('Onboarding - Create Wallet', () => {
     const createButton = await $(Selectors.createWalletButton);
     await createButton.click();
 
+    // Dismiss any system alerts (notification permission may appear here)
+    await dismissSystemAlerts();
+
     const showButton = await $(Selectors.showSeedPhraseButton);
-    await showButton.waitForDisplayed({ timeout: 15000 });
+    await showButton.waitForDisplayed({ timeout: 10000 });
     await showButton.click();
 
-    // Wait a moment for words to be visible
-    await browser.pause(500);
+    // Brief wait for words to be visible
+    await browser.pause(300);
 
     // Verify all 12 words are displayed via WebView JavaScript
     const seedWords = await getSeedWordsFromBackup();
@@ -57,12 +60,15 @@ describe('Onboarding - Create Wallet', () => {
     const createButton = await $(Selectors.createWalletButton);
     await createButton.click();
 
+    // Dismiss any system alerts (notification permission may appear here)
+    await dismissSystemAlerts();
+
     const showButton = await $(Selectors.showSeedPhraseButton);
-    await showButton.waitForDisplayed({ timeout: 15000 });
+    await showButton.waitForDisplayed({ timeout: 10000 });
     await showButton.click();
 
-    // Wait a moment for words to be visible
-    await browser.pause(500);
+    // Brief wait for words to be visible
+    await browser.pause(300);
 
     // Get the correct words via WebView JavaScript
     const seedWords = await getSeedWordsFromBackup();
@@ -76,7 +82,7 @@ describe('Onboarding - Create Wallet', () => {
     // On verification screen, the continue button should be disabled
     // until correct words are selected
     const verifySeedPhrase = await $(Selectors.verifySeedPhrase);
-    await verifySeedPhrase.waitForDisplayed({ timeout: 15000 });
+    await verifySeedPhrase.waitForDisplayed({ timeout: 10000 });
 
     const verifyContinue = await $(Selectors.continueButton);
 
@@ -100,16 +106,19 @@ describe('Onboarding - Create Wallet', () => {
 
     // Click "Create a new wallet"
     const createButton = await $(Selectors.createWalletButton);
-    await createButton.waitForDisplayed({ timeout: 15000 });
+    await createButton.waitForDisplayed({ timeout: 10000 });
     await createButton.click();
+
+    // Dismiss any system alerts (notification permission may appear here)
+    await dismissSystemAlerts();
 
     // Wait for backup screen
     const showButton = await $(Selectors.showSeedPhraseButton);
-    await showButton.waitForDisplayed({ timeout: 15000 });
+    await showButton.waitForDisplayed({ timeout: 10000 });
     await showButton.click();
 
-    // Wait a moment for words to be visible
-    await browser.pause(500);
+    // Brief wait for words to be visible
+    await browser.pause(300);
 
     // Extract seed words for verification via WebView JavaScript
     const seedWords = await getSeedWordsFromBackup();
@@ -125,7 +134,7 @@ describe('Onboarding - Create Wallet', () => {
 
     // Verify seed phrase screen
     const verifySeedPhrase = await $(Selectors.verifySeedPhrase);
-    await verifySeedPhrase.waitForDisplayed({ timeout: 15000 });
+    await verifySeedPhrase.waitForDisplayed({ timeout: 10000 });
 
     // Select first and last words
     const firstWordButton = await $(verifyWordSelector(seedWords[0]));
@@ -141,7 +150,7 @@ describe('Onboarding - Create Wallet', () => {
 
     // Wait for password screen
     const passwordScreen = await $(Selectors.createPassword);
-    await passwordScreen.waitForDisplayed({ timeout: 15000 });
+    await passwordScreen.waitForDisplayed({ timeout: 10000 });
 
     // Use WebView JavaScript to set password values
     const passwordSuccess = await setPasswordInputs(TEST_PASSWORD, TEST_PASSWORD);
@@ -149,8 +158,8 @@ describe('Onboarding - Create Wallet', () => {
       throw new Error('Failed to set password inputs via WebView');
     }
 
-    // Wait a moment for biometric toggle to render (it loads async)
-    await browser.pause(1000);
+    // Brief wait for biometric toggle to render (it loads async)
+    await browser.pause(500);
 
     // Disable biometrics toggle to avoid Face ID prompt
     // Note: This may return false if biometrics not available on simulator
@@ -159,7 +168,7 @@ describe('Onboarding - Create Wallet', () => {
 
     // Switch back to native context for button interactions
     await switchToNativeContext();
-    await browser.pause(500);
+    await browser.pause(300);
 
     const passwordContinue = await $(Selectors.continueButton);
     await passwordContinue.waitForEnabled({ timeout: 10000 });
