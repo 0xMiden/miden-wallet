@@ -153,8 +153,86 @@ jobs:
       - name: Check i18n compliance
         run: yarn lint:i18n
 
-  # TODO: Re-enable iOS E2E tests once Capacitor 8 SPM compatibility is fixed
-  # See: https://github.com/ionic-team/capacitor-plugins/issues/2461
+  ios-e2e:
+    name: iOS E2E Tests
+    needs: translations
+    runs-on: macos-14
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build mobile app
+        run: yarn build:mobile
+
+      - name: Sync Capacitor
+        run: npx cap sync ios
+
+      - name: Remove splash-screen plugin for CI build
+        run: |
+          # Remove splash-screen from Package.swift (has compatibility issues with SPM)
+          sed -i '' '/CapacitorSplashScreen/d' ios/App/CapApp-SPM/Package.swift
+
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_15.4.app
+
+      - name: Build iOS app for simulator
+        run: |
+          xcodebuild -workspace ios/App/App.xcworkspace \
+            -scheme App \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.5' \
+            -configuration Debug \
+            -derivedDataPath ios/App/build \
+            build
+
+      - name: Boot iOS Simulator
+        run: |
+          xcrun simctl boot "iPhone 15" || true
+          xcrun simctl list devices
+
+      - name: Install Appium
+        run: |
+          npm install -g appium
+          appium driver install xcuitest
+
+      - name: Start Appium server
+        run: |
+          appium --relaxed-security &
+          sleep 10
+
+      - name: Run iOS E2E tests
+        run: yarn test:e2e:ios
+        env:
+          APPIUM_APP_PATH: ${{ github.workspace }}/ios/App/build/Build/Products/Debug-iphonesimulator/App.app
+
+      - name: Upload test screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-e2e-screenshots
+          path: mobile-e2e/screenshots/
+          retention-days: 7
+
+      - name: Upload Appium logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-appium-logs
+          path: mobile-e2e/logs/
+          retention-days: 7
 
   android-e2e:
     name: Android E2E Tests

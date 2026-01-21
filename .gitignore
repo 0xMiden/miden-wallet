@@ -54,7 +54,10 @@ DerivedData
 
 # Xcode generated (keep workspace and Package.resolved for CI)
 ios/App/App.xcworkspace/xcuserdata/
-ios/App/App.xcworkspace/xcshareddata/
+ios/App/App.xcworkspace/xcshareddata/*
+!ios/App/App.xcworkspace/xcshareddata/swiftpm/
+ios/App/App.xcworkspace/xcshareddata/swiftpm/*
+!ios/App/App.xcworkspace/xcshareddata/swiftpm/Package.resolved
 ios/App/App.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/*
 !ios/App/App.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
 
