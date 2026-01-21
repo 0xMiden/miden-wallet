@@ -180,6 +180,14 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync ios
 
+      - name: Remove splash-screen plugin for CI build
+        run: |
+          # Remove splash-screen from Package.swift (has compatibility issues with SPM)
+          sed -i '' '/CapacitorSplashScreen/d' ios/App/CapApp-SPM/Package.swift
+          # Clear SPM cache to force re-resolution
+          rm -rf ios/App/App.xcworkspace/xcshareddata/swiftpm/Package.resolved
+          rm -rf ios/App/App.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode_15.4.app
 
