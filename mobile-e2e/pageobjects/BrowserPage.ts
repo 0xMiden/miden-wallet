@@ -5,7 +5,7 @@ import {
   waitForWebviewContext,
   isWalletAdapterInjected,
   getWebviewUrl,
-  executeInWebview,
+  executeInWebview
 } from '../helpers/webview';
 
 /**
@@ -240,7 +240,7 @@ class BrowserPage {
         return { isInjected: false, methods: [] };
       }
 
-      const methods = Object.keys(wallet).filter((key) => typeof wallet[key] === 'function');
+      const methods = Object.keys(wallet).filter(key => typeof wallet[key] === 'function');
 
       return { isInjected: true, methods };
     });

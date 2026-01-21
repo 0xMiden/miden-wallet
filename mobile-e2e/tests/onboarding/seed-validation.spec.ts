@@ -21,10 +21,7 @@ async function setSingleSeedInput(index: number, value: string): Promise<boolean
 
   const result = await browser.execute(
     (idx: number, val: string) => {
-      const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
-        window.HTMLInputElement.prototype,
-        'value'
-      )?.set;
+      const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
 
       const input = document.querySelector(`[data-testid="seed-phrase-input-${idx}"]`) as HTMLInputElement;
       if (!input) {
@@ -65,7 +62,7 @@ describe('Onboarding - Seed Phrase Validation', () => {
     await importButton.click();
 
     const seedPhraseOption = await $(Selectors.importSeedPhraseOption);
-    await seedPhraseOption.waitForDisplayed({ timeout: 15000 });
+    await seedPhraseOption.waitForDisplayed({ timeout: 10000 });
     await seedPhraseOption.click();
 
     // Wait for seed phrase inputs to be visible
@@ -77,7 +74,7 @@ describe('Onboarding - Seed Phrase Validation', () => {
 
     // Switch back to native context
     await switchToNativeContext();
-    await browser.pause(500);
+    await browser.pause(300);
 
     // Continue button should be disabled
     const continueButton = await $(Selectors.continueButton);
@@ -92,7 +89,7 @@ describe('Onboarding - Seed Phrase Validation', () => {
     await importButton.click();
 
     const seedPhraseOption = await $(Selectors.importSeedPhraseOption);
-    await seedPhraseOption.waitForDisplayed({ timeout: 15000 });
+    await seedPhraseOption.waitForDisplayed({ timeout: 10000 });
     await seedPhraseOption.click();
 
     // Wait for seed phrase inputs to be visible
@@ -106,7 +103,7 @@ describe('Onboarding - Seed Phrase Validation', () => {
 
     // Switch back to native context
     await switchToNativeContext();
-    await browser.pause(500);
+    await browser.pause(300);
 
     // Continue button should be enabled
     const continueButton = await $(Selectors.continueButton);
@@ -121,7 +118,7 @@ describe('Onboarding - Seed Phrase Validation', () => {
     await importButton.click();
 
     const seedPhraseOption = await $(Selectors.importSeedPhraseOption);
-    await seedPhraseOption.waitForDisplayed({ timeout: 15000 });
+    await seedPhraseOption.waitForDisplayed({ timeout: 10000 });
     await seedPhraseOption.click();
 
     // Wait for seed phrase inputs to be visible
@@ -139,7 +136,7 @@ describe('Onboarding - Seed Phrase Validation', () => {
 
     // Switch back to native context
     await switchToNativeContext();
-    await browser.pause(500);
+    await browser.pause(300);
 
     // Continue should still be disabled
     const continueButton = await $(Selectors.continueButton);
@@ -154,7 +151,7 @@ describe('Onboarding - Seed Phrase Validation', () => {
     await importButton.click();
 
     const seedPhraseOption = await $(Selectors.importSeedPhraseOption);
-    await seedPhraseOption.waitForDisplayed({ timeout: 15000 });
+    await seedPhraseOption.waitForDisplayed({ timeout: 10000 });
     await seedPhraseOption.click();
 
     // Wait for seed phrase inputs to be visible
@@ -174,7 +171,7 @@ describe('Onboarding - Seed Phrase Validation', () => {
     await importButton.click();
 
     const seedPhraseOption = await $(Selectors.importSeedPhraseOption);
-    await seedPhraseOption.waitForDisplayed({ timeout: 15000 });
+    await seedPhraseOption.waitForDisplayed({ timeout: 10000 });
     await seedPhraseOption.click();
 
     // Wait for seed phrase inputs to be visible
@@ -189,7 +186,7 @@ describe('Onboarding - Seed Phrase Validation', () => {
 
     // Switch back to native context
     await switchToNativeContext();
-    await browser.pause(500);
+    await browser.pause(300);
 
     // Should still work after trimming
     const continueButton = await $(Selectors.continueButton);

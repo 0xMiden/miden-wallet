@@ -22,11 +22,11 @@ describe('Onboarding - Import Wallet', () => {
     await waitForAppReady();
 
     const importButton = await $(Selectors.importWalletButton);
-    await importButton.waitForDisplayed({ timeout: 15000 });
+    await importButton.waitForDisplayed({ timeout: 10000 });
     await importButton.click();
 
     const importSelectType = await $(Selectors.importSelectType);
-    await importSelectType.waitForDisplayed({ timeout: 15000 });
+    await importSelectType.waitForDisplayed({ timeout: 10000 });
 
     const seedPhraseOption = await $(Selectors.importSeedPhraseOption);
     await expect(seedPhraseOption).toBeDisplayed();
@@ -44,7 +44,7 @@ describe('Onboarding - Import Wallet', () => {
 
     // Select seed phrase import
     const seedPhraseOption = await $(Selectors.importSeedPhraseOption);
-    await seedPhraseOption.waitForDisplayed({ timeout: 15000 });
+    await seedPhraseOption.waitForDisplayed({ timeout: 10000 });
     await seedPhraseOption.click();
 
     // Wait for seed phrase inputs to be visible
@@ -61,7 +61,7 @@ describe('Onboarding - Import Wallet', () => {
 
     // Switch back to native context for button interactions
     await switchToNativeContext();
-    await browser.pause(500);
+    await browser.pause(300);
 
     // Click Continue
     const continueButton = await $(Selectors.continueButton);
@@ -70,7 +70,7 @@ describe('Onboarding - Import Wallet', () => {
 
     // Set password - wait for password screen to load
     const passwordInput = await $(Selectors.passwordInput);
-    await passwordInput.waitForDisplayed({ timeout: 15000 });
+    await passwordInput.waitForDisplayed({ timeout: 10000 });
 
     // Use JavaScript in WebView context to set password values
     const passwordSuccess = await setPasswordInputs(TEST_PASSWORD, TEST_PASSWORD);
@@ -78,8 +78,8 @@ describe('Onboarding - Import Wallet', () => {
       throw new Error('Failed to set password inputs via WebView');
     }
 
-    // Wait a moment for biometric toggle to render (it loads async)
-    await browser.pause(1000);
+    // Brief wait for biometric toggle to render (it loads async)
+    await browser.pause(500);
 
     // Disable biometrics toggle to avoid Face ID prompt
     // Note: This may return false if biometrics not available on simulator
@@ -88,7 +88,7 @@ describe('Onboarding - Import Wallet', () => {
 
     // Switch back to native context for button interactions
     await switchToNativeContext();
-    await browser.pause(500);
+    await browser.pause(300);
 
     // Wait for Continue button to be enabled (passwords must match)
     const passwordContinue = await $(Selectors.continueButton);

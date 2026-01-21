@@ -20,7 +20,7 @@ export const config: Partial<Options.Testrunner> = {
 
   mochaOpts: {
     ui: 'bdd',
-    timeout: 300000, // 5 minutes for tests involving wallet import/creation
+    timeout: 120000 // 2 minutes - wallet import/creation should complete within this
   },
 
   // Hooks
@@ -33,5 +33,5 @@ export const config: Partial<Options.Testrunner> = {
       // Take screenshot on failure
       await browser.saveScreenshot(`./mobile-e2e/screenshots/${test.title.replace(/\s+/g, '_')}.png`);
     }
-  },
+  }
 };

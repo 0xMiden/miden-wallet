@@ -1,6 +1,31 @@
 import { config as sharedConfig } from './wdio.shared.conf';
 import type { Options } from '@wdio/types';
 import path from 'path';
+import os from 'os';
+import fs from 'fs';
+
+// Set ANDROID_HOME if not already set
+if (!process.env.ANDROID_HOME && !process.env.ANDROID_SDK_ROOT) {
+  const macOsPath = path.join(os.homedir(), 'Library/Android/sdk');
+  const linuxCiPath = '/usr/local/lib/android/sdk';
+
+  if (fs.existsSync(macOsPath)) {
+    process.env.ANDROID_HOME = macOsPath;
+  } else if (fs.existsSync(linuxCiPath)) {
+    process.env.ANDROID_HOME = linuxCiPath;
+  }
+  process.env.ANDROID_SDK_ROOT = process.env.ANDROID_HOME;
+}
+
+// Set JAVA_HOME if not already set
+if (!process.env.JAVA_HOME) {
+  const androidStudioJdk = '/Applications/Android Studio.app/Contents/jbr/Contents/Home';
+  if (fs.existsSync(androidStudioJdk)) {
+    process.env.JAVA_HOME = androidStudioJdk;
+    process.env.PATH = `${androidStudioJdk}/bin:${process.env.PATH}`;
+  }
+  // GitHub Actions sets JAVA_HOME automatically
+}
 
 export const config: Options.Testrunner = {
   ...sharedConfig,
@@ -23,10 +48,10 @@ export const config: Options.Testrunner = {
       {
         args: {
           relaxedSecurity: true,
-          log: './mobile-e2e/logs/appium-android.log',
-        },
-      },
-    ],
+          log: './mobile-e2e/logs/appium-android.log'
+        }
+      }
+    ]
   ],
 
   capabilities: [
@@ -50,15 +75,15 @@ export const config: Options.Testrunner = {
       'appium:fullContextList': true,
       // Enable Chrome debugging for WebView
       'appium:chromeOptions': {
-        w3c: true,
+        w3c: true
       },
       // Native web tap for WebView elements
-      'appium:nativeWebTap': true,
-    },
+      'appium:nativeWebTap': true
+    }
   ],
 
   // Android-specific hooks
   before: async () => {
     // Android-specific setup
-  },
+  }
 } as Options.Testrunner;

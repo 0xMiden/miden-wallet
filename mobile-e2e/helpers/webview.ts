@@ -30,7 +30,7 @@ function getContextId(ctx: unknown): string {
  */
 export async function getContexts(): Promise<string[]> {
   const contexts = await driver.getContexts();
-  return contexts.map((ctx) => getContextId(ctx));
+  return contexts.map(ctx => getContextId(ctx));
 }
 
 /**
@@ -54,7 +54,7 @@ export async function switchToNativeContext(): Promise<void> {
  */
 export async function switchToWebviewContext(): Promise<string | null> {
   const contexts = await getContexts();
-  const webviewContext = contexts.find((ctx) => ctx.includes('WEBVIEW'));
+  const webviewContext = contexts.find(ctx => ctx.includes('WEBVIEW'));
 
   if (webviewContext) {
     await driver.switchContext(webviewContext);
@@ -69,16 +69,19 @@ export async function switchToWebviewContext(): Promise<string | null> {
  */
 export async function waitForWebviewContext(timeout: number = 30000): Promise<string> {
   const startTime = Date.now();
+  let pollInterval = 100; // Start with 100ms, use exponential backoff
 
   while (Date.now() - startTime < timeout) {
     const contexts = await getContexts();
-    const webviewContext = contexts.find((ctx) => ctx.includes('WEBVIEW'));
+    const webviewContext = contexts.find(ctx => ctx.includes('WEBVIEW'));
 
     if (webviewContext) {
       return webviewContext;
     }
 
-    await browser.pause(500);
+    await browser.pause(pollInterval);
+    // Exponential backoff: 100ms -> 200ms -> 400ms, capped at 500ms
+    pollInterval = Math.min(pollInterval * 2, 500);
   }
 
   throw new Error(`WebView context not found within ${timeout}ms`);
@@ -118,13 +121,16 @@ export async function isWalletAdapterInjected(): Promise<boolean> {
  */
 export async function waitForWalletAdapter(timeout: number = 10000): Promise<void> {
   const startTime = Date.now();
+  let pollInterval = 100; // Start with 100ms, use exponential backoff
 
   while (Date.now() - startTime < timeout) {
     const isInjected = await isWalletAdapterInjected();
     if (isInjected) {
       return;
     }
-    await browser.pause(500);
+    await browser.pause(pollInterval);
+    // Exponential backoff: 100ms -> 200ms -> 400ms, capped at 500ms
+    pollInterval = Math.min(pollInterval * 2, 500);
   }
 
   throw new Error(`Wallet adapter not injected within ${timeout}ms`);
@@ -217,10 +223,7 @@ export async function setReactInputValue(testId: string, value: string): Promise
     }
 
     // Set the native value setter to bypass React's synthetic event system
-    const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
-      window.HTMLInputElement.prototype,
-      'value'
-    )?.set;
+    const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
 
     if (nativeInputValueSetter) {
       nativeInputValueSetter.call(input, value);
@@ -316,17 +319,14 @@ export async function setPasswordInputs(password: string, confirmPassword: strin
   // Pass passwords as arguments to execute script
   const result = await browser.execute(
     (pwd: string, confirmPwd: string) => {
-      const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
-        window.HTMLInputElement.prototype,
-        'value'
-      )?.set;
+      const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
 
       // Find password inputs - they use type="password" or specific ids/testids
       const inputs = document.querySelectorAll('input[type="password"], input[type="text"]');
       const passwordInputs: HTMLInputElement[] = [];
 
       // Filter to find actual password fields (look for password-related attributes)
-      inputs.forEach((input) => {
+      inputs.forEach(input => {
         const el = input as HTMLInputElement;
         const id = el.id?.toLowerCase() || '';
         const testId = el.getAttribute('data-testid')?.toLowerCase() || '';
@@ -394,10 +394,7 @@ export async function setUnlockPasswordInput(password: string): Promise<boolean>
   }
 
   const result = await browser.execute((pwd: string) => {
-    const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
-      window.HTMLInputElement.prototype,
-      'value'
-    )?.set;
+    const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
 
     // Find password input on unlock screen
     const input = document.querySelector('input[type="password"]') as HTMLInputElement;
@@ -482,8 +479,8 @@ export async function clickLinkViaJS(textContent: string, href?: string): Promis
     href
   );
 
-  // Wait for navigation
-  await browser.pause(500);
+  // Brief wait for navigation
+  await browser.pause(300);
 
   if (!isInWebview) {
     await switchToNativeContext();
@@ -515,12 +512,12 @@ export async function clickExploreLink(linkText: string, href?: string): Promise
     if (!clicked) {
       throw new Error(`Failed to click link "${linkText}" via JS`);
     }
-    // Extra wait for iOS navigation
-    await browser.pause(1000);
+    // Brief wait for iOS navigation (navigation component will waitForDisplayed)
+    await browser.pause(500);
   } else {
     // Android: Use native click
     const button = await $(`//*[contains(@text, "${linkText}")]`);
-    await button.waitForDisplayed({ timeout: 15000 });
+    await button.waitForDisplayed({ timeout: 10000 });
     await button.click();
   }
 }
@@ -529,9 +526,7 @@ export async function clickExploreLink(linkText: string, href?: string): Promise
  * Get the coordinates of an element containing the specified text
  * Returns center coordinates for native tap
  */
-export async function getElementCoordinatesByText(
-  textContent: string
-): Promise<{ x: number; y: number } | null> {
+export async function getElementCoordinatesByText(textContent: string): Promise<{ x: number; y: number } | null> {
   const currentContext = await getCurrentContext();
   const isInWebview = currentContext.includes('WEBVIEW');
 
@@ -657,10 +652,7 @@ export async function clickElementByTextViaJS(textContent: string): Promise<bool
         while (current && current !== document.body) {
           const classes = current.className || '';
           // Check for cursor-pointer or hover:bg-grey classes (CardItem pattern)
-          if (
-            classes.includes('cursor-pointer') ||
-            classes.includes('hover:bg-grey')
-          ) {
+          if (classes.includes('cursor-pointer') || classes.includes('hover:bg-grey')) {
             simulateClick(current);
             return { success: true, method: 'cursor-pointer-parent', classes };
           }
@@ -682,7 +674,7 @@ export async function clickElementByTextViaJS(textContent: string): Promise<bool
 
   console.log('clickElementByTextViaJS result:', result);
 
-  await browser.pause(500);
+  await browser.pause(300);
 
   if (!isInWebview) {
     await switchToNativeContext();
@@ -711,7 +703,8 @@ export async function navigateToHomeViaJS(): Promise<void> {
     window.location.hash = '#/';
   });
 
-  await browser.pause(1000);
+  // Wait for navigation - iOS needs a bit longer
+  await browser.pause(isIOSPlatform() ? 500 : 300);
 
   if (!isInWebview) {
     await switchToNativeContext();
@@ -758,7 +751,7 @@ export async function clickCloseButtonViaJS(): Promise<boolean> {
     return false;
   });
 
-  await browser.pause(500);
+  await browser.pause(300);
 
   if (!isInWebview) {
     await switchToNativeContext();
@@ -780,10 +773,7 @@ export async function setSeedPhraseInputs(words: string[]): Promise<boolean> {
 
   // Pass words as argument to execute script
   const result = await browser.execute((wordsArg: string[]) => {
-    const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
-      window.HTMLInputElement.prototype,
-      'value'
-    )?.set;
+    const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
 
     for (let i = 0; i < wordsArg.length; i++) {
       const input = document.querySelector(`[data-testid="seed-phrase-input-${i}"]`) as HTMLInputElement;

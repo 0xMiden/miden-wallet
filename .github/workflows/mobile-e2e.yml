@@ -1,27 +1,9 @@
 name: Mobile E2E Tests
 
+# This workflow is for manual runs only.
+# PR runs are handled by pr.yml to coordinate with the translations job.
 on:
-  pull_request:
-    paths:
-      - 'src/**'
-      - 'mobile-e2e/**'
-      - 'ios/**'
-      - 'android/**'
-      - 'capacitor.config.ts'
-      - 'package.json'
-  push:
-    branches:
-      - main
-    paths:
-      - 'src/**'
-      - 'mobile-e2e/**'
-      - 'ios/**'
-      - 'android/**'
   workflow_dispatch:
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   ios-e2e:

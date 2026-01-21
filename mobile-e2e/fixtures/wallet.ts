@@ -45,16 +45,16 @@ export async function createNewWallet(password: string = TEST_PASSWORD): Promise
 
   // Click "Create a new wallet"
   const createButton = await $(Selectors.createWalletButton);
-  await createButton.waitForDisplayed({ timeout: 15000 });
+  await createButton.waitForDisplayed({ timeout: 10000 });
   await createButton.click();
 
   // Wait for backup screen and click "Show"
   const showButton = await $(Selectors.showSeedPhraseButton);
-  await showButton.waitForDisplayed({ timeout: 15000 });
+  await showButton.waitForDisplayed({ timeout: 10000 });
   await showButton.click();
 
-  // Wait a moment for words to be visible
-  await browser.pause(500);
+  // Brief wait for words to be visible
+  await browser.pause(300);
 
   // Get seed words for verification via WebView JavaScript
   const seedWords = await getSeedWordsFromBackup();
@@ -70,7 +70,7 @@ export async function createNewWallet(password: string = TEST_PASSWORD): Promise
 
   // Verify seed phrase - select first and last words
   const firstWordButton = await $(verifyWordSelector(seedWords[0]));
-  await firstWordButton.waitForDisplayed({ timeout: 15000 });
+  await firstWordButton.waitForDisplayed({ timeout: 10000 });
   await firstWordButton.click();
 
   const lastWordButton = await $(verifyWordSelector(seedWords[11]));
@@ -103,16 +103,16 @@ export async function importWalletFromSeed(
 
   // Click "I already have a wallet"
   const importButton = await $(Selectors.importWalletButton);
-  await importButton.waitForDisplayed({ timeout: 15000 });
+  await importButton.waitForDisplayed({ timeout: 10000 });
   await importButton.click();
 
   // Select "Import with seed phrase"
   const seedPhraseOption = await $(Selectors.importSeedPhraseOption);
-  await seedPhraseOption.waitForDisplayed({ timeout: 15000 });
+  await seedPhraseOption.waitForDisplayed({ timeout: 10000 });
   await seedPhraseOption.click();
 
-  // Wait for seed phrase inputs to be visible
-  await browser.pause(500);
+  // Brief wait for seed phrase inputs to be visible
+  await browser.pause(300);
 
   // Enter seed words via WebView JavaScript
   const words = mnemonic.split(' ');
@@ -123,11 +123,11 @@ export async function importWalletFromSeed(
 
   // Switch back to native context for button interactions
   await switchToNativeContext();
-  await browser.pause(500);
+  await browser.pause(300);
 
   // Click Continue
   const continueButton = await $(Selectors.continueButton);
-  await continueButton.waitForEnabled({ timeout: 10000 });
+  await continueButton.waitForEnabled({ timeout: 5000 });
   await continueButton.click();
 
   // Set password
@@ -150,10 +150,10 @@ export async function importWalletFromSeed(
 async function setPasswordWithWebView(password: string): Promise<void> {
   // First wait for the password screen to be displayed
   const passwordScreen = await $(Selectors.createPassword);
-  await passwordScreen.waitForDisplayed({ timeout: 15000 });
+  await passwordScreen.waitForDisplayed({ timeout: 10000 });
 
-  // Small pause to ensure screen transition is complete
-  await browser.pause(500);
+  // Brief pause to ensure screen transition is complete
+  await browser.pause(300);
 
   // Use WebView JavaScript to set password values
   const success = await setPasswordInputs(password, password);
@@ -166,11 +166,11 @@ async function setPasswordWithWebView(password: string): Promise<void> {
 
   // Switch back to native context for button interactions
   await switchToNativeContext();
-  await browser.pause(500);
+  await browser.pause(300);
 
   // Wait for continue button and click
   const continueButton = await $(Selectors.continueButton);
-  await continueButton.waitForEnabled({ timeout: 10000 });
+  await continueButton.waitForEnabled({ timeout: 5000 });
   await continueButton.click();
 }
 
@@ -180,7 +180,7 @@ async function setPasswordWithWebView(password: string): Promise<void> {
 export async function unlockWallet(password: string = TEST_PASSWORD): Promise<void> {
   // Wait for unlock screen
   const unlockButton = await $(Selectors.unlockButton);
-  await unlockButton.waitForDisplayed({ timeout: 15000 });
+  await unlockButton.waitForDisplayed({ timeout: 10000 });
 
   // Use WebView JavaScript to set password
   const success = await setUnlockPasswordInput(password);
@@ -190,13 +190,13 @@ export async function unlockWallet(password: string = TEST_PASSWORD): Promise<vo
 
   // Switch back to native context for button click
   await switchToNativeContext();
-  await browser.pause(500);
+  await browser.pause(300);
 
   await unlockButton.click();
 
   // Wait for explore page
   const sendButton = await $(Selectors.sendButton);
-  await sendButton.waitForDisplayed({ timeout: 30000 });
+  await sendButton.waitForDisplayed({ timeout: 15000 });
 }
 
 /**
@@ -204,14 +204,14 @@ export async function unlockWallet(password: string = TEST_PASSWORD): Promise<vo
  */
 export async function unlockWalletWithBiometrics(): Promise<void> {
   // Wait for biometric prompt to appear
-  await browser.pause(1000);
+  await browser.pause(500);
 
   // Trigger biometric match
   await triggerBiometricMatch();
 
   // Wait for explore page
   const sendButton = await $(Selectors.sendButton);
-  await sendButton.waitForDisplayed({ timeout: 30000 });
+  await sendButton.waitForDisplayed({ timeout: 15000 });
 }
 
 /**

@@ -78,29 +78,67 @@ function iosInputByIndex(index: number): string {
  */
 export const Selectors = {
   // Onboarding - using visible button text
-  get onboardingWelcome() { return platformText('Create a new wallet'); },
-  get createWalletButton() { return platformButton('Create a new wallet'); },
-  get importWalletButton() { return platformButton('I already have a wallet'); },
-  get showSeedPhraseButton() { return platformButton('Show'); },
-  get backupSeedPhrase() { return platformText('Backup seed phrase'); },
-  get verifySeedPhrase() { return platformText('Verify Seed Phrase'); },
-  get importSelectType() { return platformText('Choose Your Import Type'); },
-  get importSeedPhraseOption() { return platformText('Import with Seed Phrase'); },
-  get importFromFileOption() { return platformText('Import with Encrypted Wallet File'); },
-  get importSeedPhrase() { return platformText('12-word Seed phrase'); },
-  get confirmationScreen() { return platformText('Your wallet is ready'); },
-  get createPassword() { return platformText('Create password'); },
+  get onboardingWelcome() {
+    return platformText('Create a new wallet');
+  },
+  get createWalletButton() {
+    return platformButton('Create a new wallet');
+  },
+  get importWalletButton() {
+    return platformButton('I already have a wallet');
+  },
+  get showSeedPhraseButton() {
+    return platformButton('Show');
+  },
+  get backupSeedPhrase() {
+    return platformText('Backup seed phrase');
+  },
+  get verifySeedPhrase() {
+    return platformText('Verify Seed Phrase');
+  },
+  get importSelectType() {
+    return platformText('Choose Your Import Type');
+  },
+  get importSeedPhraseOption() {
+    return platformText('Import with Seed Phrase');
+  },
+  get importFromFileOption() {
+    return platformText('Import with Encrypted Wallet File');
+  },
+  get importSeedPhrase() {
+    return platformText('12-word Seed phrase');
+  },
+  get confirmationScreen() {
+    return platformText('Your wallet is ready');
+  },
+  get createPassword() {
+    return platformText('Create password');
+  },
 
   // Password inputs - use index-based selection
-  get passwordInput() { return platformInputByIndex(1); },
-  get confirmPasswordInput() { return platformInputByIndex(2); },
-  get unlockPasswordInput() { return platformInputByIndex(1); },
-  get unlockButton() { return platformButton('Unlock'); },
+  get passwordInput() {
+    return platformInputByIndex(1);
+  },
+  get confirmPasswordInput() {
+    return platformInputByIndex(2);
+  },
+  get unlockPasswordInput() {
+    return platformInputByIndex(1);
+  },
+  get unlockButton() {
+    return platformButton('Unlock');
+  },
 
   // Navigation buttons
-  get continueButton() { return platformButton('Continue'); },
-  get backButton() { return platformButton('Back'); },
-  get getStartedButton() { return platformButton('Get started'); },
+  get continueButton() {
+    return platformButton('Continue');
+  },
+  get backButton() {
+    return platformButton('Back');
+  },
+  get getStartedButton() {
+    return platformButton('Get started');
+  },
   // Navigation header buttons
   // iOS: uses aria-label which is exposed as @label
   // Android WebView: aria-label is NOT exposed, so we use position-based selector
@@ -121,23 +159,45 @@ export const Selectors = {
   },
 
   // Explore page buttons - these are Link components with text in nested spans
-  get sendButton() { return platformText('Send'); },
-  get receiveButton() { return platformText('Receive'); },
-  get faucetButton() { return platformText('Faucet'); },
+  get sendButton() {
+    return platformText('Send');
+  },
+  get receiveButton() {
+    return platformText('Receive');
+  },
+  get faucetButton() {
+    return platformText('Faucet');
+  },
 
   // Send flow - first step shows "Choose Token" title
-  get sendFlow() { return platformText('Choose'); },
+  get sendFlow() {
+    return platformText('Choose');
+  },
   // Token list - look for MIDEN token which should always be present
-  get tokenList() { return platformText('MIDEN'); },
+  get tokenList() {
+    return platformText('MIDEN');
+  },
   // First token item (MIDEN)
-  get firstTokenItem() { return platformText('MIDEN'); },
-  get recipientInput() { return platformInputByIndex(1); },
-  get amountInput() { return platformInputByIndex(2); },
-  get reviewButton() { return platformButton('Review'); },
-  get confirmSendButton() { return platformButton('Confirm'); },
+  get firstTokenItem() {
+    return platformText('MIDEN');
+  },
+  get recipientInput() {
+    return platformInputByIndex(1);
+  },
+  get amountInput() {
+    return platformInputByIndex(2);
+  },
+  get reviewButton() {
+    return platformButton('Review');
+  },
+  get confirmSendButton() {
+    return platformButton('Confirm');
+  },
 
   // Receive page
-  get receivePage() { return platformText('Receive'); },
+  get receivePage() {
+    return platformText('Receive');
+  },
   // Address on Miden starts with "mtst1" not "0x"
   get addressDisplay() {
     if (isIOS()) {
@@ -169,18 +229,32 @@ export const Selectors = {
   },
 
   // Settings
-  get settingsTab() { return platformButton('Settings'); },
-  get generalSettings() { return platformText('General'); },
-  get advancedSettings() { return platformText('Advanced'); },
+  get settingsTab() {
+    return platformButton('Settings');
+  },
+  get generalSettings() {
+    return platformText('General');
+  },
+  get advancedSettings() {
+    return platformText('Advanced');
+  },
 
   // DApp Browser
-  get browserTab() { return platformButton('Browser'); },
-  get browserUrlInput() { return isIOS() ? '//XCUIElementTypeTextField' : '//android.widget.EditText'; },
-  get browserGoButton() { return platformButton('Go'); },
+  get browserTab() {
+    return platformButton('Browser');
+  },
+  get browserUrlInput() {
+    return isIOS() ? '//XCUIElementTypeTextField' : '//android.widget.EditText';
+  },
+  get browserGoButton() {
+    return platformButton('Go');
+  },
 
   // Common
   root: '#root',
-  get loadingSpinner() { return platformText('Loading'); },
+  get loadingSpinner() {
+    return platformText('Loading');
+  },
   get errorMessage() {
     return isIOS()
       ? '//XCUIElementTypeStaticText[contains(@label, "error") or contains(@label, "Error")]'
@@ -193,11 +267,21 @@ export const Selectors = {
   },
 
   // DApp Browser - connection/transaction modals
-  get approveConnectionButton() { return platformButton('Approve'); },
-  get rejectConnectionButton() { return platformButton('Reject'); },
-  get confirmTransactionButton() { return platformButton('Confirm'); },
-  get rejectTransactionButton() { return platformButton('Reject'); },
-  get transactionConfirmationOverlay() { return platformText('Confirm Transaction'); },
+  get approveConnectionButton() {
+    return platformButton('Approve');
+  },
+  get rejectConnectionButton() {
+    return platformButton('Reject');
+  },
+  get confirmTransactionButton() {
+    return platformButton('Confirm');
+  },
+  get rejectTransactionButton() {
+    return platformButton('Reject');
+  },
+  get transactionConfirmationOverlay() {
+    return platformText('Confirm Transaction');
+  }
 };
 
 /**
@@ -250,7 +334,7 @@ export const XPathSelectors = {
     textContaining: (text: string) => `//XCUIElementTypeStaticText[contains(@label, "${text}")]`,
     buttonWithText: (text: string) => `//XCUIElementTypeButton[contains(@label, "${text}")]`,
     inputField: '//XCUIElementTypeTextField',
-    secureInputField: '//XCUIElementTypeSecureTextField',
+    secureInputField: '//XCUIElementTypeSecureTextField'
   },
 
   // Android-specific
@@ -258,8 +342,8 @@ export const XPathSelectors = {
     textContaining: (text: string) => `//*[contains(@text, "${text}")]`,
     buttonWithText: (text: string) =>
       `//android.widget.Button[contains(@text, "${text}")] | //android.view.View[contains(@text, "${text}") and @clickable="true"]`,
-    inputField: '//android.widget.EditText',
-  },
+    inputField: '//android.widget.EditText'
+  }
 } as const;
 
 /**
