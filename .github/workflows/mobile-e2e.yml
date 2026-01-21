@@ -1,4 +1,6 @@
 name: Mobile E2E Tests
+permissions:
+  contents: read
 
 # This workflow is for manual runs only.
 # PR runs are handled by pr.yml to coordinate with the translations job.
