@@ -42,17 +42,20 @@ export const config: Options.Testrunner = {
     './tests/wallet/receive.spec.ts'
   ],
 
-  services: [
-    [
-      'appium',
-      {
-        args: {
-          relaxedSecurity: true,
-          log: './mobile-e2e/logs/appium-android.log'
-        }
-      }
-    ]
-  ],
+  // Skip Appium service in CI (Appium is started manually there)
+  services: process.env.CI
+    ? []
+    : [
+        [
+          'appium',
+          {
+            args: {
+              relaxedSecurity: true,
+              log: './mobile-e2e/logs/appium-android.log'
+            }
+          }
+        ]
+      ],
 
   capabilities: [
     {
