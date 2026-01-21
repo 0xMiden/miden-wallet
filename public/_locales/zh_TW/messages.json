@@ -719,6 +719,10 @@
     "message": "Seed Phrase",
     "englishSource": "Seed Phrase"
   },
+  "seedWord": {
+    "message": "种子词",
+    "englishSource": "Seed word"
+  },
   "pathForHDAccounts": {
     "message": "对于 HD 帐户。这是您用来从Seed Phrase恢复所有帐户的工具。",
     "englishSource": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase."

@@ -46,7 +46,11 @@ export const BackUpSeedPhraseScreen: React.FC<BackUpSeedPhraseScreenProps> = ({
   }, []);
 
   return (
-    <div className={classNames('flex-1', 'flex flex-col', 'bg-white gap-8 p-6', className)} {...props}>
+    <div
+      className={classNames('flex-1', 'flex flex-col', 'bg-white gap-8 p-6', className)}
+      data-testid="backup-seed-phrase"
+      {...props}
+    >
       <div className="flex flex-col items-center">
         <header className="text-2xl font-semibold">{t('backUpYourWallet')}</header>
         <p className="text-sm font-normal mt-2 text-center w-[500px]">{t('backUpWalletInstructions')}</p>
@@ -56,6 +60,7 @@ export const BackUpSeedPhraseScreen: React.FC<BackUpSeedPhraseScreenProps> = ({
         {seedPhrase.map((word, index) => (
           <Chip
             key={`seed-word-${index}`}
+            testID={`seed-word-${index}`}
             label={
               <label
                 className={classNames(
@@ -65,7 +70,7 @@ export const BackUpSeedPhraseScreen: React.FC<BackUpSeedPhraseScreenProps> = ({
                 )}
               >
                 <p className="text-grey-600 select-none pointer-events-none">{`${index + 1}.`}</p>
-                <p>{`${word}`}</p>
+                <p data-testid={`seed-word-text-${index}`}>{`${word}`}</p>
               </label>
             }
           />
@@ -79,6 +84,7 @@ export const BackUpSeedPhraseScreen: React.FC<BackUpSeedPhraseScreenProps> = ({
           title={t(isWordsVisible ? 'hide' : 'show')}
           iconLeft={isWordsVisible ? IconName.EyeOff : IconName.Eye}
           onClick={onWordsVisibilityToggle}
+          testID="show-seed-phrase-button"
         />
         <Button
           className="flex-1"
@@ -86,11 +92,12 @@ export const BackUpSeedPhraseScreen: React.FC<BackUpSeedPhraseScreenProps> = ({
           title={t(isCopied ? 'copied' : 'copyToClipboard')}
           iconLeft={isCopied ? IconName.CheckboxCircleFill : IconName.FileCopy}
           onClick={onCopyToClipboard}
+          testID="copy-seed-phrase-button"
         />
       </div>
 
       <div className="w-[360px] flex flex-col gap-2 self-center">
-        <Button title={t('continue')} onClick={onSubmit} />
+        <Button title={t('continue')} onClick={onSubmit} testID="continue-button" />
       </div>
     </div>
   );

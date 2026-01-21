@@ -197,7 +197,11 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
   );
 
   return (
-    <div className={classNames('flex-1', 'flex flex-col', 'bg-white gap-y-8 p-6', className)} {...props}>
+    <div
+      className={classNames('flex-1', 'flex flex-col', 'bg-white gap-y-8 p-6', className)}
+      data-testid="create-password"
+      {...props}
+    >
       <div className="flex flex-col items-center">
         <header className="text-2xl font-semibold">{t('createPassword')}</header>
         <p className="text-sm text-center font-normal mt-2 w-[500px]">{t('createPasswordDescription')}</p>
@@ -217,6 +221,7 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
             }
             onChange={onPasswordChange}
             onKeyDown={handleTabKey}
+            data-testid="password-input"
           />
           <PasswordStrengthIndicator password={password} validation={passwordValidation} />
         </div>
@@ -235,6 +240,7 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
             }
             onChange={e => setVerifyPassword(e.target.value)}
             onKeyDown={handleEnterKey}
+            data-testid="confirm-password-input"
           />
           <p
             className={classNames(
@@ -273,7 +279,7 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ clas
         )}
       </article>
       <div className="w-[360px] flex flex-col gap-2 self-center">
-        <Button title={t('continue')} disabled={!isValidPassword} onClick={onPasswordSubmit} />
+        <Button title={t('continue')} disabled={!isValidPassword} onClick={onPasswordSubmit} testID="continue-button" />
         {/* eslint-disable-next-line i18next/no-literal-string */}
         <p className="text-grey-600 text-xs text-center px-4">
           {t('byProceeding')}{' '}

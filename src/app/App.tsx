@@ -21,9 +21,15 @@ import * as Woozie from 'lib/woozie';
 import '../i18n';
 
 import ConfirmPage from './ConfirmPage';
+import { resetForTesting } from 'lib/miden/reset';
+
 if (!isMobile()) {
   import('lib/lock-up/run-checks');
 }
+
+// Expose reset function for E2E testing (currently not usable from Appium due to iOS WebView issues)
+(window as unknown as { __resetWalletForTesting__: typeof resetForTesting }).__resetWalletForTesting__ =
+  resetForTesting;
 
 interface AppProps extends Partial<PropsWithChildren> {
   env: ComponentProps<typeof AppEnvProvider>;

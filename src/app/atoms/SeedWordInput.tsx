@@ -92,6 +92,7 @@ export const SeedWordInput: FC<SeedWordInputProps> = ({
         id={id.toString()}
         value={value}
         autoComplete={autoComplete}
+        aria-label={`${t('seedWord')} ${id + 1}`}
         onChange={handleChange}
         onPaste={handlePaste}
         onFocus={() => setFocused(true)}

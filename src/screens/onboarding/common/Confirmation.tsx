@@ -15,7 +15,11 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ classNam
   const { t } = useTranslation();
 
   return (
-    <div {...props} className="flex-1 flex flex-col h-full justify-between bg-white px-10 py-6 gap-y-8">
+    <div
+      {...props}
+      className="flex-1 flex flex-col h-full justify-between bg-white px-10 py-6 gap-y-8"
+      data-testid="confirmation-screen"
+    >
       <div className="flex flex-col items-center justify-center flex-grow">
         <Message
           icon={IconName.Success}
@@ -33,6 +37,7 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ classNam
           className="w-[360px] self-center"
           onClick={onSubmit}
           isLoading={isLoading}
+          testID="get-started-button"
         />
       </div>
     </div>

@@ -719,6 +719,10 @@
     "message": "Seed Phrase",
     "englishSource": "Seed Phrase"
   },
+  "seedWord": {
+    "message": "Samenwort",
+    "englishSource": "Seed word"
+  },
   "pathForHDAccounts": {
     "message": "für HD-Konten. Mit dieser Funktion können Sie alle Ihre Konten aus Ihrer Seed Phrase wiederherstellen.",
     "englishSource": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase."

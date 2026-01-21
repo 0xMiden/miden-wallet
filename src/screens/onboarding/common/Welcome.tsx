@@ -30,12 +30,18 @@ export const WelcomeScreen = ({ onSubmit, ...props }: WelcomeScreenProps) => {
         />
       </div>
       <div className="w-[360px] flex flex-col gap-2">
-        <Button tabIndex={0} title={t('createANewWallet')} onClick={() => onSubmit?.('select-wallet-type')} />
+        <Button
+          tabIndex={0}
+          title={t('createANewWallet')}
+          onClick={() => onSubmit?.('select-wallet-type')}
+          testID="create-wallet-button"
+        />
         <Button
           id={'import-link'}
           title={t('iAlreadyHaveAWallet')}
           variant={ButtonVariant.Ghost}
           onClick={() => onSubmit?.('select-import-type')}
+          testID="import-wallet-button"
         />
       </div>
     </div>

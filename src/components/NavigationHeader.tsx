@@ -32,10 +32,14 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
       style={{ paddingTop: isMobile() ? '24px' : '14px', paddingBottom: '14px' }}
     >
       <div className="flex flex-row items-center gap-x-4">
-        {onBack ? <CircleButton icon={IconName.ArrowLeft} onClick={onBack} /> : null}
+        {onBack ? (
+          <CircleButton icon={IconName.ArrowLeft} onClick={onBack} aria-label="Go back" data-testid="nav-back" />
+        ) : null}
         <h1 className="text-lg font-semibold">{props.title}</h1>
       </div>
-      {onClose ? <CircleButton icon={IconName.Close} onClick={onClose} /> : null}
+      {onClose ? (
+        <CircleButton icon={IconName.Close} onClick={onClose} aria-label="Close" data-testid="nav-close" />
+      ) : null}
     </div>
   );
 };

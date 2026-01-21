@@ -71,7 +71,7 @@ export const VerifySeedPhraseScreen: React.FC<VerifySeedPhraseScreenProps> = ({
 
       <article className="grid grid-cols-3 gap-4 w-[80%] self-center">
         {shuffledWords.map((word, index) => (
-          <div className="relative">
+          <div className="relative" key={index}>
             {(!!firstSelectedWordIndex || firstSelectedWordIndex === 0) && index === firstSelectedWordIndex && (
               <div className="absolute -top-3 left-2 -translate-x-2 bg-primary-orange text-white px-2 py-0.5 rounded-full text-xs whitespace-nowrap">
                 {t('first')}
@@ -82,7 +82,7 @@ export const VerifySeedPhraseScreen: React.FC<VerifySeedPhraseScreenProps> = ({
                 {t('last')}
               </div>
             )}
-            <button onClick={() => onSelectWord(index)} className="w-full">
+            <button onClick={() => onSelectWord(index)} className="w-full" data-testid={`verify-word-${word}`}>
               <Chip
                 className="cursor-pointer"
                 selected={firstSelectedWordIndex === index || secondSelectedWordIndex === index}
@@ -94,7 +94,7 @@ export const VerifySeedPhraseScreen: React.FC<VerifySeedPhraseScreenProps> = ({
       </article>
 
       <div className="w-[360px] flex flex-col gap-2 self-center">
-        <Button disabled={!isCorrectWordSelected} title={t('continue')} onClick={onSubmit} />
+        <Button disabled={!isCorrectWordSelected} title={t('continue')} onClick={onSubmit} testID="continue-button" />
       </div>
     </div>
   );

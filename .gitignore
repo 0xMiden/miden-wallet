@@ -52,9 +52,14 @@ DerivedData
 
 *storybook.log
 
-# Xcode generated
-ios/App/App.xcworkspace/
-ios/App/App.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+# Xcode generated (keep workspace and Package.resolved for CI)
+ios/App/App.xcworkspace/xcuserdata/
+ios/App/App.xcworkspace/xcshareddata/*
+!ios/App/App.xcworkspace/xcshareddata/swiftpm/
+ios/App/App.xcworkspace/xcshareddata/swiftpm/*
+!ios/App/App.xcworkspace/xcshareddata/swiftpm/Package.resolved
+ios/App/App.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/*
+!ios/App/App.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
 
 # Android release signing
 android/keystore.properties
@@ -63,3 +68,8 @@ android/app/*.jks
 
 # iOS build artifacts
 ios/App/build/
+ios/App/build-sim/
+
+# Mobile E2E test artifacts
+mobile-e2e/screenshots/
+mobile-e2e/logs/

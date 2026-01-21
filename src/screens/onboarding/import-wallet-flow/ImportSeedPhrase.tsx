@@ -71,9 +71,10 @@ export const ImportSeedPhraseScreen: React.FC<ImportSeedPhraseScreenProps> = ({
             onPaste={onInputPaste}
             onChange={event => {
               const newSeedPhrase = [...seedPhrase];
-              newSeedPhrase[index] = event.target.value;
+              newSeedPhrase[index] = event.target.value.trim();
               setSeedPhrase(newSeedPhrase);
             }}
+            data-testid={`seed-phrase-input-${index}`}
           />
         ))}
       </div>
@@ -85,6 +86,7 @@ export const ImportSeedPhraseScreen: React.FC<ImportSeedPhraseScreenProps> = ({
         onClick={handleSubmit}
         disabled={!isValid}
         className="w-[360px] mt-8"
+        testID="continue-button"
       />
     </div>
   );

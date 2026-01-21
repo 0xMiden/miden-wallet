@@ -161,6 +161,7 @@
   "privateKeyFieldDescription": "Current account key. Keep it in secret.",
   "derivationPath": "Derivation path",
   "seedPhrase": "Seed Phrase",
+  "seedWord": "Seed word",
   "pathForHDAccounts": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase.",
   "derivationPathExample": "m/44'/0'/<account_index>'/0'",
   "keepSeedPhraseSecret": "Keep it in secret.",
