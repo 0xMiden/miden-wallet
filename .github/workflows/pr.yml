@@ -9,6 +9,9 @@ on:
       - 'mw-**'
       - 'feat/**'
 
+permissions:
+  contents: read
+
 jobs:
   translations:
     name: Update Translation Files
