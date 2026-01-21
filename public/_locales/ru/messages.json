@@ -719,6 +719,10 @@
     "message": "Начальная фраза",
     "englishSource": "Seed Phrase"
   },
+  "seedWord": {
+    "message": "Начальное слово",
+    "englishSource": "Seed word"
+  },
   "pathForHDAccounts": {
     "message": "для HD-аккаунтов. Это то, что вы используете для восстановления всех своих учетных записей с помощью исходной фразы.",
     "englishSource": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase."

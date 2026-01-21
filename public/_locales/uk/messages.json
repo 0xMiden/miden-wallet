@@ -719,6 +719,10 @@
     "message": "Фраза насіння",
     "englishSource": "Seed Phrase"
   },
+  "seedWord": {
+    "message": "Насіннєве слово",
+    "englishSource": "Seed word"
+  },
   "pathForHDAccounts": {
     "message": "для облікових записів HD. Це те, що ви використовуєте, щоб відновити всі свої облікові записи з початкової фрази.",
     "englishSource": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase."

@@ -719,6 +719,10 @@
     "message": "Seed Phrase",
     "englishSource": "Seed Phrase"
   },
+  "seedWord": {
+    "message": "シードワード",
+    "englishSource": "Seed word"
+  },
   "pathForHDAccounts": {
     "message": "HD アカウントの場合。これは、Seed Phraseからすべてのアカウントを回復するために使用するものです。",
     "englishSource": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase."

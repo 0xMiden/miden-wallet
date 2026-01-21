@@ -719,6 +719,10 @@
     "message": "Seed Phrase",
     "englishSource": "Seed Phrase"
   },
+  "seedWord": {
+    "message": "Palavra-semente",
+    "englishSource": "Seed word"
+  },
   "pathForHDAccounts": {
     "message": "para contas HD. Isso é o que você usa para recuperar todas as suas contas de sua frase-semente.",
     "englishSource": "for HD acccounts. This is the thing you use to recover all your accounts from your seed phrase."
