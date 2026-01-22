@@ -247,12 +247,15 @@ public class LocalBiometricPlugin: CAPPlugin, CAPBridgedPlugin {
         ]
         SecItemDelete(deleteQuery as CFDictionary)
 
-        // Create access control - require user presence (biometric OR passcode)
+        // Create access control - only require auth when USING the private key
+        // Using only .privateKeyUsage (not .userPresence) to avoid double FaceID prompt
+        // .privateKeyUsage triggers auth when key is used for signing/ECDH
+        // .userPresence would trigger auth when key is retrieved, causing double prompt
         var accessError: Unmanaged<CFError>?
         guard let accessControl = SecAccessControlCreateWithFlags(
             kCFAllocatorDefault,
             kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
-            [.privateKeyUsage, .userPresence],
+            .privateKeyUsage,
             &accessError
         ) else {
             let errorMsg = accessError?.takeRetainedValue().localizedDescription ?? "Unknown error"
