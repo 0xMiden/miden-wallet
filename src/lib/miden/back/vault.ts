@@ -56,7 +56,7 @@ const accountsStrgKey = createStorageKey(StorageEntity.Accounts);
 const settingsStrgKey = createStorageKey(StorageEntity.Settings);
 const ownMnemonicStrgKey = createStorageKey(StorageEntity.OwnMnemonic);
 
-const insertKeyCallbackWrpapper = (passKey: CryptoKey) => {
+const insertKeyCallbackWrapper = (passKey: CryptoKey) => {
   return async (key: Uint8Array, secretKey: Uint8Array) => {
     const pubKeyHex = Buffer.from(key).toString('hex');
     const secretKeyHex = Buffer.from(secretKey).toString('hex');
@@ -240,7 +240,7 @@ export class Vault {
       }
 
       const options: MidenClientCreateOptions = {
-        insertKeyCallback: insertKeyCallbackWrpapper(vaultKey)
+        insertKeyCallback: insertKeyCallbackWrapper(vaultKey)
       };
       const hdAccIndex = 0;
       const walletSeed = deriveClientSeed(WalletType.OnChain, mnemonic, 0);
@@ -320,8 +320,9 @@ export class Vault {
         await savePlain(VAULT_KEY_PASSWORD_STORAGE_KEY, passwordProtectedVaultKey);
       }
 
-      const options = {
-        insertKeyCallback: insertKeyCallbackWrpapper(vaultKey)
+      // insert keys
+      const options: MidenClientCreateOptions = {
+        insertKeyCallback: insertKeyCallbackWrapper(vaultKey)
       };
 
       // Wrap WASM client operations in a lock to prevent concurrent access
@@ -391,7 +392,7 @@ export class Vault {
 
       const walletSeed = deriveClientSeed(walletType, mnemonic, hdAccIndex);
       const options: MidenClientCreateOptions = {
-        insertKeyCallback: insertKeyCallbackWrpapper(this.vaultKey)
+        insertKeyCallback: insertKeyCallbackWrapper(this.vaultKey)
       };
 
       // Wrap WASM client operations in a lock to prevent concurrent access
