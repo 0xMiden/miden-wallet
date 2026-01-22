@@ -74,9 +74,17 @@ const Welcome: FC = () => {
   const [importedWithFile, setImportedWithFile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [useBiometric, setUseBiometric] = useState(true);
+  const [isHardwareSecurityAvailable, setIsHardwareSecurityAvailable] = useState(false);
   const { registerWallet, importWalletFromClient } = useMidenContext();
   const { trackEvent } = useAnalytics();
   const syncFromBackend = useWalletStore(s => s.syncFromBackend);
+
+  // Check hardware security availability on mount
+  useEffect(() => {
+    checkHardwareSecurityAvailable().then(available => {
+      setIsHardwareSecurityAvailable(available);
+    });
+  }, []);
 
   const register = useCallback(async () => {
     if (password && seedPhrase) {
@@ -283,6 +291,7 @@ const Welcome: FC = () => {
       password={password}
       isLoading={isLoading}
       useBiometric={useBiometric}
+      isHardwareSecurityAvailable={isHardwareSecurityAvailable}
       onBiometricChange={setUseBiometric}
       onAction={onAction}
     />

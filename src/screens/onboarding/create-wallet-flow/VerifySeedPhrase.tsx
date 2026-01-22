@@ -8,11 +8,11 @@ import { Button } from 'components/Button';
 import { Chip } from 'components/Chip';
 import { Toggle } from 'components/Toggle';
 import { hapticLight } from 'lib/mobile/haptics';
-import { isDesktop, isMobile } from 'lib/platform';
 
 export interface VerifySeedPhraseScreenProps extends React.ButtonHTMLAttributes<HTMLDivElement> {
   seedPhrase: string[];
   useBiometric?: boolean;
+  isHardwareSecurityAvailable?: boolean;
   onBiometricChange?: (value: boolean) => void;
   onSubmit?: () => void;
 }
@@ -20,12 +20,12 @@ export interface VerifySeedPhraseScreenProps extends React.ButtonHTMLAttributes<
 export const VerifySeedPhraseScreen: React.FC<VerifySeedPhraseScreenProps> = ({
   seedPhrase,
   useBiometric = true,
+  isHardwareSecurityAvailable = false,
   onBiometricChange,
   className,
   onSubmit,
   ...props
 }) => {
-  const showBiometricToggle = isMobile() || isDesktop();
   const { t } = useTranslation();
   const shuffledWords = useMemo(() => shuffle(seedPhrase), [seedPhrase]);
   const [firstSelectedWordIndex, setFirstSelectedWord] = useState<number | null>(null);
@@ -103,7 +103,7 @@ export const VerifySeedPhraseScreen: React.FC<VerifySeedPhraseScreenProps> = ({
       <div className="flex-1" />
 
       <div className="w-[360px] flex flex-col gap-4 self-center pb-4">
-        {showBiometricToggle && (
+        {isHardwareSecurityAvailable && (
           <>
             <div className="flex flex-col gap-1 px-2">
               <h3 className="text-lg font-semibold">{t('unlockWallet')}</h3>

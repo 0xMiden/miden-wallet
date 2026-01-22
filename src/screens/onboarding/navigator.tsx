@@ -27,6 +27,7 @@ export interface OnboardingFlowProps {
   password?: string | null;
   isLoading?: boolean;
   useBiometric?: boolean;
+  isHardwareSecurityAvailable?: boolean;
   onBiometricChange?: (value: boolean) => void;
   onAction?: (action: OnboardingAction) => void;
 }
@@ -85,6 +86,7 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
   password,
   isLoading,
   useBiometric = true,
+  isHardwareSecurityAvailable = false,
   onBiometricChange,
   onAction
 }) => {
@@ -169,6 +171,7 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
           <VerifySeedPhraseScreen
             seedPhrase={seedPhrase || []}
             useBiometric={useBiometric}
+            isHardwareSecurityAvailable={isHardwareSecurityAvailable}
             onBiometricChange={onBiometricChange}
             onSubmit={onVerifySeedPhraseSubmit}
           />
@@ -189,7 +192,7 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
       default:
         return <></>;
     }
-  }, [step, isLoading, onForwardAction, seedPhrase, wordslist, useBiometric, onBiometricChange]);
+  }, [step, isLoading, onForwardAction, seedPhrase, wordslist, useBiometric, isHardwareSecurityAvailable, onBiometricChange]);
 
   const onBack = () => {
     setNavigationDirection('backward');

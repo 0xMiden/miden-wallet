@@ -205,22 +205,22 @@ export class Vault {
       await clearStorage();
 
       // Determine security model: hardware-only or password-based
-      // When hardware security is available (mobile/desktop), we ONLY use hardware protection
-      // This is more secure because there's no password to brute-force
+      // If password is provided (user opted out of biometrics), use password protection
+      // If no password (hardware-only mode), use hardware protection
+      const useHardwareOnly = !password;
       const hardwareAvailable = await isHardwareSecurityAvailableForVault();
 
-      if (hardwareAvailable) {
-        // Try hardware-only mode
+      if (useHardwareOnly && hardwareAvailable) {
+        // Try hardware-only mode (user chose biometric authentication)
         const hardwareSetupSuccess = await setupHardwareProtector(vaultKeyBytes);
         if (!hardwareSetupSuccess) {
-          // Hardware setup failed - fall back to password protector
-          console.log('[Vault.spawn] Hardware setup failed, falling back to password protector');
-          const passwordProtectedVaultKey = await Passworder.encryptVaultKeyWithPassword(vaultKeyBytes, password);
-          await savePlain(VAULT_KEY_PASSWORD_STORAGE_KEY, passwordProtectedVaultKey);
+          // Hardware setup failed - this shouldn't happen if user chose biometric
+          console.log('[Vault.spawn] Hardware setup failed, but no password provided');
+          throw new PublicError('Hardware security setup failed. Please try again.');
         }
         // If hardware succeeded, we don't store password protector (hardware-only mode)
       } else {
-        // No hardware available - use password protector (browser extension)
+        // Password-based protection (user opted out of biometrics or hardware not available)
         const passwordProtectedVaultKey = await Passworder.encryptVaultKeyWithPassword(vaultKeyBytes, password);
         await savePlain(VAULT_KEY_PASSWORD_STORAGE_KEY, passwordProtectedVaultKey);
       }
@@ -319,20 +319,21 @@ export class Vault {
       await clearStorage(false);
 
       // Determine security model: hardware-only or password-based
-      // When hardware security is available (mobile/desktop), we ONLY use hardware protection
+      // If password is provided (user opted out of biometrics), use password protection
+      // If no password (hardware-only mode), use hardware protection
+      const useHardwareOnly = !password;
       const hardwareAvailable = await isHardwareSecurityAvailableForVault();
 
-      if (hardwareAvailable) {
-        // Try hardware-only mode
+      if (useHardwareOnly && hardwareAvailable) {
+        // Try hardware-only mode (user chose biometric authentication)
         const hardwareSetupSuccess = await setupHardwareProtector(vaultKeyBytes);
         if (!hardwareSetupSuccess) {
-          // Hardware setup failed - fall back to password protector
-          console.log('[Vault.spawnFromMidenClient] Hardware setup failed, falling back to password protector');
-          const passwordProtectedVaultKey = await Passworder.encryptVaultKeyWithPassword(vaultKeyBytes, password);
-          await savePlain(VAULT_KEY_PASSWORD_STORAGE_KEY, passwordProtectedVaultKey);
+          // Hardware setup failed - this shouldn't happen if user chose biometric
+          console.log('[Vault.spawnFromMidenClient] Hardware setup failed, but no password provided');
+          throw new PublicError('Hardware security setup failed. Please try again.');
         }
       } else {
-        // No hardware available - use password protector (browser extension)
+        // Password-based protection (user opted out of biometrics or hardware not available)
         const passwordProtectedVaultKey = await Passworder.encryptVaultKeyWithPassword(vaultKeyBytes, password);
         await savePlain(VAULT_KEY_PASSWORD_STORAGE_KEY, passwordProtectedVaultKey);
       }
