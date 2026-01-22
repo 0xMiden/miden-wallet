@@ -1,13 +1,13 @@
 /**
  * Platform detection utilities for cross-platform code sharing
- * between browser extension and mobile app.
+ * between browser extension, mobile app, and desktop app.
  *
  * IMPORTANT: This file is imported by service worker code (background.js).
  * Service workers don't have `window`, so we must check for it before
- * doing anything that requires window or Capacitor.
+ * doing anything that requires window, Capacitor, or Tauri.
  */
 
-export type PlatformType = 'extension' | 'mobile' | 'web';
+export type PlatformType = 'extension' | 'mobile' | 'desktop' | 'web';
 
 // Lazy-load Capacitor to avoid issues in service workers
 let _capacitor: typeof import('@capacitor/core').Capacitor | null = null;
@@ -73,11 +73,37 @@ export function isMobile(): boolean {
 }
 
 /**
+ * Detects if running in a Tauri desktop app
+ */
+export function isTauri(): boolean {
+  if (typeof window === 'undefined') {
+    console.log('[isTauri] window is undefined, returning false');
+    return false;
+  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const hasTauri = '__TAURI__' in window;
+  const hasInternals = '__TAURI_INTERNALS__' in window;
+  const result = hasTauri || hasInternals;
+  console.log('[isTauri] Check:', { hasTauri, hasInternals, result });
+  return result;
+}
+
+/**
+ * Detects if running as a desktop app (Tauri)
+ */
+export function isDesktop(): boolean {
+  return isTauri();
+}
+
+/**
  * Gets the current platform type
  */
 export function getPlatform(): PlatformType {
   if (isCapacitor()) {
     return 'mobile';
+  }
+  if (isTauri()) {
+    return 'desktop';
   }
   if (isExtension()) {
     return 'extension';
@@ -94,6 +120,8 @@ export const platform = {
   isIOS,
   isAndroid,
   isMobile,
+  isTauri,
+  isDesktop,
   getPlatform
 };
 

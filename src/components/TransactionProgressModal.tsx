@@ -6,7 +6,7 @@ import Modal from 'react-modal';
 
 import { safeGenerateTransactionsLoop as dbTransactionsLoop, getAllUncompletedTransactions } from 'lib/miden/activity';
 import { useMidenContext } from 'lib/miden/front';
-import { isMobile } from 'lib/platform';
+import { isExtension } from 'lib/platform';
 import { useWalletStore } from 'lib/store';
 import { useRetryableSWR } from 'lib/swr';
 import { GeneratingTransaction } from 'screens/generating-transaction/GeneratingTransaction';
@@ -104,8 +104,8 @@ export const TransactionProgressModal: FC = () => {
   // Only show complete if we've loaded AND there are no transactions
   const transactionComplete = hasLoadedOnce && transactions.length === 0;
 
-  // Only render on mobile - desktop uses separate tab for transaction progress
-  if (!isMobile()) {
+  // Only render on mobile/desktop - extension uses separate tab for transaction progress
+  if (isExtension()) {
     return null;
   }
 

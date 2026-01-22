@@ -14,6 +14,7 @@ import {
 } from 'lib/miden/back/safe-storage';
 import * as Passworder from 'lib/miden/passworder';
 import { clearStorage } from 'lib/miden/reset';
+import { isDesktop, isMobile } from 'lib/platform';
 import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
 import { WalletAccount, WalletSettings } from 'lib/shared/types';
 import { WalletType } from 'screens/onboarding/types';
@@ -24,6 +25,10 @@ import { MidenClientCreateOptions } from '../sdk/miden-client-interface';
 
 const STORAGE_KEY_PREFIX = 'vault';
 const DEFAULT_SETTINGS = {};
+
+// Storage keys for vault key protectors
+const VAULT_KEY_PASSWORD_STORAGE_KEY = 'vault_key_password';
+const VAULT_KEY_HARDWARE_STORAGE_KEY = 'vault_key_hardware';
 
 enum StorageEntity {
   Check = 'check',
@@ -51,23 +56,120 @@ const settingsStrgKey = createStorageKey(StorageEntity.Settings);
 const ownMnemonicStrgKey = createStorageKey(StorageEntity.OwnMnemonic);
 
 export class Vault {
-  constructor(private passKey: CryptoKey) {}
+  constructor(private vaultKey: CryptoKey) {}
 
   static async isExist() {
+    console.log('[Vault.isExist] Checking if vault exists, key:', checkStrgKey);
     const stored = await isStored(checkStrgKey);
+    console.log('[Vault.isExist] Result:', stored);
     return stored;
   }
 
-  static async setup(password: string) {
+  /**
+   * Check if hardware security (biometric unlock) is available and configured
+   */
+  static async hasHardwareProtector(): Promise<boolean> {
+    if (!isDesktop() && !isMobile()) {
+      return false;
+    }
+
+    const hardwareVaultKey = await getPlain<string>(VAULT_KEY_HARDWARE_STORAGE_KEY);
+    return !!hardwareVaultKey;
+  }
+
+  /**
+   * Try to unlock the vault using hardware-backed security (biometric)
+   * This will trigger Touch ID / Face ID / Windows Hello prompt
+   *
+   * @returns Vault instance if successful, null if hardware unlock not available/failed
+   */
+  static async tryHardwareUnlock(): Promise<Vault | null> {
+    if (!isDesktop() && !isMobile()) {
+      return null;
+    }
+
+    const encryptedVaultKey = await getPlain<string>(VAULT_KEY_HARDWARE_STORAGE_KEY);
+    if (!encryptedVaultKey) {
+      return null;
+    }
+
+    try {
+      if (isDesktop()) {
+        const { decryptWithHardwareKey } = await import('lib/desktop/secure-storage');
+        const vaultKeyBase64 = await decryptWithHardwareKey(encryptedVaultKey);
+        const vaultKeyBytes = new Uint8Array(Buffer.from(vaultKeyBase64, 'base64'));
+        const vaultKey = await Passworder.importVaultKey(vaultKeyBytes);
+        return new Vault(vaultKey);
+      }
+      // Mobile implementation will be added in Phase 6
+      return null;
+    } catch (error) {
+      console.log('Hardware unlock failed or was cancelled:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Setup (unlock) an existing wallet
+   *
+   * Tries hardware unlock first if available, then falls back to password.
+   * If password is provided, skips hardware unlock attempt.
+   */
+  static async setup(password?: string): Promise<Vault> {
     return withError('Failed to unlock wallet', async () => {
-      const passKey = await Vault.toValidPassKey(password);
-      return new Vault(passKey);
+      // If password is not provided, try hardware unlock first
+      if (!password) {
+        const vault = await Vault.tryHardwareUnlock();
+        if (vault) {
+          return vault;
+        }
+        throw new PublicError('Password required');
+      }
+
+      // Password-based unlock
+      const vaultKey = await Vault.unlockWithPassword(password);
+      return new Vault(vaultKey);
     });
+  }
+
+  /**
+   * Unlock vault with password and return the vault key
+   */
+  private static async unlockWithPassword(password: string): Promise<CryptoKey> {
+    const encryptedVaultKey = await getPlain<string>(VAULT_KEY_PASSWORD_STORAGE_KEY);
+    if (!encryptedVaultKey) {
+      // Legacy wallet - fall back to old password-based unlock
+      return Vault.legacyPasswordUnlock(password);
+    }
+
+    try {
+      const vaultKeyBytes = await Passworder.decryptVaultKeyWithPassword(encryptedVaultKey, password);
+      return Passworder.importVaultKey(vaultKeyBytes);
+    } catch {
+      throw new PublicError('Invalid password');
+    }
+  }
+
+  /**
+   * Legacy password unlock for wallets created before vault key model
+   * This maintains backward compatibility with existing wallets
+   */
+  private static async legacyPasswordUnlock(password: string): Promise<CryptoKey> {
+    const passKey = await Passworder.generateKey(password);
+    // Verify password by trying to decrypt the check value
+    try {
+      await fetchAndDecryptOneWithLegacyFallBack<any>(checkStrgKey, passKey);
+    } catch {
+      throw new PublicError('Invalid password');
+    }
+    return passKey;
   }
 
   static async spawn(password: string, mnemonic?: string, ownMnemonic?: boolean) {
     return withError('Failed to create wallet', async () => {
-      const passKey = await Passworder.generateKey(password);
+      // Generate random vault key (256-bit)
+      const vaultKeyBytes = Passworder.generateVaultKey();
+      const vaultKey = await Passworder.importVaultKey(vaultKeyBytes);
 
       if (!mnemonic) {
         mnemonic = Bip39.generateMnemonic(128);
@@ -75,6 +177,13 @@ export class Vault {
 
       // Clear storage before any inserts to avoid wiping newly inserted keys later
       await clearStorage();
+
+      // Store vault key protected by password
+      const passwordProtectedVaultKey = await Passworder.encryptVaultKeyWithPassword(vaultKeyBytes, password);
+      await savePlain(VAULT_KEY_PASSWORD_STORAGE_KEY, passwordProtectedVaultKey);
+
+      // On desktop, also protect vault key with hardware (Secure Enclave/TPM)
+      await setupHardwareProtector(vaultKeyBytes);
 
       const insertKeyCallback = async (key: Uint8Array, secretKey: Uint8Array) => {
         const pubKeyHex = Buffer.from(key).toString('hex');
@@ -84,7 +193,7 @@ export class Vault {
             [accAuthPubKeyStrgKey(pubKeyHex), pubKeyHex],
             [accAuthSecretKeyStrgKey(pubKeyHex), secretKeyHex]
           ],
-          passKey
+          vaultKey
         );
       };
       const options: MidenClientCreateOptions = {
@@ -100,7 +209,6 @@ export class Vault {
           try {
             return await midenClient.importPublicMidenWalletFromSeed(walletSeed);
           } catch (e) {
-            // TODO: Need some way to propagate this up. Should we fail the entire process or just log it?
             console.error('Failed to import wallet from seed in spawn, creating new wallet instead', e);
             return await midenClient.createMidenWallet(WalletType.OnChain, walletSeed);
           }
@@ -125,7 +233,7 @@ export class Vault {
           [accPubKeyStrgKey(accPublicKey), accPublicKey],
           [accountsStrgKey, newAccounts]
         ],
-        passKey
+        vaultKey
       );
       await savePlain(currentAccPubKeyStrgKey, accPublicKey);
       await savePlain(ownMnemonicStrgKey, ownMnemonic ?? false);
@@ -160,16 +268,27 @@ export class Vault {
           });
         }
       }
-      const passKey = await Passworder.generateKey(password);
+
+      // Generate random vault key (256-bit)
+      const vaultKeyBytes = Passworder.generateVaultKey();
+      const vaultKey = await Passworder.importVaultKey(vaultKeyBytes);
 
       await clearStorage(false);
+
+      // Store vault key protected by password
+      const passwordProtectedVaultKey = await Passworder.encryptVaultKeyWithPassword(vaultKeyBytes, password);
+      await savePlain(VAULT_KEY_PASSWORD_STORAGE_KEY, passwordProtectedVaultKey);
+
+      // On desktop, also protect vault key with hardware (Secure Enclave/TPM)
+      await setupHardwareProtector(vaultKeyBytes);
+
       await encryptAndSaveMany(
         [
           [checkStrgKey, generateCheck()],
           [mnemonicStrgKey, mnemonic ?? ''],
           [accountsStrgKey, newAccounts]
         ],
-        passKey
+        vaultKey
       );
       await savePlain(currentAccPubKeyStrgKey, newAccounts[0].publicKey);
       await savePlain(ownMnemonicStrgKey, true);
@@ -187,7 +306,7 @@ export class Vault {
   async createHDAccount(walletType: WalletType, name?: string): Promise<WalletAccount[]> {
     return withError('Failed to create account', async () => {
       const [mnemonic, allAccounts] = await Promise.all([
-        fetchAndDecryptOneWithLegacyFallBack<string>(mnemonicStrgKey, this.passKey),
+        fetchAndDecryptOneWithLegacyFallBack<string>(mnemonicStrgKey, this.vaultKey),
         this.fetchAccounts()
       ]);
 
@@ -212,7 +331,7 @@ export class Vault {
             [accAuthPubKeyStrgKey(pubKeyHex), pubKeyHex],
             [accAuthSecretKeyStrgKey(pubKeyHex), secretKeyHex]
           ],
-          this.passKey
+          this.vaultKey
         );
       };
       const options: MidenClientCreateOptions = {
@@ -252,7 +371,7 @@ export class Vault {
           // private key and view key were here from aleo, but removed since we dont store pk and vk isnt a thing (yet)
           [accountsStrgKey, newAllAcounts]
         ],
-        this.passKey
+        this.vaultKey
       );
 
       return newAllAcounts;
@@ -275,7 +394,7 @@ export class Vault {
       }
 
       const newAllAccounts = allAccounts.map(acc => (acc.publicKey === accPublicKey ? { ...acc, name } : acc));
-      await encryptAndSaveMany([[accountsStrgKey, newAllAccounts]], this.passKey);
+      await encryptAndSaveMany([[accountsStrgKey, newAllAccounts]], this.vaultKey);
 
       const currentAccount = await this.getCurrentAccount();
       return { accounts: newAllAccounts, currentAccount };
@@ -286,7 +405,7 @@ export class Vault {
     return withError('Failed to update settings', async () => {
       const current = await this.fetchSettings();
       const newSettings = { ...current, ...settings };
-      await encryptAndSaveMany([[settingsStrgKey, newSettings]], this.passKey);
+      await encryptAndSaveMany([[settingsStrgKey, newSettings]], this.vaultKey);
       return newSettings;
     });
   }
@@ -296,7 +415,7 @@ export class Vault {
   async signData(publicKey: string, data: string, signKind: SignKind): Promise<string> {
     const secretKey = await fetchAndDecryptOneWithLegacyFallBack<string>(
       accAuthSecretKeyStrgKey(publicKey),
-      this.passKey
+      this.vaultKey
     );
     const secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
     const wasmSecretKey = SecretKey.deserialize(secretKeyBytes);
@@ -322,7 +441,7 @@ export class Vault {
   async signTransaction(publicKey: string, signingInputs: string): Promise<string> {
     const secretKey = await fetchAndDecryptOneWithLegacyFallBack<string>(
       accAuthSecretKeyStrgKey(publicKey),
-      this.passKey
+      this.vaultKey
     );
     let secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
     const wasmSigningInputs = SigningInputs.deserialize(new Uint8Array(Buffer.from(signingInputs, 'hex')));
@@ -332,7 +451,7 @@ export class Vault {
   }
 
   async getAuthSecretKey(key: string) {
-    const secretKey = await fetchAndDecryptOneWithLegacyFallBack<string>(accAuthSecretKeyStrgKey(key), this.passKey);
+    const secretKey = await fetchAndDecryptOneWithLegacyFallBack<string>(accAuthSecretKeyStrgKey(key), this.vaultKey);
     return secretKey;
   }
 
@@ -345,9 +464,9 @@ export class Vault {
   async revealViewKey(accPublicKey: string) {}
 
   static async revealMnemonic(password: string) {
-    const passKey = await Vault.toValidPassKey(password);
+    const vaultKey = await Vault.unlockWithPassword(password);
     return withError('Failed to reveal seed phrase', async () => {
-      const mnemonic = await fetchAndDecryptOneWithLegacyFallBack<string>(mnemonicStrgKey, passKey);
+      const mnemonic = await fetchAndDecryptOneWithLegacyFallBack<string>(mnemonicStrgKey, vaultKey);
       const mnemonicPattern = /^(\b\w+\b\s?){12}$/;
       if (!mnemonicPattern.test(mnemonic)) {
         throw new PublicError('Mnemonic does not match the expected pattern');
@@ -390,23 +509,11 @@ export class Vault {
   async getOwnedRecords() {}
 
   async fetchAccounts() {
-    const accounts = await fetchAndDecryptOneWithLegacyFallBack<WalletAccount[]>(accountsStrgKey, this.passKey);
+    const accounts = await fetchAndDecryptOneWithLegacyFallBack<WalletAccount[]>(accountsStrgKey, this.vaultKey);
     if (!Array.isArray(accounts)) {
       throw new PublicError('Accounts not found');
     }
     return accounts;
-  }
-
-  private static toValidPassKey(password: string) {
-    return withError('Invalid password', async doThrow => {
-      const passKey = await Passworder.generateKey(password);
-      try {
-        await fetchAndDecryptOneWithLegacyFallBack<any>(checkStrgKey, passKey);
-      } catch (err: any) {
-        doThrow();
-      }
-      return passKey;
-    });
   }
 }
 
@@ -470,4 +577,33 @@ async function withError<T>(errMessage: string, factory: (doThrow: () => void) =
   } catch (err: any) {
     throw err instanceof PublicError ? err : new PublicError(errMessage);
   }
+}
+
+/**
+ * Set up hardware-backed protection for the vault key on desktop/mobile
+ * This is optional and will silently fail if hardware security is not available
+ */
+async function setupHardwareProtector(vaultKeyBytes: Uint8Array): Promise<void> {
+  if (!isDesktop() && !isMobile()) {
+    return;
+  }
+
+  if (isDesktop()) {
+    try {
+      const ss = await import('lib/desktop/secure-storage');
+      const available = await ss.isHardwareSecurityAvailable();
+      if (available) {
+        if (!(await ss.hasHardwareKey())) {
+          await ss.generateHardwareKey();
+        }
+        const vaultKeyBase64 = Buffer.from(vaultKeyBytes).toString('base64');
+        const hardwareProtectedVaultKey = await ss.encryptWithHardwareKey(vaultKeyBase64);
+        await savePlain(VAULT_KEY_HARDWARE_STORAGE_KEY, hardwareProtectedVaultKey);
+      }
+    } catch (error) {
+      console.warn('Failed to set up hardware security:', error);
+    }
+  }
+
+  // Mobile implementation will be added in Phase 6
 }

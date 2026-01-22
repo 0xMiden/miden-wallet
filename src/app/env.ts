@@ -3,7 +3,7 @@ import { FC, useCallback, useLayoutEffect, useRef } from 'react';
 import constate from 'constate';
 import type { Browser, Tabs } from 'webextension-polyfill';
 
-import { isMobile } from 'lib/platform';
+import { isExtension, isMobile } from 'lib/platform';
 import { useWalletStore } from 'lib/store';
 import { createUrl } from 'lib/woozie';
 
@@ -12,8 +12,8 @@ export const IS_DEV_ENV = process.env.NODE_ENV === 'development';
 // Lazy-loaded browser polyfill (only in extension context)
 let browserInstance: Browser | null = null;
 async function getBrowser(): Promise<Browser> {
-  if (isMobile()) {
-    throw new Error('Browser APIs not available on mobile');
+  if (!isExtension()) {
+    throw new Error('Browser APIs only available in extension context');
   }
   if (!browserInstance) {
     const module = await import('webextension-polyfill');
@@ -74,8 +74,8 @@ export const OpenInFullPage: FC = () => {
   const appEnv = useAppEnv();
 
   useLayoutEffect(() => {
-    // On mobile, we're already in full page mode
-    if (isMobile()) {
+    // Only handle full page navigation in extension context
+    if (!isExtension()) {
       return;
     }
 
@@ -107,7 +107,7 @@ export const OpenInFullPage: FC = () => {
 };
 
 export const onboardingUrls = async () => {
-  if (isMobile()) {
+  if (!isExtension()) {
     return [];
   }
 
@@ -133,8 +133,8 @@ export const onboardingUrls = async () => {
 };
 
 export async function openInFullPage() {
-  if (isMobile()) {
-    // On mobile, we're already in full page mode
+  // Only extension can open new tabs
+  if (!isExtension()) {
     return;
   }
 
@@ -147,7 +147,7 @@ export async function openInFullPage() {
 }
 
 async function createLoadingFullPageUrl() {
-  if (isMobile()) {
+  if (!isExtension()) {
     return '';
   }
   const browser = await getBrowser();
@@ -159,6 +159,11 @@ export async function openLoadingFullPage() {
   if (isMobile()) {
     // On mobile, open the transaction progress modal via Zustand
     useWalletStore.getState().openTransactionModal();
+    return;
+  }
+
+  if (!isExtension()) {
+    // Desktop: no-op for now (transactions happen in-place)
     return;
   }
 
@@ -182,6 +187,11 @@ export async function closeLoadingFullPage() {
     return;
   }
 
+  if (!isExtension()) {
+    // Desktop: no-op for now
+    return;
+  }
+
   const browser = await getBrowser();
   // Generate url
   const generatingTransactionUrl = await createLoadingFullPageUrl();
@@ -196,7 +206,7 @@ export async function closeLoadingFullPage() {
 }
 
 async function createConsumingFullPageUrl(noteId: string) {
-  if (isMobile()) {
+  if (!isExtension()) {
     return '';
   }
   const browser = await getBrowser();
@@ -205,7 +215,8 @@ async function createConsumingFullPageUrl(noteId: string) {
 }
 
 export async function openConsumingFullPage(noteId: string) {
-  if (isMobile()) {
+  // Only extension can open new tabs
+  if (!isExtension()) {
     return;
   }
 
@@ -221,7 +232,8 @@ export async function openConsumingFullPage(noteId: string) {
 }
 
 export async function closeConsumingFullPage(noteId: string) {
-  if (isMobile()) {
+  // Only extension uses browser tabs
+  if (!isExtension()) {
     return;
   }
 

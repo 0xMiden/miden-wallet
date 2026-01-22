@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Icon, IconName } from 'app/icons/v2';
 import { addConnectivityIssue, useConnectivityIssues } from 'lib/miden/activity/connectivity-issues';
-import { isMobile } from 'lib/platform';
+import { isExtension } from 'lib/platform';
 
 export interface ConnectivitiyIssueBannerProps {
   className?: string;
@@ -51,8 +51,8 @@ export const ConnectivityIssueBanner: React.FC<ConnectivitiyIssueBannerProps> = 
 
 export const ExtensionMessageListener = () => {
   useEffect(() => {
-    // Extension message listener not available on mobile
-    if (isMobile()) {
+    // Extension message listener only available in extension context
+    if (!isExtension()) {
       return;
     }
 

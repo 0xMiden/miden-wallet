@@ -51,9 +51,15 @@
     "clean:install": "rimraf node_modules yarn.lock && yarn",
     "createTranslationFile": "ts-node --project ./tsconfig-utility.json ./utility/generateLanguageFiles.ts && ts-node --project ./tsconfig-utility.json ./utility/generateLanguageFiles.ts -e",
     "storybook": "storybook dev -p 6006",
-    "build:storybook": "storybook build -c .storybook -o storybook-deploy/public"
+    "build:storybook": "storybook build -c .storybook -o storybook-deploy/public",
+    "build:desktop": "rimraf ./dist/desktop && cross-env DISABLE_TS_CHECKER=true NODE_ENV=development MODE_ENV=production webpack --config webpack.desktop.config.js",
+    "build:desktop:dev": "cross-env DISABLE_TS_CHECKER=true NODE_ENV=development MODE_ENV=development webpack --config webpack.desktop.config.js",
+    "desktop:dev": "yarn build:desktop:dev && yarn tauri dev",
+    "desktop:build": "yarn build:desktop && yarn tauri build",
+    "tauri": "tauri"
   },
   "dependencies": {
+    "@tauri-apps/api": "^2.0.0",
     "@capacitor/android": "^8.0.1",
     "@capacitor/app": "^8.0.0",
     "@capacitor/cli": "^8.0.1",
@@ -157,6 +163,7 @@
     "postcss": "8.4.6"
   },
   "devDependencies": {
+    "@tauri-apps/cli": "^2.0.0",
     "@chromatic-com/storybook": "^1.5.0",
     "@playwright/test": "^1.48.2",
     "@resvg/resvg-js": "^2.6.2",

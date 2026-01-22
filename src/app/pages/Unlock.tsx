@@ -14,7 +14,7 @@ import { useFormAnalytics } from 'lib/analytics';
 import { isBiometricEnabled } from 'lib/biometric';
 import { useLocalStorage, useMidenContext } from 'lib/miden/front';
 import { MidenSharedStorageKey } from 'lib/miden/types';
-import { isMobile } from 'lib/platform';
+import { isExtension, isMobile } from 'lib/platform';
 import { navigate } from 'lib/woozie';
 import { BiometricUnlock } from 'screens/biometric-unlock';
 
@@ -122,9 +122,10 @@ const Unlock: FC<UnlockProps> = ({ openForgotPasswordInFullPage = false }) => {
         formAnalytics.trackSubmitSuccess();
         setAttempt(1);
 
-        // On mobile, don't reload - the backend state is already updated in-process.
+        // On mobile/desktop, don't reload - the backend state is already updated in-process.
         // Just navigate to home to trigger a re-render with the unlocked state.
-        if (isMobile()) {
+        // On extension, reload to sync with background worker.
+        if (!isExtension()) {
           navigate('/');
         } else {
           window.location.reload();

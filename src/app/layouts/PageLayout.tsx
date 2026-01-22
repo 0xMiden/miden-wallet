@@ -10,7 +10,7 @@ import { useAppEnv } from 'app/env';
 import ErrorBoundary from 'app/ErrorBoundary';
 import { Icon, IconName } from 'app/icons/v2';
 import ContentContainer from 'app/layouts/ContentContainer';
-import { isMobile } from 'lib/platform';
+import { isDesktop, isMobile } from 'lib/platform';
 import { PropsWithChildren } from 'lib/props-with-children';
 import { goBack, HistoryAction, navigate, useLocation } from 'lib/woozie';
 
@@ -33,12 +33,17 @@ const PageLayout: FC<PageLayoutProps> = ({
 }) => {
   const { fullPage } = useAppEnv();
 
-  // On mobile, use 100% to inherit from parent chain (body has safe area padding)
+  // Platform-specific sizing:
+  // - Mobile: 100% to inherit from parent chain (body has safe area padding)
+  // - Desktop: Responsive with max-width for comfortable reading
+  // - Extension: Fixed sizes for popup/fullpage modes
   const containerStyles = isMobile()
     ? { height: '100%', width: '100%' }
-    : fullPage
-      ? { height: '640px', width: '600px' }
-      : { height: '600px', width: '360px' };
+    : isDesktop()
+      ? { height: '100%', width: '100%', maxWidth: '600px' }
+      : fullPage
+        ? { height: '640px', width: '600px' }
+        : { height: '600px', width: '360px' };
 
   return (
     <>
@@ -196,7 +201,7 @@ const Toolbar: FC<ToolbarProps> = ({
     >
       <div
         className="flex justify-between w-full"
-        style={{ paddingTop: isMobile() ? '24px' : '14px', paddingBottom: '14px' }}
+        style={{ paddingTop: isMobile() || isDesktop() ? '24px' : '14px', paddingBottom: '14px' }}
       >
         {pageTitle && (
           <div

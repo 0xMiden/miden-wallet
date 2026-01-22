@@ -1,12 +1,12 @@
 import type { Browser } from 'webextension-polyfill';
 
-import { isMobile } from 'lib/platform';
+import { isDesktop, isMobile } from 'lib/platform';
 
 import { deserializeError } from './helpers';
 import { MessageType, RequestMessage } from './types';
 
 /**
- * Interface for intercom clients (both extension and mobile)
+ * Interface for intercom clients (extension, mobile, and desktop)
  */
 export interface IIntercomClient {
   request(payload: any): Promise<any>;
@@ -32,14 +32,41 @@ async function getMobileAdapter() {
   return mobileAdapterModule.getMobileIntercomAdapter();
 }
 
+// Lazy-loaded desktop adapter (only loaded in desktop context)
+let desktopAdapterModule: typeof import('./desktop-adapter') | null = null;
+async function getDesktopAdapter() {
+  if (!desktopAdapterModule) {
+    desktopAdapterModule = await import('./desktop-adapter');
+  }
+  return desktopAdapterModule.getDesktopIntercomAdapter();
+}
+
 /**
  * Creates the appropriate intercom client based on the platform
  */
 export function createIntercomClient(): IIntercomClient {
-  if (isMobile()) {
-    // Return a wrapper that lazily loads the mobile adapter
+  const mobile = isMobile();
+  const desktop = isDesktop();
+
+  // Extra check for Tauri - look for globals directly
+  const hasTauriGlobal =
+    typeof window !== 'undefined' && ('__TAURI__' in window || '__TAURI_INTERNALS__' in window);
+
+  console.log('[createIntercomClient] Platform check:', { mobile, desktop, hasTauriGlobal });
+
+  if (mobile) {
+    console.log('[createIntercomClient] Using MobileIntercomClientWrapper');
     return new MobileIntercomClientWrapper();
   }
+
+  // Use desktop adapter if either isDesktop() returns true OR we detect Tauri globals
+  if (desktop || hasTauriGlobal) {
+    console.log('[createIntercomClient] Using DesktopIntercomClientWrapper');
+    return new DesktopIntercomClientWrapper();
+  }
+
+  console.log('[createIntercomClient] Using IntercomClient (extension)');
+  // Extension: use browser.runtime port messaging
   return new IntercomClient();
 }
 
@@ -74,19 +101,58 @@ class MobileIntercomClientWrapper implements IIntercomClient {
   }
 }
 
+/**
+ * Wrapper that lazily loads the desktop adapter
+ */
+class DesktopIntercomClientWrapper implements IIntercomClient {
+  private adapterPromise: Promise<IIntercomClient> | null = null;
+
+  private getAdapter(): Promise<IIntercomClient> {
+    if (!this.adapterPromise) {
+      this.adapterPromise = getDesktopAdapter();
+    }
+    return this.adapterPromise;
+  }
+
+  async request(payload: any): Promise<any> {
+    const adapter = await this.getAdapter();
+    return adapter.request(payload);
+  }
+
+  subscribe(callback: (data: any) => void): () => void {
+    let unsubscribe: (() => void) | null = null;
+    this.getAdapter().then(adapter => {
+      unsubscribe = adapter.subscribe(callback);
+    });
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
+  }
+}
+
 export class IntercomClient implements IIntercomClient {
   private port: any; // Runtime.Port - typed as any to avoid import
   private reqId: number;
   private portReady: Promise<void>;
 
   constructor() {
+    console.log('[IntercomClient] Creating extension intercom client');
     this.reqId = 0;
     this.portReady = this.initPort();
   }
 
   private async initPort() {
-    const browser = await getBrowser();
-    this.port = this.buildPort(browser);
+    try {
+      console.log('[IntercomClient] Initializing port...');
+      const browser = await getBrowser();
+      this.port = this.buildPort(browser);
+      console.log('[IntercomClient] Port initialized successfully');
+    } catch (error) {
+      console.error('[IntercomClient] Failed to initialize port:', error);
+      throw error;
+    }
   }
 
   /**

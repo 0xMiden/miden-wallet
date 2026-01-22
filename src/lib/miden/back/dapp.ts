@@ -53,7 +53,7 @@ import {
   MidenMessageType,
   MidenRequest
 } from 'lib/miden/types';
-import { isMobile } from 'lib/platform';
+import { isExtension } from 'lib/platform';
 import { getStorageProvider } from 'lib/platform/storage-adapter';
 import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
 import { WalletStatus } from 'lib/shared/types';
@@ -74,8 +74,8 @@ import { store, withUnlocked } from './store';
 type Browser = import('webextension-polyfill').Browser;
 let browserInstance: Browser | null = null;
 async function getBrowser(): Promise<Browser> {
-  if (isMobile()) {
-    throw new Error('Browser extension APIs not available on mobile');
+  if (!isExtension()) {
+    throw new Error('Browser extension APIs only available in extension context');
   }
   if (!browserInstance) {
     const module = await import('webextension-polyfill');
@@ -188,10 +188,10 @@ export async function generatePromisifyRequestPermission(
   privateDataPermission?: PrivateDataPermission,
   allowedPrivateData?: AllowedPrivateData
 ): Promise<MidenDAppPermissionResponse> {
-  // On mobile, use confirmation store to request user approval
-  if (isMobile()) {
+  // On mobile/desktop, use confirmation store to request user approval
+  if (!isExtension()) {
     const id = nanoid();
-    console.log('[DApp] Mobile requesting confirmation for:', origin);
+    console.log('[DApp] Non-extension requesting confirmation for:', origin);
 
     // Request confirmation from the user via the confirmation store
     const result = await dappConfirmationStore.requestConfirmation({
@@ -238,7 +238,7 @@ export async function generatePromisifyRequestPermission(
       });
     }
 
-    console.log('[DApp] Mobile approved connection for:', origin);
+    console.log('[DApp] Non-extension approved connection for:', origin);
     return {
       type: MidenDAppMessageType.PermissionResponse,
       accountId: accountPublicKey,
@@ -857,9 +857,9 @@ const generatePromisifyTransaction = async (
     reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
   }
 
-  // On mobile, use confirmation store to request user approval
-  if (isMobile()) {
-    console.log('[DApp] Mobile requesting transaction confirmation');
+  // On mobile/desktop, use confirmation store to request user approval
+  if (!isExtension()) {
+    console.log('[DApp] Non-extension requesting transaction confirmation');
 
     const result = await dappConfirmationStore.requestConfirmation({
       id,
@@ -1001,9 +1001,9 @@ const generatePromisifySendTransaction = async (
     reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
   }
 
-  // On mobile, use confirmation store to request user approval
-  if (isMobile()) {
-    console.log('[DApp] Mobile requesting send transaction confirmation');
+  // On mobile/desktop, use confirmation store to request user approval
+  if (!isExtension()) {
+    console.log('[DApp] Non-extension requesting send transaction confirmation');
 
     const result = await dappConfirmationStore.requestConfirmation({
       id,
@@ -1143,9 +1143,9 @@ const generatePromisifyConsumeTransaction = async (
     reject(new Error(`${MidenDAppErrorType.InvalidParams}: ${e}`));
   }
 
-  // On mobile, use confirmation store to request user approval
-  if (isMobile()) {
-    console.log('[DApp] Mobile requesting consume transaction confirmation');
+  // On mobile/desktop, use confirmation store to request user approval
+  if (!isExtension()) {
+    console.log('[DApp] Non-extension requesting consume transaction confirmation');
 
     const result = await dappConfirmationStore.requestConfirmation({
       id,
@@ -1298,9 +1298,9 @@ type RequestConfirmParams = {
 };
 
 async function requestConfirm({ id, payload, onDecline, handleIntercomRequest }: RequestConfirmParams) {
-  // DApp confirmation windows are not available on mobile (Phase 3 feature)
-  if (isMobile()) {
-    throw new Error('DApp confirmation is not yet supported on mobile');
+  // DApp confirmation windows only available in extension context
+  if (!isExtension()) {
+    throw new Error('DApp confirmation popup is only available in extension context');
   }
 
   const browser = await getBrowser();

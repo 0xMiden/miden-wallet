@@ -1,6 +1,6 @@
 import i18n from 'i18next';
 
-import { isMobile } from 'lib/platform';
+import { isExtension } from 'lib/platform';
 
 import { init } from './core';
 import { saveLocale } from './saving';
@@ -13,7 +13,7 @@ function normalizeLocale(locale: string): string {
 }
 
 // Set up extension message listener for cross-tab locale sync (extension only)
-if (!isMobile()) {
+if (isExtension()) {
   import('webextension-polyfill').then(browserModule => {
     const runtime = browserModule.runtime;
     runtime.onMessage.addListener((msg: unknown) => {
@@ -38,8 +38,8 @@ export async function updateLocale(locale: string) {
 }
 
 function notifyOthers(locale: string) {
-  // On mobile, no need to notify other tabs/windows
-  if (isMobile()) {
+  // Only notify other tabs/windows on extension (uses webextension-polyfill)
+  if (!isExtension()) {
     return;
   }
 

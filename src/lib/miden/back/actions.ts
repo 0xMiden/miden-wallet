@@ -42,8 +42,11 @@ const dappQueue = new PQueue({ concurrency: 1 });
 const unlockQueue = new PQueue({ concurrency: 1 });
 
 export async function init() {
+  console.log('[Actions.init] Starting...');
   const vaultExist = await Vault.isExist();
+  console.log('[Actions.init] Vault exists:', vaultExist);
   inited(vaultExist);
+  console.log('[Actions.init] Called inited()');
 }
 
 export async function getFrontState(): Promise<WalletState> {
@@ -72,8 +75,11 @@ export async function isDAppEnabled() {
 
 export function registerNewWallet(password: string, mnemonic?: string, ownMnemonic?: boolean) {
   return withInited(async () => {
+    console.log('[Actions.registerNewWallet] Starting...');
     await Vault.spawn(password, mnemonic, ownMnemonic);
+    console.log('[Actions.registerNewWallet] Vault.spawn completed, calling unlock...');
     await unlock(password);
+    console.log('[Actions.registerNewWallet] Completed');
   });
 }
 

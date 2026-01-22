@@ -1,0 +1,69 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Miden Wallet",
+  "identifier": "com.miden.wallet",
+  "version": "1.1.6",
+  "build": {
+    "beforeBuildCommand": "yarn build:desktop",
+    "beforeDevCommand": "yarn build:desktop:dev",
+    "frontendDist": "../dist/desktop"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "security": {
+      "csp": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https: http:; font-src 'self' data:"
+    },
+    "windows": [
+      {
+        "title": "Miden Wallet",
+        "width": 900,
+        "height": 700,
+        "minWidth": 800,
+        "minHeight": 600,
+        "resizable": true,
+        "center": true,
+        "visible": true,
+        "decorations": true,
+        "transparent": false
+      }
+    ],
+    "trayIcon": {
+      "iconPath": "icons/icon.png",
+      "iconAsTemplate": true,
+      "menuOnLeftClick": false
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "category": "Finance",
+    "shortDescription": "Miden Wallet - A secure wallet for the Miden blockchain",
+    "longDescription": "Miden Wallet is a secure, cross-platform wallet for the Miden blockchain. Features include secure key storage with OS keychain integration, Touch ID/biometric unlock on supported devices, and a user-friendly interface.",
+    "macOS": {
+      "entitlements": "./entitlements.plist",
+      "minimumSystemVersion": "10.15"
+    },
+    "windows": {
+      "webviewInstallMode": {
+        "type": "downloadBootstrapper"
+      }
+    },
+    "linux": {
+      "appimage": {
+        "bundleMediaFramework": false
+      }
+    }
+  },
+  "plugins": {
+    "shell": {
+      "open": true
+    }
+  }
+}

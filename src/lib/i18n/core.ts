@@ -2,7 +2,7 @@ import { enUS, enGB, fr, zhCN, zhTW, ja, ko, uk, ru, Locale } from 'date-fns/loc
 import i18n from 'i18next';
 import type { Browser } from 'webextension-polyfill';
 
-import { isMobile } from 'lib/platform';
+import { isExtension } from 'lib/platform';
 
 import cldrjsLocales from './cldrjs-locales.json';
 import { areLocalesEqual, processTemplate, toList } from './helpers';
@@ -74,8 +74,8 @@ export function getMessage(messageName: string, substitutions?: Substitutions) {
   const val = fetchedLocaleMessages.target?.[messageName] ?? fetchedLocaleMessages.fallback?.[messageName];
 
   if (!val) {
-    // On mobile, use i18next directly; on extension, use browser.i18n
-    if (isMobile()) {
+    // On mobile/desktop, use i18next directly; on extension, use browser.i18n
+    if (!isExtension()) {
       return i18n.t(messageName, substitutions as any) || messageName;
     }
     // For extension, we need to call browser.i18n synchronously
@@ -126,8 +126,8 @@ export function getCurrentLocale() {
 }
 
 export function getNativeLocale() {
-  if (isMobile()) {
-    // On mobile, use navigator.language (e.g., 'en-US' -> 'en')
+  if (!isExtension()) {
+    // On mobile/desktop, use navigator.language (e.g., 'en-US' -> 'en')
     return navigator.language?.split('-')[0] || 'en';
   }
   try {
@@ -140,7 +140,7 @@ export function getNativeLocale() {
 }
 
 export function getDefaultLocale(): string {
-  if (isMobile()) {
+  if (!isExtension()) {
     return 'en';
   }
   try {
@@ -157,8 +157,8 @@ export async function fetchLocaleMessages(locale: string) {
   const dirName = locale.replace('-', '_');
 
   let url: string;
-  if (isMobile()) {
-    // On mobile (Capacitor), use relative URL
+  if (!isExtension()) {
+    // On mobile/desktop, use relative URL
     url = `/_locales/${dirName}/messages.json`;
   } else {
     const browser = await getBrowser();

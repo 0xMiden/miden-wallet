@@ -1,15 +1,16 @@
 import { BasicFungibleFaucetComponent } from '@demox-labs/miden-sdk';
 
 import { isMidenAsset } from 'lib/miden/assets';
-import { isMobile } from 'lib/platform';
+import { isExtension } from 'lib/platform';
 
 import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 import { DEFAULT_TOKEN_METADATA, MIDEN_METADATA } from './defaults';
 import { AssetMetadata, DetailedAssetMetdata } from './types';
 
-// Get asset URL that works on both extension and mobile
+// Get asset URL that works on extension, mobile, and desktop
 function getAssetUrl(path: string): string {
-  if (isMobile()) {
+  if (!isExtension()) {
+    // On mobile/desktop, use relative URL from web root
     return `/${path}`;
   }
 

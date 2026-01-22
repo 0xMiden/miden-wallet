@@ -21,18 +21,23 @@ import { ImportType, OnboardingAction, OnboardingStep, OnboardingType } from 'sc
  * This ensures the state is fully synced before navigation.
  */
 async function waitForReadyState(syncFromBackend: (state: any) => void, maxAttempts = 10): Promise<void> {
+  console.log('[waitForReadyState] Starting, maxAttempts:', maxAttempts);
   for (let i = 0; i < maxAttempts; i++) {
     try {
+      console.log('[waitForReadyState] Attempt', i + 1);
       const state = await fetchStateFromBackend(0);
+      console.log('[waitForReadyState] Got state:', { status: state.status, hasAccounts: !!state.accounts?.length });
       syncFromBackend(state);
       if (state.status === WalletStatus.Ready) {
+        console.log('[waitForReadyState] State is Ready, done');
         return;
       }
     } catch (error) {
-      console.warn('Failed to fetch state, retrying...', error);
+      console.warn('[waitForReadyState] Failed to fetch state, retrying...', error);
     }
     await new Promise(r => setTimeout(r, 100));
   }
+  console.warn('[waitForReadyState] Max attempts reached, state still not Ready');
 }
 
 const Welcome: FC = () => {
@@ -53,23 +58,12 @@ const Welcome: FC = () => {
     if (password && seedPhrase) {
       const seedPhraseFormatted = formatMnemonic(seedPhrase.join(' '));
       if (!importedWithFile) {
-        try {
-          await registerWallet(
-            password,
-            seedPhraseFormatted,
-            onboardingType === OnboardingType.Import // might be able to leverage ownMnemonic to determine whther to attempt imports in general
-          );
-        } catch (e) {
-          console.error(e);
-        }
+        await registerWallet(password, seedPhraseFormatted, onboardingType === OnboardingType.Import);
       } else {
-        try {
-          console.log('importing wallet from client');
-          await importWalletFromClient(password, seedPhraseFormatted);
-        } catch (e) {
-          console.error(e);
-        }
+        await importWalletFromClient(password, seedPhraseFormatted);
       }
+    } else {
+      throw new Error('Missing password or seed phrase');
     }
   }, [password, seedPhrase, importedWithFile, registerWallet, onboardingType, importWalletFromClient]);
 
@@ -151,27 +145,31 @@ const Welcome: FC = () => {
         navigate('/#confirmation');
         break;
       case 'confirmation':
-        setIsLoading(true);
-        await register();
-        // Wait for state to be synced before navigating
-        // This fixes a race condition where navigation happens before state is Ready
-        await waitForReadyState(syncFromBackend);
+        try {
+          setIsLoading(true);
+          await register();
+          // Wait for state to be synced before navigating
+          // This fixes a race condition where navigation happens before state is Ready
+          await waitForReadyState(syncFromBackend);
 
-        // Set biometric preference flag AFTER registration completes
-        // (Credential was already stored in create-password-submit, but preference
-        // must be set after register() because Vault.spawn() calls clearStorage())
-        if (enableBiometric) {
-          try {
-            await setBiometricEnabled(true);
-            console.log('[Welcome] Biometric preference enabled');
-          } catch (err) {
-            console.error('[Welcome] Failed to enable biometric preference:', err);
+          // Set biometric preference flag AFTER registration completes
+          // (Credential was already stored in create-password-submit, but preference
+          // must be set after register() because Vault.spawn() calls clearStorage())
+          if (enableBiometric) {
+            try {
+              await setBiometricEnabled(true);
+            } catch (err) {
+              console.error('[Welcome] Failed to enable biometric preference:', err);
+            }
           }
-        }
 
-        setIsLoading(false);
-        eventCategory = AnalyticsEventCategory.FormSubmit;
-        navigate('/');
+          setIsLoading(false);
+          eventCategory = AnalyticsEventCategory.FormSubmit;
+          navigate('/');
+        } catch (error) {
+          console.error('[Welcome] Confirmation flow failed:', error);
+          setIsLoading(false);
+        }
         break;
       case 'back':
         if (

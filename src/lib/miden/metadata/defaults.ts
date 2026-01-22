@@ -1,11 +1,11 @@
-import { isMobile } from 'lib/platform';
+import { isExtension } from 'lib/platform';
 
 import { AssetMetadata } from './types';
 
-// Get asset URL that works on both extension and mobile
+// Get asset URL that works on extension, mobile, and desktop
 function getAssetUrl(path: string): string {
-  if (isMobile()) {
-    // On mobile, use relative URL from web root
+  if (!isExtension()) {
+    // On mobile/desktop, use relative URL from web root
     return `/${path}`;
   }
 
