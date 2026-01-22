@@ -441,90 +441,73 @@ public class LocalBiometricPlugin: CAPPlugin, CAPBridgedPlugin {
             return
         }
 
-        // Explicitly trigger biometric authentication BEFORE accessing the key
-        // This is necessary because SecItemCopyMatching may not always show the prompt
-        // on some iOS versions when using kSecUseAuthenticationContext
-        let context = LAContext()
+        // Get the private key - the .privateKeyUsage flag on the key will automatically
+        // trigger FaceID/TouchID authentication when we use it for ECDH
+        // No need for explicit evaluatePolicy() - let the Secure Enclave handle it
+        os_log("[LocalBiometric] Accessing hardware key (will trigger biometric)...", log: logger, type: .debug)
 
-        // Allow the authentication result to be reused for subsequent key operations
-        // This prevents a second FaceID prompt when using the private key
-        context.touchIDAuthenticationAllowableReuseDuration = 10 // 10 seconds should be plenty
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassKey,
+            kSecAttrApplicationTag as String: kHardwareKeyTag.data(using: .utf8)!,
+            kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
+            kSecReturnRef as String: true
+        ]
 
-        // Use deviceOwnerAuthentication to allow both biometric and passcode
-        let policy = LAPolicy.deviceOwnerAuthentication
+        var keyRef: CFTypeRef?
+        let status = SecItemCopyMatching(query as CFDictionary, &keyRef)
 
-        os_log("[LocalBiometric] Triggering biometric authentication...", log: logger, type: .debug)
-
-        context.evaluatePolicy(policy, localizedReason: "Unlock your wallet") { success, error in
-            if !success {
-                let errorCode = (error as NSError?)?.code ?? 0
-                os_log("[LocalBiometric] Biometric auth failed: %{public}@", log: logger, type: .error, error?.localizedDescription ?? "unknown")
-                if errorCode == LAError.userCancel.rawValue {
-                    call.reject("Authentication cancelled", "USER_CANCELLED")
-                } else if errorCode == LAError.authenticationFailed.rawValue {
-                    call.reject("Authentication failed", "AUTH_FAILED")
-                } else {
-                    call.reject("Authentication failed: \(error?.localizedDescription ?? "unknown")")
-                }
-                return
+        guard status == errSecSuccess, let privateKey = keyRef else {
+            os_log("[LocalBiometric] Failed to get private key: %{public}d", log: logger, type: .error, status)
+            if status == errSecUserCanceled {
+                call.reject("Authentication cancelled", "USER_CANCELLED")
+            } else if status == errSecAuthFailed {
+                call.reject("Authentication failed", "AUTH_FAILED")
+            } else {
+                call.reject("Failed to access hardware key: \(status)")
             }
-
-            os_log("[LocalBiometric] Biometric auth successful, accessing key...", log: logger, type: .debug)
-
-            // Now access the key using the authenticated context
-            // Use kSecUseAuthenticationUISkip to prevent a second biometric prompt
-            // since we've already authenticated via evaluatePolicy()
-            let query: [String: Any] = [
-                kSecClass as String: kSecClassKey,
-                kSecAttrApplicationTag as String: kHardwareKeyTag.data(using: .utf8)!,
-                kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
-                kSecReturnRef as String: true,
-                kSecUseAuthenticationContext as String: context,
-                kSecUseAuthenticationUI as String: kSecUseAuthenticationUISkip
-            ]
-
-            var keyRef: CFTypeRef?
-            let status = SecItemCopyMatching(query as CFDictionary, &keyRef)
-
-            guard status == errSecSuccess, let privateKey = keyRef else {
-                os_log("[LocalBiometric] Failed to get private key: %{public}d", log: logger, type: .error, status)
-                if status == errSecUserCanceled {
-                    call.reject("Authentication cancelled", "USER_CANCELLED")
-                } else if status == errSecAuthFailed {
-                    call.reject("Authentication failed", "AUTH_FAILED")
-                } else {
-                    call.reject("Failed to access hardware key: \(status)")
-                }
-                return
-            }
-
-            // ECDH to derive shared secret
-            var dhError: Unmanaged<CFError>?
-            guard let sharedSecret = SecKeyCopyKeyExchangeResult(
-                privateKey as! SecKey,
-                .ecdhKeyExchangeStandard,
-                ephemeralPublicKey,
-                [:] as CFDictionary,
-                &dhError
-            ) as Data? else {
-                let errorMsg = dhError?.takeRetainedValue().localizedDescription ?? "Unknown error"
-                call.reject("Failed to perform ECDH: \(errorMsg)")
-                return
-            }
-
-            // Derive AES key from shared secret
-            let aesKey = self.deriveAESKey(from: sharedSecret)
-
-            // Decrypt with AES-GCM
-            guard let decrypted = self.aesGCMDecrypt(data: Data(ciphertextAndTag), key: aesKey, iv: Data(iv)),
-                  let decryptedString = String(data: decrypted, encoding: .utf8) else {
-                call.reject("Failed to decrypt data")
-                return
-            }
-
-            os_log("[LocalBiometric] decryptWithHardwareKey success", log: logger, type: .debug)
-            call.resolve(["decrypted": decryptedString])
+            return
         }
+
+        // ECDH to derive shared secret - this is where FaceID will be triggered
+        // because the key has .privateKeyUsage access control
+        os_log("[LocalBiometric] Performing ECDH (biometric prompt expected here)...", log: logger, type: .debug)
+        var dhError: Unmanaged<CFError>?
+        guard let sharedSecret = SecKeyCopyKeyExchangeResult(
+            privateKey as! SecKey,
+            .ecdhKeyExchangeStandard,
+            ephemeralPublicKey,
+            [:] as CFDictionary,
+            &dhError
+        ) as Data? else {
+            let nsError = dhError?.takeRetainedValue() as? NSError
+            let errorMsg = nsError?.localizedDescription ?? "Unknown error"
+            os_log("[LocalBiometric] ECDH failed: %{public}@", log: logger, type: .error, errorMsg)
+
+            // Check if user cancelled
+            if nsError?.domain == LAError.errorDomain && nsError?.code == LAError.userCancel.rawValue {
+                call.reject("Authentication cancelled", "USER_CANCELLED")
+            } else if nsError?.domain == LAError.errorDomain && nsError?.code == LAError.authenticationFailed.rawValue {
+                call.reject("Authentication failed", "AUTH_FAILED")
+            } else {
+                call.reject("Failed to perform ECDH: \(errorMsg)")
+            }
+            return
+        }
+
+        os_log("[LocalBiometric] ECDH successful, decrypting...", log: logger, type: .debug)
+
+        // Derive AES key from shared secret
+        let aesKey = self.deriveAESKey(from: sharedSecret)
+
+        // Decrypt with AES-GCM
+        guard let decrypted = self.aesGCMDecrypt(data: Data(ciphertextAndTag), key: aesKey, iv: Data(iv)),
+              let decryptedString = String(data: decrypted, encoding: .utf8) else {
+            call.reject("Failed to decrypt data")
+            return
+        }
+
+        os_log("[LocalBiometric] decryptWithHardwareKey success", log: logger, type: .debug)
+        call.resolve(["decrypted": decryptedString])
     }
 
     /// Delete the hardware-backed key
