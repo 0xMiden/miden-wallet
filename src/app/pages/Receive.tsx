@@ -4,7 +4,7 @@ import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
 import FormField from 'app/atoms/FormField';
-import { openLoadingFullPage, useAppEnv } from 'app/env';
+import { useAppEnv } from 'app/env';
 import { Icon, IconName } from 'app/icons/v2';
 import { Button, ButtonVariant } from 'components/Button';
 import { CardItem } from 'components/CardItem';
@@ -27,6 +27,7 @@ import { hapticLight } from 'lib/mobile/haptics';
 import { isMobile } from 'lib/platform';
 import { isDelegateProofEnabled } from 'lib/settings/helpers';
 import { WalletAccount } from 'lib/shared/types';
+import { useWalletStore } from 'lib/store';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 import { goBack, HistoryAction, navigate, useLocation } from 'lib/woozie';
 import { truncateAddress } from 'utils/string';
@@ -213,7 +214,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
       }
 
       // Open loading page (popup stays open since tab is not active)
-      await openLoadingFullPage();
+      useWalletStore.getState().openTransactionModal();
 
       // Wait for all transactions to complete
       for (const { noteId, txId } of transactionIds) {
@@ -510,7 +511,7 @@ export const ConsumableNoteComponent = ({
 
     try {
       const id = await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
-      await openLoadingFullPage();
+      useWalletStore.getState().openTransactionModal();
       const txHash = await waitForConsumeTx(id, signal);
       const remainingNotes = await mutateClaimableNotes();
       console.log('Successfully consumed note, tx hash:', txHash);

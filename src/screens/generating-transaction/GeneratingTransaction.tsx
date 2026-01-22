@@ -6,7 +6,6 @@ import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
 import CircularProgress from 'app/atoms/CircularProgress';
-import { closeLoadingFullPage } from 'app/env';
 import useBeforeUnload from 'app/hooks/useBeforeUnload';
 import { Icon, IconName } from 'app/icons/v2';
 import { Alert, AlertVariant } from 'components/Alert';
@@ -21,6 +20,7 @@ import { useExportNotes } from 'lib/miden/activity/notes';
 import { useMidenContext } from 'lib/miden/front';
 import { isExtension, isMobile } from 'lib/platform';
 import { isAutoCloseEnabled } from 'lib/settings/helpers';
+import { useWalletStore } from 'lib/store';
 import { useRetryableSWR } from 'lib/swr';
 import { navigate } from 'lib/woozie';
 
@@ -85,7 +85,7 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
       return;
     }
 
-    closeLoadingFullPage();
+    useWalletStore.getState().closeTransactionModal();
   }, [keepOpen]);
 
   useEffect(() => {

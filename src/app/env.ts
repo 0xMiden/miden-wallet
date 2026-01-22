@@ -4,7 +4,6 @@ import constate from 'constate';
 import type { Browser, Tabs } from 'webextension-polyfill';
 
 import { isExtension } from 'lib/platform';
-import { useWalletStore } from 'lib/store';
 import { createUrl } from 'lib/woozie';
 
 export const IS_DEV_ENV = process.env.NODE_ENV === 'development';
@@ -144,24 +143,4 @@ export async function openInFullPage() {
   browser.tabs.create({
     url: browser.runtime.getURL(url)
   });
-}
-
-export async function openLoadingFullPage() {
-  // All platforms use the transaction progress modal via Zustand
-  useWalletStore.getState().openTransactionModal();
-}
-
-export async function closeLoadingFullPage() {
-  // All platforms use the transaction progress modal via Zustand
-  useWalletStore.getState().closeTransactionModal();
-}
-
-export async function openConsumingFullPage(_noteId: string) {
-  // All platforms use the transaction progress modal via Zustand
-  useWalletStore.getState().openTransactionModal();
-}
-
-export async function closeConsumingFullPage(_noteId: string) {
-  // All platforms use the transaction progress modal via Zustand
-  useWalletStore.getState().closeTransactionModal();
 }

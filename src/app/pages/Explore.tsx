@@ -3,7 +3,7 @@ import React, { FC, FunctionComponent, SVGProps, useCallback, useEffect, useMemo
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
-import { openLoadingFullPage, useAppEnv } from 'app/env';
+import { useAppEnv } from 'app/env';
 import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
 import { ReactComponent as FaucetIcon } from 'app/icons/faucet.svg';
 import { ReactComponent as ReceiveIcon } from 'app/icons/receive.svg';
@@ -148,7 +148,7 @@ const Explore: FC = () => {
     if (isMobile()) return;
     // Don't auto-open if user explicitly dismissed the modal (they clicked Hide)
     if (isTransactionModalDismissedByUser) return;
-    if (queuedDbTransactions) openLoadingFullPage();
+    if (queuedDbTransactions) useWalletStore.getState().openTransactionModal();
   }, [queuedDbTransactions, isTransactionModalDismissedByUser]);
 
   useEffect(() => {
