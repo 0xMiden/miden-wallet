@@ -192,19 +192,22 @@ public class LocalBiometricPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
-    // MARK: - Hardware Security Methods (Secure Enclave)
+    // MARK: - Hardware Security Methods (Secure Enclave only)
 
-    /// Check if Secure Enclave is available on this device
-    /// Real devices have it, simulators do not
+    /// Check if Secure Enclave hardware security is available
+    /// Returns true only on real devices with Secure Enclave (not on simulator)
     @objc func isHardwareSecurityAvailable(_ call: CAPPluginCall) {
         os_log("[LocalBiometric] isHardwareSecurityAvailable called", log: logger, type: .debug)
 
-        // Check if Secure Enclave is available
-        // On simulator, this will return false
-        let available = SecureEnclave.isAvailable
-        os_log("[LocalBiometric] Secure Enclave available: %{public}@", log: logger, type: .debug, String(describing: available))
+        let hasSecureEnclave = SecureEnclave.isAvailable
 
-        call.resolve(["available": available])
+        os_log("[LocalBiometric] Secure Enclave available: %{public}@",
+               log: logger, type: .debug,
+               String(describing: hasSecureEnclave))
+
+        // Only return true if Secure Enclave is available (real device)
+        // On simulator, this returns false and app falls back to password-only unlock
+        call.resolve(["available": hasSecureEnclave])
     }
 
     /// Check if a hardware key already exists
@@ -225,9 +228,17 @@ public class LocalBiometricPlugin: CAPPlugin, CAPBridgedPlugin {
         call.resolve(["exists": exists])
     }
 
-    /// Generate a new hardware-backed key in the Secure Enclave
+    /// Generate a new key for vault protection using Secure Enclave
+    /// Only works on real devices - returns error on simulator
     @objc func generateHardwareKey(_ call: CAPPluginCall) {
         os_log("[LocalBiometric] generateHardwareKey called", log: logger, type: .debug)
+
+        // Secure Enclave is required - no software fallback
+        guard SecureEnclave.isAvailable else {
+            os_log("[LocalBiometric] Secure Enclave not available, cannot generate hardware key", log: logger, type: .error)
+            call.reject("Secure Enclave not available")
+            return
+        }
 
         // First delete any existing key
         let deleteQuery: [String: Any] = [
@@ -236,12 +247,12 @@ public class LocalBiometricPlugin: CAPPlugin, CAPBridgedPlugin {
         ]
         SecItemDelete(deleteQuery as CFDictionary)
 
-        // Create access control - require biometric authentication for key usage
+        // Create access control - require user presence (biometric OR passcode)
         var accessError: Unmanaged<CFError>?
         guard let accessControl = SecAccessControlCreateWithFlags(
             kCFAllocatorDefault,
             kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
-            [.privateKeyUsage, .biometryCurrentSet],
+            [.privateKeyUsage, .userPresence],
             &accessError
         ) else {
             let errorMsg = accessError?.takeRetainedValue().localizedDescription ?? "Unknown error"
@@ -250,7 +261,7 @@ public class LocalBiometricPlugin: CAPPlugin, CAPBridgedPlugin {
             return
         }
 
-        // Key generation attributes for Secure Enclave
+        // Key generation attributes with Secure Enclave
         let attributes: [String: Any] = [
             kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
             kSecAttrKeySizeInBits as String: 256,
@@ -265,12 +276,12 @@ public class LocalBiometricPlugin: CAPPlugin, CAPBridgedPlugin {
         var keyError: Unmanaged<CFError>?
         guard SecKeyCreateRandomKey(attributes as CFDictionary, &keyError) != nil else {
             let errorMsg = keyError?.takeRetainedValue().localizedDescription ?? "Unknown error"
-            os_log("[LocalBiometric] Failed to generate hardware key: %{public}@", log: logger, type: .error, errorMsg)
-            call.reject("Failed to generate hardware key: \(errorMsg)")
+            os_log("[LocalBiometric] Failed to generate key: %{public}@", log: logger, type: .error, errorMsg)
+            call.reject("Failed to generate key: \(errorMsg)")
             return
         }
 
-        os_log("[LocalBiometric] Hardware key generated successfully", log: logger, type: .debug)
+        os_log("[LocalBiometric] Secure Enclave key generated successfully", log: logger, type: .debug)
         call.resolve()
     }
 

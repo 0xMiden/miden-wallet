@@ -11,12 +11,10 @@ import SimplePageLayout from 'app/layouts/SimplePageLayout';
 import LogoVerticalTitle from 'app/misc/logo-vertical-title.svg';
 import { Button, ButtonVariant } from 'components/Button';
 import { useFormAnalytics } from 'lib/analytics';
-import { isBiometricEnabled } from 'lib/biometric';
 import { useLocalStorage, useMidenContext } from 'lib/miden/front';
 import { MidenSharedStorageKey } from 'lib/miden/types';
 import { isDesktop, isExtension, isMobile } from 'lib/platform';
 import { navigate } from 'lib/woozie';
-import { BiometricUnlock } from 'screens/biometric-unlock';
 
 type FormData = {
   password: string;
@@ -50,82 +48,58 @@ const Unlock: FC<UnlockProps> = ({ openForgotPasswordInFullPage = false }) => {
   const [timelock, setTimeLock] = useLocalStorage<number>(MidenSharedStorageKey.TimeLock, 0);
   const lockLevel = LOCK_TIME * Math.floor(attempt / 3);
 
-  // BIOMETRIC/HARDWARE UNLOCK STATE
-  // Mobile: uses BiometricUnlock component
-  // Desktop: tries hardware unlock (Touch ID) automatically
+  // HARDWARE UNLOCK STATE
+  // Mobile & Desktop: tries hardware unlock (biometric/passcode) automatically
   // Extension: always shows password form
-  const [showBiometric, setShowBiometric] = useState(false);
-  const [biometricChecked, setBiometricChecked] = useState(false);
   const [hardwareUnlockAttempted, setHardwareUnlockAttempted] = useState(false);
+  const [hardwareUnlockChecked, setHardwareUnlockChecked] = useState(false);
 
-  // On desktop, try hardware unlock automatically on mount
+  // On mobile/desktop, try hardware unlock automatically on mount
   useEffect(() => {
-    const tryDesktopHardwareUnlock = async () => {
-      if (!isDesktop() || hardwareUnlockAttempted) {
+    const tryHardwareUnlock = async () => {
+      // Only try on mobile or desktop, not extension
+      if (isExtension() || hardwareUnlockAttempted) {
+        setHardwareUnlockChecked(true);
         return;
       }
       setHardwareUnlockAttempted(true);
 
       try {
-        const { hasHardwareKey } = await import('lib/desktop/secure-storage');
-        const hasKey = await hasHardwareKey();
-        console.log('[Unlock] Desktop hardware key available:', hasKey);
+        if (isDesktop()) {
+          const { hasHardwareKey } = await import('lib/desktop/secure-storage');
+          const hasKey = await hasHardwareKey();
+          console.log('[Unlock] Desktop hardware key available:', hasKey);
 
-        if (hasKey) {
-          // Try hardware unlock - this will trigger Touch ID
-          console.log('[Unlock] Attempting hardware unlock (Touch ID)...');
-          await unlock(); // No password = try hardware unlock
-          setAttempt(1);
-          navigate('/');
-          return;
+          if (hasKey) {
+            console.log('[Unlock] Attempting desktop hardware unlock (Touch ID)...');
+            await unlock(); // No password = try hardware unlock
+            setAttempt(1);
+            navigate('/');
+            return;
+          }
+        } else if (isMobile()) {
+          const { hasHardwareKey } = await import('lib/biometric');
+          const hasKey = await hasHardwareKey();
+          console.log('[Unlock] Mobile hardware key available:', hasKey);
+
+          if (hasKey) {
+            console.log('[Unlock] Attempting mobile hardware unlock (biometric)...');
+            await unlock(); // No password = try hardware unlock
+            setAttempt(1);
+            navigate('/');
+            return;
+          }
         }
       } catch (err) {
         console.log('[Unlock] Hardware unlock failed or cancelled:', err);
         // Fall through to password form
       }
+
+      setHardwareUnlockChecked(true);
     };
 
-    tryDesktopHardwareUnlock();
+    tryHardwareUnlock();
   }, [hardwareUnlockAttempted, unlock, setAttempt]);
-
-  // Check if biometric is enabled on mount (only on mobile)
-  useEffect(() => {
-    const checkBiometric = async () => {
-      // PRIMARY ISOLATION GUARD: Only check biometric on mobile
-      console.log('[Unlock] checkBiometric called, isMobile:', isMobile());
-      if (!isMobile()) {
-        setBiometricChecked(true);
-        return;
-      }
-
-      const enabled = await isBiometricEnabled();
-      console.log('[Unlock] isBiometricEnabled returned:', enabled);
-      setShowBiometric(enabled);
-      setBiometricChecked(true);
-    };
-    checkBiometric();
-  }, []);
-
-  // Handle successful biometric unlock
-  const handleBiometricSuccess = useCallback(
-    async (password: string) => {
-      try {
-        await unlock(password);
-        setAttempt(1);
-        navigate('/');
-      } catch (err: any) {
-        console.error('Biometric unlock failed:', err);
-        // Fall back to password unlock
-        setShowBiometric(false);
-      }
-    },
-    [unlock, setAttempt]
-  );
-
-  // Handle fallback to password
-  const handleFallbackToPassword = useCallback(() => {
-    setShowBiometric(false);
-  }, []);
 
   const [timeleft, setTimeleft] = useState(getTimeLeft(timelock, lockLevel));
 
@@ -207,9 +181,9 @@ const Unlock: FC<UnlockProps> = ({ openForgotPasswordInFullPage = false }) => {
     };
   }, [timelock, lockLevel, setTimeLock]);
 
-  // Wait for biometric check to complete before rendering
-  // This prevents flash of password form on mobile when biometric is enabled
-  if (!biometricChecked) {
+  // Wait for hardware unlock check to complete before showing password form
+  // This prevents flash of password form while hardware unlock is being attempted
+  if (!hardwareUnlockChecked && !isExtension()) {
     return (
       <SimplePageLayout
         icon={
@@ -223,12 +197,7 @@ const Unlock: FC<UnlockProps> = ({ openForgotPasswordInFullPage = false }) => {
     );
   }
 
-  // Show biometric unlock screen (only on mobile when biometric is enabled)
-  if (showBiometric) {
-    return <BiometricUnlock onSuccess={handleBiometricSuccess} onFallbackToPassword={handleFallbackToPassword} />;
-  }
-
-  // Show password unlock form (default for extension, fallback for mobile)
+  // Show password unlock form (default for extension, fallback for mobile/desktop)
   return (
     <SimplePageLayout
       icon={

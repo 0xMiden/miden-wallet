@@ -5,10 +5,8 @@ import wordslist from 'bip39/src/wordlists/english.json';
 
 import { formatMnemonic } from 'app/defaults';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
-import { authenticate, checkBiometricAvailability, setBiometricEnabled, storeCredential } from 'lib/biometric';
 import { useMidenContext } from 'lib/miden/front';
 import { useMobileBackHandler } from 'lib/mobile/useMobileBackHandler';
-import { isMobile } from 'lib/platform';
 import { WalletStatus } from 'lib/shared/types';
 import { useWalletStore } from 'lib/store';
 import { fetchStateFromBackend } from 'lib/store/hooks/useIntercomSync';
@@ -47,7 +45,6 @@ const Welcome: FC = () => {
   const [onboardingType, setOnboardingType] = useState<OnboardingType | null>(null);
   const [importType, setImportType] = useState<ImportType | null>(null);
   const [password, setPassword] = useState<string | null>(null);
-  const [enableBiometric, setEnableBiometric] = useState(false);
   const [importedWithFile, setImportedWithFile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { registerWallet, importWalletFromClient } = useMidenContext();
@@ -113,35 +110,7 @@ const Welcome: FC = () => {
       case 'create-password-submit':
         setPassword(action.payload.password);
         eventCategory = AnalyticsEventCategory.FormSubmit;
-
-        // Handle biometric setup if enabled (mobile only)
-        // We do auth + credential storage NOW (before confirmation screen)
-        // but set the preference flag AFTER registration (since clearStorage() wipes preferences)
-        if (action.payload.enableBiometric && isMobile()) {
-          try {
-            const availability = await checkBiometricAvailability();
-            if (availability.isAvailable) {
-              // Prompt for biometric auth
-              const authenticated = await authenticate('Set up biometric unlock');
-              if (authenticated) {
-                // Store credential in device keystore (NOT cleared by clearStorage)
-                await storeCredential(action.payload.password);
-                setEnableBiometric(true);
-                console.log('[Welcome] Biometric credential stored successfully');
-              } else {
-                console.log('[Welcome] Biometric auth canceled by user');
-                setEnableBiometric(false);
-              }
-            }
-          } catch (err) {
-            console.error('[Welcome] Failed to setup biometric credential:', err);
-            setEnableBiometric(false);
-          }
-        } else {
-          setEnableBiometric(false);
-        }
-
-        // Go directly to confirmation
+        // Hardware protection is automatically set up in Vault.spawn() when available
         navigate('/#confirmation');
         break;
       case 'confirmation':
@@ -151,18 +120,6 @@ const Welcome: FC = () => {
           // Wait for state to be synced before navigating
           // This fixes a race condition where navigation happens before state is Ready
           await waitForReadyState(syncFromBackend);
-
-          // Set biometric preference flag AFTER registration completes
-          // (Credential was already stored in create-password-submit, but preference
-          // must be set after register() because Vault.spawn() calls clearStorage())
-          if (enableBiometric) {
-            try {
-              await setBiometricEnabled(true);
-            } catch (err) {
-              console.error('[Welcome] Failed to enable biometric preference:', err);
-            }
-          }
-
           setIsLoading(false);
           eventCategory = AnalyticsEventCategory.FormSubmit;
           navigate('/');

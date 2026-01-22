@@ -35,43 +35,29 @@ class HardwareSecurityPlugin : Plugin() {
     private var pendingData: String? = null
 
     /**
-     * Check if hardware-backed security is available.
-     * Returns true if the device has a hardware-backed keystore with biometric support.
+     * Check if device authentication is available (biometric or device credential).
+     * Returns true if the device can authenticate with biometric OR PIN/pattern/password.
      */
     @PluginMethod
     fun isHardwareSecurityAvailable(call: PluginCall) {
         Log.d(TAG, "isHardwareSecurityAvailable called")
 
         val biometricManager = BiometricManager.from(context)
-        val canAuthenticate = biometricManager.canAuthenticate(
-            BiometricManager.Authenticators.BIOMETRIC_STRONG
-        )
 
-        // Check if we have hardware-backed keystore (API 23+) and biometric capability
+        // Check for biometric OR device credential (PIN/pattern/password)
+        val authenticators = BiometricManager.Authenticators.BIOMETRIC_STRONG or
+                BiometricManager.Authenticators.DEVICE_CREDENTIAL
+
+        val canAuthenticate = biometricManager.canAuthenticate(authenticators)
+
+        // Available if device has any form of secure authentication
         val available = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                (canAuthenticate == BiometricManager.BIOMETRIC_SUCCESS ||
-                 canAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED)
+                canAuthenticate == BiometricManager.BIOMETRIC_SUCCESS
 
-        // Also check if we're on a device that supports hardware-backed keys
-        val hasHardwareBackedKeystore = try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                // On Android 12+, check if strongbox or TEE is available
-                val keyStore = KeyStore.getInstance(ANDROID_KEYSTORE)
-                keyStore.load(null)
-                true
-            } else {
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Error checking keystore: ${e.message}")
-            false
-        }
-
-        val result = available && hasHardwareBackedKeystore
-        Log.d(TAG, "Hardware security available: $result (biometric: $canAuthenticate)")
+        Log.d(TAG, "Hardware security available: $available (canAuthenticate: $canAuthenticate)")
 
         val jsResult = JSObject()
-        jsResult.put("available", result)
+        jsResult.put("available", available)
         call.resolve(jsResult)
     }
 
@@ -98,7 +84,8 @@ class HardwareSecurityPlugin : Plugin() {
     }
 
     /**
-     * Generate a new hardware-backed AES key with biometric binding.
+     * Generate a new hardware-backed AES key with user authentication binding.
+     * Supports both biometric and device credential (PIN/pattern/password).
      */
     @PluginMethod
     fun generateHardwareKey(call: PluginCall) {
@@ -112,7 +99,7 @@ class HardwareSecurityPlugin : Plugin() {
                 keyStore.deleteEntry(KEY_ALIAS)
             }
 
-            // Generate new AES-256 key with biometric binding
+            // Generate new AES-256 key with user authentication binding
             val keyGenerator = KeyGenerator.getInstance(
                 KeyProperties.KEY_ALGORITHM_AES,
                 ANDROID_KEYSTORE
@@ -126,15 +113,16 @@ class HardwareSecurityPlugin : Plugin() {
                 .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
                 .setKeySize(256)
                 .setUserAuthenticationRequired(true)
-                .setInvalidatedByBiometricEnrollment(true)
 
             // Set authentication parameters based on API level
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                // Android 11+: Allow biometric OR device credential
                 builder.setUserAuthenticationParameters(
                     0, // 0 = require authentication for every use
-                    KeyProperties.AUTH_BIOMETRIC_STRONG
+                    KeyProperties.AUTH_BIOMETRIC_STRONG or KeyProperties.AUTH_DEVICE_CREDENTIAL
                 )
             } else {
+                // Older Android: Use deprecated API
                 @Suppress("DEPRECATION")
                 builder.setUserAuthenticationValidityDurationSeconds(-1)
             }
@@ -350,11 +338,15 @@ class HardwareSecurityPlugin : Plugin() {
             }
         }
 
+        // Allow biometric or device credential (PIN/pattern/password)
+        // Note: When using DEVICE_CREDENTIAL, setNegativeButtonText cannot be used
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
             .setTitle("Miden Wallet")
             .setSubtitle("Unlock your wallet")
-            .setNegativeButtonText("Cancel")
-            .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG)
+            .setAllowedAuthenticators(
+                BiometricManager.Authenticators.BIOMETRIC_STRONG or
+                BiometricManager.Authenticators.DEVICE_CREDENTIAL
+            )
             .build()
 
         activity.runOnUiThread {
