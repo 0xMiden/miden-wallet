@@ -95,7 +95,8 @@ export const TransactionProgressModal: FC = () => {
   }, [isOpen, hasLoadedOnce, transactions.length, error, closeModal]);
 
   const handleClose = useCallback(() => {
-    closeModal();
+    // Pass true to indicate user explicitly dismissed (prevents auto-reopen)
+    closeModal(true);
     setError(false);
   }, [closeModal]);
 

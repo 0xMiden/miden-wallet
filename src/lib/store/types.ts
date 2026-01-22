@@ -70,6 +70,8 @@ export interface SyncSlice {
 export interface TransactionModalSlice {
   /** Whether the transaction progress modal is open */
   isTransactionModalOpen: boolean;
+  /** Whether the user explicitly dismissed the modal (prevents auto-reopen until transactions complete) */
+  isTransactionModalDismissedByUser: boolean;
   /** Whether the dApp browser is open (mobile only) */
   isDappBrowserOpen: boolean;
 }
@@ -173,7 +175,10 @@ export interface SyncActions {
  */
 export interface TransactionModalActions {
   openTransactionModal: () => void;
-  closeTransactionModal: () => void;
+  /** Close the modal. If dismissedByUser is true, prevents auto-reopen until transactions complete */
+  closeTransactionModal: (dismissedByUser?: boolean) => void;
+  /** Reset the dismissed flag (called when all transactions complete) */
+  resetTransactionModalDismiss: () => void;
   setDappBrowserOpen: (isOpen: boolean) => void;
 }
 

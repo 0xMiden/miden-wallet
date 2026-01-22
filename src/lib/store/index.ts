@@ -69,6 +69,7 @@ export const useWalletStore = create<WalletStore>()(
 
     // Initial transaction modal state
     isTransactionModalOpen: false,
+    isTransactionModalDismissedByUser: false,
     isDappBrowserOpen: false,
 
     // Initial note toast state (mobile only)
@@ -457,10 +458,18 @@ export const useWalletStore = create<WalletStore>()(
 
     // Transaction modal actions
     openTransactionModal: () => {
-      set({ isTransactionModalOpen: true });
+      // Reset dismissed flag when explicitly opening the modal (new transaction initiated)
+      set({ isTransactionModalOpen: true, isTransactionModalDismissedByUser: false });
     },
-    closeTransactionModal: () => {
-      set({ isTransactionModalOpen: false });
+    closeTransactionModal: (dismissedByUser = false) => {
+      set({
+        isTransactionModalOpen: false,
+        // Track if user explicitly dismissed (prevents auto-reopen until transactions complete)
+        isTransactionModalDismissedByUser: dismissedByUser
+      });
+    },
+    resetTransactionModalDismiss: () => {
+      set({ isTransactionModalDismissedByUser: false });
     },
 
     // DApp browser state (mobile only)

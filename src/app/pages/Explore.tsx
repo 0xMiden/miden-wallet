@@ -33,6 +33,7 @@ import { openFaucetWebview } from 'lib/mobile/faucet-webview';
 import { hapticLight } from 'lib/mobile/haptics';
 import { isMobile } from 'lib/platform';
 import { isAutoConsumeEnabled, isDelegateProofEnabled } from 'lib/settings/helpers';
+import { useWalletStore } from 'lib/store';
 import { useRetryableSWR } from 'lib/swr';
 import useTippy, { TippyProps } from 'lib/ui/useTippy';
 import { Link, navigate, To } from 'lib/woozie';
@@ -138,12 +139,17 @@ const Explore: FC = () => {
     }
   );
 
+  // Check if user explicitly dismissed the transaction modal (prevents auto-reopen)
+  const isTransactionModalDismissedByUser = useWalletStore(state => state.isTransactionModalDismissedByUser);
+
   useEffect(() => {
     // On mobile, don't auto-open the modal - it's intrusive and blocks UI
     // The modal is opened explicitly when user initiates send/claim
     if (isMobile()) return;
+    // Don't auto-open if user explicitly dismissed the modal (they clicked Hide)
+    if (isTransactionModalDismissedByUser) return;
     if (queuedDbTransactions) openLoadingFullPage();
-  }, [queuedDbTransactions]);
+  }, [queuedDbTransactions, isTransactionModalDismissedByUser]);
 
   useEffect(() => {
     // 6-17-25 Force wallet reset if account is still using hex address
