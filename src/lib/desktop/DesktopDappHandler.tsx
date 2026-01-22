@@ -3,16 +3,15 @@
  *
  * This component should be mounted in the main wallet app to listen for
  * and process wallet requests from dApps opened in the desktop browser.
+ *
+ * The confirmation UI is handled by DesktopDappConfirmationModal which
+ * also subscribes to dappConfirmationStore.
  */
 
-import { useEffect, useRef, useMemo } from 'react';
+import { useEffect } from 'react';
 
-import { PrivateDataPermission } from '@demox-labs/miden-wallet-adapter-base';
-
-import { dappConfirmationStore, DAppConfirmationRequest } from 'lib/dapp-browser/confirmation-store';
 import { handleWebViewMessage, WebViewMessage } from 'lib/dapp-browser/message-handler';
 import { isDesktop } from 'lib/platform';
-import { useWalletStore } from 'lib/store';
 
 import { onDappWalletRequest, sendDappWalletResponse, DappWalletRequest } from './dapp-browser';
 
@@ -21,23 +20,10 @@ import { onDappWalletRequest, sendDappWalletResponse, DappWalletRequest } from '
  *
  * This sets up a listener for wallet requests from the dApp browser window
  * and processes them using the existing message handler infrastructure.
+ *
+ * Note: Confirmation UI is handled separately by DesktopDappConfirmationModal.
  */
 export function useDesktopDappHandler(): void {
-  const currentAccount = useWalletStore(s => s.currentAccount);
-  const accounts = useWalletStore(s => s.accounts);
-  const pendingConfirmationRef = useRef<DAppConfirmationRequest | null>(null);
-
-  const accountId = useMemo(() => {
-    if (currentAccount?.publicKey) return currentAccount.publicKey;
-    if (accounts && accounts.length > 0) return accounts[0].publicKey;
-    return null;
-  }, [currentAccount, accounts]);
-
-  const accountIdRef = useRef(accountId);
-  useEffect(() => {
-    accountIdRef.current = accountId;
-  }, [accountId]);
-
   useEffect(() => {
     // Only run on desktop
     if (!isDesktop()) return;
@@ -58,6 +44,8 @@ export function useDesktopDappHandler(): void {
             };
 
             // Handle the message using existing infrastructure
+            // This will trigger dappConfirmationStore for connection/transaction requests,
+            // which DesktopDappConfirmationModal will pick up and show UI for
             const response = await handleWebViewMessage(webViewMessage, origin);
 
             console.log('[DesktopDappHandler] Sending response for reqId:', request.reqId);
@@ -85,34 +73,10 @@ export function useDesktopDappHandler(): void {
 
     setupListener();
 
-    // Subscribe to confirmation store for desktop confirmations
-    const confirmationUnsubscribe = dappConfirmationStore.subscribe(() => {
-      const request = dappConfirmationStore.getPendingRequest();
-      if (request) {
-        console.log('[DesktopDappHandler] Confirmation requested:', request.type);
-        pendingConfirmationRef.current = request;
-
-        // For desktop, we'll auto-approve for now (TODO: show confirmation modal)
-        // In a production implementation, this would show a modal in the main window
-        setTimeout(() => {
-          if (pendingConfirmationRef.current?.id === request.id) {
-            console.log('[DesktopDappHandler] Auto-approving confirmation for development');
-            dappConfirmationStore.resolveConfirmation({
-              confirmed: true,
-              accountPublicKey: accountIdRef.current || undefined,
-              privateDataPermission: request.privateDataPermission || PrivateDataPermission.UponRequest
-            });
-            pendingConfirmationRef.current = null;
-          }
-        }, 100);
-      }
-    });
-
     return () => {
       if (unsubscribe) {
         unsubscribe();
       }
-      confirmationUnsubscribe();
     };
   }, []);
 }

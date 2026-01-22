@@ -54,8 +54,11 @@ const App: FC<AppProps> = ({ env }) => {
 
 export default App;
 
-// Lazy load desktop dApp handler to avoid loading Tauri APIs on non-desktop platforms
+// Lazy load desktop components to avoid loading Tauri APIs on non-desktop platforms
 const DesktopDappHandler = React.lazy(() => import('lib/desktop/DesktopDappHandler'));
+const DesktopDappConfirmationModal = React.lazy(() =>
+  import('lib/desktop/DesktopDappConfirmationModal').then(m => ({ default: m.DesktopDappConfirmationModal }))
+);
 
 const AppProvider: FC<AppProps> = ({ children, env }) => {
   console.log('[AppProvider] Rendering, isMobile:', checkIsMobile(), 'isDesktop:', checkIsDesktop());
@@ -67,6 +70,7 @@ const AppProvider: FC<AppProps> = ({ children, env }) => {
         {checkIsDesktop() && (
           <Suspense fallback={null}>
             <DesktopDappHandler />
+            <DesktopDappConfirmationModal />
           </Suspense>
         )}
         <MidenProvider>{children}</MidenProvider>

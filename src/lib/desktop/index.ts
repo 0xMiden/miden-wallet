@@ -27,3 +27,5 @@ export {
 export type { DappWalletRequest, DappWalletRequestEvent } from './dapp-browser';
 
 export { DesktopDappHandler, useDesktopDappHandler } from './DesktopDappHandler';
+
+export { DesktopDappConfirmationModal } from './DesktopDappConfirmationModal';
