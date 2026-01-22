@@ -131,6 +131,63 @@ describe('platform detection', () => {
       const { getPlatform } = require('./index');
       expect(getPlatform()).toBe('web');
     });
+
+    it('returns desktop when in Tauri context', () => {
+      jest.doMock('@capacitor/core', () => {
+        throw new Error('Module not found');
+      });
+      (window as any).__TAURI__ = {};
+
+      const { getPlatform } = require('./index');
+      expect(getPlatform()).toBe('desktop');
+
+      delete (window as any).__TAURI__;
+    });
+  });
+
+  describe('isTauri', () => {
+    afterEach(() => {
+      delete (window as any).__TAURI__;
+      delete (window as any).__TAURI_INTERNALS__;
+    });
+
+    it('returns true when __TAURI__ global exists', () => {
+      (window as any).__TAURI__ = {};
+
+      const { isTauri } = require('./index');
+      expect(isTauri()).toBe(true);
+    });
+
+    it('returns true when __TAURI_INTERNALS__ global exists', () => {
+      (window as any).__TAURI_INTERNALS__ = {};
+
+      const { isTauri } = require('./index');
+      expect(isTauri()).toBe(true);
+    });
+
+    it('returns false when neither Tauri global exists', () => {
+      const { isTauri } = require('./index');
+      expect(isTauri()).toBe(false);
+    });
+  });
+
+  describe('isDesktop', () => {
+    afterEach(() => {
+      delete (window as any).__TAURI__;
+      delete (window as any).__TAURI_INTERNALS__;
+    });
+
+    it('returns true when running in Tauri', () => {
+      (window as any).__TAURI__ = {};
+
+      const { isDesktop } = require('./index');
+      expect(isDesktop()).toBe(true);
+    });
+
+    it('returns false when not running in Tauri', () => {
+      const { isDesktop } = require('./index');
+      expect(isDesktop()).toBe(false);
+    });
   });
 
   describe('platform object', () => {
@@ -142,6 +199,8 @@ describe('platform detection', () => {
       expect(typeof platform.isIOS).toBe('function');
       expect(typeof platform.isAndroid).toBe('function');
       expect(typeof platform.isMobile).toBe('function');
+      expect(typeof platform.isTauri).toBe('function');
+      expect(typeof platform.isDesktop).toBe('function');
       expect(typeof platform.getPlatform).toBe('function');
     });
   });

@@ -5,6 +5,9 @@ import { WalletType } from 'screens/onboarding/types';
 import {
   getFrontState,
   lock,
+  unlock,
+  registerNewWallet,
+  registerImportedWallet,
   updateCurrentAccount,
   editAccount,
   updateSettings,
@@ -63,6 +66,8 @@ jest.mock('lib/miden/back/vault', () => ({
   }
 }));
 
+const mockUnlocked = jest.fn();
+
 jest.mock('./store', () => ({
   store: {
     getState: jest.fn(() => mockStoreState)
@@ -70,7 +75,7 @@ jest.mock('./store', () => ({
   toFront: jest.fn(state => state),
   inited: jest.fn((...args: any[]) => mockInited(...args)),
   locked: jest.fn((...args: any[]) => mockLocked(...args)),
-  unlocked: jest.fn(),
+  unlocked: jest.fn((...args: any[]) => mockUnlocked(...args)),
   accountsUpdated: jest.fn((...args: any[]) => mockAccountsUpdated(...args)),
   settingsUpdated: jest.fn((...args: any[]) => mockSettingsUpdated(...args)),
   currentAccountUpdated: jest.fn((...args: any[]) => mockCurrentAccountUpdated(...args)),
@@ -110,6 +115,7 @@ describe('actions', () => {
     // Reset only the mocks we care about, not the module mocks
     mockInited.mockClear();
     mockLocked.mockClear();
+    mockUnlocked.mockClear();
     mockAccountsUpdated.mockClear();
     mockSettingsUpdated.mockClear();
     mockCurrentAccountUpdated.mockClear();
@@ -186,6 +192,64 @@ describe('actions', () => {
       await lock();
 
       expect(mockLocked).toHaveBeenCalled();
+    });
+  });
+
+  describe('unlock', () => {
+    it('calls Vault.setup and unlocked with password', async () => {
+      const { Vault } = jest.requireMock('lib/miden/back/vault');
+      const mockVaultInstance = {
+        fetchAccounts: jest.fn().mockResolvedValue([]),
+        fetchSettings: jest.fn().mockResolvedValue({}),
+        getCurrentAccount: jest.fn().mockResolvedValue(null),
+        isOwnMnemonic: jest.fn().mockResolvedValue(true)
+      };
+      Vault.setup.mockResolvedValueOnce(mockVaultInstance);
+
+      await unlock('password123');
+
+      expect(Vault.setup).toHaveBeenCalledWith('password123');
+      expect(mockVaultInstance.fetchAccounts).toHaveBeenCalled();
+      expect(mockVaultInstance.fetchSettings).toHaveBeenCalled();
+      expect(mockUnlocked).toHaveBeenCalled();
+    });
+  });
+
+  describe('registerNewWallet', () => {
+    it('creates new vault and unlocks', async () => {
+      const { Vault } = jest.requireMock('lib/miden/back/vault');
+      const mockVaultInstance = {
+        fetchAccounts: jest.fn().mockResolvedValue([]),
+        fetchSettings: jest.fn().mockResolvedValue({}),
+        getCurrentAccount: jest.fn().mockResolvedValue(null),
+        isOwnMnemonic: jest.fn().mockResolvedValue(false)
+      };
+      Vault.spawn.mockResolvedValueOnce(undefined);
+      Vault.setup.mockResolvedValueOnce(mockVaultInstance);
+
+      await registerNewWallet('password123', 'mnemonic words', true);
+
+      expect(Vault.spawn).toHaveBeenCalledWith('password123', 'mnemonic words', true);
+      expect(Vault.setup).toHaveBeenCalledWith('password123');
+    });
+  });
+
+  describe('registerImportedWallet', () => {
+    it('imports wallet from miden client and unlocks', async () => {
+      const { Vault } = jest.requireMock('lib/miden/back/vault');
+      const mockVaultInstance = {
+        fetchAccounts: jest.fn().mockResolvedValue([]),
+        fetchSettings: jest.fn().mockResolvedValue({}),
+        getCurrentAccount: jest.fn().mockResolvedValue(null),
+        isOwnMnemonic: jest.fn().mockResolvedValue(true)
+      };
+      Vault.spawnFromMidenClient.mockResolvedValueOnce(undefined);
+      Vault.setup.mockResolvedValueOnce(mockVaultInstance);
+
+      await registerImportedWallet('password123', 'mnemonic words');
+
+      expect(Vault.spawnFromMidenClient).toHaveBeenCalledWith('password123', 'mnemonic words');
+      expect(Vault.setup).toHaveBeenCalledWith('password123');
     });
   });
 
