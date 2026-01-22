@@ -70,7 +70,10 @@ export class DesktopIntercomAdapter {
       case WalletMessageType.GetStateRequest:
         console.log('[DesktopAdapter] GetStateRequest received');
         const state = await Actions.getFrontState();
-        console.log('[DesktopAdapter] GetStateResponse:', { status: state.status, hasAccounts: !!state.accounts?.length });
+        console.log('[DesktopAdapter] GetStateResponse:', {
+          status: state.status,
+          hasAccounts: !!state.accounts?.length
+        });
         return {
           type: WalletMessageType.GetStateResponse,
           state

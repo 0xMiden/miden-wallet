@@ -101,7 +101,17 @@ export class Vault {
         const vaultKey = await Passworder.importVaultKey(vaultKeyBytes);
         return new Vault(vaultKey);
       }
-      // Mobile implementation will be added in Phase 6
+
+      if (isMobile()) {
+        console.log('[tryHardwareUnlock] Mobile: Attempting hardware unlock...');
+        const { decryptWithHardwareKey } = await import('lib/biometric');
+        const vaultKeyBase64 = await decryptWithHardwareKey(encryptedVaultKey);
+        const vaultKeyBytes = new Uint8Array(Buffer.from(vaultKeyBase64, 'base64'));
+        const vaultKey = await Passworder.importVaultKey(vaultKeyBytes);
+        console.log('[tryHardwareUnlock] Mobile: Hardware unlock successful');
+        return new Vault(vaultKey);
+      }
+
       return null;
     } catch (error) {
       console.log('Hardware unlock failed or was cancelled:', error);
@@ -615,5 +625,31 @@ async function setupHardwareProtector(vaultKeyBytes: Uint8Array): Promise<void> 
     }
   }
 
-  // Mobile implementation will be added in Phase 6
+  if (isMobile()) {
+    try {
+      const hs = await import('lib/biometric');
+      console.log('[setupHardwareProtector] Mobile: Starting...');
+      const available = await hs.isHardwareSecurityAvailable();
+      console.log('[setupHardwareProtector] Mobile: Hardware security available:', available);
+      if (available) {
+        const hasKey = await hs.hasHardwareKey();
+        console.log('[setupHardwareProtector] Mobile: Has existing hardware key:', hasKey);
+        if (!hasKey) {
+          console.log('[setupHardwareProtector] Mobile: Generating hardware key...');
+          await hs.generateHardwareKey();
+          console.log('[setupHardwareProtector] Mobile: Hardware key generated');
+        }
+        console.log('[setupHardwareProtector] Mobile: Encrypting vault key with hardware key...');
+        const vaultKeyBase64 = Buffer.from(vaultKeyBytes).toString('base64');
+        const hardwareProtectedVaultKey = await hs.encryptWithHardwareKey(vaultKeyBase64);
+        console.log('[setupHardwareProtector] Mobile: Saving hardware-protected vault key...');
+        await savePlain(VAULT_KEY_HARDWARE_STORAGE_KEY, hardwareProtectedVaultKey);
+        console.log('[setupHardwareProtector] Mobile: Hardware protection setup complete');
+      } else {
+        console.log('[setupHardwareProtector] Mobile: Hardware security not available, skipping');
+      }
+    } catch (error) {
+      console.log('[setupHardwareProtector] Mobile: Failed:', error);
+    }
+  }
 }

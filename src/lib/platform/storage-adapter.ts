@@ -133,8 +133,7 @@ export function getStorageProvider(): StorageProvider {
   const extension = isExtension();
 
   // Extra safety: direct check for Tauri globals
-  const hasTauriGlobal =
-    typeof window !== 'undefined' && ('__TAURI__' in window || '__TAURI_INTERNALS__' in window);
+  const hasTauriGlobal = typeof window !== 'undefined' && ('__TAURI__' in window || '__TAURI_INTERNALS__' in window);
 
   // Check mobile first (Capacitor)
   if (mobile) {
