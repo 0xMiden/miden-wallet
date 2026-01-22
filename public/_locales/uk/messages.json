@@ -2146,7 +2146,7 @@
     "englishSource": "You have received a note"
   },
   "noteReceivedTapToClaim": {
-    "message": "Торкніться тут, щоб отримати його",
+    "message": "Натисніть тут, щоб отримати його",
     "englishSource": "Tap here to claim it"
   },
   "tokenHistory": {

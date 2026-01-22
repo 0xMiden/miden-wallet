@@ -71,6 +71,8 @@ describe('MidenClientInterface', () => {
         { accountId: () => 'id', serialize: () => new Uint8Array([9]) },
         { accountId: () => 'other', serialize: () => new Uint8Array([9]) }
       ]),
+      addAccountSecretKeyToWebStore: jest.fn(),
+      newAccount: jest.fn(),
       terminate: jest.fn()
     };
 
@@ -88,7 +90,34 @@ describe('MidenClientInterface', () => {
         newLocalProver: jest.fn(() => 'local')
       },
       TransactionFilter: { all: jest.fn(() => 'all') },
-      MIDEN_NETWORK_NAME: { TESTNET: 'testnet' }
+      MIDEN_NETWORK_NAME: { TESTNET: 'testnet' },
+      SecretKey: { rpoFalconWithRNG: jest.fn() },
+      AccountBuilder: class {
+        constructor(public seed: Uint8Array) {}
+        storageMode() {
+          return this;
+        }
+        accountType() {
+          return this;
+        }
+        withAuthComponent() {
+          return this;
+        }
+        build() {
+          return {
+            account: { id: () => 'account-id' }
+          };
+        }
+        withBasicWalletComponent() {
+          return this;
+        }
+      },
+      AccountType: {
+        RegularAccountImmutableCode: 'RegularAccountImmutableCode'
+      },
+      AccountComponent: {
+        createAuthComponent: jest.fn()
+      }
     }));
     jest.doMock('lib/miden-chain/constants', () => ({
       MIDEN_NETWORK_ENDPOINTS: new Map([['testnet', 'rpc']]),

@@ -7,10 +7,10 @@ import { useTranslation } from 'react-i18next';
 import Alert from 'app/atoms/Alert';
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
-import { useAccountBadgeTitle } from 'app/defaults';
 import { Icon, IconName } from 'app/icons/v2';
 import AccountBanner from 'app/templates/AccountBanner';
 import { useAccount, useSecretState, useMidenContext } from 'lib/miden/front';
+import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 
 const SUBMIT_ERROR_TYPE = 'submit-error';
@@ -20,13 +20,12 @@ type FormData = {
 };
 
 type RevealSecretProps = {
-  reveal: 'view-key' | 'private-key' | 'seed-phrase';
+  reveal: 'private-key' | 'seed-phrase';
 };
 
 const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
   const { t } = useTranslation();
-  const accountBadgeTitle = useAccountBadgeTitle();
-  const { revealMnemonic } = useMidenContext();
+  const { revealMnemonic, revealPrivateKey } = useMidenContext();
   const account = useAccount();
   const { fieldRef: secretFieldRef, copy, copied } = useCopyToClipboard();
 
@@ -37,7 +36,6 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
     clearErrors,
     formState: { errors, isSubmitting }
   } = useForm<FormData>();
-
   const [secret, setSecret] = useSecretState();
 
   useEffect(() => {
@@ -67,10 +65,20 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
   const onSubmit = useCallback<SubmitHandler<FormData>>(
     async ({ password }) => {
       if (isSubmitting) return;
-
+      console.log('Revealing secret...');
       clearErrors('password');
       try {
-        const secret = await revealMnemonic(password);
+        let secret;
+        if (reveal === 'private-key') {
+          const pkc = await withWasmClientLock(async () => {
+            const client = await getMidenClient();
+            return client.getAccountPkcByPublicKey(account.publicKey);
+          });
+          secret = await revealPrivateKey(pkc, password);
+          console.log('Revealed private key');
+        } else {
+          secret = await revealMnemonic(password);
+        }
         setSecret(secret);
       } catch (err: any) {
         console.error(err);
@@ -81,33 +89,30 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
         focusPasswordField();
       }
     },
-    [isSubmitting, clearErrors, setError, revealMnemonic, setSecret, focusPasswordField]
+    [
+      isSubmitting,
+      clearErrors,
+      setError,
+      revealMnemonic,
+      revealPrivateKey,
+      setSecret,
+      focusPasswordField,
+      reveal,
+      account.publicKey
+    ]
   );
 
   const texts = useMemo(() => {
     switch (reveal) {
-      case 'view-key':
-        return {
-          name: t('viewKey'),
-          accountBanner: (
-            <AccountBanner labelDescription={t('ifYouWantToRevealViewKeyFromOtherAccount')} className="mb-6" />
-          ),
-          attention: (
-            <div className="flex flex-col text-left text-black">
-              <span className="font-medium" style={{ fontSize: '14px', lineHeight: '20px', marginBottom: '4px' }}>
-                {t('doNotShareViewKey1')} <br />
-              </span>
-              <span className="text-xs">{t('doNotShareViewKey2')}</span>
-            </div>
-          ),
-          fieldDesc: t('viewKeyFieldDescription')
-        };
-
       case 'private-key':
         return {
           name: t('privateKey'),
           accountBanner: (
-            <AccountBanner labelDescription={t('ifYouWantToRevealPrivateKeyFromOtherAccount')} className="mb-6" />
+            <AccountBanner
+              labelDescription={t('ifYouWantToRevealPrivateKeyFromOtherAccount')}
+              account={account}
+              className="mb-6"
+            />
           ),
           attention: (
             <div className="flex flex-col text-left text-black">
@@ -117,30 +122,13 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
               <span className="text-xs">{t('doNotSharePrivateKey2')}</span>
             </div>
           ),
-          fieldDesc: t('privateKeyFieldDescription')
+          fieldDesc: <>{t('privateKeyFieldDescription')}</>
         };
 
       case 'seed-phrase':
         return {
           name: t('seedPhrase'),
           accountBanner: null,
-          derivationPathBanner: (
-            <div className={classNames('mb-6 mt-4', 'flex flex-col')}>
-              <h2 className={classNames('mb-4', 'leading-tight', 'flex flex-col')}>
-                <span className="text-black font-medium" style={{ fontSize: '14px', lineHeight: '20px' }}>
-                  {t('derivationPath')}
-                </span>
-
-                <span className={classNames('mt-2', 'text-xs  text-black')} style={{ maxWidth: '90%' }}>
-                  {t('pathForHDAccounts')}
-                </span>
-              </h2>
-
-              <div className={classNames('w-full', 'border rounded-md', 'p-2', 'flex items-center')}>
-                <span className="text-sm font-medium text-black">{t('derivationPathExample')}</span>
-              </div>
-            </div>
-          ),
           attention: (
             <div className="flex flex-col text-left text-black">
               <span className="font-medium" style={{ fontSize: '14px', lineHeight: '20px', marginBottom: '4px' }}>
@@ -156,37 +144,8 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
           )
         };
     }
-  }, [reveal, t]);
-
-  const forbidPrivateKeyRevealing = reveal === 'private-key';
+  }, [reveal, account, t]);
   const mainContent = useMemo(() => {
-    if (forbidPrivateKeyRevealing) {
-      return (
-        <Alert
-          title={t('privateKeyCannotBeRevealed')}
-          description={
-            <p>
-              {t('youCannotGetPrivateKeyFromThisAccountType', {
-                accountType: (
-                  <span
-                    key="account-type"
-                    className={classNames('rounded-sm', 'border', 'px-1 py-px', 'font-normal leading-tight')}
-                    style={{
-                      fontSize: '0.75em',
-                      borderColor: 'currentColor'
-                    }}
-                  >
-                    {accountBadgeTitle}
-                  </span>
-                )
-              })}
-            </p>
-          }
-          className="mb-4 bg-blue-200 border-primary-500 rounded-none text-black"
-        />
-      );
-    }
-
     if (secret) {
       return (
         <>
@@ -255,7 +214,7 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
         <FormField
           {...register('password', { required: t('required') })}
           label={t('password')}
-          labelDescription={t('revealSecretPasswordInputDescription', texts.name)}
+          labelDescription={t('revealSecretPasswordInputDescription', { secretName: texts.name })}
           id="reveal-secret-password"
           type="password"
           name="password"
@@ -282,7 +241,6 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
       </form>
     );
   }, [
-    forbidPrivateKeyRevealing,
     errors,
     handleSubmit,
     onSubmit,
@@ -294,8 +252,7 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
     copy,
     copied,
     secretFieldRef,
-    t,
-    accountBadgeTitle
+    t
   ]);
 
   return (

@@ -95,10 +95,11 @@ describe('MobileIntercomAdapter', () => {
         type: WalletMessageType.ImportFromClientRequest,
         password: 'test123',
         mnemonic: 'word1 word2 word3',
-        walletAccounts: []
+        walletAccounts: [],
+        skForImportedAccounts: {}
       });
 
-      expect(Actions.registerImportedWallet).toHaveBeenCalledWith('test123', 'word1 word2 word3', []);
+      expect(Actions.registerImportedWallet).toHaveBeenCalledWith('test123', 'word1 word2 word3', [], {});
       expect(response).toEqual({ type: WalletMessageType.ImportFromClientResponse });
     });
 

@@ -22,6 +22,10 @@ const SelectAccount: FC = () => {
     navigate('/create-account');
   };
 
+  const onImportAccountClick = () => {
+    navigate('/import-account');
+  };
+
   return (
     <PageLayout
       pageTitle={
@@ -86,6 +90,12 @@ const SelectAccount: FC = () => {
       </div>
 
       <div className="flex flex-col w-full p-6 md:px-8 m-auto">
+        <Button
+          title={t('importAccount')}
+          variant={ButtonVariant.Primary}
+          onClick={onImportAccountClick}
+          className="mb-4"
+        />
         <Button title={t('addAccount')} variant={ButtonVariant.Secondary} onClick={onAddAccountClick} />
       </div>
     </PageLayout>

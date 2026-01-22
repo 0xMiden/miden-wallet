@@ -160,8 +160,17 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
     const onImportSeedPhraseSubmit = (seedPhrase: string) =>
       onForwardAction?.({ id: 'import-seed-phrase-submit', payload: seedPhrase });
 
-    const onImportFileSubmit = (seedPhrase: string, walletAccounts: WalletAccount[]) => {
-      onForwardAction?.({ id: 'import-wallet-file-submit', payload: seedPhrase, walletAccounts });
+    const onImportFileSubmit = (
+      seedPhrase: string,
+      walletAccounts: WalletAccount[],
+      skForImportedAccounts: Record<string, string>
+    ) => {
+      onForwardAction?.({
+        id: 'import-wallet-file-submit',
+        payload: seedPhrase,
+        walletAccounts,
+        skForImportedAccounts
+      });
     };
 
     switch (step) {

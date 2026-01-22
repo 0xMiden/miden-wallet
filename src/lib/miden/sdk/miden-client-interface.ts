@@ -1,7 +1,10 @@
 import {
   Account,
+  AccountBuilder,
+  AccountComponent,
   AccountFile,
   AccountStorageMode,
+  AccountType,
   Address,
   ConsumableNoteRecord,
   InputNoteRecord,
@@ -10,6 +13,7 @@ import {
   NoteFile,
   NoteFilter,
   NoteType,
+  SecretKey,
   TransactionFilter,
   TransactionProver,
   TransactionRequest,
@@ -114,7 +118,18 @@ export class MidenClientInterface {
     const accountStorageMode =
       walletType === WalletType.OnChain ? AccountStorageMode.public() : AccountStorageMode.private();
 
-    const wallet: Account = await this.webClient.newWallet(accountStorageMode, true, 0, seed);
+    const secretKey = SecretKey.rpoFalconWithRNG(seed);
+    // create a new account with 0 seed so we can recreate it later from the secret key
+    const accountBuilder = new AccountBuilder(new Uint8Array(32).fill(0))
+      .accountType(AccountType.RegularAccountImmutableCode)
+      .storageMode(accountStorageMode)
+      .withAuthComponent(AccountComponent.createAuthComponent(secretKey))
+      .withBasicWalletComponent();
+    const wallet = accountBuilder.build().account;
+    // add the secret key to the web client's keystore
+    await this.webClient.addAccountSecretKeyToWebStore(secretKey);
+    // register the new account in the web client
+    await this.webClient.newAccount(wallet, false);
     const walletId = getBech32AddressFromAccountId(wallet.id());
 
     return walletId;
@@ -132,6 +147,22 @@ export class MidenClientInterface {
     const account = await this.webClient.importPublicAccountFromSeed(seed, true, 0);
 
     return getBech32AddressFromAccountId(account.id());
+  }
+
+  async importPublicAccountFromPrivateKey(privateKey: SecretKey): Promise<string> {
+    const accountBuilder = new AccountBuilder(new Uint8Array(32).fill(0))
+      .accountType(AccountType.RegularAccountImmutableCode)
+      .storageMode(AccountStorageMode.public())
+      .withAuthComponent(AccountComponent.createAuthComponent(privateKey))
+      .withBasicWalletComponent();
+    const wallet = accountBuilder.build().account;
+    // add the secret key to the web client's keystore
+    await this.webClient.addAccountSecretKeyToWebStore(privateKey);
+    // register the new account in the web client
+    await this.webClient.importAccountById(wallet.id());
+    const walletId = getBech32AddressFromAccountId(wallet.id());
+
+    return walletId;
   }
 
   // TODO: is this method even used?
@@ -165,6 +196,15 @@ export class MidenClientInterface {
   async getAccount(accountId: string) {
     const result = await this.webClient.getAccount(accountIdStringToSdk(accountId));
     return result;
+  }
+
+  async getAccountPkcByPublicKey(publicKey: string): Promise<string> {
+    const acc = await this.webClient.getAccount(accountIdStringToSdk(publicKey));
+    if (!acc) {
+      throw new Error('Account not found');
+    }
+    const result = acc.getPublicKeys()[0].toHex();
+    return result.slice(2); // remove 0x prefix
   }
 
   async importAccountById(accountId: string) {

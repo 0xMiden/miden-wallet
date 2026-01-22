@@ -8,6 +8,7 @@ import { WalletAccount, WalletRequest, WalletResponse, WalletSettings, WalletSta
 import { useWalletStore } from 'lib/store';
 import { WalletType } from 'screens/onboarding/types';
 
+import { store } from '../back/store';
 import { MidenState } from '../types';
 import { AutoSync } from './autoSync';
 
@@ -48,6 +49,7 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   const storeUpdateCurrentAccount = useWalletStore(s => s.updateCurrentAccount);
   const storeEditAccountName = useWalletStore(s => s.editAccountName);
   const storeRevealMnemonic = useWalletStore(s => s.revealMnemonic);
+  const storeRevealPrivateKey = useWalletStore(s => s.revealPrivateKey);
   const storeUpdateSettings = useWalletStore(s => s.updateSettings);
   const storeSignData = useWalletStore(s => s.signData);
   const storeSignTransaction = useWalletStore(s => s.signTransaction);
@@ -63,6 +65,7 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   const storeGetAllDAppSessions = useWalletStore(s => s.getAllDAppSessions);
   const storeRemoveDAppSession = useWalletStore(s => s.removeDAppSession);
   const storeResetConfirmation = useWalletStore(s => s.resetConfirmation);
+  const storeImportAccountByPrivateKey = useWalletStore(s => s.importPublicAccountByPrivateKey);
 
   // Build the state object for backward compatibility
   const state: MidenState = useMemo(
@@ -100,8 +103,13 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   );
 
   const importWalletFromClient = useCallback(
-    async (password: string, mnemonic: string, walletAccounts: WalletAccount[]) => {
-      await storeImportWalletFromClient(password, mnemonic, walletAccounts);
+    async (
+      password: string,
+      mnemonic: string,
+      walletAccounts: WalletAccount[],
+      skForImportedAccounts: Record<string, string>
+    ) => {
+      await storeImportWalletFromClient(password, mnemonic, walletAccounts, skForImportedAccounts);
     },
     [storeImportWalletFromClient]
   );
@@ -139,6 +147,13 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
       return storeRevealMnemonic(password);
     },
     [storeRevealMnemonic]
+  );
+
+  const revealPrivateKey = useCallback(
+    async (accountPublicKey: string, password: string) => {
+      return storeRevealPrivateKey(accountPublicKey, password);
+    },
+    [storeRevealPrivateKey]
   );
 
   const updateSettings = useCallback(
@@ -248,8 +263,6 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
 
   // Stub implementations for unimplemented actions
   const decryptCiphertexts = useCallback(async (accPublicKey: string, ciphertexts: string[]) => {}, []);
-  const revealViewKey = useCallback(async (accountPublicKey: string, password: string) => {}, []);
-  const revealPrivateKey = useCallback(async (accountPublicKey: string, password: string) => {}, []);
   const removeAccount = useCallback(async (accountPublicKey: string, password: string) => {}, []);
   const importAccount = useCallback(async (privateKey: string, encPassword?: string) => {}, []);
   const importWatchOnlyAccount = useCallback(async (viewKey: string) => {}, []);
@@ -261,7 +274,12 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   const confirmDAppBulkTransactions = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {}, []);
   const confirmDAppDeploy = useCallback(async (id: string, confirmed: boolean, delegate: boolean) => {}, []);
   const getOwnedRecords = useCallback(async (accPublicKey: string) => {}, []);
-
+  const importPublicAccountByPrivateKey = useCallback(
+    async (privateKey: string, name?: string) => {
+      await storeImportAccountByPrivateKey(privateKey, name);
+    },
+    [storeImportAccountByPrivateKey]
+  );
   return {
     state,
     // Aliases
@@ -286,7 +304,6 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
 
     createAccount,
     updateCurrentAccount,
-    revealViewKey,
     revealPrivateKey,
     revealMnemonic,
     removeAccount,
@@ -313,7 +330,8 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     removeDAppSession,
     decryptCiphertexts,
     getOwnedRecords,
-    importWalletFromClient
+    importWalletFromClient,
+    importPublicAccountByPrivateKey
   };
 });
 

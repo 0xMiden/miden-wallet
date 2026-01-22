@@ -3,7 +3,6 @@ export enum SettingsSelectors {
   LanguageButton = 'Settings/LanguageButton',
   SynchronizationButton = 'Settings/SynchronizationButton',
   AddressBookButton = 'Settings/AddressBookButton',
-  RevealViewKeyButton = 'Settings/RevealViewKeyButton',
   RevealPrivateKeyButton = 'Settings/RevealPrivateKeyButton',
   RevealSeedPhraseButton = 'Settings/RevealSeedPhraseButton',
   DAppsButton = 'Settings/DAppsButton',

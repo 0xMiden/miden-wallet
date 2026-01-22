@@ -34,8 +34,6 @@ export enum WalletMessageType {
   UpdateCurrentAccountResponse = 'UPDATE_CURRENT_ACCOUNT_RESPONSE',
   RevealPublicKeyRequest = 'REVEAL_PUBLIC_KEY_REQUEST',
   RevealPublicKeyResponse = 'REVEAL_PUBLIC_KEY_RESPONSE',
-  RevealViewKeyRequest = 'REVEAL_VIEW_KEY_REQUEST',
-  RevealViewKeyResponse = 'REVEAL_VIEW_KEY_RESPONSE',
   RevealPrivateKeyRequest = 'REVEAL_PRIVATE_KEY_REQUEST',
   RevealPrivateKeyResponse = 'REVEAL_PRIVATE_KEY_RESPONSE',
   RevealMnemonicRequest = 'REVEAL_MNEMONIC_REQUEST',
@@ -225,17 +223,6 @@ export interface RevealPublicKeyResponse extends WalletMessageBase {
   publicKey: string;
 }
 
-export interface RevealViewKeyRequest extends WalletMessageBase {
-  type: WalletMessageType.RevealViewKeyRequest;
-  accountPublicKey: string;
-  password: string;
-}
-
-export interface RevealViewKeyResponse extends WalletMessageBase {
-  type: WalletMessageType.RevealViewKeyResponse;
-  viewKey: string;
-}
-
 export interface RevealPrivateKeyRequest extends WalletMessageBase {
   type: WalletMessageType.RevealPrivateKeyRequest;
   accountPublicKey: string;
@@ -280,6 +267,7 @@ export interface EditAccountResponse extends WalletMessageBase {
 export interface ImportAccountRequest extends WalletMessageBase {
   type: WalletMessageType.ImportAccountRequest;
   privateKey: string;
+  name?: string;
   encPassword?: string;
 }
 
@@ -516,6 +504,7 @@ export interface ImportFromClientRequest extends WalletMessageBase {
   password: string;
   mnemonic: string;
   walletAccounts: WalletAccount[];
+  skForImportedAccounts: Record<string, string>;
 }
 
 export interface ImportFromClientResponse extends WalletMessageBase {
@@ -538,7 +527,6 @@ export type WalletRequest =
   | CreateAccountRequest
   | UpdateCurrentAccountRequest
   | RevealPublicKeyRequest
-  | RevealViewKeyRequest
   | RevealPrivateKeyRequest
   | RevealMnemonicRequest
   | RemoveAccountRequest
@@ -580,7 +568,6 @@ export type WalletResponse =
   | CreateAccountResponse
   | UpdateCurrentAccountResponse
   | RevealPublicKeyResponse
-  | RevealViewKeyResponse
   | RevealPrivateKeyResponse
   | RevealMnemonicResponse
   | RemoveAccountResponse

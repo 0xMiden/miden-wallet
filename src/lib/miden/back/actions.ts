@@ -77,9 +77,14 @@ export function registerNewWallet(password: string, mnemonic?: string, ownMnemon
   });
 }
 
-export function registerImportedWallet(password: string, mnemonic: string, walletAccounts: WalletAccount[]) {
+export function registerImportedWallet(
+  password: string,
+  mnemonic: string,
+  walletAccounts: WalletAccount[],
+  skForImportedAccounts: Record<string, string>
+) {
   return withInited(async () => {
-    await Vault.spawnFromMidenClient(password, mnemonic, walletAccounts);
+    await Vault.spawnFromMidenClient(password, mnemonic, walletAccounts, skForImportedAccounts);
     await unlock(password);
   });
 }
@@ -133,13 +138,13 @@ export function createHDAccount(walletType: WalletType, name?: string) {
 
 export function decryptCiphertexts(accPublicKey: string, cipherTexts: string[]) {}
 
-export function revealViewKey(accPublicKey: string, password: string) {}
-
 export function revealMnemonic(password: string) {
   return withUnlocked(() => Vault.revealMnemonic(password));
 }
 
-export function revealPrivateKey(accPublicKey: string, password: string) {}
+export function revealPrivateKey(accPublicKey: string, password: string) {
+  return withUnlocked(() => Vault.revealPrivateKey(accPublicKey, password));
+}
 
 export function revealPublicKey(accPublicKey: string) {}
 
@@ -159,7 +164,12 @@ export function editAccount(accPublicKey: string, name: string) {
   });
 }
 
-export function importAccount(privateKey: string, encPassword?: string) {}
+export function importAccount(privateKey: string, name?: string) {
+  return withUnlocked(async ({ vault }) => {
+    const accounts = await vault.importAccount(privateKey, name);
+    accountsUpdated({ accounts });
+  });
+}
 
 export function importMnemonicAccount(mnemonic: string, password?: string, derivationPath?: string) {}
 

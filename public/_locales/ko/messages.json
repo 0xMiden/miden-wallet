@@ -2054,7 +2054,7 @@
     "englishSource": "Enable Biometric"
   },
   "skipBiometricSetup": {
-    "message": "지금은 건너뛰기",
+    "message": "지금은 건너뛰세요",
     "englishSource": "Skip for now"
   },
   "biometricAuthRequired": {
@@ -2150,7 +2150,7 @@
     "englishSource": "Tap here to claim it"
   },
   "tokenHistory": {
-    "message": "$tokenName$ 내역",
+    "message": "$tokenName$ 기록",
     "englishSource": "$tokenName$ History",
     "placeholders": {
       "tokenname": {

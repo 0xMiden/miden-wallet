@@ -37,8 +37,7 @@ type SettingsProps = {
   tabSlug?: string | null;
 };
 
-// const RevealViewKey: FC = () => <RevealSecret reveal="view-key" />;
-// const RevealPrivateKey: FC = () => <RevealSecret reveal="private-key" />;
+const RevealPrivateKey: FC = () => <RevealSecret reveal="private-key" />;
 const RevealSeedPhrase: FC = () => <RevealSecret reveal="seed-phrase" />;
 
 type Tab = {
@@ -83,26 +82,16 @@ const TABS: Tab[] = [
     insertHR: false,
     iconStyle: { stroke: '#000', strokeWidth: '2px' }
   },
-  // {
-  //   slug: 'reveal-view-key',
-  //   titleI18nKey: 'revealViewKey',
-  //   Icon: KeyIcon,
-  //   Component: RevealViewKey,
-  //   descriptionI18nKey: 'revealViewKeyDescription',
-  //   testID: SettingsSelectors.RevealViewKeyButton,
-  //   insertHR: true,
-  //   iconStyle: { stroke: '#000', strokeWidth: '1px' }
-  // },
-  // {
-  //   slug: 'reveal-private-key',
-  //   titleI18nKey: 'revealPrivateKey',
-  //   Icon: KeyIcon,
-  //   Component: RevealPrivateKey,
-  //   descriptionI18nKey: 'revealPrivateKeyDescription',
-  //   testID: SettingsSelectors.RevealPrivateKeyButton,
-  //   insertHR: false,
-  //   iconStyle: { stroke: '#000', strokeWidth: '1px' }
-  // },
+  {
+    slug: 'reveal-private-key',
+    titleI18nKey: 'revealPrivateKey',
+    Icon: KeyIcon,
+    Component: RevealPrivateKey,
+    descriptionI18nKey: 'revealPrivateKeyDescription',
+    testID: SettingsSelectors.RevealPrivateKeyButton,
+    insertHR: false,
+    iconStyle: { stroke: '#000', strokeWidth: '1px' }
+  },
   {
     slug: 'reveal-seed-phrase',
     titleI18nKey: 'revealSeedPhrase',

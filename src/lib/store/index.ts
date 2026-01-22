@@ -124,12 +124,13 @@ export const useWalletStore = create<WalletStore>()(
       // State will be synced via StateUpdated notification
     },
 
-    importWalletFromClient: async (password, mnemonic, walletAccounts) => {
+    importWalletFromClient: async (password, mnemonic, walletAccounts, skForImportedAccounts) => {
       const res = await request({
         type: WalletMessageType.ImportFromClientRequest,
         password,
         mnemonic,
-        walletAccounts
+        walletAccounts,
+        skForImportedAccounts
       });
       assertResponse(res.type === WalletMessageType.ImportFromClientResponse);
     },
@@ -208,6 +209,25 @@ export const useWalletStore = create<WalletStore>()(
       });
       assertResponse(res.type === WalletMessageType.RevealMnemonicResponse);
       return res.mnemonic;
+    },
+
+    revealPrivateKey: async (accountPublicKey, password) => {
+      const res = await request({
+        type: WalletMessageType.RevealPrivateKeyRequest,
+        accountPublicKey,
+        password
+      });
+      assertResponse(res.type === WalletMessageType.RevealPrivateKeyResponse);
+      return res.privateKey;
+    },
+
+    importPublicAccountByPrivateKey: async (privateKey, name) => {
+      const res = await request({
+        type: WalletMessageType.ImportAccountRequest,
+        privateKey,
+        name
+      });
+      assertResponse(res.type === WalletMessageType.ImportAccountResponse);
     },
 
     // Settings actions

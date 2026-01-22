@@ -46,6 +46,7 @@ const Welcome: FC = () => {
   const [importedWithFile, setImportedWithFile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [importedWalletAccounts, setImportedWalletAccounts] = useState<WalletAccount[]>([]);
+  const [skForImportedAccounts, setSkForImportedAccounts] = useState<Record<string, string>>({});
   const { registerWallet, importWalletFromClient } = useMidenContext();
   const { trackEvent } = useAnalytics();
   const syncFromBackend = useWalletStore(s => s.syncFromBackend);
@@ -66,7 +67,7 @@ const Welcome: FC = () => {
       } else {
         try {
           console.log('importing wallet from client');
-          await importWalletFromClient(password, seedPhraseFormatted, importedWalletAccounts);
+          await importWalletFromClient(password, seedPhraseFormatted, importedWalletAccounts, skForImportedAccounts);
         } catch (e) {
           console.error(e);
         }
@@ -79,7 +80,8 @@ const Welcome: FC = () => {
     registerWallet,
     onboardingType,
     importWalletFromClient,
-    importedWalletAccounts
+    importedWalletAccounts,
+    skForImportedAccounts
   ]);
 
   const onAction = async (action: OnboardingAction) => {
@@ -104,6 +106,7 @@ const Welcome: FC = () => {
         const seedPhrase = action.payload.split(' ');
         setSeedPhrase(seedPhrase);
         setImportedWalletAccounts(action.walletAccounts);
+        setSkForImportedAccounts(action.skForImportedAccounts);
         setImportedWithFile(true);
         navigate('/#create-password');
         break;

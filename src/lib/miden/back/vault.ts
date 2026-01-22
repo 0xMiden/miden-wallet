@@ -134,7 +134,12 @@ export class Vault {
     });
   }
 
-  static async spawnFromMidenClient(password: string, mnemonic: string, walletAccounts: WalletAccount[]) {
+  static async spawnFromMidenClient(
+    password: string,
+    mnemonic: string,
+    walletAccounts: WalletAccount[],
+    skForImportedAccounts: Record<string, string>
+  ) {
     return withError('Failed to spawn from miden client', async () => {
       await clearStorage(false);
 
@@ -160,9 +165,18 @@ export class Vault {
           if (!walletAccount) {
             throw new PublicError('Account from Miden Client not found in provided wallet accounts');
           }
-          const walletSeed = deriveClientSeed(walletAccount.type, mnemonic, walletAccount.hdIndex);
-          const secretKey = SecretKey.rpoFalconWithRNG(walletSeed);
-          await midenClient.webClient.addAccountSecretKeyToWebStore(secretKey);
+          if (walletAccount.hdIndex === -1) {
+            const skHex = skForImportedAccounts[walletAccount.publicKey];
+            if (!skHex) {
+              throw new PublicError('Secret key for imported account not found');
+            }
+            const sk = SecretKey.deserialize(new Uint8Array(Buffer.from(skHex, 'hex')));
+            await midenClient.webClient.addAccountSecretKeyToWebStore(sk);
+          } else {
+            const walletSeed = deriveClientSeed(walletAccount.type, mnemonic, walletAccount.hdIndex);
+            const secretKey = SecretKey.rpoFalconWithRNG(walletSeed);
+            await midenClient.webClient.addAccountSecretKeyToWebStore(secretKey);
+          }
         }
       });
 
@@ -333,8 +347,6 @@ export class Vault {
 
   async decryptCipherTextOrRecord() {}
 
-  async revealViewKey(accPublicKey: string) {}
-
   static async revealMnemonic(password: string) {
     const passKey = await Vault.toValidPassKey(password);
     return withError('Failed to reveal seed phrase', async () => {
@@ -344,6 +356,56 @@ export class Vault {
         throw new PublicError('Mnemonic does not match the expected pattern');
       }
       return mnemonic;
+    });
+  }
+
+  static async revealPrivateKey(accPublicKey: string, password: string) {
+    const passKey = await Vault.toValidPassKey(password);
+    return await withError('Failed to reveal private key', async () => {
+      try {
+        const secretKeyHex = await fetchAndDecryptOneWithLegacyFallBack<string>(
+          accAuthSecretKeyStrgKey(accPublicKey),
+          passKey
+        );
+        return secretKeyHex;
+      } catch (e) {
+        console.error('Error fetching and decrypting private key:', e);
+        throw e;
+      }
+    });
+  }
+
+  async importAccount(privateKey: string, name?: string): Promise<WalletAccount[]> {
+    return withError('Failed to import account', async () => {
+      const allAccounts = await fetchAndDecryptOneWithLegacyFallBack<WalletAccount[]>(accountsStrgKey, this.passKey);
+      const secretKey = SecretKey.deserialize(new Uint8Array(Buffer.from(privateKey, 'hex')));
+      const pubKeyWord = secretKey.publicKey().toCommitment();
+
+      const pubKeyHex = pubKeyWord.toHex().slice(2); // remove '0x' prefix
+      const publicKey = await withWasmClientLock(async () => {
+        const midenClient = await getMidenClient();
+        return await midenClient.importPublicAccountFromPrivateKey(secretKey);
+      });
+      const newAccount: WalletAccount = {
+        publicKey,
+        name: name || `Imported Account ${allAccounts.length + 1}`,
+        isPublic: true,
+        type: WalletType.OnChain,
+        hdIndex: -1 // -1 indicates imported account
+      };
+
+      const newAllAccounts = concatAccount(allAccounts, newAccount);
+
+      await encryptAndSaveMany(
+        [
+          [accPubKeyStrgKey(pubKeyHex), pubKeyHex],
+          [accountsStrgKey, newAllAccounts],
+          [accAuthSecretKeyStrgKey(pubKeyHex), privateKey]
+        ],
+        this.passKey
+      );
+
+      return newAllAccounts;
     });
   }
 

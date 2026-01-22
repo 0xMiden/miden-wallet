@@ -95,7 +95,12 @@ export interface WalletActions {
 
   // Auth actions
   registerWallet: (password: string, mnemonic?: string, ownMnemonic?: boolean) => Promise<void>;
-  importWalletFromClient: (password: string, mnemonic: string, walletAccounts: WalletAccount[]) => Promise<void>;
+  importWalletFromClient: (
+    password: string,
+    mnemonic: string,
+    walletAccounts: WalletAccount[],
+    skForImportedAccounts: Record<string, string>
+  ) => Promise<void>;
   unlock: (password: string) => Promise<void>;
 
   // Account actions
@@ -103,6 +108,8 @@ export interface WalletActions {
   updateCurrentAccount: (accountPublicKey: string) => Promise<void>;
   editAccountName: (accountPublicKey: string, name: string) => Promise<void>;
   revealMnemonic: (password: string) => Promise<string>;
+  revealPrivateKey: (accountPublicKey: string, password: string) => Promise<string>;
+  importPublicAccountByPrivateKey: (privateKey: string, name?: string) => Promise<void>;
 
   // Settings actions
   updateSettings: (newSettings: Partial<WalletSettings>) => Promise<void>;

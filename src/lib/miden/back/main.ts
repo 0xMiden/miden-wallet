@@ -39,7 +39,7 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
       await Actions.registerNewWallet(req.password, req.mnemonic, req.ownMnemonic);
       return { type: WalletMessageType.NewWalletResponse };
     case WalletMessageType.ImportFromClientRequest:
-      await Actions.registerImportedWallet(req.password, req.mnemonic, req.walletAccounts);
+      await Actions.registerImportedWallet(req.password, req.mnemonic, req.walletAccounts, req.skForImportedAccounts);
       return { type: WalletMessageType.ImportFromClientResponse };
     case WalletMessageType.UnlockRequest:
       await Actions.unlock(req.password);
@@ -62,18 +62,13 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
     //     type: WalletMessageType.RevealPublicKeyResponse,
     //     publicKey
     //   };
-    // case WalletMessageType.RevealViewKeyRequest:
-    //   const viewKey = await Actions.revealViewKey(req.accountPublicKey, req.password);
-    //   return {
-    //     type: WalletMessageType.RevealViewKeyResponse,
-    //     viewKey
-    //   };
-    // case WalletMessageType.RevealPrivateKeyRequest:
-    //   const privateKey = await Actions.revealPrivateKey(req.accountPublicKey, req.password);
-    //   return {
-    //     type: WalletMessageType.RevealPrivateKeyResponse,
-    //     privateKey
-    //   };
+
+    case WalletMessageType.RevealPrivateKeyRequest:
+      const privateKey = await Actions.revealPrivateKey(req.accountPublicKey, req.password);
+      return {
+        type: WalletMessageType.RevealPrivateKeyResponse,
+        privateKey
+      };
     case WalletMessageType.RevealMnemonicRequest:
       const mnemonic = await Actions.revealMnemonic(req.password);
       return {
@@ -92,7 +87,7 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
         type: WalletMessageType.EditAccountResponse
       };
     case WalletMessageType.ImportAccountRequest:
-      await Actions.importAccount(req.privateKey, req.encPassword);
+      await Actions.importAccount(req.privateKey, req.name);
       return {
         type: WalletMessageType.ImportAccountResponse
       };
