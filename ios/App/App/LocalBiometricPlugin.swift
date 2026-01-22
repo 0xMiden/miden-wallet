@@ -441,16 +441,20 @@ public class LocalBiometricPlugin: CAPPlugin, CAPBridgedPlugin {
             return
         }
 
-        // Get the private key - the .privateKeyUsage flag on the key will automatically
-        // trigger FaceID/TouchID authentication when we use it for ECDH
-        // No need for explicit evaluatePolicy() - let the Secure Enclave handle it
-        os_log("[LocalBiometric] Accessing hardware key (will trigger biometric)...", log: logger, type: .debug)
+        // Create an LAContext that will be used for both key retrieval and key usage
+        // By sharing the same context, the system should only prompt for FaceID once
+        // even though the key has both .userPresence and .privateKeyUsage flags
+        let context = LAContext()
+        context.localizedReason = "Unlock your wallet"
+
+        os_log("[LocalBiometric] Accessing hardware key with shared auth context...", log: logger, type: .debug)
 
         let query: [String: Any] = [
             kSecClass as String: kSecClassKey,
             kSecAttrApplicationTag as String: kHardwareKeyTag.data(using: .utf8)!,
             kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
-            kSecReturnRef as String: true
+            kSecReturnRef as String: true,
+            kSecUseAuthenticationContext as String: context
         ]
 
         var keyRef: CFTypeRef?
