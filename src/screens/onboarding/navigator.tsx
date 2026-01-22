@@ -26,6 +26,8 @@ export interface OnboardingFlowProps {
   step: OnboardingStep;
   password?: string | null;
   isLoading?: boolean;
+  useBiometric?: boolean;
+  onBiometricChange?: (value: boolean) => void;
   onAction?: (action: OnboardingAction) => void;
 }
 
@@ -82,6 +84,8 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
   step,
   password,
   isLoading,
+  useBiometric = true,
+  onBiometricChange,
   onAction
 }) => {
   const [navigationDirection, setNavigationDirection] = useState<'forward' | 'backward'>('forward');
@@ -161,7 +165,14 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
       case OnboardingStep.BackupSeedPhrase:
         return <BackUpSeedPhraseScreen seedPhrase={seedPhrase || []} onSubmit={onBackupSeedPhraseSubmit} />;
       case OnboardingStep.VerifySeedPhrase:
-        return <VerifySeedPhraseScreen seedPhrase={seedPhrase || []} onSubmit={onVerifySeedPhraseSubmit} />;
+        return (
+          <VerifySeedPhraseScreen
+            seedPhrase={seedPhrase || []}
+            useBiometric={useBiometric}
+            onBiometricChange={onBiometricChange}
+            onSubmit={onVerifySeedPhraseSubmit}
+          />
+        );
       case OnboardingStep.SelectImportType:
         return <SelectImportTypeScreen onSubmit={onSelectImportTypeSubmit} />;
       case OnboardingStep.ImportFromSeed:
@@ -178,7 +189,7 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
       default:
         return <></>;
     }
-  }, [step, isLoading, onForwardAction, seedPhrase, wordslist]);
+  }, [step, isLoading, onForwardAction, seedPhrase, wordslist, useBiometric, onBiometricChange]);
 
   const onBack = () => {
     setNavigationDirection('backward');

@@ -73,6 +73,7 @@ const Welcome: FC = () => {
   const [password, setPassword] = useState<string | null>(null);
   const [importedWithFile, setImportedWithFile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [useBiometric, setUseBiometric] = useState(true);
   const { registerWallet, importWalletFromClient } = useMidenContext();
   const { trackEvent } = useAnalytics();
   const syncFromBackend = useWalletStore(s => s.syncFromBackend);
@@ -153,14 +154,15 @@ const Welcome: FC = () => {
         navigate('/#verify-seed-phrase');
         break;
       case 'create-password':
-        // Check if hardware security is available - if so, skip password step
+        // Check if user wants biometric AND hardware security is available
         {
           const hardwareAvailable = await checkHardwareSecurityAvailable();
-          if (hardwareAvailable) {
+          if (useBiometric && hardwareAvailable) {
             // Hardware-only mode: skip password, go directly to confirmation
             setPassword('__HARDWARE_ONLY__');
             navigate('/#confirmation');
           } else {
+            // User opted out of biometrics or hardware not available - show password screen
             navigate('/#create-password');
           }
         }
@@ -280,6 +282,8 @@ const Welcome: FC = () => {
       step={step}
       password={password}
       isLoading={isLoading}
+      useBiometric={useBiometric}
+      onBiometricChange={setUseBiometric}
       onAction={onAction}
     />
   );

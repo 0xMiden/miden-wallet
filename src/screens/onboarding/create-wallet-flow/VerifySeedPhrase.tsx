@@ -6,19 +6,26 @@ import { useTranslation } from 'react-i18next';
 
 import { Button } from 'components/Button';
 import { Chip } from 'components/Chip';
+import { Toggle } from 'components/Toggle';
 import { hapticLight } from 'lib/mobile/haptics';
+import { isDesktop, isMobile } from 'lib/platform';
 
 export interface VerifySeedPhraseScreenProps extends React.ButtonHTMLAttributes<HTMLDivElement> {
   seedPhrase: string[];
+  useBiometric?: boolean;
+  onBiometricChange?: (value: boolean) => void;
   onSubmit?: () => void;
 }
 
 export const VerifySeedPhraseScreen: React.FC<VerifySeedPhraseScreenProps> = ({
   seedPhrase,
+  useBiometric = true,
+  onBiometricChange,
   className,
   onSubmit,
   ...props
 }) => {
+  const showBiometricToggle = isMobile() || isDesktop();
   const { t } = useTranslation();
   const shuffledWords = useMemo(() => shuffle(seedPhrase), [seedPhrase]);
   const [firstSelectedWordIndex, setFirstSelectedWord] = useState<number | null>(null);
@@ -93,7 +100,21 @@ export const VerifySeedPhraseScreen: React.FC<VerifySeedPhraseScreenProps> = ({
         ))}
       </article>
 
-      <div className="w-[360px] flex flex-col gap-2 self-center">
+      <div className="flex-1" />
+
+      <div className="w-[360px] flex flex-col gap-4 self-center pb-4">
+        {showBiometricToggle && (
+          <>
+            <div className="flex flex-col gap-1 px-2">
+              <h3 className="text-lg font-semibold">{t('unlockWallet')}</h3>
+              <p className="text-sm text-grey-600">{t('unlockWalletDescription')}</p>
+            </div>
+            <div className="flex items-center justify-between gap-3 px-2">
+              <p className="text-sm text-grey-600 flex-1">{t('passwordsCanBeInsecure')}</p>
+              <Toggle value={useBiometric} onChangeValue={onBiometricChange} />
+            </div>
+          </>
+        )}
         <Button disabled={!isCorrectWordSelected} title={t('continue')} onClick={onSubmit} />
       </div>
     </div>
