@@ -117,7 +117,7 @@ const CreateAccount: FC = () => {
 
   return (
     <PageLayout pageTitle={<>{t('createAccount')}</>}>
-      <div className="w-full max-w-sm mx-auto px-4">
+      <div className="w-full max-w-sm mx-auto px-4 overflow-auto">
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormField
             {...register('name', {

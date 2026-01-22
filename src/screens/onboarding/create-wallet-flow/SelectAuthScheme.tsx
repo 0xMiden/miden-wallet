@@ -41,7 +41,7 @@ const SelectAuthScheme = ({
   };
 
   return (
-    <div className={classNames('w-full max-w-sm mx-auto', onCreateAccountScreen ? '' : 'p-6')}>
+    <div className={classNames('w-full max-w-sm mx-auto', onCreateAccountScreen ? 'pb-2' : 'p-6')}>
       {/* Wallet Type Selection */}
       <div className="mb-8">
         <div className="font-medium mb-4" style={{ fontSize: '14px', lineHeight: '20px' }}>

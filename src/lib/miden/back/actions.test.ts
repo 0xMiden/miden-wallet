@@ -1,6 +1,6 @@
 import { MidenDAppMessageType } from 'lib/adapter/types';
 import { WalletStatus } from 'lib/shared/types';
-import { WalletType } from 'screens/onboarding/types';
+import { AuthScheme, WalletType } from 'screens/onboarding/types';
 
 import {
   getFrontState,
@@ -308,9 +308,9 @@ describe('actions', () => {
       const accounts = [{ publicKey: 'pk1', name: 'Account 1' }];
       mockVault.createHDAccount.mockResolvedValueOnce(accounts);
 
-      await createHDAccount(WalletType.OnChain);
+      await createHDAccount(WalletType.OnChain, AuthScheme.Falcon);
 
-      expect(mockVault.createHDAccount).toHaveBeenCalledWith(WalletType.OnChain, undefined);
+      expect(mockVault.createHDAccount).toHaveBeenCalledWith(WalletType.OnChain, AuthScheme.Falcon, undefined);
       expect(mockAccountsUpdated).toHaveBeenCalledWith({ accounts });
     });
 
@@ -318,16 +318,16 @@ describe('actions', () => {
       const accounts = [{ publicKey: 'pk1', name: 'MyWallet' }];
       mockVault.createHDAccount.mockResolvedValueOnce(accounts);
 
-      await createHDAccount(WalletType.OnChain, '  MyWallet  ');
+      await createHDAccount(WalletType.OnChain, AuthScheme.Falcon, '  MyWallet  ');
 
-      expect(mockVault.createHDAccount).toHaveBeenCalledWith(WalletType.OnChain, 'MyWallet');
+      expect(mockVault.createHDAccount).toHaveBeenCalledWith(WalletType.OnChain, AuthScheme.Falcon, 'MyWallet');
       expect(mockAccountsUpdated).toHaveBeenCalledWith({ accounts });
     });
 
     it('throws for name longer than 16 characters', async () => {
       const longName = 'a'.repeat(17);
 
-      await expect(createHDAccount(WalletType.OnChain, longName)).rejects.toThrow('Invalid name');
+      await expect(createHDAccount(WalletType.OnChain, AuthScheme.Falcon, longName)).rejects.toThrow('Invalid name');
     });
   });
 

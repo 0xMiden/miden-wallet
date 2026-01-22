@@ -2,6 +2,7 @@ import * as Actions from 'lib/miden/back/actions';
 import { store } from 'lib/miden/back/store';
 import { MidenMessageType } from 'lib/miden/types';
 import { WalletMessageType } from 'lib/shared/types';
+import { AuthScheme, WalletType } from 'screens/onboarding/types';
 
 import { MobileIntercomAdapter, getMobileIntercomAdapter } from './mobile-adapter';
 
@@ -81,12 +82,13 @@ describe('MobileIntercomAdapter', () => {
     it('handles NewWalletRequest', async () => {
       const response = await adapter.request({
         type: WalletMessageType.NewWalletRequest,
+        authScheme: AuthScheme.Falcon,
         password: 'test123',
         mnemonic: 'word1 word2 word3',
         ownMnemonic: false
-      } as any);
+      });
 
-      expect(Actions.registerNewWallet).toHaveBeenCalledWith('test123', 'word1 word2 word3', false);
+      expect(Actions.registerNewWallet).toHaveBeenCalledWith('test123', AuthScheme.Falcon, 'word1 word2 word3', false);
       expect(response).toEqual({ type: WalletMessageType.NewWalletResponse });
     });
 
@@ -123,11 +125,12 @@ describe('MobileIntercomAdapter', () => {
     it('handles CreateAccountRequest', async () => {
       const response = await adapter.request({
         type: WalletMessageType.CreateAccountRequest,
-        walletType: 'public',
+        authScheme: AuthScheme.Falcon,
+        walletType: WalletType.OnChain,
         name: 'Test Account'
-      } as any);
+      });
 
-      expect(Actions.createHDAccount).toHaveBeenCalledWith('public', 'Test Account');
+      expect(Actions.createHDAccount).toHaveBeenCalledWith(WalletType.OnChain, AuthScheme.Falcon, 'Test Account');
       expect(response).toEqual({ type: WalletMessageType.CreateAccountResponse });
     });
 
