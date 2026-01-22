@@ -413,59 +413,83 @@ public class LocalBiometricPlugin: CAPPlugin, CAPBridgedPlugin {
             return
         }
 
-        // Get the private key (this will trigger biometric authentication)
+        // Explicitly trigger biometric authentication BEFORE accessing the key
+        // This is necessary because SecItemCopyMatching may not always show the prompt
+        // on some iOS versions when using kSecUseAuthenticationContext
         let context = LAContext()
-        context.localizedReason = "Unlock your wallet"
 
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassKey,
-            kSecAttrApplicationTag as String: kHardwareKeyTag.data(using: .utf8)!,
-            kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
-            kSecReturnRef as String: true,
-            kSecUseAuthenticationContext as String: context
-        ]
+        // Use deviceOwnerAuthentication to allow both biometric and passcode
+        let policy = LAPolicy.deviceOwnerAuthentication
 
-        var keyRef: CFTypeRef?
-        let status = SecItemCopyMatching(query as CFDictionary, &keyRef)
+        os_log("[LocalBiometric] Triggering biometric authentication...", log: logger, type: .debug)
 
-        guard status == errSecSuccess, let privateKey = keyRef else {
-            os_log("[LocalBiometric] Failed to get private key: %{public}d", log: logger, type: .error, status)
-            if status == errSecUserCanceled {
-                call.reject("Authentication cancelled", "USER_CANCELLED")
-            } else if status == errSecAuthFailed {
-                call.reject("Authentication failed", "AUTH_FAILED")
-            } else {
-                call.reject("Failed to access hardware key: \(status)")
+        context.evaluatePolicy(policy, localizedReason: "Unlock your wallet") { success, error in
+            if !success {
+                let errorCode = (error as NSError?)?.code ?? 0
+                os_log("[LocalBiometric] Biometric auth failed: %{public}@", log: logger, type: .error, error?.localizedDescription ?? "unknown")
+                if errorCode == LAError.userCancel.rawValue {
+                    call.reject("Authentication cancelled", "USER_CANCELLED")
+                } else if errorCode == LAError.authenticationFailed.rawValue {
+                    call.reject("Authentication failed", "AUTH_FAILED")
+                } else {
+                    call.reject("Authentication failed: \(error?.localizedDescription ?? "unknown")")
+                }
+                return
             }
-            return
+
+            os_log("[LocalBiometric] Biometric auth successful, accessing key...", log: logger, type: .debug)
+
+            // Now access the key using the authenticated context
+            let query: [String: Any] = [
+                kSecClass as String: kSecClassKey,
+                kSecAttrApplicationTag as String: kHardwareKeyTag.data(using: .utf8)!,
+                kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
+                kSecReturnRef as String: true,
+                kSecUseAuthenticationContext as String: context
+            ]
+
+            var keyRef: CFTypeRef?
+            let status = SecItemCopyMatching(query as CFDictionary, &keyRef)
+
+            guard status == errSecSuccess, let privateKey = keyRef else {
+                os_log("[LocalBiometric] Failed to get private key: %{public}d", log: logger, type: .error, status)
+                if status == errSecUserCanceled {
+                    call.reject("Authentication cancelled", "USER_CANCELLED")
+                } else if status == errSecAuthFailed {
+                    call.reject("Authentication failed", "AUTH_FAILED")
+                } else {
+                    call.reject("Failed to access hardware key: \(status)")
+                }
+                return
+            }
+
+            // ECDH to derive shared secret
+            var dhError: Unmanaged<CFError>?
+            guard let sharedSecret = SecKeyCopyKeyExchangeResult(
+                privateKey as! SecKey,
+                .ecdhKeyExchangeStandard,
+                ephemeralPublicKey,
+                [:] as CFDictionary,
+                &dhError
+            ) as Data? else {
+                let errorMsg = dhError?.takeRetainedValue().localizedDescription ?? "Unknown error"
+                call.reject("Failed to perform ECDH: \(errorMsg)")
+                return
+            }
+
+            // Derive AES key from shared secret
+            let aesKey = self.deriveAESKey(from: sharedSecret)
+
+            // Decrypt with AES-GCM
+            guard let decrypted = self.aesGCMDecrypt(data: Data(ciphertextAndTag), key: aesKey, iv: Data(iv)),
+                  let decryptedString = String(data: decrypted, encoding: .utf8) else {
+                call.reject("Failed to decrypt data")
+                return
+            }
+
+            os_log("[LocalBiometric] decryptWithHardwareKey success", log: logger, type: .debug)
+            call.resolve(["decrypted": decryptedString])
         }
-
-        // ECDH to derive shared secret
-        var dhError: Unmanaged<CFError>?
-        guard let sharedSecret = SecKeyCopyKeyExchangeResult(
-            privateKey as! SecKey,
-            .ecdhKeyExchangeStandard,
-            ephemeralPublicKey,
-            [:] as CFDictionary,
-            &dhError
-        ) as Data? else {
-            let errorMsg = dhError?.takeRetainedValue().localizedDescription ?? "Unknown error"
-            call.reject("Failed to perform ECDH: \(errorMsg)")
-            return
-        }
-
-        // Derive AES key from shared secret
-        let aesKey = deriveAESKey(from: sharedSecret)
-
-        // Decrypt with AES-GCM
-        guard let decrypted = aesGCMDecrypt(data: Data(ciphertextAndTag), key: aesKey, iv: Data(iv)),
-              let decryptedString = String(data: decrypted, encoding: .utf8) else {
-            call.reject("Failed to decrypt data")
-            return
-        }
-
-        os_log("[LocalBiometric] decryptWithHardwareKey success", log: logger, type: .debug)
-        call.resolve(["decrypted": decryptedString])
     }
 
     /// Delete the hardware-backed key
