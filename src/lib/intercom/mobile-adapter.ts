@@ -67,11 +67,11 @@ export class MobileIntercomAdapter {
         };
 
       case WalletMessageType.NewWalletRequest:
-        await Actions.registerNewWallet((req as any).password, (req as any).mnemonic, (req as any).ownMnemonic);
+        await Actions.registerNewWallet(req.password, req.mnemonic, req.ownMnemonic);
         return { type: WalletMessageType.NewWalletResponse };
 
       case WalletMessageType.ImportFromClientRequest:
-        await Actions.registerImportedWallet(req.password, req.mnemonic, req.walletAccounts);
+        await Actions.registerImportedWallet(req.password, req.mnemonic, req.walletAccounts, req.skForImportedAccounts);
         return { type: WalletMessageType.ImportFromClientResponse };
 
       case WalletMessageType.UnlockRequest:
@@ -95,6 +95,12 @@ export class MobileIntercomAdapter {
         return {
           type: WalletMessageType.RevealMnemonicResponse,
           mnemonic
+        };
+      case WalletMessageType.RevealPrivateKeyRequest:
+        const privateKey = await Actions.revealPrivateKey(req.accountPublicKey, req.password);
+        return {
+          type: WalletMessageType.RevealPrivateKeyResponse,
+          privateKey
         };
 
       case WalletMessageType.RemoveAccountRequest:

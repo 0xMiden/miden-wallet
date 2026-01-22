@@ -36,7 +36,6 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
     clearErrors,
     formState: { errors, isSubmitting }
   } = useForm<FormData>();
-
   const [secret, setSecret] = useSecretState();
 
   useEffect(() => {
@@ -66,13 +65,17 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
   const onSubmit = useCallback<SubmitHandler<FormData>>(
     async ({ password }) => {
       if (isSubmitting) return;
-
+      console.log('Revealing secret...');
       clearErrors('password');
       try {
         let secret;
         if (reveal === 'private-key') {
-          const pkc = await getAccountPublicKeyCommitment(account.publicKey);
+          const pkc = await withWasmClientLock(async () => {
+            const client = await getMidenClient();
+            return client.getAccountPkcByPublicKey(account.publicKey);
+          });
           secret = await revealPrivateKey(pkc, password);
+          console.log('Revealed private key');
         } else {
           secret = await revealMnemonic(password);
         }
@@ -119,30 +122,13 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
               <span className="text-xs">{t('doNotSharePrivateKey2')}</span>
             </div>
           ),
-          fieldDesc: t('privateKeyFieldDescription')
+          fieldDesc: <>{t('privateKeyFieldDescription')}</>
         };
 
       case 'seed-phrase':
         return {
           name: t('seedPhrase'),
           accountBanner: null,
-          derivationPathBanner: (
-            <div className={classNames('mb-6 mt-4', 'flex flex-col')}>
-              <h2 className={classNames('mb-4', 'leading-tight', 'flex flex-col')}>
-                <span className="text-black font-medium" style={{ fontSize: '14px', lineHeight: '20px' }}>
-                  {t('derivationPath')}
-                </span>
-
-                <span className={classNames('mt-2', 'text-xs  text-black')} style={{ maxWidth: '90%' }}>
-                  {t('pathForHDAccounts')}
-                </span>
-              </h2>
-
-              <div className={classNames('w-full', 'border rounded-md', 'p-2', 'flex items-center')}>
-                <span className="text-sm font-medium text-black">{t('derivationPathExample')}</span>
-              </div>
-            </div>
-          ),
           attention: (
             <div className="flex flex-col text-left text-black">
               <span className="font-medium" style={{ fontSize: '14px', lineHeight: '20px', marginBottom: '4px' }}>
@@ -228,7 +214,7 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
         <FormField
           {...register('password', { required: t('required') })}
           label={t('password')}
-          labelDescription={t('revealSecretPasswordInputDescription', texts.name)}
+          labelDescription={t('revealSecretPasswordInputDescription', { secretName: texts.name })}
           id="reveal-secret-password"
           type="password"
           name="password"
@@ -279,17 +265,3 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
 };
 
 export default RevealSecret;
-
-const getAccountPublicKeyCommitment = async (accPublicKey: string) => {
-  const publicKeyCommitment = await withWasmClientLock(async () => {
-    const client = await getMidenClient();
-    const account = await client.getAccount(accPublicKey);
-    if (!account) {
-      throw new Error('Account not found');
-    }
-    const pubKeys = account.getPublicKeys();
-    // As normal accounts only have one public key which is the case for the wallet, we return the first one.
-    return pubKeys[0].toHex();
-  });
-  return publicKeyCommitment.slice(2); // Remove '0x' prefix
-};
