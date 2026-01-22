@@ -54,6 +54,9 @@ const Unlock: FC<UnlockProps> = ({ openForgotPasswordInFullPage = false }) => {
   const [hardwareUnlockAttempted, setHardwareUnlockAttempted] = useState(false);
   const [hardwareUnlockChecked, setHardwareUnlockChecked] = useState(false);
 
+  // Use ref to prevent double unlock attempts (React 18 Strict Mode runs effects twice)
+  const unlockInProgressRef = useRef(false);
+
   // On mobile/desktop, try hardware unlock automatically on mount
   useEffect(() => {
     const tryHardwareUnlock = async () => {
@@ -62,6 +65,14 @@ const Unlock: FC<UnlockProps> = ({ openForgotPasswordInFullPage = false }) => {
         setHardwareUnlockChecked(true);
         return;
       }
+
+      // Guard against double invocation (React Strict Mode, unstable deps, etc.)
+      if (unlockInProgressRef.current) {
+        console.log('[Unlock] Hardware unlock already in progress, skipping');
+        return;
+      }
+      unlockInProgressRef.current = true;
+
       setHardwareUnlockAttempted(true);
 
       try {
