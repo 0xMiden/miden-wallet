@@ -90,7 +90,11 @@ export function registerNewWallet(password?: string, mnemonic?: string, ownMnemo
   });
 }
 
-export function registerImportedWallet(mnemonic: string, walletAccounts: WalletAccount[], password?: string) {
+export function registerImportedWallet(
+  password: string | undefined,
+  mnemonic: string,
+  walletAccounts: WalletAccount[]
+) {
   return withInited(async () => {
     // Password may be undefined for hardware-only wallets
     // spawnFromMidenClient() returns the vault directly, avoiding a second biometric prompt

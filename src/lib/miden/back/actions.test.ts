@@ -245,11 +245,12 @@ describe('actions', () => {
       };
       Vault.spawnFromMidenClient.mockResolvedValueOnce(mockVaultInstance);
 
-      await registerImportedWallet('password123', 'mnemonic words');
+      await registerImportedWallet('password123', 'mnemonic words', []);
 
-      expect(Vault.spawnFromMidenClient).toHaveBeenCalledWith('password123', 'mnemonic words');
       expect(mockVaultInstance.fetchAccounts).toHaveBeenCalled();
       expect(mockUnlocked).toHaveBeenCalled();
+      expect(Vault.spawnFromMidenClient).toHaveBeenCalledWith('password123', 'mnemonic words', []);
+      expect(Vault.setup).toHaveBeenCalledWith('password123');
     });
   });
 
