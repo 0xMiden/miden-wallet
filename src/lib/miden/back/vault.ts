@@ -191,8 +191,8 @@ export class Vault {
     return passKey;
   }
 
-  static async spawn(password: string, mnemonic?: string, ownMnemonic?: boolean) {
-    return withError('Failed to create wallet', async () => {
+  static async spawn(password: string, mnemonic?: string, ownMnemonic?: boolean): Promise<Vault> {
+    return withError('Failed to create wallet', async (): Promise<Vault> => {
       // Generate random vault key (256-bit)
       const vaultKeyBytes = Passworder.generateVaultKey();
       const vaultKey = await Passworder.importVaultKey(vaultKeyBytes);
@@ -277,11 +277,14 @@ export class Vault {
       );
       await savePlain(currentAccPubKeyStrgKey, accPublicKey);
       await savePlain(ownMnemonicStrgKey, ownMnemonic ?? false);
+
+      // Return the vault instance so caller doesn't need to call unlock() separately
+      return new Vault(vaultKey);
     });
   }
 
-  static async spawnFromMidenClient(password: string, mnemonic: string) {
-    return withError('Failed to spawn from miden client', async () => {
+  static async spawnFromMidenClient(password: string, mnemonic: string): Promise<Vault> {
+    return withError('Failed to spawn from miden client', async (): Promise<Vault> => {
       // Wrap WASM client operations in a lock to prevent concurrent access
       const accounts = await withWasmClientLock(async () => {
         const midenClient = await getMidenClient();
@@ -344,6 +347,9 @@ export class Vault {
       );
       await savePlain(currentAccPubKeyStrgKey, newAccounts[0].publicKey);
       await savePlain(ownMnemonicStrgKey, true);
+
+      // Return the vault instance so caller doesn't need to call unlock() separately
+      return new Vault(vaultKey);
     });
   }
 

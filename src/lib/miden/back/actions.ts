@@ -78,10 +78,14 @@ export function registerNewWallet(password?: string, mnemonic?: string, ownMnemo
     console.log('[Actions.registerNewWallet] Starting...');
     // Password may be undefined for hardware-only wallets (mobile/desktop with Secure Enclave)
     // Vault.spawn() will handle this by using hardware protection instead
-    await Vault.spawn(password ?? '', mnemonic, ownMnemonic);
-    console.log('[Actions.registerNewWallet] Vault.spawn completed, calling unlock...');
-    // For hardware-only wallets, unlock without password to trigger biometric
-    await unlock(password);
+    // spawn() returns the vault directly, avoiding a second biometric prompt from unlock()
+    const vault = await Vault.spawn(password ?? '', mnemonic, ownMnemonic);
+    console.log('[Actions.registerNewWallet] Vault.spawn completed, initializing state...');
+    const accounts = await vault.fetchAccounts();
+    const settings = await vault.fetchSettings();
+    const currentAccount = await vault.getCurrentAccount();
+    const ownMnemonicFlag = await vault.isOwnMnemonic();
+    unlocked({ vault, accounts, settings, currentAccount, ownMnemonic: ownMnemonicFlag });
     console.log('[Actions.registerNewWallet] Completed');
   });
 }
@@ -89,8 +93,13 @@ export function registerNewWallet(password?: string, mnemonic?: string, ownMnemo
 export function registerImportedWallet(password?: string, mnemonic?: string) {
   return withInited(async () => {
     // Password may be undefined for hardware-only wallets
-    await Vault.spawnFromMidenClient(password ?? '', mnemonic ?? '');
-    await unlock(password);
+    // spawnFromMidenClient() returns the vault directly, avoiding a second biometric prompt
+    const vault = await Vault.spawnFromMidenClient(password ?? '', mnemonic ?? '');
+    const accounts = await vault.fetchAccounts();
+    const settings = await vault.fetchSettings();
+    const currentAccount = await vault.getCurrentAccount();
+    const ownMnemonicFlag = await vault.isOwnMnemonic();
+    unlocked({ vault, accounts, settings, currentAccount, ownMnemonic: ownMnemonicFlag });
   });
 }
 
