@@ -286,6 +286,8 @@ public class LocalBiometricPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     /// Encrypt data using the hardware-backed key (ECIES)
+    /// Triggers biometric auth for consistency with Android (even though iOS encryption
+    /// technically only needs the public key which doesn't require auth)
     @objc func encryptWithHardwareKey(_ call: CAPPluginCall) {
         os_log("[LocalBiometric] encryptWithHardwareKey called", log: logger, type: .debug)
 
@@ -294,7 +296,7 @@ public class LocalBiometricPlugin: CAPPlugin, CAPBridgedPlugin {
             return
         }
 
-        // Get the public key (doesn't require biometric auth)
+        // Get the public key (doesn't require biometric auth technically, but we verify anyway)
         guard let publicKey = getHardwarePublicKey() else {
             call.reject("Hardware key not found")
             return
@@ -305,70 +307,96 @@ public class LocalBiometricPlugin: CAPPlugin, CAPBridgedPlugin {
             return
         }
 
-        // ECIES encryption:
-        // 1. Generate ephemeral key pair
-        // 2. ECDH to derive shared secret
-        // 3. Derive AES key from shared secret
-        // 4. Encrypt with AES-GCM
+        // Trigger biometric authentication for consistency with Android
+        // On Android, the symmetric key requires auth for both encrypt and decrypt
+        // On iOS, we use asymmetric ECIES where only decrypt needs auth, but we
+        // verify identity during encrypt too for consistent UX across platforms
+        let context = LAContext()
+        let policy = LAPolicy.deviceOwnerAuthentication
 
-        // Generate ephemeral key pair
-        let ephemeralAttributes: [String: Any] = [
-            kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
-            kSecAttrKeySizeInBits as String: 256
-        ]
+        os_log("[LocalBiometric] Triggering biometric authentication for encryption...", log: logger, type: .debug)
 
-        var ephemeralError: Unmanaged<CFError>?
-        guard let ephemeralPrivateKey = SecKeyCreateRandomKey(ephemeralAttributes as CFDictionary, &ephemeralError),
-              let ephemeralPublicKey = SecKeyCopyPublicKey(ephemeralPrivateKey) else {
-            let errorMsg = ephemeralError?.takeRetainedValue().localizedDescription ?? "Unknown error"
-            call.reject("Failed to create ephemeral key: \(errorMsg)")
-            return
+        context.evaluatePolicy(policy, localizedReason: "Set up wallet security") { success, error in
+            if !success {
+                let errorCode = (error as NSError?)?.code ?? 0
+                os_log("[LocalBiometric] Biometric auth failed during encryption: %{public}@", log: logger, type: .error, error?.localizedDescription ?? "unknown")
+                if errorCode == LAError.userCancel.rawValue {
+                    call.reject("Authentication cancelled", "USER_CANCELLED")
+                } else if errorCode == LAError.authenticationFailed.rawValue {
+                    call.reject("Authentication failed", "AUTH_FAILED")
+                } else {
+                    call.reject("Authentication failed: \(error?.localizedDescription ?? "unknown")")
+                }
+                return
+            }
+
+            os_log("[LocalBiometric] Biometric auth successful, proceeding with encryption...", log: logger, type: .debug)
+
+            // ECIES encryption:
+            // 1. Generate ephemeral key pair
+            // 2. ECDH to derive shared secret
+            // 3. Derive AES key from shared secret
+            // 4. Encrypt with AES-GCM
+
+            // Generate ephemeral key pair
+            let ephemeralAttributes: [String: Any] = [
+                kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
+                kSecAttrKeySizeInBits as String: 256
+            ]
+
+            var ephemeralError: Unmanaged<CFError>?
+            guard let ephemeralPrivateKey = SecKeyCreateRandomKey(ephemeralAttributes as CFDictionary, &ephemeralError),
+                  let ephemeralPublicKey = SecKeyCopyPublicKey(ephemeralPrivateKey) else {
+                let errorMsg = ephemeralError?.takeRetainedValue().localizedDescription ?? "Unknown error"
+                call.reject("Failed to create ephemeral key: \(errorMsg)")
+                return
+            }
+
+            // ECDH to derive shared secret
+            var dhError: Unmanaged<CFError>?
+            guard let sharedSecret = SecKeyCopyKeyExchangeResult(
+                ephemeralPrivateKey,
+                .ecdhKeyExchangeStandard,
+                publicKey,
+                [:] as CFDictionary,
+                &dhError
+            ) as Data? else {
+                let errorMsg = dhError?.takeRetainedValue().localizedDescription ?? "Unknown error"
+                call.reject("Failed to perform ECDH: \(errorMsg)")
+                return
+            }
+
+            // Derive AES-256 key from shared secret using SHA-256
+            let aesKey = self.deriveAESKey(from: sharedSecret)
+
+            // Generate random IV (12 bytes for GCM)
+            var iv = Data(count: 12)
+            _ = iv.withUnsafeMutableBytes { SecRandomCopyBytes(kSecRandomDefault, 12, $0.baseAddress!) }
+
+            // Encrypt with AES-GCM
+            guard let encrypted = self.aesGCMEncrypt(data: dataBytes, key: aesKey, iv: iv) else {
+                call.reject("Failed to encrypt data")
+                return
+            }
+
+            // Export ephemeral public key
+            var exportError: Unmanaged<CFError>?
+            guard let ephemeralPubKeyData = SecKeyCopyExternalRepresentation(ephemeralPublicKey, &exportError) as Data? else {
+                let errorMsg = exportError?.takeRetainedValue().localizedDescription ?? "Unknown error"
+                call.reject("Failed to export ephemeral public key: \(errorMsg)")
+                return
+            }
+
+            // Pack: ephemeralPubKey (65 bytes) + IV (12 bytes) + ciphertext + tag (16 bytes)
+            var result = Data()
+            result.append(ephemeralPubKeyData)
+            result.append(iv)
+            result.append(encrypted)
+
+            let base64Result = result.base64EncodedString()
+            os_log("[LocalBiometric] encryptWithHardwareKey success", log: logger, type: .debug)
+            call.resolve(["encrypted": base64Result])
         }
-
-        // ECDH to derive shared secret
-        var dhError: Unmanaged<CFError>?
-        guard let sharedSecret = SecKeyCopyKeyExchangeResult(
-            ephemeralPrivateKey,
-            .ecdhKeyExchangeStandard,
-            publicKey,
-            [:] as CFDictionary,
-            &dhError
-        ) as Data? else {
-            let errorMsg = dhError?.takeRetainedValue().localizedDescription ?? "Unknown error"
-            call.reject("Failed to perform ECDH: \(errorMsg)")
-            return
-        }
-
-        // Derive AES-256 key from shared secret using SHA-256
-        let aesKey = deriveAESKey(from: sharedSecret)
-
-        // Generate random IV (12 bytes for GCM)
-        var iv = Data(count: 12)
-        _ = iv.withUnsafeMutableBytes { SecRandomCopyBytes(kSecRandomDefault, 12, $0.baseAddress!) }
-
-        // Encrypt with AES-GCM
-        guard let encrypted = aesGCMEncrypt(data: dataBytes, key: aesKey, iv: iv) else {
-            call.reject("Failed to encrypt data")
-            return
-        }
-
-        // Export ephemeral public key
-        var exportError: Unmanaged<CFError>?
-        guard let ephemeralPubKeyData = SecKeyCopyExternalRepresentation(ephemeralPublicKey, &exportError) as Data? else {
-            let errorMsg = exportError?.takeRetainedValue().localizedDescription ?? "Unknown error"
-            call.reject("Failed to export ephemeral public key: \(errorMsg)")
-            return
-        }
-
-        // Pack: ephemeralPubKey (65 bytes) + IV (12 bytes) + ciphertext + tag (16 bytes)
-        var result = Data()
-        result.append(ephemeralPubKeyData)
-        result.append(iv)
-        result.append(encrypted)
-
-        let base64Result = result.base64EncodedString()
-        os_log("[LocalBiometric] encryptWithHardwareKey success", log: logger, type: .debug)
-        call.resolve(["encrypted": base64Result])
     }
 
     /// Decrypt data using the hardware-backed key (triggers biometric auth)
