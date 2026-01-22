@@ -1353,6 +1353,18 @@
     "message": "12 単語のSeed Phraseを知っている場合、または暗号化されたバックアップ ファイルがない場合は、サインアウトしないでください。",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
+  "biometricUnlockRequired": {
+    "message": "生体認証によるロック解除が必要です",
+    "englishSource": "Biometric Unlock Required"
+  },
+  "biometricUnlockRequiredDescription": {
+    "message": "このウォレットは生体認証のみを使用します。 Face ID、Touch ID、またはデバイスのパスコードを使用してロックを解除します。別のデバイスでウォレットにアクセスするには、12 単語の Seed phrase を使用します。",
+    "englishSource": "This wallet uses biometric authentication only. Use Face ID, Touch ID, or your device passcode to unlock. To access your wallet on another device, use your 12-word Seed phrase."
+  },
+  "resetWallet": {
+    "message": "ウォレットをリセット",
+    "englishSource": "Reset Wallet"
+  },
   "signOut": {
     "message": "サインアウト",
     "englishSource": "Sign Out"

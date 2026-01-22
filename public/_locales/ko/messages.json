@@ -1353,6 +1353,18 @@
     "message": "12단어 Seed 문구를 모르거나 암호화된 백업 파일이 없으면 로그아웃하지 마세요.",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
+  "biometricUnlockRequired": {
+    "message": "생체 인식 잠금 해제 필요",
+    "englishSource": "Biometric Unlock Required"
+  },
+  "biometricUnlockRequiredDescription": {
+    "message": "이 지갑은 생체인증만을 사용합니다. 잠금을 해제하려면 Face ID, Touch ID 또는 기기 암호를 사용하세요. 다른 기기에서 지갑에 접근하려면 12단어 Seed phrase를 사용하세요.",
+    "englishSource": "This wallet uses biometric authentication only. Use Face ID, Touch ID, or your device passcode to unlock. To access your wallet on another device, use your 12-word Seed phrase."
+  },
+  "resetWallet": {
+    "message": "지갑 재설정",
+    "englishSource": "Reset Wallet"
+  },
   "signOut": {
     "message": "로그아웃",
     "englishSource": "Sign Out"

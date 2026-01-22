@@ -1353,6 +1353,18 @@
     "message": "除非您知道 12 字Seed Phrase或拥有加密备份文件，否则请勿注销。",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
+  "biometricUnlockRequired": {
+    "message": "需要生物识别解锁",
+    "englishSource": "Biometric Unlock Required"
+  },
+  "biometricUnlockRequiredDescription": {
+    "message": "该钱包仅使用生物识别身份验证。使用面容 ID、触摸 ID 或设备密码进行解锁。要在其他设备上访问您的钱包，请使用 12 个单词的 Seed phrase。",
+    "englishSource": "This wallet uses biometric authentication only. Use Face ID, Touch ID, or your device passcode to unlock. To access your wallet on another device, use your 12-word Seed phrase."
+  },
+  "resetWallet": {
+    "message": "重置钱包",
+    "englishSource": "Reset Wallet"
+  },
   "signOut": {
     "message": "登出",
     "englishSource": "Sign Out"

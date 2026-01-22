@@ -1294,6 +1294,18 @@
     "message": "Nie wylogowuj się, jeśli nie znasz frazy początkowej składającej się z 12 słów lub nie masz zaszyfrowanego pliku kopii zapasowej.",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
+  "biometricUnlockRequired": {
+    "message": "Wymagane odblokowanie biometryczne",
+    "englishSource": "Biometric Unlock Required"
+  },
+  "biometricUnlockRequiredDescription": {
+    "message": "Ten portfel wykorzystuje wyłącznie uwierzytelnianie biometryczne. Aby odblokować, użyj funkcji Face ID, Touch ID lub hasła urządzenia. Aby uzyskać dostęp do portfela na innym urządzeniu, użyj 12-wyrazowego Seed phrase.",
+    "englishSource": "This wallet uses biometric authentication only. Use Face ID, Touch ID, or your device passcode to unlock. To access your wallet on another device, use your 12-word Seed phrase."
+  },
+  "resetWallet": {
+    "message": "Zresetuj portfel",
+    "englishSource": "Reset Wallet"
+  },
   "signOut": {
     "message": "Wyloguj się",
     "englishSource": "Sign Out"

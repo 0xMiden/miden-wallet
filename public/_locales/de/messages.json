@@ -1353,6 +1353,18 @@
     "message": "Melden Sie sich nicht ab, es sei denn, Sie kennen Ihre 12-Wörter-Seed Phrase oder haben eine verschlüsselte Sicherungsdatei.",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
+  "biometricUnlockRequired": {
+    "message": "Biometrische Freischaltung erforderlich",
+    "englishSource": "Biometric Unlock Required"
+  },
+  "biometricUnlockRequiredDescription": {
+    "message": "Diese Brieftasche verwendet ausschließlich die biometrische Authentifizierung. Verwenden Sie zum Entsperren Face ID, Touch ID oder den Passcode Ihres Geräts. Um auf einem anderen Gerät auf Ihr Wallet zuzugreifen, verwenden Sie Ihren 12-Wort-Code Seed phrase.",
+    "englishSource": "This wallet uses biometric authentication only. Use Face ID, Touch ID, or your device passcode to unlock. To access your wallet on another device, use your 12-word Seed phrase."
+  },
+  "resetWallet": {
+    "message": "Wallet zurücksetzen",
+    "englishSource": "Reset Wallet"
+  },
   "signOut": {
     "message": "Abmelden",
     "englishSource": "Sign Out"

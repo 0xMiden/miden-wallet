@@ -1353,6 +1353,18 @@
     "message": "Не виходьте з облікового запису, якщо ви не знаєте свою Seed Phrase з 12 слів або не маєте зашифрованого резервного файлу.",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
+  "biometricUnlockRequired": {
+    "message": "Потрібне біометричне розблокування",
+    "englishSource": "Biometric Unlock Required"
+  },
+  "biometricUnlockRequiredDescription": {
+    "message": "Цей гаманець використовує лише біометричну автентифікацію. Для розблокування використовуйте Face ID, Touch ID або пароль свого пристрою. Щоб отримати доступ до свого гаманця на іншому пристрої, використовуйте Seed phrase із 12 слів.",
+    "englishSource": "This wallet uses biometric authentication only. Use Face ID, Touch ID, or your device passcode to unlock. To access your wallet on another device, use your 12-word Seed phrase."
+  },
+  "resetWallet": {
+    "message": "Скинути гаманець",
+    "englishSource": "Reset Wallet"
+  },
   "signOut": {
     "message": "Вийти",
     "englishSource": "Sign Out"

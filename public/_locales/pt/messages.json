@@ -1353,6 +1353,18 @@
     "message": "Não saia a menos que você saiba sua frase-semente de 12 palavras ou tenha um arquivo de backup criptografado.",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
+  "biometricUnlockRequired": {
+    "message": "Desbloqueio biométrico necessário",
+    "englishSource": "Biometric Unlock Required"
+  },
+  "biometricUnlockRequiredDescription": {
+    "message": "Esta carteira usa apenas autenticação biométrica. Use Face ID, Touch ID ou a senha do seu dispositivo para desbloquear. Para acessar sua carteira em outro dispositivo, use seu Seed phrase de 12 palavras.",
+    "englishSource": "This wallet uses biometric authentication only. Use Face ID, Touch ID, or your device passcode to unlock. To access your wallet on another device, use your 12-word Seed phrase."
+  },
+  "resetWallet": {
+    "message": "Redefinir carteira",
+    "englishSource": "Reset Wallet"
+  },
   "signOut": {
     "message": "Sair",
     "englishSource": "Sign Out"

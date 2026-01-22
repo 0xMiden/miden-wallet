@@ -1353,6 +1353,18 @@
     "message": "Не выходите из системы, если вы не знаете свою Seed-фразу из 12 слов или не имеете зашифрованного файла резервной копии.",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
+  "biometricUnlockRequired": {
+    "message": "Требуется биометрическая разблокировка",
+    "englishSource": "Biometric Unlock Required"
+  },
+  "biometricUnlockRequiredDescription": {
+    "message": "Этот кошелек использует только биометрическую аутентификацию. Используйте Face ID, Touch ID или пароль вашего устройства для разблокировки. Чтобы получить доступ к своему кошельку на другом устройстве, используйте свой Seed phrase из 12 слов.",
+    "englishSource": "This wallet uses biometric authentication only. Use Face ID, Touch ID, or your device passcode to unlock. To access your wallet on another device, use your 12-word Seed phrase."
+  },
+  "resetWallet": {
+    "message": "Сбросить кошелек",
+    "englishSource": "Reset Wallet"
+  },
   "signOut": {
     "message": "Выход",
     "englishSource": "Sign Out"

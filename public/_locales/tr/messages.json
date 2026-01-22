@@ -1352,6 +1352,18 @@
     "message": "12 kelimelik Seed ifadenizi bilmediğiniz veya şifrelenmiş bir yedekleme dosyanız olmadığı sürece oturumunuzu kapatmayın.",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
+  "biometricUnlockRequired": {
+    "message": "Biyometrik Kilit Açma Gerekli",
+    "englishSource": "Biometric Unlock Required"
+  },
+  "biometricUnlockRequiredDescription": {
+    "message": "Bu cüzdan yalnızca biyometrik kimlik doğrulamayı kullanır. Kilidi açmak için Face ID'yi, Touch ID'yi veya cihazınızın şifresini kullanın. Cüzdanınıza başka bir cihazdan erişmek için 12 kelimelik Seed phrase kodunuzu kullanın.",
+    "englishSource": "This wallet uses biometric authentication only. Use Face ID, Touch ID, or your device passcode to unlock. To access your wallet on another device, use your 12-word Seed phrase."
+  },
+  "resetWallet": {
+    "message": "Cüzdanı Sıfırla",
+    "englishSource": "Reset Wallet"
+  },
   "signOut": {
     "message": "Oturumu Kapat",
     "englishSource": "Sign Out"
