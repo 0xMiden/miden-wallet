@@ -1,19 +1,8 @@
-import { isDesktop, isMobile } from 'lib/platform';
+import { isMobile } from 'lib/platform';
 import { WalletState, WalletStatus } from 'lib/shared/types';
 import { useWalletStore } from 'lib/store';
 
 import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
-
-// Debug logging for desktop
-async function syncLog(message: string): Promise<void> {
-  console.log(message);
-  if (isDesktop()) {
-    try {
-      const { tauriLog } = await import('lib/desktop/secure-storage');
-      await tauriLog(message);
-    } catch {}
-  }
-}
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
@@ -96,24 +85,16 @@ export class Sync {
 
     // Set syncing status to true before sync
     useWalletStore.getState().setSyncStatus(true);
-    await syncLog(`[AutoSync] Starting sync #${syncDebugInfo.syncCount + 1}...`);
 
     try {
-      // Wrap WASM client operations in a lock to prevent concurrent access
-      await syncLog('[AutoSync] Acquiring WASM lock...');
       const blockNum = await withWasmClientLock(async () => {
-        await syncLog('[AutoSync] Got lock, getting client...');
         const client = await getMidenClient();
         if (!client) {
           syncDebugInfo.lastError = 'getMidenClient returned null';
-          await syncLog('[AutoSync] ERROR: getMidenClient returned null');
           return null;
         }
-        await syncLog('[AutoSync] Got client, calling syncState()...');
         const syncSummary = await client.syncState();
-        const bn = syncSummary.blockNum();
-        await syncLog(`[AutoSync] syncState() completed, blockNum=${bn}`);
-        return bn;
+        return syncSummary.blockNum();
       });
 
       if (blockNum !== null) {
@@ -123,15 +104,11 @@ export class Sync {
       }
       syncDebugInfo.syncCount++;
       syncDebugInfo.lastSyncTime = new Date().toLocaleTimeString();
-      await syncLog(`[AutoSync] Sync complete, count=${syncDebugInfo.syncCount}, blockNum=${blockNum}`);
     } catch (error) {
-      // Log error but continue the sync loop - don't let errors stop syncing
       console.error('[AutoSync] Error during sync:', error);
-      await syncLog(`[AutoSync] ERROR: ${error instanceof Error ? error.message : String(error)}`);
       syncDebugInfo.lastError = String(error);
       syncDebugInfo.lastSyncTime = new Date().toLocaleTimeString();
     } finally {
-      // Set syncing status to false after sync completes
       useWalletStore.getState().setSyncStatus(false);
     }
 

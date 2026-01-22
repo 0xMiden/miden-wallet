@@ -51,20 +51,15 @@ export function createIntercomClient(): IIntercomClient {
   // Extra check for Tauri - look for globals directly
   const hasTauriGlobal = typeof window !== 'undefined' && ('__TAURI__' in window || '__TAURI_INTERNALS__' in window);
 
-  console.log('[createIntercomClient] Platform check:', { mobile, desktop, hasTauriGlobal });
-
   if (mobile) {
-    console.log('[createIntercomClient] Using MobileIntercomClientWrapper');
     return new MobileIntercomClientWrapper();
   }
 
   // Use desktop adapter if either isDesktop() returns true OR we detect Tauri globals
   if (desktop || hasTauriGlobal) {
-    console.log('[createIntercomClient] Using DesktopIntercomClientWrapper');
     return new DesktopIntercomClientWrapper();
   }
 
-  console.log('[createIntercomClient] Using IntercomClient (extension)');
   // Extension: use browser.runtime port messaging
   return new IntercomClient();
 }

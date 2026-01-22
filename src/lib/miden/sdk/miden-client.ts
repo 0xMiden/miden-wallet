@@ -133,7 +133,6 @@ class MidenClientSingleton {
   async getInstance(): Promise<MidenClientInterface> {
     // On mobile, reuse any existing client to avoid OOM from multiple worker instances
     if (this.instanceWithOptions) {
-      console.log('[MidenClientSingleton] Reusing instanceWithOptions for getInstance()');
       return this.instanceWithOptions;
     }
 

@@ -136,17 +136,13 @@ export class MidenClientInterface {
 
   // TODO: is this method even used?
   async consumeTransaction(accountId: string, listOfNoteIds: string[], delegateTransaction?: boolean) {
-    console.log('Consuming transaction...');
-    console.log('listOfNoteIds', listOfNoteIds);
     const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest(listOfNoteIds);
     await this.executeProveAndSubmitTransactionWithFallback(accountId, consumeTransactionRequest, delegateTransaction);
   }
 
   async importNoteBytes(noteBytes: Uint8Array) {
-    console.log('Importing note...');
     const noteFile = NoteFile.deserialize(noteBytes);
     const result = await this.webClient.importNoteFile(noteFile);
-    console.log('Imported note:', result);
     return result;
   }
 
@@ -263,7 +259,6 @@ export class MidenClientInterface {
 
   async exportDb() {
     const dump = await this.webClient.exportStore();
-    console.log('type of dump', typeof dump);
     return dump;
   }
 
@@ -285,18 +280,12 @@ export class MidenClientInterface {
     delegateTransaction?: boolean,
     skipSync?: boolean
   ): Promise<TransactionResult> {
-    console.log('[submitTransaction] Starting, skipSync:', skipSync, 'delegate:', delegateTransaction);
     // Skip sync on mobile to reduce memory pressure - AutoSync handles this
     if (!skipSync) {
-      console.log('[submitTransaction] Syncing state...');
       await this.syncState();
-      console.log('[submitTransaction] Sync complete');
     }
-    console.log('[submitTransaction] Deserializing transaction result...');
     const transactionResult = TransactionResult.deserialize(transactionResultBytes);
-    console.log('[submitTransaction] Deserialized, calling proveAndSubmit...');
     await this.proveAndSubmitTransactionWithFallback(transactionResult, delegateTransaction);
-    console.log('[submitTransaction] Complete');
     return transactionResult;
   }
 
@@ -333,7 +322,6 @@ export class MidenClientInterface {
     } catch (error) {
       // On mobile, never fall back to local prover (too resource-intensive)
       if (delegateTransaction && !isMobile()) {
-        console.log('Error proving delegated transaction, falling back to local prover:', error);
         this.onConnectivityIssue?.();
         // Fallback to local prover - if this throws, error propagates to caller
         await this.proveAndSubmitTransaction(transactionResult, false);
@@ -345,18 +333,12 @@ export class MidenClientInterface {
   }
 
   private async proveAndSubmitTransaction(transactionResult: TransactionResult, delegateTransaction?: boolean) {
-    console.log('[proveAndSubmit] Creating prover, delegated:', delegateTransaction);
     const transactionProver = delegateTransaction
       ? TransactionProver.newRemoteProver(MIDEN_PROVING_ENDPOINTS.get(this.network)!)
       : TransactionProver.newLocalProver();
-    console.log('[proveAndSubmit] Proving transaction...');
     const provenTransaction = await this.webClient.proveTransaction(transactionResult, transactionProver);
-    console.log('[proveAndSubmit] Submitting proven transaction...');
     const submissionHeight = await this.webClient.submitProvenTransaction(provenTransaction, transactionResult);
-    console.log('[proveAndSubmit] Applying transaction...');
     await this.webClient.applyTransaction(transactionResult, submissionHeight);
-    console.log('[proveAndSubmit] Complete');
-    return;
   }
 
   private async executeProveAndSubmitTransactionWithFallback(
@@ -364,21 +346,16 @@ export class MidenClientInterface {
     transactionRequest: TransactionRequest,
     delegateTransaction?: boolean
   ) {
-    try {
-      if (delegateTransaction) {
-        try {
-          // TODO: how to get transaction result here?
-          await this.webClient.submitNewTransaction(accountIdStringToSdk(accountId), transactionRequest);
-        } catch (error) {
-          console.log('Error proving delegated transaction, falling back to local prover:', error);
-          this.onConnectivityIssue?.();
-          await this.executeProveAndSubmitTransactionLocal(accountId, transactionRequest);
-        }
-      } else {
+    if (delegateTransaction) {
+      try {
+        // TODO: how to get transaction result here?
+        await this.webClient.submitNewTransaction(accountIdStringToSdk(accountId), transactionRequest);
+      } catch (error) {
+        this.onConnectivityIssue?.();
         await this.executeProveAndSubmitTransactionLocal(accountId, transactionRequest);
       }
-    } catch (error) {
-      console.error('Error submitting transaction:', error);
+    } else {
+      await this.executeProveAndSubmitTransactionLocal(accountId, transactionRequest);
     }
   }
 

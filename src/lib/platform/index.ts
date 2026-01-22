@@ -77,15 +77,10 @@ export function isMobile(): boolean {
  */
 export function isTauri(): boolean {
   if (typeof window === 'undefined') {
-    console.log('[isTauri] window is undefined, returning false');
     return false;
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const hasTauri = '__TAURI__' in window;
-  const hasInternals = '__TAURI_INTERNALS__' in window;
-  const result = hasTauri || hasInternals;
-  console.log('[isTauri] Check:', { hasTauri, hasInternals, result });
-  return result;
+  return '__TAURI__' in window || '__TAURI_INTERNALS__' in window;
 }
 
 /**
