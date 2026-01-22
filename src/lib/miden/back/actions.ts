@@ -73,19 +73,23 @@ export async function isDAppEnabled() {
   return bools.every(Boolean);
 }
 
-export function registerNewWallet(password: string, mnemonic?: string, ownMnemonic?: boolean) {
+export function registerNewWallet(password?: string, mnemonic?: string, ownMnemonic?: boolean) {
   return withInited(async () => {
     console.log('[Actions.registerNewWallet] Starting...');
-    await Vault.spawn(password, mnemonic, ownMnemonic);
+    // Password may be undefined for hardware-only wallets (mobile/desktop with Secure Enclave)
+    // Vault.spawn() will handle this by using hardware protection instead
+    await Vault.spawn(password ?? '', mnemonic, ownMnemonic);
     console.log('[Actions.registerNewWallet] Vault.spawn completed, calling unlock...');
+    // For hardware-only wallets, unlock without password to trigger biometric
     await unlock(password);
     console.log('[Actions.registerNewWallet] Completed');
   });
 }
 
-export function registerImportedWallet(password: string, mnemonic: string) {
+export function registerImportedWallet(password?: string, mnemonic?: string) {
   return withInited(async () => {
-    await Vault.spawnFromMidenClient(password, mnemonic);
+    // Password may be undefined for hardware-only wallets
+    await Vault.spawnFromMidenClient(password ?? '', mnemonic ?? '');
     await unlock(password);
   });
 }

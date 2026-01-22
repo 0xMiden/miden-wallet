@@ -7,12 +7,38 @@ import { formatMnemonic } from 'app/defaults';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
 import { useMidenContext } from 'lib/miden/front';
 import { useMobileBackHandler } from 'lib/mobile/useMobileBackHandler';
+import { isDesktop, isMobile } from 'lib/platform';
 import { WalletStatus } from 'lib/shared/types';
 import { useWalletStore } from 'lib/store';
 import { fetchStateFromBackend } from 'lib/store/hooks/useIntercomSync';
 import { navigate, useLocation } from 'lib/woozie';
 import { OnboardingFlow } from 'screens/onboarding/navigator';
 import { ImportType, OnboardingAction, OnboardingStep, OnboardingType } from 'screens/onboarding/types';
+
+/**
+ * Check if hardware security is available for vault key protection.
+ * On desktop/mobile, this checks for Secure Enclave/TPM/TEE availability.
+ */
+async function checkHardwareSecurityAvailable(): Promise<boolean> {
+  if (!isDesktop() && !isMobile()) {
+    return false;
+  }
+
+  try {
+    if (isDesktop()) {
+      const ss = await import('lib/desktop/secure-storage');
+      return await ss.isHardwareSecurityAvailable();
+    }
+    if (isMobile()) {
+      const hs = await import('lib/biometric');
+      return await hs.isHardwareSecurityAvailable();
+    }
+  } catch (error) {
+    console.log('[Welcome] Hardware security check failed:', error);
+    return false;
+  }
+  return false;
+}
 
 /**
  * Wait for the wallet state to become Ready after registration.
@@ -54,10 +80,12 @@ const Welcome: FC = () => {
   const register = useCallback(async () => {
     if (password && seedPhrase) {
       const seedPhraseFormatted = formatMnemonic(seedPhrase.join(' '));
+      // For hardware-only wallets, pass undefined as password
+      const actualPassword = password === '__HARDWARE_ONLY__' ? undefined : password;
       if (!importedWithFile) {
-        await registerWallet(password, seedPhraseFormatted, onboardingType === OnboardingType.Import);
+        await registerWallet(actualPassword, seedPhraseFormatted, onboardingType === OnboardingType.Import);
       } else {
-        await importWalletFromClient(password, seedPhraseFormatted);
+        await importWalletFromClient(actualPassword, seedPhraseFormatted);
       }
     } else {
       throw new Error('Missing password or seed phrase');
@@ -87,7 +115,17 @@ const Welcome: FC = () => {
         console.log({ seedPhrase });
         setSeedPhrase(seedPhrase);
         setImportedWithFile(true);
-        navigate('/#create-password');
+        // Check if hardware security is available - if so, skip password step
+        {
+          const hardwareAvailable = await checkHardwareSecurityAvailable();
+          if (hardwareAvailable) {
+            // Hardware-only mode: skip password, go directly to confirmation
+            setPassword('__HARDWARE_ONLY__');
+            navigate('/#confirmation');
+          } else {
+            navigate('/#create-password');
+          }
+        }
         break;
       case 'import-from-seed':
         setImportType(ImportType.SeedPhrase);
@@ -95,7 +133,17 @@ const Welcome: FC = () => {
         break;
       case 'import-seed-phrase-submit':
         setSeedPhrase(action.payload.split(' '));
-        navigate('/#create-password');
+        // Check if hardware security is available - if so, skip password step
+        {
+          const hardwareAvailable = await checkHardwareSecurityAvailable();
+          if (hardwareAvailable) {
+            // Hardware-only mode: skip password, go directly to confirmation
+            setPassword('__HARDWARE_ONLY__');
+            navigate('/#confirmation');
+          } else {
+            navigate('/#create-password');
+          }
+        }
         break;
       case 'backup-seed-phrase':
         setSeedPhrase(generateMnemonic(128).split(' '));
@@ -105,7 +153,17 @@ const Welcome: FC = () => {
         navigate('/#verify-seed-phrase');
         break;
       case 'create-password':
-        navigate('/#create-password');
+        // Check if hardware security is available - if so, skip password step
+        {
+          const hardwareAvailable = await checkHardwareSecurityAvailable();
+          if (hardwareAvailable) {
+            // Hardware-only mode: skip password, go directly to confirmation
+            setPassword('__HARDWARE_ONLY__');
+            navigate('/#confirmation');
+          } else {
+            navigate('/#create-password');
+          }
+        }
         break;
       case 'create-password-submit':
         setPassword(action.payload.password);

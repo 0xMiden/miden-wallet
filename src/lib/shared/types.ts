@@ -170,7 +170,7 @@ export interface LoadingResponse extends WalletMessageBase {
 
 export interface NewWalletRequest extends WalletMessageBase {
   type: WalletMessageType.NewWalletRequest;
-  password: string;
+  password?: string; // Optional for hardware-only wallets (mobile/desktop with Secure Enclave)
   mnemonic?: string;
   ownMnemonic?: boolean;
 }
@@ -513,7 +513,7 @@ export interface GetOwnedRecordsResponse extends WalletMessageBase {
 
 export interface ImportFromClientRequest extends WalletMessageBase {
   type: WalletMessageType.ImportFromClientRequest;
-  password: string;
+  password?: string; // Optional for hardware-only wallets (mobile/desktop with Secure Enclave)
   mnemonic: string;
 }
 
