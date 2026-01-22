@@ -440,12 +440,15 @@ public class LocalBiometricPlugin: CAPPlugin, CAPBridgedPlugin {
             os_log("[LocalBiometric] Biometric auth successful, accessing key...", log: logger, type: .debug)
 
             // Now access the key using the authenticated context
+            // Use kSecUseAuthenticationUISkip to prevent a second biometric prompt
+            // since we've already authenticated via evaluatePolicy()
             let query: [String: Any] = [
                 kSecClass as String: kSecClassKey,
                 kSecAttrApplicationTag as String: kHardwareKeyTag.data(using: .utf8)!,
                 kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
                 kSecReturnRef as String: true,
-                kSecUseAuthenticationContext as String: context
+                kSecUseAuthenticationContext as String: context,
+                kSecUseAuthenticationUI as String: kSecUseAuthenticationUISkip
             ]
 
             var keyRef: CFTypeRef?
