@@ -33,8 +33,8 @@ describe('defaults', () => {
       const result = getIntercom();
 
       expect(result).toBeDefined();
-      expect(result.onRequest).toBeDefined();
-      expect(result.broadcast).toBeDefined();
+      expect(result!.onRequest).toBeDefined();
+      expect(result!.broadcast).toBeDefined();
     });
 
     it('returns same instance on subsequent calls', () => {
@@ -76,7 +76,7 @@ describe('defaults', () => {
       intercom.onRequest(callback);
 
       const server = getIntercom();
-      expect(server.onRequest).toHaveBeenCalledWith(callback);
+      expect(server!.onRequest).toHaveBeenCalledWith(callback);
     });
 
     it('broadcast delegates to getIntercom', () => {
@@ -86,7 +86,7 @@ describe('defaults', () => {
       intercom.broadcast(message as any);
 
       const server = getIntercom();
-      expect(server.broadcast).toHaveBeenCalledWith(message);
+      expect(server!.broadcast).toHaveBeenCalledWith(message);
     });
   });
 
