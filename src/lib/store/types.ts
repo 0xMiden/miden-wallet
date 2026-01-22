@@ -65,7 +65,7 @@ export interface SyncSlice {
 }
 
 /**
- * Transaction modal state (mobile only)
+ * Transaction modal state
  */
 export interface TransactionModalSlice {
   /** Whether the transaction progress modal is open */

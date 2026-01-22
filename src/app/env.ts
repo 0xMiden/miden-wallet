@@ -146,95 +146,22 @@ export async function openInFullPage() {
   });
 }
 
-async function createLoadingFullPageUrl() {
-  if (!isExtension()) {
-    return '';
-  }
-  const browser = await getBrowser();
-  const url = createUrl('fullpage.html', '', '#/generating-transaction');
-  return browser.runtime.getURL(url);
-}
-
 export async function openLoadingFullPage() {
-  if (!isExtension()) {
-    // Mobile and Desktop (Tauri): open the transaction progress modal via Zustand
-    useWalletStore.getState().openTransactionModal();
-    return;
-  }
-
-  const browser = await getBrowser();
-  // Generate url
-  const generatingTransactionUrl = await createLoadingFullPageUrl();
-
-  // If not already open, open generating transaction url
-  const openTabs = await browser.tabs.query({});
-  if (openTabs.filter((t: Tabs.Tab) => t.url === generatingTransactionUrl).length === 0)
-    browser.tabs.create({
-      url: generatingTransactionUrl,
-      active: false
-    });
+  // All platforms use the transaction progress modal via Zustand
+  useWalletStore.getState().openTransactionModal();
 }
 
 export async function closeLoadingFullPage() {
-  if (!isExtension()) {
-    // Mobile and Desktop (Tauri): close the transaction progress modal via Zustand
-    useWalletStore.getState().closeTransactionModal();
-    return;
-  }
-
-  const browser = await getBrowser();
-  // Generate url
-  const generatingTransactionUrl = await createLoadingFullPageUrl();
-
-  const openTabs = await browser.tabs.query({});
-  const ids = openTabs
-    .filter((t: Tabs.Tab) => t.url === generatingTransactionUrl)
-    .map((t: Tabs.Tab) => t.id)
-    .filter((id): id is number => !!id);
-
-  browser.tabs.remove(ids);
+  // All platforms use the transaction progress modal via Zustand
+  useWalletStore.getState().closeTransactionModal();
 }
 
-async function createConsumingFullPageUrl(noteId: string) {
-  if (!isExtension()) {
-    return '';
-  }
-  const browser = await getBrowser();
-  const url = createUrl('fullpage.html', '', `#/consuming-note/${noteId}`);
-  return browser.runtime.getURL(url);
+export async function openConsumingFullPage(_noteId: string) {
+  // All platforms use the transaction progress modal via Zustand
+  useWalletStore.getState().openTransactionModal();
 }
 
-export async function openConsumingFullPage(noteId: string) {
-  // Only extension can open new tabs
-  if (!isExtension()) {
-    return;
-  }
-
-  const browser = await getBrowser();
-  const consumingTransactionUrl = await createConsumingFullPageUrl(noteId);
-
-  const openTabs = await browser.tabs.query({});
-  if (openTabs.filter((t: Tabs.Tab) => t.url === consumingTransactionUrl).length === 0)
-    browser.tabs.create({
-      url: consumingTransactionUrl,
-      active: false
-    });
-}
-
-export async function closeConsumingFullPage(noteId: string) {
-  // Only extension uses browser tabs
-  if (!isExtension()) {
-    return;
-  }
-
-  const browser = await getBrowser();
-  const consumingTransactionUrl = await createConsumingFullPageUrl(noteId);
-
-  const openTabs = await browser.tabs.query({});
-  const ids = openTabs
-    .filter((t: Tabs.Tab) => t.url === consumingTransactionUrl)
-    .map((t: Tabs.Tab) => t.id)
-    .filter((id): id is number => !!id);
-
-  browser.tabs.remove(ids);
+export async function closeConsumingFullPage(_noteId: string) {
+  // All platforms use the transaction progress modal via Zustand
+  useWalletStore.getState().closeTransactionModal();
 }

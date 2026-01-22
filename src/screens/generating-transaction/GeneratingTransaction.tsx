@@ -19,7 +19,7 @@ import {
 } from 'lib/miden/activity';
 import { useExportNotes } from 'lib/miden/activity/notes';
 import { useMidenContext } from 'lib/miden/front';
-import { isMobile } from 'lib/platform';
+import { isExtension, isMobile } from 'lib/platform';
 import { isAutoCloseEnabled } from 'lib/settings/helpers';
 import { useRetryableSWR } from 'lib/swr';
 import { navigate } from 'lib/woozie';
@@ -204,23 +204,33 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
 }) => {
   const { t } = useTranslation();
   const [outputNotes, downloadAll] = useExportNotes();
+  const inExtension = isExtension();
 
   const renderIcon = useCallback(() => {
+    const iconSize = inExtension ? 'xl' : '3xl';
+    const circleSize = inExtension ? 32 : 55;
+
     if (transactionComplete && hasErrors) {
       // Mixed results or all failed - show warning/error icon
-      return <Icon name={IconName.Failed} size="3xl" />;
+      return <Icon name={IconName.Failed} size={iconSize} />;
     }
     if (transactionComplete) {
-      return <Icon name={IconName.Success} size="3xl" />;
+      return <Icon name={IconName.Success} size={iconSize} />;
     }
 
     return (
       <div className="flex items-center justify-center">
-        <Icon name={IconName.InProgress} className="absolute" size="3xl" />
-        <CircularProgress borderWeight={2} progress={progress} circleColor="black" circleSize={55} spin={true} />
+        <Icon name={IconName.InProgress} className="absolute" size={iconSize} />
+        <CircularProgress
+          borderWeight={2}
+          progress={progress}
+          circleColor="black"
+          circleSize={circleSize}
+          spin={true}
+        />
       </div>
     );
-  }, [transactionComplete, hasErrors, progress]);
+  }, [transactionComplete, hasErrors, progress, inExtension]);
 
   const headerText = useCallback(() => {
     if (transactionComplete && hasErrors) {
@@ -255,16 +265,29 @@ export const GeneratingTransaction: React.FC<GeneratingTransactionProps> = ({
 
   return (
     <>
-      {!transactionComplete && !isMobile() && <Alert variant={AlertVariant.Warning} title={alertText()} />}
+      {!transactionComplete && !isMobile() && !inExtension && (
+        <Alert variant={AlertVariant.Warning} title={alertText()} />
+      )}
       <div className="flex-1 flex flex-col justify-center md:w-[460px] md:mx-auto">
         <div className="flex flex-col justify-center items-center">
-          <div className={classNames('w-40 aspect-square flex items-center justify-center mb-8')}>{renderIcon()}</div>
+          <div
+            className={classNames(
+              'aspect-square flex items-center justify-center',
+              inExtension ? 'w-24 mb-4' : 'w-40 mb-8'
+            )}
+          >
+            {renderIcon()}
+          </div>
           <div className="flex flex-col items-center">
-            <h1 className="font-semibold text-2xl lh-title">{headerText()}</h1>
-            <p className="text-base text-center lh-title">{descriptionText()}</p>
+            <h1 className={classNames('font-semibold lh-title', inExtension ? 'text-lg' : 'text-2xl')}>
+              {headerText()}
+            </h1>
+            <p className={classNames('text-center lh-title', inExtension ? 'text-sm' : 'text-base')}>
+              {descriptionText()}
+            </p>
           </div>
         </div>
-        <div className="mt-8 flex flex-col gap-y-4">
+        <div className={classNames('flex flex-col gap-y-4', inExtension ? 'mt-4' : 'mt-8')}>
           {outputNotes.length > 0 && transactionComplete && !hasErrors && (
             <Button
               title={t('downloadGeneratedFiles')}

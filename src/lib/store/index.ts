@@ -67,7 +67,7 @@ export const useWalletStore = create<WalletStore>()(
     lastSyncedAt: null,
     hasCompletedInitialSync: false,
 
-    // Initial transaction modal state (mobile only)
+    // Initial transaction modal state
     isTransactionModalOpen: false,
     isDappBrowserOpen: false,
 
@@ -455,7 +455,7 @@ export const useWalletStore = create<WalletStore>()(
       }
     },
 
-    // Transaction modal actions (mobile only)
+    // Transaction modal actions
     openTransactionModal: () => {
       set({ isTransactionModalOpen: true });
     },

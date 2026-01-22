@@ -257,3 +257,9 @@ button,
   animation-duration: 2s !important;
   animation-delay: 0s !important;
 }
+
+/* Re-enable spinner animation for transaction progress (override the global disable) */
+.extension-no-animations .animate-spin {
+  animation-duration: 1s !important;
+  animation-delay: 0s !important;
+}
