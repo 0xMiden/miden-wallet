@@ -181,7 +181,7 @@ export interface NewWalletResponse extends WalletMessageBase {
 
 export interface UnlockRequest extends WalletMessageBase {
   type: WalletMessageType.UnlockRequest;
-  password: string;
+  password?: string;
 }
 
 export interface UnlockResponse extends WalletMessageBase {

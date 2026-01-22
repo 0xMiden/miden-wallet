@@ -107,7 +107,7 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   );
 
   const unlock = useCallback(
-    async (password: string) => {
+    async (password?: string) => {
       await storeUnlock(password);
     },
     [storeUnlock]

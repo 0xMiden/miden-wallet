@@ -96,7 +96,7 @@ export function lock() {
   });
 }
 
-export function unlock(password: string) {
+export function unlock(password?: string) {
   return withInited(() =>
     unlockQueue.add(async () => {
       const vault = await Vault.setup(password);
