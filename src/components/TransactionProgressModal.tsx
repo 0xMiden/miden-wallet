@@ -127,7 +127,7 @@ export const TransactionProgressModal: FC = () => {
       isOpen={isOpen}
       onRequestClose={handleClose}
       shouldCloseOnOverlayClick={transactionComplete || error}
-      className={classNames('bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6 outline-none')}
+      className={classNames('bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 p-6 outline-none overflow-hidden')}
       overlayClassName="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-6"
       style={{
         overlay: { zIndex: 9999 },

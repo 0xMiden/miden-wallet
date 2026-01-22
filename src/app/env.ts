@@ -156,14 +156,9 @@ async function createLoadingFullPageUrl() {
 }
 
 export async function openLoadingFullPage() {
-  if (isMobile()) {
-    // On mobile, open the transaction progress modal via Zustand
-    useWalletStore.getState().openTransactionModal();
-    return;
-  }
-
   if (!isExtension()) {
-    // Desktop: no-op for now (transactions happen in-place)
+    // Mobile and Desktop (Tauri): open the transaction progress modal via Zustand
+    useWalletStore.getState().openTransactionModal();
     return;
   }
 
@@ -181,14 +176,9 @@ export async function openLoadingFullPage() {
 }
 
 export async function closeLoadingFullPage() {
-  if (isMobile()) {
-    // On mobile, close the transaction progress modal via Zustand
-    useWalletStore.getState().closeTransactionModal();
-    return;
-  }
-
   if (!isExtension()) {
-    // Desktop: no-op for now
+    // Mobile and Desktop (Tauri): close the transaction progress modal via Zustand
+    useWalletStore.getState().closeTransactionModal();
     return;
   }
 
