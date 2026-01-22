@@ -255,8 +255,13 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "Meu Seed phrase tem {{num}} palavras",
-    "englishSource": "My Seed phrase is {{num}} words"
+    "message": "Meu Seed phrase é $num$ palavras",
+    "englishSource": "My Seed phrase is $num$ words",
+    "placeholders": {
+      "num": {
+        "content": "$1"
+      }
+    }
   },
   "justValidPreGeneratedMnemonic": {
     "message": "Apenas mnemónica pré-gerada válida",
@@ -317,8 +322,13 @@
     }
   },
   "maximalAmount": {
-    "message": "Máximo: {{quantidade}}",
-    "englishSource": "Maximal: {{amount}}"
+    "message": "Máximo: $amount$ ",
+    "englishSource": "Maximal: $amount$",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
   },
   "accountName": {
     "message": "Nome da conta",
@@ -575,8 +585,13 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "Fundos insuficientes de {{currency}}",
-    "englishSource": "Not enough {{currency}} funds"
+    "message": "Não o suficiente $currency$ fundos",
+    "englishSource": "Not enough $currency$ funds",
+    "placeholders": {
+      "currency": {
+        "content": "$1"
+      }
+    }
   },
   "failed": {
     "message": "Falha",
@@ -604,8 +619,13 @@
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "Confirme {{ação}}",
-    "englishSource": "Confirm {{action}}"
+    "message": "Confirmar $action$ ",
+    "englishSource": "Confirm $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
   },
   "confirm": {
     "message": "Confirmar",
@@ -1948,5 +1968,186 @@
   "last": {
     "message": "Durar",
     "englishSource": "Last"
+  },
+  "dappBrowser": {
+    "message": "Navegador DApp",
+    "englishSource": "DApp Browser"
+  },
+  "dappBrowserComingSoon": {
+    "message": "Em breve",
+    "englishSource": "Coming soon"
+  },
+  "dappBrowserDescription": {
+    "message": "Navegue por aplicativos descentralizados e conecte sua carteira com segurança",
+    "englishSource": "Browse decentralized apps and connect your wallet securely"
+  },
+  "enterUrl": {
+    "message": "Insira o URL ou pesquise",
+    "englishSource": "Enter URL or search"
+  },
+  "go": {
+    "message": "Ir",
+    "englishSource": "Go"
+  },
+  "recentSites": {
+    "message": "Recente",
+    "englishSource": "Recent"
+  },
+  "loading": {
+    "message": "Carregando...",
+    "englishSource": "Loading..."
+  },
+  "favourites": {
+    "message": "Favoritos",
+    "englishSource": "Favourites"
+  },
+  "approve": {
+    "message": "Aprovar",
+    "englishSource": "Approve"
+  },
+  "dappConnectionRequest": {
+    "message": "Este aplicativo deseja se conectar à sua carteira",
+    "englishSource": "This app wants to connect to your wallet"
+  },
+  "dappTransactionRequest": {
+    "message": "Este aplicativo está solicitando uma transação",
+    "englishSource": "This app is requesting a transaction"
+  },
+  "noAccountSelected": {
+    "message": "Nenhuma conta selecionada",
+    "englishSource": "No account selected"
+  },
+  "biometricUnlock": {
+    "message": "Desbloqueio biométrico",
+    "englishSource": "Biometric Unlock"
+  },
+  "biometricUnlockDescription": {
+    "message": "Use o Face ID ou impressão digital para desbloquear sua carteira em vez de digitar sua senha.",
+    "englishSource": "Use Face ID or fingerprint to unlock your wallet instead of entering your password."
+  },
+  "biometricSetup": {
+    "message": "Configurar desbloqueio biométrico",
+    "englishSource": "Set Up Biometric Unlock"
+  },
+  "biometricSetupDescription": {
+    "message": "Use seu rosto ou impressão digital para desbloquear rapidamente sua carteira.",
+    "englishSource": "Use your face or fingerprint to quickly unlock your wallet."
+  },
+  "biometricSetupSubtitle": {
+    "message": "Habilite a autenticação biométrica para acesso mais rápido e seguro à sua carteira.",
+    "englishSource": "Enable biometric authentication for faster, more secure access to your wallet."
+  },
+  "enableBiometric": {
+    "message": "Ativar biometria",
+    "englishSource": "Enable Biometric"
+  },
+  "skipBiometricSetup": {
+    "message": "Pular por enquanto",
+    "englishSource": "Skip for now"
+  },
+  "biometricAuthRequired": {
+    "message": "Autenticação biométrica necessária",
+    "englishSource": "Biometric authentication required"
+  },
+  "unlockWithBiometric": {
+    "message": "Desbloqueio com biometria",
+    "englishSource": "Unlock with biometric"
+  },
+  "biometricFailed": {
+    "message": "Falha na autenticação biométrica",
+    "englishSource": "Biometric authentication failed"
+  },
+  "biometricNotAvailable": {
+    "message": "A autenticação biométrica não está disponível neste dispositivo",
+    "englishSource": "Biometric authentication is not available on this device"
+  },
+  "usePasswordInstead": {
+    "message": "Use senha em vez disso",
+    "englishSource": "Use Password Instead"
+  },
+  "biometricEnabled": {
+    "message": "Desbloqueio biométrico ativado",
+    "englishSource": "Biometric unlock enabled"
+  },
+  "biometricDisabled": {
+    "message": "Desbloqueio biométrico desativado",
+    "englishSource": "Biometric unlock disabled"
+  },
+  "enterPasswordToEnableBiometric": {
+    "message": "Digite sua senha para ativar o desbloqueio biométrico",
+    "englishSource": "Enter your password to enable biometric unlock"
+  },
+  "faceId": {
+    "message": "ID facial",
+    "englishSource": "Face ID"
+  },
+  "touchId": {
+    "message": "ID de toque",
+    "englishSource": "Touch ID"
+  },
+  "fingerprint": {
+    "message": "Impressão digital",
+    "englishSource": "Fingerprint"
+  },
+  "biometricType": {
+    "message": "Tipo biométrico",
+    "englishSource": "Biometric Type"
+  },
+  "scanQr": {
+    "message": "Digitalize o código QR",
+    "englishSource": "Scan QR Code"
+  },
+  "cameraPermissionDenied": {
+    "message": "Permissão da câmera negada",
+    "englishSource": "Camera permission denied"
+  },
+  "noQrCodeFound": {
+    "message": "Nenhum código QR encontrado",
+    "englishSource": "No QR code found"
+  },
+  "emptyQrCode": {
+    "message": "Código QR vazio",
+    "englishSource": "Empty QR code"
+  },
+  "invalidMidenAddress": {
+    "message": "Endereço Miden inválido",
+    "englishSource": "Invalid Miden address"
+  },
+  "scanCancelled": {
+    "message": "Verificação cancelada",
+    "englishSource": "Scan cancelled"
+  },
+  "hapticFeedback": {
+    "message": "Feedback tátil",
+    "englishSource": "Haptic Feedback"
+  },
+  "hapticFeedbackDescription": {
+    "message": "Sinta uma vibração ao tocar em botões e controles",
+    "englishSource": "Feel a vibration when tapping buttons and controls"
+  },
+  "noNotesToClaim": {
+    "message": "No momento, você não tem notes para reivindicar, mas quando tiver, eles aparecerão aqui.",
+    "englishSource": "You don't currently have notes to claim, but when you do, they will appear here."
+  },
+  "noteReceivedTitle": {
+    "message": "Você recebeu um note",
+    "englishSource": "You have received a note"
+  },
+  "noteReceivedTapToClaim": {
+    "message": "Toque aqui para reivindicá-lo",
+    "englishSource": "Tap here to claim it"
+  },
+  "tokenHistory": {
+    "message": "$tokenName$ Histórico",
+    "englishSource": "$tokenName$ History",
+    "placeholders": {
+      "tokenname": {
+        "content": "$1"
+      }
+    }
+  },
+  "historyDetails": {
+    "message": "Detalhes",
+    "englishSource": "Details"
   }
 }

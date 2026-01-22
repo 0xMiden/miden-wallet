@@ -255,8 +255,13 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "Mein Seed phrase besteht aus {{num}} Wörtern",
-    "englishSource": "My Seed phrase is {{num}} words"
+    "message": "Mein Seed phrase ist $num$ Worte",
+    "englishSource": "My Seed phrase is $num$ words",
+    "placeholders": {
+      "num": {
+        "content": "$1"
+      }
+    }
   },
   "justValidPreGeneratedMnemonic": {
     "message": "Nur gültige vorgenerierte Gedächtnisstütze",
@@ -317,8 +322,13 @@
     }
   },
   "maximalAmount": {
-    "message": "Maximal: {{amount}}",
-    "englishSource": "Maximal: {{amount}}"
+    "message": "Maximal: $amount$ ",
+    "englishSource": "Maximal: $amount$",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
   },
   "accountName": {
     "message": "Kontoname",
@@ -575,8 +585,13 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "Nicht genügend Guthaben in {{currency}} vorhanden",
-    "englishSource": "Not enough {{currency}} funds"
+    "message": "Nicht genug $currency$ Mittel",
+    "englishSource": "Not enough $currency$ funds",
+    "placeholders": {
+      "currency": {
+        "content": "$1"
+      }
+    }
   },
   "failed": {
     "message": "Fehlgeschlagen",
@@ -604,8 +619,13 @@
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "Bestätige {{action}}",
-    "englishSource": "Confirm {{action}}"
+    "message": "Bestätigen $action$ ",
+    "englishSource": "Confirm $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
   },
   "confirm": {
     "message": "Bestätigen",

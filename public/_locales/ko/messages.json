@@ -190,8 +190,13 @@
     "englishSource": "1-16 characters, no special"
   },
   "defaultAccountName": {
-    "message": "계정 {{accountNumber}}",
-    "englishSource": "Account {{accountNumber}}"
+    "message": "계정 $accountNumber$ ",
+    "englishSource": "Account $accountNumber$",
+    "placeholders": {
+      "accountnumber": {
+        "content": "$1"
+      }
+    }
   },
   "doNotSharePrivateKey1": {
     "message": "누구와도 공유하지 마십시오!",
@@ -250,8 +255,13 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "내 Seed phrase은 {{num}} 단어입니다",
-    "englishSource": "My Seed phrase is {{num}} words"
+    "message": "내 Seed phrase은(는) $num$ 단어",
+    "englishSource": "My Seed phrase is $num$ words",
+    "placeholders": {
+      "num": {
+        "content": "$1"
+      }
+    }
   },
   "justValidPreGeneratedMnemonic": {
     "message": "유효한 사전 생성 니모닉만",
@@ -270,8 +280,13 @@
     "englishSource": "Oops!"
   },
   "smthWentWrongWhile": {
-    "message": "{{action}} 동안 문제가 발생했습니다.",
-    "englishSource": "Something went wrong while {{action}}"
+    "message": "그 동안 문제가 발생했습니다. $action$ ",
+    "englishSource": "Something went wrong while $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
   },
   "mayHappenBecauseYouAreOffline": {
     "message": "현재 오프라인 상태여서 이런 문제가 발생했을 수 있습니다",
@@ -307,8 +322,13 @@
     }
   },
   "maximalAmount": {
-    "message": "최대: {{금액}}",
-    "englishSource": "Maximal: {{amount}}"
+    "message": "최대: $amount$ ",
+    "englishSource": "Maximal: $amount$",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
   },
   "accountName": {
     "message": "계정 이름",
@@ -565,8 +585,13 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "{{currency}} 자금이 충분하지 않습니다.",
-    "englishSource": "Not enough {{currency}} funds"
+    "message": "충분하지 않다 $currency$ 자금",
+    "englishSource": "Not enough $currency$ funds",
+    "placeholders": {
+      "currency": {
+        "content": "$1"
+      }
+    }
   },
   "failed": {
     "message": "실패",
@@ -594,8 +619,13 @@
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "{{작업}} 확인",
-    "englishSource": "Confirm {{action}}"
+    "message": "확인하다 $action$ ",
+    "englishSource": "Confirm $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
   },
   "confirm": {
     "message": "확인",
@@ -811,12 +841,22 @@
     "englishSource": "No assets found"
   },
   "ifYouDontSeeYourAsset": {
-    "message": "자산이 표시되지 않으면\n{{toClick}}을 클릭해 보세요.",
-    "englishSource": "If you don't see your asset,\ntry to click {{toClick}}."
+    "message": "자산이 표시되지 않으면\n클릭해 보세요 $toClick$ .",
+    "englishSource": "If you don't see your asset,\ntry to click $toClick$.",
+    "placeholders": {
+      "toclick": {
+        "content": "$1"
+      }
+    }
   },
   "addressOfTokenContract": {
-    "message": "{{assetSymbol}} 토큰 계약의 주소입니다.",
-    "englishSource": "Address of a {{assetSymbol}} token contract."
+    "message": "주소 $assetSymbol$ 토큰 계약.",
+    "englishSource": "Address of a $assetSymbol$ token contract.",
+    "placeholders": {
+      "assetsymbol": {
+        "content": "$1"
+      }
+    }
   },
   "searchAssets": {
     "message": "자산 검색...",
@@ -913,18 +953,6 @@
   "other": {
     "message": "다른",
     "englishSource": "Other"
-  },
-  "thousandFormat": {
-    "message": "{{천}}천",
-    "englishSource": "{{thousand}}k"
-  },
-  "millionFormat": {
-    "message": "{{백만}}백만",
-    "englishSource": "{{million}}M"
-  },
-  "billionFormat": {
-    "message": "{{십억}}B",
-    "englishSource": "{{billion}}B"
   },
   "uploadFile": {
     "message": "파일 업로드",
@@ -1952,5 +1980,186 @@
   "last": {
     "message": "마지막",
     "englishSource": "Last"
+  },
+  "dappBrowser": {
+    "message": "DApp 브라우저",
+    "englishSource": "DApp Browser"
+  },
+  "dappBrowserComingSoon": {
+    "message": "곧 출시 예정",
+    "englishSource": "Coming soon"
+  },
+  "dappBrowserDescription": {
+    "message": "분산형 앱을 탐색하고 지갑을 안전하게 연결하세요",
+    "englishSource": "Browse decentralized apps and connect your wallet securely"
+  },
+  "enterUrl": {
+    "message": "URL을 입력하거나 검색하세요.",
+    "englishSource": "Enter URL or search"
+  },
+  "go": {
+    "message": "가다",
+    "englishSource": "Go"
+  },
+  "recentSites": {
+    "message": "최근의",
+    "englishSource": "Recent"
+  },
+  "loading": {
+    "message": "로드 중...",
+    "englishSource": "Loading..."
+  },
+  "favourites": {
+    "message": "즐겨찾기",
+    "englishSource": "Favourites"
+  },
+  "approve": {
+    "message": "승인하다",
+    "englishSource": "Approve"
+  },
+  "dappConnectionRequest": {
+    "message": "이 앱이 지갑에 연결하려고 합니다.",
+    "englishSource": "This app wants to connect to your wallet"
+  },
+  "dappTransactionRequest": {
+    "message": "이 앱에서 거래를 요청하고 있습니다.",
+    "englishSource": "This app is requesting a transaction"
+  },
+  "noAccountSelected": {
+    "message": "선택한 계정이 없습니다.",
+    "englishSource": "No account selected"
+  },
+  "biometricUnlock": {
+    "message": "생체 인식 잠금 해제",
+    "englishSource": "Biometric Unlock"
+  },
+  "biometricUnlockDescription": {
+    "message": "비밀번호를 입력하는 대신 Face ID나 지문을 사용하여 지갑을 잠금 해제하세요.",
+    "englishSource": "Use Face ID or fingerprint to unlock your wallet instead of entering your password."
+  },
+  "biometricSetup": {
+    "message": "생체 인식 잠금 해제 설정",
+    "englishSource": "Set Up Biometric Unlock"
+  },
+  "biometricSetupDescription": {
+    "message": "얼굴이나 지문을 사용하여 지갑을 빠르게 잠금 해제하세요.",
+    "englishSource": "Use your face or fingerprint to quickly unlock your wallet."
+  },
+  "biometricSetupSubtitle": {
+    "message": "지갑에 더 빠르고 안전하게 액세스하려면 생체 인증을 활성화하세요.",
+    "englishSource": "Enable biometric authentication for faster, more secure access to your wallet."
+  },
+  "enableBiometric": {
+    "message": "생체 인식 활성화",
+    "englishSource": "Enable Biometric"
+  },
+  "skipBiometricSetup": {
+    "message": "지금은 건너뛰세요",
+    "englishSource": "Skip for now"
+  },
+  "biometricAuthRequired": {
+    "message": "생체인증 필요",
+    "englishSource": "Biometric authentication required"
+  },
+  "unlockWithBiometric": {
+    "message": "생체 인식으로 잠금 해제",
+    "englishSource": "Unlock with biometric"
+  },
+  "biometricFailed": {
+    "message": "생체 인증 실패",
+    "englishSource": "Biometric authentication failed"
+  },
+  "biometricNotAvailable": {
+    "message": "이 기기에서는 생체 인증을 사용할 수 없습니다.",
+    "englishSource": "Biometric authentication is not available on this device"
+  },
+  "usePasswordInstead": {
+    "message": "대신 비밀번호를 사용하세요",
+    "englishSource": "Use Password Instead"
+  },
+  "biometricEnabled": {
+    "message": "생체 인식 잠금 해제 활성화됨",
+    "englishSource": "Biometric unlock enabled"
+  },
+  "biometricDisabled": {
+    "message": "생체 인식 잠금 해제가 비활성화되었습니다.",
+    "englishSource": "Biometric unlock disabled"
+  },
+  "enterPasswordToEnableBiometric": {
+    "message": "생체 인식 잠금 해제를 활성화하려면 비밀번호를 입력하세요",
+    "englishSource": "Enter your password to enable biometric unlock"
+  },
+  "faceId": {
+    "message": "페이스ID",
+    "englishSource": "Face ID"
+  },
+  "touchId": {
+    "message": "터치 ID",
+    "englishSource": "Touch ID"
+  },
+  "fingerprint": {
+    "message": "지문",
+    "englishSource": "Fingerprint"
+  },
+  "biometricType": {
+    "message": "생체 인식 유형",
+    "englishSource": "Biometric Type"
+  },
+  "scanQr": {
+    "message": "QR 코드 스캔",
+    "englishSource": "Scan QR Code"
+  },
+  "cameraPermissionDenied": {
+    "message": "카메라 권한이 거부되었습니다",
+    "englishSource": "Camera permission denied"
+  },
+  "noQrCodeFound": {
+    "message": "QR 코드를 찾을 수 없습니다",
+    "englishSource": "No QR code found"
+  },
+  "emptyQrCode": {
+    "message": "빈 QR 코드",
+    "englishSource": "Empty QR code"
+  },
+  "invalidMidenAddress": {
+    "message": "잘못된 미덴 주소",
+    "englishSource": "Invalid Miden address"
+  },
+  "scanCancelled": {
+    "message": "스캔이 취소되었습니다.",
+    "englishSource": "Scan cancelled"
+  },
+  "hapticFeedback": {
+    "message": "햅틱 피드백",
+    "englishSource": "Haptic Feedback"
+  },
+  "hapticFeedbackDescription": {
+    "message": "버튼과 컨트롤을 탭할 때 진동이 느껴집니다.",
+    "englishSource": "Feel a vibration when tapping buttons and controls"
+  },
+  "noNotesToClaim": {
+    "message": "현재 신청할 notes이 없지만 신청하면 여기에 표시됩니다.",
+    "englishSource": "You don't currently have notes to claim, but when you do, they will appear here."
+  },
+  "noteReceivedTitle": {
+    "message": "note을(를) 받았습니다.",
+    "englishSource": "You have received a note"
+  },
+  "noteReceivedTapToClaim": {
+    "message": "여기를 탭하여 신청하세요.",
+    "englishSource": "Tap here to claim it"
+  },
+  "tokenHistory": {
+    "message": "$tokenName$ 기록",
+    "englishSource": "$tokenName$ History",
+    "placeholders": {
+      "tokenname": {
+        "content": "$1"
+      }
+    }
+  },
+  "historyDetails": {
+    "message": "세부",
+    "englishSource": "Details"
   }
 }

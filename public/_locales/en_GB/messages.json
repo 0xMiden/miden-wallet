@@ -255,8 +255,13 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "My Seed phrase is {{num}} words",
-    "englishSource": "My Seed phrase is {{num}} words"
+    "message": "My Seed phrase is  $num$  words",
+    "englishSource": "My Seed phrase is $num$ words",
+    "placeholders": {
+      "num": {
+        "content": "$1"
+      }
+    }
   },
   "justValidPreGeneratedMnemonic": {
     "message": "Just valid pre-generated mnemonic",
@@ -317,8 +322,13 @@
     }
   },
   "maximalAmount": {
-    "message": "Maximal: {{amount}}",
-    "englishSource": "Maximal: {{amount}}"
+    "message": "Maximal:  $amount$ ",
+    "englishSource": "Maximal: $amount$",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
   },
   "accountName": {
     "message": "Account name",
@@ -575,8 +585,13 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "Not enough {{currency}} funds",
-    "englishSource": "Not enough {{currency}} funds"
+    "message": "Not enough  $currency$  funds",
+    "englishSource": "Not enough $currency$ funds",
+    "placeholders": {
+      "currency": {
+        "content": "$1"
+      }
+    }
   },
   "failed": {
     "message": "Failed",
@@ -604,8 +619,13 @@
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "Confirm {{action}}",
-    "englishSource": "Confirm {{action}}"
+    "message": "Confirm  $action$ ",
+    "englishSource": "Confirm $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
   },
   "confirm": {
     "message": "Confirm",
@@ -1987,5 +2007,186 @@
   "last": {
     "message": "Last",
     "englishSource": "Last"
+  },
+  "dappBrowser": {
+    "message": "DApp Browser",
+    "englishSource": "DApp Browser"
+  },
+  "dappBrowserComingSoon": {
+    "message": "Coming soon",
+    "englishSource": "Coming soon"
+  },
+  "dappBrowserDescription": {
+    "message": "Browse decentralized apps and connect your wallet securely",
+    "englishSource": "Browse decentralized apps and connect your wallet securely"
+  },
+  "enterUrl": {
+    "message": "Enter URL or search",
+    "englishSource": "Enter URL or search"
+  },
+  "go": {
+    "message": "Go",
+    "englishSource": "Go"
+  },
+  "recentSites": {
+    "message": "Recent",
+    "englishSource": "Recent"
+  },
+  "loading": {
+    "message": "Loading...",
+    "englishSource": "Loading..."
+  },
+  "favourites": {
+    "message": "Favourites",
+    "englishSource": "Favourites"
+  },
+  "approve": {
+    "message": "Approve",
+    "englishSource": "Approve"
+  },
+  "dappConnectionRequest": {
+    "message": "This app wants to connect to your wallet",
+    "englishSource": "This app wants to connect to your wallet"
+  },
+  "dappTransactionRequest": {
+    "message": "This app is requesting a transaction",
+    "englishSource": "This app is requesting a transaction"
+  },
+  "noAccountSelected": {
+    "message": "No account selected",
+    "englishSource": "No account selected"
+  },
+  "biometricUnlock": {
+    "message": "Biometric Unlock",
+    "englishSource": "Biometric Unlock"
+  },
+  "biometricUnlockDescription": {
+    "message": "Use Face ID or fingerprint to unlock your wallet instead of entering your password.",
+    "englishSource": "Use Face ID or fingerprint to unlock your wallet instead of entering your password."
+  },
+  "biometricSetup": {
+    "message": "Set Up Biometric Unlock",
+    "englishSource": "Set Up Biometric Unlock"
+  },
+  "biometricSetupDescription": {
+    "message": "Use your face or fingerprint to quickly unlock your wallet.",
+    "englishSource": "Use your face or fingerprint to quickly unlock your wallet."
+  },
+  "biometricSetupSubtitle": {
+    "message": "Enable biometric authentication for faster, more secure access to your wallet.",
+    "englishSource": "Enable biometric authentication for faster, more secure access to your wallet."
+  },
+  "enableBiometric": {
+    "message": "Enable Biometric",
+    "englishSource": "Enable Biometric"
+  },
+  "skipBiometricSetup": {
+    "message": "Skip for now",
+    "englishSource": "Skip for now"
+  },
+  "biometricAuthRequired": {
+    "message": "Biometric authentication required",
+    "englishSource": "Biometric authentication required"
+  },
+  "unlockWithBiometric": {
+    "message": "Unlock with biometric",
+    "englishSource": "Unlock with biometric"
+  },
+  "biometricFailed": {
+    "message": "Biometric authentication failed",
+    "englishSource": "Biometric authentication failed"
+  },
+  "biometricNotAvailable": {
+    "message": "Biometric authentication is not available on this device",
+    "englishSource": "Biometric authentication is not available on this device"
+  },
+  "usePasswordInstead": {
+    "message": "Use Password Instead",
+    "englishSource": "Use Password Instead"
+  },
+  "biometricEnabled": {
+    "message": "Biometric unlock enabled",
+    "englishSource": "Biometric unlock enabled"
+  },
+  "biometricDisabled": {
+    "message": "Biometric unlock disabled",
+    "englishSource": "Biometric unlock disabled"
+  },
+  "enterPasswordToEnableBiometric": {
+    "message": "Enter your password to enable biometric unlock",
+    "englishSource": "Enter your password to enable biometric unlock"
+  },
+  "faceId": {
+    "message": "Face ID",
+    "englishSource": "Face ID"
+  },
+  "touchId": {
+    "message": "Touch ID",
+    "englishSource": "Touch ID"
+  },
+  "fingerprint": {
+    "message": "Fingerprint",
+    "englishSource": "Fingerprint"
+  },
+  "biometricType": {
+    "message": "Biometric Type",
+    "englishSource": "Biometric Type"
+  },
+  "scanQr": {
+    "message": "Scan QR Code",
+    "englishSource": "Scan QR Code"
+  },
+  "cameraPermissionDenied": {
+    "message": "Camera permission denied",
+    "englishSource": "Camera permission denied"
+  },
+  "noQrCodeFound": {
+    "message": "No QR code found",
+    "englishSource": "No QR code found"
+  },
+  "emptyQrCode": {
+    "message": "Empty QR code",
+    "englishSource": "Empty QR code"
+  },
+  "invalidMidenAddress": {
+    "message": "Invalid Miden address",
+    "englishSource": "Invalid Miden address"
+  },
+  "scanCancelled": {
+    "message": "Scan cancelled",
+    "englishSource": "Scan cancelled"
+  },
+  "hapticFeedback": {
+    "message": "Haptic Feedback",
+    "englishSource": "Haptic Feedback"
+  },
+  "hapticFeedbackDescription": {
+    "message": "Feel a vibration when tapping buttons and controls",
+    "englishSource": "Feel a vibration when tapping buttons and controls"
+  },
+  "noNotesToClaim": {
+    "message": "You don't currently have notes to claim, but when you do, they will appear here.",
+    "englishSource": "You don't currently have notes to claim, but when you do, they will appear here."
+  },
+  "noteReceivedTitle": {
+    "message": "You have received a note",
+    "englishSource": "You have received a note"
+  },
+  "noteReceivedTapToClaim": {
+    "message": "Tap here to claim it",
+    "englishSource": "Tap here to claim it"
+  },
+  "tokenHistory": {
+    "message": "$tokenName$ History",
+    "englishSource": "$tokenName$ History",
+    "placeholders": {
+      "tokenname": {
+        "content": "$1"
+      }
+    }
+  },
+  "historyDetails": {
+    "message": "Details",
+    "englishSource": "Details"
   }
 }

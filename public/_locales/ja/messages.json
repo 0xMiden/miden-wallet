@@ -255,8 +255,13 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "私の Seed phrase は {{num}} 語です",
-    "englishSource": "My Seed phrase is {{num}} words"
+    "message": "私の Seed phrase は $num$ 言葉",
+    "englishSource": "My Seed phrase is $num$ words",
+    "placeholders": {
+      "num": {
+        "content": "$1"
+      }
+    }
   },
   "justValidPreGeneratedMnemonic": {
     "message": "有効な事前生成されたニーモニック",
@@ -317,8 +322,13 @@
     }
   },
   "maximalAmount": {
-    "message": "最大値: {{金額}}",
-    "englishSource": "Maximal: {{amount}}"
+    "message": "最大値: $amount$ ",
+    "englishSource": "Maximal: $amount$",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
   },
   "accountName": {
     "message": "アカウント名",
@@ -575,8 +585,13 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "{{currency}} の資金が不足しています",
-    "englishSource": "Not enough {{currency}} funds"
+    "message": "足りない $currency$ 資金",
+    "englishSource": "Not enough $currency$ funds",
+    "placeholders": {
+      "currency": {
+        "content": "$1"
+      }
+    }
   },
   "failed": {
     "message": "失敗しました",
@@ -604,8 +619,13 @@
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "{{アクション}}を確認してください",
-    "englishSource": "Confirm {{action}}"
+    "message": "確認する $action$ ",
+    "englishSource": "Confirm $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
   },
   "confirm": {
     "message": "確定",
@@ -933,18 +953,6 @@
   "other": {
     "message": "他の",
     "englishSource": "Other"
-  },
-  "thousandFormat": {
-    "message": "{{千}}k",
-    "englishSource": "{{thousand}}k"
-  },
-  "millionFormat": {
-    "message": "{{百万}}M",
-    "englishSource": "{{million}}M"
-  },
-  "billionFormat": {
-    "message": "{{十億}}B",
-    "englishSource": "{{billion}}B"
   },
   "uploadFile": {
     "message": "ファイルをアップロードする",
@@ -1972,5 +1980,186 @@
   "last": {
     "message": "最後",
     "englishSource": "Last"
+  },
+  "dappBrowser": {
+    "message": "DAppブラウザ",
+    "englishSource": "DApp Browser"
+  },
+  "dappBrowserComingSoon": {
+    "message": "近日公開",
+    "englishSource": "Coming soon"
+  },
+  "dappBrowserDescription": {
+    "message": "分散型アプリを閲覧し、ウォレットを安全に接続します",
+    "englishSource": "Browse decentralized apps and connect your wallet securely"
+  },
+  "enterUrl": {
+    "message": "URLを入力するか検索してください",
+    "englishSource": "Enter URL or search"
+  },
+  "go": {
+    "message": "行く",
+    "englishSource": "Go"
+  },
+  "recentSites": {
+    "message": "最近の",
+    "englishSource": "Recent"
+  },
+  "loading": {
+    "message": "読み込み中...",
+    "englishSource": "Loading..."
+  },
+  "favourites": {
+    "message": "お気に入り",
+    "englishSource": "Favourites"
+  },
+  "approve": {
+    "message": "承認する",
+    "englishSource": "Approve"
+  },
+  "dappConnectionRequest": {
+    "message": "このアプリはあなたのウォレットに接続しようとしています",
+    "englishSource": "This app wants to connect to your wallet"
+  },
+  "dappTransactionRequest": {
+    "message": "このアプリはトランザクションを要求しています",
+    "englishSource": "This app is requesting a transaction"
+  },
+  "noAccountSelected": {
+    "message": "アカウントが選択されていません",
+    "englishSource": "No account selected"
+  },
+  "biometricUnlock": {
+    "message": "生体認証によるロック解除",
+    "englishSource": "Biometric Unlock"
+  },
+  "biometricUnlockDescription": {
+    "message": "パスワードを入力する代わりに、Face ID または指紋を使用してウォレットのロックを解除します。",
+    "englishSource": "Use Face ID or fingerprint to unlock your wallet instead of entering your password."
+  },
+  "biometricSetup": {
+    "message": "生体認証によるロック解除を設定する",
+    "englishSource": "Set Up Biometric Unlock"
+  },
+  "biometricSetupDescription": {
+    "message": "顔または指紋を使用して、ウォレットのロックをすばやく解除します。",
+    "englishSource": "Use your face or fingerprint to quickly unlock your wallet."
+  },
+  "biometricSetupSubtitle": {
+    "message": "生体認証を有効にすると、ウォレットへのアクセスがより速く、より安全になります。",
+    "englishSource": "Enable biometric authentication for faster, more secure access to your wallet."
+  },
+  "enableBiometric": {
+    "message": "生体認証を有効にする",
+    "englishSource": "Enable Biometric"
+  },
+  "skipBiometricSetup": {
+    "message": "今のところスキップしてください",
+    "englishSource": "Skip for now"
+  },
+  "biometricAuthRequired": {
+    "message": "生体認証が必要です",
+    "englishSource": "Biometric authentication required"
+  },
+  "unlockWithBiometric": {
+    "message": "生体認証によるロック解除",
+    "englishSource": "Unlock with biometric"
+  },
+  "biometricFailed": {
+    "message": "生体認証に失敗しました",
+    "englishSource": "Biometric authentication failed"
+  },
+  "biometricNotAvailable": {
+    "message": "このデバイスでは生体認証は利用できません",
+    "englishSource": "Biometric authentication is not available on this device"
+  },
+  "usePasswordInstead": {
+    "message": "代わりにパスワードを使用してください",
+    "englishSource": "Use Password Instead"
+  },
+  "biometricEnabled": {
+    "message": "生体認証によるロック解除が有効になっています",
+    "englishSource": "Biometric unlock enabled"
+  },
+  "biometricDisabled": {
+    "message": "生体認証によるロック解除が無効になっています",
+    "englishSource": "Biometric unlock disabled"
+  },
+  "enterPasswordToEnableBiometric": {
+    "message": "パスワードを入力して生体認証によるロック解除を有効にします",
+    "englishSource": "Enter your password to enable biometric unlock"
+  },
+  "faceId": {
+    "message": "顔認証",
+    "englishSource": "Face ID"
+  },
+  "touchId": {
+    "message": "タッチID",
+    "englishSource": "Touch ID"
+  },
+  "fingerprint": {
+    "message": "指紋",
+    "englishSource": "Fingerprint"
+  },
+  "biometricType": {
+    "message": "生体認証タイプ",
+    "englishSource": "Biometric Type"
+  },
+  "scanQr": {
+    "message": "QRコードをスキャン",
+    "englishSource": "Scan QR Code"
+  },
+  "cameraPermissionDenied": {
+    "message": "カメラの許可が拒否されました",
+    "englishSource": "Camera permission denied"
+  },
+  "noQrCodeFound": {
+    "message": "QRコードが見つかりませんでした",
+    "englishSource": "No QR code found"
+  },
+  "emptyQrCode": {
+    "message": "空の QR コード",
+    "englishSource": "Empty QR code"
+  },
+  "invalidMidenAddress": {
+    "message": "無効なミデンアドレス",
+    "englishSource": "Invalid Miden address"
+  },
+  "scanCancelled": {
+    "message": "スキャンがキャンセルされました",
+    "englishSource": "Scan cancelled"
+  },
+  "hapticFeedback": {
+    "message": "触覚フィードバック",
+    "englishSource": "Haptic Feedback"
+  },
+  "hapticFeedbackDescription": {
+    "message": "ボタンやコントロールをタップすると振動を感じる",
+    "englishSource": "Feel a vibration when tapping buttons and controls"
+  },
+  "noNotesToClaim": {
+    "message": "現在、申請できる notes はありませんが、申請するとここに表示されます。",
+    "englishSource": "You don't currently have notes to claim, but when you do, they will appear here."
+  },
+  "noteReceivedTitle": {
+    "message": "note を受け取りました",
+    "englishSource": "You have received a note"
+  },
+  "noteReceivedTapToClaim": {
+    "message": "ここをタップして申請してください",
+    "englishSource": "Tap here to claim it"
+  },
+  "tokenHistory": {
+    "message": "$tokenName$ の歴史",
+    "englishSource": "$tokenName$ History",
+    "placeholders": {
+      "tokenname": {
+        "content": "$1"
+      }
+    }
+  },
+  "historyDetails": {
+    "message": "詳細",
+    "englishSource": "Details"
   }
 }

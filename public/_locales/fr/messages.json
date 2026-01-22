@@ -255,8 +255,13 @@
     "englishSource": "Each word separated with a single space"
   },
   "seedInputNumberOfWords": {
-    "message": "Mon Seed phrase contient {{num}} mots",
-    "englishSource": "My Seed phrase is {{num}} words"
+    "message": "Mon Seed phrase est $num$ mots",
+    "englishSource": "My Seed phrase is $num$ words",
+    "placeholders": {
+      "num": {
+        "content": "$1"
+      }
+    }
   },
   "justValidPreGeneratedMnemonic": {
     "message": "Juste un moyen mnémotechnique prégénéré et valide",
@@ -317,8 +322,13 @@
     }
   },
   "maximalAmount": {
-    "message": "Maximum : {{montant}}",
-    "englishSource": "Maximal: {{amount}}"
+    "message": "Maximale : $amount$ ",
+    "englishSource": "Maximal: $amount$",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
   },
   "accountName": {
     "message": "Nom de compte",
@@ -575,8 +585,13 @@
     "englishSource": "Not enough funds"
   },
   "notEnoughCurrencyFunds": {
-    "message": "Pas assez de fonds en {{currency}}",
-    "englishSource": "Not enough {{currency}} funds"
+    "message": "Pas assez $currency$ fonds",
+    "englishSource": "Not enough $currency$ funds",
+    "placeholders": {
+      "currency": {
+        "content": "$1"
+      }
+    }
   },
   "failed": {
     "message": "Échec",
@@ -604,8 +619,13 @@
     "englishSource": "Network or other technical issue."
   },
   "confirmAction": {
-    "message": "Confirmer {{action}}",
-    "englishSource": "Confirm {{action}}"
+    "message": "Confirmer $action$ ",
+    "englishSource": "Confirm $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
   },
   "confirm": {
     "message": "Confirmer",
@@ -933,18 +953,6 @@
   "other": {
     "message": "Autre",
     "englishSource": "Other"
-  },
-  "thousandFormat": {
-    "message": "{{mille}}k",
-    "englishSource": "{{thousand}}k"
-  },
-  "millionFormat": {
-    "message": "{{millions}}M",
-    "englishSource": "{{million}}M"
-  },
-  "billionFormat": {
-    "message": "{{milliards}} B",
-    "englishSource": "{{billion}}B"
   },
   "uploadFile": {
     "message": "Téléverser un fichier",
@@ -1960,5 +1968,186 @@
   "last": {
     "message": "Dernier",
     "englishSource": "Last"
+  },
+  "dappBrowser": {
+    "message": "Navigateur DApp",
+    "englishSource": "DApp Browser"
+  },
+  "dappBrowserComingSoon": {
+    "message": "À venir",
+    "englishSource": "Coming soon"
+  },
+  "dappBrowserDescription": {
+    "message": "Parcourez les applications décentralisées et connectez votre portefeuille en toute sécurité",
+    "englishSource": "Browse decentralized apps and connect your wallet securely"
+  },
+  "enterUrl": {
+    "message": "Entrez l'URL ou recherchez",
+    "englishSource": "Enter URL or search"
+  },
+  "go": {
+    "message": "Aller",
+    "englishSource": "Go"
+  },
+  "recentSites": {
+    "message": "Récent",
+    "englishSource": "Recent"
+  },
+  "loading": {
+    "message": "Chargement...",
+    "englishSource": "Loading..."
+  },
+  "favourites": {
+    "message": "Favoris",
+    "englishSource": "Favourites"
+  },
+  "approve": {
+    "message": "Approuver",
+    "englishSource": "Approve"
+  },
+  "dappConnectionRequest": {
+    "message": "Cette application veut se connecter à votre portefeuille",
+    "englishSource": "This app wants to connect to your wallet"
+  },
+  "dappTransactionRequest": {
+    "message": "Cette application demande une transaction",
+    "englishSource": "This app is requesting a transaction"
+  },
+  "noAccountSelected": {
+    "message": "Aucun compte sélectionné",
+    "englishSource": "No account selected"
+  },
+  "biometricUnlock": {
+    "message": "Déverrouillage biométrique",
+    "englishSource": "Biometric Unlock"
+  },
+  "biometricUnlockDescription": {
+    "message": "Utilisez Face ID ou votre empreinte digitale pour déverrouiller votre portefeuille au lieu de saisir votre mot de passe.",
+    "englishSource": "Use Face ID or fingerprint to unlock your wallet instead of entering your password."
+  },
+  "biometricSetup": {
+    "message": "Configurer le déverrouillage biométrique",
+    "englishSource": "Set Up Biometric Unlock"
+  },
+  "biometricSetupDescription": {
+    "message": "Utilisez votre visage ou vos empreintes digitales pour déverrouiller rapidement votre portefeuille.",
+    "englishSource": "Use your face or fingerprint to quickly unlock your wallet."
+  },
+  "biometricSetupSubtitle": {
+    "message": "Activez l'authentification biométrique pour un accès plus rapide et plus sécurisé à votre portefeuille.",
+    "englishSource": "Enable biometric authentication for faster, more secure access to your wallet."
+  },
+  "enableBiometric": {
+    "message": "Activer la biométrie",
+    "englishSource": "Enable Biometric"
+  },
+  "skipBiometricSetup": {
+    "message": "Passer pour l'instant",
+    "englishSource": "Skip for now"
+  },
+  "biometricAuthRequired": {
+    "message": "Authentification biométrique requise",
+    "englishSource": "Biometric authentication required"
+  },
+  "unlockWithBiometric": {
+    "message": "Déverrouiller avec la biométrie",
+    "englishSource": "Unlock with biometric"
+  },
+  "biometricFailed": {
+    "message": "L'authentification biométrique a échoué",
+    "englishSource": "Biometric authentication failed"
+  },
+  "biometricNotAvailable": {
+    "message": "L'authentification biométrique n'est pas disponible sur cet appareil",
+    "englishSource": "Biometric authentication is not available on this device"
+  },
+  "usePasswordInstead": {
+    "message": "Utilisez plutôt un mot de passe",
+    "englishSource": "Use Password Instead"
+  },
+  "biometricEnabled": {
+    "message": "Déverrouillage biométrique activé",
+    "englishSource": "Biometric unlock enabled"
+  },
+  "biometricDisabled": {
+    "message": "Déverrouillage biométrique désactivé",
+    "englishSource": "Biometric unlock disabled"
+  },
+  "enterPasswordToEnableBiometric": {
+    "message": "Entrez votre mot de passe pour activer le déverrouillage biométrique",
+    "englishSource": "Enter your password to enable biometric unlock"
+  },
+  "faceId": {
+    "message": "Identification du visage",
+    "englishSource": "Face ID"
+  },
+  "touchId": {
+    "message": "Toucher l'identification",
+    "englishSource": "Touch ID"
+  },
+  "fingerprint": {
+    "message": "Empreinte digitale",
+    "englishSource": "Fingerprint"
+  },
+  "biometricType": {
+    "message": "Type biométrique",
+    "englishSource": "Biometric Type"
+  },
+  "scanQr": {
+    "message": "Scanner le code QR",
+    "englishSource": "Scan QR Code"
+  },
+  "cameraPermissionDenied": {
+    "message": "Autorisation de la caméra refusée",
+    "englishSource": "Camera permission denied"
+  },
+  "noQrCodeFound": {
+    "message": "Aucun code QR trouvé",
+    "englishSource": "No QR code found"
+  },
+  "emptyQrCode": {
+    "message": "Code QR vide",
+    "englishSource": "Empty QR code"
+  },
+  "invalidMidenAddress": {
+    "message": "Adresse Miden invalide",
+    "englishSource": "Invalid Miden address"
+  },
+  "scanCancelled": {
+    "message": "Analyse annulée",
+    "englishSource": "Scan cancelled"
+  },
+  "hapticFeedback": {
+    "message": "Retour haptique",
+    "englishSource": "Haptic Feedback"
+  },
+  "hapticFeedbackDescription": {
+    "message": "Ressentez une vibration lorsque vous appuyez sur les boutons et les commandes",
+    "englishSource": "Feel a vibration when tapping buttons and controls"
+  },
+  "noNotesToClaim": {
+    "message": "Vous n'avez actuellement pas de notes à réclamer, mais lorsque vous le ferez, ils apparaîtront ici.",
+    "englishSource": "You don't currently have notes to claim, but when you do, they will appear here."
+  },
+  "noteReceivedTitle": {
+    "message": "Vous avez reçu un note",
+    "englishSource": "You have received a note"
+  },
+  "noteReceivedTapToClaim": {
+    "message": "Appuyez ici pour le réclamer",
+    "englishSource": "Tap here to claim it"
+  },
+  "tokenHistory": {
+    "message": "Historique de $tokenName$",
+    "englishSource": "$tokenName$ History",
+    "placeholders": {
+      "tokenname": {
+        "content": "$1"
+      }
+    }
+  },
+  "historyDetails": {
+    "message": "Détails",
+    "englishSource": "Details"
   }
 }
