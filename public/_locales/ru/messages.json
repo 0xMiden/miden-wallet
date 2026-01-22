@@ -2173,5 +2173,17 @@
   "historyDetails": {
     "message": "Подробности",
     "englishSource": "Details"
+  },
+  "passwordsCanBeInsecure": {
+    "message": "Пароли могут быть небезопасными. Вместо этого используйте биометрическую аутентификацию.",
+    "englishSource": "Passwords can be insecure. Use biometric authentication instead."
+  },
+  "unlockWallet": {
+    "message": "Разблокировать кошелек",
+    "englishSource": "Unlock Wallet"
+  },
+  "unlockWalletDescription": {
+    "message": "С помощью seed phrase вы всегда можете восстановить свою общедоступную учетную запись. Выберите ниже, как быстро разблокировать свой кошелек.",
+    "englishSource": "With the seed phrase, you can always restore your public account. Choose below how to quickly unlock your wallet."
   }
 }

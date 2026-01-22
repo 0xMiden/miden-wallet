@@ -2173,5 +2173,17 @@
   "historyDetails": {
     "message": "詳細",
     "englishSource": "Details"
+  },
+  "passwordsCanBeInsecure": {
+    "message": "パスワードは安全ではない場合があります。代わりに生体認証を使用してください。",
+    "englishSource": "Passwords can be insecure. Use biometric authentication instead."
+  },
+  "unlockWallet": {
+    "message": "ウォレットのロックを解除する",
+    "englishSource": "Unlock Wallet"
+  },
+  "unlockWalletDescription": {
+    "message": "seed phrase を使用すると、いつでも公開アカウントを復元できます。ウォレットのロックを素早く解除する方法を以下から選択してください。",
+    "englishSource": "With the seed phrase, you can always restore your public account. Choose below how to quickly unlock your wallet."
   }
 }

@@ -2173,5 +2173,17 @@
   "historyDetails": {
     "message": "Подробиці",
     "englishSource": "Details"
+  },
+  "passwordsCanBeInsecure": {
+    "message": "Паролі можуть бути ненадійними. Натомість використовуйте біометричну автентифікацію.",
+    "englishSource": "Passwords can be insecure. Use biometric authentication instead."
+  },
+  "unlockWallet": {
+    "message": "Розблокувати гаманець",
+    "englishSource": "Unlock Wallet"
+  },
+  "unlockWalletDescription": {
+    "message": "За допомогою seed phrase ви завжди можете відновити свій публічний обліковий запис. Виберіть нижче, як швидко розблокувати свій гаманець.",
+    "englishSource": "With the seed phrase, you can always restore your public account. Choose below how to quickly unlock your wallet."
   }
 }

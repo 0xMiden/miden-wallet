@@ -2093,5 +2093,17 @@
   "historyDetails": {
     "message": "Detalles",
     "englishSource": "Details"
+  },
+  "passwordsCanBeInsecure": {
+    "message": "Las contraseñas pueden ser inseguras. Utilice en su lugar la autenticación biométrica.",
+    "englishSource": "Passwords can be insecure. Use biometric authentication instead."
+  },
+  "unlockWallet": {
+    "message": "Desbloquear billetera",
+    "englishSource": "Unlock Wallet"
+  },
+  "unlockWalletDescription": {
+    "message": "Con seed phrase, siempre puedes restaurar tu cuenta pública. Elija a continuación cómo desbloquear rápidamente su billetera.",
+    "englishSource": "With the seed phrase, you can always restore your public account. Choose below how to quickly unlock your wallet."
   }
 }
