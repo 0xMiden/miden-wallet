@@ -446,6 +446,10 @@ public class LocalBiometricPlugin: CAPPlugin, CAPBridgedPlugin {
         // on some iOS versions when using kSecUseAuthenticationContext
         let context = LAContext()
 
+        // Allow the authentication result to be reused for subsequent key operations
+        // This prevents a second FaceID prompt when using the private key
+        context.touchIDAuthenticationAllowableReuseDuration = 10 // 10 seconds should be plenty
+
         // Use deviceOwnerAuthentication to allow both biometric and passcode
         let policy = LAPolicy.deviceOwnerAuthentication
 
