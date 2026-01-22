@@ -20,7 +20,7 @@ use security_framework::access_control::{ProtectionMode, SecAccessControl};
 use security_framework::item::{ItemClass, ItemSearchOptions, KeyClass, Location, Reference, SearchResult};
 use security_framework::key::{GenerateKeyOptions, KeyType, SecKey, Token};
 use security_framework_sys::access_control::{
-    kSecAccessControlBiometryCurrentSet, kSecAccessControlPrivateKeyUsage,
+    kSecAccessControlPrivateKeyUsage, kSecAccessControlUserPresence,
 };
 use std::os::raw::c_void;
 use std::ptr;
@@ -58,9 +58,9 @@ pub fn generate_hardware_key() -> Result<(), String> {
         return Ok(());
     }
 
-    // Create access control: require biometric authentication
-    // Flags: BiometryCurrentSet (require enrolled biometrics) + PrivateKeyUsage (for SE keys)
-    let flags = kSecAccessControlBiometryCurrentSet | kSecAccessControlPrivateKeyUsage;
+    // Create access control: require user presence (Touch ID or system password)
+    // Flags: UserPresence (biometric OR password) + PrivateKeyUsage (for SE keys)
+    let flags = kSecAccessControlUserPresence | kSecAccessControlPrivateKeyUsage;
     let access_control =
         SecAccessControl::create_with_protection(Some(ProtectionMode::AccessibleWhenUnlockedThisDeviceOnly), flags)
             .map_err(|e| format!("Failed to create access control: {}", e))?;

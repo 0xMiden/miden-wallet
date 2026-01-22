@@ -56,6 +56,7 @@
     "build:desktop:dev": "cross-env DISABLE_TS_CHECKER=true NODE_ENV=development MODE_ENV=development webpack --config webpack.desktop.config.js",
     "desktop:dev": "yarn build:desktop:dev && yarn tauri dev",
     "desktop:build": "yarn build:desktop && yarn tauri build",
+    "desktop:reset": "rm -rf ~/Library/WebKit/com.miden.wallet ~/Library/Caches/com.miden.wallet ~/Library/Application\\ Support/com.miden.wallet",
     "tauri": "tauri"
   },
   "dependencies": {

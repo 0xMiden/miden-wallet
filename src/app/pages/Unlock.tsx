@@ -14,7 +14,7 @@ import { useFormAnalytics } from 'lib/analytics';
 import { isBiometricEnabled } from 'lib/biometric';
 import { useLocalStorage, useMidenContext } from 'lib/miden/front';
 import { MidenSharedStorageKey } from 'lib/miden/types';
-import { isExtension, isMobile } from 'lib/platform';
+import { isDesktop, isExtension, isMobile } from 'lib/platform';
 import { navigate } from 'lib/woozie';
 import { BiometricUnlock } from 'screens/biometric-unlock';
 
@@ -50,10 +50,43 @@ const Unlock: FC<UnlockProps> = ({ openForgotPasswordInFullPage = false }) => {
   const [timelock, setTimeLock] = useLocalStorage<number>(MidenSharedStorageKey.TimeLock, 0);
   const lockLevel = LOCK_TIME * Math.floor(attempt / 3);
 
-  // BIOMETRIC UNLOCK STATE - Only used on mobile (PRIMARY ISOLATION GUARD)
-  // On extension, showBiometric will always be false
+  // BIOMETRIC/HARDWARE UNLOCK STATE
+  // Mobile: uses BiometricUnlock component
+  // Desktop: tries hardware unlock (Touch ID) automatically
+  // Extension: always shows password form
   const [showBiometric, setShowBiometric] = useState(false);
   const [biometricChecked, setBiometricChecked] = useState(false);
+  const [hardwareUnlockAttempted, setHardwareUnlockAttempted] = useState(false);
+
+  // On desktop, try hardware unlock automatically on mount
+  useEffect(() => {
+    const tryDesktopHardwareUnlock = async () => {
+      if (!isDesktop() || hardwareUnlockAttempted) {
+        return;
+      }
+      setHardwareUnlockAttempted(true);
+
+      try {
+        const { hasHardwareKey } = await import('lib/desktop/secure-storage');
+        const hasKey = await hasHardwareKey();
+        console.log('[Unlock] Desktop hardware key available:', hasKey);
+
+        if (hasKey) {
+          // Try hardware unlock - this will trigger Touch ID
+          console.log('[Unlock] Attempting hardware unlock (Touch ID)...');
+          await unlock(); // No password = try hardware unlock
+          setAttempt(1);
+          navigate('/');
+          return;
+        }
+      } catch (err) {
+        console.log('[Unlock] Hardware unlock failed or cancelled:', err);
+        // Fall through to password form
+      }
+    };
+
+    tryDesktopHardwareUnlock();
+  }, [hardwareUnlockAttempted, unlock, setAttempt]);
 
   // Check if biometric is enabled on mount (only on mobile)
   useEffect(() => {

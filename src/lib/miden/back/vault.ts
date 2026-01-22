@@ -591,17 +591,27 @@ async function setupHardwareProtector(vaultKeyBytes: Uint8Array): Promise<void> 
   if (isDesktop()) {
     try {
       const ss = await import('lib/desktop/secure-storage');
+      await ss.tauriLog('[setupHardwareProtector] Starting...');
       const available = await ss.isHardwareSecurityAvailable();
+      await ss.tauriLog(`[setupHardwareProtector] Hardware security available: ${available}`);
       if (available) {
-        if (!(await ss.hasHardwareKey())) {
+        const hasKey = await ss.hasHardwareKey();
+        await ss.tauriLog(`[setupHardwareProtector] Has existing hardware key: ${hasKey}`);
+        if (!hasKey) {
+          await ss.tauriLog('[setupHardwareProtector] Generating hardware key...');
           await ss.generateHardwareKey();
+          await ss.tauriLog('[setupHardwareProtector] Hardware key generated');
         }
+        await ss.tauriLog('[setupHardwareProtector] Encrypting vault key with hardware key...');
         const vaultKeyBase64 = Buffer.from(vaultKeyBytes).toString('base64');
         const hardwareProtectedVaultKey = await ss.encryptWithHardwareKey(vaultKeyBase64);
+        await ss.tauriLog('[setupHardwareProtector] Saving hardware-protected vault key...');
         await savePlain(VAULT_KEY_HARDWARE_STORAGE_KEY, hardwareProtectedVaultKey);
+        await ss.tauriLog('[setupHardwareProtector] Hardware protection setup complete');
       }
     } catch (error) {
-      console.warn('Failed to set up hardware security:', error);
+      const ss = await import('lib/desktop/secure-storage');
+      await ss.tauriLog(`[setupHardwareProtector] Failed: ${error}`);
     }
   }
 
