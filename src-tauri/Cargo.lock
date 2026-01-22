@@ -2072,6 +2072,7 @@ dependencies = [
  "tauri-plugin-shell",
  "tauri-plugin-single-instance",
  "thiserror 1.0.69",
+ "url",
  "windows 0.58.0",
 ]
 

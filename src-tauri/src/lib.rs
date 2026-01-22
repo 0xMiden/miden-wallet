@@ -1,3 +1,4 @@
+mod dapp_browser;
 mod secure_storage;
 mod tray;
 
@@ -60,6 +61,12 @@ pub fn run() {
             secure_storage::delete_hardware_key,
             secure_storage::is_hardware_security_available,
             secure_storage::has_hardware_key,
+            dapp_browser::open_dapp_window,
+            dapp_browser::close_dapp_window,
+            dapp_browser::dapp_navigate,
+            dapp_browser::dapp_get_url,
+            dapp_browser::dapp_wallet_request,
+            dapp_browser::dapp_wallet_response,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

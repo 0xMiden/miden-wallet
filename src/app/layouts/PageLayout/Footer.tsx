@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { IconName } from 'app/icons/v2';
 import { FooterIconWrapper } from 'components/FooterIconWrapper';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
-import { isMobile } from 'lib/platform';
+import { isDesktop, isMobile } from 'lib/platform';
 
 interface FooterProps {
   historyBadge?: boolean;
@@ -53,7 +53,7 @@ const Footer: FC<FooterProps> = ({ historyBadge }) => {
           linkTo={'/settings'}
           onClick={onSettingsClick}
         />
-        {isMobile() && (
+        {(isMobile() || isDesktop()) && (
           <FooterIconWrapper
             icon={IconName.Globe}
             iconFill={IconName.GlobalFill}

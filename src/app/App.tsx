@@ -14,7 +14,7 @@ import { MobileBackBridge } from 'app/MobileBackBridge';
 import PageRouter from 'app/PageRouter';
 import { ExtensionMessageListener } from 'components/ConnectivityIssueBanner';
 import { MidenProvider } from 'lib/miden/front';
-import { isExtension, isMobile as checkIsMobile } from 'lib/platform';
+import { isDesktop as checkIsDesktop, isExtension, isMobile as checkIsMobile } from 'lib/platform';
 import { PropsWithChildren } from 'lib/props-with-children';
 import { DialogsProvider } from 'lib/ui/dialog';
 import * as Woozie from 'lib/woozie';
@@ -54,13 +54,21 @@ const App: FC<AppProps> = ({ env }) => {
 
 export default App;
 
+// Lazy load desktop dApp handler to avoid loading Tauri APIs on non-desktop platforms
+const DesktopDappHandler = React.lazy(() => import('lib/desktop/DesktopDappHandler'));
+
 const AppProvider: FC<AppProps> = ({ children, env }) => {
-  console.log('[AppProvider] Rendering, isMobile:', checkIsMobile());
+  console.log('[AppProvider] Rendering, isMobile:', checkIsMobile(), 'isDesktop:', checkIsDesktop());
   return (
     <AppEnvProvider {...env}>
       <Woozie.Provider>
         <ExtensionMessageListener />
         {checkIsMobile() && <MobileBackBridge />}
+        {checkIsDesktop() && (
+          <Suspense fallback={null}>
+            <DesktopDappHandler />
+          </Suspense>
+        )}
         <MidenProvider>{children}</MidenProvider>
       </Woozie.Provider>
     </AppEnvProvider>
