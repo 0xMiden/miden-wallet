@@ -1,8 +1,10 @@
 import { fetchFromStorage, putToStorage, onStorageChanged } from './storage';
 
-// Mock isMobile to return false so extension code paths run
+// Mock platform detection - default to extension context
+const mockIsExtension = jest.fn(() => true);
 jest.mock('lib/platform', () => ({
-  isMobile: () => false
+  isMobile: () => false,
+  isExtension: () => mockIsExtension()
 }));
 
 const mockStorage = {
@@ -36,6 +38,7 @@ const flushPromises = () => new Promise(resolve => setTimeout(resolve, 0));
 describe('storage utilities', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockIsExtension.mockReturnValue(true);
   });
 
   describe('fetchFromStorage', () => {
@@ -166,6 +169,17 @@ describe('storage utilities', () => {
       registeredHandler({ 'my-key': { newValue: 'new-value' } }, 'sync');
 
       expect(callback).not.toHaveBeenCalled();
+    });
+
+    it('returns no-op cleanup on mobile/desktop', () => {
+      mockIsExtension.mockReturnValue(false);
+      const callback = jest.fn();
+
+      const cleanup = onStorageChanged('my-key', callback);
+
+      expect(typeof cleanup).toBe('function');
+      // Should not register listener on mobile/desktop
+      expect(mockStorage.onChanged.addListener).not.toHaveBeenCalled();
     });
   });
 });

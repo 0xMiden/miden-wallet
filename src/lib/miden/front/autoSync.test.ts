@@ -5,6 +5,13 @@ import { Sync } from './autoSync';
 const mockSyncState = jest.fn();
 const mockSetSyncStatus = jest.fn();
 
+// Mock lib/platform
+jest.mock('lib/platform', () => ({
+  isMobile: jest.fn(() => false),
+  isDesktop: jest.fn(() => false),
+  isExtension: jest.fn(() => true)
+}));
+
 jest.mock('../sdk/miden-client', () => {
   return {
     getMidenClient: jest.fn(() =>
@@ -28,12 +35,15 @@ jest.mock('lib/store', () => ({
 }));
 
 // Helper to advance time and flush promises in an interleaved way
-async function advanceTimeAndFlush(ms: number, steps = 20) {
+async function advanceTimeAndFlush(ms: number, steps = 50) {
   const stepMs = ms / steps;
   for (let i = 0; i < steps; i++) {
     jest.advanceTimersByTime(stepMs);
+    // Multiple flushes needed for deeply nested async operations (syncLog calls)
     await Promise.resolve();
-    await Promise.resolve(); // Double flush for deeply nested promises
+    await Promise.resolve();
+    await Promise.resolve();
+    await Promise.resolve();
   }
 }
 

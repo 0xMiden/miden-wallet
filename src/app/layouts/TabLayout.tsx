@@ -6,7 +6,7 @@ import { useAppEnv } from 'app/env';
 import { useHistoryBadge } from 'app/hooks/useHistoryBadge';
 import Footer from 'app/layouts/PageLayout/Footer';
 import { isReturningFromWebview } from 'lib/mobile/webview-state';
-import { isMobile } from 'lib/platform';
+import { isDesktop, isMobile } from 'lib/platform';
 import { PropsWithChildren } from 'lib/props-with-children';
 import { useLocation } from 'lib/woozie';
 
@@ -44,12 +44,17 @@ const TabLayout: FC<PropsWithChildren> = ({ children }) => {
     };
   }, [pathname]);
 
-  // Container sizing - use 100% to inherit from parent chain (body has safe area padding)
+  // Platform-specific sizing:
+  // - Mobile: 100% to inherit from parent chain (body has safe area padding)
+  // - Desktop: Responsive with max-width for comfortable reading
+  // - Extension: Fixed sizes for popup/fullpage modes
   const containerStyles = isMobile()
     ? { height: '100%', width: '100%' }
-    : fullPage
-      ? { height: '640px', width: '600px' }
-      : { height: '600px', width: '360px' };
+    : isDesktop()
+      ? { height: '100%', width: '100%', maxWidth: '600px' }
+      : fullPage
+        ? { height: '640px', width: '600px' }
+        : { height: '600px', width: '360px' };
 
   return (
     <div className={classNames('flex flex-col m-auto bg-white', fullPage && 'rounded-3xl')} style={containerStyles}>

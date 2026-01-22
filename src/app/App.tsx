@@ -14,14 +14,15 @@ import { MobileBackBridge } from 'app/MobileBackBridge';
 import PageRouter from 'app/PageRouter';
 import { ExtensionMessageListener } from 'components/ConnectivityIssueBanner';
 import { MidenProvider } from 'lib/miden/front';
-import { isMobile as checkIsMobile, isMobile } from 'lib/platform';
+import { isExtension, isMobile as checkIsMobile } from 'lib/platform';
 import { PropsWithChildren } from 'lib/props-with-children';
 import { DialogsProvider } from 'lib/ui/dialog';
 import * as Woozie from 'lib/woozie';
 import '../i18n';
 
 import ConfirmPage from './ConfirmPage';
-if (!isMobile()) {
+// Lock-up checks are extension-only (uses webextension-polyfill)
+if (isExtension()) {
   import('lib/lock-up/run-checks');
 }
 

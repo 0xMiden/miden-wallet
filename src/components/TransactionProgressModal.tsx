@@ -6,7 +6,7 @@ import Modal from 'react-modal';
 
 import { safeGenerateTransactionsLoop as dbTransactionsLoop, getAllUncompletedTransactions } from 'lib/miden/activity';
 import { useMidenContext } from 'lib/miden/front';
-import { isMobile } from 'lib/platform';
+import { isExtension } from 'lib/platform';
 import { useWalletStore } from 'lib/store';
 import { useRetryableSWR } from 'lib/swr';
 import { GeneratingTransaction } from 'screens/generating-transaction/GeneratingTransaction';
@@ -104,8 +104,8 @@ export const TransactionProgressModal: FC = () => {
   // Only show complete if we've loaded AND there are no transactions
   const transactionComplete = hasLoadedOnce && transactions.length === 0;
 
-  // Only render on mobile - desktop uses separate tab for transaction progress
-  if (!isMobile()) {
+  // Only render on mobile/desktop - extension uses separate tab for transaction progress
+  if (isExtension()) {
     return null;
   }
 
@@ -127,7 +127,7 @@ export const TransactionProgressModal: FC = () => {
       isOpen={isOpen}
       onRequestClose={handleClose}
       shouldCloseOnOverlayClick={transactionComplete || error}
-      className={classNames('bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6 outline-none')}
+      className={classNames('bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 p-6 outline-none overflow-hidden')}
       overlayClassName="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-6"
       style={{
         overlay: { zIndex: 9999 },

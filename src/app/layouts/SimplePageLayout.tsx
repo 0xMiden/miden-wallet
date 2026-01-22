@@ -5,7 +5,7 @@ import classNames from 'clsx';
 import DocBg from 'app/a11y/DocBg';
 import { useAppEnv } from 'app/env';
 import ContentContainer from 'app/layouts/ContentContainer';
-import { isMobile } from 'lib/platform';
+import { isDesktop, isMobile } from 'lib/platform';
 import { PropsWithChildren } from 'lib/props-with-children';
 
 interface SimplePageLayoutProps extends PropsWithChildren {
@@ -15,13 +15,23 @@ interface SimplePageLayoutProps extends PropsWithChildren {
 
 const SimplePageLayout: FC<SimplePageLayoutProps> = ({ title, icon, children }) => {
   const { fullPage } = useAppEnv();
-  // On mobile, use 100% to inherit from parent chain (body has safe area padding)
-  const containerStyle = isMobile()
-    ? { height: '100%', width: '100%', overflow: 'hidden' }
-    : fullPage
-      ? { height: '600px', width: '360px', margin: 'auto', overflow: 'hidden' }
-      : {};
-  const containerClass = fullPage && !isMobile() ? 'shadow-2xl' : '';
+  // Platform-specific sizing:
+  // - Mobile: 100% height/width to fill viewport (body has safe area padding)
+  // - Desktop: responsive sizing (100% height, maxWidth: 600px, centered)
+  // - Extension fullpage: fixed size (600x360)
+  // - Extension popup: no explicit size
+  let containerStyle: React.CSSProperties;
+  if (isMobile()) {
+    containerStyle = { height: '100%', width: '100%', overflow: 'hidden' };
+  } else if (isDesktop()) {
+    containerStyle = { height: '100%', width: '100%', maxWidth: '600px', margin: '0 auto', overflow: 'hidden' };
+  } else if (fullPage) {
+    containerStyle = { height: '600px', width: '360px', margin: 'auto', overflow: 'hidden' };
+  } else {
+    containerStyle = {};
+  }
+  // Only show shadow for extension fullpage mode
+  const containerClass = fullPage && !isMobile() && !isDesktop() ? 'shadow-2xl' : '';
 
   return (
     <>

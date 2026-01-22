@@ -7,19 +7,8 @@ export const consumeNoteId = async (
   transactionResultBytes: Uint8Array,
   delegateTransaction?: boolean
 ): Promise<Uint8Array> => {
-  console.log('[consumeNoteId] Starting worker spawn...');
-
-  let worker;
-  try {
-    console.log('[consumeNoteId] Creating Worker instance...');
-    const workerInstance = new Worker('./consumeNoteId.js');
-    console.log('[consumeNoteId] Worker instance created, spawning...');
-    worker = await spawn<ConsumeNoteIdWorker>(workerInstance);
-    console.log('[consumeNoteId] Worker spawned successfully');
-  } catch (err) {
-    console.error('[consumeNoteId] Worker spawn failed:', err);
-    throw err;
-  }
+  const workerInstance = new Worker('./consumeNoteId.js');
+  const worker = await spawn<ConsumeNoteIdWorker>(workerInstance);
 
   try {
     const observable = worker(transactionResultBytes, delegateTransaction);
@@ -28,7 +17,6 @@ export const consumeNoteId = async (
       observable.subscribe({
         next: message => {
           if (message.type === 'connectivity_issue') {
-            console.log('[consumeNoteId] Received connectivity issue from worker');
             addConnectivityIssue();
           } else if (message.type === 'result') {
             resolve(message.payload);
@@ -37,9 +25,6 @@ export const consumeNoteId = async (
         error: err => {
           console.error('[consumeNoteId] Worker error:', err);
           reject(err);
-        },
-        complete: () => {
-          console.log('[consumeNoteId] Worker stream completed');
         }
       });
     });

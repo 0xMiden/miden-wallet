@@ -3,41 +3,87 @@ import { Buffer } from 'buffer';
 import * as Passworder from 'lib/miden/passworder';
 import { getStorageProvider, StorageProvider } from 'lib/platform/storage-adapter';
 
-// Get platform-appropriate storage provider
-const storage: StorageProvider = getStorageProvider();
+// Lazy-load storage provider to ensure platform detection has completed
+// (Tauri injects __TAURI_INTERNALS__ after initial script execution)
+let _storage: StorageProvider | null = null;
+function getStorage(): StorageProvider {
+  if (!_storage) {
+    _storage = getStorageProvider();
+  }
+  return _storage;
+}
 
 export async function isStored(storageKey: string) {
   storageKey = await wrapStorageKey(storageKey);
-
   const value = await getPlain(storageKey);
   return value !== undefined;
 }
 
-export async function fetchAndDecryptOne<T>(storageKey: string, passKey: CryptoKey) {
+/**
+ * Fetch and decrypt a single item.
+ *
+ * The key parameter can be either:
+ * - A PBKDF2 key (legacy password-derived key) - expects salt + iv + ciphertext format
+ * - An AES-GCM key (vault key) - expects iv + ciphertext format
+ */
+export async function fetchAndDecryptOne<T>(storageKey: string, key: CryptoKey) {
   storageKey = await wrapStorageKey(storageKey);
   const payload = await fetchEncryptedOne<string>(storageKey);
-  let cursor = 0;
-  const [saltHex, iv, dt] = [64, 32, -1].map(length =>
-    payload.slice(cursor, length !== -1 ? (cursor += length) : undefined)
-  );
-  const encrypted = { dt, iv };
-  const salt = new Uint8Array(Buffer.from(saltHex, 'hex'));
-  let derivedPassKey = await Passworder.deriveKey(passKey, salt);
-  return Passworder.decrypt<T>(encrypted, derivedPassKey);
+
+  // Check if this is a vault key (AES-GCM) or legacy passKey (PBKDF2)
+  const isVaultKey = key.algorithm.name === 'AES-GCM';
+
+  if (isVaultKey) {
+    // Vault key model: iv (32 hex) + ciphertext
+    const iv = payload.slice(0, 32);
+    const dt = payload.slice(32);
+    return Passworder.decrypt<T>({ dt, iv }, key);
+  } else {
+    // Legacy model: salt (64 hex) + iv (32 hex) + ciphertext
+    let cursor = 0;
+    const [saltHex, iv, dt] = [64, 32, -1].map(length =>
+      payload.slice(cursor, length !== -1 ? (cursor += length) : undefined)
+    );
+    const encrypted = { dt, iv };
+    const salt = new Uint8Array(Buffer.from(saltHex, 'hex'));
+    const derivedPassKey = await Passworder.deriveKey(key, salt);
+    return Passworder.decrypt<T>(encrypted, derivedPassKey);
+  }
 }
 
-export async function encryptAndSaveMany(items: [string, any][], passKey: CryptoKey) {
+/**
+ * Encrypt and save multiple items.
+ *
+ * The key parameter can be either:
+ * - A PBKDF2 key (legacy password-derived key) - will use salt + PBKDF2 derivation
+ * - An AES-GCM key (vault key) - will use direct encryption with random IV
+ *
+ * The key type is determined by checking the algorithm property.
+ */
+export async function encryptAndSaveMany(items: [string, any][], key: CryptoKey) {
+  // Check if this is a vault key (AES-GCM) or legacy passKey (PBKDF2)
+  const isVaultKey = key.algorithm.name === 'AES-GCM';
+
   const encItems = await Promise.all(
     items.map(async ([storageKey, stuff]) => {
       storageKey = await wrapStorageKey(storageKey);
 
-      const salt = Passworder.generateSalt();
+      let toSave: string;
 
-      const derivedPassKey = await Passworder.deriveKey(passKey, salt);
-      const { dt, iv } = await Passworder.encrypt(stuff, derivedPassKey);
-
-      const saltHex = Buffer.from(salt).toString('hex');
-      const toSave = [saltHex, iv, dt].join('');
+      if (isVaultKey) {
+        // Vault key model: direct AES-GCM encryption with random IV
+        const { dt, iv } = await Passworder.encrypt(stuff, key);
+        // Format: iv (32 hex chars = 16 bytes) + ciphertext
+        toSave = iv + dt;
+      } else {
+        // Legacy model: PBKDF2 derivation from passKey
+        const salt = Passworder.generateSalt();
+        const derivedPassKey = await Passworder.deriveKey(key, salt);
+        const { dt, iv } = await Passworder.encrypt(stuff, derivedPassKey);
+        // Format: salt (64 hex chars = 32 bytes) + iv (32 hex chars) + ciphertext
+        const saltHex = Buffer.from(salt).toString('hex');
+        toSave = saltHex + iv + dt;
+      }
 
       return [storageKey, toSave] as [typeof storageKey, typeof toSave];
     })
@@ -47,20 +93,20 @@ export async function encryptAndSaveMany(items: [string, any][], passKey: Crypto
 }
 
 export async function removeMany(keys: string[]) {
-  await storage.remove(await Promise.all(keys.map(wrapStorageKey)));
+  await getStorage().remove(await Promise.all(keys.map(wrapStorageKey)));
 }
 
 export async function getPlain<T>(key: string): Promise<T | undefined> {
-  const items = await storage.get([key]);
+  const items = await getStorage().get([key]);
   return items[key] as T | undefined;
 }
 
 export function savePlain<T>(key: string, value: T) {
-  return storage.set({ [key]: value });
+  return getStorage().set({ [key]: value });
 }
 
 async function fetchEncryptedOne<T>(key: string) {
-  const items = await storage.get([key]);
+  const items = await getStorage().get([key]);
   if (items[key] !== undefined) {
     return items[key] as T;
   } else {
@@ -72,7 +118,7 @@ async function saveEncrypted<T>(items: { [k: string]: T } | [string, T][]) {
   if (Array.isArray(items)) {
     items = iterToObj(items);
   }
-  await storage.set(items);
+  await getStorage().set(items);
 }
 
 function iterToObj(iter: [string, any][]) {
@@ -108,7 +154,7 @@ export async function isStoredLegacy(storageKey: string) {
  * @deprecated
  */
 export async function removeManyLegacy(keys: string[]) {
-  await storage.remove(keys);
+  await getStorage().remove(keys);
 }
 
 /**

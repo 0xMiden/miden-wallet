@@ -1,11 +1,11 @@
-import { isMobile } from 'lib/platform';
+import { isExtension } from 'lib/platform';
 
 // Lazy-loaded IntercomServer (only in extension context)
 let _intercom: import('lib/intercom/server').IntercomServer | null = null;
 
 export function getIntercom() {
-  if (isMobile()) {
-    throw new Error('IntercomServer is not available on mobile');
+  if (!isExtension()) {
+    throw new Error('IntercomServer is only available in extension context');
   }
   if (!_intercom) {
     // eslint-disable-next-line @typescript-eslint/no-var-requires

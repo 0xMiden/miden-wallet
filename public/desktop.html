@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="misc/logo-white-bg-16.png" />
+    <title>Miden Wallet</title>
+    <style>
+      /* Full height hierarchy for desktop */
+      html, body, #root {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      /* Text rendering improvements */
+      html {
+        -webkit-text-size-adjust: 100%;
+        -moz-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+        background-color: #FFFFFF;
+      }
+
+      /* Desktop app should fill the window */
+      #root > div {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+      }
+
+      /* Override extension-specific fixed width/height classes */
+      .w-\[360px\], .w-\[600px\], .w-\[37\.5rem\], .w-\[500px\] {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      .max-w-\[360px\], .max-w-\[600px\], .max-w-\[500px\] {
+        max-width: 100% !important;
+      }
+
+      .h-\[600px\], .h-\[640px\], .h-\[40rem\] {
+        height: 100% !important;
+      }
+
+      .max-h-\[600px\], .max-h-\[640px\] {
+        max-height: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

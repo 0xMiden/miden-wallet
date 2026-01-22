@@ -9,9 +9,9 @@
  * to access, providing hardware-level security for the vault decryption key.
  */
 
-import { isMobile, isIOS } from 'lib/platform';
+import { isMobile, isIOS, isAndroid } from 'lib/platform';
 
-import { LocalBiometric, LocalBiometricPlugin } from './localBiometricPlugin';
+import { LocalBiometric, LocalBiometricPlugin, HardwareSecurity, HardwareSecurityPlugin } from './localBiometricPlugin';
 
 // Storage key for biometric-protected vault credential
 const BIOMETRIC_CREDENTIAL_KEY = 'vault_biometric_key';
@@ -384,3 +384,160 @@ export const biometricService = {
 };
 
 export default biometricService;
+
+// =============================================================================
+// Hardware Security API for Vault Key Protection
+// =============================================================================
+
+/**
+ * Get the hardware security plugin based on platform.
+ * iOS: Uses LocalBiometric plugin (Secure Enclave)
+ * Android: Uses HardwareSecurity plugin (Android Keystore)
+ */
+function getHardwareSecurityPlugin(): LocalBiometricPlugin | HardwareSecurityPlugin | null {
+  if (!isMobile() || typeof window === 'undefined') {
+    return null;
+  }
+
+  if (isIOS()) {
+    return LocalBiometric;
+  }
+
+  if (isAndroid()) {
+    return HardwareSecurity;
+  }
+
+  return null;
+}
+
+/**
+ * Check if hardware-backed security is available for vault key protection.
+ * Returns true on real devices with Secure Enclave (iOS) or TEE/StrongBox (Android).
+ * Returns false on simulators/emulators.
+ */
+export async function isHardwareSecurityAvailable(): Promise<boolean> {
+  console.log('[HardwareSecurity] isHardwareSecurityAvailable called');
+  const plugin = getHardwareSecurityPlugin();
+
+  if (!plugin) {
+    console.log('[HardwareSecurity] Plugin not available');
+    return false;
+  }
+
+  try {
+    const result = await plugin.isHardwareSecurityAvailable();
+    console.log('[HardwareSecurity] isHardwareSecurityAvailable result:', result.available);
+    return result.available;
+  } catch (error) {
+    console.error('[HardwareSecurity] isHardwareSecurityAvailable error:', error);
+    return false;
+  }
+}
+
+/**
+ * Check if a hardware key already exists.
+ */
+export async function hasHardwareKey(): Promise<boolean> {
+  console.log('[HardwareSecurity] hasHardwareKey called');
+  const plugin = getHardwareSecurityPlugin();
+
+  if (!plugin) {
+    return false;
+  }
+
+  try {
+    const result = await plugin.hasHardwareKey();
+    console.log('[HardwareSecurity] hasHardwareKey result:', result.exists);
+    return result.exists;
+  } catch (error) {
+    console.error('[HardwareSecurity] hasHardwareKey error:', error);
+    return false;
+  }
+}
+
+/**
+ * Generate a new hardware-backed key.
+ * On iOS: Creates EC P-256 key in Secure Enclave
+ * On Android: Creates AES-256 key in Android Keystore with biometric binding
+ */
+export async function generateHardwareKey(): Promise<void> {
+  console.log('[HardwareSecurity] generateHardwareKey called');
+  const plugin = getHardwareSecurityPlugin();
+
+  if (!plugin) {
+    throw new Error('Hardware security not available');
+  }
+
+  await plugin.generateHardwareKey();
+  console.log('[HardwareSecurity] Hardware key generated');
+}
+
+/**
+ * Encrypt data using the hardware-backed key.
+ * May trigger biometric authentication.
+ *
+ * @param data - The data to encrypt (UTF-8 string)
+ * @returns Base64-encoded encrypted data
+ */
+export async function encryptWithHardwareKey(data: string): Promise<string> {
+  console.log('[HardwareSecurity] encryptWithHardwareKey called');
+  const plugin = getHardwareSecurityPlugin();
+
+  if (!plugin) {
+    throw new Error('Hardware security not available');
+  }
+
+  const result = await plugin.encryptWithHardwareKey({ data });
+  console.log('[HardwareSecurity] Encryption successful');
+  return result.encrypted;
+}
+
+/**
+ * Decrypt data using the hardware-backed key.
+ * This will trigger biometric authentication.
+ *
+ * @param encrypted - Base64-encoded encrypted data
+ * @returns The decrypted data as a string
+ */
+export async function decryptWithHardwareKey(encrypted: string): Promise<string> {
+  console.log('[HardwareSecurity] decryptWithHardwareKey called');
+  const plugin = getHardwareSecurityPlugin();
+
+  if (!plugin) {
+    throw new Error('Hardware security not available');
+  }
+
+  const result = await plugin.decryptWithHardwareKey({ encrypted });
+  console.log('[HardwareSecurity] Decryption successful');
+  return result.decrypted;
+}
+
+/**
+ * Delete the hardware-backed key.
+ * Call this when resetting the wallet or disabling biometric unlock.
+ */
+export async function deleteHardwareKey(): Promise<void> {
+  console.log('[HardwareSecurity] deleteHardwareKey called');
+  const plugin = getHardwareSecurityPlugin();
+
+  if (!plugin) {
+    return;
+  }
+
+  try {
+    await plugin.deleteHardwareKey();
+    console.log('[HardwareSecurity] Hardware key deleted');
+  } catch (error) {
+    console.error('[HardwareSecurity] deleteHardwareKey error:', error);
+  }
+}
+
+// Export hardware security functions
+export const hardwareSecurityService = {
+  isHardwareSecurityAvailable,
+  hasHardwareKey,
+  generateHardwareKey,
+  encryptWithHardwareKey,
+  decryptWithHardwareKey,
+  deleteHardwareKey
+};

@@ -87,7 +87,6 @@ export class Sync {
     useWalletStore.getState().setSyncStatus(true);
 
     try {
-      // Wrap WASM client operations in a lock to prevent concurrent access
       const blockNum = await withWasmClientLock(async () => {
         const client = await getMidenClient();
         if (!client) {
@@ -106,12 +105,10 @@ export class Sync {
       syncDebugInfo.syncCount++;
       syncDebugInfo.lastSyncTime = new Date().toLocaleTimeString();
     } catch (error) {
-      // Log error but continue the sync loop - don't let errors stop syncing
       console.error('[AutoSync] Error during sync:', error);
       syncDebugInfo.lastError = String(error);
       syncDebugInfo.lastSyncTime = new Date().toLocaleTimeString();
     } finally {
-      // Set syncing status to false after sync completes
       useWalletStore.getState().setSyncStatus(false);
     }
 

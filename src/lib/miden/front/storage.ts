@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { isMobile } from 'lib/platform';
+import { isExtension } from 'lib/platform';
 import { getStorageProvider } from 'lib/platform/storage-adapter';
 import { useRetryableSWR } from 'lib/swr';
 
@@ -57,9 +57,9 @@ export function usePassiveStorage<T = any>(key: string, fallback?: T): [T, Dispa
 }
 
 export function onStorageChanged<T = any>(key: string, callback: (newValue: T) => void) {
-  // On mobile, storage change events are not available
+  // On mobile/desktop, storage change events are not available
   // Return a no-op cleanup function
-  if (isMobile()) {
+  if (!isExtension()) {
     return () => {};
   }
 

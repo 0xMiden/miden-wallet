@@ -2,14 +2,18 @@ import React from 'react';
 
 import { act, renderHook } from '@testing-library/react';
 
-import { isMobile } from 'lib/platform';
+import { isExtension, isMobile } from 'lib/platform';
 
 import { AppEnvProvider, useAppEnv, WindowType, IS_DEV_ENV, onboardingUrls, openInFullPage } from './env';
 
 // Mock lib/platform
 jest.mock('lib/platform', () => ({
-  isMobile: jest.fn(() => false)
+  isMobile: jest.fn(() => false),
+  isExtension: jest.fn(() => true),
+  isDesktop: jest.fn(() => false)
 }));
+
+const mockIsExtension = isExtension as jest.MockedFunction<typeof isExtension>;
 
 // Mock lib/woozie
 jest.mock('lib/woozie', () => ({
@@ -55,6 +59,7 @@ describe('env', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockIsMobile.mockReturnValue(false);
+    mockIsExtension.mockReturnValue(true);
   });
 
   describe('IS_DEV_ENV', () => {
@@ -191,8 +196,8 @@ describe('env', () => {
   });
 
   describe('onboardingUrls', () => {
-    it('returns empty array on mobile', async () => {
-      mockIsMobile.mockReturnValue(true);
+    it('returns empty array when not in extension context', async () => {
+      mockIsExtension.mockReturnValue(false);
 
       const urls = await onboardingUrls();
 
@@ -211,8 +216,8 @@ describe('env', () => {
   });
 
   describe('openInFullPage', () => {
-    it('does nothing on mobile', async () => {
-      mockIsMobile.mockReturnValue(true);
+    it('does nothing when not in extension context', async () => {
+      mockIsExtension.mockReturnValue(false);
 
       await openInFullPage();
 

@@ -15,6 +15,9 @@ import com.getcapacitor.BridgeActivity;
 public class MainActivity extends BridgeActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Register custom plugins before super.onCreate
+        registerPlugin(HardwareSecurityPlugin.class);
+
         super.onCreate(savedInstanceState);
         setupStatusBar();
 

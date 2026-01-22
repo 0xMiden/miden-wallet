@@ -1,14 +1,16 @@
-import { isMobile } from 'lib/platform';
+import { isDesktop, isMobile } from 'lib/platform';
 
 import { createIntercomClient, IntercomClient } from './client';
 import { MessageType } from './types';
 
 // Mock lib/platform for createIntercomClient tests
 jest.mock('lib/platform', () => ({
-  isMobile: jest.fn(() => false)
+  isMobile: jest.fn(() => false),
+  isDesktop: jest.fn(() => false)
 }));
 
 const mockIsMobile = isMobile as jest.MockedFunction<typeof isMobile>;
+const mockIsDesktop = isDesktop as jest.MockedFunction<typeof isDesktop>;
 
 // Mock webextension-polyfill before importing
 const mockAddListener = jest.fn();
@@ -251,10 +253,15 @@ describe('createIntercomClient', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockIsMobile.mockReturnValue(false);
+    mockIsDesktop.mockReturnValue(false);
+    // Clean up any Tauri globals
+    delete (window as any).__TAURI__;
+    delete (window as any).__TAURI_INTERNALS__;
   });
 
-  it('returns IntercomClient when not on mobile', () => {
+  it('returns IntercomClient when in extension context', () => {
     mockIsMobile.mockReturnValue(false);
+    mockIsDesktop.mockReturnValue(false);
 
     const client = createIntercomClient();
 
@@ -271,5 +278,52 @@ describe('createIntercomClient', () => {
     // But should have the interface methods
     expect(typeof client.request).toBe('function');
     expect(typeof client.subscribe).toBe('function');
+  });
+
+  it('returns DesktopIntercomClientWrapper when on desktop', () => {
+    mockIsMobile.mockReturnValue(false);
+    mockIsDesktop.mockReturnValue(true);
+
+    const client = createIntercomClient();
+
+    // Should not be an IntercomClient
+    expect(client).not.toBeInstanceOf(IntercomClient);
+    // But should have the interface methods
+    expect(typeof client.request).toBe('function');
+    expect(typeof client.subscribe).toBe('function');
+  });
+
+  it('returns DesktopIntercomClientWrapper when Tauri globals are present', () => {
+    mockIsMobile.mockReturnValue(false);
+    mockIsDesktop.mockReturnValue(false);
+    (window as any).__TAURI__ = {};
+
+    const client = createIntercomClient();
+
+    // Should not be an IntercomClient
+    expect(client).not.toBeInstanceOf(IntercomClient);
+    // But should have the interface methods
+    expect(typeof client.request).toBe('function');
+    expect(typeof client.subscribe).toBe('function');
+
+    // Cleanup
+    delete (window as any).__TAURI__;
+  });
+
+  it('returns DesktopIntercomClientWrapper when TAURI_INTERNALS__ global is present', () => {
+    mockIsMobile.mockReturnValue(false);
+    mockIsDesktop.mockReturnValue(false);
+    (window as any).__TAURI_INTERNALS__ = {};
+
+    const client = createIntercomClient();
+
+    // Should not be an IntercomClient
+    expect(client).not.toBeInstanceOf(IntercomClient);
+    // But should have the interface methods
+    expect(typeof client.request).toBe('function');
+    expect(typeof client.subscribe).toBe('function');
+
+    // Cleanup
+    delete (window as any).__TAURI_INTERNALS__;
   });
 });

@@ -5,10 +5,8 @@ import wordslist from 'bip39/src/wordlists/english.json';
 
 import { formatMnemonic } from 'app/defaults';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
-import { authenticate, checkBiometricAvailability, setBiometricEnabled, storeCredential } from 'lib/biometric';
 import { useMidenContext } from 'lib/miden/front';
 import { useMobileBackHandler } from 'lib/mobile/useMobileBackHandler';
-import { isMobile } from 'lib/platform';
 import { WalletStatus } from 'lib/shared/types';
 import { useWalletStore } from 'lib/store';
 import { fetchStateFromBackend } from 'lib/store/hooks/useIntercomSync';
@@ -21,18 +19,23 @@ import { ImportType, OnboardingAction, OnboardingStep, OnboardingType } from 'sc
  * This ensures the state is fully synced before navigation.
  */
 async function waitForReadyState(syncFromBackend: (state: any) => void, maxAttempts = 10): Promise<void> {
+  console.log('[waitForReadyState] Starting, maxAttempts:', maxAttempts);
   for (let i = 0; i < maxAttempts; i++) {
     try {
+      console.log('[waitForReadyState] Attempt', i + 1);
       const state = await fetchStateFromBackend(0);
+      console.log('[waitForReadyState] Got state:', { status: state.status, hasAccounts: !!state.accounts?.length });
       syncFromBackend(state);
       if (state.status === WalletStatus.Ready) {
+        console.log('[waitForReadyState] State is Ready, done');
         return;
       }
     } catch (error) {
-      console.warn('Failed to fetch state, retrying...', error);
+      console.warn('[waitForReadyState] Failed to fetch state, retrying...', error);
     }
     await new Promise(r => setTimeout(r, 100));
   }
+  console.warn('[waitForReadyState] Max attempts reached, state still not Ready');
 }
 
 const Welcome: FC = () => {
@@ -42,7 +45,6 @@ const Welcome: FC = () => {
   const [onboardingType, setOnboardingType] = useState<OnboardingType | null>(null);
   const [importType, setImportType] = useState<ImportType | null>(null);
   const [password, setPassword] = useState<string | null>(null);
-  const [enableBiometric, setEnableBiometric] = useState(false);
   const [importedWithFile, setImportedWithFile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { registerWallet, importWalletFromClient } = useMidenContext();
@@ -53,23 +55,12 @@ const Welcome: FC = () => {
     if (password && seedPhrase) {
       const seedPhraseFormatted = formatMnemonic(seedPhrase.join(' '));
       if (!importedWithFile) {
-        try {
-          await registerWallet(
-            password,
-            seedPhraseFormatted,
-            onboardingType === OnboardingType.Import // might be able to leverage ownMnemonic to determine whther to attempt imports in general
-          );
-        } catch (e) {
-          console.error(e);
-        }
+        await registerWallet(password, seedPhraseFormatted, onboardingType === OnboardingType.Import);
       } else {
-        try {
-          console.log('importing wallet from client');
-          await importWalletFromClient(password, seedPhraseFormatted);
-        } catch (e) {
-          console.error(e);
-        }
+        await importWalletFromClient(password, seedPhraseFormatted);
       }
+    } else {
+      throw new Error('Missing password or seed phrase');
     }
   }, [password, seedPhrase, importedWithFile, registerWallet, onboardingType, importWalletFromClient]);
 
@@ -119,59 +110,23 @@ const Welcome: FC = () => {
       case 'create-password-submit':
         setPassword(action.payload.password);
         eventCategory = AnalyticsEventCategory.FormSubmit;
-
-        // Handle biometric setup if enabled (mobile only)
-        // We do auth + credential storage NOW (before confirmation screen)
-        // but set the preference flag AFTER registration (since clearStorage() wipes preferences)
-        if (action.payload.enableBiometric && isMobile()) {
-          try {
-            const availability = await checkBiometricAvailability();
-            if (availability.isAvailable) {
-              // Prompt for biometric auth
-              const authenticated = await authenticate('Set up biometric unlock');
-              if (authenticated) {
-                // Store credential in device keystore (NOT cleared by clearStorage)
-                await storeCredential(action.payload.password);
-                setEnableBiometric(true);
-                console.log('[Welcome] Biometric credential stored successfully');
-              } else {
-                console.log('[Welcome] Biometric auth canceled by user');
-                setEnableBiometric(false);
-              }
-            }
-          } catch (err) {
-            console.error('[Welcome] Failed to setup biometric credential:', err);
-            setEnableBiometric(false);
-          }
-        } else {
-          setEnableBiometric(false);
-        }
-
-        // Go directly to confirmation
+        // Hardware protection is automatically set up in Vault.spawn() when available
         navigate('/#confirmation');
         break;
       case 'confirmation':
-        setIsLoading(true);
-        await register();
-        // Wait for state to be synced before navigating
-        // This fixes a race condition where navigation happens before state is Ready
-        await waitForReadyState(syncFromBackend);
-
-        // Set biometric preference flag AFTER registration completes
-        // (Credential was already stored in create-password-submit, but preference
-        // must be set after register() because Vault.spawn() calls clearStorage())
-        if (enableBiometric) {
-          try {
-            await setBiometricEnabled(true);
-            console.log('[Welcome] Biometric preference enabled');
-          } catch (err) {
-            console.error('[Welcome] Failed to enable biometric preference:', err);
-          }
+        try {
+          setIsLoading(true);
+          await register();
+          // Wait for state to be synced before navigating
+          // This fixes a race condition where navigation happens before state is Ready
+          await waitForReadyState(syncFromBackend);
+          setIsLoading(false);
+          eventCategory = AnalyticsEventCategory.FormSubmit;
+          navigate('/');
+        } catch (error) {
+          console.error('[Welcome] Confirmation flow failed:', error);
+          setIsLoading(false);
         }
-
-        setIsLoading(false);
-        eventCategory = AnalyticsEventCategory.FormSubmit;
-        navigate('/');
         break;
       case 'back':
         if (

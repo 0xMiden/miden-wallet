@@ -1,0 +1,118 @@
+//! Secure storage module - platform-specific hardware security
+//!
+//! Provides hardware-backed key storage using:
+//! - macOS: Secure Enclave (via Security.framework)
+//! - Windows: TPM 2.0 (via NCrypt APIs)
+//!
+//! Linux is intentionally not supported - users should use the Chrome extension.
+
+#[cfg(target_os = "macos")]
+pub mod macos;
+
+#[cfg(target_os = "windows")]
+pub mod windows;
+
+use log::info;
+
+/// Generate a hardware-backed key for encrypting the vault key
+///
+/// On macOS: Creates an EC P-256 key pair in the Secure Enclave
+/// On Windows: Creates a key in the TPM
+#[tauri::command]
+pub fn generate_hardware_key() -> Result<(), String> {
+    info!("generate_hardware_key called");
+
+    #[cfg(target_os = "macos")]
+    return macos::generate_hardware_key();
+
+    #[cfg(target_os = "windows")]
+    return windows::generate_hardware_key();
+
+    #[cfg(not(any(target_os = "macos", target_os = "windows")))]
+    return Err("Hardware security not supported on this platform".to_string());
+}
+
+/// Encrypt data using the hardware-backed key
+///
+/// This will trigger biometric authentication (Touch ID, Windows Hello)
+/// Returns base64-encoded encrypted data
+#[tauri::command]
+pub fn encrypt_with_hardware_key(data: String) -> Result<String, String> {
+    info!("encrypt_with_hardware_key called");
+
+    #[cfg(target_os = "macos")]
+    return macos::encrypt_with_hardware_key(&data);
+
+    #[cfg(target_os = "windows")]
+    return windows::encrypt_with_hardware_key(&data);
+
+    #[cfg(not(any(target_os = "macos", target_os = "windows")))]
+    return Err("Hardware security not supported on this platform".to_string());
+}
+
+/// Decrypt data using the hardware-backed key
+///
+/// This will trigger biometric authentication (Touch ID, Windows Hello)
+/// Expects base64-encoded encrypted data, returns plaintext
+#[tauri::command]
+pub fn decrypt_with_hardware_key(encrypted: String) -> Result<String, String> {
+    info!("decrypt_with_hardware_key called");
+
+    #[cfg(target_os = "macos")]
+    return macos::decrypt_with_hardware_key(&encrypted);
+
+    #[cfg(target_os = "windows")]
+    return windows::decrypt_with_hardware_key(&encrypted);
+
+    #[cfg(not(any(target_os = "macos", target_os = "windows")))]
+    return Err("Hardware security not supported on this platform".to_string());
+}
+
+/// Delete the hardware-backed key
+///
+/// Used when resetting the wallet or disabling biometric unlock
+#[tauri::command]
+pub fn delete_hardware_key() -> Result<(), String> {
+    info!("delete_hardware_key called");
+
+    #[cfg(target_os = "macos")]
+    return macos::delete_hardware_key();
+
+    #[cfg(target_os = "windows")]
+    return windows::delete_hardware_key();
+
+    #[cfg(not(any(target_os = "macos", target_os = "windows")))]
+    return Err("Hardware security not supported on this platform".to_string());
+}
+
+/// Check if hardware security is available on this platform
+///
+/// Returns true on macOS (with Secure Enclave) and Windows (with TPM)
+#[tauri::command]
+pub fn is_hardware_security_available() -> Result<bool, String> {
+    info!("is_hardware_security_available called");
+
+    #[cfg(target_os = "macos")]
+    return macos::is_hardware_security_available();
+
+    #[cfg(target_os = "windows")]
+    return windows::is_hardware_security_available();
+
+    #[cfg(not(any(target_os = "macos", target_os = "windows")))]
+    return Ok(false);
+}
+
+/// Check if a hardware key has been generated
+#[tauri::command]
+pub fn has_hardware_key() -> Result<bool, String> {
+    info!("has_hardware_key called");
+
+    #[cfg(target_os = "macos")]
+    return macos::has_hardware_key();
+
+    #[cfg(target_os = "windows")]
+    return windows::has_hardware_key();
+
+    #[cfg(not(any(target_os = "macos", target_os = "windows")))]
+    return Ok(false);
+}

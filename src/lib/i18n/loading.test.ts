@@ -2,9 +2,11 @@ import browser from 'webextension-polyfill';
 
 import { REFRESH_MSGTYPE, onInited, updateLocale } from './loading';
 
-// Mock isMobile to return false so extension code paths run
+// Mock platform detection - default to extension context
 jest.mock('lib/platform', () => ({
-  isMobile: () => false
+  isMobile: () => false,
+  isExtension: () => true,
+  isDesktop: () => false
 }));
 
 const mockRuntime = {

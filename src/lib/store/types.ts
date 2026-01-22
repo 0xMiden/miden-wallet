@@ -96,7 +96,7 @@ export interface WalletActions {
   // Auth actions
   registerWallet: (password: string, mnemonic?: string, ownMnemonic?: boolean) => Promise<void>;
   importWalletFromClient: (password: string, mnemonic: string) => Promise<void>;
-  unlock: (password: string) => Promise<void>;
+  unlock: (password?: string) => Promise<void>;
 
   // Account actions
   createAccount: (walletType: WalletType, name?: string) => Promise<void>;

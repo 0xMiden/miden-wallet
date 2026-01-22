@@ -160,3 +160,138 @@ export function generateKeyLegacy(password: string) {
 export function deriveKeyLegacy(key: CryptoKey, salt: Uint8Array) {
   return deriveKey(key, salt, 310_000);
 }
+
+/**
+ * Generate the key hash from a password (for keychain storage)
+ *
+ * This generates the same SHA-256 hash used by generateKey, but returns
+ * the raw hash as a base64 string for secure storage in the OS keychain.
+ *
+ * @param password - The user's password
+ * @returns Base64-encoded SHA-256 hash of the password
+ */
+export async function generateKeyHash(password: string): Promise<string> {
+  const hash = await crypto.subtle.digest('SHA-256', Buffer.from(password, 'utf-8'));
+  return Buffer.from(hash).toString('base64');
+}
+
+/**
+ * Generate a CryptoKey from a stored key hash
+ *
+ * This recreates the passKey from a hash that was previously stored
+ * in the OS keychain. Used for biometric unlock on desktop.
+ *
+ * @param keyHash - Base64-encoded SHA-256 hash from generateKeyHash
+ * @returns CryptoKey that can be used with deriveKey for encryption/decryption
+ */
+export async function generateKeyFromHash(keyHash: string): Promise<CryptoKey> {
+  const hashBuffer = Buffer.from(keyHash, 'base64');
+  return importKey(hashBuffer.buffer.slice(hashBuffer.byteOffset, hashBuffer.byteOffset + hashBuffer.byteLength));
+}
+
+// ============================================================================
+// Vault Key Model
+// ============================================================================
+
+/**
+ * Generate a random 256-bit vault key
+ *
+ * The vault key is a random key used to encrypt all wallet data.
+ * It is NOT derived from the password - this makes offline brute-force
+ * attacks impossible even if the encrypted data is stolen.
+ *
+ * @returns Random 32-byte (256-bit) key as Uint8Array
+ */
+export function generateVaultKey(): Uint8Array {
+  return crypto.getRandomValues(new Uint8Array(32));
+}
+
+/**
+ * Import raw vault key bytes into a CryptoKey for AES-GCM operations
+ */
+export async function importVaultKey(vaultKeyBytes: Uint8Array): Promise<CryptoKey> {
+  // Copy to new ArrayBuffer to satisfy TypeScript's BufferSource type
+  const buffer = new ArrayBuffer(vaultKeyBytes.byteLength);
+  new Uint8Array(buffer).set(vaultKeyBytes);
+  return crypto.subtle.importKey('raw', buffer, { name: 'AES-GCM' }, false, ['encrypt', 'decrypt']);
+}
+
+/**
+ * Export CryptoKey back to raw bytes (for encryption/storage)
+ */
+export async function exportKey(key: CryptoKey): Promise<Uint8Array> {
+  // Create a new extractable key for export since vault keys are non-extractable by default
+  const keyData = await crypto.subtle.exportKey('raw', key);
+  return new Uint8Array(keyData);
+}
+
+/**
+ * Encrypt the vault key with a password-derived passKey
+ *
+ * Uses AES-GCM with a random IV. The output format is:
+ * salt (32 bytes) + iv (16 bytes) + ciphertext
+ * All encoded as base64.
+ *
+ * @param vaultKey - The vault key bytes to encrypt
+ * @param password - User's password
+ * @returns Base64-encoded encrypted vault key
+ */
+export async function encryptVaultKeyWithPassword(vaultKey: Uint8Array, password: string): Promise<string> {
+  const salt = generateSalt();
+  const passKey = await generateKey(password);
+  const derivedKey = await deriveKey(passKey, salt);
+
+  const iv = crypto.getRandomValues(new Uint8Array(16));
+  // Copy to new ArrayBuffer to satisfy TypeScript's BufferSource type
+  const vaultKeyBuffer = new ArrayBuffer(vaultKey.byteLength);
+  new Uint8Array(vaultKeyBuffer).set(vaultKey);
+  const ciphertext = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, derivedKey, vaultKeyBuffer);
+
+  // Concatenate: salt (32) + iv (16) + ciphertext
+  const combined = new Uint8Array(salt.length + iv.length + ciphertext.byteLength);
+  combined.set(salt, 0);
+  combined.set(iv, salt.length);
+  combined.set(new Uint8Array(ciphertext), salt.length + iv.length);
+
+  return Buffer.from(combined).toString('base64');
+}
+
+/**
+ * Decrypt the vault key with a password-derived passKey
+ *
+ * @param encryptedVaultKey - Base64-encoded encrypted vault key from encryptVaultKeyWithPassword
+ * @param password - User's password
+ * @returns The decrypted vault key bytes
+ * @throws If password is incorrect or data is corrupted
+ */
+export async function decryptVaultKeyWithPassword(encryptedVaultKey: string, password: string): Promise<Uint8Array> {
+  const combined = Buffer.from(encryptedVaultKey, 'base64');
+
+  // Extract: salt (32) + iv (16) + ciphertext
+  const salt = new Uint8Array(combined.slice(0, 32));
+  const iv = new Uint8Array(combined.slice(32, 48));
+  const ciphertext = new Uint8Array(combined.slice(48));
+
+  const passKey = await generateKey(password);
+  const derivedKey = await deriveKey(passKey, salt);
+
+  const vaultKeyBuffer = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, derivedKey, ciphertext);
+
+  return new Uint8Array(vaultKeyBuffer);
+}
+
+/**
+ * Verify a password is correct by attempting to decrypt the vault key
+ *
+ * @param encryptedVaultKey - Base64-encoded encrypted vault key
+ * @param password - Password to verify
+ * @returns true if password is correct, false otherwise
+ */
+export async function verifyPassword(encryptedVaultKey: string, password: string): Promise<boolean> {
+  try {
+    await decryptVaultKeyWithPassword(encryptedVaultKey, password);
+    return true;
+  } catch {
+    return false;
+  }
+}

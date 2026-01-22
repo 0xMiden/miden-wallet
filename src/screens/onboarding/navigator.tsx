@@ -8,7 +8,6 @@ import { CircleButton } from 'components/CircleButton';
 import { ProgressIndicator } from 'components/ProgressIndicator';
 import { isMobile } from 'lib/platform';
 
-import { BiometricSetupScreen } from './common/BiometricSetup';
 import { ConfirmationScreen } from './common/Confirmation';
 import { CreatePasswordScreen } from './common/CreatePassword';
 import { WelcomeScreen } from './common/Welcome';
@@ -36,11 +35,7 @@ const Header: React.FC<{
   onboardingType?: 'import' | 'create' | null;
 }> = ({ step, onBack }) => {
   // Hide header on full-screen steps
-  if (
-    step === OnboardingStep.Confirmation ||
-    step === OnboardingStep.SelectTransactionType ||
-    step === OnboardingStep.BiometricSetup
-  ) {
+  if (step === OnboardingStep.Confirmation || step === OnboardingStep.SelectTransactionType) {
     return null;
   }
 
@@ -145,11 +140,8 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
         payload: WalletType.OnChain
       });
 
-    const onCreatePasswordSubmit = (password: string, enableBiometric: boolean) =>
-      onForwardAction?.({ id: 'create-password-submit', payload: { password, enableBiometric } });
-
-    const onBiometricSetupSubmit = (biometricEnabled: boolean) =>
-      onForwardAction?.({ id: 'biometric-setup-submit', payload: biometricEnabled });
+    const onCreatePasswordSubmit = (password: string) =>
+      onForwardAction?.({ id: 'create-password-submit', payload: { password, enableBiometric: false } });
 
     const onSelectTransactionTypeSubmit = () =>
       onForwardAction?.({ id: 'select-transaction-type', payload: 'private' });
@@ -178,10 +170,6 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
         return <ImportWalletFileScreen onSubmit={onImportFileSubmit} />;
       case OnboardingStep.CreatePassword:
         return <CreatePasswordScreen onSubmit={onCreatePasswordSubmit} />;
-      case OnboardingStep.BiometricSetup:
-        // Note: This step is only reached on mobile (guarded in Welcome.tsx)
-        // The BiometricSetupScreen also has a secondary guard that auto-skips on non-mobile
-        return <BiometricSetupScreen password={password || ''} onSubmit={onBiometricSetupSubmit} />;
       case OnboardingStep.SelectTransactionType:
         return <SelectTransactionTypeScreen onSubmit={onSelectTransactionTypeSubmit} />;
       case OnboardingStep.Confirmation:
@@ -190,7 +178,7 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
       default:
         return <></>;
     }
-  }, [step, isLoading, onForwardAction, seedPhrase, wordslist, password]);
+  }, [step, isLoading, onForwardAction, seedPhrase, wordslist]);
 
   const onBack = () => {
     setNavigationDirection('backward');
@@ -210,11 +198,9 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
     >
       <div className="flex-1 flex flex-col">
         <AnimatePresence mode={'wait'} initial={false}>
-          {step !== OnboardingStep.Confirmation &&
-            step !== OnboardingStep.SelectTransactionType &&
-            step !== OnboardingStep.BiometricSetup && (
-              <Header onBack={onBack} step={step} onboardingType={onboardingType} key={'header'} />
-            )}
+          {step !== OnboardingStep.Confirmation && step !== OnboardingStep.SelectTransactionType && (
+            <Header onBack={onBack} step={step} onboardingType={onboardingType} key={'header'} />
+          )}
         </AnimatePresence>
         <AnimatePresence mode={'wait'} initial={false}>
           <motion.div
