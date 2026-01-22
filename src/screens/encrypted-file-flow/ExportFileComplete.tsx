@@ -14,6 +14,7 @@ import { deriveKey, encrypt, encryptJson, generateKey, generateSalt } from 'lib/
 import { exportDb } from 'lib/miden/repo';
 import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
 import { isMobile } from 'lib/platform';
+import { AuthScheme } from 'screens/onboarding/types';
 import { EncryptedWalletFile, ENCRYPTED_WALLET_FILE_PASSWORD_CHECK, DecryptedWalletFile } from 'screens/shared';
 
 export interface ExportFileCompleteProps {
@@ -44,6 +45,11 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({
       return midenClient.exportDb();
     });
     const walletDbDump = await exportDb();
+
+    const accs = accounts.map(acc => ({
+      ...acc,
+      authScheme: acc.authScheme ?? AuthScheme.Falcon
+    }));
 
     const seedPhrase = await revealMnemonic(walletPassword);
     const secretKeysForImportedAccounts: Record<string, string> = {};

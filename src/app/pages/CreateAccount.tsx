@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'clsx';
+import { AnimatePresence, motion } from 'framer-motion';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
@@ -9,13 +10,16 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { ACCOUNT_NAME_PATTERN } from 'app/defaults';
 import { ReactComponent as ArrowRightIcon } from 'app/icons/arrow-right.svg';
 import PageLayout from 'app/layouts/PageLayout';
+import { Button } from 'components/Button';
 import { useMidenContext, useAllAccounts } from 'lib/miden/front';
 import { navigate } from 'lib/woozie';
-import { WalletType } from 'screens/onboarding/types';
+import SelectAuthScheme from 'screens/onboarding/create-wallet-flow/SelectAuthScheme';
+import { AuthScheme, WalletType } from 'screens/onboarding/types';
 
 type FormData = {
   name: string;
   walletType: WalletType;
+  authScheme: AuthScheme;
 };
 
 const WalletTypeOptions = [
@@ -31,11 +35,19 @@ const WalletTypeOptions = [
   }
 ];
 
+enum Step {
+  SelectAccountType = 1,
+  SelectAuthScheme = 2
+}
+
 const SUBMIT_ERROR_TYPE = 'submit-error';
 
 const CreateAccount: FC = () => {
   const { t } = useTranslation();
+  const [step, setStep] = useState<Step>(Step.SelectAccountType);
+  const [navigationDirection, setNavigationDirection] = useState<'forward' | 'backward'>('forward');
   const [selectedWalletType, setSelectedWalletType] = useState<WalletType>(WalletType.OnChain);
+  const [selectedAuthScheme, setSelectedAuthScheme] = useState<AuthScheme>(AuthScheme.Falcon);
   const { createAccount, updateCurrentAccount } = useMidenContext();
   const allAccounts = useAllAccounts();
 
@@ -79,14 +91,19 @@ const CreateAccount: FC = () => {
     setSelectedWalletType(type);
   };
 
+  const handleContinueToAuthScheme = () => {
+    setNavigationDirection('forward');
+    setStep(Step.SelectAuthScheme);
+  };
+
   const onSubmit = useCallback<SubmitHandler<FormData>>(
     async ({ name, walletType }) => {
       if (isSubmitting) return;
 
       clearErrors('name');
-
+      console.log(selectedAuthScheme);
       try {
-        await createAccount(selectedWalletType, name);
+        await createAccount(selectedWalletType, selectedAuthScheme, name);
       } catch (err: any) {
         console.error(err);
 
@@ -95,12 +112,12 @@ const CreateAccount: FC = () => {
         setError('name', { type: SUBMIT_ERROR_TYPE, message: err.message });
       }
     },
-    [isSubmitting, clearErrors, setError, createAccount, selectedWalletType]
+    [isSubmitting, clearErrors, setError, createAccount, selectedWalletType, selectedAuthScheme]
   );
 
   return (
     <PageLayout pageTitle={<>{t('createAccount')}</>}>
-      <div className="w-full max-w-sm mx-auto px-4">
+      <div className="w-full max-w-sm mx-auto px-4 overflow-auto">
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormField
             {...register('name', {
@@ -124,42 +141,86 @@ const CreateAccount: FC = () => {
             {t('accountNameInputDescription')}
           </div>
 
-          {/* Wallet Type Selection */}
-          <div className="mb-8">
-            <div className="font-medium mb-4" style={{ fontSize: '14px', lineHeight: '20px' }}>
-              {t('chooseYourAccountType')}
-            </div>
-            {WalletTypeOptions.map((option, idx) => (
-              <div
-                key={option.id}
-                className={classNames('flex flex-col border p-4 rounded-lg cursor-pointer', 'w-full', 'mb-4', {
-                  'bg-blue-100': selectedWalletType === option.id // Highlight if selected
-                })}
-                onClick={() => handleWalletTypeSelect(option.id)}
-              >
-                <div className="flex flex-row justify-between items-center">
-                  <h3 className="font-medium text-base">{option.title}</h3>
-                  <ArrowRightIcon fill="black" height="20px" width="20px" />
-                </div>
-                <p className="text-grey-600">{option.description}</p>
-              </div>
-            ))}
-          </div>
+          <AnimatePresence mode={'wait'} initial={false}>
+            <motion.div
+              key={step}
+              initial="initialState"
+              animate="animateState"
+              exit="exitState"
+              transition={{
+                type: 'tween',
+                duration: 0.2
+              }}
+              variants={{
+                initialState: {
+                  x: navigationDirection === 'forward' ? '1vw' : '-1vw',
+                  opacity: 0
+                },
+                animateState: {
+                  x: 0,
+                  opacity: 1
+                },
+                exitState: {
+                  x: navigationDirection === 'forward' ? '-1vw' : '1vw',
+                  opacity: 0
+                }
+              }}
+            >
+              {step === Step.SelectAccountType ? (
+                <>
+                  {/* Wallet Type Selection */}
+                  <div className="mb-8">
+                    <div className="font-medium mb-4" style={{ fontSize: '14px', lineHeight: '20px' }}>
+                      {t('chooseYourAccountType')}
+                    </div>
+                    {WalletTypeOptions.map(option => (
+                      <div
+                        key={option.id}
+                        className={classNames('flex flex-col border p-4 rounded-lg cursor-pointer', 'w-full', 'mb-4', {
+                          'bg-blue-100': selectedWalletType === option.id
+                        })}
+                        onClick={() => handleWalletTypeSelect(option.id)}
+                      >
+                        <div className="flex flex-row justify-between items-center">
+                          <h3 className="font-medium text-base">{option.title}</h3>
+                          <ArrowRightIcon fill="black" height="20px" width="20px" />
+                        </div>
+                        <p className="text-grey-600">{option.description}</p>
+                      </div>
+                    ))}
+                  </div>
 
-          <FormSubmitButton
-            className="capitalize w-full justify-center"
-            loading={isSubmitting}
-            style={{
-              fontSize: '18px',
-              lineHeight: '24px',
-              paddingLeft: '0.5rem',
-              paddingRight: '0.5rem',
-              paddingTop: '12px',
-              paddingBottom: '12px'
-            }}
-          >
-            {t('createAccount')}
-          </FormSubmitButton>
+                  <Button title={t('continue')} onClick={handleContinueToAuthScheme} className="w-full" />
+                </>
+              ) : (
+                <>
+                  <SelectAuthScheme
+                    authScheme={selectedAuthScheme}
+                    setAuthScheme={setSelectedAuthScheme}
+                    onSubmit={() => {}}
+                    onCreateAccountScreen={true}
+                  />
+
+                  <div className="flex gap-2 mt-4">
+                    <FormSubmitButton
+                      className="capitalize flex-grow justify-center"
+                      loading={isSubmitting}
+                      style={{
+                        fontSize: '18px',
+                        lineHeight: '24px',
+                        paddingLeft: '0.5rem',
+                        paddingRight: '0.5rem',
+                        paddingTop: '12px',
+                        paddingBottom: '12px'
+                      }}
+                    >
+                      {t('createAccount')}
+                    </FormSubmitButton>
+                  </div>
+                </>
+              )}
+            </motion.div>
+          </AnimatePresence>
         </form>
       </div>
     </PageLayout>

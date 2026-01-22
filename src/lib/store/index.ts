@@ -113,12 +113,13 @@ export const useWalletStore = create<WalletStore>()(
     },
 
     // Auth actions
-    registerWallet: async (password, mnemonic, ownMnemonic) => {
+    registerWallet: async (password, authScheme, mnemonic, ownMnemonic) => {
       const res = await request({
         type: WalletMessageType.NewWalletRequest,
         password,
         mnemonic,
-        ownMnemonic
+        ownMnemonic,
+        authScheme
       });
       assertResponse(res.type === WalletMessageType.NewWalletResponse);
       // State will be synced via StateUpdated notification
@@ -144,10 +145,11 @@ export const useWalletStore = create<WalletStore>()(
     },
 
     // Account actions
-    createAccount: async (walletType, name) => {
+    createAccount: async (walletType, authScheme, name) => {
       const res = await request({
         type: WalletMessageType.CreateAccountRequest,
         walletType,
+        authScheme,
         name
       });
       assertResponse(res.type === WalletMessageType.CreateAccountResponse);

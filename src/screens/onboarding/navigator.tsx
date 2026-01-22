@@ -14,12 +14,13 @@ import { ConfirmationScreen } from './common/Confirmation';
 import { CreatePasswordScreen } from './common/CreatePassword';
 import { WelcomeScreen } from './common/Welcome';
 import { BackUpSeedPhraseScreen } from './create-wallet-flow/BackUpSeedPhrase';
+import SelectAuthScheme from './create-wallet-flow/SelectAuthScheme';
 import { SelectTransactionTypeScreen } from './create-wallet-flow/SelectTransactionType';
 import { VerifySeedPhraseScreen } from './create-wallet-flow/VerifySeedPhrase';
 import { ImportSeedPhraseScreen } from './import-wallet-flow/ImportSeedPhrase';
 import { ImportWalletFileScreen } from './import-wallet-flow/ImportWalletFile';
 import { SelectImportTypeScreen } from './import-wallet-flow/SelectImportType';
-import { ImportType, OnboardingAction, OnboardingStep, OnboardingType, WalletType } from './types';
+import { AuthScheme, ImportType, OnboardingAction, OnboardingStep, OnboardingType, WalletType } from './types';
 
 export interface OnboardingFlowProps {
   wordslist: string[];
@@ -29,13 +30,15 @@ export interface OnboardingFlowProps {
   password?: string | null;
   isLoading?: boolean;
   onAction?: (action: OnboardingAction) => void;
+  authScheme: AuthScheme;
+  setAuthScheme: (authScheme: AuthScheme) => void;
 }
 
 const Header: React.FC<{
   onBack: () => void;
   step: OnboardingStep;
   onboardingType?: 'import' | 'create' | null;
-}> = ({ step, onBack }) => {
+}> = ({ step, onBack, onboardingType }) => {
   // Hide header on full-screen steps
   if (
     step === OnboardingStep.Confirmation ||
@@ -46,16 +49,18 @@ const Header: React.FC<{
   }
 
   const shouldRenderBackButton = step !== OnboardingStep.Welcome;
-  let currentStep: number | null = step === OnboardingStep.Welcome ? null : 3;
+  let currentStep: number | null = step === OnboardingStep.Welcome ? null : 4;
 
   if (step === OnboardingStep.BackupSeedPhrase) {
     currentStep = 1;
   } else if (step === OnboardingStep.VerifySeedPhrase) {
     currentStep = 2;
+  } else if (step === OnboardingStep.SelectAuthScheme) {
+    currentStep = 3;
   } else if (step === OnboardingStep.SelectImportType) {
     currentStep = 1;
   } else if (step === OnboardingStep.CreatePassword) {
-    currentStep = 3;
+    currentStep = 4;
   } else if (step === OnboardingStep.ImportFromSeed || step === OnboardingStep.ImportFromFile) {
     currentStep = 2;
   }
@@ -76,7 +81,11 @@ const Header: React.FC<{
         }}
       />
 
-      <ProgressIndicator currentStep={currentStep || 1} steps={3} className={currentStep ? '' : 'opacity-0'} />
+      <ProgressIndicator
+        currentStep={currentStep || 1}
+        steps={onboardingType === 'import' ? 3 : 4}
+        className={currentStep ? '' : 'opacity-0'}
+      />
     </div>
   );
 };
@@ -88,10 +97,11 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
   step,
   password,
   isLoading,
+  authScheme,
+  setAuthScheme,
   onAction
 }) => {
   const [navigationDirection, setNavigationDirection] = useState<'forward' | 'backward'>('forward');
-
   const onForwardAction = useCallback(
     (onboardingAction: OnboardingAction) => {
       setNavigationDirection('forward');
@@ -142,6 +152,12 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
 
     const onVerifySeedPhraseSubmit = () =>
       onForwardAction?.({
+        id: 'select-auth-scheme',
+        payload: authScheme
+      });
+
+    const onSelectAuthSchemeSubmit = () =>
+      onForwardAction?.({
         id: 'create-password',
         payload: WalletType.OnChain
       });
@@ -180,6 +196,10 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
         return <BackUpSeedPhraseScreen seedPhrase={seedPhrase || []} onSubmit={onBackupSeedPhraseSubmit} />;
       case OnboardingStep.VerifySeedPhrase:
         return <VerifySeedPhraseScreen seedPhrase={seedPhrase || []} onSubmit={onVerifySeedPhraseSubmit} />;
+      case OnboardingStep.SelectAuthScheme:
+        return (
+          <SelectAuthScheme onSubmit={onSelectAuthSchemeSubmit} authScheme={authScheme} setAuthScheme={setAuthScheme} />
+        );
       case OnboardingStep.SelectImportType:
         return <SelectImportTypeScreen onSubmit={onSelectImportTypeSubmit} />;
       case OnboardingStep.ImportFromSeed:
@@ -200,7 +220,7 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
       default:
         return <></>;
     }
-  }, [step, isLoading, onForwardAction, seedPhrase, wordslist, password]);
+  }, [step, isLoading, onForwardAction, seedPhrase, wordslist, authScheme, setAuthScheme, password]);
 
   const onBack = () => {
     setNavigationDirection('backward');

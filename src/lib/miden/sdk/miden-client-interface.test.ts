@@ -1,3 +1,5 @@
+import { AuthScheme, WalletType } from 'screens/onboarding/types';
+
 describe('MidenClientInterface', () => {
   afterEach(() => {
     jest.resetModules();
@@ -91,7 +93,7 @@ describe('MidenClientInterface', () => {
       },
       TransactionFilter: { all: jest.fn(() => 'all') },
       MIDEN_NETWORK_NAME: { TESTNET: 'testnet' },
-      SecretKey: { rpoFalconWithRNG: jest.fn() },
+      SecretKey: { rpoFalconWithRNG: jest.fn(), ecdsaWithRNG: jest.fn() },
       AccountBuilder: class {
         constructor(public seed: Uint8Array) {}
         storageMode() {
@@ -136,9 +138,6 @@ describe('MidenClientInterface', () => {
       ConsumeTransaction: class {},
       SendTransaction: class {}
     }));
-    jest.doMock('screens/onboarding/types', () => ({
-      WalletType: { OnChain: 'on-chain', OffChain: 'off-chain' }
-    }));
 
     const { MidenClientInterface } = await import('./miden-client-interface');
     const insertKeyCallback = jest.fn();
@@ -159,7 +158,7 @@ describe('MidenClientInterface', () => {
     client.free();
     expect(client.webClient.terminate).toBeDefined();
     // smoke a few methods to raise coverage
-    await client.createMidenWallet('on-chain' as any, new Uint8Array([4]));
+    await client.createMidenWallet(WalletType.OnChain, AuthScheme.Falcon, new Uint8Array([4]));
     await client.importPublicMidenWalletFromSeed(new Uint8Array([5]));
     await client.importNoteBytes(new Uint8Array([1, 2]));
     await client.consumeNoteId({ accountId: 'id', noteId: 'note', faucetId: 'f', type: 'public' } as any);

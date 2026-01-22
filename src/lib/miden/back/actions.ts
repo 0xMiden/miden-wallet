@@ -16,7 +16,8 @@ import {
 import { Vault } from 'lib/miden/back/vault';
 import { getStorageProvider } from 'lib/platform/storage-adapter';
 import { WalletAccount, WalletSettings, WalletState } from 'lib/shared/types';
-import { WalletType } from 'screens/onboarding/types';
+import type { WalletType } from 'screens/onboarding/types';
+import { AuthScheme } from 'screens/onboarding/types';
 
 import { MidenSharedStorageKey } from '../types';
 import {
@@ -70,9 +71,9 @@ export async function isDAppEnabled() {
   return bools.every(Boolean);
 }
 
-export function registerNewWallet(password: string, mnemonic?: string, ownMnemonic?: boolean) {
+export function registerNewWallet(password: string, authScheme: AuthScheme, mnemonic?: string, ownMnemonic?: boolean) {
   return withInited(async () => {
-    await Vault.spawn(password, mnemonic, ownMnemonic);
+    await Vault.spawn(password, authScheme, mnemonic, ownMnemonic);
     await unlock(password);
   });
 }
@@ -122,7 +123,7 @@ export function getCurrentAccount() {
   });
 }
 
-export function createHDAccount(walletType: WalletType, name?: string) {
+export function createHDAccount(walletType: WalletType, authScheme: AuthScheme, name?: string) {
   return withUnlocked(async ({ vault }) => {
     if (name) {
       name = name.trim();
@@ -131,7 +132,7 @@ export function createHDAccount(walletType: WalletType, name?: string) {
       }
     }
 
-    const accounts = await vault.createHDAccount(walletType, name);
+    const accounts = await vault.createHDAccount(walletType, authScheme, name);
     accountsUpdated({ accounts });
   });
 }

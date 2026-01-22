@@ -1,5 +1,5 @@
 import { MidenMessageType, MidenRequest, MidenResponse } from 'lib/miden/types';
-import { WalletType } from 'screens/onboarding/types';
+import { AuthScheme, WalletType } from 'screens/onboarding/types';
 
 import {
   SendPageEventRequest,
@@ -153,6 +153,7 @@ export interface WalletAccount {
   isPublic: boolean;
   type: WalletType;
   hdIndex: number;
+  authScheme: AuthScheme;
 }
 
 export interface WalletNetwork {
@@ -169,6 +170,7 @@ export interface LoadingResponse extends WalletMessageBase {
 export interface NewWalletRequest extends WalletMessageBase {
   type: WalletMessageType.NewWalletRequest;
   password: string;
+  authScheme: AuthScheme;
   mnemonic?: string;
   ownMnemonic?: boolean;
 }
@@ -197,6 +199,7 @@ export interface LockResponse extends WalletMessageBase {
 export interface CreateAccountRequest extends WalletMessageBase {
   type: WalletMessageType.CreateAccountRequest;
   walletType: WalletType;
+  authScheme: AuthScheme;
   name?: string;
 }
 

@@ -29,7 +29,7 @@ import {
   MIDEN_TRANSPORT_LAYER_NAME
 } from 'lib/miden-chain/constants';
 import { isMobile } from 'lib/platform';
-import { WalletType } from 'screens/onboarding/types';
+import { AuthScheme, WalletType } from 'screens/onboarding/types';
 
 import { ConsumeTransaction, SendTransaction } from '../db/types';
 import { toNoteType } from '../helpers';
@@ -113,12 +113,12 @@ export class MidenClientInterface {
     this.webClient.terminate();
   }
 
-  async createMidenWallet(walletType: WalletType, seed?: Uint8Array): Promise<string> {
+  async createMidenWallet(walletType: WalletType, authScheme: AuthScheme, seed?: Uint8Array): Promise<string> {
     // Create a new wallet
     const accountStorageMode =
       walletType === WalletType.OnChain ? AccountStorageMode.public() : AccountStorageMode.private();
-
-    const secretKey = SecretKey.rpoFalconWithRNG(seed);
+    const secretKey =
+      authScheme === AuthScheme.Falcon ? SecretKey.rpoFalconWithRNG(seed) : SecretKey.ecdsaWithRNG(seed);
     // create a new account with 0 seed so we can recreate it later from the secret key
     const accountBuilder = new AccountBuilder(new Uint8Array(32).fill(0))
       .accountType(AccountType.RegularAccountImmutableCode)

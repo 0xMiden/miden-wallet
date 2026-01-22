@@ -2,7 +2,7 @@ import '../../../test/jest-mocks';
 
 import { MidenMessageType } from 'lib/miden/types';
 import { WalletMessageType, WalletStatus } from 'lib/shared/types';
-import { WalletType } from 'screens/onboarding/types';
+import { AuthScheme, WalletType } from 'screens/onboarding/types';
 
 import { useWalletStore, selectIsReady, selectIsLocked, selectIsIdle, getIntercom } from './index';
 
@@ -57,8 +57,24 @@ describe('useWalletStore', () => {
 
       syncFromBackend({
         status: WalletStatus.Ready,
-        accounts: [{ publicKey: 'pk1', name: 'Account 1', isPublic: true, type: WalletType.OnChain, hdIndex: 0 }],
-        currentAccount: { publicKey: 'pk1', name: 'Account 1', isPublic: true, type: WalletType.OnChain, hdIndex: 0 },
+        accounts: [
+          {
+            publicKey: 'pk1',
+            name: 'Account 1',
+            isPublic: true,
+            type: WalletType.OnChain,
+            hdIndex: 0,
+            authScheme: AuthScheme.Falcon
+          }
+        ],
+        currentAccount: {
+          publicKey: 'pk1',
+          name: 'Account 1',
+          isPublic: true,
+          type: WalletType.OnChain,
+          hdIndex: 0,
+          authScheme: AuthScheme.Falcon
+        },
         networks: [],
         settings: { contacts: [] },
         ownMnemonic: true
@@ -75,8 +91,22 @@ describe('useWalletStore', () => {
 
   describe('editAccountName', () => {
     const mockAccounts = [
-      { publicKey: 'pk1', name: 'Account 1', isPublic: true, type: WalletType.OnChain, hdIndex: 0 },
-      { publicKey: 'pk2', name: 'Account 2', isPublic: false, type: WalletType.OnChain, hdIndex: 1 }
+      {
+        publicKey: 'pk1',
+        name: 'Account 1',
+        isPublic: true,
+        type: WalletType.OnChain,
+        hdIndex: 0,
+        authScheme: AuthScheme.Falcon
+      },
+      {
+        publicKey: 'pk2',
+        name: 'Account 2',
+        isPublic: false,
+        type: WalletType.OnChain,
+        hdIndex: 1,
+        authScheme: AuthScheme.Falcon
+      }
     ];
 
     beforeEach(() => {
@@ -140,8 +170,22 @@ describe('useWalletStore', () => {
 
   describe('updateCurrentAccount', () => {
     const mockAccounts = [
-      { publicKey: 'pk1', name: 'Account 1', isPublic: true, type: WalletType.OnChain, hdIndex: 0 },
-      { publicKey: 'pk2', name: 'Account 2', isPublic: false, type: WalletType.OnChain, hdIndex: 1 }
+      {
+        publicKey: 'pk1',
+        name: 'Account 1',
+        isPublic: true,
+        type: WalletType.OnChain,
+        hdIndex: 0,
+        authScheme: AuthScheme.Falcon
+      },
+      {
+        publicKey: 'pk2',
+        name: 'Account 2',
+        isPublic: false,
+        type: WalletType.OnChain,
+        hdIndex: 1,
+        authScheme: AuthScheme.Falcon
+      }
     ];
 
     beforeEach(() => {
@@ -287,10 +331,11 @@ describe('useWalletStore', () => {
       mockRequest.mockResolvedValueOnce({ type: WalletMessageType.NewWalletResponse });
 
       const { registerWallet } = useWalletStore.getState();
-      await registerWallet('password123', 'mnemonic words', true);
+      await registerWallet('password123', AuthScheme.Falcon, 'mnemonic words', true);
 
       expect(mockRequest).toHaveBeenCalledWith({
         type: WalletMessageType.NewWalletRequest,
+        authScheme: AuthScheme.Falcon,
         password: 'password123',
         mnemonic: 'mnemonic words',
         ownMnemonic: true
@@ -301,13 +346,14 @@ describe('useWalletStore', () => {
       mockRequest.mockResolvedValueOnce({ type: WalletMessageType.ImportFromClientResponse });
 
       const { importWalletFromClient } = useWalletStore.getState();
-      await importWalletFromClient('password123', 'mnemonic words', []);
+      await importWalletFromClient('password123', 'mnemonic words', [], {});
 
       expect(mockRequest).toHaveBeenCalledWith({
         type: WalletMessageType.ImportFromClientRequest,
         password: 'password123',
         mnemonic: 'mnemonic words',
-        walletAccounts: []
+        walletAccounts: [],
+        skForImportedAccounts: {}
       });
     });
 
@@ -336,11 +382,12 @@ describe('useWalletStore', () => {
       mockRequest.mockResolvedValueOnce({ type: WalletMessageType.CreateAccountResponse });
 
       const { createAccount } = useWalletStore.getState();
-      await createAccount(WalletType.OnChain, 'My Account');
+      await createAccount(WalletType.OnChain, AuthScheme.Falcon, 'My Account');
 
       expect(mockRequest).toHaveBeenCalledWith({
         type: WalletMessageType.CreateAccountRequest,
         walletType: WalletType.OnChain,
+        authScheme: AuthScheme.Falcon,
         name: 'My Account'
       });
     });
