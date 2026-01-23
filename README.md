@@ -3,6 +3,7 @@
 [![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/0xMiden/miden-wallet/blob/main/LICENSE)
 [![build](https://github.com/0xMiden/miden-wallet/actions/workflows/production-branch.yml/badge.svg)](https://github.com/0xMiden/miden-wallet/actions/workflows/production-branch.yml)
 [![build](https://github.com/0xMiden/miden-wallet/actions/workflows/build-desktop.yml/badge.svg)](https://github.com/0xMiden/miden-wallet/actions/workflows/build-desktop.yml)
+[![build](https://github.com/0xMiden/miden-wallet/actions/workflows/build-mobile.yml/badge.svg)](https://github.com/0xMiden/miden-wallet/actions/workflows/build-mobile.yml)
 
 A secure, cross-platform wallet for the [Miden](https://polygon.technology/polygon-miden) blockchain. Available as a browser extension, desktop application, and mobile app.
 
