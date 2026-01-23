@@ -12,7 +12,6 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
-const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 const webpack = require('webpack');
 const WebpackBar = require('webpackbar');
 
@@ -187,7 +186,7 @@ const mobileAppConfig = {
             options: {
               importLoaders: 1,
               modules: {
-                getLocalIdent: getCSSModuleLocalIdent
+                localIdentName: '[path][name]__[local]--[hash:base64:5]'
               }
             }
           },

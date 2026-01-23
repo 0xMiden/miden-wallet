@@ -4,7 +4,6 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
-const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 const webpack = require('webpack');
 const WebpackBar = require('webpackbar');
 
@@ -68,7 +67,8 @@ const appConfig = {
       stories: path.resolve(__dirname, 'src', 'stories'),
       components: path.resolve(__dirname, 'src', 'components'),
       screens: path.resolve(__dirname, 'src', 'screens'),
-      utils: path.resolve(__dirname, 'src', 'utils')
+      utils: path.resolve(__dirname, 'src', 'utils'),
+      'process/browser': require.resolve('process/browser.js')
     },
     fallback: {
       url: false,
@@ -116,8 +116,7 @@ const appConfig = {
     new ESLintPlugin({
       extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
       cache: true,
-      resolvePluginsRelativeTo: __dirname,
-      formatter: require.resolve('react-dev-utils/eslintFormatter')
+      resolvePluginsRelativeTo: __dirname
     }),
     publicAssetsPlugin(PUBLIC_PATH, OUTPUT_PATH, MANIFEST, TARGET_BROWSER),
 
@@ -159,7 +158,7 @@ const appConfig = {
             options: {
               importLoaders: 1,
               modules: {
-                getLocalIdent: getCSSModuleLocalIdent
+                localIdentName: '[path][name]__[local]--[hash:base64:5]'
               }
             }
           },
@@ -260,7 +259,8 @@ const backgroundConfig = {
       stories: path.resolve(__dirname, 'src', 'stories'),
       components: path.resolve(__dirname, 'src', 'components'),
       screens: path.resolve(__dirname, 'src', 'screens'),
-      utils: path.resolve(__dirname, 'src', 'utils')
+      utils: path.resolve(__dirname, 'src', 'utils'),
+      'process/browser': require.resolve('process/browser.js')
     },
     fallback: {
       url: false,
@@ -306,8 +306,7 @@ const backgroundConfig = {
     new ESLintPlugin({
       extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
       cache: true,
-      resolvePluginsRelativeTo: __dirname,
-      formatter: require.resolve('react-dev-utils/eslintFormatter')
+      resolvePluginsRelativeTo: __dirname
     }),
 
     new WebpackBar({
@@ -348,7 +347,7 @@ const backgroundConfig = {
             options: {
               importLoaders: 1,
               modules: {
-                getLocalIdent: getCSSModuleLocalIdent
+                localIdentName: '[path][name]__[local]--[hash:base64:5]'
               }
             }
           },
