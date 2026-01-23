@@ -12,7 +12,7 @@ use base64::{engine::general_purpose::STANDARD as BASE64, Engine};
 use log::{info, warn};
 use std::ffi::c_void;
 use std::ptr;
-use windows::core::{HSTRING, PCWSTR};
+use windows::core::{w, PCWSTR};
 use windows::Win32::Security::Cryptography::{
     BCryptCloseAlgorithmProvider, BCryptCreateHash, BCryptDecrypt, BCryptDestroyHash,
     BCryptDestroyKey, BCryptEncrypt, BCryptExportKey, BCryptFinishHash, BCryptGenRandom,
@@ -24,22 +24,22 @@ use windows::Win32::Security::Cryptography::{
     BCRYPT_AUTHENTICATED_CIPHER_MODE_INFO, BCRYPT_AUTHENTICATED_CIPHER_MODE_INFO_VERSION,
     BCRYPT_CHAINING_MODE, BCRYPT_CHAIN_MODE_GCM, BCRYPT_ECCPUBLIC_BLOB, BCRYPT_ECDH_P256_ALGORITHM,
     BCRYPT_HASH_HANDLE, BCRYPT_KEY_HANDLE, BCRYPT_OBJECT_LENGTH, BCRYPT_SHA256_ALGORITHM,
-    MS_PLATFORM_CRYPTO_PROVIDER, NCRYPT_ECDH_P256_ALGORITHM, NCRYPT_FLAGS, NCRYPT_KEY_HANDLE,
-    NCRYPT_PROV_HANDLE, NCRYPT_SECRET_HANDLE, NCRYPT_UI_POLICY,
+    MS_KEY_STORAGE_PROVIDER, MS_PLATFORM_CRYPTO_PROVIDER, NCRYPT_ECDH_P256_ALGORITHM,
+    NCRYPT_KEY_HANDLE, NCRYPT_PROV_HANDLE, NCRYPT_SECRET_HANDLE, NCRYPT_SILENT_FLAG,
+    NCRYPT_UI_POLICY,
 };
 
-const KEY_NAME: &str = "MidenWalletVaultKey";
+// Key name for the TPM-stored key
+const KEY_NAME: PCWSTR = w!("MidenWalletVaultKey");
 
 /// Check if TPM is available on this Windows system
 pub fn is_hardware_security_available() -> Result<bool, String> {
     info!("Checking Windows TPM availability");
 
     // Try to open the Platform Crypto Provider (TPM)
-    let provider_name = HSTRING::from(MS_PLATFORM_CRYPTO_PROVIDER);
     let mut provider: NCRYPT_PROV_HANDLE = NCRYPT_PROV_HANDLE::default();
 
-    let status =
-        unsafe { NCryptOpenStorageProvider(&mut provider, PCWSTR(provider_name.as_ptr()), 0) };
+    let status = unsafe { NCryptOpenStorageProvider(&mut provider, MS_PLATFORM_CRYPTO_PROVIDER, 0) };
 
     if status.is_err() {
         warn!("TPM not available: {:?}", status);
@@ -48,7 +48,7 @@ pub fn is_hardware_security_available() -> Result<bool, String> {
 
     // Close the provider
     if !provider.is_invalid() {
-        unsafe { NCryptFreeObject(provider.0) };
+        let _ = unsafe { NCryptFreeObject(provider) };
     }
 
     info!("TPM is available");
@@ -59,7 +59,7 @@ pub fn is_hardware_security_available() -> Result<bool, String> {
 pub fn has_hardware_key() -> Result<bool, String> {
     match get_tpm_key() {
         Ok(handle) => {
-            unsafe { NCryptFreeObject(handle.0) };
+            let _ = unsafe { NCryptFreeObject(handle) };
             Ok(true)
         }
         Err(_) => Ok(false),
@@ -77,39 +77,34 @@ pub fn generate_hardware_key() -> Result<(), String> {
     }
 
     // Open the Platform Crypto Provider (TPM)
-    let provider_name = HSTRING::from(MS_PLATFORM_CRYPTO_PROVIDER);
     let mut provider: NCRYPT_PROV_HANDLE = NCRYPT_PROV_HANDLE::default();
 
-    let status =
-        unsafe { NCryptOpenStorageProvider(&mut provider, PCWSTR(provider_name.as_ptr()), 0) };
+    let status = unsafe { NCryptOpenStorageProvider(&mut provider, MS_PLATFORM_CRYPTO_PROVIDER, 0) };
 
     if status.is_err() {
         return Err(format!("Failed to open TPM provider: {:?}", status));
     }
 
     // Create a persisted ECDH P-256 key
-    let key_name = HSTRING::from(KEY_NAME);
-    let algorithm = HSTRING::from(NCRYPT_ECDH_P256_ALGORITHM);
     let mut key_handle: NCRYPT_KEY_HANDLE = NCRYPT_KEY_HANDLE::default();
 
     let status = unsafe {
         NCryptCreatePersistedKey(
             provider,
             &mut key_handle,
-            PCWSTR(algorithm.as_ptr()),
-            PCWSTR(key_name.as_ptr()),
-            0, // dwLegacyKeySpec
-            NCRYPT_FLAGS(0),
+            NCRYPT_ECDH_P256_ALGORITHM,
+            KEY_NAME,
+            0,
+            Default::default(),
         )
     };
 
     if status.is_err() {
-        unsafe { NCryptFreeObject(provider.0) };
+        let _ = unsafe { NCryptFreeObject(provider) };
         return Err(format!("Failed to create TPM key: {:?}", status));
     }
 
     // Set UI policy to require Windows Hello authentication
-    // NCRYPT_UI_POLICY_FLAG for user presence (Windows Hello)
     let ui_policy = NCRYPT_UI_POLICY {
         dwVersion: 1,
         dwFlags: 0x1, // NCRYPT_UI_PROTECT_KEY_FLAG - requires Windows Hello
@@ -118,16 +113,19 @@ pub fn generate_hardware_key() -> Result<(), String> {
         pszDescription: PCWSTR::null(),
     };
 
-    let ui_policy_prop = HSTRING::from("NCRYPT_UI_POLICY_PROPERTY\0");
+    let ui_policy_bytes = unsafe {
+        std::slice::from_raw_parts(
+            &ui_policy as *const _ as *const u8,
+            std::mem::size_of::<NCRYPT_UI_POLICY>(),
+        )
+    };
+
     let status = unsafe {
         NCryptSetProperty(
             key_handle,
-            PCWSTR(ui_policy_prop.as_ptr()),
-            Some(
-                &ui_policy as *const _ as *const u8
-                    as *const [u8; std::mem::size_of::<NCRYPT_UI_POLICY>()],
-            ),
-            NCRYPT_FLAGS(0),
+            w!("UI Policy"),
+            ui_policy_bytes,
+            Default::default(),
         )
     };
 
@@ -140,21 +138,17 @@ pub fn generate_hardware_key() -> Result<(), String> {
     }
 
     // Finalize the key (makes it usable)
-    let status = unsafe { NCryptFinalizeKey(key_handle, NCRYPT_FLAGS(0)) };
+    let status = unsafe { NCryptFinalizeKey(key_handle, Default::default()) };
 
     if status.is_err() {
-        unsafe {
-            NCryptFreeObject(key_handle.0);
-            NCryptFreeObject(provider.0);
-        }
+        let _ = unsafe { NCryptFreeObject(key_handle) };
+        let _ = unsafe { NCryptFreeObject(provider) };
         return Err(format!("Failed to finalize TPM key: {:?}", status));
     }
 
     // Clean up
-    unsafe {
-        NCryptFreeObject(key_handle.0);
-        NCryptFreeObject(provider.0);
-    }
+    let _ = unsafe { NCryptFreeObject(key_handle) };
+    let _ = unsafe { NCryptFreeObject(provider) };
 
     info!("TPM key generated successfully");
     Ok(())
@@ -190,7 +184,7 @@ pub fn encrypt_with_hardware_key(data: &str) -> Result<String, String> {
     // Get the TPM key and export its public key
     let tpm_key = get_tpm_key()?;
     let tpm_pubkey_blob = export_tpm_public_key(tpm_key)?;
-    unsafe { NCryptFreeObject(tpm_key.0) };
+    let _ = unsafe { NCryptFreeObject(tpm_key) };
 
     // Generate ephemeral key pair (software) and perform ECDH
     let (ephemeral_pubkey_blob, shared_secret) = ecdh_encrypt_side(&tpm_pubkey_blob)?;
@@ -252,7 +246,7 @@ pub fn decrypt_with_hardware_key(encrypted: &str) -> Result<String, String> {
     // Get the TPM key and perform ECDH (this triggers Windows Hello!)
     let tpm_key = get_tpm_key()?;
     let shared_secret = ecdh_decrypt_side(tpm_key, ephemeral_pubkey_blob)?;
-    unsafe { NCryptFreeObject(tpm_key.0) };
+    let _ = unsafe { NCryptFreeObject(tpm_key) };
 
     // Derive AES-256 key from shared secret
     let aes_key = sha256(&shared_secret)?;
@@ -269,33 +263,30 @@ pub fn decrypt_with_hardware_key(encrypted: &str) -> Result<String, String> {
 
 /// Get the existing TPM key handle
 fn get_tpm_key() -> Result<NCRYPT_KEY_HANDLE, String> {
-    let provider_name = HSTRING::from(MS_PLATFORM_CRYPTO_PROVIDER);
     let mut provider: NCRYPT_PROV_HANDLE = NCRYPT_PROV_HANDLE::default();
 
-    let status =
-        unsafe { NCryptOpenStorageProvider(&mut provider, PCWSTR(provider_name.as_ptr()), 0) };
+    let status = unsafe { NCryptOpenStorageProvider(&mut provider, MS_PLATFORM_CRYPTO_PROVIDER, 0) };
 
     if status.is_err() {
         return Err(format!("Failed to open TPM provider: {:?}", status));
     }
 
-    let key_name = HSTRING::from(KEY_NAME);
     let mut key_handle: NCRYPT_KEY_HANDLE = NCRYPT_KEY_HANDLE::default();
 
     let status = unsafe {
         NCryptOpenKey(
             provider,
             &mut key_handle,
-            PCWSTR(key_name.as_ptr()),
+            KEY_NAME,
             0,
-            NCRYPT_FLAGS(0),
+            Default::default(),
         )
     };
 
-    unsafe { NCryptFreeObject(provider.0) };
+    let _ = unsafe { NCryptFreeObject(provider) };
 
     if status.is_err() {
-        return Err(format!("TPM key '{}' not found: {:?}", KEY_NAME, status));
+        return Err(format!("TPM key not found: {:?}", status));
     }
 
     Ok(key_handle)
@@ -303,19 +294,17 @@ fn get_tpm_key() -> Result<NCRYPT_KEY_HANDLE, String> {
 
 /// Export the public key from a TPM key handle as BCRYPT_ECCPUBLIC_BLOB
 fn export_tpm_public_key(key_handle: NCRYPT_KEY_HANDLE) -> Result<Vec<u8>, String> {
-    let blob_type = HSTRING::from(BCRYPT_ECCPUBLIC_BLOB);
-
     // First call to get the required size
     let mut blob_size: u32 = 0;
     let status = unsafe {
         NCryptExportKey(
             key_handle,
             NCRYPT_KEY_HANDLE::default(),
-            PCWSTR(blob_type.as_ptr()),
+            BCRYPT_ECCPUBLIC_BLOB,
             None,
             None,
             &mut blob_size,
-            NCRYPT_FLAGS(0),
+            Default::default(),
         )
     };
 
@@ -329,11 +318,11 @@ fn export_tpm_public_key(key_handle: NCRYPT_KEY_HANDLE) -> Result<Vec<u8>, Strin
         NCryptExportKey(
             key_handle,
             NCRYPT_KEY_HANDLE::default(),
-            PCWSTR(blob_type.as_ptr()),
+            BCRYPT_ECCPUBLIC_BLOB,
             None,
             Some(&mut blob),
             &mut blob_size,
-            NCRYPT_FLAGS(0),
+            Default::default(),
         )
     };
 
@@ -350,12 +339,10 @@ fn export_tpm_public_key(key_handle: NCRYPT_KEY_HANDLE) -> Result<Vec<u8>, Strin
 /// Uses BCrypt (software) - does not require authentication
 fn ecdh_encrypt_side(tpm_pubkey_blob: &[u8]) -> Result<(Vec<u8>, Vec<u8>), String> {
     // Open ECDH P-256 algorithm provider
-    let algorithm = HSTRING::from(BCRYPT_ECDH_P256_ALGORITHM);
     let mut alg_handle: BCRYPT_ALG_HANDLE = BCRYPT_ALG_HANDLE::default();
 
-    let status = unsafe {
-        BCryptOpenAlgorithmProvider(&mut alg_handle, PCWSTR(algorithm.as_ptr()), None, 0)
-    };
+    let status =
+        unsafe { BCryptOpenAlgorithmProvider(&mut alg_handle, BCRYPT_ECDH_P256_ALGORITHM, None, 0) };
 
     if status.is_err() {
         return Err(format!("Failed to open ECDH algorithm: {:?}", status));
@@ -366,7 +353,7 @@ fn ecdh_encrypt_side(tpm_pubkey_blob: &[u8]) -> Result<(Vec<u8>, Vec<u8>), Strin
     let status = unsafe { BCryptGenerateKeyPair(alg_handle, &mut ephemeral_key, 256, 0) };
 
     if status.is_err() {
-        unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
+        let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
         return Err(format!("Failed to generate ephemeral key: {:?}", status));
     }
 
@@ -375,21 +362,18 @@ fn ecdh_encrypt_side(tpm_pubkey_blob: &[u8]) -> Result<(Vec<u8>, Vec<u8>), Strin
         unsafe { windows::Win32::Security::Cryptography::BCryptFinalizeKeyPair(ephemeral_key, 0) };
 
     if status.is_err() {
-        unsafe {
-            BCryptDestroyKey(ephemeral_key);
-            BCryptCloseAlgorithmProvider(alg_handle, 0);
-        }
+        let _ = unsafe { BCryptDestroyKey(ephemeral_key) };
+        let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
         return Err(format!("Failed to finalize ephemeral key: {:?}", status));
     }
 
     // Export ephemeral public key
-    let blob_type = HSTRING::from(BCRYPT_ECCPUBLIC_BLOB);
     let mut blob_size: u32 = 0;
     let status = unsafe {
         BCryptExportKey(
             ephemeral_key,
             BCRYPT_KEY_HANDLE::default(),
-            PCWSTR(blob_type.as_ptr()),
+            BCRYPT_ECCPUBLIC_BLOB,
             None,
             &mut blob_size,
             0,
@@ -397,10 +381,8 @@ fn ecdh_encrypt_side(tpm_pubkey_blob: &[u8]) -> Result<(Vec<u8>, Vec<u8>), Strin
     };
 
     if status.is_err() {
-        unsafe {
-            BCryptDestroyKey(ephemeral_key);
-            BCryptCloseAlgorithmProvider(alg_handle, 0);
-        }
+        let _ = unsafe { BCryptDestroyKey(ephemeral_key) };
+        let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
         return Err(format!("Failed to get ephemeral key size: {:?}", status));
     }
 
@@ -409,7 +391,7 @@ fn ecdh_encrypt_side(tpm_pubkey_blob: &[u8]) -> Result<(Vec<u8>, Vec<u8>), Strin
         BCryptExportKey(
             ephemeral_key,
             BCRYPT_KEY_HANDLE::default(),
-            PCWSTR(blob_type.as_ptr()),
+            BCRYPT_ECCPUBLIC_BLOB,
             Some(&mut ephemeral_pubkey_blob),
             &mut blob_size,
             0,
@@ -417,10 +399,8 @@ fn ecdh_encrypt_side(tpm_pubkey_blob: &[u8]) -> Result<(Vec<u8>, Vec<u8>), Strin
     };
 
     if status.is_err() {
-        unsafe {
-            BCryptDestroyKey(ephemeral_key);
-            BCryptCloseAlgorithmProvider(alg_handle, 0);
-        }
+        let _ = unsafe { BCryptDestroyKey(ephemeral_key) };
+        let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
         return Err(format!(
             "Failed to export ephemeral public key: {:?}",
             status
@@ -435,7 +415,7 @@ fn ecdh_encrypt_side(tpm_pubkey_blob: &[u8]) -> Result<(Vec<u8>, Vec<u8>), Strin
         BCryptImportKeyPair(
             alg_handle,
             BCRYPT_KEY_HANDLE::default(),
-            PCWSTR(blob_type.as_ptr()),
+            BCRYPT_ECCPUBLIC_BLOB,
             &mut tpm_pubkey_handle,
             tpm_pubkey_blob,
             0,
@@ -443,10 +423,8 @@ fn ecdh_encrypt_side(tpm_pubkey_blob: &[u8]) -> Result<(Vec<u8>, Vec<u8>), Strin
     };
 
     if status.is_err() {
-        unsafe {
-            BCryptDestroyKey(ephemeral_key);
-            BCryptCloseAlgorithmProvider(alg_handle, 0);
-        }
+        let _ = unsafe { BCryptDestroyKey(ephemeral_key) };
+        let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
         return Err(format!("Failed to import TPM public key: {:?}", status));
     }
 
@@ -457,11 +435,9 @@ fn ecdh_encrypt_side(tpm_pubkey_blob: &[u8]) -> Result<(Vec<u8>, Vec<u8>), Strin
         unsafe { BCryptSecretAgreement(ephemeral_key, tpm_pubkey_handle, &mut secret_handle, 0) };
 
     if status.is_err() {
-        unsafe {
-            BCryptDestroyKey(tpm_pubkey_handle);
-            BCryptDestroyKey(ephemeral_key);
-            BCryptCloseAlgorithmProvider(alg_handle, 0);
-        }
+        let _ = unsafe { BCryptDestroyKey(tpm_pubkey_handle) };
+        let _ = unsafe { BCryptDestroyKey(ephemeral_key) };
+        let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
         return Err(format!("Failed to compute ECDH secret: {:?}", status));
     }
 
@@ -469,12 +445,10 @@ fn ecdh_encrypt_side(tpm_pubkey_blob: &[u8]) -> Result<(Vec<u8>, Vec<u8>), Strin
     let shared_secret = derive_bcrypt_secret(secret_handle)?;
 
     // Clean up
-    unsafe {
-        windows::Win32::Security::Cryptography::BCryptDestroySecret(secret_handle);
-        BCryptDestroyKey(tpm_pubkey_handle);
-        BCryptDestroyKey(ephemeral_key);
-        BCryptCloseAlgorithmProvider(alg_handle, 0);
-    }
+    let _ = unsafe { windows::Win32::Security::Cryptography::BCryptDestroySecret(secret_handle) };
+    let _ = unsafe { BCryptDestroyKey(tpm_pubkey_handle) };
+    let _ = unsafe { BCryptDestroyKey(ephemeral_key) };
+    let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
 
     Ok((ephemeral_pubkey_blob, shared_secret))
 }
@@ -486,87 +460,12 @@ fn ecdh_decrypt_side(
     tpm_key: NCRYPT_KEY_HANDLE,
     ephemeral_pubkey_blob: &[u8],
 ) -> Result<Vec<u8>, String> {
-    // Import ephemeral public key into NCrypt
-    let provider_name = HSTRING::from(MS_PLATFORM_CRYPTO_PROVIDER);
-    let mut provider: NCRYPT_PROV_HANDLE = NCRYPT_PROV_HANDLE::default();
-
-    let status =
-        unsafe { NCryptOpenStorageProvider(&mut provider, PCWSTR(provider_name.as_ptr()), 0) };
-
-    if status.is_err() {
-        return Err(format!("Failed to open TPM provider: {:?}", status));
-    }
-
-    // We need to import the ephemeral public key using BCrypt (NCrypt can't import public-only keys easily)
-    // Then use NCryptSecretAgreement with the TPM private key and BCrypt public key
-
-    // Open BCrypt ECDH algorithm
-    let algorithm = HSTRING::from(BCRYPT_ECDH_P256_ALGORITHM);
-    let mut alg_handle: BCRYPT_ALG_HANDLE = BCRYPT_ALG_HANDLE::default();
-
-    let status = unsafe {
-        BCryptOpenAlgorithmProvider(&mut alg_handle, PCWSTR(algorithm.as_ptr()), None, 0)
-    };
-
-    if status.is_err() {
-        unsafe { NCryptFreeObject(provider.0) };
-        return Err(format!("Failed to open ECDH algorithm: {:?}", status));
-    }
-
-    // Import ephemeral public key into BCrypt
-    let blob_type = HSTRING::from(BCRYPT_ECCPUBLIC_BLOB);
-    let mut ephemeral_pubkey_handle: BCRYPT_KEY_HANDLE = BCRYPT_KEY_HANDLE::default();
-    let status = unsafe {
-        BCryptImportKeyPair(
-            alg_handle,
-            BCRYPT_KEY_HANDLE::default(),
-            PCWSTR(blob_type.as_ptr()),
-            &mut ephemeral_pubkey_handle,
-            ephemeral_pubkey_blob,
-            0,
-        )
-    };
-
-    if status.is_err() {
-        unsafe {
-            BCryptCloseAlgorithmProvider(alg_handle, 0);
-            NCryptFreeObject(provider.0);
-        }
-        return Err(format!(
-            "Failed to import ephemeral public key: {:?}",
-            status
-        ));
-    }
-
-    // Now we need to use NCryptSecretAgreement with TPM private key
-    // NCryptSecretAgreement requires an NCRYPT_KEY_HANDLE for the public key too
-    // We'll need to import it as an NCrypt key
-
-    // Actually, NCryptSecretAgreement can work with the public key imported via BCrypt
-    // but we need to re-export and import into NCrypt
-
-    // For NCrypt, we need to create a temporary key from the public blob
-    // Let's use a different approach: NCryptSecretAgreement with the TPM key directly
-
-    // The challenge is NCryptSecretAgreement needs both keys to be NCrypt handles
-    // We'll need to import the ephemeral public key into the NCrypt provider
-
-    // Unfortunately, MS_PLATFORM_CRYPTO_PROVIDER doesn't support importing external public keys
-    // We need to use MS_KEY_STORAGE_PROVIDER for the ephemeral public key
-
-    unsafe {
-        BCryptDestroyKey(ephemeral_pubkey_handle);
-        BCryptCloseAlgorithmProvider(alg_handle, 0);
-        NCryptFreeObject(provider.0);
-    }
-
     // Use MS_KEY_STORAGE_PROVIDER to import the ephemeral public key
-    let sw_provider_name = HSTRING::from("Microsoft Software Key Storage Provider");
+    // (MS_PLATFORM_CRYPTO_PROVIDER doesn't support importing external public keys)
     let mut sw_provider: NCRYPT_PROV_HANDLE = NCRYPT_PROV_HANDLE::default();
 
-    let status = unsafe {
-        NCryptOpenStorageProvider(&mut sw_provider, PCWSTR(sw_provider_name.as_ptr()), 0)
-    };
+    let status =
+        unsafe { NCryptOpenStorageProvider(&mut sw_provider, MS_KEY_STORAGE_PROVIDER, 0) };
 
     if status.is_err() {
         return Err(format!("Failed to open software provider: {:?}", status));
@@ -574,22 +473,21 @@ fn ecdh_decrypt_side(
 
     // Import ephemeral public key
     let mut ephemeral_ncrypt_key: NCRYPT_KEY_HANDLE = NCRYPT_KEY_HANDLE::default();
-    let blob_type_ncrypt = HSTRING::from(BCRYPT_ECCPUBLIC_BLOB);
 
     let status = unsafe {
         windows::Win32::Security::Cryptography::NCryptImportKey(
             sw_provider,
             NCRYPT_KEY_HANDLE::default(),
-            PCWSTR(blob_type_ncrypt.as_ptr()),
+            BCRYPT_ECCPUBLIC_BLOB,
             None,
             &mut ephemeral_ncrypt_key,
             ephemeral_pubkey_blob,
-            NCRYPT_FLAGS(0),
+            Default::default(),
         )
     };
 
     if status.is_err() {
-        unsafe { NCryptFreeObject(sw_provider.0) };
+        let _ = unsafe { NCryptFreeObject(sw_provider) };
         return Err(format!(
             "Failed to import ephemeral public key into NCrypt: {:?}",
             status
@@ -604,25 +502,21 @@ fn ecdh_decrypt_side(
             tpm_key,
             ephemeral_ncrypt_key,
             &mut secret_handle,
-            NCRYPT_FLAGS(0),
+            Default::default(),
         )
     };
 
     // Check for user cancellation
     if status.0 == 0x8010002E_u32 as i32 {
         // SCARD_W_CANCELLED_BY_USER
-        unsafe {
-            NCryptFreeObject(ephemeral_ncrypt_key.0);
-            NCryptFreeObject(sw_provider.0);
-        }
+        let _ = unsafe { NCryptFreeObject(ephemeral_ncrypt_key) };
+        let _ = unsafe { NCryptFreeObject(sw_provider) };
         return Err("Authentication cancelled by user".to_string());
     }
 
     if status.is_err() {
-        unsafe {
-            NCryptFreeObject(ephemeral_ncrypt_key.0);
-            NCryptFreeObject(sw_provider.0);
-        }
+        let _ = unsafe { NCryptFreeObject(ephemeral_ncrypt_key) };
+        let _ = unsafe { NCryptFreeObject(sw_provider) };
         return Err(format!("ECDH secret agreement failed: {:?}", status));
     }
 
@@ -630,11 +524,9 @@ fn ecdh_decrypt_side(
     let shared_secret = derive_ncrypt_secret(secret_handle)?;
 
     // Clean up
-    unsafe {
-        NCryptFreeObject(secret_handle.0);
-        NCryptFreeObject(ephemeral_ncrypt_key.0);
-        NCryptFreeObject(sw_provider.0);
-    }
+    let _ = unsafe { NCryptFreeObject(secret_handle) };
+    let _ = unsafe { NCryptFreeObject(ephemeral_ncrypt_key) };
+    let _ = unsafe { NCryptFreeObject(sw_provider) };
 
     Ok(shared_secret)
 }
@@ -643,15 +535,15 @@ fn ecdh_decrypt_side(
 fn derive_bcrypt_secret(
     secret_handle: windows::Win32::Security::Cryptography::BCRYPT_SECRET_HANDLE,
 ) -> Result<Vec<u8>, String> {
-    // Use BCRYPT_KDF_RAW_SECRET to get the raw ECDH output
-    let kdf_type = HSTRING::from("TRUNCATE");
+    // Use TRUNCATE KDF to get the raw ECDH output
+    let kdf_type = w!("TRUNCATE");
 
     // First get the size
     let mut derived_size: u32 = 0;
     let status = unsafe {
         windows::Win32::Security::Cryptography::BCryptDeriveKey(
             secret_handle,
-            PCWSTR(kdf_type.as_ptr()),
+            kdf_type,
             None,
             None,
             &mut derived_size,
@@ -668,7 +560,7 @@ fn derive_bcrypt_secret(
     let status = unsafe {
         windows::Win32::Security::Cryptography::BCryptDeriveKey(
             secret_handle,
-            PCWSTR(kdf_type.as_ptr()),
+            kdf_type,
             None,
             Some(&mut derived_key),
             &mut derived_size,
@@ -686,19 +578,19 @@ fn derive_bcrypt_secret(
 
 /// Derive raw shared secret from NCrypt secret agreement handle
 fn derive_ncrypt_secret(secret_handle: NCRYPT_SECRET_HANDLE) -> Result<Vec<u8>, String> {
-    // Use BCRYPT_KDF_RAW_SECRET to get the raw ECDH output
-    let kdf_type = HSTRING::from("TRUNCATE");
+    // Use TRUNCATE KDF to get the raw ECDH output
+    let kdf_type = w!("TRUNCATE");
 
     // First get the size
     let mut derived_size: u32 = 0;
     let status = unsafe {
         windows::Win32::Security::Cryptography::NCryptDeriveKey(
             secret_handle,
-            PCWSTR(kdf_type.as_ptr()),
+            kdf_type,
             None,
             None,
             &mut derived_size,
-            NCRYPT_FLAGS(0),
+            NCRYPT_SILENT_FLAG,
         )
     };
 
@@ -714,11 +606,11 @@ fn derive_ncrypt_secret(secret_handle: NCRYPT_SECRET_HANDLE) -> Result<Vec<u8>, 
     let status = unsafe {
         windows::Win32::Security::Cryptography::NCryptDeriveKey(
             secret_handle,
-            PCWSTR(kdf_type.as_ptr()),
+            kdf_type,
             None,
             Some(&mut derived_key),
             &mut derived_size,
-            NCRYPT_FLAGS(0),
+            NCRYPT_SILENT_FLAG,
         )
     };
 
@@ -732,25 +624,22 @@ fn derive_ncrypt_secret(secret_handle: NCRYPT_SECRET_HANDLE) -> Result<Vec<u8>, 
 
 /// SHA-256 hash using BCrypt
 fn sha256(data: &[u8]) -> Result<[u8; 32], String> {
-    let algorithm = HSTRING::from(BCRYPT_SHA256_ALGORITHM);
     let mut alg_handle: BCRYPT_ALG_HANDLE = BCRYPT_ALG_HANDLE::default();
 
-    let status = unsafe {
-        BCryptOpenAlgorithmProvider(&mut alg_handle, PCWSTR(algorithm.as_ptr()), None, 0)
-    };
+    let status =
+        unsafe { BCryptOpenAlgorithmProvider(&mut alg_handle, BCRYPT_SHA256_ALGORITHM, None, 0) };
 
     if status.is_err() {
         return Err(format!("Failed to open SHA256 algorithm: {:?}", status));
     }
 
     // Get object length for hash object
-    let prop_name = HSTRING::from(BCRYPT_OBJECT_LENGTH);
     let mut object_length: u32 = 0;
     let mut result_size: u32 = 0;
     let status = unsafe {
         BCryptGetProperty(
             alg_handle,
-            PCWSTR(prop_name.as_ptr()),
+            BCRYPT_OBJECT_LENGTH,
             Some(std::slice::from_raw_parts_mut(
                 &mut object_length as *mut u32 as *mut u8,
                 4,
@@ -761,7 +650,7 @@ fn sha256(data: &[u8]) -> Result<[u8; 32], String> {
     };
 
     if status.is_err() {
-        unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
+        let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
         return Err(format!("Failed to get hash object length: {:?}", status));
     }
 
@@ -780,7 +669,7 @@ fn sha256(data: &[u8]) -> Result<[u8; 32], String> {
     };
 
     if status.is_err() {
-        unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
+        let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
         return Err(format!("Failed to create hash: {:?}", status));
     }
 
@@ -788,10 +677,8 @@ fn sha256(data: &[u8]) -> Result<[u8; 32], String> {
     let status = unsafe { BCryptHashData(hash_handle, data, 0) };
 
     if status.is_err() {
-        unsafe {
-            BCryptDestroyHash(hash_handle);
-            BCryptCloseAlgorithmProvider(alg_handle, 0);
-        }
+        let _ = unsafe { BCryptDestroyHash(hash_handle) };
+        let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
         return Err(format!("Failed to hash data: {:?}", status));
     }
 
@@ -799,10 +686,8 @@ fn sha256(data: &[u8]) -> Result<[u8; 32], String> {
     let mut hash = [0u8; 32];
     let status = unsafe { BCryptFinishHash(hash_handle, &mut hash, 0) };
 
-    unsafe {
-        BCryptDestroyHash(hash_handle);
-        BCryptCloseAlgorithmProvider(alg_handle, 0);
-    }
+    let _ = unsafe { BCryptDestroyHash(hash_handle) };
+    let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
 
     if status.is_err() {
         return Err(format!("Failed to finish hash: {:?}", status));
@@ -829,46 +714,37 @@ fn aes_gcm_encrypt(
     nonce: &[u8; 12],
     plaintext: &[u8],
 ) -> Result<(Vec<u8>, [u8; 16]), String> {
-    let algorithm = HSTRING::from(BCRYPT_AES_ALGORITHM);
     let mut alg_handle: BCRYPT_ALG_HANDLE = BCRYPT_ALG_HANDLE::default();
 
-    let status = unsafe {
-        BCryptOpenAlgorithmProvider(&mut alg_handle, PCWSTR(algorithm.as_ptr()), None, 0)
-    };
+    let status =
+        unsafe { BCryptOpenAlgorithmProvider(&mut alg_handle, BCRYPT_AES_ALGORITHM, None, 0) };
 
     if status.is_err() {
         return Err(format!("Failed to open AES algorithm: {:?}", status));
     }
 
     // Set GCM mode
-    let chain_mode = HSTRING::from(BCRYPT_CHAINING_MODE);
-    let gcm_mode = HSTRING::from(BCRYPT_CHAIN_MODE_GCM);
-    let gcm_mode_bytes = gcm_mode.as_wide();
-    let status = unsafe {
-        BCryptSetProperty(
-            alg_handle,
-            PCWSTR(chain_mode.as_ptr()),
-            std::slice::from_raw_parts(
-                gcm_mode_bytes.as_ptr() as *const u8,
-                gcm_mode_bytes.len() * 2 + 2, // Include null terminator
-            ),
-            0,
+    let gcm_mode_bytes = unsafe {
+        std::slice::from_raw_parts(
+            BCRYPT_CHAIN_MODE_GCM.as_ptr() as *const u8,
+            (BCRYPT_CHAIN_MODE_GCM.len() + 1) * 2, // Include null terminator, UTF-16
         )
     };
+    let status =
+        unsafe { BCryptSetProperty(alg_handle, BCRYPT_CHAINING_MODE, gcm_mode_bytes, 0) };
 
     if status.is_err() {
-        unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
+        let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
         return Err(format!("Failed to set GCM mode: {:?}", status));
     }
 
     // Get key object length
-    let prop_name = HSTRING::from(BCRYPT_OBJECT_LENGTH);
     let mut object_length: u32 = 0;
     let mut result_size: u32 = 0;
     let status = unsafe {
         BCryptGetProperty(
             alg_handle,
-            PCWSTR(prop_name.as_ptr()),
+            BCRYPT_OBJECT_LENGTH,
             Some(std::slice::from_raw_parts_mut(
                 &mut object_length as *mut u32 as *mut u8,
                 4,
@@ -879,7 +755,7 @@ fn aes_gcm_encrypt(
     };
 
     if status.is_err() {
-        unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
+        let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
         return Err(format!("Failed to get key object length: {:?}", status));
     }
 
@@ -898,7 +774,7 @@ fn aes_gcm_encrypt(
     };
 
     if status.is_err() {
-        unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
+        let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
         return Err(format!("Failed to generate AES key: {:?}", status));
     }
 
@@ -938,10 +814,8 @@ fn aes_gcm_encrypt(
         )
     };
 
-    unsafe {
-        BCryptDestroyKey(key_handle);
-        BCryptCloseAlgorithmProvider(alg_handle, 0);
-    }
+    let _ = unsafe { BCryptDestroyKey(key_handle) };
+    let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
 
     if status.is_err() {
         return Err(format!("AES-GCM encryption failed: {:?}", status));
@@ -958,46 +832,37 @@ fn aes_gcm_decrypt(
     ciphertext: &[u8],
     tag: &[u8],
 ) -> Result<Vec<u8>, String> {
-    let algorithm = HSTRING::from(BCRYPT_AES_ALGORITHM);
     let mut alg_handle: BCRYPT_ALG_HANDLE = BCRYPT_ALG_HANDLE::default();
 
-    let status = unsafe {
-        BCryptOpenAlgorithmProvider(&mut alg_handle, PCWSTR(algorithm.as_ptr()), None, 0)
-    };
+    let status =
+        unsafe { BCryptOpenAlgorithmProvider(&mut alg_handle, BCRYPT_AES_ALGORITHM, None, 0) };
 
     if status.is_err() {
         return Err(format!("Failed to open AES algorithm: {:?}", status));
     }
 
     // Set GCM mode
-    let chain_mode = HSTRING::from(BCRYPT_CHAINING_MODE);
-    let gcm_mode = HSTRING::from(BCRYPT_CHAIN_MODE_GCM);
-    let gcm_mode_bytes = gcm_mode.as_wide();
-    let status = unsafe {
-        BCryptSetProperty(
-            alg_handle,
-            PCWSTR(chain_mode.as_ptr()),
-            std::slice::from_raw_parts(
-                gcm_mode_bytes.as_ptr() as *const u8,
-                gcm_mode_bytes.len() * 2 + 2,
-            ),
-            0,
+    let gcm_mode_bytes = unsafe {
+        std::slice::from_raw_parts(
+            BCRYPT_CHAIN_MODE_GCM.as_ptr() as *const u8,
+            (BCRYPT_CHAIN_MODE_GCM.len() + 1) * 2,
         )
     };
+    let status =
+        unsafe { BCryptSetProperty(alg_handle, BCRYPT_CHAINING_MODE, gcm_mode_bytes, 0) };
 
     if status.is_err() {
-        unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
+        let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
         return Err(format!("Failed to set GCM mode: {:?}", status));
     }
 
     // Get key object length
-    let prop_name = HSTRING::from(BCRYPT_OBJECT_LENGTH);
     let mut object_length: u32 = 0;
     let mut result_size: u32 = 0;
     let status = unsafe {
         BCryptGetProperty(
             alg_handle,
-            PCWSTR(prop_name.as_ptr()),
+            BCRYPT_OBJECT_LENGTH,
             Some(std::slice::from_raw_parts_mut(
                 &mut object_length as *mut u32 as *mut u8,
                 4,
@@ -1008,7 +873,7 @@ fn aes_gcm_decrypt(
     };
 
     if status.is_err() {
-        unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
+        let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
         return Err(format!("Failed to get key object length: {:?}", status));
     }
 
@@ -1027,7 +892,7 @@ fn aes_gcm_decrypt(
     };
 
     if status.is_err() {
-        unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
+        let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
         return Err(format!("Failed to generate AES key: {:?}", status));
     }
 
@@ -1067,10 +932,8 @@ fn aes_gcm_decrypt(
         )
     };
 
-    unsafe {
-        BCryptDestroyKey(key_handle);
-        BCryptCloseAlgorithmProvider(alg_handle, 0);
-    }
+    let _ = unsafe { BCryptDestroyKey(key_handle) };
+    let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
 
     if status.is_err() {
         return Err(format!(
