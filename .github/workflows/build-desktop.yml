@@ -26,10 +26,8 @@ jobs:
       matrix:
         include:
           - platform: macos-latest
-            target: universal-apple-darwin
             name: macOS
           - platform: windows-latest
-            target: x86_64-pc-windows-msvc
             name: Windows
 
     runs-on: ${{ matrix.platform }}
@@ -47,13 +45,14 @@ jobs:
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.target }}
 
-      - name: Install dependencies (macOS)
+      - name: Add Rust targets (macOS universal)
         if: matrix.platform == 'macos-latest'
-        run: |
-          rustup target add aarch64-apple-darwin x86_64-apple-darwin
+        run: rustup target add aarch64-apple-darwin x86_64-apple-darwin
+
+      - name: Add Rust target (Windows)
+        if: matrix.platform == 'windows-latest'
+        run: rustup target add x86_64-pc-windows-msvc
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
