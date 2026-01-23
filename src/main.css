@@ -263,3 +263,8 @@ button,
   animation-duration: 1s !important;
   animation-delay: 0s !important;
 }
+
+/* Re-enable sync spinner fade transition (override the global disable) */
+.extension-no-animations .sync-spinner-fade {
+  transition: opacity 300ms ease-in-out !important;
+}
