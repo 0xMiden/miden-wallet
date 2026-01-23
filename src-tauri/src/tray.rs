@@ -53,14 +53,22 @@ pub fn setup_tray(app: &tauri::App) -> Result<(), Box<dyn std::error::Error>> {
             }
         })
         .on_tray_icon_event(|tray, event| {
-            // Double-click on tray icon shows the window
-            if let tauri::tray::TrayIconEvent::DoubleClick { .. } = event {
-                let app = tray.app_handle();
-                if let Some(window) = app.get_webview_window("main") {
-                    let _ = window.show();
-                    let _ = window.set_focus();
-                    let _ = window.unminimize();
+            // Left-click on tray icon shows the window (works on Windows)
+            // On macOS, click typically shows the menu which is handled separately
+            match event {
+                tauri::tray::TrayIconEvent::Click {
+                    button: tauri::tray::MouseButton::Left,
+                    ..
                 }
+                | tauri::tray::TrayIconEvent::DoubleClick { .. } => {
+                    let app = tray.app_handle();
+                    if let Some(window) = app.get_webview_window("main") {
+                        let _ = window.show();
+                        let _ = window.set_focus();
+                        let _ = window.unminimize();
+                    }
+                }
+                _ => {}
             }
         })
         .build(app)?;
