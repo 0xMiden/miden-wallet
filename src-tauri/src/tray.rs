@@ -26,17 +26,11 @@ pub fn setup_tray(app: &tauri::App) -> Result<(), Box<dyn std::error::Error>> {
     let menu = Menu::with_items(app, &[&show, &hide, &separator, &quit])?;
 
     // Build the tray icon
-    // Platform behavior:
-    // - Windows: Left-click shows window, Right-click shows menu
-    // - macOS: Left-click shows menu (standard macOS behavior)
-    #[cfg(target_os = "macos")]
-    let show_menu_on_left_click = true;
-    #[cfg(not(target_os = "macos"))]
-    let show_menu_on_left_click = false;
-
+    // Right-click shows menu on all platforms
+    // Left-click shows window on Windows, shows menu on macOS
     let _tray = TrayIconBuilder::new()
         .menu(&menu)
-        .show_menu_on_left_click(show_menu_on_left_click)
+        .show_menu_on_left_click(cfg!(target_os = "macos"))
         .on_menu_event(|app, event| {
             info!("Tray menu event: {:?}", event.id.as_ref());
 
@@ -61,14 +55,17 @@ pub fn setup_tray(app: &tauri::App) -> Result<(), Box<dyn std::error::Error>> {
             }
         })
         .on_tray_icon_event(|tray, event| {
-            // On Windows: Left-click shows the window directly
-            // On macOS: Left-click shows menu (handled by show_menu_on_left_click)
-            #[cfg(not(target_os = "macos"))]
-            if let tauri::tray::TrayIconEvent::Click {
-                button: tauri::tray::MouseButton::Left,
-                ..
-            } = event
-            {
+            // Show window on left-click (Windows) or double-click (any platform)
+            let should_show = match &event {
+                tauri::tray::TrayIconEvent::Click {
+                    button: tauri::tray::MouseButton::Left,
+                    ..
+                } => !cfg!(target_os = "macos"), // On macOS, left-click shows menu
+                tauri::tray::TrayIconEvent::DoubleClick { .. } => true,
+                _ => false,
+            };
+
+            if should_show {
                 let app = tray.app_handle();
                 if let Some(window) = app.get_webview_window("main") {
                     let _ = window.show();
@@ -76,10 +73,6 @@ pub fn setup_tray(app: &tauri::App) -> Result<(), Box<dyn std::error::Error>> {
                     let _ = window.unminimize();
                 }
             }
-
-            // Suppress unused variable warning on macOS
-            #[cfg(target_os = "macos")]
-            let _ = (tray, event);
         })
         .build(app)?;
 
