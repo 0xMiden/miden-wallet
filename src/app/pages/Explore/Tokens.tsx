@@ -6,9 +6,7 @@ import { useTranslation } from 'react-i18next';
 import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
 import { Avatar } from 'components/Avatar';
 import { CardItem } from 'components/CardItem';
-import { SyncWaveBackground } from 'components/SyncWaveBackground';
 import { useAccount, useAllTokensBaseMetadata, useAllBalances } from 'lib/miden/front';
-import { useWalletStore } from 'lib/store';
 import { navigate } from 'lib/woozie';
 import { truncateAddress } from 'utils/string';
 
@@ -17,14 +15,7 @@ const Tokens: FC = () => {
   const account = useAccount();
   const { t } = useTranslation();
   const allTokensBaseMetadata = useAllTokensBaseMetadata();
-  const { data: allTokenBalances = [], isLoading: isLoadingBalances } = useAllBalances(
-    account.publicKey,
-    allTokensBaseMetadata
-  );
-  const hasCompletedInitialSync = useWalletStore(s => s.hasCompletedInitialSync);
-
-  // Show loading indicator during initial balance fetch and first chain sync
-  const showLoadingWave = isLoadingBalances || !hasCompletedInitialSync;
+  const { data: allTokenBalances = [] } = useAllBalances(account.publicKey, allTokensBaseMetadata);
 
   return (
     <>
@@ -41,7 +32,6 @@ const Tokens: FC = () => {
               const { tokenId, metadata } = asset;
               return (
                 <div key={tokenId} className="relative flex">
-                  <SyncWaveBackground isSyncing={showLoadingWave} className="rounded-lg" />
                   <CardItem
                     iconLeft={
                       <Avatar size="lg" image={isMiden ? '/misc/miden.png' : '/misc/token-logos/default.svg'} />

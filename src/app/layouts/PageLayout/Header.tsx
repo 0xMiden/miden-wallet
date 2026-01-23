@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import classNames from 'clsx';
 
@@ -9,7 +9,8 @@ import { openInFullPage, useAppEnv } from 'app/env';
 import { ReactComponent as ChevronDownIcon } from 'app/icons/chevron-down.svg';
 import { ReactComponent as MaximiseIcon } from 'app/icons/maximise.svg';
 import ContentContainer from 'app/layouts/ContentContainer';
-import { useAccount } from 'lib/miden/front';
+import { useAccount, useAllBalances, useAllTokensBaseMetadata } from 'lib/miden/front';
+import { useWalletStore } from 'lib/store';
 import { Link } from 'lib/woozie';
 
 import { HeaderSelectors } from './Header.selectors';
@@ -33,9 +34,39 @@ const Header: FC = () => {
 
 export default Header;
 
+const SyncSpinner: FC<{ visible: boolean }> = ({ visible }) => (
+  <div
+    className="animate-spin sync-spinner-fade"
+    style={{
+      width: 16,
+      height: 16,
+      border: '2px solid #E5E7EB',
+      borderTopColor: '#F97316',
+      borderRadius: '50%',
+      opacity: visible ? 1 : 0,
+      transition: 'opacity 300ms ease-in-out'
+    }}
+  />
+);
+
 const Control: FC = () => {
   const account = useAccount();
   const { popup } = useAppEnv();
+  const allTokensBaseMetadata = useAllTokensBaseMetadata();
+  const { isLoading: isLoadingBalances } = useAllBalances(account.publicKey, allTokensBaseMetadata);
+  const hasCompletedInitialSync = useWalletStore(s => s.hasCompletedInitialSync);
+  const isSyncing = isLoadingBalances || !hasCompletedInitialSync;
+
+  // Show spinner only if syncing takes > 1s, then fade out over 300ms
+  const [showSpinner, setShowSpinner] = useState(false);
+  useEffect(() => {
+    if (isSyncing) {
+      const showTimeout = setTimeout(() => setShowSpinner(true), 1000);
+      return () => clearTimeout(showTimeout);
+    }
+    const hideTimeout = setTimeout(() => setShowSpinner(false), 300);
+    return () => clearTimeout(hideTimeout);
+  }, [isSyncing]);
 
   const handleMaximiseViewClick = () => {
     openInFullPage();
@@ -69,6 +100,7 @@ const Control: FC = () => {
           </Link>
         </div>
         <div className="flex items-center gap-2">
+          {showSpinner && <SyncSpinner visible={isSyncing} />}
           <NetworkSelect className="self-end" />
           {popup && (
             <Button
