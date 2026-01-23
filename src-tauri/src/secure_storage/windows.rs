@@ -27,7 +27,7 @@ use windows::Win32::Security::Cryptography::{
     BCRYPT_OPEN_ALGORITHM_PROVIDER_FLAGS, BCRYPT_SHA256_ALGORITHM, BCRYPTGENRANDOM_FLAGS,
     CERT_KEY_SPEC, MS_KEY_STORAGE_PROVIDER, MS_PLATFORM_CRYPTO_PROVIDER,
     NCRYPT_ECDH_P256_ALGORITHM, NCRYPT_KEY_HANDLE, NCRYPT_PROV_HANDLE, NCRYPT_SECRET_HANDLE,
-    NCRYPT_SILENT_FLAG, NCRYPT_UI_POLICY,
+    NCRYPT_UI_POLICY,
 };
 
 // Key name for the TPM-stored key
@@ -603,6 +603,9 @@ fn derive_ncrypt_secret(secret_handle: NCRYPT_SECRET_HANDLE) -> Result<Vec<u8>, 
     let kdf_type = w!("TRUNCATE");
 
     // First get the size
+    // NOTE: We do NOT use NCRYPT_SILENT_FLAG here because Windows Hello authentication
+    // may be deferred until this point. Using silent flag would prevent the biometric
+    // prompt from appearing, causing the operation to hang.
     let mut derived_size: u32 = 0;
     let status = unsafe {
         windows::Win32::Security::Cryptography::NCryptDeriveKey(
@@ -611,7 +614,7 @@ fn derive_ncrypt_secret(secret_handle: NCRYPT_SECRET_HANDLE) -> Result<Vec<u8>, 
             None,
             None,
             &mut derived_size,
-            NCRYPT_SILENT_FLAG.0,
+            0, // Allow UI for Windows Hello
         )
     };
 
@@ -631,7 +634,7 @@ fn derive_ncrypt_secret(secret_handle: NCRYPT_SECRET_HANDLE) -> Result<Vec<u8>, 
             None,
             Some(&mut derived_key),
             &mut derived_size,
-            NCRYPT_SILENT_FLAG.0,
+            0, // Allow UI for Windows Hello
         )
     };
 
