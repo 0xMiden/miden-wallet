@@ -73,20 +73,33 @@ export async function isDAppEnabled() {
   return bools.every(Boolean);
 }
 
-export function registerNewWallet(password: string, mnemonic?: string, ownMnemonic?: boolean) {
+export function registerNewWallet(password?: string, mnemonic?: string, ownMnemonic?: boolean) {
   return withInited(async () => {
     console.log('[Actions.registerNewWallet] Starting...');
-    await Vault.spawn(password, mnemonic, ownMnemonic);
-    console.log('[Actions.registerNewWallet] Vault.spawn completed, calling unlock...');
-    await unlock(password);
+    // Password may be undefined for hardware-only wallets (mobile/desktop with Secure Enclave)
+    // Vault.spawn() will handle this by using hardware protection instead
+    // spawn() returns the vault directly, avoiding a second biometric prompt from unlock()
+    const vault = await Vault.spawn(password ?? '', mnemonic, ownMnemonic);
+    console.log('[Actions.registerNewWallet] Vault.spawn completed, initializing state...');
+    const accounts = await vault.fetchAccounts();
+    const settings = await vault.fetchSettings();
+    const currentAccount = await vault.getCurrentAccount();
+    const ownMnemonicFlag = await vault.isOwnMnemonic();
+    unlocked({ vault, accounts, settings, currentAccount, ownMnemonic: ownMnemonicFlag });
     console.log('[Actions.registerNewWallet] Completed');
   });
 }
 
-export function registerImportedWallet(password: string, mnemonic: string) {
+export function registerImportedWallet(password?: string, mnemonic?: string) {
   return withInited(async () => {
-    await Vault.spawnFromMidenClient(password, mnemonic);
-    await unlock(password);
+    // Password may be undefined for hardware-only wallets
+    // spawnFromMidenClient() returns the vault directly, avoiding a second biometric prompt
+    const vault = await Vault.spawnFromMidenClient(password ?? '', mnemonic ?? '');
+    const accounts = await vault.fetchAccounts();
+    const settings = await vault.fetchSettings();
+    const currentAccount = await vault.getCurrentAccount();
+    const ownMnemonicFlag = await vault.isOwnMnemonic();
+    unlocked({ vault, accounts, settings, currentAccount, ownMnemonic: ownMnemonicFlag });
   });
 }
 

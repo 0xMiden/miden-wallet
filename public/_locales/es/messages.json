@@ -1294,6 +1294,18 @@
     "message": "No cierre sesión a menos que conozca su Seed Phrase de 12 palabras o tenga un archivo de respaldo cifrado.",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
+  "biometricUnlockRequired": {
+    "message": "Se requiere desbloqueo biométrico",
+    "englishSource": "Biometric Unlock Required"
+  },
+  "biometricUnlockRequiredDescription": {
+    "message": "Esta billetera utiliza únicamente autenticación biométrica. Utilice Face ID, Touch ID o la contraseña de su dispositivo para desbloquear. Para acceder a su billetera en otro dispositivo, use su Seed phrase de 12 palabras.",
+    "englishSource": "This wallet uses biometric authentication only. Use Face ID, Touch ID, or your device passcode to unlock. To access your wallet on another device, use your 12-word Seed phrase."
+  },
+  "resetWallet": {
+    "message": "Restablecer billetera",
+    "englishSource": "Reset Wallet"
+  },
   "signOut": {
     "message": "Desconectar",
     "englishSource": "Sign Out"
@@ -1993,6 +2005,23 @@
     "message": "La autenticación biométrica no está disponible en este dispositivo",
     "englishSource": "Biometric authentication is not available on this device"
   },
+  "biometricAttemptsRemaining": {
+    "message": "$count$ intento(s) restantes",
+    "englishSource": "$count$ attempt(s) remaining",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "continueWithPassword": {
+    "message": "Continuar con contraseña",
+    "englishSource": "Continue with Password"
+  },
+  "tryBiometricAgain": {
+    "message": "Pruebe biométrico nuevamente",
+    "englishSource": "Try Biometric Again"
+  },
   "usePasswordInstead": {
     "message": "Utilice la contraseña en su lugar",
     "englishSource": "Use Password Instead"
@@ -2081,5 +2110,17 @@
   "historyDetails": {
     "message": "Detalles",
     "englishSource": "Details"
+  },
+  "passwordsCanBeInsecure": {
+    "message": "Las contraseñas pueden ser inseguras. Utilice en su lugar la autenticación biométrica.",
+    "englishSource": "Passwords can be insecure. Use biometric authentication instead."
+  },
+  "unlockWallet": {
+    "message": "Desbloquear billetera",
+    "englishSource": "Unlock Wallet"
+  },
+  "unlockWalletDescription": {
+    "message": "Con seed phrase, siempre puedes restaurar tu cuenta pública. Elija a continuación cómo desbloquear rápidamente su billetera.",
+    "englishSource": "With the seed phrase, you can always restore your public account. Choose below how to quickly unlock your wallet."
   }
 }

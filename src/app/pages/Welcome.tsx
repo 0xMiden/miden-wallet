@@ -7,12 +7,38 @@ import { formatMnemonic } from 'app/defaults';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
 import { useMidenContext } from 'lib/miden/front';
 import { useMobileBackHandler } from 'lib/mobile/useMobileBackHandler';
+import { isDesktop, isMobile } from 'lib/platform';
 import { WalletStatus } from 'lib/shared/types';
 import { useWalletStore } from 'lib/store';
 import { fetchStateFromBackend } from 'lib/store/hooks/useIntercomSync';
 import { navigate, useLocation } from 'lib/woozie';
 import { OnboardingFlow } from 'screens/onboarding/navigator';
 import { ImportType, OnboardingAction, OnboardingStep, OnboardingType } from 'screens/onboarding/types';
+
+/**
+ * Check if hardware security is available for vault key protection.
+ * On desktop/mobile, this checks for Secure Enclave/TPM/TEE availability.
+ */
+async function checkHardwareSecurityAvailable(): Promise<boolean> {
+  if (!isDesktop() && !isMobile()) {
+    return false;
+  }
+
+  try {
+    if (isDesktop()) {
+      const ss = await import('lib/desktop/secure-storage');
+      return await ss.isHardwareSecurityAvailable();
+    }
+    if (isMobile()) {
+      const hs = await import('lib/biometric');
+      return await hs.isHardwareSecurityAvailable();
+    }
+  } catch (error) {
+    console.log('[Welcome] Hardware security check failed:', error);
+    return false;
+  }
+  return false;
+}
 
 /**
  * Wait for the wallet state to become Ready after registration.
@@ -47,17 +73,30 @@ const Welcome: FC = () => {
   const [password, setPassword] = useState<string | null>(null);
   const [importedWithFile, setImportedWithFile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [useBiometric, setUseBiometric] = useState(true);
+  const [isHardwareSecurityAvailable, setIsHardwareSecurityAvailable] = useState(false);
+  const [biometricAttempts, setBiometricAttempts] = useState(0);
+  const [biometricError, setBiometricError] = useState<string | null>(null);
   const { registerWallet, importWalletFromClient } = useMidenContext();
   const { trackEvent } = useAnalytics();
   const syncFromBackend = useWalletStore(s => s.syncFromBackend);
 
+  // Check hardware security availability on mount
+  useEffect(() => {
+    checkHardwareSecurityAvailable().then(available => {
+      setIsHardwareSecurityAvailable(available);
+    });
+  }, []);
+
   const register = useCallback(async () => {
     if (password && seedPhrase) {
       const seedPhraseFormatted = formatMnemonic(seedPhrase.join(' '));
+      // For hardware-only wallets, pass undefined as password
+      const actualPassword = password === '__HARDWARE_ONLY__' ? undefined : password;
       if (!importedWithFile) {
-        await registerWallet(password, seedPhraseFormatted, onboardingType === OnboardingType.Import);
+        await registerWallet(actualPassword, seedPhraseFormatted, onboardingType === OnboardingType.Import);
       } else {
-        await importWalletFromClient(password, seedPhraseFormatted);
+        await importWalletFromClient(actualPassword, seedPhraseFormatted);
       }
     } else {
       throw new Error('Missing password or seed phrase');
@@ -87,7 +126,17 @@ const Welcome: FC = () => {
         console.log({ seedPhrase });
         setSeedPhrase(seedPhrase);
         setImportedWithFile(true);
-        navigate('/#create-password');
+        // Check if hardware security is available - if so, skip password step
+        {
+          const hardwareAvailable = await checkHardwareSecurityAvailable();
+          if (hardwareAvailable) {
+            // Hardware-only mode: skip password, go directly to confirmation
+            setPassword('__HARDWARE_ONLY__');
+            navigate('/#confirmation');
+          } else {
+            navigate('/#create-password');
+          }
+        }
         break;
       case 'import-from-seed':
         setImportType(ImportType.SeedPhrase);
@@ -95,7 +144,17 @@ const Welcome: FC = () => {
         break;
       case 'import-seed-phrase-submit':
         setSeedPhrase(action.payload.split(' '));
-        navigate('/#create-password');
+        // Check if hardware security is available - if so, skip password step
+        {
+          const hardwareAvailable = await checkHardwareSecurityAvailable();
+          if (hardwareAvailable) {
+            // Hardware-only mode: skip password, go directly to confirmation
+            setPassword('__HARDWARE_ONLY__');
+            navigate('/#confirmation');
+          } else {
+            navigate('/#create-password');
+          }
+        }
         break;
       case 'backup-seed-phrase':
         setSeedPhrase(generateMnemonic(128).split(' '));
@@ -105,7 +164,18 @@ const Welcome: FC = () => {
         navigate('/#verify-seed-phrase');
         break;
       case 'create-password':
-        navigate('/#create-password');
+        // Check if user wants biometric AND hardware security is available
+        {
+          const hardwareAvailable = await checkHardwareSecurityAvailable();
+          if (useBiometric && hardwareAvailable) {
+            // Hardware-only mode: skip password, go directly to confirmation
+            setPassword('__HARDWARE_ONLY__');
+            navigate('/#confirmation');
+          } else {
+            // User opted out of biometrics or hardware not available - show password screen
+            navigate('/#create-password');
+          }
+        }
         break;
       case 'create-password-submit':
         setPassword(action.payload.password);
@@ -116,6 +186,7 @@ const Welcome: FC = () => {
       case 'confirmation':
         try {
           setIsLoading(true);
+          setBiometricError(null);
           await register();
           // Wait for state to be synced before navigating
           // This fixes a race condition where navigation happens before state is Ready
@@ -126,7 +197,21 @@ const Welcome: FC = () => {
         } catch (error) {
           console.error('[Welcome] Confirmation flow failed:', error);
           setIsLoading(false);
+          // Track biometric attempts for hardware-only mode
+          if (password === '__HARDWARE_ONLY__') {
+            const newAttempts = biometricAttempts + 1;
+            setBiometricAttempts(newAttempts);
+            setBiometricError(error instanceof Error ? error.message : 'Biometric authentication failed');
+          }
         }
+        break;
+      case 'switch-to-password':
+        // User chose to use password after biometric failures
+        setUseBiometric(false);
+        setPassword(null);
+        setBiometricAttempts(0);
+        setBiometricError(null);
+        navigate('/#create-password');
         break;
       case 'back':
         if (
@@ -222,6 +307,11 @@ const Welcome: FC = () => {
       step={step}
       password={password}
       isLoading={isLoading}
+      useBiometric={useBiometric}
+      isHardwareSecurityAvailable={isHardwareSecurityAvailable}
+      biometricAttempts={biometricAttempts}
+      biometricError={biometricError}
+      onBiometricChange={setUseBiometric}
       onAction={onAction}
     />
   );

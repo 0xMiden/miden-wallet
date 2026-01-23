@@ -78,6 +78,15 @@ export class Vault {
   }
 
   /**
+   * Check if password-based protector exists
+   * Returns false for hardware-only wallets (mobile/desktop with Secure Enclave)
+   */
+  static async hasPasswordProtector(): Promise<boolean> {
+    const passwordVaultKey = await getPlain<string>(VAULT_KEY_PASSWORD_STORAGE_KEY);
+    return !!passwordVaultKey;
+  }
+
+  /**
    * Try to unlock the vault using hardware-backed security (biometric)
    * This will trigger Touch ID / Face ID / Windows Hello prompt
    *
@@ -148,6 +157,13 @@ export class Vault {
   private static async unlockWithPassword(password: string): Promise<CryptoKey> {
     const encryptedVaultKey = await getPlain<string>(VAULT_KEY_PASSWORD_STORAGE_KEY);
     if (!encryptedVaultKey) {
+      // Check if this is a hardware-only wallet
+      const hasHardware = await Vault.hasHardwareProtector();
+      if (hasHardware) {
+        throw new PublicError(
+          'This wallet uses biometric unlock only. Use Face ID/Touch ID or recover with seed phrase.'
+        );
+      }
       // Legacy wallet - fall back to old password-based unlock
       return Vault.legacyPasswordUnlock(password);
     }
@@ -175,8 +191,8 @@ export class Vault {
     return passKey;
   }
 
-  static async spawn(password: string, mnemonic?: string, ownMnemonic?: boolean) {
-    return withError('Failed to create wallet', async () => {
+  static async spawn(password: string, mnemonic?: string, ownMnemonic?: boolean): Promise<Vault> {
+    return withError('Failed to create wallet', async (): Promise<Vault> => {
       // Generate random vault key (256-bit)
       const vaultKeyBytes = Passworder.generateVaultKey();
       const vaultKey = await Passworder.importVaultKey(vaultKeyBytes);
@@ -188,12 +204,26 @@ export class Vault {
       // Clear storage before any inserts to avoid wiping newly inserted keys later
       await clearStorage();
 
-      // Store vault key protected by password
-      const passwordProtectedVaultKey = await Passworder.encryptVaultKeyWithPassword(vaultKeyBytes, password);
-      await savePlain(VAULT_KEY_PASSWORD_STORAGE_KEY, passwordProtectedVaultKey);
+      // Determine security model: hardware-only or password-based
+      // If password is provided (user opted out of biometrics), use password protection
+      // If no password (hardware-only mode), use hardware protection
+      const useHardwareOnly = !password;
+      const hardwareAvailable = await isHardwareSecurityAvailableForVault();
 
-      // On desktop, also protect vault key with hardware (Secure Enclave/TPM)
-      await setupHardwareProtector(vaultKeyBytes);
+      if (useHardwareOnly && hardwareAvailable) {
+        // Try hardware-only mode (user chose biometric authentication)
+        const hardwareSetupSuccess = await setupHardwareProtector(vaultKeyBytes);
+        if (!hardwareSetupSuccess) {
+          // Hardware setup failed - this shouldn't happen if user chose biometric
+          console.log('[Vault.spawn] Hardware setup failed, but no password provided');
+          throw new PublicError('Hardware security setup failed. Please try again.');
+        }
+        // If hardware succeeded, we don't store password protector (hardware-only mode)
+      } else {
+        // Password-based protection (user opted out of biometrics or hardware not available)
+        const passwordProtectedVaultKey = await Passworder.encryptVaultKeyWithPassword(vaultKeyBytes, password);
+        await savePlain(VAULT_KEY_PASSWORD_STORAGE_KEY, passwordProtectedVaultKey);
+      }
 
       const insertKeyCallback = async (key: Uint8Array, secretKey: Uint8Array) => {
         const pubKeyHex = Buffer.from(key).toString('hex');
@@ -247,11 +277,14 @@ export class Vault {
       );
       await savePlain(currentAccPubKeyStrgKey, accPublicKey);
       await savePlain(ownMnemonicStrgKey, ownMnemonic ?? false);
+
+      // Return the vault instance so caller doesn't need to call unlock() separately
+      return new Vault(vaultKey);
     });
   }
 
-  static async spawnFromMidenClient(password: string, mnemonic: string) {
-    return withError('Failed to spawn from miden client', async () => {
+  static async spawnFromMidenClient(password: string, mnemonic: string): Promise<Vault> {
+    return withError('Failed to spawn from miden client', async (): Promise<Vault> => {
       // Wrap WASM client operations in a lock to prevent concurrent access
       const accounts = await withWasmClientLock(async () => {
         const midenClient = await getMidenClient();
@@ -285,12 +318,25 @@ export class Vault {
 
       await clearStorage(false);
 
-      // Store vault key protected by password
-      const passwordProtectedVaultKey = await Passworder.encryptVaultKeyWithPassword(vaultKeyBytes, password);
-      await savePlain(VAULT_KEY_PASSWORD_STORAGE_KEY, passwordProtectedVaultKey);
+      // Determine security model: hardware-only or password-based
+      // If password is provided (user opted out of biometrics), use password protection
+      // If no password (hardware-only mode), use hardware protection
+      const useHardwareOnly = !password;
+      const hardwareAvailable = await isHardwareSecurityAvailableForVault();
 
-      // On desktop, also protect vault key with hardware (Secure Enclave/TPM)
-      await setupHardwareProtector(vaultKeyBytes);
+      if (useHardwareOnly && hardwareAvailable) {
+        // Try hardware-only mode (user chose biometric authentication)
+        const hardwareSetupSuccess = await setupHardwareProtector(vaultKeyBytes);
+        if (!hardwareSetupSuccess) {
+          // Hardware setup failed - this shouldn't happen if user chose biometric
+          console.log('[Vault.spawnFromMidenClient] Hardware setup failed, but no password provided');
+          throw new PublicError('Hardware security setup failed. Please try again.');
+        }
+      } else {
+        // Password-based protection (user opted out of biometrics or hardware not available)
+        const passwordProtectedVaultKey = await Passworder.encryptVaultKeyWithPassword(vaultKeyBytes, password);
+        await savePlain(VAULT_KEY_PASSWORD_STORAGE_KEY, passwordProtectedVaultKey);
+      }
 
       await encryptAndSaveMany(
         [
@@ -302,6 +348,9 @@ export class Vault {
       );
       await savePlain(currentAccPubKeyStrgKey, newAccounts[0].publicKey);
       await savePlain(ownMnemonicStrgKey, true);
+
+      // Return the vault instance so caller doesn't need to call unlock() separately
+      return new Vault(vaultKey);
     });
   }
 
@@ -590,12 +639,37 @@ async function withError<T>(errMessage: string, factory: (doThrow: () => void) =
 }
 
 /**
- * Set up hardware-backed protection for the vault key on desktop/mobile
- * This is optional and will silently fail if hardware security is not available
+ * Check if hardware security is available for vault key protection
+ * Returns true on desktop (with Secure Enclave/TPM) or mobile (with Secure Enclave/TEE)
  */
-async function setupHardwareProtector(vaultKeyBytes: Uint8Array): Promise<void> {
+async function isHardwareSecurityAvailableForVault(): Promise<boolean> {
   if (!isDesktop() && !isMobile()) {
-    return;
+    return false;
+  }
+
+  try {
+    if (isDesktop()) {
+      const ss = await import('lib/desktop/secure-storage');
+      return await ss.isHardwareSecurityAvailable();
+    }
+    if (isMobile()) {
+      const hs = await import('lib/biometric');
+      return await hs.isHardwareSecurityAvailable();
+    }
+  } catch (error) {
+    console.log('[isHardwareSecurityAvailableForVault] Check failed:', error);
+    return false;
+  }
+  return false;
+}
+
+/**
+ * Set up hardware-backed protection for the vault key on desktop/mobile
+ * Returns true if setup was successful, false otherwise
+ */
+async function setupHardwareProtector(vaultKeyBytes: Uint8Array): Promise<boolean> {
+  if (!isDesktop() && !isMobile()) {
+    return false;
   }
 
   if (isDesktop()) {
@@ -618,10 +692,12 @@ async function setupHardwareProtector(vaultKeyBytes: Uint8Array): Promise<void> 
         await ss.tauriLog('[setupHardwareProtector] Saving hardware-protected vault key...');
         await savePlain(VAULT_KEY_HARDWARE_STORAGE_KEY, hardwareProtectedVaultKey);
         await ss.tauriLog('[setupHardwareProtector] Hardware protection setup complete');
+        return true;
       }
     } catch (error) {
       const ss = await import('lib/desktop/secure-storage');
       await ss.tauriLog(`[setupHardwareProtector] Failed: ${error}`);
+      return false;
     }
   }
 
@@ -645,11 +721,16 @@ async function setupHardwareProtector(vaultKeyBytes: Uint8Array): Promise<void> 
         console.log('[setupHardwareProtector] Mobile: Saving hardware-protected vault key...');
         await savePlain(VAULT_KEY_HARDWARE_STORAGE_KEY, hardwareProtectedVaultKey);
         console.log('[setupHardwareProtector] Mobile: Hardware protection setup complete');
+        return true;
       } else {
         console.log('[setupHardwareProtector] Mobile: Hardware security not available, skipping');
+        return false;
       }
     } catch (error) {
       console.log('[setupHardwareProtector] Mobile: Failed:', error);
+      return false;
     }
   }
+
+  return false;
 }

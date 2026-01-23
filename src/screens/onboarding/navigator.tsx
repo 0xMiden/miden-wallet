@@ -26,6 +26,11 @@ export interface OnboardingFlowProps {
   step: OnboardingStep;
   password?: string | null;
   isLoading?: boolean;
+  useBiometric?: boolean;
+  isHardwareSecurityAvailable?: boolean;
+  biometricAttempts?: number;
+  biometricError?: string | null;
+  onBiometricChange?: (value: boolean) => void;
   onAction?: (action: OnboardingAction) => void;
 }
 
@@ -82,6 +87,11 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
   step,
   password,
   isLoading,
+  useBiometric = true,
+  isHardwareSecurityAvailable = false,
+  biometricAttempts = 0,
+  biometricError = null,
+  onBiometricChange,
   onAction
 }) => {
   const [navigationDirection, setNavigationDirection] = useState<'forward' | 'backward'>('forward');
@@ -148,6 +158,8 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
 
     const onConfirmSubmit = () => onForwardAction?.({ id: 'confirmation' });
 
+    const onSwitchToPassword = () => onForwardAction?.({ id: 'switch-to-password' });
+
     const onImportSeedPhraseSubmit = (seedPhrase: string) =>
       onForwardAction?.({ id: 'import-seed-phrase-submit', payload: seedPhrase });
 
@@ -161,7 +173,15 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
       case OnboardingStep.BackupSeedPhrase:
         return <BackUpSeedPhraseScreen seedPhrase={seedPhrase || []} onSubmit={onBackupSeedPhraseSubmit} />;
       case OnboardingStep.VerifySeedPhrase:
-        return <VerifySeedPhraseScreen seedPhrase={seedPhrase || []} onSubmit={onVerifySeedPhraseSubmit} />;
+        return (
+          <VerifySeedPhraseScreen
+            seedPhrase={seedPhrase || []}
+            useBiometric={useBiometric}
+            isHardwareSecurityAvailable={isHardwareSecurityAvailable}
+            onBiometricChange={onBiometricChange}
+            onSubmit={onVerifySeedPhraseSubmit}
+          />
+        );
       case OnboardingStep.SelectImportType:
         return <SelectImportTypeScreen onSubmit={onSelectImportTypeSubmit} />;
       case OnboardingStep.ImportFromSeed:
@@ -173,12 +193,31 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
       case OnboardingStep.SelectTransactionType:
         return <SelectTransactionTypeScreen onSubmit={onSelectTransactionTypeSubmit} />;
       case OnboardingStep.Confirmation:
-        return <ConfirmationScreen isLoading={isLoading} onSubmit={onConfirmSubmit} />;
+        return (
+          <ConfirmationScreen
+            isLoading={isLoading}
+            biometricAttempts={biometricAttempts}
+            biometricError={biometricError}
+            onSubmit={onConfirmSubmit}
+            onSwitchToPassword={onSwitchToPassword}
+          />
+        );
 
       default:
         return <></>;
     }
-  }, [step, isLoading, onForwardAction, seedPhrase, wordslist]);
+  }, [
+    step,
+    isLoading,
+    onForwardAction,
+    seedPhrase,
+    wordslist,
+    useBiometric,
+    isHardwareSecurityAvailable,
+    onBiometricChange,
+    biometricAttempts,
+    biometricError
+  ]);
 
   const onBack = () => {
     setNavigationDirection('backward');

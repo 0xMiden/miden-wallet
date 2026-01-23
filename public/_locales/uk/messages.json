@@ -1353,6 +1353,18 @@
     "message": "Не виходьте з облікового запису, якщо ви не знаєте свою Seed Phrase з 12 слів або не маєте зашифрованого резервного файлу.",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
+  "biometricUnlockRequired": {
+    "message": "Потрібне біометричне розблокування",
+    "englishSource": "Biometric Unlock Required"
+  },
+  "biometricUnlockRequiredDescription": {
+    "message": "Цей гаманець використовує лише біометричну автентифікацію. Для розблокування використовуйте Face ID, Touch ID або пароль свого пристрою. Щоб отримати доступ до свого гаманця на іншому пристрої, використовуйте Seed phrase із 12 слів.",
+    "englishSource": "This wallet uses biometric authentication only. Use Face ID, Touch ID, or your device passcode to unlock. To access your wallet on another device, use your 12-word Seed phrase."
+  },
+  "resetWallet": {
+    "message": "Скинути гаманець",
+    "englishSource": "Reset Wallet"
+  },
   "signOut": {
     "message": "Вийти",
     "englishSource": "Sign Out"
@@ -2073,6 +2085,23 @@
     "message": "Біометрична автентифікація недоступна на цьому пристрої",
     "englishSource": "Biometric authentication is not available on this device"
   },
+  "biometricAttemptsRemaining": {
+    "message": "Залишилося $count$ спроб",
+    "englishSource": "$count$ attempt(s) remaining",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "continueWithPassword": {
+    "message": "Продовжте з паролем",
+    "englishSource": "Continue with Password"
+  },
+  "tryBiometricAgain": {
+    "message": "Спробуйте знову біометричні дані",
+    "englishSource": "Try Biometric Again"
+  },
   "usePasswordInstead": {
     "message": "Замість цього використовуйте пароль",
     "englishSource": "Use Password Instead"
@@ -2161,5 +2190,17 @@
   "historyDetails": {
     "message": "Подробиці",
     "englishSource": "Details"
+  },
+  "passwordsCanBeInsecure": {
+    "message": "Паролі можуть бути ненадійними. Натомість використовуйте біометричну автентифікацію.",
+    "englishSource": "Passwords can be insecure. Use biometric authentication instead."
+  },
+  "unlockWallet": {
+    "message": "Розблокувати гаманець",
+    "englishSource": "Unlock Wallet"
+  },
+  "unlockWalletDescription": {
+    "message": "За допомогою seed phrase ви завжди можете відновити свій публічний обліковий запис. Виберіть нижче, як швидко розблокувати свій гаманець.",
+    "englishSource": "With the seed phrase, you can always restore your public account. Choose below how to quickly unlock your wallet."
   }
 }

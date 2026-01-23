@@ -94,8 +94,8 @@ export interface WalletActions {
   syncFromBackend: (state: MidenState) => void;
 
   // Auth actions
-  registerWallet: (password: string, mnemonic?: string, ownMnemonic?: boolean) => Promise<void>;
-  importWalletFromClient: (password: string, mnemonic: string) => Promise<void>;
+  registerWallet: (password: string | undefined, mnemonic?: string, ownMnemonic?: boolean) => Promise<void>;
+  importWalletFromClient: (password: string | undefined, mnemonic: string) => Promise<void>;
   unlock: (password?: string) => Promise<void>;
 
   // Account actions

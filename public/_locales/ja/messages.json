@@ -1353,6 +1353,18 @@
     "message": "12 単語のSeed Phraseを知っている場合、または暗号化されたバックアップ ファイルがない場合は、サインアウトしないでください。",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
+  "biometricUnlockRequired": {
+    "message": "生体認証によるロック解除が必要です",
+    "englishSource": "Biometric Unlock Required"
+  },
+  "biometricUnlockRequiredDescription": {
+    "message": "このウォレットは生体認証のみを使用します。 Face ID、Touch ID、またはデバイスのパスコードを使用してロックを解除します。別のデバイスでウォレットにアクセスするには、12 単語の Seed phrase を使用します。",
+    "englishSource": "This wallet uses biometric authentication only. Use Face ID, Touch ID, or your device passcode to unlock. To access your wallet on another device, use your 12-word Seed phrase."
+  },
+  "resetWallet": {
+    "message": "ウォレットをリセット",
+    "englishSource": "Reset Wallet"
+  },
   "signOut": {
     "message": "サインアウト",
     "englishSource": "Sign Out"
@@ -2073,6 +2085,23 @@
     "message": "このデバイスでは生体認証は利用できません",
     "englishSource": "Biometric authentication is not available on this device"
   },
+  "biometricAttemptsRemaining": {
+    "message": "残り $count$ 回の試行回数",
+    "englishSource": "$count$ attempt(s) remaining",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "continueWithPassword": {
+    "message": "パスワードで続行",
+    "englishSource": "Continue with Password"
+  },
+  "tryBiometricAgain": {
+    "message": "生体認証をもう一度試してください",
+    "englishSource": "Try Biometric Again"
+  },
   "usePasswordInstead": {
     "message": "代わりにパスワードを使用してください",
     "englishSource": "Use Password Instead"
@@ -2161,5 +2190,17 @@
   "historyDetails": {
     "message": "詳細",
     "englishSource": "Details"
+  },
+  "passwordsCanBeInsecure": {
+    "message": "パスワードは安全ではない場合があります。代わりに生体認証を使用してください。",
+    "englishSource": "Passwords can be insecure. Use biometric authentication instead."
+  },
+  "unlockWallet": {
+    "message": "ウォレットのロックを解除する",
+    "englishSource": "Unlock Wallet"
+  },
+  "unlockWalletDescription": {
+    "message": "seed phrase を使用すると、いつでも公開アカウントを復元できます。ウォレットのロックを素早く解除する方法を以下から選択してください。",
+    "englishSource": "With the seed phrase, you can always restore your public account. Choose below how to quickly unlock your wallet."
   }
 }

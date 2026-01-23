@@ -1353,6 +1353,18 @@
     "message": "Не выходите из системы, если вы не знаете свою Seed-фразу из 12 слов или не имеете зашифрованного файла резервной копии.",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
+  "biometricUnlockRequired": {
+    "message": "Требуется биометрическая разблокировка",
+    "englishSource": "Biometric Unlock Required"
+  },
+  "biometricUnlockRequiredDescription": {
+    "message": "Этот кошелек использует только биометрическую аутентификацию. Используйте Face ID, Touch ID или пароль вашего устройства для разблокировки. Чтобы получить доступ к своему кошельку на другом устройстве, используйте свой Seed phrase из 12 слов.",
+    "englishSource": "This wallet uses biometric authentication only. Use Face ID, Touch ID, or your device passcode to unlock. To access your wallet on another device, use your 12-word Seed phrase."
+  },
+  "resetWallet": {
+    "message": "Сбросить кошелек",
+    "englishSource": "Reset Wallet"
+  },
   "signOut": {
     "message": "Выход",
     "englishSource": "Sign Out"
@@ -2073,6 +2085,23 @@
     "message": "Биометрическая аутентификация недоступна на этом устройстве.",
     "englishSource": "Biometric authentication is not available on this device"
   },
+  "biometricAttemptsRemaining": {
+    "message": "Осталось попыток: $count$",
+    "englishSource": "$count$ attempt(s) remaining",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "continueWithPassword": {
+    "message": "Продолжить с паролем",
+    "englishSource": "Continue with Password"
+  },
+  "tryBiometricAgain": {
+    "message": "Попробуйте биометрию еще раз",
+    "englishSource": "Try Biometric Again"
+  },
   "usePasswordInstead": {
     "message": "Вместо этого используйте пароль",
     "englishSource": "Use Password Instead"
@@ -2161,5 +2190,17 @@
   "historyDetails": {
     "message": "Подробности",
     "englishSource": "Details"
+  },
+  "passwordsCanBeInsecure": {
+    "message": "Пароли могут быть небезопасными. Вместо этого используйте биометрическую аутентификацию.",
+    "englishSource": "Passwords can be insecure. Use biometric authentication instead."
+  },
+  "unlockWallet": {
+    "message": "Разблокировать кошелек",
+    "englishSource": "Unlock Wallet"
+  },
+  "unlockWalletDescription": {
+    "message": "С помощью seed phrase вы всегда можете восстановить свою общедоступную учетную запись. Выберите ниже, как быстро разблокировать свой кошелек.",
+    "englishSource": "With the seed phrase, you can always restore your public account. Choose below how to quickly unlock your wallet."
   }
 }

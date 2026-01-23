@@ -307,6 +307,9 @@
   "forgotPassword": "Forgot Password?",
   "forgotPasswordDescription": "If you've forgotten your password, you need to sign out and re-import your account. After that, you can create a new password.",
   "forgotPasswordSecondDescription": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file.",
+  "biometricUnlockRequired": "Biometric Unlock Required",
+  "biometricUnlockRequiredDescription": "This wallet uses biometric authentication only. Use Face ID, Touch ID, or your device passcode to unlock. To access your wallet on another device, use your 12-word Seed phrase.",
+  "resetWallet": "Reset Wallet",
   "signOut": "Sign Out",
   "chooseImportType": "Choose Your Import Type",
   "chooseImportTypeDescription": "Restore public balance with your 12-word phrase. To restore private balance, upload an encrypted backup file.",
@@ -479,6 +482,9 @@
   "unlockWithBiometric": "Unlock with biometric",
   "biometricFailed": "Biometric authentication failed",
   "biometricNotAvailable": "Biometric authentication is not available on this device",
+  "biometricAttemptsRemaining": "$count$ attempt(s) remaining",
+  "continueWithPassword": "Continue with Password",
+  "tryBiometricAgain": "Try Biometric Again",
   "usePasswordInstead": "Use Password Instead",
   "biometricEnabled": "Biometric unlock enabled",
   "biometricDisabled": "Biometric unlock disabled",
@@ -499,5 +505,8 @@
   "noteReceivedTitle": "You have received a note",
   "noteReceivedTapToClaim": "Tap here to claim it",
   "tokenHistory": "$tokenName$ History",
-  "historyDetails": "Details"
+  "historyDetails": "Details",
+  "passwordsCanBeInsecure": "Passwords can be insecure. Use biometric authentication instead.",
+  "unlockWallet": "Unlock Wallet",
+  "unlockWalletDescription": "With the seed phrase, you can always restore your public account. Choose below how to quickly unlock your wallet."
 }

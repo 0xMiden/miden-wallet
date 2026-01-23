@@ -53,6 +53,8 @@ const Unlock: FC<UnlockProps> = ({ openForgotPasswordInFullPage = false }) => {
   // Extension: always shows password form
   const [hardwareUnlockAttempted, setHardwareUnlockAttempted] = useState(false);
   const [hardwareUnlockChecked, setHardwareUnlockChecked] = useState(false);
+  // For hardware-only wallets (no password protector), show biometric-only UI
+  const [isHardwareOnlyWallet, setIsHardwareOnlyWallet] = useState(false);
 
   // Use ref to prevent double unlock attempts (React 18 Strict Mode runs effects twice)
   const unlockInProgressRef = useRef(false);
@@ -103,7 +105,18 @@ const Unlock: FC<UnlockProps> = ({ openForgotPasswordInFullPage = false }) => {
         }
       } catch (err) {
         console.log('[Unlock] Hardware unlock failed or cancelled:', err);
-        // Fall through to password form
+        // Check if this is a hardware-only wallet (no password protector)
+        // If so, show biometric-only UI instead of password form
+        try {
+          const { Vault } = await import('lib/miden/back/vault');
+          const hasPassword = await Vault.hasPasswordProtector();
+          if (!hasPassword) {
+            console.log('[Unlock] Hardware-only wallet detected, showing biometric UI');
+            setIsHardwareOnlyWallet(true);
+          }
+        } catch (checkErr) {
+          console.log('[Unlock] Failed to check password protector:', checkErr);
+        }
       }
 
       setHardwareUnlockChecked(true);
@@ -177,6 +190,18 @@ const Unlock: FC<UnlockProps> = ({ openForgotPasswordInFullPage = false }) => {
     }
   }, [openForgotPasswordInFullPage, popup]);
 
+  // Retry hardware unlock for hardware-only wallets
+  const onRetryHardwareUnlock = useCallback(async () => {
+    try {
+      await unlock(); // No password = try hardware unlock
+      setAttempt(1);
+      navigate('/');
+    } catch (err) {
+      console.log('[Unlock] Hardware unlock retry failed:', err);
+      // Stay on the biometric-only UI
+    }
+  }, [unlock, setAttempt]);
+
   const isDisabled = useMemo(() => Date.now() - timelock <= lockLevel, [timelock, lockLevel]);
 
   useEffect(() => {
@@ -204,6 +229,42 @@ const Unlock: FC<UnlockProps> = ({ openForgotPasswordInFullPage = false }) => {
         }
       >
         <div className="flex items-center justify-center h-32">{/* Loading state */}</div>
+      </SimplePageLayout>
+    );
+  }
+
+  // Show biometric-only UI for hardware-only wallets (no password fallback)
+  if (isHardwareOnlyWallet) {
+    return (
+      <SimplePageLayout
+        icon={
+          <>
+            <img alt="Miden Wallet Logo" src={`${LogoVerticalTitle}`} />
+          </>
+        }
+      >
+        <div className="w-full max-w-sm mx-auto my-8" style={{ padding: '0px 32px' }}>
+          <div className="text-center mb-6">
+            <h2 className="text-xl font-semibold mb-2">{t('biometricUnlockRequired')}</h2>
+            <p className="text-gray-600 text-sm">{t('biometricUnlockRequiredDescription')}</p>
+          </div>
+          <Button
+            id="retry-biometric"
+            title={t('tryAgain')}
+            variant={ButtonVariant.Primary}
+            onClick={onRetryHardwareUnlock}
+            className="w-full justify-center mb-3"
+            style={{ fontSize: '16px', lineHeight: '24px', padding: '12px 0px' }}
+          />
+          <Button
+            id="reset-wallet"
+            title={t('resetWallet')}
+            variant={ButtonVariant.Ghost}
+            onClick={onForgotPasswordClick}
+            className="w-full justify-center"
+            style={{ fontSize: '16px', lineHeight: '24px', padding: '12px 0px' }}
+          />
+        </div>
       </SimplePageLayout>
     );
   }

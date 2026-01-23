@@ -1353,6 +1353,18 @@
     "message": "除非您知道 12 字Seed Phrase或拥有加密备份文件，否则请勿注销。",
     "englishSource": "Do not sign out unless you know your 12-word Seed phrase or have an encrypted backup file."
   },
+  "biometricUnlockRequired": {
+    "message": "需要生物识别解锁",
+    "englishSource": "Biometric Unlock Required"
+  },
+  "biometricUnlockRequiredDescription": {
+    "message": "该钱包仅使用生物识别身份验证。使用面容 ID、触摸 ID 或设备密码进行解锁。要在其他设备上访问您的钱包，请使用 12 个单词的 Seed phrase。",
+    "englishSource": "This wallet uses biometric authentication only. Use Face ID, Touch ID, or your device passcode to unlock. To access your wallet on another device, use your 12-word Seed phrase."
+  },
+  "resetWallet": {
+    "message": "重置钱包",
+    "englishSource": "Reset Wallet"
+  },
   "signOut": {
     "message": "登出",
     "englishSource": "Sign Out"
@@ -2073,6 +2085,23 @@
     "message": "该设备无法使用生物识别身份验证",
     "englishSource": "Biometric authentication is not available on this device"
   },
+  "biometricAttemptsRemaining": {
+    "message": "剩余 $count$ 次尝试",
+    "englishSource": "$count$ attempt(s) remaining",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "continueWithPassword": {
+    "message": "使用密码继续",
+    "englishSource": "Continue with Password"
+  },
+  "tryBiometricAgain": {
+    "message": "再次尝试生物识别",
+    "englishSource": "Try Biometric Again"
+  },
   "usePasswordInstead": {
     "message": "使用密码代替",
     "englishSource": "Use Password Instead"
@@ -2161,5 +2190,17 @@
   "historyDetails": {
     "message": "细节",
     "englishSource": "Details"
+  },
+  "passwordsCanBeInsecure": {
+    "message": "密码可能不安全。请改用生物识别身份验证。",
+    "englishSource": "Passwords can be insecure. Use biometric authentication instead."
+  },
+  "unlockWallet": {
+    "message": "解锁钱包",
+    "englishSource": "Unlock Wallet"
+  },
+  "unlockWalletDescription": {
+    "message": "通过seed phrase，您可以随时恢复您的公共帐户。下面选择如何快速解锁您的钱包。",
+    "englishSource": "With the seed phrase, you can always restore your public account. Choose below how to quickly unlock your wallet."
   }
 }
