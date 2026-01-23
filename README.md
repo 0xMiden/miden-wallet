@@ -5,7 +5,7 @@
 [![build](https://github.com/0xMiden/miden-wallet/actions/workflows/build-desktop.yml/badge.svg)](https://github.com/0xMiden/miden-wallet/actions/workflows/build-desktop.yml)
 [![build](https://github.com/0xMiden/miden-wallet/actions/workflows/build-mobile.yml/badge.svg)](https://github.com/0xMiden/miden-wallet/actions/workflows/build-mobile.yml)
 
-A secure, cross-platform wallet for the [Miden](https://polygon.technology/polygon-miden) blockchain. Available as a browser extension, desktop application, and mobile app.
+A secure, cross-platform wallet for the [Miden](https://miden.xyz) blockchain. Available as a browser extension, desktop application, and mobile app.
 
 ## Platforms
 
@@ -124,27 +124,27 @@ yarn mobile:ios:export           # Export IPA for App Store
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                            Miden Wallet                                  │
+│                            Miden Wallet                                 │
 ├─────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐                │
-│   │  Extension  │    │   Desktop   │    │   Mobile    │                │
-│   │  (Chrome/   │    │   (Tauri)   │    │ (Capacitor) │                │
-│   │  Firefox)   │    │             │    │             │                │
-│   └──────┬──────┘    └──────┬──────┘    └──────┬──────┘                │
+│                                                                         │
+│   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐                 │
+│   │  Extension  │    │   Desktop   │    │   Mobile    │                 │
+│   │  (Chrome/   │    │   (Tauri)   │    │ (Capacitor) │                 │
+│   │  Firefox)   │    │             │    │             │                 │
+│   └──────┬──────┘    └──────┬──────┘    └──────┬──────┘                 │
 │          │                  │                  │                        │
 │          └──────────────────┼──────────────────┘                        │
-│                             │                                            │
+│                             │                                           │
 │                    ┌────────▼────────┐                                  │
 │                    │   React + TS    │                                  │
 │                    │   (Shared UI)   │                                  │
 │                    └────────┬────────┘                                  │
-│                             │                                            │
+│                             │                                           │
 │                    ┌────────▼────────┐                                  │
 │                    │   Miden SDK     │                                  │
 │                    │     (WASM)      │                                  │
 │                    └─────────────────┘                                  │
-│                                                                          │
+│                                                                         │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
