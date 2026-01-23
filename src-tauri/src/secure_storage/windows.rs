@@ -23,10 +23,11 @@ use windows::Win32::Security::Cryptography::{
     NCryptSetProperty, BCRYPT_AES_ALGORITHM, BCRYPT_ALG_HANDLE,
     BCRYPT_AUTHENTICATED_CIPHER_MODE_INFO, BCRYPT_AUTHENTICATED_CIPHER_MODE_INFO_VERSION,
     BCRYPT_CHAINING_MODE, BCRYPT_CHAIN_MODE_GCM, BCRYPT_ECCPUBLIC_BLOB, BCRYPT_ECDH_P256_ALGORITHM,
-    BCRYPT_HASH_HANDLE, BCRYPT_KEY_HANDLE, BCRYPT_OBJECT_LENGTH, BCRYPT_SHA256_ALGORITHM,
-    MS_KEY_STORAGE_PROVIDER, MS_PLATFORM_CRYPTO_PROVIDER, NCRYPT_ECDH_P256_ALGORITHM,
-    NCRYPT_KEY_HANDLE, NCRYPT_PROV_HANDLE, NCRYPT_SECRET_HANDLE, NCRYPT_SILENT_FLAG,
-    NCRYPT_UI_POLICY,
+    BCRYPT_FLAGS, BCRYPT_HASH_HANDLE, BCRYPT_KEY_HANDLE, BCRYPT_OBJECT_LENGTH,
+    BCRYPT_OPEN_ALGORITHM_PROVIDER_FLAGS, BCRYPT_SHA256_ALGORITHM, BCRYPTGENRANDOM_FLAGS,
+    CERT_KEY_SPEC, MS_KEY_STORAGE_PROVIDER, MS_PLATFORM_CRYPTO_PROVIDER,
+    NCRYPT_ECDH_P256_ALGORITHM, NCRYPT_KEY_HANDLE, NCRYPT_PROV_HANDLE, NCRYPT_SECRET_HANDLE,
+    NCRYPT_SILENT_FLAG, NCRYPT_UI_POLICY,
 };
 
 // Key name for the TPM-stored key
@@ -94,7 +95,7 @@ pub fn generate_hardware_key() -> Result<(), String> {
             &mut key_handle,
             NCRYPT_ECDH_P256_ALGORITHM,
             KEY_NAME,
-            0,
+            CERT_KEY_SPEC(0),
             Default::default(),
         )
     };
@@ -278,7 +279,7 @@ fn get_tpm_key() -> Result<NCRYPT_KEY_HANDLE, String> {
             provider,
             &mut key_handle,
             KEY_NAME,
-            0,
+            CERT_KEY_SPEC(0),
             Default::default(),
         )
     };
@@ -341,8 +342,14 @@ fn ecdh_encrypt_side(tpm_pubkey_blob: &[u8]) -> Result<(Vec<u8>, Vec<u8>), Strin
     // Open ECDH P-256 algorithm provider
     let mut alg_handle: BCRYPT_ALG_HANDLE = BCRYPT_ALG_HANDLE::default();
 
-    let status =
-        unsafe { BCryptOpenAlgorithmProvider(&mut alg_handle, BCRYPT_ECDH_P256_ALGORITHM, None, 0) };
+    let status = unsafe {
+        BCryptOpenAlgorithmProvider(
+            &mut alg_handle,
+            BCRYPT_ECDH_P256_ALGORITHM,
+            None,
+            BCRYPT_OPEN_ALGORITHM_PROVIDER_FLAGS(0),
+        )
+    };
 
     if status.is_err() {
         return Err(format!("Failed to open ECDH algorithm: {:?}", status));
@@ -506,25 +513,26 @@ fn ecdh_decrypt_side(
         )
     };
 
-    // Check for user cancellation
-    if status.0 == 0x8010002E_u32 as i32 {
-        // SCARD_W_CANCELLED_BY_USER
-        let _ = unsafe { NCryptFreeObject(ephemeral_ncrypt_key) };
-        let _ = unsafe { NCryptFreeObject(sw_provider) };
-        return Err("Authentication cancelled by user".to_string());
-    }
-
     if status.is_err() {
+        // Check for common error codes in the error
+        let err_str = format!("{:?}", status);
         let _ = unsafe { NCryptFreeObject(ephemeral_ncrypt_key) };
         let _ = unsafe { NCryptFreeObject(sw_provider) };
+        if err_str.contains("CANCELLED") || err_str.contains("cancelled") {
+            return Err("Authentication cancelled by user".to_string());
+        }
         return Err(format!("ECDH secret agreement failed: {:?}", status));
     }
 
     // Derive raw shared secret using NCryptDeriveKey
     let shared_secret = derive_ncrypt_secret(secret_handle)?;
 
-    // Clean up
-    let _ = unsafe { NCryptFreeObject(secret_handle) };
+    // Clean up - NCryptFreeObject works for secret handles too
+    // We need to use the raw handle value since NCRYPT_SECRET_HANDLE doesn't implement Param
+    unsafe {
+        use windows::Win32::Security::Cryptography::NCRYPT_HANDLE;
+        let _ = NCryptFreeObject(NCRYPT_HANDLE(secret_handle.0));
+    }
     let _ = unsafe { NCryptFreeObject(ephemeral_ncrypt_key) };
     let _ = unsafe { NCryptFreeObject(sw_provider) };
 
@@ -590,7 +598,7 @@ fn derive_ncrypt_secret(secret_handle: NCRYPT_SECRET_HANDLE) -> Result<Vec<u8>, 
             None,
             None,
             &mut derived_size,
-            NCRYPT_SILENT_FLAG,
+            NCRYPT_SILENT_FLAG.0,
         )
     };
 
@@ -610,7 +618,7 @@ fn derive_ncrypt_secret(secret_handle: NCRYPT_SECRET_HANDLE) -> Result<Vec<u8>, 
             None,
             Some(&mut derived_key),
             &mut derived_size,
-            NCRYPT_SILENT_FLAG,
+            NCRYPT_SILENT_FLAG.0,
         )
     };
 
@@ -626,8 +634,14 @@ fn derive_ncrypt_secret(secret_handle: NCRYPT_SECRET_HANDLE) -> Result<Vec<u8>, 
 fn sha256(data: &[u8]) -> Result<[u8; 32], String> {
     let mut alg_handle: BCRYPT_ALG_HANDLE = BCRYPT_ALG_HANDLE::default();
 
-    let status =
-        unsafe { BCryptOpenAlgorithmProvider(&mut alg_handle, BCRYPT_SHA256_ALGORITHM, None, 0) };
+    let status = unsafe {
+        BCryptOpenAlgorithmProvider(
+            &mut alg_handle,
+            BCRYPT_SHA256_ALGORITHM,
+            None,
+            BCRYPT_OPEN_ALGORITHM_PROVIDER_FLAGS(0),
+        )
+    };
 
     if status.is_err() {
         return Err(format!("Failed to open SHA256 algorithm: {:?}", status));
@@ -699,7 +713,7 @@ fn sha256(data: &[u8]) -> Result<[u8; 32], String> {
 /// Generate random bytes using BCrypt
 fn rand_bytes<const N: usize>() -> Result<[u8; N], String> {
     let mut bytes = [0u8; N];
-    let status = unsafe { BCryptGenRandom(None, &mut bytes, 0) };
+    let status = unsafe { BCryptGenRandom(None, &mut bytes, BCRYPTGENRANDOM_FLAGS(0)) };
 
     if status.is_err() {
         return Err(format!("Failed to generate random bytes: {:?}", status));
@@ -716,8 +730,14 @@ fn aes_gcm_encrypt(
 ) -> Result<(Vec<u8>, [u8; 16]), String> {
     let mut alg_handle: BCRYPT_ALG_HANDLE = BCRYPT_ALG_HANDLE::default();
 
-    let status =
-        unsafe { BCryptOpenAlgorithmProvider(&mut alg_handle, BCRYPT_AES_ALGORITHM, None, 0) };
+    let status = unsafe {
+        BCryptOpenAlgorithmProvider(
+            &mut alg_handle,
+            BCRYPT_AES_ALGORITHM,
+            None,
+            BCRYPT_OPEN_ALGORITHM_PROVIDER_FLAGS(0),
+        )
+    };
 
     if status.is_err() {
         return Err(format!("Failed to open AES algorithm: {:?}", status));
@@ -730,8 +750,16 @@ fn aes_gcm_encrypt(
             (BCRYPT_CHAIN_MODE_GCM.len() + 1) * 2, // Include null terminator, UTF-16
         )
     };
-    let status =
-        unsafe { BCryptSetProperty(alg_handle, BCRYPT_CHAINING_MODE, gcm_mode_bytes, 0) };
+
+    // Convert BCRYPT_ALG_HANDLE to BCRYPT_HANDLE for BCryptSetProperty
+    let status = unsafe {
+        BCryptSetProperty(
+            windows::Win32::Security::Cryptography::BCRYPT_HANDLE(alg_handle.0),
+            BCRYPT_CHAINING_MODE,
+            gcm_mode_bytes,
+            0,
+        )
+    };
 
     if status.is_err() {
         let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
@@ -810,7 +838,7 @@ fn aes_gcm_encrypt(
             None,
             Some(&mut ciphertext),
             &mut ciphertext_len,
-            0,
+            BCRYPT_FLAGS(0),
         )
     };
 
@@ -834,8 +862,14 @@ fn aes_gcm_decrypt(
 ) -> Result<Vec<u8>, String> {
     let mut alg_handle: BCRYPT_ALG_HANDLE = BCRYPT_ALG_HANDLE::default();
 
-    let status =
-        unsafe { BCryptOpenAlgorithmProvider(&mut alg_handle, BCRYPT_AES_ALGORITHM, None, 0) };
+    let status = unsafe {
+        BCryptOpenAlgorithmProvider(
+            &mut alg_handle,
+            BCRYPT_AES_ALGORITHM,
+            None,
+            BCRYPT_OPEN_ALGORITHM_PROVIDER_FLAGS(0),
+        )
+    };
 
     if status.is_err() {
         return Err(format!("Failed to open AES algorithm: {:?}", status));
@@ -848,8 +882,16 @@ fn aes_gcm_decrypt(
             (BCRYPT_CHAIN_MODE_GCM.len() + 1) * 2,
         )
     };
-    let status =
-        unsafe { BCryptSetProperty(alg_handle, BCRYPT_CHAINING_MODE, gcm_mode_bytes, 0) };
+
+    // Convert BCRYPT_ALG_HANDLE to BCRYPT_HANDLE for BCryptSetProperty
+    let status = unsafe {
+        BCryptSetProperty(
+            windows::Win32::Security::Cryptography::BCRYPT_HANDLE(alg_handle.0),
+            BCRYPT_CHAINING_MODE,
+            gcm_mode_bytes,
+            0,
+        )
+    };
 
     if status.is_err() {
         let _ = unsafe { BCryptCloseAlgorithmProvider(alg_handle, 0) };
@@ -928,7 +970,7 @@ fn aes_gcm_decrypt(
             None,
             Some(&mut plaintext),
             &mut plaintext_len,
-            0,
+            BCRYPT_FLAGS(0),
         )
     };
 
