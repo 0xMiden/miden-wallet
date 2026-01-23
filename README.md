@@ -1,5 +1,9 @@
 # Miden Wallet
 
+[![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/0xMiden/miden-wallet/blob/main/LICENSE)
+[![test](https://github.com/0xMiden/miden-wallet/actions/workflows/ci.yml/badge.svg)](https://github.com/0xMiden/miden-wallet/actions/workflows/ci.yml)
+[![build](https://github.com/0xMiden/miden-wallet/actions/workflows/production-branch.yml/badge.svg)](https://github.com/0xMiden/miden-wallet/actions/workflows/production-branch.yml)
+
 A secure, cross-platform wallet for the [Miden](https://polygon.technology/polygon-miden) blockchain. Available as a browser extension, desktop application, and mobile app.
 
 ## Platforms
@@ -55,7 +59,7 @@ Download the latest release: **https://miden.fi/**
 
 ```bash
 # Clone the repository
-git clone https://github.com/demox-labs/miden-wallet.git
+git clone https://github.com/0xMiden/miden-wallet.git
 cd miden-wallet
 
 # Copy environment file
@@ -235,6 +239,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Links
 
-- [Miden Documentation](https://docs.polygon.technology/miden/)
-- [Polygon Miden](https://polygon.technology/polygon-miden)
-- [Report Issues](https://github.com/demox-labs/miden-wallet/issues)
+- [Miden Documentation](https://docs.miden.xyz/)
+- [Polygon Miden](https://miden.xyz/)
+- [Report Issues](https://github.com/0xMiden/miden-wallet/issues)
