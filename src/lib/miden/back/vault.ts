@@ -190,6 +190,19 @@ export class Vault {
     }
   }
 
+  private static async getVaultKey(password?: string): Promise<CryptoKey> {
+    // If password is not provided, try hardware unlock first
+    if (!password) {
+      const vault = await Vault.tryHardwareUnlock();
+      if (vault) {
+        return vault.vaultKey;
+      }
+      throw new PublicError('Password required');
+    }
+    // Password-based unlock
+    return Vault.unlockWithPassword(password);
+  }
+
   /**
    * Legacy password unlock for wallets created before vault key model
    * This maintains backward compatibility with existing wallets
@@ -525,8 +538,8 @@ export class Vault {
 
   async revealViewKey(accPublicKey: string) {}
 
-  static async revealMnemonic(password: string) {
-    const vaultKey = await Vault.unlockWithPassword(password);
+  static async revealMnemonic(password: string | undefined) {
+    const vaultKey = await Vault.getVaultKey(password);
     return withError('Failed to reveal seed phrase', async () => {
       const mnemonic = await fetchAndDecryptOneWithLegacyFallBack<string>(mnemonicStrgKey, vaultKey);
       const mnemonicPattern = /^(\b\w+\b\s?){12}$/;

@@ -21,7 +21,7 @@ export interface ExportFileCompleteProps {
   onDone: () => void;
   filePassword: string;
   fileName: string;
-  walletPassword: string;
+  walletPassword?: string;
 }
 
 const EXTENSION = '.json';
@@ -36,7 +36,6 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({
   const { t } = useTranslation();
   const { revealMnemonic, accounts } = useMidenContext();
   const { fullPage } = useAppEnv();
-
   const getExportFile = useCallback(async () => {
     // Wrap WASM client operations in a lock to prevent concurrent access
     const midenClientDbDump = await withWasmClientLock(async () => {
