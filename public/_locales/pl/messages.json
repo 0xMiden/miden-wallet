@@ -2005,6 +2005,23 @@
     "message": "Uwierzytelnianie biometryczne nie jest dostępne na tym urządzeniu",
     "englishSource": "Biometric authentication is not available on this device"
   },
+  "biometricAttemptsRemaining": {
+    "message": "Pozostało $count$ prób",
+    "englishSource": "$count$ attempt(s) remaining",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "continueWithPassword": {
+    "message": "Kontynuuj za pomocą hasła",
+    "englishSource": "Continue with Password"
+  },
+  "tryBiometricAgain": {
+    "message": "Spróbuj ponownie biometrii",
+    "englishSource": "Try Biometric Again"
+  },
   "usePasswordInstead": {
     "message": "Zamiast tego użyj hasła",
     "englishSource": "Use Password Instead"

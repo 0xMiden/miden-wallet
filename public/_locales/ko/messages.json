@@ -2085,6 +2085,23 @@
     "message": "이 기기에서는 생체 인증을 사용할 수 없습니다.",
     "englishSource": "Biometric authentication is not available on this device"
   },
+  "biometricAttemptsRemaining": {
+    "message": "$count$ 시도 남음",
+    "englishSource": "$count$ attempt(s) remaining",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "continueWithPassword": {
+    "message": "비밀번호로 계속하기",
+    "englishSource": "Continue with Password"
+  },
+  "tryBiometricAgain": {
+    "message": "생체인식을 다시 시도해보세요",
+    "englishSource": "Try Biometric Again"
+  },
   "usePasswordInstead": {
     "message": "대신 비밀번호를 사용하세요",
     "englishSource": "Use Password Instead"

@@ -2085,6 +2085,23 @@
     "message": "Біометрична автентифікація недоступна на цьому пристрої",
     "englishSource": "Biometric authentication is not available on this device"
   },
+  "biometricAttemptsRemaining": {
+    "message": "Залишилося $count$ спроб",
+    "englishSource": "$count$ attempt(s) remaining",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "continueWithPassword": {
+    "message": "Продовжте з паролем",
+    "englishSource": "Continue with Password"
+  },
+  "tryBiometricAgain": {
+    "message": "Спробуйте знову біометричні дані",
+    "englishSource": "Try Biometric Again"
+  },
   "usePasswordInstead": {
     "message": "Замість цього використовуйте пароль",
     "englishSource": "Use Password Instead"

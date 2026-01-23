@@ -2085,6 +2085,23 @@
     "message": "このデバイスでは生体認証は利用できません",
     "englishSource": "Biometric authentication is not available on this device"
   },
+  "biometricAttemptsRemaining": {
+    "message": "残り $count$ 回の試行回数",
+    "englishSource": "$count$ attempt(s) remaining",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "continueWithPassword": {
+    "message": "パスワードで続行",
+    "englishSource": "Continue with Password"
+  },
+  "tryBiometricAgain": {
+    "message": "生体認証をもう一度試してください",
+    "englishSource": "Try Biometric Again"
+  },
   "usePasswordInstead": {
     "message": "代わりにパスワードを使用してください",
     "englishSource": "Use Password Instead"

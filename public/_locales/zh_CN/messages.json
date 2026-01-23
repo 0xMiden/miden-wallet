@@ -2085,6 +2085,23 @@
     "message": "该设备无法使用生物识别身份验证",
     "englishSource": "Biometric authentication is not available on this device"
   },
+  "biometricAttemptsRemaining": {
+    "message": "剩余 $count$ 次尝试",
+    "englishSource": "$count$ attempt(s) remaining",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "continueWithPassword": {
+    "message": "使用密码继续",
+    "englishSource": "Continue with Password"
+  },
+  "tryBiometricAgain": {
+    "message": "再次尝试生物识别",
+    "englishSource": "Try Biometric Again"
+  },
   "usePasswordInstead": {
     "message": "使用密码代替",
     "englishSource": "Use Password Instead"

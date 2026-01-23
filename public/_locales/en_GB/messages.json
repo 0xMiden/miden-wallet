@@ -2112,6 +2112,23 @@
     "message": "Biometric authentication is not available on this device",
     "englishSource": "Biometric authentication is not available on this device"
   },
+  "biometricAttemptsRemaining": {
+    "message": "$count$ attempt(s) remaining",
+    "englishSource": "$count$ attempt(s) remaining",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "continueWithPassword": {
+    "message": "Continue with Password",
+    "englishSource": "Continue with Password"
+  },
+  "tryBiometricAgain": {
+    "message": "Try Biometric Again",
+    "englishSource": "Try Biometric Again"
+  },
   "usePasswordInstead": {
     "message": "Use Password Instead",
     "englishSource": "Use Password Instead"
