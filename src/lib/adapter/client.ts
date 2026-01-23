@@ -297,7 +297,8 @@ export function assertResponse(condition: any): asserts condition {
 }
 
 function send(msg: MidenPageMessage) {
-  window.postMessage(msg, '*');
+  // Post to same window - use current origin for security (same-window communication)
+  window.postMessage(msg, window.location.origin);
 }
 
 export class MidenWalletError implements Error {

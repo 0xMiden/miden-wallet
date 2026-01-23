@@ -1,161 +1,240 @@
 # Miden Wallet
 
-A wallet for the Miden blockchain, available as a browser extension (Chrome, Firefox) and mobile app (iOS, Android).
+A secure, cross-platform wallet for the [Miden](https://polygon.technology/polygon-miden) blockchain. Available as a browser extension, desktop application, and mobile app.
 
-<hr />
+## Platforms
 
-## ▶️ Install
+| Platform | Technology | Status |
+|----------|------------|--------|
+| Chrome Extension | WebExtension APIs | Production |
+| Firefox Extension | WebExtension APIs | Production |
+| Desktop (macOS, Windows, Linux) | [Tauri](https://tauri.app/) v2 | Production |
+| iOS | [Capacitor](https://capacitorjs.com/) | Production |
+| Android | [Capacitor](https://capacitorjs.com/) | Production |
 
-You can install Miden Wallet right now: https://miden.fi/
+## Features
 
-## 🚀 Quick Start
+### Core Wallet Features
+- Create and manage multiple Miden accounts
+- Send and receive tokens
+- View transaction history
+- Import/export wallet via seed phrase or encrypted file
+- Address book for saved contacts
 
-Ensure you have:
+### Security
+- **Browser Extension**: Secure vault with password encryption
+- **Desktop**: Hardware-backed key storage via macOS Keychain / Windows Credential Manager
+- **Mobile**: Biometric authentication (Face ID, Touch ID, Fingerprint)
+- Client-side transaction signing (keys never leave your device)
 
-- [Node.js](https://nodejs.org) 18 or later installed (Node 22+ required for mobile development)
-- [Yarn](https://yarnpkg.com) v1 or v2 installed
+### Platform-Specific Features
 
-Then run the following:
+| Feature | Extension | Desktop | Mobile |
+|---------|-----------|---------|--------|
+| dApp Browser | N/A (uses tabs) | Built-in browser window | In-app WebView |
+| System Tray | N/A | Yes | N/A |
+| Biometric Unlock | N/A | Touch ID (macOS) | Face ID / Touch ID / Fingerprint |
+| QR Code Scanning | N/A | N/A | Yes |
+| Haptic Feedback | N/A | N/A | Yes |
 
-### 0) Rename .env.example to .env
+## Install
 
-```bash
-mv ./.env.example ./.env
-```
+Download the latest release: **https://miden.fi/**
 
-### 1) Clone the repository
-
-```bash
-git clone https://github.com/demox-labs/miden-wallet.git && cd miden-wallet
-```
-
-### 2) Install dependencies
-
-```bash
-yarn
-```
-
-### 3) Build
-
-Builds the extension for production to the `dist` folder.<br>
-It correctly bundles in production mode and optimizes the build for the best performance.
-
-```bash
-# for Chrome by default
-yarn build
-```
-
-Optional for different browsers:
-
-```bash
-# for Chrome directly
-yarn build:chrome
-# for Firefox directly
-yarn build:firefox
-# for Opera directly
-yarn build:opera
-
-# for all at once
-yarn build-all
-```
-
-## 🧱 Development
-
-```bash
-yarn dev
-```
-
-Runs the extension in the development mode for Chrome target.<br>
-It's recommended to use Chrome for developing.
-
-For testing with the Miden faucet, it is recommended to run a local faucet as we develop against their upcoming release branch. Refer to the [miden-node repo](https://github.com/0xPolygonMiden/miden-node/blob/next/bin/faucet/README.md) for setup.
-
-## 📱 Mobile App
-
-The mobile app uses [Capacitor](https://capacitorjs.com/) to wrap the React web app in native iOS and Android shells. It shares the same React codebase as the browser extension.
+## Development
 
 ### Prerequisites
 
-- **Node.js 22+** - Capacitor CLI requires Node >= 22. Use nvm to switch:
-  ```bash
-  source ~/.nvm/nvm.sh && nvm use 22
-  ```
-- **iOS**: Xcode with iOS development tools
-- **Android**: Android Studio with Android SDK
+- [Node.js](https://nodejs.org) 22 or later
+- [Yarn](https://yarnpkg.com) v1
+- [Rust](https://rustup.rs/) toolchain (for desktop app)
+- Xcode (for iOS development)
+- Android Studio (for Android development)
 
-### Development Scripts
+### Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/demox-labs/miden-wallet.git
+cd miden-wallet
+
+# Copy environment file
+cp .env.example .env
+
+# Install dependencies
+yarn install
+```
+
+### Browser Extension
+
+```bash
+# Development (Chrome)
+yarn dev
+
+# Production build
+yarn build:chrome    # Chrome
+yarn build:firefox   # Firefox
+yarn build-all       # All browsers
+```
+
+Load the unpacked extension from `dist/chrome_unpacked/` in Chrome's extension settings.
+
+### Desktop App
+
+```bash
+# Development
+yarn desktop:dev
+
+# Production build
+yarn desktop:build
+```
+
+See [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/) for platform-specific requirements.
+
+### Mobile App
 
 ```bash
 # iOS
-yarn mobile:ios           # Build, sync, and open in Xcode
-yarn mobile:ios:run       # Build and run on iOS Simulator
-yarn mobile:ios:build     # Build for iOS Simulator only
+yarn mobile:ios           # Build and open in Xcode
+yarn mobile:ios:run       # Build and run on Simulator
 
 # Android
-yarn mobile:android       # Build, sync, and open in Android Studio
-
-# Build only (no IDE)
-yarn build:mobile         # Production build for mobile
-yarn build:mobile:dev     # Development build for mobile
-yarn mobile:sync          # Build and sync with Capacitor
+yarn mobile:android       # Build and open in Android Studio
 ```
 
-### Release Builds
+#### Release Builds
 
 ```bash
 # Android
-yarn mobile:android:keystore     # Generate release keystore (one-time)
+yarn mobile:android:keystore     # Generate keystore (one-time)
 yarn mobile:android:release      # Build AAB for Play Store
-yarn mobile:android:release:apk  # Build APK for direct distribution
+yarn mobile:android:release:apk  # Build APK for direct install
 
 # iOS
 yarn mobile:ios:release          # Build release archive
 yarn mobile:ios:export           # Export IPA for App Store
 ```
 
-See `STORE_LISTING.md` for complete app store submission details.
+## Architecture
 
-### Key Differences from Browser Extension
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                            Miden Wallet                                  │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐                │
+│   │  Extension  │    │   Desktop   │    │   Mobile    │                │
+│   │  (Chrome/   │    │   (Tauri)   │    │ (Capacitor) │                │
+│   │  Firefox)   │    │             │    │             │                │
+│   └──────┬──────┘    └──────┬──────┘    └──────┬──────┘                │
+│          │                  │                  │                        │
+│          └──────────────────┼──────────────────┘                        │
+│                             │                                            │
+│                    ┌────────▼────────┐                                  │
+│                    │   React + TS    │                                  │
+│                    │   (Shared UI)   │                                  │
+│                    └────────┬────────┘                                  │
+│                             │                                            │
+│                    ┌────────▼────────┐                                  │
+│                    │   Miden SDK     │                                  │
+│                    │     (WASM)      │                                  │
+│                    └─────────────────┘                                  │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
-| Aspect | Browser Extension | Mobile App |
-|--------|------------------|------------|
-| Backend | Service Worker | In-process (same thread) |
-| Entry Point | `src/main.tsx` | `src/mobile-app.tsx` |
-| Build Output | `dist/chrome_unpacked/` | `dist/mobile/` |
-| Communication | Port messaging | Direct function calls |
+### Key Directories
 
-### Mobile-Specific Features
+```
+src/
+├── app/                 # React app, pages, layouts
+├── components/          # Shared UI components
+├── screens/             # Screen components (onboarding, send flow, etc.)
+├── lib/
+│   ├── miden/           # Miden SDK integration
+│   │   ├── back/        # Backend: wallet operations, vault
+│   │   ├── front/       # Frontend: hooks, providers
+│   │   └── sdk/         # WASM client wrapper
+│   ├── store/           # Zustand state management
+│   ├── desktop/         # Desktop-specific (Tauri) code
+│   ├── mobile/          # Mobile-specific (Capacitor) code
+│   ├── dapp-browser/    # dApp connectivity
+│   └── woozie/          # Custom router
+├── workers/             # Background workers
+└── public/              # Static assets, locales
 
-- **Biometric Auth**: Face ID, Touch ID, Fingerprint
-- **QR Code Scanning**: Native camera integration
-- **Haptic Feedback**: Tactile responses for actions
-- **In-App Browser**: For dApp interactions with secure webview
+src-tauri/               # Tauri (Rust) backend
+├── src/
+│   ├── lib.rs           # Main entry, command registration
+│   ├── secure_storage/  # OS keychain integration
+│   ├── dapp_browser.rs  # dApp browser window management
+│   └── tray.rs          # System tray
+└── scripts/             # Injected JavaScript
+
+ios/                     # iOS native project
+android/                 # Android native project
+```
+
+### State Management
+
+- **Frontend**: Zustand store (`src/lib/store/`)
+- **Backend (Extension)**: Effector store (`src/lib/miden/back/`)
+- **Sync**: Intercom messaging between frontend and service worker
 
 ### Platform Detection
 
-Use platform detection for mobile-specific code:
-
 ```typescript
-import { isMobile, isIOS, isAndroid } from 'lib/platform';
+import { isExtension, isDesktop, isMobile, isIOS, isAndroid } from 'lib/platform';
 
-if (isMobile()) {
-  // Mobile-specific code
+if (isDesktop()) {
+  // Tauri-specific code
+} else if (isMobile()) {
+  // Capacitor-specific code
+} else if (isExtension()) {
+  // Browser extension code
 }
 ```
 
 ## Testing
 
 ```bash
+# Unit tests
 yarn test
+
+# E2E tests (Playwright)
+yarn playwright:install   # First time only
+yarn test:e2e
+
+# Linting and formatting
+yarn lint
+yarn format
 ```
 
-### Playwright (Mock WebClient)
+## Internationalization
 
-The Playwright suite uses the SDK's `MockWebClient` to exercise wallet flows without hitting the network.
+The wallet supports multiple languages. Translation files are in `public/_locales/`.
 
 ```bash
-yarn playwright:install # first time to download the Chromium binary Playwright uses
-yarn test:e2e
+# Generate translation files
+yarn createTranslationFile
 ```
 
-For UI tests we build the unpacked Chrome extension automatically if `dist/chrome_unpacked` is missing. Override the path with `EXTENSION_DIST=/path/to/unpacked` or skip building with `SKIP_EXTENSION_BUILD=true`.
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Run tests and linting (`yarn test && yarn lint`)
+5. Commit your changes
+6. Push to your branch
+7. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Links
+
+- [Miden Documentation](https://docs.polygon.technology/miden/)
+- [Polygon Miden](https://polygon.technology/polygon-miden)
+- [Report Issues](https://github.com/demox-labs/miden-wallet/issues)

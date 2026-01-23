@@ -3,7 +3,7 @@ import { FC, useCallback, useLayoutEffect, useRef } from 'react';
 import constate from 'constate';
 import type { Browser, Tabs } from 'webextension-polyfill';
 
-import { isExtension, isMobile } from 'lib/platform';
+import { isExtension } from 'lib/platform';
 import { useWalletStore } from 'lib/store';
 import { createUrl } from 'lib/woozie';
 

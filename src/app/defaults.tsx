@@ -28,8 +28,10 @@ export const uppercaseLowercaseMixtureRegx = /(?=.*[a-z])(?=.*[A-Z])/;
 export const lettersNumbersMixtureRegx = /(?=.*\d)(?=.*[A-Za-z])/;
 export const specialCharacterRegx = /[!@#$%^&*()_+\-=\]{};':"\\|,.<>?]/;
 
+// URL pattern with atomic grouping to prevent ReDoS
+// Matches: https://example.com/path or http(s)://localhost:port
 export const URL_PATTERN =
-  /(^(https:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$)|(^http(s)?:\/\/localhost:[0-9]+$)/;
+  /^(?:https?:\/\/)?(?:localhost:\d+|[\w][\w-]*(?:\.[\w][\w-]*)+)(?:[/?#]\S*)?$|^https?:\/\/localhost:\d+(?:[/?#]\S*)?$/;
 
 export const MnemonicErrorCaption: FC = () => {
   const { t } = useTranslation();

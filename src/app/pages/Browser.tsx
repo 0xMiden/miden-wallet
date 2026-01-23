@@ -17,7 +17,7 @@ import { INJECTION_SCRIPT } from 'lib/dapp-browser/injection-script';
 import { handleWebViewMessage, WebViewMessage } from 'lib/dapp-browser/message-handler';
 import { resetViewportAfterWebview } from 'lib/mobile/viewport-reset';
 import { markReturningFromWebview } from 'lib/mobile/webview-state';
-import { isMobile } from 'lib/platform';
+import { isDesktop, isMobile } from 'lib/platform';
 import { useWalletStore } from 'lib/store';
 
 const DEFAULT_URL = 'https://';
@@ -142,7 +142,7 @@ const Browser: FC = () => {
   const openBrowser = useCallback(
     async (targetUrl: string, skipRecentUpdate = false) => {
       const normalizedUrl = normalizeUrl(targetUrl);
-      console.log('[Browser] Opening URL (fullscreen):', normalizedUrl);
+      console.log('[Browser] Opening URL:', normalizedUrl);
 
       if (!normalizedUrl || normalizedUrl === 'https://') {
         return;
@@ -151,18 +151,33 @@ const Browser: FC = () => {
       setIsLoading(true);
       setUrl(normalizedUrl);
 
+      // Add to recent URLs (skip if reopening after confirmation)
+      if (!skipRecentUpdate) {
+        setRecentUrls(prev => {
+          const filtered = prev.filter(u => u !== normalizedUrl);
+          return [normalizedUrl, ...filtered].slice(0, 10);
+        });
+      }
+
+      // Desktop: Open in separate Tauri window
+      if (isDesktop()) {
+        try {
+          const { openDappWindow } = await import('lib/desktop/dapp-browser');
+          await openDappWindow(normalizedUrl);
+          console.log('[Browser] Desktop dApp window opened');
+        } catch (error) {
+          console.error('[Browser] Error opening desktop dApp window:', error);
+        } finally {
+          setIsLoading(false);
+        }
+        return;
+      }
+
+      // Mobile: Use InAppBrowser
       try {
         const urlObj = new URL(normalizedUrl);
         const origin = urlObj.origin;
         originRef.current = origin;
-
-        // Add to recent URLs (skip if reopening after confirmation)
-        if (!skipRecentUpdate) {
-          setRecentUrls(prev => {
-            const filtered = prev.filter(u => u !== normalizedUrl);
-            return [normalizedUrl, ...filtered].slice(0, 10);
-          });
-        }
 
         // Set up listeners BEFORE opening
         const messageListener = await InAppBrowser.addListener('messageFromWebview', async event => {

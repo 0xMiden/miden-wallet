@@ -8,6 +8,9 @@ on:
       - 'dev'
       - 'next'
 
+permissions:
+  contents: read
+
 jobs:
   ci:
     uses: ./.github/workflows/ci.yml

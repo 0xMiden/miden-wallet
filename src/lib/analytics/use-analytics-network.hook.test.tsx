@@ -1,5 +1,6 @@
-import { renderHook } from '@testing-library/react';
 import React from 'react';
+
+import { renderHook } from '@testing-library/react';
 
 import { CustomRpsContext } from './custom-rpc.context';
 import { useAnalyticsNetwork } from './use-analytics-network.hook';

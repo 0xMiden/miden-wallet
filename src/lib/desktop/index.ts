@@ -13,3 +13,19 @@ export {
   decryptWithHardwareKey,
   deleteHardwareKey
 } from './secure-storage';
+
+export {
+  openDappWindow,
+  closeDappWindow,
+  dappNavigate,
+  dappGetUrl,
+  onDappWalletRequest,
+  onDappWindowClose,
+  sendDappWalletResponse
+} from './dapp-browser';
+
+export type { DappWalletRequest, DappWalletRequestEvent } from './dapp-browser';
+
+export { DesktopDappHandler, useDesktopDappHandler } from './DesktopDappHandler';
+
+export { DesktopDappConfirmationModal } from './DesktopDappConfirmationModal';
