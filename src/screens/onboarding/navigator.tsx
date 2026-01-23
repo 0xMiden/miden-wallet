@@ -28,6 +28,8 @@ export interface OnboardingFlowProps {
   isLoading?: boolean;
   useBiometric?: boolean;
   isHardwareSecurityAvailable?: boolean;
+  biometricAttempts?: number;
+  biometricError?: string | null;
   onBiometricChange?: (value: boolean) => void;
   onAction?: (action: OnboardingAction) => void;
 }
@@ -87,6 +89,8 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
   isLoading,
   useBiometric = true,
   isHardwareSecurityAvailable = false,
+  biometricAttempts = 0,
+  biometricError = null,
   onBiometricChange,
   onAction
 }) => {
@@ -154,6 +158,8 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
 
     const onConfirmSubmit = () => onForwardAction?.({ id: 'confirmation' });
 
+    const onSwitchToPassword = () => onForwardAction?.({ id: 'switch-to-password' });
+
     const onImportSeedPhraseSubmit = (seedPhrase: string) =>
       onForwardAction?.({ id: 'import-seed-phrase-submit', payload: seedPhrase });
 
@@ -187,12 +193,31 @@ export const OnboardingFlow: FC<OnboardingFlowProps> = ({
       case OnboardingStep.SelectTransactionType:
         return <SelectTransactionTypeScreen onSubmit={onSelectTransactionTypeSubmit} />;
       case OnboardingStep.Confirmation:
-        return <ConfirmationScreen isLoading={isLoading} onSubmit={onConfirmSubmit} />;
+        return (
+          <ConfirmationScreen
+            isLoading={isLoading}
+            biometricAttempts={biometricAttempts}
+            biometricError={biometricError}
+            onSubmit={onConfirmSubmit}
+            onSwitchToPassword={onSwitchToPassword}
+          />
+        );
 
       default:
         return <></>;
     }
-  }, [step, isLoading, onForwardAction, seedPhrase, wordslist, useBiometric, isHardwareSecurityAvailable, onBiometricChange]);
+  }, [
+    step,
+    isLoading,
+    onForwardAction,
+    seedPhrase,
+    wordslist,
+    useBiometric,
+    isHardwareSecurityAvailable,
+    onBiometricChange,
+    biometricAttempts,
+    biometricError
+  ]);
 
   const onBack = () => {
     setNavigationDirection('backward');

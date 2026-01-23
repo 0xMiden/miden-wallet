@@ -75,6 +75,8 @@ const Welcome: FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [useBiometric, setUseBiometric] = useState(true);
   const [isHardwareSecurityAvailable, setIsHardwareSecurityAvailable] = useState(false);
+  const [biometricAttempts, setBiometricAttempts] = useState(0);
+  const [biometricError, setBiometricError] = useState<string | null>(null);
   const { registerWallet, importWalletFromClient } = useMidenContext();
   const { trackEvent } = useAnalytics();
   const syncFromBackend = useWalletStore(s => s.syncFromBackend);
@@ -184,6 +186,7 @@ const Welcome: FC = () => {
       case 'confirmation':
         try {
           setIsLoading(true);
+          setBiometricError(null);
           await register();
           // Wait for state to be synced before navigating
           // This fixes a race condition where navigation happens before state is Ready
@@ -194,7 +197,21 @@ const Welcome: FC = () => {
         } catch (error) {
           console.error('[Welcome] Confirmation flow failed:', error);
           setIsLoading(false);
+          // Track biometric attempts for hardware-only mode
+          if (password === '__HARDWARE_ONLY__') {
+            const newAttempts = biometricAttempts + 1;
+            setBiometricAttempts(newAttempts);
+            setBiometricError(error instanceof Error ? error.message : 'Biometric authentication failed');
+          }
         }
+        break;
+      case 'switch-to-password':
+        // User chose to use password after biometric failures
+        setUseBiometric(false);
+        setPassword(null);
+        setBiometricAttempts(0);
+        setBiometricError(null);
+        navigate('/#create-password');
         break;
       case 'back':
         if (
@@ -292,6 +309,8 @@ const Welcome: FC = () => {
       isLoading={isLoading}
       useBiometric={useBiometric}
       isHardwareSecurityAvailable={isHardwareSecurityAvailable}
+      biometricAttempts={biometricAttempts}
+      biometricError={biometricError}
       onBiometricChange={setUseBiometric}
       onAction={onAction}
     />

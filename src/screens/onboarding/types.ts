@@ -103,6 +103,10 @@ export type BackAction = {
   id: 'back';
 };
 
+export type SwitchToPasswordAction = {
+  id: 'switch-to-password';
+};
+
 export type OnboardingAction =
   | CreateWalletAction
   | BackupSeedPhraseAction
@@ -117,7 +121,8 @@ export type OnboardingAction =
   | BackAction
   | ImportFromFileAction
   | ImportFromSeedAction
-  | ImportWalletFileSubmitAction;
+  | ImportWalletFileSubmitAction
+  | SwitchToPasswordAction;
 
 // TODO: Potentially make this into what the onboarding flows use to render the
 // steps rather than hardcode the path in onboarding flow
