@@ -24,6 +24,7 @@ env_logger = "0.11"
 base64 = "0.22"
 thiserror = "1"
 url = "2"
+urlencoding = "2"
 
 # macOS: Secure Enclave via Security.framework
 [target.'cfg(target_os = "macos")'.dependencies]

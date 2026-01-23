@@ -11,6 +11,18 @@ fn js_log(message: String) {
     println!("[JS] {}", message);
 }
 
+/// Focus the main wallet window (bring to front)
+#[tauri::command]
+fn focus_main_window(app: tauri::AppHandle) -> Result<(), String> {
+    if let Some(window) = app.get_webview_window("main") {
+        window.set_focus().map_err(|e| e.to_string())?;
+        window.unminimize().map_err(|e| e.to_string())?;
+        Ok(())
+    } else {
+        Err("Main window not found".to_string())
+    }
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     env_logger::init();
@@ -55,6 +67,7 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             js_log,
+            focus_main_window,
             secure_storage::generate_hardware_key,
             secure_storage::encrypt_with_hardware_key,
             secure_storage::decrypt_with_hardware_key,
@@ -67,6 +80,7 @@ pub fn run() {
             dapp_browser::dapp_get_url,
             dapp_browser::dapp_wallet_request,
             dapp_browser::dapp_wallet_response,
+            dapp_browser::show_dapp_confirmation_overlay,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

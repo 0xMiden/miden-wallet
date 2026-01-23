@@ -1,49 +1,101 @@
 /**
- * Desktop dApp Browser Injection Script
+ * dApp Browser Injection Script
  *
- * This script is injected into dApp pages opened in the Tauri desktop browser.
+ * This script is injected into all pages loaded in the dApp browser window.
  * It provides:
- * 1. A navigation toolbar (back, forward, URL display, close)
- * 2. The `window.midenWallet` API for dApp connectivity
+ * 1. A toolbar with navigation controls (back, forward, refresh, close)
+ * 2. window.midenWallet API for dApps to interact with the wallet
  *
- * Communication with the main wallet happens via Tauri's IPC postMessage.
+ * Communication with Tauri uses window.location.hash changes which are
+ * intercepted by the on_navigation handler.
  */
-(function () {
-  // Prevent double injection
-  if (window.__midenDappToolbarInjected) return;
-  window.__midenDappToolbarInjected = true;
+(function() {
+  'use strict';
 
-  // Check if we have Tauri IPC available (from initialization script context)
-  const hasTauriIpc = typeof window.__TAURI_INTERNALS__ !== 'undefined';
-  console.log('[Miden Wallet] Tauri IPC available:', hasTauriIpc);
+  // Prevent multiple injections
+  if (window.__midenInjected) return;
+  window.__midenInjected = true;
 
-  // Wait for body to exist
-  if (!document.body) {
-    document.addEventListener('DOMContentLoaded', init);
-    return;
-  }
-  init();
+  // Pending requests waiting for responses
+  const pendingRequests = new Map();
+  let requestId = 0;
 
-  function init() {
-    injectToolbar();
-    injectWalletAPI();
-    console.log('[Miden Wallet] Desktop dApp browser initialized');
-  }
+  // Store original hash to restore after signaling
+  let originalHash = window.location.hash;
 
-  // Invoke a Tauri command using the internal IPC
-  function tauriInvoke(cmd, args) {
-    return new Promise((resolve, reject) => {
-      if (window.__TAURI_INTERNALS__ && window.__TAURI_INTERNALS__.invoke) {
-        window.__TAURI_INTERNALS__.invoke(cmd, args)
-          .then(resolve)
-          .catch(reject);
-      } else if (window.__TAURI__ && window.__TAURI__.core) {
-        window.__TAURI__.core.invoke(cmd, args)
-          .then(resolve)
-          .catch(reject);
-      } else {
-        reject(new Error('Tauri IPC not available'));
+  // Debug: expose pendingRequests for troubleshooting
+  window.__midenPendingRequests = pendingRequests;
+
+  // Function for Tauri to call to send responses
+  window.__midenWalletResponse = function(responseStr) {
+    try {
+      const response = typeof responseStr === 'string' ? JSON.parse(responseStr) : responseStr;
+      const { type, payload, reqId, error } = response;
+
+      const pending = pendingRequests.get(reqId);
+      if (!pending) {
+        return;
       }
+
+      pendingRequests.delete(reqId);
+
+      if (type === 'MIDEN_PAGE_ERROR_RESPONSE' || error) {
+        pending.reject(new Error(error || payload || 'Unknown error'));
+      } else {
+        pending.resolve(payload);
+      }
+    } catch (e) {
+      // Silent fail
+    }
+  };
+
+  // Send request to wallet by triggering a navigation that Tauri intercepts
+  // Uses a hidden iframe to avoid affecting the main page's navigation state
+  function sendToWallet(message) {
+    // Encode the message as base64 to safely include in URL
+    const jsonStr = JSON.stringify(message);
+    const encoded = btoa(unescape(encodeURIComponent(jsonStr)));
+
+    // Use a fake HTTPS URL that Tauri will intercept
+    // The URL pattern is: https://miden-wallet-request/{base64-encoded-payload}
+    const signalUrl = `https://miden-wallet-request/${encoded}`;
+
+    // Use a hidden iframe to trigger navigation without affecting main page state
+    // This preserves the pendingRequests map and other JavaScript state
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = signalUrl;
+    document.body.appendChild(iframe);
+
+    // Clean up iframe after a short delay
+    setTimeout(() => {
+      if (iframe.parentNode) {
+        iframe.parentNode.removeChild(iframe);
+      }
+    }, 1000);
+  }
+
+  // Send a request to the wallet
+  function request(payload) {
+    return new Promise((resolve, reject) => {
+      const reqId = 'req_' + ++requestId;
+      pendingRequests.set(reqId, { resolve, reject });
+
+      const message = {
+        type: 'MIDEN_PAGE_REQUEST',
+        payload,
+        reqId
+      };
+
+      sendToWallet(message);
+
+      // Timeout after 5 minutes
+      setTimeout(() => {
+        if (pendingRequests.has(reqId)) {
+          pendingRequests.delete(reqId);
+          reject(new Error('Request timeout'));
+        }
+      }, 300000);
     });
   }
 
@@ -68,322 +120,122 @@
           <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
         </svg>
       </button>
-      <div id="miden-url-container">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="2" y1="12" x2="22" y2="12"/>
-          <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
-        </svg>
-        <span id="miden-url">${location.href}</span>
-      </div>
+      <div id="miden-url">${window.location.hostname}</div>
       <button id="miden-close" title="Close" aria-label="Close browser">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"/>
-          <line x1="6" y1="6" x2="18" y2="18"/>
+          <path d="M18 6L6 18M6 6l12 12"/>
         </svg>
       </button>
     `;
 
-    // Inject styles
+    // Add styles
     const style = document.createElement('style');
     style.textContent = `
       #miden-dapp-toolbar {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        height: 48px !important;
-        z-index: 2147483647 !important;
-        background: linear-gradient(to bottom, #1a1a1a, #0f0f0f) !important;
-        display: flex !important;
-        align-items: center !important;
-        padding: 0 12px !important;
-        gap: 8px !important;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
-        border-bottom: 1px solid #333 !important;
-        box-sizing: border-box !important;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 40px;
+        background: linear-gradient(to bottom, #2a2a2a, #1a1a1a);
+        border-bottom: 1px solid #3a3a3a;
+        display: flex;
+        align-items: center;
+        padding: 0 8px;
+        gap: 4px;
+        z-index: 2147483647;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
       }
-
-      #miden-dapp-toolbar * {
-        box-sizing: border-box !important;
-      }
-
       #miden-dapp-toolbar button {
-        width: 32px !important;
-        height: 32px !important;
-        min-width: 32px !important;
-        border-radius: 6px !important;
-        background: #2a2a2a !important;
-        border: 1px solid #444 !important;
-        color: #e0e0e0 !important;
-        cursor: pointer !important;
-        font-size: 16px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        transition: all 0.15s ease !important;
-        padding: 0 !important;
-        margin: 0 !important;
+        background: transparent;
+        border: none;
+        color: #ccc;
+        cursor: pointer;
+        padding: 6px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.15s ease;
       }
-
       #miden-dapp-toolbar button:hover {
-        background: #3a3a3a !important;
-        border-color: #555 !important;
+        background: rgba(255,255,255,0.1);
+        color: #fff;
       }
-
       #miden-dapp-toolbar button:active {
-        background: #4a4a4a !important;
-        transform: scale(0.95) !important;
+        background: rgba(255,255,255,0.15);
+        transform: scale(0.95);
       }
-
-      #miden-dapp-toolbar button svg {
-        width: 16px !important;
-        height: 16px !important;
-      }
-
-      #miden-url-container {
-        flex: 1 !important;
-        display: flex !important;
-        align-items: center !important;
-        gap: 8px !important;
-        background: #2a2a2a !important;
-        border: 1px solid #444 !important;
-        border-radius: 8px !important;
-        padding: 6px 12px !important;
-        margin: 0 4px !important;
-        overflow: hidden !important;
-      }
-
-      #miden-url-container svg {
-        flex-shrink: 0 !important;
-        color: #888 !important;
-      }
-
       #miden-url {
-        flex: 1 !important;
-        color: #aaa !important;
-        font-size: 13px !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        flex: 1;
+        background: rgba(0,0,0,0.3);
+        border: 1px solid #3a3a3a;
+        border-radius: 6px;
+        padding: 6px 12px;
+        color: #888;
+        font-size: 13px;
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin: 0 8px;
       }
-
       #miden-close {
-        background: #3a2020 !important;
-        border-color: #5a3030 !important;
+        margin-left: auto;
       }
-
       #miden-close:hover {
-        background: #5a3030 !important;
-        border-color: #7a4040 !important;
+        color: #ff6b6b !important;
       }
-
-      /* Push page content down to make room for toolbar */
+      body {
+        margin-top: 40px !important;
+        height: calc(100vh - 40px) !important;
+        min-height: calc(100vh - 40px) !important;
+      }
       html {
-        margin-top: 48px !important;
-      }
-
-      /* Handle fixed position elements */
-      body > [style*="position: fixed"][style*="top: 0"],
-      body > [style*="position:fixed"][style*="top:0"] {
-        top: 48px !important;
+        overflow-y: auto !important;
       }
     `;
 
     document.head.appendChild(style);
-    document.body.prepend(toolbar);
+    document.body.insertBefore(toolbar, document.body.firstChild);
 
-    // Button handlers using Tauri IPC
-    document.getElementById('miden-back').onclick = () => {
-      tauriInvoke('dapp_navigate', { action: 'back' }).catch(() => history.back());
-    };
-
-    document.getElementById('miden-forward').onclick = () => {
-      tauriInvoke('dapp_navigate', { action: 'forward' }).catch(() => history.forward());
-    };
-
-    document.getElementById('miden-refresh').onclick = () => {
-      tauriInvoke('dapp_navigate', { action: 'refresh' }).catch(() => location.reload());
-    };
-
-    document.getElementById('miden-close').onclick = () => {
-      tauriInvoke('close_dapp_window').catch(console.error);
-    };
-
-    // Update URL display on navigation
-    function updateUrl() {
-      const el = document.getElementById('miden-url');
-      if (el) el.textContent = location.href;
-    }
-
-    window.addEventListener('popstate', updateUrl);
-
-    // Observe for SPA navigation (intercept pushState/replaceState)
-    const originalPushState = history.pushState;
-    const originalReplaceState = history.replaceState;
-
-    history.pushState = function () {
-      originalPushState.apply(history, arguments);
-      updateUrl();
-    };
-
-    history.replaceState = function () {
-      originalReplaceState.apply(history, arguments);
-      updateUrl();
-    };
-
-    // Use MutationObserver to detect toolbar removal and re-inject
-    const observer = new MutationObserver(() => {
-      if (!document.getElementById('miden-dapp-toolbar')) {
-        console.log('[Miden Wallet] Toolbar removed, re-injecting');
-        document.body.prepend(toolbar);
-      }
+    // Navigation button handlers - use window.history directly
+    document.getElementById('miden-back').addEventListener('click', () => {
+      window.history.back();
     });
 
-    observer.observe(document.body, { childList: true });
+    document.getElementById('miden-forward').addEventListener('click', () => {
+      window.history.forward();
+    });
+
+    document.getElementById('miden-refresh').addEventListener('click', () => {
+      window.location.reload();
+    });
+
+    document.getElementById('miden-close').addEventListener('click', () => {
+      // Request close through the wallet API
+      request({ type: 'CLOSE_WINDOW' }).catch(() => {});
+    });
   }
 
   function injectWalletAPI() {
-    // Don't inject if already present
-    if (window.midenWallet) return;
-
-    // Simple EventEmitter implementation
-    class EventEmitter {
+    // MidenWallet class that mimics the browser extension API (MidenWindowObject)
+    // Must match the interface from @demox-labs/miden-wallet-adapter-miden
+    class MidenWallet {
       constructor() {
-        this._events = {};
-      }
-      on(event, listener) {
-        if (!this._events[event]) this._events[event] = [];
-        this._events[event].push(listener);
-        return () => this.off(event, listener);
-      }
-      off(event, listener) {
-        if (!this._events[event]) return;
-        this._events[event] = this._events[event].filter((l) => l !== listener);
-      }
-      emit(event, ...args) {
-        if (!this._events[event]) return;
-        this._events[event].forEach((listener) => listener(...args));
-      }
-    }
-
-    // Pending requests map
-    const pendingRequests = new Map();
-    let requestId = 0;
-
-    // Send message to wallet via Tauri IPC
-    function sendToWallet(type, payload, reqId) {
-      const message = { type, payload, reqId };
-
-      tauriInvoke('dapp_wallet_request', { request: JSON.stringify(message) })
-        .then((response) => {
-          // The immediate response is empty - actual response comes via eval callback
-          console.log('[MidenWallet] Request sent successfully');
-        })
-        .catch((error) => {
-          console.error('[MidenWallet] IPC error:', error);
-          const pending = pendingRequests.get(reqId);
-          if (pending) {
-            pendingRequests.delete(reqId);
-            pending.reject(new Error(String(error)));
-          }
-        });
-    }
-
-    // Make request to wallet
-    function request(payload) {
-      return new Promise((resolve, reject) => {
-        const reqId = 'req_' + ++requestId;
-        pendingRequests.set(reqId, { resolve, reject });
-        console.log('[MidenWallet] Sending request:', reqId, typeof payload === 'string' ? payload : payload.type);
-        sendToWallet('MIDEN_PAGE_REQUEST', payload, reqId);
-
-        // Timeout after 5 minutes (for long operations like proof generation)
-        setTimeout(() => {
-          if (pendingRequests.has(reqId)) {
-            console.warn('[MidenWallet] Request timeout:', reqId);
-            pendingRequests.delete(reqId);
-            reject(new Error('Request timeout'));
-          }
-        }, 300000);
-      });
-    }
-
-    // Handle response from wallet (called via eval from Rust)
-    function handleWalletResponse(responseStr) {
-      console.log('[MidenWallet] Received response');
-      try {
-        const response =
-          typeof responseStr === 'string' ? JSON.parse(responseStr) : responseStr;
-        const { type, payload, reqId, error } = response;
-
-        console.log('[MidenWallet] Response for reqId:', reqId, 'type:', type);
-
-        const pending = pendingRequests.get(reqId);
-        if (!pending) {
-          console.warn('[MidenWallet] No pending request for reqId:', reqId);
-          return;
-        }
-
-        pendingRequests.delete(reqId);
-
-        if (type === 'MIDEN_PAGE_ERROR_RESPONSE' || error) {
-          pending.reject(new Error(error || payload || 'Unknown error'));
-        } else {
-          pending.resolve(payload);
-        }
-      } catch (e) {
-        console.error('[MidenWallet] Error handling response:', e);
-      }
-    }
-
-    // Expose response handler globally for Tauri to call
-    window.__midenWalletResponse = handleWalletResponse;
-
-    // Helper functions
-    function b64ToU8(b64) {
-      const binary = atob(b64);
-      const bytes = new Uint8Array(binary.length);
-      for (let i = 0; i < binary.length; i++) {
-        bytes[i] = binary.charCodeAt(i);
-      }
-      return bytes;
-    }
-
-    function u8ToB64(u8) {
-      let binary = '';
-      for (let i = 0; i < u8.length; i++) {
-        binary += String.fromCharCode(u8[i]);
-      }
-      return btoa(binary);
-    }
-
-    function bytesToHex(bytes) {
-      return Array.from(bytes)
-        .map((b) => b.toString(16).padStart(2, '0'))
-        .join('');
-    }
-
-    // MidenWallet class
-    class MidenWallet extends EventEmitter {
-      constructor() {
-        super();
+        // Public properties matching MidenWindowObject
         this.address = undefined;
         this.publicKey = undefined;
         this.permission = undefined;
-        this.appName = undefined;
         this.network = undefined;
+        this.appName = undefined;
+        // Internal
+        this._listeners = new Map();
       }
 
       async isAvailable() {
-        try {
-          const res = await request('PING');
-          return res === 'PONG';
-        } catch {
-          return false;
-        }
+        return true;
       }
 
       async connect(privateDataPermission, network, allowedPrivateData) {
@@ -396,42 +248,42 @@
           allowedPrivateData,
         });
 
+        // Set public properties matching MidenWindowObject
+        this.address = res.accountId;
+        this.network = network;
+        this.publicKey = res.publicKey ? base64ToUint8Array(res.publicKey) : undefined;
         this.permission = {
           rpc: res.network,
           address: res.accountId,
           privateDataPermission: res.privateDataPermission,
           allowedPrivateData: res.allowedPrivateData,
+          publicKey: this.publicKey
         };
-        this.address = res.accountId;
-        this.network = network;
-        this.publicKey = b64ToU8(res.publicKey);
 
-        // Emit connect event for wallet adapters that listen to events
-        this.emit('connect', this.publicKey);
-
-        return this.permission;
+        // Emit accountChange event (what the adapter listens for)
+        this._emit('accountChange', this.permission);
       }
 
       async disconnect() {
-        await request({ type: 'DISCONNECT_REQUEST' });
+        const res = await request({
+          type: 'DISCONNECT_REQUEST',
+          network: this.network,
+        });
+
         this.address = undefined;
-        this.permission = undefined;
         this.publicKey = undefined;
-        this.emit('disconnect');
+        this.permission = undefined;
+        this.network = undefined;
+
+        // Emit accountChange with null
+        this._emit('accountChange', null);
+
+        return res;
       }
 
       async requestSend(transaction) {
         const res = await request({
           type: 'SEND_TRANSACTION_REQUEST',
-          sourcePublicKey: this.address,
-          transaction,
-        });
-        return { transactionId: res.transactionId };
-      }
-
-      async requestConsume(transaction) {
-        const res = await request({
-          type: 'CONSUME_REQUEST',
           sourcePublicKey: this.address,
           transaction,
         });
@@ -447,49 +299,24 @@
         return { transactionId: res.transactionId };
       }
 
-      async requestPrivateNotes(notefilterType, noteIds) {
+      async requestConsume(transaction) {
         const res = await request({
-          type: 'PRIVATE_NOTES_REQUEST',
+          type: 'CONSUME_REQUEST',
           sourcePublicKey: this.address,
-          notefilterType,
-          noteIds,
+          transaction,
         });
-        return { privateNotes: res.privateNotes };
-      }
-
-      async waitForTransaction(txId) {
-        const res = await request({
-          type: 'WAIT_FOR_TRANSACTION_REQUEST',
-          txId,
-        });
-        return res.transactionOutput;
+        return { transactionId: res.transactionId };
       }
 
       async signBytes(data, kind) {
-        const publicKeyAsHex = bytesToHex(this.publicKey);
-        const messageAsB64 = u8ToB64(data);
-
         const res = await request({
           type: 'SIGN_REQUEST',
           sourceAccountId: this.address,
-          sourcePublicKey: publicKeyAsHex,
-          payload: messageAsB64,
-          kind,
+          sourcePublicKey: uint8ArrayToHex(this.publicKey),
+          payload: uint8ArrayToBase64(data),
+          kind: kind,
         });
-
-        return { signature: b64ToU8(res.signature) };
-      }
-
-      async importPrivateNote(note) {
-        const noteAsB64 = u8ToB64(note);
-
-        const res = await request({
-          type: 'IMPORT_PRIVATE_NOTE_REQUEST',
-          sourcePublicKey: this.address,
-          note: noteAsB64,
-        });
-
-        return { noteId: res.noteId };
+        return { signature: base64ToUint8Array(res.signature) };
       }
 
       async requestAssets() {
@@ -500,6 +327,16 @@
         return { assets: res.assets };
       }
 
+      async requestPrivateNotes(notefilterType, noteIds) {
+        const res = await request({
+          type: 'PRIVATE_NOTES_REQUEST',
+          sourcePublicKey: this.address,
+          notefilterType,
+          noteIds,
+        });
+        return { privateNotes: res.privateNotes };
+      }
+
       async requestConsumableNotes() {
         const res = await request({
           type: 'CONSUMABLE_NOTES_REQUEST',
@@ -507,6 +344,90 @@
         });
         return { consumableNotes: res.consumableNotes };
       }
+
+      async importPrivateNote(note) {
+        const res = await request({
+          type: 'IMPORT_PRIVATE_NOTE_REQUEST',
+          sourcePublicKey: this.address,
+          note: uint8ArrayToBase64(note),
+        });
+        return { noteId: res.noteId };
+      }
+
+      async waitForTransaction(txId) {
+        const res = await request({
+          type: 'WAIT_FOR_TRANSACTION_REQUEST',
+          txId,
+        });
+        return res.transactionOutput;
+      }
+
+      // Legacy methods for backwards compatibility
+      isConnected() {
+        return !!this.address;
+      }
+
+      getPermission() {
+        return this.permission;
+      }
+
+      // Event emitter methods
+      on(event, callback) {
+        if (!this._listeners.has(event)) {
+          this._listeners.set(event, new Set());
+        }
+        this._listeners.get(event).add(callback);
+        return () => this.off(event, callback);
+      }
+
+      off(event, callback) {
+        const listeners = this._listeners.get(event);
+        if (listeners) {
+          listeners.delete(callback);
+        }
+      }
+
+      emit(event, data) {
+        this._emit(event, data);
+      }
+
+      _emit(event, data) {
+        const listeners = this._listeners.get(event);
+        if (listeners) {
+          listeners.forEach(cb => {
+            try {
+              cb(data);
+            } catch (e) {
+              // Silent fail for listener errors
+            }
+          });
+        }
+      }
+    }
+
+    // Helper functions for base64/Uint8Array conversion
+    function base64ToUint8Array(base64) {
+      if (!base64) return undefined;
+      const binaryString = atob(base64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      return bytes;
+    }
+
+    function uint8ArrayToBase64(bytes) {
+      if (!bytes) return '';
+      let binary = '';
+      for (let i = 0; i < bytes.length; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      return btoa(binary);
+    }
+
+    function uint8ArrayToHex(bytes) {
+      if (!bytes) return '';
+      return Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
     // Create and expose the wallet instance
@@ -517,11 +438,26 @@
         value: midenWallet,
         writable: false,
         configurable: false,
+        enumerable: true,
       });
     } catch (e) {
+      // Fallback if defineProperty fails
       window.midenWallet = midenWallet;
     }
-
-    console.log('[MidenWallet] Desktop wallet adapter injected, Tauri IPC:', hasTauriIpc);
   }
+
+  // Initialize when DOM is ready
+  function init() {
+    if (document.body) {
+      injectToolbar();
+      injectWalletAPI();
+    } else {
+      document.addEventListener('DOMContentLoaded', () => {
+        injectToolbar();
+        injectWalletAPI();
+      });
+    }
+  }
+
+  init();
 })();

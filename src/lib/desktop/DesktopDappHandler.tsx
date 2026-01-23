@@ -8,12 +8,20 @@
  * also subscribes to dappConfirmationStore.
  */
 
+import { invoke } from '@tauri-apps/api/core';
 import { useEffect } from 'react';
 
+import { MidenDAppRequest } from 'lib/adapter/types';
 import { handleWebViewMessage, WebViewMessage } from 'lib/dapp-browser/message-handler';
 import { isDesktop } from 'lib/platform';
 
 import { onDappWalletRequest, sendDappWalletResponse, DappWalletRequest } from './dapp-browser';
+
+// Log to Rust stdout for debugging (kept for future use)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function jsLog(message: string): void {
+  invoke('js_log', { message }).catch(() => {});
+}
 
 /**
  * Hook that handles dApp wallet requests on desktop
@@ -33,13 +41,11 @@ export function useDesktopDappHandler(): void {
     const setupListener = async () => {
       try {
         unsubscribe = await onDappWalletRequest(async (request: DappWalletRequest, origin: string) => {
-          console.log('[DesktopDappHandler] Received request:', request.type, 'reqId:', request.reqId);
-
           try {
             // Convert to WebViewMessage format used by existing handler
             const webViewMessage: WebViewMessage = {
               type: request.type,
-              payload: request.payload,
+              payload: request.payload as MidenDAppRequest | string,
               reqId: request.reqId
             };
 
@@ -48,13 +54,9 @@ export function useDesktopDappHandler(): void {
             // which DesktopDappConfirmationModal will pick up and show UI for
             const response = await handleWebViewMessage(webViewMessage, origin);
 
-            console.log('[DesktopDappHandler] Sending response for reqId:', request.reqId);
-
             // Send response back to dApp window
             await sendDappWalletResponse(response);
           } catch (error) {
-            console.error('[DesktopDappHandler] Error handling request:', error);
-
             // Send error response
             const errorResponse = {
               type: 'MIDEN_PAGE_ERROR_RESPONSE',
@@ -64,10 +66,8 @@ export function useDesktopDappHandler(): void {
             await sendDappWalletResponse(errorResponse);
           }
         });
-
-        console.log('[DesktopDappHandler] Listening for dApp wallet requests');
       } catch (error) {
-        console.error('[DesktopDappHandler] Failed to setup listener:', error);
+        // Silent fail - listener setup failed
       }
     };
 

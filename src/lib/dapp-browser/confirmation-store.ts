@@ -38,15 +38,42 @@ class DAppConfirmationStore {
   private pendingRequest: DAppConfirmationRequest | null = null;
   private pendingResolver: ConfirmationResolver | null = null;
   private listeners: Set<() => void> = new Set();
+  private instanceId = Math.random().toString(36).substring(7);
+
+  constructor() {
+    console.log('[DAppConfirmationStore] Created instance:', this.instanceId);
+  }
+
+  getInstanceId(): string {
+    return this.instanceId;
+  }
 
   /**
    * Request confirmation from the user.
    * Returns a promise that resolves when the user confirms or denies.
    */
   requestConfirmation(request: DAppConfirmationRequest): Promise<DAppConfirmationResult> {
+    // Use dynamic import for Tauri logging
+    import('@tauri-apps/api/core')
+      .then(({ invoke }) => {
+        invoke('js_log', {
+          message: `[DAppConfirmationStore] ${this.instanceId} requestConfirmation called, listeners: ${this.listeners.size}`
+        }).catch(() => {});
+      })
+      .catch(() => {});
+
+    console.log('[DAppConfirmationStore]', this.instanceId, 'requestConfirmation called');
+    console.log('[DAppConfirmationStore]', this.instanceId, 'request:', JSON.stringify(request));
     return new Promise(resolve => {
       this.pendingRequest = request;
       this.pendingResolver = resolve;
+      console.log(
+        '[DAppConfirmationStore]',
+        this.instanceId,
+        'pendingRequest set, notifying',
+        this.listeners.size,
+        'listeners'
+      );
       this.notifyListeners();
     });
   }

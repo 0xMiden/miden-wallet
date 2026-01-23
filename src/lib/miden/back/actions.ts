@@ -205,6 +205,8 @@ export function removeDAppSession(origin: string) {
 }
 
 export async function processDApp(origin: string, req: MidenDAppRequest): Promise<MidenDAppResponse | void> {
+  console.log('[processDApp] Called with origin:', origin, 'req type:', req?.type);
+  console.log('[processDApp] Full request:', JSON.stringify(req));
   switch (req?.type) {
     case MidenDAppMessageType.GetCurrentPermissionRequest:
       return withInited(() => getCurrentPermission(origin));

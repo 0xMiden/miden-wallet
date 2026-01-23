@@ -3,9 +3,14 @@
   "identifier": "dapp-browser",
   "description": "Capability for the dApp browser window",
   "windows": ["dapp-browser"],
+  "remote": {
+    "urls": ["https://*", "http://*"]
+  },
   "permissions": [
     "core:default",
     "core:window:allow-close",
-    "core:window:allow-set-focus"
+    "core:window:allow-set-focus",
+    "core:event:allow-emit",
+    "core:event:allow-listen"
   ]
 }

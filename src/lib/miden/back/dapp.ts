@@ -53,7 +53,7 @@ import {
   MidenMessageType,
   MidenRequest
 } from 'lib/miden/types';
-import { isExtension } from 'lib/platform';
+import { isDesktop, isExtension } from 'lib/platform';
 import { getStorageProvider } from 'lib/platform/storage-adapter';
 import { b64ToU8, u8ToB64 } from 'lib/shared/helpers';
 import { WalletStatus } from 'lib/shared/types';
@@ -69,6 +69,19 @@ import {
 import { getBech32AddressFromAccountId } from '../sdk/helpers';
 import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 import { store, withUnlocked } from './store';
+
+// Log to Rust stdout for desktop debugging
+async function dappLog(message: string): Promise<void> {
+  console.log(message);
+  if (isDesktop()) {
+    try {
+      const { invoke } = await import('@tauri-apps/api/core');
+      invoke('js_log', { message }).catch(() => {});
+    } catch {
+      // Not in Tauri context
+    }
+  }
+}
 
 // Lazy-loaded browser polyfill (only in extension context)
 type Browser = import('webextension-polyfill').Browser;
@@ -127,7 +140,9 @@ export async function requestPermission(
   origin: string,
   req: MidenDAppPermissionRequest
 ): Promise<MidenDAppPermissionResponse> {
-  console.log('requestPermission, dapp.ts');
+  console.log('[requestPermission] Called with origin:', origin);
+  console.log('[requestPermission] Request:', JSON.stringify(req));
+  console.log('[requestPermission] isExtension():', isExtension());
   let network = req?.network?.toString();
   const reqChainId = network;
 
@@ -148,6 +163,7 @@ export async function requestPermission(
 
   if (!req.force && dApp && req.appMeta.name === dApp.appMeta.name) {
     if (store.getState().status === WalletStatus.Locked) {
+      dappLog('[requestPermission] PATH: existing permission but wallet LOCKED, going through confirmation');
       return generatePromisifyRequestPermission(
         origin,
         reqChainId,
@@ -158,6 +174,7 @@ export async function requestPermission(
         dApp.allowedPrivateData
       );
     }
+    dappLog('[requestPermission] PATH: existing permission, wallet unlocked, DIRECT RETURN');
     return {
       type: MidenDAppMessageType.PermissionResponse,
       network: reqChainId,
@@ -168,6 +185,8 @@ export async function requestPermission(
     };
   }
 
+  dappLog('[requestPermission] PATH: NO existing permission, going through confirmation store');
+  dappLog(`[requestPermission] dApp: ${dApp}, force: ${req.force}, appMeta.name: ${req.appMeta?.name}`);
   return generatePromisifyRequestPermission(
     origin,
     reqChainId,
@@ -188,12 +207,15 @@ export async function generatePromisifyRequestPermission(
   privateDataPermission?: PrivateDataPermission,
   allowedPrivateData?: AllowedPrivateData
 ): Promise<MidenDAppPermissionResponse> {
+  console.log('[generatePromisifyRequestPermission] Called, isExtension:', isExtension());
   // On mobile/desktop, use confirmation store to request user approval
   if (!isExtension()) {
     const id = nanoid();
-    console.log('[DApp] Non-extension requesting confirmation for:', origin);
+    dappLog(`[DApp] Non-extension requesting confirmation for: ${origin} id: ${id}`);
+    dappLog(`[DApp] Calling dappConfirmationStore.requestConfirmation...`);
 
     // Request confirmation from the user via the confirmation store
+    dappLog(`[DApp] About to call requestConfirmation, store instance: ${dappConfirmationStore.getInstanceId()}`);
     const result = await dappConfirmationStore.requestConfirmation({
       id,
       type: 'connect',
@@ -205,6 +227,7 @@ export async function generatePromisifyRequestPermission(
       allowedPrivateData: allowedPrivateData || AllowedPrivateData.None,
       existingPermission
     });
+    dappLog(`[DApp] requestConfirmation returned! confirmed: ${result.confirmed}`);
 
     if (!result.confirmed || !result.accountPublicKey) {
       throw new Error(MidenDAppErrorType.NotGranted);

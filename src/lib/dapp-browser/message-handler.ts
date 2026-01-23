@@ -24,6 +24,7 @@ export interface WebViewResponse {
 export async function handleWebViewMessage(message: WebViewMessage, origin: string): Promise<WebViewResponse> {
   const { payload, reqId } = message;
   console.log('[MessageHandler] Received message:', { type: message.type, reqId, payloadType: typeof payload });
+  console.log('[MessageHandler] Full payload:', JSON.stringify(payload));
 
   try {
     // Handle PING for availability check
@@ -37,9 +38,16 @@ export async function handleWebViewMessage(message: WebViewMessage, origin: stri
     }
 
     // Process the DApp request
-    console.log('[MessageHandler] Processing DApp request:', (payload as MidenDAppRequest)?.type);
-    const response = await processDApp(origin, payload as MidenDAppRequest);
-    console.log('[MessageHandler] DApp request completed:', { reqId, responseType: response?.type });
+    const dappRequest = payload as MidenDAppRequest;
+    console.log('[MessageHandler] Processing DApp request, payload type:', dappRequest?.type);
+    console.log(
+      '[MessageHandler] Calling processDApp with origin:',
+      origin,
+      'and request:',
+      JSON.stringify(dappRequest)
+    );
+    const response = await processDApp(origin, dappRequest);
+    console.log('[MessageHandler] DApp request completed:', { reqId, responseType: response?.type, response });
 
     return {
       type: 'MIDEN_PAGE_RESPONSE',
