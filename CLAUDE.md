@@ -122,6 +122,25 @@ yarn mobile:ios:export           # Export IPA for App Store
 
 See `STORE_LISTING.md` for full app store submission checklist and instructions.
 
+### Build Output Locations
+
+**Android APKs/AABs** are output to `android/app/build/outputs/`:
+```
+android/app/build/outputs/
+├── apk/
+│   ├── debug/app-debug.apk       # Debug APK (yarn mobile:sync && cd android && ./gradlew assembleDebug)
+│   └── release/app-release.apk   # Release APK (yarn mobile:android:release:apk)
+└── bundle/
+    └── release/app-release.aab   # Release AAB (yarn mobile:android:release)
+```
+
+**iOS archives** are output to `ios/App/build/`:
+```
+ios/App/build/
+├── MidenWallet.xcarchive         # Release archive (yarn mobile:ios:release)
+└── export/                       # Exported IPA (yarn mobile:ios:export)
+```
+
 ### Workflow
 
 1. Make code changes in `src/`
