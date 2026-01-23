@@ -71,7 +71,8 @@ const desktopAppConfig = {
       stories: path.resolve(__dirname, 'src', 'stories'),
       components: path.resolve(__dirname, 'src', 'components'),
       screens: path.resolve(__dirname, 'src', 'screens'),
-      utils: path.resolve(__dirname, 'src', 'utils')
+      utils: path.resolve(__dirname, 'src', 'utils'),
+      'process/browser': require.resolve('process/browser.js')
     },
     fallback: {
       url: false,
