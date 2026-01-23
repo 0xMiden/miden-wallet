@@ -253,6 +253,8 @@ export class Vault {
             return await midenClient.createMidenWallet(WalletType.OnChain, walletSeed);
           }
         } else {
+          // Sync to chain tip BEFORE creating first account (no accounts = no tags = fast sync)
+          await midenClient.syncState();
           return await midenClient.createMidenWallet(WalletType.OnChain, walletSeed);
         }
       });
