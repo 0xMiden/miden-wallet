@@ -9,6 +9,11 @@ on:
   # Also allow manual trigger from Actions tab
   workflow_dispatch:
 
+# Minimal permissions for security
+permissions:
+  contents: read
+  actions: write  # Required for artifact cleanup
+
 # Cancel in-progress runs for the same branch
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
