@@ -270,6 +270,86 @@ sleep 2 && xcrun simctl io booted screenshot /tmp/ios-main.png
 - **Content cut off:** Check if containers have `overflow: hidden` without proper height constraints.
 - **Safe area gaps:** Ensure `public/mobile.html` has `padding: env(safe-area-inset-*)` on body, and body background color matches app background (white).
 
+## Desktop Development (Tauri)
+
+The desktop app uses Tauri to wrap the web app in a native macOS window.
+
+### Commands
+
+```bash
+yarn build:desktop        # Production build for desktop (outputs to dist/desktop/)
+yarn build:desktop:dev    # Development build for desktop
+yarn tauri dev            # Build and run desktop app in dev mode
+yarn tauri build          # Build release desktop app
+```
+
+**Node version:** Requires Node >= 22. Use nvm to switch:
+```bash
+source ~/.nvm/nvm.sh && nvm use 22 && yarn tauri dev
+```
+
+### Key Directories
+
+```
+src-tauri/
+├── src/
+│   ├── main.rs           # Tauri app entry point
+│   ├── dapp_browser.rs   # dApp browser window and wallet API
+│   └── lib.rs            # Command registration
+├── scripts/
+│   └── dapp-injection.js # Wallet API injected into dApp pages
+├── capabilities/         # Tauri permission capabilities
+└── tauri.conf.json       # Tauri configuration
+
+src/lib/desktop/
+├── dapp-browser.ts                   # TypeScript bindings for Tauri commands
+├── DesktopDappHandler.tsx            # Handles wallet requests from dApps
+└── DesktopDappConfirmationModal.tsx  # Manages confirmation overlay in dApp WebView
+```
+
+### Clearing App State (macOS)
+
+To completely reset the desktop app state (useful for testing fresh installs or debugging):
+
+```bash
+# Clear all wallet data (IndexedDB, localStorage, WebKit caches)
+rm -rf ~/Library/WebKit/com.miden.wallet
+rm -rf ~/Library/WebKit/miden-wallet
+
+# Optional: Also clear Application Support and Caches
+rm -rf ~/Library/Application\ Support/com.miden.wallet
+rm -rf ~/Library/Caches/com.miden.wallet
+```
+
+**Important:** The WebKit directories contain the actual IndexedDB/localStorage data. The Application Support directory may be empty or contain minimal data.
+
+After clearing, restart the app with `yarn tauri dev` to see the onboarding screen.
+
+### dApp Browser Architecture
+
+The desktop app includes a separate browser window for dApps:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Desktop App Architecture                  │
+├─────────────────────────────────────────────────────────────┤
+│  Main Window (wallet UI)     │  dApp Browser Window          │
+│  - React app                 │  - External dApp webpage      │
+│  - DesktopDappHandler        │  - Injected window.midenWallet│
+│  - Confirmation modal logic  │  - URL interception for msgs  │
+│                              │                               │
+│         ◄──── Tauri Events (dapp-wallet-request) ────►      │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Communication flow:**
+1. dApp calls `window.midenWallet.connect()` or other methods
+2. Injection script encodes request as base64 and navigates to `https://miden-wallet-request/{payload}`
+3. Tauri's `on_navigation` callback intercepts this URL
+4. Request is emitted to main window via Tauri event
+5. `DesktopDappHandler` processes and shows confirmation overlay in dApp window
+6. Response flows back via similar URL interception pattern
+
 ## Code Style (Prettier)
 
 This project uses Prettier for code formatting. Always write code that conforms to Prettier rules:
