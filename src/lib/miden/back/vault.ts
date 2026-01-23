@@ -245,6 +245,8 @@ export class Vault {
       // Wrap WASM client operations in a lock to prevent concurrent access
       const accPublicKey = await withWasmClientLock(async () => {
         const midenClient = await getMidenClient(options);
+        // Sync to chain tip BEFORE creating first account (no accounts = no tags = fast sync)
+        await midenClient.syncState();
         if (ownMnemonic) {
           try {
             return await midenClient.importPublicMidenWalletFromSeed(walletSeed);
