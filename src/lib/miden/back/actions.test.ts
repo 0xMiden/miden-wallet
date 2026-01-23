@@ -224,13 +224,13 @@ describe('actions', () => {
         getCurrentAccount: jest.fn().mockResolvedValue(null),
         isOwnMnemonic: jest.fn().mockResolvedValue(false)
       };
-      Vault.spawn.mockResolvedValueOnce(undefined);
-      Vault.setup.mockResolvedValueOnce(mockVaultInstance);
+      Vault.spawn.mockResolvedValueOnce(mockVaultInstance);
 
       await registerNewWallet('password123', 'mnemonic words', true);
 
       expect(Vault.spawn).toHaveBeenCalledWith('password123', 'mnemonic words', true);
-      expect(Vault.setup).toHaveBeenCalledWith('password123');
+      expect(mockVaultInstance.fetchAccounts).toHaveBeenCalled();
+      expect(mockUnlocked).toHaveBeenCalled();
     });
   });
 
@@ -243,13 +243,13 @@ describe('actions', () => {
         getCurrentAccount: jest.fn().mockResolvedValue(null),
         isOwnMnemonic: jest.fn().mockResolvedValue(true)
       };
-      Vault.spawnFromMidenClient.mockResolvedValueOnce(undefined);
-      Vault.setup.mockResolvedValueOnce(mockVaultInstance);
+      Vault.spawnFromMidenClient.mockResolvedValueOnce(mockVaultInstance);
 
       await registerImportedWallet('password123', 'mnemonic words');
 
       expect(Vault.spawnFromMidenClient).toHaveBeenCalledWith('password123', 'mnemonic words');
-      expect(Vault.setup).toHaveBeenCalledWith('password123');
+      expect(mockVaultInstance.fetchAccounts).toHaveBeenCalled();
+      expect(mockUnlocked).toHaveBeenCalled();
     });
   });
 

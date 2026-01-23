@@ -23,10 +23,12 @@ export class Vault {
     state.accounts = [account];
     state.currentAccount = account;
     state.ownMnemonic = Boolean(ownMnemonic);
+    return new Vault();
   }
 
   static async spawnFromMidenClient(password: string, mnemonic: string) {
-    return Vault.spawn(password, mnemonic, true);
+    await Vault.spawn(password, mnemonic, true);
+    return new Vault();
   }
 
   static async setup(_password: string) {
