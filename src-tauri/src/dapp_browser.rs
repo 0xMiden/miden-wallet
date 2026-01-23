@@ -39,7 +39,10 @@ fn handle_dapp_request(app_handle: &AppHandle, request_json: &str) {
         Err(_) => return,
     };
 
-    let payload = request.get("payload").cloned().unwrap_or(serde_json::json!(null));
+    let payload = request
+        .get("payload")
+        .cloned()
+        .unwrap_or(serde_json::json!(null));
 
     // Handle special commands locally
     if let Some(payload_type) = payload.get("type").and_then(|v| v.as_str()) {
@@ -114,69 +117,66 @@ pub async fn open_dapp_window(url: String, app: AppHandle) -> Result<(), String>
     let app_for_nav = app.clone();
 
     // Create the dApp browser window with larger size for comfortable browsing
-    let dapp_window = WebviewWindowBuilder::new(
-        &app,
-        "dapp-browser",
-        WebviewUrl::External(parsed_url),
-    )
-    .title("dApp Browser - Miden Wallet")
-    .inner_size(DAPP_WINDOW_WIDTH, DAPP_WINDOW_HEIGHT)
-    .position(
-        position.x as f64 + 50.0,
-        position.y as f64 + 50.0,
-    )
-    .initialization_script(DAPP_INJECTION_SCRIPT)
-    .on_navigation(move |url| {
-        let url_str = url.as_str();
+    let dapp_window =
+        WebviewWindowBuilder::new(&app, "dapp-browser", WebviewUrl::External(parsed_url))
+            .title("dApp Browser - Miden Wallet")
+            .inner_size(DAPP_WINDOW_WIDTH, DAPP_WINDOW_HEIGHT)
+            .position(position.x as f64 + 50.0, position.y as f64 + 50.0)
+            .initialization_script(DAPP_INJECTION_SCRIPT)
+            .on_navigation(move |url| {
+                let url_str = url.as_str();
 
-        // Intercept miden-wallet-request URLs for dApp-to-wallet communication
-        // Format: https://miden-wallet-request/{base64-encoded-payload}
-        if let Ok(parsed) = url::Url::parse(url_str) {
-            if parsed.host_str() == Some(REQUEST_HOST) {
-                // Get the path (without leading slash) which contains the base64-encoded payload
-                let path = parsed.path().trim_start_matches('/');
-                if !path.is_empty() {
-                    // Decode base64
-                    if let Ok(decoded_bytes) = base64::Engine::decode(
-                        &base64::engine::general_purpose::STANDARD,
-                        path
-                    ) {
-                        if let Ok(payload) = String::from_utf8(decoded_bytes) {
-                            handle_dapp_request(&app_for_nav, &payload);
+                // Intercept miden-wallet-request URLs for dApp-to-wallet communication
+                // Format: https://miden-wallet-request/{base64-encoded-payload}
+                if let Ok(parsed) = url::Url::parse(url_str) {
+                    if parsed.host_str() == Some(REQUEST_HOST) {
+                        // Get the path (without leading slash) which contains the base64-encoded payload
+                        let path = parsed.path().trim_start_matches('/');
+                        if !path.is_empty() {
+                            // Decode base64
+                            if let Ok(decoded_bytes) = base64::Engine::decode(
+                                &base64::engine::general_purpose::STANDARD,
+                                path,
+                            ) {
+                                if let Ok(payload) = String::from_utf8(decoded_bytes) {
+                                    handle_dapp_request(&app_for_nav, &payload);
+                                }
+                            }
                         }
+                        return false; // Prevent navigation
+                    }
+
+                    // Handle confirmation response from overlay
+                    if parsed.host_str() == Some(CONFIRMATION_RESPONSE_HOST) {
+                        let path = parsed.path().trim_start_matches('/');
+                        if !path.is_empty() {
+                            if let Ok(decoded_bytes) = base64::Engine::decode(
+                                &base64::engine::general_purpose::STANDARD,
+                                path,
+                            ) {
+                                if let Ok(payload) = String::from_utf8(decoded_bytes) {
+                                    handle_confirmation_response(&app_for_nav, &payload);
+                                }
+                            }
+                        }
+                        return false; // Prevent navigation
                     }
                 }
-                return false; // Prevent navigation
-            }
-
-            // Handle confirmation response from overlay
-            if parsed.host_str() == Some(CONFIRMATION_RESPONSE_HOST) {
-                let path = parsed.path().trim_start_matches('/');
-                if !path.is_empty() {
-                    if let Ok(decoded_bytes) = base64::Engine::decode(
-                        &base64::engine::general_purpose::STANDARD,
-                        path
-                    ) {
-                        if let Ok(payload) = String::from_utf8(decoded_bytes) {
-                            handle_confirmation_response(&app_for_nav, &payload);
-                        }
-                    }
-                }
-                return false; // Prevent navigation
-            }
-        }
-        true // Allow all other navigation
-    })
-    .resizable(true)
-    .decorations(true)
-    .visible(true)
-    .build()
-    .map_err(|e| e.to_string())?;
+                true // Allow all other navigation
+            })
+            .resizable(true)
+            .decorations(true)
+            .visible(true)
+            .build()
+            .map_err(|e| e.to_string())?;
 
     // Focus the new window
     dapp_window.set_focus().map_err(|e| e.to_string())?;
 
-    info!("dApp window created successfully ({}x{})", DAPP_WINDOW_WIDTH, DAPP_WINDOW_HEIGHT);
+    info!(
+        "dApp window created successfully ({}x{})",
+        DAPP_WINDOW_WIDTH, DAPP_WINDOW_HEIGHT
+    );
     Ok(())
 }
 
@@ -195,9 +195,7 @@ pub async fn dapp_navigate(action: String, app: AppHandle) -> Result<(), String>
     if let Some(webview) = app.get_webview_window("dapp-browser") {
         match action.as_str() {
             "back" => {
-                webview
-                    .eval("history.back()")
-                    .map_err(|e| e.to_string())?;
+                webview.eval("history.back()").map_err(|e| e.to_string())?;
             }
             "forward" => {
                 webview
@@ -280,10 +278,12 @@ pub async fn dapp_wallet_request(request: String, app: AppHandle) -> Result<Stri
 #[tauri::command]
 pub async fn show_dapp_confirmation_overlay(
     overlay_script: String,
-    app: AppHandle
+    app: AppHandle,
 ) -> Result<(), String> {
     if let Some(dapp_window) = app.get_webview_window("dapp-browser") {
-        dapp_window.eval(&overlay_script).map_err(|e| e.to_string())?;
+        dapp_window
+            .eval(&overlay_script)
+            .map_err(|e| e.to_string())?;
         Ok(())
     } else {
         Err("dApp window not found".to_string())

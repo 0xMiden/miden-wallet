@@ -28,8 +28,7 @@ pub fn run() {
     env_logger::init();
     info!("Starting Miden Wallet desktop application");
 
-    let builder = tauri::Builder::default()
-        .plugin(tauri_plugin_shell::init());
+    let builder = tauri::Builder::default().plugin(tauri_plugin_shell::init());
 
     // Add single-instance plugin on desktop platforms
     #[cfg(not(any(target_os = "android", target_os = "ios")))]

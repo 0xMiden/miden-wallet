@@ -17,7 +17,9 @@ use core_foundation::string::CFString;
 use core_foundation_sys::dictionary::CFDictionarySetValue;
 use log::info;
 use security_framework::access_control::{ProtectionMode, SecAccessControl};
-use security_framework::item::{ItemClass, ItemSearchOptions, KeyClass, Location, Reference, SearchResult};
+use security_framework::item::{
+    ItemClass, ItemSearchOptions, KeyClass, Location, Reference, SearchResult,
+};
 use security_framework::key::{GenerateKeyOptions, KeyType, SecKey, Token};
 use security_framework_sys::access_control::{
     kSecAccessControlPrivateKeyUsage, kSecAccessControlUserPresence,
@@ -61,9 +63,11 @@ pub fn generate_hardware_key() -> Result<(), String> {
     // Create access control: require user presence (Touch ID or system password)
     // Flags: UserPresence (biometric OR password) + PrivateKeyUsage (for SE keys)
     let flags = kSecAccessControlUserPresence | kSecAccessControlPrivateKeyUsage;
-    let access_control =
-        SecAccessControl::create_with_protection(Some(ProtectionMode::AccessibleWhenUnlockedThisDeviceOnly), flags)
-            .map_err(|e| format!("Failed to create access control: {}", e))?;
+    let access_control = SecAccessControl::create_with_protection(
+        Some(ProtectionMode::AccessibleWhenUnlockedThisDeviceOnly),
+        flags,
+    )
+    .map_err(|e| format!("Failed to create access control: {}", e))?;
 
     // Generate key options for Secure Enclave
     let mut options = GenerateKeyOptions::default();
@@ -76,7 +80,8 @@ pub fn generate_hardware_key() -> Result<(), String> {
 
     // Generate the key pair using the options dictionary
     let dict = options.to_dictionary();
-    let _key = SecKey::generate(dict).map_err(|e| format!("Failed to generate Secure Enclave key: {}", e))?;
+    let _key = SecKey::generate(dict)
+        .map_err(|e| format!("Failed to generate Secure Enclave key: {}", e))?;
 
     info!("Secure Enclave key generated successfully");
     Ok(())
@@ -89,7 +94,8 @@ pub fn delete_hardware_key() -> Result<(), String> {
     // First, get the key to delete it
     match get_secure_enclave_key() {
         Ok(key) => {
-            key.delete().map_err(|e| format!("Failed to delete Secure Enclave key: {}", e))?;
+            key.delete()
+                .map_err(|e| format!("Failed to delete Secure Enclave key: {}", e))?;
             info!("Secure Enclave key deleted");
             Ok(())
         }
@@ -123,8 +129,8 @@ pub fn encrypt_with_hardware_key(data: &str) -> Result<String, String> {
     // No location = transient key (not persisted)
 
     let ephemeral_dict = ephemeral_options.to_dictionary();
-    let ephemeral_key =
-        SecKey::generate(ephemeral_dict).map_err(|e| format!("Failed to generate ephemeral key: {}", e))?;
+    let ephemeral_key = SecKey::generate(ephemeral_dict)
+        .map_err(|e| format!("Failed to generate ephemeral key: {}", e))?;
 
     let ephemeral_public_key = ephemeral_key
         .public_key()
@@ -298,7 +304,11 @@ fn import_ec_public_key(data: &[u8]) -> Result<SecKey, String> {
 
     let mut error: CFErrorRef = ptr::null_mut();
     let key = unsafe {
-        SecKeyCreateWithData(key_data.as_concrete_TypeRef(), attrs.as_concrete_TypeRef(), &mut error)
+        SecKeyCreateWithData(
+            key_data.as_concrete_TypeRef(),
+            attrs.as_concrete_TypeRef(),
+            &mut error,
+        )
     };
 
     if !error.is_null() {
@@ -354,7 +364,11 @@ fn rand_bytes<const N: usize>() -> [u8; N] {
 }
 
 /// AES-256-GCM encryption using CommonCrypto
-fn aes_gcm_encrypt(key: &[u8; 32], nonce: &[u8; 12], plaintext: &[u8]) -> Result<(Vec<u8>, [u8; 16]), String> {
+fn aes_gcm_encrypt(
+    key: &[u8; 32],
+    nonce: &[u8; 12],
+    plaintext: &[u8],
+) -> Result<(Vec<u8>, [u8; 16]), String> {
     unsafe {
         use std::os::raw::c_int;
 
@@ -405,7 +419,12 @@ fn aes_gcm_encrypt(key: &[u8; 32], nonce: &[u8; 12], plaintext: &[u8]) -> Result
 }
 
 /// AES-256-GCM decryption using CommonCrypto
-fn aes_gcm_decrypt(key: &[u8; 32], nonce: &[u8], ciphertext: &[u8], tag: &[u8]) -> Result<Vec<u8>, String> {
+fn aes_gcm_decrypt(
+    key: &[u8; 32],
+    nonce: &[u8],
+    ciphertext: &[u8],
+    tag: &[u8],
+) -> Result<Vec<u8>, String> {
     unsafe {
         use std::os::raw::c_int;
 
