@@ -3,7 +3,7 @@ import { isExtension } from 'lib/platform';
 import { AssetMetadata } from './types';
 
 // Get asset URL that works on extension, mobile, and desktop
-function getAssetUrl(path: string): string {
+export function getAssetUrl(path: string): string {
   if (!isExtension()) {
     // On mobile/desktop, use relative URL from web root
     return `/${path}`;
