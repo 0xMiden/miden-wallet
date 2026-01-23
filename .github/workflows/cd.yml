@@ -12,6 +12,9 @@ on:
       SSH_DEPLOY_KEY:
         required: false
 
+permissions:
+  contents: read
+
 env:
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
