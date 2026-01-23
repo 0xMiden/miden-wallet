@@ -22,8 +22,13 @@ jest.mock('app/hooks/useBeforeUnload', () => ({
   default: () => undefined
 }));
 
-jest.mock('app/env', () => ({
-  closeLoadingFullPage: jest.fn()
+jest.mock('lib/store', () => ({
+  useWalletStore: Object.assign(() => ({}), {
+    getState: () => ({
+      openTransactionModal: jest.fn(),
+      closeTransactionModal: jest.fn()
+    })
+  })
 }));
 
 jest.mock('lib/woozie', () => ({

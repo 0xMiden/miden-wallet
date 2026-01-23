@@ -5,7 +5,7 @@ import classNames from 'clsx';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-import { openLoadingFullPage, useAppEnv } from 'app/env';
+import { useAppEnv } from 'app/env';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { stringToBigInt } from 'lib/i18n/numbers';
 import { initiateSendTransaction, waitForTransactionCompletion } from 'lib/miden/activity';
@@ -14,6 +14,7 @@ import { NoteTypeEnum } from 'lib/miden/types';
 import { useMobileBackHandler } from 'lib/mobile/useMobileBackHandler';
 import { isMobile } from 'lib/platform';
 import { isDelegateProofEnabled } from 'lib/settings/helpers';
+import { useWalletStore } from 'lib/store';
 import { navigate } from 'lib/woozie';
 import { isValidMidenAddress } from 'utils/miden';
 
@@ -127,7 +128,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     // The modal handles the entire transaction flow
     if (isMobile()) {
       console.log('[SendManager] Opening modal...');
-      await openLoadingFullPage();
+      useWalletStore.getState().openTransactionModal();
       console.log('[SendManager] Modal opened, NOT navigating for debug');
       // Don't navigate - stay on page to see if modal appears
       // navigate('/');
@@ -139,7 +140,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       return;
     }
 
-    await openLoadingFullPage();
+    useWalletStore.getState().openTransactionModal();
     navigateTo(SendFlowStep.TransactionInitiated);
   }, [fullPage, navigateTo]);
 
@@ -230,7 +231,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
         );
 
         // Step 2: Open the loading modal (same as Receive)
-        await openLoadingFullPage();
+        useWalletStore.getState().openTransactionModal();
 
         // Step 3: Wait for transaction completion (same as Receive's waitForConsumeTx)
         const result = await waitForTransactionCompletion(txId);

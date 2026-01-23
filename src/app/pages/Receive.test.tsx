@@ -12,8 +12,16 @@ jest.mock('react-i18next', () => ({
 jest.mock('app/atoms/FormField', () => React.forwardRef(() => null));
 
 jest.mock('app/env', () => ({
-  openLoadingFullPage: jest.fn(),
   useAppEnv: () => ({ popup: false })
+}));
+
+jest.mock('lib/store', () => ({
+  useWalletStore: Object.assign(() => ({}), {
+    getState: () => ({
+      openTransactionModal: jest.fn(),
+      closeTransactionModal: jest.fn()
+    })
+  })
 }));
 
 jest.mock('app/hooks/useMidenClient', () => ({

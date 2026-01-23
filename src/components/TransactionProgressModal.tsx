@@ -4,9 +4,12 @@ import classNames from 'clsx';
 import { createPortal } from 'react-dom';
 import Modal from 'react-modal';
 
-import { safeGenerateTransactionsLoop as dbTransactionsLoop, getAllUncompletedTransactions } from 'lib/miden/activity';
+import {
+  hasQueuedTransactions,
+  safeGenerateTransactionsLoop as dbTransactionsLoop,
+  getAllUncompletedTransactions
+} from 'lib/miden/activity';
 import { useMidenContext } from 'lib/miden/front';
-import { isExtension } from 'lib/platform';
 import { useWalletStore } from 'lib/store';
 import { useRetryableSWR } from 'lib/swr';
 import { GeneratingTransaction } from 'screens/generating-transaction/GeneratingTransaction';
@@ -14,12 +17,15 @@ import { GeneratingTransaction } from 'screens/generating-transaction/Generating
 export const TransactionProgressModal: FC = () => {
   // Use Zustand store for modal state
   const isOpen = useWalletStore(state => state.isTransactionModalOpen);
+  const openModal = useWalletStore(state => state.openTransactionModal);
   const closeModal = useWalletStore(state => state.closeTransactionModal);
 
   const { signTransaction } = useMidenContext();
   const [error, setError] = useState(false);
   // Track if we've completed the initial fetch - prevents auto-close race condition
   const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
+  // Track if we're actively processing (started when modal opens, continues even when hidden)
+  const [isProcessing, setIsProcessing] = useState(false);
 
   // Reset hasLoadedOnce when modal closes
   useEffect(() => {
@@ -44,40 +50,58 @@ export const TransactionProgressModal: FC = () => {
 
   const transactions = txs || [];
 
+  // Process transactions - continues even when modal is hidden
   const generateTransaction = useCallback(async () => {
-    if (!isOpen) {
-      return;
-    }
-
     try {
       const success = await dbTransactionsLoop(signTransaction);
       if (success === false) {
         setError(true);
+        // Re-open modal to show error if it was hidden
+        openModal();
       }
       mutateTx();
     } catch (e) {
       console.error('[TransactionProgressModal] Error in generateTransaction:', e);
       setError(true);
+      // Re-open modal to show error if it was hidden
+      openModal();
     }
-  }, [isOpen, mutateTx, signTransaction]);
+  }, [mutateTx, signTransaction, openModal]);
 
+  // Start processing when modal opens
   useEffect(() => {
-    if (!isOpen || error) {
+    if (isOpen && !isProcessing) {
+      setIsProcessing(true);
+    }
+  }, [isOpen, isProcessing]);
+
+  // Processing loop - runs while processing, regardless of modal visibility
+  useEffect(() => {
+    if (!isProcessing || error) {
       return;
     }
 
+    // Check if we still have transactions to process
+    const checkAndProcess = async () => {
+      const hasQueued = await hasQueuedTransactions();
+      if (!hasQueued) {
+        // No more transactions - stop processing
+        setIsProcessing(false);
+        return;
+      }
+      await generateTransaction();
+    };
+
     // Start processing immediately
-    generateTransaction();
+    checkAndProcess();
 
     // Then poll every 10 seconds
-    const intervalId = setInterval(() => {
-      generateTransaction();
-    }, 10_000);
+    const intervalId = setInterval(checkAndProcess, 10_000);
 
     return () => {
       clearInterval(intervalId);
     };
-  }, [isOpen, generateTransaction, error]);
+  }, [isProcessing, generateTransaction, error]);
 
   // Auto-close when all transactions are done
   // Only auto-close AFTER we've done initial fetch (hasLoadedOnce) to prevent race condition
@@ -96,18 +120,14 @@ export const TransactionProgressModal: FC = () => {
   }, [isOpen, hasLoadedOnce, transactions.length, error, closeModal]);
 
   const handleClose = useCallback(() => {
-    closeModal();
+    // Pass true to indicate user explicitly dismissed (prevents auto-reopen)
+    closeModal(true);
     setError(false);
   }, [closeModal]);
 
   const progress = transactions.length > 0 ? (1 / transactions.length) * 80 : 0;
   // Only show complete if we've loaded AND there are no transactions
   const transactionComplete = hasLoadedOnce && transactions.length === 0;
-
-  // Only render on mobile/desktop - extension uses separate tab for transaction progress
-  if (isExtension()) {
-    return null;
-  }
 
   if (!isOpen) {
     return null;

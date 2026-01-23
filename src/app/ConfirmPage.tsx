@@ -20,6 +20,7 @@ import { isDelegateProofEnabled } from 'lib/settings/helpers';
 import { formatAmount } from 'lib/shared/format';
 import { b64ToU8 } from 'lib/shared/helpers';
 import { WalletAccount } from 'lib/shared/types';
+import { useWalletStore } from 'lib/store';
 import { useRetryableSWR } from 'lib/swr';
 import useSafeState from 'lib/ui/useSafeState';
 import useTippy from 'lib/ui/useTippy';
@@ -31,7 +32,6 @@ import FormSecondaryButton from './atoms/FormSecondaryButton';
 import FormSubmitButton from './atoms/FormSubmitButton';
 import Name from './atoms/Name';
 import { ConfirmPageSelectors } from './ConfirmPage.selectors';
-import { openConsumingFullPage, openLoadingFullPage } from './env';
 import { Icon, IconName } from './icons/v2';
 import AccountBanner from './templates/AccountBanner';
 import ConnectBanner from './templates/ConnectBanner';
@@ -529,10 +529,10 @@ const ConfirmDAppForm: FC = () => {
             payload.allowedPrivateData
           );
         case 'transaction':
-          openLoadingFullPage();
+          useWalletStore.getState().openTransactionModal();
           return confirmDAppTransaction(id, confirmed, delegate);
         case 'consume':
-          openConsumingFullPage(payload.noteId);
+          useWalletStore.getState().openTransactionModal();
           return confirmDAppTransaction(id, confirmed, delegate);
         case 'privateNotes':
           return confirmDAppPrivateNotes(id, confirmed);

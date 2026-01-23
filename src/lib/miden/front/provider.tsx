@@ -4,15 +4,14 @@ import { NoteToastProvider } from 'components/NoteToastProvider';
 import { TransactionProgressModal } from 'components/TransactionProgressModal';
 import { FiatCurrencyProvider } from 'lib/fiat-curency';
 import { MidenContextProvider, useMidenContext } from 'lib/miden/front/client';
-import { isMobile } from 'lib/platform';
 import { PropsWithChildren } from 'lib/props-with-children';
 import { WalletStoreProvider } from 'lib/store/WalletStoreProvider';
 
 import { getMidenClient } from '../sdk/miden-client';
 import { TokensMetadataProvider } from './assets';
 
-// Pre-create the modal container on mobile to avoid flash when first opening
-if (typeof document !== 'undefined' && isMobile()) {
+// Pre-create the modal container to avoid flash when first opening
+if (typeof document !== 'undefined' && document.body) {
   let modalRoot = document.getElementById('transaction-modal-root');
   if (!modalRoot) {
     modalRoot = document.createElement('div');

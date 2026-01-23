@@ -4,7 +4,6 @@ import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
 import CircularProgress from 'app/atoms/CircularProgress';
-import { closeConsumingFullPage } from 'app/env';
 import { Icon, IconName } from 'app/icons/v2';
 import { Alert, AlertVariant } from 'components/Alert';
 import { Button, ButtonVariant } from 'components/Button';
@@ -12,6 +11,7 @@ import { safeGenerateTransactionsLoop as dbTransactionsLoop, initiateConsumeTran
 import { useAccount, useMidenContext } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { isDelegateProofEnabled } from 'lib/settings/helpers';
+import { useWalletStore } from 'lib/store';
 import { truncateHash } from 'utils/string';
 
 const NOTE_CONSUME_TIMEOUT = 30_000;
@@ -95,7 +95,7 @@ export const ConsumingNotePage: FC<ConsumingNotePageProps> = ({ noteId }) => {
       return;
     }
 
-    closeConsumingFullPage(noteId);
+    useWalletStore.getState().closeTransactionModal();
   }, [noteId]);
 
   useEffect(() => {
