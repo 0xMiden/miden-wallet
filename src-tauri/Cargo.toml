@@ -39,7 +39,8 @@ windows = { version = "0.58", features = [
     "Win32_Security_Cryptography",
     "Win32_Security_Credentials",
     "Win32_Foundation",
-    "Win32_System_Memory"
+    "Win32_System_Memory",
+    "Win32_UI_WindowsAndMessaging"
 ] }
 
 # Single instance plugin (desktop only)

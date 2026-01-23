@@ -467,6 +467,15 @@ fn ecdh_decrypt_side(
     tpm_key: NCRYPT_KEY_HANDLE,
     ephemeral_pubkey_blob: &[u8],
 ) -> Result<Vec<u8>, String> {
+    // Set window handle property on the TPM key so Windows Hello can show its UI
+    // Without this, the prompt may not appear and the operation hangs
+    unsafe {
+        let hwnd = windows::Win32::UI::WindowsAndMessaging::GetForegroundWindow();
+        let hwnd_value = hwnd.0 as usize;
+        let hwnd_bytes = hwnd_value.to_ne_bytes();
+        let _ = NCryptSetProperty(tpm_key, w!("HWND Handle"), &hwnd_bytes, Default::default());
+    }
+
     // Use MS_KEY_STORAGE_PROVIDER to import the ephemeral public key
     // (MS_PLATFORM_CRYPTO_PROVIDER doesn't support importing external public keys)
     let mut sw_provider: NCRYPT_PROV_HANDLE = NCRYPT_PROV_HANDLE::default();
