@@ -6,9 +6,11 @@ import { fetchBalances } from './fetchBalances';
 
 // Mock dependencies
 const mockGetAccount = jest.fn();
+const mockImportAccountById = jest.fn();
 const mockSyncState = jest.fn();
 const mockGetMidenClient = jest.fn(() => ({
   getAccount: mockGetAccount,
+  importAccountById: mockImportAccountById,
   syncState: mockSyncState
 }));
 
@@ -25,9 +27,18 @@ jest.mock('lib/miden/sdk/helpers', () => ({
   getBech32AddressFromAccountId: jest.fn((id: string) => `bech32-${id}`)
 }));
 
+// Mock BasicFungibleFaucetComponent for inline metadata extraction
+const mockFromAccount = jest.fn();
+jest.mock('@demox-labs/miden-sdk', () => ({
+  BasicFungibleFaucetComponent: {
+    fromAccount: (account: unknown) => mockFromAccount(account)
+  }
+}));
+
 jest.mock('lib/miden/metadata', () => ({
-  fetchTokenMetadata: jest.fn(),
-  MIDEN_METADATA: { name: 'Miden', symbol: 'MIDEN', decimals: 8 }
+  MIDEN_METADATA: { name: 'Miden', symbol: 'MIDEN', decimals: 8 },
+  DEFAULT_TOKEN_METADATA: { name: 'Unknown', symbol: 'Unknown', decimals: 6 },
+  getAssetUrl: jest.fn((path: string) => `/${path}`)
 }));
 
 jest.mock('../../miden/front/assets', () => ({
@@ -39,7 +50,9 @@ describe('fetchBalances', () => {
 
   beforeEach(() => {
     mockGetAccount.mockReset();
+    mockImportAccountById.mockReset();
     mockSyncState.mockReset();
+    mockFromAccount.mockReset();
   });
 
   beforeAll(() => {
@@ -137,13 +150,11 @@ describe('fetchBalances', () => {
     expect(result[0].tokenSlug).toBe('MIDEN');
   });
 
-  it('calls setAssetsMetadata when provided', async () => {
+  it('fetches metadata inline and calls setAssetsMetadata', async () => {
     const mockSetAssetsMetadata = jest.fn();
-    const { fetchTokenMetadata } = jest.requireMock('lib/miden/metadata');
-    fetchTokenMetadata.mockResolvedValueOnce({
-      base: { name: 'New Token', symbol: 'NEW', decimals: 6 }
-    });
+    const { setTokensBaseMetadata } = jest.requireMock('../../miden/front/assets');
 
+    const mockFaucetAccount = { id: 'faucet-account' };
     const mockAssets = [
       {
         faucetId: () => 'new-faucet',
@@ -151,16 +162,75 @@ describe('fetchBalances', () => {
       }
     ];
 
-    mockGetAccount.mockResolvedValueOnce({
-      vault: () => ({
-        fungibleAssets: () => mockAssets
+    // First call returns user account, second call returns faucet account for metadata
+    mockGetAccount
+      .mockResolvedValueOnce({
+        vault: () => ({
+          fungibleAssets: () => mockAssets
+        })
       })
+      .mockResolvedValueOnce(mockFaucetAccount);
+
+    // Mock the faucet metadata extraction
+    mockFromAccount.mockReturnValueOnce({
+      decimals: () => 6,
+      symbol: () => ({ toString: () => 'NEW' })
     });
 
     await fetchBalances('my-address', {}, { setAssetsMetadata: mockSetAssetsMetadata });
 
-    // Metadata is now fetched inline, so callback should have been called
-    expect(fetchTokenMetadata).toHaveBeenCalledWith('bech32-new-faucet');
+    // Should fetch faucet account to get metadata
+    expect(mockGetAccount).toHaveBeenCalledWith('bech32-new-faucet');
+    // Should call setAssetsMetadata with fetched metadata
+    expect(mockSetAssetsMetadata).toHaveBeenCalledWith({
+      'bech32-new-faucet': expect.objectContaining({
+        symbol: 'NEW',
+        decimals: 6
+      })
+    });
+    // Should persist metadata
+    expect(setTokensBaseMetadata).toHaveBeenCalled();
+  });
+
+  it('calls importAccountById when faucet account not found locally', async () => {
+    const mockSetAssetsMetadata = jest.fn();
+    const mockFaucetAccount = { id: 'faucet-account' };
+    const mockAssets = [
+      {
+        faucetId: () => 'new-faucet',
+        amount: () => ({ toString: () => '1000000' })
+      }
+    ];
+
+    // First call returns user account, second returns null (not found), third returns imported account
+    mockGetAccount
+      .mockResolvedValueOnce({
+        vault: () => ({
+          fungibleAssets: () => mockAssets
+        })
+      })
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(mockFaucetAccount);
+
+    mockImportAccountById.mockResolvedValueOnce(undefined);
+
+    // Mock the faucet metadata extraction
+    mockFromAccount.mockReturnValueOnce({
+      decimals: () => 8,
+      symbol: () => ({ toString: () => 'IMPORTED' })
+    });
+
+    await fetchBalances('my-address', {}, { setAssetsMetadata: mockSetAssetsMetadata });
+
+    // Should try to import the faucet account when not found locally
+    expect(mockImportAccountById).toHaveBeenCalledWith('bech32-new-faucet');
+    // Should call setAssetsMetadata with imported metadata
+    expect(mockSetAssetsMetadata).toHaveBeenCalledWith({
+      'bech32-new-faucet': expect.objectContaining({
+        symbol: 'IMPORTED',
+        decimals: 8
+      })
+    });
   });
 
   it('reads from IndexedDB (getAccount) without calling syncState', async () => {
