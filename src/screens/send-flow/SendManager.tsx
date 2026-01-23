@@ -80,7 +80,7 @@ const validations = {
   delegateTransaction: yup.boolean().required()
 };
 
-const validationSchema = yup.object<SendFlowForm>().shape(validations).required();
+const validationSchema = yup.object().shape(validations).required();
 
 export interface SendManagerProps {
   isLoading: boolean;

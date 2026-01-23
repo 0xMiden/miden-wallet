@@ -1,4 +1,4 @@
-import Analytics from 'analytics-node';
+import { Analytics } from '@segment/analytics-node';
 
 import {
   WalletSendPageEventRequest,
@@ -10,7 +10,7 @@ if (!process.env.ALEO_WALLET_SEGMENT_WRITE_KEY) {
   throw new Error("Require a 'ALEO_WALLET_SEGMENT_WRITE_KEY' environment variable to be set");
 }
 
-const client = new Analytics(process.env.ALEO_WALLET_SEGMENT_WRITE_KEY);
+const client = new Analytics({ writeKey: process.env.ALEO_WALLET_SEGMENT_WRITE_KEY });
 
 export const trackEvent = async ({
   userId,

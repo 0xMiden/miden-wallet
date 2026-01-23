@@ -12,7 +12,6 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
-const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 const webpack = require('webpack');
 const WebpackBar = require('webpackbar');
 
@@ -70,7 +69,8 @@ const mobileAppConfig = {
       stories: path.resolve(__dirname, 'src', 'stories'),
       components: path.resolve(__dirname, 'src', 'components'),
       screens: path.resolve(__dirname, 'src', 'screens'),
-      utils: path.resolve(__dirname, 'src', 'utils')
+      utils: path.resolve(__dirname, 'src', 'utils'),
+      'process/browser': require.resolve('process/browser.js')
     },
     fallback: {
       url: false,
@@ -187,7 +187,7 @@ const mobileAppConfig = {
             options: {
               importLoaders: 1,
               modules: {
-                getLocalIdent: getCSSModuleLocalIdent
+                localIdentName: '[path][name]__[local]--[hash:base64:5]'
               }
             }
           },
