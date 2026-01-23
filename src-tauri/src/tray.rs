@@ -26,9 +26,17 @@ pub fn setup_tray(app: &tauri::App) -> Result<(), Box<dyn std::error::Error>> {
     let menu = Menu::with_items(app, &[&show, &hide, &separator, &quit])?;
 
     // Build the tray icon
+    // Platform behavior:
+    // - Windows: Left-click shows window, Right-click shows menu
+    // - macOS: Left-click shows menu (standard macOS behavior)
+    #[cfg(target_os = "macos")]
+    let show_menu_on_left_click = true;
+    #[cfg(not(target_os = "macos"))]
+    let show_menu_on_left_click = false;
+
     let _tray = TrayIconBuilder::new()
         .menu(&menu)
-        .show_menu_on_left_click(false)
+        .show_menu_on_left_click(show_menu_on_left_click)
         .on_menu_event(|app, event| {
             info!("Tray menu event: {:?}", event.id.as_ref());
 
@@ -53,23 +61,25 @@ pub fn setup_tray(app: &tauri::App) -> Result<(), Box<dyn std::error::Error>> {
             }
         })
         .on_tray_icon_event(|tray, event| {
-            // Left-click on tray icon shows the window (works on Windows)
-            // On macOS, click typically shows the menu which is handled separately
-            match event {
-                tauri::tray::TrayIconEvent::Click {
-                    button: tauri::tray::MouseButton::Left,
-                    ..
+            // On Windows: Left-click shows the window directly
+            // On macOS: Left-click shows menu (handled by show_menu_on_left_click)
+            #[cfg(not(target_os = "macos"))]
+            if let tauri::tray::TrayIconEvent::Click {
+                button: tauri::tray::MouseButton::Left,
+                ..
+            } = event
+            {
+                let app = tray.app_handle();
+                if let Some(window) = app.get_webview_window("main") {
+                    let _ = window.show();
+                    let _ = window.set_focus();
+                    let _ = window.unminimize();
                 }
-                | tauri::tray::TrayIconEvent::DoubleClick { .. } => {
-                    let app = tray.app_handle();
-                    if let Some(window) = app.get_webview_window("main") {
-                        let _ = window.show();
-                        let _ = window.set_focus();
-                        let _ = window.unminimize();
-                    }
-                }
-                _ => {}
             }
+
+            // Suppress unused variable warning on macOS
+            #[cfg(target_os = "macos")]
+            let _ = (tray, event);
         })
         .build(app)?;
 
