@@ -53,8 +53,6 @@ export const VerifySeedPhraseScreen: React.FC<VerifySeedPhraseScreenProps> = ({
     },
     [firstSelectedWordIndex, secondSelectedWordIndex]
   );
-  console.log({ firstSelectedWordIndex, secondSelectedWordIndex });
-  console.log(seedPhrase);
   const isCorrectWordSelected = useMemo(() => {
     if (firstSelectedWordIndex === null || secondSelectedWordIndex === null) {
       return false;

@@ -1,5 +1,7 @@
 import React, { FC, useCallback, useMemo, useState } from 'react';
 
+import { WalletAccount } from 'lib/shared/types';
+
 import { ConfirmationScreen } from './common/Confirmation';
 import { CreatePasswordScreen } from './common/CreatePassword';
 import OnboardingHeader from './common/OnboardingHeader';
@@ -144,8 +146,8 @@ export const ForgotPasswordFlow: FC<ForgotPasswordFlowProps> = ({
       onForwardAction?.({ id: 'confirmation' });
     };
 
-    const onImportFileSubmit = (seedPhrase: string) => {
-      onForwardAction?.({ id: 'import-wallet-file-submit', payload: seedPhrase });
+    const onImportFileSubmit = (seedPhrase: string, walletAccounts: WalletAccount[]) => {
+      onForwardAction?.({ id: 'import-wallet-file-submit', payload: seedPhrase, walletAccounts });
     };
 
     const onSelectTransactionTypeSubmit = () =>

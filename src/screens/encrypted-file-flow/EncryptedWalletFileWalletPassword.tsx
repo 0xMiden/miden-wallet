@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -58,6 +58,22 @@ const EncryptedWalletFileWalletPassword: React.FC<EncryptedWalletFileWalletPassw
   const onPasswordVisibilityToggle = useCallback(() => {
     setIsPasswordVisible(prev => !prev);
   }, []);
+  const [loading, setLoading] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    const checkIfPasswordShouldBeShown = async () => {
+      try {
+        const { Vault } = await import('lib/miden/back/vault');
+        setShowPassword(await Vault.hasPasswordProtector());
+      } catch (e) {
+        console.error('Error checking vault password protector:', e);
+      } finally {
+        setLoading(false);
+      }
+    };
+    checkIfPasswordShouldBeShown();
+  }, []);
 
   const [timeleft, setTimeleft] = useState(getTimeLeft(timelock, lockLevel));
 
@@ -69,7 +85,7 @@ const EncryptedWalletFileWalletPassword: React.FC<EncryptedWalletFileWalletPassw
     clearErrors('password');
     try {
       if (attempt > LAST_ATTEMPT) await new Promise(res => setTimeout(res, Math.random() * 2000 + 1000));
-      await unlock(walletPassword!);
+      await unlock(walletPassword);
 
       setAttempt(1);
       onGoNext();
@@ -100,49 +116,59 @@ const EncryptedWalletFileWalletPassword: React.FC<EncryptedWalletFileWalletPassw
     <div className="flex-1 flex flex-col">
       <NavigationHeader title={t('encryptedWalletFile')} onBack={goBack} mode="back" />
       <div className="flex flex-col flex-1 p-4 md:w-[460px] md:mx-auto">
-        <div className="flex-1 flex flex-col justify-stretch gap-y-4">
-          <p className="text-sm">{t('encryptedWalletFileDescription')}</p>
-          <div className="flex flex-col gap-y-2">
-            <Input
-              type={isPasswordVisible ? 'text' : 'password'}
-              label={t('password')}
-              value={walletPassword}
-              disabled={isDisabled}
-              placeholder={t('enterPassword')}
-              icon={
-                <button className="flex-1" onClick={onPasswordVisibilityToggle}>
-                  <Icon name={isPasswordVisible ? IconName.EyeOff : IconName.Eye} fill="black" />
-                </button>
-              }
-              onChange={onPasswordChange}
-              onKeyDown={handleEnterKey}
-              autoFocus
-            />
-            {errors.password && <p className="h-4 text-red-500 text-xs">{errors.password.message}</p>}
+        {loading ? (
+          <div className="flex-1 flex items-center justify-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
           </div>
-          <div className="flex gap-x-2 text-sm text-left">
-            <button className="flex mt-3 gap-x-2 text-left" onClick={() => setConfirmed(!confirmed)}>
-              <Checkbox id="help-us" value={confirmed} />
-              <span className="text-black cursor-pointer text-left mt-[-4px]">
-                {t('encryptedWalletFileConfirmation')}
-              </span>
-            </button>
+        ) : (
+          <div className="flex-1 flex flex-col justify-stretch gap-y-4">
+            <p className="text-sm">{t('encryptedWalletFileDescription')}</p>
+            <div className="flex flex-col gap-y-2">
+              {showPassword && (
+                <>
+                  <Input
+                    type={isPasswordVisible ? 'text' : 'password'}
+                    label={t('password')}
+                    value={walletPassword}
+                    disabled={isDisabled}
+                    placeholder={t('enterPassword')}
+                    icon={
+                      <button className="flex-1" onClick={onPasswordVisibilityToggle}>
+                        <Icon name={isPasswordVisible ? IconName.EyeOff : IconName.Eye} fill="black" />
+                      </button>
+                    }
+                    onChange={onPasswordChange}
+                    onKeyDown={handleEnterKey}
+                    autoFocus
+                  />
+                  {errors.password && <p className="h-4 text-red-500 text-xs">{errors.password.message}</p>}
+                </>
+              )}
+            </div>
+            <div className="flex gap-x-2 text-sm text-left">
+              <button className="flex mt-3 gap-x-2 text-left" onClick={() => setConfirmed(!confirmed)}>
+                <Checkbox id="help-us" value={confirmed} />
+                <span className="text-black cursor-pointer text-left mt-[-4px]">
+                  {t('encryptedWalletFileConfirmation')}
+                </span>
+              </button>
+            </div>
+            {isDisabled && (
+              <Alert
+                type="error"
+                title={t('error')}
+                description={`${t('unlockPasswordErrorDelay')} ${timeleft}`}
+                className="mt-8 rounded-lg text-black mx-auto"
+                style={{ width: '80%' }}
+              />
+            )}
           </div>
-          {isDisabled && (
-            <Alert
-              type="error"
-              title={t('error')}
-              description={`${t('unlockPasswordErrorDelay')} ${timeleft}`}
-              className="mt-8 rounded-lg text-black mx-auto"
-              style={{ width: '80%' }}
-            />
-          )}
-        </div>
+        )}
         <Button
           className="w-full justify-center mt-6"
           variant={ButtonVariant.Primary}
           title={t('continue')}
-          disabled={isDisabled || !confirmed}
+          disabled={isDisabled || !confirmed || loading}
           onClick={onSubmit}
           isLoading={isSubmitting}
         />

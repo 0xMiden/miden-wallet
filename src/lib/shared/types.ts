@@ -249,7 +249,7 @@ export interface RevealPrivateKeyResponse extends WalletMessageBase {
 
 export interface RevealMnemonicRequest extends WalletMessageBase {
   type: WalletMessageType.RevealMnemonicRequest;
-  password: string;
+  password?: string;
 }
 
 export interface RevealMnemonicResponse extends WalletMessageBase {
@@ -515,6 +515,7 @@ export interface ImportFromClientRequest extends WalletMessageBase {
   type: WalletMessageType.ImportFromClientRequest;
   password?: string; // Optional for hardware-only wallets (mobile/desktop with Secure Enclave)
   mnemonic: string;
+  walletAccounts: WalletAccount[];
 }
 
 export interface ImportFromClientResponse extends WalletMessageBase {
