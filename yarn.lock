@@ -2159,10 +2159,10 @@
   dependencies:
     "@types/mdx" "^2.0.0"
 
-"@miden-sdk/miden-sdk@^0.13.0-next.1":
-  version "0.13.0-next.1"
-  resolved "https://registry.yarnpkg.com/@miden-sdk/miden-sdk/-/miden-sdk-0.13.0-next.1.tgz#08a34b588920d8d3c4ec92fc7af9479c5c51e4b4"
-  integrity sha512-vQfzUZwDuhaNVnHyuh+SLSMR1u+VT+X1r2Ll3lw9GxaJqEkXgs4piHQVK6S8prbqP+EA+OxcYZjPTK7+xUCDyw==
+"@miden-sdk/miden-sdk@^0.13.0-next.3":
+  version "0.13.0-next.3"
+  resolved "https://registry.yarnpkg.com/@miden-sdk/miden-sdk/-/miden-sdk-0.13.0-next.3.tgz#4613b92e7f084e498da6dbb7d94d8682d9e6000f"
+  integrity sha512-tOIKIFd81Dplp13DyZfDAIxBSKacxxVxX/GCz3L0OB6660QHbrDK0gkOxSzyrTmWE+pcJYCzeh9e0MuvOJKZ+g==
   dependencies:
     "@rollup/plugin-typescript" "^12.3.0"
     dexie "^4.0.1"

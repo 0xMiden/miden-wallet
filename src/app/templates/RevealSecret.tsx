@@ -41,11 +41,11 @@ const RevealSecret: FC<RevealSecretProps> = ({ reveal }) => {
   const [secret, setSecret] = useSecretState();
 
   useEffect(() => {
-    if (account.publicKey) {
+    if (account.accountId) {
       return () => setSecret(null);
     }
     return undefined;
-  }, [account.publicKey, setSecret]);
+  }, [account.accountId, setSecret]);
 
   useEffect(() => {
     if (secret) {

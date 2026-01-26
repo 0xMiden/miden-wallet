@@ -1,6 +1,16 @@
 import { v4 as uuid } from 'uuid';
 
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
+
 import { ConsumableNote, NoteType } from '../types';
+
+export interface IFaucetMetadata {
+  accountId: string;
+  symbol: string;
+  decimals: number;
+  name?: string;
+  logoUri?: string;
+}
 
 export interface IInputNote {
   noteId: string;
@@ -21,6 +31,7 @@ export interface ITransaction {
   id: string;
   type: ITransactionType;
   accountId: string;
+  networkId?: MIDEN_NETWORK_NAME;
   amount?: bigint;
   delegateTransaction?: boolean;
   secondaryAccountId?: string;
@@ -56,6 +67,7 @@ export class Transaction implements ITransaction {
   id: string;
   type: ITransactionType;
   accountId: string;
+  networkId?: MIDEN_NETWORK_NAME;
   amount?: bigint;
   noteType?: NoteType;
   delegateTransaction?: boolean;
@@ -101,6 +113,7 @@ export class SendTransaction implements ITransaction {
   faucetId: string;
   noteType: NoteType;
   transactionId?: string;
+  networkId?: MIDEN_NETWORK_NAME;
   status: ITransactionStatus;
   initiatedAt: number;
   processingStartedAt?: number;
@@ -141,6 +154,7 @@ export class ConsumeTransaction implements ITransaction {
   id: string;
   type: ITransactionType;
   accountId: string;
+  networkId?: MIDEN_NETWORK_NAME;
   amount?: bigint;
   noteId: string;
   secondaryAccountId?: string;

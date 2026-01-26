@@ -88,7 +88,7 @@ const Control: FC = () => {
                 'cursor-pointer'
               )}
             >
-              <ColorIdenticon publicKey={account.publicKey} />
+              <ColorIdenticon publicKey={account.accountId} />
               <div className="self-start flex overflow-x-hidden ml-2 leading-9">
                 <Name className={classNames('font-bold', 'text-black', 'text-sm', 'opacity-90')}>{account.name}</Name>
                 <ChevronDownIcon

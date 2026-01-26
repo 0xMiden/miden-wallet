@@ -77,6 +77,7 @@ const appConfig = {
       crypto: false,
       http: false,
       https: false,
+      process: require.resolve('process/browser'),
       buffer: require.resolve('buffer'),
       stream: require.resolve('stream-browserify'),
       assert: require.resolve('assert')
@@ -107,11 +108,7 @@ const appConfig = {
       filename: 'static/styles/[name].css',
       chunkFilename: 'static/styles/[name].chunk.css'
     }),
-    ...(
-      enableTsChecker
-        ? [new ForkTsCheckerWebpackPlugin()]
-        : []
-    ),
+    ...(enableTsChecker ? [new ForkTsCheckerWebpackPlugin()] : []),
     ...htmlTemplatesPlugins(PUBLIC_PATH),
     new ESLintPlugin({
       extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
@@ -269,6 +266,7 @@ const backgroundConfig = {
       crypto: false,
       http: false,
       https: false,
+      process: require.resolve('process/browser'),
       buffer: require.resolve('buffer'),
       stream: require.resolve('stream-browserify'),
       assert: require.resolve('assert')
@@ -298,11 +296,7 @@ const backgroundConfig = {
       filename: 'static/styles/[name].css',
       chunkFilename: 'static/styles/[name].chunk.css'
     }),
-    ...(
-      enableTsChecker
-        ? [new ForkTsCheckerWebpackPlugin()]
-        : []
-    ),
+    ...(enableTsChecker ? [new ForkTsCheckerWebpackPlugin()] : []),
     new ESLintPlugin({
       extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
       cache: true,
@@ -442,7 +436,8 @@ const workerConfig = {
     alias: {
       lib: path.resolve(__dirname, 'src', 'lib'),
       shared: path.resolve(__dirname, 'src', 'shared'),
-      screens: path.resolve(__dirname, 'src', 'screens')
+      screens: path.resolve(__dirname, 'src', 'screens'),
+      'process/browser': require.resolve('process/browser.js')
     },
     fallback: {
       url: false,
@@ -451,6 +446,7 @@ const workerConfig = {
       crypto: false,
       http: false,
       https: false,
+      process: require.resolve('process/browser'),
       buffer: require.resolve('buffer'),
       stream: require.resolve('stream-browserify'),
       assert: require.resolve('assert')

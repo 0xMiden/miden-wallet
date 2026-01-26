@@ -6,6 +6,7 @@ import PQueue from 'p-queue';
 
 import { useGasToken } from 'app/hooks/useGasToken';
 import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import {
   MIDEN_METADATA,
   AssetMetadata,
@@ -15,7 +16,8 @@ import {
   onStorageChanged,
   putToStorage,
   usePassiveStorage,
-  isMidenAsset
+  isMidenAsset,
+  useNetwork
 } from 'lib/miden/front';
 import { getStorageProvider } from 'lib/platform/storage-adapter';
 import { useWalletStore } from 'lib/store';
@@ -39,7 +41,7 @@ const autoFetchMetadataFails = new Set<string>();
 export function useAssetMetadata(slug: string, assetId: string) {
   const { metadata } = useGasToken();
   const midenFaucetId = useMidenFaucetId();
-
+  const networkId = useNetwork();
   // Get from Zustand store
   const assetsMetadata = useWalletStore(s => s.assetsMetadata);
   const setAssetsMetadata = useWalletStore(s => s.setAssetsMetadata);
@@ -55,7 +57,7 @@ export function useAssetMetadata(slug: string, assetId: string) {
       autoFetchMetadataQueue
         .add(async () => {
           try {
-            const metadata = await fetchTokenMetadata(assetId);
+            const metadata = await fetchTokenMetadata(assetId, networkId.id as MIDEN_NETWORK_NAME);
             // Update Zustand store
             setAssetsMetadata({ [assetId]: metadata.base });
             // Also persist to storage
@@ -128,6 +130,7 @@ export function TokensMetadataProvider({ children }: { children: React.ReactNode
 export function useTokensMetadata() {
   const assetsMetadata = useWalletStore(s => s.assetsMetadata);
   const setAssetsMetadata = useWalletStore(s => s.setAssetsMetadata);
+  const networkId = useNetwork();
 
   // Ref for backward compatibility with existing code that uses allTokensBaseMetadataRef
   const allTokensBaseMetadataRef = useRef(assetsMetadata);
@@ -137,7 +140,10 @@ export function useTokensMetadata() {
     allTokensBaseMetadataRef.current = assetsMetadata;
   }, [assetsMetadata]);
 
-  const fetchMetadata = useCallback((assetId: string) => fetchTokenMetadata(assetId), []);
+  const fetchMetadata = useCallback(
+    (assetId: string) => fetchTokenMetadata(assetId, networkId.id as MIDEN_NETWORK_NAME),
+    []
+  );
 
   const setTokensDetailedMetadata = useCallback(
     (toSet: Record<string, DetailedAssetMetdata>) =>

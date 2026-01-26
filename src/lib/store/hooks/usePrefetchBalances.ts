@@ -22,7 +22,7 @@ export function usePrefetchBalances() {
   useEffect(() => {
     if (!currentAccount) return;
 
-    const address = currentAccount.publicKey;
+    const address = currentAccount.accountId;
 
     // Don't prefetch if we already have recent data or already prefetched
     if (prefetchedRef.current === address) return;

@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import FormField, { PASSWORD_ERROR_CAPTION } from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { Icon, IconName } from 'app/icons/v2';
+import { useNetwork } from 'lib/miden/front';
 import { decrypt, decryptJson, deriveKey, generateKey } from 'lib/miden/passworder';
 import { importDb } from 'lib/miden/repo';
 import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
@@ -32,7 +33,7 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
   const [walletFile, setWalletFile] = useState<WalletFile | null>(null);
   const [isWrongPassword, setIsWrongPassword] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-
+  const network = useNetwork();
   const {
     watch,
     register,
@@ -79,7 +80,7 @@ export const ImportWalletFileScreen: React.FC<ImportWalletFileScreenProps> = ({ 
 
       // Wrap WASM client operations in a lock to prevent concurrent access
       await withWasmClientLock(async () => {
-        const midenClient = await getMidenClient();
+        const midenClient = await getMidenClient({ network: network.id });
         await midenClient.importDb(midenClientDbContent);
       });
       await importDb(walletDbContent);

@@ -1,9 +1,9 @@
-import { BasicFungibleFaucetComponent } from '@miden-sdk/miden-sdk';
+import { AccountId, BasicFungibleFaucetComponent, Endpoint, RpcClient } from '@miden-sdk/miden-sdk';
 
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { isMidenAsset } from 'lib/miden/assets';
 import { isExtension } from 'lib/platform';
 
-import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 import { DEFAULT_TOKEN_METADATA, MIDEN_METADATA } from './defaults';
 import { AssetMetadata, DetailedAssetMetdata } from './types';
 
@@ -24,32 +24,33 @@ function getAssetUrl(path: string): string {
 }
 
 export async function fetchTokenMetadata(
-  assetId: string
+  assetId: string,
+  networkId: MIDEN_NETWORK_NAME
 ): Promise<{ base: AssetMetadata; detailed: DetailedAssetMetdata }> {
   if (isMidenAsset(assetId)) {
     return { base: MIDEN_METADATA, detailed: MIDEN_METADATA };
   }
 
   try {
-    // Wrap all WASM client operations in a lock to prevent concurrent access
-    const result = await withWasmClientLock(async () => {
-      const midenClient = await getMidenClient();
+    const getFaucetMetadata = async () => {
+      const rpcClient = new RpcClient(Endpoint.testnet());
 
-      let account = await midenClient.getAccount(assetId);
-      if (!account) {
-        await midenClient.importAccountById(assetId);
-        account = await midenClient.getAccount(assetId);
-        if (!account) {
-          return null;
+      const account = await rpcClient.getAccountDetails(AccountId.fromHex(assetId));
+
+      const underlyingAccount = account.account();
+      if (!underlyingAccount) {
+        if (account.isPublic()) {
+          throw new NotFoundTokenMetadata();
         }
+        return;
       }
-      const faucetDetails = BasicFungibleFaucetComponent.fromAccount(account);
+      const faucetDetails = BasicFungibleFaucetComponent.fromAccount(underlyingAccount);
       return {
         decimals: faucetDetails.decimals(),
         symbol: faucetDetails.symbol().toString()
       };
-    });
-
+    };
+    const result = await getFaucetMetadata();
     if (!result) {
       return { base: DEFAULT_TOKEN_METADATA, detailed: DEFAULT_TOKEN_METADATA };
     }

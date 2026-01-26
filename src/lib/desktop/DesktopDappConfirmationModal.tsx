@@ -17,6 +17,9 @@ import {
   DAppConfirmationRequest,
   DAppConfirmationResult
 } from 'lib/dapp-browser/confirmation-store';
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
+import { useNetwork } from 'lib/miden/front';
+import { accountIdStringToSdk, getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { isDesktop } from 'lib/platform';
 import { useWalletStore } from 'lib/store';
 
@@ -47,17 +50,27 @@ export function DesktopDappConfirmationModal(): null {
   // Get account info
   const currentAccount = useWalletStore(s => s.currentAccount);
   const accounts = useWalletStore(s => s.accounts);
+  const network = useNetwork();
 
   const accountId = useMemo(() => {
-    if (currentAccount?.publicKey) return currentAccount.publicKey;
-    if (accounts && accounts.length > 0) return accounts[0].publicKey;
+    if (currentAccount?.accountId) return currentAccount.accountId;
+    if (accounts && accounts.length > 0) return accounts[0].accountId;
     return null;
   }, [currentAccount, accounts]);
 
-  const shortAccountId = useMemo(() => {
+  const displayAddress = useMemo(() => {
     if (!accountId) return '';
-    return `${accountId.slice(0, 10)}...${accountId.slice(-8)}`;
-  }, [accountId]);
+    try {
+      return getBech32AddressFromAccountId(accountIdStringToSdk(accountId), network.id);
+    } catch {
+      return accountId;
+    }
+  }, [accountId, network.id]);
+
+  const shortAccountId = useMemo(() => {
+    if (!displayAddress) return '';
+    return `${displayAddress.slice(0, 10)}...${displayAddress.slice(-8)}`;
+  }, [displayAddress]);
 
   // Listen for confirmation responses from the overlay
   useEffect(() => {

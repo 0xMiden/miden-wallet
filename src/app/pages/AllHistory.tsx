@@ -31,7 +31,7 @@ const AllHistory: FC<AllHistoryProps> = ({ programId }) => {
       <div className={classNames('flex-1 min-h-0 overflow-y-auto', 'bg-white z-30 relative')} ref={scrollParentRef}>
         <div className="px-4">
           <History
-            address={account.publicKey}
+            address={account.accountId}
             programId={programId}
             fullHistory={true}
             scrollParentRef={scrollParentRef}

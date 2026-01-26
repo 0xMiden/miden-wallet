@@ -44,7 +44,7 @@ const UpdateAccountName: FC = () => {
       formAnalytics.trackSubmit();
       try {
         if (name && name !== account.name) {
-          await editAccountName(account.publicKey, name);
+          await editAccountName(account.accountId, name);
         }
 
         formAnalytics.trackSubmitSuccess();
@@ -60,7 +60,7 @@ const UpdateAccountName: FC = () => {
         setError('name', { type: SUBMIT_ERROR_TYPE, message: err.message });
       }
     },
-    [account.name, account.publicKey, isSubmitting, clearErrors, setError, editAccountName, formAnalytics]
+    [account.name, account.accountId, isSubmitting, clearErrors, setError, editAccountName, formAnalytics]
   );
 
   return (

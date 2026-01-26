@@ -29,6 +29,7 @@ import {
   useNetwork
 } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
+import { accountIdStringToSdk, getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { openFaucetWebview } from 'lib/mobile/faucet-webview';
 import { hapticLight } from 'lib/mobile/haptics';
 import { isMobile } from 'lib/platform';
@@ -59,20 +60,25 @@ const Explore: FC = () => {
   // Call useAllBalances before useClaimableNotes - balance fetch is fast (~5ms)
   // while claimable notes is slow (~500ms due to syncState). With the mutex
   // serializing operations, we want the fast one to run first.
-  const { data: allTokenBalances = [] } = useAllBalances(account.publicKey, allTokensBaseMetadata);
+  const { data: allTokenBalances = [] } = useAllBalances(account.accountId, allTokensBaseMetadata);
 
-  const { data: claimableNotes, mutate: mutateClaimableNotes } = useClaimableNotes(account.publicKey);
+  const { data: claimableNotes, mutate: mutateClaimableNotes } = useClaimableNotes(account.accountId);
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
   const shouldAutoConsume = isAutoConsumeEnabled();
 
-  const address = account.publicKey;
   const { fullPage } = useAppEnv();
   const network = useNetwork();
 
+  // User-facing bech32 address
+  const displayAddress = useMemo(
+    () => getBech32AddressFromAccountId(accountIdStringToSdk(account.accountId), network.id as MIDEN_NETWORK_NAME),
+    [account.accountId, network.id]
+  );
+
   const handleFaucetClick = useCallback(async () => {
     const faucetUrl = getFaucetUrl(network.id);
-    await openFaucetWebview({ url: faucetUrl, title: t('midenFaucet'), recipientAddress: address });
-  }, [network.id, t, address]);
+    await openFaucetWebview({ url: faucetUrl, title: t('midenFaucet'), recipientAddress: displayAddress });
+  }, [network.id, t, displayAddress]);
 
   const midenNotes = useMemo(() => {
     if (!shouldAutoConsume || !claimableNotes) {
@@ -106,21 +112,22 @@ const Explore: FC = () => {
     }
 
     const promises = notesToClaim.map(async note => {
-      await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
+      await initiateConsumeTransaction(account.accountId, note, isDelegatedProvingEnabled);
     });
     await Promise.all(promises);
     mutateClaimableNotes();
 
     // Process auto-consume transactions silently in the background (no modal/tab)
-    startBackgroundTransactionProcessing(signTransaction);
+    startBackgroundTransactionProcessing(network.id, signTransaction);
   }, [
     midenNotes,
     isDelegatedProvingEnabled,
     mutateClaimableNotes,
-    account.publicKey,
+    account.accountId,
     shouldAutoConsume,
     hasAutoConsumableNotes,
-    signTransaction
+    signTransaction,
+    network
   ]);
 
   useEffect(() => {
@@ -130,7 +137,7 @@ const Explore: FC = () => {
   }, [autoConsumeMidenNotes, hasAutoConsumableNotes]);
 
   const { data: queuedDbTransactions } = useRetryableSWR(
-    [`has-queued-transactions`, address],
+    [`has-queued-transactions`, account.accountId],
     async () => hasQueuedTransactions(),
     {
       revalidateOnMount: true,
@@ -153,10 +160,10 @@ const Explore: FC = () => {
 
   useEffect(() => {
     // 6-17-25 Force wallet reset if account is still using hex address
-    if (isHexAddress(address)) {
+    if (isHexAddress(displayAddress)) {
       navigate('/reset-required');
     }
-  }, [address]);
+  }, [displayAddress]);
 
   const fetchFaucetState = useCallback(async () => {
     fetch(`${MIDEN_FAUCET_ENDPOINTS.get(MIDEN_NETWORK_NAME.DEVNET)}/get_metadata`)
@@ -175,7 +182,7 @@ const Explore: FC = () => {
     //fetchFaucetState();
   }, [fetchFaucetState]);
 
-  if (isHexAddress(address)) {
+  if (isHexAddress(displayAddress)) {
     return null;
   }
 
@@ -192,7 +199,7 @@ const Explore: FC = () => {
         <div className={classNames('flex flex-col justify-start mt-6')}>
           <div className="flex flex-col w-full justify-center items-center">
             <MainBanner />
-            <AddressChip address={account.publicKey} className="flex items-center" />
+            <AddressChip address={displayAddress} className="flex items-center" />
           </div>
           <div className="flex justify-evenly items-center w-full mt-1 px-2 mb-4">
             <ActionButton

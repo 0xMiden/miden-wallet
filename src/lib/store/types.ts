@@ -1,6 +1,7 @@
 import { AllowedPrivateData, PrivateDataPermission } from '@demox-labs/miden-wallet-adapter-base';
 
 import { ExchangeRateRecord, FiatCurrencyOption } from 'lib/fiat-curency';
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { AssetMetadata } from 'lib/miden/metadata';
 import { MidenDAppSessions, MidenNetwork, MidenState } from 'lib/miden/types';
 import { WalletAccount, WalletSettings, WalletStatus } from 'lib/shared/types';
@@ -102,8 +103,8 @@ export interface WalletActions {
 
   // Account actions
   createAccount: (walletType: WalletType, name?: string) => Promise<void>;
-  updateCurrentAccount: (accountPublicKey: string) => Promise<void>;
-  editAccountName: (accountPublicKey: string, name: string) => Promise<void>;
+  updateCurrentAccount: (accountId: string) => Promise<void>;
+  editAccountName: (accountId: string, name: string) => Promise<void>;
   revealMnemonic: (password: string) => Promise<string>;
 
   // Settings actions
@@ -151,7 +152,7 @@ export interface BalanceActions {
  */
 export interface AssetActions {
   setAssetsMetadata: (metadata: Record<string, AssetMetadata>) => void;
-  fetchAssetMetadata: (assetId: string) => Promise<AssetMetadata | null>;
+  fetchAssetMetadata: (assetId: string, networkId: MIDEN_NETWORK_NAME) => Promise<AssetMetadata | null>;
 }
 
 /**

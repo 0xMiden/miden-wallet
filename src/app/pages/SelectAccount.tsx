@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +8,9 @@ import Name from 'app/atoms/Name';
 import { ReactComponent as Checkmark } from 'app/icons/checkmark-alt.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import { Button, ButtonVariant } from 'components/Button';
-import { useAccount, useAllAccounts, useMidenContext } from 'lib/miden/front';
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
+import { useAccount, useAllAccounts, useMidenContext, useNetwork } from 'lib/miden/front';
+import { accountIdStringToSdk, getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { navigate } from 'lib/woozie';
 import { truncateAddress } from 'utils/string';
 
@@ -17,6 +19,11 @@ const SelectAccount: FC = () => {
   const { updateCurrentAccount } = useMidenContext();
   const allAccounts = useAllAccounts();
   const account = useAccount();
+  const network = useNetwork();
+
+  // Helper to get bech32 display address
+  const getDisplayAddress = (accountId: string) =>
+    getBech32AddressFromAccountId(accountIdStringToSdk(accountId), network.id);
 
   const onAddAccountClick = () => {
     navigate('/create-account');
@@ -34,17 +41,17 @@ const SelectAccount: FC = () => {
         <div className={classNames('my-2', 'w-full')}>
           <div className="flex flex-col">
             {allAccounts.map(acc => {
-              const selected = acc.publicKey === account.publicKey;
+              const selected = acc.accountId === account.accountId;
               const handleAccountClick = async () => {
                 if (!selected) {
-                  await updateCurrentAccount(acc.publicKey);
+                  await updateCurrentAccount(acc.accountId);
                   navigate('/');
                 }
               };
 
               return (
                 <div
-                  key={acc.publicKey}
+                  key={acc.accountId}
                   className={classNames(
                     'flex w-full rounded-lg',
                     'overflow-hidden py-3 px-4',
@@ -58,7 +65,7 @@ const SelectAccount: FC = () => {
                   style={{ height: '64px' }}
                   onClick={handleAccountClick}
                 >
-                  <ColorIdenticon publicKey={acc.publicKey} className="flex-shrink-0" />
+                  <ColorIdenticon publicKey={acc.accountId} className="flex-shrink-0" />
 
                   <div className="flex flex-col items-start ml-2">
                     <div className="flex flex-col text-left">
@@ -70,7 +77,8 @@ const SelectAccount: FC = () => {
                       </Name>
                       <div className="flex w-full items-start">
                         <span style={{ fontSize: '12px', lineHeight: '16px' }}>
-                          {acc.isPublic ? t('public') : t('private')} • {truncateAddress(acc.publicKey)}
+                          {acc.isPublic ? t('public') : t('private')} •{' '}
+                          {truncateAddress(getDisplayAddress(acc.accountId))}
                         </span>
                       </div>
                     </div>

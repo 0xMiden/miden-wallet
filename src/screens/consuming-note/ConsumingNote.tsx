@@ -8,7 +8,7 @@ import { Icon, IconName } from 'app/icons/v2';
 import { Alert, AlertVariant } from 'components/Alert';
 import { Button, ButtonVariant } from 'components/Button';
 import { safeGenerateTransactionsLoop as dbTransactionsLoop, initiateConsumeTransaction } from 'lib/miden/activity';
-import { useAccount, useMidenContext } from 'lib/miden/front';
+import { useAccount, useMidenContext, useNetwork } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
 import { isDelegateProofEnabled } from 'lib/settings/helpers';
 import { useWalletStore } from 'lib/store';
@@ -33,13 +33,13 @@ export const ConsumingNotePage: FC<ConsumingNotePageProps> = ({ noteId }) => {
   const [status, setStatus] = useState(ConsumingNoteStatus.Waiting);
   const [noteConsumeTimedOut, setNoteConsumeTimedOut] = useState(false);
   const [noteConsumeTimeoutId, setNoteConsumeTimeoutId] = useState<ReturnType<typeof setTimeout> | null>(null);
-
+  const network = useNetwork();
   const { signTransaction } = useMidenContext();
   const account = useAccount();
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
 
   const shouldFetchClaimableNotes = status === ConsumingNoteStatus.Waiting;
-  const { data: claimableNotes = [] } = useClaimableNotes(account.publicKey, shouldFetchClaimableNotes);
+  const { data: claimableNotes = [] } = useClaimableNotes(account.accountId, shouldFetchClaimableNotes);
 
   const noteToConsume = useMemo(() => {
     const note = claimableNotes.find(note => note!.id === noteId);
@@ -69,24 +69,24 @@ export const ConsumingNotePage: FC<ConsumingNotePageProps> = ({ noteId }) => {
     // If isBeingClaimed is true, the note is already queued for transaction generation
     if (!noteToConsume.isBeingClaimed) {
       console.log('[ConsumingNote] Calling initiateConsumeTransaction...');
-      await initiateConsumeTransaction(account.publicKey, noteToConsume, isDelegatedProvingEnabled);
+      await initiateConsumeTransaction(account.accountId, noteToConsume, isDelegatedProvingEnabled);
       console.log('[ConsumingNote] initiateConsumeTransaction completed');
     } else {
       console.log('[ConsumingNote] Note is already being claimed');
     }
     setStatus(ConsumingNoteStatus.TxQueued);
-  }, [account.publicKey, noteToConsume, isDelegatedProvingEnabled, noteConsumeTimedOut, status]);
+  }, [account.accountId, noteToConsume, isDelegatedProvingEnabled, noteConsumeTimedOut, status]);
 
   const generateTransaction = useCallback(async () => {
     console.log('[ConsumingNote] generateTransaction called, calling dbTransactionsLoop...');
-    const success = await dbTransactionsLoop(signTransaction);
+    const success = await dbTransactionsLoop(network.id, signTransaction);
     console.log('[ConsumingNote] dbTransactionsLoop returned:', success);
     if (success === false) {
       setStatus(ConsumingNoteStatus.Failed);
     } else {
       setStatus(ConsumingNoteStatus.Completed);
     }
-  }, [setStatus, signTransaction]);
+  }, [setStatus, signTransaction, network.id]);
 
   const onClose = useCallback(() => {
     const { hash } = window.location;

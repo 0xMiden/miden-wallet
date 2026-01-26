@@ -8,7 +8,7 @@ import PageLayout from 'app/layouts/PageLayout';
 import { Button, ButtonVariant } from 'components/Button';
 import { getCurrentLocale } from 'lib/i18n';
 import { getTransactionById } from 'lib/miden/activity';
-import { useAllAccounts, useAccount } from 'lib/miden/front';
+import { useAllAccounts, useAccount, useNetwork } from 'lib/miden/front';
 import { getTokenMetadata } from 'lib/miden/metadata/utils';
 import { NoteExportType } from 'lib/miden/sdk/constants';
 import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
@@ -50,12 +50,12 @@ const AccountDisplay: FC<{
   const { t } = useTranslation();
   if (!address) return <p className="text-sm">{address}</p>;
 
-  const getDisplayName = (publicKey: string): string | undefined => {
-    if (account?.publicKey === publicKey) {
+  const getDisplayName = (accountId: string): string | undefined => {
+    if (account?.accountId === accountId) {
       return `${t('you')} (${account.name})`;
     }
 
-    const matchingAccount = allAccounts.find(acc => acc.publicKey === publicKey);
+    const matchingAccount = allAccounts.find(acc => acc.accountId === accountId);
     if (matchingAccount) {
       return `${t('you')} (${matchingAccount.name})`;
     }
@@ -74,6 +74,7 @@ export const HistoryDetails: FC<HistoryDetailsProps> = ({ transactionId }) => {
   const [entry, setEntry] = useState<IHistoryEntry | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const network = useNetwork();
 
   const loadTransaction = useCallback(async () => {
     try {
@@ -110,7 +111,7 @@ export const HistoryDetails: FC<HistoryDetailsProps> = ({ transactionId }) => {
       setIsDownloading(true);
       // Wrap WASM client operations in a lock to prevent concurrent access
       const noteBytes = await withWasmClientLock(async () => {
-        const midenClient = await getMidenClient();
+        const midenClient = await getMidenClient({ network: network.id });
         return midenClient.exportNote(entry.noteId!, NoteExportType.DETAILS);
       });
 
@@ -131,7 +132,7 @@ export const HistoryDetails: FC<HistoryDetailsProps> = ({ transactionId }) => {
     } finally {
       setIsDownloading(false);
     }
-  }, [entry?.noteId]);
+  }, [entry?.noteId, network]);
 
   const handleViewOnExplorer = useCallback(() => {
     if (!entry?.externalTxId) return;

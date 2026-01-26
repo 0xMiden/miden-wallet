@@ -1,17 +1,19 @@
 import { spawn, Thread, Worker } from 'threads';
 
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { addConnectivityIssue } from 'lib/miden/activity/connectivity-issues';
 import { ConsumeNoteIdWorker } from 'workers/consumeNoteId';
 
 export const consumeNoteId = async (
   transactionResultBytes: Uint8Array,
+  networkId: MIDEN_NETWORK_NAME,
   delegateTransaction?: boolean
 ): Promise<Uint8Array> => {
   const workerInstance = new Worker('./consumeNoteId.js');
   const worker = await spawn<ConsumeNoteIdWorker>(workerInstance);
 
   try {
-    const observable = worker(transactionResultBytes, delegateTransaction);
+    const observable = worker(transactionResultBytes, networkId, delegateTransaction);
 
     const resultPromise = new Promise<Uint8Array>((resolve, reject) => {
       observable.subscribe({

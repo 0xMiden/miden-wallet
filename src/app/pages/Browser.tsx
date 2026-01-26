@@ -15,6 +15,9 @@ import { generateConfirmationOverlayScript } from 'lib/dapp-browser/confirmation
 import { dappConfirmationStore, DAppConfirmationRequest } from 'lib/dapp-browser/confirmation-store';
 import { INJECTION_SCRIPT } from 'lib/dapp-browser/injection-script';
 import { handleWebViewMessage, WebViewMessage } from 'lib/dapp-browser/message-handler';
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
+import { useNetwork } from 'lib/miden/front';
+import { accountIdStringToSdk, getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { resetViewportAfterWebview } from 'lib/mobile/viewport-reset';
 import { markReturningFromWebview } from 'lib/mobile/webview-state';
 import { isDesktop, isMobile } from 'lib/platform';
@@ -85,17 +88,27 @@ const Browser: FC = () => {
   // Account info for confirmations
   const currentAccount = useWalletStore(s => s.currentAccount);
   const accounts = useWalletStore(s => s.accounts);
+  const network = useNetwork();
 
   const accountId = useMemo(() => {
-    if (currentAccount?.publicKey) return currentAccount.publicKey;
-    if (accounts && accounts.length > 0) return accounts[0].publicKey;
+    if (currentAccount?.accountId) return currentAccount.accountId;
+    if (accounts && accounts.length > 0) return accounts[0].accountId;
     return null;
   }, [currentAccount, accounts]);
 
-  const shortAccountId = useMemo(() => {
+  const displayAddress = useMemo(() => {
     if (!accountId) return '';
-    return `${accountId.slice(0, 10)}...${accountId.slice(-8)}`;
-  }, [accountId]);
+    try {
+      return getBech32AddressFromAccountId(accountIdStringToSdk(accountId), network.id);
+    } catch {
+      return accountId;
+    }
+  }, [accountId, network.id]);
+
+  const shortAccountId = useMemo(() => {
+    if (!displayAddress) return '';
+    return `${displayAddress.slice(0, 10)}...${displayAddress.slice(-8)}`;
+  }, [displayAddress]);
 
   // Keep a ref of accountId for use in callbacks that may be stale
   const accountIdRef = useRef(accountId);

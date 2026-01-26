@@ -9,7 +9,7 @@ import { useAppEnv } from 'app/env';
 import { Icon, IconName } from 'app/icons/v2';
 import { Alert, AlertVariant } from 'components/Alert';
 import { Button, ButtonVariant } from 'components/Button';
-import { useMidenContext } from 'lib/miden/front';
+import { useMidenContext, useNetwork } from 'lib/miden/front';
 import { deriveKey, encrypt, encryptJson, generateKey, generateSalt } from 'lib/miden/passworder';
 import { exportDb } from 'lib/miden/repo';
 import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
@@ -36,11 +36,11 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({
   const { t } = useTranslation();
   const { revealMnemonic } = useMidenContext();
   const { fullPage } = useAppEnv();
-
+  const network = useNetwork();
   const getExportFile = useCallback(async () => {
     // Wrap WASM client operations in a lock to prevent concurrent access
     const midenClientDbDump = await withWasmClientLock(async () => {
-      const midenClient = await getMidenClient();
+      const midenClient = await getMidenClient({ network: network.id });
       return midenClient.exportDb();
     });
     const walletDbDump = await exportDb();
@@ -102,7 +102,7 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
-  }, [walletPassword, filePassword, fileName, revealMnemonic, t]);
+  }, [walletPassword, filePassword, fileName, revealMnemonic, t, network]);
 
   useEffect(() => {
     getExportFile();

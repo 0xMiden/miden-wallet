@@ -17,7 +17,7 @@ import {
   getFailedTransactions
 } from 'lib/miden/activity';
 import { useExportNotes } from 'lib/miden/activity/notes';
-import { useMidenContext } from 'lib/miden/front';
+import { useMidenContext, useNetwork } from 'lib/miden/front';
 import { isExtension, isMobile } from 'lib/platform';
 import { isAutoCloseEnabled } from 'lib/settings/helpers';
 import { useWalletStore } from 'lib/store';
@@ -32,6 +32,7 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
   const { signTransaction } = useMidenContext();
   const { pageEvent, trackEvent } = useAnalytics();
   const [outputNotes, downloadAll] = useExportNotes();
+  const network = useNetwork();
   const intervalIdRef = useRef<ReturnType<typeof setInterval> | null>(null);
   // Track failed transaction count during this session
   const [failedCount, setFailedCount] = useState(0);
@@ -124,7 +125,7 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
   const generateTransaction = useCallback(async () => {
     setHasStartedProcessing(true);
     try {
-      const success = await dbTransactionsLoop(signTransaction);
+      const success = await dbTransactionsLoop(network.id, signTransaction);
       // Don't stop on failure - continue processing remaining transactions
       // The failed transaction is already marked as Failed in IndexedDB
       if (success === false) {
@@ -137,7 +138,7 @@ export const GeneratingTransactionPage: FC<GeneratingTransactionPageProps> = ({ 
       console.error('[GeneratingTransaction] Error in transaction loop:', e);
       mutateTx();
     }
-  }, [mutateTx, signTransaction]);
+  }, [mutateTx, signTransaction, network.id]);
 
   useEffect(() => {
     generateTransaction();

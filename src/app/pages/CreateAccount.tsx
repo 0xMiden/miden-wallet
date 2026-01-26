@@ -52,7 +52,7 @@ const CreateAccount: FC = () => {
     async function updateAccount() {
       const accLength = allAccounts.length;
       if (prevAccLengthRef.current < accLength) {
-        await updateCurrentAccount(allAccounts[accLength - 1].publicKey);
+        await updateCurrentAccount(allAccounts[accLength - 1].accountId);
         navigate('/');
       }
       prevAccLengthRef.current = accLength;

@@ -89,23 +89,23 @@ export interface SendManagerProps {
 export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const { navigateTo, goBack, cardStack } = useNavigator();
   const allAccounts = useAllAccounts();
-  const { publicKey } = useAccount();
+  const { accountId } = useAccount();
   const { fullPage } = useAppEnv();
   const delegateEnabled = isDelegateProofEnabled();
 
   const otherAccounts: Contact[] = useMemo(
     () =>
       allAccounts
-        .filter(c => c.publicKey !== publicKey)
+        .filter(c => c.accountId !== accountId)
         .map(
           contact =>
             ({
-              id: contact.publicKey,
+              id: contact.accountId,
               name: contact.name,
               isOwned: true
             }) as Contact
         ),
-    [allAccounts, publicKey]
+    [allAccounts, accountId]
   );
 
   const onClose = useCallback(() => {
@@ -221,7 +221,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
 
         // Step 1: Create the transaction (same as Receive's initiateConsumeTransaction)
         const txId = await initiateSendTransaction(
-          publicKey!,
+          accountId!,
           recipientAddress!,
           token!.id,
           sharePrivately ? NoteTypeEnum.Private : NoteTypeEnum.Public,
@@ -257,7 +257,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       isSubmitting,
       clearErrors,
       onAction,
-      publicKey,
+      accountId,
       recipientAddress,
       sharePrivately,
       delegateTransaction,

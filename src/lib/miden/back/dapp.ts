@@ -40,6 +40,7 @@ import {
 } from 'lib/adapter/types';
 import { dappConfirmationStore } from 'lib/dapp-browser/confirmation-store';
 import { formatBigInt } from 'lib/i18n/numbers';
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { intercom } from 'lib/miden/back/defaults';
 import { Vault } from 'lib/miden/back/vault';
 import { MIDEN_METADATA } from 'lib/miden/metadata';
@@ -239,9 +240,9 @@ export async function generatePromisifyRequestPermission(
     try {
       publicKey = await withUnlocked(async () => {
         return await withWasmClientLock(async () => {
-          const midenClient = await getMidenClient();
+          const midenClient = await getMidenClient({ network: network as MIDEN_NETWORK_NAME });
           const account = await midenClient.getAccount(accountPublicKey);
-          const publicKeys = account!.getPublicKeys();
+          const publicKeys = account!.getPublicKeyCommitments();
           return u8ToB64(publicKeys[0].serialize());
         });
       });
@@ -298,9 +299,9 @@ export async function generatePromisifyRequestPermission(
               publicKey = await withUnlocked(async () => {
                 // Wrap WASM client operations in a lock to prevent concurrent access
                 return await withWasmClientLock(async () => {
-                  const midenClient = await getMidenClient();
+                  const midenClient = await getMidenClient({ network: network as MIDEN_NETWORK_NAME });
                   const account = await midenClient.getAccount(accountPublicKey);
-                  const publicKeys = account!.getPublicKeys();
+                  const publicKeys = account!.getPublicKeyCommitments();
                   const publicKeyAsB64 = u8ToB64(publicKeys[0].serialize());
 
                   return publicKeyAsB64;
@@ -624,14 +625,14 @@ async function getConsumableNotes(accountId: string): Promise<InputNoteDetails[]
             .fungibleAssets()
             .map(asset => ({
               amount: asset.amount().toString(),
-              faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet)
+              faucetId: asset.faucetId().toBech32(NetworkId.testnet(), AccountInterface.BasicWallet)
             }));
           const inputNoteRecord = note.inputNoteRecord();
           return {
             noteId: inputNoteRecord.id().toString(),
             noteType: inputNoteRecord.metadata()?.noteType(),
             senderAccountId:
-              inputNoteRecord.metadata()?.sender()?.toBech32(NetworkId.Testnet, AccountInterface.BasicWallet) ||
+              inputNoteRecord.metadata()?.sender()?.toBech32(NetworkId.testnet(), AccountInterface.BasicWallet) ||
               undefined,
             nullifier: inputNoteRecord.nullifier(),
             state: inputNoteRecord.state(),

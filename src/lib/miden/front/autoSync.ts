@@ -2,7 +2,7 @@ import { isMobile } from 'lib/platform';
 import { WalletState, WalletStatus } from 'lib/shared/types';
 import { useWalletStore } from 'lib/store';
 
-import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
+import { MidenClientInterface } from '../sdk/miden-client-interface';
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
@@ -87,15 +87,9 @@ export class Sync {
     useWalletStore.getState().setSyncStatus(true);
 
     try {
-      const blockNum = await withWasmClientLock(async () => {
-        const client = await getMidenClient();
-        if (!client) {
-          syncDebugInfo.lastError = 'getMidenClient returned null';
-          return null;
-        }
-        const syncSummary = await client.syncState();
-        return syncSummary.blockNum();
-      });
+      const client = await MidenClientInterface.create();
+      const syncSummary = await client.syncState();
+      const blockNum = syncSummary.blockNum();
 
       if (blockNum !== null) {
         this.lastHeight = blockNum;

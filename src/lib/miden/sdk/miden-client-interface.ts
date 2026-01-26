@@ -1,6 +1,7 @@
 import {
   Account,
   AccountFile,
+  AccountId,
   AccountStorageMode,
   Address,
   ConsumableNoteRecord,
@@ -33,6 +34,7 @@ import { NoteExportType } from './constants';
 import { accountIdStringToSdk, getBech32AddressFromAccountId } from './helpers';
 
 export type MidenClientCreateOptions = {
+  network: MIDEN_NETWORK_NAME;
   seed?: Uint8Array;
   insertKeyCallback?: (key: Uint8Array, secretKey: Uint8Array) => void;
   getKeyCallback?: (key: Uint8Array) => Promise<Uint8Array>;
@@ -56,10 +58,10 @@ export type FungibleAssetDetails = {
 
 export class MidenClientInterface {
   webClient: WebClient;
-  network: string;
+  network: MIDEN_NETWORK_NAME;
   onConnectivityIssue?: () => void;
 
-  private constructor(webClient: WebClient, network: string, onConnectivityIssue?: () => void) {
+  private constructor(webClient: WebClient, network: MIDEN_NETWORK_NAME, onConnectivityIssue?: () => void) {
     this.webClient = webClient;
     this.network = network;
     this.onConnectivityIssue = onConnectivityIssue;
@@ -72,36 +74,38 @@ export class MidenClientInterface {
    * @returns The Miden client instance.
    * @note A new web worker is created for each invocation. Each worker must be manually disposed of.
    */
-  static async create(options: MidenClientCreateOptions = {}) {
+  static async create(options: MidenClientCreateOptions) {
     const seed = options.seed?.toString();
-    const network = MIDEN_NETWORK_NAME.TESTNET;
-    const transportLayer = MIDEN_TRANSPORT_LAYER_NAME.TESTNET;
 
     // In test builds, swap to the SDK's mock client to avoid hitting the real chain.
     if (process.env.MIDEN_USE_MOCK_CLIENT === 'true') {
       const sdk = await import('@miden-sdk/miden-sdk');
       const mockWebClient = await (sdk as any).MockWebClient.createClient(undefined, undefined, options.seed);
-      return new MidenClientInterface(mockWebClient as unknown as WebClient, 'mock', options.onConnectivityIssue);
+      return new MidenClientInterface(
+        mockWebClient as unknown as WebClient,
+        MIDEN_NETWORK_NAME.TESTNET,
+        options.onConnectivityIssue
+      );
     }
 
     // NOTE: SDK typings do not yet expose createClientWithExternalKeystore; cast to any to keep callbacks.
     const webClient = await (WebClient as any).createClientWithExternalKeystore(
-      MIDEN_NETWORK_ENDPOINTS.get(network)!,
-      MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS.get(transportLayer),
+      MIDEN_NETWORK_ENDPOINTS.get(options.network)!,
+      MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS.get(options.network),
       seed,
       options.getKeyCallback,
       options.insertKeyCallback,
       options.signCallback
     );
 
-    return new MidenClientInterface(webClient, network, options.onConnectivityIssue);
+    return new MidenClientInterface(webClient, options.network, options.onConnectivityIssue);
   }
 
   /**
    * Create a client wrapper around a provided WebClient instance.
    * Useful for tests that want to inject MockWebClient.
    */
-  static fromWebClient(webClient: WebClient, network: string, onConnectivityIssue?: () => void) {
+  static fromWebClient(webClient: WebClient, network: MIDEN_NETWORK_NAME, onConnectivityIssue?: () => void) {
     return new MidenClientInterface(webClient, network, onConnectivityIssue);
   }
 
@@ -110,34 +114,27 @@ export class MidenClientInterface {
   }
 
   async createMidenWallet(walletType: WalletType, seed?: Uint8Array): Promise<string> {
+    await this.webClient.syncState();
     // Create a new wallet
     const accountStorageMode =
       walletType === WalletType.OnChain ? AccountStorageMode.public() : AccountStorageMode.private();
 
     const wallet: Account = await this.webClient.newWallet(accountStorageMode, true, 0, seed);
-    const walletId = getBech32AddressFromAccountId(wallet.id());
-
-    return walletId;
+    return wallet.id().toString();
   }
 
   async importMidenWallet(accountBytes: Uint8Array): Promise<string> {
     const accountFile = AccountFile.deserialize(accountBytes);
     const wallet: Account = await this.webClient.importAccountFile(accountFile);
-    const walletIdString = getBech32AddressFromAccountId(wallet.id());
+    const walletIdString = getBech32AddressFromAccountId(wallet.id(), this.network);
 
     return walletIdString;
   }
 
-  async importPublicMidenWalletFromSeed(seed: Uint8Array) {
+  async importPublicMidenWalletFromSeed(seed: Uint8Array): Promise<string> {
     const account = await this.webClient.importPublicAccountFromSeed(seed, true, 0);
 
-    return getBech32AddressFromAccountId(account.id());
-  }
-
-  // TODO: is this method even used?
-  async consumeTransaction(accountId: string, listOfNoteIds: string[], delegateTransaction?: boolean) {
-    const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest(listOfNoteIds);
-    await this.executeProveAndSubmitTransactionWithFallback(accountId, consumeTransactionRequest, delegateTransaction);
+    return getBech32AddressFromAccountId(account.id(), this.network);
   }
 
   async importNoteBytes(noteBytes: Uint8Array) {
@@ -148,8 +145,11 @@ export class MidenClientInterface {
 
   async consumeNoteId(transaction: ConsumeTransaction): Promise<Uint8Array> {
     const { accountId, noteId } = transaction;
-
-    const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest([noteId]);
+    const note = await this.webClient.getInputNote(noteId);
+    if (!note) {
+      throw new Error(`Note not found: ${noteId}`);
+    }
+    const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest([note.toNote()]);
     let consumeTransactionResult = await this.webClient.executeTransaction(
       accountIdStringToSdk(accountId),
       consumeTransactionRequest
@@ -159,7 +159,7 @@ export class MidenClientInterface {
   }
 
   async getAccount(accountId: string) {
-    const result = await this.webClient.getAccount(accountIdStringToSdk(accountId));
+    const result = await this.webClient.getAccount(AccountId.fromHex(accountId));
     return result;
   }
 
@@ -187,13 +187,13 @@ export class MidenClientInterface {
         .fungibleAssets()
         .map(asset => ({
           amount: asset.amount().toString(),
-          faucetId: getBech32AddressFromAccountId(asset.faucetId())
+          faucetId: getBech32AddressFromAccountId(asset.faucetId(), this.network)
         }));
       const noteMet = note.metadata();
       const details = {
         noteId: note.id().toString(),
         noteType: noteMet?.noteType(),
-        senderAccountId: noteMet ? getBech32AddressFromAccountId(noteMet.sender()) : undefined,
+        senderAccountId: noteMet ? getBech32AddressFromAccountId(noteMet.sender(), this.network) : undefined,
         nullifier: note.nullifier(),
         state: note.state(),
         assets: assets
@@ -263,7 +263,7 @@ export class MidenClientInterface {
   }
 
   async importDb(dump: any) {
-    await this.webClient.forceImportStore(dump);
+    await this.webClient.forceImportStore(dump, 'MidenClientDb');
   }
 
   async newTransaction(accountId: string, requestBytes: Uint8Array) {
@@ -291,7 +291,7 @@ export class MidenClientInterface {
 
   async getTransactionsForAccount(accountId: string) {
     const transactions = await this.webClient.getTransactions(TransactionFilter.all());
-    return transactions.filter(tx => getBech32AddressFromAccountId(tx.accountId()) === accountId);
+    return transactions.filter(tx => getBech32AddressFromAccountId(tx.accountId(), this.network) === accountId);
   }
 
   async waitForTransactionCommit(

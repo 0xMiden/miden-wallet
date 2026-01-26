@@ -4,18 +4,26 @@ import { useTranslation } from 'react-i18next';
 
 import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { Button, ButtonVariant } from 'components/Button';
-import { useAccount } from 'lib/miden/front';
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
+import { useAccount, useNetwork } from 'lib/miden/front';
+import { accountIdStringToSdk, getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 
 const AdvancedSettings: FC = () => {
   const { t } = useTranslation();
   const account = useAccount();
+  const network = useNetwork();
   const [isSubmitting] = useState(false);
 
   const resync = () => {};
 
+  const displayAddress = useMemo(
+    () => (account.accountId ? getBech32AddressFromAccountId(accountIdStringToSdk(account.accountId), network.id) : ''),
+    [account.accountId, network.id]
+  );
+
   const addressShortened = useMemo(
-    () => (account.publicKey ? `${account.publicKey.slice(0, 7)}...${account.publicKey.slice(-3)} ` : ''),
-    [account.publicKey]
+    () => (displayAddress ? `${displayAddress.slice(0, 10)}...${displayAddress.slice(-6)} ` : ''),
+    [displayAddress]
   );
 
   const listItems = useMemo(

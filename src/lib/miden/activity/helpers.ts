@@ -1,6 +1,8 @@
 import { TransactionResult } from '@miden-sdk/miden-sdk';
 import BigNumber from 'bignumber.js';
 
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
+
 import { ITransaction } from '../db/types';
 import { getBech32AddressFromAccountId } from '../sdk/helpers';
 import { compareAccountIds } from './utils';
@@ -107,13 +109,26 @@ export const interpretTransactionResult = <K extends keyof ITransaction>(
   inputNotes.forEach(inputNote => {
     const assets = inputNote.note().assets().fungibleAssets();
     inputAmount = assets.reduce((acc, asset) => acc + BigInt(asset.amount()), BigInt(0));
-    const faucetIds = [...new Set(assets.map(asset => getBech32AddressFromAccountId(asset.faucetId())))];
+    const faucetIds = [
+      ...new Set(
+        assets.map(asset =>
+          getBech32AddressFromAccountId(asset.faucetId(), transaction.networkId || MIDEN_NETWORK_NAME.TESTNET)
+        )
+      )
+    ];
     inputFaucetIds.push(...faucetIds);
   });
   outputNotes.forEach(outputNote => {
     const assets = outputNote.assets()!.fungibleAssets();
     outputAmount = assets.reduce((acc, asset) => acc + BigInt(asset.amount()), BigInt(0));
-    const faucetIds = [...new Set(assets.map(asset => getBech32AddressFromAccountId(asset.faucetId())))];
+    const faucetIds = [
+      ...new Set(
+        assets.map(asset =>
+          getBech32AddressFromAccountId(asset.faucetId(), transaction.networkId || MIDEN_NETWORK_NAME.TESTNET)
+        )
+      )
+    ];
+
     outputFaucetIds.push(...faucetIds);
   });
   const transactionAmount = inputAmount - outputAmount;
@@ -121,7 +136,10 @@ export const interpretTransactionResult = <K extends keyof ITransaction>(
 
   if (inputFaucetIds.length === 1 && outputFaucetIds.length === 0) {
     type = 'consume';
-    const sender = getBech32AddressFromAccountId(inputNotes[0].note().metadata().sender());
+    const sender = getBech32AddressFromAccountId(
+      inputNotes[0].note().metadata().sender(),
+      transaction.networkId || MIDEN_NETWORK_NAME.TESTNET
+    );
     const isReclaimed = compareAccountIds(sender, transaction.accountId);
     displayMessage = isReclaimed ? 'Reclaimed' : 'Received';
     if (!isReclaimed) {

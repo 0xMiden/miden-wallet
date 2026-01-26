@@ -1,5 +1,6 @@
 import { BasicFungibleFaucetComponent } from '@miden-sdk/miden-sdk';
 
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { isMidenAsset } from 'lib/miden/assets';
 
 import { MIDEN_METADATA, DEFAULT_TOKEN_METADATA } from './defaults';
@@ -47,7 +48,7 @@ describe('metadata/fetch', () => {
     it('returns MIDEN_METADATA for miden asset', async () => {
       mockIsMidenAsset.mockReturnValue(true);
 
-      const result = await fetchTokenMetadata('miden');
+      const result = await fetchTokenMetadata('miden', MIDEN_NETWORK_NAME.TESTNET);
 
       expect(result).toEqual({
         base: MIDEN_METADATA,
@@ -67,7 +68,7 @@ describe('metadata/fetch', () => {
         symbol: () => ({ toString: () => 'TEST' })
       });
 
-      const result = await fetchTokenMetadata('test-asset-id');
+      const result = await fetchTokenMetadata('test-asset-id', MIDEN_NETWORK_NAME.TESTNET);
 
       expect(result.base).toEqual({
         decimals: 8,
@@ -85,7 +86,7 @@ describe('metadata/fetch', () => {
       mockGetAccount.mockResolvedValueOnce(null).mockResolvedValueOnce(null);
       mockImportAccountById.mockResolvedValue(undefined);
 
-      const result = await fetchTokenMetadata('unknown-asset-id');
+      const result = await fetchTokenMetadata('unknown-asset-id', MIDEN_NETWORK_NAME.TESTNET);
 
       expect(result).toEqual({
         base: DEFAULT_TOKEN_METADATA,
@@ -98,7 +99,9 @@ describe('metadata/fetch', () => {
       mockIsMidenAsset.mockReturnValue(false);
       mockGetAccount.mockRejectedValue(new Error('SDK error'));
 
-      await expect(fetchTokenMetadata('bad-asset-id')).rejects.toThrow(NotFoundTokenMetadata);
+      await expect(fetchTokenMetadata('bad-asset-id', MIDEN_NETWORK_NAME.TESTNET)).rejects.toThrow(
+        NotFoundTokenMetadata
+      );
       consoleErrorSpy.mockRestore();
     });
   });
@@ -120,7 +123,7 @@ describe('metadata/fetch', () => {
         symbol: () => ({ toString: () => 'CACHED' })
       });
 
-      await fetchTokenMetadata('some-asset-id');
+      await fetchTokenMetadata('some-asset-id', MIDEN_NETWORK_NAME.TESTNET);
 
       // getAccount (IndexedDB read) must be called FIRST
       expect(callOrder[0]).toBe('getAccount');
@@ -137,7 +140,7 @@ describe('metadata/fetch', () => {
         symbol: () => ({ toString: () => 'FAST' })
       });
 
-      await fetchTokenMetadata('cached-asset-id');
+      await fetchTokenMetadata('cached-asset-id', MIDEN_NETWORK_NAME.TESTNET);
 
       // getAccount should be called (reads from IndexedDB)
       expect(mockGetAccount).toHaveBeenCalledWith('cached-asset-id');
@@ -156,7 +159,7 @@ describe('metadata/fetch', () => {
         symbol: () => ({ toString: () => 'IMPORTED' })
       });
 
-      const result = await fetchTokenMetadata('new-asset-id');
+      const result = await fetchTokenMetadata('new-asset-id', MIDEN_NETWORK_NAME.TESTNET);
 
       // First: try IndexedDB
       expect(mockGetAccount).toHaveBeenNthCalledWith(1, 'new-asset-id');

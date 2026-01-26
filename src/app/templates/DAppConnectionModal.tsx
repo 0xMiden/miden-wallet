@@ -7,6 +7,9 @@ import FormSecondaryButton from 'app/atoms/FormSecondaryButton';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import { Icon, IconName } from 'app/icons/v2';
 import { DAppConfirmationRequest, DAppConfirmationResult } from 'lib/dapp-browser/confirmation-store';
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
+import { useNetwork } from 'lib/miden/front';
+import { accountIdStringToSdk, getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { useWalletStore } from 'lib/store';
 
 interface DAppConnectionModalProps {
@@ -18,28 +21,37 @@ const DAppConnectionModal: FC<DAppConnectionModalProps> = ({ request, onResult }
   const { t } = useTranslation();
   const currentAccount = useWalletStore(s => s.currentAccount);
   const accounts = useWalletStore(s => s.accounts);
+  const network = useNetwork();
 
   // Use current account or fallback to first account
-  // Note: account objects use 'publicKey' not 'accountId'
   const accountId = useMemo(() => {
-    if (currentAccount?.publicKey) return currentAccount.publicKey;
-    if (accounts && accounts.length > 0) return accounts[0].publicKey;
+    if (currentAccount?.accountId) return currentAccount.accountId;
+    if (accounts && accounts.length > 0) return accounts[0].accountId;
     return null;
   }, [currentAccount, accounts]);
 
-  const shortAccountId = useMemo(() => {
+  const displayAddress = useMemo(() => {
     if (!accountId) return '';
-    return `${accountId.slice(0, 10)}...${accountId.slice(-8)}`;
-  }, [accountId]);
+    try {
+      return getBech32AddressFromAccountId(accountIdStringToSdk(accountId), network.id);
+    } catch {
+      return accountId;
+    }
+  }, [accountId, network.id]);
+
+  const shortAccountId = useMemo(() => {
+    if (!displayAddress) return '';
+    return `${displayAddress.slice(0, 10)}...${displayAddress.slice(-8)}`;
+  }, [displayAddress]);
 
   const handleApprove = useCallback(() => {
     if (!accountId) return;
     onResult({
       confirmed: true,
-      accountPublicKey: accountId,
+      accountPublicKey: displayAddress,
       privateDataPermission: request.privateDataPermission || PrivateDataPermission.UponRequest
     });
-  }, [accountId, onResult, request.privateDataPermission]);
+  }, [accountId, onResult, request.privateDataPermission, displayAddress]);
 
   const handleDeny = useCallback(() => {
     onResult({ confirmed: false });

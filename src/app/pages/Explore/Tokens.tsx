@@ -15,7 +15,7 @@ const Tokens: FC = () => {
   const account = useAccount();
   const { t } = useTranslation();
   const allTokensBaseMetadata = useAllTokensBaseMetadata();
-  const { data: allTokenBalances = [] } = useAllBalances(account.publicKey, allTokensBaseMetadata);
+  const { data: allTokenBalances = [] } = useAllBalances(account.accountId, allTokensBaseMetadata);
 
   return (
     <>

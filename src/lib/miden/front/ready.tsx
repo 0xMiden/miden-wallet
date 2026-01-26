@@ -92,7 +92,7 @@ export function useAccount() {
   useLayoutEffect(() => {
     const evt = new CustomEvent('reseterrorboundary');
     window.dispatchEvent(evt);
-  }, [selectedNetworkId, account?.publicKey]);
+  }, [selectedNetworkId, account?.accountId]);
 
   if (!account) {
     throw new Error('No account selected');

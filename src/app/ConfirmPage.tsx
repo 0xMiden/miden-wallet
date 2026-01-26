@@ -13,8 +13,10 @@ import ContentContainer from 'app/layouts/ContentContainer';
 import Unlock from 'app/pages/Unlock';
 import { Button, ButtonVariant } from 'components/Button';
 import { CustomRpsContext } from 'lib/analytics';
-import { AssetMetadata, MIDEN_METADATA, useAccount, useMidenContext } from 'lib/miden/front';
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
+import { AssetMetadata, MIDEN_METADATA, useAccount, useMidenContext, useNetwork } from 'lib/miden/front';
 import { getTokenMetadata } from 'lib/miden/metadata/utils';
+import { accountIdStringToSdk, getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { MidenDAppPayload } from 'lib/miden/types';
 import { isDelegateProofEnabled } from 'lib/settings/helpers';
 import { formatAmount } from 'lib/shared/format';
@@ -108,10 +110,22 @@ interface PayloadContentProps {
   account?: WalletAccount;
   viewKey?: string;
   error?: any;
+  networkId: MIDEN_NETWORK_NAME;
 }
 
-const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account }) => {
+const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account, networkId }) => {
   const { t } = useTranslation();
+
+  // Convert accountId to bech32 for display
+  const displayAddress = useMemo(() => {
+    if (!account?.accountId || !networkId) return '';
+    try {
+      return getBech32AddressFromAccountId(accountIdStringToSdk(account.accountId), networkId);
+    } catch {
+      return account.accountId;
+    }
+  }, [account?.accountId, networkId]);
+
   let content: string | React.ReactNode = t('noPreview');
 
   switch (payload.type) {
@@ -181,7 +195,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
                 <span className="text-gray-600">{t('account')}</span>
                 <div className="text-black flex flex-col items-end">
                   <span>{account.name}</span>
-                  <span>{truncateAddress(account.publicKey)}</span>
+                  <span>{truncateAddress(displayAddress)}</span>
                 </div>
               </div>
             </>
@@ -222,7 +236,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
                 <span className="text-gray-600">{t('account')}</span>
                 <div className="text-black flex flex-col items-end">
                   <span>{account.name}</span>
-                  <span>{truncateAddress(account.publicKey)}</span>
+                  <span>{truncateAddress(displayAddress)}</span>
                 </div>
               </div>
               <div className="flex justify-between text-sm">
@@ -358,7 +372,7 @@ const SigningInputsPayloadContent: React.FC<{ bytes: Uint8Array }> = ({ bytes })
         const ts = signingInputs.transactionSummaryPayload();
         const accountDelta = ts.accountDelta();
         const accountAddress = Address.fromAccountId(accountDelta.id(), 'BasicWallet');
-        const accountAddressAsBech32 = accountAddress.toBech32(NetworkId.Testnet);
+        const accountAddressAsBech32 = accountAddress.toBech32(NetworkId.testnet());
         const vault = accountDelta.vault();
         const storage = accountDelta.storage();
         const inputNotes = ts.inputNotes();
@@ -485,6 +499,7 @@ const ConfirmDAppForm: FC = () => {
     confirmDAppConsumableNotes
   } = useMidenContext();
   const account = useAccount();
+  const network = useNetwork();
   const isPublicAccount = account.isPublic;
 
   const loc = useLocation();
@@ -510,7 +525,7 @@ const ConfirmDAppForm: FC = () => {
   if (payload.type === 'connect') {
     privateDataPermission = payload.privateDataPermission;
     if (payload.existingPermission) {
-      confirmDAppPermission(id, true, account.publicKey, privateDataPermission, payload.allowedPrivateData);
+      confirmDAppPermission(id, true, account.accountId, privateDataPermission, payload.allowedPrivateData);
     }
   }
   requirePrivateDataCheckbox = privateDataPermission === PrivateDataPermission.Auto && !isPublicAccount;
@@ -524,7 +539,7 @@ const ConfirmDAppForm: FC = () => {
           return confirmDAppPermission(
             id,
             confirmed,
-            account.publicKey,
+            account.accountId,
             privateDataPermission,
             payload.allowedPrivateData
           );
@@ -550,7 +565,7 @@ const ConfirmDAppForm: FC = () => {
       id,
       payload,
       confirmDAppPermission,
-      account.publicKey,
+      account.accountId,
       privateDataPermission,
       confirmDAppTransaction,
       confirmDAppPrivateNotes,
@@ -826,7 +841,7 @@ const ConfirmDAppForm: FC = () => {
                   />
                 )
               ) : (
-                <PayloadContent payload={payload} error={payloadError} account={account} />
+                <PayloadContent payload={payload} error={payloadError} account={account} networkId={network.id} />
               )}
             </>
           )}

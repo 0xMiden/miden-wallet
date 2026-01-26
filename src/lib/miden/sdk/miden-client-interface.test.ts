@@ -322,7 +322,7 @@ describe('MidenClientInterface', () => {
 
     const { MidenClientInterface } = await import('./miden-client-interface');
     const client = MidenClientInterface.fromWebClient(fakeWebClient as any, 'testnet');
-
+    //@ts-ignore
     await client.consumeTransaction('acc-id', ['note-1', 'note-2'], false);
 
     expect(fakeWebClient.newConsumeTransactionRequest).toHaveBeenCalledWith(['note-1', 'note-2']);

@@ -13,7 +13,7 @@ type BalanceProps = {
 const Balance = memo<BalanceProps>(({ children }) => {
   const account = useAccount();
   const allTokensBaseMetadata = useAllTokensBaseMetadata();
-  const { data: allTokenBalances = [] } = useAllBalances(account.publicKey, allTokensBaseMetadata);
+  const { data: allTokenBalances = [] } = useAllBalances(account.accountId, allTokensBaseMetadata);
 
   return useMemo(() => {
     const childNode = children(new BigNumber(allTokenBalances.reduce((sum, token) => sum + token.balance, 0)));

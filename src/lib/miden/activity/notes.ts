@@ -1,6 +1,8 @@
 import { useCallback } from 'react';
 
-import { fetchFromStorage, putToStorage, useStorage } from '../front';
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
+
+import { fetchFromStorage, putToStorage, useNetwork, useStorage } from '../front';
 import { NoteExportType } from '../sdk/constants';
 import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 
@@ -12,14 +14,14 @@ export const queueNoteImport = async (noteBytes: string) => {
   await putToStorage(IMPORT_NOTES_KEY, [...queuedImports, noteBytes]);
 };
 
-export const importAllNotes = async () => {
+export const importAllNotes = async (network: MIDEN_NETWORK_NAME) => {
   const queuedImports: string[] = (await fetchFromStorage<string[]>(IMPORT_NOTES_KEY)) || [];
   if (queuedImports.length === 0) {
     return;
   }
   // Wrap all WASM client operations in a lock to prevent concurrent access
   await withWasmClientLock(async () => {
-    const midenClient = await getMidenClient();
+    const midenClient = await getMidenClient({ network });
     for (const noteBytes of queuedImports) {
       const byteArray = new Uint8Array(Buffer.from(noteBytes, 'base64'));
       await midenClient.importNoteBytes(byteArray);
@@ -37,11 +39,11 @@ export interface NoteDownload {
 
 export const useExportNotes = (): [string[], () => Promise<void>] => {
   const [exportedNotes] = useStorage<string[]>(OUTPUT_NOTES_KEY, []);
-
+  const network = useNetwork();
   const downloadAll = useCallback(async () => {
     // Wrap all WASM client operations in a lock to prevent concurrent access
     const noteDataList = await withWasmClientLock(async () => {
-      const midenClient = await getMidenClient();
+      const midenClient = await getMidenClient({ network: network.id });
       const results: { noteId: string; noteBytes: Uint8Array }[] = [];
       for (const noteId of exportedNotes) {
         const noteBytes = await midenClient.exportNote(noteId, NoteExportType.DETAILS);
@@ -73,7 +75,7 @@ export const useExportNotes = (): [string[], () => Promise<void>] => {
       URL.revokeObjectURL(url);
     }
     await putToStorage(OUTPUT_NOTES_KEY, []);
-  }, [exportedNotes]);
+  }, [exportedNotes, network]);
 
   return [exportedNotes, downloadAll];
 };
