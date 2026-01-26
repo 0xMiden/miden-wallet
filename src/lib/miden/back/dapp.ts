@@ -630,14 +630,14 @@ async function getConsumableNotes(accountId: string): Promise<InputNoteDetails[]
             .fungibleAssets()
             .map(asset => ({
               amount: asset.amount().toString(),
-              faucetId: asset.faucetId().toBech32(NetworkId.testnet(), AccountInterface.BasicWallet)
+              faucetId: asset.faucetId().toBech32(NetworkId.devnet(), AccountInterface.BasicWallet)
             }));
           const inputNoteRecord = note.inputNoteRecord();
           return {
             noteId: inputNoteRecord.id().toString(),
             noteType: inputNoteRecord.metadata()?.noteType(),
             senderAccountId:
-              inputNoteRecord.metadata()?.sender()?.toBech32(NetworkId.testnet(), AccountInterface.BasicWallet) ||
+              inputNoteRecord.metadata()?.sender()?.toBech32(NetworkId.devnet(), AccountInterface.BasicWallet) ||
               undefined,
             nullifier: inputNoteRecord.nullifier(),
             state: inputNoteRecord.state(),
