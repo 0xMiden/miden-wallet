@@ -125,7 +125,7 @@ class MidenClientSingleton {
 
   private instanceWithOptions: MidenClientInterface | null = null;
   private initializingPromiseWithOptions: Promise<MidenClientInterface> | null = null;
-
+  network: MIDEN_NETWORK_NAME | null = null;
   /**
    * Get or create the singleton MidenClientInterface instance.
    * This instance does not specify any options and is never disposed.
@@ -134,15 +134,15 @@ class MidenClientSingleton {
    */
   async getInstance(network: MIDEN_NETWORK_NAME): Promise<MidenClientInterface> {
     // On mobile, reuse any existing client to avoid OOM from multiple worker instances
-    if (this.instanceWithOptions) {
+    if (this.instanceWithOptions && this.network === network) {
       return this.instanceWithOptions;
     }
 
-    if (this.instance) {
+    if (this.instance && this.network === network) {
       return this.instance;
     }
 
-    if (this.initializingPromise) {
+    if (this.initializingPromise && this.network === network) {
       return this.initializingPromise;
     }
 
@@ -150,6 +150,7 @@ class MidenClientSingleton {
       const client = await MidenClientInterface.create({ network });
       this.instance = client;
       this.initializingPromise = null;
+      this.network = network;
       return client;
     })();
 
@@ -161,11 +162,11 @@ class MidenClientSingleton {
    * If it already exists, this instance will always be disposed and recreated to ensure option correctness.
    */
   async getInstanceWithOptions(options: MidenClientCreateOptions): Promise<MidenClientInterface> {
-    if (this.instanceWithOptions) {
+    if (this.instanceWithOptions && this.network === options.network) {
       this.disposeInstanceWithOptions();
     }
 
-    if (this.initializingPromiseWithOptions) {
+    if (this.initializingPromiseWithOptions && this.network === options.network) {
       return this.initializingPromiseWithOptions;
     }
 
@@ -173,6 +174,7 @@ class MidenClientSingleton {
       const client = await MidenClientInterface.create(options);
       this.instanceWithOptions = client;
       this.initializingPromiseWithOptions = null;
+      this.network = options.network;
       return client;
     })();
 
@@ -184,6 +186,7 @@ class MidenClientSingleton {
       this.instanceWithOptions.free();
       this.instanceWithOptions = null;
       this.initializingPromiseWithOptions = null;
+      this.network = null;
     }
   }
 }

@@ -9,6 +9,7 @@ export const consumeNoteId = async (
   networkId: MIDEN_NETWORK_NAME,
   delegateTransaction?: boolean
 ): Promise<Uint8Array> => {
+  console.log('Starting consumeNoteId worker for network:', networkId);
   const workerInstance = new Worker('./consumeNoteId.js');
   const worker = await spawn<ConsumeNoteIdWorker>(workerInstance);
 

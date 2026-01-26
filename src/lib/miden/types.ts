@@ -1,6 +1,7 @@
 import { AllowedPrivateData, PrivateDataPermission, SignKind } from '@demox-labs/miden-wallet-adapter-base';
 
 import { MidenDAppMetadata } from 'lib/adapter/types';
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { ReadyWalletState, WalletMessageBase, WalletNetwork, WalletState } from 'lib/shared/types';
 
 export interface MidenState extends WalletState {
@@ -38,7 +39,7 @@ export enum MidenSharedStorageKey {
 }
 
 export interface MidenDAppSession {
-  network: string; // TODO: replace with MidenChainId
+  network: MIDEN_NETWORK_NAME;
   appMeta: MidenDAppMetadata;
   accountId: string;
   privateDataPermission: PrivateDataPermission;

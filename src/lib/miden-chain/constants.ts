@@ -19,6 +19,12 @@ export const MIDEN_NETWORK_ENDPOINTS = new Map<string, string>([
   [MIDEN_NETWORK_NAME.LOCALNET, 'http://localhost:57291']
 ]);
 
+export const STORE_NAMES = new Map<string, string>([
+  [MIDEN_NETWORK_NAME.TESTNET, 'miden-testnet-v1'],
+  [MIDEN_NETWORK_NAME.DEVNET, 'miden-devnet-v1'],
+  [MIDEN_NETWORK_NAME.LOCALNET, 'miden-localnet-v1']
+]);
+
 export const MIDEN_PROVING_ENDPOINTS = new Map<string, string>([
   [MIDEN_NETWORK_NAME.TESTNET, 'https://tx-prover.testnet.miden.io'],
   [MIDEN_NETWORK_NAME.DEVNET, 'https://tx-prover.devnet.miden.io'],
@@ -33,7 +39,7 @@ export const MIDEN_FAUCET_ENDPOINTS = new Map<string, string>([
 
 export const MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS = new Map<string, string>([
   [MIDEN_NETWORK_NAME.TESTNET, 'http://transport.miden.io:57292'],
-  [MIDEN_NETWORK_NAME.DEVNET, 'http://transport.miden.io:57292'],
+  [MIDEN_NETWORK_NAME.DEVNET, 'http://localhost:57292'],
   [MIDEN_NETWORK_NAME.LOCALNET, 'http://127.0.0.1:57292']
 ]);
 

@@ -2,7 +2,9 @@ import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 
 import { createIntercomClient, IIntercomClient } from 'lib/intercom/client';
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { fetchTokenMetadata } from 'lib/miden/metadata';
+import { getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { MidenMessageType, MidenState } from 'lib/miden/types';
 import { WalletMessageType, WalletRequest, WalletResponse, WalletStatus } from 'lib/shared/types';
 
@@ -92,11 +94,11 @@ export const useWalletStore = create<WalletStore>()(
         isInitialized: true,
         lastSyncedAt: Date.now()
       });
-
       // Immediately fetch balances when wallet becomes Ready (before any React effects)
       if (justBecameReady && state.currentAccount) {
-        const address = state.currentAccount.accountId;
-        fetchBalances(address, get().assetsMetadata)
+        const networkID = (get().selectedNetworkId as MIDEN_NETWORK_NAME) || MIDEN_NETWORK_NAME.TESTNET;
+        const address = getBech32AddressFromAccountId(state.currentAccount.accountId, networkID);
+        fetchBalances(networkID, address, get().assetsMetadata)
           .then(balances => {
             set(s => ({
               balances: { ...s.balances, [address]: balances },
@@ -279,7 +281,7 @@ export const useWalletStore = create<WalletStore>()(
         type: MidenMessageType.DAppPermConfirmationRequest,
         id,
         confirmed,
-        accountId: confirmed ? accountId : '',
+        accountPublicKey: confirmed ? accountId : '',
         privateDataPermission,
         allowedPrivateData
       });
@@ -372,7 +374,7 @@ export const useWalletStore = create<WalletStore>()(
 
     // Balance actions
     fetchBalances: async (accountAddress, tokenMetadatas) => {
-      const { balancesLoading, setAssetsMetadata } = get();
+      const { balancesLoading, setAssetsMetadata, selectedNetworkId } = get();
 
       // Skip if already loading
       if (balancesLoading[accountAddress]) {
@@ -384,7 +386,9 @@ export const useWalletStore = create<WalletStore>()(
       });
 
       try {
-        const balances = await fetchBalances(accountAddress, tokenMetadatas, { setAssetsMetadata });
+        const balances = await fetchBalances(selectedNetworkId as MIDEN_NETWORK_NAME, accountAddress, tokenMetadatas, {
+          setAssetsMetadata
+        });
         set(state => ({
           balances: { ...state.balances, [accountAddress]: balances },
           balancesLoading: { ...state.balancesLoading, [accountAddress]: false },

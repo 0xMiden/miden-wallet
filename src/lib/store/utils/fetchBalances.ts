@@ -1,20 +1,12 @@
-import { BasicFungibleFaucetComponent, FungibleAsset } from '@miden-sdk/miden-sdk';
+import { Address, FungibleAsset } from '@miden-sdk/miden-sdk';
 import BigNumber from 'bignumber.js';
 
 import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { getFaucetIdSetting } from 'lib/miden/assets';
 import { TokenBalanceData } from 'lib/miden/front/balance';
-import {
-  AssetMetadata,
-  DEFAULT_TOKEN_METADATA,
-  fetchTokenMetadata,
-  getAssetUrl,
-  MIDEN_METADATA
-} from 'lib/miden/metadata';
+import { AssetMetadata, fetchTokenMetadata, MIDEN_METADATA } from 'lib/miden/metadata';
 import { getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
-
-import { setTokensBaseMetadata } from '../../miden/front/assets';
 
 export interface FetchBalancesOptions {
   /** Callback to update asset metadata in the store */
@@ -52,63 +44,22 @@ export async function fetchBalances(
 
   // Wrap ALL WASM client operations in a single lock to prevent AutoSync from
   // grabbing the lock between getAccount and metadata fetches
-  const { account, assets, fetchedMetadatas } = await withWasmClientLock(async () => {
+  const { account, assets } = await withWasmClientLock(async () => {
     const midenClient = await getMidenClient({ network });
-    const acc = await midenClient.getAccount(address);
+    const accountId = Address.fromBech32(address).accountId();
+    const acc = await midenClient.getAccount(accountId.toString());
 
     // Handle case where account doesn't exist
     if (!acc) {
       return {
         account: null,
-        assets: [] as FungibleAsset[],
-        fetchedMetadatas: {} as Record<string, AssetMetadata>
+        assets: [] as FungibleAsset[]
       };
     }
 
     const acctAssets = acc.vault().fungibleAssets() as FungibleAsset[];
 
-    // Fetch missing metadata INSIDE the lock to prevent race with AutoSync
-    const newMetadatas: Record<string, AssetMetadata> = {};
-
-    if (fetchMissingMetadata) {
-      for (const asset of acctAssets) {
-        const id = getBech32AddressFromAccountId(asset.faucetId(), network);
-        // Skip MIDEN token and tokens we already have metadata for
-        if (id === midenFaucetId || localMetadatas[id]) {
-          continue;
-        }
-
-        try {
-          // Inline the logic from fetchTokenMetadata to avoid separate lock acquisition
-          let faucetAccount = await midenClient.getAccount(id);
-          if (!faucetAccount) {
-            await midenClient.importAccountById(id);
-            faucetAccount = await midenClient.getAccount(id);
-          }
-
-          if (faucetAccount) {
-            const faucetDetails = BasicFungibleFaucetComponent.fromAccount(faucetAccount);
-            const symbol = faucetDetails.symbol().toString();
-            newMetadatas[id] = {
-              decimals: faucetDetails.decimals(),
-              symbol,
-              name: symbol,
-              shouldPreferSymbol: true,
-              thumbnailUri: getAssetUrl('misc/token-logos/default.svg')
-            };
-          } else {
-            // Fallback if we couldn't get faucet account
-            newMetadatas[id] = DEFAULT_TOKEN_METADATA;
-          }
-        } catch (e) {
-          console.warn('Failed to fetch metadata for', id, e);
-          // Use default metadata on failure so token still appears
-          newMetadatas[id] = DEFAULT_TOKEN_METADATA;
-        }
-      }
-    }
-
-    return { account: acc, assets: acctAssets, fetchedMetadatas: newMetadatas };
+    return { account: acc, assets: acctAssets };
   });
 
   // Handle case where account doesn't exist (outside the lock)
@@ -126,6 +77,7 @@ export async function fetchBalances(
   }
 
   // First pass: fetch missing metadata INLINE (so all tokens appear together)
+  // fetchTokenMetadata already stores to Dexie faucetMetadatas table
   if (fetchMissingMetadata) {
     for (const asset of assets) {
       const id = getBech32AddressFromAccountId(asset.faucetId(), network);
@@ -133,7 +85,6 @@ export async function fetchBalances(
         try {
           const { base } = await fetchTokenMetadata(id, network);
           localMetadatas[id] = base;
-          await setTokensBaseMetadata({ [id]: base });
           setAssetsMetadata?.({ [id]: base });
         } catch (e) {
           console.warn('Failed to fetch metadata for', id, e);

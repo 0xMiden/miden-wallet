@@ -1,5 +1,6 @@
-import React, { FC, useRef } from 'react';
+import React, { FC, useMemo, useRef } from 'react';
 
+import { Address } from '@miden-sdk/miden-sdk';
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
@@ -7,7 +8,8 @@ import { useAppEnv } from 'app/env';
 import History from 'app/templates/history/History';
 import { Button, ButtonVariant } from 'components/Button';
 import { NavigationHeader } from 'components/NavigationHeader';
-import { useAccount, useAllBalances, useAllTokensBaseMetadata } from 'lib/miden/front';
+import { useAccount, useAllBalances, useAllTokensBaseMetadata, useNetwork } from 'lib/miden/front';
+import { getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { isMobile } from 'lib/platform';
 import { goBack } from 'lib/woozie';
 
@@ -21,7 +23,12 @@ const TokenHistory: FC<TokenHistoryProps> = ({ tokenId }) => {
   const account = useAccount();
   const scrollParentRef = useRef<HTMLDivElement>(null);
   const allTokensMetadata = useAllTokensBaseMetadata();
-  const { data: balances } = useAllBalances(account.accountId, allTokensMetadata);
+  const network = useNetwork();
+  const address = useMemo(() => {
+    return getBech32AddressFromAccountId(account.accountId, network.id);
+  }, [account.accountId, network]);
+
+  const { data: balances } = useAllBalances(address, allTokensMetadata);
 
   // Get token name from balances (which has metadata embedded) or fall back to metadata store
   const tokenFromBalances = balances?.find(b => b.tokenId === tokenId);

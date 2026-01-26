@@ -1,7 +1,8 @@
-import { AccountId, BasicFungibleFaucetComponent, Endpoint, RpcClient } from '@miden-sdk/miden-sdk';
+import { Address, BasicFungibleFaucetComponent, Endpoint, RpcClient } from '@miden-sdk/miden-sdk';
 
 import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { isMidenAsset } from 'lib/miden/assets';
+import * as Repo from 'lib/miden/repo';
 import { isExtension } from 'lib/platform';
 
 import { DEFAULT_TOKEN_METADATA, MIDEN_METADATA } from './defaults';
@@ -27,15 +28,40 @@ export async function fetchTokenMetadata(
   assetId: string,
   networkId: MIDEN_NETWORK_NAME
 ): Promise<{ base: AssetMetadata; detailed: DetailedAssetMetdata }> {
+  console.log('Fetching metadata for assetId:', assetId, 'on network:', networkId);
   if (isMidenAsset(assetId)) {
     return { base: MIDEN_METADATA, detailed: MIDEN_METADATA };
   }
 
   try {
-    const getFaucetMetadata = async () => {
-      const rpcClient = new RpcClient(Endpoint.testnet());
+    const existing = await Repo.faucetMetadatas.get(assetId);
+    if (existing) {
+      const base: AssetMetadata = {
+        decimals: existing.decimals,
+        symbol: existing.symbol,
+        name: existing.symbol,
+        shouldPreferSymbol: true,
+        thumbnailUri: getAssetUrl('misc/token-logos/default.svg')
+      };
+      const detailed: DetailedAssetMetdata = {
+        ...base
+      };
+      return { base, detailed };
+    }
 
-      const account = await rpcClient.getAccountDetails(AccountId.fromHex(assetId));
+    const getFaucetMetadata = async () => {
+      let endpoint: Endpoint;
+      if (networkId === MIDEN_NETWORK_NAME.TESTNET) {
+        endpoint = Endpoint.testnet();
+      } else if (networkId === MIDEN_NETWORK_NAME.DEVNET) {
+        endpoint = Endpoint.devnet();
+      } else {
+        endpoint = Endpoint.localhost();
+      }
+
+      const rpcClient = new RpcClient(endpoint);
+
+      const account = await rpcClient.getAccountDetails(Address.fromBech32(assetId).accountId());
 
       const underlyingAccount = account.account();
       if (!underlyingAccount) {
@@ -64,7 +90,14 @@ export async function fetchTokenMetadata(
       shouldPreferSymbol: true,
       thumbnailUri: getAssetUrl('misc/token-logos/default.svg')
     };
-
+    await Repo.faucetMetadatas.put(
+      {
+        symbol,
+        decimals,
+        accountId: assetId
+      },
+      assetId
+    );
     const detailed: DetailedAssetMetdata = {
       ...base
     };

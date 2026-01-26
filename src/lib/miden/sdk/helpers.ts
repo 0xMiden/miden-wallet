@@ -15,11 +15,26 @@ export function networkToNetworkId(network: MIDEN_NETWORK_NAME): NetworkId {
   }
 }
 
-export function getBech32AddressFromAccountId(accountId: AccountId, network: MIDEN_NETWORK_NAME): string {
+export function getBech32AddressFromAccountId(accountId: AccountId | string, network: MIDEN_NETWORK_NAME): string {
+  if (typeof accountId === 'string') {
+    accountId = AccountId.fromHex(accountId);
+  }
   const accountAddress = Address.fromAccountId(accountId, 'BasicWallet');
   return accountAddress.toBech32(networkToNetworkId(network));
 }
 
 export function accountIdStringToSdk(accountId: string): AccountId {
   return AccountId.fromHex(accountId);
+}
+
+export function ensureAccountIds(accountIds: string[]): AccountId[] {
+  return accountIds.map(id => {
+    try {
+      return AccountId.fromHex(id);
+    } catch (e) {
+      // it should be a bech32 address
+      const address = Address.fromBech32(id);
+      return address.accountId();
+    }
+  });
 }

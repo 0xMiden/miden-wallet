@@ -37,7 +37,6 @@ export const ConsumingNotePage: FC<ConsumingNotePageProps> = ({ noteId }) => {
   const { signTransaction } = useMidenContext();
   const account = useAccount();
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
-
   const shouldFetchClaimableNotes = status === ConsumingNoteStatus.Waiting;
   const { data: claimableNotes = [] } = useClaimableNotes(account.accountId, shouldFetchClaimableNotes);
 
@@ -69,13 +68,13 @@ export const ConsumingNotePage: FC<ConsumingNotePageProps> = ({ noteId }) => {
     // If isBeingClaimed is true, the note is already queued for transaction generation
     if (!noteToConsume.isBeingClaimed) {
       console.log('[ConsumingNote] Calling initiateConsumeTransaction...');
-      await initiateConsumeTransaction(account.accountId, noteToConsume, isDelegatedProvingEnabled);
+      await initiateConsumeTransaction(account.accountId, noteToConsume, network.id, isDelegatedProvingEnabled);
       console.log('[ConsumingNote] initiateConsumeTransaction completed');
     } else {
       console.log('[ConsumingNote] Note is already being claimed');
     }
     setStatus(ConsumingNoteStatus.TxQueued);
-  }, [account.accountId, noteToConsume, isDelegatedProvingEnabled, noteConsumeTimedOut, status]);
+  }, [account.accountId, noteToConsume, isDelegatedProvingEnabled, noteConsumeTimedOut, status, network.id]);
 
   const generateTransaction = useCallback(async () => {
     console.log('[ConsumingNote] generateTransaction called, calling dbTransactionsLoop...');

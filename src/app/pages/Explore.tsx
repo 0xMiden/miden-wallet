@@ -55,18 +55,6 @@ const Explore: FC = () => {
   const account = useAccount();
   const midenFaucetId = useMidenFaucetId();
   const { signTransaction } = useMidenContext();
-
-  const allTokensBaseMetadata = useAllTokensBaseMetadata();
-  // Call useAllBalances before useClaimableNotes - balance fetch is fast (~5ms)
-  // while claimable notes is slow (~500ms due to syncState). With the mutex
-  // serializing operations, we want the fast one to run first.
-  const { data: allTokenBalances = [] } = useAllBalances(account.accountId, allTokensBaseMetadata);
-
-  const { data: claimableNotes, mutate: mutateClaimableNotes } = useClaimableNotes(account.accountId);
-  const isDelegatedProvingEnabled = isDelegateProofEnabled();
-  const shouldAutoConsume = isAutoConsumeEnabled();
-
-  const { fullPage } = useAppEnv();
   const network = useNetwork();
 
   // User-facing bech32 address
@@ -75,6 +63,17 @@ const Explore: FC = () => {
     [account.accountId, network.id]
   );
 
+  const allTokensBaseMetadata = useAllTokensBaseMetadata();
+  // Call useAllBalances before useClaimableNotes - balance fetch is fast (~5ms)
+  // while claimable notes is slow (~500ms due to syncState). With the mutex
+  // serializing operations, we want the fast one to run first.
+  const { data: allTokenBalances = [] } = useAllBalances(displayAddress, allTokensBaseMetadata);
+
+  const { data: claimableNotes, mutate: mutateClaimableNotes } = useClaimableNotes(account.accountId);
+  const isDelegatedProvingEnabled = isDelegateProofEnabled();
+  const shouldAutoConsume = isAutoConsumeEnabled();
+
+  const { fullPage } = useAppEnv();
   const handleFaucetClick = useCallback(async () => {
     const faucetUrl = getFaucetUrl(network.id);
     await openFaucetWebview({ url: faucetUrl, title: t('midenFaucet'), recipientAddress: displayAddress });
@@ -112,7 +111,7 @@ const Explore: FC = () => {
     }
 
     const promises = notesToClaim.map(async note => {
-      await initiateConsumeTransaction(account.accountId, note, isDelegatedProvingEnabled);
+      await initiateConsumeTransaction(account.accountId, note, network.id, isDelegatedProvingEnabled);
     });
     await Promise.all(promises);
     mutateClaimableNotes();

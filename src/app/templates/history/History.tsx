@@ -112,6 +112,7 @@ async function fetchTransactionsAsHistoryEntries(
   tokenId?: string
 ): Promise<IHistoryEntry[]> {
   const transactions = await getCompletedTransactions(address, offset, limit, false, tokenId);
+  console.log('Fetched completed transactions:', transactions); // --- IGNORE ---
   const entries = transactions.map(async tx => {
     const updateMessageForFailed = tx.status === ITransactionStatus.Failed ? 'Transaction failed' : tx.displayMessage;
     const icon = tx.status === ITransactionStatus.Failed ? 'FAILED' : tx.displayIcon;

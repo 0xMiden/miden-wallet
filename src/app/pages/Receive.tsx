@@ -167,7 +167,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
     };
 
     checkFailedNotes();
-  }, [safeClaimableNotes]);
+  }, [safeClaimableNotes, network.id]);
 
   const handleClaimAll = useCallback(async () => {
     if (unclaimedNotes.length === 0) return;
@@ -206,7 +206,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
       const transactionIds: { noteId: string; txId: string }[] = [];
       for (const note of freshUnclaimedNotes) {
         try {
-          const id = await initiateConsumeTransaction(account.accountId, note, isDelegatedProvingEnabled);
+          const id = await initiateConsumeTransaction(account.accountId, note, network.id, isDelegatedProvingEnabled);
           transactionIds.push({ noteId: note.id, txId: id });
         } catch (err) {
           console.error('Error queuing note for claim:', note.id, err);
@@ -260,7 +260,8 @@ export const Receive: React.FC<ReceiveProps> = () => {
     isDelegatedProvingEnabled,
     mutateClaimableNotes,
     claimingNoteIds,
-    individualClaimingIds
+    individualClaimingIds,
+    network.id
   ]);
 
   const handleClose = () => {
@@ -450,7 +451,7 @@ export const ConsumableNoteComponent = ({
   const abortControllerRef = useRef<AbortController | null>(null);
   // Track if we've verified the claim status to prevent sync effect from re-enabling loading
   const hasVerifiedClaimStatus = useRef(false);
-
+  const networkId = useNetwork();
   // Report claiming state changes to parent
   useEffect(() => {
     onClaimingStateChange?.(note.id, isLoading);
@@ -518,7 +519,7 @@ export const ConsumableNoteComponent = ({
     const signal = abortControllerRef.current.signal;
 
     try {
-      const id = await initiateConsumeTransaction(account.accountId, note, isDelegatedProvingEnabled);
+      const id = await initiateConsumeTransaction(account.accountId, note, networkId.id, isDelegatedProvingEnabled);
       useWalletStore.getState().openTransactionModal();
       const txHash = await waitForConsumeTx(id, signal);
       const remainingNotes = await mutateClaimableNotes();
@@ -537,7 +538,7 @@ export const ConsumableNoteComponent = ({
     } finally {
       setIsLoading(false);
     }
-  }, [account, isDelegatedProvingEnabled, mutateClaimableNotes, note]);
+  }, [account, isDelegatedProvingEnabled, mutateClaimableNotes, note, networkId.id]);
   const amountText = `${formatBigInt(BigInt(note.amount), note.metadata?.decimals || 6)} ${note.metadata?.symbol || 'UNKNOWN'}`;
 
   return (

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { fetchingAddresses } from 'lib/miden/front/balance';
 
 import { useWalletStore } from '../index';
@@ -15,7 +16,7 @@ export function usePrefetchBalances() {
   const assetsMetadata = useWalletStore(s => s.assetsMetadata);
   const setAssetsMetadata = useWalletStore(s => s.setAssetsMetadata);
   const balancesLastFetched = useWalletStore(s => s.balancesLastFetched);
-
+  const network = useWalletStore(s => s.selectedNetworkId);
   // Track if we've already started prefetching for this account
   const prefetchedRef = useRef<string | null>(null);
 
@@ -41,7 +42,7 @@ export function usePrefetchBalances() {
     }));
 
     // Prefetch in background - don't block anything
-    fetchBalances(address, assetsMetadata, { setAssetsMetadata })
+    fetchBalances(network as MIDEN_NETWORK_NAME, address, assetsMetadata, { setAssetsMetadata })
       .then(balances => {
         useWalletStore.setState(state => ({
           balances: { ...state.balances, [address]: balances },

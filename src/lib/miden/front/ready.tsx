@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 
 import { usePassiveStorage } from 'lib/miden/front/storage';
 import { useWalletStore } from 'lib/store';
 
+import { getBech32AddressFromAccountId } from '../sdk/helpers';
 import { MidenNetwork } from '../types';
 
 export enum ActivationStatus {
@@ -99,6 +100,19 @@ export function useAccount() {
   }
 
   return account;
+}
+
+export function useAddress() {
+  const account = useAccount();
+  const network = useNetwork();
+
+  const address = useMemo(() => {
+    return getBech32AddressFromAccountId(account.accountId, network.id);
+  }, [account.accountId, network.id]);
+  return {
+    address,
+    networkId: network.id
+  };
 }
 
 /**

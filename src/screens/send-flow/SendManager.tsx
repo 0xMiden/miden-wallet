@@ -9,7 +9,8 @@ import { useAppEnv } from 'app/env';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { stringToBigInt } from 'lib/i18n/numbers';
 import { initiateSendTransaction, waitForTransactionCompletion } from 'lib/miden/activity';
-import { useAccount, useAllAccounts } from 'lib/miden/front';
+import { useAccount, useAllAccounts, useNetwork } from 'lib/miden/front';
+import { getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { NoteTypeEnum } from 'lib/miden/types';
 import { useMobileBackHandler } from 'lib/mobile/useMobileBackHandler';
 import { isMobile } from 'lib/platform';
@@ -92,6 +93,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const { accountId } = useAccount();
   const { fullPage } = useAppEnv();
   const delegateEnabled = isDelegateProofEnabled();
+  const network = useNetwork();
 
   const otherAccounts: Contact[] = useMemo(
     () =>
@@ -100,12 +102,12 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
         .map(
           contact =>
             ({
-              id: contact.accountId,
+              id: getBech32AddressFromAccountId(contact.accountId, network.id),
               name: contact.name,
               isOwned: true
             }) as Contact
         ),
-    [allAccounts, accountId]
+    [allAccounts, accountId, network.id]
   );
 
   const onClose = useCallback(() => {
@@ -226,6 +228,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
           token!.id,
           sharePrivately ? NoteTypeEnum.Private : NoteTypeEnum.Public,
           stringToBigInt(amount!, token!.decimals),
+          network.id,
           recallBlocks ? parseInt(recallBlocks) : undefined,
           delegateTransaction
         );
@@ -264,7 +267,8 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       amount,
       recallBlocks,
       setError,
-      token
+      token,
+      network.id
     ]
   );
 

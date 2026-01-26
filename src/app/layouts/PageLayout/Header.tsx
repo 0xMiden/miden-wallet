@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 
 import classNames from 'clsx';
 
@@ -9,7 +9,8 @@ import { openInFullPage, useAppEnv } from 'app/env';
 import { ReactComponent as ChevronDownIcon } from 'app/icons/chevron-down.svg';
 import { ReactComponent as MaximiseIcon } from 'app/icons/maximise.svg';
 import ContentContainer from 'app/layouts/ContentContainer';
-import { useAccount, useAllBalances, useAllTokensBaseMetadata } from 'lib/miden/front';
+import { useAccount, useAllBalances, useAllTokensBaseMetadata, useNetwork } from 'lib/miden/front';
+import { getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { useWalletStore } from 'lib/store';
 import { Link } from 'lib/woozie';
 
@@ -53,7 +54,13 @@ const Control: FC = () => {
   const account = useAccount();
   const { popup } = useAppEnv();
   const allTokensBaseMetadata = useAllTokensBaseMetadata();
-  const { isLoading: isLoadingBalances } = useAllBalances(account.publicKey, allTokensBaseMetadata);
+  const network = useNetwork();
+  const address = useMemo(
+    () => getBech32AddressFromAccountId(account.accountId, network.id),
+    [account.accountId, network.id]
+  );
+
+  const { isLoading: isLoadingBalances } = useAllBalances(address, allTokensBaseMetadata);
   const hasCompletedInitialSync = useWalletStore(s => s.hasCompletedInitialSync);
   const isSyncing = isLoadingBalances || !hasCompletedInitialSync;
 
@@ -88,7 +95,7 @@ const Control: FC = () => {
                 'cursor-pointer'
               )}
             >
-              <ColorIdenticon publicKey={account.accountId} />
+              <ColorIdenticon publicKey={address} />
               <div className="self-start flex overflow-x-hidden ml-2 leading-9">
                 <Name className={classNames('font-bold', 'text-black', 'text-sm', 'opacity-90')}>{account.name}</Name>
                 <ChevronDownIcon

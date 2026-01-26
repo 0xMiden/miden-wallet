@@ -1266,15 +1266,6 @@
   dependencies:
     create-hmac "1.1.7"
 
-"@demox-labs/miden-sdk@0.12.5":
-  version "0.12.5"
-  resolved "https://registry.yarnpkg.com/@demox-labs/miden-sdk/-/miden-sdk-0.12.5.tgz#0f7851bef9ae4f5ff5770ac094400acc2c46d0ca"
-  integrity sha512-Oq+MKObtOEY3aro+q1coVSc2RKrIycWbz9hBvnxqIlUkHzn6iL8X4+TG8t14co03cyuVt1dz1F13w0ScQSBMuA==
-  dependencies:
-    "@rollup/plugin-typescript" "^12.3.0"
-    dexie "^4.0.1"
-    glob "^11.0.0"
-
 "@demox-labs/miden-wallet-adapter-base@0.10.0", "@demox-labs/miden-wallet-adapter-base@^0.10.0":
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/@demox-labs/miden-wallet-adapter-base/-/miden-wallet-adapter-base-0.10.0.tgz#fe144127c5460028a61ea4a0219a1b21231b43dc"
@@ -2159,10 +2150,10 @@
   dependencies:
     "@types/mdx" "^2.0.0"
 
-"@miden-sdk/miden-sdk@^0.13.0-next.3":
-  version "0.13.0-next.3"
-  resolved "https://registry.yarnpkg.com/@miden-sdk/miden-sdk/-/miden-sdk-0.13.0-next.3.tgz#4613b92e7f084e498da6dbb7d94d8682d9e6000f"
-  integrity sha512-tOIKIFd81Dplp13DyZfDAIxBSKacxxVxX/GCz3L0OB6660QHbrDK0gkOxSzyrTmWE+pcJYCzeh9e0MuvOJKZ+g==
+"@miden-sdk/miden-sdk@^0.13.0-next.4":
+  version "0.13.0-next.4"
+  resolved "https://registry.yarnpkg.com/@miden-sdk/miden-sdk/-/miden-sdk-0.13.0-next.4.tgz#c38d946cae4abd8b530b7cf3b00925c7eb865e42"
+  integrity sha512-tQ5L1bnv3Er9dPKGlf0doOF4m/aM72o7lqYuEJH6kIDJFpd450zC+AWvNeaLHrw3rpF/jo6X/Aa2qv6brnYpcg==
   dependencies:
     "@rollup/plugin-typescript" "^12.3.0"
     dexie "^4.0.1"

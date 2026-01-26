@@ -11,6 +11,7 @@ import {
 } from '@demox-labs/miden-wallet-adapter-base';
 import { NoteFilterTypes } from '@miden-sdk/miden-sdk';
 
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { TransactionOutput } from 'lib/miden/db/types';
 
 export type MidenDAppMessage = MidenDAppRequest | MidenDAppResponse;

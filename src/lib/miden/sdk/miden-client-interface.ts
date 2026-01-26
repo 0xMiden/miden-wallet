@@ -4,6 +4,7 @@ import {
   AccountId,
   AccountStorageMode,
   Address,
+  AuthSecretKey,
   ConsumableNoteRecord,
   InputNoteRecord,
   InputNoteState,
@@ -31,7 +32,7 @@ import { WalletType } from 'screens/onboarding/types';
 import { ConsumeTransaction, SendTransaction } from '../db/types';
 import { toNoteType } from '../helpers';
 import { NoteExportType } from './constants';
-import { accountIdStringToSdk, getBech32AddressFromAccountId } from './helpers';
+import { accountIdStringToSdk, ensureAccountIds, getBech32AddressFromAccountId } from './helpers';
 
 export type MidenClientCreateOptions = {
   network: MIDEN_NETWORK_NAME;
@@ -75,8 +76,6 @@ export class MidenClientInterface {
    * @note A new web worker is created for each invocation. Each worker must be manually disposed of.
    */
   static async create(options: MidenClientCreateOptions) {
-    const seed = options.seed?.toString();
-
     // In test builds, swap to the SDK's mock client to avoid hitting the real chain.
     if (process.env.MIDEN_USE_MOCK_CLIENT === 'true') {
       const sdk = await import('@miden-sdk/miden-sdk');
@@ -87,18 +86,22 @@ export class MidenClientInterface {
         options.onConnectivityIssue
       );
     }
-
-    // NOTE: SDK typings do not yet expose createClientWithExternalKeystore; cast to any to keep callbacks.
-    const webClient = await (WebClient as any).createClientWithExternalKeystore(
-      MIDEN_NETWORK_ENDPOINTS.get(options.network)!,
-      MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS.get(options.network),
-      seed,
-      options.getKeyCallback,
-      options.insertKeyCallback,
-      options.signCallback
-    );
-
-    return new MidenClientInterface(webClient, options.network, options.onConnectivityIssue);
+    try {
+      const webClient = await WebClient.createClientWithExternalKeystore(
+        MIDEN_NETWORK_ENDPOINTS.get(options.network)!,
+        MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS.get(options.network)!,
+        options.seed,
+        undefined,
+        options.getKeyCallback,
+        options.insertKeyCallback,
+        options.signCallback
+      );
+      console.log('MidenClientInterface.create: WebClient created for network', options.network);
+      return new MidenClientInterface(webClient, options.network, options.onConnectivityIssue);
+    } catch (error) {
+      console.warn('MidenClientInterface.create: Error creating WebClient', error);
+      throw error;
+    }
   }
 
   /**
@@ -114,13 +117,18 @@ export class MidenClientInterface {
   }
 
   async createMidenWallet(walletType: WalletType, seed?: Uint8Array): Promise<string> {
-    await this.webClient.syncState();
     // Create a new wallet
     const accountStorageMode =
       walletType === WalletType.OnChain ? AccountStorageMode.public() : AccountStorageMode.private();
 
     const wallet: Account = await this.webClient.newWallet(accountStorageMode, true, 0, seed);
     return wallet.id().toString();
+  }
+
+  async addAccountAndSecretKey(account: Account, secretKey: AuthSecretKey): Promise<AccountId> {
+    await this.webClient.newAccount(account, true);
+    await this.webClient.addAccountSecretKeyToWebStore(account.id(), secretKey);
+    return account.id();
   }
 
   async importMidenWallet(accountBytes: Uint8Array): Promise<string> {
@@ -240,19 +248,20 @@ export class MidenClientInterface {
       const blockNum = syncState.blockNum();
       recallHeight = blockNum + recallBlocks;
     }
-
+    const [senderAccId, recipientAccId, faucetAccId] = ensureAccountIds([
+      senderAccountId,
+      recipientAccountId,
+      faucetId
+    ]);
     let sendTransactionRequest = this.webClient.newSendTransactionRequest(
-      accountIdStringToSdk(senderAccountId),
-      accountIdStringToSdk(recipientAccountId),
-      accountIdStringToSdk(faucetId),
+      senderAccId,
+      recipientAccId,
+      faucetAccId,
       toNoteType(noteType),
       amount,
       recallHeight
     );
-    let sendTransactionResult = await this.webClient.executeTransaction(
-      accountIdStringToSdk(senderAccountId),
-      sendTransactionRequest
-    );
+    let sendTransactionResult = await this.webClient.executeTransaction(senderAccId, sendTransactionRequest);
 
     return sendTransactionResult.serialize();
   }

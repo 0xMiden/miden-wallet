@@ -31,7 +31,7 @@ export interface ITransaction {
   id: string;
   type: ITransactionType;
   accountId: string;
-  networkId?: MIDEN_NETWORK_NAME;
+  networkId: MIDEN_NETWORK_NAME;
   amount?: bigint;
   delegateTransaction?: boolean;
   secondaryAccountId?: string;
@@ -67,7 +67,7 @@ export class Transaction implements ITransaction {
   id: string;
   type: ITransactionType;
   accountId: string;
-  networkId?: MIDEN_NETWORK_NAME;
+  networkId: MIDEN_NETWORK_NAME;
   amount?: bigint;
   noteType?: NoteType;
   delegateTransaction?: boolean;
@@ -86,6 +86,7 @@ export class Transaction implements ITransaction {
   constructor(
     accountId: string,
     requestBytes: Uint8Array,
+    networkId: MIDEN_NETWORK_NAME,
     inputNoteIds?: string[],
     delegateTransaction?: boolean,
     recipientAccountId?: string
@@ -94,6 +95,7 @@ export class Transaction implements ITransaction {
     this.type = 'execute';
     this.accountId = accountId;
     this.requestBytes = requestBytes;
+    this.networkId = networkId;
     this.inputNoteIds = inputNoteIds;
     this.delegateTransaction = delegateTransaction;
     this.secondaryAccountId = recipientAccountId;
@@ -113,7 +115,7 @@ export class SendTransaction implements ITransaction {
   faucetId: string;
   noteType: NoteType;
   transactionId?: string;
-  networkId?: MIDEN_NETWORK_NAME;
+  networkId: MIDEN_NETWORK_NAME;
   status: ITransactionStatus;
   initiatedAt: number;
   processingStartedAt?: number;
@@ -131,6 +133,7 @@ export class SendTransaction implements ITransaction {
     recipientId: string,
     faucetId: string,
     noteType: NoteType,
+    networkId: MIDEN_NETWORK_NAME,
     recallBlocks?: number,
     delegateTransaction?: boolean
   ) {
@@ -147,6 +150,7 @@ export class SendTransaction implements ITransaction {
     this.displayMessage = 'Sending';
     this.extraInputs.recallBlocks = recallBlocks;
     this.delegateTransaction = delegateTransaction;
+    this.networkId = networkId;
   }
 }
 
@@ -154,7 +158,7 @@ export class ConsumeTransaction implements ITransaction {
   id: string;
   type: ITransactionType;
   accountId: string;
-  networkId?: MIDEN_NETWORK_NAME;
+  networkId: MIDEN_NETWORK_NAME;
   amount?: bigint;
   noteId: string;
   secondaryAccountId?: string;
@@ -168,7 +172,7 @@ export class ConsumeTransaction implements ITransaction {
   displayIcon: ITransactionIcon;
   delegateTransaction?: boolean;
 
-  constructor(accountId: string, note: ConsumableNote, delegateTransaction?: boolean) {
+  constructor(accountId: string, note: ConsumableNote, networkId: MIDEN_NETWORK_NAME, delegateTransaction?: boolean) {
     this.id = uuid();
     this.type = 'consume';
     this.accountId = accountId;
@@ -181,6 +185,7 @@ export class ConsumeTransaction implements ITransaction {
     this.displayIcon = 'RECEIVE';
     this.displayMessage = 'Consuming';
     this.delegateTransaction = delegateTransaction;
+    this.networkId = networkId;
   }
 }
 

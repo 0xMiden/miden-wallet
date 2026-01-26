@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -6,7 +6,8 @@ import { useTranslation } from 'react-i18next';
 import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
 import { Avatar } from 'components/Avatar';
 import { CardItem } from 'components/CardItem';
-import { useAccount, useAllTokensBaseMetadata, useAllBalances } from 'lib/miden/front';
+import { useAccount, useAllTokensBaseMetadata, useAllBalances, useNetwork } from 'lib/miden/front';
+import { getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { navigate } from 'lib/woozie';
 import { truncateAddress } from 'utils/string';
 
@@ -15,7 +16,11 @@ const Tokens: FC = () => {
   const account = useAccount();
   const { t } = useTranslation();
   const allTokensBaseMetadata = useAllTokensBaseMetadata();
-  const { data: allTokenBalances = [] } = useAllBalances(account.accountId, allTokensBaseMetadata);
+  const network = useNetwork();
+  const address = useMemo(() => {
+    return getBech32AddressFromAccountId(account.accountId, network.id);
+  }, [account.accountId, network.id]);
+  const { data: allTokenBalances = [] } = useAllBalances(address, allTokensBaseMetadata);
 
   return (
     <>
