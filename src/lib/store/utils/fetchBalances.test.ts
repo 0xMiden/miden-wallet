@@ -29,7 +29,7 @@ jest.mock('lib/miden/sdk/helpers', () => ({
 
 // Mock BasicFungibleFaucetComponent for inline metadata extraction
 const mockFromAccount = jest.fn();
-jest.mock('@demox-labs/miden-sdk', () => ({
+jest.mock('@miden-sdk/miden-sdk', () => ({
   BasicFungibleFaucetComponent: {
     fromAccount: (account: unknown) => mockFromAccount(account)
   }

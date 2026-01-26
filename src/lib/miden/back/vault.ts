@@ -1,5 +1,5 @@
 import { derivePath } from '@demox-labs/aleo-hd-key';
-import { SecretKey, SigningInputs, Word } from '@demox-labs/miden-sdk';
+import { SecretKey, SigningInputs, Word } from '@miden-sdk/miden-sdk';
 import { SendTransaction, SignKind } from '@demox-labs/miden-wallet-adapter-base';
 import * as Bip39 from 'bip39';
 

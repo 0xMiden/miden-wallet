@@ -1,8 +1,8 @@
-import { Address } from '@demox-labs/miden-sdk';
+import { Address } from '@miden-sdk/miden-sdk';
 
 import { accountIdStringToSdk, getBech32AddressFromAccountId } from './helpers';
 
-jest.mock('@demox-labs/miden-sdk', () => ({
+jest.mock('@miden-sdk/miden-sdk', () => ({
   Address: {
     fromAccountId: jest.fn((id: any) => ({
       toBech32: () => `bech32-${id}`

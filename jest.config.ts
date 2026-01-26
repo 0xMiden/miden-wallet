@@ -21,7 +21,7 @@ export default {
     '^components/(.*)$': '<rootDir>/src/components/$1',
     '^screens/(.*)$': '<rootDir>/src/screens/$1',
     '^utils/(.*)$': '<rootDir>/src/utils/$1',
-    '@demox-labs/miden-sdk': '<rootDir>/__mocks__/wasmMock.js',
+    '@miden-sdk/miden-sdk': '<rootDir>/__mocks__/wasmMock.js',
     '\\.svg$': '<rootDir>/__mocks__/svgMock.js'
   },
   testEnvironment: 'jsdom',
