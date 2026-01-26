@@ -29,6 +29,7 @@ describe('MidenClientInterface', () => {
       getAccount: jest.fn(async () => 'acc'),
       importAccountById: jest.fn(async () => 'acc'),
       getAccounts: jest.fn(async () => ['acc']),
+      getInputNote: jest.fn(async () => ({ toNote: () => ({}) })),
       getInputNotes: jest.fn(async () => [
         {
           id: () => ({ toString: () => 'note-1' }),
@@ -297,7 +298,16 @@ describe('MidenClientInterface', () => {
   });
 
   it('calls consumeTransaction method', async () => {
+    const note1 = { id: 'note-1' };
+    const note2 = { id: 'note-2' };
+    const notesById: Record<string, any> = {
+      'note-1': note1,
+      'note-2': note2
+    };
     const fakeWebClient = {
+      getInputNote: jest.fn(async (noteId: string) => ({
+        toNote: () => notesById[noteId]
+      })),
       newConsumeTransactionRequest: jest.fn(() => ({})),
       executeTransaction: jest.fn(async () => ({ serialize: () => new Uint8Array([1]) })),
       syncState: jest.fn(async () => ({})),
@@ -325,7 +335,7 @@ describe('MidenClientInterface', () => {
 
     await client.consumeTransaction('acc-id', ['note-1', 'note-2'], false);
 
-    expect(fakeWebClient.newConsumeTransactionRequest).toHaveBeenCalledWith(['note-1', 'note-2']);
+    expect(fakeWebClient.newConsumeTransactionRequest).toHaveBeenCalledWith([note1, note2]);
   });
 
   it('sends transaction without recall blocks', async () => {

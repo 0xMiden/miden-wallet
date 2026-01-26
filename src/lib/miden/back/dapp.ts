@@ -83,6 +83,20 @@ async function dappLog(message: string): Promise<void> {
   }
 }
 
+async function getAccountPublicKeyB64(accountId: string): Promise<string> {
+  const midenClient = await getMidenClient();
+  const account = await midenClient.getAccount(accountId);
+  if (!account) {
+    throw new Error('Account not found');
+  }
+  const publicKeyCommitments = account.getPublicKeyCommitments();
+  if (publicKeyCommitments.length === 0) {
+    throw new Error('Account has no public key commitments');
+  }
+  const authSecretKey = await midenClient.webClient.getAccountAuthByPubKeyCommitment(publicKeyCommitments[0]);
+  return u8ToB64(authSecretKey.publicKey().serialize());
+}
+
 // Lazy-loaded browser polyfill (only in extension context)
 type Browser = import('webextension-polyfill').Browser;
 let browserInstance: Browser | null = null;
@@ -239,10 +253,7 @@ export async function generatePromisifyRequestPermission(
     try {
       publicKey = await withUnlocked(async () => {
         return await withWasmClientLock(async () => {
-          const midenClient = await getMidenClient();
-          const account = await midenClient.getAccount(accountPublicKey);
-          const publicKeys = account!.getPublicKeys();
-          return u8ToB64(publicKeys[0].serialize());
+          return await getAccountPublicKeyB64(accountPublicKey);
         });
       });
     } catch (e) {
@@ -298,12 +309,7 @@ export async function generatePromisifyRequestPermission(
               publicKey = await withUnlocked(async () => {
                 // Wrap WASM client operations in a lock to prevent concurrent access
                 return await withWasmClientLock(async () => {
-                  const midenClient = await getMidenClient();
-                  const account = await midenClient.getAccount(accountPublicKey);
-                  const publicKeys = account!.getPublicKeys();
-                  const publicKeyAsB64 = u8ToB64(publicKeys[0].serialize());
-
-                  return publicKeyAsB64;
+                  return await getAccountPublicKeyB64(accountPublicKey);
                 });
               });
             } catch {
@@ -624,14 +630,14 @@ async function getConsumableNotes(accountId: string): Promise<InputNoteDetails[]
             .fungibleAssets()
             .map(asset => ({
               amount: asset.amount().toString(),
-              faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet)
+              faucetId: asset.faucetId().toBech32(NetworkId.testnet(), AccountInterface.BasicWallet)
             }));
           const inputNoteRecord = note.inputNoteRecord();
           return {
             noteId: inputNoteRecord.id().toString(),
             noteType: inputNoteRecord.metadata()?.noteType(),
             senderAccountId:
-              inputNoteRecord.metadata()?.sender()?.toBech32(NetworkId.Testnet, AccountInterface.BasicWallet) ||
+              inputNoteRecord.metadata()?.sender()?.toBech32(NetworkId.testnet(), AccountInterface.BasicWallet) ||
               undefined,
             nullifier: inputNoteRecord.nullifier(),
             state: inputNoteRecord.state(),

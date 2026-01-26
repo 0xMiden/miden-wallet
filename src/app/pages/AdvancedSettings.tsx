@@ -24,8 +24,15 @@ const AdvancedSettings: FC = () => {
     const key = await withWasmClientLock(async () => {
       const midenClient = await getMidenClient();
       const account = await midenClient.getAccount(walletAccount.publicKey);
-      const publicKeys = account!.getPublicKeys();
-      return bytesToHex(publicKeys[0].serialize());
+      if (!account) {
+        return null;
+      }
+      const publicKeyCommitments = account.getPublicKeyCommitments();
+      if (publicKeyCommitments.length === 0) {
+        return null;
+      }
+      const authSecretKey = await midenClient.webClient.getAccountAuthByPubKeyCommitment(publicKeyCommitments[0]);
+      return bytesToHex(authSecretKey.publicKey().serialize());
     });
     setPublicKey(key);
   }, [walletAccount.publicKey]);

@@ -1,4 +1,4 @@
-import { Address } from '@miden-sdk/miden-sdk';
+import { Address, NetworkId } from '@miden-sdk/miden-sdk';
 
 import { accountIdStringToSdk, getBech32AddressFromAccountId } from './helpers';
 
@@ -11,13 +11,14 @@ jest.mock('@miden-sdk/miden-sdk', () => ({
       accountId: () => `id-from-${addr}`
     }))
   },
-  NetworkId: { Testnet: 'testnet' }
+  NetworkId: { testnet: jest.fn(() => 'testnet') }
 }));
 
 describe('miden sdk helpers', () => {
   it('converts accountId to bech32', () => {
     const res = getBech32AddressFromAccountId('abc' as any);
     expect(Address.fromAccountId).toHaveBeenCalledWith('abc', 'BasicWallet');
+    expect(NetworkId.testnet).toHaveBeenCalled();
     expect(res).toBe('bech32-abc');
   });
 

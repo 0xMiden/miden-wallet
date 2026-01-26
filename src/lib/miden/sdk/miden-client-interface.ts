@@ -136,7 +136,8 @@ export class MidenClientInterface {
 
   // TODO: is this method even used?
   async consumeTransaction(accountId: string, listOfNoteIds: string[], delegateTransaction?: boolean) {
-    const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest(listOfNoteIds);
+    const notes = await this.getNotesByIds(listOfNoteIds);
+    const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest(notes);
     await this.executeProveAndSubmitTransactionWithFallback(accountId, consumeTransactionRequest, delegateTransaction);
   }
 
@@ -149,7 +150,8 @@ export class MidenClientInterface {
   async consumeNoteId(transaction: ConsumeTransaction): Promise<Uint8Array> {
     const { accountId, noteId } = transaction;
 
-    const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest([noteId]);
+    const notes = await this.getNotesByIds([noteId]);
+    const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest(notes);
     let consumeTransactionResult = await this.webClient.executeTransaction(
       accountIdStringToSdk(accountId),
       consumeTransactionRequest
@@ -263,7 +265,20 @@ export class MidenClientInterface {
   }
 
   async importDb(dump: any) {
-    await this.webClient.forceImportStore(dump);
+    await this.webClient.forceImportStore(dump, this.network);
+  }
+
+  private async getNotesByIds(noteIds: string[]): Promise<Note[]> {
+    const notes = await Promise.all(
+      noteIds.map(async noteId => {
+        const record = await this.webClient.getInputNote(noteId);
+        if (!record) {
+          throw new Error(`Input note not found: ${noteId}`);
+        }
+        return record.toNote();
+      })
+    );
+    return notes;
   }
 
   async newTransaction(accountId: string, requestBytes: Uint8Array) {

@@ -1,5 +1,5 @@
 import { derivePath } from '@demox-labs/aleo-hd-key';
-import { SecretKey, SigningInputs, Word } from '@miden-sdk/miden-sdk';
+import { AuthSecretKey, SigningInputs, Word } from '@miden-sdk/miden-sdk';
 import { SendTransaction, SignKind } from '@demox-labs/miden-wallet-adapter-base';
 import * as Bip39 from 'bip39';
 
@@ -479,7 +479,7 @@ export class Vault {
       this.vaultKey
     );
     const secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
-    const wasmSecretKey = SecretKey.deserialize(secretKeyBytes);
+    const wasmSecretKey = AuthSecretKey.deserialize(secretKeyBytes);
 
     const dataAsUint8Array = b64ToU8(data);
 
@@ -506,7 +506,7 @@ export class Vault {
     );
     let secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
     const wasmSigningInputs = SigningInputs.deserialize(new Uint8Array(Buffer.from(signingInputs, 'hex')));
-    const wasmSecretKey = SecretKey.deserialize(secretKeyBytes);
+    const wasmSecretKey = AuthSecretKey.deserialize(secretKeyBytes);
     const signature = wasmSecretKey.signData(wasmSigningInputs);
     return Buffer.from(signature.serialize()).toString('hex');
   }
