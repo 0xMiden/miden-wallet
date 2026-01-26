@@ -9,7 +9,7 @@ import {
   safeGenerateTransactionsLoop as dbTransactionsLoop,
   getAllUncompletedTransactions
 } from 'lib/miden/activity';
-import { useMidenContext } from 'lib/miden/front';
+import { useMidenContext, useNetwork } from 'lib/miden/front';
 import { useWalletStore } from 'lib/store';
 import { useRetryableSWR } from 'lib/swr';
 import { GeneratingTransaction } from 'screens/generating-transaction/GeneratingTransaction';
@@ -19,7 +19,7 @@ export const TransactionProgressModal: FC = () => {
   const isOpen = useWalletStore(state => state.isTransactionModalOpen);
   const openModal = useWalletStore(state => state.openTransactionModal);
   const closeModal = useWalletStore(state => state.closeTransactionModal);
-
+  const network = useNetwork();
   const { signTransaction } = useMidenContext();
   const [error, setError] = useState(false);
   // Track if we've completed the initial fetch - prevents auto-close race condition
@@ -53,7 +53,7 @@ export const TransactionProgressModal: FC = () => {
   // Process transactions - continues even when modal is hidden
   const generateTransaction = useCallback(async () => {
     try {
-      const success = await dbTransactionsLoop(signTransaction);
+      const success = await dbTransactionsLoop(network.id, signTransaction);
       if (success === false) {
         setError(true);
         // Re-open modal to show error if it was hidden
@@ -66,7 +66,7 @@ export const TransactionProgressModal: FC = () => {
       // Re-open modal to show error if it was hidden
       openModal();
     }
-  }, [mutateTx, signTransaction, openModal]);
+  }, [mutateTx, signTransaction, openModal, network.id]);
 
   // Start processing when modal opens
   useEffect(() => {

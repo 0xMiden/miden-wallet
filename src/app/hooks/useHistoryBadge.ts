@@ -12,7 +12,7 @@ import { isAutoConsumeEnabled } from 'lib/settings/helpers';
 export function useHistoryBadge(): boolean {
   const account = useAccount();
   const midenFaucetId = useMidenFaucetId();
-  const { data: claimableNotes } = useClaimableNotes(account.publicKey);
+  const { data: claimableNotes } = useClaimableNotes(account.accountId);
   const shouldAutoConsume = isAutoConsumeEnabled();
 
   const hasAutoConsumableNotes = useMemo(() => {

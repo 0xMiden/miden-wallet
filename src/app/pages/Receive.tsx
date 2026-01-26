@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +12,7 @@ import { NavigationHeader } from 'components/NavigationHeader';
 import { QRCode } from 'components/QRCode';
 import { SyncWaveBackground } from 'components/SyncWaveBackground';
 import { formatBigInt } from 'lib/i18n/numbers';
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import {
   getFailedTransactions,
   getUncompletedTransactions,
@@ -19,8 +20,9 @@ import {
   verifyStuckTransactionsFromNode,
   waitForConsumeTx
 } from 'lib/miden/activity';
-import { AssetMetadata, useAccount } from 'lib/miden/front';
+import { AssetMetadata, useAccount, useNetwork } from 'lib/miden/front';
 import { useClaimableNotes } from 'lib/miden/front/claimable-notes';
+import { accountIdStringToSdk, getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
 import { ConsumableNote } from 'lib/miden/types';
 import { hapticLight } from 'lib/mobile/haptics';
@@ -38,12 +40,18 @@ export const Receive: React.FC<ReceiveProps> = () => {
   const { t } = useTranslation();
   const { search } = useLocation();
   const account = useAccount();
-  const address = account.publicKey;
+  const network = useNetwork();
+
+  // User-facing bech32 address
+  const displayAddress = useMemo(
+    () => getBech32AddressFromAccountId(accountIdStringToSdk(account.accountId), network.id),
+    [account.accountId, network.id]
+  );
 
   // Check if opened from notification (should go back instead of home on close)
   const fromNotification = new URLSearchParams(search).get('fromNotification') === 'true';
   const { fieldRef, copy, copied } = useCopyToClipboard();
-  const { data: claimableNotes, mutate: mutateClaimableNotes } = useClaimableNotes(address);
+  const { data: claimableNotes, mutate: mutateClaimableNotes } = useClaimableNotes(account.accountId);
   const isDelegatedProvingEnabled = isDelegateProofEnabled();
   const { popup, fullPage } = useAppEnv();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -129,10 +137,10 @@ export const Receive: React.FC<ReceiveProps> = () => {
 
         // 2. Check node state for Invalid notes
         try {
-          const { InputNoteState, NoteFilter, NoteFilterTypes, NoteId } = await import('@demox-labs/miden-sdk');
+          const { InputNoteState, NoteFilter, NoteFilterTypes, NoteId } = await import('@miden-sdk/miden-sdk');
           const noteIds = safeClaimableNotes.map(n => NoteId.fromHex(n.id));
           const noteDetails = await withWasmClientLock(async () => {
-            const midenClient = await getMidenClient();
+            const midenClient = await getMidenClient({ network: network.id });
             const noteFilter = new NoteFilter(NoteFilterTypes.List, noteIds);
             return await midenClient.getInputNoteDetails(noteFilter);
           });
@@ -159,7 +167,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
     };
 
     checkFailedNotes();
-  }, [safeClaimableNotes]);
+  }, [safeClaimableNotes, network.id]);
 
   const handleClaimAll = useCallback(async () => {
     if (unclaimedNotes.length === 0) return;
@@ -198,7 +206,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
       const transactionIds: { noteId: string; txId: string }[] = [];
       for (const note of freshUnclaimedNotes) {
         try {
-          const id = await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
+          const id = await initiateConsumeTransaction(account.accountId, note, network.id, isDelegatedProvingEnabled);
           transactionIds.push({ noteId: note.id, txId: id });
         } catch (err) {
           console.error('Error queuing note for claim:', note.id, err);
@@ -248,11 +256,12 @@ export const Receive: React.FC<ReceiveProps> = () => {
     }
   }, [
     unclaimedNotes,
-    account.publicKey,
+    account.accountId,
     isDelegatedProvingEnabled,
     mutateClaimableNotes,
     claimingNoteIds,
-    individualClaimingIds
+    individualClaimingIds,
+    network.id
   ]);
 
   const handleClose = () => {
@@ -279,7 +288,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
 
           // Wrap WASM client operations in a lock to prevent concurrent access
           const noteId = await withWasmClientLock(async () => {
-            const midenClient = await getMidenClient();
+            const midenClient = await getMidenClient({ network: network.id });
             const id = await midenClient.importNoteBytes(noteBytesAsUint8Array);
             await midenClient.syncState();
             return id;
@@ -345,11 +354,11 @@ export const Receive: React.FC<ReceiveProps> = () => {
         onDragLeave={onDragLeave}
         data-testid="receive-page"
       >
-        <FormField ref={fieldRef} value={address} style={{ display: 'none' }} />
+        <FormField ref={fieldRef} value={displayAddress} style={{ display: 'none' }} />
         {/* Fixed top section - QR code and upload */}
         <div className="flex-shrink-0">
           <div className="w-5/6 md:w-1/2 mx-auto pb-4 flex flex-col items-center">
-            <QRCode address={address} size={80} onCopy={copy} className="w-full" />
+            <QRCode address={displayAddress} size={80} onCopy={copy} className="w-full" />
             {copied && <p className="text-xs text-primary-500 mt-1 transition-opacity duration-200">{t('copied')}</p>}
           </div>
           <div className="w-5/6 md:w-1/2 mx-auto" style={{ borderBottom: '1px solid #E9EBEF' }}></div>
@@ -442,7 +451,7 @@ export const ConsumableNoteComponent = ({
   const abortControllerRef = useRef<AbortController | null>(null);
   // Track if we've verified the claim status to prevent sync effect from re-enabling loading
   const hasVerifiedClaimStatus = useRef(false);
-
+  const networkId = useNetwork();
   // Report claiming state changes to parent
   useEffect(() => {
     onClaimingStateChange?.(note.id, isLoading);
@@ -469,7 +478,7 @@ export const ConsumableNoteComponent = ({
     }
 
     const resumeWaiting = async () => {
-      const uncompletedTxs = await getUncompletedTransactions(account.publicKey);
+      const uncompletedTxs = await getUncompletedTransactions(account.accountId);
       const tx = uncompletedTxs.find(t => t.type === 'consume' && t.noteId === note.id);
 
       if (!tx) {
@@ -499,7 +508,7 @@ export const ConsumableNoteComponent = ({
     };
 
     resumeWaiting();
-  }, [note.isBeingClaimed, note.id, account.publicKey, mutateClaimableNotes]);
+  }, [note.isBeingClaimed, note.id, account.accountId, mutateClaimableNotes]);
 
   const handleConsume = useCallback(async () => {
     setError(null);
@@ -510,7 +519,7 @@ export const ConsumableNoteComponent = ({
     const signal = abortControllerRef.current.signal;
 
     try {
-      const id = await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
+      const id = await initiateConsumeTransaction(account.accountId, note, networkId.id, isDelegatedProvingEnabled);
       useWalletStore.getState().openTransactionModal();
       const txHash = await waitForConsumeTx(id, signal);
       const remainingNotes = await mutateClaimableNotes();
@@ -529,7 +538,7 @@ export const ConsumableNoteComponent = ({
     } finally {
       setIsLoading(false);
     }
-  }, [account, isDelegatedProvingEnabled, mutateClaimableNotes, note]);
+  }, [account, isDelegatedProvingEnabled, mutateClaimableNotes, note, networkId.id]);
   const amountText = `${formatBigInt(BigInt(note.amount), note.metadata?.decimals || 6)} ${note.metadata?.symbol || 'UNKNOWN'}`;
 
   return (

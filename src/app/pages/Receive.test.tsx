@@ -97,7 +97,7 @@ jest.mock('lib/miden/sdk/miden-client', () => ({
   withWasmClientLock: jest.fn(callback => callback())
 }));
 
-jest.mock('@demox-labs/miden-sdk', () => ({
+jest.mock('@miden-sdk/miden-sdk', () => ({
   InputNoteState: { Invalid: 'Invalid' },
   NoteFilter: jest.fn(),
   NoteFilterTypes: { List: 'List' },

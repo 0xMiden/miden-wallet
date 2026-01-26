@@ -39,7 +39,6 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   const settings = useWalletStore(s => s.settings);
   const ownMnemonic = useWalletStore(s => s.ownMnemonic);
   const confirmation = useWalletStore(s => s.confirmation);
-
   // Get actions from Zustand store
   const storeRegisterWallet = useWalletStore(s => s.registerWallet);
   const storeImportWalletFromClient = useWalletStore(s => s.importWalletFromClient);

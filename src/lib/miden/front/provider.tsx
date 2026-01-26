@@ -3,12 +3,14 @@ import React, { FC, useEffect, useMemo } from 'react';
 import { NoteToastProvider } from 'components/NoteToastProvider';
 import { TransactionProgressModal } from 'components/TransactionProgressModal';
 import { FiatCurrencyProvider } from 'lib/fiat-curency';
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { MidenContextProvider, useMidenContext } from 'lib/miden/front/client';
 import { PropsWithChildren } from 'lib/props-with-children';
 import { WalletStoreProvider } from 'lib/store/WalletStoreProvider';
 
 import { getMidenClient } from '../sdk/miden-client';
 import { TokensMetadataProvider } from './assets';
+import { fetchFromStorage } from './storage';
 
 // Pre-create the modal container to avoid flash when first opening
 if (typeof document !== 'undefined' && document.body) {
@@ -37,8 +39,9 @@ export const MidenProvider: FC<PropsWithChildren> = ({ children }) => {
   // Eagerly initialize the Miden client singleton when the app starts
   useEffect(() => {
     const initializeClient = async () => {
+      const networkId = await fetchFromStorage('network_id');
       try {
-        await getMidenClient();
+        await getMidenClient({ network: (networkId as MIDEN_NETWORK_NAME | undefined) || MIDEN_NETWORK_NAME.TESTNET });
       } catch (err) {
         console.error('Failed to initialize Miden client singleton:', err);
       }

@@ -5,6 +5,7 @@ import { useWalletStore } from 'lib/store';
 import { fetchBalances } from 'lib/store/utils/fetchBalances';
 
 import { AssetMetadata, MIDEN_METADATA } from '../metadata';
+import { useNetwork } from './ready';
 
 export interface TokenBalanceData {
   tokenId: string;
@@ -47,7 +48,7 @@ export function useAllBalances(address: string, tokenMetadatas: Record<string, A
   const balancesLoadingMap = useWalletStore(s => s.balancesLoading);
   const balancesLastFetchedMap = useWalletStore(s => s.balancesLastFetched);
   const setAssetsMetadata = useWalletStore(s => s.setAssetsMetadata);
-
+  const network = useNetwork();
   // Derive values with stable defaults
   // Show 0 MIDEN immediately before any async lookup completes
   const balances = balancesMap[address] ?? DEFAULT_ZERO_MIDEN_BALANCE;
@@ -84,7 +85,7 @@ export function useAllBalances(address: string, tokenMetadatas: Record<string, A
     try {
       // Fetch balances using the consolidated utility
       // Metadata is fetched inline, so all tokens appear together
-      const fetchedBalances = await fetchBalances(address, tokenMetadatasRef.current, {
+      const fetchedBalances = await fetchBalances(network.id, address, tokenMetadatasRef.current, {
         setAssetsMetadata
       });
 
@@ -107,7 +108,7 @@ export function useAllBalances(address: string, tokenMetadatas: Record<string, A
       // Release global lock
       fetchingAddresses.delete(address);
     }
-  }, [address, setAssetsMetadata]);
+  }, [address, setAssetsMetadata, network.id]);
 
   // Manual mutate function for compatibility
   const mutate = useCallback(() => {

@@ -19,7 +19,7 @@ const POLLING_TIMEOUT = 20000;
 const ImportNotePending: FC<ImportNotePendingProps> = ({ noteId }) => {
   const { t } = useTranslation();
   const account = useAccount();
-  const address = account.publicKey;
+  const address = account.accountId;
 
   const { data: claimableNotes, mutate } = useClaimableNotes(address);
 

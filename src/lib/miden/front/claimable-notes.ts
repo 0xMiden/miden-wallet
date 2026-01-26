@@ -1,5 +1,8 @@
 import { useCallback, useRef } from 'react';
 
+import { AccountId } from '@miden-sdk/miden-sdk';
+
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { getUncompletedTransactions } from 'lib/miden/activity';
 import { isIOS } from 'lib/platform';
 import { useRetryableSWR } from 'lib/swr';
@@ -10,6 +13,7 @@ import { getBech32AddressFromAccountId } from '../sdk/helpers';
 import { getMidenClient, runWhenClientIdle, withWasmClientLock } from '../sdk/miden-client';
 import { ConsumableNote } from '../types';
 import { useTokensMetadata } from './assets';
+import { useNetwork } from './ready';
 
 // Debug info for iOS troubleshooting
 export type ClaimableNotesDebugInfo = {
@@ -34,7 +38,7 @@ type ParsedNote = {
 
 // -------------------- Pure helpers (no side effects) --------------------
 
-function parseNotes(rawNotes: any[], notesBeingClaimed: Set<string>): ParsedNote[] {
+function parseNotes(rawNotes: any[], notesBeingClaimed: Set<string>, network: MIDEN_NETWORK_NAME): ParsedNote[] {
   const parsed: ParsedNote[] = [];
 
   for (const note of rawNotes) {
@@ -53,9 +57,9 @@ function parseNotes(rawNotes: any[], notesBeingClaimed: Set<string>): ParsedNote
       const firstAsset = fungibleAssets[0];
       if (!firstAsset) continue;
 
-      const faucetId = getBech32AddressFromAccountId(firstAsset.faucetId());
+      const faucetId = getBech32AddressFromAccountId(firstAsset.faucetId(), network);
       const amountBaseUnits = firstAsset.amount().toString();
-      const senderAddress = noteMeta ? getBech32AddressFromAccountId(noteMeta.sender()) : '';
+      const senderAddress = noteMeta ? getBech32AddressFromAccountId(noteMeta.sender(), network) : '';
 
       parsed.push({
         id: noteId,
@@ -133,8 +137,9 @@ async function persistMetadataIfAny(
 
 // -------------------- Hook (composes helpers) --------------------
 
-export function useClaimableNotes(publicAddress: string, enabled: boolean = true) {
+export function useClaimableNotes(accountId: string, enabled: boolean = true) {
   const { allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata } = useTokensMetadata();
+  const network = useNetwork();
   const debugInfoRef = useRef<ClaimableNotesDebugInfo>({
     rawNotesCount: 0,
     parsedNotesCount: 0,
@@ -151,8 +156,8 @@ export function useClaimableNotes(publicAddress: string, enabled: boolean = true
     let rawNotes: any[] = [];
     try {
       rawNotes = await withWasmClientLock(async () => {
-        const midenClient = await getMidenClient();
-        return midenClient.getConsumableNotes(publicAddress);
+        const midenClient = await getMidenClient({ network: network.id });
+        return midenClient.getConsumableNotes(accountId);
       });
     } catch (e) {
       debugInfoRef.current = {
@@ -163,14 +168,16 @@ export function useClaimableNotes(publicAddress: string, enabled: boolean = true
       throw e;
     }
 
-    const uncompletedTxs = await getUncompletedTransactions(publicAddress);
+    const uncompletedTxs = await getUncompletedTransactions(
+      getBech32AddressFromAccountId(AccountId.fromHex(accountId), network.id)
+    );
 
     const notesBeingClaimed = new Set(
       uncompletedTxs.filter(tx => tx.type === 'consume' && tx.noteId != null).map(tx => tx.noteId!)
     );
 
     // 1) Parse notes and collect faucet ids
-    const parsedNotes = parseNotes(rawNotes, notesBeingClaimed);
+    const parsedNotes = parseNotes(rawNotes, notesBeingClaimed, network.id);
     // 2) Seed metadata map from cache (and baked-in MIDEN)
     const metadataByFaucetId = await buildMetadataMapFromCache(parsedNotes, allTokensBaseMetadataRef.current);
 
@@ -211,9 +218,9 @@ export function useClaimableNotes(publicAddress: string, enabled: boolean = true
     };
 
     return result;
-  }, [publicAddress, allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata]);
+  }, [accountId, allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata, network]);
 
-  const key = enabled ? ['claimable-notes', publicAddress] : null;
+  const key = enabled ? ['claimable-notes', accountId] : null;
   const swrResult = useRetryableSWR(key, enabled ? fetchClaimableNotes : null, {
     revalidateOnFocus: false,
     dedupingInterval: 10_000,

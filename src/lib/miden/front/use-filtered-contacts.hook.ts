@@ -15,7 +15,7 @@ export function useFilteredContacts() {
   const accountContacts = useMemo<WalletContact[]>(
     () =>
       accounts.map(acc => ({
-        address: acc.publicKey,
+        address: acc.accountId,
         name: acc.name,
         accountInWallet: true
       })),

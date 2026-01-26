@@ -38,7 +38,7 @@ const NoteToastProviderInner: FC = () => {
   }, []);
 
   // Monitor for new notes
-  useNoteToastMonitor(account.publicKey);
+  useNoteToastMonitor(account.accountId);
 
   // Show native notification when toast should be visible
   useEffect(() => {

@@ -8,7 +8,8 @@ import { AssetIcon } from 'app/templates/AssetIcon';
 import { Button, ButtonVariant } from 'components/Button';
 import { CardItem } from 'components/CardItem';
 import { NavigationHeader } from 'components/NavigationHeader';
-import { useAccount, useAllBalances, useAllTokensBaseMetadata } from 'lib/miden/front';
+import { useAccount, useAllBalances, useAllTokensBaseMetadata, useNetwork } from 'lib/miden/front';
+import { accountIdStringToSdk, getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 
 import { SendFlowAction, SendFlowActionId, SendFlowStep, UIToken } from './types';
 
@@ -18,9 +19,15 @@ export interface SelectTokenScreenProps extends HTMLAttributes<HTMLDivElement> {
 
 export const SelectToken: React.FC<SelectTokenScreenProps> = ({ className, onAction, ...props }) => {
   const { t } = useTranslation();
-  const { publicKey } = useAccount();
+  const { accountId } = useAccount();
+  const network = useNetwork();
+  const address = useMemo(
+    () => getBech32AddressFromAccountId(accountIdStringToSdk(accountId), network.id),
+    [accountId, network.id]
+  );
+
   const allTokensBaseMetadata = useAllTokensBaseMetadata();
-  const { data: balanceData } = useAllBalances(publicKey, allTokensBaseMetadata);
+  const { data: balanceData } = useAllBalances(address, allTokensBaseMetadata);
   const tokens = useMemo(() => {
     return (
       balanceData?.map(token => ({

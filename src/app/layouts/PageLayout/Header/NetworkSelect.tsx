@@ -7,7 +7,7 @@ import { Button } from 'app/atoms/Button';
 import DropdownWrapper from 'app/atoms/DropdownWrapper';
 import Name from 'app/atoms/Name';
 import { ReactComponent as SignalAltIcon } from 'app/icons/signal-alt.svg';
-import { useNetwork } from 'lib/miden/front';
+import { useNetwork, useSetNetworkId } from 'lib/miden/front';
 import { NETWORKS } from 'lib/miden/networks';
 import Popper from 'lib/ui/Popper';
 
@@ -20,7 +20,7 @@ const NetworkSelect: FC<NetworkSelectProps> = () => {
   const { t } = useTranslation();
   const network = useNetwork();
   const uiNetwork = NETWORKS.find(n => n.id === network.id)!;
-
+  const setNetwork = useSetNetworkId();
   return (
     <Popper
       placement="bottom-end"
@@ -40,6 +40,29 @@ const NetworkSelect: FC<NetworkSelectProps> = () => {
               <SignalAltIcon className="w-auto h-4 mr-1 stroke-current" />
               {t('networks')}
             </h2>
+            {NETWORKS.map(n => (
+              <Button
+                key={n.id}
+                className={classNames(
+                  'w-full',
+                  'text-black',
+                  'hover:bg-gray-900',
+                  'active:bg-gray-800',
+                  'transition ease-in-out duration-200',
+                  'px-2 py-1',
+                  'flex items-center text-sm gap-2',
+                  'select-none rounded',
+                  network.id === n.id ? 'bg-gray-800' : ''
+                )}
+                onClick={() => {
+                  setNetwork(n.id);
+                  setOpened(false);
+                }}
+              >
+                <div className={classNames('h-2 w-2', 'rounded-full', 'shadow-xs', 'bg-green-500 border-none')} />
+                <Name>{n.name}</Name>
+              </Button>
+            ))}
           </div>
         </DropdownWrapper>
       )}
@@ -58,7 +81,7 @@ const NetworkSelect: FC<NetworkSelectProps> = () => {
             'select-none border border-grey-200 rounded-3xl'
           )}
           // Disabled until we redo screen & add more networks
-          // onClick={toggleOpened}
+          onClick={toggleOpened}
           testID={NetworkSelectSelectors.SelectedNetworkButton}
         >
           <div className={classNames('h-2 w-2', 'rounded-full', 'shadow-xs', 'bg-green-500 border-none')} />

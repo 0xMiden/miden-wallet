@@ -6,6 +6,8 @@ import PQueue from 'p-queue';
 
 import { useGasToken } from 'app/hooks/useGasToken';
 import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
+import { IFaucetMetadata } from 'lib/miden/db/types';
 import {
   MIDEN_METADATA,
   AssetMetadata,
@@ -13,10 +15,10 @@ import {
   fetchFromStorage,
   fetchTokenMetadata,
   onStorageChanged,
-  putToStorage,
-  usePassiveStorage,
-  isMidenAsset
+  isMidenAsset,
+  useNetwork
 } from 'lib/miden/front';
+import * as Repo from 'lib/miden/repo';
 import { getStorageProvider } from 'lib/platform/storage-adapter';
 import { useWalletStore } from 'lib/store';
 import { useRetryableSWR } from 'lib/swr';
@@ -39,7 +41,7 @@ const autoFetchMetadataFails = new Set<string>();
 export function useAssetMetadata(slug: string, assetId: string) {
   const { metadata } = useGasToken();
   const midenFaucetId = useMidenFaucetId();
-
+  const networkId = useNetwork();
   // Get from Zustand store
   const assetsMetadata = useWalletStore(s => s.assetsMetadata);
   const setAssetsMetadata = useWalletStore(s => s.setAssetsMetadata);
@@ -55,7 +57,7 @@ export function useAssetMetadata(slug: string, assetId: string) {
       autoFetchMetadataQueue
         .add(async () => {
           try {
-            const metadata = await fetchTokenMetadata(assetId);
+            const metadata = await fetchTokenMetadata(assetId, networkId.id as MIDEN_NETWORK_NAME);
             // Update Zustand store
             setAssetsMetadata({ [assetId]: metadata.base });
             // Also persist to storage
@@ -69,7 +71,7 @@ export function useAssetMetadata(slug: string, assetId: string) {
         })
         .catch(() => {});
     }
-  }, [assetId, exist, fetchAssetMetadata, setAssetsMetadata, isMidenFaucet]);
+  }, [assetId, exist, fetchAssetMetadata, setAssetsMetadata, isMidenFaucet, networkId.id]);
 
   // Return MIDEN metadata for native token
   if (isMidenFaucet) {
@@ -80,41 +82,31 @@ export function useAssetMetadata(slug: string, assetId: string) {
 }
 
 export async function useAllAssetMetadata(): Promise<Record<string, AssetMetadata>> {
-  return (await fetchFromStorage(ALL_TOKENS_BASE_METADATA_STORAGE_KEY)) || defaultAllTokensBaseMetadata;
+  return getAllTokensBaseMetadata();
 }
 
-const defaultAllTokensBaseMetadata: Record<string, AssetMetadata> = {};
-const setAllTokensBaseMetadataQueue = new PQueue({ concurrency: 1 });
-
 /**
- * TokensMetadataProvider - Syncs storage to Zustand on mount
+ * TokensMetadataProvider - Syncs Dexie faucetMetadatas table to Zustand on mount
  *
- * This is now a simple provider that syncs browser storage to Zustand.
- * No longer uses constate - just handles the initial sync and change listening.
+ * This provider loads faucet metadata from the Dexie database and syncs it to Zustand store.
  */
 export function TokensMetadataProvider({ children }: { children: React.ReactNode }) {
   const setAssetsMetadata = useWalletStore(s => s.setAssetsMetadata);
   const initialSyncDone = useRef(false);
 
-  // Load initial metadata from storage
-  const [initialAllTokensBaseMetadata] = usePassiveStorage<Record<string, AssetMetadata>>(
-    ALL_TOKENS_BASE_METADATA_STORAGE_KEY,
-    defaultAllTokensBaseMetadata
-  );
-
-  // Sync initial storage to Zustand once on mount
+  // Load initial metadata from Dexie on mount
   useEffect(() => {
-    if (!initialSyncDone.current && Object.keys(initialAllTokensBaseMetadata).length > 0) {
+    const loadMetadata = async () => {
+      if (initialSyncDone.current) return;
       initialSyncDone.current = true;
-      setAssetsMetadata(initialAllTokensBaseMetadata);
-    }
-  }, [initialAllTokensBaseMetadata, setAssetsMetadata]);
 
-  // Listen for storage changes and sync to Zustand (separate effect)
-  useEffect(() => {
-    return onStorageChanged(ALL_TOKENS_BASE_METADATA_STORAGE_KEY, newValue => {
-      setAssetsMetadata(newValue);
-    });
+      const metadata = await getAllTokensBaseMetadata();
+      if (Object.keys(metadata).length > 0) {
+        setAssetsMetadata(metadata);
+      }
+    };
+
+    loadMetadata();
   }, [setAssetsMetadata]);
 
   return <>{children}</>;
@@ -128,6 +120,7 @@ export function TokensMetadataProvider({ children }: { children: React.ReactNode
 export function useTokensMetadata() {
   const assetsMetadata = useWalletStore(s => s.assetsMetadata);
   const setAssetsMetadata = useWalletStore(s => s.setAssetsMetadata);
+  const networkId = useNetwork();
 
   // Ref for backward compatibility with existing code that uses allTokensBaseMetadataRef
   const allTokensBaseMetadataRef = useRef(assetsMetadata);
@@ -137,7 +130,10 @@ export function useTokensMetadata() {
     allTokensBaseMetadataRef.current = assetsMetadata;
   }, [assetsMetadata]);
 
-  const fetchMetadata = useCallback((assetId: string) => fetchTokenMetadata(assetId), []);
+  const fetchMetadata = useCallback(
+    (assetId: string) => fetchTokenMetadata(assetId, networkId.id as MIDEN_NETWORK_NAME),
+    [networkId.id]
+  );
 
   const setTokensDetailedMetadata = useCallback(
     (toSet: Record<string, DetailedAssetMetdata>) =>
@@ -168,23 +164,53 @@ async function setTokensDetailedMetadataStorage(toSet: Record<string, DetailedAs
 }
 
 export async function setTokensBaseMetadata(toSet: Record<string, AssetMetadata>): Promise<void> {
-  const initialAllTokensBaseMetadata: Record<string, AssetMetadata> =
-    (await fetchFromStorage(ALL_TOKENS_BASE_METADATA_STORAGE_KEY)) || defaultAllTokensBaseMetadata;
-
-  setAllTokensBaseMetadataQueue.add(async () =>
-    putToStorage(ALL_TOKENS_BASE_METADATA_STORAGE_KEY, {
-      ...initialAllTokensBaseMetadata,
-      ...toSet
-    })
-  );
+  // Store metadata in Dexie faucetMetadatas table
+  const entries = Object.entries(toSet);
+  for (const [accountId, metadata] of entries) {
+    const faucetMetadata: IFaucetMetadata = {
+      accountId,
+      symbol: metadata.symbol,
+      decimals: metadata.decimals,
+      name: metadata.name,
+      logoUri: metadata.thumbnailUri
+    };
+    await Repo.faucetMetadatas.put(faucetMetadata, accountId);
+  }
 }
 
-export const getTokensBaseMetadata = async (assetId: string) => {
-  const allTokensBaseMetadata: Record<string, AssetMetadata> =
-    (await fetchFromStorage(ALL_TOKENS_BASE_METADATA_STORAGE_KEY)) || defaultAllTokensBaseMetadata;
+export const getTokensBaseMetadata = async (assetId: string): Promise<AssetMetadata | undefined> => {
+  // Fetch metadata from Dexie faucetMetadatas table
+  const faucetMetadata = await Repo.faucetMetadatas.get(assetId);
+  if (!faucetMetadata) return undefined;
 
-  return allTokensBaseMetadata[assetId];
+  return {
+    decimals: faucetMetadata.decimals,
+    symbol: faucetMetadata.symbol,
+    name: faucetMetadata.name || faucetMetadata.symbol,
+    shouldPreferSymbol: true,
+    thumbnailUri: faucetMetadata.logoUri
+  };
 };
+
+/**
+ * Get all faucet metadata from Dexie table
+ */
+export async function getAllTokensBaseMetadata(): Promise<Record<string, AssetMetadata>> {
+  const allFaucetMetadatas = await Repo.faucetMetadatas.toArray();
+  const result: Record<string, AssetMetadata> = {};
+
+  for (const faucetMetadata of allFaucetMetadatas) {
+    result[faucetMetadata.accountId] = {
+      decimals: faucetMetadata.decimals,
+      symbol: faucetMetadata.symbol,
+      name: faucetMetadata.name || faucetMetadata.symbol,
+      shouldPreferSymbol: true,
+      thumbnailUri: faucetMetadata.logoUri
+    };
+  }
+
+  return result;
+}
 
 /**
  * useGetTokenMetadata - Returns a function to get token metadata by slug/id

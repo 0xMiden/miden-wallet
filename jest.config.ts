@@ -21,16 +21,14 @@ export default {
     '^components/(.*)$': '<rootDir>/src/components/$1',
     '^screens/(.*)$': '<rootDir>/src/screens/$1',
     '^utils/(.*)$': '<rootDir>/src/utils/$1',
-    '@demox-labs/miden-sdk': '<rootDir>/__mocks__/wasmMock.js',
-    '\\.svg$': '<rootDir>/__mocks__/svgMock.js'
+    '\\.svg$': '<rootDir>/__mocks__/svgMock.js',
+    '@miden-sdk/miden-sdk': '<rootDir>/__mocks__/wasmMock.js'
   },
   testEnvironment: 'jsdom',
   transform: {
     '.+\\.(ts|tsx|js|mjs)$': '@swc/jest'
   },
-  transformIgnorePatterns: [
-    '/node_modules/(?!(p-queue|p-timeout|eventemitter3|date-fns|dexie)/)'
-  ],
+  transformIgnorePatterns: ['/node_modules/(?!(p-queue|p-timeout|eventemitter3|date-fns|dexie)/)'],
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   modulePathIgnorePatterns: ['<rootDir>/sdk-debug/'],
   testPathIgnorePatterns: ['<rootDir>/playwright/', '<rootDir>/mobile-e2e/'],

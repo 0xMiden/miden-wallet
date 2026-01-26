@@ -1,3 +1,5 @@
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
+
 import { MidenClientInterface, MidenClientCreateOptions } from './miden-client-interface';
 
 /**
@@ -123,31 +125,32 @@ class MidenClientSingleton {
 
   private instanceWithOptions: MidenClientInterface | null = null;
   private initializingPromiseWithOptions: Promise<MidenClientInterface> | null = null;
-
+  network: MIDEN_NETWORK_NAME | null = null;
   /**
    * Get or create the singleton MidenClientInterface instance.
    * This instance does not specify any options and is never disposed.
    * On mobile, if instanceWithOptions already exists, return that to avoid
    * creating multiple clients (which causes OOM from multiple WASM worker instances).
    */
-  async getInstance(): Promise<MidenClientInterface> {
+  async getInstance(network: MIDEN_NETWORK_NAME): Promise<MidenClientInterface> {
     // On mobile, reuse any existing client to avoid OOM from multiple worker instances
-    if (this.instanceWithOptions) {
+    if (this.instanceWithOptions && this.network === network) {
       return this.instanceWithOptions;
     }
 
-    if (this.instance) {
+    if (this.instance && this.network === network) {
       return this.instance;
     }
 
-    if (this.initializingPromise) {
+    if (this.initializingPromise && this.network === network) {
       return this.initializingPromise;
     }
 
     this.initializingPromise = (async () => {
-      const client = await MidenClientInterface.create();
+      const client = await MidenClientInterface.create({ network });
       this.instance = client;
       this.initializingPromise = null;
+      this.network = network;
       return client;
     })();
 
@@ -159,11 +162,11 @@ class MidenClientSingleton {
    * If it already exists, this instance will always be disposed and recreated to ensure option correctness.
    */
   async getInstanceWithOptions(options: MidenClientCreateOptions): Promise<MidenClientInterface> {
-    if (this.instanceWithOptions) {
+    if (this.instanceWithOptions && this.network === options.network) {
       this.disposeInstanceWithOptions();
     }
 
-    if (this.initializingPromiseWithOptions) {
+    if (this.initializingPromiseWithOptions && this.network === options.network) {
       return this.initializingPromiseWithOptions;
     }
 
@@ -171,6 +174,7 @@ class MidenClientSingleton {
       const client = await MidenClientInterface.create(options);
       this.instanceWithOptions = client;
       this.initializingPromiseWithOptions = null;
+      this.network = options.network;
       return client;
     })();
 
@@ -182,6 +186,7 @@ class MidenClientSingleton {
       this.instanceWithOptions.free();
       this.instanceWithOptions = null;
       this.initializingPromiseWithOptions = null;
+      this.network = null;
     }
   }
 }
@@ -192,9 +197,15 @@ const midenClientSingleton = new MidenClientSingleton();
  * Convenience function to get the shared MidenClientInterface instance.
  * Use this in your components and modules instead of calling MidenClientInterface.create().
  */
-export async function getMidenClient(options?: MidenClientCreateOptions): Promise<MidenClientInterface> {
-  if (options) {
+export async function getMidenClient(options: MidenClientCreateOptions): Promise<MidenClientInterface> {
+  if (
+    options.getKeyCallback ||
+    options.insertKeyCallback ||
+    options.signCallback ||
+    options.seed ||
+    options.onConnectivityIssue
+  ) {
     return await midenClientSingleton.getInstanceWithOptions(options);
   }
-  return await midenClientSingleton.getInstance();
+  return await midenClientSingleton.getInstance(options.network);
 }

@@ -1,4 +1,3 @@
-import { NoteFilterTypes } from '@demox-labs/miden-sdk';
 import {
   AllowedPrivateData,
   MidenConsumeTransaction,
@@ -8,6 +7,7 @@ import {
   SignKind,
   WalletAdapterNetwork
 } from '@demox-labs/miden-wallet-adapter-base';
+import { NoteFilterTypes } from '@miden-sdk/miden-sdk';
 import { nanoid } from 'nanoid';
 
 import { b64ToU8 } from 'lib/shared/helpers';

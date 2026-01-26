@@ -39,7 +39,7 @@ const DAppSettings: FC = () => {
   let allDAppSessions = Object.entries(data!);
   let dAppSessions: Record<string, MidenDAppSession> = {};
   allDAppSessions.forEach(([origin, sessions]) => {
-    const session = sessions.find(sess => sess.accountId === account.publicKey);
+    const session = sessions.find(sess => sess.accountId === account.accountId);
     if (session) dAppSessions[origin] = session;
   });
 

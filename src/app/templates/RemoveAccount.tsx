@@ -43,7 +43,7 @@ const RemoveAccount: FC = () => {
 
       clearErrors('password');
       try {
-        await removeAccount(account.publicKey, password);
+        await removeAccount(account.accountId, password);
       } catch (err: any) {
         console.error(err);
 
@@ -52,7 +52,7 @@ const RemoveAccount: FC = () => {
         setError('password', { type: SUBMIT_ERROR_TYPE, message: err.message });
       }
     },
-    [isSubmitting, clearErrors, setError, removeAccount, account.publicKey]
+    [isSubmitting, clearErrors, setError, removeAccount, account.accountId]
   );
 
   return (

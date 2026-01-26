@@ -1,4 +1,3 @@
-import { AccountInterface, NetworkId, NoteFilter, NoteFilterTypes, NoteId, NoteType } from '@demox-labs/miden-sdk';
 import {
   AllowedPrivateData,
   Asset,
@@ -8,6 +7,7 @@ import {
   PrivateDataPermission,
   SendTransaction
 } from '@demox-labs/miden-wallet-adapter-base';
+import { AccountInterface, NetworkId, NoteFilter, NoteFilterTypes, NoteId, NoteType } from '@miden-sdk/miden-sdk';
 import { nanoid } from 'nanoid';
 import type { Runtime } from 'webextension-polyfill';
 
@@ -40,6 +40,7 @@ import {
 } from 'lib/adapter/types';
 import { dappConfirmationStore } from 'lib/dapp-browser/confirmation-store';
 import { formatBigInt } from 'lib/i18n/numbers';
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { intercom } from 'lib/miden/back/defaults';
 import { Vault } from 'lib/miden/back/vault';
 import { MIDEN_METADATA } from 'lib/miden/metadata';
@@ -143,7 +144,7 @@ export async function requestPermission(
   console.log('[requestPermission] Called with origin:', origin);
   console.log('[requestPermission] Request:', JSON.stringify(req));
   console.log('[requestPermission] isExtension():', isExtension());
-  let network = req?.network?.toString();
+  let network = req.network as unknown as MIDEN_NETWORK_NAME;
   const reqChainId = network;
 
   if (![isAllowedNetwork(), typeof req?.appMeta?.name === 'string'].every(Boolean)) {
@@ -200,7 +201,7 @@ export async function requestPermission(
 
 export async function generatePromisifyRequestPermission(
   origin: string,
-  network: string,
+  network: MIDEN_NETWORK_NAME,
   networkRpc: string,
   appMeta: DappMetadata,
   existingPermission: boolean,
@@ -239,9 +240,9 @@ export async function generatePromisifyRequestPermission(
     try {
       publicKey = await withUnlocked(async () => {
         return await withWasmClientLock(async () => {
-          const midenClient = await getMidenClient();
+          const midenClient = await getMidenClient({ network: network as MIDEN_NETWORK_NAME });
           const account = await midenClient.getAccount(accountPublicKey);
-          const publicKeys = account!.getPublicKeys();
+          const publicKeys = account!.getPublicKeyCommitments();
           return u8ToB64(publicKeys[0].serialize());
         });
       });
@@ -298,9 +299,9 @@ export async function generatePromisifyRequestPermission(
               publicKey = await withUnlocked(async () => {
                 // Wrap WASM client operations in a lock to prevent concurrent access
                 return await withWasmClientLock(async () => {
-                  const midenClient = await getMidenClient();
+                  const midenClient = await getMidenClient({ network: network as MIDEN_NETWORK_NAME });
                   const account = await midenClient.getAccount(accountPublicKey);
-                  const publicKeys = account!.getPublicKeys();
+                  const publicKeys = account!.getPublicKeyCommitments();
                   const publicKeyAsB64 = u8ToB64(publicKeys[0].serialize());
 
                   return publicKeyAsB64;
@@ -441,7 +442,7 @@ const generatePromisifyRequestPrivateNotes = async (
     (dApp.allowedPrivateData & AllowedPrivateData.Notes) !== 0
   ) {
     try {
-      privateNotes = await getPrivateNoteDetails(req.notefilterType, req.noteIds);
+      privateNotes = await getPrivateNoteDetails(req.notefilterType, dApp.network as MIDEN_NETWORK_NAME, req.noteIds);
       resolve({
         type: MidenDAppMessageType.PrivateNotesResponse,
         privateNotes: privateNotes
@@ -454,7 +455,7 @@ const generatePromisifyRequestPrivateNotes = async (
     const networkRpc = await getNetworkRPC(dApp.network);
 
     try {
-      privateNotes = await getPrivateNoteDetails(req.notefilterType, req.noteIds);
+      privateNotes = await getPrivateNoteDetails(req.notefilterType, dApp.network as MIDEN_NETWORK_NAME, req.noteIds);
     } catch (e) {
       reject(e);
     }
@@ -498,13 +499,17 @@ const generatePromisifyRequestPrivateNotes = async (
   }
 };
 
-async function getPrivateNoteDetails(notefilterType: NoteFilterTypes, noteIds?: string[]): Promise<InputNoteDetails[]> {
+async function getPrivateNoteDetails(
+  notefilterType: NoteFilterTypes,
+  network: MIDEN_NETWORK_NAME,
+  noteIds?: string[]
+): Promise<InputNoteDetails[]> {
   let privateNotes: InputNoteDetails[] = [];
   try {
     privateNotes = await withUnlocked(async () => {
       // Wrap WASM client operations in a lock to prevent concurrent access
       return await withWasmClientLock(async () => {
-        const midenClient = await getMidenClient();
+        const midenClient = await getMidenClient({ network });
         const midenNoteIds = noteIds ? noteIds.map(id => NoteId.fromHex(id)) : undefined;
         const noteFilter = new NoteFilter(notefilterType, midenNoteIds);
         let allNotes = await midenClient.getInputNoteDetails(noteFilter);
@@ -550,7 +555,7 @@ export const generatePromisifyRequestConsumableNotes = async (
     (dApp.allowedPrivateData & AllowedPrivateData.Notes) !== 0
   ) {
     try {
-      consumableNotes = await getConsumableNotes(dApp.accountId);
+      consumableNotes = await getConsumableNotes(dApp.accountId, dApp.network as MIDEN_NETWORK_NAME);
       resolve({
         type: MidenDAppMessageType.ConsumableNotesResponse,
         consumableNotes
@@ -563,7 +568,7 @@ export const generatePromisifyRequestConsumableNotes = async (
     const networkRpc = await getNetworkRPC(dApp.network);
 
     try {
-      consumableNotes = await getConsumableNotes(dApp.accountId);
+      consumableNotes = await getConsumableNotes(dApp.accountId, dApp.network as MIDEN_NETWORK_NAME);
     } catch (e) {
       reject(e);
     }
@@ -607,13 +612,13 @@ export const generatePromisifyRequestConsumableNotes = async (
   }
 };
 
-async function getConsumableNotes(accountId: string): Promise<InputNoteDetails[]> {
+async function getConsumableNotes(accountId: string, network: MIDEN_NETWORK_NAME): Promise<InputNoteDetails[]> {
   let consumableNotes: InputNoteDetails[] = [];
   try {
     consumableNotes = await withUnlocked(async () => {
       // Wrap WASM client operations in a lock to prevent concurrent access
       return await withWasmClientLock(async () => {
-        const midenClient = await getMidenClient();
+        const midenClient = await getMidenClient({ network });
         await midenClient.syncState();
         const consumableNotes = await midenClient.getConsumableNotes(accountId);
         const consumableNotesDetails = consumableNotes.map(note => {
@@ -624,14 +629,14 @@ async function getConsumableNotes(accountId: string): Promise<InputNoteDetails[]
             .fungibleAssets()
             .map(asset => ({
               amount: asset.amount().toString(),
-              faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet)
+              faucetId: asset.faucetId().toBech32(NetworkId.testnet(), AccountInterface.BasicWallet)
             }));
           const inputNoteRecord = note.inputNoteRecord();
           return {
             noteId: inputNoteRecord.id().toString(),
             noteType: inputNoteRecord.metadata()?.noteType(),
             senderAccountId:
-              inputNoteRecord.metadata()?.sender()?.toBech32(NetworkId.Testnet, AccountInterface.BasicWallet) ||
+              inputNoteRecord.metadata()?.sender()?.toBech32(NetworkId.testnet(), AccountInterface.BasicWallet) ||
               undefined,
             nullifier: inputNoteRecord.nullifier(),
             state: inputNoteRecord.state(),
@@ -676,7 +681,7 @@ export const generatePromisifyRequestAssets = async (
   ) {
     let assets: Asset[] = [];
     try {
-      assets = await getAssets(dApp.accountId);
+      assets = await getAssets(dApp.accountId, dApp.network as MIDEN_NETWORK_NAME);
       resolve({
         type: MidenDAppMessageType.AssetsResponse,
         assets
@@ -690,7 +695,7 @@ export const generatePromisifyRequestAssets = async (
 
     let assets: Asset[] = [];
     try {
-      assets = await getAssets(dApp.accountId);
+      assets = await getAssets(dApp.accountId, dApp.network as MIDEN_NETWORK_NAME);
     } catch (e) {
       reject(e);
     }
@@ -734,17 +739,17 @@ export const generatePromisifyRequestAssets = async (
   }
 };
 
-async function getAssets(accountId: string): Promise<Asset[]> {
+async function getAssets(accountId: string, network: MIDEN_NETWORK_NAME): Promise<Asset[]> {
   let assets: Asset[] = [];
   try {
     assets = await withUnlocked(async () => {
       // Wrap WASM client operations in a lock to prevent concurrent access
       return await withWasmClientLock(async () => {
-        const midenClient = await getMidenClient();
+        const midenClient = await getMidenClient({ network });
         const account = await midenClient.getAccount(accountId);
         const fungibleAssets = account?.vault().fungibleAssets() || [];
         const balances = fungibleAssets.map(asset => ({
-          faucetId: getBech32AddressFromAccountId(asset.faucetId()),
+          faucetId: getBech32AddressFromAccountId(asset.faucetId(), network),
           amount: asset.amount().toString()
         })) as Asset[];
         return balances;
@@ -807,7 +812,7 @@ export const generatePromisifyImportPrivateNote = async (
             let noteId = await withUnlocked(async () => {
               // Wrap WASM client operations in a lock to prevent concurrent access
               return await withWasmClientLock(async () => {
-                const midenClient = await getMidenClient();
+                const midenClient = await getMidenClient({ network: dApp.network as MIDEN_NETWORK_NAME });
                 const noteAsUint8Array = b64ToU8(req.note);
                 const noteId = await midenClient.importNoteBytes(noteAsUint8Array);
                 await midenClient.syncState();
@@ -912,13 +917,14 @@ const generatePromisifyTransaction = async (
         const txId = await requestCustomTransaction(
           address,
           transactionRequest,
+          dApp.network as MIDEN_NETWORK_NAME,
           inputNoteIds,
           importNotes,
           true,
           recipientAddress || undefined
         );
         // Start background processing on mobile
-        startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
+        startBackgroundTransactionProcessing(dApp.network as MIDEN_NETWORK_NAME, async (publicKey, signingInputs) => {
           const signatureHex = await vault.signTransaction(publicKey, signingInputs);
           return new Uint8Array(Buffer.from(signatureHex, 'hex'));
         });
@@ -959,6 +965,7 @@ const generatePromisifyTransaction = async (
               return await requestCustomTransaction(
                 address,
                 transactionRequest,
+                dApp.network as MIDEN_NETWORK_NAME,
                 inputNoteIds,
                 importNotes,
                 confirmReq.delegate,
@@ -1057,11 +1064,12 @@ const generatePromisifySendTransaction = async (
           faucetId,
           noteType as any,
           BigInt(amount),
+          dApp.network as MIDEN_NETWORK_NAME,
           recallBlocks,
           true
         );
         // Start background processing on mobile
-        startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
+        startBackgroundTransactionProcessing(dApp.network as MIDEN_NETWORK_NAME, async (publicKey, signingInputs) => {
           const signatureHex = await vault.signTransaction(publicKey, signingInputs);
           return new Uint8Array(Buffer.from(signatureHex, 'hex'));
         });
@@ -1103,6 +1111,7 @@ const generatePromisifySendTransaction = async (
                 faucetId,
                 noteType as any,
                 BigInt(amount),
+                dApp.network as MIDEN_NETWORK_NAME,
                 recallBlocks,
                 confirmReq.delegate
               );
@@ -1196,9 +1205,9 @@ const generatePromisifyConsumeTransaction = async (
           await queueNoteImport(noteBytes);
         }
         // On mobile, always delegate transactions to avoid memory issues with local proving
-        const txId = await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId, true);
+        const txId = await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId, dApp.network, true);
         // Start background processing on mobile
-        startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
+        startBackgroundTransactionProcessing(dApp.network as MIDEN_NETWORK_NAME, async (publicKey, signingInputs) => {
           const signatureHex = await vault.signTransaction(publicKey, signingInputs);
           return new Uint8Array(Buffer.from(signatureHex, 'hex'));
         });
@@ -1237,7 +1246,12 @@ const generatePromisifyConsumeTransaction = async (
               if (noteBytes) {
                 await queueNoteImport(noteBytes);
               }
-              return await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId, confirmReq.delegate);
+              return await initiateConsumeTransactionFromId(
+                req.sourcePublicKey,
+                noteId,
+                dApp.network,
+                confirmReq.delegate
+              );
             });
             resolve({
               type: MidenDAppMessageType.ConsumeResponse,

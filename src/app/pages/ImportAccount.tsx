@@ -33,7 +33,7 @@ const ImportAccount: FC<ImportAccountProps> = ({ tabSlug }) => {
   useEffect(() => {
     const accLength = allAccounts.length;
     if (prevAccLengthRef.current < accLength) {
-      updateCurrentAccount(allAccounts[accLength - 1].publicKey);
+      updateCurrentAccount(allAccounts[accLength - 1].accountId);
       navigate('/');
     }
     prevAccLengthRef.current = accLength;

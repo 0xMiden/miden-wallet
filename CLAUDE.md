@@ -717,6 +717,7 @@ When adding new translatable strings, add them to `public/_locales/en/en.json`, 
 ### Placeholders in translations
 
 Use `$placeholder$` format for dynamic values:
+
 ```json
 "greeting": "Hello $name$, you have $count$ messages"
 ```
@@ -759,6 +760,6 @@ Transactions flow through these states in `ITransactionStatus`:
 - **Keep commit messages short.** Use single-line messages (e.g., "fix: add missing i18n keys").
 - Uses yarn, not npm (yarn.lock is the lockfile)
 - Browser extension APIs via `webextension-polyfill`
-- Miden SDK is a WASM module (`@demox-labs/miden-sdk`)
+- Miden SDK is a WASM module (`@miden-sdk/miden-sdk`)
 - Sensitive data (vault, keys) stays in backend only
 - Frontend receives sanitized state via `toFront()` in backend store

@@ -1,3 +1,4 @@
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { MidenMessageType, MidenRequest, MidenResponse } from 'lib/miden/types';
 import { WalletType } from 'screens/onboarding/types';
 
@@ -150,7 +151,7 @@ export interface ReadyWalletState extends WalletState {
 }
 
 export interface WalletAccount {
-  publicKey: string;
+  accountId: string;
   name: string;
   isPublic: boolean;
   type: WalletType;
@@ -159,7 +160,7 @@ export interface WalletAccount {
 
 export interface WalletNetwork {
   rpcBaseURL: string;
-  id: string;
+  id: MIDEN_NETWORK_NAME;
   name: string;
   autoSync: boolean;
 }
@@ -208,7 +209,7 @@ export interface CreateAccountResponse extends WalletMessageBase {
 
 export interface UpdateCurrentAccountRequest extends WalletMessageBase {
   type: WalletMessageType.UpdateCurrentAccountRequest;
-  accountPublicKey: string;
+  accountId: string;
 }
 
 export interface UpdateCurrentAccountResponse extends WalletMessageBase {
@@ -217,7 +218,7 @@ export interface UpdateCurrentAccountResponse extends WalletMessageBase {
 
 export interface RevealPublicKeyRequest extends WalletMessageBase {
   type: WalletMessageType.RevealPublicKeyRequest;
-  accountPublicKey: string;
+  accountId: string;
 }
 
 export interface RevealPublicKeyResponse extends WalletMessageBase {
@@ -227,7 +228,7 @@ export interface RevealPublicKeyResponse extends WalletMessageBase {
 
 export interface RevealViewKeyRequest extends WalletMessageBase {
   type: WalletMessageType.RevealViewKeyRequest;
-  accountPublicKey: string;
+  accountId: string;
   password: string;
 }
 
@@ -238,7 +239,7 @@ export interface RevealViewKeyResponse extends WalletMessageBase {
 
 export interface RevealPrivateKeyRequest extends WalletMessageBase {
   type: WalletMessageType.RevealPrivateKeyRequest;
-  accountPublicKey: string;
+  accountId: string;
   password: string;
 }
 
@@ -259,7 +260,7 @@ export interface RevealMnemonicResponse extends WalletMessageBase {
 
 export interface RemoveAccountRequest extends WalletMessageBase {
   type: WalletMessageType.RemoveAccountRequest;
-  accountPublicKey: string;
+  accountId: string;
   password: string;
 }
 
@@ -269,7 +270,7 @@ export interface RemoveAccountResponse extends WalletMessageBase {
 
 export interface EditAccountRequest extends WalletMessageBase {
   type: WalletMessageType.EditAccountRequest;
-  accountPublicKey: string;
+  accountId: string;
   name: string;
 }
 
@@ -401,7 +402,7 @@ export interface DAppPermConfirmationRequest extends WalletMessageBase {
   type: WalletMessageType.DAppPermConfirmationRequest;
   id: string;
   confirmed: boolean;
-  accountPublicKey: string;
+  accountId: string;
 }
 
 export interface DAppPermConfirmationResponse extends WalletMessageBase {

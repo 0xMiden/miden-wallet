@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
@@ -7,8 +7,10 @@ import PageLayout from 'app/layouts/PageLayout';
 import { Button } from 'components/Button';
 import { Message } from 'components/Message';
 import { AnalyticsEventCategory, useAnalytics } from 'lib/analytics';
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { getFaucetUrl } from 'lib/miden-chain/faucet';
 import { useAccount, useNetwork } from 'lib/miden/front';
+import { accountIdStringToSdk, getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { openFaucetWebview } from 'lib/mobile/faucet-webview';
 import { isMobile } from 'lib/platform';
 import { goBack } from 'lib/woozie';
@@ -30,17 +32,22 @@ const Faucet: FC = () => {
   const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const account = useAccount();
-  const address = account.publicKey;
   const { trackEvent } = useAnalytics();
   const network = useNetwork();
 
+  // User-facing bech32 address
+  const displayAddress = useMemo(
+    () => getBech32AddressFromAccountId(accountIdStringToSdk(account.accountId), network.id),
+    [account.accountId, network.id]
+  );
+
   const openFaucet = useCallback(async () => {
-    copyTextToClipboard(address);
+    copyTextToClipboard(displayAddress);
     trackEvent('Faucet/AddressCopied', AnalyticsEventCategory.ButtonPress);
     setCopied(true);
     const faucetUrl = getFaucetUrl(network.id);
     await openFaucetWebview({ url: faucetUrl, title: t('midenFaucet') });
-  }, [address, trackEvent, network.id, t]);
+  }, [displayAddress, trackEvent, network.id, t]);
 
   // On mobile, open the faucet webview immediately and go back when closed
   useEffect(() => {

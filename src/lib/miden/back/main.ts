@@ -54,7 +54,7 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
     //   const texts = await Actions.decryptCiphertexts(req.accPublicKey, req.ciphertexts);
     //   return { type: WalletMessageType.DecryptCiphertextsResponse, texts: texts };
     case WalletMessageType.UpdateCurrentAccountRequest:
-      await Actions.updateCurrentAccount(req.accountPublicKey);
+      await Actions.updateCurrentAccount(req.accountId);
       return { type: WalletMessageType.UpdateCurrentAccountResponse };
     // case WalletMessageType.RevealPublicKeyRequest:
     //   const publicKey = await Actions.revealPublicKey(req.accountPublicKey);
@@ -81,13 +81,13 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
         mnemonic
       };
     case WalletMessageType.RemoveAccountRequest:
-      await Actions.removeAccount(req.accountPublicKey, req.password);
+      await Actions.removeAccount(req.accountId, req.password);
       return {
         type: WalletMessageType.RemoveAccountResponse
       };
     case WalletMessageType.EditAccountRequest:
       console.log('received');
-      await Actions.editAccount(req.accountPublicKey, req.name);
+      await Actions.editAccount(req.accountId, req.name);
       return {
         type: WalletMessageType.EditAccountResponse
       };

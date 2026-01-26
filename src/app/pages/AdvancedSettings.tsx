@@ -6,7 +6,8 @@ import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
 import { IconName } from 'app/icons/v2';
 import HashChip from 'app/templates/HashChip';
 import { ListItem } from 'components/ListItem';
-import { useAccount } from 'lib/miden/front';
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
+import { useAccount, useNetwork } from 'lib/miden/front';
 import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
 import { bytesToHex } from 'lib/shared/helpers';
 import { Link } from 'lib/woozie';
@@ -17,18 +18,19 @@ const AdvancedSettings: FC = () => {
   const walletAccount = useAccount();
   const faucetId = useMidenFaucetId();
   const faucetIdShortened = truncateAddress(faucetId, false);
+  const network = useNetwork();
   const [publicKey, setPublicKey] = useState<string | null>(null);
 
   const fetchPublicKey = useCallback(async () => {
     // Wrap WASM client operations in a lock to prevent concurrent access
     const key = await withWasmClientLock(async () => {
-      const midenClient = await getMidenClient();
-      const account = await midenClient.getAccount(walletAccount.publicKey);
-      const publicKeys = account!.getPublicKeys();
+      const midenClient = await getMidenClient({ network: network.id as MIDEN_NETWORK_NAME });
+      const account = await midenClient.getAccount(walletAccount.accountId);
+      const publicKeys = account!.getPublicKeyCommitments();
       return bytesToHex(publicKeys[0].serialize());
     });
     setPublicKey(key);
-  }, [walletAccount.publicKey]);
+  }, [walletAccount.accountId, network]);
 
   useEffect(() => {
     fetchPublicKey();

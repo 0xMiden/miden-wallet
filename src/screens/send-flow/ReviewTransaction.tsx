@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +7,8 @@ import ToggleSwitch from 'app/atoms/ToggleSwitch';
 import { Icon, IconName } from 'app/icons/v2';
 import { Button, ButtonVariant } from 'components/Button';
 import { NavigationHeader } from 'components/NavigationHeader';
-import { useAccount } from 'lib/miden/front';
+import { useAccount, useNetwork } from 'lib/miden/front';
+import { accountIdStringToSdk, getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { isMobile } from 'lib/platform';
 import { truncateAddress } from 'utils/string';
 
@@ -36,7 +37,8 @@ export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
   onGoBack
 }) => {
   const { t } = useTranslation();
-  const { publicKey } = useAccount();
+  const { accountId } = useAccount();
+  const network = useNetwork();
   const [recallBlocksModalIsOpen, setRecallBlocksModalIsOpen] = useState(false);
   const [recallBlocksInput, setRecallBlocksInput] = useState<string>(recallBlocks || '');
   const [recallBlocksDisplay, setRecallBlocksDisplay] = useState<string>(recallBlocks || ''); // TODO: remove workaround for SetFormValues not rerendering recallBlocks
@@ -56,6 +58,10 @@ export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
     },
     [onAction]
   );
+
+  const displayAddress = useMemo(() => {
+    return getBech32AddressFromAccountId(accountIdStringToSdk(accountId), network.id);
+  }, [accountId, network.id]);
 
   const handleSharePrivatelyToggle = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +112,7 @@ export const ReviewTransaction: React.FC<ReviewTransactionProps> = ({
         <div className="flex flex-col gap-y-2">
           <span className="flex flex-row justify-between">
             <label className="text-sm text-grey-600">{t('from')}</label>
-            <p className="text-sm">{truncateAddress(publicKey)}</p>
+            <p className="text-sm">{truncateAddress(displayAddress)}</p>
           </span>
           <span className="flex flex-row justify-between whitespace-pre-line">
             <label className="text-sm text-grey-600">{t('to')}</label>

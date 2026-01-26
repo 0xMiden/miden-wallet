@@ -1,5 +1,6 @@
 import '../../../test/jest-mocks';
 
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { MidenMessageType } from 'lib/miden/types';
 import { WalletMessageType, WalletStatus } from 'lib/shared/types';
 import { WalletType } from 'screens/onboarding/types';
@@ -456,7 +457,7 @@ describe('useWalletStore', () => {
       });
 
       const { fetchAssetMetadata } = useWalletStore.getState();
-      const result = await fetchAssetMetadata('asset-id');
+      const result = await fetchAssetMetadata('asset-id', MIDEN_NETWORK_NAME.TESTNET);
 
       expect(result).toEqual({ name: 'New Token', symbol: 'NEW', decimals: 6 });
       expect(useWalletStore.getState().assetsMetadata['asset-id']).toEqual({
@@ -471,7 +472,7 @@ describe('useWalletStore', () => {
       fetchTokenMetadata.mockRejectedValueOnce(new Error('Not found'));
 
       const { fetchAssetMetadata } = useWalletStore.getState();
-      const result = await fetchAssetMetadata('unknown-asset');
+      const result = await fetchAssetMetadata('unknown-asset', MIDEN_NETWORK_NAME.TESTNET);
 
       expect(result).toBeNull();
     });

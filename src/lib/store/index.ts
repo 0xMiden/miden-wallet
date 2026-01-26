@@ -2,7 +2,9 @@ import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 
 import { createIntercomClient, IIntercomClient } from 'lib/intercom/client';
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { fetchTokenMetadata } from 'lib/miden/metadata';
+import { getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { MidenMessageType, MidenState } from 'lib/miden/types';
 import { WalletMessageType, WalletRequest, WalletResponse, WalletStatus } from 'lib/shared/types';
 
@@ -92,11 +94,11 @@ export const useWalletStore = create<WalletStore>()(
         isInitialized: true,
         lastSyncedAt: Date.now()
       });
-
       // Immediately fetch balances when wallet becomes Ready (before any React effects)
       if (justBecameReady && state.currentAccount) {
-        const address = state.currentAccount.publicKey;
-        fetchBalances(address, get().assetsMetadata)
+        const networkID = (get().selectedNetworkId as MIDEN_NETWORK_NAME) || MIDEN_NETWORK_NAME.TESTNET;
+        const address = getBech32AddressFromAccountId(state.currentAccount.accountId, networkID);
+        fetchBalances(networkID, address, get().assetsMetadata)
           .then(balances => {
             set(s => ({
               balances: { ...s.balances, [address]: balances },
@@ -152,10 +154,10 @@ export const useWalletStore = create<WalletStore>()(
       assertResponse(res.type === WalletMessageType.CreateAccountResponse);
     },
 
-    updateCurrentAccount: async accountPublicKey => {
+    updateCurrentAccount: async accountId => {
       const { accounts, currentAccount, resetSeenNotes } = get();
       const prevAccount = currentAccount;
-      const newAccount = accounts.find(a => a.publicKey === accountPublicKey) || null;
+      const newAccount = accounts.find(a => a.accountId === accountId) || null;
 
       // Reset seen notes when switching accounts
       resetSeenNotes();
@@ -168,7 +170,7 @@ export const useWalletStore = create<WalletStore>()(
       try {
         const res = await request({
           type: WalletMessageType.UpdateCurrentAccountRequest,
-          accountPublicKey
+          accountId
         });
         assertResponse(res.type === WalletMessageType.UpdateCurrentAccountResponse);
       } catch (error) {
@@ -178,19 +180,19 @@ export const useWalletStore = create<WalletStore>()(
       }
     },
 
-    editAccountName: async (accountPublicKey, name) => {
+    editAccountName: async (accountId, name) => {
       const { accounts } = get();
       const prevAccounts = accounts;
 
       // Optimistic update
       set({
-        accounts: accounts.map(a => (a.publicKey === accountPublicKey ? { ...a, name: name.trim() } : a))
+        accounts: accounts.map(a => (a.accountId === accountId ? { ...a, name: name.trim() } : a))
       });
 
       try {
         const res = await request({
           type: WalletMessageType.EditAccountRequest,
-          accountPublicKey,
+          accountId,
           name
         });
         assertResponse(res.type === WalletMessageType.EditAccountResponse);
@@ -372,7 +374,7 @@ export const useWalletStore = create<WalletStore>()(
 
     // Balance actions
     fetchBalances: async (accountAddress, tokenMetadatas) => {
-      const { balancesLoading, setAssetsMetadata } = get();
+      const { balancesLoading, setAssetsMetadata, selectedNetworkId } = get();
 
       // Skip if already loading
       if (balancesLoading[accountAddress]) {
@@ -384,7 +386,9 @@ export const useWalletStore = create<WalletStore>()(
       });
 
       try {
-        const balances = await fetchBalances(accountAddress, tokenMetadatas, { setAssetsMetadata });
+        const balances = await fetchBalances(selectedNetworkId as MIDEN_NETWORK_NAME, accountAddress, tokenMetadatas, {
+          setAssetsMetadata
+        });
         set(state => ({
           balances: { ...state.balances, [accountAddress]: balances },
           balancesLoading: { ...state.balancesLoading, [accountAddress]: false },
@@ -411,9 +415,9 @@ export const useWalletStore = create<WalletStore>()(
       }));
     },
 
-    fetchAssetMetadata: async assetId => {
+    fetchAssetMetadata: async (assetId, networkId) => {
       try {
-        const { base } = await fetchTokenMetadata(assetId);
+        const { base } = await fetchTokenMetadata(assetId, networkId);
         set(state => ({
           assetsMetadata: { ...state.assetsMetadata, [assetId]: base }
         }));

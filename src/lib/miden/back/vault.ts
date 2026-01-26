@@ -1,9 +1,20 @@
 import { derivePath } from '@demox-labs/aleo-hd-key';
-import { SecretKey, SigningInputs, Word } from '@demox-labs/miden-sdk';
 import { SendTransaction, SignKind } from '@demox-labs/miden-wallet-adapter-base';
+import {
+  Account,
+  AccountBuilder,
+  AccountComponent,
+  AccountId,
+  AccountStorageMode,
+  AccountType,
+  AuthSecretKey,
+  SigningInputs,
+  Word
+} from '@miden-sdk/miden-sdk';
 import * as Bip39 from 'bip39';
 
 import { getMessage } from 'lib/i18n';
+import { MIDEN_NETWORK_ENDPOINTS, MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { PublicError } from 'lib/miden/back/defaults';
 import {
   encryptAndSaveMany,
@@ -236,31 +247,78 @@ export class Vault {
           vaultKey
         );
       };
-      const options: MidenClientCreateOptions = {
-        insertKeyCallback
-      };
+
       const hdAccIndex = 0;
       const walletSeed = deriveClientSeed(WalletType.OnChain, mnemonic, 0);
 
       // Wrap WASM client operations in a lock to prevent concurrent access
-      const accPublicKey = await withWasmClientLock(async () => {
-        const midenClient = await getMidenClient(options);
-        if (ownMnemonic) {
+      const accountId = await withWasmClientLock(async () => {
+        console.log('[Vault.spawn] Creating initial account in Miden client...');
+        const { secretKey, account } = createAccount(walletSeed, WalletType.OnChain);
+        const createAccountForNetwork = async (network: MIDEN_NETWORK_NAME) => {
+          console.log('[Vault.spawn] Creating account for network:', network);
+          const options: MidenClientCreateOptions = {
+            network: network,
+            insertKeyCallback
+          };
+
           try {
-            return await midenClient.importPublicMidenWalletFromSeed(walletSeed);
+            const midenClient = await getMidenClient(options);
+            console.log('[Vault.spawn] Miden client initialized for network:', network);
+            if (ownMnemonic) {
+              try {
+                return await midenClient.importPublicMidenWalletFromSeed(walletSeed);
+              } catch (e) {
+                console.error('Failed to import wallet from seed in spawn, creating new wallet instead', e);
+                return (await midenClient.addAccountAndSecretKey(account, secretKey)).toString();
+              }
+            } else {
+              return (await midenClient.addAccountAndSecretKey(account, secretKey)).toString();
+            }
           } catch (e) {
-            console.error('Failed to import wallet from seed in spawn, creating new wallet instead', e);
-            return await midenClient.createMidenWallet(WalletType.OnChain, walletSeed);
+            console.warn('Error creating/importing wallet in spawn:', e);
+            return;
           }
-        } else {
-          // Sync to chain tip BEFORE creating first account (no accounts = no tags = fast sync)
-          await midenClient.syncState();
-          return await midenClient.createMidenWallet(WalletType.OnChain, walletSeed);
+        };
+        let testnetId: string | undefined;
+        let devnetId: string | undefined;
+        let localnetId: string | undefined;
+
+        try {
+          testnetId = await createAccountForNetwork(MIDEN_NETWORK_NAME.TESTNET);
+        } catch (e) {
+          console.warn('Error creating account for testnet:', e);
         }
+        try {
+          devnetId = await createAccountForNetwork(MIDEN_NETWORK_NAME.DEVNET);
+        } catch (e) {
+          console.warn('Error creating account for devnet:', e);
+        }
+
+        try {
+          localnetId = await createAccountForNetwork(MIDEN_NETWORK_NAME.LOCALNET);
+        } catch (e) {
+          console.warn('Error creating account for localnet:', e);
+        }
+        console.log('[Vault.spawn] Created account IDs:', {
+          testnetId,
+          devnetId,
+          localnetId
+        });
+        console.log(AccountId.fromHex(devnetId || testnetId || localnetId || ''));
+        const ids = [testnetId, devnetId, localnetId].filter(id => id !== undefined);
+        if (ids.length === 0) {
+          throw new PublicError('Failed to create account on any network');
+        }
+        const firstId = ids[0];
+        if (!ids.every(id => id === firstId)) {
+          throw new PublicError('Account IDs do not match across networks');
+        }
+        return firstId;
       });
 
       const initialAccount: WalletAccount = {
-        publicKey: accPublicKey,
+        accountId,
         name: 'Miden Account 1',
         isPublic: true,
         type: WalletType.OnChain,
@@ -272,12 +330,12 @@ export class Vault {
         [
           [checkStrgKey, generateCheck()],
           [mnemonicStrgKey, mnemonic],
-          [accPubKeyStrgKey(accPublicKey), accPublicKey],
+          [accPubKeyStrgKey(accountId), accountId],
           [accountsStrgKey, newAccounts]
         ],
         vaultKey
       );
-      await savePlain(currentAccPubKeyStrgKey, accPublicKey);
+      await savePlain(currentAccPubKeyStrgKey, accountId);
       await savePlain(ownMnemonicStrgKey, ownMnemonic ?? false);
 
       // Return the vault instance so caller doesn't need to call unlock() separately
@@ -288,28 +346,37 @@ export class Vault {
   static async spawnFromMidenClient(password: string, mnemonic: string): Promise<Vault> {
     return withError('Failed to spawn from miden client', async (): Promise<Vault> => {
       // Wrap WASM client operations in a lock to prevent concurrent access
+      //TODO: think about this properly later
       const accounts = await withWasmClientLock(async () => {
-        const midenClient = await getMidenClient();
-        const accountHeaders = await midenClient.getAccounts();
-        const accts = [];
+        return await Promise.all(
+          Object.values(MIDEN_NETWORK_ENDPOINTS).map(async network => {
+            const midenClient = await getMidenClient({ network });
+            const accountHeaders = await midenClient.getAccounts();
+            const accts = [];
 
-        // Have to do this sequentially else the wasm fails
-        for (const accountHeader of accountHeaders) {
-          const account = await midenClient.getAccount(getBech32AddressFromAccountId(accountHeader.id()));
-          accts.push(account);
-        }
-        return accts;
+            // Have to do this sequentially else the wasm fails
+            for (const accountHeader of accountHeaders) {
+              const account = await midenClient.getAccount(accountHeader.id().toString());
+              if (!account) {
+                continue;
+              }
+              accts.push(account);
+            }
+            return accts;
+          })
+        );
       });
 
-      const newAccounts = [];
+      const newAccounts: WalletAccount[] = [];
       for (let i = 0; i < accounts.length; i++) {
         const acc = accounts[i];
         if (acc) {
           newAccounts.push({
-            publicKey: getBech32AddressFromAccountId(acc.id()),
+            accountId: acc[i].id().toString(),
             name: 'Miden Account ' + (i + 1),
-            isPublic: acc.isPublic(),
-            type: WalletType.OnChain
+            isPublic: acc[i].isPublic(),
+            type: WalletType.OnChain,
+            hdIndex: i
           });
         }
       }
@@ -348,7 +415,7 @@ export class Vault {
         ],
         vaultKey
       );
-      await savePlain(currentAccPubKeyStrgKey, newAccounts[0].publicKey);
+      await savePlain(currentAccPubKeyStrgKey, newAccounts[0].accountId);
       await savePlain(ownMnemonicStrgKey, true);
 
       // Return the vault instance so caller doesn't need to call unlock() separately
@@ -395,23 +462,63 @@ export class Vault {
           this.vaultKey
         );
       };
-      const options: MidenClientCreateOptions = {
-        insertKeyCallback
-      };
-
       // Wrap WASM client operations in a lock to prevent concurrent access
-      const walletId = await withWasmClientLock(async () => {
-        const midenClient = await getMidenClient(options);
-        if (isOwnMnemonic && walletType === WalletType.OnChain) {
-          try {
-            return await midenClient.importPublicMidenWalletFromSeed(walletSeed);
-          } catch (e) {
-            console.warn('Failed to import wallet from seed, creating new wallet instead', e);
-            return await midenClient.createMidenWallet(walletType, walletSeed);
+      const accountId = await withWasmClientLock(async () => {
+        const { secretKey, account } = createAccount(walletSeed, walletType);
+        const createAccountForNetwork = async (network: MIDEN_NETWORK_NAME) => {
+          const options: MidenClientCreateOptions = {
+            insertKeyCallback,
+            network
+          };
+
+          const midenClient = await getMidenClient(options);
+          if (isOwnMnemonic && walletType === WalletType.OnChain) {
+            try {
+              return await midenClient.importPublicMidenWalletFromSeed(walletSeed);
+            } catch (e) {
+              console.warn('Failed to import wallet from seed, creating new wallet instead', e);
+              return (await midenClient.addAccountAndSecretKey(account, secretKey)).toString();
+            }
+          } else {
+            return (await midenClient.addAccountAndSecretKey(account, secretKey)).toString();
           }
-        } else {
-          return await midenClient.createMidenWallet(walletType, walletSeed);
+        };
+
+        let testnetId: string | undefined;
+        let devnetId: string | undefined;
+        let localnetId: string | undefined;
+
+        try {
+          testnetId = await createAccountForNetwork(MIDEN_NETWORK_NAME.TESTNET);
+        } catch (e) {
+          console.warn('Error creating account for testnet:', e);
         }
+        try {
+          devnetId = await createAccountForNetwork(MIDEN_NETWORK_NAME.DEVNET);
+        } catch (e) {
+          console.warn('Error creating account for devnet:', e);
+        }
+
+        try {
+          localnetId = await createAccountForNetwork(MIDEN_NETWORK_NAME.LOCALNET);
+        } catch (e) {
+          console.warn('Error creating account for localnet:', e);
+        }
+        console.log('[Vault.spawn] Created account IDs:', {
+          testnetId,
+          devnetId,
+          localnetId
+        });
+        console.log(AccountId.fromHex(devnetId || testnetId || localnetId || ''));
+        const ids = [testnetId, devnetId, localnetId].filter(id => id !== undefined);
+        if (ids.length === 0) {
+          throw new PublicError('Failed to create account on any network');
+        }
+        const firstId = ids[0];
+        if (!ids.every(id => id === firstId)) {
+          throw new PublicError('Account IDs do not match across networks');
+        }
+        return firstId;
       });
 
       const accName = name || getNewAccountName(allAccounts);
@@ -419,7 +526,7 @@ export class Vault {
       const newAccount: WalletAccount = {
         type: walletType,
         name: accName,
-        publicKey: walletId,
+        accountId,
         isPublic: walletType === WalletType.OnChain,
         hdIndex: hdAccIndex
       };
@@ -428,7 +535,7 @@ export class Vault {
 
       await encryptAndSaveMany(
         [
-          [accPubKeyStrgKey(walletId), walletId],
+          [accPubKeyStrgKey(accountId), accountId],
           // private key and view key were here from aleo, but removed since we dont store pk and vk isnt a thing (yet)
           [accountsStrgKey, newAllAcounts]
         ],
@@ -443,18 +550,18 @@ export class Vault {
 
   async importFundraiserAccount(chainId: string, email: string, password: string, mnemonic: string) {}
 
-  async editAccountName(accPublicKey: string, name: string) {
+  async editAccountName(accountId: string, name: string) {
     return withError('Failed to edit account name', async () => {
       const allAccounts = await this.fetchAccounts();
-      if (!allAccounts.some(acc => acc.publicKey === accPublicKey)) {
+      if (!allAccounts.some(acc => acc.accountId === accountId)) {
         throw new PublicError('Account not found');
       }
 
-      if (allAccounts.some(acc => acc.publicKey !== accPublicKey && acc.name === name)) {
+      if (allAccounts.some(acc => acc.accountId !== accountId && acc.name === name)) {
         throw new PublicError('Account with same name already exist');
       }
 
-      const newAllAccounts = allAccounts.map(acc => (acc.publicKey === accPublicKey ? { ...acc, name } : acc));
+      const newAllAccounts = allAccounts.map(acc => (acc.accountId === accountId ? { ...acc, name } : acc));
       await encryptAndSaveMany([[accountsStrgKey, newAllAccounts]], this.vaultKey);
 
       const currentAccount = await this.getCurrentAccount();
@@ -479,7 +586,7 @@ export class Vault {
       this.vaultKey
     );
     const secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
-    const wasmSecretKey = SecretKey.deserialize(secretKeyBytes);
+    const wasmSecretKey = AuthSecretKey.deserialize(secretKeyBytes);
 
     const dataAsUint8Array = b64ToU8(data);
 
@@ -506,7 +613,7 @@ export class Vault {
     );
     let secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
     const wasmSigningInputs = SigningInputs.deserialize(new Uint8Array(Buffer.from(signingInputs, 'hex')));
-    const wasmSecretKey = SecretKey.deserialize(secretKeyBytes);
+    const wasmSecretKey = AuthSecretKey.deserialize(secretKeyBytes);
     const signature = wasmSecretKey.signData(wasmSigningInputs);
     return Buffer.from(signature.serialize()).toString('hex');
   }
@@ -537,14 +644,14 @@ export class Vault {
   }
 
   async getCurrentAccount() {
-    const currAccountPubkey = await getPlain<string>(currentAccPubKeyStrgKey);
+    const currentAccountId = await getPlain<string>(currentAccPubKeyStrgKey);
     const allAccounts = await this.fetchAccounts();
     if (allAccounts.length < 1) {
       throw new PublicError('No accounts created yet.');
     }
-    let currentAccount = allAccounts.find(acc => acc.publicKey === currAccountPubkey);
+    let currentAccount = allAccounts.find(acc => acc.accountId === currentAccountId);
     if (!currentAccount) {
-      currentAccount = await this.setCurrentAccount(allAccounts[0].publicKey);
+      currentAccount = await this.setCurrentAccount(allAccounts[0].accountId);
     }
     return currentAccount;
   }
@@ -554,14 +661,14 @@ export class Vault {
     return ownMnemonic === undefined ? true : ownMnemonic;
   }
 
-  async setCurrentAccount(accPublicKey: string) {
+  async setCurrentAccount(accountId: string) {
     return withError('Failed to set current account', async () => {
       const allAccounts = await this.fetchAccounts();
-      const newCurrentAccount = allAccounts.find(acc => acc.publicKey === accPublicKey);
+      const newCurrentAccount = allAccounts.find(acc => acc.accountId === accountId);
       if (!newCurrentAccount) {
         throw new PublicError('Account not found');
       }
-      await savePlain(currentAccPubKeyStrgKey, accPublicKey);
+      await savePlain(currentAccPubKeyStrgKey, accountId);
 
       return newCurrentAccount;
     });
@@ -587,7 +694,7 @@ function generateCheck() {
 }
 
 function concatAccount(current: WalletAccount[], newOne: WalletAccount) {
-  if (current.every(a => a.publicKey !== newOne.publicKey)) {
+  if (current.every(a => a.accountId !== newOne.accountId)) {
     return [...current, newOne];
   }
 
@@ -735,4 +842,23 @@ async function setupHardwareProtector(vaultKeyBytes: Uint8Array): Promise<boolea
   }
 
   return false;
+}
+function createAccount(
+  seed: Uint8Array,
+  walletType: WalletType
+): {
+  secretKey: AuthSecretKey;
+  account: Account;
+} {
+  const secretKey = AuthSecretKey.rpoFalconWithRNG(seed);
+  const storageMode = walletType === WalletType.OnChain ? AccountStorageMode.public() : AccountStorageMode.private();
+  const builder = new AccountBuilder(seed)
+    .accountType(AccountType.RegularAccountUpdatableCode)
+    .storageMode(storageMode)
+    .withAuthComponent(AccountComponent.createAuthComponentFromSecretKey(secretKey))
+    .withBasicWalletComponent();
+  return {
+    secretKey,
+    account: builder.build().account
+  };
 }

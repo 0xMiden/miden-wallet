@@ -9,7 +9,8 @@ import { useAppEnv } from 'app/env';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { stringToBigInt } from 'lib/i18n/numbers';
 import { initiateSendTransaction, waitForTransactionCompletion } from 'lib/miden/activity';
-import { useAccount, useAllAccounts } from 'lib/miden/front';
+import { useAccount, useAllAccounts, useNetwork } from 'lib/miden/front';
+import { getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { NoteTypeEnum } from 'lib/miden/types';
 import { useMobileBackHandler } from 'lib/mobile/useMobileBackHandler';
 import { isMobile } from 'lib/platform';
@@ -89,23 +90,24 @@ export interface SendManagerProps {
 export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const { navigateTo, goBack, cardStack } = useNavigator();
   const allAccounts = useAllAccounts();
-  const { publicKey } = useAccount();
+  const { accountId } = useAccount();
   const { fullPage } = useAppEnv();
   const delegateEnabled = isDelegateProofEnabled();
+  const network = useNetwork();
 
   const otherAccounts: Contact[] = useMemo(
     () =>
       allAccounts
-        .filter(c => c.publicKey !== publicKey)
+        .filter(c => c.accountId !== accountId)
         .map(
           contact =>
             ({
-              id: contact.publicKey,
+              id: getBech32AddressFromAccountId(contact.accountId, network.id),
               name: contact.name,
               isOwned: true
             }) as Contact
         ),
-    [allAccounts, publicKey]
+    [allAccounts, accountId, network.id]
   );
 
   const onClose = useCallback(() => {
@@ -221,11 +223,12 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
 
         // Step 1: Create the transaction (same as Receive's initiateConsumeTransaction)
         const txId = await initiateSendTransaction(
-          publicKey!,
+          accountId!,
           recipientAddress!,
           token!.id,
           sharePrivately ? NoteTypeEnum.Private : NoteTypeEnum.Public,
           stringToBigInt(amount!, token!.decimals),
+          network.id,
           recallBlocks ? parseInt(recallBlocks) : undefined,
           delegateTransaction
         );
@@ -257,14 +260,15 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       isSubmitting,
       clearErrors,
       onAction,
-      publicKey,
+      accountId,
       recipientAddress,
       sharePrivately,
       delegateTransaction,
       amount,
       recallBlocks,
       setError,
-      token
+      token,
+      network.id
     ]
   );
 

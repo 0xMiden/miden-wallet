@@ -6,9 +6,10 @@ import {
   NoteFilterTypes,
   NoteId,
   TransactionResult
-} from '@demox-labs/miden-sdk';
+} from '@miden-sdk/miden-sdk';
 import { liveQuery } from 'dexie';
 
+import { MIDEN_NETWORK_NAME } from 'lib/miden-chain/constants';
 import { consumeNoteId } from 'lib/miden-worker/consumeNoteId';
 import { sendTransaction } from 'lib/miden-worker/sendTransaction';
 import { submitTransaction } from 'lib/miden-worker/submitTransaction';
@@ -41,13 +42,21 @@ export const MAX_WAIT_BEFORE_CANCEL = isMobile() ? 2 * 60_000 : 30 * 60_000; // 
 export const requestCustomTransaction = async (
   accountId: string,
   transactionRequestBytes: string,
+  networkId: MIDEN_NETWORK_NAME,
   inputNoteIds?: string[],
   importNotes?: string[],
   delegateTransaction?: boolean,
   recipientAccountId?: string
 ): Promise<string> => {
   const byteArray = new Uint8Array(Buffer.from(transactionRequestBytes, 'base64'));
-  const transaction = new Transaction(accountId, byteArray, inputNoteIds, delegateTransaction, recipientAccountId);
+  const transaction = new Transaction(
+    accountId,
+    byteArray,
+    networkId,
+    inputNoteIds,
+    delegateTransaction,
+    recipientAccountId
+  );
   await Repo.transactions.add(transaction);
 
   if (importNotes) {
@@ -94,7 +103,7 @@ export const completeCustomTransaction = async (transaction: ITransaction, resul
     // Get client + send private note (wrapped in lock to prevent concurrent WASM access)
     try {
       await withWasmClientLock(async () => {
-        const midenClient = await getMidenClient();
+        const midenClient = await getMidenClient({ network: transaction.networkId });
 
         try {
           await midenClient.waitForTransactionCommit(executedTx.id().toHex());
@@ -125,6 +134,7 @@ export const completeCustomTransaction = async (transaction: ITransaction, resul
 export const initiateConsumeTransactionFromId = async (
   accountId: string,
   noteId: string,
+  networkId: MIDEN_NETWORK_NAME,
   delegateTransaction?: boolean
 ): Promise<string> => {
   const note: ConsumableNote = {
@@ -135,15 +145,16 @@ export const initiateConsumeTransactionFromId = async (
     isBeingClaimed: false
   };
 
-  return await initiateConsumeTransaction(accountId, note, delegateTransaction);
+  return await initiateConsumeTransaction(accountId, note, networkId, delegateTransaction);
 };
 
 export const initiateConsumeTransaction = async (
   accountId: string,
   note: ConsumableNote,
+  networkId: MIDEN_NETWORK_NAME,
   delegateTransaction?: boolean
 ): Promise<string> => {
-  const dbTransaction = new ConsumeTransaction(accountId, note, delegateTransaction);
+  const dbTransaction = new ConsumeTransaction(accountId, note, networkId, delegateTransaction);
   const uncompletedTransactions = await getUncompletedTransactions(accountId);
   const existingTransaction = uncompletedTransactions.find(tx => tx.type === 'consume' && tx.noteId === note.id);
   if (existingTransaction) {
@@ -200,20 +211,20 @@ export const waitForConsumeTx = async (id: string, signal?: AbortSignal): Promis
   });
 };
 
-export const completeConsumeTransaction = async (id: string, result: TransactionResult) => {
+export const completeConsumeTransaction = async (transaction: ConsumeTransaction, result: TransactionResult) => {
   const note = result.executedTransaction().inputNotes().notes()[0].note();
-  const sender = getBech32AddressFromAccountId(note.metadata().sender());
+  const sender = getBech32AddressFromAccountId(note.metadata().sender(), transaction.networkId);
   const executedTransaction = result.executedTransaction();
 
-  const dbTransaction = await Repo.transactions.where({ id }).first();
+  const dbTransaction = await Repo.transactions.where({ id: transaction.id }).first();
   const reclaimed = compareAccountIds(dbTransaction?.accountId ?? '', sender);
   const displayMessage = reclaimed ? 'Reclaimed' : 'Received';
   const secondaryAccountId = reclaimed ? undefined : sender;
   const asset = note.assets().fungibleAssets()[0];
-  const faucetId = getBech32AddressFromAccountId(asset.faucetId());
+  const faucetId = getBech32AddressFromAccountId(asset.faucetId(), transaction.networkId);
   const amount = asset.amount();
 
-  await updateTransactionStatus(id, ITransactionStatus.Completed, {
+  await updateTransactionStatus(transaction.id, ITransactionStatus.Completed, {
     displayMessage,
     transactionId: executedTransaction.id().toHex(),
     secondaryAccountId,
@@ -231,6 +242,7 @@ export const initiateSendTransaction = async (
   faucetId: string,
   noteType: NoteTypeString,
   amount: bigint,
+  networkId: MIDEN_NETWORK_NAME,
   recallBlocks?: number,
   delegateTransaction?: boolean
 ): Promise<string> => {
@@ -240,6 +252,7 @@ export const initiateSendTransaction = async (
     recipientAccountId,
     faucetId,
     noteType,
+    networkId,
     recallBlocks,
     delegateTransaction
   );
@@ -284,7 +297,7 @@ export const completeSendTransaction = async (tx: SendTransaction, result: Trans
     type SendResult = { success: true } | { success: false; errorType: 'init' | 'transport'; error: unknown };
     const sendResult = await withWasmClientLock<SendResult>(async () => {
       try {
-        const midenClient = await getMidenClient();
+        const midenClient = await getMidenClient({ network: tx.networkId });
         await midenClient.waitForTransactionCommit(executedTx.id().toHex());
         const recipientAccountAddress = Address.fromBech32(tx.secondaryAccountId);
         await midenClient.sendPrivateNote(note, recipientAccountAddress);
@@ -422,6 +435,7 @@ export const getCompletedTransactions = async (
   tokenId?: string
 ) => {
   let transactions = await Repo.transactions.filter(tx => tx.status === ITransactionStatus.Completed).toArray();
+  console.log('Initially fetched completed transactions:', transactions, accountId); // --- IGNORE ---
   if (includeFailed) {
     const failedTransactions = await getFailedTransactions();
     transactions = transactions.concat(failedTransactions);
@@ -505,7 +519,7 @@ export const verifyStuckTransactionsFromNode = async (): Promise<number> => {
   for (const tx of consumeTransactions) {
     try {
       const noteDetails = await withWasmClientLock(async () => {
-        const midenClient = await getMidenClient();
+        const midenClient = await getMidenClient({ network: tx.networkId });
         const noteId = NoteId.fromHex(tx.noteId);
         const noteFilter = new NoteFilter(NoteFilterTypes.List, [noteId]);
         return await midenClient.getInputNoteDetails(noteFilter);
@@ -562,6 +576,7 @@ export const generateTransaction = async (
   let resultBytes: Uint8Array;
   let result: TransactionResult;
   const options: MidenClientCreateOptions = {
+    network: transaction.networkId,
     signCallback: async (publicKey: Uint8Array, signingInputs: Uint8Array) => {
       const keyString = Buffer.from(publicKey).toString('hex');
       const signingInputsString = Buffer.from(signingInputs).toString('hex');
@@ -588,18 +603,18 @@ export const generateTransaction = async (
 
   switch (transaction.type) {
     case 'send':
-      resultBytes = await sendTransaction(transactionResultBytes, shouldDelegate);
+      resultBytes = await sendTransaction(transactionResultBytes, transaction.networkId, shouldDelegate);
       result = TransactionResult.deserialize(resultBytes);
       await completeSendTransaction(transaction as SendTransaction, result);
       break;
     case 'consume':
-      resultBytes = await consumeNoteId(transactionResultBytes, shouldDelegate);
+      resultBytes = await consumeNoteId(transactionResultBytes, transaction.networkId, shouldDelegate);
       result = TransactionResult.deserialize(resultBytes);
-      await completeConsumeTransaction(transaction.id, result);
+      await completeConsumeTransaction(transaction as ConsumeTransaction, result);
       break;
     case 'execute':
     default:
-      resultBytes = await submitTransaction(transactionResultBytes, shouldDelegate);
+      resultBytes = await submitTransaction(transactionResultBytes, transaction.networkId, shouldDelegate);
       result = TransactionResult.deserialize(resultBytes);
       await completeCustomTransaction(transaction, result);
       break;
@@ -627,12 +642,13 @@ export const getTransactionById = async (id: string) => {
 };
 
 export const generateTransactionsLoop = async (
+  network: MIDEN_NETWORK_NAME,
   signCallback: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
 ): Promise<boolean | void> => {
   await cancelStuckTransactions();
 
   // Import any notes needed for queued transactions
-  await importAllNotes();
+  await importAllNotes(network);
 
   // Wait for other in progress transactions
   const inProgressTransactions = await getTransactionsInProgress();
@@ -664,13 +680,14 @@ export const generateTransactionsLoop = async (
 };
 
 export const safeGenerateTransactionsLoop = async (
+  network: MIDEN_NETWORK_NAME,
   signCallback: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
 ) => {
   return navigator.locks
     .request(`generate-transactions-loop`, { ifAvailable: true }, async lock => {
       if (!lock) return;
 
-      const result = await generateTransactionsLoop(signCallback);
+      const result = await generateTransactionsLoop(network, signCallback);
       if (result === false) {
         return false;
       }
@@ -691,6 +708,7 @@ export const safeGenerateTransactionsLoop = async (
  * Polls every 5 seconds until all queued transactions are processed.
  */
 export const startBackgroundTransactionProcessing = async (
+  network: MIDEN_NETWORK_NAME,
   signTransaction: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
 ) => {
   const signCallback = async (publicKey: string, signingInputs: string): Promise<Uint8Array> => {
@@ -705,7 +723,7 @@ export const startBackgroundTransactionProcessing = async (
 
     while (hasMore && attempts < maxAttempts) {
       attempts++;
-      await safeGenerateTransactionsLoop(signCallback);
+      await safeGenerateTransactionsLoop(network, signCallback);
 
       // Check if there are more transactions to process
       const remaining = await getAllUncompletedTransactions();

@@ -1,9 +1,10 @@
 import Dexie, { Transaction } from 'dexie';
 
-import { ITransaction } from './db/types';
+import { IFaucetMetadata, ITransaction } from './db/types';
 
 export enum Table {
-  Transactions = 'transactions'
+  Transactions = 'transactions',
+  FaucetMetadata = 'faucetMetadata'
 }
 
 export const db = new Dexie('TridentMain');
@@ -26,7 +27,13 @@ db.version(1.1)
     await tx.db.table<ITransaction, string>(Table.Transactions).clear();
   });
 
+db.version(1.2).stores({
+  [Table.Transactions]: indexes('id', 'accountId', 'transactionId', 'initiatedAt', 'completedAt', 'status'),
+  [Table.FaucetMetadata]: indexes('accountId')
+});
+
 export const transactions = db.table<ITransaction, string>(Table.Transactions);
+export const faucetMetadatas = db.table<IFaucetMetadata, string>(Table.FaucetMetadata);
 
 function indexes(...items: string[]) {
   return items.join(',');
@@ -45,6 +52,10 @@ export async function exportDb(): Promise<string> {
       };
     });
     dump[Table.Transactions] = serializableTransactions;
+  });
+  await db.transaction('r', faucetMetadatas, async () => {
+    const rawFaucetMetadatas = await faucetMetadatas.toArray();
+    dump[Table.FaucetMetadata] = rawFaucetMetadatas;
   });
   return JSON.stringify(dump);
 }
