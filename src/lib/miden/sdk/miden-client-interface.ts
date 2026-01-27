@@ -73,7 +73,7 @@ export class MidenClientInterface {
    * @note A new web worker is created for each invocation. Each worker must be manually disposed of.
    */
   static async create(options: MidenClientCreateOptions = {}) {
-    const seed = options.seed?.toString();
+    const seed = options.seed;
     const network = MIDEN_NETWORK_NAME.DEVNET;
     // Keep note transport on testnet for now.
     const transportLayer = MIDEN_TRANSPORT_LAYER_NAME.TESTNET;
@@ -81,15 +81,15 @@ export class MidenClientInterface {
     // In test builds, swap to the SDK's mock client to avoid hitting the real chain.
     if (process.env.MIDEN_USE_MOCK_CLIENT === 'true') {
       const sdk = await import('@miden-sdk/miden-sdk');
-      const mockWebClient = await (sdk as any).MockWebClient.createClient(undefined, undefined, options.seed);
+      const mockWebClient = await sdk.MockWebClient.createClient(undefined, undefined, options.seed);
       return new MidenClientInterface(mockWebClient as unknown as WebClient, 'mock', options.onConnectivityIssue);
     }
 
-    // NOTE: SDK typings do not yet expose createClientWithExternalKeystore; cast to any to keep callbacks.
-    const webClient = await (WebClient as any).createClientWithExternalKeystore(
+    const webClient = await WebClient.createClientWithExternalKeystore(
       MIDEN_NETWORK_ENDPOINTS.get(network)!,
       MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS.get(transportLayer),
       seed,
+      undefined,
       options.getKeyCallback,
       options.insertKeyCallback,
       options.signCallback

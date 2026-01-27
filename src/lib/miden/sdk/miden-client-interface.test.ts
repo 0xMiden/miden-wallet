@@ -92,10 +92,13 @@ describe('MidenClientInterface', () => {
       MIDEN_NETWORK_NAME: { TESTNET: 'testnet' }
     }));
     jest.doMock('lib/miden-chain/constants', () => ({
-      MIDEN_NETWORK_ENDPOINTS: new Map([['testnet', 'rpc']]),
+      MIDEN_NETWORK_ENDPOINTS: new Map([
+        ['testnet', 'rpc'],
+        ['devnet', 'rpc-dev']
+      ]),
       MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS: new Map([['testnet', undefined]]),
       MIDEN_PROVING_ENDPOINTS: new Map([['testnet', 'prover']]),
-      MIDEN_NETWORK_NAME: { TESTNET: 'testnet' },
+      MIDEN_NETWORK_NAME: { TESTNET: 'testnet', DEVNET: 'devnet' },
       MIDEN_TRANSPORT_LAYER_NAME: { TESTNET: 'testnet' }
     }));
     jest.doMock('./constants', () => ({ NoteExportType: {} }));
@@ -120,9 +123,10 @@ describe('MidenClientInterface', () => {
     });
 
     expect(createClientWithExternalKeystore).toHaveBeenCalledWith(
-      'rpc',
+      'rpc-dev',
       undefined,
-      '1,2,3',
+      expect.any(Uint8Array),
+      undefined,
       undefined,
       insertKeyCallback,
       undefined

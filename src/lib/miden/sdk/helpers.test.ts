@@ -11,14 +11,14 @@ jest.mock('@miden-sdk/miden-sdk', () => ({
       accountId: () => `id-from-${addr}`
     }))
   },
-  NetworkId: { testnet: jest.fn(() => 'testnet') }
+  NetworkId: { testnet: jest.fn(() => 'testnet'), devnet: jest.fn(() => 'devnet') }
 }));
 
 describe('miden sdk helpers', () => {
   it('converts accountId to bech32', () => {
     const res = getBech32AddressFromAccountId('abc' as any);
     expect(Address.fromAccountId).toHaveBeenCalledWith('abc', 'BasicWallet');
-    expect(NetworkId.testnet).toHaveBeenCalled();
+    expect(NetworkId.devnet).toHaveBeenCalled();
     expect(res).toBe('bech32-abc');
   });
 
