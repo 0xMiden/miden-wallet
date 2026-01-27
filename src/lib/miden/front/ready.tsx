@@ -44,7 +44,7 @@ export function useNetwork(): MidenNetwork {
   const validationDone = useRef(false);
 
   // Load from storage on mount and sync to store
-  const defaultNetId = networks[0]?.id ?? '';
+  const defaultNetId = networks[1]?.id ?? '';
   const [storedNetworkId, setStoredNetworkId] = usePassiveStorage('network_id', defaultNetId);
 
   // Sync storage to Zustand once on mount

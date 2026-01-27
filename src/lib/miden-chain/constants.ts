@@ -40,15 +40,15 @@ export const MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS = new Map<string, string>([
 
 export const MIDEN_NETWORKS: MidenNetwork[] = [
   {
-    rpcBaseURL: 'https://rpc.devnet.miden.io',
-    id: MIDEN_NETWORK_NAME.DEVNET,
-    name: 'Devnet',
-    autoSync: true
-  },
-  {
     rpcBaseURL: 'https://rpc.testnet.miden.io',
     id: MIDEN_NETWORK_NAME.TESTNET,
     name: 'Testnet',
+    autoSync: true
+  },
+  {
+    rpcBaseURL: 'https://rpc.devnet.miden.io',
+    id: MIDEN_NETWORK_NAME.DEVNET,
+    name: 'Devnet',
     autoSync: true
   },
   { rpcBaseURL: 'localhost:57291', id: MIDEN_NETWORK_NAME.LOCALNET, name: 'Localnet', autoSync: true }

@@ -270,15 +270,14 @@ export class MidenClientInterface {
   }
 
   private async getNotesByIds(noteIds: string[]): Promise<Note[]> {
-    const notes = await Promise.all(
-      noteIds.map(async noteId => {
-        const record = await this.webClient.getInputNote(noteId);
-        if (!record) {
-          throw new Error(`Input note not found: ${noteId}`);
-        }
-        return record.toNote();
-      })
-    );
+    const notes: Note[] = [];
+    for (const noteId of noteIds) {
+      const record = await this.webClient.getInputNote(noteId);
+      if (!record) {
+        throw new Error(`Input note not found: ${noteId}`);
+      }
+      notes.push(record.toNote());
+    }
     return notes;
   }
 

@@ -1,4 +1,3 @@
-import { AccountInterface, NetworkId, NoteFilter, NoteFilterTypes, NoteId, NoteType } from '@miden-sdk/miden-sdk';
 import {
   AllowedPrivateData,
   Asset,
@@ -8,6 +7,7 @@ import {
   PrivateDataPermission,
   SendTransaction
 } from '@demox-labs/miden-wallet-adapter-base';
+import { AccountInterface, NetworkId, NoteFilter, NoteFilterTypes, NoteId, NoteType } from '@miden-sdk/miden-sdk';
 import { nanoid } from 'nanoid';
 import type { Runtime } from 'webextension-polyfill';
 
@@ -93,8 +93,7 @@ async function getAccountPublicKeyB64(accountId: string): Promise<string> {
   if (publicKeyCommitments.length === 0) {
     throw new Error('Account has no public key commitments');
   }
-  const authSecretKey = await midenClient.webClient.getAccountAuthByPubKeyCommitment(publicKeyCommitments[0]);
-  return u8ToB64(authSecretKey.publicKey().serialize());
+  return u8ToB64(publicKeyCommitments[0].serialize());
 }
 
 // Lazy-loaded browser polyfill (only in extension context)
