@@ -1,4 +1,4 @@
-import { NoteFilterTypes } from '@demox-labs/miden-sdk';
+import { NoteFilterTypes } from '@miden-sdk/miden-sdk';
 import {
   AllowedPrivateData,
   MidenConsumeTransaction,

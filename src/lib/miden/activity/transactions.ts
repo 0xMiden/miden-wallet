@@ -6,7 +6,7 @@ import {
   NoteFilterTypes,
   NoteId,
   TransactionResult
-} from '@demox-labs/miden-sdk';
+} from '@miden-sdk/miden-sdk';
 import { liveQuery } from 'dexie';
 
 import { consumeNoteId } from 'lib/miden-worker/consumeNoteId';

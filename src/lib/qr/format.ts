@@ -41,7 +41,7 @@ export function decodeAddress(payload: string): string {
 
 /**
  * Validates if a string is a valid Miden address.
- * Miden addresses start with "mtst1" (testnet) or "m1" (mainnet).
+ * Miden addresses start with "mtst1" (testnet), "mdev1" (devnet), or "m1" (mainnet).
  *
  * @param address The address to validate
  * @returns true if the address appears to be a valid Miden address
@@ -56,8 +56,9 @@ export function isValidMidenAddress(address: string): boolean {
   // Basic validation: must start with known prefix and have reasonable length
   const isTestnet = trimmed.startsWith('mtst1');
   const isMainnet = trimmed.startsWith('m1');
+  const isDevnet = trimmed.startsWith('mdev1');
 
-  if (!isTestnet && !isMainnet) {
+  if (!isTestnet && !isMainnet && !isDevnet) {
     return false;
   }
 

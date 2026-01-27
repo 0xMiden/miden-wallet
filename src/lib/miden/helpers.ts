@@ -1,4 +1,4 @@
-import { NoteType } from '@demox-labs/miden-sdk';
+import { NoteType } from '@miden-sdk/miden-sdk';
 
 import { NoteTypeEnum, NoteType as NoteTypeString } from './types';
 

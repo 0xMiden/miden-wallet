@@ -1,4 +1,4 @@
-import { BasicFungibleFaucetComponent } from '@demox-labs/miden-sdk';
+import { BasicFungibleFaucetComponent } from '@miden-sdk/miden-sdk';
 
 import { isMidenAsset } from 'lib/miden/assets';
 
@@ -27,7 +27,7 @@ jest.mock('../sdk/miden-client', () => ({
   withWasmClientLock: jest.fn(<T>(fn: () => Promise<T>) => fn())
 }));
 
-jest.mock('@demox-labs/miden-sdk', () => ({
+jest.mock('@miden-sdk/miden-sdk', () => ({
   BasicFungibleFaucetComponent: {
     fromAccount: jest.fn()
   }

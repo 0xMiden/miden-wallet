@@ -17,7 +17,7 @@ test('creates a wallet and syncs state via MockWebClient', async ({ sdk, mockWeb
     WalletType.OnChain === WalletType.OnChain ? sdk.AccountStorageMode.public() : sdk.AccountStorageMode.private();
 
   const wallet = await mockWebClient.newWallet(accountStorageMode, true, 0, TEST_SEED);
-  const walletAddress = sdk.Address.fromAccountId(wallet.id(), 'BasicWallet').toBech32(sdk.NetworkId.Testnet);
+  const walletAddress = sdk.Address.fromAccountId(wallet.id(), 'BasicWallet').toBech32(sdk.NetworkId.testnet());
   expect(walletAddress).toBeTruthy();
 
   const syncSummary = await mockWebClient.syncState();
@@ -25,7 +25,7 @@ test('creates a wallet and syncs state via MockWebClient', async ({ sdk, mockWeb
 
   const accounts = await mockWebClient.getAccounts();
   const accountIds = accounts.map((account: any) =>
-    sdk.Address.fromAccountId(account.id(), 'BasicWallet').toBech32(sdk.NetworkId.Testnet)
+    sdk.Address.fromAccountId(account.id(), 'BasicWallet').toBech32(sdk.NetworkId.testnet())
   );
   expect(accountIds).toContain(walletAddress);
 });

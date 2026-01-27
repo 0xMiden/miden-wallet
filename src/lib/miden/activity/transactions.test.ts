@@ -441,7 +441,7 @@ describe('completeCustomTransaction (isolated)', () => {
       submitTransaction: jest.fn()
     }));
 
-    jest.doMock('@demox-labs/miden-sdk', () => ({
+    jest.doMock('@miden-sdk/miden-sdk', () => ({
       Address: { fromBech32: jest.fn() },
       InputNoteState: {
         ConsumedAuthenticatedLocal: 'ConsumedAuthenticatedLocal',
