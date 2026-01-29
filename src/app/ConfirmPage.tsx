@@ -2,8 +2,8 @@
 
 import React, { FC, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 
-import { Address, FungibleAsset, NetworkId, SigningInputs, SigningInputsType, Word } from '@miden-sdk/miden-sdk';
 import { PrivateDataPermission } from '@demox-labs/miden-wallet-adapter-base';
+import { Address, FungibleAsset, NetworkId, SigningInputs, SigningInputsType, Word } from '@miden-sdk/miden-sdk';
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
@@ -128,7 +128,9 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ payload, error, account
             console.error('Failed to deserialize payload for sign:', e);
           }
           content = (
-            <div className="text-md text-center my-6">{t('signTheFollowingWord', truncateAddress(wordHex))}</div>
+            <div className="text-md text-center my-6">
+              {t('signTheFollowingWord', { word: truncateAddress(wordHex) })}
+            </div>
           );
           break;
         }
@@ -624,7 +626,7 @@ const ConfirmDAppForm: FC = () => {
         };
       case 'transaction':
         return {
-          title: t('confirmAction', t('transactionAction')),
+          title: t('confirmAction', { action: t('transactionAction') }),
           declineActionTitle: t('cancel'),
           declineActionTestID: ConfirmPageSelectors.TransactionAction_RejectButton,
           confirmActionTitle: t('confirm'),
@@ -647,7 +649,7 @@ const ConfirmDAppForm: FC = () => {
         };
       case 'consume':
         return {
-          title: t('confirmAction', t('transactionAction')),
+          title: t('confirmAction', { action: t('transactionAction') }),
           declineActionTitle: t('cancel'),
           declineActionTestID: ConfirmPageSelectors.ConsumeAction_RejectButton,
           confirmActionTitle: t('confirm'),

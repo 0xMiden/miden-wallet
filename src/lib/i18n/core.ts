@@ -91,7 +91,7 @@ export function getMessage(messageName: string, substitutions?: Substitutions) {
 
   try {
     if (val.placeholders) {
-      const params = toList(substitutions).reduce((prms, sub, i) => {
+      const params = toList(Object(substitutions).values()).reduce((prms, sub, i) => {
         const pKey = val.placeholderList?.[i] ?? i;
         return pKey ? { ...prms, [pKey]: sub } : prms;
       }, {});
