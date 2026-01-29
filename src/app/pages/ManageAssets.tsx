@@ -159,7 +159,7 @@ const LoadingComponent: React.FC<LoadingComponentProps> = ({ loading, searchValu
       </p>
 
       <p className={classNames('text-center text-xs ')}>
-        {t('ifYouDontSeeYourAsset', { asset: <RenderAssetComponent assetType={assetType} /> })}
+        {t('ifYouDontSeeYourAsset', { toClick: <RenderAssetComponent assetType={assetType} /> })}
       </p>
     </div>
   );

@@ -1,6 +1,6 @@
 import { derivePath } from '@demox-labs/aleo-hd-key';
-import { AuthSecretKey, SigningInputs, Word } from '@miden-sdk/miden-sdk';
 import { SendTransaction, SignKind } from '@demox-labs/miden-wallet-adapter-base';
+import { AuthSecretKey, SigningInputs, Word } from '@miden-sdk/miden-sdk';
 import * as Bip39 from 'bip39';
 
 import { getMessage } from 'lib/i18n';
@@ -595,7 +595,7 @@ function concatAccount(current: WalletAccount[], newOne: WalletAccount) {
 }
 
 function getNewAccountName(allAccounts: WalletAccount[], templateI18nKey = 'defaultAccountName') {
-  return getMessage(templateI18nKey, String(allAccounts.length + 1));
+  return getMessage(templateI18nKey, { accountNumber: String(allAccounts.length + 1) });
 }
 
 function getMainDerivationPath(walletType: WalletType, accIndex: number) {
