@@ -120,9 +120,7 @@ const Explore: FC = () => {
         console.warn('Skipping auto-consume for note with previous failed transaction', note.id);
         return;
       }
-      if (!note.isBeingClaimed) {
-        await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
-      }
+      await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
     });
     await Promise.all(promises);
     mutateClaimableNotes();
