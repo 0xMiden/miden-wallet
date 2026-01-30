@@ -9,6 +9,7 @@ const mockInitiateConsumeTransaction = jest.fn();
 const mockMutateClaimableNotes = jest.fn();
 const mockUseClaimableNotes = jest.fn();
 const mockUseRetryableSWR = jest.fn();
+const mockOpenTransactionModal = jest.fn();
 
 jest.mock('app/env', () => ({
   useAppEnv: () => ({ fullPage: false })
@@ -52,7 +53,8 @@ jest.mock('react-i18next', () => ({
 jest.mock('lib/miden/activity', () => ({
   getFailedConsumeTransactions: jest.fn(),
   hasQueuedTransactions: jest.fn(),
-  initiateConsumeTransaction: (...args: any[]) => mockInitiateConsumeTransaction(...args)
+  initiateConsumeTransaction: (...args: any[]) => mockInitiateConsumeTransaction(...args),
+  startBackgroundTransactionProcessing: jest.fn()
 }));
 
 jest.mock('lib/miden-chain/faucet', () => ({
@@ -103,13 +105,12 @@ jest.mock('lib/platform', () => ({
   isMobile: () => false
 }));
 
-const mockOpenTransactionModal = jest.fn();
-const mockUseWalletStore = (selector: (state: { isTransactionModalDismissedByUser: boolean }) => boolean) =>
-  selector({ isTransactionModalDismissedByUser: false });
-mockUseWalletStore.getState = () => ({ openTransactionModal: mockOpenTransactionModal });
-jest.mock('lib/store', () => ({
-  useWalletStore: mockUseWalletStore
-}));
+jest.mock('lib/store', () => {
+  const useWalletStore = (selector: (state: { isTransactionModalDismissedByUser: boolean }) => boolean) =>
+    selector({ isTransactionModalDismissedByUser: false });
+  useWalletStore.getState = () => ({ openTransactionModal: mockOpenTransactionModal });
+  return { useWalletStore };
+});
 
 jest.mock('utils/miden', () => ({
   isHexAddress: () => false
