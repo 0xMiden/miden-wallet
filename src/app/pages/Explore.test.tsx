@@ -11,7 +11,6 @@ const mockUseClaimableNotes = jest.fn();
 const mockUseRetryableSWR = jest.fn();
 
 jest.mock('app/env', () => ({
-  openInFullPage: jest.fn(),
   useAppEnv: () => ({ fullPage: false })
 }));
 
@@ -56,11 +55,17 @@ jest.mock('lib/miden/activity', () => ({
   initiateConsumeTransaction: (...args: any[]) => mockInitiateConsumeTransaction(...args)
 }));
 
+jest.mock('lib/miden-chain/faucet', () => ({
+  getFaucetUrl: jest.fn(() => 'https://faucet.test')
+}));
+
 jest.mock('lib/miden/front', () => ({
   setFaucetIdSetting: jest.fn(),
   useAccount: () => ({ publicKey: 'acc-1' }),
   useAllBalances: () => ({ data: [] }),
-  useAllTokensBaseMetadata: () => ({})
+  useAllTokensBaseMetadata: () => ({}),
+  useMidenContext: () => ({ signTransaction: jest.fn() }),
+  useNetwork: () => ({ id: 'devnet' })
 }));
 
 jest.mock('lib/miden/front/claimable-notes', () => ({
@@ -84,6 +89,26 @@ jest.mock('lib/ui/useTippy', () => ({
 jest.mock('lib/woozie', () => ({
   Link: ({ children }: { children: React.ReactNode }) => <button type="button">{children}</button>,
   navigate: jest.fn()
+}));
+
+jest.mock('lib/mobile/faucet-webview', () => ({
+  openFaucetWebview: jest.fn()
+}));
+
+jest.mock('lib/mobile/haptics', () => ({
+  hapticLight: jest.fn()
+}));
+
+jest.mock('lib/platform', () => ({
+  isMobile: () => false
+}));
+
+const mockOpenTransactionModal = jest.fn();
+const mockUseWalletStore = (selector: (state: { isTransactionModalDismissedByUser: boolean }) => boolean) =>
+  selector({ isTransactionModalDismissedByUser: false });
+mockUseWalletStore.getState = () => ({ openTransactionModal: mockOpenTransactionModal });
+jest.mock('lib/store', () => ({
+  useWalletStore: mockUseWalletStore
 }));
 
 jest.mock('utils/miden', () => ({
