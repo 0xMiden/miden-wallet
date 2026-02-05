@@ -30,6 +30,8 @@ module.exports = {
         black: '#000',
         white: '#fff',
 
+        'heading-gray': '#484848',
+
         gray: {
           25: '#F9F9F9',
           50: '#F3F3F3',
@@ -245,6 +247,7 @@ module.exports = {
     fontFamily: (() => {
       const baseFontFamily = {
         sans: [
+          "'Geist'",
           'system-ui',
           '-apple-system',
           'BlinkMacSystemFont',
@@ -260,12 +263,13 @@ module.exports = {
           '"Noto Color Emoji"'
         ],
         serif: ['Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
-        mono: ['Menlo', 'Monaco', 'Consolas', '"Liberation Mono"', '"Courier New"', 'monospace']
+        mono: ["'Geist Mono'", 'Menlo', 'Monaco', 'Consolas', '"Liberation Mono"', '"Courier New"', 'monospace']
       };
 
       return {
         ...baseFontFamily,
-        inter: ["'Inter'", ...baseFontFamily.sans]
+        geist: ["'Geist'", ...baseFontFamily.sans],
+        'geist-mono': ["'Geist Mono'", ...baseFontFamily.mono]
       };
     })(),
     fontSize: {
