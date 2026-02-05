@@ -19,10 +19,8 @@ import { navigate } from 'lib/woozie';
 import { isValidMidenAddress } from 'utils/miden';
 
 import { AccountsList } from './AccountsList';
-import { ReviewTransaction } from './ReviewTransaction';
-import { SelectAmount } from './SelectAmount';
-import { SelectRecipient } from './SelectRecipient';
 import { SelectToken } from './SelectToken';
+import { SendDetails } from './SendDetails';
 import { TransactionInitiated } from './TransactionInitiated';
 import { Contact, SendFlowAction, SendFlowActionId, SendFlowForm, SendFlowStep } from './types';
 
@@ -33,7 +31,7 @@ const ROUTES: Route[] = [
     animationOut: 'pop'
   },
   {
-    name: SendFlowStep.SelectRecipient,
+    name: SendFlowStep.SendDetails,
     animationIn: 'push',
     animationOut: 'pop'
   },
@@ -41,21 +39,6 @@ const ROUTES: Route[] = [
     name: SendFlowStep.AccountsList,
     animationIn: 'present',
     animationOut: 'dismiss'
-  },
-  {
-    name: SendFlowStep.SelectAmount,
-    animationIn: 'push',
-    animationOut: 'pop'
-  },
-  {
-    name: SendFlowStep.ReviewTransaction,
-    animationIn: 'push',
-    animationOut: 'pop'
-  },
-  {
-    name: SendFlowStep.GeneratingTransaction,
-    animationIn: 'push',
-    animationOut: 'pop'
   },
   {
     name: SendFlowStep.TransactionInitiated,
@@ -295,7 +278,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   );
 
   const onAmountChange = useCallback(
-    (amountString: string | undefined) => {
+    (amountString: string) => {
       onAction({
         id: SendFlowActionId.SetFormValues,
         payload: { amount: amountString }
@@ -348,19 +331,27 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       switch (route.name) {
         case SendFlowStep.SelectToken:
           return <SelectToken onAction={onAction} />;
-        case SendFlowStep.SelectRecipient:
+        case SendFlowStep.SendDetails:
           return (
-            <SelectRecipient
-              address={recipientAddress}
+            <SendDetails
+              token={token!}
+              amount={amount || ''}
+              recipientAddress={recipientAddress || ''}
+              sharePrivately={sharePrivately}
+              delegateTransaction={delegateTransaction}
+              recallBlocks={recallBlocks}
+              isValidAmount={!errors.amount && validations.amount.isValidSync(amount)}
               isValidAddress={!errors.recipientAddress && validations.recipientAddress.isValidSync(recipientAddress)}
-              error={errors.recipientAddress?.message?.toString()}
+              amountError={errors.amount?.message?.toString()}
+              addressError={errors.recipientAddress?.message?.toString()}
+              onAction={onAction}
+              onGoBack={goBack}
+              onAmountChange={onAmountChange}
               onAddressChange={onAddressChange}
               onScannedAddress={onScannedAddress}
+              onClearAddress={onClearAddress}
               onYourAccounts={() => goToStep(SendFlowStep.AccountsList)}
-              onGoNext={() => goToStep(SendFlowStep.SelectAmount)}
-              onClear={onClearAddress}
-              onClose={onClose}
-              onCancel={onClose}
+              onSubmit={handleSubmit(onSubmit)}
             />
           );
         case SendFlowStep.AccountsList:
@@ -370,31 +361,6 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
               accounts={otherAccounts}
               onClose={goBack}
               onSelectContact={onSelectContact}
-            />
-          );
-        case SendFlowStep.SelectAmount:
-          return (
-            <SelectAmount
-              amount={amount}
-              isValidAmount={!errors.amount && validations.amount.isValidSync(amount)}
-              error={errors.amount?.message?.toString()}
-              token={token!}
-              onGoBack={goBack}
-              onGoNext={() => goToStep(SendFlowStep.ReviewTransaction)}
-              onCancel={onClose}
-              onAmountChange={onAmountChange}
-            />
-          );
-        case SendFlowStep.ReviewTransaction:
-          return (
-            <ReviewTransaction
-              onAction={onAction}
-              onGoBack={goBack}
-              amount={amount}
-              token={token!.name}
-              recipientAddress={recipientAddress}
-              sharePrivately={sharePrivately}
-              delegateTransaction={delegateTransaction}
             />
           );
         case SendFlowStep.TransactionInitiated:
@@ -412,7 +378,6 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       onAddressChange,
       onScannedAddress,
       onClearAddress,
-      onClose,
       goBack,
       onSelectContact,
       amount,
@@ -420,7 +385,10 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       onAction,
       sharePrivately,
       delegateTransaction,
-      goToStep
+      recallBlocks,
+      goToStep,
+      handleSubmit,
+      onSubmit
     ]
   );
 
@@ -437,13 +405,12 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       className={classNames(
         containerClass,
         'mx-auto overflow-hidden ',
-        'flex flex-1',
         'flex-col bg-white',
         'overflow-hidden relative'
       )}
       data-testid="send-flow"
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="flex-1 flex">
+      <form onSubmit={handleSubmit(onSubmit)} className="">
         <Navigator renderRoute={renderStep} initialRouteName={SendFlowStep.SelectToken} />
       </form>
     </div>
