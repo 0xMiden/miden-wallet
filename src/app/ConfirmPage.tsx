@@ -2,8 +2,8 @@
 
 import React, { FC, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 
-import { Address, FungibleAsset, NetworkId, SigningInputs, SigningInputsType, Word } from '@miden-sdk/miden-sdk';
 import { PrivateDataPermission } from '@demox-labs/miden-wallet-adapter-base';
+import { Address, FungibleAsset, NetworkId, SigningInputs, SigningInputsType, Word } from '@miden-sdk/miden-sdk';
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
@@ -358,7 +358,7 @@ const SigningInputsPayloadContent: React.FC<{ bytes: Uint8Array }> = ({ bytes })
         const ts = signingInputs.transactionSummaryPayload();
         const accountDelta = ts.accountDelta();
         const accountAddress = Address.fromAccountId(accountDelta.id(), 'BasicWallet');
-        const accountAddressAsBech32 = accountAddress.toBech32(NetworkId.devnet());
+        const accountAddressAsBech32 = accountAddress.toBech32(NetworkId.testnet());
         const vault = accountDelta.vault();
         const storage = accountDelta.storage();
         const inputNotes = ts.inputNotes();

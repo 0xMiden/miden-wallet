@@ -74,7 +74,7 @@ export class MidenClientInterface {
    */
   static async create(options: MidenClientCreateOptions = {}) {
     const seed = options.seed;
-    const network = MIDEN_NETWORK_NAME.DEVNET;
+    const network = MIDEN_NETWORK_NAME.TESTNET;
     // Keep note transport on testnet for now.
     const transportLayer = MIDEN_TRANSPORT_LAYER_NAME.TESTNET;
 

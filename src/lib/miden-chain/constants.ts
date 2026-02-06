@@ -16,7 +16,7 @@ export enum MIDEN_TRANSPORT_LAYER_NAME {
 
 export const MIDEN_NETWORK_ENDPOINTS = new Map<string, string>([
   [MIDEN_NETWORK_NAME.MAINNET, 'https://api.miden.io'], // Placeholder
-  [MIDEN_NETWORK_NAME.TESTNET, 'https://rpc.testnet.miden.io'],
+  [MIDEN_NETWORK_NAME.TESTNET, 'https://rpc.devnet.miden.io'],
   [MIDEN_NETWORK_NAME.DEVNET, 'https://rpc.devnet.miden.io'],
   [MIDEN_NETWORK_NAME.LOCALNET, 'http://localhost:57291']
 ]);
@@ -34,21 +34,21 @@ export const MIDEN_FAUCET_ENDPOINTS = new Map<string, string>([
 ]);
 
 export const MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS = new Map<string, string>([
-  [MIDEN_NETWORK_NAME.TESTNET, 'http://transport.miden.io:57292'],
+  [MIDEN_NETWORK_NAME.TESTNET, 'http://127.0.0.1:57292'],
   [MIDEN_NETWORK_NAME.LOCALNET, 'http://127.0.0.1:57292']
 ]);
 
 export const MIDEN_NETWORKS: MidenNetwork[] = [
   {
-    rpcBaseURL: 'https://rpc.devnet.miden.io',
-    id: MIDEN_NETWORK_NAME.DEVNET,
-    name: 'Devnet',
-    autoSync: true
-  },
-  {
     rpcBaseURL: 'https://rpc.testnet.miden.io',
     id: MIDEN_NETWORK_NAME.TESTNET,
     name: 'Testnet',
+    autoSync: true
+  },
+  {
+    rpcBaseURL: 'https://rpc.devnet.miden.io',
+    id: MIDEN_NETWORK_NAME.DEVNET,
+    name: 'Devnet',
     autoSync: true
   },
   { rpcBaseURL: 'localhost:57291', id: MIDEN_NETWORK_NAME.LOCALNET, name: 'Localnet', autoSync: true }
@@ -59,5 +59,5 @@ export enum MidenTokens {
 }
 
 export const TOKEN_MAPPING = {
-  [MidenTokens.Miden]: { faucetId: 'mdev1az9sgvfkappxwgrjn2pmx0u45cs34cfk_qruqqypuyph' }
+  [MidenTokens.Miden]: { faucetId: 'mtst1ap2t7nsjausqsgrswk9syfzkcu328yna' }
 };
