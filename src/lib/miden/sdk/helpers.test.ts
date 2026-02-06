@@ -18,7 +18,7 @@ describe('miden sdk helpers', () => {
   it('converts accountId to bech32', () => {
     const res = getBech32AddressFromAccountId('abc' as any);
     expect(Address.fromAccountId).toHaveBeenCalledWith('abc', 'BasicWallet');
-    expect(NetworkId.devnet).toHaveBeenCalled();
+    expect(NetworkId.testnet).toHaveBeenCalled();
     expect(res).toBe('bech32-abc');
   });
 

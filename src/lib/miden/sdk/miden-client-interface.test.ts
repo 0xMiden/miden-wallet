@@ -123,7 +123,7 @@ describe('MidenClientInterface', () => {
     });
 
     expect(createClientWithExternalKeystore).toHaveBeenCalledWith(
-      'rpc-dev',
+      'rpc',
       undefined,
       expect.any(Uint8Array),
       undefined,
