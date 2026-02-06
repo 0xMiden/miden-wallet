@@ -129,7 +129,7 @@ export const Receive: React.FC<ReceiveProps> = () => {
 
         // 2. Check node state for Invalid notes
         try {
-          const { InputNoteState, NoteFilter, NoteFilterTypes, NoteId } = await import('@demox-labs/miden-sdk');
+          const { InputNoteState, NoteFilter, NoteFilterTypes, NoteId } = await import('@miden-sdk/miden-sdk');
           const noteIds = safeClaimableNotes.map(n => NoteId.fromHex(n.id));
           const noteDetails = await withWasmClientLock(async () => {
             const midenClient = await getMidenClient();

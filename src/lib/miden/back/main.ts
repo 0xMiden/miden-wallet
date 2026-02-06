@@ -86,7 +86,6 @@ async function processRequest(req: WalletRequest, port: Runtime.Port): Promise<W
         type: WalletMessageType.RemoveAccountResponse
       };
     case WalletMessageType.EditAccountRequest:
-      console.log('received');
       await Actions.editAccount(req.accountPublicKey, req.name);
       return {
         type: WalletMessageType.EditAccountResponse

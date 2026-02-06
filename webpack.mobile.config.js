@@ -287,7 +287,8 @@ const mobileWorkerConfig = {
     alias: {
       lib: path.resolve(__dirname, 'src', 'lib'),
       shared: path.resolve(__dirname, 'src', 'shared'),
-      screens: path.resolve(__dirname, 'src', 'screens')
+      screens: path.resolve(__dirname, 'src', 'screens'),
+      'process/browser': require.resolve('process/browser.js')
     },
     fallback: {
       url: false,
