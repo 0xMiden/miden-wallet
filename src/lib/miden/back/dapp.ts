@@ -72,7 +72,6 @@ import { store, withUnlocked } from './store';
 
 // Log to Rust stdout for desktop debugging
 async function dappLog(message: string): Promise<void> {
-  console.log(message);
   if (isDesktop()) {
     try {
       const { invoke } = await import('@tauri-apps/api/core');

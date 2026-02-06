@@ -29,7 +29,6 @@ export interface ConsumingNotePageProps {
 }
 
 export const ConsumingNotePage: FC<ConsumingNotePageProps> = ({ noteId }) => {
-  console.log('[ConsumingNotePage] Rendering with noteId:', noteId);
   const [status, setStatus] = useState(ConsumingNoteStatus.Waiting);
   const [noteConsumeTimedOut, setNoteConsumeTimedOut] = useState(false);
   const [noteConsumeTimeoutId, setNoteConsumeTimeoutId] = useState<ReturnType<typeof setTimeout> | null>(null);
@@ -47,40 +46,25 @@ export const ConsumingNotePage: FC<ConsumingNotePageProps> = ({ noteId }) => {
   }, [claimableNotes, noteId]);
 
   const tryConsumeNote = useCallback(async () => {
-    console.log(
-      '[ConsumingNote] tryConsumeNote called, status:',
-      status,
-      'noteToConsume:',
-      noteToConsume?.id,
-      'timedOut:',
-      noteConsumeTimedOut
-    );
     if (noteConsumeTimedOut) {
-      console.log('[ConsumingNote] Note consume timed out, setting TxQueued');
       setStatus(ConsumingNoteStatus.TxQueued);
       return;
     }
 
     if (!noteToConsume) {
-      console.log('[ConsumingNote] No note to consume yet');
       return;
     }
 
     // If isBeingClaimed is true, the note is already queued for transaction generation
     if (!noteToConsume.isBeingClaimed) {
-      console.log('[ConsumingNote] Calling initiateConsumeTransaction...');
       await initiateConsumeTransaction(account.publicKey, noteToConsume, isDelegatedProvingEnabled);
-      console.log('[ConsumingNote] initiateConsumeTransaction completed');
     } else {
-      console.log('[ConsumingNote] Note is already being claimed');
     }
     setStatus(ConsumingNoteStatus.TxQueued);
-  }, [account.publicKey, noteToConsume, isDelegatedProvingEnabled, noteConsumeTimedOut, status]);
+  }, [account.publicKey, noteToConsume, isDelegatedProvingEnabled, noteConsumeTimedOut]);
 
   const generateTransaction = useCallback(async () => {
-    console.log('[ConsumingNote] generateTransaction called, calling dbTransactionsLoop...');
     const success = await dbTransactionsLoop(signTransaction);
-    console.log('[ConsumingNote] dbTransactionsLoop returned:', success);
     if (success === false) {
       setStatus(ConsumingNoteStatus.Failed);
     } else {
@@ -96,12 +80,10 @@ export const ConsumingNotePage: FC<ConsumingNotePageProps> = ({ noteId }) => {
     }
 
     useWalletStore.getState().closeTransactionModal();
-  }, [noteId]);
+  }, []);
 
   useEffect(() => {
-    console.log('[ConsumingNotePage] useEffect triggered, status:', status);
     if (status === ConsumingNoteStatus.Waiting) {
-      console.log('[ConsumingNotePage] Status is Waiting');
       // Notes may be claimed in the background, so the timeout prevents endless waiting
       if (!noteConsumeTimeoutId) {
         const timeoutId = setTimeout(() => {
@@ -111,10 +93,8 @@ export const ConsumingNotePage: FC<ConsumingNotePageProps> = ({ noteId }) => {
       }
       tryConsumeNote();
     } else if (status === ConsumingNoteStatus.TxQueued) {
-      console.log('[ConsumingNotePage] Status is TxQueued, calling generateTransaction');
       generateTransaction();
     } else {
-      console.log('[ConsumingNotePage] Status is:', status, '- auto closing in', AUTO_CLOSE_TIMEOUT, 'ms');
       setTimeout(() => {
         onClose();
       }, AUTO_CLOSE_TIMEOUT);

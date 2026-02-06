@@ -127,9 +127,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     // On mobile, open the modal and go back to home
     // The modal handles the entire transaction flow
     if (isMobile()) {
-      console.log('[SendManager] Opening modal...');
       useWalletStore.getState().openTransactionModal();
-      console.log('[SendManager] Modal opened, NOT navigating for debug');
       // Don't navigate - stay on page to see if modal appears
       // navigate('/');
       return;

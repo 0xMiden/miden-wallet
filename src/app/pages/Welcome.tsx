@@ -123,7 +123,6 @@ const Welcome: FC = () => {
         break;
       case 'import-wallet-file-submit':
         const seedPhrase = action.payload.split(' ');
-        console.log({ seedPhrase });
         setSeedPhrase(seedPhrase);
         setImportedWithFile(true);
         // Check if hardware security is available - if so, skip password step

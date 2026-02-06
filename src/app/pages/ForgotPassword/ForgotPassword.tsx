@@ -38,7 +38,6 @@ const ForgotPassword: FC = () => {
         }
       } else {
         try {
-          console.log('importing wallet from client');
           await importWalletFromClient(password, seedPhraseFormatted);
         } catch (e) {
           console.error(e);
@@ -64,7 +63,6 @@ const ForgotPassword: FC = () => {
           break;
         case 'import-wallet-file-submit':
           const seedPhrase = action.payload.split(' ');
-          console.log({ seedPhrase });
           setSeedPhrase(seedPhrase);
           setImportedWithFile(true);
           setStep(ForgotPasswordStep.CreatePassword);
