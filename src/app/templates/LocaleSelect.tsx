@@ -111,9 +111,17 @@ const LocaleSelect: FC<LocaleSelectProps> = ({ className }) => {
   const selectedLocale = getCurrentLocale();
   const { trackEvent } = useAnalytics();
 
+  const trimmedSelectedLocale = useMemo(() => {
+    // Handle cases like 'de_DE' or 'de-DE' by trimming after the underscore or hyphen
+    if (selectedLocale.includes('_')) {
+      return selectedLocale.split('_')[0];
+    }
+    return selectedLocale.split('-')[0];
+  }, [selectedLocale]);
+
   const value = useMemo(
-    () => localeOptions.find(({ code }) => code === selectedLocale) || localeOptions[0],
-    [selectedLocale]
+    () => localeOptions.find(({ code }) => code === trimmedSelectedLocale) || localeOptions[0],
+    [trimmedSelectedLocale]
   );
 
   const title = useMemo(
