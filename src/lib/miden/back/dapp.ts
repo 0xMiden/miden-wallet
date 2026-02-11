@@ -310,8 +310,8 @@ export async function generatePromisifyRequestPermission(
                   return await getAccountPublicKeyB64(accountPublicKey);
                 });
               });
-            } catch {
-              console.error('Error fetching account public key');
+            } catch (e) {
+              console.error('Error fetching account public key:', e);
             }
             if (!existingPermission)
               await setDApp(origin, {
