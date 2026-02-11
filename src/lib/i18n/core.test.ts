@@ -83,7 +83,7 @@ describe('i18n/core', () => {
     });
 
     it('passes substitutions to browser.i18n.getMessage', () => {
-      getMessage('testKey', ['arg1', 'arg2']);
+      getMessage('testKey', { first: 'arg1', second: 'arg2' });
 
       expect(browser.i18n.getMessage).toHaveBeenCalledWith('testKey', ['arg1', 'arg2']);
     });

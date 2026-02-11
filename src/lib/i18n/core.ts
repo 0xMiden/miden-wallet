@@ -83,7 +83,7 @@ export function getMessage(messageName: string, substitutions?: Substitutions) {
     try {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const browser = require('webextension-polyfill');
-      return browser.i18n.getMessage(messageName, substitutions);
+      return browser.i18n.getMessage(messageName, substitutions ? Object.values(substitutions) : undefined);
     } catch {
       return messageName;
     }
@@ -91,7 +91,7 @@ export function getMessage(messageName: string, substitutions?: Substitutions) {
 
   try {
     if (val.placeholders) {
-      const params = toList(Object(substitutions).values()).reduce((prms, sub, i) => {
+      const params = toList(Object.values(substitutions ?? {})).reduce((prms, sub, i) => {
         const pKey = val.placeholderList?.[i] ?? i;
         return pKey ? { ...prms, [pKey]: sub } : prms;
       }, {});
