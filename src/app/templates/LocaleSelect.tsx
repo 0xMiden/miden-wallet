@@ -111,10 +111,14 @@ const LocaleSelect: FC<LocaleSelectProps> = ({ className }) => {
   const selectedLocale = getCurrentLocale();
   const { trackEvent } = useAnalytics();
 
-  const value = useMemo(
-    () => localeOptions.find(({ code }) => code === selectedLocale) || localeOptions[0],
-    [selectedLocale]
-  );
+  const value = useMemo(() => {
+    // Try exact match first (handles zh_CN, zh_TW)
+    const exact = localeOptions.find(({ code }) => code === selectedLocale);
+    if (exact) return exact;
+    // Fall back to base language match (handles de_DE → de, en-US → en)
+    const base = selectedLocale.split(/[-_]/)[0];
+    return localeOptions.find(({ code }) => code === base) || localeOptions[0];
+  }, [selectedLocale]);
 
   const title = useMemo(
     () => <p className={classNames('mb-4', 'leading-normal', 'text-gray-600 text-sm')}>{t('languageAndCountry')}</p>,
