@@ -588,7 +588,7 @@ function concatAccount(current: WalletAccount[], newOne: WalletAccount) {
 }
 
 function getNewAccountName(allAccounts: WalletAccount[], templateI18nKey = 'defaultAccountName') {
-  return getMessage(templateI18nKey, String(allAccounts.length + 1));
+  return getMessage(templateI18nKey, { accountNumber: String(allAccounts.length + 1) });
 }
 
 function getMainDerivationPath(walletType: WalletType, accIndex: number) {

@@ -28,6 +28,9 @@ const AdvancedSettings: FC = () => {
         return null;
       }
       const publicKeyCommitments = account.getPublicKeyCommitments();
+      if (publicKeyCommitments.length === 0) {
+        return null;
+      }
       return publicKeyCommitments[0].toHex().slice(2);
     });
     setPublicKey(key);

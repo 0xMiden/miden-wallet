@@ -122,7 +122,7 @@ const AddNewContactForm: React.FC<{ className?: string }> = ({ className }) => {
       <FormField
         {...register('address', {
           required: t('required'),
-          maxLength: { value: 50, message: t('maximalAmount', '50') }
+          maxLength: { value: 50, message: t('maximalAmount', { amount: '50' }) }
         })}
         label={
           <div className="font-medium -mb-2" style={{ fontSize: '14px', lineHeight: '20px' }}>
@@ -139,7 +139,7 @@ const AddNewContactForm: React.FC<{ className?: string }> = ({ className }) => {
       <FormField
         {...register('name', {
           required: t('required'),
-          maxLength: { value: 50, message: t('maximalAmount', '50') }
+          maxLength: { value: 50, message: t('maximalAmount', { amount: '50' }) }
         })}
         label={
           <div className="font-medium -mb-2" style={{ fontSize: '14px', lineHeight: '20px' }}>
