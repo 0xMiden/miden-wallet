@@ -75,7 +75,6 @@ export class MidenClientInterface {
   static async create(options: MidenClientCreateOptions = {}) {
     const seed = options.seed;
     const network = MIDEN_NETWORK_NAME.TESTNET;
-    // Keep note transport on testnet for now.
     const transportLayer = MIDEN_TRANSPORT_LAYER_NAME.TESTNET;
 
     // In test builds, swap to the SDK's mock client to avoid hitting the real chain.
