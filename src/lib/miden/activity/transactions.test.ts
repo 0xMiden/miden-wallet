@@ -302,7 +302,8 @@ describe('transactions utilities', () => {
         faucetId: 'faucet',
         amount: '100',
         senderAddress: 'sender',
-        isBeingClaimed: false
+        isBeingClaimed: false,
+        type: NoteTypeEnum.Private
       };
 
       const result = await initiateConsumeTransaction('account-1', note);
@@ -329,7 +330,8 @@ describe('transactions utilities', () => {
         faucetId: 'faucet',
         amount: '100',
         senderAddress: 'sender',
-        isBeingClaimed: false
+        isBeingClaimed: false,
+        type: NoteTypeEnum.Private
       };
 
       const result = await initiateConsumeTransaction('account-1', note);
