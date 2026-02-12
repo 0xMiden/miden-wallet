@@ -1,17 +1,11 @@
+import { Config } from 'tailwindcss';
+
 import customColors from './src/utils/colors';
 
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: {
-    content: ['./public/**/*.{html,js,mjs}', './src/**/*.{js,jsx,ts,tsx}'],
-    options: {
-      whitelistPatterns: [/popper/, /tippy/, /BrainhubCarousel/],
-      whitelistPatternsChildren: [/popper/, /tippy/, /BrainhubCarousel/]
-    }
-  },
+export default {
+  content: ['./public/**/*.{html,js,mjs}', './src/**/*.{js,jsx,ts,tsx}'],
   prefix: '',
   important: false,
-  separator: ':',
   theme: {
     screens: {
       sm: '640px',
@@ -158,8 +152,8 @@ module.exports = {
       64: '16rem',
       96: '24rem'
     },
-    backgroundColor: theme => theme('colors'),
-    backgroundOpacity: theme => theme('opacity'),
+    backgroundColor: ({ theme }) => theme('colors'),
+    backgroundOpacity: ({ theme }) => theme('opacity'),
     backgroundPosition: {
       bottom: 'bottom',
       center: 'center',
@@ -176,11 +170,11 @@ module.exports = {
       cover: 'cover',
       contain: 'contain'
     },
-    borderColor: theme => ({
+    borderColor: ({ theme }) => ({
       ...theme('colors'),
       DEFAULT: theme('colors.gray.300', 'currentColor')
     }),
-    borderOpacity: theme => theme('opacity'),
+    borderOpacity: ({ theme }) => theme('opacity'),
     borderRadius: {
       none: '0',
       sm: '0.125rem',
@@ -224,9 +218,9 @@ module.exports = {
       move: 'move',
       'not-allowed': 'not-allowed'
     },
-    divideColor: theme => theme('borderColor'),
-    divideOpacity: theme => theme('borderOpacity'),
-    divideWidth: theme => theme('borderWidth'),
+    divideColor: ({ theme }) => theme('borderColor'),
+    divideOpacity: ({ theme }) => theme('borderOpacity'),
+    divideWidth: ({ theme }) => theme('borderWidth'),
     fill: {
       current: 'currentColor'
     },
@@ -295,7 +289,7 @@ module.exports = {
       extrabold: '800',
       black: '900'
     },
-    height: theme => ({
+    height: ({ theme }) => ({
       auto: 'auto',
       ...theme('spacing'),
       full: '100%',
@@ -337,16 +331,15 @@ module.exports = {
       disc: 'disc',
       decimal: 'decimal'
     },
-    margin: (theme, { negative }) => ({
+    margin: ({ theme }) => ({
       auto: 'auto',
-      ...theme('spacing'),
-      ...negative(theme('spacing'))
+      ...theme('spacing')
     }),
     maxHeight: {
       full: '100%',
       screen: '100vh'
     },
-    maxWidth: (theme, { breakpoints }) => ({
+    maxWidth: ({ theme }) => ({
       none: 'none',
       xs: '20rem',
       sm: '24rem',
@@ -359,7 +352,7 @@ module.exports = {
       '5xl': '64rem',
       '6xl': '72rem',
       full: '100%',
-      ...breakpoints(theme('screens'))
+      ...theme('screens')
     }),
     minHeight: {
       0: '0',
@@ -409,7 +402,7 @@ module.exports = {
       11: '11',
       12: '12'
     },
-    padding: theme => ({
+    padding: ({ theme }) => ({
       ...theme('spacing'),
       '1/2': '50%',
       '1/3': '33.333333%',
@@ -439,11 +432,10 @@ module.exports = {
       '11/12': '91.666667%',
       full: '100%'
     }),
-    placeholderColor: theme => theme('colors'),
-    placeholderOpacity: theme => theme('opacity'),
-    space: (theme, { negative }) => ({
-      ...theme('spacing'),
-      ...negative(theme('spacing'))
+    placeholderColor: ({ theme }) => theme('colors'),
+    placeholderOpacity: ({ theme }) => theme('opacity'),
+    space: ({ theme }) => ({
+      ...theme('spacing')
     }),
     stroke: {
       current: 'currentColor',
@@ -454,9 +446,9 @@ module.exports = {
       1: '1',
       2: '2'
     },
-    textColor: theme => theme('colors'),
-    textOpacity: theme => theme('opacity'),
-    width: theme => ({
+    textColor: ({ theme }) => theme('colors'),
+    textOpacity: ({ theme }) => theme('opacity'),
+    width: ({ theme }) => ({
       auto: 'auto',
       fit: 'fit-content',
       ...theme('spacing'),
@@ -498,7 +490,7 @@ module.exports = {
       40: '40',
       50: '50'
     },
-    gap: theme => theme('spacing'),
+    gap: ({ theme }) => theme('spacing'),
     gridTemplateColumns: {
       none: 'none',
       1: 'repeat(1, minmax(0, 1fr))',
@@ -631,9 +623,8 @@ module.exports = {
       90: '90deg',
       180: '180deg'
     },
-    translate: (theme, { negative }) => ({
+    translate: ({ theme }) => ({
       ...theme('spacing'),
-      ...negative(theme('spacing')),
       '-full': '-100%',
       '-1/2': '-50%',
       '1/2': '50%',
@@ -720,110 +711,5 @@ module.exports = {
       }
     }
   },
-  variants: {
-    accessibility: ['responsive', 'focus'],
-    alignContent: ['responsive'],
-    alignItems: ['responsive'],
-    alignSelf: ['responsive'],
-    appearance: ['responsive'],
-    backgroundAttachment: ['responsive'],
-    backgroundColor: ['responsive', 'hover', 'focus', 'active'],
-    backgroundImage: ['responsive', 'hover'],
-    backgroundOpacity: ['responsive', 'hover', 'focus'],
-    backgroundPosition: ['responsive'],
-    backgroundRepeat: ['responsive'],
-    backgroundSize: ['responsive'],
-    borderCollapse: ['responsive'],
-    borderColor: ['responsive', 'hover', 'focus'],
-    borderOpacity: ['responsive', 'hover', 'focus'],
-    borderRadius: ['responsive'],
-    borderStyle: ['responsive'],
-    borderWidth: ['responsive'],
-    boxShadow: ['responsive', 'hover', 'focus'],
-    boxSizing: ['responsive'],
-    container: ['responsive'],
-    cursor: ['responsive'],
-    display: ['responsive'],
-    divideColor: ['responsive'],
-    divideOpacity: ['responsive'],
-    divideWidth: ['responsive'],
-    fill: ['responsive'],
-    flex: ['responsive'],
-    flexDirection: ['responsive'],
-    flexGrow: ['responsive'],
-    flexShrink: ['responsive'],
-    flexWrap: ['responsive'],
-    float: ['responsive'],
-    clear: ['responsive'],
-    fontFamily: ['responsive'],
-    fontSize: ['responsive'],
-    fontSmoothing: ['responsive'],
-    fontStyle: ['responsive'],
-    fontWeight: ['responsive', 'hover', 'focus'],
-    height: ['responsive'],
-    inset: ['responsive'],
-    justifyContent: ['responsive'],
-    letterSpacing: ['responsive'],
-    lineHeight: ['responsive'],
-    listStylePosition: ['responsive'],
-    listStyleType: ['responsive'],
-    margin: ['responsive'],
-    maxHeight: ['responsive'],
-    maxWidth: ['responsive'],
-    minHeight: ['responsive'],
-    minWidth: ['responsive'],
-    objectFit: ['responsive'],
-    objectPosition: ['responsive'],
-    opacity: ['responsive', 'hover', 'focus'],
-    order: ['responsive'],
-    outline: ['responsive', 'focus'],
-    overflow: ['responsive'],
-    overscrollBehavior: ['responsive'],
-    padding: ['responsive'],
-    placeholderColor: ['responsive', 'focus'],
-    placeholderOpacity: ['responsive', 'focus'],
-    pointerEvents: ['responsive'],
-    position: ['responsive'],
-    resize: ['responsive'],
-    space: ['responsive'],
-    stroke: ['responsive'],
-    strokeWidth: ['responsive'],
-    tableLayout: ['responsive'],
-    textAlign: ['responsive'],
-    textColor: ['responsive', 'hover', 'focus'],
-    textOpacity: ['responsive', 'hover', 'focus'],
-    textDecoration: ['responsive', 'hover', 'focus'],
-    textTransform: ['responsive'],
-    userSelect: ['responsive'],
-    verticalAlign: ['responsive'],
-    visibility: ['responsive'],
-    whitespace: ['responsive'],
-    width: ['responsive'],
-    wordBreak: ['responsive'],
-    zIndex: ['responsive'],
-    gap: ['responsive'],
-    gridAutoFlow: ['responsive'],
-    gridTemplateColumns: ['responsive'],
-    gridColumn: ['responsive'],
-    gridColumnStart: ['responsive'],
-    gridColumnEnd: ['responsive'],
-    gridTemplateRows: ['responsive'],
-    gridRow: ['responsive'],
-    gridRowStart: ['responsive'],
-    gridRowEnd: ['responsive'],
-    transform: ['responsive'],
-    transformOrigin: ['responsive'],
-    scale: ['responsive', 'hover', 'focus'],
-    rotate: ['responsive', 'hover', 'focus'],
-    translate: ['responsive', 'hover', 'focus'],
-    skew: ['responsive', 'hover', 'focus'],
-    transitionProperty: ['responsive'],
-    transitionTimingFunction: ['responsive'],
-    transitionDuration: ['responsive'],
-    transitionDelay: ['responsive'],
-    animation: ['responsive'],
-    textOverflow: ['responsive', 'group-hover']
-  },
-  corePlugins: {},
   plugins: []
-};
+} satisfies Config;

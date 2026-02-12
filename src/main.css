@@ -51,8 +51,8 @@
  * Tippy JS
  */
 
-@import '~tippy.js/dist/tippy.css';
-@import '~tippy.js/animations/shift-away-subtle.css';
+@import 'tippy.js/dist/tippy.css';
+@import 'tippy.js/animations/shift-away-subtle.css';
 
 .tippy-content {
   white-space: pre-line;
@@ -108,6 +108,7 @@
  * TailwindCSS
  */
 
+@config '../tailwind.config.ts';
 @import 'tailwindcss';
 
 /**
@@ -129,10 +130,6 @@ button,
     -webkit-tap-highlight-color: transparent;
   }
 }
-
-@tailwind components;
-
-@tailwind utilities;
 
 /**
  * Text shadow utils.

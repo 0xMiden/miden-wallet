@@ -82,7 +82,7 @@ const Control: FC = () => {
           <Link to={'/select-account'} testID={HeaderSelectors.AccountDropdown}>
             <Button
               className={classNames(
-                'flex-shrink-0 flex',
+                'shrink-0 flex',
                 'rounded-md items-center',
                 'transition ease-in-out duration-200',
                 'cursor-pointer'
