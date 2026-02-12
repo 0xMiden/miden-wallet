@@ -15,7 +15,7 @@ import {
   TransactionRequest,
   TransactionResult,
   WebClient
-} from '@demox-labs/miden-sdk';
+} from '@miden-sdk/miden-sdk';
 
 import {
   MIDEN_NETWORK_ENDPOINTS,
@@ -73,22 +73,22 @@ export class MidenClientInterface {
    * @note A new web worker is created for each invocation. Each worker must be manually disposed of.
    */
   static async create(options: MidenClientCreateOptions = {}) {
-    const seed = options.seed?.toString();
+    const seed = options.seed;
     const network = MIDEN_NETWORK_NAME.TESTNET;
     const transportLayer = MIDEN_TRANSPORT_LAYER_NAME.TESTNET;
 
     // In test builds, swap to the SDK's mock client to avoid hitting the real chain.
     if (process.env.MIDEN_USE_MOCK_CLIENT === 'true') {
-      const sdk = await import('@demox-labs/miden-sdk');
-      const mockWebClient = await (sdk as any).MockWebClient.createClient(undefined, undefined, options.seed);
+      const sdk = await import('@miden-sdk/miden-sdk');
+      const mockWebClient = await sdk.MockWebClient.createClient(undefined, undefined, options.seed);
       return new MidenClientInterface(mockWebClient as unknown as WebClient, 'mock', options.onConnectivityIssue);
     }
 
-    // NOTE: SDK typings do not yet expose createClientWithExternalKeystore; cast to any to keep callbacks.
-    const webClient = await (WebClient as any).createClientWithExternalKeystore(
+    const webClient = await WebClient.createClientWithExternalKeystore(
       MIDEN_NETWORK_ENDPOINTS.get(network)!,
       MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS.get(transportLayer),
       seed,
+      undefined,
       options.getKeyCallback,
       options.insertKeyCallback,
       options.signCallback
@@ -136,7 +136,8 @@ export class MidenClientInterface {
 
   // TODO: is this method even used?
   async consumeTransaction(accountId: string, listOfNoteIds: string[], delegateTransaction?: boolean) {
-    const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest(listOfNoteIds);
+    const notes = await this.getNotesByIds(listOfNoteIds);
+    const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest(notes);
     await this.executeProveAndSubmitTransactionWithFallback(accountId, consumeTransactionRequest, delegateTransaction);
   }
 
@@ -149,7 +150,8 @@ export class MidenClientInterface {
   async consumeNoteId(transaction: ConsumeTransaction): Promise<Uint8Array> {
     const { accountId, noteId } = transaction;
 
-    const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest([noteId]);
+    const notes = await this.getNotesByIds([noteId]);
+    const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest(notes);
     let consumeTransactionResult = await this.webClient.executeTransaction(
       accountIdStringToSdk(accountId),
       consumeTransactionRequest
@@ -263,7 +265,19 @@ export class MidenClientInterface {
   }
 
   async importDb(dump: any) {
-    await this.webClient.forceImportStore(dump);
+    await this.webClient.forceImportStore(dump, this.network);
+  }
+
+  private async getNotesByIds(noteIds: string[]): Promise<Note[]> {
+    const notes: Note[] = [];
+    for (const noteId of noteIds) {
+      const record = await this.webClient.getInputNote(noteId);
+      if (!record) {
+        throw new Error(`Input note not found: ${noteId}`);
+      }
+      notes.push(record.toNote());
+    }
+    return notes;
   }
 
   async newTransaction(accountId: string, requestBytes: Uint8Array) {

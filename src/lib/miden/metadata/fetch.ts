@@ -1,4 +1,4 @@
-import { BasicFungibleFaucetComponent } from '@demox-labs/miden-sdk';
+import { BasicFungibleFaucetComponent } from '@miden-sdk/miden-sdk';
 
 import { isMidenAsset } from 'lib/miden/assets';
 import { isExtension } from 'lib/platform';

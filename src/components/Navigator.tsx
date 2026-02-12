@@ -215,7 +215,6 @@ export const Navigator: React.FC<NavigatorProps> = ({
 
   useEffect(() => {
     // const initialRoute = routes.find(r => r.name === initialRouteName);
-    // console.log(initialRoute);
     if (initialRouteName && cardStack.length === 0) {
       navigateTo(initialRouteName);
     }

@@ -283,7 +283,8 @@ const backgroundConfig = {
   plugins: [
     new Dotenv(),
     new webpack.EnvironmentPlugin({
-      VERSION: pkg.version
+      VERSION: pkg.version,
+      MIDEN_USE_MOCK_CLIENT: MIDEN_USE_MOCK_CLIENT || 'false'
     }),
 
     new webpack.ProvidePlugin({
@@ -442,7 +443,8 @@ const workerConfig = {
     alias: {
       lib: path.resolve(__dirname, 'src', 'lib'),
       shared: path.resolve(__dirname, 'src', 'shared'),
-      screens: path.resolve(__dirname, 'src', 'screens')
+      screens: path.resolve(__dirname, 'src', 'screens'),
+      'process/browser': require.resolve('process/browser.js')
     },
     fallback: {
       url: false,
@@ -459,7 +461,8 @@ const workerConfig = {
   plugins: [
     new Dotenv(),
     new webpack.EnvironmentPlugin({
-      VERSION: pkg.version
+      VERSION: pkg.version,
+      MIDEN_USE_MOCK_CLIENT: MIDEN_USE_MOCK_CLIENT || 'false'
     }),
 
     new webpack.ProvidePlugin({

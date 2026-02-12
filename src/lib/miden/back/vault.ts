@@ -1,6 +1,6 @@
 import { derivePath } from '@demox-labs/aleo-hd-key';
-import { SecretKey, SigningInputs, Word } from '@demox-labs/miden-sdk';
 import { SendTransaction, SignKind } from '@demox-labs/miden-wallet-adapter-base';
+import { AuthSecretKey, SigningInputs, Word } from '@miden-sdk/miden-sdk';
 import * as Bip39 from 'bip39';
 
 import { getMessage } from 'lib/i18n';
@@ -59,9 +59,7 @@ export class Vault {
   constructor(private vaultKey: CryptoKey) {}
 
   static async isExist() {
-    console.log('[Vault.isExist] Checking if vault exists, key:', checkStrgKey);
     const stored = await isStored(checkStrgKey);
-    console.log('[Vault.isExist] Result:', stored);
     return stored;
   }
 
@@ -112,18 +110,15 @@ export class Vault {
       }
 
       if (isMobile()) {
-        console.log('[tryHardwareUnlock] Mobile: Attempting hardware unlock...');
         const { decryptWithHardwareKey } = await import('lib/biometric');
         const vaultKeyBase64 = await decryptWithHardwareKey(encryptedVaultKey);
         const vaultKeyBytes = new Uint8Array(Buffer.from(vaultKeyBase64, 'base64'));
         const vaultKey = await Passworder.importVaultKey(vaultKeyBytes);
-        console.log('[tryHardwareUnlock] Mobile: Hardware unlock successful');
         return new Vault(vaultKey);
       }
 
       return null;
     } catch (error) {
-      console.log('Hardware unlock failed or was cancelled:', error);
       return null;
     }
   }
@@ -215,7 +210,6 @@ export class Vault {
         const hardwareSetupSuccess = await setupHardwareProtector(vaultKeyBytes);
         if (!hardwareSetupSuccess) {
           // Hardware setup failed - this shouldn't happen if user chose biometric
-          console.log('[Vault.spawn] Hardware setup failed, but no password provided');
           throw new PublicError('Hardware security setup failed. Please try again.');
         }
         // If hardware succeeded, we don't store password protector (hardware-only mode)
@@ -245,7 +239,7 @@ export class Vault {
       // Wrap WASM client operations in a lock to prevent concurrent access
       const accPublicKey = await withWasmClientLock(async () => {
         const midenClient = await getMidenClient(options);
-        if (ownMnemonic) {
+        if (ownMnemonic && midenClient.network !== 'mock') {
           try {
             return await midenClient.importPublicMidenWalletFromSeed(walletSeed);
           } catch (e) {
@@ -331,7 +325,6 @@ export class Vault {
         const hardwareSetupSuccess = await setupHardwareProtector(vaultKeyBytes);
         if (!hardwareSetupSuccess) {
           // Hardware setup failed - this shouldn't happen if user chose biometric
-          console.log('[Vault.spawnFromMidenClient] Hardware setup failed, but no password provided');
           throw new PublicError('Hardware security setup failed. Please try again.');
         }
       } else {
@@ -479,7 +472,7 @@ export class Vault {
       this.vaultKey
     );
     const secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
-    const wasmSecretKey = SecretKey.deserialize(secretKeyBytes);
+    const wasmSecretKey = AuthSecretKey.deserialize(secretKeyBytes);
 
     const dataAsUint8Array = b64ToU8(data);
 
@@ -506,7 +499,7 @@ export class Vault {
     );
     let secretKeyBytes = new Uint8Array(Buffer.from(secretKey, 'hex'));
     const wasmSigningInputs = SigningInputs.deserialize(new Uint8Array(Buffer.from(signingInputs, 'hex')));
-    const wasmSecretKey = SecretKey.deserialize(secretKeyBytes);
+    const wasmSecretKey = AuthSecretKey.deserialize(secretKeyBytes);
     const signature = wasmSecretKey.signData(wasmSigningInputs);
     return Buffer.from(signature.serialize()).toString('hex');
   }
@@ -595,7 +588,7 @@ function concatAccount(current: WalletAccount[], newOne: WalletAccount) {
 }
 
 function getNewAccountName(allAccounts: WalletAccount[], templateI18nKey = 'defaultAccountName') {
-  return getMessage(templateI18nKey, String(allAccounts.length + 1));
+  return getMessage(templateI18nKey, { accountNumber: String(allAccounts.length + 1) });
 }
 
 function getMainDerivationPath(walletType: WalletType, accIndex: number) {
@@ -659,7 +652,6 @@ async function isHardwareSecurityAvailableForVault(): Promise<boolean> {
       return await hs.isHardwareSecurityAvailable();
     }
   } catch (error) {
-    console.log('[isHardwareSecurityAvailableForVault] Check failed:', error);
     return false;
   }
   return false;
@@ -706,30 +698,20 @@ async function setupHardwareProtector(vaultKeyBytes: Uint8Array): Promise<boolea
   if (isMobile()) {
     try {
       const hs = await import('lib/biometric');
-      console.log('[setupHardwareProtector] Mobile: Starting...');
       const available = await hs.isHardwareSecurityAvailable();
-      console.log('[setupHardwareProtector] Mobile: Hardware security available:', available);
       if (available) {
         const hasKey = await hs.hasHardwareKey();
-        console.log('[setupHardwareProtector] Mobile: Has existing hardware key:', hasKey);
         if (!hasKey) {
-          console.log('[setupHardwareProtector] Mobile: Generating hardware key...');
           await hs.generateHardwareKey();
-          console.log('[setupHardwareProtector] Mobile: Hardware key generated');
         }
-        console.log('[setupHardwareProtector] Mobile: Encrypting vault key with hardware key...');
         const vaultKeyBase64 = Buffer.from(vaultKeyBytes).toString('base64');
         const hardwareProtectedVaultKey = await hs.encryptWithHardwareKey(vaultKeyBase64);
-        console.log('[setupHardwareProtector] Mobile: Saving hardware-protected vault key...');
         await savePlain(VAULT_KEY_HARDWARE_STORAGE_KEY, hardwareProtectedVaultKey);
-        console.log('[setupHardwareProtector] Mobile: Hardware protection setup complete');
         return true;
       } else {
-        console.log('[setupHardwareProtector] Mobile: Hardware security not available, skipping');
         return false;
       }
     } catch (error) {
-      console.log('[setupHardwareProtector] Mobile: Failed:', error);
       return false;
     }
   }

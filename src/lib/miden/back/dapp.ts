@@ -1,4 +1,3 @@
-import { AccountInterface, NetworkId, NoteFilter, NoteFilterTypes, NoteId, NoteType } from '@demox-labs/miden-sdk';
 import {
   AllowedPrivateData,
   Asset,
@@ -8,6 +7,7 @@ import {
   PrivateDataPermission,
   SendTransaction
 } from '@demox-labs/miden-wallet-adapter-base';
+import { AccountInterface, NetworkId, NoteFilter, NoteFilterTypes, NoteId, NoteType } from '@miden-sdk/miden-sdk';
 import { nanoid } from 'nanoid';
 import type { Runtime } from 'webextension-polyfill';
 
@@ -72,7 +72,6 @@ import { store, withUnlocked } from './store';
 
 // Log to Rust stdout for desktop debugging
 async function dappLog(message: string): Promise<void> {
-  console.log(message);
   if (isDesktop()) {
     try {
       const { invoke } = await import('@tauri-apps/api/core');
@@ -81,6 +80,19 @@ async function dappLog(message: string): Promise<void> {
       // Not in Tauri context
     }
   }
+}
+
+async function getAccountPublicKeyB64(accountId: string): Promise<string> {
+  const midenClient = await getMidenClient();
+  const account = await midenClient.getAccount(accountId);
+  if (!account) {
+    throw new Error('Account not found');
+  }
+  const publicKeyCommitments = account.getPublicKeyCommitments();
+  if (publicKeyCommitments.length === 0) {
+    throw new Error('Account has no public key commitments');
+  }
+  return u8ToB64(publicKeyCommitments[0].serialize());
 }
 
 // Lazy-loaded browser polyfill (only in extension context)
@@ -239,10 +251,7 @@ export async function generatePromisifyRequestPermission(
     try {
       publicKey = await withUnlocked(async () => {
         return await withWasmClientLock(async () => {
-          const midenClient = await getMidenClient();
-          const account = await midenClient.getAccount(accountPublicKey);
-          const publicKeys = account!.getPublicKeys();
-          return u8ToB64(publicKeys[0].serialize());
+          return await getAccountPublicKeyB64(accountPublicKey);
         });
       });
     } catch (e) {
@@ -298,16 +307,11 @@ export async function generatePromisifyRequestPermission(
               publicKey = await withUnlocked(async () => {
                 // Wrap WASM client operations in a lock to prevent concurrent access
                 return await withWasmClientLock(async () => {
-                  const midenClient = await getMidenClient();
-                  const account = await midenClient.getAccount(accountPublicKey);
-                  const publicKeys = account!.getPublicKeys();
-                  const publicKeyAsB64 = u8ToB64(publicKeys[0].serialize());
-
-                  return publicKeyAsB64;
+                  return await getAccountPublicKeyB64(accountPublicKey);
                 });
               });
-            } catch {
-              console.error('Error fetching account public key');
+            } catch (e) {
+              console.error('Error fetching account public key:', e);
             }
             if (!existingPermission)
               await setDApp(origin, {
@@ -624,14 +628,14 @@ async function getConsumableNotes(accountId: string): Promise<InputNoteDetails[]
             .fungibleAssets()
             .map(asset => ({
               amount: asset.amount().toString(),
-              faucetId: asset.faucetId().toBech32(NetworkId.Testnet, AccountInterface.BasicWallet)
+              faucetId: asset.faucetId().toBech32(NetworkId.testnet(), AccountInterface.BasicWallet)
             }));
           const inputNoteRecord = note.inputNoteRecord();
           return {
             noteId: inputNoteRecord.id().toString(),
             noteType: inputNoteRecord.metadata()?.noteType(),
             senderAccountId:
-              inputNoteRecord.metadata()?.sender()?.toBech32(NetworkId.Testnet, AccountInterface.BasicWallet) ||
+              inputNoteRecord.metadata()?.sender()?.toBech32(NetworkId.testnet(), AccountInterface.BasicWallet) ||
               undefined,
             nullifier: inputNoteRecord.nullifier(),
             state: inputNoteRecord.state(),

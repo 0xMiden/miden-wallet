@@ -29,6 +29,7 @@ describe('MidenClientInterface', () => {
       getAccount: jest.fn(async () => 'acc'),
       importAccountById: jest.fn(async () => 'acc'),
       getAccounts: jest.fn(async () => ['acc']),
+      getInputNote: jest.fn(async () => ({ toNote: () => ({}) })),
       getInputNotes: jest.fn(async () => [
         {
           id: () => ({ toString: () => 'note-1' }),
@@ -76,7 +77,7 @@ describe('MidenClientInterface', () => {
 
     const createClientWithExternalKeystore = jest.fn(async () => fakeWebClient);
 
-    jest.doMock('@demox-labs/miden-sdk', () => ({
+    jest.doMock('@miden-sdk/miden-sdk', () => ({
       WebClient: { createClientWithExternalKeystore },
       AccountStorageMode: { public: jest.fn(() => 'public'), private: jest.fn(() => 'private') },
       NoteFile: { deserialize: jest.fn(() => ({})) },
@@ -91,10 +92,13 @@ describe('MidenClientInterface', () => {
       MIDEN_NETWORK_NAME: { TESTNET: 'testnet' }
     }));
     jest.doMock('lib/miden-chain/constants', () => ({
-      MIDEN_NETWORK_ENDPOINTS: new Map([['testnet', 'rpc']]),
+      MIDEN_NETWORK_ENDPOINTS: new Map([
+        ['testnet', 'rpc'],
+        ['devnet', 'rpc-dev']
+      ]),
       MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS: new Map([['testnet', undefined]]),
       MIDEN_PROVING_ENDPOINTS: new Map([['testnet', 'prover']]),
-      MIDEN_NETWORK_NAME: { TESTNET: 'testnet' },
+      MIDEN_NETWORK_NAME: { TESTNET: 'testnet', DEVNET: 'devnet' },
       MIDEN_TRANSPORT_LAYER_NAME: { TESTNET: 'testnet' }
     }));
     jest.doMock('./constants', () => ({ NoteExportType: {} }));
@@ -121,7 +125,8 @@ describe('MidenClientInterface', () => {
     expect(createClientWithExternalKeystore).toHaveBeenCalledWith(
       'rpc',
       undefined,
-      '1,2,3',
+      expect.any(Uint8Array),
+      undefined,
       undefined,
       insertKeyCallback,
       undefined
@@ -198,7 +203,7 @@ describe('MidenClientInterface', () => {
       importAccountFile: jest.fn(async () => ({ id: () => 'imported-id' }))
     };
 
-    jest.doMock('@demox-labs/miden-sdk', () => ({
+    jest.doMock('@miden-sdk/miden-sdk', () => ({
       AccountFile: { deserialize: jest.fn(() => ({})) }
     }));
     jest.doMock('./helpers', () => ({
@@ -236,7 +241,7 @@ describe('MidenClientInterface', () => {
       }))
     };
 
-    jest.doMock('@demox-labs/miden-sdk', () => ({
+    jest.doMock('@miden-sdk/miden-sdk', () => ({
       TransactionRequest: { deserialize: jest.fn(() => ({})) }
     }));
     jest.doMock('./helpers', () => ({
@@ -267,7 +272,7 @@ describe('MidenClientInterface', () => {
       })
     };
 
-    jest.doMock('@demox-labs/miden-sdk', () => ({
+    jest.doMock('@miden-sdk/miden-sdk', () => ({
       TransactionFilter: { uncommitted: jest.fn(() => 'uncommitted') }
     }));
 
@@ -284,7 +289,7 @@ describe('MidenClientInterface', () => {
       getTransactions: jest.fn(async () => [{ id: () => ({ toHex: () => 'tx-456' }) }])
     };
 
-    jest.doMock('@demox-labs/miden-sdk', () => ({
+    jest.doMock('@miden-sdk/miden-sdk', () => ({
       TransactionFilter: { uncommitted: jest.fn(() => 'uncommitted') }
     }));
 
@@ -297,7 +302,16 @@ describe('MidenClientInterface', () => {
   });
 
   it('calls consumeTransaction method', async () => {
+    const note1 = { id: 'note-1' };
+    const note2 = { id: 'note-2' };
+    const notesById: Record<string, any> = {
+      'note-1': note1,
+      'note-2': note2
+    };
     const fakeWebClient = {
+      getInputNote: jest.fn(async (noteId: string) => ({
+        toNote: () => notesById[noteId]
+      })),
       newConsumeTransactionRequest: jest.fn(() => ({})),
       executeTransaction: jest.fn(async () => ({ serialize: () => new Uint8Array([1]) })),
       syncState: jest.fn(async () => ({})),
@@ -306,7 +320,7 @@ describe('MidenClientInterface', () => {
       applyTransaction: jest.fn()
     };
 
-    jest.doMock('@demox-labs/miden-sdk', () => ({
+    jest.doMock('@miden-sdk/miden-sdk', () => ({
       TransactionProver: {
         newRemoteProver: jest.fn(() => 'remote'),
         newLocalProver: jest.fn(() => 'local')
@@ -325,7 +339,7 @@ describe('MidenClientInterface', () => {
 
     await client.consumeTransaction('acc-id', ['note-1', 'note-2'], false);
 
-    expect(fakeWebClient.newConsumeTransactionRequest).toHaveBeenCalledWith(['note-1', 'note-2']);
+    expect(fakeWebClient.newConsumeTransactionRequest).toHaveBeenCalledWith([note1, note2]);
   });
 
   it('sends transaction without recall blocks', async () => {
