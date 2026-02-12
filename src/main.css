@@ -108,7 +108,7 @@
  * TailwindCSS
  */
 
-@tailwind base;
+@import 'tailwindcss';
 
 /**
  * Appearance for iOS and Safari
