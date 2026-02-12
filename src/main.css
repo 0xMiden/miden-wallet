@@ -110,6 +110,7 @@
 
 @config '../tailwind.config.ts';
 @import 'tailwindcss';
+@import 'tw-animate-css';
 
 /**
  * Appearance for iOS and Safari
