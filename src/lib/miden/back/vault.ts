@@ -239,7 +239,7 @@ export class Vault {
       // Wrap WASM client operations in a lock to prevent concurrent access
       const accPublicKey = await withWasmClientLock(async () => {
         const midenClient = await getMidenClient(options);
-        if (ownMnemonic) {
+        if (ownMnemonic && midenClient.network !== 'mock') {
           try {
             return await midenClient.importPublicMidenWalletFromSeed(walletSeed);
           } catch (e) {

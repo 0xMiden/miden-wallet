@@ -283,7 +283,8 @@ const backgroundConfig = {
   plugins: [
     new Dotenv(),
     new webpack.EnvironmentPlugin({
-      VERSION: pkg.version
+      VERSION: pkg.version,
+      MIDEN_USE_MOCK_CLIENT: MIDEN_USE_MOCK_CLIENT || 'false'
     }),
 
     new webpack.ProvidePlugin({
@@ -460,7 +461,8 @@ const workerConfig = {
   plugins: [
     new Dotenv(),
     new webpack.EnvironmentPlugin({
-      VERSION: pkg.version
+      VERSION: pkg.version,
+      MIDEN_USE_MOCK_CLIENT: MIDEN_USE_MOCK_CLIENT || 'false'
     }),
 
     new webpack.ProvidePlugin({
