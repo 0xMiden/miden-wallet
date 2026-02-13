@@ -174,3 +174,9 @@ export function formatTransactionStatus(status: ITransactionStatus): string {
   const words = ITransactionStatus[status].split(/(?=[A-Z])/);
   return words.join(' ');
 }
+
+export interface IFaucetMetadata {
+  accountId: string;
+  symbol: string;
+  decimals: number;
+}
