@@ -34,8 +34,8 @@ export const MIDEN_FAUCET_ENDPOINTS = new Map<string, string>([
 ]);
 
 export const MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS = new Map<string, string>([
-  [MIDEN_NETWORK_NAME.TESTNET, 'https://transport.miden.io:57292'],
-  [MIDEN_NETWORK_NAME.LOCALNET, 'http://127.0.0.1:57292']
+  [MIDEN_NETWORK_NAME.TESTNET, 'https://transport.miden.io'],
+  [MIDEN_NETWORK_NAME.LOCALNET, 'http://127.0.0.1']
 ]);
 
 export const MIDEN_NETWORKS: MidenNetwork[] = [
@@ -59,5 +59,5 @@ export enum MidenTokens {
 }
 
 export const TOKEN_MAPPING = {
-  [MidenTokens.Miden]: { faucetId: 'mtst1ap2t7nsjausqsgrswk9syfzkcu328yna_qruqqypuyph' }
+  [MidenTokens.Miden]: { faucetId: 'mtst1aqmat9m63ctdsgz6xcyzpuprpulwk9vg_qruqqypuyph' }
 };
