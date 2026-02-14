@@ -69,11 +69,13 @@ import { ReactComponent as LeoLock } from './leo-lock.svg';
 import { ReactComponent as LeoLogoAndName } from './leo-logo-and-name-horizontal.svg';
 import { ReactComponent as List } from './list.svg';
 import { ReactComponent as Loader } from './loader.svg';
+import { ReactComponent as Loading } from './loading.svg';
 import { ReactComponent as Lock } from './lock.svg';
 import { ReactComponent as MidenLogoOrange } from './miden-logo-orange.svg';
 import { ReactComponent as MidenLogoWhite } from './miden-logo-white.svg';
 import { ReactComponent as MidenLogo } from './miden-logo.svg';
 import { ReactComponent as More } from './more.svg';
+import { ReactComponent as OnboardingLogo } from './onboarding-logo.svg';
 import { ReactComponent as Pencil } from './pencil.svg';
 import { ReactComponent as QrScan } from './qr-scan.svg';
 import { ReactComponent as RadioFill } from './radio-fill.svg';
@@ -164,6 +166,7 @@ export enum IconName {
   LeoLock = 'leo-lock',
   List = 'list',
   Loader = 'loader',
+  Loading = 'loading',
   Lock = 'lock',
   More = 'more',
   Pencil = 'pencil',
@@ -188,6 +191,7 @@ export enum IconName {
   MidenLogo = 'miden-logo',
   MidenLogoWhite = 'miden-logo-white',
   MidenLogoOrange = 'miden-logo-orange',
+  OnboardingLogo = 'onboarding-logo',
   UploadFile = 'upload-file',
   UploadedFile = 'uploaded-file',
   InProgress = 'in-progress',
@@ -333,6 +337,8 @@ const IconSwitch = (props: IconProps) => {
       return <List {...props} />;
     case IconName.Loader:
       return <Loader {...props} />;
+    case IconName.Loading:
+      return <Loading {...props} />;
     case IconName.Lock:
       return <Lock {...props} />;
     case IconName.More:
@@ -381,6 +387,8 @@ const IconSwitch = (props: IconProps) => {
       return <MidenLogoWhite {...props} />;
     case IconName.MidenLogoOrange:
       return <MidenLogoOrange {...props} />;
+    case IconName.OnboardingLogo:
+      return <OnboardingLogo {...props} />;
     case IconName.UploadFile:
       return <UploadFile {...props} />;
     case IconName.UploadedFile:
@@ -412,5 +420,5 @@ const iconClassNamePerSize = {
 };
 
 export const Icon: React.FC<IconProps> = ({ className, size = 'md', ...props }) => {
-  return <IconSwitch {...props} className={classNames(className, iconClassNamePerSize[size])} />;
+  return <IconSwitch {...props} className={classNames(iconClassNamePerSize[size], className)} />;
 };

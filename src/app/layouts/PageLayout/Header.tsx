@@ -22,8 +22,8 @@ const Header: FC = () => {
   const isGeneratingUrl = window.location.href.search('generating-transaction') > -1;
 
   return (
-    <header className={classNames('mx-4', appEnv.fullPage && '')}>
-      <ContentContainer className="py-5">
+    <header className={classNames('px-4', appEnv.fullPage && '', 'border-b-[#00000033] border-b-[0.5px]')}>
+      <ContentContainer className="py-[15px]">
         <div>
           <div className="flex w-full">{!isGeneratingUrl && <Control />}</div>
         </div>
@@ -79,22 +79,19 @@ const Control: FC = () => {
     <>
       <div className={classNames('flex', 'justify-between', 'w-full')}>
         <div className={classNames('flex', 'justify-start')}>
-          <Link to={'/select-account'} testID={HeaderSelectors.AccountDropdown}>
+          <Link to={'/select-account'} testID={HeaderSelectors.AccountDropdown} className="flex">
             <Button
               className={classNames(
-                'flex-shrink-0 flex',
-                'rounded-md items-center',
+                'flex',
+                'rounded-md items-center justify-center',
                 'transition ease-in-out duration-200',
                 'cursor-pointer'
               )}
             >
               <ColorIdenticon publicKey={account.publicKey} />
-              <div className="self-start flex overflow-x-hidden ml-2 leading-9">
-                <Name className={classNames('font-bold', 'text-black', 'text-sm', 'opacity-90')}>{account.name}</Name>
-                <ChevronDownIcon
-                  className="ml-1 -mr-1 stroke-2"
-                  style={{ height: 16, width: 'auto', marginTop: '10px' }}
-                />
+              <div className="flex overflow-x-hidden ml-2 leading-9 items-center gap-1">
+                <Name className={classNames('text-sm', 'text-black')}>{account.name}</Name>
+                <ChevronDownIcon style={{ height: 16, width: 'auto' }} />
               </div>
             </Button>
           </Link>
