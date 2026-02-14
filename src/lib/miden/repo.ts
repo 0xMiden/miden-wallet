@@ -1,10 +1,9 @@
 import Dexie, { Transaction } from 'dexie';
 
-import { ITransaction, IFaucetMetadata } from './db/types';
+import { ITransaction } from './db/types';
 
 export enum Table {
-  Transactions = 'transactions',
-  FaucetMetadata = 'faucetMetadata'
+  Transactions = 'transactions'
 }
 
 export const db = new Dexie('TridentMain');
@@ -27,19 +26,7 @@ db.version(1.1)
     await tx.db.table<ITransaction, string>(Table.Transactions).clear();
   });
 
-db.version(1.2)
-  .stores({
-    [Table.Transactions]: indexes('id', 'accountId', 'transactionId', 'initiatedAt', 'completedAt', 'status'),
-    [Table.FaucetMetadata]: indexes('accountId')
-  })
-  .upgrade(async tx => {
-    await tx.db.table<any, string>('transactionRequests').clear();
-    await tx.db.table<ITransaction, string>(Table.Transactions).clear();
-    await tx.db.table<IFaucetMetadata, string>(Table.FaucetMetadata).clear();
-  });
-
 export const transactions = db.table<ITransaction, string>(Table.Transactions);
-export const faucetMetadatas = db.table<IFaucetMetadata, string>(Table.FaucetMetadata);
 
 function indexes(...items: string[]) {
   return items.join(',');
@@ -58,10 +45,6 @@ export async function exportDb(): Promise<string> {
       };
     });
     dump[Table.Transactions] = serializableTransactions;
-  });
-  await db.transaction('r', faucetMetadatas, async () => {
-    const rawFaucetMetadatas = await faucetMetadatas.toArray();
-    dump[Table.FaucetMetadata] = rawFaucetMetadatas;
   });
   return JSON.stringify(dump);
 }
@@ -83,13 +66,6 @@ export async function importDb(dump: string): Promise<void> {
     await db.open();
     await db.transaction('rw', transactions, async () => {
       await transactions.bulkAdd(transactionsToImport);
-    });
-  }
-
-  if (data[Table.FaucetMetadata]) {
-    const faucetMetadatasToImport = data[Table.FaucetMetadata];
-    await db.transaction('rw', faucetMetadatas, async () => {
-      await faucetMetadatas.bulkAdd(faucetMetadatasToImport);
     });
   }
 }
