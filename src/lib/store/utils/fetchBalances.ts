@@ -1,9 +1,9 @@
-import { BasicFungibleFaucetComponent, FungibleAsset } from '@miden-sdk/miden-sdk';
+import { FungibleAsset } from '@miden-sdk/miden-sdk';
 import BigNumber from 'bignumber.js';
 
 import { getFaucetIdSetting } from 'lib/miden/assets';
 import { TokenBalanceData } from 'lib/miden/front/balance';
-import { AssetMetadata, DEFAULT_TOKEN_METADATA, getAssetUrl, MIDEN_METADATA } from 'lib/miden/metadata';
+import { AssetMetadata, fetchTokenMetadata, MIDEN_METADATA } from 'lib/miden/metadata';
 import { getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
 
@@ -22,7 +22,7 @@ export interface FetchBalancesOptions {
  * This is the single source of truth for balance fetching logic.
  * Used by both the useAllBalances hook and the Zustand store action.
  *
- * IMPORTANT: All WASM client operations (getAccount, importAccountById) are done
+ * IMPORTANT: All WASM client operations (getAccount) are done
  * in a single lock acquisition to prevent AutoSync from blocking metadata fetches.
  * Previously, metadata was fetched in a separate lock after releasing the initial lock,
  * which caused non-MIDEN tokens to appear 30+ seconds late when AutoSync grabbed
@@ -63,41 +63,15 @@ export async function fetchBalances(
     const newMetadatas: Record<string, AssetMetadata> = {};
 
     if (fetchMissingMetadata) {
-      for (const asset of acctAssets) {
-        const id = getBech32AddressFromAccountId(asset.faucetId());
-        // Skip MIDEN token and tokens we already have metadata for
-        if (id === midenFaucetId || localMetadatas[id]) {
-          continue;
-        }
-
-        try {
-          // Inline the logic from fetchTokenMetadata to avoid separate lock acquisition
-          let faucetAccount = await midenClient.getAccount(id);
-          if (!faucetAccount) {
-            await midenClient.importAccountById(id);
-            faucetAccount = await midenClient.getAccount(id);
-          }
-
-          if (faucetAccount) {
-            const faucetDetails = BasicFungibleFaucetComponent.fromAccount(faucetAccount);
-            const symbol = faucetDetails.symbol().toString();
-            newMetadatas[id] = {
-              decimals: faucetDetails.decimals(),
-              symbol,
-              name: symbol,
-              shouldPreferSymbol: true,
-              thumbnailUri: getAssetUrl('misc/token-logos/default.svg')
-            };
-          } else {
-            // Fallback if we couldn't get faucet account
-            newMetadatas[id] = DEFAULT_TOKEN_METADATA;
-          }
-        } catch (e) {
-          console.warn('Failed to fetch metadata for', id, e);
-          // Use default metadata on failure so token still appears
-          newMetadatas[id] = DEFAULT_TOKEN_METADATA;
-        }
-      }
+      const metadataFetchPromises = acctAssets.map(async asset => {
+        const assetId = getBech32AddressFromAccountId(asset.faucetId());
+        const tokenMetadata = await fetchTokenMetadata(assetId);
+        newMetadatas[assetId] = tokenMetadata.base;
+      });
+      // It is fine to use promise.all here because
+      // fetchTokenMetadata will always create a new `RpcClient` instance and thus it will not have
+      // any wasm aliasing issues
+      await Promise.all(metadataFetchPromises);
     }
 
     return { account: acc, assets: acctAssets, fetchedMetadatas: newMetadatas };
