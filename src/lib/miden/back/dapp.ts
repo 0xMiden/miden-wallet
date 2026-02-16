@@ -956,11 +956,11 @@ const generatePromisifyTransaction = async (
       if (confirmReq?.type === MidenMessageType.DAppTransactionConfirmationRequest && confirmReq?.id === id) {
         if (confirmReq.confirmed) {
           try {
-            const transactionId = await withUnlocked(async () => {
+            const transactionId = await withUnlocked(async ({ vault }) => {
               const { payload } = req.transaction;
               const { address, recipientAddress, transactionRequest, inputNoteIds, importNotes } =
                 payload as MidenCustomTransaction;
-              return await requestCustomTransaction(
+              const txId = await requestCustomTransaction(
                 address,
                 transactionRequest,
                 inputNoteIds,
@@ -968,6 +968,11 @@ const generatePromisifyTransaction = async (
                 confirmReq.delegate,
                 recipientAddress || undefined
               );
+              startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
+                const signatureHex = await vault.signTransaction(publicKey, signingInputs);
+                return new Uint8Array(Buffer.from(signatureHex, 'hex'));
+              });
+              return txId;
             });
             resolve({
               type: MidenDAppMessageType.TransactionResponse,
@@ -1099,17 +1104,23 @@ const generatePromisifySendTransaction = async (
       if (confirmReq?.type === MidenMessageType.DAppTransactionConfirmationRequest && confirmReq?.id === id) {
         if (confirmReq.confirmed) {
           try {
-            const transactionId = await withUnlocked(async () => {
+            const transactionId = await withUnlocked(async ({ vault }) => {
               const { senderAddress, recipientAddress, faucetId, noteType, amount, recallBlocks } = req.transaction;
-              return await initiateSendTransaction(
+              const txId = await initiateSendTransaction(
                 senderAddress,
                 recipientAddress,
                 faucetId,
                 noteType as any,
                 BigInt(amount),
                 recallBlocks,
-                confirmReq.delegate
+                true
               );
+              // Start background processing on mobile
+              startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
+                const signatureHex = await vault.signTransaction(publicKey, signingInputs);
+                return new Uint8Array(Buffer.from(signatureHex, 'hex'));
+              });
+              return txId;
             });
             resolve({
               type: MidenDAppMessageType.SendTransactionResponse,
@@ -1199,7 +1210,6 @@ const generatePromisifyConsumeTransaction = async (
         if (noteBytes) {
           await queueNoteImport(noteBytes);
         }
-        // On mobile, always delegate transactions to avoid memory issues with local proving
         const txId = await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId, true);
         // Start background processing on mobile
         startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
@@ -1236,12 +1246,18 @@ const generatePromisifyConsumeTransaction = async (
       if (confirmReq?.type === MidenMessageType.DAppTransactionConfirmationRequest && confirmReq?.id === id) {
         if (confirmReq.confirmed) {
           try {
-            const transactionId = await withUnlocked(async () => {
+            const transactionId = await withUnlocked(async ({ vault }) => {
               const { noteId, noteBytes } = req.transaction;
               if (noteBytes) {
                 await queueNoteImport(noteBytes);
               }
-              return await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId, confirmReq.delegate);
+              const txId = await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId, true);
+              // Start background processing on extension
+              startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
+                const signatureHex = await vault.signTransaction(publicKey, signingInputs);
+                return new Uint8Array(Buffer.from(signatureHex, 'hex'));
+              });
+              return txId;
             });
             resolve({
               type: MidenDAppMessageType.ConsumeResponse,
