@@ -560,7 +560,6 @@ export const generateTransaction = async (
   });
 
   // Process transaction
-  let resultBytes: Uint8Array;
   let result: TransactionResult;
   const options: MidenClientCreateOptions = {
     signCallback: async (publicKey: Uint8Array, signingInputs: Uint8Array) => {
@@ -590,7 +589,7 @@ export const generateTransaction = async (
   switch (transaction.type) {
     case 'send':
       if (useWorker) {
-        resultBytes = await sendTransaction(transactionResultBytes, shouldDelegate);
+        const resultBytes = await sendTransaction(transactionResultBytes, shouldDelegate);
         result = TransactionResult.deserialize(resultBytes);
       } else {
         result = await withWasmClientLock(async () => {
@@ -602,7 +601,7 @@ export const generateTransaction = async (
       break;
     case 'consume':
       if (useWorker) {
-        resultBytes = await consumeNoteId(transactionResultBytes, shouldDelegate);
+        const resultBytes = await consumeNoteId(transactionResultBytes, shouldDelegate);
         result = TransactionResult.deserialize(resultBytes);
       } else {
         result = await withWasmClientLock(async () => {
@@ -615,7 +614,7 @@ export const generateTransaction = async (
     case 'execute':
     default:
       if (useWorker) {
-        resultBytes = await submitTransaction(transactionResultBytes, shouldDelegate);
+        const resultBytes = await submitTransaction(transactionResultBytes, shouldDelegate);
         result = TransactionResult.deserialize(resultBytes);
       } else {
         result = await withWasmClientLock(async () => {
@@ -710,12 +709,13 @@ export const safeGenerateTransactionsLoop = async (
 };
 
 /**
- * Start background transaction processing for mobile dApp transactions.
+ * Start background transaction processing for dApp transactions.
  * This runs the transaction loop without any UI, using the backend's signTransaction directly.
  * Polls every 5 seconds until all queued transactions are processed.
  */
 export const startBackgroundTransactionProcessing = (
-  signCallback: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
+  signCallback: (publicKey: string, signingInputs: string) => Promise<Uint8Array>,
+  useWorker: boolean = false
 ) => {
   // Process transactions in a loop until none are left
   const processLoop = async () => {
@@ -725,7 +725,7 @@ export const startBackgroundTransactionProcessing = (
 
     while (hasMore && attempts < maxAttempts) {
       attempts++;
-      await safeGenerateTransactionsLoop(signCallback, false);
+      await safeGenerateTransactionsLoop(signCallback, useWorker);
 
       // Check if there are more transactions to process
       const remaining = await getAllUncompletedTransactions();
