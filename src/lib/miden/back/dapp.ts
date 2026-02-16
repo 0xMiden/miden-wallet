@@ -70,6 +70,16 @@ import { getBech32AddressFromAccountId } from '../sdk/helpers';
 import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 import { store, withUnlocked } from './store';
 
+/** Starts background transaction processing with a sign callback that re-acquires the vault on each attempt. */
+function startDappBackgroundProcessing() {
+  startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
+    return withUnlocked(async ({ vault }) => {
+      const signatureHex = await vault.signTransaction(publicKey, signingInputs);
+      return new Uint8Array(Buffer.from(signatureHex, 'hex'));
+    });
+  });
+}
+
 // Log to Rust stdout for desktop debugging
 async function dappLog(message: string): Promise<void> {
   if (isDesktop()) {
@@ -908,12 +918,12 @@ const generatePromisifyTransaction = async (
     }
 
     try {
-      const transactionId = await withUnlocked(async ({ vault }) => {
+      const transactionId = await withUnlocked(async () => {
         const { payload } = req.transaction;
         const { address, recipientAddress, transactionRequest, inputNoteIds, importNotes } =
           payload as MidenCustomTransaction;
-        // On mobile, always delegate transactions to avoid memory issues with local proving
-        const txId = await requestCustomTransaction(
+        // On mobile/desktop, always delegate transactions to avoid memory issues with local proving
+        return await requestCustomTransaction(
           address,
           transactionRequest,
           inputNoteIds,
@@ -921,13 +931,8 @@ const generatePromisifyTransaction = async (
           true,
           recipientAddress || undefined
         );
-        // Start background processing on mobile
-        startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
-          const signatureHex = await vault.signTransaction(publicKey, signingInputs);
-          return new Uint8Array(Buffer.from(signatureHex, 'hex'));
-        });
-        return txId;
       });
+      startDappBackgroundProcessing();
       resolve({
         type: MidenDAppMessageType.TransactionResponse,
         transactionId
@@ -969,6 +974,7 @@ const generatePromisifyTransaction = async (
                 recipientAddress || undefined
               );
             });
+            startDappBackgroundProcessing();
             resolve({
               type: MidenDAppMessageType.TransactionResponse,
               transactionId
@@ -1052,10 +1058,10 @@ const generatePromisifySendTransaction = async (
     }
 
     try {
-      const transactionId = await withUnlocked(async ({ vault }) => {
+      const transactionId = await withUnlocked(async () => {
         const { senderAddress, recipientAddress, faucetId, noteType, amount, recallBlocks } = req.transaction;
-        // On mobile, always delegate transactions to avoid memory issues with local proving
-        const txId = await initiateSendTransaction(
+        // On mobile/desktop, always delegate transactions to avoid memory issues with local proving
+        return await initiateSendTransaction(
           senderAddress,
           recipientAddress,
           faucetId,
@@ -1064,13 +1070,8 @@ const generatePromisifySendTransaction = async (
           recallBlocks,
           true
         );
-        // Start background processing on mobile
-        startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
-          const signatureHex = await vault.signTransaction(publicKey, signingInputs);
-          return new Uint8Array(Buffer.from(signatureHex, 'hex'));
-        });
-        return txId;
       });
+      startDappBackgroundProcessing();
       resolve({
         type: MidenDAppMessageType.SendTransactionResponse,
         transactionId
@@ -1111,6 +1112,7 @@ const generatePromisifySendTransaction = async (
                 confirmReq.delegate
               );
             });
+            startDappBackgroundProcessing();
             resolve({
               type: MidenDAppMessageType.SendTransactionResponse,
               transactionId
@@ -1194,20 +1196,15 @@ const generatePromisifyConsumeTransaction = async (
     }
 
     try {
-      const transactionId = await withUnlocked(async ({ vault }) => {
+      const transactionId = await withUnlocked(async () => {
         const { noteId, noteBytes } = req.transaction;
         if (noteBytes) {
           await queueNoteImport(noteBytes);
         }
-        // On mobile, always delegate transactions to avoid memory issues with local proving
-        const txId = await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId, true);
-        // Start background processing on mobile
-        startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
-          const signatureHex = await vault.signTransaction(publicKey, signingInputs);
-          return new Uint8Array(Buffer.from(signatureHex, 'hex'));
-        });
-        return txId;
+        // On mobile/desktop, always delegate transactions to avoid memory issues with local proving
+        return await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId, true);
       });
+      startDappBackgroundProcessing();
       resolve({
         type: MidenDAppMessageType.ConsumeResponse,
         transactionId
@@ -1243,6 +1240,7 @@ const generatePromisifyConsumeTransaction = async (
               }
               return await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId, confirmReq.delegate);
             });
+            startDappBackgroundProcessing();
             resolve({
               type: MidenDAppMessageType.ConsumeResponse,
               transactionId
