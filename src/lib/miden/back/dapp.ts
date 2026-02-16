@@ -1115,7 +1115,7 @@ const generatePromisifySendTransaction = async (
                 recallBlocks,
                 confirmReq.delegate
               );
-              // Start background processing on mobile
+              // Start background processing on extension
               startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
                 const signatureHex = await vault.signTransaction(publicKey, signingInputs);
                 return new Uint8Array(Buffer.from(signatureHex, 'hex'));
