@@ -726,9 +726,11 @@ export const startBackgroundTransactionProcessing = (
     while (hasMore && attempts < maxAttempts) {
       attempts++;
       await safeGenerateTransactionsLoop(signCallback, false);
+
       // Check if there are more transactions to process
       const remaining = await getAllUncompletedTransactions();
       hasMore = remaining.length > 0;
+
       if (hasMore) {
         // Wait before next attempt
         await new Promise(resolve => setTimeout(resolve, 5000));

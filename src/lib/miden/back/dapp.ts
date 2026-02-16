@@ -1113,7 +1113,7 @@ const generatePromisifySendTransaction = async (
                 noteType as any,
                 BigInt(amount),
                 recallBlocks,
-                true
+                confirmReq.delegate
               );
               // Start background processing on mobile
               startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
@@ -1210,6 +1210,7 @@ const generatePromisifyConsumeTransaction = async (
         if (noteBytes) {
           await queueNoteImport(noteBytes);
         }
+        // On mobile, always delegate transactions to avoid memory issues with local proving
         const txId = await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId, true);
         // Start background processing on mobile
         startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
@@ -1251,7 +1252,7 @@ const generatePromisifyConsumeTransaction = async (
               if (noteBytes) {
                 await queueNoteImport(noteBytes);
               }
-              const txId = await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId, true);
+              const txId = await initiateConsumeTransactionFromId(req.sourcePublicKey, noteId, confirmReq.delegate);
               // Start background processing on extension
               startBackgroundTransactionProcessing(async (publicKey, signingInputs) => {
                 const signatureHex = await vault.signTransaction(publicKey, signingInputs);
