@@ -1,26 +1,9 @@
 import { Address, BasicFungibleFaucetComponent, Endpoint, RpcClient } from '@miden-sdk/miden-sdk';
 
 import { isMidenAsset } from 'lib/miden/assets';
-import { isExtension } from 'lib/platform';
 
-import { DEFAULT_TOKEN_METADATA, MIDEN_METADATA } from './defaults';
+import { DEFAULT_TOKEN_METADATA, getAssetUrl, MIDEN_METADATA } from './defaults';
 import { AssetMetadata, DetailedAssetMetdata } from './types';
-
-// Get asset URL that works on extension, mobile, and desktop
-function getAssetUrl(path: string): string {
-  if (!isExtension()) {
-    // On mobile/desktop, use relative URL from web root
-    return `/${path}`;
-  }
-
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const browser = require('webextension-polyfill');
-    return browser.runtime.getURL(path);
-  } catch {
-    return `/${path}`;
-  }
-}
 
 export async function fetchTokenMetadata(
   assetId: string
@@ -40,7 +23,7 @@ export async function fetchTokenMetadata(
         // but in case it does we are storing it as unknown metadata and warning in console
         console.warn('Failed to fetch metadata from chain for', assetId, 'Using default metadata');
       }
-      // if the account is private we are assinging it the unknown metadata, as there is no way to fetch the metadata from chain
+      // if the account is private we are assigning it the unknown metadata, as there is no way to fetch the metadata from chain
       return { base: DEFAULT_TOKEN_METADATA, detailed: DEFAULT_TOKEN_METADATA };
     }
     const faucetDetails = BasicFungibleFaucetComponent.fromAccount(underlyingAccount);
@@ -68,5 +51,5 @@ export async function fetchTokenMetadata(
 
 export class NotFoundTokenMetadata extends Error {
   name = 'NotFoundTokenMetadata';
-  message = "Metadata for token doesn't found";
+  message = 'Metadata for token not found';
 }

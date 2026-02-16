@@ -111,14 +111,10 @@ describe('fetchBalances', () => {
       })
     });
 
-    // Mock fetchTokenMetadata for the non-MIDEN asset
-    mockFetchTokenMetadata.mockResolvedValueOnce({
-      base: tokenMetadata,
-      detailed: tokenMetadata
-    });
-
     const result = await fetchBalances('my-address', { 'bech32-other-faucet': tokenMetadata });
 
+    // Should NOT call fetchTokenMetadata — metadata already cached in tokenMetadatas
+    expect(mockFetchTokenMetadata).not.toHaveBeenCalled();
     expect(result).toHaveLength(2);
     // Other token
     expect(result[0].tokenSlug).toBe('OTH');
@@ -243,6 +239,62 @@ describe('fetchBalances', () => {
         decimals: 8
       })
     });
+  });
+
+  it('falls back to DEFAULT_TOKEN_METADATA when fetchTokenMetadata throws', async () => {
+    const mockSetAssetsMetadata = jest.fn();
+    const { DEFAULT_TOKEN_METADATA } = jest.requireMock('lib/miden/metadata');
+    const mockAssets = [
+      {
+        faucetId: () => 'bad-faucet',
+        amount: () => ({ toString: () => '1000000' })
+      }
+    ];
+
+    mockGetAccount.mockResolvedValueOnce({
+      vault: () => ({
+        fungibleAssets: () => mockAssets
+      })
+    });
+
+    // fetchTokenMetadata throws — should not break balance loading
+    mockFetchTokenMetadata.mockRejectedValueOnce(new Error('RPC error'));
+
+    const result = await fetchBalances('my-address', {}, { setAssetsMetadata: mockSetAssetsMetadata });
+
+    // Should still include the token with default metadata
+    expect(mockSetAssetsMetadata).toHaveBeenCalledWith({
+      'bech32-bad-faucet': DEFAULT_TOKEN_METADATA
+    });
+    expect(result).toHaveLength(2);
+    expect(result[0].tokenSlug).toBe('Unknown');
+  });
+
+  it('skips MIDEN token when fetching metadata', async () => {
+    const { getBech32AddressFromAccountId } = jest.requireMock('lib/miden/sdk/helpers');
+    // Return miden-faucet-id for both the filter and the balance loop
+    getBech32AddressFromAccountId.mockReturnValue('miden-faucet-id');
+
+    const mockAssets = [
+      {
+        faucetId: () => 'raw-miden-faucet',
+        amount: () => ({ toString: () => '100000000' })
+      }
+    ];
+
+    mockGetAccount.mockResolvedValueOnce({
+      vault: () => ({
+        fungibleAssets: () => mockAssets
+      })
+    });
+
+    await fetchBalances('my-address', {});
+
+    // Should NOT call fetchTokenMetadata for the MIDEN token
+    expect(mockFetchTokenMetadata).not.toHaveBeenCalled();
+
+    // Reset mock to default behavior
+    getBech32AddressFromAccountId.mockImplementation((id: string) => `bech32-${id}`);
   });
 
   it('reads from IndexedDB (getAccount) without calling syncState', async () => {

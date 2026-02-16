@@ -162,7 +162,7 @@ describe('metadata/fetch', () => {
       const error = new NotFoundTokenMetadata();
 
       expect(error.name).toBe('NotFoundTokenMetadata');
-      expect(error.message).toBe("Metadata for token doesn't found");
+      expect(error.message).toBe('Metadata for token not found');
       expect(error).toBeInstanceOf(Error);
     });
   });

@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 
 import { getFaucetIdSetting } from 'lib/miden/assets';
 import { TokenBalanceData } from 'lib/miden/front/balance';
-import { AssetMetadata, fetchTokenMetadata, MIDEN_METADATA } from 'lib/miden/metadata';
+import { AssetMetadata, DEFAULT_TOKEN_METADATA, fetchTokenMetadata, MIDEN_METADATA } from 'lib/miden/metadata';
 import { getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
 
@@ -22,11 +22,8 @@ export interface FetchBalancesOptions {
  * This is the single source of truth for balance fetching logic.
  * Used by both the useAllBalances hook and the Zustand store action.
  *
- * IMPORTANT: All WASM client operations (getAccount) are done
- * in a single lock acquisition to prevent AutoSync from blocking metadata fetches.
- * Previously, metadata was fetched in a separate lock after releasing the initial lock,
- * which caused non-MIDEN tokens to appear 30+ seconds late when AutoSync grabbed
- * the lock in between.
+ * The WASM lock is held only for getAccount (IndexedDB read).
+ * Metadata fetching uses RpcClient directly and does not need the WASM lock.
  */
 export async function fetchBalances(
   address: string,
@@ -42,40 +39,39 @@ export async function fetchBalances(
   // Get midenFaucetId early so we can use it inside the lock
   const midenFaucetId = await getFaucetIdSetting();
 
-  // Wrap ALL WASM client operations in a single lock to prevent AutoSync from
-  // grabbing the lock between getAccount and metadata fetches
-  const { account, assets, fetchedMetadatas } = await withWasmClientLock(async () => {
+  // Only hold the WASM lock for the getAccount call (IndexedDB read)
+  const { account, assets } = await withWasmClientLock(async () => {
     const midenClient = await getMidenClient();
     const acc = await midenClient.getAccount(address);
 
-    // Handle case where account doesn't exist
     if (!acc) {
-      return {
-        account: null,
-        assets: [] as FungibleAsset[],
-        fetchedMetadatas: {} as Record<string, AssetMetadata>
-      };
+      return { account: null, assets: [] as FungibleAsset[] };
     }
 
-    const acctAssets = acc.vault().fungibleAssets() as FungibleAsset[];
-
-    // Fetch missing metadata INSIDE the lock to prevent race with AutoSync
-    const newMetadatas: Record<string, AssetMetadata> = {};
-
-    if (fetchMissingMetadata) {
-      const metadataFetchPromises = acctAssets.map(async asset => {
-        const assetId = getBech32AddressFromAccountId(asset.faucetId());
-        const tokenMetadata = await fetchTokenMetadata(assetId);
-        newMetadatas[assetId] = tokenMetadata.base;
-      });
-      // It is fine to use promise.all here because
-      // fetchTokenMetadata will always create a new `RpcClient` instance and thus it will not have
-      // any wasm aliasing issues
-      await Promise.all(metadataFetchPromises);
-    }
-
-    return { account: acc, assets: acctAssets, fetchedMetadatas: newMetadatas };
+    return { account: acc, assets: acc.vault().fungibleAssets() as FungibleAsset[] };
   });
+
+  // Fetch missing metadata OUTSIDE the lock — RpcClient doesn't use the WASM client
+  const fetchedMetadatas: Record<string, AssetMetadata> = {};
+
+  if (fetchMissingMetadata) {
+    const metadataFetchPromises = assets
+      .filter(asset => {
+        const assetId = getBech32AddressFromAccountId(asset.faucetId());
+        return assetId !== midenFaucetId && !localMetadatas[assetId];
+      })
+      .map(async asset => {
+        const assetId = getBech32AddressFromAccountId(asset.faucetId());
+        try {
+          const tokenMetadata = await fetchTokenMetadata(assetId);
+          fetchedMetadatas[assetId] = tokenMetadata.base;
+        } catch (e) {
+          console.warn('Failed to fetch metadata for', assetId, e);
+          fetchedMetadatas[assetId] = DEFAULT_TOKEN_METADATA;
+        }
+      });
+    await Promise.all(metadataFetchPromises);
+  }
 
   // Handle case where account doesn't exist (outside the lock)
   if (!account) {
