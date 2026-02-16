@@ -1,27 +1,9 @@
-import { BasicFungibleFaucetComponent } from '@miden-sdk/miden-sdk';
+import { Address, BasicFungibleFaucetComponent, Endpoint, RpcClient } from '@miden-sdk/miden-sdk';
 
 import { isMidenAsset } from 'lib/miden/assets';
-import { isExtension } from 'lib/platform';
 
-import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
-import { DEFAULT_TOKEN_METADATA, MIDEN_METADATA } from './defaults';
+import { DEFAULT_TOKEN_METADATA, getAssetUrl, MIDEN_METADATA } from './defaults';
 import { AssetMetadata, DetailedAssetMetdata } from './types';
-
-// Get asset URL that works on extension, mobile, and desktop
-function getAssetUrl(path: string): string {
-  if (!isExtension()) {
-    // On mobile/desktop, use relative URL from web root
-    return `/${path}`;
-  }
-
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const browser = require('webextension-polyfill');
-    return browser.runtime.getURL(path);
-  } catch {
-    return `/${path}`;
-  }
-}
 
 export async function fetchTokenMetadata(
   assetId: string
@@ -31,31 +13,22 @@ export async function fetchTokenMetadata(
   }
 
   try {
-    // Wrap all WASM client operations in a lock to prevent concurrent access
-    const result = await withWasmClientLock(async () => {
-      const midenClient = await getMidenClient();
-
-      let account = await midenClient.getAccount(assetId);
-      if (!account) {
-        await midenClient.importAccountById(assetId);
-        account = await midenClient.getAccount(assetId);
-        if (!account) {
-          return null;
-        }
+    const endpoint = Endpoint.testnet();
+    const rpcClient = new RpcClient(endpoint);
+    const account = await rpcClient.getAccountDetails(Address.fromBech32(assetId).accountId());
+    const underlyingAccount = account.account();
+    if (!underlyingAccount) {
+      if (account.isPublic()) {
+        // if the account was public and we couldn't fetch metadata it should not happen in first place
+        // but in case it does we are storing it as unknown metadata and warning in console
+        console.warn('Failed to fetch metadata from chain for', assetId, 'Using default metadata');
       }
-      const faucetDetails = BasicFungibleFaucetComponent.fromAccount(account);
-      return {
-        decimals: faucetDetails.decimals(),
-        symbol: faucetDetails.symbol().toString()
-      };
-    });
-
-    if (!result) {
+      // if the account is private we are assigning it the unknown metadata, as there is no way to fetch the metadata from chain
       return { base: DEFAULT_TOKEN_METADATA, detailed: DEFAULT_TOKEN_METADATA };
     }
-
-    const { decimals, symbol } = result;
-
+    const faucetDetails = BasicFungibleFaucetComponent.fromAccount(underlyingAccount);
+    const decimals = faucetDetails.decimals();
+    const symbol = faucetDetails.symbol().toString();
     const base: AssetMetadata = {
       decimals,
       symbol,
@@ -78,5 +51,5 @@ export async function fetchTokenMetadata(
 
 export class NotFoundTokenMetadata extends Error {
   name = 'NotFoundTokenMetadata';
-  message = "Metadata for token doesn't found";
+  message = 'Metadata for token not found';
 }
