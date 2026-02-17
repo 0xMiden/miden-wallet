@@ -46,7 +46,7 @@ const DAppConnectionModal: FC<DAppConnectionModalProps> = ({ request, onResult }
   }, [onResult]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/10 backdrop-blur-xl backdrop-saturate-150 p-4">
       <div className="bg-white rounded-2xl w-full max-w-sm shadow-xl">
         {/* Header */}
         <div className="p-6 border-b border-grey-100">
