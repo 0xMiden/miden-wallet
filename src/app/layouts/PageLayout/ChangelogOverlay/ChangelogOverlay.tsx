@@ -35,7 +35,7 @@ export const ChangelogOverlay: FC = () => {
 
   return lastShownVersion !== currentVersion ? (
     <>
-      <div className={'fixed left-0 right-0 top-0 bottom-0 opacity-20 bg-gray-700 z-50'}></div>
+      <div className={'fixed inset-0 bg-white/10 backdrop-blur-xl backdrop-saturate-150 z-50'}></div>
       <ContentContainer className={classNames('fixed z-50', 'max-h-full', popupClassName)} padding={!popup}>
         <div
           className={classNames(
