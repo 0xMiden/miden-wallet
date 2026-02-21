@@ -322,6 +322,7 @@ export interface WalletContact {
   name: string;
   addedAt?: number;
   accountInWallet?: boolean;
+  isPublic?: boolean;
   sharedSecret?: string;
 }
 
