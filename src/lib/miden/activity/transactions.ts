@@ -36,7 +36,7 @@ import { compareAccountIds } from './utils';
 
 // On mobile, use a shorter timeout since there's no background processing
 // On desktop extension, transactions can run in background tabs
-export const MAX_WAIT_BEFORE_CANCEL = isMobile() ? 2 * 60_000 : 30 * 60_000; // 2 mins on mobile, 30 mins on desktop
+export const MAX_WAIT_BEFORE_CANCEL = isMobile() ? 2 * 60_000 : 5 * 60_000; // 2 mins on mobile, 5 mins on desktop
 
 export const requestCustomTransaction = async (
   accountId: string,
@@ -155,6 +155,39 @@ export const initiateConsumeTransaction = async (
   return dbTransaction.id;
 };
 
+/**
+ * Initiate a batch consume transaction for multiple notes at once.
+ * Creates a single transaction that consumes all notes in one go.
+ */
+export const initiateBatchConsumeTransaction = async (
+  accountId: string,
+  notes: ConsumableNote[],
+  delegateTransaction?: boolean
+): Promise<string> => {
+  if (notes.length === 0) throw new Error('No notes to consume');
+  if (notes.length === 1) return initiateConsumeTransaction(accountId, notes[0], delegateTransaction);
+
+  const uncompletedTransactions = await getUncompletedTransactions(accountId);
+  const uncompletedNoteIds = new Set(
+    uncompletedTransactions
+      .filter((tx): tx is ConsumeTransaction => tx.type === 'consume')
+      .flatMap(tx => (tx as ConsumeTransaction).noteIds ?? [tx.noteId])
+  );
+
+  // Filter out notes that are already being consumed
+  const newNotes = notes.filter(n => !uncompletedNoteIds.has(n.id));
+  if (newNotes.length === 0) {
+    // All notes already have transactions, return the first existing one
+    const existing = uncompletedTransactions.find(tx => tx.type === 'consume');
+    return existing?.id ?? '';
+  }
+
+  const dbTransaction = new ConsumeTransaction(accountId, newNotes, delegateTransaction);
+  await Repo.transactions.add(dbTransaction);
+
+  return dbTransaction.id;
+};
+
 // Timeout for waiting on consume transactions (5 minutes)
 const WAIT_FOR_CONSUME_TX_TIMEOUT = 5 * 60_000;
 
@@ -201,26 +234,46 @@ export const waitForConsumeTx = async (id: string, signal?: AbortSignal): Promis
 };
 
 export const completeConsumeTransaction = async (id: string, result: TransactionResult) => {
-  const note = result.executedTransaction().inputNotes().notes()[0].note();
-  const sender = getBech32AddressFromAccountId(note.metadata().sender());
   const executedTransaction = result.executedTransaction();
+  const inputNotes = executedTransaction.inputNotes().notes();
+  const noteCount = inputNotes.length;
+  const firstNote = inputNotes[0].note();
+  const sender = getBech32AddressFromAccountId(firstNote.metadata().sender());
 
   const dbTransaction = await Repo.transactions.where({ id }).first();
   const reclaimed = compareAccountIds(dbTransaction?.accountId ?? '', sender);
-  const displayMessage = reclaimed ? 'Reclaimed' : 'Received';
+
+  // For batch consume, sum up all amounts
+  let totalAmount = 0n;
+  let faucetId = '';
+  for (let i = 0; i < noteCount; i++) {
+    const note = inputNotes[i].note();
+    const assets = note.assets().fungibleAssets();
+    if (assets.length > 0) {
+      totalAmount += assets[0].amount();
+      if (!faucetId) {
+        faucetId = getBech32AddressFromAccountId(assets[0].faucetId());
+      }
+    }
+  }
+
+  const displayMessage = reclaimed
+    ? noteCount > 1
+      ? `Reclaimed ${noteCount} notes`
+      : 'Reclaimed'
+    : noteCount > 1
+      ? `Received ${noteCount} notes`
+      : 'Received';
   const secondaryAccountId = reclaimed ? undefined : sender;
-  const asset = note.assets().fungibleAssets()[0];
-  const faucetId = getBech32AddressFromAccountId(asset.faucetId());
-  const amount = asset.amount();
 
   await updateTransactionStatus(id, ITransactionStatus.Completed, {
     displayMessage,
     transactionId: executedTransaction.id().toHex(),
     secondaryAccountId,
     faucetId,
-    amount,
-    noteType: toNoteTypeString(note.metadata().noteType()),
-    completedAt: Date.now() / 1000, // Convert to seconds.
+    amount: totalAmount,
+    noteType: toNoteTypeString(firstNote.metadata().noteType()),
+    completedAt: Date.now() / 1000,
     resultBytes: result.serialize()
   });
 };
@@ -504,10 +557,12 @@ export const verifyStuckTransactionsFromNode = async (): Promise<number> => {
   // Check each stuck consume transaction (AutoSync handles syncState separately)
   for (const tx of consumeTransactions) {
     try {
+      // Support batch consume: check all noteIds (fallback to single noteId)
+      const txNoteIds = (tx as ConsumeTransaction).noteIds ?? [tx.noteId];
       const noteDetails = await withWasmClientLock(async () => {
         const midenClient = await getMidenClient();
-        const noteId = NoteId.fromHex(tx.noteId);
-        const noteFilter = new NoteFilter(NoteFilterTypes.List, [noteId]);
+        const noteIdObjects = txNoteIds.map(id => NoteId.fromHex(id));
+        const noteFilter = new NoteFilter(NoteFilterTypes.List, noteIdObjects);
         return await midenClient.getInputNoteDetails(noteFilter);
       });
 
@@ -515,26 +570,30 @@ export const verifyStuckTransactionsFromNode = async (): Promise<number> => {
         continue;
       }
 
-      const note = noteDetails[0];
+      // For batch consume, check all notes' states
+      const allConsumed = noteDetails.every(n => CONSUMED_NOTE_STATES.includes(n.state));
+      const anyInvalid = noteDetails.some(n => n.state === InputNoteState.Invalid);
+      const allClaimable = noteDetails.every(
+        n =>
+          n.state === InputNoteState.Committed ||
+          n.state === InputNoteState.Expected ||
+          n.state === InputNoteState.Unverified
+      );
 
-      if (CONSUMED_NOTE_STATES.includes(note.state)) {
-        // Note has been consumed on-chain - mark transaction as completed
+      if (allConsumed) {
+        // All notes consumed on-chain - mark transaction as completed
+        const noteCount = noteDetails.length;
         await updateTransactionStatus(tx.id, ITransactionStatus.Completed, {
-          displayMessage: 'Received',
+          displayMessage: noteCount > 1 ? `Received ${noteCount} notes` : 'Received',
           completedAt: Date.now() / 1000
         });
         resolvedCount++;
-      } else if (note.state === InputNoteState.Invalid) {
-        // Note is invalid - mark transaction as failed
-        await cancelTransaction(tx, 'Note is invalid');
+      } else if (anyInvalid) {
+        // At least one note is invalid - mark transaction as failed
+        await cancelTransaction(tx, 'One or more notes are invalid');
         resolvedCount++;
-      } else if (
-        note.state === InputNoteState.Committed ||
-        note.state === InputNoteState.Expected ||
-        note.state === InputNoteState.Unverified
-      ) {
-        // Note is still claimable - only cancel if tx has been processing for a while
-        // This prevents cancelling transactions that are actively being processed
+      } else if (allClaimable) {
+        // Notes still claimable - only cancel if tx has been processing for a while
         const processingTime = tx.processingStartedAt ? Date.now() - tx.processingStartedAt : 0;
         if (processingTime > MIN_PROCESSING_TIME_BEFORE_STUCK) {
           await cancelTransaction(tx, 'Transaction was interrupted');
@@ -656,10 +715,20 @@ export const generateTransactionsLoop = async (
   // Import any notes needed for queued transactions
   await importAllNotes();
 
-  // Wait for other in progress transactions
+  // Wait for other in progress transactions, but auto-cancel stuck ones
   const inProgressTransactions = await getTransactionsInProgress();
   if (inProgressTransactions.length > 0) {
-    return;
+    const stuckTxs = inProgressTransactions.filter(
+      tx => tx.processingStartedAt && Date.now() - tx.processingStartedAt > MIN_PROCESSING_TIME_BEFORE_STUCK
+    );
+    if (stuckTxs.length > 0) {
+      for (const tx of stuckTxs) {
+        logger.warning('Auto-cancelling stuck transaction', tx.id);
+        await cancelTransaction(tx, 'Transaction was stuck and auto-cancelled');
+      }
+    } else {
+      return; // Transactions are actively processing, wait
+    }
   }
 
   // Find transactions waiting to process

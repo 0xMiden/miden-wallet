@@ -148,9 +148,10 @@ export class MidenClientInterface {
   }
 
   async consumeNoteId(transaction: ConsumeTransaction): Promise<Uint8Array> {
-    const { accountId, noteId } = transaction;
+    const { accountId } = transaction;
+    const noteIds = transaction.noteIds ?? [transaction.noteId];
 
-    const notes = await this.getNotesByIds([noteId]);
+    const notes = await this.getNotesByIds(noteIds);
     const consumeTransactionRequest = this.webClient.newConsumeTransactionRequest(notes);
     let consumeTransactionResult = await this.webClient.executeTransaction(
       accountIdStringToSdk(accountId),
