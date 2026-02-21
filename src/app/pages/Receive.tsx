@@ -15,6 +15,7 @@ import { formatBigInt } from 'lib/i18n/numbers';
 import {
   getFailedTransactions,
   getUncompletedTransactions,
+  initiateBatchConsumeTransaction,
   initiateConsumeTransaction,
   verifyStuckTransactionsFromNode,
   waitForConsumeTx
@@ -122,8 +123,12 @@ export const Receive: React.FC<ReceiveProps> = () => {
         // 1. Check local IndexedDB for failed consume transactions
         const failedTxs = await getFailedTransactions();
         for (const tx of failedTxs) {
-          if (tx.type === 'consume' && tx.noteId) {
-            failedIds.add(tx.noteId);
+          if (tx.type === 'consume') {
+            // Support batch consume: check noteIds array first, then fallback to noteId
+            const txNoteIds = (tx as any).noteIds ?? (tx.noteId ? [tx.noteId] : []);
+            for (const nid of txNoteIds) {
+              failedIds.add(nid);
+            }
           }
         }
 
@@ -184,65 +189,50 @@ export const Receive: React.FC<ReceiveProps> = () => {
     const noteIds = freshUnclaimedNotes.map(n => n!.id);
     setClaimingNoteIds(new Set(noteIds));
 
-    // Track results
-    let succeeded = 0;
-    let failed = 0;
-    let queueFailed = 0;
-
     // Clear previous failures
     setFailedNoteIds(new Set());
 
     try {
-      // Queue all transactions first, before opening loading page
-      // This ensures all notes get queued even if the popup closes
-      const transactionIds: { noteId: string; txId: string }[] = [];
-      for (const note of freshUnclaimedNotes) {
-        try {
-          const id = await initiateConsumeTransaction(account.publicKey, note, isDelegatedProvingEnabled);
-          transactionIds.push({ noteId: note.id, txId: id });
-        } catch (err) {
-          console.error('Error queuing note for claim:', note.id, err);
-          queueFailed++;
-          // Mark as failed and remove from claiming set
-          setFailedNoteIds(prev => new Set(prev).add(note.id));
-          setClaimingNoteIds(prev => {
-            const next = new Set(prev);
-            next.delete(note.id);
-            return next;
-          });
-        }
+      // Batch consume: create a single transaction for all notes
+      const txId = await initiateBatchConsumeTransaction(
+        account.publicKey,
+        freshUnclaimedNotes,
+        isDelegatedProvingEnabled
+      );
+
+      if (!txId) {
+        return;
       }
 
-      // Open loading page (popup stays open since tab is not active)
+      // Open loading page
       useWalletStore.getState().openTransactionModal();
 
-      // Wait for all transactions to complete
-      for (const { noteId, txId } of transactionIds) {
-        if (signal.aborted) break;
+      // Wait for the single batch transaction to complete
+      if (!signal.aborted) {
         try {
           await waitForConsumeTx(txId, signal);
-          succeeded++;
         } catch (err) {
-          if (err instanceof DOMException && err.name === 'AbortError') {
-            break;
+          if (!(err instanceof DOMException && err.name === 'AbortError')) {
+            console.error('Error waiting for batch transaction:', txId, err);
+            // Mark all notes as failed
+            setFailedNoteIds(new Set(noteIds));
           }
-          console.error('Error waiting for transaction:', txId, err);
-          failed++;
-          // Mark this note as failed
-          setFailedNoteIds(prev => new Set(prev).add(noteId));
         }
-        // Note: Don't remove from claimingNoteIds here - keep spinner visible
-        // until mutateClaimableNotes() refreshes the list and removes the note
       }
 
       // Refresh the list - this will remove successfully claimed notes
       await mutateClaimableNotes();
 
-      // Navigate to home on mobile after claiming all notes (only if all succeeded)
-      failed += queueFailed;
-      if (isMobile() && failed === 0) {
-        navigate('/', HistoryAction.Replace);
+      // Navigate to home on mobile after claiming all notes
+      if (isMobile()) {
+        const remaining = await mutateClaimableNotes();
+        if (!remaining || remaining.length === 0) {
+          navigate('/', HistoryAction.Replace);
+        }
       }
+    } catch (err) {
+      console.error('Error initiating batch consume:', err);
+      setFailedNoteIds(new Set(noteIds));
     } finally {
       setClaimingNoteIds(new Set());
     }

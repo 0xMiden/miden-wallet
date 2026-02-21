@@ -2,6 +2,7 @@ import { useCallback, useRef } from 'react';
 
 import { getUncompletedTransactions } from 'lib/miden/activity';
 import { isIOS } from 'lib/platform';
+import { useWalletStore } from 'lib/store';
 import { useRetryableSWR } from 'lib/swr';
 
 import { isMidenFaucet } from '../assets';
@@ -166,7 +167,13 @@ export function useClaimableNotes(publicAddress: string, enabled: boolean = true
     const uncompletedTxs = await getUncompletedTransactions(publicAddress);
 
     const notesBeingClaimed = new Set(
-      uncompletedTxs.filter(tx => tx.type === 'consume' && tx.noteId != null).map(tx => tx.noteId!)
+      uncompletedTxs
+        .filter(tx => tx.type === 'consume')
+        .flatMap(tx => {
+          const noteIds = (tx as any).noteIds;
+          if (Array.isArray(noteIds)) return noteIds;
+          return tx.noteId ? [tx.noteId] : [];
+        })
     );
 
     // 1) Parse notes and collect faucet ids
@@ -213,11 +220,14 @@ export function useClaimableNotes(publicAddress: string, enabled: boolean = true
     return result;
   }, [publicAddress, allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata]);
 
+  const isTransactionModalOpen = useWalletStore(s => s.isTransactionModalOpen);
+
   const key = enabled ? ['claimable-notes', publicAddress] : null;
   const swrResult = useRetryableSWR(key, enabled ? fetchClaimableNotes : null, {
     revalidateOnFocus: false,
     dedupingInterval: 10_000,
-    refreshInterval: 5_000,
+    // Stop polling during consume to avoid WASM mutex contention
+    refreshInterval: isTransactionModalOpen ? 0 : 5_000,
     onError: e => {
       console.error('Error fetching claimable notes:', e);
       debugInfoRef.current = {

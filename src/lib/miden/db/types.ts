@@ -143,6 +143,7 @@ export class ConsumeTransaction implements ITransaction {
   accountId: string;
   amount?: bigint;
   noteId: string;
+  noteIds: string[];
   secondaryAccountId?: string;
   faucetId: string;
   transactionId?: string;
@@ -154,18 +155,24 @@ export class ConsumeTransaction implements ITransaction {
   displayIcon: ITransactionIcon;
   delegateTransaction?: boolean;
 
-  constructor(accountId: string, note: ConsumableNote, delegateTransaction?: boolean) {
+  constructor(accountId: string, notes: ConsumableNote | ConsumableNote[], delegateTransaction?: boolean) {
+    const noteArray = Array.isArray(notes) ? notes : [notes];
+    const firstNote = noteArray[0];
     this.id = uuid();
     this.type = 'consume';
     this.accountId = accountId;
-    this.noteId = note.id;
-    this.faucetId = note.faucetId;
-    this.secondaryAccountId = note.senderAddress;
-    this.amount = note.amount !== '' ? BigInt(note.amount) : undefined;
+    this.noteId = firstNote.id;
+    this.noteIds = noteArray.map(n => n.id);
+    this.faucetId = firstNote.faucetId;
+    this.secondaryAccountId = firstNote.senderAddress;
+    this.amount = noteArray.reduce((sum, n) => {
+      const noteAmount = n.amount !== '' ? BigInt(n.amount) : 0n;
+      return sum + noteAmount;
+    }, 0n);
     this.status = ITransactionStatus.Queued;
     this.initiatedAt = Date.now();
     this.displayIcon = 'RECEIVE';
-    this.displayMessage = 'Consuming';
+    this.displayMessage = noteArray.length > 1 ? `Consuming ${noteArray.length} notes` : 'Consuming';
     this.delegateTransaction = delegateTransaction;
   }
 }

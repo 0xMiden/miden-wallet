@@ -1,4 +1,3 @@
-import { isMobile } from 'lib/platform';
 import { WalletState, WalletStatus } from 'lib/shared/types';
 import { useWalletStore } from 'lib/store';
 
@@ -75,8 +74,8 @@ export class Sync {
       return;
     }
 
-    // On mobile, don't sync while transaction modal is open to avoid lock contention
-    if (isMobile() && storeState.isTransactionModalOpen) {
+    // Don't sync while transaction modal is open to avoid WASM mutex contention with consume
+    if (storeState.isTransactionModalOpen) {
       console.log('[AutoSync] Skipping sync while transaction modal is open');
       await sleep(3000);
       await this.sync();
