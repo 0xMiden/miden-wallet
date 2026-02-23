@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect, useMemo } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import classNames from 'clsx';
@@ -20,6 +20,7 @@ import { navigate } from 'lib/woozie';
 import { isValidMidenAddress } from 'utils/miden';
 
 import { AccountsList } from './AccountsList';
+import { ReviewTransaction } from './ReviewTransaction';
 import { SelectToken } from './SelectToken';
 import { SendDetails } from './SendDetails';
 import { TransactionInitiated } from './TransactionInitiated';
@@ -40,6 +41,11 @@ const ROUTES: Route[] = [
     name: SendFlowStep.AccountsList,
     animationIn: 'present',
     animationOut: 'dismiss'
+  },
+  {
+    name: SendFlowStep.ReviewTransaction,
+    animationIn: 'push',
+    animationOut: 'pop'
   },
   {
     name: SendFlowStep.TransactionInitiated,
@@ -76,6 +82,8 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const { publicKey } = useAccount();
   const { fullPage } = useAppEnv();
   const delegateEnabled = isDelegateProofEnabled();
+  const [recallDate, setRecallDate] = useState<Date | undefined>(undefined);
+  const [recallTime, setRecallTime] = useState('12:00');
 
   const { contacts: addressBookContacts } = useFilteredContacts();
 
@@ -354,6 +362,8 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
               isValidAddress={!errors.recipientAddress && validations.recipientAddress.isValidSync(recipientAddress)}
               amountError={errors.amount?.message?.toString()}
               addressError={errors.recipientAddress?.message?.toString()}
+              recallTime={recallTime}
+              recallDate={recallDate}
               onAction={onAction}
               onGoBack={goBack}
               onAmountChange={onAmountChange}
@@ -362,6 +372,8 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
               onClearAddress={onClearAddress}
               onYourAccounts={() => goToStep(SendFlowStep.AccountsList)}
               onSubmit={handleSubmit(onSubmit)}
+              onRecallDateChange={setRecallDate}
+              onRecallTimeChange={setRecallTime}
             />
           );
         case SendFlowStep.AccountsList:
@@ -371,6 +383,22 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
               accounts={allContactsList}
               onClose={goBack}
               onSelectContact={onSelectContact}
+            />
+          );
+        case SendFlowStep.ReviewTransaction:
+          return (
+            <ReviewTransaction
+              amount={amount || ''}
+              token={token?.name || ''}
+              recipientAddress={recipientAddress}
+              sharePrivately={sharePrivately}
+              delegateTransaction={delegateTransaction}
+              recallBlocks={recallBlocks}
+              recallTime={recallTime}
+              recallDate={recallDate}
+              onAction={onAction}
+              onGoBack={goBack}
+              onSubmit={handleSubmit(onSubmit)}
             />
           );
         case SendFlowStep.TransactionInitiated:
@@ -398,7 +426,9 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       recallBlocks,
       goToStep,
       handleSubmit,
-      onSubmit
+      onSubmit,
+      recallDate,
+      recallTime
     ]
   );
 
