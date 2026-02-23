@@ -3,7 +3,6 @@ import React, { FC, FunctionComponent, SVGProps, useCallback, useEffect, useMemo
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
-import { useAppEnv } from 'app/env';
 import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
 import { ReactComponent as FaucetIcon } from 'app/icons/faucet-new.svg';
 import { ReactComponent as ReceiveIcon } from 'app/icons/receive-new.svg';
@@ -66,7 +65,6 @@ const Explore: FC = () => {
   const shouldAutoConsume = isAutoConsumeEnabled();
 
   const address = account.publicKey;
-  const { fullPage } = useAppEnv();
   const network = useNetwork();
 
   const handleFaucetClick = useCallback(async () => {
