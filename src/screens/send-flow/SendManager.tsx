@@ -23,7 +23,6 @@ import { AccountsList } from './AccountsList';
 import { ReviewTransaction } from './ReviewTransaction';
 import { SelectToken } from './SelectToken';
 import { SendDetails } from './SendDetails';
-import { TransactionInitiated } from './TransactionInitiated';
 import { Contact, SendFlowAction, SendFlowActionId, SendFlowForm, SendFlowStep } from './types';
 
 const ROUTES: Route[] = [
@@ -44,11 +43,6 @@ const ROUTES: Route[] = [
   },
   {
     name: SendFlowStep.ReviewTransaction,
-    animationIn: 'push',
-    animationOut: 'pop'
-  },
-  {
-    name: SendFlowStep.TransactionInitiated,
     animationIn: 'push',
     animationOut: 'pop'
   }
@@ -140,8 +134,8 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     }
 
     useWalletStore.getState().openTransactionModal();
-    navigateTo(SendFlowStep.TransactionInitiated);
-  }, [fullPage, navigateTo]);
+    navigate('/');
+  }, [fullPage]);
 
   const {
     register,
@@ -401,8 +395,6 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
               onSubmit={handleSubmit(onSubmit)}
             />
           );
-        case SendFlowStep.TransactionInitiated:
-          return <TransactionInitiated onAction={onAction} />;
         default:
           return <></>;
       }
