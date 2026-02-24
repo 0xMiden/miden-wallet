@@ -135,7 +135,7 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
   );
 
   const revealMnemonic = useCallback(
-    async (password: string) => {
+    async (password?: string) => {
       return storeRevealMnemonic(password);
     },
     [storeRevealMnemonic]
