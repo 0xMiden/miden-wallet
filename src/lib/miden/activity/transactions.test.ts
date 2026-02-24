@@ -36,8 +36,12 @@ jest.mock('lib/miden/repo', () => {
   };
 });
 
+const mockGetInputNote = jest.fn();
 jest.mock('../sdk/miden-client', () => ({
-  getMidenClient: jest.fn()
+  getMidenClient: jest.fn(() => ({
+    webClient: { getInputNote: mockGetInputNote }
+  })),
+  withWasmClientLock: jest.fn((fn: () => Promise<any>) => fn())
 }));
 
 jest.mock('./notes', () => ({
@@ -343,6 +347,9 @@ describe('transactions utilities', () => {
 
   describe('initiateConsumeTransactionFromId', () => {
     it('creates consume transaction from note id', async () => {
+      mockGetInputNote.mockReturnValueOnce({
+        metadata: () => ({ noteType: () => 'public' })
+      });
       mockTransactionsFilter.mockReturnValueOnce({
         toArray: jest.fn().mockResolvedValueOnce([])
       });
