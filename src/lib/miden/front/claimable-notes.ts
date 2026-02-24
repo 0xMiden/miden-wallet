@@ -200,7 +200,6 @@ export function useClaimableNotes(publicAddress: string, enabled: boolean = true
         }
       });
     }
-    console.log(parsedNotes);
     // 4) Return notes with available metadata immediately
     // Notes without metadata will appear after metadata fetch completes and SWR revalidates
     const result = attachMetadataToNotes(parsedNotes, metadataByFaucetId);

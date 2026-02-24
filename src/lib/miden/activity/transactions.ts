@@ -230,7 +230,7 @@ export const completeConsumeTransaction = async (id: string, result: Transaction
     faucetId,
     amount,
     noteType: toNoteTypeString(note.metadata().noteType()),
-    completedAt: Date.now() / 1000, // Convert to seconds.
+    completedAt: Math.floor(Date.now() / 1000), // Convert to seconds.
     resultBytes: result.serialize()
   });
 };
@@ -531,7 +531,7 @@ export const verifyStuckTransactionsFromNode = async (): Promise<number> => {
         // Note has been consumed on-chain - mark transaction as completed
         await updateTransactionStatus(tx.id, ITransactionStatus.Completed, {
           displayMessage: 'Received',
-          completedAt: Date.now() / 1000
+          completedAt: Math.floor(Date.now() / 1000)
         });
         resolvedCount++;
       } else if (note.state === InputNoteState.Invalid) {
@@ -640,7 +640,7 @@ export const generateTransaction = async (
 export const cancelTransaction = async (transaction: Transaction, error: any) => {
   // Cancel the transaction
   await Repo.transactions.where({ id: transaction.id }).modify(dbTx => {
-    dbTx.completedAt = Date.now() / 1000; // Convert to seconds
+    dbTx.completedAt = Math.floor(Date.now() / 1000); // Convert to seconds
     dbTx.status = ITransactionStatus.Failed;
     dbTx.error = error.toString();
   });
