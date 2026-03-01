@@ -7,7 +7,7 @@ import { MidenContextProvider, useMidenContext } from 'lib/miden/front/client';
 import { PropsWithChildren } from 'lib/props-with-children';
 import { WalletStoreProvider } from 'lib/store/WalletStoreProvider';
 
-import { getMidenClient } from '../sdk/miden-client';
+import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 import { TokensMetadataProvider } from './assets';
 
 // Pre-create the modal container to avoid flash when first opening
@@ -38,7 +38,9 @@ export const MidenProvider: FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     const initializeClient = async () => {
       try {
-        await getMidenClient();
+        await withWasmClientLock(async () => {
+          await getMidenClient();
+        });
       } catch (err) {
         console.error('Failed to initialize Miden client singleton:', err);
       }
