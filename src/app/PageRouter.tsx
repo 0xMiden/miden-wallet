@@ -79,8 +79,8 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
         case ctx.locked:
           return <Unlock />;
 
-        case !ctx.ready && !ctx.fullPage:
-          return <OpenInFullPage />;
+        case !ctx.ready:
+          return <Welcome />;
 
         default:
           return Woozie.Router.SKIP;
@@ -111,9 +111,9 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   [
     '/settings/:tabSlug?',
     onlyReady(({ tabSlug }) => (
-      <TabLayout>
+      <FullScreenPage>
         <Settings tabSlug={tabSlug} />
-      </TabLayout>
+      </FullScreenPage>
     ))
   ],
   [

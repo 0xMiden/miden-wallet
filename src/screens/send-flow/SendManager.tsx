@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect, useMemo } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import classNames from 'clsx';
@@ -10,6 +10,7 @@ import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Na
 import { stringToBigInt } from 'lib/i18n/numbers';
 import { initiateSendTransaction, waitForTransactionCompletion } from 'lib/miden/activity';
 import { useAccount, useAllAccounts } from 'lib/miden/front';
+import { useFilteredContacts } from 'lib/miden/front/use-filtered-contacts.hook';
 import { NoteTypeEnum } from 'lib/miden/types';
 import { useMobileBackHandler } from 'lib/mobile/useMobileBackHandler';
 import { isMobile } from 'lib/platform';
@@ -20,10 +21,8 @@ import { isValidMidenAddress } from 'utils/miden';
 
 import { AccountsList } from './AccountsList';
 import { ReviewTransaction } from './ReviewTransaction';
-import { SelectAmount } from './SelectAmount';
-import { SelectRecipient } from './SelectRecipient';
 import { SelectToken } from './SelectToken';
-import { TransactionInitiated } from './TransactionInitiated';
+import { SendDetails } from './SendDetails';
 import { Contact, SendFlowAction, SendFlowActionId, SendFlowForm, SendFlowStep } from './types';
 
 const ROUTES: Route[] = [
@@ -33,7 +32,7 @@ const ROUTES: Route[] = [
     animationOut: 'pop'
   },
   {
-    name: SendFlowStep.SelectRecipient,
+    name: SendFlowStep.SendDetails,
     animationIn: 'push',
     animationOut: 'pop'
   },
@@ -43,22 +42,7 @@ const ROUTES: Route[] = [
     animationOut: 'dismiss'
   },
   {
-    name: SendFlowStep.SelectAmount,
-    animationIn: 'push',
-    animationOut: 'pop'
-  },
-  {
     name: SendFlowStep.ReviewTransaction,
-    animationIn: 'push',
-    animationOut: 'pop'
-  },
-  {
-    name: SendFlowStep.GeneratingTransaction,
-    animationIn: 'push',
-    animationOut: 'pop'
-  },
-  {
-    name: SendFlowStep.TransactionInitiated,
     animationIn: 'push',
     animationOut: 'pop'
   }
@@ -92,21 +76,32 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const { publicKey } = useAccount();
   const { fullPage } = useAppEnv();
   const delegateEnabled = isDelegateProofEnabled();
+  const [recallDate, setRecallDate] = useState<Date | undefined>(undefined);
+  const [recallTime, setRecallTime] = useState('12:00');
 
-  const otherAccounts: Contact[] = useMemo(
-    () =>
-      allAccounts
-        .filter(c => c.publicKey !== publicKey)
-        .map(
-          contact =>
-            ({
-              id: contact.publicKey,
-              name: contact.name,
-              isOwned: true
-            }) as Contact
-        ),
-    [allAccounts, publicKey]
-  );
+  const { contacts: addressBookContacts } = useFilteredContacts();
+
+  const allContactsList: Contact[] = useMemo(() => {
+    const walletContacts: Contact[] = allAccounts
+      .filter(c => c.publicKey !== publicKey)
+      .map(contact => ({
+        id: contact.publicKey,
+        name: contact.name,
+        isOwned: true,
+        contactType: contact.isPublic ? ('public' as const) : ('private' as const)
+      }));
+
+    const externalContacts: Contact[] = addressBookContacts
+      .filter(c => c.address !== publicKey && !allAccounts.some(acc => acc.publicKey === c.address))
+      .map(contact => ({
+        id: contact.address,
+        name: contact.name,
+        isOwned: false,
+        contactType: 'external' as const
+      }));
+
+    return [...walletContacts, ...externalContacts];
+  }, [allAccounts, addressBookContacts, publicKey]);
 
   const onClose = useCallback(() => {
     navigate('/');
@@ -139,8 +134,8 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     }
 
     useWalletStore.getState().openTransactionModal();
-    navigateTo(SendFlowStep.TransactionInitiated);
-  }, [fullPage, navigateTo]);
+    navigate('/');
+  }, [fullPage]);
 
   const {
     register,
@@ -154,7 +149,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   } = useForm<SendFlowForm>({
     defaultValues: {
       amount: undefined,
-      sharePrivately: false,
+      sharePrivately: true,
       recipientAddress: undefined,
       recallBlocks: undefined,
       delegateTransaction: delegateEnabled,
@@ -295,7 +290,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   );
 
   const onAmountChange = useCallback(
-    (amountString: string | undefined) => {
+    (amountString: string) => {
       onAction({
         id: SendFlowActionId.SetFormValues,
         payload: { amount: amountString }
@@ -303,8 +298,8 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
 
       const amount = parseFloat(amountString || '0');
       if (!validations.amount.isValidSync(amountString)) {
-        setError('amount', { type: 'manual', message: 'Invalid amount' });
-      } else if (amount > token!.balance) {
+        setError('amount', { type: 'manual', message: 'invalidAmount' });
+      } else if (token && amount > token.balance) {
         setError('amount', { type: 'manual', message: 'amountMustBeLessThanBalance' });
       } else {
         clearErrors('amount');
@@ -348,57 +343,57 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       switch (route.name) {
         case SendFlowStep.SelectToken:
           return <SelectToken onAction={onAction} />;
-        case SendFlowStep.SelectRecipient:
+        case SendFlowStep.SendDetails:
           return (
-            <SelectRecipient
-              address={recipientAddress}
+            <SendDetails
+              token={token!}
+              amount={amount || ''}
+              recipientAddress={recipientAddress || ''}
+              sharePrivately={sharePrivately}
+              delegateTransaction={delegateTransaction}
+              recallBlocks={recallBlocks}
+              isValidAmount={!errors.amount && validations.amount.isValidSync(amount)}
               isValidAddress={!errors.recipientAddress && validations.recipientAddress.isValidSync(recipientAddress)}
-              error={errors.recipientAddress?.message?.toString()}
+              amountError={errors.amount?.message?.toString()}
+              addressError={errors.recipientAddress?.message?.toString()}
+              recallTime={recallTime}
+              recallDate={recallDate}
+              onAction={onAction}
+              onGoBack={goBack}
+              onAmountChange={onAmountChange}
               onAddressChange={onAddressChange}
               onScannedAddress={onScannedAddress}
+              onClearAddress={onClearAddress}
               onYourAccounts={() => goToStep(SendFlowStep.AccountsList)}
-              onGoNext={() => goToStep(SendFlowStep.SelectAmount)}
-              onClear={onClearAddress}
-              onClose={onClose}
-              onCancel={onClose}
+              onRecallDateChange={setRecallDate}
+              onRecallTimeChange={setRecallTime}
             />
           );
         case SendFlowStep.AccountsList:
           return (
             <AccountsList
               recipientAccountId={recipientAddress}
-              accounts={otherAccounts}
+              accounts={allContactsList}
               onClose={goBack}
               onSelectContact={onSelectContact}
-            />
-          );
-        case SendFlowStep.SelectAmount:
-          return (
-            <SelectAmount
-              amount={amount}
-              isValidAmount={!errors.amount && validations.amount.isValidSync(amount)}
-              error={errors.amount?.message?.toString()}
-              token={token!}
-              onGoBack={goBack}
-              onGoNext={() => goToStep(SendFlowStep.ReviewTransaction)}
-              onCancel={onClose}
-              onAmountChange={onAmountChange}
             />
           );
         case SendFlowStep.ReviewTransaction:
           return (
             <ReviewTransaction
-              onAction={onAction}
-              onGoBack={goBack}
-              amount={amount}
-              token={token!.name}
+              amount={amount || ''}
+              token={token?.name || ''}
               recipientAddress={recipientAddress}
               sharePrivately={sharePrivately}
               delegateTransaction={delegateTransaction}
+              recallBlocks={recallBlocks}
+              recallTime={recallTime}
+              recallDate={recallDate}
+              onAction={onAction}
+              onGoBack={goBack}
+              onSubmit={handleSubmit(onSubmit)}
             />
           );
-        case SendFlowStep.TransactionInitiated:
-          return <TransactionInitiated onAction={onAction} />;
         default:
           return <></>;
       }
@@ -406,13 +401,12 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     [
       token,
       recipientAddress,
-      otherAccounts,
+      allContactsList,
       errors.recipientAddress,
       errors.amount,
       onAddressChange,
       onScannedAddress,
       onClearAddress,
-      onClose,
       goBack,
       onSelectContact,
       amount,
@@ -420,7 +414,12 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       onAction,
       sharePrivately,
       delegateTransaction,
-      goToStep
+      recallBlocks,
+      goToStep,
+      handleSubmit,
+      onSubmit,
+      recallDate,
+      recallTime
     ]
   );
 
@@ -429,22 +428,21 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const containerClass = isMobileDevice
     ? 'h-full w-full'
     : fullPage
-      ? 'h-[640px] max-h-[640px] w-[600px] max-w-[600px] border rounded-3xl'
+      ? 'h-[640px] max-h-[640px] w-[600px] max-w-[600px]'
       : 'h-[600px] max-h-[600px] w-[360px] max-w-[360px]';
 
   return (
     <div
       className={classNames(
         containerClass,
-        'mx-auto overflow-hidden ',
-        'flex flex-1',
-        'flex-col bg-white',
+        'mx-auto overflow-hidden',
+        'flex flex-col bg-app-bg',
         'overflow-hidden relative'
       )}
       data-testid="send-flow"
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="flex-1 flex">
-        <Navigator renderRoute={renderStep} initialRouteName={SendFlowStep.SelectToken} />
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1 h-full min-h-0">
+        <Navigator renderRoute={renderStep} />
       </form>
     </div>
   );
@@ -452,7 +450,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
 
 const NavigatorWrapper: React.FC<SendManagerProps> = props => {
   return (
-    <NavigatorProvider routes={ROUTES}>
+    <NavigatorProvider routes={ROUTES} initialRouteName={SendFlowStep.SelectToken}>
       <SendManager {...props} />
     </NavigatorProvider>
   );

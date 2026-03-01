@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.13.2 (TBD)
+
+### Features
+
+* [FEATURE][all] Complete UI revamp across the wallet.
+
+---
+
 ## 1.13.1 (2026-02-16)
 
 ### Features

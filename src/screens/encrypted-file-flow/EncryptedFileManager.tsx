@@ -2,8 +2,10 @@ import React, { ChangeEvent, useCallback, useEffect } from 'react';
 
 import classNames from 'clsx';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import { useAppEnv } from 'app/env';
+import { NavigationHeader } from 'components/NavigationHeader';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { useMobileBackHandler } from 'lib/mobile/useMobileBackHandler';
 import { navigate } from 'lib/woozie';
@@ -36,6 +38,7 @@ export interface EncryptedFileManagerProps {}
 export const EncryptedFileManager: React.FC<{}> = () => {
   const { navigateTo, goBack, cardStack } = useNavigator();
   const { fullPage } = useAppEnv();
+  const { t } = useTranslation();
 
   const onClose = useCallback(() => {
     navigate('/settings');
@@ -56,7 +59,7 @@ export const EncryptedFileManager: React.FC<{}> = () => {
     defaultValues: {
       walletPassword: '',
       filePassword: '',
-      fileName: 'Encrypted Wallet File'
+      fileName: ''
     }
   });
 
@@ -204,20 +207,13 @@ export const EncryptedFileManager: React.FC<{}> = () => {
 
   return (
     <div
-      className={classNames(
-        fullPage
-          ? 'h-[640px] max-h-[640px] w-[600px] max-w-[600px]'
-          : 'h-[600px] max-h-[600px] w-[360px] max-w-[360px]',
-        'mx-auto overflow-hidden ',
-        'flex flex-1',
-        'flex-col bg-white',
-        fullPage && 'border rounded-3xl',
-        'overflow-hidden relative'
-      )}
+      className={classNames('mx-auto overflow-hidden', 'flex flex-1', 'flex-col bg-app-bg', 'overflow-hidden relative')}
       data-testid="encrypted-file-manager-flow"
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="flex-1 flex">
-        <Navigator renderRoute={renderStep} initialRouteName={EncryptedFileStep.WalletPassword} />
+      {}
+      <NavigationHeader showBorder title={t('encryptedWalletFile')} onBack={onClose} />
+      <form onSubmit={handleSubmit(onSubmit)} className="flex-1 flex flex-col min-h-0">
+        <Navigator renderRoute={renderStep} />
       </form>
     </div>
   );
@@ -225,7 +221,7 @@ export const EncryptedFileManager: React.FC<{}> = () => {
 
 const NavigatorWrapper: React.FC<EncryptedFileManagerProps> = props => {
   return (
-    <NavigatorProvider routes={ROUTES}>
+    <NavigatorProvider routes={ROUTES} initialRouteName={EncryptedFileStep.WalletPassword}>
       <EncryptedFileManager />
     </NavigatorProvider>
   );
