@@ -2,18 +2,22 @@ import { FungibleAsset } from '@miden-sdk/miden-sdk';
 import BigNumber from 'bignumber.js';
 
 import { getFaucetIdSetting } from 'lib/miden/assets';
+import { fetchFromStorage } from 'lib/miden/front';
 import { TokenBalanceData } from 'lib/miden/front/balance';
 import { AssetMetadata, DEFAULT_TOKEN_METADATA, fetchTokenMetadata, MIDEN_METADATA } from 'lib/miden/metadata';
 import { getBech32AddressFromAccountId } from 'lib/miden/sdk/helpers';
 import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
+import { getTokenPrice, type TokenPrices } from 'lib/prices';
 
-import { setTokensBaseMetadata } from '../../miden/front/assets';
+import { ALL_TOKENS_BASE_METADATA_STORAGE_KEY, setTokensBaseMetadata } from '../../miden/front/assets';
 
 export interface FetchBalancesOptions {
   /** Callback to update asset metadata in the store */
   setAssetsMetadata?: (metadata: Record<string, AssetMetadata>) => void;
   /** Whether to fetch missing metadata inline (default: true) */
   fetchMissingMetadata?: boolean;
+  /** Token prices from Binance API (symbol -> { price, change24h }) */
+  tokenPrices?: TokenPrices;
 }
 
 /**
@@ -30,12 +34,26 @@ export async function fetchBalances(
   tokenMetadatas: Record<string, AssetMetadata>,
   options: FetchBalancesOptions = {}
 ): Promise<TokenBalanceData[]> {
-  const { setAssetsMetadata, fetchMissingMetadata = true } = options;
+  const cachedMetadatas =
+    (await fetchFromStorage<Record<string, AssetMetadata>>(ALL_TOKENS_BASE_METADATA_STORAGE_KEY)) || {};
+  console.log(
+    'fetchBalances - address:',
+    address,
+    'tokenMetadatas:',
+    tokenMetadatas,
+    'cachedMetadatas:',
+    cachedMetadatas
+  );
+  const { setAssetsMetadata, tokenPrices = {} } = options;
   const balances: TokenBalanceData[] = [];
 
   // Local copy of metadata that we can add to during this fetch
   const localMetadatas = { ...tokenMetadatas };
 
+  // see if missing metadata should be fetched
+  const fetchMissingMetadata = Object.keys(localMetadatas)
+    .map(faucetId => !cachedMetadatas[faucetId])
+    .some(isMissing => isMissing);
   // Get midenFaucetId early so we can use it inside the lock
   const midenFaucetId = await getFaucetIdSetting();
 
@@ -50,9 +68,9 @@ export async function fetchBalances(
 
     return { account: acc, assets: acc.vault().fungibleAssets() as FungibleAsset[] };
   });
-
+  console.log('Fetched account and assets from WASM client:', { account, assets });
   // Fetch missing metadata OUTSIDE the lock — RpcClient doesn't use the WASM client
-  const fetchedMetadatas: Record<string, AssetMetadata> = {};
+  const fetchedMetadatas: Record<string, AssetMetadata> = { ...cachedMetadatas };
 
   if (fetchMissingMetadata) {
     const metadataFetchPromises = assets
@@ -76,12 +94,14 @@ export async function fetchBalances(
   // Handle case where account doesn't exist (outside the lock)
   if (!account) {
     console.warn(`Account not found: ${address}`);
+    const midenPrice = getTokenPrice(tokenPrices, 'MIDEN');
     return [
       {
         tokenId: midenFaucetId,
         tokenSlug: 'MIDEN',
         metadata: MIDEN_METADATA,
-        fiatPrice: 1,
+        fiatPrice: midenPrice.price,
+        change24h: midenPrice.change24h,
         balance: 0
       }
     ];
@@ -111,23 +131,27 @@ export async function fetchBalances(
     }
 
     const balance = new BigNumber(asset.amount().toString()).div(10 ** tokenMetadata.decimals);
+    const priceInfo = getTokenPrice(tokenPrices, tokenMetadata.symbol);
 
     balances.push({
       tokenId,
       tokenSlug: tokenMetadata.symbol,
       metadata: tokenMetadata,
-      fiatPrice: 1,
+      fiatPrice: priceInfo.price,
+      change24h: priceInfo.change24h,
       balance: balance.toNumber()
     });
   }
 
   // Always include MIDEN token (even if balance is 0)
   if (!hasMiden) {
+    const midenPrice = getTokenPrice(tokenPrices, 'MIDEN');
     balances.push({
       tokenId: midenFaucetId,
       tokenSlug: 'MIDEN',
       metadata: MIDEN_METADATA,
-      fiatPrice: 1,
+      fiatPrice: midenPrice.price,
+      change24h: midenPrice.change24h,
       balance: 0
     });
   }
