@@ -69,9 +69,12 @@ export class Sync {
       return;
     }
 
-    // Don't sync on the generating transaction page
+    // Skip sync on the generating transaction page to avoid lock contention,
+    // but keep the loop alive so it resumes once the user navigates away
     const isGeneratingUrl = this.getCurrentUrl().search('generating-transaction') > -1;
     if (isGeneratingUrl) {
+      await sleep(3000);
+      await this.sync();
       return;
     }
 

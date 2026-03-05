@@ -15,7 +15,10 @@ import {
   initiateConsumeTransaction,
   initiateConsumeTransactionFromId,
   cancelStuckTransactions,
-  MAX_WAIT_BEFORE_CANCEL
+  cancelStaleQueuedTransactions,
+  generateTransaction,
+  MAX_WAIT_BEFORE_CANCEL,
+  MAX_QUEUED_AGE
 } from './transactions';
 
 // Mock functions defined inside factory to avoid hoisting issues with SWC
@@ -36,8 +39,12 @@ jest.mock('lib/miden/repo', () => {
   };
 });
 
+const mockSyncState = jest.fn().mockResolvedValue({ blockNum: () => 1 });
+const mockGetMidenClient = jest.fn().mockResolvedValue({ syncState: mockSyncState });
+
 jest.mock('../sdk/miden-client', () => ({
-  getMidenClient: jest.fn()
+  getMidenClient: (...args: any[]) => mockGetMidenClient(...args),
+  withWasmClientLock: jest.fn((callback: () => any) => callback())
 }));
 
 jest.mock('./notes', () => ({
@@ -389,6 +396,164 @@ describe('transactions utilities', () => {
       await cancelStuckTransactions();
 
       expect(mockTransactionsWhere).not.toHaveBeenCalled();
+    });
+
+    it('cancels transactions with undefined processingStartedAt', async () => {
+      const crashedTx = {
+        id: 'crashed-tx',
+        status: ITransactionStatus.GeneratingTransaction,
+        initiatedAt: 100,
+        processingStartedAt: undefined
+      };
+
+      mockTransactionsFilter.mockReturnValueOnce({
+        toArray: jest.fn().mockResolvedValueOnce([crashedTx])
+      });
+
+      const mockModify = jest.fn();
+      mockTransactionsWhere.mockReturnValue({ modify: mockModify });
+
+      await cancelStuckTransactions();
+
+      expect(mockModify).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('cancelStaleQueuedTransactions', () => {
+    it('cancels queued transactions older than MAX_QUEUED_AGE', async () => {
+      const staleTx = {
+        id: 'stale-tx',
+        status: ITransactionStatus.Queued,
+        initiatedAt: Date.now() - MAX_QUEUED_AGE - 1000
+      };
+      const freshTx = {
+        id: 'fresh-tx',
+        status: ITransactionStatus.Queued,
+        initiatedAt: Date.now()
+      };
+
+      mockTransactionsFilter.mockReturnValueOnce({
+        toArray: jest.fn().mockResolvedValueOnce([staleTx, freshTx])
+      });
+
+      const mockModify = jest.fn();
+      mockTransactionsWhere.mockReturnValue({ modify: mockModify });
+
+      await cancelStaleQueuedTransactions();
+
+      // Should only cancel the stale transaction
+      expect(mockModify).toHaveBeenCalledTimes(1);
+    });
+
+    it('does nothing when all queued transactions are recent', async () => {
+      const freshTx = {
+        id: 'fresh-tx',
+        status: ITransactionStatus.Queued,
+        initiatedAt: Date.now()
+      };
+
+      mockTransactionsFilter.mockReturnValueOnce({
+        toArray: jest.fn().mockResolvedValueOnce([freshTx])
+      });
+
+      await cancelStaleQueuedTransactions();
+
+      expect(mockTransactionsWhere).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('cancelTransaction error serialization', () => {
+    it('sets displayMessage, displayIcon, and serializes Error objects', async () => {
+      const mockModify = jest.fn((fn: (tx: any) => void) => {
+        const dbTx: any = {};
+        fn(dbTx);
+        return dbTx;
+      });
+      mockTransactionsWhere.mockReturnValueOnce({ modify: mockModify });
+
+      const tx = { id: 'tx-1' } as Transaction;
+      await cancelTransaction(tx, new Error('Network failure'));
+
+      expect(mockModify).toHaveBeenCalled();
+      const modifyFn = mockModify.mock.calls[0][0];
+      const dbTx: any = {};
+      modifyFn(dbTx);
+
+      expect(dbTx.status).toBe(ITransactionStatus.Failed);
+      expect(dbTx.error).toBe('Network failure');
+      expect(dbTx.displayMessage).toBe('Failed');
+      expect(dbTx.displayIcon).toBe('FAILED');
+    });
+
+    it('serializes plain string errors with String()', async () => {
+      const mockModify = jest.fn();
+      mockTransactionsWhere.mockReturnValueOnce({ modify: mockModify });
+
+      const tx = { id: 'tx-1' } as Transaction;
+      await cancelTransaction(tx, 'simple error string');
+
+      const modifyFn = mockModify.mock.calls[0][0];
+      const dbTx: any = {};
+      modifyFn(dbTx);
+
+      expect(dbTx.error).toBe('simple error string');
+    });
+  });
+
+  describe('generateTransaction', () => {
+    it('calls syncState before processing transaction', async () => {
+      const callOrder: string[] = [];
+      mockSyncState.mockImplementation(async () => {
+        callOrder.push('syncState');
+        return { blockNum: () => 1 };
+      });
+
+      // Mock updateTransactionStatus
+      const tx = { id: 'tx-1', status: ITransactionStatus.Queued };
+      const mockModify = jest.fn();
+      mockTransactionsWhere.mockReturnValue({
+        first: jest.fn().mockResolvedValue(tx),
+        modify: mockModify.mockImplementation(() => {
+          callOrder.push('updateStatus');
+        })
+      });
+
+      // Mock the WASM client for the actual transaction execution
+      mockGetMidenClient.mockResolvedValue({
+        syncState: mockSyncState,
+        sendTransaction: jest.fn().mockImplementation(() => {
+          callOrder.push('sendTransaction');
+          return new Uint8Array();
+        })
+      });
+
+      // Mock sendTransaction worker
+      const { sendTransaction: mockSendTxWorker } = require('lib/miden-worker/sendTransaction');
+      const mockResultBytes = new Uint8Array([1, 2, 3]);
+      mockSendTxWorker.mockResolvedValue(mockResultBytes);
+
+      // We need to mock TransactionResult.deserialize — this will throw since we can't
+      // easily mock the SDK class. Instead, test a consume transaction that's simpler.
+      // Let's just verify syncState is called and the order is correct by catching the error
+      // after syncState + updateStatus
+      const signCallback = jest.fn().mockResolvedValue(new Uint8Array());
+      const transaction = {
+        id: 'tx-1',
+        type: 'send',
+        accountId: 'acc-1',
+        delegateTransaction: false
+      } as any;
+
+      try {
+        await generateTransaction(transaction, signCallback);
+      } catch {
+        // Expected to fail on TransactionResult.deserialize — that's fine
+      }
+
+      // Verify syncState was called BEFORE updateStatus
+      expect(callOrder[0]).toBe('syncState');
+      expect(callOrder[1]).toBe('updateStatus');
+      expect(mockSyncState).toHaveBeenCalled();
     });
   });
 });
