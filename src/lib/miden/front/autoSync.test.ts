@@ -122,6 +122,22 @@ describe('AutoSync', () => {
     expect(mockSyncState.mock.calls.length).toBe(2);
   });
 
+  it('should not spawn a second sync loop on repeated sync() calls', async () => {
+    sync.updateState({ status: WalletStatus.Ready } as any);
+
+    await advanceTimeAndFlush(100);
+    expect(mockSyncState).toHaveBeenCalledTimes(1);
+
+    // Calling sync() again directly should be a no-op (guard prevents duplicate loop)
+    sync.sync();
+    sync.sync();
+
+    await advanceTimeAndFlush(3100);
+
+    // Should still only have 2 calls (one initial + one after 3s), not 4+
+    expect(mockSyncState).toHaveBeenCalledTimes(2);
+  });
+
   it('should skip syncState on generating-transaction page but resume after navigating away', async () => {
     const urlSpy = jest.spyOn(sync, 'getCurrentUrl').mockReturnValue('http://localhost/generating-transaction');
 

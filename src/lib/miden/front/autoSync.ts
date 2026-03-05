@@ -28,6 +28,7 @@ export class Sync {
   getHeightFetchTimestamp: number = 0;
   state?: WalletState;
   ampCycles: number = 0;
+  private syncLoopRunning: boolean = false;
 
   // Exposed for testing
   getCurrentUrl(): string {
@@ -60,6 +61,9 @@ export class Sync {
   }
 
   async sync() {
+    if (this.syncLoopRunning) return;
+    this.syncLoopRunning = true;
+
     while (true) {
       const storeState = useWalletStore.getState();
 
