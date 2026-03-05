@@ -571,16 +571,13 @@ export const generateTransaction = async (
 ) => {
   // Sync state first to ensure we have latest account state
   // Separate lock acquisition to avoid holding lock during network call
-  // If sync fails (e.g. network outage), proceed with cached state —
-  // the transaction itself will produce a more specific error if state is stale
-  try {
-    await withWasmClientLock(async () => {
-      const midenClient = await getMidenClient();
-      await midenClient.syncState();
-    });
-  } catch (syncError) {
-    console.warn('[generateTransaction] syncState failed, proceeding with cached state:', syncError);
-  }
+  // If sync fails (e.g. network down), the error propagates to generateTransactionsLoop's
+  // catch block which cancels the transaction — this is intentional fail-fast behavior,
+  // since the transaction can't be submitted without network anyway
+  await withWasmClientLock(async () => {
+    const midenClient = await getMidenClient();
+    await midenClient.syncState();
+  });
 
   // Mark transaction as in progress
   await updateTransactionStatus(transaction.id, ITransactionStatus.GeneratingTransaction, {
