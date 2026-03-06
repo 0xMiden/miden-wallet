@@ -53,18 +53,6 @@ jest.mock('./notes', () => ({
   registerOutputNote: jest.fn()
 }));
 
-jest.mock('lib/miden-worker/consumeNoteId', () => ({
-  consumeNoteId: jest.fn()
-}));
-
-jest.mock('lib/miden-worker/sendTransaction', () => ({
-  sendTransaction: jest.fn()
-}));
-
-jest.mock('lib/miden-worker/submitTransaction', () => ({
-  submitTransaction: jest.fn()
-}));
-
 describe('transactions utilities', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -519,22 +507,23 @@ describe('transactions utilities', () => {
       });
 
       // Mock the WASM client for the actual transaction execution
+      // sendTransaction now returns TransactionResult directly (no worker)
       mockGetMidenClient.mockResolvedValue({
         syncState: mockSyncState,
         sendTransaction: jest.fn().mockImplementation(() => {
           callOrder.push('sendTransaction');
-          return new Uint8Array();
+          return {
+            executedTransaction: () => ({
+              id: () => ({ toHex: () => 'tx-hex' }),
+              outputNotes: () => ({ notes: () => [] }),
+              inputNotes: () => ({ notes: () => [] })
+            }),
+            serialize: () => new Uint8Array([7])
+          };
         })
       });
 
-      // Mock sendTransaction worker
-      const { sendTransaction: mockSendTxWorker } = require('lib/miden-worker/sendTransaction');
-      const mockResultBytes = new Uint8Array([1, 2, 3]);
-      mockSendTxWorker.mockResolvedValue(mockResultBytes);
-
-      // We need to mock TransactionResult.deserialize — this will throw since we can't
-      // easily mock the SDK class. Instead, test a consume transaction that's simpler.
-      // Let's just verify syncState is called and the order is correct by catching the error
+      // Verify syncState is called and the order is correct by catching the error
       // after syncState + updateStatus
       const signCallback = jest.fn().mockResolvedValue(new Uint8Array());
       const transaction = {
@@ -602,7 +591,14 @@ describe('Transaction resilience: network outage recovery (isolated)', () => {
       return { blockNum: () => 42 };
     });
 
-    const mockNewTransaction = jest.fn(async () => new Uint8Array([10, 20, 30]));
+    const mockNewTransaction = jest.fn(async () => ({
+      executedTransaction: () => ({
+        id: () => ({ toHex: () => 'mock-tx-hash' }),
+        outputNotes: () => ({ notes: () => [] }),
+        inputNotes: () => ({ notes: () => [] })
+      }),
+      serialize: () => new Uint8Array([1, 2, 3])
+    }));
 
     jest.doMock('lib/miden/repo', () => repoMock);
 
@@ -615,17 +611,6 @@ describe('Transaction resilience: network outage recovery (isolated)', () => {
     }));
 
     jest.doMock('@miden-sdk/miden-sdk', () => ({
-      Address: { fromBech32: jest.fn() },
-      TransactionResult: {
-        deserialize: jest.fn(() => ({
-          executedTransaction: () => ({
-            id: () => ({ toHex: () => 'mock-tx-hash' }),
-            outputNotes: () => ({ notes: () => [] }),
-            inputNotes: () => ({ notes: () => [] })
-          }),
-          serialize: () => new Uint8Array([1, 2, 3])
-        }))
-      },
       InputNoteState: {
         ConsumedAuthenticatedLocal: 0,
         ConsumedUnauthenticatedLocal: 1,
@@ -654,16 +639,6 @@ describe('Transaction resilience: network outage recovery (isolated)', () => {
       importAllNotes: jest.fn(),
       queueNoteImport: jest.fn(),
       registerOutputNote: jest.fn()
-    }));
-
-    jest.doMock('lib/miden-worker/submitTransaction', () => ({
-      submitTransaction: jest.fn(async () => new Uint8Array([1, 2, 3]))
-    }));
-    jest.doMock('lib/miden-worker/consumeNoteId', () => ({
-      consumeNoteId: jest.fn()
-    }));
-    jest.doMock('lib/miden-worker/sendTransaction', () => ({
-      sendTransaction: jest.fn()
     }));
 
     jest.doMock('lib/platform', () => ({
@@ -792,18 +767,7 @@ describe('completeCustomTransaction (isolated)', () => {
       registerOutputNote: jest.fn()
     }));
 
-    jest.doMock('lib/miden-worker/consumeNoteId', () => ({
-      consumeNoteId: jest.fn()
-    }));
-    jest.doMock('lib/miden-worker/sendTransaction', () => ({
-      sendTransaction: jest.fn()
-    }));
-    jest.doMock('lib/miden-worker/submitTransaction', () => ({
-      submitTransaction: jest.fn()
-    }));
-
     jest.doMock('@miden-sdk/miden-sdk', () => ({
-      Address: { fromBech32: jest.fn() },
       InputNoteState: {
         ConsumedAuthenticatedLocal: 'ConsumedAuthenticatedLocal',
         ConsumedUnauthenticatedLocal: 'ConsumedUnauthenticatedLocal',
