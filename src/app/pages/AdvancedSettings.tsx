@@ -24,7 +24,7 @@ const AdvancedSettings: FC = () => {
 
     try {
       const key = await runExclusive(async () => {
-        const account = await client.getAccount(walletAccount.publicKey);
+        const account = await (client as any).getAccount(walletAccount.publicKey);
         if (!account) return null;
         const publicKeyCommitments = account.getPublicKeyCommitments();
         if (publicKeyCommitments.length === 0) return null;

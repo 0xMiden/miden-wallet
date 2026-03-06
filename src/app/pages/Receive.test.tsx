@@ -120,7 +120,7 @@ describe('ConsumableNoteComponent', () => {
   let consoleErrorSpy: jest.SpyInstance;
 
   const mockAccount = { publicKey: 'test-account-123' };
-  const mockMutateClaimableNotes = jest.fn(() => Promise.resolve([]));
+  const mockMutateClaimableNotes: jest.Mock<Promise<void>> = jest.fn(() => Promise.resolve());
 
   const createMockNote = (overrides = {}) => ({
     id: 'note-123',

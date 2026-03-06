@@ -108,7 +108,7 @@ export const HistoryDetails: FC<HistoryDetailsProps> = ({ transactionId }) => {
     try {
       const noteBytes = await exportNote(entry.noteId);
 
-      const blob = new Blob([noteBytes], { type: 'application/octet-stream' });
+      const blob = new Blob([noteBytes as BlobPart], { type: 'application/octet-stream' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;

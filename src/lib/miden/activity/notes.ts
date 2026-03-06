@@ -46,7 +46,7 @@ export const useExportNotes = (): [string[], () => Promise<void>] => {
       try {
         const noteBytes = await exportNote(noteId);
 
-        const blob = new Blob([noteBytes], { type: 'application/octet-stream' });
+        const blob = new Blob([noteBytes as BlobPart], { type: 'application/octet-stream' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
