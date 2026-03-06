@@ -1,5 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 
+import { useMiden } from '@miden-sdk/react';
 import { useTranslation } from 'react-i18next';
 
 import useMidenFaucetId from 'app/hooks/useMidenFaucetId';
@@ -7,8 +8,6 @@ import { IconName } from 'app/icons/v2';
 import HashChip from 'app/templates/HashChip';
 import { ListItem } from 'components/ListItem';
 import { useAccount } from 'lib/miden/front';
-import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
-import { bytesToHex } from 'lib/shared/helpers';
 import { Link } from 'lib/woozie';
 import { truncateAddress } from 'utils/string';
 
@@ -18,23 +17,24 @@ const AdvancedSettings: FC = () => {
   const faucetId = useMidenFaucetId();
   const faucetIdShortened = truncateAddress(faucetId, false);
   const [publicKey, setPublicKey] = useState<string | null>(null);
+  const { client, isReady, runExclusive } = useMiden();
 
   const fetchPublicKey = useCallback(async () => {
-    // Wrap WASM client operations in a lock to prevent concurrent access
-    const key = await withWasmClientLock(async () => {
-      const midenClient = await getMidenClient();
-      const account = await midenClient.getAccount(walletAccount.publicKey);
-      if (!account) {
-        return null;
-      }
-      const publicKeyCommitments = account.getPublicKeyCommitments();
-      if (publicKeyCommitments.length === 0) {
-        return null;
-      }
-      return publicKeyCommitments[0].toHex().slice(2);
-    });
-    setPublicKey(key);
-  }, [walletAccount.publicKey]);
+    if (!client || !isReady) return;
+
+    try {
+      const key = await runExclusive(async () => {
+        const account = await (client as any).getAccount(walletAccount.publicKey);
+        if (!account) return null;
+        const publicKeyCommitments = account.getPublicKeyCommitments();
+        if (publicKeyCommitments.length === 0) return null;
+        return publicKeyCommitments[0].toHex().slice(2);
+      });
+      setPublicKey(key);
+    } catch (err) {
+      console.error('[AdvancedSettings] Failed to fetch public key:', err);
+    }
+  }, [walletAccount.publicKey, client, isReady, runExclusive]);
 
   useEffect(() => {
     fetchPublicKey();

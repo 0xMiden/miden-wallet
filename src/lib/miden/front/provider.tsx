@@ -1,10 +1,23 @@
 import React, { FC, useEffect, useMemo } from 'react';
 
+import { MidenProvider as SdkMidenProvider } from '@miden-sdk/react';
+
 import { NoteToastProvider } from 'components/NoteToastProvider';
 import { TransactionProgressModal } from 'components/TransactionProgressModal';
 import { FiatCurrencyProvider } from 'lib/fiat-curency';
+import {
+  DEFAULT_NETWORK,
+  MIDEN_NETWORK_ENDPOINTS,
+  MIDEN_NETWORK_NAME,
+  MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS,
+  MIDEN_PROVING_ENDPOINTS
+} from 'lib/miden-chain/constants';
 import { MidenContextProvider, useMidenContext } from 'lib/miden/front/client';
+import { SdkSyncBridge } from 'lib/miden/sdk-bridge/SdkSyncBridge';
+import { SyncPauseBridge } from 'lib/miden/sdk-bridge/SyncPauseBridge';
+import { VaultSignerProvider } from 'lib/miden/sdk-bridge/VaultSignerProvider';
 import { PropsWithChildren } from 'lib/props-with-children';
+import { useWalletStore } from 'lib/store';
 import { WalletStoreProvider } from 'lib/store/WalletStoreProvider';
 
 import { getMidenClient } from '../sdk/miden-client';
@@ -18,6 +31,13 @@ if (typeof document !== 'undefined' && document.body) {
     modalRoot.id = 'transaction-modal-root';
     document.body.appendChild(modalRoot);
   }
+}
+
+function getSdkProverValue(networkId: string): string {
+  // SDK accepts 'testnet', 'devnet', 'local', or a custom URL
+  if (networkId === MIDEN_NETWORK_NAME.TESTNET) return 'testnet';
+  if (networkId === MIDEN_NETWORK_NAME.DEVNET) return 'devnet';
+  return MIDEN_PROVING_ENDPOINTS.get(networkId) ?? 'local';
 }
 
 /**
@@ -49,18 +69,38 @@ export const MidenProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <WalletStoreProvider>
       <MidenContextProvider>
-        <ConditionalProviders>{children}</ConditionalProviders>
-        {/*
-          TransactionProgressModal is rendered here (outside ConditionalProviders)
-          to prevent it from being remounted when the 'ready' state changes.
-          This fixes a bug where the modal wouldn't appear on the first transaction
-          because the component was remounting during the ready state transition.
-          The component handles platform check internally.
-        */}
-        <TransactionProgressModal />
+        <VaultSignerProvider>
+          <NetworkAwareSdkProvider>
+            <SdkSyncBridge />
+            <SyncPauseBridge />
+            <ConditionalProviders>{children}</ConditionalProviders>
+            <TransactionProgressModal />
+          </NetworkAwareSdkProvider>
+        </VaultSignerProvider>
       </MidenContextProvider>
     </WalletStoreProvider>
   );
+};
+
+/**
+ * NetworkAwareSdkProvider - Wraps SdkMidenProvider with network-reactive config.
+ * Reads the selected network from Zustand and derives SDK config accordingly.
+ */
+const NetworkAwareSdkProvider: FC<PropsWithChildren> = ({ children }) => {
+  const selectedNetworkId = useWalletStore(s => s.selectedNetworkId);
+  const networkId = selectedNetworkId || DEFAULT_NETWORK;
+
+  const sdkConfig = useMemo(
+    () => ({
+      rpcUrl: MIDEN_NETWORK_ENDPOINTS.get(networkId) ?? MIDEN_NETWORK_ENDPOINTS.get(DEFAULT_NETWORK)!,
+      noteTransportUrl: MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS.get(networkId),
+      autoSyncInterval: 3000,
+      prover: getSdkProverValue(networkId)
+    }),
+    [networkId]
+  );
+
+  return <SdkMidenProvider config={sdkConfig}>{children}</SdkMidenProvider>;
 };
 
 /**

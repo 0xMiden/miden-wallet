@@ -2,6 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 
 import { Directory, Encoding, Filesystem } from '@capacitor/filesystem';
 import { Share } from '@capacitor/share';
+import { useExportStore } from '@miden-sdk/react';
 import classNames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
@@ -12,7 +13,6 @@ import { Button, ButtonVariant } from 'components/Button';
 import { useMidenContext } from 'lib/miden/front';
 import { deriveKey, encrypt, encryptJson, generateKey, generateSalt } from 'lib/miden/passworder';
 import { exportDb } from 'lib/miden/repo';
-import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
 import { isMobile } from 'lib/platform';
 import { EncryptedWalletFile, ENCRYPTED_WALLET_FILE_PASSWORD_CHECK, DecryptedWalletFile } from 'screens/shared';
 
@@ -36,20 +36,17 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({
   const { t } = useTranslation();
   const { revealMnemonic } = useMidenContext();
   const { fullPage } = useAppEnv();
+  const { exportStore } = useExportStore();
 
   const getExportFile = useCallback(async () => {
-    // Wrap WASM client operations in a lock to prevent concurrent access
-    const midenClientDbDump = await withWasmClientLock(async () => {
-      const midenClient = await getMidenClient();
-      return midenClient.exportDb();
-    });
+    const midenClientDbDump = await exportStore();
     const walletDbDump = await exportDb();
 
     const seedPhrase = await revealMnemonic(walletPassword);
 
     const filePayload: DecryptedWalletFile = {
       seedPhrase,
-      midenClientDbContent: midenClientDbDump,
+      midenClientDbContent: midenClientDbDump as string,
       walletDbContent: walletDbDump
     };
 
@@ -102,7 +99,7 @@ const ExportFileComplete: React.FC<ExportFileCompleteProps> = ({
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
-  }, [walletPassword, filePassword, fileName, revealMnemonic, t]);
+  }, [walletPassword, filePassword, fileName, revealMnemonic, t, exportStore]);
 
   useEffect(() => {
     getExportFile();

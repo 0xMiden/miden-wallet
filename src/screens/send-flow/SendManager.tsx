@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useCallback, useEffect, useMemo } from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useSend } from '@miden-sdk/react';
 import classNames from 'clsx';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -8,14 +9,11 @@ import * as yup from 'yup';
 import { useAppEnv } from 'app/env';
 import { Navigator, NavigatorProvider, Route, useNavigator } from 'components/Navigator';
 import { stringToBigInt } from 'lib/i18n/numbers';
-import { initiateSendTransaction, waitForTransactionCompletion } from 'lib/miden/activity';
 import { useAccount, useAllAccounts } from 'lib/miden/front';
-import { NoteTypeEnum } from 'lib/miden/types';
 import { useMobileBackHandler } from 'lib/mobile/useMobileBackHandler';
 import { isMobile } from 'lib/platform';
-import { isDelegateProofEnabled } from 'lib/settings/helpers';
-import { useWalletStore } from 'lib/store';
 import { navigate } from 'lib/woozie';
+import { GeneratingTransaction } from 'screens/generating-transaction/GeneratingTransaction';
 import { isValidMidenAddress } from 'utils/miden';
 
 import { AccountsList } from './AccountsList';
@@ -91,7 +89,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
   const allAccounts = useAllAccounts();
   const { publicKey } = useAccount();
   const { fullPage } = useAppEnv();
-  const delegateEnabled = isDelegateProofEnabled();
+  const { send, stage: sendStage, error: sendError, isLoading: isSending } = useSend();
 
   const otherAccounts: Contact[] = useMemo(
     () =>
@@ -123,25 +121,6 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     return true;
   }, [cardStack.length, goBack, onClose]);
 
-  const onGenerateTransaction = useCallback(async () => {
-    // On mobile, open the modal and go back to home
-    // The modal handles the entire transaction flow
-    if (isMobile()) {
-      useWalletStore.getState().openTransactionModal();
-      // Don't navigate - stay on page to see if modal appears
-      // navigate('/');
-      return;
-    }
-
-    if (fullPage) {
-      navigate('/generating-transaction-full');
-      return;
-    }
-
-    useWalletStore.getState().openTransactionModal();
-    navigateTo(SendFlowStep.TransactionInitiated);
-  }, [fullPage, navigateTo]);
-
   const {
     register,
     watch,
@@ -157,7 +136,7 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       sharePrivately: false,
       recipientAddress: undefined,
       recallBlocks: undefined,
-      delegateTransaction: delegateEnabled,
+      delegateTransaction: true,
       token: undefined
     },
     resolver: yupResolver(validationSchema) as any
@@ -200,51 +179,44 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
           }
           break;
         case SendFlowActionId.GenerateTransaction:
-          onGenerateTransaction();
           break;
         default:
           break;
       }
     },
-    [navigateTo, goBack, onClose, onGenerateTransaction, setValue, trigger]
+    [navigateTo, goBack, onClose, setValue, trigger]
   );
 
   const onSubmit = useCallback<SubmitHandler<SendFlowForm>>(
     async data => {
-      if (isSubmitting) {
+      if (isSubmitting || isSending) {
         return;
       }
       try {
         clearErrors('root');
 
-        // Step 1: Create the transaction (same as Receive's initiateConsumeTransaction)
-        const txId = await initiateSendTransaction(
-          publicKey!,
-          recipientAddress!,
-          token!.id,
-          sharePrivately ? NoteTypeEnum.Private : NoteTypeEnum.Public,
-          stringToBigInt(amount!, token!.decimals),
-          recallBlocks ? parseInt(recallBlocks) : undefined,
-          delegateTransaction
-        );
+        // Navigate to generating step for visual feedback
+        navigateTo(SendFlowStep.GeneratingTransaction);
 
-        // Step 2: Open the loading modal (same as Receive)
-        useWalletStore.getState().openTransactionModal();
+        // Use SDK's useSend() — handles execute, prove, submit, commit, private note delivery
+        await send({
+          from: publicKey!,
+          to: recipientAddress!,
+          assetId: token!.id,
+          amount: stringToBigInt(amount!, token!.decimals),
+          noteType: sharePrivately ? 'private' : 'public',
+          recallHeight: recallBlocks ? parseInt(recallBlocks) : undefined
+        });
 
-        // Step 3: Wait for transaction completion (same as Receive's waitForConsumeTx)
-        const result = await waitForTransactionCompletion(txId);
-
-        if ('errorMessage' in result) {
-          setError('root', { type: 'manual', message: result.errorMessage });
+        // Success — show completion screen
+        if (isMobile()) {
+          navigate('/');
         } else {
-          // Success - navigate to home on mobile, or completion screen on desktop
-          if (isMobile()) {
-            navigate('/');
-          } else {
-            onAction({ id: SendFlowActionId.GenerateTransaction });
-          }
+          navigateTo(SendFlowStep.TransactionInitiated);
         }
       } catch (e: any) {
+        // Navigate back to review so user sees the error and can retry
+        navigateTo(SendFlowStep.ReviewTransaction);
         if (e.message) {
           setError('root', { type: 'manual', message: e.message });
         }
@@ -253,12 +225,13 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
     },
     [
       isSubmitting,
+      isSending,
       clearErrors,
-      onAction,
+      navigateTo,
+      send,
       publicKey,
       recipientAddress,
       sharePrivately,
-      delegateTransaction,
       amount,
       recallBlocks,
       setError,
@@ -397,6 +370,15 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
               delegateTransaction={delegateTransaction}
             />
           );
+        case SendFlowStep.GeneratingTransaction:
+          return (
+            <GeneratingTransaction
+              progress={sendStage === 'proving' ? 50 : sendStage === 'submitting' ? 80 : 20}
+              onDoneClick={onClose}
+              transactionComplete={sendStage === 'complete'}
+              hasErrors={!!sendError}
+            />
+          );
         case SendFlowStep.TransactionInitiated:
           return <TransactionInitiated onAction={onAction} />;
         default:
@@ -420,7 +402,9 @@ export const SendManager: React.FC<SendManagerProps> = ({ isLoading }) => {
       onAction,
       sharePrivately,
       delegateTransaction,
-      goToStep
+      goToStep,
+      sendStage,
+      sendError
     ]
   );
 

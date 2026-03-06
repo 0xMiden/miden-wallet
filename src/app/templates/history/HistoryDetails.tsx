@@ -1,5 +1,6 @@
 import React, { FC, useCallback, useEffect, useState, memo } from 'react';
 
+import { useExportNote } from '@miden-sdk/react';
 import { useTranslation } from 'react-i18next';
 
 import { ActivitySpinner } from 'app/atoms/ActivitySpinner';
@@ -10,8 +11,6 @@ import { getCurrentLocale } from 'lib/i18n';
 import { getTransactionById } from 'lib/miden/activity';
 import { useAllAccounts, useAccount } from 'lib/miden/front';
 import { getTokenMetadata } from 'lib/miden/metadata/utils';
-import { NoteExportType } from 'lib/miden/sdk/constants';
-import { getMidenClient, withWasmClientLock } from 'lib/miden/sdk/miden-client';
 import { formatAmount } from 'lib/shared/format';
 import { WalletAccount } from 'lib/shared/types';
 import { capitalizeFirstLetter } from 'utils/string';
@@ -71,8 +70,8 @@ export const HistoryDetails: FC<HistoryDetailsProps> = ({ transactionId }) => {
   const { t } = useTranslation();
   const allAccounts = useAllAccounts();
   const account = useAccount();
+  const { exportNote, isExporting: isDownloading } = useExportNote();
   const [entry, setEntry] = useState<IHistoryEntry | null>(null);
-  const [isDownloading, setIsDownloading] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
 
   const loadTransaction = useCallback(async () => {
@@ -107,17 +106,9 @@ export const HistoryDetails: FC<HistoryDetailsProps> = ({ transactionId }) => {
     if (!entry?.noteId) return;
 
     try {
-      setIsDownloading(true);
-      // Wrap WASM client operations in a lock to prevent concurrent access
-      const noteBytes = await withWasmClientLock(async () => {
-        const midenClient = await getMidenClient();
-        return midenClient.exportNote(entry.noteId!, NoteExportType.DETAILS);
-      });
+      const noteBytes = await exportNote(entry.noteId);
 
-      const ab = new ArrayBuffer(noteBytes.byteLength);
-      new Uint8Array(ab).set(noteBytes);
-
-      const blob = new Blob([ab], { type: 'application/octet-stream' });
+      const blob = new Blob([noteBytes as BlobPart], { type: 'application/octet-stream' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -128,10 +119,8 @@ export const HistoryDetails: FC<HistoryDetailsProps> = ({ transactionId }) => {
       URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Failed to export note:', error);
-    } finally {
-      setIsDownloading(false);
     }
-  }, [entry?.noteId]);
+  }, [entry?.noteId, exportNote]);
 
   const handleViewOnExplorer = useCallback(() => {
     if (!entry?.externalTxId) return;
