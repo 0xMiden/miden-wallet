@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { AllowedPrivateData, PrivateDataPermission } from '@demox-labs/miden-wallet-adapter-base';
 import constate from 'constate';
@@ -9,7 +9,6 @@ import { useWalletStore } from 'lib/store';
 import { WalletType } from 'screens/onboarding/types';
 
 import { MidenState } from '../types';
-import { AutoSync } from './autoSync';
 
 let intercom: IIntercomClient | null;
 function getIntercom() {
@@ -76,11 +75,6 @@ export const [MidenContextProvider, useMidenContext] = constate(() => {
     }),
     [status, accounts, currentAccount, networks, settings, ownMnemonic]
   );
-
-  // Update AutoSync when state changes
-  useEffect(() => {
-    AutoSync.updateState(state);
-  }, [state]);
 
   // Derive convenience booleans
   const idle = status === WalletStatus.Idle;

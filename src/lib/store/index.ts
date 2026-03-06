@@ -7,7 +7,6 @@ import { MidenMessageType, MidenState } from 'lib/miden/types';
 import { WalletMessageType, WalletRequest, WalletResponse, WalletStatus } from 'lib/shared/types';
 
 import { WalletStore } from './types';
-import { fetchBalances } from './utils/fetchBalances';
 
 // Singleton intercom client
 let intercom: IIntercomClient | null = null;
@@ -44,11 +43,6 @@ export const useWalletStore = create<WalletStore>()(
     settings: null,
     ownMnemonic: null,
 
-    // Initial balance state
-    balances: {},
-    balancesLoading: {},
-    balancesLastFetched: {},
-
     // Initial assets state
     assetsMetadata: {},
 
@@ -79,9 +73,6 @@ export const useWalletStore = create<WalletStore>()(
 
     // Sync action - updates store from backend state
     syncFromBackend: (state: MidenState) => {
-      const prevStatus = get().status;
-      const justBecameReady = state.status === WalletStatus.Ready && prevStatus !== WalletStatus.Ready;
-
       set({
         status: state.status,
         accounts: state.accounts,
@@ -92,25 +83,6 @@ export const useWalletStore = create<WalletStore>()(
         isInitialized: true,
         lastSyncedAt: Date.now()
       });
-
-      // Immediately fetch balances when wallet becomes Ready (before any React effects)
-      if (justBecameReady && state.currentAccount) {
-        const address = state.currentAccount.publicKey;
-        fetchBalances(address, get().assetsMetadata)
-          .then(balances => {
-            set(s => ({
-              balances: { ...s.balances, [address]: balances },
-              balancesLoading: { ...s.balancesLoading, [address]: false },
-              balancesLastFetched: { ...s.balancesLastFetched, [address]: Date.now() }
-            }));
-          })
-          .catch(err => {
-            console.warn('[syncFromBackend] Initial balance fetch failed:', err);
-            set(s => ({
-              balancesLoading: { ...s.balancesLoading, [address]: false }
-            }));
-          });
-      }
     },
 
     // Auth actions
@@ -368,40 +340,6 @@ export const useWalletStore = create<WalletStore>()(
 
     resetConfirmation: () => {
       set({ confirmation: null });
-    },
-
-    // Balance actions
-    fetchBalances: async (accountAddress, tokenMetadatas) => {
-      const { balancesLoading, setAssetsMetadata } = get();
-
-      // Skip if already loading
-      if (balancesLoading[accountAddress]) {
-        return;
-      }
-
-      set({
-        balancesLoading: { ...balancesLoading, [accountAddress]: true }
-      });
-
-      try {
-        const balances = await fetchBalances(accountAddress, tokenMetadatas, { setAssetsMetadata });
-        set(state => ({
-          balances: { ...state.balances, [accountAddress]: balances },
-          balancesLoading: { ...state.balancesLoading, [accountAddress]: false },
-          balancesLastFetched: { ...state.balancesLastFetched, [accountAddress]: Date.now() }
-        }));
-      } catch (error) {
-        set(state => ({
-          balancesLoading: { ...state.balancesLoading, [accountAddress]: false }
-        }));
-        throw error;
-      }
-    },
-
-    setBalancesLoading: (accountAddress, isLoading) => {
-      set(state => ({
-        balancesLoading: { ...state.balancesLoading, [accountAddress]: isLoading }
-      }));
     },
 
     // Asset actions
