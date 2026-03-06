@@ -18,11 +18,10 @@ import {
 } from '@miden-sdk/miden-sdk';
 
 import {
+  DEFAULT_NETWORK,
   MIDEN_NETWORK_ENDPOINTS,
-  MIDEN_NETWORK_NAME,
   MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS,
-  MIDEN_PROVING_ENDPOINTS,
-  MIDEN_TRANSPORT_LAYER_NAME
+  MIDEN_PROVING_ENDPOINTS
 } from 'lib/miden-chain/constants';
 import { isMobile } from 'lib/platform';
 import { WalletType } from 'screens/onboarding/types';
@@ -74,8 +73,7 @@ export class MidenClientInterface {
    */
   static async create(options: MidenClientCreateOptions = {}) {
     const seed = options.seed;
-    const network = MIDEN_NETWORK_NAME.TESTNET;
-    const transportLayer = MIDEN_TRANSPORT_LAYER_NAME.TESTNET;
+    const network = DEFAULT_NETWORK;
 
     // In test builds, swap to the SDK's mock client to avoid hitting the real chain.
     if (process.env.MIDEN_USE_MOCK_CLIENT === 'true') {
@@ -86,7 +84,7 @@ export class MidenClientInterface {
 
     const webClient = await WebClient.createClientWithExternalKeystore(
       MIDEN_NETWORK_ENDPOINTS.get(network)!,
-      MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS.get(transportLayer),
+      MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS.get(network),
       seed,
       undefined,
       options.getKeyCallback,
