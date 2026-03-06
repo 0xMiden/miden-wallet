@@ -6,6 +6,7 @@ import { NoteToastProvider } from 'components/NoteToastProvider';
 import { TransactionProgressModal } from 'components/TransactionProgressModal';
 import { FiatCurrencyProvider } from 'lib/fiat-curency';
 import {
+  DEFAULT_NETWORK,
   MIDEN_NETWORK_ENDPOINTS,
   MIDEN_NETWORK_NAME,
   MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS,
@@ -87,11 +88,11 @@ export const MidenProvider: FC<PropsWithChildren> = ({ children }) => {
  */
 const NetworkAwareSdkProvider: FC<PropsWithChildren> = ({ children }) => {
   const selectedNetworkId = useWalletStore(s => s.selectedNetworkId);
-  const networkId = selectedNetworkId || MIDEN_NETWORK_NAME.TESTNET;
+  const networkId = selectedNetworkId || DEFAULT_NETWORK;
 
   const sdkConfig = useMemo(
     () => ({
-      rpcUrl: MIDEN_NETWORK_ENDPOINTS.get(networkId) ?? MIDEN_NETWORK_ENDPOINTS.get(MIDEN_NETWORK_NAME.TESTNET)!,
+      rpcUrl: MIDEN_NETWORK_ENDPOINTS.get(networkId) ?? MIDEN_NETWORK_ENDPOINTS.get(DEFAULT_NETWORK)!,
       noteTransportUrl: MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS.get(networkId),
       autoSyncInterval: 3000,
       prover: getSdkProverValue(networkId)
