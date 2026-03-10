@@ -40,7 +40,8 @@ export const MIDEN_FAUCET_ENDPOINTS = new Map<string, string>([
 ]);
 
 export const MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS = new Map<string, string>([
-  [MIDEN_NETWORK_NAME.TESTNET, 'https://transport.miden.io']
+  [MIDEN_NETWORK_NAME.TESTNET, 'https://transport.miden.io'],
+  [MIDEN_NETWORK_NAME.LOCALNET, 'http://localhost:57292']
 ]);
 
 export const MIDEN_NETWORKS: MidenNetwork[] = [
