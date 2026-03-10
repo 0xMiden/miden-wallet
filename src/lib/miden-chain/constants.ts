@@ -9,6 +9,12 @@ export enum MIDEN_NETWORK_NAME {
   LOCALNET = 'localnet'
 }
 
+/**
+ * The default network used throughout the app.
+ * Change this single value to switch which network the wallet connects to.
+ */
+export const DEFAULT_NETWORK = MIDEN_NETWORK_NAME.TESTNET;
+
 export enum MIDEN_TRANSPORT_LAYER_NAME {
   TESTNET = 'testnet',
   LOCALNET = 'localnet'
@@ -35,7 +41,7 @@ export const MIDEN_FAUCET_ENDPOINTS = new Map<string, string>([
 
 export const MIDEN_NOTE_TRANSPORT_LAYER_ENDPOINTS = new Map<string, string>([
   [MIDEN_NETWORK_NAME.TESTNET, 'https://transport.miden.io'],
-  [MIDEN_NETWORK_NAME.LOCALNET, 'http://127.0.0.1']
+  [MIDEN_NETWORK_NAME.LOCALNET, 'http://localhost:57292']
 ]);
 
 export const MIDEN_NETWORKS: MidenNetwork[] = [
@@ -51,7 +57,7 @@ export const MIDEN_NETWORKS: MidenNetwork[] = [
     name: 'Devnet',
     autoSync: true
   },
-  { rpcBaseURL: 'localhost:57291', id: MIDEN_NETWORK_NAME.LOCALNET, name: 'Localnet', autoSync: true }
+  { rpcBaseURL: 'http://localhost:57291', id: MIDEN_NETWORK_NAME.LOCALNET, name: 'Localnet', autoSync: true }
 ];
 
 export enum MidenTokens {
