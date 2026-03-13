@@ -111,7 +111,6 @@ export class Sync {
     } finally {
       useWalletStore.getState().setSyncStatus(false);
     }
-
     await sleep(3000);
     await this.sync();
   }

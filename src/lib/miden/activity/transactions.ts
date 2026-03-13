@@ -5,6 +5,7 @@ import {
   NoteFilter,
   NoteFilterTypes,
   NoteId,
+  TransactionRequest,
   TransactionResult
 } from '@miden-sdk/miden-sdk';
 import { liveQuery } from 'dexie';
@@ -12,6 +13,7 @@ import { liveQuery } from 'dexie';
 import { consumeNoteId } from 'lib/miden-worker/consumeNoteId';
 import { sendTransaction } from 'lib/miden-worker/sendTransaction';
 import { submitTransaction } from 'lib/miden-worker/submitTransaction';
+import { getOrCreateMultisigService, isPsmAccount } from 'lib/miden/front/psm-manager';
 import * as Repo from 'lib/miden/repo';
 import { isMobile } from 'lib/platform';
 import { u8ToB64 } from 'lib/shared/helpers';
@@ -26,7 +28,7 @@ import {
   TransactionOutput
 } from '../db/types';
 import { toNoteTypeString } from '../helpers';
-import { getBech32AddressFromAccountId } from '../sdk/helpers';
+import { accountIdStringToSdk, getBech32AddressFromAccountId } from '../sdk/helpers';
 import { getMidenClient, withWasmClientLock } from '../sdk/miden-client';
 import { MidenClientCreateOptions } from '../sdk/miden-client-interface';
 import { ConsumableNote, NoteTypeEnum, NoteType as NoteTypeString } from '../types';
@@ -199,7 +201,7 @@ export const waitForConsumeTx = async (id: string, signal?: AbortSignal): Promis
         resolve(tx.transactionId!);
       } else if (tx.status === ITransactionStatus.Failed) {
         cleanup();
-        reject(new Error('Consume transaction failed'));
+        reject(tx.error);
       }
     });
 
@@ -568,6 +570,20 @@ export const generateTransaction = async (
   await updateTransactionStatus(transaction.id, ITransactionStatus.GeneratingTransaction, {
     processingStartedAt: Math.floor(Date.now() / 1000) // seconds
   });
+  console.log('Generating transaction', {
+    txId: transaction.id,
+    type: transaction.type,
+    accountId: transaction.accountId
+  });
+  // Route PSM accounts through PSM service
+  if (isPsmAccount(transaction.accountId)) {
+    try {
+      await generatePsmTransaction(transaction, signCallback);
+    } catch (error) {
+      await cancelTransaction(transaction, error);
+    }
+    return;
+  }
 
   // Process transaction
   let result: TransactionResult;
@@ -635,6 +651,91 @@ export const generateTransaction = async (
       await completeCustomTransaction(transaction, result);
       break;
   }
+};
+
+/**
+ * Generate a transaction for a PSM account using the MultisigService.
+ * Routes the transaction through MultisigService proposal methods.
+ */
+const generatePsmTransaction = async (
+  transaction: ITransaction,
+  signCallback: (publicKey: string, signingInputs: string) => Promise<Uint8Array>
+): Promise<void> => {
+  const multisigService = await getOrCreateMultisigService(transaction.accountId, signCallback);
+
+  let proposalResult;
+
+  switch (transaction.type) {
+    case 'send': {
+      const sendTx = transaction as SendTransaction;
+      proposalResult = await multisigService.createSendProposal(
+        sendTx.secondaryAccountId,
+        sendTx.faucetId,
+        BigInt(sendTx.amount)
+      );
+      break;
+    }
+    case 'consume': {
+      const consumeTx = transaction as ConsumeTransaction;
+      proposalResult = await multisigService.createConsumeNotesProposal([consumeTx.noteId]);
+      break;
+    }
+    case 'execute':
+    default: {
+      // For custom transactions, get TransactionSummary and create a custom proposal
+      const summaryBytes = await withWasmClientLock(async () => {
+        const midenClient = await getMidenClient();
+        const txRequest = TransactionRequest.deserialize(transaction.requestBytes!);
+        return (
+          await midenClient.webClient.executeForSummary(accountIdStringToSdk(transaction.accountId), txRequest)
+        ).serialize();
+      });
+      proposalResult = await multisigService.createCustomProposal(summaryBytes);
+      break;
+    }
+  }
+
+  // Get the proposal commitment for signing and execution
+  const proposalCommitment = proposalResult.proposal.commitment;
+
+  // Sign and execute the proposal
+  const tr = await multisigService.signAndCreateTransactionRequest(proposalCommitment);
+
+  const options: MidenClientCreateOptions = {
+    signCallback: async (publicKey: Uint8Array, signingInputs: Uint8Array) => {
+      const keyString = Buffer.from(publicKey).toString('hex');
+      const signingInputsString = Buffer.from(signingInputs).toString('hex');
+      return await signCallback(keyString, signingInputsString);
+    }
+  };
+
+  // Wrap WASM client operations in a lock to prevent concurrent access
+  const transactionResultBytes = await withWasmClientLock(async () => {
+    const midenClient = await getMidenClient(options);
+    return await midenClient.newTransaction(transaction.accountId, tr.serialize());
+  });
+
+  const transactionResult = TransactionResult.deserialize(transactionResultBytes);
+
+  await withWasmClientLock(async () => {
+    const midenClient = await getMidenClient();
+    await midenClient.submitTransaction(transactionResultBytes, transaction.delegateTransaction);
+  });
+
+  switch (transaction.type) {
+    case 'send':
+      await completeSendTransaction(transaction as SendTransaction, transactionResult);
+      break;
+    case 'consume':
+      await completeConsumeTransaction(transaction.id, transactionResult);
+      break;
+    case 'execute':
+    default:
+      await completeCustomTransaction(transaction, transactionResult);
+      break;
+  }
+
+  await multisigService.sync();
 };
 
 export const cancelTransaction = async (transaction: Transaction, error: any) => {
